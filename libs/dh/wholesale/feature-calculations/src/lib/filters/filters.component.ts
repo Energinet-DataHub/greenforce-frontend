@@ -36,15 +36,14 @@ import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import {
-  GetBatchesQueryVariables,
+  GetCalculationsQueryVariables,
   GetGridAreasDocument,
-  BatchState,
-  ProcessType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { executionStates, processTypes } from '@energinet-datahub/dh/wholesale/domain';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
-type Filters = FormControls<GetBatchesQueryVariables>;
+type Filters = FormControls<GetCalculationsQueryVariables>;
 
 /** Helper function for creating form control with `nonNullable` based on value. */
 const makeFormControl = <T>(value: T = null as T) =>
@@ -64,7 +63,7 @@ const makeFormControl = <T>(value: T = null as T) =>
     WattDropdownComponent,
     WattFormChipDirective,
   ],
-  selector: 'dh-wholesale-form',
+  selector: 'dh-calculations-filters',
   styles: [
     `
       :host {
@@ -85,10 +84,8 @@ const makeFormControl = <T>(value: T = null as T) =>
     `,
   ],
   template: `
-    <form [formGroup]="_formGroup" *transloco="let t; read: 'wholesale.searchBatch'">
-      <watt-date-range-chip formControlName="period">{{
-        'shared.form.filters.period' | transloco
-      }}</watt-date-range-chip>
+    <form [formGroup]="_formGroup" *transloco="let t; read: 'wholesale.calculations.filters'">
+      <watt-date-range-chip formControlName="period">{{ t('period') }}</watt-date-range-chip>
 
       <watt-form-field>
         <watt-dropdown
@@ -96,7 +93,7 @@ const makeFormControl = <T>(value: T = null as T) =>
           [chipMode]="true"
           [multiple]="true"
           [options]="_processTypeOptions | push"
-          [placeholder]="t('filters.processType')"
+          [placeholder]="t('processType')"
         />
       </watt-form-field>
 
@@ -106,12 +103,12 @@ const makeFormControl = <T>(value: T = null as T) =>
           [chipMode]="true"
           [multiple]="true"
           [options]="_gridAreaOptions | push"
-          [placeholder]="t('filters.gridAreas')"
+          [placeholder]="t('gridAreas')"
         />
       </watt-form-field>
 
       <watt-date-range-chip formControlName="executionTime">
-        {{ t('filters.executionTime') }}
+        {{ t('executionTime') }}
       </watt-date-range-chip>
 
       <watt-form-field>
@@ -120,19 +117,17 @@ const makeFormControl = <T>(value: T = null as T) =>
           [chipMode]="true"
           [multiple]="true"
           [options]="_executionStateOptions | push"
-          [placeholder]="t('filters.executionStates')"
+          [placeholder]="t('executionStates')"
         />
       </watt-form-field>
 
-      <watt-button variant="text" icon="undo" type="reset">
-        {{ 'shared.form.reset' | transloco }}
-      </watt-button>
+      <watt-button variant="text" icon="undo" type="reset">{{ t('reset') }}</watt-button>
     </form>
   `,
 })
-export class DhWholesaleFormComponent implements OnInit {
-  @Input() initial?: GetBatchesQueryVariables;
-  @Output() filter = new EventEmitter<GetBatchesQueryVariables>();
+export class DhCalculationsFiltersComponent implements OnInit {
+  @Input() initial?: GetCalculationsQueryVariables;
+  @Output() filter = new EventEmitter<GetCalculationsQueryVariables>();
 
   private apollo = inject(Apollo);
   private transloco = inject(TranslocoService);
@@ -140,12 +135,12 @@ export class DhWholesaleFormComponent implements OnInit {
   _formGroup!: FormGroup<Filters>;
 
   _processTypeOptions = this.transloco
-    .selectTranslateObject('wholesale')
-    .pipe(map((t) => Object.values(ProcessType).map((k) => ({ displayValue: t[k], value: k }))));
+    .selectTranslateObject('wholesale.calculations.processTypes')
+    .pipe(map((t) => processTypes.map((k) => ({ displayValue: t[k], value: k }))));
 
   _executionStateOptions = this.transloco
-    .selectTranslateObject('wholesale.searchBatch')
-    .pipe(map((t) => Object.values(BatchState).map((k) => ({ displayValue: t[k], value: k }))));
+    .selectTranslateObject('wholesale.calculations.executionStates')
+    .pipe(map((t) => executionStates.map((k) => ({ displayValue: t[k], value: k }))));
 
   _gridAreaOptions = this.apollo.watchQuery({ query: GetGridAreasDocument }).valueChanges.pipe(
     map((result) => result.data?.gridAreas),

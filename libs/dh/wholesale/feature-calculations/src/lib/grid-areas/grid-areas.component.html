@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card variant="solid" *transloco="let transloco; read: 'wholesale.gridAreas'">
+<watt-card variant="solid" *transloco="let transloco; read: 'wholesale.calculations.gridAreas'">
   <watt-card-title>
     <h3 class="watt-on-light--high-emphasis">
       {{ transloco("header", { total: _data.data.length }) }}
@@ -26,19 +26,17 @@ limitations under the License.
     [dataSource]="_data"
     [columns]="columns"
     [resolveHeader]="transloco"
-    description="batches"
     sortBy="code"
     sortDirection="desc"
   ></watt-table>
 
-  <!-- No Batches found -->
+  <!-- No grid areas found -->
   <watt-empty-state
     *ngIf="_data.data.length === 0"
     icon="cancel"
     size="large"
-    [title]="transloco('noGridAreasFound')"
-  >
-  </watt-empty-state>
+    [title]="transloco('emptyTitle')"
+  />
 
-  <watt-paginator [for]="_data"></watt-paginator>
+  <watt-paginator [for]="_data" />
 </watt-card>

@@ -1,4 +1,4 @@
-query GetBatch($id: ID!) {
+query GetCalculation($id: ID!) {
   batch(id: $id) {
     id
     executionState

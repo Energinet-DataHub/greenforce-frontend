@@ -16,11 +16,11 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-wholesale-search',
+  displayName: 'dh-wholesale-calculations',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../../../coverage/libs/dh/wholesale/feature-search',
+  coverageDirectory: '../../../../coverage/libs/dh/wholesale/feature-calculations',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

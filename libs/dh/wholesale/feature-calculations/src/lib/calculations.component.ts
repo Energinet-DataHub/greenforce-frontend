@@ -19,69 +19,66 @@ import { Component, inject, ViewChild, AfterViewInit, OnInit, OnDestroy } from '
 import { ActivatedRoute, Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@rx-angular/template/push';
 import { sub, startOfDay, endOfDay } from 'date-fns';
 import { BehaviorSubject, Subject, switchMap, takeUntil } from 'rxjs';
 
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import {
-  GetBatchesDocument,
-  GetBatchesQueryVariables,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import type { Batch } from '@energinet-datahub/dh/wholesale/domain';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
-import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
-import { DhWholesaleStartComponent } from './start/dh-wholesale-start.component';
-import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
-import { WattModalComponent } from '@energinet-datahub/watt/modal';
+import {
+  GetCalculationsDocument,
+  GetCalculationsQueryVariables,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
+
+import { DhCalculationsCreateComponent } from './create/create.component';
+import { DhCalculationsDetailsComponent } from './details/details.component';
+import { DhCalculationsFiltersComponent } from './filters/filters.component';
+import { DhCalculationsTableComponent } from './table/table.component';
 
 @Component({
-  selector: 'dh-wholesale-search',
+  selector: 'dh-calculations',
   standalone: true,
   imports: [
     CommonModule,
-    DhWholesaleBatchDetailsComponent,
-    DhWholesaleFormComponent,
-    DhWholesaleStartComponent,
-    DhWholesaleTableComponent,
-    PushModule,
+    DhCalculationsCreateComponent,
+    DhCalculationsDetailsComponent,
+    DhCalculationsFiltersComponent,
+    DhCalculationsTableComponent,
     TranslocoModule,
     WATT_CARD,
     WattButtonComponent,
     WattEmptyStateComponent,
-    WattModalComponent,
     WattSearchComponent,
     WattSpinnerComponent,
   ],
-  templateUrl: './dh-wholesale-search.component.html',
-  styleUrls: ['./dh-wholesale-search.component.scss'],
+  templateUrl: './calculations.component.html',
+  styleUrls: ['./calculations.component.scss'],
 })
-export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDestroy {
-  @ViewChild('batchDetails')
-  batchDetails!: DhWholesaleBatchDetailsComponent;
+export class DhCalculationsComponent implements AfterViewInit, OnInit, OnDestroy {
+  @ViewChild('details')
+  details!: DhCalculationsDetailsComponent;
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private apollo = inject(Apollo);
   private destroy$ = new Subject<void>();
 
-  private routerBatchId = this.route.snapshot.queryParams.batch;
+  private routerId = this.route.snapshot.queryParams.id;
 
-  selectedBatch?: Batch;
+  selected?: Calculation;
 
-  filter$ = new BehaviorSubject<GetBatchesQueryVariables>({
+  filter$ = new BehaviorSubject<GetCalculationsQueryVariables>({
     executionTime: {
       start: sub(startOfDay(new Date()), { days: 10 }).toISOString(),
       end: endOfDay(new Date()).toISOString(),
     },
   });
 
-  batches$ = this.filter$.pipe(
+  calculations$ = this.filter$.pipe(
     switchMap(
       (variables) =>
         this.apollo.watchQuery({
@@ -89,7 +86,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
-          query: GetBatchesDocument,
+          query: GetCalculationsDocument,
           variables: variables,
         }).valueChanges
     ),
@@ -99,18 +96,18 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
   error = false;
   loading = false;
   search = '';
-  batches: Batch[] = [];
+  calculations: Calculation[] = [];
 
   ngOnInit() {
-    this.batches$.subscribe({
+    this.calculations$.subscribe({
       next: (result) => {
         this.loading = result.loading;
 
         if (result.data?.batches) {
-          this.batches = result.data.batches;
+          this.calculations = result.data.batches;
         }
 
-        this.selectedBatch = this.batches?.find((batch) => batch.id === this.routerBatchId);
+        this.selected = this.calculations?.find((calculation) => calculation.id === this.routerId);
         this.error = !!result.errors;
       },
       error: (error) => {
@@ -121,7 +118,7 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
   }
 
   ngAfterViewInit() {
-    if (this.routerBatchId) this.batchDetails.open(this.routerBatchId);
+    if (this.routerId) this.details.open(this.routerId);
   }
 
   ngOnDestroy(): void {
@@ -129,21 +126,21 @@ export class DhWholesaleSearchComponent implements AfterViewInit, OnInit, OnDest
     this.destroy$.complete();
   }
 
-  onBatchSelected(batch: Batch) {
-    this.selectedBatch = batch;
+  onSelected(calculation: Calculation) {
+    this.selected = calculation;
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { batch: batch.id },
+      queryParams: { id: calculation.id },
     });
 
-    this.batchDetails.open(batch.id);
+    this.details.open(calculation.id);
   }
 
-  onBatchDetailsClosed() {
-    this.selectedBatch = undefined;
+  onDetailsClosed() {
+    this.selected = undefined;
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { batch: null },
+      queryParams: { id: null },
     });
   }
 }

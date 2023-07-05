@@ -14,31 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.headline,
-.subheadline {
-  margin: 0;
+
+@use "@energinet-datahub/watt/utils" as watt;
+
+.wrapper {
+  @include watt.space-inset-l;
 }
 
-.subheadline {
-  float: right;
-  margin-left: var(--watt-space-s);
-}
-
-watt-description-list {
-  margin-left: var(--watt-space-ml);
-}
-
-dh-wholesale-grid-areas {
-  margin: 0 var(--watt-space-ml);
-}
-
-.center {
-  align-items: center;
+watt-card-title {
   display: flex;
-  height: 100%;
-  justify-content: center;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
+  gap: var(--watt-space-m);
+  align-items: center;
+}
+
+watt-search {
+  margin-left: auto;
+}
+
+dh-calculations-filters {
+  margin-bottom: var(--watt-space-m);
 }

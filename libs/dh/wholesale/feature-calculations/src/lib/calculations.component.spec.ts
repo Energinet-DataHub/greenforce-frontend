@@ -22,25 +22,20 @@ import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-tim
 import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
 import { importProvidersFrom } from '@angular/core';
 import { ApolloModule } from 'apollo-angular';
-import { DhWholesaleSearchComponent } from './dh-wholesale-search.component';
+import { DhCalculationsComponent } from './calculations.component';
 
 async function setup() {
-  await render(`<dh-wholesale-search></dh-wholesale-search>`, {
+  await render(`<dh-calculations />`, {
     providers: [
       importProvidersFrom(MatLegacySnackBarModule),
       graphQLProviders,
       danishDatetimeProviders,
     ],
-    imports: [
-      ApolloModule,
-      DhWholesaleSearchComponent,
-      getTranslocoTestingModule(),
-      HttpClientModule,
-    ],
+    imports: [ApolloModule, DhCalculationsComponent, getTranslocoTestingModule(), HttpClientModule],
   });
 }
 
-describe(DhWholesaleSearchComponent, () => {
+describe(DhCalculationsComponent, () => {
   it('should show filter chips with initial values', async () => {
     await setup();
     ['Period', 'Calculation type', 'Grid areas', 'Execution time', 'Status']
@@ -63,7 +58,7 @@ describe(DhWholesaleSearchComponent, () => {
     expect(screen.getByRole('searchbox')).toBeInTheDocument();
   });
 
-  it('should search batches on init', async () => {
+  it('should search calculations on init', async () => {
     await setup();
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
   });

@@ -17,6 +17,11 @@
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Apollo } from 'apollo-angular';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { LetModule } from '@rx-angular/template/let';
+import { PushModule } from '@rx-angular/template/push';
 import {
   combineLatest,
   first,
@@ -28,63 +33,64 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Apollo } from 'apollo-angular';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template/let';
-import { PushModule } from '@rx-angular/template/push';
 
-import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
-import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DateRange } from '@energinet-datahub/dh/shared/domain';
+import {
+  CreateCalculationDocument,
+  GetGridAreasDocument,
+  GetLatestBalanceFixingDocument,
+  ProcessType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { filterValidGridAreas, GridArea } from '@energinet-datahub/dh/wholesale/domain';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
 
-interface CreateBatchFormValues {
-  processType: FormControl<graphql.ProcessType | null>;
+interface FormValues {
+  processType: FormControl<ProcessType | null>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<DateRange | null>;
 }
 
+// List of supported process types
+const processTypes = ['BALANCE_FIXING', 'AGGREGATION'];
+
 @Component({
-  selector: 'dh-wholesale-start',
-  templateUrl: './dh-wholesale-start.component.html',
-  styleUrls: ['./dh-wholesale-start.component.scss'],
+  selector: 'dh-calculations-create',
+  templateUrl: './create.component.html',
+  styleUrls: ['./create.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
-    DhFeatureFlagDirective,
-    WattDatePipe,
     LetModule,
     PushModule,
     ReactiveFormsModule,
     TranslocoModule,
+    WATT_FORM_FIELD,
+    WATT_MODAL,
     WattButtonComponent,
     WattDatepickerComponent,
+    WattDatePipe,
     WattDropdownComponent,
-    WATT_FORM_FIELD,
-    WattInputDirective,
-    WattSpinnerComponent,
     WattEmptyStateComponent,
     WattFilterChipComponent,
+    WattInputDirective,
+    WattSpinnerComponent,
     WattValidationMessageComponent,
-    WATT_MODAL,
   ],
 })
-export class DhWholesaleStartComponent implements OnInit, OnDestroy {
+export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   private toast = inject(WattToastService);
   private transloco = inject(TranslocoService);
   private router = inject(Router);
@@ -95,11 +101,11 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
 
   @ViewChild('modal') modal?: WattModalComponent;
 
-  loadingCreateBatch = false;
+  loading = false;
 
   confirmFormControl = new FormControl(null);
 
-  createBatchForm = new FormGroup<CreateBatchFormValues>({
+  formGroup = new FormGroup<FormValues>({
     processType: new FormControl(null, { validators: Validators.required }),
     gridAreas: new FormControl(
       { value: null, disabled: true },
@@ -114,21 +120,14 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   gridAreasQuery = this.apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
-    query: graphql.GetGridAreasDocument,
+    query: GetGridAreasDocument,
   });
 
-  onDateRangeChange$ = this.createBatchForm.controls.dateRange.valueChanges.pipe(startWith(null));
+  onDateRangeChange$ = this.formGroup.controls.dateRange.valueChanges.pipe(startWith(null));
 
   processTypes: Observable<WattDropdownOption[]> = this.transloco
-    .selectTranslateObject('wholesale.startBatch.processTypes')
-    .pipe(
-      map((processTypesTranslation) =>
-        Object.values(graphql.ProcessType).map((value) => ({
-          displayValue: processTypesTranslation[value],
-          value,
-        }))
-      )
-    );
+    .selectTranslateObject('wholesale.calculations.processTypes')
+    .pipe(map((t) => processTypes.map((value) => ({ displayValue: t[value], value }))));
 
   selectedExecutionType = 'ACTUAL';
   latestPeriodEnd?: string | null;
@@ -176,20 +175,15 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   }
 
   createBatch() {
-    const { processType, gridAreas, dateRange } = this.createBatchForm.getRawValue();
+    const { processType, gridAreas, dateRange } = this.formGroup.getRawValue();
 
-    if (
-      this.createBatchForm.invalid ||
-      gridAreas === null ||
-      dateRange === null ||
-      processType === null
-    )
+    if (this.formGroup.invalid || gridAreas === null || dateRange === null || processType === null)
       return;
 
     this.apollo
       .mutate({
         useMutationLoading: true,
-        mutation: graphql.CreateBatchDocument,
+        mutation: CreateCalculationDocument,
         variables: {
           input: {
             gridAreaCodes: gridAreas,
@@ -201,29 +195,29 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (result) => {
           // Update loading state of button
-          this.loadingCreateBatch = result.loading;
+          this.loading = result.loading;
 
           if (result.loading) {
             this.toast.open({
               type: 'loading',
-              message: this.transloco.translate('wholesale.startBatch.creatingBatch'),
+              message: this.transloco.translate('wholesale.calculations.create.toast.loading'),
             });
           } else if (result.errors) {
             this.toast.update({
               type: 'danger',
-              message: this.transloco.translate('shared.error.title'),
+              message: this.transloco.translate('wholesale.calculations.create.toast.error'),
             });
           } else {
             this.toast.update({
               type: 'success',
-              message: this.transloco.translate('wholesale.startBatch.creatingBatchSuccess'),
+              message: this.transloco.translate('wholesale.calculations.create.toast.success'),
             });
           }
         },
         error: () => {
           this.toast.update({
             type: 'danger',
-            message: this.transloco.translate('shared.error.title'),
+            message: this.transloco.translate('wholesale.calculations.create.toast.error'),
           });
         },
       });
@@ -237,19 +231,19 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   reset() {
     this.latestPeriodEnd = null;
     this.showPeriodWarning = false;
-    this.createBatchForm.reset();
+    this.formGroup.reset();
 
     // This is apparently neccessary to reset the dropdown validity state
-    this.createBatchForm.controls.processType.setErrors(null);
+    this.formGroup.controls.processType.setErrors(null);
   }
 
   private selectGridAreas(gridAreas: WattDropdownOption[]) {
     if (this.selectedExecutionType === 'ACTUAL') {
-      this.createBatchForm.patchValue({
+      this.formGroup.patchValue({
         gridAreas: gridAreas.map((gridArea) => gridArea.value),
       });
     } else {
-      this.createBatchForm.patchValue({
+      this.formGroup.patchValue({
         gridAreas: [],
       });
     }
@@ -277,8 +271,8 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
   private toggleGridAreasControl() {
     // Disable grid areas when date range is invalid
     this.onDateRangeChange$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      const gridAreasControl = this.createBatchForm.controls.gridAreas;
-      const disableGridAreas = this.createBatchForm.controls.dateRange.invalid;
+      const gridAreasControl = this.formGroup.controls.gridAreas;
+      const disableGridAreas = this.formGroup.controls.dateRange.invalid;
       if (disableGridAreas == gridAreasControl.disabled) return; // prevent ng0100
       disableGridAreas ? gridAreasControl.disable() : gridAreasControl.enable();
     });
@@ -286,15 +280,15 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
 
   private validatePeriod(gridAreas: GridArea[]) {
     if (gridAreas.length === 0) {
-      this.createBatchForm.controls.dateRange.setErrors({
-        ...this.createBatchForm.controls.dateRange.errors,
+      this.formGroup.controls.dateRange.setErrors({
+        ...this.formGroup.controls.dateRange.errors,
         invalidPeriod: true,
       });
     }
   }
 
   private validateBalanceFixing(): Observable<null> {
-    const { dateRange } = this.createBatchForm.controls;
+    const { dateRange } = this.formGroup.controls;
 
     // Hide warning initially
     this.latestPeriodEnd = null;
@@ -305,7 +299,7 @@ export class DhWholesaleStartComponent implements OnInit, OnDestroy {
     // This observable always returns null (no error)
     return this.apollo
       .query({
-        query: graphql.GetLatestBalanceFixingDocument,
+        query: GetLatestBalanceFixingDocument,
         fetchPolicy: 'network-only',
         variables: {
           period: {

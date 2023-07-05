@@ -14,4 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-wholesale-search.component';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+import {
+  BatchState,
+  GetCalculationsDocument,
+  ProcessType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type Calculation = ResultOf<typeof GetCalculationsDocument>['batches'][0];
+
+export type CalculationGridArea = ResultOf<
+  typeof GetCalculationsDocument
+>['batches'][0]['gridAreas'][0];
+
+export const processTypes = Object.values(ProcessType);
+export const executionStates = Object.values(BatchState);

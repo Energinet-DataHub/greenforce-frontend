@@ -1,4 +1,4 @@
-query GetBatches(
+query GetCalculations(
   $executionTime: DateRange
   $period: DateRange
   $processTypes: [ProcessType!]

@@ -14,51 +14,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import { Component, ViewChild, inject, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule } from '@ngneat/transloco';
+import { Subscription, takeUntil } from 'rxjs';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { GetBatchDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { Batch } from '@energinet-datahub/dh/wholesale/domain';
-import { DhWholesaleGridAreasComponent } from '../grid-areas/dh-wholesale-grid-areas.component';
 
-import { Subscription, takeUntil } from 'rxjs';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { GetCalculationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
+import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.component';
 
 @Component({
   standalone: true,
   imports: [
-    WattDatePipe,
     CommonModule,
-    DhWholesaleGridAreasComponent,
+    DhCalculationsGridAreasComponent,
+    DhEmDashFallbackPipe,
     TranslocoModule,
-    WattBadgeComponent,
-    WattCardComponent,
     WATT_DRAWER,
-    WATT_BREADCRUMBS,
-    WattSpinnerComponent,
-    WattEmptyStateComponent,
+    WattBadgeComponent,
+    WattDatePipe,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    DhEmDashFallbackPipe,
+    WattEmptyStateComponent,
+    WattSpinnerComponent,
   ],
-  selector: 'dh-wholesale-batch-details',
-  templateUrl: './dh-wholesale-batch-details.component.html',
-  styleUrls: ['./dh-wholesale-batch-details.component.scss'],
+  selector: 'dh-calculations-details',
+  templateUrl: './details.component.html',
+  styleUrls: ['./details.component.scss'],
 })
-export class DhWholesaleBatchDetailsComponent {
+export class DhCalculationsDetailsComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   @Output() closed = new EventEmitter<void>();
@@ -66,13 +62,13 @@ export class DhWholesaleBatchDetailsComponent {
   private apollo = inject(Apollo);
   private subscription?: Subscription;
 
-  batchId?: string;
-  batch?: Batch;
+  id?: string;
+  calculation?: Calculation;
   error = false;
   loading = false;
 
   open(id: string): void {
-    this.batchId = id;
+    this.id = id;
     this.drawer.open();
     this.subscription?.unsubscribe();
     this.subscription = this.apollo
@@ -81,13 +77,13 @@ export class DhWholesaleBatchDetailsComponent {
         returnPartialData: true,
         useInitialLoading: true,
         notifyOnNetworkStatusChange: true,
-        query: GetBatchDocument,
+        query: GetCalculationDocument,
         variables: { id },
       })
       .valueChanges.pipe(takeUntil(this.closed))
       .subscribe({
         next: (result) => {
-          this.batch = result.data?.batch ?? undefined;
+          this.calculation = result.data?.batch ?? undefined;
           this.loading = result.loading;
           this.error = !!result.errors;
         },

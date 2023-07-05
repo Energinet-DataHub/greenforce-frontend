@@ -539,7 +539,7 @@
               "structurizr.dsl.identifier": "wholesaledatalake"
             },
             "name": "Data Lake (Wholesale)",
-            "description": "Stores batch results",
+            "description": "Stores calculation results",
             "group": "Wholesale",
             "technology": "Azure Data Lake Gen 2",
             "documentation": {}

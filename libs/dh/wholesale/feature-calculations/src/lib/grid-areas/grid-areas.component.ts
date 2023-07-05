@@ -24,7 +24,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { BatchGridArea } from '@energinet-datahub/dh/wholesale/domain';
+import { CalculationGridArea } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
   standalone: true,
@@ -37,26 +37,27 @@ import { BatchGridArea } from '@energinet-datahub/dh/wholesale/domain';
     WattPaginatorComponent,
     WATT_CARD,
   ],
-  selector: 'dh-wholesale-grid-areas',
-  templateUrl: './dh-wholesale-grid-areas.component.html',
-  styleUrls: ['./dh-wholesale-grid-areas.component.scss'],
+  selector: 'dh-calculations-grid-areas',
+  templateUrl: './grid-areas.component.html',
+  styleUrls: ['./grid-areas.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleGridAreasComponent {
+export class DhCalculationsGridAreasComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
-  @Input() set data(gridAreas: BatchGridArea[]) {
+  @Input()
+  set data(gridAreas: CalculationGridArea[]) {
     this._data = new WattTableDataSource(gridAreas);
   }
 
   @Input() disabled = false;
 
-  _data: WattTableDataSource<BatchGridArea> = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<BatchGridArea> = {
+  _data: WattTableDataSource<CalculationGridArea> = new WattTableDataSource(undefined);
+  columns: WattTableColumnDef<CalculationGridArea> = {
     gridAreaCode: { accessor: 'code' },
     name: {
       accessor: 'name',
-      cell: (row: BatchGridArea) => row.name ?? '—',
+      cell: (row: CalculationGridArea) => row.name ?? '—',
     },
   };
 }

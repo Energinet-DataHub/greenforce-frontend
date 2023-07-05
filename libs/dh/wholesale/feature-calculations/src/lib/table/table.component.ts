@@ -14,20 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { translate, TranslocoModule } from '@ngneat/transloco';
-
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { Batch } from '@energinet-datahub/dh/wholesale/domain';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
-type wholesaleTableData = WattTableDataSource<Batch>;
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
+
+type wholesaleTableData = WattTableDataSource<Calculation>;
 
 @Component({
   standalone: true,
@@ -41,16 +41,16 @@ type wholesaleTableData = WattTableDataSource<Batch>;
     WattPaginatorComponent,
     DhEmDashFallbackPipe,
   ],
-  selector: 'dh-wholesale-table',
-  templateUrl: './dh-wholesale-table.component.html',
-  styleUrls: ['./dh-wholesale-table.component.scss'],
+  selector: 'dh-calculations-table',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleTableComponent {
-  @Input() selectedBatch?: Batch;
+export class DhCalculationsTableComponent {
+  @Input() selected?: Calculation;
 
-  @Input() set data(batches: Batch[]) {
-    this._data.data = batches;
+  @Input() set data(calculations: Calculation[]) {
+    this._data.data = calculations;
   }
 
   @Input()
@@ -58,17 +58,17 @@ export class DhWholesaleTableComponent {
     this._data.filter = value;
   }
 
-  @Output() selectedRow: EventEmitter<Batch> = new EventEmitter();
+  @Output() selectedRow: EventEmitter<Calculation> = new EventEmitter();
 
   _data: wholesaleTableData = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<Batch> = {
+  columns: WattTableColumnDef<Calculation> = {
     startedBy: { accessor: null },
-    periodFrom: { accessor: (batch) => batch.period?.start },
-    periodTo: { accessor: (batch) => batch.period?.end },
+    periodFrom: { accessor: (calculation) => calculation.period?.start },
+    periodTo: { accessor: (calculation) => calculation.period?.end },
     executionTime: { accessor: 'executionTimeStart' },
     processType: { accessor: 'processType' },
     status: { accessor: 'executionState' },
   };
 
-  translateHeader = (key: string) => translate(`wholesale.searchBatch.columns.${key}`);
+  translateHeader = (key: string) => translate(`wholesale.calculations.columns.${key}`);
 }

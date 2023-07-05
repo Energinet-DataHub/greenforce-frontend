@@ -1,15 +1,17 @@
 {
-  "name": "dh-wholesale-feature-search",
+  "name": "dh-wholesale-feature-calculations",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/dh/wholesale/feature-search/src",
+  "sourceRoot": "libs/dh/wholesale/feature-calculations/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/wholesale/feature-search"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/wholesale/feature-calculations"
+      ],
       "options": {
-        "jestConfig": "libs/dh/wholesale/feature-search/jest.config.ts",
+        "jestConfig": "libs/dh/wholesale/feature-calculations/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -17,15 +19,15 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/dh/wholesale/feature-search/src/**/*.ts",
-          "libs/dh/wholesale/feature-search/src/**/*.html"
+          "libs/dh/wholesale/feature-calculations/src/**/*.ts",
+          "libs/dh/wholesale/feature-calculations/src/**/*.html"
         ]
       }
     },
     "component-test": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "libs/dh/wholesale/feature-search/cypress.config.ts",
+        "cypressConfig": "libs/dh/wholesale/feature-calculations/cypress.config.ts",
         "testingType": "component",
         "skipServe": true,
         "devServerTarget": "app-dh:build:mocked",

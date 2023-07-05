@@ -21,8 +21,8 @@ import { rest } from 'msw';
 export function wholesaleMocks(apiBase: string) {
   return [
     createBatch(),
-    getWholesaleSearchBatch(),
-    getWholesaleSearchBatches(),
+    getCalculation(),
+    getCalculations(),
     downloadSettlementReportData(apiBase),
     getSettlementReports(),
     getFilteredActors(),
@@ -33,7 +33,7 @@ export function wholesaleMocks(apiBase: string) {
 }
 
 function createBatch() {
-  return graphql.mockCreateBatchMutation((_req, res, ctx) => {
+  return graphql.mockCreateCalculationMutation((_req, res, ctx) => {
     return res(
       ctx.delay(500),
       ctx.data({ createBatch: { id: '779195a4-2505-4290-97a6-f3eba2b7d179' } })
@@ -68,7 +68,7 @@ export const mockedGridAreas: graphql.GridArea[] = [
   },
 ];
 
-const mockedBatches: graphql.Batch[] = [
+const mockedCalculations: graphql.Batch[] = [
   {
     __typename: 'Batch',
     id: '8ff516a1-95b0-4f07-9b58-3fb94791c63b',
@@ -308,11 +308,11 @@ function getActorsForSettlementReportQuery() {
   });
 }
 
-function getWholesaleSearchBatch() {
-  return graphql.mockGetBatchQuery((req, res, ctx) => {
-    const batchId = req.variables.id;
-    const batch = mockedBatches.find((b) => b.id === batchId);
-    return res(ctx.delay(300), ctx.data({ batch }));
+function getCalculation() {
+  return graphql.mockGetCalculationQuery((req, res, ctx) => {
+    const id = req.variables.id;
+    const calculation = mockedCalculations.find((c) => c.id === id);
+    return res(ctx.delay(300), ctx.data({ batch: calculation }));
   });
 }
 
@@ -335,9 +335,9 @@ function downloadSettlementReportData(apiBase: string) {
   });
 }
 
-function getWholesaleSearchBatches() {
-  return graphql.mockGetBatchesQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data({ batches: mockedBatches }));
+function getCalculations() {
+  return graphql.mockGetCalculationsQuery((req, res, ctx) => {
+    return res(ctx.delay(300), ctx.data({ batches: mockedCalculations }));
     //return res(ctx.status(404), ctx.delay(300));
     //return res(ctx.status(500), ctx.delay(300));
   });
