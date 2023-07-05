@@ -501,7 +501,18 @@
   },
   "marketParticipant": {
     "actors": {
-      "topBarTitle": "Aktører"
+      "topBarTitle": "Aktører",
+      "tabs": {
+        "actors": {
+          "tabLabel": "{{ marketParticipant.actors.topBarTitle }}"
+        },
+        "organizations": {
+          "tabLabel": "Organisationer"
+        },
+        "marketRoles": {
+          "tabLabel": "Markedsroller"
+        }
+      }
     },
     "actor": {
       "create": {
@@ -542,7 +553,7 @@
       }
     },
     "marketRolesOverview": {
-      "marketRoles": "markedsroller",
+      "marketRoles": "Markedsroller",
       "download": "Download",
       "columns": {
         "name": "Navn",
@@ -584,7 +595,6 @@
     "organization": {
       "topBarTitle": "Organisationer",
       "organizationsHeader": "Organisationer",
-      "marketRolesHeader": "Markedsroller",
       "columns": {
         "organization": "Organisation",
         "gln": "Aktør id",
