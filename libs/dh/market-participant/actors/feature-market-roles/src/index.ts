@@ -14,21 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-:host {
-  display: block;
-  /* TODO: Add spacing variable for 24px */
-  margin: 24px var(--watt-space-s);
-}
-
-.card-title-container {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  align-items: center;
-}
-
-.card-title-buttons-container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
+export * from './lib/dh-market-roles-overview.component';
