@@ -565,7 +565,7 @@
               "structurizr.dsl.identifier": "wholesaledatalake"
             },
             "name": "Data Lake (Wholesale)",
-            "description": "Stores calculation results",
+            "description": "Stores batch results",
             "group": "Wholesale",
             "technology": "Azure Data Lake Gen 2",
             "documentation": {}
@@ -787,7 +787,7 @@
               "structurizr.dsl.identifier": "wholesaledb"
             },
             "name": "Wholesale Database",
-            "description": "Stores calculations and operations data",
+            "description": "Stores batches and operations data",
             "group": "Wholesale",
             "technology": "SQL Database Schema",
             "documentation": {}
