@@ -1,10 +1,10 @@
 /* eslint-disable */
 export default {
-  displayName: 'dh-market-participant-actors-feature-market-rolles',
+  displayName: 'dh-market-participant-actors-feature-market-roles',
   preset: '../../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory:
-    '../../../../../coverage/libs/dh/market-participant/actors/feature-market-rolles',
+    '../../../../../coverage/libs/dh/market-participant/actors/feature-market-roles',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

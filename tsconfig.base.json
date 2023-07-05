@@ -97,8 +97,8 @@
       "@energinet-datahub/dh/globalization/ui-watt-translation": [
         "libs/dh/globalization/ui-watt-translation/src/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/actors/feature-market-rolles": [
-        "libs/dh/market-participant/actors/feature-market-rolles/src/index.ts"
+      "@energinet-datahub/dh/market-participant/actors/feature-market-roles": [
+        "libs/dh/market-participant/actors/feature-market-roles/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/actors/shell": [
         "libs/dh/market-participant/actors/shell/src/index.ts"

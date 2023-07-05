@@ -18,7 +18,7 @@ import { Component } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { DhMarketRolesOverviewComponent } from '@energinet-datahub/dh/market-participant/actors/feature-market-rolles';
+import { DhMarketRolesOverviewComponent } from '@energinet-datahub/dh/market-participant/actors/feature-market-roles';
 
 @Component({
   selector: 'dh-market-participant-actors-shell',
