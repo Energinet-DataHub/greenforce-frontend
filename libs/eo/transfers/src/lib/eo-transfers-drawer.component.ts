@@ -56,7 +56,6 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
     EoTransfersEditModalComponent,
   ],
   standalone: true,
-  styles: [``],
   template: `
     <watt-drawer #drawer (closed)="onClose()">
       <watt-drawer-topbar>
@@ -65,9 +64,10 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
 
       <watt-drawer-heading>
         <h2>{{ transfer?.receiverTin }}</h2>
+        <p style="font-size: 14px; margin-top: var(--watt-space-m);"><span class="watt-label">Period of agreement</span> {{transfer?.startDate | wattDate : 'long'}}－{{transfer?.endDate | wattDate : 'long'}}</p>
       </watt-drawer-heading>
 
-      <watt-drawer-actions>
+      <watt-drawer-actions style="align-self: flex-start;">
         <watt-button variant="secondary" *ngIf="isActive" (click)="transfersEditModal.open()"
           >Edit</watt-button
         >
@@ -78,12 +78,6 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
           <watt-tab label="Information">
             <watt-card variant="solid">
               <watt-description-list variant="stack">
-                <!-- TODO: SHOW END DATE WHEN AVAILABLE -->
-                <watt-description-list-item
-                  label="Period"
-                  [value]="(transfer?.startDate | wattDate) + ' - '"
-                >
-                </watt-description-list-item>
                 <watt-description-list-item
                   label="Receiver TIN/CVR"
                   [value]="transfer?.receiverTin"
@@ -117,9 +111,10 @@ export class EoTransfersDrawerComponent {
     this._transfer = transfer;
 
     if (!this._transfer) return;
+
     this.isActive =
       this._transfer &&
-      (this._transfer?.endDate ? this.utils.isDateActive(this._transfer?.endDate) : true);
+      (this._transfer?.endDate ? this.utils.isDateActive(this._transfer.startDate, this._transfer?.endDate) : true);
   }
   get transfer() {
     return this._transfer;
