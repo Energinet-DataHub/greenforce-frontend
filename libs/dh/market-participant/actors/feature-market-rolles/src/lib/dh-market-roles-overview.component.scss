@@ -17,18 +17,13 @@
 
 :host {
   display: block;
-  /* TODO: Add spacing variable for 24px */
-  margin: 24px var(--watt-space-s);
 }
 
-.card-title-container {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  align-items: center;
-}
-
-.card-title-buttons-container {
+watt-card-title {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+
+  watt-button {
+    margin-left: auto;
+  }
 }

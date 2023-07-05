@@ -16,29 +16,30 @@ limitations under the License.
 -->
 <watt-card *transloco="let t; read: 'marketParticipant.marketRolesOverview'">
   <watt-card-title>
-    <div class="card-title-container">
-      <h4>{{ dataSource.data.length + " " + t("marketRoles") }}</h4>
-      <div class="card-title-buttons-container">
-        <watt-button icon="download" variant="text" (click)="download()">{{
-          t("download")
-        }}</watt-button>
-      </div>
-    </div>
-    <watt-table
-      *transloco="let t"
-      [dataSource]="dataSource"
-      [columns]="columns"
-      [resolveHeader]="translateHeader"
-      sortBy="name"
-      sortDirection="asc"
-      [sortClear]="false"
-    >
-      <ng-container *wattTableCell="columns['name']; let mr">
-        {{ t("marketParticipant.marketRoles." + mr) }}
-      </ng-container>
-      <ng-container *wattTableCell="columns['description']; let mr">
-        {{ t("marketParticipant.marketRoleDescriptions." + mr) }}
-      </ng-container>
-    </watt-table>
+    <h3>
+      {{ t("marketRoles") }}
+      <span class="watt-chip-label">{{ dataSource.data.length }}</span>
+    </h3>
+
+    <watt-button icon="download" variant="text" (click)="download()">{{
+      t("download")
+    }}</watt-button>
   </watt-card-title>
+
+  <watt-table
+    *transloco="let t"
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [resolveHeader]="translateHeader"
+    sortBy="name"
+    sortDirection="asc"
+    [sortClear]="false"
+  >
+    <ng-container *wattTableCell="columns['name']; let mr">
+      {{ t("marketParticipant.marketRoles." + mr) }}
+    </ng-container>
+    <ng-container *wattTableCell="columns['description']; let mr">
+      {{ t("marketParticipant.marketRoleDescriptions." + mr) }}
+    </ng-container>
+  </watt-table>
 </watt-card>
