@@ -14,8 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './actor';
-export * from './calculation';
-export * from './grid-areas';
-export * from './settlement-report-process';
-export * from './streamToFile';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+import {
+  BatchState,
+  GetCalculationsDocument,
+  ProcessType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type Calculation = ResultOf<typeof GetCalculationsDocument>['calculations'][0];
+
+export type CalculationGridArea = ResultOf<
+  typeof GetCalculationsDocument
+>['calculations'][0]['gridAreas'][0];
+
+export const processTypes = Object.values(ProcessType);
+export const executionStates = Object.values(BatchState);
