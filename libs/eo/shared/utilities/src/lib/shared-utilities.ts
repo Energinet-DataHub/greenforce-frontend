@@ -27,10 +27,7 @@ export class SharedUtilities {
     });
   }
 
-  isDateActive(
-    startDate: number | undefined,
-    endDate: number | null
-  ): boolean {
+  isDateActive(startDate: number | undefined, endDate: number | null): boolean {
     if (!startDate) return false;
 
     const now = new Date().getTime();
