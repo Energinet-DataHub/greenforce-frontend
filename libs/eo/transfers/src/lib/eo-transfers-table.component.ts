@@ -152,10 +152,7 @@ interface EoTransferTableElement extends EoListedTransfer {
       <!-- Status - Custom column -->
       <ng-container *wattTableCell="table.columns['status']; let element">
         <watt-badge
-          *ngIf="
-            element.endDate ? utils.isDateActive(element.startDate, element.endDate) : true;
-            else notActive
-          "
+          *ngIf="utils.isDateActive(element.startDate, element.endDate); else notActive"
           type="success"
         >
           Active
