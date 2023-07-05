@@ -50,8 +50,8 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
   dataSource = new WattTableDataSource<string>(Object.keys(MarketParticipantEicFunction));
 
   columns: WattTableColumnDef<string> = {
-    name: { accessor: 'valueOf' },
-    description: { accessor: 'valueOf' },
+    name: { accessor: (value) => value },
+    description: { accessor: (value) => value },
   };
 
   translateHeader(key: string) {
