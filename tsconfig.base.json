@@ -235,17 +235,11 @@
       "@energinet-datahub/dh/wholesale/domain": [
         "libs/dh/wholesale/domain/src/index.ts"
       ],
-      "@energinet-datahub/dh/wholesale/feature-calculation-steps": [
-        "libs/dh/wholesale/feature-calculation-steps/src/index.ts"
-      ],
-      "@energinet-datahub/dh/wholesale/feature-search": [
-        "libs/dh/wholesale/feature-search/src/index.ts"
+      "@energinet-datahub/dh/wholesale/feature-calculations": [
+        "libs/dh/wholesale/feature-calculations/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/feature-settlement-reports": [
         "libs/dh/wholesale/feature-settlement-reports/src/index.ts"
-      ],
-      "@energinet-datahub/dh/wholesale/feature-start": [
-        "libs/dh/wholesale/feature-start/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/routing": [
         "libs/dh/wholesale/routing/src/index.ts"
