@@ -35,11 +35,12 @@ limitations under the License.
     sortDirection="asc"
     [sortClear]="false"
   >
-    <ng-container *wattTableCell="columns['name']; let mr">
-      {{ t("marketParticipant.marketRoles." + mr) }}
+    <ng-container *wattTableCell="columns['name']; let marketRoleKey">
+      {{ t("marketParticipant.marketRoles." + marketRoleKey) }}
     </ng-container>
-    <ng-container *wattTableCell="columns['description']; let mr">
-      {{ t("marketParticipant.marketRoleDescriptions." + mr) }}
+
+    <ng-container *wattTableCell="columns['description']; let marketRoleKey">
+      {{ t("marketParticipant.marketRoleDescriptions." + marketRoleKey) }}
     </ng-container>
   </watt-table>
 </watt-card>
