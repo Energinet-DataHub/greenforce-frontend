@@ -509,7 +509,18 @@
   },
   "marketParticipant": {
     "actors": {
-      "topBarTitle": "Actors"
+      "topBarTitle": "Actors",
+      "tabs": {
+        "actors": {
+          "tabLabel": "{{ marketParticipant.actors.topBarTitle }}"
+        },
+        "organizations": {
+          "tabLabel": "Organisations"
+        },
+        "marketRoles": {
+          "tabLabel": "Market roles"
+        }
+      }
     },
     "actor": {
       "create": {
@@ -550,7 +561,7 @@
       }
     },
     "marketRolesOverview": {
-      "marketRoles": "market roles",
+      "marketRoles": "Market roles",
       "download": "Download",
       "columns": {
         "name": "Name",
@@ -593,7 +604,6 @@
     "organization": {
       "topBarTitle": "Organisations",
       "organizationsHeader": "Organisations",
-      "marketRolesHeader": "Market roles",
       "columns": {
         "organization": "Organisation",
         "gln": "Actor Id",

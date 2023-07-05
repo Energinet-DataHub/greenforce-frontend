@@ -15,12 +15,25 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { TranslocoModule } from '@ngneat/transloco';
+
+import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { DhMarketRolesOverviewComponent } from '@energinet-datahub/dh/market-participant/actors/feature-market-roles';
 
 @Component({
   selector: 'dh-market-participant-actors-shell',
   standalone: true,
-  template: `DhMarketParticipantActorsShellComponent`,
-  imports: [CommonModule],
+  template: `
+    <ng-container *transloco="let t; read: 'marketParticipant.actors.tabs'">
+      <watt-tabs>
+        <watt-tab [label]="t('actors.tabLabel')"></watt-tab>
+        <watt-tab [label]="t('organizations.tabLabel')"></watt-tab>
+        <watt-tab [label]="t('marketRoles.tabLabel')">
+          <dh-market-roles-overview />
+        </watt-tab>
+      </watt-tabs>
+    </ng-container>
+  `,
+  imports: [TranslocoModule, WATT_TABS, DhMarketRolesOverviewComponent],
 })
 export class DhMarketParticipantActorsShellComponent {}
