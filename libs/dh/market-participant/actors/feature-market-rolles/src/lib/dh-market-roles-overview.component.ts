@@ -17,15 +17,16 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { take } from 'rxjs';
+
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
 import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
-import { take } from 'rxjs';
 
 @Component({
   selector: 'dh-market-roles-overview',
