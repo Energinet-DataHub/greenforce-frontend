@@ -44,6 +44,7 @@
     "navigation": {
       "meteringPoints": "Metering points",
       "messageArchive": "Request/Response messages",
+      "marketParticipantActors": "Actors",
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid areas",
       "chargePrices": {
@@ -506,6 +507,9 @@
     }
   },
   "marketParticipant": {
+    "actors": {
+      "topBarTitle": "Actors"
+    },
     "actor": {
       "create": {
         "editHeader": "Edit market party",

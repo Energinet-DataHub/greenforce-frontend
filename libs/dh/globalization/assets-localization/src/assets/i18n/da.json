@@ -44,6 +44,7 @@
     "navigation": {
       "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
+      "marketParticipantActors": "Aktører",
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
       "chargePrices": {
@@ -499,6 +500,9 @@
     }
   },
   "marketParticipant": {
+    "actors": {
+      "topBarTitle": "Aktører"
+    },
     "actor": {
       "create": {
         "editHeader": "Redigér aktør",
