@@ -229,7 +229,8 @@ export class EoTransfersTableComponent implements OnChanges {
     if (this.filterForm.controls['statusFilter'].value === null || !startDate) return true;
 
     return (
-      this.filterForm.controls['statusFilter'].value === this.utils.isDateActive(startDate, endDate).toString()
+      this.filterForm.controls['statusFilter'].value ===
+      this.utils.isDateActive(startDate, endDate).toString()
     );
   }
 
