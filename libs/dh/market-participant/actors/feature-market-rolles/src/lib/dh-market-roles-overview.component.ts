@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -45,7 +45,7 @@ import { take } from 'rxjs';
   ],
 })
 export class DhMarketRolesOverviewComponent implements AfterViewInit {
-  constructor(private trans: TranslocoService) {}
+  private transloco = inject(TranslocoService);
 
   dataSource = new WattTableDataSource<string>(Object.keys(MarketParticipantEicFunction));
 
@@ -69,7 +69,7 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
   }
 
   download() {
-    this.trans
+    this.transloco
       .selectTranslateObject('marketParticipant')
       .pipe(take(1))
       .subscribe((translations) => {
