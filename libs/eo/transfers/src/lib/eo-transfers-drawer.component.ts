@@ -71,7 +71,7 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
       </watt-drawer-heading>
 
       <watt-drawer-actions style="align-self: flex-start;">
-        <watt-button variant="secondary" *ngIf="isActive" (click)="transfersEditModal.open()"
+        <watt-button variant="secondary" *ngIf="isEditable" (click)="transfersEditModal.open()"
           >Edit</watt-button
         >
       </watt-drawer-actions>
@@ -107,6 +107,7 @@ export class EoTransfersDrawerComponent {
   @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
 
   isActive!: boolean;
+  isEditable = false;
 
   private _transfer?: EoListedTransfer;
 
@@ -115,6 +116,7 @@ export class EoTransfersDrawerComponent {
 
     if (!this._transfer) return;
     this.isActive = this.utils.isDateActive(this._transfer.startDate, this._transfer?.endDate);
+    this.isEditable = !this._transfer.endDate || this._transfer.endDate > new Date().getTime();
   }
   get transfer() {
     return this._transfer;
