@@ -224,15 +224,15 @@ export class EoTransfersTableComponent implements OnChanges {
 
   applyFilters() {
     this.dataSource.data = this.transfers.filter((transfer) =>
-      this.filterByStatus(transfer.endDate)
+      this.filterByStatus(transfer.startDate, transfer.endDate)
     );
   }
 
-  filterByStatus(endDate: number | null): boolean {
-    if (this.filterForm.controls['statusFilter'].value === null || !endDate) return true;
+  filterByStatus(startDate: number | null, endDate: number | null): boolean {
+    if (this.filterForm.controls['statusFilter'].value === null || !startDate) return true;
 
     return (
-      this.filterForm.controls['statusFilter'].value === this.utils.isDateActive(endDate).toString()
+      this.filterForm.controls['statusFilter'].value === this.utils.isDateActive(startDate, endDate).toString()
     );
   }
 

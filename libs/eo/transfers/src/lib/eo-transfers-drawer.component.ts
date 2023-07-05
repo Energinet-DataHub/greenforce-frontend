@@ -111,10 +111,7 @@ export class EoTransfersDrawerComponent {
     this._transfer = transfer;
 
     if (!this._transfer) return;
-
-    this.isActive =
-      this._transfer &&
-      (this._transfer?.endDate ? this.utils.isDateActive(this._transfer.startDate, this._transfer?.endDate) : true);
+    this.isActive = this.utils.isDateActive(this._transfer.startDate, this._transfer?.endDate);
   }
   get transfer() {
     return this._transfer;

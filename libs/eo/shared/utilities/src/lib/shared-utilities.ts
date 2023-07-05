@@ -29,12 +29,12 @@ export class SharedUtilities {
 
   isDateActive(
     startDate: number | undefined,
-    endDate: number | undefined = new Date().getTime()
+    endDate: number | null
   ): boolean {
     if (!startDate) return false;
 
     const now = new Date().getTime();
-    return startDate >= now && endDate <= now;
+    return startDate <= now && (endDate || now) >= now;
   }
 
   checkForMidnightInLocalTime(inputDate: number | undefined): number {
