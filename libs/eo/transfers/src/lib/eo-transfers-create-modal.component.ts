@@ -85,7 +85,7 @@ function nextHourOrLaterValidator() {
     const validTimestamp = new Date().setHours(nextHour, 0, 0, 0);
 
     if (startDate.errors) return null;
-    if(!startDate.value) {
+    if (!startDate.value) {
       startDate.setErrors({ nextHourOrLater: true });
       startDateTime.setErrors({ nextHourOrLater: true });
       return null;
