@@ -28,10 +28,10 @@ import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
 import { take } from 'rxjs';
 
 @Component({
-  selector: 'dh-market-participant-market-roles-overview',
-  styleUrls: ['dh-market-participant-market-roles-overview.scss'],
+  selector: 'dh-market-roles-overview',
+  styleUrls: ['dh-market-roles-overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './dh-market-participant-market-roles-overview.component.html',
+  templateUrl: './dh-market-roles-overview.component.html',
   standalone: true,
   imports: [
     WATT_TABLE,
@@ -44,7 +44,7 @@ import { take } from 'rxjs';
     WATT_CARD,
   ],
 })
-export class DhMarketParticipantMarketRolesOverviewComponent implements AfterViewInit {
+export class DhMarketRolesOverviewComponent implements AfterViewInit {
   constructor(private trans: TranslocoService) {}
 
   dataSource = new WattTableDataSource<string>(Object.keys(MarketParticipantEicFunction));

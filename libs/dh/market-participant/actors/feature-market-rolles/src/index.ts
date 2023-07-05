@@ -1,1 +1,1 @@
-export * from './lib/dh-market-participant-market-roles-overview.component';
+export * from './lib/dh-market-roles-overview.component';
