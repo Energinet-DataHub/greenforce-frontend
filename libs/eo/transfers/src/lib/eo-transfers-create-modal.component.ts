@@ -27,82 +27,27 @@ import {
   ElementRef,
 } from '@angular/core';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { add, getUnixTime } from 'date-fns';
+
+import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+
+import { endDateMustBeLaterThanStartDateValidator, nextHourOrLaterValidator } from './validations';
 import { EoTransfersService } from './eo-transfers.service';
 import { EoTransfersStore } from './eo-transfers.store';
-import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
 import { Subject, takeUntil } from 'rxjs';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { add, getUnixTime } from 'date-fns';
-
-function endDateMustBeLaterThanStartDate() {
-  return (control: AbstractControl): { [key: string]: unknown } | null => {
-    const formGroup = control as FormGroup;
-    const startDate = formGroup.controls['startDate'];
-    const startDateTime = formGroup.controls['startDateTime'];
-    const endDate = formGroup.controls['endDate'];
-    const endDateTime = formGroup.controls['endDateTime'];
-
-    if (!startDate.value || !startDateTime.value || !endDate.value || !endDateTime.value) {
-      endDateTime.setErrors(null);
-      return null;
-    }
-
-    const startTimestamp = new Date(startDate.value).setHours(startDateTime.value, 0, 0, 0);
-    const endTimestamp = new Date(endDate.value).setHours(endDateTime.value, 0, 0, 0);
-
-    if (endTimestamp <= startTimestamp) {
-      endDate.setErrors({ endDateMustBeLaterThanStartDate: true });
-      endDateTime.setErrors({ endDateMustBeLaterThanStartDate: true });
-    } else {
-      endDate.setErrors(null);
-      endDateTime.setErrors(null);
-    }
-
-    return null;
-  };
-}
-
-function nextHourOrLaterValidator() {
-  return (control: AbstractControl): { [key: string]: unknown } | null => {
-    const formGroup = control as FormGroup;
-    const startDate = formGroup.controls['startDate'];
-    const startDateTime = formGroup.controls['startDateTime'];
-    const nextHour = new Date().getHours() + 1;
-    const validTimestamp = new Date().setHours(nextHour, 0, 0, 0);
-
-    if (startDate.errors) return null;
-    if(!startDate.value) {
-      startDate.setErrors({ nextHourOrLater: true });
-      startDateTime.setErrors({ nextHourOrLater: true });
-      return null;
-    }
-
-    const startTimestamp = new Date(startDate.value).setHours(startDateTime.value, 0, 0, 0);
-    if (startTimestamp < validTimestamp) {
-      startDate.setErrors({ nextHourOrLater: true });
-      startDateTime.setErrors({ nextHourOrLater: true });
-    } else {
-      startDate.setErrors(null);
-      startDateTime.setErrors(null);
-    }
-
-    return null;
-  };
-}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -115,7 +60,6 @@ function nextHourOrLaterValidator() {
     ReactiveFormsModule,
     WattInputDirective,
     WattDatepickerComponent,
-    WattTimepickerComponent,
     WattValidationMessageComponent,
     FormsModule,
     NgIf,
@@ -275,13 +219,6 @@ function nextHourOrLaterValidator() {
             >
             </eo-transfers-timepicker>
             <watt-error
-              *ngIf="form.controls.endDate.errors?.['required']"
-              class="watt-text-s"
-              style="margin-top: -32px;"
-            >
-              An end date is required
-            </watt-error>
-            <watt-error
               *ngIf="form.controls.endDate.errors?.['endDateMustBeLaterThanStartDate']"
               class="watt-text-s"
               style="margin-top: -32px;"
@@ -324,7 +261,7 @@ export class EoTransfersCreateModalComponent implements OnInit, OnDestroy {
       endDate: new FormControl(''),
       endDateTime: new FormControl(''),
     },
-    { validators: [endDateMustBeLaterThanStartDate(), nextHourOrLaterValidator()] }
+    { validators: [endDateMustBeLaterThanStartDateValidator(), nextHourOrLaterValidator()] }
   );
 
   protected minStartDate: Date = new Date();
@@ -352,7 +289,6 @@ export class EoTransfersCreateModalComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((hasEndDate) => {
         if (hasEndDate) {
-          this.form.controls.endDate.setValidators(Validators.required);
           this.form.controls.endDate.setValue(
             add(new Date(this.form.controls.startDate.value as string).setHours(0, 0, 0, 0), {
               days: 1,
