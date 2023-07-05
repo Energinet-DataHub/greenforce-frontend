@@ -64,7 +64,10 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
 
       <watt-drawer-heading>
         <h2>{{ transfer?.receiverTin }}</h2>
-        <p style="font-size: 14px; margin-top: var(--watt-space-m);"><span class="watt-label">Period of agreement</span> {{transfer?.startDate | wattDate : 'long'}}－{{transfer?.endDate | wattDate : 'long'}}</p>
+        <p style="font-size: 14px; margin-top: var(--watt-space-m);">
+          <span class="watt-label">Period of agreement</span>
+          {{ transfer?.startDate | wattDate : 'long' }}－{{ transfer?.endDate | wattDate : 'long' }}
+        </p>
       </watt-drawer-heading>
 
       <watt-drawer-actions style="align-self: flex-start;">
@@ -114,7 +117,9 @@ export class EoTransfersDrawerComponent {
 
     this.isActive =
       this._transfer &&
-      (this._transfer?.endDate ? this.utils.isDateActive(this._transfer.startDate, this._transfer?.endDate) : true);
+      (this._transfer?.endDate
+        ? this.utils.isDateActive(this._transfer.startDate, this._transfer?.endDate)
+        : true);
   }
   get transfer() {
     return this._transfer;
