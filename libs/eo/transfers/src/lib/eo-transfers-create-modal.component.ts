@@ -35,12 +35,7 @@ import { EoTransfersFormComponent } from './eo-transfers-form.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-transfers-create-modal',
-  imports: [
-    WATT_MODAL,
-    WattValidationMessageComponent,
-    NgIf,
-    EoTransfersFormComponent
-  ],
+  imports: [WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent],
   standalone: true,
   template: `
     <watt-modal
@@ -61,8 +56,10 @@ import { EoTransfersFormComponent } from './eo-transfers-form.component';
         size="compact"
       ></watt-validation-message>
 
-      <eo-transfers-form (submitted)="createAgreement($event)" (canceled)="modal.close(false)"></eo-transfers-form>
-
+      <eo-transfers-form
+        (submitted)="createAgreement($event)"
+        (canceled)="modal.close(false)"
+      ></eo-transfers-form>
     </watt-modal>
   `,
 })

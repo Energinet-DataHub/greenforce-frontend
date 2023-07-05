@@ -158,9 +158,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
           [errors]="form.controls.startDateTime.errors"
           (invalidOptionReset)="form.controls.startDate.updateValueAndValidity()"
         ></eo-transfers-timepicker>
-        <watt-error
-          *ngIf="form.controls.startDate.errors?.['nextHourOrLater']"
-          class="watt-text-s">
+        <watt-error *ngIf="form.controls.startDate.errors?.['nextHourOrLater']" class="watt-text-s">
           The start of the period must be at least the next hour from now
         </watt-error>
       </fieldset>
@@ -202,7 +200,8 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
           </eo-transfers-timepicker>
           <watt-error
             *ngIf="form.controls.endDate.errors?.['endDateMustBeLaterThanStartDate']"
-            class="watt-text-s">
+            class="watt-text-s"
+          >
             The end of the period must be later than the start of the period
           </watt-error>
         </div>
@@ -259,7 +258,7 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((hasEndDate) => {
         if (hasEndDate) {
-          if(!this.form.controls.startDate.value) return;
+          if (!this.form.controls.startDate.value) return;
 
           this.form.controls.endDate.setValue(
             add(new Date(this.form.controls.startDate.value as string).setHours(0, 0, 0, 0), {
