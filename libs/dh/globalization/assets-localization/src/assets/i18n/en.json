@@ -509,7 +509,7 @@
   },
   "marketParticipant": {
     "actors": {
-      "topBarTitle": "Aktører",
+      "topBarTitle": "Actors",
       "tabs": {
         "actors": {
           "tabLabel": "{{ marketParticipant.actors.topBarTitle }}"
