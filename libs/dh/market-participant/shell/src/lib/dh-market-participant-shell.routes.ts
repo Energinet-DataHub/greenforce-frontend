@@ -32,7 +32,7 @@ import {
   dhMarketParticipantGridAreasPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 import { DhMarketParticipantEditActorComponent } from '@energinet-datahub/dh/market-participant/edit-actor';
-import { DhMarketParticipantGridAreaComponent } from '@energinet-datahub/dh/market-participant/feature-gridarea';
+import { DhMarketParticipantGridAreaComponent } from '@energinet-datahub/dh/market-participant/grid-areas/shell';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
