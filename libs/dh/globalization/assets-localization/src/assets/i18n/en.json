@@ -604,7 +604,6 @@
     "organization": {
       "topBarTitle": "Organisations",
       "organizationsHeader": "Organisations",
-      "marketRolesHeader": "Market roles",
       "columns": {
         "organization": "Organisation",
         "gln": "Actor Id",

@@ -18,6 +18,7 @@ import { Component } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { DhMarketParticipantMarketRolesOverviewComponent } from '@energinet-datahub/dh/market-participant/actors/feature-market-rolles';
 
 @Component({
   selector: 'dh-market-participant-actors-shell',
@@ -27,10 +28,12 @@ import { WATT_TABS } from '@energinet-datahub/watt/tabs';
       <watt-tabs>
         <watt-tab [label]="t('actors.tabLabel')"></watt-tab>
         <watt-tab [label]="t('organizations.tabLabel')"></watt-tab>
-        <watt-tab [label]="t('marketRoles.tabLabel')"></watt-tab>
+        <watt-tab [label]="t('marketRoles.tabLabel')">
+          <dh-market-participant-market-roles-overview />
+        </watt-tab>
       </watt-tabs>
     </ng-container>
   `,
-  imports: [TranslocoModule, WATT_TABS],
+  imports: [TranslocoModule, WATT_TABS, DhMarketParticipantMarketRolesOverviewComponent],
 })
 export class DhMarketParticipantActorsShellComponent {}

@@ -596,7 +596,6 @@
     "organization": {
       "topBarTitle": "Organisationer",
       "organizationsHeader": "Organisationer",
-      "marketRolesHeader": "Markedsroller",
       "columns": {
         "organization": "Organisation",
         "gln": "Aktør id",
