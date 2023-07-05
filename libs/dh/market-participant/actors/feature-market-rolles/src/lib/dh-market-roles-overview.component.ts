@@ -55,10 +55,6 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
     description: { accessor: (value) => value },
   };
 
-  translateHeader(key: string) {
-    return translate(`marketParticipant.marketRolesOverview.columns.${key}`);
-  }
-
   ngAfterViewInit() {
     this.dataSource.sortingDataAccessor = (data, header) =>
       header === 'name'

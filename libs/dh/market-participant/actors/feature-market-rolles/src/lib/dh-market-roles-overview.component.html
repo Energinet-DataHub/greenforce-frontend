@@ -27,20 +27,20 @@ limitations under the License.
   </watt-card-title>
 
   <watt-table
-    *transloco="let t"
     [dataSource]="dataSource"
     [columns]="columns"
-    [resolveHeader]="translateHeader"
     sortBy="name"
     sortDirection="asc"
     [sortClear]="false"
   >
-    <ng-container *wattTableCell="columns['name']; let marketRoleKey">
-      {{ t("marketParticipant.marketRoles." + marketRoleKey) }}
+    <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let marketRoleKey">
+      {{ "marketParticipant.marketRoles." + marketRoleKey | transloco }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['description']; let marketRoleKey">
-      {{ t("marketParticipant.marketRoleDescriptions." + marketRoleKey) }}
+    <ng-container
+      *wattTableCell="columns['description']; header: t('columns.description'); let marketRoleKey"
+    >
+      {{ "marketParticipant.marketRoleDescriptions." + marketRoleKey | transloco }}
     </ng-container>
   </watt-table>
 </watt-card>
