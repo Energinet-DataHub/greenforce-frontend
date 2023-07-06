@@ -15,15 +15,19 @@
  * limitations under the License.
  */
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   Output,
+  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
+import { Subscription, fromEvent } from 'rxjs';
 
 export interface WattSliderValue {
   min: number;
@@ -40,9 +44,9 @@ export interface WattSliderValue {
   styleUrls: ['./watt-slider.component.scss'],
   templateUrl: './watt-slider.component.html',
   standalone: true,
-  imports: [CommonModule, NgxSliderModule],
+  imports: [CommonModule],
 })
-export class WattSliderComponent {
+export class WattSliderComponent implements AfterViewInit, OnDestroy {
   /** The lowest permitted value. */
   @Input() min = 0;
 
@@ -52,33 +56,79 @@ export class WattSliderComponent {
   /** Step between each value. */
   @Input() step = 1;
 
-  /** Manually define all steps. Overrules `min`, `max` and `step`. */
-  @Input() customSteps?: number[];
-
   /** The currently selected range value. */
   @Input() value: WattSliderValue = { min: this.min, max: this.max };
 
+  @ViewChild('maxRange') maxRange!: ElementRef<HTMLInputElement>;
+
+  @ViewChild('minRange') minRange!: ElementRef<HTMLInputElement>;
+
+  private _maxChangeSubscription!: Subscription;
+  private _minChangeSubscription!: Subscription;
   /**
    * Emits value whenever it changes.
    * @ignore
    */
   @Output() valueChange = new EventEmitter<WattSliderValue>();
 
-  /**
-   * @ignore
-   */
-  get options(): Options {
-    return {
-      floor: this.min,
-      ceil: this.max,
-      minRange: 1,
-      hideLimitLabels: true,
-      hidePointerLabels: true,
-      enforceStep: false,
-      enforceStepsArray: false,
-      step: this.step,
-      stepsArray: this.customSteps?.map((value) => ({ value })),
-    };
+  ngAfterViewInit(): void {
+    const maxRangeElement = this.maxRange.nativeElement;
+    const minRangeElement = this.minRange.nativeElement;
+    const maxChanged$ = fromEvent(maxRangeElement, 'input');
+    const minChanged$ = fromEvent(minRangeElement, 'input');
+
+    console.log({ min: this.value.min, max: this.value.max });
+
+    this.updateRange(this.value.min, this.value.max);
+
+    this._maxChangeSubscription = maxChanged$.subscribe((event) => {
+      const maxValue = (event.target as HTMLInputElement).valueAsNumber;
+      const minValue = minRangeElement.valueAsNumber || this.min;
+      this.updateRange(minValue, maxValue);
+
+      if (minValue <= maxValue) {
+        maxRangeElement.valueAsNumber = maxValue;
+      } else {
+        maxRangeElement.valueAsNumber = minValue;
+      }
+
+      this.onChange({ min: minValue, max: maxValue });
+    });
+
+    this._minChangeSubscription = minChanged$.subscribe((event) => {
+      const minValue = (event.target as HTMLInputElement).valueAsNumber;
+      const maxValue = maxRangeElement.valueAsNumber || this.max;
+      this.updateRange(minValue, maxValue);
+
+      if (minValue > maxValue) {
+        minRangeElement.valueAsNumber = maxValue;
+      }
+
+      this.onChange({ min: minValue, max: maxValue });
+    });
+  }
+
+  ngOnDestroy(): void {
+    this._maxChangeSubscription.unsubscribe();
+    this._minChangeSubscription.unsubscribe();
+  }
+
+  private updateRange(minValue: number, maxValue: number) {
+    const rangeDistance = this.max - this.min;
+    const fromPosition = minValue - this.min;
+    const toPosition = maxValue - this.min;
+
+    const sliderColor = 'var(--watt-color-secondary-light)';
+    const rangeColor = 'var(--watt-color-primary)';
+
+    this.maxRange.nativeElement.style.background = `linear-gradient(
+      to right,
+      ${sliderColor} 0%,
+      ${sliderColor} ${(fromPosition / rangeDistance) * 100}%,
+      ${rangeColor} ${(fromPosition / rangeDistance) * 100}%,
+      ${rangeColor} ${(toPosition / rangeDistance) * 100}%,
+      ${sliderColor} ${(toPosition / rangeDistance) * 100}%,
+      ${sliderColor} 100%)`;
   }
 
   /**

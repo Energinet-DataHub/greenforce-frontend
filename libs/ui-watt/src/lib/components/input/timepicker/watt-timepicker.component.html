@@ -79,7 +79,9 @@ limitations under the License.
     >
       <span class="watt-label">{{ sliderLabel }}</span>
       <watt-slider
-        [customSteps]="sliderSteps"
+        [min]="sliderSteps[0]"
+        [max]="sliderSteps[sliderSteps.length - 1]"
+        [step]="15"
         [value]="sliderValue"
         (valueChange)="sliderChange$.next($event)"
       ></watt-slider>
