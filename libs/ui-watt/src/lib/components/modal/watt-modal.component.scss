@@ -18,10 +18,9 @@
 
 .watt-modal-panel {
   @include watt.media("<Small") {
+    height: 100vh;
     max-width: 100vw !important;
     width: 100vw !important;
-    height: 100vh;
-    max-height: 100vh !important;
   }
 
   // TODO: Implement sizes variants and breakpoints
