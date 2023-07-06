@@ -156,9 +156,11 @@ interface EoTransfersForm {
         <input
           wattInput
           required="true"
+          inputmode="numeric"
           type="text"
           formControlName="receiverTin"
           [maxlength]="8"
+          (keydown)="preventNonNumericInput($event)"
           data-testid="new-agreement-receiver-input"
         />
         <watt-error *ngIf="form.controls.receiverTin.errors?.['receiverTinEqualsSenderTin']">
@@ -337,6 +339,16 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
 
   protected onSubmit() {
     this.submitted.emit(this.form.value);
+  }
+
+  protected preventNonNumericInput(event: KeyboardEvent) {
+    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'];
+    const isNumericInput = /^[0-9]+$/.test(event.key);
+    const isSpecialKey = allowedKeys.includes(event.key);
+
+    if (!isNumericInput && !isSpecialKey) {
+      event.preventDefault();
+    }
   }
 
   private initForm() {
