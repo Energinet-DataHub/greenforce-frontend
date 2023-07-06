@@ -1,7 +1,16 @@
 import { AbstractControl } from "@angular/forms";
 
-export function clearErrors(...fields: AbstractControl[]): void {
-  fields.forEach(field => field.setErrors(null));
+export function clearErrors(errorKey: string, ...fields: AbstractControl[]): void {
+  fields.forEach(field => {
+    if (field.errors && field.errors[errorKey]) {
+      // Copy the errors object
+      const errors = { ...field.errors };
+      // Remove the specific error
+      delete errors[errorKey];
+      // If there are no more errors, set the errors object to null, otherwise set it to the updated errors object
+      field.setErrors(Object.keys(errors).length > 0 ? errors : null);
+    }
+  });
 }
 
 export function createTimestamp(dateValue: Date | string, timeValue: number): number {

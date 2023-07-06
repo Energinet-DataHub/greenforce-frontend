@@ -11,7 +11,7 @@ export function endDateMustBeLaterThanStartDateValidator() {
     const endTimestamp = createTimestamp(endDate.value, parseInt(endDateTime.value));
 
     if (!shouldValidate || endTimestamp > startTimestamp) {
-      clearErrors(endDate, endDateTime);
+      clearErrors('endDateMustBeLaterThanStartDate', endDate, endDateTime);
     } else {
       setValidationErrors('endDateMustBeLaterThanStartDate', endDate, endDateTime);
     }

@@ -31,10 +31,10 @@ import {
   ControlValueAccessor,
   ValidationErrors,
 } from '@angular/forms';
+import { isToday } from 'date-fns';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { isToday } from 'date-fns';
 
 @Component({
   selector: 'eo-transfers-timepicker',
@@ -67,6 +67,7 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnC
 
   @ViewChild('dropdown') dropdown: WattDropdownComponent | undefined;
 
+  isDisabled!: boolean;
   options: WattDropdownOption[] = this.generateOptions();
   control = new FormControl();
 
@@ -104,6 +105,15 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnC
 
   registerOnTouched(fn: never): void {
     this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    this.isDisabled = isDisabled;
+    if (isDisabled) {
+      this.control.disable({ emitEvent: false });
+    } else {
+      this.control.enable({ emitEvent: false });
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

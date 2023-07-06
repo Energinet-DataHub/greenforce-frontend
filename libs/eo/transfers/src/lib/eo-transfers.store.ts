@@ -18,7 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable, switchMap, throwError, withLatestFrom } from 'rxjs';
-import { add, fromUnixTime } from 'date-fns';
+import { fromUnixTime } from 'date-fns';
 
 import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
 
@@ -83,7 +83,9 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   });
 
   readonly patchSelectedTransfer = this.effect(
-    (options$: Observable<{ endDate: string; onSuccess: () => void; onError: () => void }>) => {
+    (
+      options$: Observable<{ endDate: number | null; onSuccess: () => void; onError?: () => void }>
+    ) => {
       return options$.pipe(
         withLatestFrom(this.selectedTransfer$),
         switchMap(([options, selectedTransfer]) => {
@@ -93,21 +95,25 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
 
           this.patchState({ patchingTransfer: true });
 
-          const nextDay = add(new Date(options.endDate), { days: 1 });
-          return this.service
-            .updateAgreement(selectedTransfer.id, Math.round(nextDay.getTime() / 1000))
-            .pipe(
-              tapResponse(
-                (response) => {
-                  this.setTransfer(response);
-                  options.onSuccess();
-                },
-                (error: HttpErrorResponse) => {
-                  this.setPatchingTransferError(error);
+          let endDate = options.endDate;
+          if (endDate) {
+            endDate = Math.round(endDate / 1000);
+          }
+
+          return this.service.updateAgreement(selectedTransfer.id, endDate).pipe(
+            tapResponse(
+              (response) => {
+                this.setTransfer(response);
+                options.onSuccess();
+              },
+              (error: HttpErrorResponse) => {
+                this.setPatchingTransferError(error);
+                if (options.onError) {
                   options.onError();
                 }
-              )
-            );
+              }
+            )
+          );
         })
       );
     }

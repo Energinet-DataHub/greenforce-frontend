@@ -16,6 +16,8 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { map } from 'rxjs';
+
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 export interface EoTransfer {
@@ -55,8 +57,16 @@ export class EoTransfersService {
   }
 
   updateAgreement(transferId: string, endDate: number | null) {
-    return this.http.patch<EoListedTransfer>(`${this.#apiBase}/transfer-agreements/${transferId}`, {
-      endDate,
-    });
+    return this.http
+      .patch<EoListedTransfer>(`${this.#apiBase}/transfer-agreements/${transferId}`, {
+        endDate,
+      })
+      .pipe(
+        map((transfer) => ({
+          ...transfer,
+          startDate: transfer.startDate * 1000,
+          endDate: transfer.endDate ? transfer.endDate * 1000 : null,
+        }))
+      );
   }
 }

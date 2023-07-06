@@ -96,7 +96,6 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
     </watt-drawer>
 
     <eo-transfers-edit-modal
-      title="Edit transfer agreement"
       [transfer]="transfer"
     ></eo-transfers-edit-modal>
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>

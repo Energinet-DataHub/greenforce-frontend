@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass, NgIf } from '@angular/common';
 
@@ -23,12 +23,30 @@ import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 
-import { endDateMustBeLaterThanStartDateValidator, nextHourOrLaterValidator } from './validations';
+import { endDateMustBeLaterThanStartDateValidator, minTodayValidator, nextHourOrLaterValidator } from './validations';
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
 import { Subject, takeUntil } from 'rxjs';
-import { add } from 'date-fns';
+import { add, isAfter } from 'date-fns';
 import { WattModalActionsComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+
+export interface EoTransfersFormInitialValues {
+  receiverTin?: string;
+  startDate?: string;
+  startDateTime?: string;
+  hasEndDate?: boolean;
+  endDate?: string;
+  endDateTime?: string;
+}
+
+interface EoTransfersForm {
+  receiverTin: FormControl<string | null>;
+  startDate: FormControl<string | null>;
+  startDateTime: FormControl<string>;
+  hasEndDate: FormControl<boolean>;
+  endDate: FormControl<string | null>;
+  endDateTime: FormControl<string | null>;
+}
 
 @Component({
   selector: 'eo-transfers-form',
@@ -199,6 +217,12 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
           >
           </eo-transfers-timepicker>
           <watt-error
+            *ngIf="form.controls.endDate.errors?.['minToday']"
+            class="watt-text-s"
+          >
+            The end of the period must be today or later
+          </watt-error>
+          <watt-error
             *ngIf="form.controls.endDate.errors?.['endDateMustBeLaterThanStartDate']"
             class="watt-text-s"
           >
@@ -221,56 +245,82 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
         [disabled]="!form.valid"
         (click)="onSubmit()"
       >
-        Create
+        {{ submitButtonText }}
       </watt-button>
     </watt-modal-actions>
   `,
 })
 export class EoTransfersFormComponent implements OnInit, OnDestroy {
+  @Input() submitButtonText = 'Create';
+  @Input() initialValues: EoTransfersFormInitialValues = {
+    receiverTin: '',
+    startDate: new Date().toISOString(),
+    startDateTime: this.getNextHour(),
+    hasEndDate: false,
+    endDate: '',
+    endDateTime: '',
+  };
+  @Input() editableFields: (keyof EoTransfersForm)[] = [
+    'receiverTin',
+    'startDate',
+    'startDateTime',
+    'hasEndDate',
+    'endDate',
+    'endDateTime',
+  ];
+
   @Output() submitted = new EventEmitter();
   @Output() canceled = new EventEmitter();
 
   protected minStartDate: Date = new Date();
   protected maxStartDate?: Date;
   protected minEndDate: Date = new Date();
-  protected form = new FormGroup(
-    {
-      receiverTin: new FormControl('', [Validators.minLength(8), Validators.pattern('^[0-9]*$')]),
-      startDate: new FormControl(new Date().toISOString()),
-      startDateTime: new FormControl(this.getStartDateTimeDefaultValue()),
-      hasEndDate: new FormControl(false, [Validators.required]),
-      endDate: new FormControl(''),
-      endDateTime: new FormControl(''),
-    },
-    { validators: [endDateMustBeLaterThanStartDateValidator(), nextHourOrLaterValidator()] }
-  );
+  protected form!: FormGroup<EoTransfersForm>;
 
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.form.controls.startDate.valueChanges
+    this.initForm();
+
+    this.form.controls['startDate'].valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((startDate) => {
-        this.minEndDate = startDate ? new Date(startDate) : new Date();
+        const today = new Date();
+
+        this.minEndDate =
+          startDate && isAfter(new Date(startDate), today) ? new Date(startDate) : new Date();
       });
 
-    this.form.controls.hasEndDate.valueChanges
+    this.form.controls['hasEndDate'].valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((hasEndDate) => {
         if (hasEndDate) {
-          if (!this.form.controls.startDate.value) return;
+          if (!this.form.controls['startDate'].value) return;
 
-          this.form.controls.endDate.setValue(
-            add(new Date(this.form.controls.startDate.value as string).setHours(0, 0, 0, 0), {
+          const nextDay = add(
+            new Date(this.form.controls['startDate'].value as string).setHours(0, 0, 0, 0),
+            {
               days: 1,
-            }).toISOString()
+            }
           );
-          this.form.controls.endDateTime.setValue(this.form.controls.startDateTime.value);
+
+          this.form.controls['endDate'].setValue(
+            isAfter(nextDay, this.minEndDate)
+              ? nextDay.toISOString()
+              : this.minEndDate.toISOString()
+          );
+
+          this.form.controls['endDateTime'].setValue(
+            this.form.controls['startDateTime'].value > this.getNextHour()
+              ? this.form.controls['startDateTime'].value
+              : this.getNextHour()
+          );
+
         } else {
-          this.form.controls.endDate.setValue(null);
-          this.form.controls.endDateTime.setValue(null);
-          this.form.controls.endDate.clearValidators();
-          this.form.controls.endDate.updateValueAndValidity();
+          this.form.controls['endDate'].setValue(null);
+          this.form.controls['endDateTime'].setValue(null);
+          this.form.controls['endDate'].clearValidators();
+          this.form.controls['endDate'].updateValueAndValidity();
         }
       });
 
@@ -292,7 +342,59 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
     this.submitted.emit(this.form.value);
   }
 
-  private getStartDateTimeDefaultValue(): string {
+  private initForm() {
+    const { receiverTin, startDate, startDateTime, hasEndDate, endDate, endDateTime } =
+      this.initialValues;
+
+    const formGroupValidators = [endDateMustBeLaterThanStartDateValidator()];
+    if (this.editableFields.includes('startDate')) {
+      formGroupValidators.push(nextHourOrLaterValidator());
+    }
+
+    this.form = new FormGroup(
+      {
+        receiverTin: new FormControl(
+          {
+            value: receiverTin || '',
+            disabled: !this.editableFields.includes('receiverTin'),
+          },
+          { validators: [Validators.required, Validators.maxLength(8)] }
+        ),
+        startDate: new FormControl({
+          value: startDate || new Date().toISOString(),
+          disabled: !this.editableFields.includes('startDate'),
+        }),
+        startDateTime: new FormControl(
+          {
+            value: startDateTime || this.getNextHour(),
+            disabled: !this.editableFields.includes('startDateTime'),
+          },
+          { nonNullable: true }
+        ),
+        hasEndDate: new FormControl(
+          {
+            value: hasEndDate || false,
+            disabled: !this.editableFields.includes('hasEndDate'),
+          },
+          {
+            nonNullable: true,
+            validators: [Validators.required],
+          }
+        ),
+        endDate: new FormControl({
+          value: endDate || '',
+          disabled: !this.editableFields.includes('endDate'),
+        }, [minTodayValidator()]),
+        endDateTime: new FormControl({
+          value: endDateTime || '',
+          disabled: !this.editableFields.includes('endDateTime'),
+        }),
+      },
+      { validators: formGroupValidators }
+    );
+  }
+
+  private getNextHour(): string {
     const nextHour = new Date().getHours() + 1;
     return nextHour.toString().padStart(2, '0');
   }

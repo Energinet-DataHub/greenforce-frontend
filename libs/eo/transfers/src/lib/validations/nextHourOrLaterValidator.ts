@@ -13,7 +13,7 @@ export function nextHourOrLaterValidator() {
     if (startDate.errors || !startDate.value || startTimestamp < validTimestamp) {
       setValidationErrors('nextHourOrLater', startDate, startDateTime);
     } else {
-      clearErrors(startDate, startDateTime);
+      clearErrors('nextHourOrLater', startDate, startDateTime);
     }
 
     return null;
