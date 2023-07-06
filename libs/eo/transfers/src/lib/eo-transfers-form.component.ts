@@ -372,7 +372,7 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
               Validators.required,
               Validators.maxLength(8),
               compareValidator(this.senderTin || '', 'receiverTinEqualsSenderTin'),
-            ]
+            ],
           }
         ),
         startDate: new FormControl({
