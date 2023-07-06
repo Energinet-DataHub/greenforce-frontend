@@ -176,7 +176,7 @@ interface EoTransfersForm {
           <watt-datepicker
             formControlName="startDate"
             [min]="minStartDate"
-            data-testid="new-agreement-daterange-input"
+            data-testid="new-agreement-start-date-input"
           />
         </watt-form-field>
         <eo-transfers-timepicker
@@ -211,7 +211,7 @@ interface EoTransfersForm {
             <watt-datepicker
               #endDatePicker
               formControlName="endDate"
-              data-testid="new-agreement-daterange-input"
+              data-testid="new-agreement-end-date-input"
               [min]="minEndDate"
             />
           </watt-form-field>

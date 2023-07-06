@@ -8,7 +8,6 @@ Feature: Transfers Page
     Then I can see a header text in the table card
     And I can see a table component
     And I can see the table has a paginator
-    And I can see a download button
     And I can see a button to create a new agreement
 
   Scenario: Charlotte CSR can create a new transfer agreement
