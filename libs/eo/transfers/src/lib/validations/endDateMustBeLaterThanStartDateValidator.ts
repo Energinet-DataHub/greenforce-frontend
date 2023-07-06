@@ -14,15 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AbstractControl, FormGroup } from "@angular/forms";
-import { clearErrors, createTimestamp, setValidationErrors } from "./utils";
+import { AbstractControl, FormGroup } from '@angular/forms';
+import { clearErrors, createTimestamp, setValidationErrors } from './utils';
 
 export function endDateMustBeLaterThanStartDateValidator() {
   return (control: AbstractControl): { [key: string]: unknown } | null => {
     const formGroup = control as FormGroup;
-    const {startDate, startDateTime, endDate, endDateTime, hasEndDate} = formGroup.controls;
+    const { startDate, startDateTime, endDate, endDateTime, hasEndDate } = formGroup.controls;
 
-    const shouldValidate = shouldValidateEndDate(hasEndDate, startDate, startDateTime, endDate, endDateTime);
+    const shouldValidate = shouldValidateEndDate(
+      hasEndDate,
+      startDate,
+      startDateTime,
+      endDate,
+      endDateTime
+    );
     const startTimestamp = createTimestamp(startDate.value, parseInt(startDateTime.value));
     const endTimestamp = createTimestamp(endDate.value, parseInt(endDateTime.value));
 
@@ -41,7 +47,5 @@ function shouldValidateEndDate(hasEndDate: AbstractControl, ...fields: AbstractC
 }
 
 function anyFieldIsMissing(...fields: AbstractControl[]): boolean {
-  return fields.some(field => !field.value);
+  return fields.some((field) => !field.value);
 }
-
-

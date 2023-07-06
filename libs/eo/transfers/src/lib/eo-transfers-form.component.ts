@@ -23,7 +23,11 @@ import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 
-import { endDateMustBeLaterThanStartDateValidator, minTodayValidator, nextHourOrLaterValidator } from './validations';
+import {
+  endDateMustBeLaterThanStartDateValidator,
+  minTodayValidator,
+  nextHourOrLaterValidator,
+} from './validations';
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
 import { Subject, takeUntil } from 'rxjs';
 import { add, isAfter } from 'date-fns';
@@ -216,10 +220,7 @@ interface EoTransfersForm {
             (invalidOptionReset)="form.controls.endDate.updateValueAndValidity()"
           >
           </eo-transfers-timepicker>
-          <watt-error
-            *ngIf="form.controls.endDate.errors?.['minToday']"
-            class="watt-text-s"
-          >
+          <watt-error *ngIf="form.controls.endDate.errors?.['minToday']" class="watt-text-s">
             The end of the period must be today or later
           </watt-error>
           <watt-error
@@ -315,7 +316,6 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
               ? this.form.controls['startDateTime'].value
               : this.getNextHour()
           );
-
         } else {
           this.form.controls['endDate'].setValue(null);
           this.form.controls['endDateTime'].setValue(null);
@@ -381,10 +381,13 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
             validators: [Validators.required],
           }
         ),
-        endDate: new FormControl({
-          value: endDate || '',
-          disabled: !this.editableFields.includes('endDate'),
-        }, [minTodayValidator()]),
+        endDate: new FormControl(
+          {
+            value: endDate || '',
+            disabled: !this.editableFields.includes('endDate'),
+          },
+          [minTodayValidator()]
+        ),
         endDateTime: new FormControl({
           value: endDateTime || '',
           disabled: !this.editableFields.includes('endDateTime'),

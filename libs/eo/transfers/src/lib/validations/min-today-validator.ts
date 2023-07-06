@@ -20,7 +20,7 @@ import { isBefore } from 'date-fns';
 export function minTodayValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const controlValue = control.value;
-    console.log('value', controlValue)
+    console.log('value', controlValue);
     if (!controlValue) {
       // if the control is empty, return no error
       return null;

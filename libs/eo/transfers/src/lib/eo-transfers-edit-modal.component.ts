@@ -113,7 +113,9 @@ export class EoTransfersEditModalComponent implements OnChanges {
 
   saveTransferAgreement(values: { hasEndDate: boolean; endDate: string; endDateTime: string }) {
     const { hasEndDate, endDate, endDateTime } = values;
-    const dateWithTime = hasEndDate ? new Date(endDate).setHours(parseInt(endDateTime), 0, 0, 0) : null;
+    const dateWithTime = hasEndDate
+      ? new Date(endDate).setHours(parseInt(endDateTime), 0, 0, 0)
+      : null;
 
     this.store.patchSelectedTransfer({
       endDate: dateWithTime,

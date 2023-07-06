@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AbstractControl } from "@angular/forms";
+import { AbstractControl } from '@angular/forms';
 
 export function clearErrors(errorKey: string, ...fields: AbstractControl[]): void {
-  fields.forEach(field => {
+  fields.forEach((field) => {
     if (field.errors && field.errors[errorKey]) {
       // Copy the errors object
       const errors = { ...field.errors };
@@ -35,5 +35,5 @@ export function createTimestamp(dateValue: Date | string, timeValue: number): nu
 
 export function setValidationErrors(errorKey: string, ...fields: AbstractControl[]): void {
   const error = { [errorKey]: true };
-  fields.forEach(field => field.setErrors(error));
+  fields.forEach((field) => field.setErrors(error));
 }
