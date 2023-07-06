@@ -4,7 +4,6 @@ import { isBefore } from 'date-fns';
 export function minTodayValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const controlValue = control.value;
-    console.log('value', controlValue)
     if (!controlValue) {
       // if the control is empty, return no error
       return null;
@@ -16,11 +15,8 @@ export function minTodayValidator(): ValidatorFn {
     today.setHours(0, 0, 0, 0);
 
     if (isBefore(new Date(controlValue), today)) {
-      console.log('ERROR!!');
       // if the control date is before today, return an error
       return { minToday: true };
-    } else {
-      console.log('no error', new Date(controlValue), today);
     }
 
     // if the control date is today or in the future, return no error

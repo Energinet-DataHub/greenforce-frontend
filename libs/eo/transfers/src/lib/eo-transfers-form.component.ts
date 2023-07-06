@@ -166,7 +166,6 @@ interface EoTransfersForm {
           <watt-datepicker
             formControlName="startDate"
             [min]="minStartDate"
-            [max]="maxStartDate"
             data-testid="new-agreement-daterange-input"
           />
         </watt-form-field>
@@ -273,7 +272,6 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
   @Output() canceled = new EventEmitter();
 
   protected minStartDate: Date = new Date();
-  protected maxStartDate?: Date;
   protected minEndDate: Date = new Date();
   protected form!: FormGroup<EoTransfersForm>;
 
@@ -319,14 +317,8 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
         } else {
           this.form.controls['endDate'].setValue(null);
           this.form.controls['endDateTime'].setValue(null);
-          this.form.controls['endDate'].clearValidators();
-          this.form.controls['endDate'].updateValueAndValidity();
         }
       });
-
-    this.form.controls.endDate.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((endDate) => {
-      this.maxStartDate = endDate ? new Date(endDate) : undefined;
-    });
   }
 
   ngOnDestroy(): void {
