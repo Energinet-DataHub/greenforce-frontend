@@ -56,6 +56,16 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
     EoTransfersEditModalComponent,
   ],
   standalone: true,
+  styles: [`
+    .sub-header {
+      font-size: 14px;
+      margin-top: var(--watt-space-m);
+    }
+
+    watt-drawer-actions {
+      align-self: flex-start;
+    }
+  `],
   template: `
     <watt-drawer #drawer (closed)="onClose()">
       <watt-drawer-topbar>
@@ -64,13 +74,13 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
 
       <watt-drawer-heading>
         <h2>{{ transfer?.receiverTin }}</h2>
-        <p style="font-size: 14px; margin-top: var(--watt-space-m);">
+        <p class="sub-header">
           <span class="watt-label">Period of agreement</span>
           {{ transfer?.startDate | wattDate : 'long' }}－{{ transfer?.endDate | wattDate : 'long' }}
         </p>
       </watt-drawer-heading>
 
-      <watt-drawer-actions style="align-self: flex-start;">
+      <watt-drawer-actions>
         <watt-button variant="secondary" *ngIf="isEditable" (click)="transfersEditModal.open()"
           >Edit</watt-button
         >
