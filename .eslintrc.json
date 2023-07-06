@@ -126,6 +126,7 @@
                   "type:util",
                   "type:test-util",
                   "type:shell",
+                  "type:domain",
                   "type:configuration",
                   "type:environments",
                   "type:assets",
