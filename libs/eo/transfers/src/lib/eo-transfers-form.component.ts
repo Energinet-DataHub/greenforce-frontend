@@ -24,6 +24,7 @@ import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 
 import {
+  compareValidator,
   endDateMustBeLaterThanStartDateValidator,
   minTodayValidator,
   nextHourOrLaterValidator,
@@ -160,7 +161,10 @@ interface EoTransfersForm {
           [maxlength]="8"
           data-testid="new-agreement-receiver-input"
         />
-        <watt-error *ngIf="form.controls.receiverTin.errors">
+        <watt-error *ngIf="form.controls.receiverTin.errors?.['receiverTinEqualsSenderTin']">
+          The receiver cannot be your own TIN/CVR
+        </watt-error>
+        <watt-error *ngIf="form.controls.receiverTin.errors?.['required']">
           An 8-digit TIN/CVR number is required
         </watt-error>
       </watt-form-field>
@@ -251,6 +255,7 @@ interface EoTransfersForm {
   `,
 })
 export class EoTransfersFormComponent implements OnInit, OnDestroy {
+  @Input() senderTin?: string;
   @Input() submitButtonText = 'Create';
   @Input() initialValues: EoTransfersFormInitialValues = {
     receiverTin: '',
@@ -350,7 +355,13 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
             value: receiverTin || '',
             disabled: !this.editableFields.includes('receiverTin'),
           },
-          { validators: [Validators.required, Validators.maxLength(8)] }
+          {
+            validators: [
+              Validators.required,
+              Validators.maxLength(8),
+              compareValidator(this.senderTin || '', 'receiverTinEqualsSenderTin'),
+            ]
+          }
         ),
         startDate: new FormControl({
           value: startDate || new Date().toISOString(),

@@ -23,6 +23,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { getUnixTime } from 'date-fns';
+import { PushModule } from '@rx-angular/template/push';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
@@ -30,12 +31,13 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
 import { EoTransfersService } from './eo-transfers.service';
 import { EoTransfersStore } from './eo-transfers.store';
 import { EoTransfersFormComponent } from './eo-transfers-form.component';
+import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-transfers-create-modal',
-  imports: [WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent],
+  imports: [WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent, PushModule],
   standalone: true,
   template: `
     <watt-modal
@@ -57,6 +59,7 @@ import { EoTransfersFormComponent } from './eo-transfers-form.component';
       ></watt-validation-message>
 
       <eo-transfers-form
+        [senderTin]="authStore.getTin$ | push"
         (submitted)="createAgreement($event)"
         (canceled)="modal.close(false)"
       ></eo-transfers-form>
@@ -74,7 +77,8 @@ export class EoTransfersCreateModalComponent {
   constructor(
     private service: EoTransfersService,
     private store: EoTransfersStore,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    protected authStore: EoAuthStore
   ) {}
 
   open() {
