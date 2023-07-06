@@ -16,18 +16,20 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { PushModule } from '@rx-angular/template/push';
+import { LetModule } from '@rx-angular/template/let';
+import { TranslocoModule } from '@ngneat/transloco';
+
 import {
   DhMarketParticipantGridAreaOverviewDataAccessApiStore,
   DhMarketParticipantGridAreaDataAccessApiStore,
   GridAreaChanges,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { LetModule } from '@rx-angular/template/let';
-import { TranslocoModule } from '@ngneat/transloco';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+
 import { DhMarketParticipantGridAreaOverviewComponent } from './overview/dh-market-participant-gridarea-overview.component';
-import { PushModule } from '@rx-angular/template/push';
 
 @Component({
   selector: 'dh-grid-areas-shell',
