@@ -95,9 +95,7 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
       </watt-drawer-content>
     </watt-drawer>
 
-    <eo-transfers-edit-modal
-      [transfer]="transfer"
-    ></eo-transfers-edit-modal>
+    <eo-transfers-edit-modal [transfer]="transfer"></eo-transfers-edit-modal>
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
   `,
 })
