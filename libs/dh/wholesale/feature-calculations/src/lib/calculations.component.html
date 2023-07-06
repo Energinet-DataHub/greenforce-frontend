@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <dh-calculations-create #modal />
+<dh-calculations-details #details (closed)="onDetailsClosed()" />
 <div class="wrapper" *transloco="let t; read: 'wholesale.calculations'">
-  <dh-calculations-details #details (closed)="onDetailsClosed()" />
   <watt-card>
     <watt-card-title>
       <h3 class="watt-on-light--high-emphasis">{{ t("headline") }}</h3>

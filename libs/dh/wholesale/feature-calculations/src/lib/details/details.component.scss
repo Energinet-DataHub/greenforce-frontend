@@ -28,6 +28,11 @@ watt-description-list {
   margin-left: var(--watt-space-ml);
 }
 
+watt-drawer-content {
+  display: grid;
+  grid-template-rows: auto minmax(24rem, 1fr);
+}
+
 dh-calculations-grid-areas {
   margin: 0 var(--watt-space-ml);
 }
