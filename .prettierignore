@@ -35,3 +35,6 @@ README.md
 
 # Ignore .mdx files due to issues formatting mdx vers. 2 comments
 **/*.mdx
+
+# Ignore Angular cache files
+.angular
