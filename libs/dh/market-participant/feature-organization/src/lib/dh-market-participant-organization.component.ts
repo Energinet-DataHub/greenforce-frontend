@@ -37,7 +37,6 @@ import { DhMarketParticipantOrganizationOverviewComponent } from './overview/dh-
 import { PushModule } from '@rx-angular/template/push';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { DhMarketParticipantMarketRolesOverviewComponent } from './market-roles-overview/dh-market-participant-market-roles-overview.component';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -56,7 +55,6 @@ import { DhMarketParticipantMarketRolesOverviewComponent } from './market-roles-
     WattTabsComponent,
     WattValidationMessageComponent,
     DhMarketParticipantOrganizationOverviewComponent,
-    DhMarketParticipantMarketRolesOverviewComponent,
     PushModule,
     DhPermissionRequiredDirective,
   ],

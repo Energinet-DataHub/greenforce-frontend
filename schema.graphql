@@ -34,7 +34,14 @@ type Address {
   zipCode: String
 }
 
-type Batch {
+enum BatchState {
+  COMPLETED
+  EXECUTING
+  FAILED
+  PENDING
+}
+
+type Calculation {
   createdByUserName: String!
 
   """The execution state."""
@@ -47,7 +54,7 @@ type Batch {
   executionTimeStart: DateTimeOffset
   gridAreas: [GridArea!]!
 
-  """The id of the batch."""
+  """The id of the calculation."""
   id: ID!
   period: DateRange
 
@@ -56,21 +63,14 @@ type Batch {
   statusType: StatusType!
 }
 
-enum BatchState {
-  COMPLETED
-  EXECUTING
-  FAILED
-  PENDING
-}
-
-input CreateBatchInput {
-  """The grid areas to be included in the batch."""
+input CreateCalculationInput {
+  """The grid areas to be included in the calculation."""
   gridAreaCodes: [String!]!
 
-  """The period for the batch."""
+  """The period for the calculation."""
   period: DateRange!
 
-  """The process type for the batch."""
+  """The process type for the calculation."""
   processType: ProcessType!
 }
 
@@ -99,10 +99,10 @@ enum EicFunction {
 }
 
 type GraphQLMutation {
-  createBatch(
-    """Batch to create"""
-    input: CreateBatchInput!
-  ): Batch!
+  createCalculation(
+    """Calculation to create"""
+    input: CreateCalculationInput!
+  ): Calculation!
   updatePermission(
     """Permission to update"""
     input: UpdatePermissionInput!
@@ -111,11 +111,11 @@ type GraphQLMutation {
 
 type GraphQLQuery {
   actors(eicFunctions: [EicFunction!]): [Actor!]!
-  batch(
-    """The id of the organization"""
+  calculation(
+    """The id of the calculation"""
     id: ID
-  ): Batch
-  batches(executionStates: [BatchState!], executionTime: DateRange, first: Int, gridAreaCodes: [String], period: DateRange, processTypes: [ProcessType!]): [Batch!]!
+  ): Calculation
+  calculations(executionStates: [BatchState!], executionTime: DateRange, first: Int, gridAreaCodes: [String], period: DateRange, processTypes: [ProcessType!]): [Calculation!]!
   gridAreas: [GridArea!]!
   organization(
     """The id of the organization"""

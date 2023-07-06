@@ -76,7 +76,7 @@ let { issue }: { issue: string } = answers;
 const { type } = answers;
 
 const issues = JSON.parse(
-  await execAsync(`gh issue list --repo ${selectedRepo} --json title,number`)
+  await execAsync(`gh issue list --repo ${selectedRepo} --limit 1000 --json title,number`)
 ) as issue[];
 
 if (issue === '') {
@@ -99,13 +99,17 @@ const issueTitle = issues
   .replace(/[\W_]+/g, '-')
   .substring(0, 63);
 
-const createResponse = await execAsync(
-  `gh issue develop ${issue} --name ${type}/${issueTitle} --issue-repo ${selectedRepo} --checkout`
-);
+if (issueTitle) {
+  const createResponse = await execAsync(
+    `gh issue develop ${issue} --name ${type}/${issueTitle} --issue-repo ${selectedRepo} --checkout`
+  );
 
-console.log(
-  `Created, and checkout ${createResponse.replace(
-    'github.com/Energinet-DataHub/greenforce-frontend/tree/',
-    ''
-  )}`
-);
+  console.log(
+    `Created, and checkout ${createResponse.replace(
+      'github.com/Energinet-DataHub/greenforce-frontend/tree/',
+      ''
+    )}`
+  );
+} else {
+  console.log('No issue found');
+}
