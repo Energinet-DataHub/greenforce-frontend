@@ -56,16 +56,18 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
     EoTransfersEditModalComponent,
   ],
   standalone: true,
-  styles: [`
-    .sub-header {
-      font-size: 14px;
-      margin-top: var(--watt-space-m);
-    }
+  styles: [
+    `
+      .sub-header {
+        font-size: 14px;
+        margin-top: var(--watt-space-m);
+      }
 
-    watt-drawer-actions {
-      align-self: flex-start;
-    }
-  `],
+      watt-drawer-actions {
+        align-self: flex-start;
+      }
+    `,
+  ],
   template: `
     <watt-drawer #drawer (closed)="onClose()">
       <watt-drawer-topbar>
