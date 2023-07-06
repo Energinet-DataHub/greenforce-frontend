@@ -18,7 +18,7 @@ import { Route } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
-  WHOLESALE_SEARCH_BATCH_PATH,
+  WHOLESALE_CALCULATIONS_PATH,
   WHOLESALE_SETTLEMENT_REPORTS_PATH,
 } from '@energinet-datahub/dh/wholesale/routing';
 
@@ -26,14 +26,11 @@ const settlementsGuard = 'settlements:manage';
 
 export const dhWholesaleShellRoutes: Route[] = [
   {
-    path: WHOLESALE_SEARCH_BATCH_PATH,
+    path: WHOLESALE_CALCULATIONS_PATH,
     canActivate: [PermissionGuard([settlementsGuard])],
-    loadComponent: () =>
-      import('@energinet-datahub/dh/wholesale/feature-search').then(
-        (m) => m.DhWholesaleSearchComponent
-      ),
+    loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-calculations'),
     data: {
-      titleTranslationKey: 'wholesale.searchBatch.topBarTitle',
+      titleTranslationKey: 'wholesale.calculations.topBarTitle',
     },
   },
   {

@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 import { MsalGuard } from '@azure/msal-angular';
+import { Routes } from '@angular/router';
 
 import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participant/routing';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 import { dhChargesPath } from '@energinet-datahub/dh/charges/routing';
-import { DhCoreShellComponent } from './dh-core-shell.component';
 import { WHOLESALE_BASE_PATH } from '@energinet-datahub/dh/wholesale/routing';
 import { dhAdminPath } from '@energinet-datahub/dh/admin/routing';
-import { Routes } from '@angular/router';
+
+import { DhCoreShellComponent } from './dh-core-shell.component';
 
 export const dhCoreShellRoutes: Routes = [
   {

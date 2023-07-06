@@ -1,0 +1,19 @@
+query GetCalculation($id: ID!) {
+  calculation(id: $id) {
+    id
+    executionState
+    executionTimeEnd
+    executionTimeStart
+    period
+    statusType
+    processType
+    createdByUserName
+    gridAreas {
+      code
+      name
+      id
+      priceAreaCode
+      validFrom
+    }
+  }
+}

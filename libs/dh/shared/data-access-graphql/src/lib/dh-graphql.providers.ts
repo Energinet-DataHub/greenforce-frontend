@@ -37,9 +37,9 @@ export const graphQLProviders = makeEnvironmentProviders([
           typePolicies: {
             Query: {
               fields: {
-                batch(_, { args, toReference }) {
+                calculation(_, { args, toReference }) {
                   return toReference({
-                    __typename: 'Batch',
+                    __typename: 'Calculation',
                     id: args?.['id'],
                   });
                 },

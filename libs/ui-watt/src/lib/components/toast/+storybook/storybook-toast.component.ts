@@ -71,7 +71,7 @@ export class StorybookToastComponent implements AfterViewInit {
         message:
           type !== 'danger'
             ? 'Text Message'
-            : 'Error #456: There was a problem processing Batch ID 232-2335 and the task was stopped.',
+            : 'Error #456: There was a problem processing Calculation ID 232-2335 and the task was stopped.',
         action: () => alert('Some custom action!'),
         actionLabel: 'action',
       };
