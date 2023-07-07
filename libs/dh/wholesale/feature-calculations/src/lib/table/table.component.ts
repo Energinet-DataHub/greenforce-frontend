@@ -48,6 +48,8 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
 })
 export class DhCalculationsTableComponent {
   @Input() selected?: Calculation;
+  @Input() loading = false;
+  @Input() error = false;
 
   @Input() set data(calculations: Calculation[]) {
     this._data.data = calculations;

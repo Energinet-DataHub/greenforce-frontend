@@ -17,12 +17,22 @@
 
 :host {
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-rows: minmax(45px, auto) minmax(0, 1fr) auto;
   height: 100%;
 }
 
+.message {
+  display: flex;
+  overflow: auto;
+  height: 100%;
+
+  & > * {
+    margin: auto;
+  }
+}
+
 watt-empty-state {
-  margin-top: var(--watt-space-xl);
+  padding: var(--watt-space-s);
 }
 
 watt-paginator {
