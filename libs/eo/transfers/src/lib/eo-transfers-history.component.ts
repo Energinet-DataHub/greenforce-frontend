@@ -79,7 +79,9 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
   ],
   standalone: true,
   template: `
-    <h3>Changes <watt-badge type="neutral">{{ dataSource.data.length }}</watt-badge></h3>
+    <h3>
+      Changes <watt-badge type="neutral">{{ dataSource.data.length }}</watt-badge>
+    </h3>
 
     <watt-table
       #table
