@@ -38,7 +38,6 @@ jobs:
       tests_dll_file_path: \apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net7.0\Energinet.DataHub.WebApi.Tests.dll
       download_attempt_limit: 12
       environment: AzureAuth
-    secrets:
       azure_tenant_id: ${{ vars.azure_tenant_id }}
       azure_subscription_id: ${{ vars.azure_subscription_id }}
       azure_spn_id: ${{ vars.azure_spn_id_oidc }}
