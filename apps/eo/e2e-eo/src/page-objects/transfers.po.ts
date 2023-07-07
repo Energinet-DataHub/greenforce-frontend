@@ -22,10 +22,10 @@ export class TransfersPo {
   private closeNewAgreementButton = '[data-testid="close-new-agreement-button"]';
   private createNewAgreementButton = '[data-testid="create-new-agreement-button"]';
   private newAgreementModal = '.watt-modal-panel';
-  private newAgreementDateRangeEndInput = '.mat-end-date';
-  private newAgreementDateRangeStartInput = '.mat-start-date';
+  private newAgreementHasEndDate = 'watt-radio:nth-of-type(2) input';
+  private newAgreementDateRangeStartInput = '[data-testid="new-agreement-start-date-input"]';
+  private newAgreementDateRangeEndInput = '[data-testid="new-agreement-end-date-input"]';
   private newAgreementReceiverInput = '[data-testid="new-agreement-receiver-input"]';
-  private downloadButton = '[data-testid="download-button"]';
   private paginator = '[data-testid="table-paginator"]';
   private testReceiverId = '11111111';
   private testStartDate = '12052023';
@@ -40,7 +40,6 @@ export class TransfersPo {
   newAgreementButtonIsVisible = () => cy.get(this.newAgreementButton).should('be.visible');
   newAgreementModalIsVisible = () => cy.get(this.newAgreementModal).should('be.visible');
   newAgreementModalIsNotOnScreen = () => cy.get(this.newAgreementModal).should('not.exist');
-  downloadButtonIsVisible = () => cy.get(this.downloadButton).should('be.visible');
   newlyCreatedAgreementIsVisible = () =>
     cy.get(this.transfersTable).should('contain', this.testReceiverId);
 
@@ -52,6 +51,7 @@ export class TransfersPo {
   enterDetailsForNewAgreement() {
     cy.get(this.newAgreementReceiverInput).type(this.testReceiverId);
     cy.get(this.newAgreementDateRangeStartInput).type(this.testStartDate);
+    cy.get(this.newAgreementHasEndDate).click();
     cy.get(this.newAgreementDateRangeEndInput).type(this.testEndDate);
   }
 
