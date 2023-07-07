@@ -15,13 +15,16 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { PushModule } from '@rx-angular/template/push';
+
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+
+import { EoTransfersStore } from './eo-transfers.store';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,13 +32,28 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
   imports: [
     WATT_TABLE,
     WattPaginatorComponent,
-    NgIf
+    NgIf,
+    WattEmptyStateComponent,
+    PushModule,
+    WattButtonComponent,
+    WattSpinnerComponent,
   ],
-  styles: [`
-    h3 {
-     margin-bottom: var(--watt-space-m);
-    }
-  `],
+  styles: [
+    `
+      h3,
+      watt-empty-state {
+        margin-bottom: var(--watt-space-m);
+      }
+
+      .spinner-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: var(--watt-space-xl);
+      }
+    `,
+  ],
   standalone: true,
   template: `
     <h3>Changes: {{ dataSource.data.length }}</h3>
@@ -51,15 +69,24 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
       data-testid="transfers-table"
     >
       <!-- Period - Custom column -->
-      <ng-container *wattTableCell="table.columns['time']; let element">
-        time
-      </ng-container>
+      <ng-container *wattTableCell="table.columns['time']; let element"> time </ng-container>
 
       <!-- Status - Custom column -->
-      <ng-container *wattTableCell="table.columns['change']; let element">
-        change
-      </ng-container>
+      <ng-container *wattTableCell="table.columns['change']; let element"> change </ng-container>
     </watt-table>
+
+    <div class="spinner-container" *ngIf="isLoading$ | push">
+      <watt-spinner></watt-spinner>
+    </div>
+
+    <watt-empty-state
+      *ngIf="hasError$ | push"
+      icon="power"
+      title="An unexpected error occured"
+      message="Try again or contact your system administrator if you keep getting this error."
+    >
+      <watt-button (click)="getHistory()">Try again</watt-button>
+    </watt-empty-state>
 
     <watt-paginator
       data-testid="table-paginator"
@@ -71,13 +98,25 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
   `,
 })
 export class EoTransfersHistoryComponent implements OnInit {
-  dataSource = new WattTableDataSource<{time: string; change: string;}>();
+  @Input() transferAgreementId?: string;
+
+  dataSource = new WattTableDataSource<{ time: string; change: string }>();
   columns = {
     time: { accessor: 'time' },
     change: { accessor: 'change' },
-  } as WattTableColumnDef<{time: string; change: string;}>;
+  } as WattTableColumnDef<{ time: string; change: string }>;
+  store = inject(EoTransfersStore);
+
+  hasError$ = this.store.historyOfSelectedTransferError$;
+  isLoading$ = this.store.historyOfSelectedTransferLoading$;
 
   ngOnInit(): void {
-    console.log('history init');
+    this.getHistory();
+  }
+
+  getHistory(): void {
+    if (this.transferAgreementId) {
+      this.store.getHistory(this.transferAgreementId);
+    }
   }
 }

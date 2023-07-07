@@ -26,11 +26,28 @@ export interface EoTransfer {
 
 export interface EoListedTransfer extends EoTransfer {
   id: string;
-  senderId: string;
+  senderTin: string;
 }
 
 export interface EoListedTransferResponse {
   result: EoListedTransfer[];
+}
+
+export enum EoTransferAgreementsChangeAction {
+  Created = 'Created',
+  Updated = 'Updated',
+  Deleted = 'Deleted',
+}
+
+export interface EoTransferAgreementsHistory  {
+  transferAgreement: EoTransfer;
+  createdAt: number;
+  action: EoTransferAgreementsChangeAction,
+  actionName: string;
+}
+
+export interface EoTransferAgreementsHistoryResponse {
+  result: EoTransferAgreementsHistory[];
 }
 
 @Injectable({
@@ -58,5 +75,9 @@ export class EoTransfersService {
     return this.http.patch<EoListedTransfer>(`${this.#apiBase}/transfer-agreements/${transferId}`, {
       endDate,
     });
+  }
+
+  getHistory(transferAgreementId: string) {
+    return this.http.get<EoTransferAgreementsHistoryResponse>(`${this.#apiBase}/history/transfer-agreements/${transferAgreementId}`);
   }
 }
