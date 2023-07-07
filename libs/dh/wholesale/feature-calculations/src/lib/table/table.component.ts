@@ -64,7 +64,7 @@ export class DhCalculationsTableComponent {
 
   _data: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {
-    startedBy: { accessor: null },
+    startedBy: { accessor: 'createdByUserName' },
     periodFrom: { accessor: (calculation) => calculation.period?.start },
     periodTo: { accessor: (calculation) => calculation.period?.end },
     executionTime: { accessor: 'executionTimeStart' },
