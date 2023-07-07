@@ -18,7 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable, switchMap, throwError, withLatestFrom } from 'rxjs';
-import { add } from 'date-fns';
+import { fromUnixTime } from 'date-fns';
 
 import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
 
@@ -53,11 +53,9 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
     (state, updatedTransfer: EoListedTransfer): EoTransfersState => ({
       ...state,
       transfers: state.transfers.map((transfer) => {
-        return transfer.id === updatedTransfer.id
-          ? this.datesToMilliseconds(updatedTransfer)
-          : transfer;
+        return transfer.id === updatedTransfer.id ? updatedTransfer : transfer;
       }),
-      selectedTransfer: this.datesToMilliseconds(updatedTransfer),
+      selectedTransfer: updatedTransfer,
       patchingTransfer: false,
       patchingTransferError: null,
     })
@@ -68,7 +66,13 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
       tapResponse(
         (response) => {
           this.setTransfers(
-            response?.result?.map((transfer) => this.datesToMilliseconds(transfer))
+            response.result.map((transfer) => {
+              return {
+                ...transfer,
+                startDate: fromUnixTime(transfer.startDate).getTime(),
+                endDate: transfer.endDate ? fromUnixTime(transfer.endDate).getTime() : null,
+              };
+            })
           );
         },
         (error: HttpErrorResponse) => {
@@ -79,7 +83,9 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   });
 
   readonly patchSelectedTransfer = this.effect(
-    (options$: Observable<{ endDate: string; onSuccess: () => void; onError: () => void }>) => {
+    (
+      options$: Observable<{ endDate: number | null; onSuccess: () => void; onError?: () => void }>
+    ) => {
       return options$.pipe(
         withLatestFrom(this.selectedTransfer$),
         switchMap(([options, selectedTransfer]) => {
@@ -89,21 +95,25 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
 
           this.patchState({ patchingTransfer: true });
 
-          const nextDay = add(new Date(options.endDate), { days: 1 });
-          return this.service
-            .updateAgreement(selectedTransfer.id, Math.round(nextDay.getTime() / 1000))
-            .pipe(
-              tapResponse(
-                (response) => {
-                  this.setTransfer(response);
-                  options.onSuccess();
-                },
-                (error: HttpErrorResponse) => {
-                  this.setPatchingTransferError(error);
+          let endDate = options.endDate;
+          if (endDate) {
+            endDate = Math.round(endDate / 1000);
+          }
+
+          return this.service.updateAgreement(selectedTransfer.id, endDate).pipe(
+            tapResponse(
+              (response) => {
+                this.setTransfer(response);
+                options.onSuccess();
+              },
+              (error: HttpErrorResponse) => {
+                this.setPatchingTransferError(error);
+                if (options.onError) {
                   options.onError();
                 }
-              )
-            );
+              }
+            )
+          );
         })
       );
     }
@@ -121,7 +131,13 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   private readonly addSingleTransfer = this.updater(
     (state, transfer: EoListedTransfer): EoTransfersState => ({
       ...state,
-      transfers: [transfer].concat(state.transfers),
+      transfers: [
+        {
+          ...transfer,
+          startDate: fromUnixTime(transfer.startDate).getTime(),
+          endDate: transfer.endDate ? fromUnixTime(transfer.endDate).getTime() : null,
+        },
+      ].concat(state.transfers),
     })
   );
 
@@ -152,10 +168,6 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   }
 
   addTransfer(transfer: EoListedTransfer) {
-    this.addSingleTransfer(this.datesToMilliseconds(transfer));
-  }
-
-  private datesToMilliseconds(transfer: EoListedTransfer): EoListedTransfer {
-    return { ...transfer, startDate: transfer.startDate * 1000, endDate: transfer.endDate * 1000 };
+    this.addSingleTransfer(transfer);
   }
 }
