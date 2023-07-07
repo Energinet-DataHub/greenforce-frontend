@@ -99,7 +99,11 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   });
 
   readonly getHistory = this.effect((transferAgreementId$: Observable<string>) => {
-    this.patchState({ historyOfSelectedTransferLoading: true, historyOfSelectedTransfer: [], historyOfSelectedTransferError: null });
+    this.patchState({
+      historyOfSelectedTransferLoading: true,
+      historyOfSelectedTransfer: [],
+      historyOfSelectedTransferError: null,
+    });
     return transferAgreementId$.pipe(
       switchMap((id) =>
         this.service.getHistory(id).pipe(
