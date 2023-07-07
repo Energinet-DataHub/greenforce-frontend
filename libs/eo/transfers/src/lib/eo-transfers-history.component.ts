@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { LowerCasePipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { PushModule } from '@rx-angular/template/push';
 
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -143,7 +143,6 @@ export class EoTransfersHistoryComponent implements OnInit {
   } as WattTableColumnDef<EoTransferAgreementsHistory>;
 
   private store = inject(EoTransfersStore);
-  private cd = inject(ChangeDetectorRef);
   hasError$ = this.store.historyOfSelectedTransferError$;
   isLoading$ = this.store.historyOfSelectedTransferLoading$;
 
@@ -159,7 +158,6 @@ export class EoTransfersHistoryComponent implements OnInit {
 
     this.store.historyOfSelectedTransfer$.pipe(takeUntil(this.destroy$)).subscribe((history) => {
       this.dataSource.data = history;
-      this.cd.detectChanges();
     });
   }
 

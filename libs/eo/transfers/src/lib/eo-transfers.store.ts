@@ -17,7 +17,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, switchMap, throwError, withLatestFrom } from 'rxjs';
+import { Observable, switchMap, tap, throwError, withLatestFrom } from 'rxjs';
 import { fromUnixTime } from 'date-fns';
 
 import {
@@ -99,8 +99,14 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   });
 
   readonly getHistory = this.effect((transferAgreementId$: Observable<string>) => {
-    this.patchState({ historyOfSelectedTransferLoading: true, historyOfSelectedTransfer: [], historyOfSelectedTransferError: null });
     return transferAgreementId$.pipe(
+      tap(() => {
+        this.patchState({
+          historyOfSelectedTransferLoading: true,
+          historyOfSelectedTransfer: [],
+          historyOfSelectedTransferError: null,
+        });
+      }),
       switchMap((id) =>
         this.service.getHistory(id).pipe(
           tapResponse(
