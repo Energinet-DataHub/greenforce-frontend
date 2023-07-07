@@ -69,8 +69,21 @@
   }
 }
 
+.watt-sidenav-content {
+  display: grid;
+  grid-template-rows: auto minmax(30rem, 1fr);
+}
+
+.watt-main-content {
+  position: relative;
+  height: 100%;
+}
+
 .watt-toolbar {
+  position: sticky;
+  top: 0;
   background-color: var(--watt-color-neutral-white);
   border-bottom: 1px solid var(--watt-color-neutral-grey-300);
   height: var(--watt-space-xl);
+  z-index: 1;
 }

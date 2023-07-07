@@ -15,6 +15,12 @@
  * limitations under the License.
  */
 
+:host {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  height: 100%;
+}
+
 watt-empty-state {
   margin-top: var(--watt-space-xl);
 }
