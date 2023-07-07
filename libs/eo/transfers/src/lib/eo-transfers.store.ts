@@ -206,8 +206,10 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
           createdAt: fromUnixTime(history.createdAt).getTime(),
           transferAgreement: {
             ...history.transferAgreement,
-            endDate: history.transferAgreement.endDate ? fromUnixTime(history.transferAgreement.endDate).getTime() : null,
-          }
+            endDate: history.transferAgreement.endDate
+              ? fromUnixTime(history.transferAgreement.endDate).getTime()
+              : null,
+          },
         };
       }),
       historyOfSelectedTransferError: null,
