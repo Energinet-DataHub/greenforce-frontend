@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { LowerCasePipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { PushModule } from '@rx-angular/template/push';
 
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -85,8 +85,8 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
       #table
       [columns]="columns"
       [dataSource]="dataSource"
-      sortBy="recipient"
-      sortDirection="asc"
+      sortBy="createdAt"
+      sortDirection="desc"
       [sortClear]="false"
       class="watt-space-stack-s"
       data-testid="transfers-table"
@@ -108,12 +108,19 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
     </div>
 
     <watt-empty-state
+      *ngIf="dataSource.data.length === 0 && !(hasError$ | push) && !(isLoading$ | push)"
+      icon="power"
+      title="No history was found"
+    >
+    </watt-empty-state>
+
+    <watt-empty-state
       *ngIf="hasError$ | push"
       icon="power"
       title="An unexpected error occured"
       message="Try again or contact your system administrator if you keep getting this error."
     >
-      <watt-button (click)="getHistory()">Try again</watt-button>
+      <watt-button (click)="getHistory(transferAgreementId)">Try again</watt-button>
     </watt-empty-state>
 
     <watt-paginator
@@ -126,31 +133,37 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
   `,
 })
 export class EoTransfersHistoryComponent implements OnInit {
-  @Input() transferAgreementId?: string;
-
-  store = inject(EoTransfersStore);
-
+  transferAgreementId?: string;
   dataSource = new WattTableDataSource<EoTransferAgreementsHistory>();
   columns = {
     createdAt: { accessor: 'createdAt', header: 'Time' },
     action: { accessor: 'action', header: 'Change' },
   } as WattTableColumnDef<EoTransferAgreementsHistory>;
 
+  private store = inject(EoTransfersStore);
+  private cd = inject(ChangeDetectorRef);
   hasError$ = this.store.historyOfSelectedTransferError$;
   isLoading$ = this.store.historyOfSelectedTransferLoading$;
 
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.getHistory();
+    this.store.selectedTransfer$.pipe(takeUntil(this.destroy$)).subscribe((transfer) => {
+      if (transfer) {
+        this.transferAgreementId = transfer.id;
+        this.getHistory(this.transferAgreementId);
+      }
+    });
+
     this.store.historyOfSelectedTransfer$.pipe(takeUntil(this.destroy$)).subscribe((history) => {
       this.dataSource.data = history;
+      this.cd.detectChanges();
     });
   }
 
-  getHistory(): void {
-    if (this.transferAgreementId) {
-      this.store.getHistory(this.transferAgreementId);
+  getHistory(transferAgreementId?: string): void {
+    if (transferAgreementId) {
+      this.store.getHistory(transferAgreementId);
     }
   }
 }
