@@ -39,10 +39,10 @@ export enum EoTransferAgreementsChangeAction {
   Deleted = 'Deleted',
 }
 
-export interface EoTransferAgreementsHistory  {
+export interface EoTransferAgreementsHistory {
   transferAgreement: EoTransfer;
   createdAt: number;
-  action: EoTransferAgreementsChangeAction,
+  action: EoTransferAgreementsChangeAction;
   actionName: string;
 }
 
@@ -78,6 +78,8 @@ export class EoTransfersService {
   }
 
   getHistory(transferAgreementId: string) {
-    return this.http.get<EoTransferAgreementsHistoryResponse>(`${this.#apiBase}/history/transfer-agreements/${transferAgreementId}`);
+    return this.http.get<EoTransferAgreementsHistoryResponse>(
+      `${this.#apiBase}/history/transfer-agreements/${transferAgreementId}`
+    );
   }
 }

@@ -20,7 +20,11 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable, switchMap, throwError, withLatestFrom } from 'rxjs';
 import { add } from 'date-fns';
 
-import { EoListedTransfer, EoTransferAgreementsHistory, EoTransfersService } from './eo-transfers.service';
+import {
+  EoListedTransfer,
+  EoTransferAgreementsHistory,
+  EoTransfersService,
+} from './eo-transfers.service';
 
 interface EoTransfersState {
   hasLoaded: boolean;
@@ -47,8 +51,12 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   readonly patchingTransferError$ = this.select((state) => state.patchingTransferError);
 
   readonly historyOfSelectedTransfer$ = this.select((state) => state.historyOfSelectedTransfer);
-  readonly historyOfSelectedTransferError$ = this.select((state) => state.historyOfSelectedTransferError);
-  readonly historyOfSelectedTransferLoading$ = this.select((state) => state.historyOfSelectedTransferLoading);
+  readonly historyOfSelectedTransferError$ = this.select(
+    (state) => state.historyOfSelectedTransferError
+  );
+  readonly historyOfSelectedTransferLoading$ = this.select(
+    (state) => state.historyOfSelectedTransferLoading
+  );
 
   readonly setSelectedTransfer = this.updater(
     (state, selectedTransfer: EoListedTransfer | undefined): EoTransfersState => ({
@@ -89,16 +97,18 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   readonly getHistory = this.effect((transferAgreementId$: Observable<string>) => {
     this.patchState({ historyOfSelectedTransferLoading: true });
     return transferAgreementId$.pipe(
-      switchMap((id) => this.service.getHistory(id).pipe(
-        tapResponse(
-          (response) => {
-            this.setHistoryOfSelectedTransfer(response?.result ?? []);
-          },
-          (error: HttpErrorResponse) => {
-            this.setHistoryOfSelectedTransferError(error);
-          }
+      switchMap((id) =>
+        this.service.getHistory(id).pipe(
+          tapResponse(
+            (response) => {
+              this.setHistoryOfSelectedTransfer(response?.result ?? []);
+            },
+            (error: HttpErrorResponse) => {
+              this.setHistoryOfSelectedTransferError(error);
+            }
+          )
         )
-      )),
+      )
     );
   });
 
