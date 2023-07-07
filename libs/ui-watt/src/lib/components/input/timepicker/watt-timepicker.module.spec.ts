@@ -231,8 +231,8 @@ describe(WattTimepickerComponent, () => {
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
-      fireEvent.change(leftHandle, { target: { value: 15 } }); // 00:15
-      fireEvent.change(rightHandle, { target: { value: 1425 } }); // 23:45
+      fireEvent.input(leftHandle, { target: { value: 15 } }); // 00:15
+      fireEvent.input(rightHandle, { target: { value: 1425 } }); // 23:45
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
       const expectedTimeRange: WattDateRange = { start: '00:15', end: '23:45' };

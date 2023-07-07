@@ -54,7 +54,15 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy {
   @Input() max = 100;
 
   /** Step between each value. */
-  @Input() step = 1;
+  private _step = 1;
+  @Input() set step(value: number) {
+    this._step = value;
+    this._providedStep = value;
+  }
+  get step(): number {
+    // other logic
+    return this._step;
+  }
 
   /** The currently selected range value. */
   @Input() value: WattSliderValue = { min: this.min, max: this.max };
@@ -75,8 +83,8 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     const maxRangeElement = this.maxRange.nativeElement;
     const minRangeElement = this.minRange.nativeElement;
-    const maxChanged$ = fromEvent(maxRangeElement, 'change');
-    const minChanged$ = fromEvent(minRangeElement, 'change');
+    const maxChanged$ = fromEvent(maxRangeElement, 'input');
+    const minChanged$ = fromEvent(minRangeElement, 'input');
 
     this.updateRange(this.value.min, this.value.max);
 
