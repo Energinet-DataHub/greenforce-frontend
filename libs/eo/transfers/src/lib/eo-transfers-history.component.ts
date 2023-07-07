@@ -80,7 +80,8 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 
       <!-- Status - Custom column -->
       <ng-container *wattTableCell="table.columns['action']; let element">
-        <strong>{{ element.actorName }}</strong> has {{ element.action | lowercase }} the transfer agreement
+        <strong>{{ element.actorName }}</strong> has {{ element.action | lowercase }} the transfer
+        agreement
       </ng-container>
     </watt-table>
 

@@ -44,7 +44,7 @@ export enum EoTransferAgreementsChangeAction {
 export interface EoTransferAgreementsHistory {
   transferAgreement: EoTransfer;
   createdAt: number;
-  action: EoTransferAgreementsChangeAction,
+  action: EoTransferAgreementsChangeAction;
   actorName: string;
 }
 
