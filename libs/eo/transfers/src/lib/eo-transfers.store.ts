@@ -17,10 +17,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, switchMap, throwError, withLatestFrom } from 'rxjs';
+import { Observable, switchMap, tap, throwError, withLatestFrom } from 'rxjs';
 import { fromUnixTime } from 'date-fns';
 
-import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
+import {
+  EoListedTransfer,
+  EoTransferAgreementsHistory,
+  EoTransfersService,
+} from './eo-transfers.service';
 
 interface EoTransfersState {
   hasLoaded: boolean;
@@ -29,6 +33,9 @@ interface EoTransfersState {
   transfers: EoListedTransfer[];
   selectedTransfer?: EoListedTransfer;
   error: HttpErrorResponse | null;
+  historyOfSelectedTransfer: EoTransferAgreementsHistory[];
+  historyOfSelectedTransferError: HttpErrorResponse | null;
+  historyOfSelectedTransferLoading: boolean;
 }
 
 @Injectable({
@@ -39,8 +46,17 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   readonly transfers$ = this.select((state) => state.transfers);
   readonly selectedTransfer$ = this.select((state) => state.selectedTransfer);
   readonly error$ = this.select((state) => state.error);
+
   readonly patchingTransfer$ = this.select((state) => state.patchingTransfer);
   readonly patchingTransferError$ = this.select((state) => state.patchingTransferError);
+
+  readonly historyOfSelectedTransfer$ = this.select((state) => state.historyOfSelectedTransfer);
+  readonly historyOfSelectedTransferError$ = this.select(
+    (state) => state.historyOfSelectedTransferError
+  );
+  readonly historyOfSelectedTransferLoading$ = this.select(
+    (state) => state.historyOfSelectedTransferLoading
+  );
 
   readonly setSelectedTransfer = this.updater(
     (state, selectedTransfer: EoListedTransfer | undefined): EoTransfersState => ({
@@ -78,6 +94,30 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
         (error: HttpErrorResponse) => {
           this.setError(error);
         }
+      )
+    );
+  });
+
+  readonly getHistory = this.effect((transferAgreementId$: Observable<string>) => {
+    return transferAgreementId$.pipe(
+      tap(() => {
+        this.patchState({
+          historyOfSelectedTransferLoading: true,
+          historyOfSelectedTransfer: [],
+          historyOfSelectedTransferError: null,
+        });
+      }),
+      switchMap((id) =>
+        this.service.getHistory(id).pipe(
+          tapResponse(
+            (response) => {
+              this.setHistoryOfSelectedTransfer(response?.result ?? []);
+            },
+            (error: HttpErrorResponse) => {
+              this.setHistoryOfSelectedTransferError(error);
+            }
+          )
+        )
       )
     );
   });
@@ -157,6 +197,35 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
     })
   );
 
+  private readonly setHistoryOfSelectedTransfer = this.updater(
+    (state, historyOfSelectedTransfer: EoTransferAgreementsHistory[]): EoTransfersState => ({
+      ...state,
+      historyOfSelectedTransfer: historyOfSelectedTransfer.map((history) => {
+        return {
+          ...history,
+          createdAt: fromUnixTime(history.createdAt).getTime(),
+          transferAgreement: {
+            ...history.transferAgreement,
+            endDate: history.transferAgreement.endDate
+              ? fromUnixTime(history.transferAgreement.endDate).getTime()
+              : null,
+          },
+        };
+      }),
+      historyOfSelectedTransferError: null,
+      historyOfSelectedTransferLoading: false,
+    })
+  );
+
+  private readonly setHistoryOfSelectedTransferError = this.updater(
+    (state, historyOfSelectedTransferError: HttpErrorResponse | null): EoTransfersState => ({
+      ...state,
+      historyOfSelectedTransfer: [],
+      historyOfSelectedTransferError,
+      historyOfSelectedTransferLoading: false,
+    })
+  );
+
   constructor(private service: EoTransfersService) {
     super({
       hasLoaded: false,
@@ -164,6 +233,9 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
       error: null,
       patchingTransfer: false,
       patchingTransferError: null,
+      historyOfSelectedTransfer: [],
+      historyOfSelectedTransferError: null,
+      historyOfSelectedTransferLoading: false,
     });
   }
 
