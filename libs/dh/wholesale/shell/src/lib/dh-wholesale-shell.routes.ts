@@ -18,9 +18,7 @@ import { Route } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
-  WHOLESALE_START_PROCESS_PATH,
-  WHOLESALE_SEARCH_BATCH_PATH,
-  WHOLESALE_CALCULATION_STEPS_PATH,
+  WHOLESALE_CALCULATIONS_PATH,
   WHOLESALE_SETTLEMENT_REPORTS_PATH,
 } from '@energinet-datahub/dh/wholesale/routing';
 
@@ -28,50 +26,22 @@ const settlementsGuard = 'settlements:manage';
 
 export const dhWholesaleShellRoutes: Route[] = [
   {
-    path: WHOLESALE_START_PROCESS_PATH,
+    path: WHOLESALE_CALCULATIONS_PATH,
     canActivate: [PermissionGuard([settlementsGuard])],
-    loadComponent: () =>
-      import('@energinet-datahub/dh/wholesale/feature-start').then(
-        (m) => m.DhWholesaleStartComponent
-      ),
+    loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-calculations'),
     data: {
-      titleTranslationKey: 'wholesale.startBatch.topBarTitle',
-    },
-  },
-  {
-    path: WHOLESALE_SEARCH_BATCH_PATH,
-    canActivate: [PermissionGuard([settlementsGuard])],
-    loadComponent: () =>
-      import('@energinet-datahub/dh/wholesale/feature-search').then(
-        (m) => m.DhWholesaleSearchComponent
-      ),
-    data: {
-      titleTranslationKey: 'wholesale.searchBatch.topBarTitle',
+      titleTranslationKey: 'wholesale.calculations.topBarTitle',
     },
   },
   {
     path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
     canActivate: [PermissionGuard([settlementsGuard])],
-    loadComponent: () => {
-      return import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
+    loadComponent: () =>
+      import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
         (m) => m.DhWholesaleSettlementsReportsTabComponent
-      );
-    },
+      ),
     data: {
       titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
     },
-  },
-  {
-    path: `${WHOLESALE_CALCULATION_STEPS_PATH}/:batchId/:gridAreaCode`,
-    data: { titleTranslationKey: 'wholesale.calculationSteps.topBarTitle' },
-    canActivate: [PermissionGuard([settlementsGuard])],
-    loadComponent: () =>
-      import('@energinet-datahub/dh/wholesale/feature-calculation-steps').then(
-        (m) => m.DhWholesaleCalculationStepsComponent
-      ),
-    loadChildren: () =>
-      import('@energinet-datahub/dh/wholesale/feature-calculation-steps').then(
-        (m) => m.DhWholesaleCalculationStepsRoutes
-      ),
   },
 ];

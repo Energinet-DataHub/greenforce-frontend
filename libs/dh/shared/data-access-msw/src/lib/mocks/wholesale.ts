@@ -15,18 +15,15 @@
  * limitations under the License.
  */
 import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { ActorFilter, ProcessStepActor } from '@energinet-datahub/dh/wholesale/domain';
+import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 import { rest } from 'msw';
 
 export function wholesaleMocks(apiBase: string) {
   return [
-    createBatch(),
-    getWholesaleSearchBatch(),
-    getWholesaleSearchBatches(),
-    downloadBasisData(apiBase),
+    createCalculation(),
+    getCalculation(),
+    getCalculations(),
     downloadSettlementReportData(apiBase),
-    getProcessStepResult(),
-    getProcessStepActors(),
     getSettlementReports(),
     getFilteredActors(),
     getGridAreas(),
@@ -35,11 +32,11 @@ export function wholesaleMocks(apiBase: string) {
   ];
 }
 
-function createBatch() {
-  return graphql.mockCreateBatchMutation((_req, res, ctx) => {
+function createCalculation() {
+  return graphql.mockCreateCalculationMutation((_req, res, ctx) => {
     return res(
       ctx.delay(500),
-      ctx.data({ createBatch: { id: '779195a4-2505-4290-97a6-f3eba2b7d179' } })
+      ctx.data({ createCalculation: { id: '779195a4-2505-4290-97a6-f3eba2b7d179' } })
     );
   });
 }
@@ -71,172 +68,151 @@ export const mockedGridAreas: graphql.GridArea[] = [
   },
 ];
 
-const mockedBatches: graphql.Batch[] = [
+const mockedCalculations: graphql.Calculation[] = [
   {
-    __typename: 'Batch',
+    __typename: 'Calculation',
     id: '8ff516a1-95b0-4f07-9b58-3fb94791c63b',
     period: { start: periodStart, end: periodEnd },
     executionTimeStart,
     executionTimeEnd: null,
     executionState: graphql.BatchState.Pending,
     statusType: graphql.StatusType.Warning,
-    isBasisDataDownloadAvailable: false,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.Aggregation,
     createdByUserName: fakeUserEmail,
   },
   {
-    __typename: 'Batch',
+    __typename: 'Calculation',
     id: '911d0c33-3232-49e1-a0ef-bcef313d1098',
     period: { start: periodStart, end: periodEnd },
     executionTimeStart,
     executionTimeEnd: null,
     executionState: graphql.BatchState.Executing,
     statusType: graphql.StatusType.Info,
-    isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: '',
   },
   {
-    __typename: 'Batch',
+    __typename: 'Calculation',
     id: '44447c27-6359-4f34-beed-7b51eccdda4e',
     period: { start: periodStart, end: periodEnd },
     executionTimeStart,
     executionTimeEnd,
     executionState: graphql.BatchState.Completed,
     statusType: graphql.StatusType.Success,
-    isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
   },
   {
-    __typename: 'Batch',
+    __typename: 'Calculation',
     id: '59e65aec-df77-4f6f-b6d2-aa0fd4b4bc86',
     period: { start: periodStart, end: periodEnd },
     executionTimeStart,
     executionTimeEnd,
     executionState: graphql.BatchState.Failed,
     statusType: graphql.StatusType.Danger,
-    isBasisDataDownloadAvailable: false,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
   },
   {
-    __typename: 'Batch',
+    __typename: 'Calculation',
     id: '78a9f690-6b8d-4708-92e9-dce64a31b1f7',
     period: { start: periodStart, end: periodEnd },
     executionTimeStart,
     executionTimeEnd: null,
     executionState: graphql.BatchState.Pending,
     statusType: graphql.StatusType.Warning,
-    isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
   },
   {
-    __typename: 'Batch',
+    __typename: 'Calculation',
     id: '8d631523-e6da-4883-ba6c-04bfd1c30d71',
     period: { start: periodStart, end: periodEnd },
     executionTimeStart,
     executionTimeEnd: null,
     executionState: graphql.BatchState.Executing,
     statusType: graphql.StatusType.Info,
-    isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
   },
   {
-    __typename: 'Batch',
+    __typename: 'Calculation',
     id: 'ac84205b-6b9c-4f5c-8c6c-2ab81cc870b8',
     period: { start: periodStart, end: periodEnd },
     executionTimeStart,
     executionTimeEnd,
     executionState: graphql.BatchState.Completed,
     statusType: graphql.StatusType.Success,
-    isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
   },
   {
-    __typename: 'Batch',
+    __typename: 'Calculation',
     id: '376e3cb8-16d7-4fb7-9cdf-1b55cc6af76f',
     period: { start: periodStart, end: periodEnd },
     executionTimeStart,
     executionTimeEnd,
     executionState: graphql.BatchState.Failed,
     statusType: graphql.StatusType.Danger,
-    isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
   },
   {
-    __typename: 'Batch',
+    __typename: 'Calculation',
     id: '3dad0a65-4094-44f8-80f1-7543622dcdf1',
     period: { start: periodStart, end: periodEnd },
     executionTimeStart,
     executionTimeEnd: null,
     executionState: graphql.BatchState.Pending,
     statusType: graphql.StatusType.Warning,
-    isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
   },
   {
-    __typename: 'Batch',
+    __typename: 'Calculation',
     id: 'd0071d78-208c-4d69-8dd8-5538ed93b4da',
     period: { start: periodStart, end: periodEnd },
     executionTimeStart,
     executionTimeEnd: null,
     executionState: graphql.BatchState.Executing,
     statusType: graphql.StatusType.Info,
-    isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
   },
   {
-    __typename: 'Batch',
+    __typename: 'Calculation',
     id: '1d109536-c2c6-4e3f-b3ab-85e73083e876',
     period: { start: periodStart, end: periodEnd },
     executionTimeStart,
     executionTimeEnd,
     executionState: graphql.BatchState.Completed,
     statusType: graphql.StatusType.Success,
-    isBasisDataDownloadAvailable: true,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
   },
   {
-    __typename: 'Batch',
+    __typename: 'Calculation',
     id: '19e3d848-e82f-4752-a68f-9befc755864c',
     period: { start: periodStart, end: periodEnd },
     executionTimeStart,
     executionTimeEnd,
     executionState: graphql.BatchState.Failed,
     statusType: graphql.StatusType.Danger,
-    isBasisDataDownloadAvailable: false,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
   },
-];
-
-const mockedActors: ProcessStepActor[] = [
-  { __typename: 'Actor', number: '5790000000001' },
-  { __typename: 'Actor', number: '5790000000002' },
-  { __typename: 'Actor', number: '5790000000003' },
-  { __typename: 'Actor', number: '5790000000004' },
-  { __typename: 'Actor', number: '5790000000005' },
-  { __typename: 'Actor', number: '5790000000006' },
 ];
 
 const mockedSettlementReports: graphql.SettlementReport[] = [
@@ -332,30 +308,11 @@ function getActorsForSettlementReportQuery() {
   });
 }
 
-function getWholesaleSearchBatch() {
-  return graphql.mockGetBatchQuery((req, res, ctx) => {
-    const batchId = req.variables.id;
-    const batch = mockedBatches.find((b) => b.id === batchId);
-    return res(ctx.delay(300), ctx.data({ batch }));
-  });
-}
-
-function downloadBasisData(apiBase: string) {
-  return rest.get(`${apiBase}/v1/WholesaleBatch/ZippedBasisDataStream`, async (req, res, ctx) => {
-    return res(ctx.status(500));
-
-    /*
-      // Convert "base64" image to "ArrayBuffer".
-      const imageBuffer = await fetch('assets/logo-light.svg').then((res) =>
-        res.arrayBuffer()
-      );
-      return res(
-        ctx.set('Content-Length', imageBuffer.byteLength.toString()),
-        ctx.set('Content-Type', 'image/png'),
-        // Respond with the "ArrayBuffer".
-        ctx.body(imageBuffer)
-      );
-    */
+function getCalculation() {
+  return graphql.mockGetCalculationQuery((req, res, ctx) => {
+    const id = req.variables.id;
+    const calculation = mockedCalculations.find((c) => c.id === id);
+    return res(ctx.delay(300), ctx.data({ calculation }));
   });
 }
 
@@ -378,57 +335,11 @@ function downloadSettlementReportData(apiBase: string) {
   });
 }
 
-function getWholesaleSearchBatches() {
-  return graphql.mockGetBatchesQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data({ batches: mockedBatches }));
+function getCalculations() {
+  return graphql.mockGetCalculationsQuery((req, res, ctx) => {
+    return res(ctx.delay(300), ctx.data({ calculations: mockedCalculations }));
     //return res(ctx.status(404), ctx.delay(300));
     //return res(ctx.status(500), ctx.delay(300));
-  });
-}
-
-function getProcessStepResult() {
-  return graphql.mockGetProcessStepResultQuery((req, res, ctx) => {
-    return res(
-      ctx.delay(300),
-      ctx.data({
-        processStep: {
-          result: {
-            timeSeriesType: graphql.TimeSeriesType.Production,
-            sum: 102234.245654,
-            min: 0.0,
-            max: 114.415789,
-            timeSeriesPoints: [
-              {
-                time: periodStart,
-                quantity: parseFloat(`${_randomIntFromInterval(0, 15)}.518`),
-                quality: '',
-              },
-              {
-                time: periodEnd,
-                quantity: parseFloat(`${_randomIntFromInterval(0, 15)}.518`),
-                quality: '',
-              },
-              {
-                time: periodStart,
-                quantity: parseFloat(`${_randomIntFromInterval(0, 15)}.518`),
-                quality: '',
-              },
-              {
-                time: periodEnd,
-                quantity: parseFloat(`${_randomIntFromInterval(0, 15)}.518`),
-                quality: '',
-              },
-            ],
-          },
-        },
-      })
-    );
-  });
-}
-
-function getProcessStepActors() {
-  return graphql.mockGetProcessStepActorsQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data({ processStep: { actors: mockedActors } }));
   });
 }
 
@@ -448,12 +359,7 @@ function getLatestBalanceFixing() {
   return graphql.mockGetLatestBalanceFixingQuery((req, res, ctx) => {
     return res(
       ctx.delay(300),
-      ctx.data({ batches: [{ period: { start: periodStart, end: periodEnd } }] })
+      ctx.data({ calculations: [{ period: { start: periodStart, end: periodEnd } }] })
     );
   });
-}
-
-function _randomIntFromInterval(min: number, max: number) {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
 }

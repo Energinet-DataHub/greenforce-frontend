@@ -92,6 +92,17 @@ h2 {
   text-align: center;
 }
 
+h3 {
+  font-family: "Open Sans", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+  color: var(--typography-headline-color);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
 p {
   font-family: "Open Sans", sans-serif;
   font-style: normal;
@@ -111,6 +122,10 @@ p {
   width: 100%;
   max-width: 390px;
   margin: 0 auto;
+}
+
+#continue[tabindex="-1"] {
+  display: none;
 }
 
 form {
@@ -138,6 +153,11 @@ form {
   border: none;
 }
 
+.emailVerificationControl,
+ul {
+  margin-top: 10px;
+}
+
 .verificationInfoText > div,
 .error > div,
 .verificationSuccessText > div,
@@ -148,7 +168,6 @@ form {
   font-weight: normal;
   font-size: 14px;
   line-height: 20px;
-  padding: 0 0 10px 10px;
 }
 
 .error-border {
@@ -235,6 +254,10 @@ button#next {
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.buttons button {
+  margin-bottom: 0.5rem;
 }
 
 #api .template {

@@ -44,6 +44,7 @@
     "navigation": {
       "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
+      "marketParticipantActors": "Aktører",
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
       "chargePrices": {
@@ -53,8 +54,7 @@
       },
       "wholesale": {
         "menuGroupLabel": "Afregninger",
-        "startBatch": "Start batch",
-        "searchBatch": "Søg batch",
+        "calculations": "Beregninger",
         "overview": "Oversigt",
         "settlementReports": "Afregningsrapporter"
       },
@@ -488,7 +488,7 @@
       "received": "UD",
       "download": "Download",
       "show": "Vis",
-      "noResultsHelperText": "Prøv at ændring dine søge indstillinger",
+      "noResultsHelperText": "Prøv at ændre dine søgeindstillinger",
       "clearSearch": "Ryd",
       "periode": "periode",
       "time": "klokkeslæt",
@@ -500,6 +500,20 @@
     }
   },
   "marketParticipant": {
+    "actors": {
+      "topBarTitle": "Aktører",
+      "tabs": {
+        "actors": {
+          "tabLabel": "{{ marketParticipant.actors.topBarTitle }}"
+        },
+        "organizations": {
+          "tabLabel": "Organisationer"
+        },
+        "marketRoles": {
+          "tabLabel": "Markedsroller"
+        }
+      }
+    },
     "actor": {
       "create": {
         "editHeader": "Redigér aktør",
@@ -539,7 +553,7 @@
       }
     },
     "marketRolesOverview": {
-      "marketRoles": "markedsroller",
+      "marketRoles": "Markedsroller",
       "download": "Download",
       "columns": {
         "name": "Navn",
@@ -581,7 +595,6 @@
     "organization": {
       "topBarTitle": "Organisationer",
       "organizationsHeader": "Organisationer",
-      "marketRolesHeader": "Markedsroller",
       "columns": {
         "organization": "Organisation",
         "gln": "Aktør id",
@@ -740,82 +753,107 @@
     "BALANCE_FIXING": "Balancefiksering",
     "WHOLESALE_FIXING": "Engrosfiksering",
     "AGGREGATION": "Aggregering",
-    "startBatch": {
-      "topBarTitle": "Start batch",
-      "startLabel": "Start",
-      "dateRangeRequired": "Dato-periode påkrævet",
-      "gridAreaRequired": "Netområde påkrævet",
-      "invalidPeriod": "Ugyldig periode",
-      "dateRangeLabel": "Periode",
-      "processTypeDropDownLabel": "Procestype",
-      "executionTypeLabel": "Afviklingstype",
-      "gridAreaDropDownLabel": "Netområder",
-      "creatingBatch": "Starter batch...",
-      "creatingBatchSuccess": "Dit batch er startet.",
+    "calculations": {
+      "topBarTitle": "Beregninger",
+      "headline": "Resultater",
+      "emptyTitle": "Ingen beregninger fundet",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger",
+      "search": "Søg",
+      "new": "Ny beregning",
+      "create": {
+        "title": "Ny beregning",
+        "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
+        "emptyTitle": "{{shared.error.title}}",
+        "emptyMessage": "{{shared.error.message}}",
+        "executionType": "Afviklingstype",
+        "scheduling": "Kørsel",
+        "processType": {
+          "label": "Procestype",
+          "error": "Procestype påkrævet"
+        },
+        "summation": "Månedlige summer",
+        "period": {
+          "label": "Periode",
+          "required": "Dato-periode påkrævet",
+          "invalid": "Ugyldig periode"
+        },
+        "gridArea": {
+          "label": "Netområder",
+          "required": "Netområde påkrævet",
+          "hint": "{{shared.selectedValues}}"
+        },
+        "confirm": "Opret",
+        "cancel": "Fortryd",
+        "warning": {
+          "title": "Genkør balancefiksering?",
+          "message": {
+            "label": "Dette vil give aktørerne nye data",
+            "body": "Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger."
+          },
+          "body": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
+          "confirmation": "Er du sikker på, at du vil køre denne beregning?",
+          "hint": "Indtast JEG VIL GENKØRE BALANCEFIKSERING for at bekræfte",
+          "validation": "JEG VIL GENKØRE BALANCEFIKSERING",
+          "confirm": "Genkør",
+          "cancel": "Kør ikke"
+        },
+        "toast": {
+          "loading": "Starter beregning...",
+          "success": "Din beregning er startet.",
+          "error": "{{shared.error.title}}"
+        }
+      },
       "processTypes": {
         "BALANCE_FIXING": "Balancefiksering",
         "AGGREGATION": "Aggregering"
       },
-      "executionTypes": {
-        "actual": "Faktisk",
-        "simulation": "Simulering"
+      "executionStates": {
+        "PENDING": "Afventer",
+        "EXECUTING": "Kører",
+        "COMPLETED": "Afsluttet",
+        "FAILED": "Fejl"
       },
-      "processTypeError": "Procestype påkrævet",
-      "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
-      "modal": {
-        "title": "Genkør balancefiksering?",
-        "warningLabel": "Dette vil give aktørerne nye data",
-        "warningMessage": "Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
-        "body": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
-        "confirmation": "Er du sikker på, at du vil køre dette batch?",
-        "hint": "Indtast JEG VIL GENKØRE BALANCEFIKSERING for at bekræfte",
-        "confirmButton": "Genkør",
-        "cancelButton": "Kør ikke",
-        "confirmText": "JEG VIL GENKØRE BALANCEFIKSERING"
-      }
-    },
-    "searchBatch": {
-      "topBarTitle": "Søg batch",
-      "headline": "Batch overblik",
-      "search": "Søg",
+      "executionTypes": {
+        "ACTUAL": "Faktisk",
+        "SIMULATION": "Simulering"
+      },
+      "scheduling": {
+        "NOW": "Kør nu",
+        "SCHEDULED": "Planlæg"
+      },
+      "summation": {
+        "YES": "Ja",
+        "NO": "Nej"
+      },
       "filters": {
+        "executionStates": "Status",
         "executionTime": "Eksekveringstid",
-        "executionTimeRequired": "Eksekveringstid påkrævet",
-        "startedBy": "Bestilt af",
-        "startedByPlaceholder": "Indtast email",
-        "searchButton": "Søg",
-        "processType": "Beregningstype",
         "gridAreas": "Netområder",
-        "executionStates": "Status"
+        "processType": "Beregningstype",
+        "reset": "{{shared.form.reset}}",
+        "period": "{{shared.form.filters.period}}"
       },
       "columns": {
         "startedBy": "Bestilt af",
-        "batchId": "Batch-nummer",
         "periodFrom": "Periode fra",
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
-        "status": "Status",
-        "basisData": "Basisdata",
-        "processType": "Procestype"
+        "processType": "Procestype",
+        "status": "Status"
       },
-      "download": "Download",
-      "downloadFailed": "Download af basisdata fejlede",
-      "PENDING": "Afventer",
-      "EXECUTING": "Kører",
-      "COMPLETED": "Afsluttet",
-      "FAILED": "Fejl",
-      "noBatchesFound": "Ingen batches fundet",
-      "noBatchesHelperText": "Prøv at ændre dine søgeindstillinger",
-      "paginator": {
-        "itemsPerPageLabel": "Batches pr. side",
-        "nextPageLabel": "Næste side",
-        "perviouspageLabel": "Forrige side",
-        "firstPageLabel": "Første side",
-        "lastPageLabel": "Sidste side",
-        "of": "af"
+      "details": {
+        "headline": "Beregning: {{id}}",
+        "period": "Beregningsperiode",
+        "executionTime": "Eksekveringstidspunkt",
+        "emptyTitle": "{{shared.error.title}}",
+        "emptyMessage": "{{shared.error.message}}"
       },
-      "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
-      "AGGREGATION": "{{wholesale.AGGREGATION}}"
+      "gridAreas": {
+        "header": "{{total}} Netområder",
+        "gridAreaCode": "ID",
+        "name": "navn",
+        "emptyTitle": "Ingen netområder fundet"
+      }
     },
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
@@ -864,58 +902,6 @@
         "processTypePlaceholder": "Vælg procestype",
         "gridAreasPlaceholder": "Vælg netområde(r)"
       }
-    },
-    "calculationSteps": {
-      "open": "Åbn",
-      "topBarTitle": "Se akkumulerede tidsserier",
-      "sidebarTitle": "Detaljer",
-      "breadcrumb": "({{gridAreaCode}}) {{gridAreaName}}",
-      "gridAreaCode": "Netområde ID",
-      "type": "Type",
-      "balanceFixing": "Balancefiksering"
-    },
-    "actors": {
-      "step-2-table-header": "{{wholesale.processStepResults.energySupplier}}",
-      "step-3-table-header": "Balanceansvarlig",
-      "amountOfResults": "{{length}} Resultater"
-    },
-    "processStepResults": {
-      "step": "Trin {{step}}",
-      "aggregatedProductionPerGridArea": "Produktion per netområde",
-      "aggregatedConsumptionPerEnergySupplier": "Kvartersafregnet forbrug per elleverandør",
-      "nonProfiledConsumptionPerBalanceResponsible": "Kvartersafregnet forbrug per balanceansvarlig",
-      "nonProfiledConsumptionPerGridArea": "Kvartersafregnet forbrug per netområde",
-      "gridArea": "Netområde",
-      "energySupplier": "El-leverandør",
-      "balanceResponsible": "{{wholesale.actors.step-3-table-header}}",
-      "meteringPointType": "Målepunktstype",
-      "messageId": "Besked Id",
-      "calculationPeriod": "Beregningsperiode",
-      "sum": "Sum",
-      "min": "Min",
-      "max": "Max",
-      "timeSeriesType": {
-        "PRODUCTION": "Produktion",
-        "NON_PROFILED_CONSUMPTION": "Timeforbrug"
-      }
-    },
-    "timeSeriesPoints": {
-      "header": "Værdier i perioden",
-      "time": "tid",
-      "quantity": "værdi"
-    },
-    "batchDetails": {
-      "headline": "Batch: {{batchId}}",
-      "calculationPeriod": "Beregningsperiode",
-      "executionTime": "Eksekveringstidspunkt",
-      "executionType": "Eksekveringstype",
-      "executionTypeActual": "Faktisk"
-    },
-    "gridAreas": {
-      "header": "{{total}} Netområder",
-      "gridAreaCode": "ID",
-      "name": "navn",
-      "noGridAreasFound": "Ingen netområder fundet"
     }
   },
   "admin": {

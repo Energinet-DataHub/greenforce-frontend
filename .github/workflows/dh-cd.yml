@@ -90,7 +90,7 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.pat_token }}
-          repository: ${{ secrets.environment_repository_path }}
+          repository: ${{ vars.environment_repository_path }}
           event-type: ui-deployment-request-domain
           # yamllint disable-line rule:quoted-strings
           client-payload: '{"domain_pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet_deploy": "${{ needs.changes.outputs.dh_dotnet }}", "frontend_deploy": "${{ needs.changes.outputs.dh_frontend }}"}'
@@ -111,6 +111,6 @@ jobs:
       contains(needs.*.result, 'failure')
     uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v11
     with:
-      team_name: TexasRangers
+      team_name: TeamFrontend
       subject: "Deployment dispatch failed: UI + BFF"
     secrets: inherit

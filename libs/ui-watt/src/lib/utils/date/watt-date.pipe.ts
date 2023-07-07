@@ -16,6 +16,7 @@
  */
 import { Pipe, PipeTransform } from '@angular/core';
 import { formatInTimeZone } from 'date-fns-tz';
+
 import { WattDateRange } from './watt-date-range';
 
 const formatStrings = {

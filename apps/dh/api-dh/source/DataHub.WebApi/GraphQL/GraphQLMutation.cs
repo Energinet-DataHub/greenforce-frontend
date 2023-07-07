@@ -36,14 +36,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
                         return await client.GetPermissionAsync(updatePermissionDto.Id);
                     });
 
-            Field<NonNullGraphType<BatchType>>("createBatch")
-                .Argument<NonNullGraphType<CreateBatchInputType>>("input", "Batch to create")
+            Field<NonNullGraphType<CalculationType>>("createCalculation")
+                .Argument<NonNullGraphType<CreateCalculationInputType>>("input", "Calculation to create")
                 .Resolve()
                 .WithScope()
                 .WithService<IWholesaleClient_V3>()
                 .ResolveAsync(async (context, client) =>
                     {
-                        var input = context.GetArgument<CreateBatchInput>("input");
+                        var input = context.GetArgument<CreateCalculationInput>("input");
 
                         if (!input.Period.HasEnd || !input.Period.HasStart)
                         {
