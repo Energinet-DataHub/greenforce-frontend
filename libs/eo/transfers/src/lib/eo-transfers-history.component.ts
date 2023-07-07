@@ -61,11 +61,12 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
         margin-left: var(--watt-space-s);
         border-radius: 50%;
         color: var(--watt-on-light-high-emphasis);
-        height: 25px;
-        width: 25px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 9999px;
+        min-width: 28px;
+        padding: var(--watt-space-xs) var(--watt-space-s);
       }
 
       .spinner-container {
