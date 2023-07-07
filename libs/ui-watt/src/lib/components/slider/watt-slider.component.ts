@@ -25,9 +25,12 @@ import {
   Output,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription, fromEvent } from 'rxjs';
+import { WattColorHelperService } from '../../foundations/color/color-helper.service';
+import { WattColor } from '../../foundations/color/colors';
 
 export interface WattSliderValue {
   min: number;
@@ -47,6 +50,7 @@ export interface WattSliderValue {
   imports: [CommonModule],
 })
 export class WattSliderComponent implements AfterViewInit, OnDestroy {
+  private _colorService = inject(WattColorHelperService);
   /** The lowest permitted value. */
   @Input() min = 0;
 
@@ -54,15 +58,7 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy {
   @Input() max = 100;
 
   /** Step between each value. */
-  private _step = 1;
-  @Input() set step(value: number) {
-    this._step = value;
-    this._providedStep = value;
-  }
-  get step(): number {
-    // other logic
-    return this._step;
-  }
+  @Input() step = 1;
 
   /** The currently selected range value. */
   @Input() value: WattSliderValue = { min: this.min, max: this.max };
@@ -73,7 +69,7 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy {
 
   private _maxChangeSubscription!: Subscription;
   private _minChangeSubscription!: Subscription;
-  private _providedStep = this.step;
+  private _savedStep = this.step;
   /**
    * Emits value whenever it changes.
    * @ignore
@@ -102,9 +98,10 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy {
       // If the step is too large, we need to adjust it to fit the range.
       const rest = this.max - maxValue;
       if (rest < this.step) {
+        this._savedStep = this.step;
         this.step = rest;
       } else {
-        this.step = this._providedStep;
+        this.step = this._savedStep;
       }
 
       this.onChange({ min: minValue, max: maxValue });
@@ -133,8 +130,8 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy {
     const fromPosition = minValue - this.min;
     const toPosition = maxValue - this.min;
 
-    const sliderColor = 'var(--watt-color-secondary-light)';
-    const rangeColor = 'var(--watt-color-primary)';
+    const sliderColor = this._colorService.getColor(WattColor.secondaryLight);
+    const rangeColor = this._colorService.getColor(WattColor.primary);
 
     this.maxRange.nativeElement.style.background = `linear-gradient(
       to right,
