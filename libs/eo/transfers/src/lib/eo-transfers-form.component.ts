@@ -166,7 +166,7 @@ interface EoTransfersForm {
         <watt-error *ngIf="form.controls.receiverTin.errors?.['receiverTinEqualsSenderTin']">
           The receiver cannot be your own TIN/CVR
         </watt-error>
-        <watt-error *ngIf="form.controls.receiverTin.errors?.['required']">
+        <watt-error *ngIf="form.controls.receiverTin.errors && !form.controls.receiverTin.errors?.['receiverTinEqualsSenderTin']">
           An 8-digit TIN/CVR number is required
         </watt-error>
       </watt-form-field>
@@ -370,7 +370,7 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
           {
             validators: [
               Validators.required,
-              Validators.maxLength(8),
+              Validators.pattern('^[0-9]{8}$'),
               compareValidator(this.senderTin || '', 'receiverTinEqualsSenderTin'),
             ],
           }
