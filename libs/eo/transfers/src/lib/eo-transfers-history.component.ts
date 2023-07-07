@@ -28,15 +28,17 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { EoTransferAgreementsHistory } from './eo-transfers.service';
 import { Subject, takeUntil } from 'rxjs';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers-history',
   imports: [
-    NgIf,
     LowerCasePipe,
+    NgIf,
     PushModule,
     WATT_TABLE,
+    WattBadgeComponent,
     WattButtonComponent,
     WattDatePipe,
     WattEmptyStateComponent,
@@ -50,6 +52,22 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
         margin-bottom: var(--watt-space-m);
       }
 
+      h3 {
+        display: flex;
+        align-items: center;
+      }
+
+      watt-badge {
+        margin-left: var(--watt-space-s);
+        border-radius: 50%;
+        color: var(--watt-on-light-high-emphasis);
+        height: 25px;
+        width: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
       .spinner-container {
         width: 100%;
         display: flex;
@@ -61,7 +79,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
   ],
   standalone: true,
   template: `
-    <h3>Changes: {{ dataSource.data.length }}</h3>
+    <h3>Changes <watt-badge type="neutral">{{ dataSource.data.length }}</watt-badge></h3>
 
     <watt-table
       #table
