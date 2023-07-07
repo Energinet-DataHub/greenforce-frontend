@@ -194,7 +194,12 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   private readonly setHistoryOfSelectedTransfer = this.updater(
     (state, historyOfSelectedTransfer: EoTransferAgreementsHistory[]): EoTransfersState => ({
       ...state,
-      historyOfSelectedTransfer,
+      historyOfSelectedTransfer: historyOfSelectedTransfer.map((history) => {
+        return {
+          ...history,
+          createdAt: fromUnixTime(history.createdAt).getTime(),
+        };
+      }),
       historyOfSelectedTransferError: null,
       historyOfSelectedTransferLoading: false,
     })

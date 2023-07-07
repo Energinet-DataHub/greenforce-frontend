@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
+import { LowerCasePipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { PushModule } from '@rx-angular/template/push';
 
@@ -25,17 +25,22 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { EoTransfersStore } from './eo-transfers.store';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { EoTransferAgreementsHistory } from './eo-transfers.service';
+import { Subject, takeUntil } from 'rxjs';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers-history',
   imports: [
-    WATT_TABLE,
-    WattPaginatorComponent,
     NgIf,
-    WattEmptyStateComponent,
+    LowerCasePipe,
     PushModule,
+    WATT_TABLE,
     WattButtonComponent,
+    WattDatePipe,
+    WattEmptyStateComponent,
+    WattPaginatorComponent,
     WattSpinnerComponent,
   ],
   styles: [
@@ -69,10 +74,14 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
       data-testid="transfers-table"
     >
       <!-- Period - Custom column -->
-      <ng-container *wattTableCell="table.columns['time']; let element"> time </ng-container>
+      <ng-container *wattTableCell="table.columns['createdAt']; let element">
+        {{ element.createdAt | wattDate : 'long' }}
+      </ng-container>
 
       <!-- Status - Custom column -->
-      <ng-container *wattTableCell="table.columns['change']; let element"> change </ng-container>
+      <ng-container *wattTableCell="table.columns['action']; let element">
+        <strong>{{ element.actorName }}</strong> has {{ element.action | lowercase }} the transfer agreement
+      </ng-container>
     </watt-table>
 
     <div class="spinner-container" *ngIf="isLoading$ | push">
@@ -100,18 +109,24 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 export class EoTransfersHistoryComponent implements OnInit {
   @Input() transferAgreementId?: string;
 
-  dataSource = new WattTableDataSource<{ time: string; change: string }>();
-  columns = {
-    time: { accessor: 'time' },
-    change: { accessor: 'change' },
-  } as WattTableColumnDef<{ time: string; change: string }>;
   store = inject(EoTransfersStore);
+
+  dataSource = new WattTableDataSource<EoTransferAgreementsHistory>();
+  columns = {
+    createdAt: { accessor: 'createdAt', header: 'Time' },
+    action: { accessor: 'action', header: 'Change' },
+  } as WattTableColumnDef<EoTransferAgreementsHistory>;
 
   hasError$ = this.store.historyOfSelectedTransferError$;
   isLoading$ = this.store.historyOfSelectedTransferLoading$;
 
+  private destroy$ = new Subject<void>();
+
   ngOnInit(): void {
     this.getHistory();
+    this.store.historyOfSelectedTransfer$.pipe(takeUntil(this.destroy$)).subscribe((history) => {
+      this.dataSource.data = history;
+    });
   }
 
   getHistory(): void {
