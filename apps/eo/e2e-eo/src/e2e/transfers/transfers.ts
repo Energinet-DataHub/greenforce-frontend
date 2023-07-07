@@ -58,8 +58,6 @@ Then('I can see a table component', () => transfers.tableIsVisible());
 
 Then('I can see the table has a paginator', () => transfers.paginatorIsVisible());
 
-Then('I can see a download button', () => transfers.downloadButtonIsVisible());
-
 Then('I can see a button to create a new agreement', () => transfers.newAgreementButtonIsVisible());
 
 Then('I can see the new agreement in the table on the transfers page', () =>

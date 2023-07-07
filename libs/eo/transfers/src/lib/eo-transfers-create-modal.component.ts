@@ -19,156 +19,109 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDateRange } from '@energinet-datahub/watt/date';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { getUnixTime } from 'date-fns';
+import { PushModule } from '@rx-angular/template/push';
+
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+
 import { EoTransfersService } from './eo-transfers.service';
 import { EoTransfersStore } from './eo-transfers.store';
+import { EoTransfersFormComponent } from './eo-transfers-form.component';
+import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   selector: 'eo-transfers-create-modal',
-  imports: [
-    WATT_MODAL,
-    WATT_FORM_FIELD,
-    WattButtonComponent,
-    ReactiveFormsModule,
-    WattInputDirective,
-    WattDatepickerComponent,
-    FormsModule,
-    NgIf,
-  ],
+  imports: [WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent, PushModule],
   standalone: true,
-  styles: [
-    `
-      watt-form-field {
-        margin-top: var(--watt-space-l);
-        margin-bottom: var(--watt-space-m);
-      }
-    `,
-  ],
   template: `
     <watt-modal
       #modal
-      [title]="title"
-      size="small"
+      title="New transfer agreement"
+      [size]="'small'"
       closeLabel="Close modal"
-      [loading]="requestLoading"
-      (closed)="whenClosed()"
+      [loading]="creatingTransferAgreement"
+      (closed)="onClosed()"
+      *ngIf="opened"
     >
-      <form [formGroup]="form">
-        <watt-form-field>
-          <watt-label>Receiver</watt-label>
-          <input
-            wattInput
-            required="true"
-            type="text"
-            formControlName="tin"
-            [maxlength]="8"
-            data-testid="new-agreement-receiver-input"
-          />
-          <watt-error *ngIf="form.controls.tin.errors">
-            An 8-digit TIN/CVR number is required
-          </watt-error>
-        </watt-form-field>
-        <watt-form-field>
-          <watt-label>Period</watt-label>
-          <watt-datepicker
-            required="true"
-            formControlName="dateRange"
-            [range]="true"
-            data-testid="new-agreement-daterange-input"
-          />
-          <watt-error *ngIf="form.controls.dateRange.errors">
-            A start and end date is required
-          </watt-error>
-        </watt-form-field>
-      </form>
-      <watt-modal-actions>
-        <watt-button
-          variant="secondary"
-          data-testid="close-new-agreement-button"
-          (click)="modal.close(false)"
-        >
-          Cancel
-        </watt-button>
-        <watt-button
-          data-testid="create-new-agreement-button"
-          [disabled]="!form.valid"
-          (click)="createAgreement()"
-        >
-          Create transfer agreement
-        </watt-button>
-      </watt-modal-actions>
+      <watt-validation-message
+        *ngIf="creatingTransferAgreementFailed"
+        label="Oops!"
+        message="Something went wrong. Please try again."
+        icon="danger"
+        type="danger"
+        size="compact"
+      ></watt-validation-message>
+
+      <eo-transfers-form
+        [senderTin]="authStore.getTin$ | push"
+        (submitted)="createAgreement($event)"
+        (canceled)="modal.close(false)"
+      ></eo-transfers-form>
     </watt-modal>
   `,
 })
 export class EoTransfersCreateModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
-  @Input() title = '';
 
-  form = new FormGroup({
-    tin: new FormControl('', [Validators.minLength(8), Validators.pattern('^[0-9]*$')]),
-    dateRange: new FormControl<WattDateRange>({ start: '', end: '' }, [
-      WattRangeValidators.required(),
-    ]),
-  });
-  requestLoading = false;
+  protected creatingTransferAgreement = false;
+  protected creatingTransferAgreementFailed = false;
+  protected isFormValid = false;
+  protected opened = false;
 
   constructor(
     private service: EoTransfersService,
     private store: EoTransfersStore,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    protected authStore: EoAuthStore
   ) {}
 
-  whenClosed() {
-    this.resetFormValues();
-  }
-
   open() {
+    /**
+     * This is a workaround for "lazy loading" the modal content
+     */
+    this.opened = true;
+    this.cd.detectChanges();
     this.modal.open();
   }
 
-  createAgreement() {
-    if (!this.form.valid || !this.form.controls['dateRange'].value) return;
+  onClosed() {
+    this.opened = false;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  createAgreement(transferAgreement: any) {
+    const { receiverTin, startDate, startDateTime, endDate, endDateTime } = transferAgreement;
+    if (!receiverTin || !startDate || !startDateTime) return;
 
     const transfer = {
-      startDate: Math.round(new Date(this.form.controls['dateRange'].value.start).getTime() / 1000),
-      endDate: Math.round(new Date(this.form.controls['dateRange'].value.end).getTime() / 1000),
-      receiverTin: this.form.controls['tin'].value as string,
+      startDate: getUnixTime(new Date(startDate).setHours(parseInt(startDateTime), 0, 0, 0)),
+      endDate:
+        endDate && endDateTime
+          ? getUnixTime(new Date(endDate).setHours(parseInt(endDateTime), 0, 0, 0))
+          : null,
+      receiverTin,
     };
 
-    this.requestLoading = true;
+    this.creatingTransferAgreement = true;
     this.service.createAgreement(transfer).subscribe({
       next: (transfer) => {
         this.store.addTransfer(transfer);
-        this.requestLoading = false;
+        this.creatingTransferAgreement = false;
+        this.creatingTransferAgreementFailed = false;
         this.cd.detectChanges();
         this.modal.close(true);
       },
       error: () => {
-        this.requestLoading = false;
+        this.creatingTransferAgreement = false;
+        this.creatingTransferAgreementFailed = true;
         this.cd.detectChanges();
       },
     });
-  }
-
-  private resetFormValues() {
-    this.form.patchValue({ tin: '', dateRange: { start: '', end: '' } });
-    this.form.markAsUntouched();
   }
 }

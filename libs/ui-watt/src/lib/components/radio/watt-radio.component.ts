@@ -51,7 +51,7 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
 })
 export class WattRadioComponent implements ControlValueAccessor {
   @Input() group!: string;
-  @Input() value!: string;
+  @Input() value!: string | boolean;
 
   /* @ignore */
   model!: string;

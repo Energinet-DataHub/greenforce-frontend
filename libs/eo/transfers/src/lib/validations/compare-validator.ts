@@ -14,10 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface WattDropdownOption {
-  value: string;
-  displayValue: string;
-  disabled?: boolean;
-}
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export type WattDropdownOptions = WattDropdownOption[];
+export function compareValidator(compareValue: string, validationName: string): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const controlValue = control.value;
+    if (controlValue === compareValue) {
+      return { [validationName]: true };
+    }
+    return null;
+  };
+}
