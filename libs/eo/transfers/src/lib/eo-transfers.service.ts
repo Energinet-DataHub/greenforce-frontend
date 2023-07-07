@@ -35,6 +35,17 @@ export interface EoListedTransferResponse {
   result: EoListedTransfer[];
 }
 
+export interface EoTransferAgreementsHistory {
+  transferAgreement: EoTransfer;
+  createdAt: number;
+  action: 'Created' | 'Updated' | 'Deleted';
+  actorName: string;
+}
+
+export interface EoTransferAgreementsHistoryResponse {
+  result: EoTransferAgreementsHistory[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -68,5 +79,11 @@ export class EoTransfersService {
           endDate: transfer.endDate ? transfer.endDate * 1000 : null,
         }))
       );
+  }
+
+  getHistory(transferAgreementId: string) {
+    return this.http.get<EoTransferAgreementsHistoryResponse>(
+      `${this.#apiBase}/history/transfer-agreements/${transferAgreementId}`
+    );
   }
 }
