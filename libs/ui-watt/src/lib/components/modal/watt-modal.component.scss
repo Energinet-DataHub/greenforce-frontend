@@ -14,7 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@use "@energinet-datahub/watt/utils" as watt;
+
 .watt-modal-panel {
+  @include watt.media("<Small") {
+    height: 100vh;
+    max-width: 100vw !important;
+    width: 100vw !important;
+  }
+
+  // TODO: Implement sizes variants and breakpoints
+
   mat-dialog-container {
     position: relative;
     display: grid;

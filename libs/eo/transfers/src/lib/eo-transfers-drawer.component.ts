@@ -56,7 +56,18 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
     EoTransfersEditModalComponent,
   ],
   standalone: true,
-  styles: [``],
+  styles: [
+    `
+      .sub-header {
+        font-size: 14px;
+        margin-top: var(--watt-space-m);
+      }
+
+      watt-drawer-actions {
+        align-self: flex-start;
+      }
+    `,
+  ],
   template: `
     <watt-drawer #drawer (closed)="onClose()">
       <watt-drawer-topbar>
@@ -65,10 +76,14 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
 
       <watt-drawer-heading>
         <h2>{{ transfer?.receiverTin }}</h2>
+        <p class="sub-header">
+          <span class="watt-label">Period of agreement</span>
+          {{ transfer?.startDate | wattDate : 'long' }}－{{ transfer?.endDate | wattDate : 'long' }}
+        </p>
       </watt-drawer-heading>
 
       <watt-drawer-actions>
-        <watt-button variant="secondary" *ngIf="isActive" (click)="transfersEditModal.open()"
+        <watt-button variant="secondary" *ngIf="isEditable" (click)="transfersEditModal.open()"
           >Edit</watt-button
         >
       </watt-drawer-actions>
@@ -78,15 +93,6 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
           <watt-tab label="Information">
             <watt-card variant="solid">
               <watt-description-list variant="stack">
-                <watt-description-list-item
-                  label="Period"
-                  [value]="
-                    (transfer?.startDate | wattDate) +
-                    ' - ' +
-                    (utils.checkForMidnightInLocalTime(transfer?.endDate) | wattDate)
-                  "
-                >
-                </watt-description-list-item>
                 <watt-description-list-item
                   label="Receiver TIN/CVR"
                   [value]="transfer?.receiverTin"
@@ -101,10 +107,7 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
       </watt-drawer-content>
     </watt-drawer>
 
-    <eo-transfers-edit-modal
-      title="Edit transfer agreement"
-      [transfer]="transfer"
-    ></eo-transfers-edit-modal>
+    <eo-transfers-edit-modal [transfer]="transfer"></eo-transfers-edit-modal>
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
   `,
 })
@@ -113,6 +116,7 @@ export class EoTransfersDrawerComponent {
   @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
 
   isActive!: boolean;
+  isEditable = false;
 
   private _transfer?: EoListedTransfer;
 
@@ -120,7 +124,8 @@ export class EoTransfersDrawerComponent {
     this._transfer = transfer;
 
     if (!this._transfer) return;
-    this.isActive = this._transfer && this.utils.isDateActive(this._transfer?.endDate);
+    this.isActive = this.utils.isDateActive(this._transfer.startDate, this._transfer?.endDate);
+    this.isEditable = !this._transfer.endDate || this._transfer.endDate > new Date().getTime();
   }
   get transfer() {
     return this._transfer;

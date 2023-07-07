@@ -14,36 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-@use "@energinet-datahub/watt/utils" as watt;
-
-:host {
-  position: absolute;
-  inset: 0;
-}
-
-.wrapper {
-  @include watt.space-inset-l;
-  height: 100%;
-}
-
-watt-card {
-  display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr);
-  grid-template-columns: 100%;
-  height: 100%;
-}
-
-watt-card-title {
-  display: flex;
-  gap: var(--watt-space-m);
-  align-items: center;
-}
-
-watt-search {
-  margin-left: auto;
-}
-
-dh-calculations-filters {
-  margin-bottom: var(--watt-space-m);
+export function compareValidator(compareValue: string, validationName: string): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const controlValue = control.value;
+    if (controlValue === compareValue) {
+      return { [validationName]: true };
+    }
+    return null;
+  };
 }
