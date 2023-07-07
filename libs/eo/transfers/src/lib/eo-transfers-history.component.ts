@@ -101,7 +101,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 
       <!-- Status - Custom column -->
       <ng-container *wattTableCell="table.columns['action']; let element">
-        <strong>{{ element.actorName }}</strong> has {{ element.action | lowercase }} the transfer
+        <strong>{{ element.actorName }}</strong> has {{ element.action | lowercase }} <span *ngIf="element.action === 'Updated'">the <strong>end date</strong> of</span> the transfer
         agreement
       </ng-container>
     </watt-table>

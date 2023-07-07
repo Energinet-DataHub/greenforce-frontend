@@ -35,16 +35,10 @@ export interface EoListedTransferResponse {
   result: EoListedTransfer[];
 }
 
-export enum EoTransferAgreementsChangeAction {
-  Created = 'Created',
-  Updated = 'Updated',
-  Deleted = 'Deleted',
-}
-
 export interface EoTransferAgreementsHistory {
   transferAgreement: EoTransfer;
   createdAt: number;
-  action: EoTransferAgreementsChangeAction;
+  action: 'Created' | 'Updated' | 'Deleted';
   actorName: string;
 }
 
