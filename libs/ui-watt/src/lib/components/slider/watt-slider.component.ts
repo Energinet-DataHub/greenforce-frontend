@@ -69,7 +69,6 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy {
 
   private _maxChangeSubscription!: Subscription;
   private _minChangeSubscription!: Subscription;
-  private _savedStep = this.step;
   /**
    * Emits value whenever it changes.
    * @ignore
@@ -93,15 +92,6 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy {
         maxRangeElement.valueAsNumber = maxValue;
       } else {
         maxRangeElement.valueAsNumber = minValue;
-      }
-
-      // If the step is too large, we need to adjust it to fit the range.
-      const rest = this.max - maxValue;
-      if (rest < this.step) {
-        this._savedStep = this.step;
-        this.step = rest;
-      } else {
-        this.step = this._savedStep;
       }
 
       this.onChange({ min: minValue, max: maxValue });
