@@ -17,8 +17,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, switchMap, tap, throwError, withLatestFrom } from 'rxjs';
-import { fromUnixTime } from 'date-fns';
+import { Observable, of, switchMap, tap, throwError, withLatestFrom } from 'rxjs';
+import { fromUnixTime, getUnixTime } from 'date-fns';
 
 import {
   EoListedTransfer,
@@ -36,6 +36,11 @@ interface EoTransfersState {
   historyOfSelectedTransfer: EoTransferAgreementsHistory[];
   historyOfSelectedTransferError: HttpErrorResponse | null;
   historyOfSelectedTransferLoading: boolean;
+}
+
+export interface EoExistingTransferAgreement {
+  startDate: number;
+  endDate: number | null;
 }
 
 @Injectable({
@@ -225,6 +230,19 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
       historyOfSelectedTransferLoading: false,
     })
   );
+
+  readonly getExistingTransferAgreements$ = (receiverTin: string | null): Observable<EoExistingTransferAgreement[]> => {
+    if(!receiverTin) return of([]);
+    return this.select((state) =>
+      state.transfers
+        .filter((transfer) => transfer.receiverTin === receiverTin)
+        .map((transfer) => {
+          return { startDate: transfer.startDate, endDate: transfer.endDate };
+        })
+        // Filter out transfers that have ended
+        .filter((transfer) => transfer.endDate === null || transfer.endDate > getUnixTime(new Date()))
+    );
+  };
 
   constructor(private service: EoTransfersService) {
     super({

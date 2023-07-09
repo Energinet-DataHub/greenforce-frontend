@@ -14,13 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  Output,
+  EventEmitter,
+  ViewEncapsulation,
+} from '@angular/core';
+import { add, fromUnixTime, isAfter, isBefore, isEqual } from 'date-fns';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass, NgIf } from '@angular/common';
+import { Subject, distinctUntilChanged, of, switchMap, takeUntil } from 'rxjs';
 
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { WattModalActionsComponent } from '@energinet-datahub/watt/modal';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 
 import {
@@ -30,10 +42,7 @@ import {
   nextHourOrLaterValidator,
 } from './validations';
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
-import { Subject, takeUntil } from 'rxjs';
-import { add, isAfter } from 'date-fns';
-import { WattModalActionsComponent } from '@energinet-datahub/watt/modal';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { EoExistingTransferAgreement } from './eo-transfers.store';
 
 export interface EoTransfersFormInitialValues {
   receiverTin?: string;
@@ -68,83 +77,94 @@ interface EoTransfersForm {
     NgIf,
     NgClass,
   ],
+  encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      fieldset {
+      .eo-transfers-form-overlapping-date,
+      .eo-transfers-form-overlapping-date .mat-calendar-body-selected {
+        background: var(--watt-color-state-danger-light) !important;
+        border-radius: 100%;
+        pointer-events: none;
+      }
+
+      eo-transfers-form fieldset {
         display: flex;
         flex-wrap: wrap;
       }
 
-      watt-form-field {
+      eo-transfers-form watt-form-field {
         margin-bottom: var(--watt-space-m);
       }
 
-      .receiver {
+      eo-transfers-form .receiver {
         margin-top: var(--watt-space-l);
       }
 
-      .receiver,
-      .start-date {
+      eo-transfers-form .receiver,
+      eo-transfers-form .start-date {
         max-width: 280px;
       }
 
-      .start-date {
+      eo-transfers-form .start-date {
         margin-bottom: var(--watt-space-xs);
         position: relative;
         padding-bottom: var(--watt-space-s);
       }
 
-      .start-date watt-error {
+      eo-transfers-form .start-date watt-error {
         position: absolute;
         bottom: 0;
       }
 
-      .endDate watt-form-field .mat-placeholder-required.mat-form-field-required-marker {
+      eo-transfers-form
+        .endDate
+        watt-form-field
+        .mat-placeholder-required.mat-form-field-required-marker {
         display: none;
       }
 
-      .end-date-label {
+      eo-transfers-form .end-date-label {
         width: 100%;
         margin-bottom: var(--watt-space-s);
       }
 
-      .end-date-container {
+      eo-transfers-form .end-date-container {
         display: flex;
         flex-wrap: wrap;
         margin-top: 26px;
         max-width: 60%;
       }
 
-      .end-date-container watt-error {
+      eo-transfers-form .end-date-container watt-error {
         margin-top: -32px;
       }
 
-      .radio-buttons-container {
+      eo-transfers-form .radio-buttons-container {
         display: flex;
         flex-direction: column;
         gap: var(--watt-space-l);
         margin-bottom: 46px;
       }
 
-      .datepicker {
+      eo-transfers-form .datepicker {
         max-width: 160px;
         margin-right: var(--watt-space-m);
       }
 
-      eo-transfers-timepicker:first-of-type {
+      eo-transfers-form eo-transfers-timepicker:first-of-type {
         max-width: 104px;
       }
 
-      .datetime .mat-form-field-type-mat-date-range-input .mat-form-field-infix {
+      eo-transfers-form .datetime .mat-form-field-type-mat-date-range-input .mat-form-field-infix {
         width: auto !important;
       }
 
-      .asterisk {
+      eo-transfers-form .asterisk {
         color: var(--watt-color-primary);
       }
 
-      .has-error,
-      .has-error .asterisk {
+      eo-transfers-form .has-error,
+      eo-transfers-form .has-error .asterisk {
         color: var(--watt-color-state-danger);
       }
     `,
@@ -178,6 +198,7 @@ interface EoTransfersForm {
           <watt-datepicker
             formControlName="startDate"
             [min]="minStartDate"
+            [dateClass]="dateClass"
             data-testid="new-agreement-start-date-input"
           />
         </watt-form-field>
@@ -277,9 +298,11 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
     'endDate',
     'endDateTime',
   ];
+  @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
 
   @Output() submitted = new EventEmitter();
   @Output() canceled = new EventEmitter();
+  @Output() receiverTinChanged = new EventEmitter<string | null>();
 
   protected minStartDate: Date = new Date();
   protected minEndDate: Date = new Date();
@@ -328,6 +351,19 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
           this.form.controls['endDateTime'].setValue(null);
         }
       });
+
+    this.form.controls['receiverTin'].valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap(() => {
+          return of(this.form.controls['receiverTin'].valid);
+        }),
+        distinctUntilChanged()
+      )
+      .subscribe((receiverTinValidity) => {
+        const receiverTin = receiverTinValidity ? this.form.controls['receiverTin'].value : null;
+        this.receiverTinChanged.emit(receiverTin);
+      });
   }
 
   ngOnDestroy(): void {
@@ -351,6 +387,37 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
     if (!isNumericInput && !isSpecialKey) {
       event.preventDefault();
     }
+  }
+
+  protected dateClass = (cellDate: Date, view: 'month' | 'year' | 'multi-year') => {
+
+
+    // Only highlight dates inside the month view.
+    if (view === 'month') {
+      console.log('dateclass', cellDate);
+      return this.isOverlappingDate(cellDate, this.existingTransferAgreements)
+        ? 'eo-transfers-form-overlapping-date'
+        : '';
+    }
+
+    return '';
+  };
+
+  // eslint-disable-next-line sonarjs/cognitive-complexity
+  private isOverlappingDate(date: Date, periods: EoExistingTransferAgreement[]): boolean {
+    let isOverlapping = false;
+
+    // TODO: EDIT SHOULD SKIP ITSELF
+    periods.forEach((period) => {
+      const { startDate, endDate } = period;
+      const time = date.setHours(23,0,0,0);
+
+      if(time >= startDate && time <= (endDate || time)) {
+        isOverlapping = true;
+      }
+    });
+
+    return isOverlapping;
   }
 
   private initForm() {
