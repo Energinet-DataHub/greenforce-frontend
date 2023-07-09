@@ -231,8 +231,10 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
     })
   );
 
-  readonly getExistingTransferAgreements$ = (receiverTin: string | null): Observable<EoExistingTransferAgreement[]> => {
-    if(!receiverTin) return of([]);
+  readonly getExistingTransferAgreements$ = (
+    receiverTin: string | null
+  ): Observable<EoExistingTransferAgreement[]> => {
+    if (!receiverTin) return of([]);
     return this.select((state) =>
       state.transfers
         .filter((transfer) => transfer.receiverTin === receiverTin)
@@ -240,7 +242,9 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
           return { startDate: transfer.startDate, endDate: transfer.endDate };
         })
         // Filter out transfers that have ended
-        .filter((transfer) => transfer.endDate === null || transfer.endDate > getUnixTime(new Date()))
+        .filter(
+          (transfer) => transfer.endDate === null || transfer.endDate > getUnixTime(new Date())
+        )
     );
   };
 

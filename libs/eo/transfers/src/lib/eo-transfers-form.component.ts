@@ -390,8 +390,6 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
   }
 
   protected dateClass = (cellDate: Date, view: 'month' | 'year' | 'multi-year') => {
-
-
     // Only highlight dates inside the month view.
     if (view === 'month') {
       console.log('dateclass', cellDate);
@@ -410,9 +408,9 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
     // TODO: EDIT SHOULD SKIP ITSELF
     periods.forEach((period) => {
       const { startDate, endDate } = period;
-      const time = date.setHours(23,0,0,0);
+      const time = date.setHours(23, 0, 0, 0);
 
-      if(time >= startDate && time <= (endDate || time)) {
+      if (time >= startDate && time <= (endDate || time)) {
         isOverlapping = true;
       }
     });
