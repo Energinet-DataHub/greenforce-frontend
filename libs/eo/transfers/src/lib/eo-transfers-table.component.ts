@@ -197,7 +197,7 @@ export class EoTransfersTableComponent implements OnChanges {
   dataSource = new WattTableDataSource<EoTransferTableElement>();
   columns = {
     receiver: { accessor: 'receiverTin' },
-    startDate: { accessor: () => 'startDate', header: 'Start Date' },
+    startDate: { accessor: 'startDate', header: 'Start Date' },
     endDate: { accessor: 'endDate', header: 'End Date' },
     status: {
       accessor: (transfer) =>
