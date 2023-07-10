@@ -28,9 +28,11 @@ jobs:
   # Markdown check and YAML validation
   #
   ci_base:
-    uses: Energinet-DataHub/.github/.github/workflows/ci-base.yml@v11
+    uses: Energinet-DataHub/.github/.github/workflows/ci-base.yml@v12
     with:
       skip_license_check: true # Handled by another workflow
+    secrets:
+      pat_token: ${{ secrets.PAT_TOKEN_REPO_WORKFLOW }}
 
   #
   # CodeQL Check
@@ -74,7 +76,7 @@ jobs:
   render_c4model_views:
     needs: changes
     if: ${{ needs.changes.outputs.render_c4model_views == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/structurizr-render-diagrams.yml@v11
+    uses: Energinet-DataHub/.github/.github/workflows/structurizr-render-diagrams.yml@v12
     with:
       structurizr_workspace_filename: views
       included_model_filename: model

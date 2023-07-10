@@ -35,21 +35,20 @@ jobs:
   dotnet_update_coverage_report:
     needs: changes
     if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v11
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v12
     with:
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       environment: AzureAuth
-    secrets:
-      azure_tenant_id: ${{ vars.azure_tenant_id }}
-      azure_subscription_id: ${{ vars.azure_subscription_id }}
-      azure_spn_id: ${{ vars.azure_spn_id_oidc }}
+      azure_integrationtest_tenant_id: ${{ vars.azure_tenant_id }}
+      azure_integrationtest_subscription_id: ${{ vars.azure_subscription_id }}
+      azure_integrationtest_spn_id: ${{ vars.azure_spn_id_oidc }}
       azure_keyvault_url: ${{ vars.azure_keyvault_url }}
       azure_b2csecrets_keyvault_url: ${{ vars.azure_b2csecrets_keyvault_url }}
 
   dotnet_promote_prerelease:
     needs: changes
     if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v11
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v12
     with:
       release_name_prefix: ui_dotnet
 
@@ -60,7 +59,7 @@ jobs:
   frontend_promote_prerelease:
     needs: changes
     if: ${{ needs.changes.outputs.dh_frontend == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v11
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v12
     with:
       release_name_prefix: ui_frontend
 
@@ -83,7 +82,7 @@ jobs:
       - run: echo "${{ toJSON(needs) }}"
 
       - name: Find associated pull request
-        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v11
+        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v12
         id: find_pull_request
 
       - name: Repository Dispatch
@@ -109,7 +108,7 @@ jobs:
     if: |
       always() &&
       contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v11
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v12
     with:
       team_name: TeamFrontend
       subject: "Deployment dispatch failed: UI + BFF"
