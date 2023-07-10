@@ -39,7 +39,6 @@ jobs:
     with:
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       environment: AzureAuth
-    secrets:
       azure_integrationtest_tenant_id: ${{ vars.azure_tenant_id }}
       azure_integrationtest_subscription_id: ${{ vars.azure_subscription_id }}
       azure_integrationtest_spn_id: ${{ vars.azure_spn_id_oidc }}
