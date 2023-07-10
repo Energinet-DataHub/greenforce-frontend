@@ -13,7 +13,7 @@ frontendDomain = group "Frontend" {
     bffApi = container "BFF API" {
         description "API Gateway to BFF Web API"
         technology "Azure API Management Service"
-        tags "Intermediate Technology" "Microsoft Azure - API Management Services" "Mandalorian" "Titans" "UI/UX Guild" 
+        tags "Intermediate Technology" "Microsoft Azure - API Management Services" "Mandalorian" "Titans" "UI/UX Guild" "Outlaws"
 
         # Domain relationships
         this -> bffApp "Uses" "json/https"
