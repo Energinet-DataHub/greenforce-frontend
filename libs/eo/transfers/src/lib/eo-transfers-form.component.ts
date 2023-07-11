@@ -269,10 +269,7 @@ interface EoTransfersForm {
       >
         Cancel
       </watt-button>
-      <watt-button
-        data-testid="create-new-agreement-button"
-        (click)="onSubmit()"
-      >
+      <watt-button data-testid="create-new-agreement-button" (click)="onSubmit()">
         {{ submitButtonText }}
       </watt-button>
     </watt-modal-actions>
@@ -375,7 +372,7 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
   }
 
   protected onSubmit() {
-    if(!this.form.valid) {
+    if (!this.form.valid) {
       this.form.markAllAsTouched();
       return;
     }
