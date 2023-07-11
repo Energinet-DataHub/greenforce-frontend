@@ -59,12 +59,12 @@ export class TransfersPo {
     cy.intercept('POST', 'https://demo.energioprindelse.dk/api/transfer-agreements', {
       statusCode: 200,
       body: {
-        "id": "3d5b4e89-9184-4fa7-9823-c22501498424",
-        "startDate": 1689328800,
-        "endDate": 1689415200,
-        "senderName": "Producent A/S",
-        "senderTin": "11223344",
-        "receiverTin": "11111111"
+        id: '3d5b4e89-9184-4fa7-9823-c22501498424',
+        startDate: 1689328800,
+        endDate: 1689415200,
+        senderName: 'Producent A/S',
+        senderTin: '11223344',
+        receiverTin: '11111111',
       },
     });
     cy.get(this.createNewAgreementButton).click();
