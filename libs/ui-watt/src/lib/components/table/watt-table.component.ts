@@ -179,8 +179,13 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   /**
    * Provide a description of the table for visually impaired users.
    */
-  @Input()
-  description = '';
+  @Input() description = '';
+
+  /**
+   * If set to `true`, the table will show a loading indicator
+   * when there is no data.
+   */
+  @Input() loading = false;
 
   /**
    * @deprecated Use `header` input with WattTableCellDirective instead.

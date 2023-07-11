@@ -18,15 +18,16 @@
 
 watt-table,
 watt-table .mat-table {
+  display: grid;
   position: relative;
   overflow: auto;
 }
 
 watt-table .mat-table {
-  display: grid;
   grid-template-columns: var(--watt-table-grid-template-columns);
   grid-auto-rows: max-content;
-  height: 100%;
+  max-height: 100%;
+  z-index: 1;
 
   thead,
   tbody,
@@ -141,4 +142,31 @@ watt-table .mat-table {
   opacity: 0;
   visibility: hidden;
   transition: none;
+}
+
+.watt-table-loading-cell:before {
+  content: "";
+  flex: 1;
+  display: block;
+  max-width: 200px;
+  height: var(--watt-space-m);
+  border-radius: var(--watt-space-m);
+  opacity: 0.75;
+  animation: shine 2s infinite linear;
+  background-color: var(--watt-color-neutral-grey-200);
+  background-size: 300px;
+  background-position: -100px;
+  background-image: linear-gradient(
+    90deg,
+    var(--watt-color-neutral-grey-300) 0px,
+    var(--watt-color-neutral-grey-200) 40px,
+    var(--watt-color-neutral-grey-300) 80px
+  );
+}
+
+@keyframes shine {
+  40%,
+  100% {
+    background-position: 200px;
+  }
 }

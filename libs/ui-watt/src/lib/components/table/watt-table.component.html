@@ -82,6 +82,14 @@ limitations under the License.
   <ng-container *ngIf="_toolbar">
     <tr mat-footer-row *matFooterRowDef="['spacer']"></tr>
   </ng-container>
+
+  <ng-container *matNoDataRow>
+    <ng-container *ngIf="loading">
+      <tr class="mat-row" *ngFor="let i of [1, 2, 3]">
+        <td class="mat-cell watt-table-loading-cell" *ngFor="let _ of _getColumns()"></td>
+      </tr>
+    </ng-container>
+  </ng-container>
 </table>
 
 <div *ngIf="_toolbar" class="watt-table-toolbar" role="toolbar">

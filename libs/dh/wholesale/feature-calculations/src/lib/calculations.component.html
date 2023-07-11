@@ -31,13 +31,9 @@ limitations under the License.
       [data]="calculations"
       [filter]="search"
       [selected]="selected"
+      [loading]="loading"
+      [error]="error"
       (selectedRow)="onSelected($event)"
     />
   </watt-card>
-  <watt-empty-state
-    *ngIf="error"
-    icon="custom-power"
-    [title]="'shared.error.title' | transloco"
-    [message]="'shared.error.message' | transloco"
-  />
 </div>
