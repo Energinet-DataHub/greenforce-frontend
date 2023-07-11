@@ -23,7 +23,7 @@ import {
   EventEmitter,
   ViewEncapsulation,
 } from '@angular/core';
-import { add, fromUnixTime, isAfter, isBefore, isEqual } from 'date-fns';
+import { add, isAfter } from 'date-fns';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass, NgIf } from '@angular/common';
 import { Subject, distinctUntilChanged, of, switchMap, takeUntil } from 'rxjs';
