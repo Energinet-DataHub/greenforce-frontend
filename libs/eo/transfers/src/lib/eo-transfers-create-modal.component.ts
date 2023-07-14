@@ -96,6 +96,7 @@ export class EoTransfersCreateModalComponent {
 
   onClosed() {
     this.opened = false;
+    this.existingTransferAgreements$ = of([]);
   }
 
   onReceiverTinChange(receiverTin: string | null) {

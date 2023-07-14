@@ -32,12 +32,19 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
 
 import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersFormComponent } from './eo-transfers-form.component';
-import { EoTransfersStore } from './eo-transfers.store';
+import { EoExistingTransferAgreement, EoTransfersStore } from './eo-transfers.store';
+import { Observable, of } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers-edit-modal',
-  imports: [PushModule, WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent],
+  imports: [
+    PushModule,
+    WATT_MODAL,
+    WattValidationMessageComponent,
+    NgIf,
+    EoTransfersFormComponent,
+  ],
   standalone: true,
   template: `
     <watt-modal
@@ -61,6 +68,7 @@ import { EoTransfersStore } from './eo-transfers.store';
       <eo-transfers-form
         submitButtonText="Save"
         [editableFields]="['hasEndDate', 'endDate', 'endDateTime']"
+        [existingTransferAgreements]="existingTransferAgreements$ | push"
         [initialValues]="initialValues"
         (submitted)="saveTransferAgreement($event)"
         (canceled)="modal.close(false)"
@@ -75,13 +83,13 @@ export class EoTransfersEditModalComponent implements OnChanges {
 
   protected opened = false;
   protected initialValues = {};
+  protected existingTransferAgreements$: Observable<EoExistingTransferAgreement[]> = of([]);
 
   private store = inject(EoTransfersStore);
   private cd = inject(ChangeDetectorRef);
 
-  transfer$ = this.store.selectedTransfer$;
-  patchingTransfer$ = this.store.patchingTransfer$;
-  patchingTransferError$ = this.store.patchingTransferError$;
+  protected patchingTransfer$ = this.store.patchingTransfer$;
+  protected patchingTransferError$ = this.store.patchingTransferError$;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['transfer'] && this.transfer) {
@@ -105,10 +113,17 @@ export class EoTransfersEditModalComponent implements OnChanges {
     this.opened = true;
     this.cd.detectChanges();
     this.modal.open();
+
+    if(!this.transfer) return;
+    this.existingTransferAgreements$ = this.store.getExistingTransferAgreements$(
+      this.transfer.receiverTin,
+      this.transfer.id
+    );
   }
 
   onClosed() {
     this.opened = false;
+    this.store.setPatchingTransferError(null);
   }
 
   saveTransferAgreement(values: { hasEndDate: boolean; endDate: string; endDateTime: string }) {

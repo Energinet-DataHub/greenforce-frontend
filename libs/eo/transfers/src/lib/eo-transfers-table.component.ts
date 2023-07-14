@@ -131,6 +131,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     </div>
     <watt-table
       #table
+      [loading]="true"
       [columns]="columns"
       [dataSource]="dataSource"
       sortBy="status"

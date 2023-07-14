@@ -18,7 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable, of, switchMap, tap, throwError, withLatestFrom } from 'rxjs';
-import { fromUnixTime, getUnixTime } from 'date-fns';
+import { fromUnixTime } from 'date-fns';
 
 import {
   EoListedTransfer,
@@ -194,7 +194,7 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
     })
   );
 
-  private readonly setPatchingTransferError = this.updater(
+  readonly setPatchingTransferError = this.updater(
     (state, error: HttpErrorResponse | null): EoTransfersState => ({
       ...state,
       patchingTransferError: error,
@@ -232,19 +232,26 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   );
 
   readonly getExistingTransferAgreements$ = (
-    receiverTin: string | null
+    receiverTin: string | null,
+    id?: string
   ): Observable<EoExistingTransferAgreement[]> => {
     if (!receiverTin) return of([]);
     return this.select((state) =>
       state.transfers
+        .filter((transfer) => transfer.id !== id)
         .filter((transfer) => transfer.receiverTin === receiverTin)
         .map((transfer) => {
           return { startDate: transfer.startDate, endDate: transfer.endDate };
         })
         // Filter out transfers that have ended
         .filter(
-          (transfer) => transfer.endDate === null || transfer.endDate > getUnixTime(new Date())
+          (transfer) => transfer.endDate === null || transfer.endDate > new Date().getTime()
         )
+        .sort((a, b) => {
+          if (a.endDate === null) return 1; // a is lesser if its endDate is null
+          if (b.endDate === null) return -1; // b is lesser if its endDate is null
+          return a.endDate - b.endDate;
+        })
     );
   };
 

@@ -18,3 +18,4 @@ export * from './endDateMustBeLaterThanStartDateValidator';
 export * from './nextHourOrLaterValidator';
 export * from './min-today-validator';
 export * from './compare-validator';
+export * from './overlapping-transfer-agreements-validator';

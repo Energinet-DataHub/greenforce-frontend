@@ -37,3 +37,10 @@ export function setValidationErrors(errorKey: string, ...fields: AbstractControl
   const error = { [errorKey]: true };
   fields.forEach((field) => field.setErrors(error));
 }
+
+export function setValidationErrorsWithData(errorKey: string, errorData: unknown, ...fields: AbstractControl[]): void {
+  const error = { [errorKey]: errorData };
+  fields.forEach((field) => field.setErrors(error));
+}
+
+
