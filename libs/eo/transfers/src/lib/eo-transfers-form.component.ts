@@ -232,9 +232,9 @@ interface EoTransfersForm {
         </watt-form-field>
         <eo-transfers-timepicker
           formControlName="startDateTime"
-          [selectedDate]="form.controls.startDate.value"
+          [selectedDate]="editableFields.includes('startDate') ? form.controls.startDate.value : null"
           [errors]="form.controls.startDateTime.errors"
-          [disabledHours]="disabledStartHours"
+          [disabledHours]="editableFields.includes('startDate') ? disabledStartHours : []"
           (invalidOptionReset)="form.controls.startDate.updateValueAndValidity()"
         ></eo-transfers-timepicker>
         <watt-error *ngIf="form.controls.startDate.errors?.['nextHourOrLater']" class="watt-text-s">
@@ -481,7 +481,8 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
   protected dateClass = (cellDate: Date, view: 'month' | 'year' | 'multi-year') => {
     // Only highlight dates inside the month view.
     if (view === 'month') {
-      const disabledHours = this.getDisabledHours(cellDate.toISOString());
+      const disabledHours = this.getDisabledHours(cellDate.toISOString(), true);
+
       if (disabledHours.length === 0) return '';
       if (disabledHours.length >= 24) return 'eo-transfers-form-fully-booked';
 
@@ -502,17 +503,18 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
   };
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  private getDisabledHours(dateString: string | null): string[] {
+  private getDisabledHours(dateString: string | null, includeStartingHour = false): string[] {
     if (!dateString) return [];
 
     const date = new Date(dateString);
     const disabledHours: Set<string> = new Set();
 
     this.existingTransferAgreements.forEach((period) => {
-      const isOverlapping = isOverlappingPeriod(period, {
+      const comparingPeriod = {
         startDate: date.setHours(0, 0, 0, 0),
         endDate: date.setHours(23, 0, 0, 0),
-      });
+      };
+      const isOverlapping = isOverlappingPeriod(period, comparingPeriod);
       if (!isOverlapping) return;
 
       let startHour = new Date(period.startDate).getHours();
@@ -526,7 +528,8 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
         endHour = 24;
       }
 
-      for (let i = Math.min(startHour + 1, 23); i < endHour; i++) {
+      const startingPoint = includeStartingHour ? startHour : Math.min(startHour + 1, 23);
+      for (let i = startingPoint; i < endHour; i++) {
         disabledHours.add(i.toString().padStart(2, '0') + ':00');
       }
     });
