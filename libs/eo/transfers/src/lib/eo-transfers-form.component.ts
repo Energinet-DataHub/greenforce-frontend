@@ -363,6 +363,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   ngOnInit(): void {
+    console.log('dummy change');
     this.initForm();
 
     if (this.editableFields.includes('startDate')) {
