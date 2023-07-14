@@ -18,6 +18,7 @@ import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 import { WattFilterChipComponent } from './watt-filter-chip.component';
 import { WattMenuChipComponent } from './watt-menu-chip.component';
+import { VaterStackComponent } from '../vater/stack.component';
 
 const meta: Meta<WattFilterChipComponent> = {
   /* 👇 The title prop is optional.
@@ -28,7 +29,7 @@ const meta: Meta<WattFilterChipComponent> = {
   component: WattFilterChipComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattMenuChipComponent],
+      imports: [VaterStackComponent, WattMenuChipComponent],
     }),
   ],
 };
@@ -39,12 +40,12 @@ export const Filter: StoryObj<WattFilterChipComponent> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="display: flex; gap: var(--watt-space-s)">
+      <vater-stack gap="s">
         <watt-filter-chip>Pending</watt-filter-chip>
         <watt-filter-chip>Executing</watt-filter-chip>
         <watt-filter-chip>Completed</watt-filter-chip>
         <watt-filter-chip>Failed</watt-filter-chip>
-      </div>
+      </vater-stack>
     `,
   }),
   args: {},
@@ -54,14 +55,14 @@ export const Choice: StoryObj<WattFilterChipComponent> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="display: flex; gap: var(--watt-space-s)">
+      <vater-stack gap="s">
         <watt-filter-chip choice [selected]="true" name="period" value="d">Day</watt-filter-chip>
         <watt-filter-chip choice name="period" value="w">Week</watt-filter-chip>
         <watt-filter-chip choice name="period" value="m">Month</watt-filter-chip>
         <watt-filter-chip choice name="period" value="q">Quarter</watt-filter-chip>
         <watt-filter-chip choice name="period" value="y">Year</watt-filter-chip>
         <watt-filter-chip choice name="period" value="c">Custom</watt-filter-chip>
-      </div>
+      </vater-stack>
     `,
   }),
   args: {},
@@ -71,11 +72,11 @@ export const Menu: StoryObj<WattMenuChipComponent> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="display: flex; gap: var(--watt-space-s)">
+      <vater-stack gap="s">
         <watt-menu-chip>Type</watt-menu-chip>
         <watt-menu-chip>Grid Area</watt-menu-chip>
         <watt-menu-chip>Period</watt-menu-chip>
-      </div>
+      </vater-stack>
     `,
   }),
   args: {},
