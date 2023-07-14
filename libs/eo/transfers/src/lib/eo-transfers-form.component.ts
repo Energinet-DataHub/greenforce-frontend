@@ -446,7 +446,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
       if (this.editableFields.includes('startDate')) {
         this.disabledStartHours = this.getDisabledHours(this.form.controls['startDate'].value);
       }
-      if(!this.form.controls['hasEndDate'].value) return;
+      if (!this.form.controls['hasEndDate'].value) return;
       this.disabledEndHours = this.getDisabledHours(this.form.controls['endDate'].value);
     }
   }
