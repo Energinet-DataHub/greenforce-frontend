@@ -232,7 +232,9 @@ interface EoTransfersForm {
         </watt-form-field>
         <eo-transfers-timepicker
           formControlName="startDateTime"
-          [selectedDate]="editableFields.includes('startDate') ? form.controls.startDate.value : null"
+          [selectedDate]="
+            editableFields.includes('startDate') ? form.controls.startDate.value : null
+          "
           [errors]="form.controls.startDateTime.errors"
           [disabledHours]="editableFields.includes('startDate') ? disabledStartHours : []"
           (invalidOptionReset)="form.controls.startDate.updateValueAndValidity()"
