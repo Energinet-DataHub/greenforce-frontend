@@ -244,9 +244,7 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
           return { startDate: transfer.startDate, endDate: transfer.endDate };
         })
         // Filter out transfers that have ended
-        .filter(
-          (transfer) => transfer.endDate === null || transfer.endDate > new Date().getTime()
-        )
+        .filter((transfer) => transfer.endDate === null || transfer.endDate > new Date().getTime())
         .sort((a, b) => {
           if (a.endDate === null) return 1; // a is lesser if its endDate is null
           if (b.endDate === null) return -1; // b is lesser if its endDate is null

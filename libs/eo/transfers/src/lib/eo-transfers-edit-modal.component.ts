@@ -38,13 +38,7 @@ import { Observable, of } from 'rxjs';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers-edit-modal',
-  imports: [
-    PushModule,
-    WATT_MODAL,
-    WattValidationMessageComponent,
-    NgIf,
-    EoTransfersFormComponent,
-  ],
+  imports: [PushModule, WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent],
   standalone: true,
   template: `
     <watt-modal
@@ -114,7 +108,7 @@ export class EoTransfersEditModalComponent implements OnChanges {
     this.cd.detectChanges();
     this.modal.open();
 
-    if(!this.transfer) return;
+    if (!this.transfer) return;
     this.existingTransferAgreements$ = this.store.getExistingTransferAgreements$(
       this.transfer.receiverTin,
       this.transfer.id
