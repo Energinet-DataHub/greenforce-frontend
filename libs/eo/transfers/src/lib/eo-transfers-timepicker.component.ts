@@ -35,11 +35,12 @@ import { isToday } from 'date-fns';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'eo-transfers-timepicker',
   standalone: true,
-  imports: [WATT_FORM_FIELD, ReactiveFormsModule, WattDropdownComponent],
+  imports: [WATT_FORM_FIELD, ReactiveFormsModule, WattDropdownComponent, CommonModule],
   template: `
     <watt-form-field>
       <watt-dropdown
@@ -79,7 +80,6 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnC
 
     // If disabled hours change, generate new options
     if (changes['disabledHours']) {
-      console.log('disabledHours changed', this.disabledHours);
       this.options = this.generateOptions();
       this.setValidOption();
     }

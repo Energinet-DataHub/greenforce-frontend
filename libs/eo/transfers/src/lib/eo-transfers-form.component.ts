@@ -361,19 +361,22 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
   private formGroupValidators = [endDateMustBeLaterThanStartDateValidator()];
   private destroy$ = new Subject<void>();
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   ngOnInit(): void {
     this.initForm();
 
-    this.form.controls['startDate'].valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((startDate) => {
-        const today = new Date();
+    if (this.editableFields.includes('startDate')) {
+      this.form.controls['startDate'].valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((startDate) => {
+          const today = new Date();
 
-        this.minEndDate =
-          startDate && isAfter(new Date(startDate), today) ? new Date(startDate) : new Date();
+          this.minEndDate =
+            startDate && isAfter(new Date(startDate), today) ? new Date(startDate) : new Date();
 
-        this.disabledStartHours = this.getDisabledHours(startDate);
-      });
+          this.disabledStartHours = this.getDisabledHours(startDate);
+        });
+    }
 
     this.form.controls['endDate'].valueChanges.pipe(takeUntil(this.destroy$))
     .subscribe((endDate) => {
@@ -422,7 +425,9 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
         const receiverTin = receiverTinValidity ? this.form.controls['receiverTin'].value : null;
         this.receiverTinChanged.emit(receiverTin);
 
-        this.disabledStartHours = this.getDisabledHours(this.form.controls['startDate'].value);
+        if (this.editableFields.includes('startDate')) {
+          this.disabledStartHours = this.getDisabledHours(this.form.controls['startDate'].value);
+        }
 
         if(!this.form.controls['hasEndDate'].value) return;
         this.disabledEndHours = this.getDisabledHours(this.form.controls['endDate'].value);
@@ -436,6 +441,12 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
         overlappingTransferAgreementsValidator(this.existingTransferAgreements),
       ]);
       this.form.updateValueAndValidity();
+
+      if (this.editableFields.includes('startDate')) {
+        this.disabledStartHours = this.getDisabledHours(this.form.controls['startDate'].value);
+      }
+      if(!this.form.controls['hasEndDate'].value) return;
+      this.disabledEndHours = this.getDisabledHours(this.form.controls['endDate'].value);
     }
   }
 
