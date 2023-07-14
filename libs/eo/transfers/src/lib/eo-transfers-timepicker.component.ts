@@ -35,11 +35,12 @@ import { isToday } from 'date-fns';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'eo-transfers-timepicker',
   standalone: true,
-  imports: [WATT_FORM_FIELD, ReactiveFormsModule, WattDropdownComponent],
+  imports: [WATT_FORM_FIELD, ReactiveFormsModule, WattDropdownComponent, CommonModule],
   template: `
     <watt-form-field>
       <watt-dropdown
@@ -74,17 +75,13 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnC
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedDate']) {
       this.options = this.generateOptions();
-
-      const isValidOption = this.options.find((option) => option.value === this.control.value);
-      if (!isValidOption) {
-        this.control.setValue(this.options[0].value);
-        this.invalidOptionReset.emit();
-      }
+      this.setValidOption();
     }
 
     // If disabled hours change, generate new options
     if (changes['disabledHours']) {
       this.options = this.generateOptions();
+      this.setValidOption();
     }
 
     if (changes['errors']) {
@@ -126,6 +123,14 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnC
     // Intentionally left empty
   };
 
+  private setValidOption() {
+    const isValidOption = this.options.find((option) => option.value === this.control.value);
+    if (!isValidOption) {
+      this.control.setValue(this.options[0].value);
+      this.invalidOptionReset.emit();
+    }
+  }
+
   private generateOptions(): WattDropdownOption[] {
     const disabledHours = this.getDisabledHours();
 
@@ -141,7 +146,7 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnC
 
   private getDisabledHours(): string[] {
     const isTodaySelected = this.selectedDate && isToday(new Date(this.selectedDate));
-    if (!isTodaySelected) return [];
+    if (!isTodaySelected) return this.disabledHours;
 
     const hours = new Date().getHours();
     const disabledHours = Array.from({ length: hours + 1 }, (_, i) => {

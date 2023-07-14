@@ -29,9 +29,10 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import { EoTransfersService } from './eo-transfers.service';
-import { EoTransfersStore } from './eo-transfers.store';
+import { EoExistingTransferAgreement, EoTransfersStore } from './eo-transfers.store';
 import { EoTransfersFormComponent } from './eo-transfers-form.component';
 import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { Observable, of } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,6 +61,8 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 
       <eo-transfers-form
         [senderTin]="authStore.getTin$ | push"
+        [existingTransferAgreements]="existingTransferAgreements$ | push"
+        (receiverTinChanged)="onReceiverTinChange($event)"
         (submitted)="createAgreement($event)"
         (canceled)="modal.close(false)"
       ></eo-transfers-form>
@@ -73,6 +76,7 @@ export class EoTransfersCreateModalComponent {
   protected creatingTransferAgreementFailed = false;
   protected isFormValid = false;
   protected opened = false;
+  protected existingTransferAgreements$: Observable<EoExistingTransferAgreement[]> = of([]);
 
   constructor(
     private service: EoTransfersService,
@@ -92,6 +96,11 @@ export class EoTransfersCreateModalComponent {
 
   onClosed() {
     this.opened = false;
+    this.existingTransferAgreements$ = of([]);
+  }
+
+  onReceiverTinChange(receiverTin: string | null) {
+    this.existingTransferAgreements$ = this.store.getExistingTransferAgreements$(receiverTin);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
