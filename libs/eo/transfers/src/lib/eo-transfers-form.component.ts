@@ -378,10 +378,11 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
         });
     }
 
-    this.form.controls['endDate'].valueChanges.pipe(takeUntil(this.destroy$))
-    .subscribe((endDate) => {
-      this.disabledEndHours = this.getDisabledHours(endDate);
-    });
+    this.form.controls['endDate'].valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((endDate) => {
+        this.disabledEndHours = this.getDisabledHours(endDate);
+      });
 
     this.form.controls['hasEndDate'].valueChanges
       .pipe(takeUntil(this.destroy$))
@@ -429,7 +430,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
           this.disabledStartHours = this.getDisabledHours(this.form.controls['startDate'].value);
         }
 
-        if(!this.form.controls['hasEndDate'].value) return;
+        if (!this.form.controls['hasEndDate'].value) return;
         this.disabledEndHours = this.getDisabledHours(this.form.controls['endDate'].value);
       });
   }
@@ -488,10 +489,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
         return i.toString().padStart(2, '0') + ':00';
       });
 
-      const availability = this.determineSlotsAvailability(
-        availableHours,
-        disabledHours
-      );
+      const availability = this.determineSlotsAvailability(availableHours, disabledHours);
 
       if (availability) {
         return 'eo-transfers-form-overlapping-date';
