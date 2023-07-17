@@ -131,7 +131,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     </div>
     <watt-table
       #table
-      [loading]="true"
+      [loading]="loading"
       [columns]="columns"
       [dataSource]="dataSource"
       sortBy="status"
@@ -184,6 +184,7 @@ interface EoTransferTableElement extends EoListedTransfer {
 })
 export class EoTransfersTableComponent implements OnChanges {
   @Input() transfers: EoListedTransfer[] = [];
+  @Input() loading = false;
   @Input() selectedTransfer?: EoListedTransfer;
   @Output() transferSelected = new EventEmitter<EoListedTransfer>();
 
