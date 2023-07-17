@@ -1,5 +1,3 @@
 {
-  "stepDefinitions": [
-    "src/e2e/[filepart]/step_definitions/**/*.ts"
-  ]
+  "stepDefinitions": ["src/e2e/[filepart]/step_definitions/**/*.ts"]
 }

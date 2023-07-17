@@ -38,7 +38,7 @@ When('I go to the transfers page', () => {
 
 When('the API for transfer agreements is down', () => {
   cy.intercept('GET', 'https://demo.energioprindelse.dk/api/transfer-agreements', {
-    statusCode: 500
+    statusCode: 500,
   });
 });
 
@@ -71,5 +71,3 @@ Then('I can see a general error message', () => {
 Then('I see no errors', () => {
   transfers.generalErrorIsNotVisible();
 });
-
-

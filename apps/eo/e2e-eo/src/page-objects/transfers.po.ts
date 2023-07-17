@@ -47,9 +47,12 @@ export class TransfersPo {
     cy.get(this.transfersTable).should('contain', this.testReceiverId);
   generalErrorIsVisible = () => cy.get(this.generalErrorMessage).should('be.visible');
   generalErrorIsNotVisible = () => cy.get(this.generalErrorMessage).should('not.exist');
-  noTransferAgreementsTextIsVisible = () => cy.get('p').should('contain', this.noTransferAgreementsText);
-  loadingTransferAgreementsIndicatorIsVisible = () => cy.get(this.loadingTransferAgreementsIndicator).should('be.visible');
-  loadingTransferAgreementsIndicatorIsNotVisible = () => cy.get(this.loadingTransferAgreementsIndicator).should('not.exist');
+  noTransferAgreementsTextIsVisible = () =>
+    cy.get('p').should('contain', this.noTransferAgreementsText);
+  loadingTransferAgreementsIndicatorIsVisible = () =>
+    cy.get(this.loadingTransferAgreementsIndicator).should('be.visible');
+  loadingTransferAgreementsIndicatorIsNotVisible = () =>
+    cy.get(this.loadingTransferAgreementsIndicator).should('not.exist');
 
   // Interaction
   clickNewAgreementButton() {

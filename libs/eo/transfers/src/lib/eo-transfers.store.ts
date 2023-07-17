@@ -85,19 +85,20 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   readonly getTransfers = this.effect(() => {
     return this.service.getTransfers().pipe(
       tap(() => {
-        this.patchState({ loadingTransferAgreements: true, error: null})
+        this.patchState({ loadingTransferAgreements: true, error: null });
       }),
       tapResponse(
         (response) => {
           this.setTransfers(
-            response && response.result ?
-            response.result.map((transfer) => {
-              return {
-                ...transfer,
-                startDate: fromUnixTime(transfer.startDate).getTime(),
-                endDate: transfer.endDate ? fromUnixTime(transfer.endDate).getTime() : null,
-              };
-            }) : []
+            response && response.result
+              ? response.result.map((transfer) => {
+                  return {
+                    ...transfer,
+                    startDate: fromUnixTime(transfer.startDate).getTime(),
+                    endDate: transfer.endDate ? fromUnixTime(transfer.endDate).getTime() : null,
+                  };
+                })
+              : []
           );
           this.patchState({ loadingTransferAgreements: false });
         },
