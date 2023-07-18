@@ -40,14 +40,17 @@ export function overlappingTransferAgreementsValidator(
       existingTransferAgreements
     );
 
-    if (isOverlapping.start || (!hasEndDate.value && isOverlapping.end)) {
+    if(!hasEndDate.value && isOverlapping.end) {
+      setValidationErrorsWithData('overlapping', isOverlapping, hasEndDate);
+      clearErrors('overlapping', startDate, startDateTime, endDate, endDateTime);
+    } else if (isOverlapping.start) {
       setValidationErrorsWithData('overlapping', isOverlapping, startDate, startDateTime);
-      clearErrors('overlapping', endDate, endDateTime);
+      clearErrors('overlapping', endDate, endDateTime, hasEndDate);
     } else if (isOverlapping.end) {
       setValidationErrorsWithData('overlapping', isOverlapping, endDate, endDateTime);
       clearErrors('overlapping', startDate, startDateTime);
     } else {
-      clearErrors('overlapping', startDate, startDateTime, endDate, endDateTime);
+      clearErrors('overlapping', startDate, startDateTime, endDate, endDateTime, hasEndDate);
     }
 
     return null;

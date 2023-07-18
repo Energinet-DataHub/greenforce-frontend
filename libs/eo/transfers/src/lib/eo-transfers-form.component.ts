@@ -151,27 +151,41 @@ interface EoTransfersForm {
         display: none;
       }
 
+      eo-transfers-form .endDate {
+        min-height: 159px;
+      }
+
       eo-transfers-form .end-date-label {
         width: 100%;
         margin-bottom: var(--watt-space-s);
       }
 
-      eo-transfers-form .end-date-container {
+      eo-transfers-form .end-date-container,
+      eo-transfers-form .end-date-container watt-radio {
         display: flex;
         flex-wrap: wrap;
-        margin-top: 26px;
-        max-width: 60%;
+        align-items: center;
+      }
+
+      eo-transfers-form .end-date-container watt-radio {
+        margin-right: var(--watt-space-m);
+        height: 80px;
       }
 
       eo-transfers-form .end-date-container watt-error {
-        margin-top: -32px;
+        margin-top: -13px;
+      }
+
+      eo-transfers-form
+        .end-date-container
+        .mat-form-field-appearance-legacy
+        .mat-form-field-wrapper {
+        padding-bottom: 0;
       }
 
       eo-transfers-form .radio-buttons-container {
         display: flex;
         flex-direction: column;
-        gap: var(--watt-space-l);
-        margin-bottom: 46px;
       }
 
       eo-transfers-form .datepicker {
@@ -191,8 +205,13 @@ interface EoTransfersForm {
         color: var(--watt-color-primary);
       }
 
-      eo-transfers-form .has-error,
-      eo-transfers-form .has-error .asterisk {
+      eo-transfers-form .has-error {
+        --watt-radio-color: var(--watt-color-state-danger);
+        --watt-radio-label-color: var(--watt-color-state-danger);
+      }
+
+      eo-transfers-form .has-error p,
+      eo-transfers-form .has-error p .asterisk {
         color: var(--watt-color-state-danger);
       }
     `,
@@ -244,73 +263,68 @@ interface EoTransfersForm {
         </watt-error>
         <!-- TODO: NEED TO FIGURE SOMETHING OUT FOR THE WIDTH OF THE ERROR -->
         <watt-error
-          *ngIf="form.controls.startDate.errors?.['overlapping']; let error"
+          *ngIf="form.controls.startDate.errors?.['overlapping']?.start; let error"
           class="watt-text-s"
           style="width: 425px;"
         >
-          <ng-container *ngIf="error.end; let error">
-            Because you haven't chosen an end date, the period overlaps with an existing agreement:
-            {{ error.startDate | wattDate : 'long' }} - {{ error.endDate | wattDate : 'long' }}
-          </ng-container>
-          <ng-container *ngIf="error.start; let error">
-            Chosen period overlaps with an existing agreement: <br />{{
-              error.startDate | wattDate : 'long'
-            }}
-            - {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
-          </ng-container>
+          Chosen period overlaps with an existing agreement: <br />{{
+            error.startDate | wattDate : 'long'
+          }}
+          - {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
         </watt-error>
       </fieldset>
-      <fieldset class="endDate">
-        <p
-          class="watt-label end-date-label"
-          [ngClass]="{ 'has-error': form.controls.endDate.errors }"
-        >
+      <fieldset class="endDate" [ngClass]="{ 'has-error': form.controls.endDate.errors || form.controls.hasEndDate.errors }">
+        <p class="watt-label end-date-label">
           End of period <span class="asterisk">*</span>
         </p>
-
         <div class="radio-buttons-container">
           <watt-radio group="has_enddate" formControlName="hasEndDate" [value]="false"
             >No end date</watt-radio
           >
-          <watt-radio group="has_enddate" formControlName="hasEndDate" [value]="true"
-            >End by</watt-radio
-          >
-        </div>
-
-        <div *ngIf="form.value.hasEndDate" class="end-date-container">
-          <watt-form-field class="datepicker">
-            <watt-datepicker
-              #endDatePicker
-              formControlName="endDate"
-              [dateClass]="dateClass"
-              data-testid="new-agreement-end-date-input"
-              [min]="minEndDate"
-            />
-          </watt-form-field>
-          <eo-transfers-timepicker
-            formControlName="endDateTime"
-            [selectedDate]="form.controls.endDate.value"
-            [errors]="form.controls.endDateTime.errors"
-            [disabledHours]="disabledEndHours"
-            (invalidOptionReset)="form.controls.endDate.updateValueAndValidity()"
-          >
-          </eo-transfers-timepicker>
-          <watt-error *ngIf="form.controls.endDate.errors?.['minToday']" class="watt-text-s">
-            The end of the period must be today or later
-          </watt-error>
-          <watt-error
-            *ngIf="form.controls.endDate.errors?.['endDateMustBeLaterThanStartDate']"
-            class="watt-text-s"
-          >
-            The end of the period must be later than the start of the period
-          </watt-error>
-          <watt-error
-            *ngIf="form.controls.endDate.errors?.['overlapping']?.end; let error"
-            class="watt-text-s"
-          >
-            End by overlaps with an existing agreement:<br />
-            {{ error.startDate | wattDate : 'long' }} - {{ error.endDate | wattDate : 'long' }}
-          </watt-error>
+          <div class="end-date-container">
+            <watt-radio group="has_enddate" formControlName="hasEndDate" [value]="true"
+              >End by</watt-radio
+            >
+            <ng-container *ngIf="form.value.hasEndDate">
+              <watt-form-field class="datepicker">
+                <watt-datepicker
+                  #endDatePicker
+                  formControlName="endDate"
+                  [dateClass]="dateClass"
+                  data-testid="new-agreement-end-date-input"
+                  [min]="minEndDate"
+                />
+              </watt-form-field>
+              <eo-transfers-timepicker
+                formControlName="endDateTime"
+                [selectedDate]="form.controls.endDate.value"
+                [errors]="form.controls.endDateTime.errors"
+                [disabledHours]="disabledEndHours"
+                (invalidOptionReset)="form.controls.endDate.updateValueAndValidity()"
+              >
+              </eo-transfers-timepicker>
+            </ng-container>
+            <watt-error *ngIf="form.controls.endDate.errors?.['minToday']" class="watt-text-s">
+              The end of the period must be today or later
+            </watt-error>
+            <watt-error
+              *ngIf="form.controls.endDate.errors?.['endDateMustBeLaterThanStartDate']"
+              class="watt-text-s"
+            >
+              The end of the period must be later than the start of the period
+            </watt-error>
+            <watt-error class="watt-text-s" *ngIf="form.controls.hasEndDate.errors?.['overlapping']?.end; let error">
+              Because you haven't chosen an end date, the period overlaps with an existing agreement:
+              {{ error.startDate | wattDate : 'long' }} - {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
+            </watt-error>
+            <watt-error
+              *ngIf="form.controls.endDate.errors?.['overlapping']?.end; let error"
+              class="watt-text-s"
+            >
+              End by overlaps with an existing agreement:<br />
+              {{ error.startDate | wattDate : 'long' }} - {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
+            </watt-error>
+          </div>
         </div>
       </fieldset>
     </form>
