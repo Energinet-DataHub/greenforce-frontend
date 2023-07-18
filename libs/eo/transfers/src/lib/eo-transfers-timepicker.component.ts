@@ -35,12 +35,11 @@ import { isToday } from 'date-fns';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'eo-transfers-timepicker',
   standalone: true,
-  imports: [WATT_FORM_FIELD, ReactiveFormsModule, WattDropdownComponent, CommonModule],
+  imports: [WATT_FORM_FIELD, ReactiveFormsModule, WattDropdownComponent],
   template: `
     <watt-form-field>
       <watt-dropdown
