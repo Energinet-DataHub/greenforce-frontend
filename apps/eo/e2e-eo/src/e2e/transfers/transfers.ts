@@ -14,21 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import { LandingPagePO, LoginPo, SharedPO } from '../../../page-objects';
-import { TransfersPo } from '../../../page-objects/transfers.po';
+import { Then, When } from '@badeball/cypress-cucumber-preprocessor';
+import { SharedPO } from '../../page-objects';
+import { TransfersPo } from '../../page-objects/transfers.po';
 
 const transfers = new TransfersPo();
-const landingPage = new LandingPagePO();
-const login = new LoginPo();
 const shared = new SharedPO();
-
-Given('I am logged in as Charlotte CSR', () => {
-  landingPage.navigateTo();
-  shared.clickOnlyNecessaryButton(); // To get rid of Cookie Consent banner
-  landingPage.clickLoginButton();
-  login.clickCharlotteLogin();
-});
 
 When('I go to the transfers page', () => {
   shared.clickTransfersMenuItem();

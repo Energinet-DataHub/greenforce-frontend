@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import { TransfersPo } from '../../../page-objects/transfers.po';
+import { TransfersPo } from '../../page-objects/transfers.po';
 
 const transfers = new TransfersPo();
 
