@@ -273,10 +273,11 @@ interface EoTransfersForm {
           - {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
         </watt-error>
       </fieldset>
-      <fieldset class="endDate" [ngClass]="{ 'has-error': form.controls.endDate.errors || form.controls.hasEndDate.errors }">
-        <p class="watt-label end-date-label">
-          End of period <span class="asterisk">*</span>
-        </p>
+      <fieldset
+        class="endDate"
+        [ngClass]="{ 'has-error': form.controls.endDate.errors || form.controls.hasEndDate.errors }"
+      >
+        <p class="watt-label end-date-label">End of period <span class="asterisk">*</span></p>
         <div class="radio-buttons-container">
           <watt-radio group="has_enddate" formControlName="hasEndDate" [value]="false"
             >No end date</watt-radio
@@ -313,16 +314,22 @@ interface EoTransfersForm {
             >
               The end of the period must be later than the start of the period
             </watt-error>
-            <watt-error class="watt-text-s" *ngIf="form.controls.hasEndDate.errors?.['overlapping']?.end; let error">
-              Because you haven't chosen an end date, the period overlaps with an existing agreement:
-              {{ error.startDate | wattDate : 'long' }} - {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
+            <watt-error
+              class="watt-text-s"
+              *ngIf="form.controls.hasEndDate.errors?.['overlapping']?.end; let error"
+            >
+              Because you haven't chosen an end date, the period overlaps with an existing
+              agreement:
+              {{ error.startDate | wattDate : 'long' }} -
+              {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
             </watt-error>
             <watt-error
               *ngIf="form.controls.endDate.errors?.['overlapping']?.end; let error"
               class="watt-text-s"
             >
               End by overlaps with an existing agreement:<br />
-              {{ error.startDate | wattDate : 'long' }} - {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
+              {{ error.startDate | wattDate : 'long' }} -
+              {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
             </watt-error>
           </div>
         </div>

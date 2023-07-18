@@ -40,7 +40,7 @@ export function overlappingTransferAgreementsValidator(
       existingTransferAgreements
     );
 
-    if(!hasEndDate.value && isOverlapping.end) {
+    if (!hasEndDate.value && isOverlapping.end) {
       setValidationErrorsWithData('overlapping', isOverlapping, hasEndDate);
       clearErrors('overlapping', startDate, startDateTime, endDate, endDateTime);
     } else if (isOverlapping.start) {

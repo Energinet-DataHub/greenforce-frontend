@@ -63,5 +63,3 @@ Then('I am on the landing page again with an error in the URL', () => {
   landingPage.headerIsVisible();
   landingPage.urlShowsPrivateUserNotAllowed();
 });
-
-
