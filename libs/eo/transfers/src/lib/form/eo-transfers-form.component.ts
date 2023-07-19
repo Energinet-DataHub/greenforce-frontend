@@ -44,9 +44,9 @@ import {
   minTodayValidator,
   nextHourOrLaterValidator,
   overlappingTransferAgreementsValidator,
-} from './validations';
+} from '../validations';
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
-import { EoExistingTransferAgreement } from './eo-transfers.store';
+import { EoExistingTransferAgreement } from '../eo-transfers.store';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 export interface EoTransfersFormInitialValues {

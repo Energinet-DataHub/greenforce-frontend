@@ -30,7 +30,7 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
 
 import { EoTransfersService } from './eo-transfers.service';
 import { EoExistingTransferAgreement, EoTransfersStore } from './eo-transfers.store';
-import { EoTransfersFormComponent } from './eo-transfers-form.component';
+import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
 import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 import { Observable, of } from 'rxjs';
 
