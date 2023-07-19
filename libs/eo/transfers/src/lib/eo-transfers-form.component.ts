@@ -86,133 +86,128 @@ interface EoTransfersForm {
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      .eo-transfers-form-overlapping-date:not(.mat-calendar-body-disabled) {
-        background: var(--watt-color-state-warning-light) !important;
-        border-radius: 100%;
-      }
+      .eo-transfers-form-overlapping-date,
+      .eo-transfers-form-fully-booked {
+        &:not(.mat-calendar-body-disabled) {
+          background: var(--watt-color-state-warning-light) !important;
+          border-radius: 100%;
 
-      .eo-transfers-form-overlapping-date:not(.mat-calendar-body-disabled):hover
-        .mat-calendar-body-cell-content,
-      .eo-transfers-form-overlapping-date:not(.mat-calendar-body-disabled)
-        .mat-calendar-body-selected {
-        background: var(--watt-color-state-warning) !important;
-        color: var(--watt-color-neutral-black) !important;
-      }
+          &.mat-calendar-body-selected,
+          &:hover .mat-calendar-body-cell-content {
+            background: var(--watt-color-state-warning) !important;
+            color: var(--watt-color-neutral-black) !important;
+          }
 
-      .eo-transfers-form-fully-booked:not(.mat-calendar-body-disabled),
-      .eo-transfers-form-fully-booked:not(.mat-calendar-body-disabled) .mat-calendar-body-selected {
-        background: var(--watt-color-state-danger-light) !important;
-        pointer-events: none;
-        border-radius: 100%;
-        color: var(--watt-color-neutral-black) !important;
+          &.mat-calendar-body-selected {
+            background: var(--watt-color-state-danger-light) !important;
+            pointer-events: none;
+            color: var(--watt-color-neutral-black) !important;
+          }
+        }
+
+        &.mat-calendar-body-today {
+          border: none !important;
+        }
       }
 
       .mat-calendar-body-selected {
         color: var(--watt-color-primary-contrast);
       }
 
-      .eo-transfers-form-fully-booked .mat-calendar-body-today {
-        border: none !important;
-      }
+      eo-transfers-form {
+        fieldset {
+          display: flex;
+          flex-wrap: wrap;
+        }
 
-      eo-transfers-form fieldset {
-        display: flex;
-        flex-wrap: wrap;
-      }
+        watt-form-field {
+          margin-bottom: var(--watt-space-m);
+        }
 
-      eo-transfers-form watt-form-field {
-        margin-bottom: var(--watt-space-m);
-      }
+        .receiver,
+        .start-date {
+          max-width: 280px;
+        }
 
-      eo-transfers-form .receiver {
-        margin-top: var(--watt-space-l);
-      }
+        .receiver {
+          margin-top: var(--watt-space-l);
+        }
 
-      eo-transfers-form .receiver,
-      eo-transfers-form .start-date {
-        max-width: 280px;
-      }
+        .start-date {
+          margin-bottom: var(--watt-space-xs);
+          position: relative;
+          padding-bottom: var(--watt-space-s);
 
-      eo-transfers-form .start-date {
-        margin-bottom: var(--watt-space-xs);
-        position: relative;
-        padding-bottom: var(--watt-space-s);
-      }
+          watt-error {
+            position: absolute;
+            bottom: 0;
+          }
+        }
 
-      eo-transfers-form .start-date watt-error {
-        position: absolute;
-        bottom: 0;
-      }
+        .endDate {
+          min-height: 159px;
 
-      eo-transfers-form
-        .endDate
-        watt-form-field
-        .mat-placeholder-required.mat-form-field-required-marker {
-        display: none;
-      }
+          watt-form-field .mat-placeholder-required.mat-form-field-required-marker {
+            display: none;
+          }
 
-      eo-transfers-form .endDate {
-        min-height: 159px;
-      }
+          .end-date-label {
+            width: 100%;
+            margin-bottom: var(--watt-space-s);
+          }
 
-      eo-transfers-form .end-date-label {
-        width: 100%;
-        margin-bottom: var(--watt-space-s);
-      }
+          .end-date-container,
+          .end-date-container watt-radio {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+          }
 
-      eo-transfers-form .end-date-container,
-      eo-transfers-form .end-date-container watt-radio {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-      }
+          .end-date-container watt-radio {
+            margin-right: var(--watt-space-m);
+            height: 80px;
+          }
 
-      eo-transfers-form .end-date-container watt-radio {
-        margin-right: var(--watt-space-m);
-        height: 80px;
-      }
+          .end-date-container watt-error {
+            margin-top: -13px;
+          }
 
-      eo-transfers-form .end-date-container watt-error {
-        margin-top: -13px;
-      }
+          .end-date-container .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+            padding-bottom: 0;
+          }
+        }
 
-      eo-transfers-form
-        .end-date-container
-        .mat-form-field-appearance-legacy
-        .mat-form-field-wrapper {
-        padding-bottom: 0;
-      }
+        .radio-buttons-container {
+          display: flex;
+          flex-direction: column;
+        }
 
-      eo-transfers-form .radio-buttons-container {
-        display: flex;
-        flex-direction: column;
-      }
+        .datepicker {
+          max-width: 160px;
+          margin-right: var(--watt-space-m);
+        }
 
-      eo-transfers-form .datepicker {
-        max-width: 160px;
-        margin-right: var(--watt-space-m);
-      }
+        eo-transfers-timepicker {
+          max-width: 104px;
+        }
 
-      eo-transfers-form eo-transfers-timepicker:first-of-type {
-        max-width: 104px;
-      }
+        .datetime .mat-form-field-type-mat-date-range-input .mat-form-field-infix {
+          width: auto !important;
+        }
 
-      eo-transfers-form .datetime .mat-form-field-type-mat-date-range-input .mat-form-field-infix {
-        width: auto !important;
-      }
+        .asterisk {
+          color: var(--watt-color-primary);
+        }
 
-      eo-transfers-form .asterisk {
-        color: var(--watt-color-primary);
-      }
+        .has-error {
+          --watt-radio-color: var(--watt-color-state-danger);
+          --watt-radio-label-color: var(--watt-color-state-danger);
 
-      eo-transfers-form .has-error {
-        --watt-radio-color: var(--watt-color-state-danger);
-        --watt-radio-label-color: var(--watt-color-state-danger);
-      }
-
-      eo-transfers-form .has-error p,
-      eo-transfers-form .has-error p .asterisk {
-        color: var(--watt-color-state-danger);
+          p,
+          p .asterisk {
+            color: var(--watt-color-state-danger);
+          }
+        }
       }
     `,
   ],
@@ -575,6 +570,11 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
     return false;
   }
 
+  private getNextHour(): string {
+    const nextHour = new Date().getHours() + 1;
+    return nextHour.toString().padStart(2, '0');
+  }
+
   private initForm() {
     const { receiverTin, startDate, startDateTime, hasEndDate, endDate, endDateTime } =
       this.initialValues;
@@ -633,10 +633,5 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
       },
       { validators: this.formGroupValidators }
     );
-  }
-
-  private getNextHour(): string {
-    const nextHour = new Date().getHours() + 1;
-    return nextHour.toString().padStart(2, '0');
   }
 }
