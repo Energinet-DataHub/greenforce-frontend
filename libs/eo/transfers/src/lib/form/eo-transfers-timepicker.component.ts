@@ -29,7 +29,9 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
   ControlValueAccessor,
-  ValidationErrors,
+  AbstractControl,
+  NG_VALIDATORS,
+  Validator,
 } from '@angular/forms';
 import { isToday } from 'date-fns';
 
@@ -40,6 +42,15 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
   selector: 'eo-transfers-timepicker',
   standalone: true,
   imports: [WATT_FORM_FIELD, ReactiveFormsModule, WattDropdownComponent],
+  styles: [`
+    :host {
+      max-width: 104px;
+    }
+
+    watt-form-field {
+      margin-top: 0;
+    }
+  `],
   template: `
     <watt-form-field>
       <watt-dropdown
@@ -57,12 +68,16 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
       useExisting: forwardRef(() => EoTransfersTimepickerComponent),
       multi: true,
     },
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: EoTransfersTimepickerComponent
+    },
   ],
 })
-export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnChanges {
+export class EoTransfersTimepickerComponent implements ControlValueAccessor, Validator, OnChanges {
   @Input() selectedDate: string | null = null;
   @Input() disabledHours: string[] = [];
-  @Input() errors: ValidationErrors | null = null;
   @Output() invalidOptionReset = new EventEmitter<void>();
 
   @ViewChild('dropdown') dropdown: WattDropdownComponent | undefined;
@@ -72,21 +87,15 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnC
   control = new FormControl();
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.options = this.generateOptions();
+    if(this.options.length === 0 && this.setDisabledState) {
+      this.setDisabledState(true);
+    } else if(this.setDisabledState) {
+      this.setDisabledState(false);
+    }
+
     if (changes['selectedDate']) {
-      this.options = this.generateOptions();
       this.setValidOption();
-    }
-
-    // If disabled hours change, generate new options
-    if (changes['disabledHours']) {
-      this.options = this.generateOptions();
-      this.setValidOption();
-    }
-
-    if (changes['errors']) {
-      this.control.setErrors(this.errors);
-      // We need to mark the control as touched to show the error
-      this.dropdown?.matSelect?.ngControl?.control?.markAsDirty();
     }
   }
 
@@ -122,10 +131,18 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnC
     // Intentionally left empty
   };
 
+  validate(control: AbstractControl) {
+    this.control.setErrors(control.errors);
+    // We need to mark the control as touched to show the error
+    this.dropdown?.matSelect?.ngControl?.control?.markAsDirty();
+
+    return control.errors;
+  }
+
   private setValidOption() {
     const isValidOption = this.options.find((option) => option.value === this.control.value);
     if (!isValidOption) {
-      this.control.setValue(this.options[0].value);
+      this.control.setValue(this.options.length > 0 ? this.options[0].value : null);
       this.invalidOptionReset.emit();
     }
   }

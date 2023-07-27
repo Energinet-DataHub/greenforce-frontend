@@ -17,17 +17,16 @@
 import {
   Component,
   OnInit,
-  OnChanges,
-  SimpleChanges,
   OnDestroy,
   Input,
   Output,
   EventEmitter,
   ViewEncapsulation,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
-import { add, isAfter, isSameDay } from 'date-fns';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgClass, NgIf } from '@angular/common';
+import { CommonModule, NgClass, NgIf } from '@angular/common';
 import { Subject, distinctUntilChanged, of, switchMap, takeUntil } from 'rxjs';
 
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
@@ -40,7 +39,6 @@ import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import {
   compareValidator,
   endDateMustBeLaterThanStartDateValidator,
-  isOverlappingPeriod,
   minTodayValidator,
   nextHourOrLaterValidator,
   overlappingTransferAgreementsValidator,
@@ -48,24 +46,27 @@ import {
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
 import { EoExistingTransferAgreement } from '../eo-transfers.store';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { EoTransfersPeriodComponent } from './eo-transfers-period.component';
+import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
+import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
 
 export interface EoTransfersFormInitialValues {
-  receiverTin?: string;
-  startDate?: string;
-  startDateTime?: string;
-  hasEndDate?: boolean;
-  endDate?: string;
-  endDateTime?: string;
+  receiverTin: string;
+  startDate: number;
+  endDate: number | null;
 }
 
-interface EoTransfersForm {
-  receiverTin: FormControl<string | null>;
-  startDate: FormControl<string | null>;
-  startDateTime: FormControl<string>;
-  hasEndDate: FormControl<boolean>;
-  endDate: FormControl<string | null>;
-  endDateTime: FormControl<string | null>;
+export interface EoTransferFormPeriod {
+  startDate: FormControl<number | null>;
+  endDate: FormControl<number | null>;
 }
+
+export interface EoTransfersForm {
+  receiverTin: FormControl<string | null>;
+  period: FormGroup<EoTransferFormPeriod>;
+}
+
+type FormField = 'receiverTin' | 'startDate' | 'endDate';
 
 @Component({
   selector: 'eo-transfers-form',
@@ -77,136 +78,28 @@ interface EoTransfersForm {
     WattDatepickerComponent,
     WattModalActionsComponent,
     WattButtonComponent,
+    EoTransfersPeriodComponent,
     EoTransfersTimepickerComponent,
     WattRadioComponent,
     NgIf,
     NgClass,
     WattDatePipe,
+    CommonModule,
+    EoTransfersDateTimeComponent,
+    EoTransferErrorsComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      .eo-transfers-form-overlapping-date,
-      .eo-transfers-form-fully-booked {
-        &:not(.mat-calendar-body-disabled) {
-          background: var(--watt-color-state-warning-light) !important;
-          border-radius: 100%;
-
-          &.mat-calendar-body-selected,
-          &:hover .mat-calendar-body-cell-content {
-            background: var(--watt-color-state-warning) !important;
-            color: var(--watt-color-neutral-black) !important;
-          }
-
-          &.mat-calendar-body-selected {
-            background: var(--watt-color-state-danger-light) !important;
-            pointer-events: none;
-            color: var(--watt-color-neutral-black) !important;
-          }
-        }
-
-        &.mat-calendar-body-today {
-          border: none !important;
-        }
-      }
-
-      .mat-calendar-body-selected {
-        color: var(--watt-color-primary-contrast);
-      }
-
       eo-transfers-form {
         fieldset {
           display: flex;
           flex-wrap: wrap;
         }
 
-        watt-form-field {
-          margin-bottom: var(--watt-space-m);
-        }
-
-        .receiver,
-        .start-date {
-          max-width: 280px;
-        }
-
         .receiver {
+          max-width: 280px;
           margin-top: var(--watt-space-l);
-        }
-
-        .start-date {
-          margin-bottom: var(--watt-space-xs);
-          position: relative;
-          padding-bottom: var(--watt-space-s);
-
-          watt-error {
-            position: absolute;
-            bottom: 0;
-          }
-        }
-
-        .endDate {
-          min-height: 159px;
-
-          watt-form-field .mat-placeholder-required.mat-form-field-required-marker {
-            display: none;
-          }
-
-          .end-date-label {
-            width: 100%;
-            margin-bottom: var(--watt-space-s);
-          }
-
-          .end-date-container,
-          .end-date-container watt-radio {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-          }
-
-          .end-date-container watt-radio {
-            margin-right: var(--watt-space-m);
-            height: 80px;
-          }
-
-          .end-date-container watt-error {
-            margin-top: -13px;
-          }
-
-          .end-date-container .mat-form-field-appearance-legacy .mat-form-field-wrapper {
-            padding-bottom: 0;
-          }
-        }
-
-        .radio-buttons-container {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .datepicker {
-          max-width: 160px;
-          margin-right: var(--watt-space-m);
-        }
-
-        eo-transfers-timepicker {
-          max-width: 104px;
-        }
-
-        .datetime .mat-form-field-type-mat-date-range-input .mat-form-field-infix {
-          width: auto !important;
-        }
-
-        .asterisk {
-          color: var(--watt-color-primary);
-        }
-
-        .has-error {
-          --watt-radio-color: var(--watt-color-state-danger);
-          --watt-radio-label-color: var(--watt-color-state-danger);
-
-          p,
-          p .asterisk {
-            color: var(--watt-color-state-danger);
-          }
         }
       }
     `,
@@ -225,110 +118,20 @@ interface EoTransfersForm {
           (keydown)="preventNonNumericInput($event)"
           data-testid="new-agreement-receiver-input"
         />
-        <watt-error *ngIf="form.controls.receiverTin.errors?.['receiverTinEqualsSenderTin']">
+      </watt-form-field>
+      <eo-transfers-errors [showError]="(form.controls.receiverTin.touched || form.controls.receiverTin.dirty)">
+        <watt-error [style.opacity]="form.controls.receiverTin.errors?.['receiverTinEqualsSenderTin'] ? 1 : 0">
           The receiver cannot be your own TIN/CVR
         </watt-error>
-        <watt-error
-          *ngIf="form.controls.receiverTin.errors && !form.controls.receiverTin.errors?.['receiverTinEqualsSenderTin']"
-        >
+        <watt-error [style.opacity]="form.controls.receiverTin.errors && !form.controls.receiverTin.errors['receiverTinEqualsSenderTin'] ? 1 : 0">
           An 8-digit TIN/CVR number is required
         </watt-error>
-      </watt-form-field>
-      <fieldset class="start-date">
-        <watt-form-field class="datepicker">
-          <watt-label>Start of period</watt-label>
-          <watt-datepicker
-            formControlName="startDate"
-            [min]="minStartDate"
-            [dateClass]="dateClass"
-            data-testid="new-agreement-start-date-input"
-          />
-        </watt-form-field>
-        <eo-transfers-timepicker
-          formControlName="startDateTime"
-          [selectedDate]="
-            editableFields.includes('startDate') ? form.controls.startDate.value : null
-          "
-          [errors]="form.controls.startDateTime.errors"
-          [disabledHours]="editableFields.includes('startDate') ? disabledStartHours : []"
-          (invalidOptionReset)="form.controls.startDate.updateValueAndValidity()"
-        ></eo-transfers-timepicker>
-        <watt-error *ngIf="form.controls.startDate.errors?.['nextHourOrLater']" class="watt-text-s">
-          The start of the period must be at least the next hour from now
-        </watt-error>
-        <!-- TODO: NEED TO FIGURE SOMETHING OUT FOR THE WIDTH OF THE ERROR -->
-        <watt-error
-          *ngIf="form.controls.startDate.errors?.['overlapping']?.start; let error"
-          class="watt-text-s"
-          style="width: 425px;"
-        >
-          Chosen period overlaps with an existing agreement: <br />{{
-            error.startDate | wattDate : 'long'
-          }}
-          - {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
-        </watt-error>
-      </fieldset>
-      <fieldset
-        class="endDate"
-        [ngClass]="{ 'has-error': form.controls.endDate.errors || form.controls.hasEndDate.errors }"
-      >
-        <p class="watt-label end-date-label">End of period <span class="asterisk">*</span></p>
-        <div class="radio-buttons-container">
-          <watt-radio group="has_enddate" formControlName="hasEndDate" [value]="false"
-            >No end date</watt-radio
-          >
-          <div class="end-date-container">
-            <watt-radio group="has_enddate" formControlName="hasEndDate" [value]="true"
-              >End by</watt-radio
-            >
-            <ng-container *ngIf="form.value.hasEndDate">
-              <watt-form-field class="datepicker">
-                <watt-datepicker
-                  #endDatePicker
-                  formControlName="endDate"
-                  [dateClass]="dateClass"
-                  data-testid="new-agreement-end-date-input"
-                  [min]="minEndDate"
-                />
-              </watt-form-field>
-              <eo-transfers-timepicker
-                formControlName="endDateTime"
-                [selectedDate]="form.controls.endDate.value"
-                [errors]="form.controls.endDateTime.errors"
-                [disabledHours]="disabledEndHours"
-                (invalidOptionReset)="form.controls.endDate.updateValueAndValidity()"
-              >
-              </eo-transfers-timepicker>
-            </ng-container>
-            <watt-error *ngIf="form.controls.endDate.errors?.['minToday']" class="watt-text-s">
-              The end of the period must be today or later
-            </watt-error>
-            <watt-error
-              *ngIf="form.controls.endDate.errors?.['endDateMustBeLaterThanStartDate']"
-              class="watt-text-s"
-            >
-              The end of the period must be later than the start of the period
-            </watt-error>
-            <watt-error
-              class="watt-text-s"
-              *ngIf="form.controls.hasEndDate.errors?.['overlapping']?.end; let error"
-            >
-              Because you haven't chosen an end date, the period overlaps with an existing
-              agreement:
-              {{ error.startDate | wattDate : 'long' }} -
-              {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
-            </watt-error>
-            <watt-error
-              *ngIf="form.controls.endDate.errors?.['overlapping']?.end; let error"
-              class="watt-text-s"
-            >
-              End by overlaps with an existing agreement:<br />
-              {{ error.startDate | wattDate : 'long' }} -
-              {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
-            </watt-error>
-          </div>
-        </div>
-      </fieldset>
+      </eo-transfers-errors>
+
+      <eo-transfers-form-period
+        formGroupName="period"
+        [existingTransferAgreements]="existingTransferAgreements"
+      ></eo-transfers-form-period>
     </form>
 
     <watt-modal-actions>
@@ -350,87 +153,22 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() submitButtonText = 'Create';
   @Input() initialValues: EoTransfersFormInitialValues = {
     receiverTin: '',
-    startDate: new Date().toISOString(),
-    startDateTime: this.getNextHour(),
-    hasEndDate: false,
-    endDate: '',
-    endDateTime: '',
+    startDate: new Date().setHours(new Date().getHours() + 1, 0, 0, 0),
+    endDate: null,
   };
-  @Input() editableFields: (keyof EoTransfersForm)[] = [
-    'receiverTin',
-    'startDate',
-    'startDateTime',
-    'hasEndDate',
-    'endDate',
-    'endDateTime',
-  ];
+  @Input() editableFields: FormField[] = ['receiverTin', 'startDate', 'endDate'];
   @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
 
   @Output() submitted = new EventEmitter();
   @Output() canceled = new EventEmitter();
   @Output() receiverTinChanged = new EventEmitter<string | null>();
 
-  protected minStartDate: Date = new Date();
-  protected minEndDate: Date = new Date();
-  protected disabledStartHours: string[] = [];
-  protected disabledEndHours: string[] = [];
   protected form!: FormGroup<EoTransfersForm>;
 
-  private formGroupValidators = [endDateMustBeLaterThanStartDateValidator()];
   private destroy$ = new Subject<void>();
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   ngOnInit(): void {
     this.initForm();
-
-    if (this.editableFields.includes('startDate')) {
-      this.form.controls['startDate'].valueChanges
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((startDate) => {
-          const today = new Date();
-
-          this.minEndDate =
-            startDate && isAfter(new Date(startDate), today) ? new Date(startDate) : new Date();
-
-          this.disabledStartHours = this.getDisabledHours(startDate);
-        });
-    }
-
-    this.form.controls['endDate'].valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((endDate) => {
-        this.disabledEndHours = this.getDisabledHours(endDate);
-      });
-
-    this.form.controls['hasEndDate'].valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((hasEndDate) => {
-        if (hasEndDate) {
-          if (!this.form.controls['startDate'].value) return;
-
-          const nextDay = add(
-            new Date(this.form.controls['startDate'].value as string).setHours(0, 0, 0, 0),
-            {
-              days: 1,
-            }
-          );
-
-          this.form.controls['endDate'].setValue(
-            isAfter(nextDay, this.minEndDate)
-              ? nextDay.toISOString()
-              : this.minEndDate.toISOString()
-          );
-
-          this.form.controls['endDateTime'].setValue(
-            this.form.controls['startDateTime'].value > this.getNextHour()
-              ? this.form.controls['startDateTime'].value
-              : this.getNextHour()
-          );
-        } else {
-          this.form.controls['endDate'].setValue(null);
-          this.form.controls['endDateTime'].setValue(null);
-        }
-      });
 
     this.form.controls['receiverTin'].valueChanges
       .pipe(
@@ -443,29 +181,13 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe((receiverTinValidity) => {
         const receiverTin = receiverTinValidity ? this.form.controls['receiverTin'].value : null;
         this.receiverTinChanged.emit(receiverTin);
-
-        if (this.editableFields.includes('startDate')) {
-          this.disabledStartHours = this.getDisabledHours(this.form.controls['startDate'].value);
-        }
-
-        if (!this.form.controls['hasEndDate'].value) return;
-        this.disabledEndHours = this.getDisabledHours(this.form.controls['endDate'].value);
       });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['existingTransferAgreements'] && this.form) {
-      this.form.setValidators([
-        ...this.formGroupValidators,
-        overlappingTransferAgreementsValidator(this.existingTransferAgreements),
-      ]);
-      this.form.updateValueAndValidity();
-
-      if (this.editableFields.includes('startDate')) {
-        this.disabledStartHours = this.getDisabledHours(this.form.controls['startDate'].value);
-      }
-      if (!this.form.controls['hasEndDate'].value) return;
-      this.disabledEndHours = this.getDisabledHours(this.form.controls['endDate'].value);
+      this.form.controls.period.setValidators(this.getPeriodValidators());
+      this.form.controls.period.updateValueAndValidity();
     }
   }
 
@@ -496,142 +218,53 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  protected dateClass = (cellDate: Date, view: 'month' | 'year' | 'multi-year') => {
-    // Only highlight dates inside the month view.
-    if (view === 'month') {
-      const disabledHours = this.getDisabledHours(cellDate.toISOString(), true);
-
-      if (disabledHours.length === 0) return '';
-      if (disabledHours.length >= 24) return 'eo-transfers-form-fully-booked';
-
-      const availableHours = Array.from({ length: 25 }, (_, i) => {
-        return i.toString().padStart(2, '0') + ':00';
-      });
-
-      const availability = this.determineSlotsAvailability(availableHours, disabledHours);
-
-      if (availability) {
-        return 'eo-transfers-form-overlapping-date';
-      } else {
-        return 'eo-transfers-form-fully-booked';
-      }
-    }
-
-    return '';
-  };
-
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  private getDisabledHours(dateString: string | null, includeStartingHour = false): string[] {
-    if (!dateString) return [];
-
-    const date = new Date(dateString);
-    const disabledHours: Set<string> = new Set();
-
-    this.existingTransferAgreements.forEach((period) => {
-      const comparingPeriod = {
-        startDate: date.setHours(0, 0, 0, 0),
-        endDate: date.setHours(23, 0, 0, 0),
-      };
-      const isOverlapping = isOverlappingPeriod(period, comparingPeriod);
-      if (!isOverlapping) return;
-
-      let startHour = new Date(period.startDate).getHours();
-      let endHour = new Date(period.endDate as number).getHours();
-
-      if (!isSameDay(period.startDate, date)) {
-        startHour = 0;
-      }
-
-      if (!isSameDay(period.endDate as number, date)) {
-        endHour = 24;
-      }
-
-      const startingPoint = includeStartingHour ? startHour : Math.min(startHour + 1, 23);
-      for (let i = startingPoint; i < endHour; i++) {
-        disabledHours.add(i.toString().padStart(2, '0') + ':00');
-      }
-    });
-
-    return Array.from(disabledHours);
-  }
-
-  private determineSlotsAvailability(hours: string[], disabledHours: string[]): boolean {
-    for (let i = 0; i < hours.length - 1; i++) {
-      const currentHour = hours[i];
-      const nextHour = hours[i + 1];
-
-      if (!disabledHours.includes(currentHour) && !disabledHours.includes(nextHour)) {
-        // Two consecutive slots are available
-        return true;
-      }
-    }
-
-    // No two consecutive slots available
-    return false;
-  }
-
-  private getNextHour(): string {
-    const nextHour = new Date().getHours() + 1;
-    return nextHour.toString().padStart(2, '0');
-  }
-
   private initForm() {
-    const { receiverTin, startDate, startDateTime, hasEndDate, endDate, endDateTime } =
-      this.initialValues;
+    const { receiverTin, startDate, endDate } = this.initialValues;
 
-    if (this.editableFields.includes('startDate')) {
-      this.formGroupValidators.push(nextHourOrLaterValidator());
-    }
+    this.form = new FormGroup<EoTransfersForm>({
+      receiverTin: new FormControl(
+        {
+          value: receiverTin || '',
+          disabled: !this.editableFields.includes('receiverTin'),
+        },
+        {
+          validators: [
+            Validators.required,
+            Validators.pattern('^[0-9]{8}$'),
+            compareValidator(this.senderTin || '', 'receiverTinEqualsSenderTin'),
+          ],
+        }
+      ),
+      period: new FormGroup(
+        {
+          startDate: new FormControl(
+            {
+              value: startDate,
+              disabled: !this.editableFields.includes('startDate'),
+            },
+            {
+              validators: [nextHourOrLaterValidator()],
+            }
+          ),
+          endDate: new FormControl(
+            {
+              value: endDate,
+              disabled: !this.editableFields.includes('endDate'),
+            },
+            { validators: [minTodayValidator()] }
+          ),
+        },
+        {
+          validators: this.getPeriodValidators(),
+        }
+      ),
+    });
+  }
 
-    this.form = new FormGroup(
-      {
-        receiverTin: new FormControl(
-          {
-            value: receiverTin || '',
-            disabled: !this.editableFields.includes('receiverTin'),
-          },
-          {
-            validators: [
-              Validators.required,
-              Validators.pattern('^[0-9]{8}$'),
-              compareValidator(this.senderTin || '', 'receiverTinEqualsSenderTin'),
-            ],
-          }
-        ),
-        startDate: new FormControl({
-          value: startDate || new Date().toISOString(),
-          disabled: !this.editableFields.includes('startDate'),
-        }),
-        startDateTime: new FormControl(
-          {
-            value: startDateTime || this.getNextHour(),
-            disabled: !this.editableFields.includes('startDateTime'),
-          },
-          { nonNullable: true }
-        ),
-        hasEndDate: new FormControl(
-          {
-            value: hasEndDate || false,
-            disabled: !this.editableFields.includes('hasEndDate'),
-          },
-          {
-            nonNullable: true,
-            validators: [Validators.required],
-          }
-        ),
-        endDate: new FormControl(
-          {
-            value: endDate || '',
-            disabled: !this.editableFields.includes('endDate'),
-          },
-          [minTodayValidator()]
-        ),
-        endDateTime: new FormControl({
-          value: endDateTime || '',
-          disabled: !this.editableFields.includes('endDateTime'),
-        }),
-      },
-      { validators: this.formGroupValidators }
-    );
+  getPeriodValidators() {
+    return [
+      endDateMustBeLaterThanStartDateValidator(),
+      overlappingTransferAgreementsValidator(this.existingTransferAgreements),
+    ];
   }
 }

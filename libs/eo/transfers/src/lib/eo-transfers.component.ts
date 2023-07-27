@@ -34,7 +34,6 @@ import { WattCardComponent } from '@energinet-datahub/watt/card';
     PushModule,
   ],
   standalone: true,
-  styles: [``],
   template: `
     <eo-popup-message *ngIf="error$ | push"></eo-popup-message>
     <watt-card class="watt-space-stack-l">

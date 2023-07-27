@@ -28,29 +28,25 @@ export function overlappingTransferAgreementsValidator(
 ) {
   return (control: AbstractControl): { [key: string]: unknown } | null => {
     const formGroup = control as FormGroup;
-    const { startDate, startDateTime, endDate, endDateTime, hasEndDate } = formGroup.controls;
-    const controlStart = new Date(startDate.value).setHours(startDateTime.value, 0, 0, 0);
-    const controlEnd = hasEndDate.value
-      ? new Date(endDate.value).setHours(endDateTime.value, 0, 0, 0)
-      : null;
+    const { startDate, endDate, hasEndDate } = formGroup.controls;
 
     const isOverlapping: OverlappingTransferAgreementsValidatorError = validate(
-      controlStart,
-      controlEnd,
+      startDate.value,
+      endDate.value,
       existingTransferAgreements
     );
 
-    if (!hasEndDate.value && isOverlapping.end) {
+    if (!hasEndDate?.value && isOverlapping.end) {
       setValidationErrorsWithData('overlapping', isOverlapping, hasEndDate);
-      clearErrors('overlapping', startDate, startDateTime, endDate, endDateTime);
+      clearErrors('overlapping', startDate, endDate);
     } else if (isOverlapping.start) {
-      setValidationErrorsWithData('overlapping', isOverlapping, startDate, startDateTime);
-      clearErrors('overlapping', endDate, endDateTime, hasEndDate);
+      setValidationErrorsWithData('overlapping', isOverlapping, startDate);
+      clearErrors('overlapping', endDate, hasEndDate);
     } else if (isOverlapping.end) {
-      setValidationErrorsWithData('overlapping', isOverlapping, endDate, endDateTime);
-      clearErrors('overlapping', startDate, startDateTime);
+      setValidationErrorsWithData('overlapping', isOverlapping, endDate);
+      clearErrors('overlapping', startDate);
     } else {
-      clearErrors('overlapping', startDate, startDateTime, endDate, endDateTime, hasEndDate);
+      clearErrors('overlapping', startDate, endDate, hasEndDate);
     }
 
     return null;

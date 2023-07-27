@@ -31,7 +31,7 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import { EoListedTransfer } from './eo-transfers.service';
-import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
+import { EoTransfersFormComponent, EoTransfersFormInitialValues } from './form/eo-transfers-form.component';
 import { EoExistingTransferAgreement, EoTransfersStore } from './eo-transfers.store';
 import { Observable, of } from 'rxjs';
 
@@ -61,7 +61,7 @@ import { Observable, of } from 'rxjs';
 
       <eo-transfers-form
         submitButtonText="Save"
-        [editableFields]="['hasEndDate', 'endDate', 'endDateTime']"
+        [editableFields]="['endDate']"
         [existingTransferAgreements]="existingTransferAgreements$ | push"
         [initialValues]="initialValues"
         (submitted)="saveTransferAgreement($event)"
@@ -76,7 +76,7 @@ export class EoTransfersEditModalComponent implements OnChanges {
   @Input() transfer?: EoListedTransfer;
 
   protected opened = false;
-  protected initialValues = {};
+  protected initialValues!: EoTransfersFormInitialValues;
   protected existingTransferAgreements$: Observable<EoExistingTransferAgreement[]> = of([]);
 
   private store = inject(EoTransfersStore);
@@ -89,13 +89,8 @@ export class EoTransfersEditModalComponent implements OnChanges {
     if (changes['transfer'] && this.transfer) {
       this.initialValues = {
         receiverTin: this.transfer.receiverTin,
-        startDate: new Date(this.transfer.startDate),
-        startDateTime: new Date(this.transfer.startDate).getHours().toString().padStart(2, '0'),
-        hasEndDate: this.transfer.endDate !== null,
-        endDate: this.transfer.endDate ? new Date(this.transfer.endDate) : null,
-        endDateTime: this.transfer.endDate
-          ? new Date(this.transfer.endDate).getHours().toString().padStart(2, '0')
-          : null,
+        startDate: this.transfer.startDate,
+        endDate: this.transfer.endDate,
       };
     }
   }
@@ -120,14 +115,10 @@ export class EoTransfersEditModalComponent implements OnChanges {
     this.store.setPatchingTransferError(null);
   }
 
-  saveTransferAgreement(values: { hasEndDate: boolean; endDate: string; endDateTime: string }) {
-    const { hasEndDate, endDate, endDateTime } = values;
-    const dateWithTime = hasEndDate
-      ? new Date(endDate).setHours(parseInt(endDateTime), 0, 0, 0)
-      : null;
-
+  saveTransferAgreement(values: { period: { endDate: number | null; hasEndDate: boolean } }) {
+    const { endDate } = values.period;
     this.store.patchSelectedTransfer({
-      endDate: dateWithTime,
+      endDate,
       onSuccess: () => {
         this.modal.close(true);
       },

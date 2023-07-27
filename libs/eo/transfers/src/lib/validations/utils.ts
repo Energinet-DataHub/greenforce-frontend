@@ -18,7 +18,7 @@ import { AbstractControl } from '@angular/forms';
 
 export function clearErrors(errorKey: string, ...fields: AbstractControl[]): void {
   fields.forEach((field) => {
-    if (field.errors && field.errors[errorKey]) {
+    if (field && field.errors && field.errors[errorKey]) {
       // Copy the errors object
       const errors = { ...field.errors };
       // Remove the specific error

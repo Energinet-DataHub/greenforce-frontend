@@ -15,24 +15,23 @@
  * limitations under the License.
  */
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { clearErrors, createTimestamp, setValidationErrors } from './utils';
+import { clearErrors, setValidationErrors } from './utils';
 
-export function nextHourOrLaterValidator() {
+export function endDateMustBeLaterThanStartDateValidator() {
   return (control: AbstractControl): { [key: string]: unknown } | null => {
     const formGroup = control as FormGroup;
-    const { startDate, startDateTime } = formGroup.controls;
-    const nextHour = new Date().getHours() + 1;
+    const { startDate, endDate } = formGroup.controls;
 
-    const validTimestamp = createTimestamp(new Date(), nextHour);
-    const startTimestamp = createTimestamp(
-      new Date(startDate.value),
-      parseInt(startDateTime.value)
-    );
+    if(!endDate?.value || !startDate?.value) {
+      return null;
+    }
 
-    if (!startDate.value || startTimestamp < validTimestamp) {
-      setValidationErrors('nextHourOrLater', startDate, startDateTime);
-    } else {
-      clearErrors('nextHourOrLater', startDate, startDateTime);
+    if (endDate.value > startDate.value) {
+      clearErrors('endDateMustBeLaterThanStartDate', endDate);
+    } else if(!endDate.errors) {
+      setValidationErrors('endDateMustBeLaterThanStartDate', endDate);
+      endDate.markAsTouched();
+      endDate.markAsDirty();
     }
 
     return null;

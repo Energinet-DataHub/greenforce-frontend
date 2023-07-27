@@ -22,7 +22,6 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { getUnixTime } from 'date-fns';
 import { PushModule } from '@rx-angular/template/push';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -103,22 +102,17 @@ export class EoTransfersCreateModalComponent {
     this.existingTransferAgreements$ = this.store.getExistingTransferAgreements$(receiverTin);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  createAgreement(transferAgreement: any) {
-    const { receiverTin, startDate, startDateTime, endDate, endDateTime } = transferAgreement;
-    if (!receiverTin || !startDate || !startDateTime) return;
+  createAgreement(transferAgreement: {
+    receiverTin: string;
+    period: { startDate: number; endDate: number | null; hasEndDate: boolean };
+  }) {
+    const { receiverTin, period } = transferAgreement;
+    const { startDate, endDate } = period;
 
-    const transfer = {
-      startDate: getUnixTime(new Date(startDate).setHours(parseInt(startDateTime), 0, 0, 0)),
-      endDate:
-        endDate && endDateTime
-          ? getUnixTime(new Date(endDate).setHours(parseInt(endDateTime), 0, 0, 0))
-          : null,
-      receiverTin,
-    };
+    if (!receiverTin || !startDate) return;
 
     this.creatingTransferAgreement = true;
-    this.service.createAgreement(transfer).subscribe({
+    this.service.createAgreement({ receiverTin, startDate, endDate }).subscribe({
       next: (transfer) => {
         this.store.addTransfer(transfer);
         this.creatingTransferAgreement = false;
