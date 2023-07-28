@@ -35,6 +35,8 @@ import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattModalActionsComponent } from '@energinet-datahub/watt/modal';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 
 import {
   compareValidator,
@@ -45,7 +47,6 @@ import {
 } from '../validations';
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
 import { EoExistingTransferAgreement } from '../eo-transfers.store';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { EoTransfersPeriodComponent } from './eo-transfers-period.component';
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
@@ -87,6 +88,7 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
     CommonModule,
     EoTransfersDateTimeComponent,
     EoTransferErrorsComponent,
+    WATT_STEPPER,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -105,51 +107,99 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
     `,
   ],
   template: `
-    <form [formGroup]="form">
-      <watt-form-field class="receiver">
-        <watt-label>Receiver</watt-label>
-        <input
-          wattInput
-          required="true"
-          inputmode="numeric"
-          type="text"
-          formControlName="receiverTin"
-          [maxlength]="8"
-          (keydown)="preventNonNumericInput($event)"
-          data-testid="new-agreement-receiver-input"
-        />
-      </watt-form-field>
-      <eo-transfers-errors [showError]="(form.controls.receiverTin.touched || form.controls.receiverTin.dirty)">
-        <watt-error [style.opacity]="form.controls.receiverTin.errors?.['receiverTinEqualsSenderTin'] ? 1 : 0">
-          The receiver cannot be your own TIN/CVR
-        </watt-error>
-        <watt-error [style.opacity]="form.controls.receiverTin.errors && !form.controls.receiverTin.errors['receiverTinEqualsSenderTin'] ? 1 : 0">
-          An 8-digit TIN/CVR number is required
-        </watt-error>
-      </eo-transfers-errors>
+    <ng-container *ngIf="mode === 'create'; then create; else edit"></ng-container>
 
-      <eo-transfers-form-period
-        formGroupName="period"
-        [existingTransferAgreements]="existingTransferAgreements"
-      ></eo-transfers-form-period>
-    </form>
+    <ng-template #create>
+      <form [formGroup]="form">
+        <watt-stepper (completed)="onSubmit()">
+          <watt-stepper-step
+            label="Recipient"
+            nextButtonLabel="Agreement details"
+            [stepControl]="form.controls.receiverTin"
+          >
+            <div style="min-height: 280px;">
+              <ng-container *ngTemplateOutlet="receiver"></ng-container>
+            </div>
+          </watt-stepper-step>
+          <watt-stepper-step
+            label="Agreement details"
+            previousButtonLabel="Recipient"
+            [nextButtonLabel]="submitButtonText"
+            [stepControl]="form.controls.period"
+          >
+            <eo-transfers-form-period
+              formGroupName="period"
+              [existingTransferAgreements]="existingTransferAgreements"
+            ></eo-transfers-form-period>
+          </watt-stepper-step>
+        </watt-stepper>
+      </form>
+    </ng-template>
 
-    <watt-modal-actions>
-      <watt-button
-        variant="secondary"
-        data-testid="close-new-agreement-button"
-        (click)="onCancel()"
-      >
-        Cancel
-      </watt-button>
-      <watt-button data-testid="create-new-agreement-button" (click)="onSubmit()">
-        {{ submitButtonText }}
-      </watt-button>
-    </watt-modal-actions>
+    <ng-template #edit>
+      <form [formGroup]="form">
+        <ng-container *ngTemplateOutlet="receiver"></ng-container>
+        <eo-transfers-form-period
+          formGroupName="period"
+          [existingTransferAgreements]="existingTransferAgreements"
+        ></eo-transfers-form-period>
+
+        <watt-modal-actions>
+          <watt-button
+            variant="secondary"
+            data-testid="close-new-agreement-button"
+            (click)="onCancel()"
+          >
+            Cancel
+          </watt-button>
+          <watt-button data-testid="create-new-agreement-button" (click)="onSubmit()">
+            {{ submitButtonText }}
+          </watt-button>
+        </watt-modal-actions>
+      </form>
+    </ng-template>
+
+    <ng-template #receiver>
+      <ng-container [formGroup]="form">
+        <watt-form-field class="receiver">
+          <watt-label>Receiver</watt-label>
+          <input
+            wattInput
+            required="true"
+            inputmode="numeric"
+            type="text"
+            formControlName="receiverTin"
+            [maxlength]="8"
+            (keydown)="preventNonNumericInput($event)"
+            data-testid="new-agreement-receiver-input"
+          />
+        </watt-form-field>
+        <eo-transfers-errors
+          [showError]="form.controls.receiverTin.touched || form.controls.receiverTin.dirty"
+        >
+          <watt-error
+            [style.opacity]="form.controls.receiverTin.errors?.['receiverTinEqualsSenderTin'] ? 1 : 0"
+          >
+            The receiver cannot be your own TIN/CVR
+          </watt-error>
+          <watt-error
+            [style.opacity]="
+              form.controls.receiverTin.errors &&
+              !form.controls.receiverTin.errors['receiverTinEqualsSenderTin']
+                ? 1
+                : 0
+            "
+          >
+            An 8-digit TIN/CVR number is required
+          </watt-error>
+        </eo-transfers-errors>
+      </ng-container>
+    </ng-template>
   `,
 })
 export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() senderTin?: string;
+  @Input() mode: 'create' | 'edit' = 'create';
   @Input() submitButtonText = 'Create';
   @Input() initialValues: EoTransfersFormInitialValues = {
     receiverTin: '',
@@ -164,7 +214,6 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
   @Output() receiverTinChanged = new EventEmitter<string | null>();
 
   protected form!: FormGroup<EoTransfersForm>;
-
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {

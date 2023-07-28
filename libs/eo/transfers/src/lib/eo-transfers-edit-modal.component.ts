@@ -61,6 +61,7 @@ import { Observable, of } from 'rxjs';
 
       <eo-transfers-form
         submitButtonText="Save"
+        mode="edit"
         [editableFields]="['endDate']"
         [existingTransferAgreements]="existingTransferAgreements$ | push"
         [initialValues]="initialValues"

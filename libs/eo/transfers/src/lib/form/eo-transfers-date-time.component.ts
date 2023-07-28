@@ -155,10 +155,17 @@ export class EoTransfersDateTimeComponent
 
       if (date && time) {
         newValue = new Date(date).setHours(time, 0, 0, 0);
+      } else if(date) {
+        const hours = new Date().getHours() + 1;
+        newValue = new Date(date).setHours(hours, 0, 0, 0);
       }
-      this.disabledHours = this.getDisabledHours(newValue);
+
       this.onChange(newValue);
       this.onTouched();
+    });
+
+    this.form.controls.date.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((date) => {
+      this.disabledHours = this.getDisabledHours(date ? new Date(date).setHours(0, 0, 0, 0) : null);
     });
   }
 
@@ -218,7 +225,7 @@ export class EoTransfersDateTimeComponent
         .subscribe(() => {
           date.setErrors(control.errors);
           time.setErrors(control.errors);
-          this.timepicker.validate(time);
+          this.timepicker?.validate(time);
         });
     }
     return {};
@@ -227,14 +234,14 @@ export class EoTransfersDateTimeComponent
   protected dateClass = (cellDate: Date, view: 'month' | 'year' | 'multi-year') => {
     if(view !== 'month') return '';
 
-    const disabledHours = this.getDisabledHours(cellDate.setHours(0, 0, 0, 0), false);
+    const disabledHours = this.getDisabledHours(cellDate.setHours(0, 0, 0, 0));
     if(disabledHours.length >= 24) return 'eo-transfers-form-fully-booked';
     if(disabledHours.length > 0) return 'eo-transfers-form-overlapping-date';
 
     return '';
   };
 
-  protected getDisabledHours(date: number | null, includeHoursInThePast = true): string[] {
+  protected getDisabledHours(date: number | null): string[] {
     if(!date) return [];
 
     // Generate an array of hours from 0 to 24
@@ -242,7 +249,7 @@ export class EoTransfersDateTimeComponent
 
     // If today, remove hours that are in the past
     let hoursInThePast: number[] = [];
-    if (isToday(date) && includeHoursInThePast) {
+    if (isToday(date)) {
       hoursInThePast = hours.filter((hour) => hour <= new Date().getHours());
     }
 
@@ -260,7 +267,7 @@ export class EoTransfersDateTimeComponent
 
   private isOverlappingWithExistingTransferAgreement(date: number): boolean {
     return this.existingTransferAgreements.some((agreement) => {
-      return !!(date >= agreement.startDate && date <= (agreement.endDate || date));
+      return !!(date > agreement.startDate && date < (agreement.endDate || date));
     });
   }
 }

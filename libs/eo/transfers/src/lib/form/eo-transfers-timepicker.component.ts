@@ -33,7 +33,6 @@ import {
   NG_VALIDATORS,
   Validator,
 } from '@angular/forms';
-import { isToday } from 'date-fns';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
@@ -44,7 +43,7 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
   imports: [WATT_FORM_FIELD, ReactiveFormsModule, WattDropdownComponent],
   styles: [`
     :host {
-      max-width: 104px;
+      max-width: 112px;
     }
 
     watt-form-field {
@@ -76,7 +75,6 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
   ],
 })
 export class EoTransfersTimepickerComponent implements ControlValueAccessor, Validator, OnChanges {
-  @Input() selectedDate: string | null = null;
   @Input() disabledHours: string[] = [];
   @Output() invalidOptionReset = new EventEmitter<void>();
 
@@ -88,13 +86,8 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, Val
 
   ngOnChanges(changes: SimpleChanges): void {
     this.options = this.generateOptions();
-    if(this.options.length === 0 && this.setDisabledState) {
-      this.setDisabledState(true);
-    } else if(this.setDisabledState) {
-      this.setDisabledState(false);
-    }
 
-    if (changes['selectedDate']) {
+    if (changes['disabledHours']) {
       this.setValidOption();
     }
   }
@@ -142,33 +135,19 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, Val
   private setValidOption() {
     const isValidOption = this.options.find((option) => option.value === this.control.value);
     if (!isValidOption) {
-      this.control.setValue(this.options.length > 0 ? this.options[0].value : null);
+      this.control.setValue(this.options.length > 0 ? this.options[0].value : null, { emitEvent: false });
       this.invalidOptionReset.emit();
     }
   }
 
   private generateOptions(): WattDropdownOption[] {
-    const disabledHours = this.getDisabledHours();
-
     return Array.from({ length: 25 }, (_, i) => {
       const hour = i.toString().padStart(2, '0');
       return {
         displayValue: `${hour}:00`,
         value: `${hour}`,
-        disabled: disabledHours.includes(`${hour}:00`),
+        disabled: this.disabledHours.includes(`${hour}:00`),
       };
     }).filter((option) => !option.disabled);
-  }
-
-  private getDisabledHours(): string[] {
-    const isTodaySelected = this.selectedDate && isToday(new Date(this.selectedDate));
-    if (!isTodaySelected) return this.disabledHours;
-
-    const hours = new Date().getHours();
-    const disabledHours = Array.from({ length: hours + 1 }, (_, i) => {
-      const hour = i.toString().padStart(2, '0');
-      return `${hour}:00`;
-    });
-    return [...disabledHours, ...this.disabledHours];
   }
 }
