@@ -30,6 +30,9 @@ export class TransfersPo {
   private testReceiverId = '11111111';
   private testStartDate = '12052023';
   private testEndDate = '14052023';
+  private noTransferAgreementsText = 'You do not have any transfer agreements to show right now.';
+  private loadingTransferAgreementsIndicator = '.watt-table-loading-cell';
+  private generalErrorMessage = 'eo-popup-message';
 
   // Visibility
   headerIsVisible = () => cy.get('h2').should('contain.text', this.pageHeaderText);
@@ -42,6 +45,14 @@ export class TransfersPo {
   newAgreementModalIsNotOnScreen = () => cy.get(this.newAgreementModal).should('not.exist');
   newlyCreatedAgreementIsVisible = () =>
     cy.get(this.transfersTable).should('contain', this.testReceiverId);
+  generalErrorIsVisible = () => cy.get(this.generalErrorMessage).should('be.visible');
+  generalErrorIsNotVisible = () => cy.get(this.generalErrorMessage).should('not.exist');
+  noTransferAgreementsTextIsVisible = () =>
+    cy.get('p').should('contain', this.noTransferAgreementsText);
+  loadingTransferAgreementsIndicatorIsVisible = () =>
+    cy.get(this.loadingTransferAgreementsIndicator).should('be.visible');
+  loadingTransferAgreementsIndicatorIsNotVisible = () =>
+    cy.get(this.loadingTransferAgreementsIndicator).should('not.exist');
 
   // Interaction
   clickNewAgreementButton() {

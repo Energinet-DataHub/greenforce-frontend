@@ -22,16 +22,16 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { getUnixTime } from 'date-fns';
 import { PushModule } from '@rx-angular/template/push';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import { EoTransfersService } from './eo-transfers.service';
-import { EoTransfersStore } from './eo-transfers.store';
-import { EoTransfersFormComponent } from './eo-transfers-form.component';
+import { EoExistingTransferAgreement, EoTransfersStore } from './eo-transfers.store';
+import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
 import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { Observable, of } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,6 +60,8 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 
       <eo-transfers-form
         [senderTin]="authStore.getTin$ | push"
+        [existingTransferAgreements]="existingTransferAgreements$ | push"
+        (receiverTinChanged)="onReceiverTinChange($event)"
         (submitted)="createAgreement($event)"
         (canceled)="modal.close(false)"
       ></eo-transfers-form>
@@ -73,6 +75,7 @@ export class EoTransfersCreateModalComponent {
   protected creatingTransferAgreementFailed = false;
   protected isFormValid = false;
   protected opened = false;
+  protected existingTransferAgreements$: Observable<EoExistingTransferAgreement[]> = of([]);
 
   constructor(
     private service: EoTransfersService,
@@ -92,24 +95,24 @@ export class EoTransfersCreateModalComponent {
 
   onClosed() {
     this.opened = false;
+    this.existingTransferAgreements$ = of([]);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  createAgreement(transferAgreement: any) {
-    const { receiverTin, startDate, startDateTime, endDate, endDateTime } = transferAgreement;
-    if (!receiverTin || !startDate || !startDateTime) return;
+  onReceiverTinChange(receiverTin: string | null) {
+    this.existingTransferAgreements$ = this.store.getExistingTransferAgreements$(receiverTin);
+  }
 
-    const transfer = {
-      startDate: getUnixTime(new Date(startDate).setHours(parseInt(startDateTime), 0, 0, 0)),
-      endDate:
-        endDate && endDateTime
-          ? getUnixTime(new Date(endDate).setHours(parseInt(endDateTime), 0, 0, 0))
-          : null,
-      receiverTin,
-    };
+  createAgreement(transferAgreement: {
+    receiverTin: string;
+    period: { startDate: number; endDate: number | null; hasEndDate: boolean };
+  }) {
+    const { receiverTin, period } = transferAgreement;
+    const { startDate, endDate } = period;
+
+    if (!receiverTin || !startDate) return;
 
     this.creatingTransferAgreement = true;
-    this.service.createAgreement(transfer).subscribe({
+    this.service.createAgreement({ receiverTin, startDate, endDate }).subscribe({
       next: (transfer) => {
         this.store.addTransfer(transfer);
         this.creatingTransferAgreement = false;

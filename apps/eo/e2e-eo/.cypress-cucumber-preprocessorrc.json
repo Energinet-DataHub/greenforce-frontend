@@ -1,0 +1,7 @@
+{
+  "stepDefinitions": [
+    "src/e2e/[filepath].ts",
+    "src/e2e/[filepart]/**/*.ts",
+    "src/e2e/login/**/*.ts"
+  ]
+}

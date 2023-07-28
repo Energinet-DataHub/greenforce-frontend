@@ -131,6 +131,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     </div>
     <watt-table
       #table
+      [loading]="loading"
       [columns]="columns"
       [dataSource]="dataSource"
       sortBy="status"
@@ -146,7 +147,7 @@ interface EoTransferTableElement extends EoListedTransfer {
       </ng-container>
 
       <ng-container *wattTableCell="table.columns['endDate']; let element">
-        {{ element.endDate | wattDate : 'long' }}
+        {{ (element.endDate | wattDate : 'long') || ' — ' }}
       </ng-container>
 
       <!-- Status - Custom column -->
@@ -183,6 +184,7 @@ interface EoTransferTableElement extends EoListedTransfer {
 })
 export class EoTransfersTableComponent implements OnChanges {
   @Input() transfers: EoListedTransfer[] = [];
+  @Input() loading = false;
   @Input() selectedTransfer?: EoListedTransfer;
   @Output() transferSelected = new EventEmitter<EoListedTransfer>();
 
