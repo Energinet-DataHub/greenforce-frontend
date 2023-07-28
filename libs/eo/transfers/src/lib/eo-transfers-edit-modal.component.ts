@@ -31,7 +31,10 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import { EoListedTransfer } from './eo-transfers.service';
-import { EoTransfersFormComponent, EoTransfersFormInitialValues } from './form/eo-transfers-form.component';
+import {
+  EoTransfersFormComponent,
+  EoTransfersFormInitialValues,
+} from './form/eo-transfers-form.component';
 import { EoExistingTransferAgreement, EoTransfersStore } from './eo-transfers.store';
 import { Observable, of } from 'rxjs';
 

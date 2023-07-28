@@ -28,7 +28,7 @@ export function nextHourOrLaterValidator(): ValidatorFn {
     nextHour.setHours(nextHour.getHours() + 1, 0, 0, 0);
 
     if (datetime < nextHour) {
-      return { 'nextHourOrLater': { value: control.value } };
+      return { nextHourOrLater: { value: control.value } };
     }
 
     return null;

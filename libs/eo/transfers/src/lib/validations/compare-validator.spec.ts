@@ -30,7 +30,7 @@ describe('compareValidator', () => {
   it('should return null if the control value matches the compare value', () => {
     if (formGroup) {
       formGroup.patchValue({
-        receiver: compareValue.split('').reverse().join('')
+        receiver: compareValue.split('').reverse().join(''),
       });
 
       const control = formGroup.get('receiver');

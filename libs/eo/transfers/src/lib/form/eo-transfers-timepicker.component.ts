@@ -41,15 +41,17 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
   selector: 'eo-transfers-timepicker',
   standalone: true,
   imports: [WATT_FORM_FIELD, ReactiveFormsModule, WattDropdownComponent],
-  styles: [`
-    :host {
-      max-width: 112px;
-    }
+  styles: [
+    `
+      :host {
+        max-width: 112px;
+      }
 
-    watt-form-field {
-      margin-top: 0;
-    }
-  `],
+      watt-form-field {
+        margin-top: 0;
+      }
+    `,
+  ],
   template: `
     <watt-form-field>
       <watt-dropdown
@@ -70,7 +72,7 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
     {
       provide: NG_VALIDATORS,
       multi: true,
-      useExisting: EoTransfersTimepickerComponent
+      useExisting: EoTransfersTimepickerComponent,
     },
   ],
 })
@@ -135,7 +137,9 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, Val
   private setValidOption() {
     const isValidOption = this.options.find((option) => option.value === this.control.value);
     if (!isValidOption) {
-      this.control.setValue(this.options.length > 0 ? this.options[0].value : null, { emitEvent: false });
+      this.control.setValue(this.options.length > 0 ? this.options[0].value : null, {
+        emitEvent: false,
+      });
       this.invalidOptionReset.emit();
     }
   }
