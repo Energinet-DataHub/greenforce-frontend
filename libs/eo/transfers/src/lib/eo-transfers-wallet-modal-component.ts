@@ -60,10 +60,24 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
           >
         </div>
       </form>
+      <watt-modal-actions>
+        <watt-button
+          variant="secondary"
+          data-testid="close-new-agreement-button"
+          (click)="modal.close(true)"
+        >
+          Close
+        </watt-button>
+      </watt-modal-actions>
     </watt-modal>
 
     <ng-template #error>
-      <watt-empty-state icon="power" title="An unexpected error occured" message="We're sorry, we couldn't generate your key. Please try again later." style="margin: var(--watt-space-xl) 0;">
+      <watt-empty-state
+        icon="power"
+        title="An unexpected error occured"
+        message="We're sorry, we couldn't generate your key. Please try again later."
+        style="margin: var(--watt-space-xl) 0;"
+      >
       </watt-empty-state>
     </ng-template>
   `,
