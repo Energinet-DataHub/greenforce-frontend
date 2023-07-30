@@ -86,7 +86,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--watt-color-neutral-white);
-    opacity: 0.5;
+    background: rgba(255, 255, 255, 0.80);
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      p {
+        margin-top: var(--watt-space-m);
+        width: 100%;
+      }
+    }
   }
 }

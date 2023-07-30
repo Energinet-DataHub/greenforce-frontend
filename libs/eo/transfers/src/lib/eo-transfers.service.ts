@@ -46,6 +46,10 @@ export interface EoTransferAgreementsHistoryResponse {
   result: EoTransferAgreementsHistory[];
 }
 
+export interface EoWalletDepositEndpointResponse {
+  result: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -85,5 +89,9 @@ export class EoTransfersService {
     return this.http.get<EoTransferAgreementsHistoryResponse>(
       `${this.#apiBase}/history/transfer-agreements/${transferAgreementId}`
     );
+  }
+
+  createWalletDepositEndpoint() {
+    return this.http.post<EoWalletDepositEndpointResponse>('https://demo.energioprindelse.dk/api/transfer-agreements/wallet-deposit-endpoint', {});
   }
 }
