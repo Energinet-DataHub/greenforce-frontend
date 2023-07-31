@@ -48,6 +48,8 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
 })
 export class DhCalculationsTableComponent {
   @Input() selected?: Calculation;
+  @Input() loading = false;
+  @Input() error = false;
 
   @Input() set data(calculations: Calculation[]) {
     this._data.data = calculations;
@@ -62,7 +64,7 @@ export class DhCalculationsTableComponent {
 
   _data: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {
-    startedBy: { accessor: null },
+    startedBy: { accessor: 'createdByUserName' },
     periodFrom: { accessor: (calculation) => calculation.period?.start },
     periodTo: { accessor: (calculation) => calculation.period?.end },
     executionTime: { accessor: 'executionTimeStart' },

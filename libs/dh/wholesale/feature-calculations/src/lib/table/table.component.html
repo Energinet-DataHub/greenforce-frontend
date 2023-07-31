@@ -21,6 +21,7 @@ limitations under the License.
     [columns]="columns"
     [resolveHeader]="translateHeader"
     [activeRow]="selected"
+    [loading]="loading"
     sortBy="executionTimeStart"
     sortDirection="desc"
     (rowClick)="selectedRow.emit($event)"
@@ -61,14 +62,25 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  <watt-paginator [for]="_data" />
-
   <!-- No calculations found -->
-  <watt-empty-state
-    *ngIf="_data.data.length === 0"
-    icon="cancel"
-    size="large"
-    [title]="t('emptyTitle')"
-    [message]="t('emptyMessage')"
-  />
+  <div class="message">
+    <ng-container *ngIf="!loading && _data.filteredData.length === 0">
+      <watt-empty-state
+        *ngIf="error"
+        icon="custom-power"
+        [title]="t('errorTitle')"
+        [message]="t('errorMessage')"
+      />
+      <watt-empty-state
+        *ngIf="!error"
+        icon="cancel"
+        size="large"
+        [title]="t('emptyTitle')"
+        [message]="t('emptyMessage')"
+      />
+    </ng-container>
+  </div>
+
+  <!-- Paginator -->
+  <watt-paginator [for]="_data" />
 </ng-container>
