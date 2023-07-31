@@ -104,14 +104,6 @@ interface EoTransferTableElement extends EoListedTransfer {
       <h3>Transfer agreements</h3>
       <div class="actions">
         <watt-button
-          data-testid="download-button"
-          [disabled]="true"
-          icon="fileDownload"
-          variant="text"
-        >
-          Download
-        </watt-button>
-        <watt-button
           data-testid="new-agreement-button"
           icon="plus"
           variant="secondary"
@@ -141,23 +133,28 @@ interface EoTransferTableElement extends EoListedTransfer {
       #table
       [columns]="columns"
       [dataSource]="dataSource"
-      sortBy="recipient"
-      sortDirection="asc"
+      sortBy="status"
+      sortDirection="desc"
       [sortClear]="false"
       (rowClick)="onRowClick($event)"
       [activeRow]="activeRow"
       class="watt-space-stack-s"
       data-testid="transfers-table"
     >
-      <!-- Period - Custom column -->
-      <ng-container *wattTableCell="table.columns['period']; let element">
-        {{ element.startDate | wattDate }} -
-        {{ utils.checkForMidnightInLocalTime(element.endDate) | wattDate }}
+      <ng-container *wattTableCell="table.columns['startDate']; let element">
+        {{ element.startDate | wattDate : 'long' }}
+      </ng-container>
+
+      <ng-container *wattTableCell="table.columns['endDate']; let element">
+        {{ element.endDate | wattDate : 'long' }}
       </ng-container>
 
       <!-- Status - Custom column -->
       <ng-container *wattTableCell="table.columns['status']; let element">
-        <watt-badge *ngIf="utils.isDateActive(element.endDate); else notActive" type="success">
+        <watt-badge
+          *ngIf="utils.isDateActive(element.startDate, element.endDate); else notActive"
+          type="success"
+        >
           Active
         </watt-badge>
       </ng-container>
@@ -177,7 +174,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     </watt-paginator>
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
 
-    <eo-transfers-create-modal title="New transfer agreement"></eo-transfers-create-modal>
+    <eo-transfers-create-modal></eo-transfers-create-modal>
     <eo-transfers-drawer
       [transfer]="selectedTransfer"
       (closed)="transferSelected.emit(undefined)"
@@ -200,8 +197,12 @@ export class EoTransfersTableComponent implements OnChanges {
   dataSource = new WattTableDataSource<EoTransferTableElement>();
   columns = {
     receiver: { accessor: 'receiverTin' },
-    period: { accessor: (transfer) => transfer.startDate },
-    status: { accessor: (transfer) => this.utils.isDateActive(transfer.endDate) },
+    startDate: { accessor: 'startDate', header: 'Start Date' },
+    endDate: { accessor: 'endDate', header: 'End Date' },
+    status: {
+      accessor: (transfer) =>
+        transfer.endDate ? this.utils.isDateActive(transfer.startDate, transfer.endDate) : true,
+    },
   } as WattTableColumnDef<EoTransferTableElement>;
 
   ngOnChanges(changes: SimpleChanges) {
@@ -220,14 +221,16 @@ export class EoTransfersTableComponent implements OnChanges {
 
   applyFilters() {
     this.dataSource.data = this.transfers.filter((transfer) =>
-      this.filterByStatus(transfer.endDate)
+      this.filterByStatus(transfer.startDate, transfer.endDate)
     );
   }
 
-  filterByStatus(endDate: number): boolean {
-    if (this.filterForm.controls['statusFilter'].value === null) return true;
+  filterByStatus(startDate: number | null, endDate: number | null): boolean {
+    if (this.filterForm.controls['statusFilter'].value === null || !startDate) return true;
+
     return (
-      this.filterForm.controls['statusFilter'].value === this.utils.isDateActive(endDate).toString()
+      this.filterForm.controls['statusFilter'].value ===
+      this.utils.isDateActive(startDate, endDate).toString()
     );
   }
 

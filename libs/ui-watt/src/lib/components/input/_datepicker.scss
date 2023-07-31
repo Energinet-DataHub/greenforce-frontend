@@ -37,6 +37,10 @@
     -moz-background-clip: text;
     background-clip: text;
     color: transparent;
+
+    &:disabled {
+      background-image: none !important;
+    }
   }
 
   // The following style fixes alignment on smaller devices / iOS / Safari
