@@ -17,7 +17,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, switchMap, tap, throwError, withLatestFrom } from 'rxjs';
+import { Observable, exhaustMap, switchMap, tap, throwError, withLatestFrom } from 'rxjs';
 import { fromUnixTime } from 'date-fns';
 
 import {
@@ -36,6 +36,9 @@ interface EoTransfersState {
   historyOfSelectedTransfer: EoTransferAgreementsHistory[];
   historyOfSelectedTransferError: HttpErrorResponse | null;
   historyOfSelectedTransferLoading: boolean;
+  walletDepositEndpoint?: string;
+  walletDepositEndpointError: HttpErrorResponse | null;
+  walletDepositEndpointLoading: boolean;
 }
 
 @Injectable({
@@ -56,6 +59,12 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   );
   readonly historyOfSelectedTransferLoading$ = this.select(
     (state) => state.historyOfSelectedTransferLoading
+  );
+
+  readonly walletDepositEndpoint$ = this.select((state) => state.walletDepositEndpoint);
+  readonly walletDepositEndpointError$ = this.select((state) => state.walletDepositEndpointError);
+  readonly walletDepositEndpointLoading$ = this.select(
+    (state) => state.walletDepositEndpointLoading
   );
 
   readonly setSelectedTransfer = this.updater(
@@ -159,6 +168,34 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
     }
   );
 
+  readonly createWalletDepositEndpoint = this.effect<void>((trigger$) =>
+    trigger$.pipe(
+      exhaustMap(() => {
+        this.patchState({
+          walletDepositEndpointLoading: true,
+          walletDepositEndpoint: undefined,
+          walletDepositEndpointError: null,
+        });
+        return this.service.createWalletDepositEndpoint().pipe(
+          tapResponse(
+            (response) => {
+              this.patchState({
+                walletDepositEndpoint: response.result,
+                walletDepositEndpointLoading: false,
+              });
+            },
+            (error: HttpErrorResponse) => {
+              this.patchState({
+                walletDepositEndpointError: error,
+                walletDepositEndpointLoading: false,
+              });
+            }
+          )
+        );
+      })
+    )
+  );
+
   private readonly setTransfers = this.updater(
     (state, transfers: EoListedTransfer[]): EoTransfersState => ({
       ...state,
@@ -236,6 +273,8 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
       historyOfSelectedTransfer: [],
       historyOfSelectedTransferError: null,
       historyOfSelectedTransferLoading: false,
+      walletDepositEndpointError: null,
+      walletDepositEndpointLoading: false,
     });
   }
 
