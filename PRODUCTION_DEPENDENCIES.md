@@ -2,17 +2,17 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@angular/animations](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 15.2.6 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@angular/material-date-fns-adapter](https://github.com/angular/components) | 15.2.6 | MIT |
-| [@angular/material](https://github.com/angular/components) | 15.2.6 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 15.2.6 | MIT |
+  | [@angular/animations](https://github.com/angular/angular) | 16.1.7 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 16.1.6 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 16.1.7 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 16.1.7 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 16.1.7 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 16.1.7 | MIT |
+| [@angular/material-date-fns-adapter](https://github.com/angular/components) | 16.1.6 | MIT |
+| [@angular/material](https://github.com/angular/components) | 16.1.6 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 16.1.7 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 16.1.7 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 16.1.7 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.7.11 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.0-beta.0 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.0-beta.0 | MIT |
@@ -24,6 +24,7 @@
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.7 | MIT |
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 14.0.0 | MIT |
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 14.0.0 | MIT |
+| [@swc/helpers](https://github.com/swc-project/swc) | 0.5.1 | Apache-2.0 |
 | [@vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 5.0.0 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 3.8.0 | MIT |
@@ -38,4 +39,4 @@
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 6.0.0 | MIT |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.5.7 | Apache-2.0 |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
-| [zone.js](https://github.com/angular/angular) | 0.12.0 | MIT |
+| [zone.js](https://github.com/angular/angular) | 0.13.1 | MIT |
