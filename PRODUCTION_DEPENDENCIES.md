@@ -2,8 +2,7 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@angular-slider/ngx-slider](https://github.com/angular-slider/ngx-slider) | 2.0.4 | MIT |
-| [@angular/animations](https://github.com/angular/angular) | 15.2.6 | MIT |
+  | [@angular/animations](https://github.com/angular/angular) | 15.2.6 | MIT |
 | [@angular/cdk](https://github.com/angular/components) | 15.2.6 | MIT |
 | [@angular/common](https://github.com/angular/angular) | 15.2.6 | MIT |
 | [@angular/compiler](https://github.com/angular/angular) | 15.2.6 | MIT |

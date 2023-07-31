@@ -10,8 +10,7 @@
     "yarn": "3.5.0"
   },
   "scripts": {
-    "postinstall": "npm run postinstall:nx && npm run postinstall:ngcc && npm run postinstall:husky",
-    "postinstall:ngcc": "npm run ngcc",
+    "postinstall": "npm run postinstall:nx && npm run postinstall:husky",
     "postinstall:husky": "husky install",
     "jest-preview": "jest-preview",
     "postinstall:nx": "node ./decorate-angular-cli.js",
@@ -45,9 +44,6 @@
     "lint": "nx run-many --target=lint --max-warnings=0 --parallel",
     "lint:fix": "nx run-many --target=lint --max-warnings=0 --fix --parallel",
     "ng": "nx",
-    "ngcc": "ngcc --properties es2015 module browser main",
-    "ngcc:dh": "npm run ngcc -- --use-program-dependencies --tsconfig apps/dh/app-dh/tsconfig.app.json",
-    "ngcc:eo": "npm run ngcc -- --use-program-dependencies --tsconfig apps/eo/app-eo/tsconfig.app.json",
     "nx": "nx",
     "start": "ng serve",
     "test": "nx run-many --target=test --parallel",
@@ -58,7 +54,6 @@
     "pr": "yarn ts-node --esm --project ./tools/github/tsconfig.json ./tools/github/create-pr.ts"
   },
   "dependencies": {
-    "@angular-slider/ngx-slider": "2.0.4",
     "@angular/animations": "15.2.6",
     "@angular/cdk": "15.2.6",
     "@angular/common": "15.2.6",
