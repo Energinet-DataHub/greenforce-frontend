@@ -84,7 +84,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
       <watt-empty-state
         icon="power"
         title="An unexpected error occured"
-        message="We're sorry, we couldn't generate your key. Please try again later."
+        message="We are sorry, we could not generate your key. Please try again later."
         style="margin: var(--watt-space-xl) 0;"
       >
       </watt-empty-state>
