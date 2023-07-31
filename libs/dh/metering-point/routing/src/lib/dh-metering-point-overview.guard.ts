@@ -29,7 +29,7 @@ import { dhMeteringPointSearchPath } from './dh-metering-point-search-path';
 @Injectable({
   providedIn: 'root',
 })
-export class DhMeteringPointOverviewGuard  {
+export class DhMeteringPointOverviewGuard {
   private searchMeteringPointUrl(id: string): UrlTree {
     const url = `${dhMeteringPointPath}/${dhMeteringPointSearchPath}`;
 
