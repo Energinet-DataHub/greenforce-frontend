@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectorRef,
-  Component,
-  ViewChild,
-  ViewEncapsulation,
-  inject,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { PushModule } from '@rx-angular/template/push';
 
