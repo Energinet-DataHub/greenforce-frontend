@@ -16,10 +16,6 @@ name: Set up postinstall script
 description: Configure the postinstall script in package.json.
 
 inputs:
-  ngcc:
-    description: Enable NGCC?
-    required: false
-    default: true
   nx:
     description: Enable Nx?
     required: false
@@ -31,13 +27,7 @@ runs:
     - name: Install json tool globally
       shell: bash
       run: npm install --global json
-    - name: Disable ngcc script
-      shell: bash
-      run: |
-        if ${{ inputs.ngcc == 'false'  }}
-        then
-          json -I -f package.json -e "this.scripts['postinstall:ngcc'] = '';"
-        fi
+
     - name: Disable Nx patch
       shell: bash
       run: |

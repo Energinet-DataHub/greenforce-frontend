@@ -75,11 +75,6 @@ jobs:
         with:
           node-version-file: .nvmrc
 
-      - name: Disable workspace NGCC run
-        uses: ./.github/actions/setup-postinstall
-        with:
-          ngcc: false
-
       - name: 📥 Monorepo install
         uses: ./.github/actions/yarn-nm-install
 

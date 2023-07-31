@@ -44,16 +44,8 @@ jobs:
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
 
-      - name: Disable workspace NGCC run
-        uses: ./.github/actions/setup-postinstall
-        with:
-          ngcc: false
-
       - name: 📥 Monorepo install
         uses: ./.github/actions/yarn-nm-install
-
-      - name: Angular Compatibility Compiler
-        run: npm run ngcc:dh
 
       - name: Production build
         run: yarn nx build ${{ env.APP_NAME }}
