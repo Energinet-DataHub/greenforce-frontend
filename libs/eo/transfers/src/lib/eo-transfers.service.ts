@@ -93,7 +93,7 @@ export class EoTransfersService {
 
   createWalletDepositEndpoint() {
     return this.http.post<EoWalletDepositEndpointResponse>(
-      'https://demo.energioprindelse.dk/api/transfer-agreements/wallet-deposit-endpoint',
+      `${this.#apiBase}/transfer-agreements/wallet-deposit-endpoint`,
       {}
     );
   }
