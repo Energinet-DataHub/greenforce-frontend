@@ -322,21 +322,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-slider/ngx-slider@npm:2.0.4":
-  version: 2.0.4
-  resolution: "@angular-slider/ngx-slider@npm:2.0.4"
-  dependencies:
-    detect-passive-events: ^2.0.3
-    rxjs: ^6.5.2
-    tslib: ^1.9.0
-  peerDependencies:
-    "@angular/common": ">=6.1.0"
-    "@angular/core": ">=6.1.0"
-    "@angular/forms": ">=6.1.0"
-  checksum: 5dc10802e2976edb9e45618c27646f57498014162b25f69231291abf126bf86de7511e77736f1fd2b48db95568fcfe94b56d60cd123269b51346e9c9eea27352
-  languageName: node
-  linkType: hard
-
 "@angular/animations@npm:15.2.6":
   version: 15.2.6
   resolution: "@angular/animations@npm:15.2.6"
@@ -15049,13 +15034,6 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"detect-it@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "detect-it@npm:4.0.1"
-  checksum: 013981eae87c0265169e11e09efcc1c78fb2fc3e956b0001eb8d741ce03784a3e8e6d60e1445105f510c52be2ccffbd1c31c1bc094d01ad77f11df9830822a9c
-  languageName: node
-  linkType: hard
-
 "detect-newline@npm:^3.0.0":
   version: 3.1.0
   resolution: "detect-newline@npm:3.1.0"
@@ -15076,15 +15054,6 @@ cors@latest:
   dependencies:
     execa: ^5.1.1
   checksum: e72b910182d5ad479198d4235be206ac64a479257b32201bb06f3c842cc34c65ea851d46f72cc1d4bf535bcc6c4b44b5b86bb29fe1192b8c9c07b46883672f28
-  languageName: node
-  linkType: hard
-
-"detect-passive-events@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "detect-passive-events@npm:2.0.3"
-  dependencies:
-    detect-it: ^4.0.1
-  checksum: 2fb48474e340a1add096735427433578c571e2fed0c44af86ac116c50b9b7d70662a2e3bf1539d9dff4e2a43459c874b20876270afe7beeb5d4bef08ff9d4a5c
   languageName: node
   linkType: hard
 
@@ -15584,7 +15553,6 @@ cors@latest:
     "@angular-eslint/eslint-plugin": 15.2.1
     "@angular-eslint/eslint-plugin-template": 15.2.1
     "@angular-eslint/template-parser": 15.2.1
-    "@angular-slider/ngx-slider": 2.0.4
     "@angular/animations": 15.2.6
     "@angular/cdk": 15.2.6
     "@angular/cli": 15.2.5
@@ -27867,7 +27835,7 @@ proxy-middleware@latest:
   languageName: node
   linkType: hard
 
-"rxjs@npm:6.6.7, rxjs@npm:^6.5.2, rxjs@npm:^6.5.4, rxjs@npm:^6.6.3":
+"rxjs@npm:6.6.7, rxjs@npm:^6.5.4, rxjs@npm:^6.6.3":
   version: 6.6.7
   resolution: "rxjs@npm:6.6.7"
   dependencies:

@@ -58,7 +58,6 @@
     "pr": "yarn ts-node --esm --project ./tools/github/tsconfig.json ./tools/github/create-pr.ts"
   },
   "dependencies": {
-    "@angular-slider/ngx-slider": "2.0.4",
     "@angular/animations": "15.2.6",
     "@angular/cdk": "15.2.6",
     "@angular/common": "15.2.6",
