@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EoScopeGuard implements CanActivate {
+export class EoScopeGuard  {
   constructor(private router: Router, private authStore: EoAuthStore) {}
 
   canActivate() {
