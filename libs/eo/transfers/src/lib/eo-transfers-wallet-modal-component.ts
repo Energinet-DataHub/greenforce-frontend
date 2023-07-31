@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ViewChild,
