@@ -181,7 +181,7 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
             (response) => {
               this.patchState({
                 walletDepositEndpoint: response.result,
-                walletDepositEndpointLoading: false
+                walletDepositEndpointLoading: false,
               });
             },
             (error: HttpErrorResponse) => {

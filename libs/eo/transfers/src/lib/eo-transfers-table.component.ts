@@ -40,7 +40,7 @@ import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.component';
 import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
-import { EoTransfersWalletModalComponent } from "./eo-transfers-wallet-modal-component";
+import { EoTransfersWalletModalComponent } from './eo-transfers-wallet-modal-component';
 
 interface EoTransferTableElement extends EoListedTransfer {
   period?: string;
@@ -200,7 +200,8 @@ export class EoTransfersTableComponent implements OnChanges {
 
   @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
   @ViewChild(EoTransfersCreateModalComponent) transfersModal!: EoTransfersCreateModalComponent;
-  @ViewChild(EoTransfersWalletModalComponent) transfersWalletModalComponent!: EoTransfersWalletModalComponent;
+  @ViewChild(EoTransfersWalletModalComponent)
+  transfersWalletModalComponent!: EoTransfersWalletModalComponent;
 
   utils = inject(SharedUtilities);
   private fb = inject(FormBuilder);
