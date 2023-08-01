@@ -83,11 +83,10 @@ export const dhCoreShellProviders = [
     provide: HIGHLIGHT_OPTIONS,
     useValue: <HighlightOptions>{
       coreLibraryLoader: () => import('highlight.js/lib/core'),
-      lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
+      lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
       languages: {
         xml: () => import('highlight.js/lib/languages/xml'),
       },
-      //themePath: 'path-to-theme.css' // Optional, and useful if you want to change the theme dynamically
     },
   },
 ];

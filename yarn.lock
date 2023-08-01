@@ -17413,7 +17413,7 @@ cors@latest:
     msw: 1.2.1
     ng-mocks: 14.0.1
     ng2-charts: 3.0.11
-    ngx-highlightjs: 8.0.0
+    ngx-highlightjs: ^10.0.0
     ngx-mat-select-search: 6.0.0
     nx: 16.5.5
     nx-cloud: 16.1.1
@@ -20876,7 +20876,7 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"highlight.js@npm:*, highlight.js@npm:^11.5.1":
+"highlight.js@npm:*, highlight.js@npm:^11.8.0":
   version: 11.8.0
   resolution: "highlight.js@npm:11.8.0"
   checksum: d2578a57aee7315946ff19379053fd0a28b127baabf7617ab1d28d62cdc4eaf3d75053569cb8479a5afdc7a68f1ba9a6c1d612d8ae399b4b9aa43093b4fb6831
@@ -20887,13 +20887,6 @@ cors@latest:
   version: 10.7.3
   resolution: "highlight.js@npm:10.7.3"
   checksum: defeafcd546b535d710d8efb8e650af9e3b369ef53e28c3dc7893eacfe263200bba4c5fcf43524ae66d5c0c296b1af0870523ceae3e3104d24b7abf6374a4fea
-  languageName: node
-  linkType: hard
-
-"highlightjs-line-numbers.js@npm:^2.8.0":
-  version: 2.8.0
-  resolution: "highlightjs-line-numbers.js@npm:2.8.0"
-  checksum: 88a65badca8acca956c56548df92334b8a7282eb0387aa49b088f708798c15212af28374e80d433c762a9b54c3098a26733b9fd5c407d9209383c356fc86d47d
   languageName: node
   linkType: hard
 
@@ -26172,18 +26165,17 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"ngx-highlightjs@npm:8.0.0":
-  version: 8.0.0
-  resolution: "ngx-highlightjs@npm:8.0.0"
+"ngx-highlightjs@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "ngx-highlightjs@npm:10.0.0"
   dependencies:
-    highlight.js: ^11.5.1
-    highlightjs-line-numbers.js: ^2.8.0
+    highlight.js: ^11.8.0
     tslib: ^2.0.0
   peerDependencies:
-    "@angular/common": ">=14.0.0"
-    "@angular/core": ">=14.0.0"
-    rxjs: ">=6.0.0"
-  checksum: dd79b033f3b639442c2f6c8bd466afdd89e6f81d6c85dee743dae34bc6f50228dafa7d18299e3777a2d94d5e8c07270a84042b39654ada465a3e14ccb9704199
+    "@angular/common": ">=16.0.0"
+    "@angular/core": ">=16.0.0"
+    rxjs: ">=7.0.0"
+  checksum: ea5d9f4b69a383c26ef4ca1abc8b62d24dc5baa20dcec9cfb03dac500a88b79166a0a4039362f4a91fb56cb89afc8a5e8e11b8c41dc4adc0e316e66dc56e5e8b
   languageName: node
   linkType: hard
 

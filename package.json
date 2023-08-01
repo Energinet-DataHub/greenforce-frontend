@@ -87,7 +87,7 @@
     "inputmask": "5.0.7",
     "jwt-decode": "^3.1.2",
     "ng2-charts": "3.0.11",
-    "ngx-highlightjs": "8.0.0",
+    "ngx-highlightjs": "^10.0.0",
     "ngx-mat-select-search": "6.0.0",
     "rxjs": "7.5.7",
     "tslib": "2.4.0",
