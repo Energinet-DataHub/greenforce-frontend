@@ -342,7 +342,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cli@npm:~16.1.0":
+"@angular/cli@npm:16.1.6":
   version: 16.1.6
   resolution: "@angular/cli@npm:16.1.6"
   dependencies:
@@ -10941,10 +10941,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:18.7.1":
-  version: 18.7.1
-  resolution: "@types/node@npm:18.7.1"
-  checksum: f1e2b701b107f97be01da4c46845cd23bcdcb2865f9abbb2847546d09587e726ea207daca6f0d1e72196875ef8c62feeeff5f1c1f2070445acd6d1a61d815c7c
+"@types/node@npm:18.11.9":
+  version: 18.11.9
+  resolution: "@types/node@npm:18.11.9"
+  checksum: cc0aae109e9b7adefc32eecb838d6fad931663bb06484b5e9cbbbf74865c721b03d16fd8d74ad90e31dbe093d956a7c2c306ba5429ba0c00f3f7505103d7a496
   languageName: node
   linkType: hard
 
@@ -17292,7 +17292,7 @@ cors@latest:
     "@angular-eslint/template-parser": 16.0.3
     "@angular/animations": 16.1.7
     "@angular/cdk": 16.1.6
-    "@angular/cli": ~16.1.0
+    "@angular/cli": 16.1.6
     "@angular/common": 16.1.7
     "@angular/compiler": 16.1.7
     "@angular/compiler-cli": 16.1.7
@@ -17367,7 +17367,7 @@ cors@latest:
     "@types/inquirer": ^9.0.3
     "@types/jest": 29.4.4
     "@types/jest-dev-server": 5.0.0
-    "@types/node": 18.7.1
+    "@types/node": 18.11.9
     "@types/vimeo__player": 2.16.3
     "@typescript-eslint/eslint-plugin": 5.62.0
     "@typescript-eslint/parser": 5.62.0
