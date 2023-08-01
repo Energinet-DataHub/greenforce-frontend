@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
 
 import { isValidMeteringPointId } from '@energinet-datahub/dh/metering-point/domain';
 
@@ -29,7 +29,7 @@ import { dhMeteringPointSearchPath } from './dh-metering-point-search-path';
 @Injectable({
   providedIn: 'root',
 })
-export class DhMeteringPointOverviewGuard {
+export class DhMeteringPointOverviewGuard implements CanActivate {
   private searchMeteringPointUrl(id: string): UrlTree {
     const url = `${dhMeteringPointPath}/${dhMeteringPointSearchPath}`;
 
