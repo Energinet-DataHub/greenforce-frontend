@@ -5,10 +5,9 @@
   "projectType": "application",
   "targets": {
     "e2e": {
-      "executor": "@nrwl/cypress:cypress",
+      "executor": "@nx/cypress:cypress",
       "options": {
         "cypressConfig": "apps/eo/e2e-eo/cypress.config.js",
-        "tsConfig": "apps/eo/e2e-eo/tsconfig.e2e.json",
         "devServerTarget": "app-eo:serve:e2e-development",
         "headed": true,
         "testingType": "e2e"
@@ -31,7 +30,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": ["apps/eo/e2e-eo/**/*.{js,ts}"]
       },
