@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { render, screen } from '@testing-library/angular';
+import { render, screen, fireEvent } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { OrganizationChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
@@ -95,12 +95,12 @@ describe(DhMarketParticipantOrganizationMasterDataComponent, () => {
     const countryComboBox = screen.getByRole('combobox', {
       name: en.marketParticipant.organization.create.masterData.countries.dk,
     });
-    userEvent.click(countryComboBox);
+    fireEvent.click(countryComboBox);
 
     const countryOption = screen.getByText(
       en.marketParticipant.organization.create.masterData.countries.se
     );
-    userEvent.click(countryOption);
+    fireEvent.click(countryOption);
 
     const commentTextBox = screen.getByRole('textbox', {
       name: en.marketParticipant.organization.create.masterData.commentLabel,
