@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["coverage/libs/dh/charges/feature-create-prices"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/charges/feature-create-prices"
+      ],
       "options": {
         "jestConfig": "libs/dh/charges/feature-create-prices/jest.config.ts",
         "passWithNoTests": true
