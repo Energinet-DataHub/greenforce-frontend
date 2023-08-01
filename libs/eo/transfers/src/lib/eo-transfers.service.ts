@@ -46,6 +46,10 @@ export interface EoTransferAgreementsHistoryResponse {
   result: EoTransferAgreementsHistory[];
 }
 
+export interface EoWalletDepositEndpointResponse {
+  result: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -84,6 +88,13 @@ export class EoTransfersService {
   getHistory(transferAgreementId: string) {
     return this.http.get<EoTransferAgreementsHistoryResponse>(
       `${this.#apiBase}/history/transfer-agreements/${transferAgreementId}`
+    );
+  }
+
+  createWalletDepositEndpoint() {
+    return this.http.post<EoWalletDepositEndpointResponse>(
+      `${this.#apiBase}/transfer-agreements/wallet-deposit-endpoint`,
+      {}
     );
   }
 }

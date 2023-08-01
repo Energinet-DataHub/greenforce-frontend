@@ -80,6 +80,10 @@ export class WattModalComponent implements AfterViewInit {
   @Input()
   loading = false;
 
+  /** Whether the modal should show a loading text for the loading state. */
+  @Input()
+  loadingMessage = '';
+
   /** Disable ESC, close button and backdrop click as methods of closing. */
   @Input()
   disableClose = false;
