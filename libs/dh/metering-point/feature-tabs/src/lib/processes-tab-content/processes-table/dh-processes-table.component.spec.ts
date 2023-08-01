@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
-import { render, screen } from '@testing-library/angular';
+import { render, screen, fireEvent } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
-import userEvent from '@testing-library/user-event';
 
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
@@ -90,7 +89,7 @@ const failedProcess: DhProcess = {
 };
 const testData: DhProcess[] = [successProcess, failedProcess];
 
-describe(DhProcessesTableComponent.name, () => {
+describe(DhProcessesTableComponent, () => {
   async function setup(processes?: DhProcess[]) {
     const { fixture } = await render(DhProcessesTableComponent, {
       componentProperties: {
@@ -142,12 +141,13 @@ describe(DhProcessesTableComponent.name, () => {
     // Verify that the success row is set to collapsed and has height 0
     expect(detailsRow).toHaveClass('collapsed');
 
-    userEvent.click(processRow);
+    fireEvent.click(processRow);
+
     // Verify that the success row is set to expanded and no longer has height 0
     expect(processRow).toHaveClass('expanded');
     expect(detailsRow).not.toHaveClass('collapsed');
 
-    userEvent.click(processRow);
+    fireEvent.click(processRow);
     // Verify that the success row is set to collapsed and has height 0
     expect(detailsRow).toHaveClass('collapsed');
   });

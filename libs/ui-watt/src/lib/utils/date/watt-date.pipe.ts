@@ -36,14 +36,15 @@ export class WattDatePipe implements PipeTransform {
    */
   transform(
     input?: WattDateRange | Date | string | number | null,
-    format: keyof typeof formatStrings = 'short'
+    format: keyof typeof formatStrings = 'short',
+    timeZone = 'Europe/Copenhagen'
   ): string | null {
     if (!input) return null;
 
     return input instanceof Date || typeof input === 'string'
-      ? formatInTimeZone(input, 'Europe/Copenhagen', formatStrings[format])
+      ? formatInTimeZone(input, timeZone, formatStrings[format])
       : typeof input === 'number'
-      ? formatInTimeZone(new Date(input), 'Europe/Copenhagen', formatStrings[format])
+      ? formatInTimeZone(new Date(input), timeZone, formatStrings[format])
       : `${this.transform(input.start, format)} ― ${this.transform(input.end, format)}`;
   }
 }

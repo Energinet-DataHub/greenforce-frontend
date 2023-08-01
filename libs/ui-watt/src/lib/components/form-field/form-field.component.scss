@@ -155,8 +155,8 @@ watt-form-field {
   }
 }
 
-watt-form-field .mat-form-field-invalid,
-watt-form-field .mat-form-field-invalid.ng-dirty {
+watt-form-field .mat-form-field.ng-invalid.ng-touched,
+watt-form-field .mat-form-field.ng-invalid.ng-dirty {
   --input-border-color: var(--watt-color-state-danger);
   overflow-wrap: break-word;
   hyphens: auto;

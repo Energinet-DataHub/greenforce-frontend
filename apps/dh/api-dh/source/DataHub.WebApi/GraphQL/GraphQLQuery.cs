@@ -129,14 +129,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .WithService<IMarketParticipantClient>()
                 .ResolveAsync(async (context, client) => await client.GetGridAreasAsync());
 
-            Field<BatchType>("batch")
-                .Argument<IdGraphType>("id", "The id of the organization")
+            Field<CalculationType>("calculation")
+                .Argument<IdGraphType>("id", "The id of the calculation")
                 .Resolve()
                 .WithScope()
                 .WithService<IWholesaleClient_V3>()
                 .ResolveAsync(async (context, client) => await client.GetBatchAsync(context.GetArgument<Guid>("id")));
 
-            Field<NonNullGraphType<ListGraphType<NonNullGraphType<BatchType>>>>("batches")
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<CalculationType>>>>("calculations")
                 .Argument<DateRangeType>("executionTime")
                 .Argument<BatchState[]>("executionStates", nullable: true)
                 .Argument<ProcessType[]>("processTypes", nullable: true)
@@ -160,7 +160,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var periodStart = period?.Start.ToDateTimeOffset();
                     var periodEnd = period?.End.ToDateTimeOffset();
 
-                    // The SearchBatches API only allows for a single execution state to be specified
+                    // The API only allows for a single execution state to be specified
                     BatchState? executionState = executionStates.Length == 1 ? executionStates[0] : null;
 
                     var batches = (await client.SearchBatchesAsync(gridAreaCodes, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd))

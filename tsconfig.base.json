@@ -98,6 +98,12 @@
       "@energinet-datahub/dh/globalization/ui-watt-translation": [
         "libs/dh/globalization/ui-watt-translation/src/index.ts"
       ],
+      "@energinet-datahub/dh/market-participant/actors/feature-market-roles": [
+        "libs/dh/market-participant/actors/feature-market-roles/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/actors/shell": [
+        "libs/dh/market-participant/actors/shell/src/index.ts"
+      ],
       "@energinet-datahub/dh/market-participant/data-access-api": [
         "libs/dh/market-participant/data-access-api/src/index.ts"
       ],
@@ -107,11 +113,11 @@
       "@energinet-datahub/dh/market-participant/feature-edit-organization": [
         "libs/dh/market-participant/feature-edit-organization/src/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/feature-gridarea": [
-        "libs/dh/market-participant/feature-gridarea/src/index.ts"
-      ],
       "@energinet-datahub/dh/market-participant/feature-organization": [
         "libs/dh/market-participant/feature-organization/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/grid-areas/shell": [
+        "libs/dh/market-participant/grid-areas/shell/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/routing": [
         "libs/dh/market-participant/routing/src/index.ts"
@@ -230,17 +236,11 @@
       "@energinet-datahub/dh/wholesale/domain": [
         "libs/dh/wholesale/domain/src/index.ts"
       ],
-      "@energinet-datahub/dh/wholesale/feature-calculation-steps": [
-        "libs/dh/wholesale/feature-calculation-steps/src/index.ts"
-      ],
-      "@energinet-datahub/dh/wholesale/feature-search": [
-        "libs/dh/wholesale/feature-search/src/index.ts"
+      "@energinet-datahub/dh/wholesale/feature-calculations": [
+        "libs/dh/wholesale/feature-calculations/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/feature-settlement-reports": [
         "libs/dh/wholesale/feature-settlement-reports/src/index.ts"
-      ],
-      "@energinet-datahub/dh/wholesale/feature-start": [
-        "libs/dh/wholesale/feature-start/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/routing": [
         "libs/dh/wholesale/routing/src/index.ts"
@@ -434,6 +434,9 @@
       ],
       "@energinet-datahub/watt/validators": [
         "libs/ui-watt/src/lib/components/input/shared/validators/index.ts"
+      ],
+      "@energinet-datahub/workspace-plugin": [
+        "tools/workspace-plugin/src/index.ts"
       ],
       "rxjs": ["./node_modules/rxjs"]
     }

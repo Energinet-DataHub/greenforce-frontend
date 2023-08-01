@@ -70,6 +70,8 @@
   }
 
   &__content {
+    display: grid;
+    grid-template-rows: auto 1fr;
     overflow-y: auto;
   }
 
@@ -77,7 +79,7 @@
     display: flex;
     align-items: center;
     border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-    padding: var(--watt-space-m) 0;
+    padding-bottom: var(--watt-space-m);
   }
 }
 

@@ -50,7 +50,11 @@ limitations under the License.
 
   <mat-option *ngIf="!multiple && showResetOption">{{ emDash }}</mat-option>
 
-  <mat-option *ngFor="let option of filteredOptions$ | push" [value]="option.value">
+  <mat-option
+    *ngFor="let option of filteredOptions$ | push"
+    [value]="option.value"
+    [disabled]="option.disabled"
+  >
     {{ option.displayValue }}
   </mat-option>
 </mat-select>

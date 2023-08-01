@@ -25,6 +25,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -323,7 +324,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
       });
   }
 
-  validateValidFromDate(validFromDate: FormControl) {
+  validateValidFromDate(validFromDate: FormControl): ValidationErrors | null {
     const inputValue = new Date(validFromDate.value);
 
     const maximumDate = new Date();

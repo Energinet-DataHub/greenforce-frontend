@@ -40,9 +40,9 @@ import { exhaustMap, ignoreElements, map, mergeWith, Subject, take, tap } from '
 export type WattModalSize = 'small' | 'normal' | 'large';
 
 const sizeConfig: Record<WattModalSize, MatDialogConfig> = {
-  small: { width: '36vw', maxHeight: '50vh' },
-  normal: { width: '50vw', maxHeight: '70vh' },
-  large: { width: '65vw', maxHeight: '90vh' },
+  small: { width: '36vw', maxHeight: '100vh' },
+  normal: { width: '50vw', maxHeight: '100vh' },
+  large: { width: '65vw', maxHeight: '100vh' },
 };
 
 /**
@@ -79,6 +79,10 @@ export class WattModalComponent implements AfterViewInit {
   /** Whether the modal should show a loading state. */
   @Input()
   loading = false;
+
+  /** Whether the modal should show a loading text for the loading state. */
+  @Input()
+  loadingMessage = '';
 
   /** Disable ESC, close button and backdrop click as methods of closing. */
   @Input()

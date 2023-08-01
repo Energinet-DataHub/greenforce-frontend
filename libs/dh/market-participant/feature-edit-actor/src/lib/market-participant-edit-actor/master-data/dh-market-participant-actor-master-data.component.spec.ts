@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { render, screen } from '@testing-library/angular';
+import { render, screen, fireEvent } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
@@ -89,12 +89,12 @@ describe(DhMarketParticipantActorMasterDataComponent, () => {
     const statusComboBox = await screen.findByRole('combobox', {
       name: en.marketParticipant.actor.create.masterData.statuses.Active,
     });
-    userEvent.click(statusComboBox);
+    fireEvent.click(statusComboBox);
 
     const statusOption = screen.getByText(
       en.marketParticipant.actor.create.masterData.statuses.Inactive
     );
-    userEvent.click(statusOption);
+    fireEvent.click(statusOption);
 
     // assert
     expect(changes).toEqual(expected);

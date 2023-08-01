@@ -6,7 +6,7 @@
   "prefix": "gf",
   "targets": {
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/gf/util-browser"],
       "options": {
         "jestConfig": "libs/gf/util-browser/jest.config.ts",
@@ -14,7 +14,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/gf/util-browser/src/**/*.ts",

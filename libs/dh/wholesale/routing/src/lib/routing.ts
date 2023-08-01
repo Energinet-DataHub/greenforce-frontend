@@ -14,14 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Router } from '@angular/router';
-
 export const WHOLESALE_BASE_PATH = 'wholesale';
-export const WHOLESALE_SEARCH_BATCH_PATH = 'search-batch';
+export const WHOLESALE_CALCULATIONS_PATH = 'calculations';
 export const WHOLESALE_SETTLEMENT_REPORTS_PATH = `settlement-reports`;
-
-export function navigateToWholesaleSearchBatch(router: Router, batchId?: string) {
-  return router.navigate([WHOLESALE_BASE_PATH, WHOLESALE_SEARCH_BATCH_PATH], {
-    queryParams: batchId ? { batch: batchId } : null,
-  });
-}
