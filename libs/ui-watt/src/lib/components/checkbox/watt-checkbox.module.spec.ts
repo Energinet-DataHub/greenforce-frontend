@@ -16,12 +16,11 @@
  */
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
-import { render, screen } from '@testing-library/angular';
-import userEvent from '@testing-library/user-event';
+import { render, screen, fireEvent } from '@testing-library/angular';
 
 import { WattCheckboxComponent } from './watt-checkbox.component';
 
-describe(WattCheckboxComponent.name, () => {
+describe(WattCheckboxComponent, () => {
   it('exports shared Watt Design System checkbox', async () => {
     const labelText = 'Text';
 
@@ -60,13 +59,13 @@ describe(WattCheckboxComponent.name, () => {
       const { fixture, checkboxLabel } = await setup(initialState);
 
       if (checkboxLabel) {
-        userEvent.click(checkboxLabel);
+        fireEvent.click(checkboxLabel);
       }
 
       expect(fixture.componentInstance.checkboxControl.value).toBeFalsy();
 
       if (checkboxLabel) {
-        userEvent.click(checkboxLabel);
+        fireEvent.click(checkboxLabel);
       }
 
       expect(fixture.componentInstance.checkboxControl.value).toBeTruthy();
@@ -77,7 +76,7 @@ describe(WattCheckboxComponent.name, () => {
       const { fixture, checkboxLabel } = await setup(initialState);
 
       if (checkboxLabel) {
-        userEvent.click(checkboxLabel);
+        fireEvent.click(checkboxLabel);
       }
 
       const actualValue = fixture.componentInstance.checkboxControl.value;
@@ -89,7 +88,7 @@ describe(WattCheckboxComponent.name, () => {
       const { fixture, checkboxLabel } = await setup(initialState);
 
       if (checkboxLabel) {
-        userEvent.click(checkboxLabel);
+        fireEvent.click(checkboxLabel);
       }
 
       let actualValue = fixture.componentInstance.checkboxControl.value;
@@ -98,7 +97,7 @@ describe(WattCheckboxComponent.name, () => {
       fixture.componentInstance.checkboxControl.enable();
 
       if (checkboxLabel) {
-        userEvent.click(checkboxLabel);
+        fireEvent.click(checkboxLabel);
       }
 
       actualValue = fixture.componentInstance.checkboxControl.value;

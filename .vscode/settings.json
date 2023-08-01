@@ -19,5 +19,6 @@
     "**/node_modules/*/**": true
   },
   "prettier.prettierPath": "./node_modules/prettier",
-  "dotnet.defaultSolution": "apps/dh/api-dh/DataHub.WebApi.sln"
+  "dotnet.defaultSolution": "apps/dh/api-dh/DataHub.WebApi.sln",
+  "eslint.validate": ["json"]
 }

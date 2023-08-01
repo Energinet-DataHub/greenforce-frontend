@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/angular';
+import {
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+  fireEvent,
+} from '@testing-library/angular';
 import { ActivatedRoute } from '@angular/router';
 import { Component } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -34,7 +40,7 @@ import { DhMeteringPointSearchComponent } from './dh-metering-point-search.compo
 })
 class NoopComponent {}
 
-describe(DhMeteringPointSearchComponent.name, () => {
+describe(DhMeteringPointSearchComponent, () => {
   async function setup() {
     const { fixture } = await render(DhMeteringPointSearchComponent, {
       imports: [getTranslocoTestingModule(), DhApiModule.forRoot(), HttpClientModule],
@@ -71,7 +77,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
     const validMeteringPointIdThatExist = '571313180400014602';
 
     userEvent.type(input, validMeteringPointIdThatExist);
-    userEvent.click(submitButton);
+    fireEvent.click(submitButton);
 
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
     await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
@@ -99,7 +105,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
     const validMeteringPointIdThatDoesNotExist = '000000000000000000';
 
     userEvent.type(input, validMeteringPointIdThatDoesNotExist);
-    userEvent.click(submitButton);
+    fireEvent.click(submitButton);
 
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
     await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
