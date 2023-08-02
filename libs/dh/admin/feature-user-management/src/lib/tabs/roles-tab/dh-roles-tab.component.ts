@@ -19,8 +19,8 @@ import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { take } from 'rxjs';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -54,12 +54,12 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
     WattButtonComponent,
     WATT_CARD,
     WattSpinnerComponent,
-    PushModule,
+    RxPush,
     DhRolesTabTableComponent,
     DhSharedUiPaginatorComponent,
     DhRolesTabListFilterComponent,
     DhTabDataGeneralErrorComponent,
-    LetModule,
+    RxLet,
     DhPermissionRequiredDirective,
     DhCreateUserRoleModalComponent,
     WATT_MODAL,

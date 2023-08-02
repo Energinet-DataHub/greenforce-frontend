@@ -16,7 +16,7 @@
  */
 import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -31,7 +31,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
   selector: 'eo-transfers-wallet-modal',
   imports: [
     NgIf,
-    PushModule,
+    RxPush,
     WATT_FORM_FIELD,
     WATT_MODAL,
     WattButtonComponent,

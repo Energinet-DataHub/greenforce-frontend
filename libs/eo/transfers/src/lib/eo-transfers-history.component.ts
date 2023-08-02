@@ -16,7 +16,7 @@
  */
 import { LowerCasePipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -36,7 +36,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
   imports: [
     LowerCasePipe,
     NgIf,
-    PushModule,
+    RxPush,
     WATT_TABLE,
     WattBadgeComponent,
     WattButtonComponent,

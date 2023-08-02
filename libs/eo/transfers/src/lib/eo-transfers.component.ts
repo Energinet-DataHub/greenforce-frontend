@@ -16,7 +16,7 @@
  */
 import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoTransfersStore } from './eo-transfers.store';
@@ -26,13 +26,7 @@ import { WattCardComponent } from '@energinet-datahub/watt/card';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers',
-  imports: [
-    WattCardComponent,
-    EoTransfersTableComponent,
-    EoPopupMessageComponent,
-    NgIf,
-    PushModule,
-  ],
+  imports: [WattCardComponent, EoTransfersTableComponent, EoPopupMessageComponent, NgIf, RxPush],
   standalone: true,
   styles: [``],
   template: `

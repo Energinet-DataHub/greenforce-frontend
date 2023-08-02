@@ -29,8 +29,8 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
 import { provideComponentStore } from '@ngrx/component-store';
@@ -84,8 +84,8 @@ interface UserRoleForm {
     WattInputDirective,
     WATT_FORM_FIELD,
     WattDropdownComponent,
-    PushModule,
-    LetModule,
+    RxPush,
+    RxLet,
     WATT_STEPPER,
     WattEmptyStateComponent,
     DhPermissionsTableComponent,

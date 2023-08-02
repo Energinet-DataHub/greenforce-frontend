@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -34,7 +34,7 @@ import {
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 import { DhMarketParticipantOrganizationOverviewComponent } from './overview/dh-market-participant-organization-overview.component';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 
@@ -46,7 +46,7 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
   standalone: true,
   imports: [
     CommonModule,
-    LetModule,
+    RxLet,
     TranslocoModule,
     WattButtonComponent,
     WattEmptyStateComponent,
@@ -55,7 +55,7 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
     WattTabsComponent,
     WattValidationMessageComponent,
     DhMarketParticipantOrganizationOverviewComponent,
-    PushModule,
+    RxPush,
     DhPermissionRequiredDirective,
   ],
 })
