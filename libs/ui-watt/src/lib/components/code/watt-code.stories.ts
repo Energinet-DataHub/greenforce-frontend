@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, StoryFn, applicationConfig, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryFn, applicationConfig } from '@storybook/angular';
 
 import { WattCodeComponent } from './watt-code.component';
 import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
