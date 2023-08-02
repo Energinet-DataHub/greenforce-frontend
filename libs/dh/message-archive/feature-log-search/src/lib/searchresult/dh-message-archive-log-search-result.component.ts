@@ -25,7 +25,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 import {
   MatLegacyTableDataSource as MatTableDataSource,
   MatLegacyTableModule as MatTableModule,
@@ -65,7 +65,7 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
     WattTableCellDirective,
     CommonModule,
     TranslocoModule,
-    LetModule,
+    RxLet,
     MatTableModule,
     MatSortModule,
     WattIconComponent,

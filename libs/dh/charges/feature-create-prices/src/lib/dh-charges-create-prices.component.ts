@@ -45,7 +45,7 @@ import {
   ChargeVatClassification,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 import { Router } from '@angular/router';
 import { dhChargesPath, dhChargesPricesPath } from '@energinet-datahub/dh/charges/routing';
 import { add } from 'date-fns';
@@ -60,7 +60,7 @@ import { add } from 'date-fns';
   imports: [
     CommonModule,
     FormsModule,
-    PushModule,
+    RxPush,
     TranslocoModule,
     ReactiveFormsModule,
     WattButtonComponent,

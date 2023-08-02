@@ -20,8 +20,8 @@ import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { DhAdminAssignableUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { FormsModule } from '@angular/forms';
-import { LetModule } from '@rx-angular/template/let';
-import { PushModule } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -37,8 +37,8 @@ import { takeUntil } from 'rxjs';
     CommonModule,
     WattCheckboxComponent,
     FormsModule,
-    LetModule,
-    PushModule,
+    RxLet,
+    RxPush,
     WattSpinnerComponent,
     WattEmptyStateComponent,
     TranslocoModule,

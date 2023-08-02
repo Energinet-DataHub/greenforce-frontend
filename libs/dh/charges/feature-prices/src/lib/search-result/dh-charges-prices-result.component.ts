@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { Component, AfterViewInit, OnChanges, ViewChild, Input } from '@angular/core';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -42,7 +42,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
     WATT_TABLE,
     CommonModule,
     TranslocoModule,
-    LetModule,
+    RxLet,
     WattIconComponent,
     WattButtonComponent,
     WattEmptyStateComponent,

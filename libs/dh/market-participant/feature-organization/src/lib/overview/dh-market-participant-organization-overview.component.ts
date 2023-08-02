@@ -24,7 +24,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import {
   MatLegacyTableDataSource as MatTableDataSource,
@@ -52,7 +52,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   standalone: true,
   imports: [
     CommonModule,
-    LetModule,
+    RxLet,
     MatTableModule,
     MatMenuModule,
     TranslocoModule,

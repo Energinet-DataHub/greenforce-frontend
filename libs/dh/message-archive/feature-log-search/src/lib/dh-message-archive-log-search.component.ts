@@ -38,8 +38,8 @@ import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template/let';
-import { PushModule } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-message-archive-log-search-result.component';
 
@@ -63,14 +63,14 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     WattTimepickerComponent,
     FormsModule,
     CommonModule,
-    LetModule,
+    RxLet,
     TranslocoModule,
     DhMessageArchiveLogSearchResultComponent,
     WattBadgeComponent,
     WattDropdownComponent,
     WattSpinnerComponent,
     ReactiveFormsModule,
-    PushModule,
+    RxPush,
   ],
 })
 export class DhMessageArchiveLogSearchComponent {

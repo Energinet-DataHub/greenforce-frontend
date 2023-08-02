@@ -23,7 +23,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { getUnixTime } from 'date-fns';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
@@ -37,7 +37,7 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-transfers-create-modal',
-  imports: [WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent, PushModule],
+  imports: [WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent, RxPush],
   standalone: true,
   template: `
     <watt-modal
