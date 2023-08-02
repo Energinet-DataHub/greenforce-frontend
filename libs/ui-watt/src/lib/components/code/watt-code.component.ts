@@ -14,8 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, ViewEncapsulation } from '@angular/core';
 import { HighlightModule } from 'ngx-highlightjs';
+
+type languages = 'xml' | 'json';
 
 @Component({
   selector: 'watt-code',
@@ -26,11 +28,12 @@ import { HighlightModule } from 'ngx-highlightjs';
   `,
   styleUrls: ['./watt-code.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [HighlightModule],
 })
 export class WattCodeComponent {
-  @Input() code!: string;
-  @Input() languages!: string[];
+  @Input() code: string | null = null;
+  @Input() languages!: languages[];
   @Input() lineNumbers!: boolean;
 }

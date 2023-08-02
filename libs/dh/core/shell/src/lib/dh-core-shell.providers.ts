@@ -86,6 +86,7 @@ export const dhCoreShellProviders = [
       lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
       languages: {
         xml: () => import('highlight.js/lib/languages/xml'),
+        json: () => import('highlight.js/lib/languages/json'),
       },
     },
   },
