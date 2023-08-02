@@ -16,7 +16,7 @@
  */
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
@@ -30,7 +30,7 @@ import { DhSecondaryMasterDataComponent } from './secondary-master-data/dh-secon
   standalone: true,
   imports: [
     CommonModule,
-    LetModule,
+    RxLet,
     DhMeteringPointIdentityComponent,
     DhMeteringPointPrimaryMasterDataComponent,
     DhSecondaryMasterDataComponent,

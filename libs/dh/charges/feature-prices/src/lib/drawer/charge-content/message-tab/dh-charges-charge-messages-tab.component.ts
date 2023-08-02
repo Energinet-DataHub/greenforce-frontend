@@ -26,8 +26,8 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { Subject, takeUntil } from 'rxjs';
 import { DhChargeMessagesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
@@ -55,8 +55,8 @@ import { DhChargesPricesDrawerService } from '../../dh-charges-prices-drawer.ser
     WATT_TABLE,
     CommonModule,
     TranslocoModule,
-    LetModule,
-    PushModule,
+    RxLet,
+    RxPush,
     WattButtonComponent,
     WattEmptyStateComponent,
     WattTooltipDirective,

@@ -17,8 +17,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
-import { LetModule } from '@rx-angular/template/let';
-import { PushModule } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
 import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -93,8 +93,8 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
   ],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    RxLet,
+    RxPush,
     TranslocoModule,
     WattSpinnerComponent,
     WATT_CARD,

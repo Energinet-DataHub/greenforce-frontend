@@ -24,8 +24,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
@@ -46,8 +46,8 @@ import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
   styleUrls: ['./dh-admin-permission-audit-logs.component.scss'],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    RxLet,
+    RxPush,
     TranslocoModule,
     WATT_CARD,
     WattSpinnerComponent,

@@ -25,7 +25,7 @@ import {
 } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { AppSettingsStore, Resolution } from '@energinet-datahub/eo/shared/services';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 import { differenceInDays, differenceInMonths, differenceInYears } from 'date-fns';
 import { map } from 'rxjs';
 
@@ -33,7 +33,7 @@ import { map } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [MatButtonToggleModule, LetModule, AsyncPipe],
+  imports: [MatButtonToggleModule, RxLet, AsyncPipe],
   selector: 'eo-resolution-picker',
   styles: [
     `

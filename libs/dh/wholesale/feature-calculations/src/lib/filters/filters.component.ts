@@ -25,7 +25,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { debounceTime, map } from 'rxjs';
@@ -54,7 +54,7 @@ const makeFormControl = <T>(value: T = null as T) =>
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    PushModule,
+    RxPush,
     ReactiveFormsModule,
     TranslocoModule,
     WATT_FORM_FIELD,

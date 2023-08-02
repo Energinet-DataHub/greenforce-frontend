@@ -36,7 +36,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 import {
   MatLegacySelectModule as MatSelectModule,
   MatLegacySelect as MatSelect,
@@ -58,7 +58,7 @@ import { WattMenuChipComponent } from '../chip';
   imports: [
     MatSelectModule,
     CommonModule,
-    PushModule,
+    RxPush,
     ReactiveFormsModule,
     NgxMatSelectSearchModule,
     WattMenuChipComponent,

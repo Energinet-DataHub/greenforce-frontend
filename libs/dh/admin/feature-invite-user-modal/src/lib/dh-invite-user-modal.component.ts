@@ -28,7 +28,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Subscription, tap } from 'rxjs';
 
@@ -67,7 +67,7 @@ import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
     WattInputDirective,
     WATT_FORM_FIELD,
     WattDropdownComponent,
-    PushModule,
+    RxPush,
     DhAssignableUserRolesComponent,
     WATT_STEPPER,
   ],
