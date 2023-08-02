@@ -66,7 +66,7 @@ import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
     TranslocoModule,
     DhSharedUiPaginatorComponent,
     WattDatePipe,
-    PushModule,
+    RxPush,
     DhFeatureFlagDirective,
   ],
   selector: 'dh-charges-charge-prices-tab',
