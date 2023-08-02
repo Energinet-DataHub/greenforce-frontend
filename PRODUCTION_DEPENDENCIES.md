@@ -21,8 +21,8 @@
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 4.2.6 | MIT |
 | [@ngrx/component-store](https://github.com/ngrx/platform) | 16.1.0 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.7 | MIT |
-| [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 14.0.0 | MIT |
-| [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 14.0.0 | MIT |
+| [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 16.0.0 | MIT |
+| [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 16.0.2 | MIT |
 | [@vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 5.0.0 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 3.8.0 | MIT |
