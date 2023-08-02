@@ -25,7 +25,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
@@ -37,7 +37,7 @@ import { EoTransfersStore } from './eo-transfers.store';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers-edit-modal',
-  imports: [PushModule, WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent],
+  imports: [RxPush, WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent],
   standalone: true,
   template: `
     <watt-modal

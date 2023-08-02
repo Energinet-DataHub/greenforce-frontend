@@ -29,8 +29,8 @@ import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { combineLatest, map, Subject, takeUntil, tap } from 'rxjs';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -77,8 +77,8 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
   providers: [DhAdminUserRoleEditDataAccessApiStore, DhAdminMarketRolePermissionsStore],
   imports: [
     CommonModule,
-    PushModule,
-    LetModule,
+    RxPush,
+    RxLet,
     WATT_MODAL,
     WattButtonComponent,
     TranslocoModule,

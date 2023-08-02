@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 
 import { EoMediaPresenter } from './eo-media.presenter';
 import { EoMediaImageDirective } from './eo-media-image.directive';
@@ -23,7 +23,7 @@ import { EoMediaImageDirective } from './eo-media-image.directive';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [PushModule],
+  imports: [RxPush],
   exportAs: 'eoMedia',
   providers: [EoMediaPresenter],
   selector: 'eo-media',

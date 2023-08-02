@@ -23,7 +23,7 @@ import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 import { Subject, takeUntil } from 'rxjs';
 import { getValidStatusTransitionOptions } from './get-valid-status-transition-options';
 
@@ -35,7 +35,7 @@ import { getValidStatusTransitionOptions } from './get-valid-status-transition-o
   standalone: true,
   imports: [
     CommonModule,
-    LetModule,
+    RxLet,
     FormsModule,
     TranslocoModule,
     WattDropdownComponent,

@@ -20,8 +20,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template/let';
-import { PushModule } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
 import {
   combineLatest,
   first,
@@ -73,8 +73,8 @@ const processTypes = ['BALANCE_FIXING', 'AGGREGATION'];
   standalone: true,
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    RxLet,
+    RxPush,
     ReactiveFormsModule,
     TranslocoModule,
     WATT_FORM_FIELD,

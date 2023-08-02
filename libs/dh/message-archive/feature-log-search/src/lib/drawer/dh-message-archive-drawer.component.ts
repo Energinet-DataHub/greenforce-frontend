@@ -18,8 +18,8 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { provideComponentStore } from '@ngrx/component-store';
 import { MatDividerModule } from '@angular/material/divider';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -60,10 +60,10 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
     ActorNamePipe,
     DocumentTypeNamePipe,
     WattButtonComponent,
-    PushModule,
+    RxPush,
     DhEmDashFallbackPipe,
     WattSpinnerComponent,
-    LetModule,
+    RxLet,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattCodeComponent,

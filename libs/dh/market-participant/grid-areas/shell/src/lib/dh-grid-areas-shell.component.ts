@@ -16,8 +16,8 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import {
@@ -42,13 +42,13 @@ import { DhMarketParticipantGridAreaOverviewComponent } from './overview/dh-mark
   standalone: true,
   imports: [
     CommonModule,
-    LetModule,
+    RxLet,
     TranslocoModule,
     WattEmptyStateComponent,
     WattSpinnerComponent,
     WattValidationMessageComponent,
     DhMarketParticipantGridAreaOverviewComponent,
-    PushModule,
+    RxPush,
   ],
 })
 export class DhGridAreasShellComponent {

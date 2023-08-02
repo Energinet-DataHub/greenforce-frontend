@@ -18,8 +18,8 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 import { map } from 'rxjs';
 
 import {
@@ -55,8 +55,8 @@ import { DhMarketParticipantActorMarketRolesComponent } from './market-roles/dh-
   providers: [DhMarketParticipantEditActorDataAccessApiStore],
   standalone: true,
   imports: [
-    LetModule,
-    PushModule,
+    RxLet,
+    RxPush,
     CommonModule,
     TranslocoModule,
     WattButtonComponent,
@@ -64,7 +64,7 @@ import { DhMarketParticipantActorMarketRolesComponent } from './market-roles/dh-
     WattTabsComponent,
     WattSpinnerComponent,
     WATT_MODAL,
-    PushModule,
+    RxPush,
     DhMarketParticipantActorMasterDataComponent,
     DhMarketParticipantActorContactDataComponent,
     DhMarketParticipantActorMarketRolesComponent,

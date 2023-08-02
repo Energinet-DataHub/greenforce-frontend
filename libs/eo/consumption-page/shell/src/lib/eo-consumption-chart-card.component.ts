@@ -20,13 +20,13 @@ import { Component } from '@angular/core';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { EoLineChartComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 import { map } from 'rxjs';
 import { EoConsumptionStore } from './eo-consumption.store';
 
 @Component({
   standalone: true,
-  imports: [LetModule, MatCardModule, EoLineChartComponent, WattSpinnerComponent, NgIf, AsyncPipe],
+  imports: [RxLet, MatCardModule, EoLineChartComponent, WattSpinnerComponent, NgIf, AsyncPipe],
   selector: 'eo-consumption-line-chart',
   template: ` <mat-card class="chart-card watt-space-inline-l">
     <h3 class="watt-space-stack-s">kWh</h3>
