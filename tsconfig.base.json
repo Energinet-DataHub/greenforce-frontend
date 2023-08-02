@@ -338,6 +338,9 @@
       "@energinet-datahub/watt/clipboard": [
         "libs/ui-watt/src/lib/components/clipboard/index.ts"
       ],
+      "@energinet-datahub/watt/code": [
+        "libs/ui-watt/src/lib/components/code/index.ts"
+      ],
       "@energinet-datahub/watt/color": [
         "libs/ui-watt/src/lib/foundations/color/index.ts"
       ],
@@ -358,9 +361,6 @@
       ],
       "@energinet-datahub/watt/dropdown": [
         "libs/ui-watt/src/lib/components/dropdown/index.ts"
-      ],
-      "@energinet-datahub/watt/code": [
-        "libs/ui-watt/src/lib/components/code/index.ts"
       ],
       "@energinet-datahub/watt/empty-state": [
         "libs/ui-watt/src/lib/components/empty-state/index.ts"
