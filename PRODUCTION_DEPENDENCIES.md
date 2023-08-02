@@ -34,6 +34,7 @@
 | [inputmask](https://github.com/RobinHerbots/Inputmask) | 5.0.7 | MIT |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 3.1.2 | MIT |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 3.0.11 | ISC |
+| [ngx-highlightjs](https://github.com/murhafsousli/ngx-highlightjs) | 10.0.0 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 6.0.0 | MIT |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.5.7 | Apache-2.0 |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
