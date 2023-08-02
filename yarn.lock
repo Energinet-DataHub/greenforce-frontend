@@ -17815,12 +17815,12 @@ cors@latest:
     jest-environment-jsdom: 29.4.3
     jest-preset-angular: 13.1.1
     jest-preview: 0.3.1
-    jwt-decode: ^3.1.2
+    jwt-decode: 3.1.2
     kill-port-process: 3.1.0
     msw: 1.2.3
     ng-mocks: 14.0.1
     ng2-charts: 3.0.11
-    ngx-highlightjs: ^10.0.0
+    ngx-highlightjs: 10.0.0
     ngx-mat-select-search: 6.0.0
     nx: 16.6.0
     nx-cloud: 16.2.0
@@ -24271,7 +24271,7 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"jwt-decode@npm:^3.1.2":
+"jwt-decode@npm:3.1.2":
   version: 3.1.2
   resolution: "jwt-decode@npm:3.1.2"
   checksum: 20a4b072d44ce3479f42d0d2c8d3dabeb353081ba4982e40b83a779f2459a70be26441be6c160bfc8c3c6eadf9f6380a036fbb06ac5406b5674e35d8c4205eeb
@@ -26542,7 +26542,7 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"ngx-highlightjs@npm:^10.0.0":
+"ngx-highlightjs@npm:10.0.0":
   version: 10.0.0
   resolution: "ngx-highlightjs@npm:10.0.0"
   dependencies:
