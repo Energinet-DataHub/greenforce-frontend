@@ -14,47 +14,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
+watt-code {
   display: block;
   overflow: auto;
-}
 
-pre {
-  display: flex;
-  margin-top: 0;
-  margin-bottom: 0;
-  word-wrap: break-word;
+  pre {
+    display: flex;
+    margin-top: 0;
+    margin-bottom: 0;
+    word-wrap: break-word;
 
-  code {
-    flex: 1;
-    line-height: 1.8em;
-    font-size: 14px;
-    min-height: 100%;
-    padding: 1em 1.2em;
+    code {
+      flex: 1;
+      line-height: 1.8em;
+      font-size: 14px;
+      min-height: 100%;
+      padding: 1em 1.2em;
 
-    table.hljs-ln {
-      border-collapse: separate;
-      border-spacing: 0;
-      border: 1px solid var(--watt-color-neutral-grey-300);
-      border-radius: 4px;
-    }
+      table.hljs-ln {
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 1px solid var(--watt-color-neutral-grey-300);
+        border-radius: 4px;
+      }
 
-    td.hljs-ln-line.hljs-ln-code {
-      padding-left: var(--watt-space-ml);
-    }
+      td.hljs-ln-line.hljs-ln-code {
+        padding-left: var(--watt-space-ml);
+      }
 
-    td.hljs-ln-line.hljs-ln-numbers {
-      user-select: none;
-      border-left: 1px solid var(--watt-color-neutral-grey-300);
-      border-right: 1px solid var(--watt-color-neutral-grey-300);
-      padding-right: var(--watt-space-l);
-      padding-left: var(--watt-space-m);
-      background: var(--watt-color-primary-ultralight);
-      color: var(--watt-color-primary-dark);
-    }
+      td.hljs-ln-line.hljs-ln-numbers {
+        user-select: none;
+        border-left: 1px solid var(--watt-color-neutral-grey-300);
+        border-right: 1px solid var(--watt-color-neutral-grey-300);
+        padding-right: var(--watt-space-l);
+        padding-left: var(--watt-space-m);
+        background: var(--watt-color-primary-ultralight);
+        color: var(--watt-color-primary-dark);
+      }
 
-    span.hljs-tag span.hljs-attr::before {
-      content: "\a";
+      span.hljs-tag span.hljs-attr::before {
+        content: "\a";
+      }
     }
   }
 }

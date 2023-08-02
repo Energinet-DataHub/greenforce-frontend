@@ -33,7 +33,7 @@ type languages = 'xml' | 'json';
   imports: [HighlightModule],
 })
 export class WattCodeComponent {
-  @Input() code: string | null = null;
+  @Input({ required: true }) code: string | null = null;
   @Input() languages!: languages[];
-  @Input() lineNumbers!: boolean;
+  @Input() lineNumbers = true;
 }
