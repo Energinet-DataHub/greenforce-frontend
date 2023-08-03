@@ -47,7 +47,6 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
       headers: req.headers.set('Authorization', `Bearer ${this.authStore.token.getValue()}`),
     });
 
-    this.#displayPermissionError();
     if (tokenRefreshTrigger) {
       return nextHandler.handle(authorizedRequest).pipe(
         filter((event) => event instanceof HttpResponse),

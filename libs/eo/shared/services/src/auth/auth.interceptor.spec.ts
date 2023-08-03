@@ -29,7 +29,7 @@ import { EoAuthorizationInterceptor, eoAuthorizationInterceptorProvider } from '
 })
 class TestDefaultRouteComponent {}
 
-describe(EoAuthorizationInterceptor.name, () => {
+describe(EoAuthorizationInterceptor, () => {
   function sendRequest(): Promise<unknown> {
     return lastValueFrom(http.get(testEndpoint));
   }
