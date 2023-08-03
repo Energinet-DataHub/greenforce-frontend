@@ -81,12 +81,20 @@ limitations under the License.
         text-align: center;
         padding-bottom: 24px;
       }
+
+      main {
+        display: none;
+      }
     </style>
     <script>
       function init() {
         Utils.waitFor("button#next", function (element) {
           element.addEventListener("click", toggleErrorClasses);
         });
+      }
+
+      function showContent() {
+        document.querySelector("main").style.display = "block";
       }
     </script>
     <script>
@@ -99,6 +107,7 @@ limitations under the License.
       link.rel = "stylesheet";
       link.type = "text/css";
       link.href = path + "main.css";
+      link.onload = showContent;
       head.appendChild(link);
 
       var script = document.createElement("script");
