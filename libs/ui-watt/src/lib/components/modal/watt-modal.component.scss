@@ -26,16 +26,18 @@
   // TODO: Implement sizes variants and breakpoints
 
   mat-dialog-container {
-    position: relative;
-    display: grid;
-    padding: 0;
-    align-items: center;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: 60px 1fr auto;
-    grid-template-areas:
-      "title close"
-      "content content"
-      "actions actions";
+    div.mat-mdc-dialog-surface {
+      position: relative;
+      display: grid;
+      padding: 0;
+      align-items: center;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: 60px 1fr auto;
+      grid-template-areas:
+        "title close"
+        "content content"
+        "actions actions";
+    }
   }
 
   .watt-modal-close {
