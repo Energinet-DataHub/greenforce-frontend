@@ -25,7 +25,7 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, concatMap, filter, map, take, tap, throwError } from 'rxjs';
 import { EoAuthService } from './auth.service';
 import { EoAuthStore } from './auth.store';

@@ -19,7 +19,7 @@ import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/ang
 
 import { WattToastConfig } from '../watt-toast.component';
 import { StorybookToastComponent } from './storybook-toast.component';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule as MatSnackBarModule } from '@angular/material/snack-bar';
 import { importProvidersFrom } from '@angular/core';
 
 export default {
