@@ -25,11 +25,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogConfig as MatDialogConfig,
-  MatLegacyDialogModule as MatDialogModule,
-} from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
