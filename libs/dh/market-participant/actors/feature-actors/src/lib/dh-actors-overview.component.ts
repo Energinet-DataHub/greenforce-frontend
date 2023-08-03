@@ -31,7 +31,13 @@ interface Actor {
   standalone: true,
   selector: 'dh-actors-overview',
   templateUrl: './dh-actors-overview.component.html',
-  styleUrls: ['./dh-actors-overview.component.scss'],
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
   imports: [TranslocoModule, WATT_TABLE, WATT_CARD],
 })
 export class DhActorsOverviewComponent {
