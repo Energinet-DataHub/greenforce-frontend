@@ -146,6 +146,10 @@ limitations under the License.
         top: 50%;
         right: 0;
       }
+
+      main {
+        display: none;
+      }
     </style>
     <script>
       function getB2CFlowLink(flowname) {
@@ -189,6 +193,10 @@ limitations under the License.
           setMitIdFlowSignInFlow();
         });
       }
+
+      function showContent() {
+        document.querySelector("main").style.display = "block";
+      }
     </script>
 
     <script>
@@ -200,6 +208,7 @@ limitations under the License.
       link.rel = "stylesheet";
       link.type = "text/css";
       link.href = path + "main.css";
+      link.onload = showContent;
       head.appendChild(link);
 
       var script = document.createElement("script");

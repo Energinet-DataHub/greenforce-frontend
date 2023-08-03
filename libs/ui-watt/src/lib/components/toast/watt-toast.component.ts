@@ -25,11 +25,7 @@ import {
   Optional,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  MatLegacySnackBarModule as MatSnackBarModule,
-  MatLegacySnackBarRef as MatSnackBarRef,
-  MAT_LEGACY_SNACK_BAR_DATA as MAT_SNACK_BAR_DATA,
-} from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule, MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { fromEvent, repeat, Subscription, takeUntil, tap, timer } from 'rxjs';
 
 import { WattIconComponent } from '../../foundations/icon';

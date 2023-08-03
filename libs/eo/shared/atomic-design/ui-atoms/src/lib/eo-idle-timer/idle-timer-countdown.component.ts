@@ -16,7 +16,7 @@
  */
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { map, take, tap, timer } from 'rxjs';
