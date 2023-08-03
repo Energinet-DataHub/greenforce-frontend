@@ -11197,6 +11197,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/highlight.js@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "@types/highlight.js@npm:10.1.0"
+  dependencies:
+    highlight.js: "*"
+  checksum: 284f47e89bfe300f307ad76523a257ff12ed7cf0318cdc0a7fe6965a1d7e21840d133cfc623ec705495550d37341c278c2c9641bafce8b8dbb4bea4acd46f0ec
+  languageName: node
+  linkType: hard
+
 "@types/html-minifier-terser@npm:^5.0.0":
   version: 5.1.2
   resolution: "@types/html-minifier-terser@npm:5.1.2"
@@ -17770,6 +17779,7 @@ cors@latest:
     "@testing-library/jest-dom": 5.16.5
     "@testing-library/user-event": 13.5.0
     "@types/crypto-js": 4.1.1
+    "@types/highlight.js": ^10.1.0
     "@types/inputmask": 5.0.3
     "@types/inquirer": ^9.0.3
     "@types/jest": 29.4.4
@@ -17805,11 +17815,12 @@ cors@latest:
     jest-environment-jsdom: 29.4.3
     jest-preset-angular: 13.1.1
     jest-preview: 0.3.1
-    jwt-decode: ^3.1.2
+    jwt-decode: 3.1.2
     kill-port-process: 3.1.0
     msw: 1.2.3
     ng-mocks: 14.0.1
     ng2-charts: 3.0.11
+    ngx-highlightjs: 10.0.0
     ngx-mat-select-search: 6.0.0
     nx: 16.6.0
     nx-cloud: 16.2.0
@@ -21242,6 +21253,13 @@ cors@latest:
   languageName: node
   linkType: hard
 
+"highlight.js@npm:*, highlight.js@npm:^11.8.0":
+  version: 11.8.0
+  resolution: "highlight.js@npm:11.8.0"
+  checksum: d2578a57aee7315946ff19379053fd0a28b127baabf7617ab1d28d62cdc4eaf3d75053569cb8479a5afdc7a68f1ba9a6c1d612d8ae399b4b9aa43093b4fb6831
+  languageName: node
+  linkType: hard
+
 "highlight.js@npm:^10.4.1, highlight.js@npm:~10.7.0":
   version: 10.7.3
   resolution: "highlight.js@npm:10.7.3"
@@ -24253,7 +24271,7 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"jwt-decode@npm:^3.1.2":
+"jwt-decode@npm:3.1.2":
   version: 3.1.2
   resolution: "jwt-decode@npm:3.1.2"
   checksum: 20a4b072d44ce3479f42d0d2c8d3dabeb353081ba4982e40b83a779f2459a70be26441be6c160bfc8c3c6eadf9f6380a036fbb06ac5406b5674e35d8c4205eeb
@@ -26521,6 +26539,20 @@ cors@latest:
     chart.js: ^3.4.0
     rxjs: ^6.5.3 || ^7.4.0
   checksum: 4c3735f7bc1d6e940e68bbe43ac6cbb5f4f7b60338b9cd8d7670c74dd5cec828118748326be42195256cb81977a7d530fab83b7d41e16fd1482023d19be64114
+  languageName: node
+  linkType: hard
+
+"ngx-highlightjs@npm:10.0.0":
+  version: 10.0.0
+  resolution: "ngx-highlightjs@npm:10.0.0"
+  dependencies:
+    highlight.js: ^11.8.0
+    tslib: ^2.0.0
+  peerDependencies:
+    "@angular/common": ">=16.0.0"
+    "@angular/core": ">=16.0.0"
+    rxjs: ">=7.0.0"
+  checksum: ea5d9f4b69a383c26ef4ca1abc8b62d24dc5baa20dcec9cfb03dac500a88b79166a0a4039362f4a91fb56cb89afc8a5e8e11b8c41dc4adc0e316e66dc56e5e8b
   languageName: node
   linkType: hard
 

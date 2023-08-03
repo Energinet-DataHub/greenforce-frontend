@@ -116,9 +116,16 @@ limitations under the License.
         margin-bottom: 0;
         display: block;
       }
+
+      main {
+        display: none;
+      }
     </style>
     <script>
       function init() {}
+      function showContent() {
+        document.querySelector("main").style.display = "block";
+      }
     </script>
 
     <script>
@@ -130,6 +137,7 @@ limitations under the License.
       link.rel = "stylesheet";
       link.type = "text/css";
       link.href = path + "main.css";
+      link.onload = showContent;
       head.appendChild(link);
 
       var script = document.createElement("script");

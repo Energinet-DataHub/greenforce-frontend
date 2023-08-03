@@ -27,7 +27,7 @@
       "executor": "@storybook/angular:start-storybook",
       "options": {
         "port": 4400,
-        "host": "0.0.0.0",
+        "host": "localhost",
         "configDir": "libs/ui-watt/.storybook",
         "browserTarget": "ui-watt:build-storybook",
         "compodoc": true,
@@ -35,7 +35,8 @@
       },
       "configurations": {
         "ci": {
-          "quiet": true
+          "quiet": true,
+          "open": false
         }
       }
     },
