@@ -552,6 +552,15 @@
         }
       }
     },
+    "actorsOverview": {
+      "actors": "Aktører",
+      "columns": {
+        "glnOrEic": "GLN/EIC",
+        "name": "Navn",
+        "marketRole": "Markedsrolle",
+        "status": "Status"
+      }
+    },
     "marketRolesOverview": {
       "marketRoles": "Markedsroller",
       "download": "Download",

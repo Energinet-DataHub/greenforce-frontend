@@ -559,6 +559,15 @@
         }
       }
     },
+    "actorsOverview": {
+      "actors": "Actors",
+      "columns": {
+        "glnOrEic": "GLN/EIC",
+        "name": "Name",
+        "marketRole": "Market role",
+        "status": "Status"
+      }
+    },
     "marketRolesOverview": {
       "marketRoles": "Market roles",
       "download": "Download",
