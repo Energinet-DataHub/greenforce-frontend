@@ -21,7 +21,7 @@ import { RouterOutlet } from '@angular/router';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { EoAuthService } from '@energinet-datahub/eo/shared/services';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

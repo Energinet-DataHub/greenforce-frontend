@@ -16,7 +16,7 @@
  */
 import { importProvidersFrom } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { eoAuthorizationInterceptorProvider } from '@energinet-datahub/eo/shared/services';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
@@ -27,6 +27,6 @@ export const eoCoreShellProviders = [
   browserConfigurationProviders,
   danishLocalProviders,
   danishDatetimeProviders,
-  importProvidersFrom(MatDialogModule, MatLegacySnackBarModule),
+  importProvidersFrom(MatDialogModule, MatSnackBarModule),
   eoAuthorizationInterceptorProvider,
 ];

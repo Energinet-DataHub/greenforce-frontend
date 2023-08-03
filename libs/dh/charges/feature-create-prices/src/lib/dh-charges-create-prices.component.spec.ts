@@ -16,7 +16,7 @@
  */
 import { HttpClientModule } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
-import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { formatInTimeZone } from 'date-fns-tz';
@@ -62,7 +62,7 @@ describe(DhChargesCreatePricesComponent, () => {
   async function setup() {
     const { fixture } = await render(DhChargesCreatePricesComponent, {
       providers: [
-        importProvidersFrom(MatLegacySnackBarModule),
+        importProvidersFrom(MatSnackBarModule),
         danishLocalProviders,
         danishDatetimeProviders,
       ],
