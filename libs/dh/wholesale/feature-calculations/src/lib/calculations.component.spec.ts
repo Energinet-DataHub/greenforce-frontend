@@ -19,18 +19,14 @@ import { render, screen } from '@testing-library/angular';
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
-import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { importProvidersFrom } from '@angular/core';
 import { ApolloModule } from 'apollo-angular';
 import { DhCalculationsComponent } from './calculations.component';
 
 async function setup() {
   await render(`<dh-calculations />`, {
-    providers: [
-      importProvidersFrom(MatLegacySnackBarModule),
-      graphQLProviders,
-      danishDatetimeProviders,
-    ],
+    providers: [importProvidersFrom(MatSnackBarModule), graphQLProviders, danishDatetimeProviders],
     imports: [ApolloModule, DhCalculationsComponent, getTranslocoTestingModule(), HttpClientModule],
   });
 }

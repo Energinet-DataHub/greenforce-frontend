@@ -52,14 +52,14 @@ async function setup() {
 
 #### When the feature under test uses toast(s)
 
-In this case import `MatLegacySnackBarModule` function in the testing setup. This will make sure that the base API is configured correctly. For example:
+In this case import `MatSnackBarModule` function in the testing setup. This will make sure that the base API is configured correctly. For example:
 
 ```ts
-import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 async function setup() {
   await render(MyComponent.name, {
-    providers: [importProvidersFrom(MatLegacySnackBarModule)],
+    providers: [importProvidersFrom(MatSnackBarModule)],
   }
 };
 ```

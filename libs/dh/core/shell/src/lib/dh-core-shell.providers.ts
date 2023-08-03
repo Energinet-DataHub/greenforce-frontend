@@ -16,7 +16,7 @@
  */
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
-import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   MsalInterceptor,
@@ -44,12 +44,7 @@ import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish
 import { HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
 
 export const dhCoreShellProviders = [
-  importProvidersFrom([
-    MatLegacySnackBarModule,
-    DhApiModule.forRoot(),
-    MsalModule,
-    TranslocoModule,
-  ]),
+  importProvidersFrom([MatSnackBarModule, DhApiModule.forRoot(), MsalModule, TranslocoModule]),
   environment.production ? applicationInsightsProviders : [],
   uiWattTranslationsProviders,
   danishLocalProviders,
