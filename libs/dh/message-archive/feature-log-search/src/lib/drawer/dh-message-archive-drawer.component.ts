@@ -28,6 +28,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattDrawerComponent, WATT_DRAWER, WattDrawerSize } from '@energinet-datahub/watt/drawer';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { DhMessageArchiveDocumentStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -65,6 +66,7 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
     RxLet,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
+    WattCodeComponent,
   ],
   providers: [provideComponentStore(DhMessageArchiveDocumentStore)],
 })

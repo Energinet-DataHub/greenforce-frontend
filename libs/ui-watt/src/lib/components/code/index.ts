@@ -14,6 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* You can add global styles to this file, and also import other style files */
-@use "@energinet-datahub/watt";
-@import "~highlight.js/styles/github.css";
+export { WattCodeComponent } from './watt-code.component';
