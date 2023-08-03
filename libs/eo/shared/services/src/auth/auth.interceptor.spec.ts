@@ -18,10 +18,7 @@ import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/h
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  MatLegacySnackBar as MatSnackBar,
-  MatLegacySnackBarModule as MatSnackBarModule,
-} from '@angular/material/legacy-snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 import { lastValueFrom } from 'rxjs';
 
