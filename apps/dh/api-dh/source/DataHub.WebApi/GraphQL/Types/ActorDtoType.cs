@@ -23,11 +23,20 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Name = "Actor";
 
             Field(x => x.Id).Description("The id of the actor.");
-            Field(x => x.Number).Description("The number of the actor.");
+            Field(x => x.GlnOrEicNumber).Description("The gln or eic number of the actor.");
             Field(x => x.Name).Description("The name of the actor.");
-            Field<NonNullGraphType<ListGraphType<NonNullGraphType<StringGraphType>>>>("GridAreaCodes")
-                .Resolve(x => x.Source.GridAreaCodes)
-                .Description("The grid areas the actor belongs to.");
+
+            Field<NonNullGraphType<ListGraphType<NonNullGraphType<GridAreaType>>>>("gridAreas")
+               .Resolve(x => x.Source.GridAreas)
+               .Description("The grid areas the actor belongs to.");
+
+            Field<EicFunctionEnum>("marketRole")
+                .Resolve(x => x.Source.MarketRole)
+                .Description("The market role of the actor.");
+
+            Field<ActorStatusEnum>("status")
+                .Resolve(x => x.Source.Status)
+                .Description("The status of the actor.");
 
             // Below are commented out since the actor number is currently
             // the only field that market participant and wholesale have in common
@@ -38,7 +47,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
             // Field(x => x.ExternalActorId, nullable: true).Description("The external id of the actor.");
             // Field(x => x.Name).Description("The name of the actor.");
             // Field(x => x.Status).Description("The status of the actor.");
-            // Field(x => x.MarketRoles).Description("The market roles of the actor.");
         }
     }
 }

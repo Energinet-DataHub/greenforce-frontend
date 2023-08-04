@@ -244,28 +244,28 @@ const mockedFilteredActors: ActorFilter = [
   {
     value: '10',
     displayValue: 'EnergySupplier (805)',
-    gridAreaCodes: ['805'],
+    gridAreas: [{ code: '805' }],
   },
   {
     value: '20',
     displayValue: 'GridAccessProvider (806)',
-    gridAreaCodes: ['806'],
+    gridAreas: [{ code: '806' }],
   },
   {
     value: '30',
     displayValue: 'EnergySupplier (805, 806)',
-    gridAreaCodes: ['805', '806'],
+    gridAreas: [{ code: '805' }, { code: '806' }],
   },
   {
     value: '40',
     displayValue: 'GridAccessProvider (805, 806)',
-    gridAreaCodes: ['805', '806'],
+    gridAreas: [{ code: '805' }, { code: '806' }],
   },
   // No grid areas found
   {
     value: '50',
     displayValue: 'GridAccessProvider (807, 808)',
-    gridAreaCodes: ['807', '808'],
+    gridAreas: [{ code: '807' }, { code: '808' }],
   },
 ];
 
@@ -273,22 +273,22 @@ const mockedActorsForSettlementReport: ActorFilter = [
   {
     value: '10',
     displayValue: 'Energy Go - EnergySupplier (805)',
-    gridAreaCodes: ['805'],
+    gridAreas: [{ code: '805' }],
   },
   {
     value: '20',
     displayValue: 'Nordlys - GridAccessProvider (806)',
-    gridAreaCodes: ['806'],
+    gridAreas: [{ code: '806' }],
   },
   {
     value: '30',
     displayValue: 'Mod Strøm - EnergySupplier (807, 808)',
-    gridAreaCodes: ['805', '806'],
+    gridAreas: [{ code: '805' }, { code: '806' }],
   },
   {
     value: '40',
     displayValue: 'Stor Strøm - GridAccessProvider (807, 808)',
-    gridAreaCodes: ['805', '806'],
+    gridAreas: [{ code: '807' }, { code: '808' }],
   },
 ];
 
