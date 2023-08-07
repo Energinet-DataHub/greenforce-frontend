@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.MarketParticipant.Client.Models;
-using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {

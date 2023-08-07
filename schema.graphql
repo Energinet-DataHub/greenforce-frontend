@@ -4,17 +4,30 @@ schema {
 }
 
 type Actor {
+  """The gln or eic number of the actor."""
+  glnOrEicNumber: String!
+
   """The grid areas the actor belongs to."""
-  gridAreaCodes: [String!]!
+  gridAreas: [GridArea!]!
 
   """The id of the actor."""
   id: ID!
 
+  """The market role of the actor."""
+  marketRole: EicFunction
+
   """The name of the actor."""
   name: String!
 
-  """The number of the actor."""
-  number: String!
+  """The status of the actor."""
+  status: ActorStatus
+}
+
+enum ActorStatus {
+  Active
+  Inactive
+  New
+  Passive
 }
 
 type Address {

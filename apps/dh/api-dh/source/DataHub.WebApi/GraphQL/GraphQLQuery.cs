@@ -235,16 +235,19 @@ namespace Energinet.DataHub.WebApi.GraphQL
                                 y.EicFunction is EicFunction.EnergySupplier or EicFunction.GridAccessProvider));
                     }
 
-                    var accessibleActors = actors.Select(x => new Actor(x.ActorNumber.Value)
+                    var accessibleActors = actors.Select(x => new Actor(x.ActorId, x.Name.Value, x.ActorNumber.Value)
                     {
                         Id = x.ActorId,
                         Name = x.Name.Value,
-                        Number = x.ActorNumber.Value,
-                        GridAreaCodes = x.MarketRoles
+                        GlnOrEicNumber = x.ActorNumber.Value,
+                        GridAreas = x.MarketRoles
                             .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
                             .Distinct()
-                            .Select(gridAreaId => gridAreaLookup[gridAreaId].Code)
+                            .Select(gridAreaId => gridAreaLookup[gridAreaId])
                             .ToArray(),
+
+                        MarketRole = x.MarketRoles.FirstOrDefault()?.EicFunction,
+                        Status = x.Status,
                     });
 
                     // TODO: Is this the right place to filter this list?
