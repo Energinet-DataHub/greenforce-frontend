@@ -22,11 +22,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { sub, startOfDay, endOfDay } from 'date-fns';
 import { BehaviorSubject, Subject, switchMap, takeUntil } from 'rxjs';
 
-import {
-  VaterFlexComponent,
-  VaterScrollerComponent,
-  VaterStackComponent,
-} from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -43,6 +39,7 @@ import { DhCalculationsCreateComponent } from './create/create.component';
 import { DhCalculationsDetailsComponent } from './details/details.component';
 import { DhCalculationsFiltersComponent } from './filters/filters.component';
 import { DhCalculationsTableComponent } from './table/table.component';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 @Component({
   selector: 'dh-calculations',
@@ -55,11 +52,10 @@ import { DhCalculationsTableComponent } from './table/table.component';
     DhCalculationsTableComponent,
     TranslocoModule,
     VaterFlexComponent,
-    VaterScrollerComponent,
     VaterStackComponent,
     WATT_CARD,
     WattButtonComponent,
-    WattEmptyStateComponent,
+    WattPaginatorComponent,
     WattSearchComponent,
     WattSpinnerComponent,
   ],

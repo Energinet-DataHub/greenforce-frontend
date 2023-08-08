@@ -27,15 +27,15 @@ limitations under the License.
       </watt-button>
     </vater-stack>
     <dh-calculations-filters [initial]="filter$.value" (filter)="filter$.next($event)" />
-    <vater-scroller>
-      <dh-calculations-table
-        [data]="calculations"
-        [filter]="search"
-        [selected]="selected"
-        [loading]="loading"
-        [error]="error"
-        (selectedRow)="onSelected($event)"
-      />
-    </vater-scroller>
+    <dh-calculations-table
+      #table
+      [data]="calculations"
+      [filter]="search"
+      [selected]="selected"
+      [loading]="loading"
+      [error]="error"
+      (selectedRow)="onSelected($event)"
+    />
+    <watt-paginator [for]="table.dataSource" />
   </vater-flex>
 </watt-card>

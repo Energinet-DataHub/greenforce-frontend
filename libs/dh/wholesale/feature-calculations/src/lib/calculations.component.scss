@@ -17,9 +17,8 @@
 
 @use "@energinet-datahub/watt/utils" as watt;
 
-// TODO: Consider other solutions
 h3 {
-  margin: 0;
+  margin: 0; // TODO: Consider other solutions
 }
 
 watt-card {
@@ -29,4 +28,9 @@ watt-card {
 
 watt-search {
   margin-left: auto;
+}
+
+watt-paginator {
+  display: block;
+  margin: calc(-1 * var(--watt-space-m)) -24px -24px;
 }

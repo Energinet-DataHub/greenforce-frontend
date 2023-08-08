@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
-import { Direction, Gap } from './types';
+import { Direction, Gap, Justify } from './types';
 
 @Component({
   selector: 'vater-flex, [vater-flex]',
@@ -47,4 +47,8 @@ export class VaterFlexComponent {
   get _gap() {
     return `var(--watt-space-${this.gap})`;
   }
+
+  @Input()
+  @HostBinding('style.justify-content')
+  justify?: Justify;
 }

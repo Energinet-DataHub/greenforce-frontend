@@ -21,11 +21,11 @@ import { translate, TranslocoModule } from '@ngneat/transloco';
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { VaterScrollerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 type wholesaleTableData = WattTableDataSource<Calculation>;
 
@@ -36,9 +36,10 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
     CommonModule,
     WattDatePipe,
     TranslocoModule,
+    VaterScrollerComponent,
+    VaterStackComponent,
     WattBadgeComponent,
     WattEmptyStateComponent,
-    WattPaginatorComponent,
     DhEmDashFallbackPipe,
   ],
   selector: 'dh-calculations-table',
@@ -52,17 +53,17 @@ export class DhCalculationsTableComponent {
   @Input() error = false;
 
   @Input() set data(calculations: Calculation[]) {
-    this._data.data = calculations;
+    this.dataSource.data = calculations;
   }
 
   @Input()
   set filter(value: string) {
-    this._data.filter = value;
+    this.dataSource.filter = value;
   }
 
   @Output() selectedRow: EventEmitter<Calculation> = new EventEmitter();
 
-  _data: wholesaleTableData = new WattTableDataSource(undefined);
+  dataSource: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {
     startedBy: { accessor: 'createdByUserName' },
     periodFrom: { accessor: (calculation) => calculation.period?.start },

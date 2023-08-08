@@ -15,6 +15,13 @@
  * limitations under the License.
  */
 export type Direction = 'row' | 'column';
+export type Justify =
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | 'space-between'
+  | 'space-around'
+  | 'space-evenly';
 
 // TODO: Get these values from design tokens
 export type Gap = 'xs' | 's' | 'm' | 'ml' | 'l' | 'xl';

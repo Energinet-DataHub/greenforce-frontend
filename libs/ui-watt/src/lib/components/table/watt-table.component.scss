@@ -21,6 +21,7 @@ watt-table .mat-table {
   display: grid;
   position: relative;
   overflow: auto;
+  min-height: 45px; /* Magic number to prevent table shrinking below header height */
 }
 
 watt-table .mat-table {

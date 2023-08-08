@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
-import { Direction, Gap } from './types';
+import { Direction, Gap, Justify } from './types';
 
 @Component({
   selector: 'vater-stack, [vater-stack]',
@@ -26,13 +26,11 @@ import { Direction, Gap } from './types';
       vater-stack,
       [vater-stack] {
         display: flex;
-        height: auto;
         align-items: center;
       }
 
       vater-stack > *,
       [vater-stack] > * {
-        display: block;
         flex: 0 0 auto;
         line-height: normal;
       }
@@ -49,5 +47,14 @@ export class VaterStackComponent {
   @HostBinding('style.gap')
   get _gap() {
     return `var(--watt-space-${this.gap})`;
+  }
+
+  @Input()
+  @HostBinding('style.justify-content')
+  justify?: Justify;
+
+  @HostBinding('style.height')
+  get height() {
+    return this.direction === 'column' ? '100%' : undefined;
   }
 }

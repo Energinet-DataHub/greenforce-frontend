@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
-import { Direction, Gap } from './types';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'vater-scroller, [vater-scroller]',
@@ -26,11 +25,9 @@ import { Direction, Gap } from './types';
       vater-scroller,
       [vater-scroller] {
         display: flex;
+        flex-direction: column;
+        height: 100%;
         overflow: auto;
-      }
-
-      vater-scroller > *,
-      [vater-scroller] > * {
       }
     `,
   ],
