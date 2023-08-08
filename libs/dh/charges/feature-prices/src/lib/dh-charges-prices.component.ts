@@ -31,7 +31,7 @@ import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 import { DhChargesPricesResultComponent } from './search-result/dh-charges-prices-result.component';
 import {
   DhChargesDataAccessApiStore,
@@ -44,7 +44,7 @@ import { ChargeSearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
   imports: [
     CommonModule,
     FormsModule,
-    PushModule,
+    RxPush,
     TranslocoModule,
     WattBadgeComponent,
     WattButtonComponent,
@@ -58,7 +58,7 @@ import { ChargeSearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
     FormsModule,
     DhChargesPricesResultComponent,
     WattDatepickerComponent,
-    PushModule,
+    RxPush,
   ],
   selector: 'dh-charges-prices',
   changeDetection: ChangeDetectionStrategy.OnPush,

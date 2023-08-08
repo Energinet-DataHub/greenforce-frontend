@@ -14,10 +14,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ngx-slider
-  [value]="value.min"
-  [highValue]="value.max"
-  (valueChange)="onChange({ min: $event, max: value.max })"
-  (highValueChange)="onChange({ min: value.min, max: $event })"
-  [options]="options"
-></ngx-slider>
+<div class="controls">
+  <input
+    id="min"
+    #minRange
+    type="range"
+    [max]="max"
+    [min]="min"
+    [step]="step"
+    [value]="value.min"
+  />
+  <input
+    id="max"
+    #maxRange
+    type="range"
+    [max]="max"
+    [min]="min"
+    [step]="step"
+    [value]="value.max"
+  />
+</div>

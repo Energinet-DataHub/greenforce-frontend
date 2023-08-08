@@ -16,7 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 import {
   MatLegacyTableDataSource as MatTableDataSource,
   MatLegacyTableModule as MatTableModule,
@@ -48,7 +48,7 @@ import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh
   standalone: true,
   imports: [
     CommonModule,
-    LetModule,
+    RxLet,
     MatTableModule,
     MatMenuModule,
     TranslocoModule,

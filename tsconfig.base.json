@@ -97,6 +97,9 @@
       "@energinet-datahub/dh/globalization/ui-watt-translation": [
         "libs/dh/globalization/ui-watt-translation/src/index.ts"
       ],
+      "@energinet-datahub/dh/market-participant/actors/feature-actors": [
+        "libs/dh/market-participant/actors/feature-actors/src/index.ts"
+      ],
       "@energinet-datahub/dh/market-participant/actors/feature-market-roles": [
         "libs/dh/market-participant/actors/feature-market-roles/src/index.ts"
       ],
@@ -338,6 +341,9 @@
       "@energinet-datahub/watt/clipboard": [
         "libs/ui-watt/src/lib/components/clipboard/index.ts"
       ],
+      "@energinet-datahub/watt/code": [
+        "libs/ui-watt/src/lib/components/code/index.ts"
+      ],
       "@energinet-datahub/watt/color": [
         "libs/ui-watt/src/lib/foundations/color/index.ts"
       ],
@@ -430,6 +436,9 @@
       ],
       "@energinet-datahub/watt/validators": [
         "libs/ui-watt/src/lib/components/input/shared/validators/index.ts"
+      ],
+      "@energinet-datahub/workspace-plugin": [
+        "tools/workspace-plugin/src/index.ts"
       ],
       "rxjs": ["./node_modules/rxjs"]
     }

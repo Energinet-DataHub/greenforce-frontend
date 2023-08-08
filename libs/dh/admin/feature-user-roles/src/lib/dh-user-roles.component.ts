@@ -25,8 +25,8 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template/let';
-import { PushModule } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import {
@@ -59,8 +59,8 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
   styleUrls: ['./dh-user-roles.component.scss'],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    RxLet,
+    RxPush,
     WattSpinnerComponent,
     WattCardComponent,
     WATT_TABLE,

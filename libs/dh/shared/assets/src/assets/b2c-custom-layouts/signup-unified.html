@@ -90,6 +90,10 @@ limitations under the License.
         display: block !important;
         margin-top: 1.5rem;
       }
+
+      main {
+        display: none;
+      }
     </style>
     <script>
       function init() {
@@ -105,6 +109,10 @@ limitations under the License.
           });
         });
       }
+
+      function showContent() {
+        document.querySelector("main").style.display = "block";
+      }
     </script>
     <script>
       const path = window.SETTINGS
@@ -116,6 +124,7 @@ limitations under the License.
       link.rel = "stylesheet";
       link.type = "text/css";
       link.href = path + "main.css";
+      link.onload = showContent;
       head.appendChild(link);
 
       var script = document.createElement("script");
@@ -129,8 +138,6 @@ limitations under the License.
     <main>
       <div class="logo"></div>
       <div class="login-form">
-        <h2 aria-level="1" class="imprint imprint-da">OPRET BRUGER</h2>
-        <h2 aria-level="1" class="imprint imprint-en">SIGN UP</h2>
         <div id="api"></div>
       </div>
     </main>

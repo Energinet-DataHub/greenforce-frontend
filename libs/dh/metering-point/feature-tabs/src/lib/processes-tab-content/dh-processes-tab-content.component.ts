@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 import { map } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -37,7 +37,7 @@ import { DhProcessesTableComponent } from './processes-table/dh-processes-table.
   imports: [
     CommonModule,
     WattSpinnerComponent,
-    LetModule,
+    RxLet,
     DhProcessesTableComponent,
     WattEmptyStateComponent,
     TranslocoModule,

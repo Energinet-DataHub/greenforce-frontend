@@ -116,9 +116,16 @@ limitations under the License.
         margin-bottom: 0;
         display: block;
       }
+
+      main {
+        display: none;
+      }
     </style>
     <script>
       function init() {}
+      function showContent() {
+        document.querySelector("main").style.display = "block";
+      }
     </script>
 
     <script>
@@ -130,6 +137,7 @@ limitations under the License.
       link.rel = "stylesheet";
       link.type = "text/css";
       link.href = path + "main.css";
+      link.onload = showContent;
       head.appendChild(link);
 
       var script = document.createElement("script");
@@ -142,8 +150,6 @@ limitations under the License.
   <body>
     <main>
       <div class="logo"></div>
-      <h3 aria-level="1" class="imprint imprint-da">Hent Authenticator app</h3>
-      <h3 aria-level="1" class="imprint imprint-en">Download Authenticator app</h3>
       <div class="totp-form">
         <div id="api"></div>
       </div>

@@ -24,7 +24,7 @@ import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui
 import { IdleTimerService } from '@energinet-datahub/eo/shared/services';
 import { EoTitleStore } from '@energinet-datahub/eo/shared/utilities';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 import { Observable } from 'rxjs';
 import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
 
@@ -39,7 +39,7 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
     EoCookieBannerComponent,
     EoProductLogoDirective,
     EoFooterComponent,
-    PushModule,
+    RxPush,
     NgIf,
   ],
   selector: 'eo-shell',

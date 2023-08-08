@@ -16,8 +16,8 @@
  */
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 
 import { DhSelectedActorStore, Actor } from './dh-selected-actor.store';
@@ -29,14 +29,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
   styleUrls: ['./dh-selected-actor.component.scss'],
   templateUrl: './dh-selected-actor.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    LetModule,
-    PushModule,
-    WattIconComponent,
-    WattSpinnerComponent,
-    OverlayModule,
-  ],
+  imports: [CommonModule, RxLet, RxPush, WattIconComponent, WattSpinnerComponent, OverlayModule],
 })
 export class DhSelectedActorComponent {
   actorGroups$ = this.store.actorGroups$;

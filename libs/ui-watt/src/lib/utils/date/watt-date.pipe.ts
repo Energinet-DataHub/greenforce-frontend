@@ -37,7 +37,7 @@ export class WattDatePipe implements PipeTransform {
   transform(
     input?: WattDateRange | Date | string | number | null,
     format: keyof typeof formatStrings = 'short',
-    timeZone: string = 'Europe/Copenhagen'
+    timeZone = 'Europe/Copenhagen'
   ): string | null {
     if (!input) return null;
 

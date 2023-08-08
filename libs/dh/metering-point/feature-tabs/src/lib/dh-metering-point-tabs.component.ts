@@ -17,7 +17,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { tap } from 'rxjs';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
@@ -33,7 +33,7 @@ import { DhProcessesTabContentComponent } from './processes-tab-content/dh-proce
   templateUrl: './dh-metering-point-tabs.template.html',
   standalone: true,
   imports: [
-    LetModule,
+    RxLet,
     CommonModule,
     WattTabsComponent,
     WattTabComponent,

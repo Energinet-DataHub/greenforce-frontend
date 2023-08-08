@@ -16,8 +16,8 @@
  */
 import { Component, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import {
   DhAdminUserManagementAuditLogsDataAccessApiStore,
@@ -40,8 +40,8 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
   providers: [provideComponentStore(DhAdminUserManagementAuditLogsDataAccessApiStore)],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    RxLet,
+    RxPush,
     TranslocoModule,
     WATT_CARD,
     WattSpinnerComponent,

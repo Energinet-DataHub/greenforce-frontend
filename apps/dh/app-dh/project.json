@@ -100,7 +100,12 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true,
-          "allowedCommonJsDependencies": ["date-fns", "inputmask", "flat"]
+          "allowedCommonJsDependencies": [
+            "date-fns",
+            "inputmask",
+            "flat",
+            "msw"
+          ]
         },
         "mocked": {
           "buildOptimizer": false,
@@ -155,7 +160,7 @@
       "defaultConfiguration": "mocked"
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "apps/dh/app-dh/src/**/*.ts",
@@ -165,7 +170,7 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/dh/app-dh"],
       "options": {
         "jestConfig": "apps/dh/app-dh/jest.config.ts",
