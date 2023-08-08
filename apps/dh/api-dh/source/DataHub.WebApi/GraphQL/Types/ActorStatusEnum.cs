@@ -12,30 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class Actor
+    public class ActorStatusEnum : AsIsCaseEnumerationGraphType<ActorStatus>
     {
-        public Guid Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string GlnOrEicNumber { get; set; }
-
-        public EicFunction? MarketRole { get; set; }
-
-        public GridAreaDto[] GridAreas { get; set; } = Array.Empty<GridAreaDto>();
-
-        public ActorStatus Status { get; set; }
-
-        public Actor(Guid id, string name, string glnOrEicNumber)
-        {
-            Id = id;
-            Name = name;
-            GlnOrEicNumber = glnOrEicNumber;
-        }
     }
 }

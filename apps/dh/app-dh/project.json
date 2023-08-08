@@ -100,7 +100,12 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true,
-          "allowedCommonJsDependencies": ["date-fns", "inputmask", "flat"]
+          "allowedCommonJsDependencies": [
+            "date-fns",
+            "inputmask",
+            "flat",
+            "msw"
+          ]
         },
         "mocked": {
           "buildOptimizer": false,
