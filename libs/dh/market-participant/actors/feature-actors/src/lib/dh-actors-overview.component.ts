@@ -14,16 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { Apollo } from 'apollo-angular';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { Actor } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
 import { ActorsFilters } from './actors-filters';
+
+export type Actor = ResultOf<typeof GetActorsDocument>['actors'][0];
 
 @Component({
   standalone: true,
@@ -38,7 +42,16 @@ import { ActorsFilters } from './actors-filters';
   ],
   imports: [TranslocoModule, DhActorsFiltersComponent, WATT_TABLE, WATT_CARD],
 })
-export class DhActorsOverviewComponent {
+export class DhActorsOverviewComponent implements OnInit, OnDestroy {
+  private apollo = inject(Apollo);
+  private destroy$ = new Subject<void>();
+
+  getActorsQuery$ = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetActorsDocument,
+  });
+
   dataSource = new WattTableDataSource<Actor>([]);
 
   columns: WattTableColumnDef<Actor> = {
@@ -52,4 +65,17 @@ export class DhActorsOverviewComponent {
     actorStatus: null,
     marketRoles: null,
   });
+
+  ngOnInit(): void {
+    this.getActorsQuery$.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (result) => {
+        this.dataSource.data = result.data?.actors;
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
