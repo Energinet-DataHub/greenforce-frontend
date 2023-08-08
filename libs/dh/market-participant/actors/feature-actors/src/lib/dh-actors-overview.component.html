@@ -22,6 +22,12 @@ limitations under the License.
     </h3>
   </watt-card-title>
 
+  <dh-actors-filters
+    class="watt-space-stack-m"
+    [initial]="filters$.value"
+    (filter)="filters$.next($event)"
+  />
+
   <watt-table
     [dataSource]="dataSource"
     [columns]="columns"

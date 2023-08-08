@@ -16,10 +16,14 @@
  */
 import { Component } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
+import { BehaviorSubject } from 'rxjs';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { Actor } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
+import { ActorsFilters } from './actors-filters';
 
 @Component({
   standalone: true,
@@ -32,7 +36,7 @@ import { Actor } from '@energinet-datahub/dh/shared/domain/graphql';
       }
     `,
   ],
-  imports: [TranslocoModule, WATT_TABLE, WATT_CARD],
+  imports: [TranslocoModule, DhActorsFiltersComponent, WATT_TABLE, WATT_CARD],
 })
 export class DhActorsOverviewComponent {
   dataSource = new WattTableDataSource<Actor>([]);
@@ -43,4 +47,9 @@ export class DhActorsOverviewComponent {
     marketRole: { accessor: 'marketRole' },
     status: { accessor: 'status' },
   };
+
+  filters$ = new BehaviorSubject<ActorsFilters>({
+    actorStatus: null,
+    marketRoles: null,
+  });
 }
