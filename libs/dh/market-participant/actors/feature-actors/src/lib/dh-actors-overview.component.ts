@@ -19,13 +19,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-
-interface Actor {
-  glnOrEic: string;
-  name: string;
-  marketRole: string;
-  status: string;
-}
+import { Actor } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   standalone: true,
@@ -44,7 +38,7 @@ export class DhActorsOverviewComponent {
   dataSource = new WattTableDataSource<Actor>([]);
 
   columns: WattTableColumnDef<Actor> = {
-    glnOrEic: { accessor: 'glnOrEic' },
+    glnOrEicNumber: { accessor: 'glnOrEicNumber' },
     name: { accessor: 'name' },
     marketRole: { accessor: 'marketRole' },
     status: { accessor: 'status' },
