@@ -132,7 +132,7 @@ limitations under the License.
         ? SETTINGS.remoteResource.replace(SETTINGS.remoteResource.split("/").pop(), "")
         : "";
 
-      const loadStyleProimse = new Promise((resolve, reject) => {
+      const loadStylePromise = new Promise((resolve, reject) => {
         var style = document.createElement("link");
         style.rel = "stylesheet";
         style.type = "text/css";
@@ -151,7 +151,7 @@ limitations under the License.
         document.head.appendChild(script);
       });
 
-      Promise.all([loadStyleProimse, loadScriptPromise]).then(init);
+      Promise.all([loadStylePromise, loadScriptPromise]).then(init);
     </script>
   </head>
   <body>
