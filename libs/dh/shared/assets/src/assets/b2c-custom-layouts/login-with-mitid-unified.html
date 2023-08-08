@@ -192,10 +192,7 @@ limitations under the License.
           appendForgotPasswordTemplate();
           setMitIdFlowSignInFlow();
         });
-      }
-
-      function showContent() {
-        document.querySelector("main").style.display = "block";
+        Utils.showContent();
       }
     </script>
 
@@ -203,19 +200,27 @@ limitations under the License.
       const path = window.SETTINGS
         ? SETTINGS.remoteResource.replace(SETTINGS.remoteResource.split("/").pop(), "")
         : "";
-      var head = document.getElementsByTagName("head")[0];
-      var link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.type = "text/css";
-      link.href = path + "main.css";
-      link.onload = showContent;
-      head.appendChild(link);
 
-      var script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = path + "main.js";
-      script.onload = init;
-      head.appendChild(script);
+      const loadStylePromise = new Promise((resolve, reject) => {
+        var style = document.createElement("link");
+        style.rel = "stylesheet";
+        style.type = "text/css";
+        style.href = path + "main.css";
+        style.onload = resolve;
+        style.onerror = reject;
+        document.head.appendChild(style);
+      });
+
+      const loadScriptPromise = new Promise((resolve, reject) => {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = path + "main.js";
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+
+      Promise.all([loadStylePromise, loadScriptPromise]).then(init);
     </script>
   </head>
   <body>
