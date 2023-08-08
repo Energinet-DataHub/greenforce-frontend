@@ -19,7 +19,7 @@ frontendDomain = group "Frontend" {
         this -> bffApp "Uses" "json/https"
 
         # Domain-to-domain relationships
-        this -> commonB2C "Validate OAuth token" "https" {
+        this -> sharedB2C "Validate OAuth token" "https" {
             tags "OAuth"
         }
     }
@@ -39,7 +39,7 @@ frontendDomain = group "Frontend" {
         }
 
         # Domain-to-domain relationships
-        this -> commonB2C "Request OAuth token" "https" {
+        this -> sharedB2C "Request OAuth token" "https" {
             tags "OAuth"
         }
     }
