@@ -26,6 +26,7 @@ import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
 import { ActorsFilters } from './actors-filters';
+import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
 
 export type Actor = ResultOf<typeof GetActorsDocument>['actors'][0];
 
@@ -40,7 +41,13 @@ export type Actor = ResultOf<typeof GetActorsDocument>['actors'][0];
       }
     `,
   ],
-  imports: [TranslocoModule, DhActorsFiltersComponent, WATT_TABLE, WATT_CARD],
+  imports: [
+    TranslocoModule,
+    DhActorsFiltersComponent,
+    DhActorStatusBadgeComponent,
+    WATT_TABLE,
+    WATT_CARD,
+  ],
 })
 export class DhActorsOverviewComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);

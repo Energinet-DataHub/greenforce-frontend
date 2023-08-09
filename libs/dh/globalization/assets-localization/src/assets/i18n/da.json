@@ -560,6 +560,12 @@
         "marketRole": "Markedsrolle",
         "status": "Status"
       },
+      "status": {
+        "New": "Ny",
+        "Active": "Aktiv",
+        "Inactive": "Inaktiv",
+        "Passive": "Passiv"
+      },
       "filters": {
         "marketRole": "Markedsrolle",
         "status": "Status",

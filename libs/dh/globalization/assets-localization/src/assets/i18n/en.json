@@ -567,6 +567,12 @@
         "marketRole": "Market role",
         "status": "Status"
       },
+      "status": {
+        "New": "New",
+        "Active": "Active",
+        "Inactive": "Inactive",
+        "Passive": "Passive"
+      },
       "filters": {
         "marketRole": "Market role",
         "status": "Status",
