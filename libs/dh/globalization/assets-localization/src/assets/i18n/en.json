@@ -569,7 +569,7 @@
       },
       "status": {
         "Active": "Active",
-        "Deactivated": "Deactivated"
+        "Inactive": "Deactivated"
       },
       "filters": {
         "marketRole": "Market role",
