@@ -16,12 +16,7 @@
  */
 import { rest } from 'msw';
 
-import {
-  ActorStatus,
-  EicFunction,
-  mockGetActorsQuery,
-  GetActorsQuery,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { mockGetActorsQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import organizationsData from './data/marketParticipantOrganizations.json';
 import { marketParticipantOrganizationsWithActors } from './data/marketParticipantOrganizationsWithActors';
@@ -31,18 +26,7 @@ import actorData from './data/marketPaticipantActor.json';
 import actorContactsData from './data/marketPaticipantActorContacts.json';
 import organizationData from './data/marketPaticipantOrganization.json';
 import userRoleData from './data/marketParticipantUserRoleTemplates.json';
-
-const actorsMockData: GetActorsQuery = {
-  actors: [
-    {
-      glnOrEicNumber: '5790000555555',
-      id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
-      name: 'Test Actor',
-      marketRole: EicFunction.BalanceResponsibleParty,
-      status: ActorStatus.Active,
-    },
-  ],
-};
+import { marketParticipantGetActorsMock } from './data/market-participant-get-actors';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
@@ -130,6 +114,6 @@ function getUserRoles(apiBase: string) {
 
 function getActors() {
   return mockGetActorsQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data(actorsMockData));
+    return res(ctx.delay(300), ctx.data(marketParticipantGetActorsMock));
   });
 }
