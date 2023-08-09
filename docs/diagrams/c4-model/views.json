@@ -684,7 +684,7 @@
             "id": "40",
             "tags": "Element,Container,Intermediate Technology,SaaS,Microsoft Azure - SendGrid Accounts,deprecated",
             "properties": {
-              "structurizr.dsl.identifier": "commonsendgrid"
+              "structurizr.dsl.identifier": "dh3.sharedsendgrid"
             },
             "name": "SendGrid",
             "description": "EMail dispatcher",
@@ -1184,7 +1184,7 @@
             "id": "42",
             "tags": "Element,Container,Microsoft Azure - Azure AD B2C,deprecated",
             "properties": {
-              "structurizr.dsl.identifier": "commonb2c"
+              "structurizr.dsl.identifier": "dh3.sharedb2c"
             },
             "name": "App Registrations",
             "description": "Cloud identity directory",
