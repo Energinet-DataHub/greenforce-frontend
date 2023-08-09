@@ -31,11 +31,7 @@ import { RxPush } from '@rx-angular/template/push';
 
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import {
-  WattDropdownComponent,
-  WattDropdownOption,
-  WattDropdownOptions,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
 import { ActorStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -84,7 +80,7 @@ const makeFormControl = <T>(value: T | null = null) =>
       <watt-form-field>
         <watt-dropdown
           formControlName="actorStatus"
-          [options]="actorStatusOptions"
+          [options]="actorStatusOptions | push"
           [multiple]="true"
           [chipMode]="true"
           [placeholder]="t('status')"
@@ -114,7 +110,7 @@ export class DhActorsFiltersComponent implements OnInit, OnDestroy {
 
   formGroup!: FormGroup;
 
-  actorStatusOptions: WattDropdownOptions = this.buildActorStatusOptions();
+  actorStatusOptions = this.buildActorStatusOptions();
   marketRolesOptions = this.buildMarketRolesOptions();
 
   ngOnInit() {
@@ -132,22 +128,26 @@ export class DhActorsFiltersComponent implements OnInit, OnDestroy {
     this.formGroupSubscription?.unsubscribe();
   }
 
-  private buildActorStatusOptions(): WattDropdownOptions {
-    return Object.keys(ActorStatus).map((key) => ({
-      displayValue: key,
-      value: key,
-    }));
+  private buildActorStatusOptions(): Observable<WattDropdownOptions> {
+    return this.transloco.selectTranslateObject('marketParticipant.actorsOverview.status').pipe(
+      map((statusTranslations) =>
+        Object.keys(ActorStatus)
+          .filter((key) => !(key === ActorStatus.New || key === ActorStatus.Passive))
+          .map((key) => ({
+            displayValue: statusTranslations[key],
+            value: key,
+          }))
+      )
+    );
   }
 
   private buildMarketRolesOptions(): Observable<WattDropdownOptions> {
     return this.transloco.selectTranslateObject('marketParticipant.marketRoles').pipe(
       map((marketRolesTranslations) =>
-        Object.keys(MarketParticipantEicFunction).map(
-          (marketRole): WattDropdownOption => ({
-            value: marketRole,
-            displayValue: marketRolesTranslations[marketRole],
-          })
-        )
+        Object.keys(MarketParticipantEicFunction).map((marketRole) => ({
+          value: marketRole,
+          displayValue: marketRolesTranslations[marketRole],
+        }))
       )
     );
   }
