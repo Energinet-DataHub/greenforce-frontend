@@ -560,6 +560,10 @@
         "marketRole": "Markedsrolle",
         "status": "Status"
       },
+      "status": {
+        "Active": "Aktiv",
+        "Deactivated": "Deaktiveret"
+      },
       "filters": {
         "marketRole": "Markedsrolle",
         "status": "Status",
