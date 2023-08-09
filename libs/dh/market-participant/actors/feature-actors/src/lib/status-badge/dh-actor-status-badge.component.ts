@@ -30,12 +30,12 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
       [ngSwitch]="status"
       *transloco="let t; read: 'marketParticipant.actorsOverview.status'"
     >
-      <watt-badge *ngSwitchCase="'New'" type="success">{{ t('New') }}</watt-badge>
       <watt-badge *ngSwitchCase="'Active'" type="success">{{ t('Active') }}</watt-badge>
-      <watt-badge *ngSwitchCase="'Inactive'" type="success">{{ t('Inactive') }}</watt-badge>
-      <watt-badge *ngSwitchCase="'Passive'" type="success">{{ t('Passive') }}</watt-badge>
+      <watt-badge *ngSwitchCase="'Inactive'" type="neutral">{{ t('Deactivated') }}</watt-badge>
 
-      <ng-container *ngSwitchDefault>{{ status | dhEmDashFallback }} </ng-container>
+      <ng-container *ngSwitchCase="null || undefined" type="success">{{
+        status | dhEmDashFallback
+      }}</ng-container>
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

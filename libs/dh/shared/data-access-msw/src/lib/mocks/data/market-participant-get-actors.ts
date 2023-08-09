@@ -41,14 +41,14 @@ export const marketParticipantGetActorsMock: GetActorsQuery = {
       id: 'efad0fee-9d7c-49c6-7c19-08da5f28ddb1',
       name: 'Test Actor 3',
       marketRole: EicFunction.ElOverblik,
-      status: ActorStatus.New,
+      status: null,
     },
     {
       glnOrEicNumber: '5790000555222',
       id: 'efad0fee-9d7c-49c6-7c20-08da5f28ddb1',
       name: 'Test Actor 4',
       marketRole: EicFunction.DataHubAdministrator,
-      status: ActorStatus.Passive,
+      status: undefined,
     },
   ],
 };

@@ -561,10 +561,8 @@
         "status": "Status"
       },
       "status": {
-        "New": "Ny",
         "Active": "Aktiv",
-        "Inactive": "Inaktiv",
-        "Passive": "Passiv"
+        "Deactivated": "Deaktiveret"
       },
       "filters": {
         "marketRole": "Markedsrolle",

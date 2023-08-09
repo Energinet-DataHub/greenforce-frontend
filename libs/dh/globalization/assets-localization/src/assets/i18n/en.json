@@ -568,10 +568,8 @@
         "status": "Status"
       },
       "status": {
-        "New": "New",
         "Active": "Active",
-        "Inactive": "Inactive",
-        "Passive": "Passive"
+        "Deactivated": "Deactivated"
       },
       "filters": {
         "marketRole": "Market role",
