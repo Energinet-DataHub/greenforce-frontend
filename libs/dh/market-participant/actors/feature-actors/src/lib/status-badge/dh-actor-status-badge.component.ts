@@ -33,9 +33,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
       <watt-badge *ngSwitchCase="'Active'" type="success">{{ t('Active') }}</watt-badge>
       <watt-badge *ngSwitchCase="'Inactive'" type="neutral">{{ t('Deactivated') }}</watt-badge>
 
-      <ng-container *ngSwitchCase="null || undefined" type="success">{{
-        status | dhEmDashFallback
-      }}</ng-container>
+      <ng-container *ngSwitchCase="null || undefined">{{ status | dhEmDashFallback }}</ng-container>
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
