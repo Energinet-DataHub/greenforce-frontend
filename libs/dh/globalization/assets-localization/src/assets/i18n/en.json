@@ -566,6 +566,11 @@
         "name": "Name",
         "marketRole": "Market role",
         "status": "Status"
+      },
+      "filters": {
+        "marketRole": "Market role",
+        "status": "Status",
+        "reset": "Reset"
       }
     },
     "marketRolesOverview": {
