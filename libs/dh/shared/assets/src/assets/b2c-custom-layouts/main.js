@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 const Utils = {
+  showContent: function () {
+    Utils.waitFor('main', (main) => {
+      main.style.display = 'block';
+    });
+  },
   waitFor: function (selector, callback) {
     const elm = document.querySelector(selector);
 
