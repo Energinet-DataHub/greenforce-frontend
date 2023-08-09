@@ -16,7 +16,7 @@
  */
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
@@ -44,7 +44,7 @@ export type Actor = ResultOf<typeof GetActorsDocument>['actors'][0];
 })
 export class DhActorsOverviewComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);
-  private destroy$ = new Subject<void>();
+  private getActorsSubscription?: Subscription;
 
   getActorsQuery$ = this.apollo.watchQuery({
     useInitialLoading: true,
@@ -67,7 +67,7 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    this.getActorsQuery$.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+    this.getActorsSubscription = this.getActorsQuery$.valueChanges.subscribe({
       next: (result) => {
         this.dataSource.data = result.data?.actors;
       },
@@ -75,7 +75,6 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.getActorsSubscription?.unsubscribe();
   }
 }

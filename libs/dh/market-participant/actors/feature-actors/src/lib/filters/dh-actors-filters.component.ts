@@ -26,7 +26,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { Observable, Subject, debounceTime, map, takeUntil } from 'rxjs';
+import { Observable, Subscription, debounceTime, map } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
@@ -107,7 +107,7 @@ const makeFormControl = <T>(value: T | null = null) =>
 })
 export class DhActorsFiltersComponent implements OnInit, OnDestroy {
   private transloco = inject(TranslocoService);
-  private destroy$ = new Subject<void>();
+  private formGroupSubscription?: Subscription;
 
   @Input({ required: true }) initial!: ActorsFilters;
   @Output() filter = new EventEmitter<ActorsFilters>();
@@ -123,14 +123,13 @@ export class DhActorsFiltersComponent implements OnInit, OnDestroy {
       marketRole: makeFormControl<MarketParticipantEicFunction[] | null>(this.initial.marketRoles),
     });
 
-    this.formGroup.valueChanges
-      .pipe(debounceTime(250), takeUntil(this.destroy$))
+    this.formGroupSubscription = this.formGroup.valueChanges
+      .pipe(debounceTime(250))
       .subscribe((value) => this.filter.emit(value));
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.formGroupSubscription?.unsubscribe();
   }
 
   private buildActorStatusOptions(): WattDropdownOptions {
