@@ -1,0 +1,9 @@
+query GetActors {
+  actors {
+    id
+    glnOrEicNumber
+    name
+    marketRole
+    status
+  }
+}
