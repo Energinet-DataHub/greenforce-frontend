@@ -829,7 +829,11 @@
       },
       "processTypes": {
         "BALANCE_FIXING": "Balancefiksering",
-        "AGGREGATION": "Aggregering"
+        "AGGREGATION": "Aggregering",
+        "WHOLESALE_FIXING": "Engrosafregning",
+        "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
+        "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
+        "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
       },
       "executionStates": {
         "PENDING": "Afventer",
