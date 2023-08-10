@@ -115,8 +115,8 @@ export class DhActorsFiltersComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      actorStatus: makeFormControl<ActorStatus[] | null>(this.initial.actorStatus),
-      marketRole: makeFormControl<MarketParticipantEicFunction[] | null>(this.initial.marketRoles),
+      actorStatus: makeFormControl<ActorStatus[]>(this.initial.actorStatus),
+      marketRole: makeFormControl<MarketParticipantEicFunction[]>(this.initial.marketRoles),
     });
 
     this.formGroupSubscription = this.formGroup.valueChanges
