@@ -26,7 +26,7 @@ export class TransfersPo {
   private newAgreementDateRangeStartInput = '[data-testid="new-agreement-start-date-input"]';
   private newAgreementDateRangeEndInput = '[data-testid="new-agreement-end-date-input"]';
   private newAgreementReceiverInput = '[data-testid="new-agreement-receiver-input"]';
-  private newAgreementWalletDepositEndpointInput = '[data-testid="new-agreement-wallet-deposit-endpoint-input"]';
+  private walletDepositEndpointInput = '[data-testid="wallet-deposit-endpoint-input"]';
   private testBase64EncodedWalletDepositEndpoint = "eyJFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6Nzg5MC8iLCJQdWJsaWNLZXkiOiJBVTBWVFVzQUFBQUJ5aE5KRmxENlZhVUZPajRGRzcybmVkSmxVbDRjK0xVejdpV0tRNEkzM1k0Q2J5OVBQTm5SdXRuaWUxT1NVRS9ud0RWTWV3bW14TnFFTkw5a0RZeHdMQWs9IiwiVmVyc2lvbiI6MX0=";
   private paginator = '[data-testid="table-paginator"]';
   private testReceiverId = '11111111';
@@ -55,7 +55,7 @@ export class TransfersPo {
     cy.get(this.newAgreementDateRangeStartInput).type(this.testStartDate);
     cy.get(this.newAgreementHasEndDate).click();
     cy.get(this.newAgreementDateRangeEndInput).type(this.testEndDate);
-    cy.get(this.newAgreementWalletDepositEndpointInput).type(this.testBase64EncodedWalletDepositEndpoint);
+    cy.get(this.walletDepositEndpointInput).type(this.testBase64EncodedWalletDepositEndpoint);
   }
 
   clickCreateAgreementButton() {
