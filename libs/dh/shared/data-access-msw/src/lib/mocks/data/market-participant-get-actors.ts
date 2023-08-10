@@ -48,7 +48,7 @@ export const marketParticipantGetActorsMock: GetActorsQuery = {
       id: 'efad0fee-9d7c-49c6-7c20-08da5f28ddb1',
       name: 'Test Actor 4',
       marketRole: EicFunction.DataHubAdministrator,
-      status: undefined,
+      status: null,
     },
   ],
 };
