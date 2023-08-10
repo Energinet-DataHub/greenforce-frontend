@@ -96,7 +96,14 @@ export class EoTransfersCreateModalComponent {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createAgreement(transferAgreement: any) {
-    const { receiverTin, base64EncodedWalletDepositEndpoint, startDate, startDateTime, endDate, endDateTime } = transferAgreement;
+    const {
+      receiverTin,
+      base64EncodedWalletDepositEndpoint,
+      startDate,
+      startDateTime,
+      endDate,
+      endDateTime,
+    } = transferAgreement;
     if (!receiverTin || !base64EncodedWalletDepositEndpoint || !startDate || !startDateTime) return;
 
     const transfer = {
