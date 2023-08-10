@@ -123,6 +123,10 @@ type GraphQLMutation {
 }
 
 type GraphQLQuery {
+  actor(
+    """The id of the actor"""
+    id: ID
+  ): Actor!
   actors(eicFunctions: [EicFunction!]): [Actor!]!
   calculation(
     """The id of the calculation"""
@@ -253,6 +257,10 @@ enum PriceAreaCode {
 enum ProcessType {
   AGGREGATION
   BALANCE_FIXING
+  FIRST_CORRECTION_SETTLEMENT
+  SECOND_CORRECTION_SETTLEMENT
+  THIRD_CORRECTION_SETTLEMENT
+  WHOLESALE_FIXING
 }
 
 type SettlementReport {

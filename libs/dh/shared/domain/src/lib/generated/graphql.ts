@@ -14,7 +14,6 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateRange: { start: string, end: string};
-  /** The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `DateTimeOffset` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard. */
   DateTimeOffset: string;
 };
 
@@ -124,6 +123,7 @@ export type GraphQlMutationUpdatePermissionArgs = {
 
 export type GraphQlQuery = {
   __typename?: 'GraphQLQuery';
+  actor: Actor;
   actors: Array<Actor>;
   calculation?: Maybe<Calculation>;
   calculations: Array<Calculation>;
@@ -135,6 +135,11 @@ export type GraphQlQuery = {
   permissions: Array<Permission>;
   settlementReports: Array<SettlementReport>;
   userrole: UserRoleWithPermissions;
+};
+
+
+export type GraphQlQueryActorArgs = {
+  id?: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -273,7 +278,11 @@ export enum PriceAreaCode {
 
 export enum ProcessType {
   Aggregation = 'AGGREGATION',
-  BalanceFixing = 'BALANCE_FIXING'
+  BalanceFixing = 'BALANCE_FIXING',
+  FirstCorrectionSettlement = 'FIRST_CORRECTION_SETTLEMENT',
+  SecondCorrectionSettlement = 'SECOND_CORRECTION_SETTLEMENT',
+  ThirdCorrectionSettlement = 'THIRD_CORRECTION_SETTLEMENT',
+  WholesaleFixing = 'WHOLESALE_FIXING'
 }
 
 export type SettlementReport = {
