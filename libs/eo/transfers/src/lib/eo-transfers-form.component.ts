@@ -37,6 +37,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 export interface EoTransfersFormInitialValues {
   receiverTin?: string;
+  base64EncodedWalletDepositEndpoint?: string;
   startDate?: string;
   startDateTime?: string;
   hasEndDate?: boolean;
@@ -46,6 +47,7 @@ export interface EoTransfersFormInitialValues {
 
 interface EoTransfersForm {
   receiverTin: FormControl<string | null>;
+  base64EncodedWalletDepositEndpoint: FormControl<string | null>;
   startDate: FormControl<string | null>;
   startDateTime: FormControl<string>;
   hasEndDate: FormControl<boolean>;
@@ -172,6 +174,15 @@ interface EoTransfersForm {
           An 8-digit TIN/CVR number is required
         </watt-error>
       </watt-form-field>
+      <watt-form-field>
+        <watt-label>Wallet Deposit Endpoint</watt-label>
+        <input
+          wattInput
+          type="text"
+          formControlName="base64EncodedWalletDepositEndpoint"
+          data-testid="wallet-deposit-endpoint-input"
+        />
+      </watt-form-field>
       <fieldset class="start-date">
         <watt-form-field class="datepicker">
           <watt-label>Start of period</watt-label>
@@ -263,6 +274,7 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
   @Input() submitButtonText = 'Create';
   @Input() initialValues: EoTransfersFormInitialValues = {
     receiverTin: '',
+    base64EncodedWalletDepositEndpoint: '',
     startDate: new Date().toISOString(),
     startDateTime: this.getNextHour(),
     hasEndDate: false,
@@ -271,6 +283,7 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
   };
   @Input() editableFields: (keyof EoTransfersForm)[] = [
     'receiverTin',
+    'base64EncodedWalletDepositEndpoint',
     'startDate',
     'startDateTime',
     'hasEndDate',
@@ -354,7 +367,7 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
-    const { receiverTin, startDate, startDateTime, hasEndDate, endDate, endDateTime } =
+    const { receiverTin,base64EncodedWalletDepositEndpoint, startDate, startDateTime, hasEndDate, endDate, endDateTime } =
       this.initialValues;
 
     const formGroupValidators = [endDateMustBeLaterThanStartDateValidator()];
@@ -377,6 +390,10 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
             ],
           }
         ),
+        base64EncodedWalletDepositEndpoint: new FormControl({
+          value: base64EncodedWalletDepositEndpoint || '',
+          disabled: !this.editableFields.includes('base64EncodedWalletDepositEndpoint'),
+        }),
         startDate: new FormControl({
           value: startDate || new Date().toISOString(),
           disabled: !this.editableFields.includes('startDate'),

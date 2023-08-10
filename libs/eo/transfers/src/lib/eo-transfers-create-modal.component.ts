@@ -96,8 +96,8 @@ export class EoTransfersCreateModalComponent {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createAgreement(transferAgreement: any) {
-    const { receiverTin, startDate, startDateTime, endDate, endDateTime } = transferAgreement;
-    if (!receiverTin || !startDate || !startDateTime) return;
+    const { receiverTin, base64EncodedWalletDepositEndpoint, startDate, startDateTime, endDate, endDateTime } = transferAgreement;
+    if (!receiverTin || !base64EncodedWalletDepositEndpoint || !startDate || !startDateTime) return;
 
     const transfer = {
       startDate: getUnixTime(new Date(startDate).setHours(parseInt(startDateTime), 0, 0, 0)),
@@ -106,6 +106,7 @@ export class EoTransfersCreateModalComponent {
           ? getUnixTime(new Date(endDate).setHours(parseInt(endDateTime), 0, 0, 0))
           : null,
       receiverTin,
+      base64EncodedWalletDepositEndpoint,
     };
 
     this.creatingTransferAgreement = true;

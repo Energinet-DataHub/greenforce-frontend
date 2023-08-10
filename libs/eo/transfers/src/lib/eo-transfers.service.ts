@@ -24,6 +24,7 @@ export interface EoTransfer {
   startDate: number;
   endDate: number | null;
   receiverTin: string;
+  base64EncodedWalletDepositEndpoint: string;
 }
 
 export interface EoListedTransfer extends EoTransfer {
