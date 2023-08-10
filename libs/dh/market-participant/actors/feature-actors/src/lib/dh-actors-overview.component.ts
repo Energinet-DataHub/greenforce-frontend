@@ -19,7 +19,6 @@ import { NgIf } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -31,8 +30,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
 import { ActorsFilters } from './actors-filters';
 import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
-
-export type Actor = ResultOf<typeof GetActorsDocument>['actors'][0];
+import { DhActor } from './dh-actor';
 
 @Component({
   standalone: true,
@@ -75,9 +73,9 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
     query: GetActorsDocument,
   });
 
-  dataSource = new WattTableDataSource<Actor>([]);
+  dataSource = new WattTableDataSource<DhActor>([]);
 
-  columns: WattTableColumnDef<Actor> = {
+  columns: WattTableColumnDef<DhActor> = {
     glnOrEicNumber: { accessor: 'glnOrEicNumber' },
     name: { accessor: 'name' },
     marketRole: { accessor: 'marketRole' },
