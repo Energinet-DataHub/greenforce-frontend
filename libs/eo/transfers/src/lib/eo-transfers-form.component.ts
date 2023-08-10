@@ -21,7 +21,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
   ValidatorFn,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { NgClass, NgIf } from '@angular/common';
 
@@ -388,33 +388,51 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
-    const { receiverTin, base64EncodedWalletDepositEndpoint, startDate, startDateTime, hasEndDate, endDate, endDateTime } =
-      this.initialValues;
+    const {
+      receiverTin,
+      base64EncodedWalletDepositEndpoint,
+      startDate,
+      startDateTime,
+      hasEndDate,
+      endDate,
+      endDateTime,
+    } = this.initialValues;
 
     const formGroupValidators = [endDateMustBeLaterThanStartDateValidator()];
     if (this.editableFields.includes('startDate')) {
       formGroupValidators.push(nextHourOrLaterValidator());
     }
 
-    this.form = new FormGroup({
-      receiverTin: this.createFormControl(receiverTin, 'receiverTin', {
-        validators: [
-          Validators.required,
-          Validators.pattern('^[0-9]{8}$'),
-          compareValidator(this.senderTin || '', 'receiverTinEqualsSenderTin'),
-        ]
-      }),
-      base64EncodedWalletDepositEndpoint: this.createFormControl(base64EncodedWalletDepositEndpoint, 'base64EncodedWalletDepositEndpoint',{validators: [Validators.required]}),
-      startDate: this.createFormControl(startDate || new Date().toISOString(), 'startDate'),
-      startDateTime: this.createFormControl(startDateTime || this.getNextHour(), 'startDateTime', { nonNullable: true }),
-      hasEndDate: this.createFormControl(hasEndDate || false, 'hasEndDate', { validators: [Validators.required], nonNullable: true }),
-      endDate: this.createFormControl(endDate, 'endDate', [minTodayValidator()]),
-      endDateTime: this.createFormControl(endDateTime, 'endDateTime'),
-    }, { validators: formGroupValidators });
+    this.form = new FormGroup(
+      {
+        receiverTin: this.createFormControl(receiverTin, 'receiverTin', {
+          validators: [
+            Validators.required,
+            Validators.pattern('^[0-9]{8}$'),
+            compareValidator(this.senderTin || '', 'receiverTinEqualsSenderTin'),
+          ],
+        }),
+        base64EncodedWalletDepositEndpoint: this.createFormControl(
+          base64EncodedWalletDepositEndpoint,
+          'base64EncodedWalletDepositEndpoint',
+          { validators: [Validators.required] }
+        ),
+        startDate: this.createFormControl(startDate || new Date().toISOString(), 'startDate'),
+        startDateTime: this.createFormControl(
+          startDateTime || this.getNextHour(),
+          'startDateTime',
+          { nonNullable: true }
+        ),
+        hasEndDate: this.createFormControl(hasEndDate || false, 'hasEndDate', {
+          validators: [Validators.required],
+          nonNullable: true,
+        }),
+        endDate: this.createFormControl(endDate, 'endDate', [minTodayValidator()]),
+        endDateTime: this.createFormControl(endDateTime, 'endDateTime'),
+      },
+      { validators: formGroupValidators }
+    );
   }
-
-
-
 
   private getNextHour(): string {
     const nextHour = new Date().getHours() + 1;
