@@ -562,7 +562,7 @@
       },
       "status": {
         "Active": "Aktiv",
-        "Deactivated": "Deaktiveret"
+        "Inactive": "Deaktiveret"
       },
       "filters": {
         "marketRole": "Markedsrolle",
