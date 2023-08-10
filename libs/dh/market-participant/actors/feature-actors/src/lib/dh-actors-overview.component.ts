@@ -65,7 +65,7 @@ import { DhActor } from './dh-actor';
 })
 export class DhActorsOverviewComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);
-  private getActorsSubscription?: Subscription;
+  private subscription: Subscription | null = null;
 
   getActorsQuery$ = this.apollo.watchQuery({
     useInitialLoading: true,
@@ -91,7 +91,7 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
   error = false;
 
   ngOnInit(): void {
-    this.getActorsSubscription = this.getActorsQuery$.valueChanges.subscribe({
+    this.subscription = this.getActorsQuery$.valueChanges.subscribe({
       next: (result) => {
         this.loading = result.loading;
 
@@ -105,6 +105,7 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.getActorsSubscription?.unsubscribe();
+    this.subscription?.unsubscribe();
+    this.subscription = null;
   }
 }
