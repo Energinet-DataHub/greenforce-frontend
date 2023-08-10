@@ -367,8 +367,15 @@ export class EoTransfersFormComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
-    const { receiverTin,base64EncodedWalletDepositEndpoint, startDate, startDateTime, hasEndDate, endDate, endDateTime } =
-      this.initialValues;
+    const {
+      receiverTin,
+      base64EncodedWalletDepositEndpoint,
+      startDate,
+      startDateTime,
+      hasEndDate,
+      endDate,
+      endDateTime,
+    } = this.initialValues;
 
     const formGroupValidators = [endDateMustBeLaterThanStartDateValidator()];
     if (this.editableFields.includes('startDate')) {
