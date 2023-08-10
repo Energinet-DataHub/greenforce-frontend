@@ -55,23 +55,17 @@ import {
   GetLatestBalanceFixingDocument,
   ProcessType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { filterValidGridAreas, GridArea } from '@energinet-datahub/dh/wholesale/domain';
+import {
+  filterValidGridAreas,
+  GridArea,
+  processTypes,
+} from '@energinet-datahub/dh/wholesale/domain';
 
 interface FormValues {
   processType: FormControl<ProcessType>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<DateRange | null>;
 }
-
-// List of supported process types
-const processTypes = [
-  'BALANCE_FIXING',
-  'AGGREGATION',
-  'WHOLESALE_FIXING',
-  'FIRST_CORRECTION_SETTLEMENT',
-  'SECOND_CORRECTION_SETTLEMENT',
-  'THIRD_CORRECTION_SETTLEMENT',
-];
 
 @Component({
   selector: 'dh-calculations-create',
@@ -113,11 +107,11 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   confirmFormControl = new FormControl(null);
 
   monthOnly = [
-    'WHOLESALE_FIXING',
-    'FIRST_CORRECTION_SETTLEMENT',
-    'SECOND_CORRECTION_SETTLEMENT',
-    'THIRD_CORRECTION_SETTLEMENT',
-  ] as unknown as ProcessType[];
+    ProcessType.WholesaleFixing,
+    ProcessType.FirstCorrectionSettlement,
+    ProcessType.SecondCorrectionSettlement,
+    ProcessType.ThirdCorrectionSettlement,
+  ];
 
   formGroup = new FormGroup<FormValues>({
     processType: new FormControl<ProcessType>(ProcessType.BalanceFixing, {
