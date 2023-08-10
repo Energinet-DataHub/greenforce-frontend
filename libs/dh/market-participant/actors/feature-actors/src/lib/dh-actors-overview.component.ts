@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Apollo } from 'apollo-angular';
@@ -24,6 +25,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
 import { ActorsFilters } from './actors-filters';
@@ -52,11 +54,13 @@ export type Actor = ResultOf<typeof GetActorsDocument>['actors'][0];
   ],
   imports: [
     TranslocoModule,
+    NgIf,
     DhActorsFiltersComponent,
     DhActorStatusBadgeComponent,
     WATT_TABLE,
     WATT_CARD,
     WattPaginatorComponent,
+    WattEmptyStateComponent,
   ],
 })
 export class DhActorsOverviewComponent implements OnInit, OnDestroy {
@@ -84,6 +88,7 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
   });
 
   loading = true;
+  error = false;
 
   ngOnInit(): void {
     this.getActorsSubscription = this.getActorsQuery$.valueChanges.subscribe({
@@ -93,6 +98,7 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
         this.dataSource.data = result.data?.actors;
       },
       error: () => {
+        this.error = true;
         this.loading = false;
       },
     });
