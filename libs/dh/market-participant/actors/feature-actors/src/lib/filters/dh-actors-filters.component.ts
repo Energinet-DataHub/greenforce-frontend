@@ -89,7 +89,7 @@ const makeFormControl = <T>(value: T | null = null) =>
 
       <watt-form-field>
         <watt-dropdown
-          formControlName="marketRole"
+          formControlName="marketRoles"
           [options]="marketRolesOptions | push"
           [multiple]="true"
           [chipMode]="true"
@@ -116,7 +116,7 @@ export class DhActorsFiltersComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.formGroup = new FormGroup({
       actorStatus: makeFormControl<ActorStatus[]>(this.initial.actorStatus),
-      marketRole: makeFormControl<MarketParticipantEicFunction[]>(this.initial.marketRoles),
+      marketRoles: makeFormControl<MarketParticipantEicFunction[]>(this.initial.marketRoles),
     });
 
     this.formGroupSubscription = this.formGroup.valueChanges
