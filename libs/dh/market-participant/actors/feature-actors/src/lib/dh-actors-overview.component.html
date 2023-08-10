@@ -56,4 +56,6 @@ limitations under the License.
       <dh-actor-status-badge [status]="actor.status" />
     </ng-container>
   </watt-table>
+
+  <watt-paginator [for]="dataSource" [pageSize]="100" />
 </watt-card>

@@ -23,6 +23,7 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
 import { ActorsFilters } from './actors-filters';
@@ -39,6 +40,14 @@ export type Actor = ResultOf<typeof GetActorsDocument>['actors'][0];
       :host {
         display: block;
       }
+
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
+      }
     `,
   ],
   imports: [
@@ -47,6 +56,7 @@ export type Actor = ResultOf<typeof GetActorsDocument>['actors'][0];
     DhActorStatusBadgeComponent,
     WATT_TABLE,
     WATT_CARD,
+    WattPaginatorComponent,
   ],
 })
 export class DhActorsOverviewComponent implements OnInit, OnDestroy {
