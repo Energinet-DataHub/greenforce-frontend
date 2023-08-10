@@ -73,10 +73,17 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
     marketRoles: null,
   });
 
+  loading = true;
+
   ngOnInit(): void {
     this.getActorsSubscription = this.getActorsQuery$.valueChanges.subscribe({
       next: (result) => {
+        this.loading = result.loading;
+
         this.dataSource.data = result.data?.actors;
+      },
+      error: () => {
+        this.loading = false;
       },
     });
   }
