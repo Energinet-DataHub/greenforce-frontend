@@ -49,7 +49,13 @@ limitations under the License.
     <ng-container
       *wattTableCell="columns['marketRole']; header: t('columns.marketRole'); let actor"
     >
-      {{ "marketParticipant.marketRoles." + actor.marketRole | transloco }}
+      <ng-container *ngIf="actor.marketRole; else marketRoleNotSet">
+        {{ "marketParticipant.marketRoles." + actor.marketRole | transloco }}
+      </ng-container>
+
+      <ng-template #marketRoleNotSet>
+        {{ actor.marketRole | dhEmDashFallback }}
+      </ng-template>
     </ng-container>
 
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let actor">

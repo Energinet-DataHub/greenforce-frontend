@@ -26,6 +26,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
 import { ActorsFilters } from './actors-filters';
@@ -57,6 +58,7 @@ export type Actor = ResultOf<typeof GetActorsDocument>['actors'][0];
     NgIf,
     DhActorsFiltersComponent,
     DhActorStatusBadgeComponent,
+    DhEmDashFallbackPipe,
     WATT_TABLE,
     WATT_CARD,
     WattPaginatorComponent,
