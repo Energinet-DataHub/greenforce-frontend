@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
-import { ActorStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export interface ActorsFilters {
   actorStatus: ActorStatus[] | null;
-  marketRoles: MarketParticipantEicFunction[] | null;
+  marketRoles: EicFunction[] | null;
 }

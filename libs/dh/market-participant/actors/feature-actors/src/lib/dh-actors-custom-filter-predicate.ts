@@ -1,5 +1,4 @@
-import { MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
-import { ActorStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { ActorsFilters } from './actors-filters';
 import { DhActor } from './dh-actor';
@@ -53,6 +52,6 @@ function whenAllFiltersAreSet(filters: ActorsFilters, actor: DhActor): boolean {
 
   return (
     (filters.actorStatus as ActorStatus[]).includes(actor.status) &&
-    (filters.marketRoles as MarketParticipantEicFunction[]).includes(actor.marketRole)
+    (filters.marketRoles as EicFunction[]).includes(actor.marketRole)
   );
 }
