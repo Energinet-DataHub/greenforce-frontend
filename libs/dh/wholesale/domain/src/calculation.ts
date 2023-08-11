@@ -27,5 +27,5 @@ export type CalculationGridArea = ResultOf<
   typeof GetCalculationsDocument
 >['calculations'][0]['gridAreas'][0];
 
-export const processTypes = Object.values(ProcessType);
 export const executionStates = Object.values(BatchState);
+export const processTypes = Object.values(ProcessType);

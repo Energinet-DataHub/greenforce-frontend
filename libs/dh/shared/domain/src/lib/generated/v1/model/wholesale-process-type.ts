@@ -14,10 +14,14 @@
 /**
  * Defines the wholesale process type
  */
-export type WholesaleProcessType = 'BalanceFixing' | 'Aggregation';
+export type WholesaleProcessType = 'BalanceFixing' | 'Aggregation' | 'WholesaleFixing' | 'FirstCorrectionSettlement' | 'SecondCorrectionSettlement' | 'ThirdCorrectionSettlement';
 
 export const WholesaleProcessType = {
     BalanceFixing: 'BalanceFixing' as WholesaleProcessType,
-    Aggregation: 'Aggregation' as WholesaleProcessType
+    Aggregation: 'Aggregation' as WholesaleProcessType,
+    WholesaleFixing: 'WholesaleFixing' as WholesaleProcessType,
+    FirstCorrectionSettlement: 'FirstCorrectionSettlement' as WholesaleProcessType,
+    SecondCorrectionSettlement: 'SecondCorrectionSettlement' as WholesaleProcessType,
+    ThirdCorrectionSettlement: 'ThirdCorrectionSettlement' as WholesaleProcessType
 };
 
