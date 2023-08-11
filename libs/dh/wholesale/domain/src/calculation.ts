@@ -28,11 +28,4 @@ export type CalculationGridArea = ResultOf<
 >['calculations'][0]['gridAreas'][0];
 
 export const executionStates = Object.values(BatchState);
-export const processTypes = [
-  ProcessType.BalanceFixing,
-  ProcessType.Aggregation,
-  ProcessType.WholesaleFixing,
-  ProcessType.FirstCorrectionSettlement,
-  ProcessType.SecondCorrectionSettlement,
-  ProcessType.ThirdCorrectionSettlement,
-];
+export const processTypes = Object.values(ProcessType);
