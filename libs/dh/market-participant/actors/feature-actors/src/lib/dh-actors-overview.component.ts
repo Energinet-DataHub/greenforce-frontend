@@ -14,18 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { Apollo } from 'apollo-angular';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-interface Actor {
-  glnOrEic: string;
-  name: string;
-  marketRole: string;
-  status: string;
-}
+import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
+import { ActorsFilters } from './actors-filters';
+import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
+
+export type Actor = ResultOf<typeof GetActorsDocument>['actors'][0];
 
 @Component({
   standalone: true,
@@ -36,17 +42,69 @@ interface Actor {
       :host {
         display: block;
       }
+
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
+      }
     `,
   ],
-  imports: [TranslocoModule, WATT_TABLE, WATT_CARD],
+  imports: [
+    TranslocoModule,
+    NgIf,
+    DhActorsFiltersComponent,
+    DhActorStatusBadgeComponent,
+    WATT_TABLE,
+    WATT_CARD,
+    WattPaginatorComponent,
+    WattEmptyStateComponent,
+  ],
 })
-export class DhActorsOverviewComponent {
+export class DhActorsOverviewComponent implements OnInit, OnDestroy {
+  private apollo = inject(Apollo);
+  private getActorsSubscription?: Subscription;
+
+  getActorsQuery$ = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetActorsDocument,
+  });
+
   dataSource = new WattTableDataSource<Actor>([]);
 
   columns: WattTableColumnDef<Actor> = {
-    glnOrEic: { accessor: 'glnOrEic' },
+    glnOrEicNumber: { accessor: 'glnOrEicNumber' },
     name: { accessor: 'name' },
     marketRole: { accessor: 'marketRole' },
     status: { accessor: 'status' },
   };
+
+  filters$ = new BehaviorSubject<ActorsFilters>({
+    actorStatus: null,
+    marketRoles: null,
+  });
+
+  loading = true;
+  error = false;
+
+  ngOnInit(): void {
+    this.getActorsSubscription = this.getActorsQuery$.valueChanges.subscribe({
+      next: (result) => {
+        this.loading = result.loading;
+
+        this.dataSource.data = result.data?.actors;
+      },
+      error: () => {
+        this.error = true;
+        this.loading = false;
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.getActorsSubscription?.unsubscribe();
+  }
 }

@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "../datepicker" as *;
+import { MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
+import { ActorStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
-watt-datepicker {
-  @extend %datepicker;
-}
-
-.watt-datepicker-range__panel--month-only .mat-calendar-period-button {
-  pointer-events: none;
+export interface ActorsFilters {
+  actorStatus: ActorStatus[] | null;
+  marketRoles: MarketParticipantEicFunction[] | null;
 }

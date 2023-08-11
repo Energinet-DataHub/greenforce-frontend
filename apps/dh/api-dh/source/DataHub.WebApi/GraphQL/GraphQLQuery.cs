@@ -216,6 +216,30 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     });
                 });
 
+            Field<NonNullGraphType<ActorDtoType>>("actor")
+                .Argument<IdGraphType>("id", "The id of the actor")
+                .Resolve()
+                .WithScope()
+                .WithService<IMarketParticipantClient>()
+                .ResolveAsync(async (context, client) =>
+                {
+                    var gridAreas = await client.GetGridAreasAsync();
+                    var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
+                    var actorDto = await client.GetActorAsync(context.GetArgument<Guid>("id"));
+                    var actor = new Actor(actorDto.ActorId, actorDto.Name.Value, actorDto.ActorNumber.Value)
+                    {
+                        GridAreas = actorDto.MarketRoles
+                           .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
+                           .Distinct()
+                           .Select(gridAreaId => gridAreaLookup[gridAreaId])
+                           .ToArray(),
+
+                        MarketRole = actorDto.MarketRoles.FirstOrDefault()?.EicFunction,
+                        Status = actorDto.Status,
+                    };
+                    return actor;
+                });
+
             Field<NonNullGraphType<ListGraphType<NonNullGraphType<ActorDtoType>>>>("actors")
                 .Argument<EicFunction[]>("eicFunctions", true)
                 .Resolve()
@@ -237,8 +261,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
                     var accessibleActors = actors.Select(x => new Actor(x.ActorId, x.Name.Value, x.ActorNumber.Value)
                     {
-                        Id = x.ActorId,
-                        Name = x.Name.Value,
                         GlnOrEicNumber = x.ActorNumber.Value,
                         GridAreas = x.MarketRoles
                             .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))

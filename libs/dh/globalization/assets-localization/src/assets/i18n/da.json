@@ -559,7 +559,20 @@
         "name": "Navn",
         "marketRole": "Markedsrolle",
         "status": "Status"
-      }
+      },
+      "status": {
+        "Active": "Aktiv",
+        "Inactive": "Deaktiveret"
+      },
+      "filters": {
+        "marketRole": "Markedsrolle",
+        "status": "Status",
+        "reset": "Nulstil"
+      },
+      "emptyTitle": "Ingen aktører fundet",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
     },
     "marketRolesOverview": {
       "marketRoles": "Markedsroller",
@@ -816,7 +829,11 @@
       },
       "processTypes": {
         "BALANCE_FIXING": "Balancefiksering",
-        "AGGREGATION": "Aggregering"
+        "AGGREGATION": "Aggregering",
+        "WHOLESALE_FIXING": "Engrosafregning",
+        "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
+        "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
+        "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
       },
       "executionStates": {
         "PENDING": "Afventer",

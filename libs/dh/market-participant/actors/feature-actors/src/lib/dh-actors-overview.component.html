@@ -22,15 +22,24 @@ limitations under the License.
     </h3>
   </watt-card-title>
 
+  <dh-actors-filters
+    class="watt-space-stack-m"
+    [initial]="filters$.value"
+    (filter)="filters$.next($event)"
+  />
+
   <watt-table
     [dataSource]="dataSource"
     [columns]="columns"
     sortBy="name"
+    [loading]="loading"
     sortDirection="asc"
     [sortClear]="false"
   >
-    <ng-container *wattTableCell="columns['glnOrEic']; header: t('columns.glnOrEic'); let actor">
-      {{ actor.glnOrEic }}
+    <ng-container
+      *wattTableCell="columns['glnOrEicNumber']; header: t('columns.glnOrEic'); let actor"
+    >
+      {{ actor.glnOrEicNumber }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let actor">
@@ -40,11 +49,31 @@ limitations under the License.
     <ng-container
       *wattTableCell="columns['marketRole']; header: t('columns.marketRole'); let actor"
     >
-      {{ actor.marketRole }}
+      {{ "marketParticipant.marketRoles." + actor.marketRole | transloco }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let actor">
-      {{ actor.status }}
+      <dh-actor-status-badge [status]="actor.status" />
     </ng-container>
   </watt-table>
+
+  <ng-container *ngIf="!loading && dataSource.filteredData.length === 0">
+    <div class="watt-space-inset-m">
+      <watt-empty-state
+        *ngIf="!error"
+        icon="cancel"
+        [title]="t('emptyTitle')"
+        [message]="t('emptyMessage')"
+      />
+
+      <watt-empty-state
+        *ngIf="error"
+        icon="custom-power"
+        [title]="t('errorTitle')"
+        [message]="t('errorMessage')"
+      />
+    </div>
+  </ng-container>
+
+  <watt-paginator [for]="dataSource" [pageSize]="100" />
 </watt-card>
