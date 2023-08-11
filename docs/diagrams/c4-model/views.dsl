@@ -16,7 +16,7 @@ workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-ar
         !ref dh3 {
 
             # IMPORTANT:
-            # The order by which models are included is important for how the domain-to-domain relationships are specified.
+            # The order by which models are included is important for how the domain-to-domain relationships are specified
             # A domain-to-domain relationship should be specified in the "client" of a "client->server" dependency, and
             # hence domains that doesn't depend on others, should be listed first.
 
