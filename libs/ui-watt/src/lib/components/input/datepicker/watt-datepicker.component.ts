@@ -35,11 +35,12 @@ import {
   MatStartDate,
   MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
   MatDatepickerModule,
+  MatDateRangePicker,
 } from '@angular/material/datepicker';
 import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { combineLatest, map, merge, startWith, takeUntil, tap } from 'rxjs';
-import { parse, isValid, parseISO, endOfDay } from 'date-fns';
+import { parse, isValid, parseISO, endOfDay, startOfMonth, endOfMonth } from 'date-fns';
 import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 
 import { WattButtonComponent } from '../../button';
@@ -78,12 +79,16 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 export class WattDatepickerComponent extends WattPickerBase {
   @Input() max?: Date;
   @Input() min?: Date;
+  @Input() rangeMonthOnlyMode = false;
 
   /**
    * @ignore
    */
   @ViewChild(MatDatepickerInput)
   matDatepickerInput!: MatDatepickerInput<Date | null>;
+
+  @ViewChild(MatDateRangePicker)
+  matDateRangePicker!: MatDateRangePicker<Date | null>;
 
   /**
    * @ignore
@@ -191,6 +196,14 @@ export class WattDatepickerComponent extends WattPickerBase {
       .subscribe((value: string) => {
         this.changeParentValue(value);
       });
+  }
+
+  onMonthSelected(date: Date) {
+    if (this.rangeMonthOnlyMode) {
+      this.matDateRangePicker.select(startOfMonth(date));
+      this.matDateRangePicker.select(endOfMonth(date));
+      this.matDateRangePicker.close();
+    }
   }
 
   /**
