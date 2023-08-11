@@ -31,6 +31,7 @@ import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component'
 import { ActorsFilters } from './actors-filters';
 import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
 import { DhActor } from './dh-actor';
+import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
 
 @Component({
   standalone: true,
@@ -102,6 +103,14 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
     });
+
+    this.dataSource.filterPredicate = dhActorsCustomFilterPredicate();
+
+    this.subscription?.add(
+      this.filters$.subscribe((filters) => {
+        this.dataSource.filter = JSON.stringify(filters);
+      })
+    );
   }
 
   ngOnDestroy(): void {
