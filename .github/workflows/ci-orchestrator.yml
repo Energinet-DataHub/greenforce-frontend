@@ -74,8 +74,6 @@ jobs:
   # C4 model
   #
   render_c4model_views:
-    permissions:
-      contents: write
     needs: changes
     if: ${{ needs.changes.outputs.render_c4model_views == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/structurizr-render-diagrams.yml@v12
