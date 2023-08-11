@@ -836,8 +836,12 @@
         }
       },
       "processTypes": {
-        "BALANCE_FIXING": "Balance Fixing",
-        "AGGREGATION": "Aggregation"
+        "BALANCE_FIXING": "Balance fixing",
+        "AGGREGATION": "Aggregation",
+        "WHOLESALE_FIXING": "Wholesale fixing",
+        "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
+        "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
+        "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement"
       },
       "executionStates": {
         "PENDING": "Pending",
