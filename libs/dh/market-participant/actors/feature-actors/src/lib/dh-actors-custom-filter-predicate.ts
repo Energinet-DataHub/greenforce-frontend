@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { ActorsFilters } from './actors-filters';
+import { AllFiltersCombined } from './actors-filters';
 import { DhActor } from './dh-actor';
+import { dhParseJSON } from './dh-json-util';
 
 /**
  * Custom filter predicate function that runs for each actor in the table.
@@ -25,49 +26,37 @@ import { DhActor } from './dh-actor';
  * @returns `true` if an actor should be shown in the table, `false` otherwise.
  */
 export const dhActorsCustomFilterPredicate = () => {
+  // Intentionally disable complexity rule for this function
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   return (actor: DhActor, filtersJSON: string): boolean => {
-    let filters: ActorsFilters;
+    const filters: AllFiltersCombined = dhParseJSON(filtersJSON);
 
-    try {
-      filters = JSON.parse(filtersJSON) as ActorsFilters;
-    } catch (error) {
-      throw new Error(`Invalid filters: ${filtersJSON}`);
-    }
-
-    // If all filters are `null`, show actor
-    if (Object.values(filters).every((filter) => filter === null)) {
+    // If all filters are at their initial state (`null` or "" (empty string)), show actor
+    if (Object.values(filters).every((filter) => filter === null || filter === '')) {
       return true;
     }
 
-    if (Object.values(filters).every((filter) => filter !== null)) {
-      return whenAllFiltersAreSet(filters, actor);
+    // If a filter is set, but some of the actor's properties are `null`/`undefined`, do not show actor
+    if (actor.status == null || actor.marketRole == null) {
+      return false;
     }
 
-    if (filters.actorStatus !== null && actor.status != null) {
-      return filters.actorStatus.includes(actor.status);
+    let showActor = true;
+
+    if (showActor && filters.actorStatus !== null) {
+      showActor = filters.actorStatus.includes(actor.status);
     }
 
-    if (filters.marketRoles !== null && actor.marketRole != null) {
-      return filters.marketRoles.includes(actor.marketRole);
+    if (showActor && filters.marketRoles !== null) {
+      showActor = filters.marketRoles.includes(actor.marketRole as EicFunction);
     }
 
-    // If we reach this point, then the actor should not be shown in the table
-    // either because some of its properties are `null`,
-    // or a new filter has been added that is missing from this function.
-    return false;
+    if (showActor && filters.searchInput !== '') {
+      showActor =
+        actor.glnOrEicNumber.includes(filters.searchInput) ||
+        actor.name.toLocaleLowerCase().includes(filters.searchInput.toLocaleLowerCase());
+    }
+
+    return showActor;
   };
 };
-
-/**
- * Checks whether selected actor's properties are included in the selected filter values
- */
-function whenAllFiltersAreSet(filters: ActorsFilters, actor: DhActor): boolean {
-  if (actor.status == null || actor.marketRole == null) {
-    return false;
-  }
-
-  return (
-    (filters.actorStatus as ActorStatus[]).includes(actor.status) &&
-    (filters.marketRoles as EicFunction[]).includes(actor.marketRole)
-  );
-}

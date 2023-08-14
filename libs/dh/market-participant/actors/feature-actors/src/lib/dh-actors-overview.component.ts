@@ -17,7 +17,7 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, combineLatest, debounceTime, map } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -29,10 +29,11 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
-import { ActorsFilters, DhSeachInput } from './actors-filters';
+import { ActorsFilters, DhSeachInput, AllFiltersCombined } from './actors-filters';
 import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
 import { DhActor } from './dh-actor';
 import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
+import { dhToJSON } from './dh-json-util';
 
 @Component({
   standalone: true,
@@ -120,9 +121,16 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
 
     this.dataSource.filterPredicate = dhActorsCustomFilterPredicate();
 
+    const filtersCombined$: Observable<AllFiltersCombined> = combineLatest([
+      this.filters$,
+      this.searchInput$.pipe(debounceTime(250)),
+    ]).pipe(map(([filters, searchInput]) => ({ ...filters, searchInput })));
+
     this.subscription?.add(
-      this.filters$.subscribe((filters) => {
-        this.dataSource.filter = JSON.stringify(filters);
+      filtersCombined$.subscribe({
+        next: (filters) => {
+          this.dataSource.filter = dhToJSON(filters);
+        },
       })
     );
   }

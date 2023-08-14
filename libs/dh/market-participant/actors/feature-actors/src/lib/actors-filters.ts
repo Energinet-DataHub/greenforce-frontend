@@ -22,3 +22,5 @@ export interface ActorsFilters {
 }
 
 export type DhSeachInput = string;
+
+export type AllFiltersCombined = ActorsFilters & { searchInput: DhSeachInput };
