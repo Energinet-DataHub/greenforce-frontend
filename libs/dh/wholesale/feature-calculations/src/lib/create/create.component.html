@@ -110,6 +110,7 @@ limitations under the License.
             <watt-label>{{ t("create.period.label") }}</watt-label>
             <watt-datepicker
               formControlName="dateRange"
+              [rangeMonthOnlyMode]="monthOnly.includes(formGroup.controls.processType.value)"
               [range]="true"
               [min]="minDate"
               [max]="maxDate"

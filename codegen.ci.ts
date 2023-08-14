@@ -3,6 +3,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 const config: CodegenConfig = {
   overwrite: true,
   schema: './schema.graphql',
+  config: { sort: false },
   documents: 'libs/**/*.graphql',
   generates: {
     './apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net7.0/schema.graphql': {
