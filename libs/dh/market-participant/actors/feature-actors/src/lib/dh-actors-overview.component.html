@@ -16,10 +16,10 @@ limitations under the License.
 -->
 <watt-card *transloco="let t; read: 'marketParticipant.actorsOverview'">
   <watt-card-title>
-    <h3>
-      {{ t("actors") }}
-      <span class="watt-chip-label">{{ dataSource.data.length }}</span>
-    </h3>
+    <h3>{{ t("actors") }}</h3>
+    <span class="watt-chip-label">{{ dataSource.data.length }}</span>
+
+    <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
   </watt-card-title>
 
   <dh-actors-filters

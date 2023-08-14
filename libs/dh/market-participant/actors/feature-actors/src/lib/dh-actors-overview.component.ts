@@ -26,9 +26,10 @@ import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
-import { ActorsFilters } from './actors-filters';
+import { ActorsFilters, DhSeachInput } from './actors-filters';
 import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
 import { DhActor } from './dh-actor';
 import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
@@ -41,6 +42,16 @@ import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predica
     `
       :host {
         display: block;
+      }
+
+      watt-card-title {
+        align-items: center;
+        display: flex;
+        gap: var(--watt-space-s);
+      }
+
+      watt-search {
+        margin-left: auto;
       }
 
       watt-paginator {
@@ -60,6 +71,7 @@ import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predica
     DhEmDashFallbackPipe,
     WATT_TABLE,
     WATT_CARD,
+    WattSearchComponent,
     WattPaginatorComponent,
     WattEmptyStateComponent,
   ],
@@ -87,6 +99,8 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
     actorStatus: null,
     marketRoles: null,
   });
+
+  searchInput$ = new BehaviorSubject<DhSeachInput>('');
 
   loading = true;
   error = false;
