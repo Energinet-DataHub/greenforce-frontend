@@ -22,7 +22,6 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { getUnixTime } from 'date-fns';
 import { RxPush } from '@rx-angular/template/push';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -105,15 +104,16 @@ export class EoTransfersCreateModalComponent {
 
   createAgreement(transferAgreement: {
     receiverTin: string;
+    base64EncodedWalletDepositEndpoint: string;
     period: { startDate: number; endDate: number | null; hasEndDate: boolean };
   }) {
-    const { receiverTin, period } = transferAgreement;
+    const { receiverTin, base64EncodedWalletDepositEndpoint, period } = transferAgreement;
     const { startDate, endDate } = period;
 
     if (!receiverTin || !startDate) return;
 
     this.creatingTransferAgreement = true;
-    this.service.createAgreement({ receiverTin, startDate, endDate }).subscribe({
+    this.service.createAgreement({ receiverTin, base64EncodedWalletDepositEndpoint, startDate, endDate }).subscribe({
       next: (transfer) => {
         this.store.addTransfer(transfer);
         this.creatingTransferAgreement = false;

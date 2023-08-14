@@ -93,6 +93,7 @@ export class EoTransfersEditModalComponent implements OnChanges {
     if (changes['transfer'] && this.transfer) {
       this.initialValues = {
         receiverTin: this.transfer.receiverTin,
+        base64EncodedWalletDepositEndpoint: this.transfer.base64EncodedWalletDepositEndpoint,
         startDate: this.transfer.startDate,
         endDate: this.transfer.endDate,
       };
