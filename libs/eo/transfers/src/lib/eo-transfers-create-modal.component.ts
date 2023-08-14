@@ -113,19 +113,21 @@ export class EoTransfersCreateModalComponent {
     if (!receiverTin || !startDate) return;
 
     this.creatingTransferAgreement = true;
-    this.service.createAgreement({ receiverTin, base64EncodedWalletDepositEndpoint, startDate, endDate }).subscribe({
-      next: (transfer) => {
-        this.store.addTransfer(transfer);
-        this.creatingTransferAgreement = false;
-        this.creatingTransferAgreementFailed = false;
-        this.cd.detectChanges();
-        this.modal.close(true);
-      },
-      error: () => {
-        this.creatingTransferAgreement = false;
-        this.creatingTransferAgreementFailed = true;
-        this.cd.detectChanges();
-      },
-    });
+    this.service
+      .createAgreement({ receiverTin, base64EncodedWalletDepositEndpoint, startDate, endDate })
+      .subscribe({
+        next: (transfer) => {
+          this.store.addTransfer(transfer);
+          this.creatingTransferAgreement = false;
+          this.creatingTransferAgreementFailed = false;
+          this.cd.detectChanges();
+          this.modal.close(true);
+        },
+        error: () => {
+          this.creatingTransferAgreement = false;
+          this.creatingTransferAgreementFailed = true;
+          this.cd.detectChanges();
+        },
+      });
   }
 }

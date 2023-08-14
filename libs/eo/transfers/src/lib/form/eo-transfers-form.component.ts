@@ -101,11 +101,11 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
       }
     `,
     `
-    eo-transfers-form .receiver {
-      max-width: 280px;
-      margin-top: var(--watt-space-l);
-    }
-  `
+      eo-transfers-form .receiver {
+        max-width: 280px;
+        margin-top: var(--watt-space-l);
+      }
+    `,
   ],
 
   template: `
@@ -203,7 +203,10 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           />
         </watt-form-field>
         <eo-transfers-errors
-          [showError]="form.controls.base64EncodedWalletDepositEndpoint.touched || form.controls.base64EncodedWalletDepositEndpoint.dirty"
+          [showError]="
+            form.controls.base64EncodedWalletDepositEndpoint.touched ||
+            form.controls.base64EncodedWalletDepositEndpoint.dirty
+          "
         >
           <watt-error
             [style.opacity]="form.controls.base64EncodedWalletDepositEndpoint.errors?.['pattern'] ? 1 : 0"
@@ -225,7 +228,12 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
     startDate: new Date().setHours(new Date().getHours() + 1, 0, 0, 0),
     endDate: null,
   };
-  @Input() editableFields: FormField[] = ['receiverTin', 'base64EncodedWalletDepositEndpoint', 'startDate', 'endDate'];
+  @Input() editableFields: FormField[] = [
+    'receiverTin',
+    'base64EncodedWalletDepositEndpoint',
+    'startDate',
+    'endDate',
+  ];
   @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
 
   @Output() submitted = new EventEmitter();
@@ -269,7 +277,10 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   get isAgreementsButtonDisabled(): boolean {
-    return !this.form.controls.receiverTin.valid || !this.form.controls.base64EncodedWalletDepositEndpoint.valid;
+    return (
+      !this.form.controls.receiverTin.valid ||
+      !this.form.controls.base64EncodedWalletDepositEndpoint.valid
+    );
   }
 
   protected onSubmit() {
@@ -291,7 +302,8 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private initForm() {
-    const { receiverTin, base64EncodedWalletDepositEndpoint, startDate, endDate } = this.initialValues;
+    const { receiverTin, base64EncodedWalletDepositEndpoint, startDate, endDate } =
+      this.initialValues;
 
     this.form = new FormGroup<EoTransfersForm>({
       receiverTin: new FormControl(
@@ -311,7 +323,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
         base64EncodedWalletDepositEndpoint || '',
         [
           Validators.required,
-          Validators.pattern(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/)
+          Validators.pattern(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/),
         ]
       ),
       period: new FormGroup(
