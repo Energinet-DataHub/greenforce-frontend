@@ -24,10 +24,17 @@ export const marketParticipantGetActorsMock: GetActorsQuery = {
   actors: [
     {
       glnOrEicNumber: '5790000555555',
-      id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
+      id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
       name: 'Test Actor 1',
       marketRole: EicFunction.BalanceResponsibleParty,
       status: ActorStatus.Active,
+    },
+    {
+      glnOrEicNumber: '5790000555465',
+      id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
+      name: 'Test Actor 1A',
+      marketRole: EicFunction.BalanceResponsibleParty,
+      status: ActorStatus.Inactive,
     },
     {
       glnOrEicNumber: '5790000555444',
@@ -37,8 +44,15 @@ export const marketParticipantGetActorsMock: GetActorsQuery = {
       status: ActorStatus.Inactive,
     },
     {
-      glnOrEicNumber: '5790000555333',
+      glnOrEicNumber: '5790000555123',
       id: 'efad0fee-9d7c-49c6-7c19-08da5f28ddb1',
+      name: 'Test Actor 2A',
+      marketRole: EicFunction.DanishEnergyAgency,
+      status: ActorStatus.Active,
+    },
+    {
+      glnOrEicNumber: '5790000555333',
+      id: 'efad0fee-9d7c-49c6-7c20-08da5f28ddb1',
       name: 'Test Actor 3',
       marketRole: null,
       status: null,
