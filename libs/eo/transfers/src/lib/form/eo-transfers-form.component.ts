@@ -95,13 +95,13 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      eo-transfers-form fieldset {
+      eo-transfers-form .fieldset {
         display: flex;
         flex-wrap: wrap;
       }
     `,
     `
-    eo-transfers-form receiver {
+    eo-transfers-form .receiver {
       max-width: 280px;
       margin-top: var(--watt-space-l);
     }

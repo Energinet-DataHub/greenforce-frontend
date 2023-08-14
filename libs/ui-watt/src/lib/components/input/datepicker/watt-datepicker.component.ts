@@ -35,7 +35,7 @@ import {
   MatStartDate,
   MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
   MatDatepickerModule,
-  MatDateRangePicker,
+  MatDateRangePicker, MatCalendarCellClassFunction,
 } from '@angular/material/datepicker';
 import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
