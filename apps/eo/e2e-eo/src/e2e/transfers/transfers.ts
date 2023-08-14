@@ -14,21 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import { LandingPagePO, LoginPo, SharedPO } from '../../page-objects';
+import { Then, When } from '@badeball/cypress-cucumber-preprocessor';
+import { SharedPO } from '../../page-objects';
 import { TransfersPo } from '../../page-objects/transfers.po';
 
 const transfers = new TransfersPo();
-const landingPage = new LandingPagePO();
-const login = new LoginPo();
 const shared = new SharedPO();
-
-Given('I am logged in as Charlotte CSR', () => {
-  landingPage.navigateTo();
-  shared.clickOnlyNecessaryButton(); // To get rid of Cookie Consent banner
-  landingPage.clickLoginButton();
-  login.clickCharlotteLogin();
-});
 
 When('I go to the transfers page', () => {
   shared.clickTransfersMenuItem();
@@ -36,20 +27,16 @@ When('I go to the transfers page', () => {
   transfers.headerIsVisible();
 });
 
-When('I click on the new transfer agreement button', () => {
-  transfers.clickNewAgreementButton();
+When('the API for transfer agreements is down', () => {
+  cy.intercept('GET', 'https://demo.energioprindelse.dk/api/transfer-agreements', {
+    statusCode: 500,
+  });
 });
 
-When('I enter details for a transfer agreement', () => {
-  transfers.enterDetailsForNewAgreement();
-});
-
-When('I click create transfer agreement', () => {
-  transfers.clickCreateAgreementButton();
-});
-
-When('I can see a modal to create a new agreement', () => {
-  transfers.newAgreementModalIsVisible();
+When("I don't have any existing transfer agreements", () => {
+  cy.intercept('GET', 'https://demo.energioprindelse.dk/api/transfer-agreements', {
+    statusCode: 204,
+  });
 });
 
 Then('I can see a header text in the table card', () => transfers.cardHeaderIsVisible());
@@ -60,14 +47,18 @@ Then('I can see the table has a paginator', () => transfers.paginatorIsVisible()
 
 Then('I can see a button to create a new agreement', () => transfers.newAgreementButtonIsVisible());
 
-Then('I can see the new agreement in the table on the transfers page', () =>
-  transfers.newlyCreatedAgreementIsVisible()
-);
+Then('I can see a message that I have no transfer agreements', () => {
+  transfers.noTransferAgreementsTextIsVisible();
+});
 
-Then('I can see the modal to create a new agreement has closed', () =>
-  transfers.newAgreementModalIsNotOnScreen()
-);
+Then('I see no loading indicators', () => {
+  transfers.loadingTransferAgreementsIndicatorIsNotVisible();
+});
 
-Then('I can close the new agreement modal', () => {
-  transfers.clickCloseNewAgreementModalButton();
+Then('I can see a general error message', () => {
+  transfers.generalErrorIsVisible();
+});
+
+Then('I see no errors', () => {
+  transfers.generalErrorIsNotVisible();
 });

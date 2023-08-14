@@ -19,6 +19,7 @@ import { Inject, Injectable } from '@angular/core';
 import { map } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { getUnixTime } from 'date-fns';
 
 export interface EoTransfer {
   startDate: number;
@@ -69,7 +70,11 @@ export class EoTransfersService {
   }
 
   createAgreement(transfer: EoTransfer) {
-    return this.http.post<EoListedTransfer>(`${this.#apiBase}/transfer-agreements`, transfer);
+    return this.http.post<EoListedTransfer>(`${this.#apiBase}/transfer-agreements`, {
+      ...transfer,
+      startDate: getUnixTime(transfer.startDate),
+      endDate: transfer.endDate ? getUnixTime(transfer.endDate) : null,
+    });
   }
 
   updateAgreement(transferId: string, endDate: number | null) {
