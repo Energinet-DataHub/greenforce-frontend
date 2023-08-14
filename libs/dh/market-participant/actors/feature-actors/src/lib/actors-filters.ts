@@ -21,6 +21,4 @@ export interface ActorsFilters {
   marketRoles: EicFunction[] | null;
 }
 
-export type DhSeachInput = string;
-
-export type AllFiltersCombined = ActorsFilters & { searchInput: DhSeachInput };
+export type AllFiltersCombined = ActorsFilters & { searchInput: string };

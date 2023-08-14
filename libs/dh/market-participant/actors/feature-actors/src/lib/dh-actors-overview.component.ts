@@ -29,7 +29,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
-import { ActorsFilters, DhSeachInput, AllFiltersCombined } from './actors-filters';
+import { ActorsFilters, AllFiltersCombined } from './actors-filters';
 import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
 import { DhActor } from './dh-actor';
 import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
@@ -101,7 +101,7 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
     marketRoles: null,
   });
 
-  searchInput$ = new BehaviorSubject<DhSeachInput>('');
+  searchInput$ = new BehaviorSubject<string>('');
 
   loading = true;
   error = false;
