@@ -276,13 +276,6 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
     this.canceled.emit();
   }
 
-  get isAgreementsButtonDisabled(): boolean {
-    return (
-      !this.form.controls.receiverTin.valid ||
-      !this.form.controls.base64EncodedWalletDepositEndpoint.valid
-    );
-  }
-
   protected onSubmit() {
     if (!this.form.valid) {
       this.form.markAllAsTouched();

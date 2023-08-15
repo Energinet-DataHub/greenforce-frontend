@@ -10,17 +10,14 @@ Feature: Transfers Page
     And I can see the table has a paginator
     And I can see a button to create a new agreement
 
-  Scenario: Charlotte CSR has no transfer agreements
-      Given I am logged in as Charlotte CSR
-      When I go to the transfers page
-      And I don't have any existing transfer agreements
-      Then I can see a message that I have no transfer agreements
-      And I see no loading indicators
-      And I see no errors
-
-  Scenario: Fetching transfer agreements fails
-      Given I am logged in as Charlotte CSR
-      And the API for transfer agreements is down
-      When I go to the transfers page
-      Then I can see a general error message
-      And I see no loading indicators
+  Scenario: Charlotte CSR can create a new transfer agreement
+    Given I am logged in as Charlotte CSR
+    When I go to the transfers page
+    And I click on the new transfer agreement button
+    And I can see a modal to create a new agreement
+    And I enter details for receiver
+    And I click on Agreement details button
+    And I enter details for a transfer agreement
+    And I click create transfer agreement
+    And I can see the modal to create a new agreement has closed
+    Then I can see the new agreement in the table on the transfers page

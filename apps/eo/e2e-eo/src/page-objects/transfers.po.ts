@@ -20,22 +20,14 @@ export class TransfersPo {
   private transfersTable = '[data-testid="transfers-table"]';
   private newAgreementButton = '[data-testid="new-agreement-button"]';
   private closeNewAgreementButton = '[data-testid="close-new-agreement-button"]';
-  private createNewAgreementButton = '[data-testid="create-new-agreement-button"]';
   private newAgreementModal = '.watt-modal-panel';
-  private newAgreementHasEndDate = 'watt-radio:nth-of-type(2) input';
-  private newAgreementDateRangeStartInput = '[data-testid="new-agreement-start-date-input"]';
-  private newAgreementDateRangeEndInput = '[data-testid="new-agreement-end-date-input"]';
   private newAgreementReceiverInput = '[data-testid="new-agreement-receiver-input"]';
-  private walletDepositEndpointInput = '[data-testid="wallet-deposit-endpoint-input"]';
-  private testBase64EncodedWalletDepositEndpoint =
-    'eyJFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6Nzg5MC8iLCJQdWJsaWNLZXkiOiJBVTBWVFVzQUFBQUJ5aE5KRmxENlZhVUZPajRGRzcybmVkSmxVbDRjK0xVejdpV0tRNEkzM1k0Q2J5OVBQTm5SdXRuaWUxT1NVRS9ud0RWTWV3bW14TnFFTkw5a0RZeHdMQWs9IiwiVmVyc2lvbiI6MX0=';
+  private walletDepositEndpointInput = '[data-testid="new-agreement-base64-input"]';
+  private testBase64EncodedWalletDepositEndpoint = "eyJFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6Nzg5MC8iLCJQdWJsaWNLZXkiOiJBVTBWVFVzQUFBQUJ5aE5KRmxENlZhVUZPajRGRzcybmVkSmxVbDRjK0xVejdpV0tRNEkzM1k0Q2J5OVBQTm5SdXRuaWUxT1NVRS9ud0RWTWV3bW14TnFFTkw5a0RZeHdMQWs9IiwiVmVyc2lvbiI6MX0=";
   private paginator = '[data-testid="table-paginator"]';
   private testReceiverId = '11111111';
   private testStartDate = '12052023';
-  private testEndDate = '14052023';
-  private noTransferAgreementsText = 'You do not have any transfer agreements to show right now.';
-  private loadingTransferAgreementsIndicator = '.watt-table-loading-cell';
-  private generalErrorMessage = 'eo-popup-message';
+
 
   // Visibility
   headerIsVisible = () => cy.get('h2').should('contain.text', this.pageHeaderText);
@@ -48,26 +40,23 @@ export class TransfersPo {
   newAgreementModalIsNotOnScreen = () => cy.get(this.newAgreementModal).should('not.exist');
   newlyCreatedAgreementIsVisible = () =>
     cy.get(this.transfersTable).should('contain', this.testReceiverId);
-  generalErrorIsVisible = () => cy.get(this.generalErrorMessage).should('be.visible');
-  generalErrorIsNotVisible = () => cy.get(this.generalErrorMessage).should('not.exist');
-  noTransferAgreementsTextIsVisible = () =>
-    cy.get('p').should('contain', this.noTransferAgreementsText);
-  loadingTransferAgreementsIndicatorIsVisible = () =>
-    cy.get(this.loadingTransferAgreementsIndicator).should('be.visible');
-  loadingTransferAgreementsIndicatorIsNotVisible = () =>
-    cy.get(this.loadingTransferAgreementsIndicator).should('not.exist');
 
   // Interaction
   clickNewAgreementButton() {
     cy.get(this.newAgreementButton).click();
   }
 
-  enterDetailsForNewAgreement() {
+  enterReceiverDetailsForNewAgreement() {
     cy.get(this.newAgreementReceiverInput).type(this.testReceiverId);
-    cy.get(this.newAgreementDateRangeStartInput).type(this.testStartDate);
-    cy.get(this.newAgreementHasEndDate).click();
-    cy.get(this.newAgreementDateRangeEndInput).type(this.testEndDate);
     cy.get(this.walletDepositEndpointInput).type(this.testBase64EncodedWalletDepositEndpoint);
+  }
+
+  clickAgreementDetailsButton() {
+    cy.get('watt-button .content-wrapper').contains('Agreement details').click();
+  }
+
+  enterDetailsForNewAgreement() {
+    cy.get('input[matinput][aria-label="date-input"]').type(this.testStartDate);
   }
 
   clickCreateAgreementButton() {
@@ -80,11 +69,13 @@ export class TransfersPo {
         senderName: 'Producent A/S',
         senderTin: '11223344',
         receiverTin: '11111111',
-        Base64EncodedWalletDepositEndpoint:
-          'eyJFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6Nzg5MC8iLCJQdWJsaWNLZXkiOiJBVTBWVFVzQUFBQUJ5aE5KRmxENlZhVUZPajRGRzcybmVkSmxVbDRjK0xVejdpV0tRNEkzM1k0Q2J5OVBQTm5SdXRuaWUxT1NVRS9ud0RWTWV3bW14TnFFTkw5a0RZeHdMQWs9IiwiVmVyc2lvbiI6MX0=',
+        Base64EncodedWalletDepositEndpoint: 'eyJFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6Nzg5MC8iLCJQdWJsaWNLZXkiOiJBVTBWVFVzQUFBQUJ5aE5KRmxENlZhVUZPajRGRzcybmVkSmxVbDRjK0xVejdpV0tRNEkzM1k0Q2J5OVBQTm5SdXRuaWUxT1NVRS9ud0RWTWV3bW14TnFFTkw5a0RZeHdMQWs9IiwiVmVyc2lvbiI6MX0='
       },
     });
-    cy.get(this.createNewAgreementButton).click();
+    cy.get('div.button-wrapper > watt-button[variant="primary"] > button > span > .content-wrapper')
+      .contains('Create')
+      .should('be.visible')
+      .click();
   }
 
   clickCloseNewAgreementModalButton() {

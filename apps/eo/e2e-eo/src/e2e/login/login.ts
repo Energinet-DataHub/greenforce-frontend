@@ -27,13 +27,6 @@ Given('I am on the landing page', () => {
   landingPage.headerIsVisible();
 });
 
-Given('I am logged in as Charlotte CSR', () => {
-  landingPage.navigateTo();
-  shared.clickOnlyNecessaryButton(); // To get rid of Cookie Consent banner
-  landingPage.clickLoginButton();
-  login.clickCharlotteLogin();
-});
-
 When('I click the first start button to login', () => {
   landingPage.clickLoginButton();
 });
