@@ -120,7 +120,7 @@ export class DhUserRolesTabComponent {
           `"${x.status}"`,
         ]);
 
-        exportToCSV(headers, lines);
+        exportToCSV({ headers, lines });
       });
   }
 }

@@ -75,7 +75,7 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
             `"${translations['marketRoleDescriptions'][x]}"`,
           ]);
 
-          exportToCSV(headers, lines);
+          exportToCSV({ headers, lines });
         }
       });
   }

@@ -14,14 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+type ExportToCSVArgs = {
+  headers: string[];
+  lines: string[][];
+  fileName?: string;
+};
 
-export const exportToCSV = (headers: string[], lines: string[][], fileName = 'result') => {
+export const exportToCSV = ({ headers, lines, fileName = 'result' }: ExportToCSVArgs) => {
   const a = document.createElement('a');
+
   a.href = URL.createObjectURL(
     new Blob([`\ufeff${headers.join(';')}\n${lines.map((x) => x.join(';')).join('\n')}`], {
       type: 'text/csv;charset=utf-8;',
     })
   );
+
   a.download = `${fileName}.csv`;
   a.click();
 };

@@ -124,7 +124,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
 
       const lines = marketRoles.map((x) => [`"${x.name}"`, `"${x.description}"`]);
 
-      exportToCSV(headers, lines);
+      exportToCSV({ headers, lines });
     }
   }
 }
