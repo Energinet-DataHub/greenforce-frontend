@@ -35,7 +35,7 @@ import {
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-create-user-role';
 import { WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
 import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.component';
@@ -120,7 +120,7 @@ export class DhUserRolesTabComponent {
           `"${x.status}"`,
         ]);
 
-        exportCsv(headers, lines);
+        exportToCSV({ headers, lines });
       });
   }
 }
