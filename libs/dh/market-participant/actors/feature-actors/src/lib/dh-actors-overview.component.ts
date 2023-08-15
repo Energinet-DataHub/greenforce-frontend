@@ -17,21 +17,23 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, combineLatest, debounceTime, map } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
-import { ActorsFilters } from './actors-filters';
+import { ActorsFilters, AllFiltersCombined } from './actors-filters';
 import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
-
-export type Actor = ResultOf<typeof GetActorsDocument>['actors'][0];
+import { DhActor } from './dh-actor';
+import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
+import { dhToJSON } from './dh-json-util';
 
 @Component({
   standalone: true,
@@ -41,6 +43,16 @@ export type Actor = ResultOf<typeof GetActorsDocument>['actors'][0];
     `
       :host {
         display: block;
+      }
+
+      watt-card-title {
+        align-items: center;
+        display: flex;
+        gap: var(--watt-space-s);
+      }
+
+      watt-search {
+        margin-left: auto;
       }
 
       watt-paginator {
@@ -57,15 +69,17 @@ export type Actor = ResultOf<typeof GetActorsDocument>['actors'][0];
     NgIf,
     DhActorsFiltersComponent,
     DhActorStatusBadgeComponent,
+    DhEmDashFallbackPipe,
     WATT_TABLE,
     WATT_CARD,
+    WattSearchComponent,
     WattPaginatorComponent,
     WattEmptyStateComponent,
   ],
 })
 export class DhActorsOverviewComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);
-  private getActorsSubscription?: Subscription;
+  private subscription: Subscription | null = null;
 
   getActorsQuery$ = this.apollo.watchQuery({
     useInitialLoading: true,
@@ -73,9 +87,9 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
     query: GetActorsDocument,
   });
 
-  dataSource = new WattTableDataSource<Actor>([]);
+  dataSource = new WattTableDataSource<DhActor>([]);
 
-  columns: WattTableColumnDef<Actor> = {
+  columns: WattTableColumnDef<DhActor> = {
     glnOrEicNumber: { accessor: 'glnOrEicNumber' },
     name: { accessor: 'name' },
     marketRole: { accessor: 'marketRole' },
@@ -87,11 +101,13 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
     marketRoles: null,
   });
 
+  searchInput$ = new BehaviorSubject<string>('');
+
   loading = true;
   error = false;
 
   ngOnInit(): void {
-    this.getActorsSubscription = this.getActorsQuery$.valueChanges.subscribe({
+    this.subscription = this.getActorsQuery$.valueChanges.subscribe({
       next: (result) => {
         this.loading = result.loading;
 
@@ -102,9 +118,25 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
     });
+
+    this.dataSource.filterPredicate = dhActorsCustomFilterPredicate;
+
+    const filtersCombined$: Observable<AllFiltersCombined> = combineLatest([
+      this.filters$,
+      this.searchInput$.pipe(debounceTime(250)),
+    ]).pipe(map(([filters, searchInput]) => ({ ...filters, searchInput })));
+
+    this.subscription?.add(
+      filtersCombined$.subscribe({
+        next: (filters) => {
+          this.dataSource.filter = dhToJSON(filters);
+        },
+      })
+    );
   }
 
   ngOnDestroy(): void {
-    this.getActorsSubscription?.unsubscribe();
+    this.subscription?.unsubscribe();
+    this.subscription = null;
   }
 }
