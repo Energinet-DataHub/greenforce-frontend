@@ -147,7 +147,6 @@ export class EoTransfersDrawerComponent {
   }
 
   onClose() {
-    this.drawer.close();
     this.closed.emit();
   }
 }

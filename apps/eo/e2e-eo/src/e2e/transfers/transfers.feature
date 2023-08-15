@@ -15,6 +15,8 @@ Feature: Transfers Page
     When I go to the transfers page
     And I click on the new transfer agreement button
     And I can see a modal to create a new agreement
+    And I enter details for receiver
+    And I click on Agreement details button
     And I enter details for a transfer agreement
     And I click create transfer agreement
     And I can see the modal to create a new agreement has closed
