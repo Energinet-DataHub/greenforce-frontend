@@ -377,11 +377,17 @@
       "@energinet-datahub/watt/form-field": [
         "libs/ui-watt/src/lib/components/form-field/index.ts"
       ],
+      "@energinet-datahub/watt/watt-field": [
+        "libs/ui-watt/src/lib/components/field/index.ts"
+      ],
       "@energinet-datahub/watt/icon": [
         "libs/ui-watt/src/lib/foundations/icon/index.ts"
       ],
       "@energinet-datahub/watt/input": [
         "libs/ui-watt/src/lib/components/input/index.ts"
+      ],
+      "@energinet-datahub/watt/watt-text-field": [
+        "libs/ui-watt/src/lib/components/text-field/index.ts"
       ],
       "@energinet-datahub/watt/intersection-observer": [
         "libs/ui-watt/src/lib/utils/intersection-observer/index.ts"
