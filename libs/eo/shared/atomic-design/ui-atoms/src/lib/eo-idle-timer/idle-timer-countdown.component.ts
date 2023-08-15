@@ -33,6 +33,7 @@ import { map, take, tap, timer } from 'rxjs';
         grid-template-columns: auto auto;
         grid-template-rows: auto 1fr;
         height: 100%;
+        padding: 20px;
       }
 
       .modal-close {
@@ -54,12 +55,12 @@ import { map, take, tap, timer } from 'rxjs';
       }
 
       .actions {
-        padding-top: var(--watt-space-m);
         border-top: 1px solid var(--watt-color-primary-light);
         display: flex;
         grid-column: span 2;
         gap: var(--watt-space-m);
         justify-content: flex-end;
+        padding-top: 10px;
       }
     `,
   ],

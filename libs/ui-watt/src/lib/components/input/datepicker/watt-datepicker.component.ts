@@ -36,6 +36,7 @@ import {
   MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
   MatDatepickerModule,
   MatDateRangePicker,
+  MatCalendarCellClassFunction,
 } from '@angular/material/datepicker';
 import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
@@ -124,6 +125,8 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   protected _placeholder = this.getPlaceholder(this.getInputFormat());
+
+  @Input() dateClass: MatCalendarCellClassFunction<Date> = () => '';
 
   /**
    * @ignore
