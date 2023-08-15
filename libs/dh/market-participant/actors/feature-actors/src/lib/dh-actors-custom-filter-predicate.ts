@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { AllFiltersCombined } from './actors-filters';
 import { DhActor } from './dh-actor';
 import { dhParseJSON } from './dh-json-util';
@@ -40,21 +38,20 @@ export const dhActorsCustomFilterPredicate = (actor: DhActor, filtersJSON: strin
     return false;
   }
 
-  let showActor = true;
-
-  if (showActor && filters.actorStatus !== null) {
-    showActor = filters.actorStatus.includes(actor.status);
+  if (filters.actorStatus && !filters.actorStatus.includes(actor.status)) {
+    return false;
   }
 
-  if (showActor && filters.marketRoles !== null) {
-    showActor = filters.marketRoles.includes(actor.marketRole as EicFunction);
+  if (filters.marketRoles && !filters.marketRoles.includes(actor.marketRole)) {
+    return false;
   }
 
-  if (showActor && filters.searchInput !== '') {
-    showActor =
+  if (filters.searchInput) {
+    return (
       actor.glnOrEicNumber.includes(filters.searchInput) ||
-      actor.name.toLocaleLowerCase().includes(filters.searchInput.toLocaleLowerCase());
+      actor.name.toLocaleLowerCase().includes(filters.searchInput.toLocaleLowerCase())
+    );
   }
 
-  return showActor;
+  return true;
 };
