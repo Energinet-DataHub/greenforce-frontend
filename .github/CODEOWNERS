@@ -1,3 +1,4 @@
-build/infrastructure/design-system @renetnielsen @djorgensendk @dstenroejl
-build/infrastructure/dh @renetnielsen @djorgensendk @dstenroejl
-build/ci/dh/api-dh @renetnielsen @djorgensendk @dstenroejl
+/.github/workflows/ci-orchestrator.yml  @Energinet-DataHub/TheOutlaws
+/.github/workflows/detect-changes.yml  @Energinet-DataHub/TheOutlaws
+/.github/workflows/dh-cd.yml  @Energinet-DataHub/TheOutlaws
+/.github/workflows/dh-ci-dotnet.yml  @Energinet-DataHub/TheOutlaws

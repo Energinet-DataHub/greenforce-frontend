@@ -14,11 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
-export interface ActorsFilters {
-  actorStatus: ActorStatus[] | null;
-  marketRoles: EicFunction[] | null;
-}
+import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export type AllFiltersCombined = ActorsFilters & { searchInput: string };
+export type DhActor = ResultOf<typeof GetActorsDocument>['actors'][0];
