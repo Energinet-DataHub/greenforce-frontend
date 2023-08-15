@@ -28,7 +28,6 @@ import { WattCardComponent } from '@energinet-datahub/watt/card';
   selector: 'eo-transfers',
   imports: [WattCardComponent, EoTransfersTableComponent, EoPopupMessageComponent, NgIf, RxPush],
   standalone: true,
-  styles: [``],
   template: `
     <eo-popup-message *ngIf="error$ | push"></eo-popup-message>
     <watt-card class="watt-space-stack-l">
@@ -43,6 +42,7 @@ import { WattCardComponent } from '@energinet-datahub/watt/card';
     <watt-card class="watt-space-stack-m">
       <eo-transfers-table
         [transfers]="transfers$ | push"
+        [loading]="loading$ | push"
         [selectedTransfer]="selectedTransfer$ | push"
         (transferSelected)="store.setSelectedTransfer($event)"
       ></eo-transfers-table>
@@ -53,6 +53,7 @@ export class EoTransfersComponent implements OnInit {
   protected store = inject(EoTransfersStore);
 
   error$ = this.store.error$;
+  loading$ = this.store.loadingTransferAgreements$;
   transfers$ = this.store.transfers$;
   selectedTransfer$ = this.store.selectedTransfer$;
 
