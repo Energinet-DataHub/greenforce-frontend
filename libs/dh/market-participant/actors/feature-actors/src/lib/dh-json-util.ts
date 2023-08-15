@@ -14,11 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
-
-export interface ActorsFilters {
-  actorStatus: ActorStatus[] | null;
-  marketRoles: EicFunction[] | null;
+export function dhToJSON<T>(value: T): string {
+  return JSON.stringify(value);
 }
 
-export type AllFiltersCombined = ActorsFilters & { searchInput: string };
+export function dhParseJSON<T>(filtersJSON: string): T {
+  try {
+    return JSON.parse(filtersJSON) as T;
+  } catch (error) {
+    throw new Error(`Invalid JSON: ${filtersJSON}`);
+  }
+}
