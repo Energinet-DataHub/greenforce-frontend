@@ -221,7 +221,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
 export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() senderTin?: string;
   @Input() mode: 'create' | 'edit' = 'create';
-  @Input() submitButtonText = 'Create';
+  @Input() submitButtonText = 'Create transfer agreement';
   @Input() initialValues: EoTransfersFormInitialValues = {
     receiverTin: '',
     base64EncodedWalletDepositEndpoint: '',

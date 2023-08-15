@@ -74,7 +74,7 @@ export class TransfersPo {
       },
     });
     cy.get('div.button-wrapper > watt-button[variant="primary"] > button > span > .content-wrapper')
-      .contains('Create')
+      .contains('Create transfer agreement')
       .should('be.visible')
       .click();
   }
