@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "../datepicker" as *;
-
-watt-datepicker {
-  @extend %datepicker;
+export function dhToJSON<T>(value: T): string {
+  return JSON.stringify(value);
 }
 
-.watt-datepicker-range__panel--month-only .mat-calendar-period-button {
-  pointer-events: none;
+export function dhParseJSON<T>(filtersJSON: string): T {
+  try {
+    return JSON.parse(filtersJSON) as T;
+  } catch (error) {
+    throw new Error(`Invalid JSON: ${filtersJSON}`);
+  }
 }

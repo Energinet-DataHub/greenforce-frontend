@@ -14,12 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "../datepicker" as *;
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
-watt-datepicker {
-  @extend %datepicker;
-}
+import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-.watt-datepicker-range__panel--month-only .mat-calendar-period-button {
-  pointer-events: none;
-}
+export type DhActor = ResultOf<typeof GetActorsDocument>['actors'][0];

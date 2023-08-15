@@ -14,12 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "../datepicker" as *;
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-watt-datepicker {
-  @extend %datepicker;
-}
+export function nextHourOrLaterValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    // Don't validate disabled controls
+    if (control.disabled || !control.value) {
+      return null;
+    }
 
-.watt-datepicker-range__panel--month-only .mat-calendar-period-button {
-  pointer-events: none;
+    const datetime = new Date(control.value);
+    const nextHour = new Date();
+    nextHour.setHours(nextHour.getHours() + 1, 0, 0, 0);
+
+    if (datetime < nextHour) {
+      return { nextHourOrLater: { value: control.value } };
+    }
+
+    return null;
+  };
 }

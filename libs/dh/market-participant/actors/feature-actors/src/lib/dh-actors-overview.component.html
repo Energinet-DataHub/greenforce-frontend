@@ -16,10 +16,10 @@ limitations under the License.
 -->
 <watt-card *transloco="let t; read: 'marketParticipant.actorsOverview'">
   <watt-card-title>
-    <h3>
-      {{ t("actors") }}
-      <span class="watt-chip-label">{{ dataSource.data.length }}</span>
-    </h3>
+    <h3>{{ t("actors") }}</h3>
+    <span class="watt-chip-label">{{ dataSource.data.length }}</span>
+
+    <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
   </watt-card-title>
 
   <dh-actors-filters
@@ -32,6 +32,7 @@ limitations under the License.
     [dataSource]="dataSource"
     [columns]="columns"
     sortBy="name"
+    [loading]="loading"
     sortDirection="asc"
     [sortClear]="false"
   >
@@ -48,11 +49,37 @@ limitations under the License.
     <ng-container
       *wattTableCell="columns['marketRole']; header: t('columns.marketRole'); let actor"
     >
-      {{ actor.marketRole }}
+      <ng-container *ngIf="actor.marketRole; else marketRoleNotSet">
+        {{ "marketParticipant.marketRoles." + actor.marketRole | transloco }}
+      </ng-container>
+
+      <ng-template #marketRoleNotSet>
+        {{ actor.marketRole | dhEmDashFallback }}
+      </ng-template>
     </ng-container>
 
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let actor">
       <dh-actor-status-badge [status]="actor.status" />
     </ng-container>
   </watt-table>
+
+  <ng-container *ngIf="!loading && dataSource.filteredData.length === 0">
+    <div class="watt-space-inset-m">
+      <watt-empty-state
+        *ngIf="!error"
+        icon="cancel"
+        [title]="t('emptyTitle')"
+        [message]="t('emptyMessage')"
+      />
+
+      <watt-empty-state
+        *ngIf="error"
+        icon="custom-power"
+        [title]="t('errorTitle')"
+        [message]="t('errorMessage')"
+      />
+    </div>
+  </ng-container>
+
+  <watt-paginator [for]="dataSource" [pageSize]="100" />
 </watt-card>
