@@ -52,6 +52,11 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import {
+  VaterFlexComponent,
+  VaterScrollerComponent,
+  VaterStackComponent,
+} from '@energinet-datahub/watt/vater';
 
 export type settlementReportsTableColumns = graphql.GridArea & { download: boolean };
 
@@ -65,6 +70,9 @@ export type settlementReportsTableColumns = graphql.GridArea & { download: boole
     WATT_CARD,
     WATT_TABLE,
     TranslocoModule,
+    VaterFlexComponent,
+    VaterScrollerComponent,
+    VaterStackComponent,
     WattButtonComponent,
     WattDateRangeChipComponent,
     WattFormChipDirective,
@@ -101,9 +109,9 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
   });
 
   columns: WattTableColumnDef<settlementReportsTableColumns> = {
-    gridAreaName: { accessor: 'name' },
-    gridAreaCode: { accessor: 'code' },
-    download: { accessor: null },
+    gridAreaName: { accessor: 'name', size: '1fr' },
+    gridAreaCode: { accessor: 'code', size: '1fr' },
+    download: { accessor: null, size: 'auto' },
   };
 
   actorsQuery = this.apollo.watchQuery({
@@ -131,6 +139,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
   gridAreas: WattDropdownOption[] = [];
   selectedGridAreas?: string[];
   error?: ApolloError;
+  loading = false;
   dataSource = new WattTableDataSource<settlementReportsTableColumns>();
 
   ngOnInit(): void {
@@ -151,6 +160,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
     this.subscriptionGridAreas = this.gridAreasQuery.valueChanges.subscribe({
       next: (result) => {
         this.error = result.error;
+        this.loading = result.loading;
         this.dataSource.data =
           result.data?.gridAreas
             ?.filter((x) => {

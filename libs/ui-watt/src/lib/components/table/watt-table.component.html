@@ -86,7 +86,9 @@ limitations under the License.
   <ng-container *matNoDataRow>
     <ng-container *ngIf="loading">
       <tr class="mat-row" *ngFor="let i of [1, 2, 3]">
-        <td class="mat-cell watt-table-loading-cell" *ngFor="let _ of _getColumns()"></td>
+        <ng-container *ngFor="let _ of _getColumns(); index as i">
+          <td class="mat-cell" [class.watt-table-loading-cell]="i > 0 || !selectable"></td>
+        </ng-container>
       </tr>
     </ng-container>
   </ng-container>

@@ -29,6 +29,11 @@ import { Component, ViewEncapsulation } from '@angular/core';
         height: 100%;
         overflow: auto;
       }
+
+      vater-scroller > *,
+      [vater-scroller] > * {
+        flex: 1 1 auto;
+      }
     `,
   ],
   template: `<ng-content />`,
