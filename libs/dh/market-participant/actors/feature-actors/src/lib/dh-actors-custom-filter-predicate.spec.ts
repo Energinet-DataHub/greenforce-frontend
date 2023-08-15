@@ -42,16 +42,10 @@ function createActor({
 
 describe('dhActorsCustomFilterPredicate.name', () => {
   it('return a function', () => {
-    expect(dhActorsCustomFilterPredicate()).toBeInstanceOf(Function);
+    expect(dhActorsCustomFilterPredicate).toBeInstanceOf(Function);
   });
 
   describe('when the function is called', () => {
-    let filterPredicate: ReturnType<typeof dhActorsCustomFilterPredicate>;
-
-    beforeEach(() => {
-      filterPredicate = dhActorsCustomFilterPredicate();
-    });
-
     it('return true if all filters are at their initial state', () => {
       const actor = createActor({ status: null, marketRole: null });
 
@@ -61,7 +55,7 @@ describe('dhActorsCustomFilterPredicate.name', () => {
         searchInput: '',
       };
 
-      expect(filterPredicate(actor, dhToJSON(filters))).toBe(true);
+      expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
     });
 
     describe('when the status filter is set', () => {
@@ -77,7 +71,7 @@ describe('dhActorsCustomFilterPredicate.name', () => {
           searchInput: '',
         };
 
-        expect(filterPredicate(actor, dhToJSON(filters))).toBe(true);
+        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
       });
 
       it('return false if the actor status is NOT found the filter', () => {
@@ -92,7 +86,7 @@ describe('dhActorsCustomFilterPredicate.name', () => {
           searchInput: '',
         };
 
-        expect(filterPredicate(actor, dhToJSON(filters))).toBe(false);
+        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
       });
 
       it('return false if the actor status is null', () => {
@@ -107,7 +101,7 @@ describe('dhActorsCustomFilterPredicate.name', () => {
           searchInput: '',
         };
 
-        expect(filterPredicate(actor, dhToJSON(filters))).toBe(false);
+        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
       });
     });
 
@@ -124,7 +118,7 @@ describe('dhActorsCustomFilterPredicate.name', () => {
           searchInput: '',
         };
 
-        expect(filterPredicate(actor, dhToJSON(filters))).toBe(true);
+        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
       });
 
       it('return false if the actor market role is not found the filter', () => {
@@ -139,7 +133,7 @@ describe('dhActorsCustomFilterPredicate.name', () => {
           searchInput: '',
         };
 
-        expect(filterPredicate(actor, dhToJSON(filters))).toBe(false);
+        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
       });
 
       it('return false if the actor market role is null', () => {
@@ -154,7 +148,7 @@ describe('dhActorsCustomFilterPredicate.name', () => {
           searchInput: '',
         };
 
-        expect(filterPredicate(actor, dhToJSON(filters))).toBe(false);
+        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
       });
     });
 
@@ -173,7 +167,7 @@ describe('dhActorsCustomFilterPredicate.name', () => {
             searchInput: 'DataHub',
           };
 
-          expect(filterPredicate(actor, dhToJSON(filters))).toBe(true);
+          expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
         });
 
         it('return false if input value is NOT found', () => {
@@ -183,7 +177,7 @@ describe('dhActorsCustomFilterPredicate.name', () => {
             searchInput: 'NOT datahub',
           };
 
-          expect(filterPredicate(actor, dhToJSON(filters))).toBe(false);
+          expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
         });
       });
 
@@ -201,7 +195,7 @@ describe('dhActorsCustomFilterPredicate.name', () => {
             searchInput: '1',
           };
 
-          expect(filterPredicate(actor, dhToJSON(filters))).toBe(true);
+          expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
         });
 
         it('return false if input value is NOT found', () => {
@@ -211,7 +205,7 @@ describe('dhActorsCustomFilterPredicate.name', () => {
             searchInput: '2',
           };
 
-          expect(filterPredicate(actor, dhToJSON(filters))).toBe(false);
+          expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
         });
       });
     });
@@ -230,7 +224,7 @@ describe('dhActorsCustomFilterPredicate.name', () => {
           searchInput: 'DataHub',
         };
 
-        expect(filterPredicate(actor, dhToJSON(filters))).toBe(true);
+        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
       });
 
       it('return false if actor partially matches filters', () => {
@@ -240,7 +234,7 @@ describe('dhActorsCustomFilterPredicate.name', () => {
           searchInput: 'DataHub',
         };
 
-        expect(filterPredicate(actor, dhToJSON(filters))).toBe(false);
+        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
       });
     });
   });

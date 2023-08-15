@@ -119,7 +119,7 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.dataSource.filterPredicate = dhActorsCustomFilterPredicate();
+    this.dataSource.filterPredicate = dhActorsCustomFilterPredicate;
 
     const filtersCombined$: Observable<AllFiltersCombined> = combineLatest([
       this.filters$,
