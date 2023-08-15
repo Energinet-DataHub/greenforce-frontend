@@ -110,19 +110,17 @@ limitations under the License.
           </ng-container>
         </watt-table>
 
-        <vater-stack justify="center" *ngIf="error">
+        <vater-stack justify="center" *ngIf="!loading && gridAreas.length === 0">
           <watt-empty-state
+            *ngIf="error"
             icon="custom-power"
             [title]="'shared.error.title' | transloco"
             [message]="'shared.error.message' | transloco"
           />
-        </vater-stack>
-
-        <ng-container>
-          <h4 *ngIf="!loading && gridAreas.length === 0">
+          <h4 *ngIf="!error">
             {{ t("noEntries") }}
           </h4>
-        </ng-container>
+        </vater-stack>
       </vater-scroller>
     </vater-flex>
   </watt-card>
