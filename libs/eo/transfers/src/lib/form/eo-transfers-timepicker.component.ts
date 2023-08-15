@@ -29,9 +29,10 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
   ControlValueAccessor,
-  ValidationErrors,
+  AbstractControl,
+  NG_VALIDATORS,
+  Validator,
 } from '@angular/forms';
-import { isToday } from 'date-fns';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
@@ -40,6 +41,17 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
   selector: 'eo-transfers-timepicker',
   standalone: true,
   imports: [WATT_FORM_FIELD, ReactiveFormsModule, WattDropdownComponent],
+  styles: [
+    `
+      :host {
+        max-width: 112px;
+      }
+
+      watt-form-field {
+        margin-top: 0;
+      }
+    `,
+  ],
   template: `
     <watt-form-field>
       <watt-dropdown
@@ -57,12 +69,15 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
       useExisting: forwardRef(() => EoTransfersTimepickerComponent),
       multi: true,
     },
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: EoTransfersTimepickerComponent,
+    },
   ],
 })
-export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnChanges {
-  @Input() selectedDate: string | null = null;
+export class EoTransfersTimepickerComponent implements ControlValueAccessor, Validator, OnChanges {
   @Input() disabledHours: string[] = [];
-  @Input() errors: ValidationErrors | null = null;
   @Output() invalidOptionReset = new EventEmitter<void>();
 
   @ViewChild('dropdown') dropdown: WattDropdownComponent | undefined;
@@ -72,25 +87,10 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnC
   control = new FormControl();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedDate']) {
-      this.options = this.generateOptions();
+    this.options = this.generateOptions();
 
-      const isValidOption = this.options.find((option) => option.value === this.control.value);
-      if (!isValidOption) {
-        this.control.setValue(this.options[0].value);
-        this.invalidOptionReset.emit();
-      }
-    }
-
-    // If disabled hours change, generate new options
     if (changes['disabledHours']) {
-      this.options = this.generateOptions();
-    }
-
-    if (changes['errors']) {
-      this.control.setErrors(this.errors);
-      // We need to mark the control as touched to show the error
-      this.dropdown?.matSelect?.ngControl?.control?.markAsDirty();
+      this.setValidOption();
     }
   }
 
@@ -126,28 +126,32 @@ export class EoTransfersTimepickerComponent implements ControlValueAccessor, OnC
     // Intentionally left empty
   };
 
-  private generateOptions(): WattDropdownOption[] {
-    const disabledHours = this.getDisabledHours();
+  validate(control: AbstractControl) {
+    this.control.setErrors(control.errors);
+    // We need to mark the control as touched to show the error
+    this.dropdown?.matSelect?.ngControl?.control?.markAsDirty();
 
+    return control.errors;
+  }
+
+  private setValidOption() {
+    const isValidOption = this.options.find((option) => option.value === this.control.value);
+    if (!isValidOption) {
+      this.control.setValue(this.options.length > 0 ? this.options[0].value : null, {
+        emitEvent: false,
+      });
+      this.invalidOptionReset.emit();
+    }
+  }
+
+  private generateOptions(): WattDropdownOption[] {
     return Array.from({ length: 25 }, (_, i) => {
       const hour = i.toString().padStart(2, '0');
       return {
         displayValue: `${hour}:00`,
         value: `${hour}`,
-        disabled: disabledHours.includes(`${hour}:00`),
+        disabled: this.disabledHours.includes(`${hour}:00`),
       };
     }).filter((option) => !option.disabled);
-  }
-
-  private getDisabledHours(): string[] {
-    const isTodaySelected = this.selectedDate && isToday(new Date(this.selectedDate));
-    if (!isTodaySelected) return [];
-
-    const hours = new Date().getHours();
-    const disabledHours = Array.from({ length: hours + 1 }, (_, i) => {
-      const hour = i.toString().padStart(2, '0');
-      return `${hour}:00`;
-    });
-    return [...disabledHours, ...this.disabledHours];
   }
 }
