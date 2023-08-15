@@ -1,0 +1,75 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@use "@energinet-datahub/watt/utils" as watt;
+
+:root {
+  --watt-text-color: var(--watt-on-light-high-emphasis);
+  --watt-disabled-text-label-color: var(--watt-on-light-low-emphasis);
+  --watt-input-border-radius: 4px;
+  --watt-border-color: var(--watt-on-light-low-emphasis);
+}
+
+watt-field {
+  label {
+    .label {
+      @include watt.typography-watt-label;
+    }
+
+    // :has should be implmeneted in firefox before we go live
+    // https://connect.mozilla.org/t5/ideas/when-is-has-css-selector-going-to-be-fully-implemented-in/idi-p/23794/page/3#comments
+    &:has(.disabled) .label {
+      --watt-label-text-color: var(--watt-disabled-text-label-color);
+    }
+
+    &:has(.ng-dirty.ng-invalid) .label {
+      --watt-label-text-color: var(--watt-color-state-danger);
+      color: red;
+    }
+
+    &:has(.ng-dirty.ng-invalid) .label::after {
+      content: " *";
+    }
+
+    .watt-field {
+      @include watt.typography-watt-text-s;
+      display: flex;
+      min-height: 44px;
+      width: 100%;
+      border-radius: var(--watt-input-border-radius);
+      overflow: hidden;
+      border: 1px solid var(--watt-border-color);
+      color: var(--watt-text-color);
+      padding: 0 var(--watt-space-m);
+      align-items: center;
+
+      &:focus-within {
+        --watt-border-color: var(--watt-color-primary);
+      }
+
+      watt-icon {
+        justify-content: start;
+        width: 24px;
+        height: 24px;
+        margin-right: var(--watt-space-m);
+      }
+    }
+
+    .watt-field:has(.ng-dirty.ng-invalid) {
+      --watt-border-color: var(--watt-color-state-danger);
+    }
+  }
+}
