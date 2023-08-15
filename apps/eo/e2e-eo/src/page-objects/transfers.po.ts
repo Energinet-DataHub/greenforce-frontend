@@ -23,11 +23,11 @@ export class TransfersPo {
   private newAgreementModal = '.watt-modal-panel';
   private newAgreementReceiverInput = '[data-testid="new-agreement-receiver-input"]';
   private walletDepositEndpointInput = '[data-testid="new-agreement-base64-input"]';
-  private testBase64EncodedWalletDepositEndpoint = "eyJFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6Nzg5MC8iLCJQdWJsaWNLZXkiOiJBVTBWVFVzQUFBQUJ5aE5KRmxENlZhVUZPajRGRzcybmVkSmxVbDRjK0xVejdpV0tRNEkzM1k0Q2J5OVBQTm5SdXRuaWUxT1NVRS9ud0RWTWV3bW14TnFFTkw5a0RZeHdMQWs9IiwiVmVyc2lvbiI6MX0=";
+  private testBase64EncodedWalletDepositEndpoint =
+    'eyJFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6Nzg5MC8iLCJQdWJsaWNLZXkiOiJBVTBWVFVzQUFBQUJ5aE5KRmxENlZhVUZPajRGRzcybmVkSmxVbDRjK0xVejdpV0tRNEkzM1k0Q2J5OVBQTm5SdXRuaWUxT1NVRS9ud0RWTWV3bW14TnFFTkw5a0RZeHdMQWs9IiwiVmVyc2lvbiI6MX0=';
   private paginator = '[data-testid="table-paginator"]';
   private testReceiverId = '11111111';
   private testStartDate = '12052023';
-
 
   // Visibility
   headerIsVisible = () => cy.get('h2').should('contain.text', this.pageHeaderText);
@@ -69,7 +69,8 @@ export class TransfersPo {
         senderName: 'Producent A/S',
         senderTin: '11223344',
         receiverTin: '11111111',
-        Base64EncodedWalletDepositEndpoint: 'eyJFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6Nzg5MC8iLCJQdWJsaWNLZXkiOiJBVTBWVFVzQUFBQUJ5aE5KRmxENlZhVUZPajRGRzcybmVkSmxVbDRjK0xVejdpV0tRNEkzM1k0Q2J5OVBQTm5SdXRuaWUxT1NVRS9ud0RWTWV3bW14TnFFTkw5a0RZeHdMQWs9IiwiVmVyc2lvbiI6MX0='
+        Base64EncodedWalletDepositEndpoint:
+          'eyJFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6Nzg5MC8iLCJQdWJsaWNLZXkiOiJBVTBWVFVzQUFBQUJ5aE5KRmxENlZhVUZPajRGRzcybmVkSmxVbDRjK0xVejdpV0tRNEkzM1k0Q2J5OVBQTm5SdXRuaWUxT1NVRS9ud0RWTWV3bW14TnFFTkw5a0RZeHdMQWs9IiwiVmVyc2lvbiI6MX0=',
       },
     });
     cy.get('div.button-wrapper > watt-button[variant="primary"] > button > span > .content-wrapper')

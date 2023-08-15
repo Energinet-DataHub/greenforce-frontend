@@ -45,7 +45,7 @@ When(/^I enter details for receiver$/, function () {
 });
 
 When(/^I click on Agreement details button$/, function () {
-transfers.clickAgreementDetailsButton();
+  transfers.clickAgreementDetailsButton();
 });
 
 When('I enter details for a transfer agreement', () => {
