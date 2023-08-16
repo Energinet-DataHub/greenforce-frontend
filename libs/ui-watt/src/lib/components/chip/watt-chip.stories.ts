@@ -18,7 +18,7 @@ import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 import { WattFilterChipComponent } from './watt-filter-chip.component';
 import { WattMenuChipComponent } from './watt-menu-chip.component';
-import { VaterStackComponent } from '../vater/stack.component';
+import { VaterStackComponent } from '../vater/vater-stack.component';
 
 const meta: Meta<WattFilterChipComponent> = {
   /* 👇 The title prop is optional.
