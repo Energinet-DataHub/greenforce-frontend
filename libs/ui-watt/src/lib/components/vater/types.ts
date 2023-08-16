@@ -23,5 +23,7 @@ export type Justify =
   | 'space-around'
   | 'space-evenly';
 
+export type Align = 'stretch' | 'flex-start' | 'flex-end' | 'center';
+
 // TODO: Get these values from design tokens
 export type Gap = 'xs' | 's' | 'm' | 'ml' | 'l' | 'xl';

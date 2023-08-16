@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
-import { Direction, Gap, Justify } from './types';
+import { Align, Direction, Gap, Justify } from './types';
 
 @Component({
   selector: 'vater-stack, [vater-stack]',
@@ -26,12 +26,6 @@ import { Direction, Gap, Justify } from './types';
       vater-stack,
       [vater-stack] {
         display: flex;
-        align-items: center;
-      }
-
-      vater-stack > *,
-      [vater-stack] > * {
-        flex: 0 0 auto;
         line-height: normal;
       }
     `,
@@ -40,21 +34,27 @@ import { Direction, Gap, Justify } from './types';
 })
 export class VaterStackComponent {
   @Input()
+  @HostBinding('style.align-items')
+  align: Align = 'center';
+
+  @Input()
   @HostBinding('style.flex-direction')
   direction: Direction = 'column';
 
-  @Input() gap: Gap = 'xs'; // TODO: Default to '0' when design tokens are available
-  @HostBinding('style.gap')
-  get _gap() {
-    return `var(--watt-space-${this.gap})`;
-  }
+  @Input()
+  gap: Gap = 'xs'; // TODO: Default to '0' when design tokens are available
 
   @Input()
   @HostBinding('style.justify-content')
   justify?: Justify;
 
+  @HostBinding('style.gap')
+  get _gap() {
+    return `var(--watt-space-${this.gap})`;
+  }
+
   @HostBinding('style.height')
-  get height() {
+  get _height() {
     return this.direction === 'column' ? '100%' : undefined;
   }
 }
