@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<vater-scroller>
+<vater-flex scrollable>
   <watt-table
     *transloco="let t; read: 'wholesale.calculations'"
     [dataSource]="dataSource"
@@ -71,4 +71,4 @@ limitations under the License.
       [message]="error ? t('errorMessage') : t('emptyMessage')"
     />
   </vater-stack>
-</vater-scroller>
+</vater-flex>

@@ -52,11 +52,7 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import {
-  VaterFlexComponent,
-  VaterScrollerComponent,
-  VaterStackComponent,
-} from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 export type settlementReportsTableColumns = graphql.GridArea & { download: boolean };
 
@@ -71,7 +67,6 @@ export type settlementReportsTableColumns = graphql.GridArea & { download: boole
     WATT_TABLE,
     TranslocoModule,
     VaterFlexComponent,
-    VaterScrollerComponent,
     VaterStackComponent,
     WattButtonComponent,
     WattDateRangeChipComponent,

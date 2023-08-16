@@ -25,7 +25,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { VaterScrollerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 type wholesaleTableData = WattTableDataSource<Calculation>;
 
@@ -36,7 +36,7 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
     CommonModule,
     WattDatePipe,
     TranslocoModule,
-    VaterScrollerComponent,
+    VaterFlexComponent,
     VaterStackComponent,
     WattBadgeComponent,
     WattEmptyStateComponent,

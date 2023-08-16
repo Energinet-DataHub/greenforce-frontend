@@ -26,7 +26,6 @@ import { Direction, Gap, Justify } from './types';
       vater-flex,
       [vater-flex] {
         display: flex;
-        height: 100%;
       }
 
       vater-flex > *,
@@ -42,13 +41,28 @@ export class VaterFlexComponent {
   @HostBinding('style.flex-direction')
   direction: Direction = 'column';
 
-  @Input() gap: Gap = 'xs'; // TODO: Default to '0' when design tokens are available
+  @Input()
+  gap: Gap = 'xs'; // TODO: Default to '0' when design tokens are available
+
+  @Input()
+  @HostBinding('style.justify-content')
+  justify?: Justify;
+
+  @Input()
+  scrollable?: string;
+
   @HostBinding('style.gap')
   get _gap() {
     return `var(--watt-space-${this.gap})`;
   }
 
-  @Input()
-  @HostBinding('style.justify-content')
-  justify?: Justify;
+  @HostBinding('style.height')
+  get _height() {
+    return this.direction === 'column' ? '100%' : undefined;
+  }
+
+  @HostBinding('style.overflow')
+  get _overflow() {
+    return this.scrollable === '' ? 'auto' : undefined;
+  }
 }
