@@ -49,7 +49,7 @@ const template = `<div style="display: flex; gap: var(--watt-space-m); flex-dire
 const howToUseGuideBasic = `
 How to use
 
-1. Import ${WattTextFieldComponent.name} in a module or component
+1. Import ${WattTextFieldComponent.name} in a component
 
 import { ${WattTextFieldComponent.name} } from '@energinet-datahub/watt/input';
 
