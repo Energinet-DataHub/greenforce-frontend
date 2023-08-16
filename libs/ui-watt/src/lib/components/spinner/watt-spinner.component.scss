@@ -1,0 +1,92 @@
+:host {
+  display: block;
+  width: var(--watt-spinner-diameter, 44px);
+  height: var(--watt-spinner-diameter, 44px);
+
+  svg {
+    position: absolute;
+    transform: rotate(-90deg);
+    top: 0;
+    left: 0;
+    transform-origin: center;
+    overflow: visible;
+    animation: rotate 2000ms linear infinite;
+
+    circle {
+      stroke: var(--watt-color-primary);
+      transition-property: stroke;
+      animation-duration: 4000ms;
+      animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+      animation-iteration-count: infinite;
+      fill: rgba(0, 0, 0, 0);
+      transition: stroke-dashoffset 225ms linear;
+    }
+  }
+
+  @keyframes circleRotate {
+    0% {
+      stroke-dashoffset: 101.47344271095032;
+      transform: rotate(0);
+    }
+    12.5% {
+      stroke-dashoffset: 21.362830044410597;
+      transform: rotate(0);
+    }
+    12.5001% {
+      stroke-dashoffset: 21.362830044410597;
+      transform: rotateX(180deg) rotate(72.5deg);
+    }
+    25% {
+      stroke-dashoffset: 101.47344271095032;
+      transform: rotateX(180deg) rotate(72.5deg);
+    }
+    25.0001% {
+      stroke-dashoffset: 101.47344271095032;
+      transform: rotate(270deg);
+    }
+    37.5% {
+      stroke-dashoffset: 21.362830044410597;
+      transform: rotate(270deg);
+    }
+    37.5001% {
+      stroke-dashoffset: 21.362830044410597;
+      transform: rotateX(180deg) rotate(161.5deg);
+    }
+    50% {
+      stroke-dashoffset: 101.47344271095032;
+      transform: rotateX(180deg) rotate(161.5deg);
+    }
+    50.0001% {
+      stroke-dashoffset: 101.47344271095032;
+      transform: rotate(180deg);
+    }
+    62.5% {
+      stroke-dashoffset: 21.362830044410597;
+      transform: rotate(180deg);
+    }
+    62.5001% {
+      stroke-dashoffset: 21.362830044410597;
+      transform: rotateX(180deg) rotate(251.5deg);
+    }
+    75% {
+      stroke-dashoffset: 101.47344271095032;
+      transform: rotateX(180deg) rotate(251.5deg);
+    }
+    75.0001% {
+      stroke-dashoffset: 101.47344271095032;
+      transform: rotate(90deg);
+    }
+    87.5% {
+      stroke-dashoffset: 21.362830044410597;
+      transform: rotate(90deg);
+    }
+    87.5001% {
+      stroke-dashoffset: 21.362830044410597;
+      transform: rotateX(180deg) rotate(341.5deg);
+    }
+    100% {
+      stroke-dashoffset: 101.47344271095032;
+      transform: rotateX(180deg) rotate(341.5deg);
+    }
+  }
+}
