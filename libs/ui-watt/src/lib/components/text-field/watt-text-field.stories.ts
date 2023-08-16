@@ -151,7 +151,7 @@ export const WithPrefix: StoryFn<WattTextFieldComponent> = () => ({
 
 export const WithSuffix: StoryFn<WattTextFieldComponent> = () => ({
   props: {
-    label: 'prefix',
+    label: 'Suffix',
     exampleFormControl: new FormControl(null),
   },
   template: `<div style="display: flex; gap: var(--watt-space-m); flex-direction: column; margin-bottom: var(--watt-space-m);">
