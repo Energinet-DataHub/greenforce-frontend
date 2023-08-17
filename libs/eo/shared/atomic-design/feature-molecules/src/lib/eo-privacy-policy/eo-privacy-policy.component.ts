@@ -103,5 +103,5 @@ export class EoPrivacyPolicyComponent {
     },
   });
 
-  constructor(private http: HttpClient, private termsService: EoTermsService) { }
+  constructor(private http: HttpClient, private termsService: EoTermsService) {}
 }

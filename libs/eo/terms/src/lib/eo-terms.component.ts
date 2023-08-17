@@ -105,7 +105,7 @@ export class EoTermsComponent {
   constructor(
     private authService: EoAuthService,
     private termsService: EoTermsService,
-    private router: Router,
+    private router: Router
   ) {}
 
   onCancel() {
