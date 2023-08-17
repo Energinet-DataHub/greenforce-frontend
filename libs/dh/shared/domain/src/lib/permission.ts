@@ -24,4 +24,4 @@ export const permissions = [
   'calculations:manage',
   'settlement-reports:manage',
 ] as const;
-export type Permission = typeof permissions[number];
+export type Permission = (typeof permissions)[number];

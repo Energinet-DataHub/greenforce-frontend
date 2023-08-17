@@ -25,7 +25,7 @@ import {
 export const dhWholesaleShellRoutes: Route[] = [
   {
     path: WHOLESALE_CALCULATIONS_PATH,
-    canActivate: [PermissionGuard(["calculations:manage"])],
+    canActivate: [PermissionGuard(['calculations:manage'])],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-calculations'),
     data: {
       titleTranslationKey: 'wholesale.calculations.topBarTitle',
@@ -33,7 +33,7 @@ export const dhWholesaleShellRoutes: Route[] = [
   },
   {
     path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
-    canActivate: [PermissionGuard(["settlement-reports:manage"])],
+    canActivate: [PermissionGuard(['settlement-reports:manage'])],
     loadComponent: () =>
       import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
         (m) => m.DhWholesaleSettlementsReportsTabComponent
