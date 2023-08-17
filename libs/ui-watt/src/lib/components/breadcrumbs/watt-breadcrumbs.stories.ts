@@ -16,9 +16,9 @@
  */
 import { APP_BASE_HREF } from '@angular/common';
 import { APP_INITIALIZER, Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { StoryFn, Meta, moduleMetadata } from '@storybook/angular';
+import { Router, RouterModule, provideRouter } from '@angular/router';
+import { provideLocationMocks } from '@angular/common/testing';
+import { StoryFn, Meta, moduleMetadata, applicationConfig } from '@storybook/angular';
 
 import { WATT_BREADCRUMBS, WattBreadcrumbsComponent } from './watt-breadcrumbs.component';
 
@@ -35,13 +35,14 @@ function generateComponent(template: string) {
   return StorybookPageComponent;
 }
 
-export default {
+const meta: Meta<WattBreadcrumbsComponent> = {
   title: 'Components/Breadcrumbs',
+  component: WattBreadcrumbsComponent,
   decorators: [
-    moduleMetadata({
-      imports: [
-        WATT_BREADCRUMBS,
-        RouterTestingModule.withRoutes([
+    applicationConfig({
+      providers: [
+        provideLocationMocks(),
+        provideRouter([
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
           {
             path: 'components',
@@ -54,6 +55,9 @@ export default {
           { path: 'overview', component: generateComponent('Route:Overview') },
         ]),
       ],
+    }),
+    moduleMetadata({
+      imports: [RouterModule, WATT_BREADCRUMBS],
       providers: [
         {
           provide: APP_BASE_HREF,
@@ -69,8 +73,9 @@ export default {
       ],
     }),
   ],
-  argTypes: { onClick: { action: 'clicked' } },
-} as Meta;
+};
+
+export default meta;
 
 export const Overview: StoryFn<WattBreadcrumbsComponent> = (args) => ({
   props: args,
