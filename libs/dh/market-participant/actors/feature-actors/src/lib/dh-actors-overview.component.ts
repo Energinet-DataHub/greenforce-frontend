@@ -16,7 +16,7 @@
  */
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, translate } from '@ngneat/transloco';
 import { BehaviorSubject, Observable, Subscription, combineLatest, debounceTime, map } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 
@@ -25,8 +25,9 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
 import { ActorsFilters, AllFiltersCombined } from './actors-filters';
@@ -75,6 +76,7 @@ import { dhToJSON } from './dh-json-util';
     WattSearchComponent,
     WattPaginatorComponent,
     WattEmptyStateComponent,
+    WattButtonComponent,
   ],
 })
 export class DhActorsOverviewComponent implements OnInit, OnDestroy {
@@ -138,5 +140,37 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
     this.subscription = null;
+  }
+
+  download(): void {
+    if (!this.dataSource.sort) {
+      return;
+    }
+
+    const dataSorted = this.dataSource.sortData(this.dataSource.filteredData, this.dataSource.sort);
+
+    const actorsOverviewPath = 'marketParticipant.actorsOverview';
+
+    const headers = [
+      `"ID"`,
+      `"${translate(actorsOverviewPath + '.columns.glnOrEic')}"`,
+      `"${translate(actorsOverviewPath + '.columns.name')}"`,
+      `"${translate(actorsOverviewPath + '.columns.marketRole')}"`,
+      `"${translate(actorsOverviewPath + '.columns.status')}"`,
+    ];
+
+    const lines = dataSorted.map((actor) => [
+      `"${actor.id}"`,
+      `"${actor.glnOrEicNumber}"`,
+      `"${actor.name}"`,
+      `"${
+        actor.marketRole == null
+          ? ''
+          : translate('marketParticipant.marketRoles.' + actor.marketRole)
+      }"`,
+      `"${actor.status == null ? '' : translate(actorsOverviewPath + '.status.' + actor.status)}"`,
+    ]);
+
+    exportToCSV({ headers, lines, fileName: 'actors' });
   }
 }
