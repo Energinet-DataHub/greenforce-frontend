@@ -20,10 +20,8 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { StorybookInputWrapperComponent } from './storybook-input-wrapper.component';
 import { StorybookInputOverviewComponent } from './storybook-input-overview.component';
 
-export const title = 'Components/Legacy Text Field';
-
 const meta: Meta<StorybookInputWrapperComponent> = {
-  title,
+  title: 'Components/Legacy Text Field',
   component: StorybookInputWrapperComponent,
   decorators: [
     applicationConfig({
