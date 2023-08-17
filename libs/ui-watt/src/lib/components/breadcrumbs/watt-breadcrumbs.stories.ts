@@ -22,8 +22,11 @@ import { StoryFn, Meta, moduleMetadata } from '@storybook/angular';
 
 import { WATT_BREADCRUMBS, WattBreadcrumbsComponent } from './watt-breadcrumbs.component';
 
+let index = 1;
+
 function generateComponent(template: string) {
   @Component({
+    selector: `watt-storybook-${index++}`,
     template,
     standalone: true,
   })
