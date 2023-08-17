@@ -19,6 +19,7 @@ import { APP_INITIALIZER, Component } from '@angular/core';
 import { Router, RouterModule, provideRouter } from '@angular/router';
 import { provideLocationMocks } from '@angular/common/testing';
 import { StoryFn, Meta, moduleMetadata, applicationConfig } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
 
 import { WATT_BREADCRUMBS, WattBreadcrumbsComponent } from './watt-breadcrumbs.component';
 
@@ -78,7 +79,10 @@ const meta: Meta<WattBreadcrumbsComponent> = {
 export default meta;
 
 export const Overview: StoryFn<WattBreadcrumbsComponent> = (args) => ({
-  props: args,
+  props: {
+    ...args,
+    onClick: () => action('Breadcrumb clicked')('Click!'),
+  },
   template: `
     <p>"Components" has a click handler, see "Actions" tab.</p>
     <p>"Breadcrumbs" has a routerLink.</p>
