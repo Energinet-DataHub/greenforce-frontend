@@ -75,9 +75,10 @@ export default {
 export const Overview: StoryFn<WattBreadcrumbsComponent> = (args) => ({
   props: args,
   template: `
-    <p>"Components" has a click handler, see actions tab.</p>
+    <p>"Components" has a click handler, see "Actions" tab.</p>
     <p>"Breadcrumbs" has a routerLink.</p>
     <p>"Overview" has neither.</p>
+    <br>
 
     <watt-breadcrumbs>
       <watt-breadcrumb (click)="onClick()">Components</watt-breadcrumb>
@@ -85,6 +86,7 @@ export const Overview: StoryFn<WattBreadcrumbsComponent> = (args) => ({
       <watt-breadcrumb>Overview</watt-breadcrumb>
     </watt-breadcrumbs>
 
+    <br>
     <router-outlet></router-outlet>
   `,
 });
