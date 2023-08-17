@@ -59,6 +59,10 @@ input {
   transition-property: transform;
   pointer-events: auto;
   cursor: pointer;
+
+  &:hover {
+    color: var(--watt-color-primary-dark);
+  }
 }
 
 .text {
