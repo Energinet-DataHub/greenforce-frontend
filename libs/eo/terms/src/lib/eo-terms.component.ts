@@ -24,7 +24,7 @@ import {
   EoFooterComponent,
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoAuthService, EoAuthStore, EoTermsService } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService, EoTermsService } from '@energinet-datahub/eo/shared/services';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -105,8 +105,7 @@ export class EoTermsComponent {
   constructor(
     private authService: EoAuthService,
     private termsService: EoTermsService,
-    private authStore: EoAuthStore,
-    private router: Router
+    private router: Router,
   ) {}
 
   onCancel() {

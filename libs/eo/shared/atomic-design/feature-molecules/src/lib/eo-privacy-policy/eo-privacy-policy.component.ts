@@ -18,6 +18,11 @@ import { AsyncPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoTermsService } from '@energinet-datahub/eo/shared/services';
+
+interface VersionResponse {
+  version: number;
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -89,6 +94,14 @@ import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-desig
 })
 export class EoPrivacyPolicyComponent {
   privacyPolicy$ = this.http.get('/assets/html/privacy-policy.html', { responseType: 'text' });
+  bag$ = this.http.get<VersionResponse>('/assets/configuration/privacy-policy.json').subscribe({
+    next: (response) => {
+      this.termsService.setVersion(response.version);
+    },
+    error: () => {
+      this.termsService.setVersion(-1);
+    },
+  });
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private termsService: EoTermsService) { }
 }
