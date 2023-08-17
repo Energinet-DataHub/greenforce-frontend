@@ -25,9 +25,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
     <label>
       <span class="label">{{ label }}</span>
       <div class="watt-field">
-        <ng-content select="[wattPrefix]" />
         <ng-content />
-        <ng-content select="[wattSuffix]" />
       </div>
     </label>
   `,

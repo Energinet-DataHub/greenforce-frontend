@@ -16,31 +16,27 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
-:root {
+watt-field {
   --watt-text-color: var(--watt-on-light-high-emphasis);
   --watt-disabled-text-label-color: var(--watt-on-light-low-emphasis);
+  --watt-field-disabled-background-color: var(--watt-color-neutral-grey-300s);
   --watt-input-border-radius: 4px;
   --watt-border-color: var(--watt-on-light-low-emphasis);
-}
+  --watt-label-text-color: var(--watt-text-color);
 
-watt-field {
   label {
-    .label {
-      @include watt.typography-watt-label;
-    }
-
+    color: var(--watt-label-text-color);
     // :has should be implmeneted in firefox before we go live
     // https://connect.mozilla.org/t5/ideas/when-is-has-css-selector-going-to-be-fully-implemented-in/idi-p/23794/page/3#comments
     &:has(.disabled) .label {
-      --watt-label-text-color: var(--watt-disabled-text-label-color);
+      color: var(--watt-disabled-text-label-color);
     }
 
     &:has(.ng-dirty.ng-invalid) .label {
-      --watt-label-text-color: var(--watt-color-state-danger);
-      color: red;
+      color: var(--watt-color-state-danger);
     }
 
-    &:has(.ng-dirty.ng-invalid) .label::after {
+    &:has(.ng-dirty.ng-invalid, [required]) .label::after {
       content: " *";
     }
 
@@ -55,21 +51,19 @@ watt-field {
       color: var(--watt-text-color);
       padding: 0 var(--watt-space-m);
       align-items: center;
+      gap: var(--watt-space-m);
 
       &:focus-within {
         --watt-border-color: var(--watt-color-primary);
       }
 
-      watt-icon {
-        justify-content: start;
-        width: 24px;
-        height: 24px;
-        margin-right: var(--watt-space-m);
+      &:has(.disabled) {
+        background-color: var(--watt-field-disabled-background-color);
       }
-    }
 
-    .watt-field:has(.ng-dirty.ng-invalid) {
-      --watt-border-color: var(--watt-color-state-danger);
+      &:has(.ng-dirty.ng-invalid) {
+        --watt-border-color: var(--watt-color-state-danger);
+      }
     }
   }
 }

@@ -40,11 +40,10 @@ const meta: Meta<WattTextFieldComponent> = {
 
 export default meta;
 
-const template = `<div style="display: flex; gap: var(--watt-space-m); flex-direction: column; margin-bottom: var(--watt-space-m);">
-  <watt-field [label]="label">
-    <watt-text-field [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl"></watt-text-field>
-  </watt-field>
-</div><p>Value: {{exampleFormControl.value}}</p>`;
+const template = `<watt-field [label]="label">
+                    <watt-text-field [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl" />
+                  </watt-field>
+                  <p>Value: {{exampleFormControl.value}}</p>`;
 
 const howToUseGuideBasic = `
 How to use
@@ -55,7 +54,7 @@ import { ${WattTextFieldComponent.name} } from '@energinet-datahub/watt/input';
 
 2. Create FormControl in a component
 
-exampleFormControl = new FormControl(true);
+exampleFormControl = new FormControl('');
 
 3. Assign the FormControl to the input component
 
@@ -127,9 +126,9 @@ export const WithNumber: StoryFn<WattTextFieldComponent> = () => ({
   template,
 });
 
-export const WithError: StoryFn<WattTextFieldComponent> = () => ({
+export const WithRequired: StoryFn<WattTextFieldComponent> = () => ({
   props: {
-    label: 'error',
+    label: 'required',
     exampleFormControl: new FormControl(null),
     required: true,
   },
@@ -138,15 +137,13 @@ export const WithError: StoryFn<WattTextFieldComponent> = () => ({
 
 export const WithPrefix: StoryFn<WattTextFieldComponent> = () => ({
   props: {
-    label: 'prefix',
+    label: 'Prefix',
     exampleFormControl: new FormControl(null),
   },
-  template: `<div style="display: flex; gap: var(--watt-space-m); flex-direction: column; margin-bottom: var(--watt-space-m);">
-    <watt-field [label]="label">
-      <watt-icon wattPrefix name="search" label="some meaningful description"/>
-      <watt-text-field [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl"></watt-text-field>
-    </watt-field>
-  </div>`,
+  template: `<watt-field [label]="label">
+              <watt-icon name="search" label="some meaningful description"/>
+              <watt-text-field [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl" />
+            </watt-field>`,
 });
 
 export const WithSuffix: StoryFn<WattTextFieldComponent> = () => ({
@@ -154,10 +151,8 @@ export const WithSuffix: StoryFn<WattTextFieldComponent> = () => ({
     label: 'Suffix',
     exampleFormControl: new FormControl(null),
   },
-  template: `<div style="display: flex; gap: var(--watt-space-m); flex-direction: column; margin-bottom: var(--watt-space-m);">
-    <watt-field [label]="label">
-      <watt-text-field [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl"></watt-text-field>
-      <watt-button wattSuffix variant="icon" icon="search" />
-    </watt-field>
-  </div>`,
+  template: `<watt-field [label]="label">
+              <watt-text-field [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl" />
+              <watt-button variant="icon" icon="search" />
+            </watt-field>`,
 });
