@@ -20,6 +20,10 @@ limitations under the License.
     <span class="watt-chip-label">{{ dataSource.data.length }}</span>
 
     <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
+
+    <watt-button icon="download" variant="text" (click)="download()">{{
+      "shared.download" | transloco
+    }}</watt-button>
   </watt-card-title>
 
   <dh-actors-filters
