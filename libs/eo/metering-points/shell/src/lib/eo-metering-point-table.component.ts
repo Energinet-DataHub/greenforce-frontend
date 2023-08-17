@@ -112,14 +112,14 @@ import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.sto
         <mat-header-cell *matHeaderCellDef mat-sort-header>Granular Certificates</mat-header-cell>
         <mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.type === 'production'">
-            <watt-badge *ngIf="element.contract" type="success">Activated</watt-badge>
+            <watt-badge *ngIf="element.contract && hoveredRow !== element.gsrn" type="success">Activated</watt-badge>
             <button
-              *ngIf="!element.contract"
+              *ngIf="!element.contract || (element.contract && hoveredRow === element.gsrn)"
               [disabled]="element.loadingContract"
               class="link"
-              (click)="createContract(element.gsrn)"
+              (click)="!element.contract ? createContract(element.gsrn) : deactivateContract(element.gsrn)"
             >
-              <ng-container *ngIf="!element.loadingContract">Activate</ng-container>
+              <ng-container *ngIf="!element.loadingContract">{{ !element.contract ? 'Activate' : 'Cancel' }}</ng-container>
               <watt-spinner *ngIf="element.loadingContract" [diameter]="16"></watt-spinner>
             </button>
           </ng-container>
@@ -132,7 +132,11 @@ import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.sto
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      <mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        (mouseenter)="onRowHover(row.gsrn)"
+        (mouseleave)="onRowLeave()"
+      ></mat-row>
     </mat-table>
 
     <div class="loadingArea" *ngIf="(isLoading$ | async) === true">
@@ -147,6 +151,7 @@ export class EoMeteringPointListComponent implements AfterViewInit {
   dataSource: MatTableDataSource<EoMeteringPoint> = new MatTableDataSource();
   displayedColumns: Array<string> = ['gsrn', 'address', 'tags', 'granular certificates'];
   isLoading$;
+  hoveredRow: string | null = null;
 
   constructor(private store: EoMeteringPointsStore) {
     this.isLoading$ = this.store.loading$;
@@ -176,5 +181,17 @@ export class EoMeteringPointListComponent implements AfterViewInit {
 
   createContract(gsrn: string) {
     this.store.createCertificateContract(gsrn);
+  }
+
+  deactivateContract(gsrn: string) {
+    this.store.deactivateCertificateContract(gsrn);
+  }
+
+  onRowHover(gsrn: string) {
+    this.hoveredRow = gsrn;
+  }
+
+  onRowLeave() {
+    this.hoveredRow = null;
   }
 }
