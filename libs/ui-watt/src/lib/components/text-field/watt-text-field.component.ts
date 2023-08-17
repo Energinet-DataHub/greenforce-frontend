@@ -47,8 +47,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
 })
 export class WattTextFieldComponent implements ControlValueAccessor {
   @Input() value!: string;
-  @Input({ required: true }) name!: string;
-  @Input({ required: true }) type: WattInputTypes = 'text';
+  @Input() type: WattInputTypes = 'text';
   @Input() placeholder?: string;
   @Input() required = false;
 
