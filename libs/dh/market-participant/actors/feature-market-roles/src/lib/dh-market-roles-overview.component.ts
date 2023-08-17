@@ -22,7 +22,7 @@ import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
-import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-market-roles-overview',
@@ -75,7 +75,7 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
             `"${translations['marketRoleDescriptions'][x]}"`,
           ]);
 
-          exportCsv(headers, lines);
+          exportToCSV({ headers, lines });
         }
       });
   }
