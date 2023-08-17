@@ -25,7 +25,6 @@ import { BehaviorSubject, Subject, switchMap, takeUntil } from 'rxjs';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
