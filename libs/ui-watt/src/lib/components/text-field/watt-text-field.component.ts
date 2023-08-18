@@ -15,7 +15,15 @@
  * limitations under the License.
  */
 import { NgClass, NgIf } from '@angular/common';
-import { Component, Input, forwardRef, ViewEncapsulation, HostBinding } from '@angular/core';
+import {
+  Component,
+  Input,
+  forwardRef,
+  ViewEncapsulation,
+  HostBinding,
+  inject,
+  ElementRef,
+} from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { WattFieldComponent } from '../field/watt-field.component';
 import { WattIconComponent, WattIcon } from '../../foundations/icon';
@@ -61,17 +69,13 @@ export class WattTextFieldComponent implements ControlValueAccessor {
 
   /* @ignore */
   model!: string;
+  private element = inject(ElementRef);
 
   @HostBinding('attr.disabled')
   isDisabled = false;
 
   /* @ignore */
   onChange: (value: string) => void = () => {
-    /* left blank intentionally */
-  };
-
-  /* @ignore */
-  onTouched: () => void = () => {
     /* left blank intentionally */
   };
 
@@ -87,7 +91,7 @@ export class WattTextFieldComponent implements ControlValueAccessor {
 
   /* @ignore */
   registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
+    this.element.nativeElement.addEventListener('focusout', fn);
   }
 
   /* @ignore */

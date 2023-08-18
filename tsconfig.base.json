@@ -437,9 +437,6 @@
       "@energinet-datahub/watt/validators": [
         "libs/ui-watt/src/lib/components/input/shared/validators/index.ts"
       ],
-      "@energinet-datahub/watt/watt-field": [
-        "libs/ui-watt/src/lib/components/field/index.ts"
-      ],
       "@energinet-datahub/watt/watt-text-field": [
         "libs/ui-watt/src/lib/components/text-field/index.ts"
       ],
