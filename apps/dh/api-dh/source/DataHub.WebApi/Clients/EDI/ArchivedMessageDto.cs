@@ -15,6 +15,7 @@
 namespace Energinet.DataHub.WebApi.Clients.EDI
 {
     public sealed record ArchivedMessageDto(
+        string Id,
         string MessageId,
         string DocumentType,
         string CreatedAt,
