@@ -14,15 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { Component, Input, forwardRef, ViewEncapsulation, HostBinding } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { WattFieldComponent } from '../field/watt-field.component';
+import { WattIconComponent, WattIcon } from '../../foundations/icon';
 
 export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 
 @Component({
   standalone: true,
-  imports: [NgClass, FormsModule],
+  imports: [NgClass, FormsModule, WattFieldComponent, WattIconComponent, NgIf],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -33,7 +35,8 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
   selector: 'watt-text-field',
   styleUrls: ['./watt-text-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  template: `
+  template: `<watt-field [label]="label">
+    <watt-icon *ngIf="prefix" [name]="prefix" />
     <input
       [attr.type]="type"
       [attr.placeholder]="placeholder"
@@ -43,18 +46,23 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       (ngModelChange)="onChange($event)"
       [required]="required"
     />
-  `,
+    <ng-content />
+    <ng-content ngProjectAs="[hint]" select="[hint]" />
+    <ng-content ngProjectAs="[error]" select="[error]" />
+  </watt-field> `,
 })
 export class WattTextFieldComponent implements ControlValueAccessor {
   @Input() value!: string;
   @Input() type: WattInputTypes = 'text';
   @Input() placeholder?: string;
   @Input() required = false;
+  @Input() label!: string;
+  @Input() prefix?: WattIcon;
 
   /* @ignore */
   model!: string;
 
-  @HostBinding('class.disabled')
+  @HostBinding('attr.disabled')
   isDisabled = false;
 
   /* @ignore */

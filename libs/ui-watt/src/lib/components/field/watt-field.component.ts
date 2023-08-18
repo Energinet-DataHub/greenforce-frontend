@@ -24,9 +24,11 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
   template: `
     <label>
       <span class="label">{{ label }}</span>
-      <div class="watt-field">
+      <div class="watt-field-wrapper">
         <ng-content />
       </div>
+      <ng-content select="[hint]" />
+      <ng-content select="[error]" />
     </label>
   `,
 })

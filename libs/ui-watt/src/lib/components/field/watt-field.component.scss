@@ -16,6 +16,41 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
+[disabled="true"] watt-field .label {
+  color: var(--watt-disabled-text-label-color);
+}
+
+[disabled="true"] .watt-field-wrapper {
+  background-color: var(--watt-field-disabled-background-color);
+}
+
+.ng-dirty.ng-invalid .watt-field-wrapper {
+  border: 1px solid var(--watt-color-state-danger);
+}
+
+.ng-dirty.ng-invalid watt-field .label {
+  color: var(--watt-color-state-danger);
+}
+
+[required] watt-field .label::after,
+.ng-dirty.ng-invalid watt-field .label::after {
+  content: " *";
+}
+
+watt-field [error],
+.ng.valid watt-field [error] {
+  display: none;
+}
+
+.ng-dirty.ng-invalid watt-field [hint] {
+  display: none;
+}
+
+.ng-dirty.ng-invalid watt-field [error] {
+  display: block;
+  color: var(--watt-color-state-danger);
+}
+
 watt-field {
   --watt-text-color: var(--watt-on-light-high-emphasis);
   --watt-disabled-text-label-color: var(--watt-on-light-low-emphasis);
@@ -26,21 +61,8 @@ watt-field {
 
   label {
     color: var(--watt-label-text-color);
-    // :has should be implmeneted in firefox before we go live
-    // https://connect.mozilla.org/t5/ideas/when-is-has-css-selector-going-to-be-fully-implemented-in/idi-p/23794/page/3#comments
-    &:has(.disabled) .label {
-      color: var(--watt-disabled-text-label-color);
-    }
 
-    &:has(.ng-dirty.ng-invalid) .label {
-      color: var(--watt-color-state-danger);
-    }
-
-    &:has(.ng-dirty.ng-invalid, [required]) .label::after {
-      content: " *";
-    }
-
-    .watt-field {
+    .watt-field-wrapper {
       @include watt.typography-watt-text-s;
       display: flex;
       min-height: 44px;
@@ -56,14 +78,12 @@ watt-field {
       &:focus-within {
         --watt-border-color: var(--watt-color-primary);
       }
+    }
 
-      &:has(.disabled) {
-        background-color: var(--watt-field-disabled-background-color);
-      }
-
-      &:has(.ng-dirty.ng-invalid) {
-        --watt-border-color: var(--watt-color-state-danger);
-      }
+    [hint],
+    [error] {
+      @include watt.typography-watt-text-s;
+      padding-left: var(--watt-space-s);
     }
   }
 }

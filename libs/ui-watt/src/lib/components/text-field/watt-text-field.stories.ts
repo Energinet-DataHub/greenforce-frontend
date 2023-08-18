@@ -40,9 +40,7 @@ const meta: Meta<WattTextFieldComponent> = {
 
 export default meta;
 
-const template = `<watt-field [label]="label">
-                    <watt-text-field [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl" />
-                  </watt-field>
+const template = `<watt-text-field [label]="label" [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl" />
                   <p>Value: {{exampleFormControl.value}}</p>`;
 
 const howToUseGuideBasic = `
@@ -130,9 +128,10 @@ export const WithRequired: StoryFn<WattTextFieldComponent> = () => ({
   props: {
     label: 'required',
     exampleFormControl: new FormControl(null),
-    required: true,
   },
-  template,
+  template: `<watt-text-field [required]="true" [label]="label" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl">
+              <span info *ngIf="exampleFormControl.dirty && exampleFormControl.hasError('required')">This field is required</span>
+            </watt-text-field>`,
 });
 
 export const WithPrefix: StoryFn<WattTextFieldComponent> = () => ({
@@ -140,10 +139,7 @@ export const WithPrefix: StoryFn<WattTextFieldComponent> = () => ({
     label: 'Prefix',
     exampleFormControl: new FormControl(null),
   },
-  template: `<watt-field [label]="label">
-              <watt-icon name="search" label="some meaningful description"/>
-              <watt-text-field [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl" />
-            </watt-field>`,
+  template: `<watt-text-field prefix="search" [label]="label" [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl" />`,
 });
 
 export const WithSuffix: StoryFn<WattTextFieldComponent> = () => ({
@@ -151,8 +147,18 @@ export const WithSuffix: StoryFn<WattTextFieldComponent> = () => ({
     label: 'Suffix',
     exampleFormControl: new FormControl(null),
   },
-  template: `<watt-field [label]="label">
-              <watt-text-field [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl" />
+  template: `<watt-text-field [label]="label" [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl">
               <watt-button variant="icon" icon="search" />
-            </watt-field>`,
+             </watt-text-field>`,
+});
+
+export const WithHint: StoryFn<WattTextFieldComponent> = () => ({
+  props: {
+    label: 'hint',
+    exampleFormControl: new FormControl(null),
+  },
+  template: `<watt-text-field [required]="true" [label]="label" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl">
+              <span error>This field is required</span>
+              <span hint>This is a hint</span>
+            </watt-text-field>`,
 });
