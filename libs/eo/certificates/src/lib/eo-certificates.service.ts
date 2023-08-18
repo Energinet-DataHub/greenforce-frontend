@@ -81,7 +81,7 @@ export class EoCertificatesService {
 
   patchContract(id: string) {
     return this.http.patch<EoCertificateContract>(`${this.#apiBase}/certificates/contracts/${id}`, {
-      endDate: Math.floor(new Date().getTime() / 1000)
+      endDate: Math.floor(new Date().getTime() / 1000),
     });
   }
 }

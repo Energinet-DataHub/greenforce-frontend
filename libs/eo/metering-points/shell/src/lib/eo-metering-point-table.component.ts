@@ -112,14 +112,20 @@ import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.sto
         <mat-header-cell *matHeaderCellDef mat-sort-header>Granular Certificates</mat-header-cell>
         <mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.type === 'production'">
-            <watt-badge *ngIf="element.contract && hoveredRow !== element.gsrn" type="success">Activated</watt-badge>
+            <watt-badge *ngIf="element.contract && hoveredRow !== element.gsrn" type="success"
+              >Activated</watt-badge
+            >
             <button
               *ngIf="!element.contract || (element.contract && hoveredRow === element.gsrn)"
               [disabled]="element.loadingContract"
               class="link"
-              (click)="!element.contract ? createContract(element.gsrn) : deactivateContract(element.gsrn)"
+              (click)="
+                !element.contract ? createContract(element.gsrn) : deactivateContract(element.gsrn)
+              "
             >
-              <ng-container *ngIf="!element.loadingContract">{{ !element.contract ? 'Activate' : 'Cancel' }}</ng-container>
+              <ng-container *ngIf="!element.loadingContract">{{
+                !element.contract ? 'Activate' : 'Cancel'
+              }}</ng-container>
               <watt-spinner *ngIf="element.loadingContract" [diameter]="16"></watt-spinner>
             </button>
           </ng-container>

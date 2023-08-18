@@ -18,7 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EoCertificateContract, EoCertificatesService } from '@energinet-datahub/eo/certificates';
 import { ComponentStore } from '@ngrx/component-store';
-import {filter, forkJoin, map, take} from 'rxjs';
+import { filter, forkJoin, map, take } from 'rxjs';
 import { EoMeteringPointsService, MeteringPoint } from './eo-metering-points.service';
 
 export interface EoMeteringPoint extends MeteringPoint {
@@ -126,14 +126,15 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   deactivateCertificateContract(gsrn: string) {
     this.toggleContractLoading(gsrn);
 
-    forkJoin([
-      this.certService.getContracts(),
-      this.service.getMeteringPoints()
-    ]).subscribe({
-      next: ([contractList, mpList]: [{ result: EoCertificateContract[] }, { meteringPoints: EoMeteringPoint[] }]) => {
-
-        const targetMeteringPoint = mpList.meteringPoints.find(mp => mp.gsrn === gsrn);
-        const targetContract = contractList?.result.find((contract: EoCertificateContract) => contract.gsrn === gsrn);
+    forkJoin([this.certService.getContracts(), this.service.getMeteringPoints()]).subscribe({
+      next: ([contractList, mpList]: [
+        { result: EoCertificateContract[] },
+        { meteringPoints: EoMeteringPoint[] }
+      ]) => {
+        const targetMeteringPoint = mpList.meteringPoints.find((mp) => mp.gsrn === gsrn);
+        const targetContract = contractList?.result.find(
+          (contract: EoCertificateContract) => contract.gsrn === gsrn
+        );
 
         if (!targetMeteringPoint || !targetContract) {
           console.error(`Contract or metering point not found for GSRN: ${gsrn}`);
@@ -158,15 +159,14 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
             console.error(`Error updating the contract end date for GSRN: ${gsrn}`);
             this.setError(error);
             this.toggleContractLoading(gsrn);
-          }
+          },
         });
-
       },
       error: (error) => {
         console.error(`Error fetching the latest contracts or metering points.`);
         this.setError(error);
         this.toggleContractLoading(gsrn);
-      }
+      },
     });
   }
 }
