@@ -122,7 +122,7 @@ export const eoShellRoutes: Routes = [
       },
       {
         path: eoPrivacyPolicyRoutePath,
-        data: { title: 'Privacy Policy', skipGuard: true },
+        data: { title: 'Privacy Policy' },
         loadChildren: () =>
           import('@energinet-datahub/eo/privacy-policy/shell').then(
             (esModule) => esModule.eoPrivacyPolicyRoutes
