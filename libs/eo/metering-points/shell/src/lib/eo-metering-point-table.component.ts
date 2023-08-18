@@ -58,11 +58,11 @@ import {WattCardComponent} from "@energinet-datahub/watt/card";
         display: flex;
         justify-content: center;
         width: 65px;
+      }
 
-        &:hover:enabled {
-          cursor: pointer;
-          background-color: var(--watt-color-primary-light);
-        }
+      .link:hover:enabled {
+        cursor: pointer;
+        background-color: var(--watt-color-primary-light);
       }
 
       .loadingArea {
@@ -73,6 +73,7 @@ import {WattCardComponent} from "@energinet-datahub/watt/card";
         gap: 1rem;
         padding: 2rem;
       }
+
     `,
   ],
   template: `
