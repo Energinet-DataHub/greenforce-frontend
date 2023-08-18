@@ -16,14 +16,14 @@
  */
 import { SearchResult } from '@energinet-datahub/dh/shared/domain';
 
-const messageId1 = '38374f50-f00c-4e2a-aec1-70d391cade06'
-const messageId2 = '41c8490b-7a7b-45bd-b95b-87659964e7aa'
-const messageId3 = '4f92c84e-d976-43f8-9df2-86d7d3adbf43'
-const messageId4 = '51fa193b-9063-4d39-b8f0-e1966e851c05'
-const messageId5 = '53afd9d8-c558-4a85-957c-26d5b0da5f1f'
-const messageId6 = '5eafaa79-6307-48ea-8380-1f576d7c561f'
-const messageId7 =  '81f5667d-155f-44cf-b77a-ac748403defe'
-const messageId8 = '894678e2-7b8a-4b93-a2eb-3498a118aeb1'
+const messageId1 = '38374f50-f00c-4e2a-aec1-70d391cade06';
+const messageId2 = '41c8490b-7a7b-45bd-b95b-87659964e7aa';
+const messageId3 = '4f92c84e-d976-43f8-9df2-86d7d3adbf43';
+const messageId4 = '51fa193b-9063-4d39-b8f0-e1966e851c05';
+const messageId5 = '53afd9d8-c558-4a85-957c-26d5b0da5f1f';
+const messageId6 = '5eafaa79-6307-48ea-8380-1f576d7c561f';
+const messageId7 = '81f5667d-155f-44cf-b77a-ac748403defe';
+const messageId8 = '894678e2-7b8a-4b93-a2eb-3498a118aeb1';
 const rejectedMessageId = 'f23b0e28-f173-4348-b83f-b783fa3e5531';
 
 export const messageArchiveSearchResponseLogs: SearchResult = {
