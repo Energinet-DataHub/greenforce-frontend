@@ -86,5 +86,9 @@ limitations under the License.
     (focusout)="onFocusOut($event)"
   ></watt-button>
 
-  <mat-datepicker #singleDatepicker panelClass="watt-datepicker-single__panel"></mat-datepicker>
+  <mat-datepicker
+    #singleDatepicker
+    panelClass="watt-datepicker-single__panel"
+    [dateClass]="dateClass"
+  ></mat-datepicker>
 </ng-template>
