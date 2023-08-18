@@ -81,7 +81,8 @@ jobs:
       structurizr_workspace_filename: views
       included_model_filename: model
     secrets:
-      pat_token_retrigger_workflow: ${{ secrets.pat_token_repo_workflow }}
+      #pat_token_retrigger_workflow: ${{ secrets.pat_token_repo_workflow }}
+      pat_token_retrigger_workflow: ${{ secrets.PAT_TOKEN }}
 
   #
   # Branch policy status check
