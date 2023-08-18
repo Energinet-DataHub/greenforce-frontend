@@ -80,10 +80,16 @@ import { WattCardComponent } from '@energinet-datahub/watt/card';
       <h3 class="watt-space-stack-m">Welcome to the beta test of Energy Origin</h3>
       <h4 class="watt-space-stack-m">Notice of change:</h4>
       <p class="watt-space-stack-m">
-        Due to changes in the solution regarding certificates, some data has been removed or is planned to be removed. <br>
-        This means that metering points that have been activated for issuance of certificates before <b>August 17th, 2023</b>, must be re-activated.
-        Furthermore, certificates that have been issued before <b>August 23rd, 2023</b>, will be removed. <br> <br>
-        This page is based on real data and is working towards the coming solution regarding certificates. So it is not just a test, though these data cannot yet be used in a legal sense. It will be communicated, when it is out of beta and can be used legally. So you can try this without any consequences.
+        Due to changes in the solution regarding certificates, some data has been removed or is
+        planned to be removed. <br />
+        This means that metering points that have been activated for issuance of certificates before
+        <b>August 17th, 2023</b>, must be re-activated. Furthermore, certificates that have been
+        issued before <b>August 23rd, 2023</b>, will be removed. <br />
+        <br />
+        This page is based on real data and is working towards the coming solution regarding
+        certificates. So it is not just a test, though these data cannot yet be used in a legal
+        sense. It will be communicated, when it is out of beta and can be used legally. So you can
+        try this without any consequences.
       </p>
     </watt-card>
     <mat-table matSort [dataSource]="dataSource">
