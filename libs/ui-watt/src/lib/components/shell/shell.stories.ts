@@ -100,8 +100,11 @@ const withSidebarNavigationTemplate = `
 </watt-shell>
 `;
 
+let index = 1;
+
 function generateComponent(template: string) {
   @Component({
+    selector: `watt-storybook-${index++}`,
     template,
     standalone: true,
   })
