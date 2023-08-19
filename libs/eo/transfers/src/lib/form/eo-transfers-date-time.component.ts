@@ -82,17 +82,24 @@ import { isToday } from 'date-fns';
 
       .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
         &:hover .mat-calendar-body-cell-content {
-           color: var(--watt-color-neutral-black) !important;
-           box-shadow: none
+          color: var(--watt-color-neutral-black) !important;
+          box-shadow: none;
         }
 
         &.eo-transfers-form-overlapping-date .mat-calendar-body-cell-content {
-           background: linear-gradient(-45deg, var(--watt-color-state-warning-light) 50%, var(--watt-color-primary-light) 50%) !important;
+          background: linear-gradient(
+            -45deg,
+            var(--watt-color-state-warning-light) 50%,
+            var(--watt-color-primary-light) 50%
+          ) !important;
 
-
-      &.mat-calendar-body-selected,
+          &.mat-calendar-body-selected,
           &:hover {
-             background: linear-gradient(-45deg, var(--watt-color-state-warning) 50%, var(--watt-color-primary) 50%) !important;
+            background: linear-gradient(
+              -45deg,
+              var(--watt-color-state-warning) 50%,
+              var(--watt-color-primary) 50%
+            ) !important;
             color: var(--watt-color-neutral-black) !important;
           }
         }
