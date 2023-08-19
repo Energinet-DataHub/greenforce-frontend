@@ -77,20 +77,22 @@ import { isToday } from 'date-fns';
 
       .mat-calendar-body-cell-content {
         pointer-events: all;
+        border: none !important;
       }
 
       .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
         &:hover .mat-calendar-body-cell-content {
-           background: var(--watt-color-primary-light) !important;
            color: var(--watt-color-neutral-black) !important;
+           box-shadow: none
         }
 
         &.eo-transfers-form-overlapping-date .mat-calendar-body-cell-content {
-          background: var(--watt-color-state-warning-light);
+           background: linear-gradient(-45deg, var(--watt-color-state-warning-light) 50%, var(--watt-color-primary-light) 50%) !important;
 
-          &.mat-calendar-body-selected,
+
+      &.mat-calendar-body-selected,
           &:hover {
-            background: var(--watt-color-state-warning) !important;
+             background: linear-gradient(-45deg, var(--watt-color-state-warning) 50%, var(--watt-color-primary) 50%) !important;
             color: var(--watt-color-neutral-black) !important;
           }
         }
@@ -111,6 +113,7 @@ import { isToday } from 'date-fns';
         }
 
         .mat-calendar-body-today {
+          box-shadow: none !important;
           border: none !important;
         }
       }
