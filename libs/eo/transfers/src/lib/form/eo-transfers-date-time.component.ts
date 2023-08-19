@@ -71,10 +71,18 @@ import { isToday } from 'date-fns';
         padding-bottom: 0;
       }
 
+      .mat-calendar-body-cell {
+        pointer-events: none;
+      }
+
+      .mat-calendar-body-cell-content {
+        pointer-events: all;
+      }
+
       .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
         &:hover .mat-calendar-body-cell-content {
-          background: none !important;
-          color: var(--watt-color-neutral-black) !important;
+           background: var(--watt-color-primary-light) !important;
+           color: var(--watt-color-neutral-black) !important;
         }
 
         &.eo-transfers-form-overlapping-date .mat-calendar-body-cell-content {
@@ -90,8 +98,9 @@ import { isToday } from 'date-fns';
         &.eo-transfers-form-fully-booked {
           pointer-events: none;
           .mat-calendar-body-cell-content {
+            pointer-events: none;
             background: var(--watt-color-state-danger-light);
-            color: var(--watt-color-neutral-black) !important;
+            color: rgba(0, 0, 0, 0.38) !important;
 
             &.mat-calendar-body-selected,
             &:hover {
