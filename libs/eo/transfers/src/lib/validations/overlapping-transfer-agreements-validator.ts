@@ -83,11 +83,10 @@ export function isOverlappingPeriod(
   period: { startDate: number; endDate: number | null },
   comparingPeriod: { startDate: number; endDate?: number | null }
 ): boolean {
-  let endDateOfPeriod = period.endDate ?? Infinity;
-  let endDateOfComparingPeriod = comparingPeriod.endDate ?? Infinity;
+  const endDateOfPeriod = period.endDate ?? Infinity;
+  const endDateOfComparingPeriod = comparingPeriod.endDate ?? Infinity;
 
   return (
-    period.startDate <= endDateOfComparingPeriod &&
-    endDateOfPeriod >= comparingPeriod.startDate
+    period.startDate <= endDateOfComparingPeriod && endDateOfPeriod >= comparingPeriod.startDate
   );
 }
