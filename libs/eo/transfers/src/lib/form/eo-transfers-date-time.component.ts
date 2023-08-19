@@ -81,8 +81,8 @@ import { isToday } from 'date-fns';
 
       .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
         &:hover .mat-calendar-body-cell-content {
-           background: var(--watt-color-primary-light) !important;
-           color: var(--watt-color-neutral-black) !important;
+          background: var(--watt-color-primary-light) !important;
+          color: var(--watt-color-neutral-black) !important;
         }
 
         &.eo-transfers-form-overlapping-date .mat-calendar-body-cell-content {
