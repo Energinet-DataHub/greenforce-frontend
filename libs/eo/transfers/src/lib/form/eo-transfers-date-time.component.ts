@@ -274,7 +274,8 @@ export class EoTransfersDateTimeComponent
 
   private isOverlappingWithExistingTransferAgreement(date: number): boolean {
     return this.existingTransferAgreements.some((agreement) => {
-      return !!(date > agreement.startDate && date < (agreement.endDate || date));
+      let endDate = agreement.endDate || Infinity;
+      return !!(date > agreement.startDate && date <= endDate);
     });
   }
 }
