@@ -27,7 +27,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
@@ -54,7 +54,7 @@ import { HttpStatusCode } from '@angular/common/http';
     WattTabsComponent,
     WattInputDirective,
     WATT_FORM_FIELD,
-    PushModule,
+    RxPush,
     DhUserRolesComponent,
     ReactiveFormsModule,
   ],

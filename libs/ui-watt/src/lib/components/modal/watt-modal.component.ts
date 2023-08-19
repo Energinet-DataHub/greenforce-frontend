@@ -25,11 +25,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogConfig as MatDialogConfig,
-  MatLegacyDialogModule as MatDialogModule,
-} from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
@@ -79,6 +75,10 @@ export class WattModalComponent implements AfterViewInit {
   /** Whether the modal should show a loading state. */
   @Input()
   loading = false;
+
+  /** Whether the modal should show a loading text for the loading state. */
+  @Input()
+  loadingMessage = '';
 
   /** Disable ESC, close button and backdrop click as methods of closing. */
   @Input()

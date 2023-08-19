@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { importProvidersFrom } from '@angular/core';
-import { MatLegacyDialogModule } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { eoAuthorizationInterceptorProvider } from '@energinet-datahub/eo/shared/services';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
@@ -27,6 +27,6 @@ export const eoCoreShellProviders = [
   browserConfigurationProviders,
   danishLocalProviders,
   danishDatetimeProviders,
-  importProvidersFrom(MatLegacyDialogModule, MatLegacySnackBarModule),
+  importProvidersFrom(MatDialogModule, MatSnackBarModule),
   eoAuthorizationInterceptorProvider,
 ];

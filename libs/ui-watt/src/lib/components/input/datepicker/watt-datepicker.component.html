@@ -28,6 +28,7 @@ limitations under the License.
       matStartDate
       #startDateInput
       [placeholder]="placeholder"
+      [readOnly]="rangeMonthOnlyMode"
       autocomplete="off"
       spellcheck="false"
     />
@@ -36,6 +37,7 @@ limitations under the License.
       matEndDate
       #endDateInput
       [placeholder]="placeholder"
+      [readOnly]="rangeMonthOnlyMode"
       autocomplete="off"
       spellcheck="false"
     />
@@ -52,7 +54,9 @@ limitations under the License.
   ></watt-button>
 
   <mat-date-range-picker
-    panelClass="watt-datepicker-range__panel"
+    [panelClass]="rangeMonthOnlyMode ? 'watt-datepicker-range__panel--month-only' : ''"
+    [startView]="rangeMonthOnlyMode ? 'multi-year' : 'month'"
+    (monthSelected)="onMonthSelected($event)"
     #rangeDatepicker
   ></mat-date-range-picker>
 </ng-container>

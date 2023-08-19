@@ -22,13 +22,13 @@ export function endDateMustBeLaterThanStartDateValidator() {
     const formGroup = control as FormGroup;
     const { startDate, endDate } = formGroup.controls;
 
-    if(!endDate?.value || !startDate?.value) {
+    if (!endDate?.value || !startDate?.value) {
       return null;
     }
 
     if (endDate.value > startDate.value) {
       clearErrors('endDateMustBeLaterThanStartDate', endDate);
-    } else if(!endDate.errors) {
+    } else if (!endDate.errors) {
       setValidationErrors('endDateMustBeLaterThanStartDate', endDate);
       endDate.markAsTouched();
       endDate.markAsDirty();

@@ -25,6 +25,7 @@ export interface EoTransfer {
   startDate: number;
   endDate: number | null;
   receiverTin: string;
+  base64EncodedWalletDepositEndpoint: string;
 }
 
 export interface EoListedTransfer extends EoTransfer {
@@ -45,6 +46,10 @@ export interface EoTransferAgreementsHistory {
 
 export interface EoTransferAgreementsHistoryResponse {
   result: EoTransferAgreementsHistory[];
+}
+
+export interface EoWalletDepositEndpointResponse {
+  result: string;
 }
 
 @Injectable({
@@ -89,6 +94,13 @@ export class EoTransfersService {
   getHistory(transferAgreementId: string) {
     return this.http.get<EoTransferAgreementsHistoryResponse>(
       `${this.#apiBase}/history/transfer-agreements/${transferAgreementId}`
+    );
+  }
+
+  createWalletDepositEndpoint() {
+    return this.http.post<EoWalletDepositEndpointResponse>(
+      `${this.#apiBase}/transfer-agreements/wallet-deposit-endpoint`,
+      {}
     );
   }
 }

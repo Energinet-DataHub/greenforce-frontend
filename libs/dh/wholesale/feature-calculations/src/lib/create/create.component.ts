@@ -20,8 +20,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template/let';
-import { PushModule } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
 import {
   combineLatest,
   first,
@@ -55,16 +55,17 @@ import {
   GetLatestBalanceFixingDocument,
   ProcessType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { filterValidGridAreas, GridArea } from '@energinet-datahub/dh/wholesale/domain';
+import {
+  filterValidGridAreas,
+  GridArea,
+  processTypes,
+} from '@energinet-datahub/dh/wholesale/domain';
 
 interface FormValues {
-  processType: FormControl<ProcessType | null>;
+  processType: FormControl<ProcessType>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<DateRange | null>;
 }
-
-// List of supported process types
-const processTypes = ['BALANCE_FIXING', 'AGGREGATION'];
 
 @Component({
   selector: 'dh-calculations-create',
@@ -73,8 +74,8 @@ const processTypes = ['BALANCE_FIXING', 'AGGREGATION'];
   standalone: true,
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    RxLet,
+    RxPush,
     ReactiveFormsModule,
     TranslocoModule,
     WATT_FORM_FIELD,
@@ -105,8 +106,18 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
   confirmFormControl = new FormControl(null);
 
+  monthOnly = [
+    ProcessType.WholesaleFixing,
+    ProcessType.FirstCorrectionSettlement,
+    ProcessType.SecondCorrectionSettlement,
+    ProcessType.ThirdCorrectionSettlement,
+  ];
+
   formGroup = new FormGroup<FormValues>({
-    processType: new FormControl(null, { validators: Validators.required }),
+    processType: new FormControl<ProcessType>(ProcessType.BalanceFixing, {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
     gridAreas: new FormControl(
       { value: null, disabled: true },
       { validators: Validators.required }

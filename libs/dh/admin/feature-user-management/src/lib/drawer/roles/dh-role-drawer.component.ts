@@ -18,8 +18,8 @@ import { Component, EventEmitter, inject, Output, ViewChild } from '@angular/cor
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -47,8 +47,8 @@ import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
     WattButtonComponent,
     DhRoleStatusComponent,
     DhDrawerRoleTabsComponent,
-    PushModule,
-    LetModule,
+    RxPush,
+    RxLet,
     WattSpinnerComponent,
     DhTabDataGeneralErrorComponent,
     DhEditUserRoleModalComponent,

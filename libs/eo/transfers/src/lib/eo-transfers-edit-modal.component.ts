@@ -25,20 +25,23 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import { EoListedTransfer } from './eo-transfers.service';
-import { EoTransfersFormComponent, EoTransfersFormInitialValues } from './form/eo-transfers-form.component';
+import {
+  EoTransfersFormComponent,
+  EoTransfersFormInitialValues,
+} from './form/eo-transfers-form.component';
 import { EoExistingTransferAgreement, EoTransfersStore } from './eo-transfers.store';
 import { Observable, of } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers-edit-modal',
-  imports: [PushModule, WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent],
+  imports: [RxPush, WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent],
   standalone: true,
   template: `
     <watt-modal
@@ -90,6 +93,7 @@ export class EoTransfersEditModalComponent implements OnChanges {
     if (changes['transfer'] && this.transfer) {
       this.initialValues = {
         receiverTin: this.transfer.receiverTin,
+        base64EncodedWalletDepositEndpoint: this.transfer.base64EncodedWalletDepositEndpoint,
         startDate: this.transfer.startDate,
         endDate: this.transfer.endDate,
       };

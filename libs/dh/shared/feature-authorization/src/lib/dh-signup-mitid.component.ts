@@ -23,14 +23,14 @@ import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   selector: 'dh-signup-mitid',
   styleUrls: ['./dh-signup-mitid.component.scss'],
   templateUrl: './dh-signup-mitid.component.html',
   standalone: true,
-  imports: [CommonModule, PushModule, WattSpinnerComponent, TranslocoModule],
+  imports: [CommonModule, RxPush, WattSpinnerComponent, TranslocoModule],
 })
 export class DhSignupMitIdComponent {
   constructor(

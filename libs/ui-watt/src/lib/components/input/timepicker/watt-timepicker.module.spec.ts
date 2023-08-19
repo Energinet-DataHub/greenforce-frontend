@@ -17,10 +17,10 @@
 import { Component } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { render, screen } from '@testing-library/angular';
+import { fireEvent, render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 import { WattTimepickerComponent } from './';
 import { WATT_FORM_FIELD } from '../../form-field';
@@ -28,7 +28,6 @@ import { WattDateRange } from '../../../utils/date';
 import { danishDatetimeProviders } from '../../../configuration/watt-danish-datetime.providers';
 
 const backspace = '{backspace}';
-const ARIA_VALUENOW = 'aria-valuenow';
 
 describe(WattTimepickerComponent, () => {
   async function setup({
@@ -199,8 +198,11 @@ describe(WattTimepickerComponent, () => {
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
-      expect(leftHandle.getAttribute(ARIA_VALUENOW)).toEqual('0'); // 00:00
-      expect(rightHandle.getAttribute(ARIA_VALUENOW)).toEqual('1439'); // 23:59
+      const left = (leftHandle as HTMLInputElement).valueAsNumber;
+      const right = (rightHandle as HTMLInputElement).valueAsNumber;
+
+      expect(left).toEqual(0); // 00:00
+      expect(right).toEqual(1439); // 23:59
     });
 
     it('shows slider with initial values from state', async () => {
@@ -211,8 +213,11 @@ describe(WattTimepickerComponent, () => {
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
-      expect(leftHandle.getAttribute(ARIA_VALUENOW)).toEqual('10'); // 00:10
-      expect(rightHandle.getAttribute(ARIA_VALUENOW)).toEqual('1400'); // 23:20
+      const left = (leftHandle as HTMLInputElement).valueAsNumber;
+      const right = (rightHandle as HTMLInputElement).valueAsNumber;
+
+      expect(left).toEqual(10); // 00:10
+      expect(right).toEqual(1400); // 23:20
     });
 
     it('adjusts input values when slider changes', async () => {
@@ -226,11 +231,8 @@ describe(WattTimepickerComponent, () => {
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
-      leftHandle.focus();
-      userEvent.keyboard('[ArrowRight]');
-
-      rightHandle.focus();
-      userEvent.keyboard('[ArrowLeft]');
+      fireEvent.input(leftHandle, { target: { value: 15 } }); // 00:15
+      fireEvent.input(rightHandle, { target: { value: 1425 } }); // 23:45
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
       const expectedTimeRange: WattDateRange = { start: '00:15', end: '23:45' };
@@ -251,8 +253,11 @@ describe(WattTimepickerComponent, () => {
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
-      expect(leftHandle.getAttribute(ARIA_VALUENOW)).toEqual('83'); // 01:23
-      expect(rightHandle.getAttribute(ARIA_VALUENOW)).toEqual('1425'); // 23:45
+      const left = (leftHandle as HTMLInputElement).valueAsNumber;
+      const right = (rightHandle as HTMLInputElement).valueAsNumber;
+
+      expect(left).toEqual(83); // 01:23
+      expect(right).toEqual(1425); // 23:45
     });
 
     it('displays slider label with value from input', async () => {

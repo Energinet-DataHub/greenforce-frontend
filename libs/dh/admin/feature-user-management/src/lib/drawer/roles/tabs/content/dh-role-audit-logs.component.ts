@@ -16,8 +16,8 @@
  */
 import { Component, inject, Input, OnChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 import { provideComponentStore } from '@ngrx/component-store';
 import { takeUntil } from 'rxjs';
@@ -60,8 +60,8 @@ import { DhAuditChangeCellComponent } from './dh-audit-change-cell.component';
   providers: [provideComponentStore(DhAdminUserRoleAuditLogsDataAccessApiStore)],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    RxLet,
+    RxPush,
     TranslocoModule,
     WATT_CARD,
     WattSpinnerComponent,

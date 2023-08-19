@@ -15,14 +15,16 @@
  * limitations under the License.
  */
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { enableProdMode } from '@angular/core';
-import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { loadEoApiEnvironment } from './configuration/load-eo-api-environment';
+import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { EnergyOriginAppComponent } from './app/energy-origin-app.component';
-import { eoCoreShellProviders, eoShellRoutes } from '@energinet-datahub/eo/core/shell';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
+
+import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { eoCoreShellProviders, eoShellRoutes } from '@energinet-datahub/eo/core/shell';
+
+import { loadEoApiEnvironment } from './configuration/load-eo-api-environment';
+import { EnergyOriginAppComponent } from './app/energy-origin-app.component';
 
 if (environment.production) {
   enableProdMode();
@@ -37,8 +39,7 @@ loadEoApiEnvironment()
         provideHttpClient(withInterceptorsFromDi()),
         ...eoCoreShellProviders,
         provideRouter(eoShellRoutes),
-        // this api is first available in Angular 16
-        // provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
+        provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
       ],
     })
   )

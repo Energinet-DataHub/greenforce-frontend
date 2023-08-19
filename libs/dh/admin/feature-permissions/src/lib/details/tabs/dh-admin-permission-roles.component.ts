@@ -33,7 +33,7 @@ import { PermissionDto, graphql } from '@energinet-datahub/dh/shared/domain';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import { ApolloError } from '@apollo/client';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 type UserRole = ResultOf<
@@ -67,7 +67,7 @@ type UserRole = ResultOf<
     WATT_TABLE,
     WattEmptyStateComponent,
     TranslocoModule,
-    LetModule,
+    RxLet,
   ],
 })
 export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDestroy {

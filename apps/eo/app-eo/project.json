@@ -105,7 +105,7 @@
       "defaultConfiguration": "development"
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "apps/eo/app-eo/src/**/*.ts",
@@ -115,7 +115,7 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/eo/app-eo"],
       "options": {
         "jestConfig": "apps/eo/app-eo/jest.config.ts",

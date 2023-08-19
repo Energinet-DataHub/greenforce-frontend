@@ -80,7 +80,8 @@ import { isToday } from 'date-fns';
         &.eo-transfers-form-overlapping-date .mat-calendar-body-cell-content {
           background: var(--watt-color-state-warning-light);
 
-          &.mat-calendar-body-selected, &:hover {
+          &.mat-calendar-body-selected,
+          &:hover {
             background: var(--watt-color-state-warning) !important;
             color: var(--watt-color-neutral-black) !important;
           }
@@ -92,7 +93,8 @@ import { isToday } from 'date-fns';
             background: var(--watt-color-state-danger-light);
             color: var(--watt-color-neutral-black) !important;
 
-            &.mat-calendar-body-selected, &:hover {
+            &.mat-calendar-body-selected,
+            &:hover {
               background: var(--watt-color-state-danger) !important;
               color: var(--watt-color-neutral-white) !important;
             }
@@ -115,7 +117,10 @@ import { isToday } from 'date-fns';
           [dateClass]="dateClass"
         />
       </watt-form-field>
-      <eo-transfers-timepicker formControlName="time" [disabledHours]="disabledHours"></eo-transfers-timepicker>
+      <eo-transfers-timepicker
+        formControlName="time"
+        [disabledHours]="disabledHours"
+      ></eo-transfers-timepicker>
     </ng-container>
   `,
   providers: [
@@ -155,7 +160,7 @@ export class EoTransfersDateTimeComponent
 
       if (date && time) {
         newValue = new Date(date).setHours(time, 0, 0, 0);
-      } else if(date) {
+      } else if (date) {
         const hours = new Date().getHours() + 1;
         newValue = new Date(date).setHours(hours, 0, 0, 0);
       }
@@ -232,17 +237,17 @@ export class EoTransfersDateTimeComponent
   }
 
   protected dateClass = (cellDate: Date, view: 'month' | 'year' | 'multi-year') => {
-    if(view !== 'month') return '';
+    if (view !== 'month') return '';
 
     const disabledHours = this.getDisabledHours(cellDate.setHours(0, 0, 0, 0));
-    if(disabledHours.length >= 24) return 'eo-transfers-form-fully-booked';
-    if(disabledHours.length > 0) return 'eo-transfers-form-overlapping-date';
+    if (disabledHours.length >= 24) return 'eo-transfers-form-fully-booked';
+    if (disabledHours.length > 0) return 'eo-transfers-form-overlapping-date';
 
     return '';
   };
 
   protected getDisabledHours(date: number | null): string[] {
-    if(!date) return [];
+    if (!date) return [];
 
     // Generate an array of hours from 0 to 24
     const hours = Array.from({ length: 25 }, (_, i) => i);
@@ -254,15 +259,17 @@ export class EoTransfersDateTimeComponent
     }
 
     // Filter out hours that are overlapping with existing transfer agreements
-    return hours.filter((hour) => {
-      if (hoursInThePast.includes(hour)) return true;
+    return hours
+      .filter((hour) => {
+        if (hoursInThePast.includes(hour)) return true;
 
-      return this.isOverlappingWithExistingTransferAgreement(
-        new Date(date).setHours(hour, 0, 0, 0)
-      );
-    }).map((hour) => {
-      return hour.toString().padStart(2, '0') + ':00';
-    });
+        return this.isOverlappingWithExistingTransferAgreement(
+          new Date(date).setHours(hour, 0, 0, 0)
+        );
+      })
+      .map((hour) => {
+        return hour.toString().padStart(2, '0') + ':00';
+      });
   }
 
   private isOverlappingWithExistingTransferAgreement(date: number): boolean {

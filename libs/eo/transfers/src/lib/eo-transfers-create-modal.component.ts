@@ -22,7 +22,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
@@ -37,7 +37,7 @@ import { Observable, of } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-transfers-create-modal',
-  imports: [WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent, PushModule],
+  imports: [WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent, RxPush],
   standalone: true,
   template: `
     <watt-modal
@@ -104,27 +104,30 @@ export class EoTransfersCreateModalComponent {
 
   createAgreement(transferAgreement: {
     receiverTin: string;
+    base64EncodedWalletDepositEndpoint: string;
     period: { startDate: number; endDate: number | null; hasEndDate: boolean };
   }) {
-    const { receiverTin, period } = transferAgreement;
+    const { receiverTin, base64EncodedWalletDepositEndpoint, period } = transferAgreement;
     const { startDate, endDate } = period;
 
     if (!receiverTin || !startDate) return;
 
     this.creatingTransferAgreement = true;
-    this.service.createAgreement({ receiverTin, startDate, endDate }).subscribe({
-      next: (transfer) => {
-        this.store.addTransfer(transfer);
-        this.creatingTransferAgreement = false;
-        this.creatingTransferAgreementFailed = false;
-        this.cd.detectChanges();
-        this.modal.close(true);
-      },
-      error: () => {
-        this.creatingTransferAgreement = false;
-        this.creatingTransferAgreementFailed = true;
-        this.cd.detectChanges();
-      },
-    });
+    this.service
+      .createAgreement({ receiverTin, base64EncodedWalletDepositEndpoint, startDate, endDate })
+      .subscribe({
+        next: (transfer) => {
+          this.store.addTransfer(transfer);
+          this.creatingTransferAgreement = false;
+          this.creatingTransferAgreementFailed = false;
+          this.cd.detectChanges();
+          this.modal.close(true);
+        },
+        error: () => {
+          this.creatingTransferAgreement = false;
+          this.creatingTransferAgreementFailed = true;
+          this.cd.detectChanges();
+        },
+      });
   }
 }

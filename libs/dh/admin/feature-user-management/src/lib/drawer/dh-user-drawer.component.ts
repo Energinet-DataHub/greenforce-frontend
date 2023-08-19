@@ -39,7 +39,7 @@ import {
   DhAdminUserStatusStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -50,7 +50,7 @@ import { PushModule } from '@rx-angular/template/push';
   templateUrl: './dh-user-drawer.component.html',
   imports: [
     CommonModule,
-    PushModule,
+    RxPush,
     TranslocoModule,
     WATT_DRAWER,
     WattButtonComponent,

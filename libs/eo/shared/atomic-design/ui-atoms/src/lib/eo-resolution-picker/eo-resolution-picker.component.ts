@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -25,7 +25,7 @@ import {
 } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { AppSettingsStore, Resolution } from '@energinet-datahub/eo/shared/services';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 import { differenceInDays, differenceInMonths, differenceInYears } from 'date-fns';
 import { map } from 'rxjs';
 
@@ -33,7 +33,7 @@ import { map } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [MatButtonToggleModule, LetModule, AsyncPipe],
+  imports: [MatButtonToggleModule, RxLet, AsyncPipe],
   selector: 'eo-resolution-picker',
   styles: [
     `

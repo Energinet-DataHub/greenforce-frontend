@@ -36,6 +36,7 @@ function setBaseUri(baseUri: string): void {
     get(): string {
       return baseUri;
     },
+    configurable: true,
   });
 }
 
