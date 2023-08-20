@@ -17,7 +17,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import {Observable} from "rxjs";
+import {Observable, tap} from "rxjs";
 
 export interface EoCertificate {
   dateFrom: number;
@@ -86,8 +86,17 @@ export class EoCertificatesService {
   }
 
   patchContract(id: string) {
-    return this.http.patch<EoCertificateContract>(`${this.#apiBase}/certificates/contracts/${id}`, {
-      endDate: Math.floor(new Date().getTime() / 1000),
-    });
+    const currentTimeInSeconds = Math.floor(new Date().getTime() / 1000);
+    const payload = { endDate: currentTimeInSeconds };
+
+    console.log("Payload creation time in seconds: ", currentTimeInSeconds);
+
+    return this.http.patch<EoCertificateContract>(`${this.#apiBase}/certificates/contracts/${id}`, payload)
+      .pipe(
+        tap(() => {
+          const requestTimeInSeconds = Math.floor(new Date().getTime() / 1000);
+          console.log("Request sent time in seconds: ", requestTimeInSeconds);
+        })
+      );
   }
 }
