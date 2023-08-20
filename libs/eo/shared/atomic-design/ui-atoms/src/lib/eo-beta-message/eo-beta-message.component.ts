@@ -27,7 +27,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
   styleUrls: ['./eo-beta-message.component.scss'],
 })
 export class EoBetaMessageComponent {
-  isVisible: boolean = true;
+  isVisible = true;
 
   closeMessage() {
     this.isVisible = false;
