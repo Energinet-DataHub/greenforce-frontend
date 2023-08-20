@@ -18,7 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EoCertificateContract, EoCertificatesService } from '@energinet-datahub/eo/certificates';
 import { ComponentStore } from '@ngrx/component-store';
-import { filter, forkJoin, map, take } from 'rxjs';
+import {filter, forkJoin, map, Observable, switchMap, take} from 'rxjs';
 import { EoMeteringPointsService, MeteringPoint } from './eo-metering-points.service';
 
 export interface EoMeteringPoint extends MeteringPoint {
@@ -110,6 +110,16 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     });
   }
 
+  private getContractIdForGsrn(gsrn: string): Observable<string | null> {
+    return this.meteringPoints$
+      .pipe(
+        take(1),
+        map((meteringPoints) =>
+          meteringPoints.find(mp => mp.gsrn === gsrn)?.contract?.id || null
+        )
+      );
+  }
+
   createCertificateContract(gsrn: string) {
     this.toggleContractLoading(gsrn);
     this.certService.createContract(gsrn).subscribe({
@@ -123,50 +133,21 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       },
     });
   }
-  deactivateCertificateContract(gsrn: string) {
-    this.toggleContractLoading(gsrn);
-
-    forkJoin([this.certService.getContracts(), this.service.getMeteringPoints()]).subscribe({
-      next: ([contractList, mpList]: [
-        { result: EoCertificateContract[] },
-        { meteringPoints: EoMeteringPoint[] }
-      ]) => {
-        const targetMeteringPoint = mpList.meteringPoints.find((mp) => mp.gsrn === gsrn);
-        const targetContract = contractList?.result.find(
-          (contract: EoCertificateContract) => contract.gsrn === gsrn
-        );
-
-        if (!targetMeteringPoint || !targetContract) {
-          console.error(`Contract or metering point not found for GSRN: ${gsrn}`);
-          this.toggleContractLoading(gsrn);
-          return;
+  deactivateCertificateContract(gsrn: string): void {
+    this.getContractIdForGsrn(gsrn)
+      .pipe(
+        filter(id => !!id), // Ensure the id exists before proceeding
+        switchMap(id => this.certService.patchContract(id!))
+      )
+      .subscribe({
+        next: (updatedContract) => {
+          console.log('Contract successfully updated:', updatedContract);
+          // Optionally, you can update the store state here if needed
+        },
+        error: (error) => {
+          console.error('Error updating contract:', error);
+          // Handle error, maybe set an error state in the store
         }
-
-        const contractId = targetContract.id;
-
-        if (!contractId) {
-          console.error(`Contract ID is null for GSRN: ${gsrn}`);
-          this.toggleContractLoading(gsrn);
-          return;
-        }
-
-        this.certService.patchContract(contractId).subscribe({
-          next: (updatedContract) => {
-            this.setContract(updatedContract);
-            this.toggleContractLoading(gsrn);
-          },
-          error: (error) => {
-            console.error(`Error updating the contract end date for GSRN: ${gsrn}`);
-            this.setError(error);
-            this.toggleContractLoading(gsrn);
-          },
-        });
-      },
-      error: (error) => {
-        console.error(`Error fetching the latest contracts or metering points.`);
-        this.setError(error);
-        this.toggleContractLoading(gsrn);
-      },
-    });
+      });
   }
 }

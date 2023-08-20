@@ -17,6 +17,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import {Observable} from "rxjs";
 
 export interface EoCertificate {
   dateFrom: number;
@@ -67,6 +68,11 @@ export class EoCertificatesService {
   getContracts() {
     return this.http.get<EoContractResponse>(`${this.#apiBase}/certificates/contracts`);
   }
+
+  getContract(id: string): Observable<EoContractResponse> {
+    return this.http.get<EoContractResponse>(`/api/certificates/contracts/${id}`);
+  }
+
 
   /**
    * @param gsrn ID of meteringpoint
