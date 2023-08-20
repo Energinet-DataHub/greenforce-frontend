@@ -18,7 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EoCertificateContract, EoCertificatesService } from '@energinet-datahub/eo/certificates';
 import { ComponentStore } from '@ngrx/component-store';
-import {filter, forkJoin, map, Observable, switchMap, take} from 'rxjs';
+import { filter, forkJoin, map, Observable, switchMap, take } from 'rxjs';
 import { EoMeteringPointsService, MeteringPoint } from './eo-metering-points.service';
 
 export interface EoMeteringPoint extends MeteringPoint {
@@ -111,13 +111,10 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   }
 
   private getContractIdForGsrn(gsrn: string): Observable<string | null> {
-    return this.meteringPoints$
-      .pipe(
-        take(1),
-        map((meteringPoints) =>
-          meteringPoints.find(mp => mp.gsrn === gsrn)?.contract?.id || null
-        )
-      );
+    return this.meteringPoints$.pipe(
+      take(1),
+      map((meteringPoints) => meteringPoints.find((mp) => mp.gsrn === gsrn)?.contract?.id || null)
+    );
   }
 
   createCertificateContract(gsrn: string) {
@@ -136,8 +133,8 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   deactivateCertificateContract(gsrn: string): void {
     this.getContractIdForGsrn(gsrn)
       .pipe(
-        filter(id => !!id), // Ensure the id exists before proceeding
-        switchMap(id => this.certService.patchContract(id!))
+        filter((id) => !!id), // Ensure the id exists before proceeding
+        switchMap((id) => this.certService.patchContract(id!))
       )
       .subscribe({
         next: (updatedContract) => {
@@ -147,7 +144,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
         error: (error) => {
           console.error('Error updating contract:', error);
           // Handle error, maybe set an error state in the store
-        }
+        },
       });
   }
 }
