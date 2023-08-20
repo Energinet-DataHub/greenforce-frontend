@@ -24,7 +24,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { RxLet } from '@rx-angular/template/let';
 import { map, tap } from 'rxjs';
 import { EoCertificatesStore } from './eo-certificates.store';
-import { EoBetaMessageComponent } from '../../../shared/atomic-design/ui-atoms/src/lib/eo-beta-message/eo-beta-message.component';
+import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

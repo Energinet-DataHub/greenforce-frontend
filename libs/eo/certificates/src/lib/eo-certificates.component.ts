@@ -20,7 +20,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { EoCertificatesTableComponent } from './eo-certificates-table.component';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
-import { EoBetaMessageComponent } from '../../../shared/atomic-design/ui-atoms/src/lib/eo-beta-message/eo-beta-message.component';
+import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
