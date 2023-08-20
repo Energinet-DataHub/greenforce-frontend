@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {WattButtonComponent} from "@energinet-datahub/watt/button";
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,7 +26,6 @@ import {WattButtonComponent} from "@energinet-datahub/watt/button";
   templateUrl: './eo-beta-message.component.html',
   styleUrls: ['./eo-beta-message.component.scss'],
 })
-
 export class EoBetaMessageComponent {
   isVisible: boolean = true;
 

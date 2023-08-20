@@ -27,7 +27,14 @@ import { WattCardComponent } from '@energinet-datahub/watt/card';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers',
-  imports: [WattCardComponent, EoTransfersTableComponent, EoPopupMessageComponent, NgIf, RxPush, EoBetaMessageComponent],
+  imports: [
+    WattCardComponent,
+    EoTransfersTableComponent,
+    EoPopupMessageComponent,
+    NgIf,
+    RxPush,
+    EoBetaMessageComponent,
+  ],
   standalone: true,
   template: `
     <eo-popup-message *ngIf="error$ | push"></eo-popup-message>
