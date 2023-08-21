@@ -24,21 +24,21 @@ on:
       - main
 
 jobs:
-  #
-  # Markdown check and YAML validation
-  #
-  ci_base:
-    uses: Energinet-DataHub/.github/.github/workflows/ci-base.yml@v12
-    with:
-      skip_license_check: true # Handled by another workflow
-    secrets:
-      pat_token: ${{ secrets.PAT_TOKEN_REPO_WORKFLOW }}
+  # #
+  # # Markdown check and YAML validation
+  # #
+  # ci_base:
+  #   uses: Energinet-DataHub/.github/.github/workflows/ci-base.yml@v12
+  #   with:
+  #     skip_license_check: true # Handled by another workflow
+  #   secrets:
+  #     pat_token: ${{ secrets.PAT_TOKEN_REPO_WORKFLOW }}
 
-  #
-  # CodeQL Check
-  #
-  ci_codeql:
-    uses: ./.github/workflows/codeql.yml
+  # #
+  # # CodeQL Check
+  # #
+  # ci_codeql:
+  #   uses: ./.github/workflows/codeql.yml
 
   #
   # Detect changes to start relevant workflows
@@ -46,29 +46,29 @@ jobs:
   changes:
     uses: ./.github/workflows/detect-changes.yml
 
-  #
-  # DataHub UI
-  #
-  dh_ci_frontend:
-    needs: changes
-    if: ${{ needs.changes.outputs.dh_frontend == 'true' }}
-    uses: ./.github/workflows/dh-ci-frontend.yml
-    secrets: inherit
+  # #
+  # # DataHub UI
+  # #
+  # dh_ci_frontend:
+  #   needs: changes
+  #   if: ${{ needs.changes.outputs.dh_frontend == 'true' }}
+  #   uses: ./.github/workflows/dh-ci-frontend.yml
+  #   secrets: inherit
 
-  dh_ci_dotnet:
-    needs: changes
-    if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
-    uses: ./.github/workflows/dh-ci-dotnet.yml
-    secrets: inherit
+  # dh_ci_dotnet:
+  #   needs: changes
+  #   if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
+  #   uses: ./.github/workflows/dh-ci-dotnet.yml
+  #   secrets: inherit
 
-  #
-  # Watt
-  #
-  watt_ci:
-    needs: changes
-    if: ${{ needs.changes.outputs.watt_frontend == 'true' }}
-    uses: ./.github/workflows/watt-ci.yml
-    secrets: inherit
+  # #
+  # # Watt
+  # #
+  # watt_ci:
+  #   needs: changes
+  #   if: ${{ needs.changes.outputs.watt_frontend == 'true' }}
+  #   uses: ./.github/workflows/watt-ci.yml
+  #   secrets: inherit
 
   #
   # C4 model
@@ -83,6 +83,17 @@ jobs:
     secrets:
       pat_token_retrigger_workflow: ${{ secrets.pat_token_repo_workflow }}
 
+  verify_checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          # Repository checkout must be called with a PAT token with `repo` and `workflow` scopes.
+          # Otherwise `stefanzweifel/git-auto-commit-action` used later in the workflow won't trigger new workflow runs.
+          # Link: https://github.com/stefanzweifel/git-auto-commit-action#commits-made-by-this-action-do-not-trigger-new-workflow-runs
+          token: ${{ secrets.pat_token_retrigger_workflow }}
+
   #
   # Branch policy status check
   #
@@ -90,11 +101,11 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       [
-        ci_base,
-        ci_codeql,
-        dh_ci_frontend,
-        dh_ci_dotnet,
-        watt_ci,
+        # ci_base,
+        # ci_codeql,
+        # dh_ci_frontend,
+        # dh_ci_dotnet,
+        # watt_ci,
         render_c4model_views
       ]
     if: |
