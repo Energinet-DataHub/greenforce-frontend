@@ -15,14 +15,26 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { EoAuthService, EoFeatureFlagDirective } from '@energinet-datahub/eo/shared/services';
+import {
+  EoAuthService,
+  EoAuthStore,
+  EoFeatureFlagDirective,
+} from '@energinet-datahub/eo/shared/services';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
+import { map } from 'rxjs/operators';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattNavListComponent, WattNavListItemComponent, EoFeatureFlagDirective],
+  imports: [
+    WattNavListComponent,
+    WattNavListItemComponent,
+    EoFeatureFlagDirective,
+    AsyncPipe,
+    NgIf,
+  ],
   selector: 'eo-primary-navigation',
   styles: [
     `
@@ -56,25 +68,27 @@ import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datah
         Certificates
         <span class="beta">BETA</span>
       </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.transfer }}">
+      <watt-nav-list-item link="{{ routes.transfer }}" onFeatureFlag="certificates">
         Transfers
         <span class="beta">BETA</span>
       </watt-nav-list-item>
       <div class="menu-spacer"></div>
       <watt-nav-list-item link="{{ routes.help }}">Help</watt-nav-list-item>
-      <watt-nav-list-item (click)="onLogOut()" role="link"> Log out </watt-nav-list-item>
+      <watt-nav-list-item *ngIf="isLoggedIn$ | async" (click)="onLogOut()" role="link">
+        Log out
+      </watt-nav-list-item>
     </watt-nav-list>
   `,
 })
 export class EoPrimaryNavigationComponent {
   routes = eoRoutes;
-
+  isLoggedIn$ = this.authStore.getScope$.pipe(map((scope) => scope.length > 0));
   @HostBinding('attr.aria-label')
   get ariaLabelAttribute(): string {
     return 'Menu';
   }
 
-  constructor(private authService: EoAuthService) {}
+  constructor(private authService: EoAuthService, private authStore: EoAuthStore) {}
 
   onLogOut(): void {
     this.authService.logout();
