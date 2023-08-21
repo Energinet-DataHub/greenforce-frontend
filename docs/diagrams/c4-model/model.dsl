@@ -4,7 +4,7 @@ frontendDomain = group "Frontend" {
     bffApp = container "BFF Web API" {
         description "Backend for frontend (BFF) combines data for presentation on DataHub 3 UI"
         technology "Asp.Net Core Web API"
-        tags "Microsoft Azure - App Services" "Mandalorian" "Titans" "UI/UX Guild" 
+        tags "Microsoft Azure - App Services" "Mandalorian" "Titans" "UI/UX Guild"
 
         # Domain-to-domain relationships
         this -> wholesaleApi "Uses" "json/https"
@@ -13,7 +13,7 @@ frontendDomain = group "Frontend" {
     bffApi = container "BFF API" {
         description "API Gateway to BFF Web API"
         technology "Azure API Management Service"
-        tags "Intermediate Technology" "Microsoft Azure - API Management Services" "Mandalorian" "Titans" "UI/UX Guild" "Outlaws"
+        tags "Intermediate Technology" "Microsoft Azure - API Management Services" "Mandalorian" "Titans" "UI/UX Guild" "Outlaws" "Donut"
 
         # Domain relationships
         this -> bffApp "Uses" "json/https"
@@ -26,7 +26,7 @@ frontendDomain = group "Frontend" {
     frontendSinglePageApplication = container "UI" {
         description "Provides DH3 functionality to users via their web browser."
         technology "Angular"
-        tags "Web Browser" "Mandalorian" "Titans" "UI/UX Guild" 
+        tags "Web Browser" "Mandalorian" "Titans" "UI/UX Guild"
 
         # Base model relationships
         dh3User -> this "Uses"
@@ -46,7 +46,7 @@ frontendDomain = group "Frontend" {
     frontendStaticWebApp = container "Static Web App" {
         description "Delivers the static content and the UI single page application"
         technology "Static Web App"
-        tags "Intermediate Technology" "Microsoft Azure - Static Apps" "Mandalorian" "Titans" "UI/UX Guild" 
+        tags "Intermediate Technology" "Microsoft Azure - Static Apps" "Mandalorian" "Titans" "UI/UX Guild"
 
         # Base model relationships
         dh3User -> this "Visits DH3 url" "https"
