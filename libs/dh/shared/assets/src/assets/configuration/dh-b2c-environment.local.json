@@ -1,7 +1,0 @@
-{
-  "clientId": "bf76fc24-cfec-498f-8979-ab4123792472",
-  "scopeUri": "https://devDataHubB2C.onmicrosoft.com/backend-bff/api",
-  "authority": "https://devDataHubB2C.b2clogin.com/devDataHubB2C.onmicrosoft.com/B2C_1_SignInFlow",
-  "mitIdInviteFlowUri": "https://devDataHubB2C.b2clogin.com/devDataHubB2C.onmicrosoft.com/B2C_1_MitID_InvitationFlow",
-  "knownAuthorities": ["devDataHubB2C.b2clogin.com"]
-}

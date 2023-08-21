@@ -1,5 +1,0 @@
-mutation CreateCalculation($input: CreateCalculationInput!) {
-  createCalculation(input: $input) {
-    id
-  }
-}

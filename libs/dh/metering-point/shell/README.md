@@ -1,1 +1,0 @@
-# DataHub metering point shell

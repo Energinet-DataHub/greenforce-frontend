@@ -1,3 +1,0 @@
-# DataHub domain
-
-Open-API
