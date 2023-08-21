@@ -21,13 +21,13 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 import { map, tap } from 'rxjs';
 import { EoCertificatesStore } from './eo-certificates.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, EoStackComponent, RouterModule, LetModule, UpperCasePipe, WattDatePipe],
+  imports: [MatCardModule, EoStackComponent, RouterModule, RxLet, UpperCasePipe, WattDatePipe],
   selector: 'eo-certificates',
   standalone: true,
   styles: [

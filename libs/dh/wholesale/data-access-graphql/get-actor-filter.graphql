@@ -2,6 +2,8 @@ query GetActorFilter {
   actors {
     value: id
     displayValue: name
-    gridAreaCodes
+    gridAreas {
+      code
+    }
   }
 }

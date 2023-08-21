@@ -18,7 +18,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
@@ -43,7 +43,7 @@ import { DhMeteringPointGeneralErrorComponent } from './general-error/dh-meterin
     DhMeteringPointIdentityAndMasterDataComponent,
     DhMeteringPointNotFoundComponent,
     DhMeteringPointGeneralErrorComponent,
-    LetModule,
+    RxLet,
     WattSpinnerComponent,
     DhMeteringPointTabsComponent,
   ],

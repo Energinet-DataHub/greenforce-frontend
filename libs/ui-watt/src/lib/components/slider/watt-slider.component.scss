@@ -16,38 +16,37 @@
  */
 watt-slider {
   display: block;
+  display: flex;
+  flex-direction: column;
+  height: var(--watt-space-s);
+  margin: var(--watt-space-m) 0;
 
-  .ngx-slider {
-    height: var(--watt-space-s);
-    margin: var(--watt-space-m) 0;
+  .controls {
+    position: relative;
   }
 
-  .ngx-slider .ngx-slider-bar {
+  input[type="range"]::-moz-range-thumb,
+  input[type="range"]::-webkit-slider-thumb {
+    pointer-events: all;
+    width: 24px;
+    height: 24px;
+    background-color: var(--watt-color-primary-dark);
+    border-radius: 16px;
+    cursor: pointer;
+  }
+
+  input[type="range"] {
     height: var(--watt-space-s);
+    width: 100%;
+    position: absolute;
+    background-color: var(--watt-color-secondary-light);
+    pointer-events: none;
     border-radius: var(--watt-space-s);
   }
 
-  .ngx-slider .ngx-slider-full-bar .ngx-slider-bar {
-    background: var(--watt-color-secondary-light);
-  }
-
-  .ngx-slider .ngx-slider-selection-bar .ngx-slider-bar {
-    background: var(--watt-color-primary);
-  }
-
-  .ngx-slider .ngx-slider-pointer {
-    top: -8px;
-    width: 24px;
-    height: 24px;
-    background: var(--watt-color-primary-dark);
-    outline: none;
-  }
-
-  .ngx-slider .ngx-slider-pointer::after {
-    display: none;
-  }
-
-  .ngx-slider .ngx-slider-bubble {
-    display: none;
+  #min {
+    height: 0;
+    z-index: 1;
+    margin-top: 7px;
   }
 }

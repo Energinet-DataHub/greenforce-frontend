@@ -7,7 +7,7 @@
   "prefix": "dh",
   "targets": {
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/data-access-api"],
       "options": {
         "jestConfig": "libs/dh/shared/data-access-api/jest.config.ts",
@@ -15,7 +15,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/dh/shared/data-access-api/src/**/*.ts",

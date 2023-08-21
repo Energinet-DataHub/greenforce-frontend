@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 import { DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -28,11 +28,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogConfig as MatDialogConfig,
-  MatLegacyDialogModule as MatDialogModule,
-} from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { CalendarDateRange } from '@energinet-datahub/eo/shared/services';
 import { EoDatePickerDialogComponent } from './eo-date-picker-dialog.component';
 

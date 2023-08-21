@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { render, screen, within } from '@testing-library/angular';
+import { render, screen, within, fireEvent } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { DhMarketParticipantActorContactDataComponent } from './dh-market-participant-actor-contact-data.component';
@@ -89,7 +89,7 @@ describe(DhMarketParticipantActorContactDataComponent, () => {
     ).getByRole('button');
 
     // act
-    userEvent.click(deleteButton);
+    fireEvent.click(deleteButton);
 
     // assert
     expect(outputFn).toHaveBeenLastCalledWith({
@@ -113,7 +113,7 @@ describe(DhMarketParticipantActorContactDataComponent, () => {
     const categories = within(
       screen.getByRole('cell', { name: /category field for new contact/i })
     ).getByRole('combobox');
-    userEvent.click(categories);
+    fireEvent.click(categories);
 
     const category = screen.getAllByRole('option')[1];
     const name = screen.getByRole('textbox', {
@@ -127,7 +127,7 @@ describe(DhMarketParticipantActorContactDataComponent, () => {
     });
 
     // act
-    userEvent.click(category);
+    fireEvent.click(category);
     userEvent.type(name, expected.name as string);
     userEvent.type(email, expected.email as string);
     userEvent.type(phone, expected.phone as string);

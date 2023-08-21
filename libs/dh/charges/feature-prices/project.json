@@ -6,7 +6,7 @@
   "prefix": "dh",
   "targets": {
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/charges/feature-prices"],
       "options": {
         "jestConfig": "libs/dh/charges/feature-prices/jest.config.ts",
@@ -14,7 +14,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/dh/charges/feature-prices/**/*.ts",

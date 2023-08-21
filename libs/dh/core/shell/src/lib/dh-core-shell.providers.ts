@@ -16,7 +16,7 @@
  */
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
-import { MatLegacySnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   MsalInterceptor,
@@ -41,14 +41,10 @@ import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-tim
 import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
+import { HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
 
 export const dhCoreShellProviders = [
-  importProvidersFrom([
-    MatLegacySnackBarModule,
-    DhApiModule.forRoot(),
-    MsalModule,
-    TranslocoModule,
-  ]),
+  importProvidersFrom([MatSnackBarModule, DhApiModule.forRoot(), MsalModule, TranslocoModule]),
   environment.production ? applicationInsightsProviders : [],
   uiWattTranslationsProviders,
   danishLocalProviders,
@@ -77,5 +73,16 @@ export const dhCoreShellProviders = [
     provide: MSAL_INTERCEPTOR_CONFIG,
     useFactory: MSALInterceptorConfigFactory,
     deps: [dhB2CEnvironmentToken],
+  },
+  {
+    provide: HIGHLIGHT_OPTIONS,
+    useValue: <HighlightOptions>{
+      coreLibraryLoader: () => import('highlight.js/lib/core'),
+      lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
+      languages: {
+        xml: () => import('highlight.js/lib/languages/xml'),
+        json: () => import('highlight.js/lib/languages/json'),
+      },
+    },
   },
 ];

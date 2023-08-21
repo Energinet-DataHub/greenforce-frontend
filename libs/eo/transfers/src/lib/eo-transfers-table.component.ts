@@ -40,6 +40,7 @@ import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.component';
 import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
+import { EoTransfersWalletModalComponent } from './eo-transfers-wallet-modal-component';
 
 interface EoTransferTableElement extends EoListedTransfer {
   period?: string;
@@ -60,6 +61,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     ReactiveFormsModule,
     EoTransfersDrawerComponent,
     EoTransfersCreateModalComponent,
+    EoTransfersWalletModalComponent,
     WattDatePipe,
     NgIf,
   ],
@@ -111,6 +113,15 @@ interface EoTransferTableElement extends EoListedTransfer {
         >
           New transfer agreement
         </watt-button>
+
+        <watt-button
+          data-testid="create-wallet-endpoint-button"
+          icon="plus"
+          variant="secondary"
+          (click)="transfersWalletModalComponent.open()"
+        >
+          Create Wallet Endpoint
+        </watt-button>
       </div>
     </div>
     <div class="search-filters watt-space-stack-s">
@@ -131,6 +142,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     </div>
     <watt-table
       #table
+      [loading]="loading"
       [columns]="columns"
       [dataSource]="dataSource"
       sortBy="status"
@@ -146,7 +158,7 @@ interface EoTransferTableElement extends EoListedTransfer {
       </ng-container>
 
       <ng-container *wattTableCell="table.columns['endDate']; let element">
-        {{ element.endDate | wattDate : 'long' }}
+        {{ (element.endDate | wattDate : 'long') || ' — ' }}
       </ng-container>
 
       <!-- Status - Custom column -->
@@ -175,6 +187,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
 
     <eo-transfers-create-modal></eo-transfers-create-modal>
+    <eo-transfers-wallet-modal></eo-transfers-wallet-modal>
     <eo-transfers-drawer
       [transfer]="selectedTransfer"
       (closed)="transferSelected.emit(undefined)"
@@ -183,11 +196,14 @@ interface EoTransferTableElement extends EoListedTransfer {
 })
 export class EoTransfersTableComponent implements OnChanges {
   @Input() transfers: EoListedTransfer[] = [];
+  @Input() loading = false;
   @Input() selectedTransfer?: EoListedTransfer;
   @Output() transferSelected = new EventEmitter<EoListedTransfer>();
 
   @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
   @ViewChild(EoTransfersCreateModalComponent) transfersModal!: EoTransfersCreateModalComponent;
+  @ViewChild(EoTransfersWalletModalComponent)
+  transfersWalletModalComponent!: EoTransfersWalletModalComponent;
 
   utils = inject(SharedUtilities);
   private fb = inject(FormBuilder);

@@ -21,8 +21,8 @@ import { take } from 'rxjs';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
-import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-market-roles-overview',
@@ -34,7 +34,7 @@ import { exportCsv } from '@energinet-datahub/dh/shared/ui-util';
 export class DhMarketRolesOverviewComponent implements AfterViewInit {
   private transloco = inject(TranslocoService);
 
-  dataSource = new WattTableDataSource<string>(Object.keys(MarketParticipantEicFunction));
+  dataSource = new WattTableDataSource<string>(Object.keys(EicFunction));
 
   columns: WattTableColumnDef<string> = {
     name: { accessor: (value) => value },
@@ -75,7 +75,7 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
             `"${translations['marketRoleDescriptions'][x]}"`,
           ]);
 
-          exportCsv(headers, lines);
+          exportToCSV({ headers, lines });
         }
       });
   }

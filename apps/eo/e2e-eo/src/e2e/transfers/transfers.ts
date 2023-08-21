@@ -40,6 +40,14 @@ When('I click on the new transfer agreement button', () => {
   transfers.clickNewAgreementButton();
 });
 
+When(/^I enter details for receiver$/, function () {
+  transfers.enterReceiverDetailsForNewAgreement();
+});
+
+When(/^I click on Agreement details button$/, function () {
+  transfers.clickAgreementDetailsButton();
+});
+
 When('I enter details for a transfer agreement', () => {
   transfers.enterDetailsForNewAgreement();
 });

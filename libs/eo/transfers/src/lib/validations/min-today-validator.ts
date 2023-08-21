@@ -34,7 +34,6 @@ export function minTodayValidator(): ValidatorFn {
       // if the control date is before today, return an error
       return { minToday: true };
     }
-
     // if the control date is today or in the future, return no error
     return null;
   };

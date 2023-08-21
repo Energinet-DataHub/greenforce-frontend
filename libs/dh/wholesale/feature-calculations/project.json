@@ -6,7 +6,7 @@
   "prefix": "dh",
   "targets": {
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": [
         "{workspaceRoot}/coverage/libs/dh/wholesale/feature-calculations"
       ],
@@ -16,7 +16,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/dh/wholesale/feature-calculations/src/**/*.ts",
@@ -25,7 +25,7 @@
       }
     },
     "component-test": {
-      "executor": "@nrwl/cypress:cypress",
+      "executor": "@nx/cypress:cypress",
       "options": {
         "cypressConfig": "libs/dh/wholesale/feature-calculations/cypress.config.ts",
         "testingType": "component",

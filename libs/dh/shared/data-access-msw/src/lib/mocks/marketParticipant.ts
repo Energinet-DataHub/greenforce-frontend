@@ -16,6 +16,8 @@
  */
 import { rest } from 'msw';
 
+import { mockGetActorsQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import organizationsData from './data/marketParticipantOrganizations.json';
 import { marketParticipantOrganizationsWithActors } from './data/marketParticipantOrganizationsWithActors';
 import gridAreaData from './data/marketParticipantGridArea.json';
@@ -24,6 +26,7 @@ import actorData from './data/marketPaticipantActor.json';
 import actorContactsData from './data/marketPaticipantActorContacts.json';
 import organizationData from './data/marketPaticipantOrganization.json';
 import userRoleData from './data/marketParticipantUserRoleTemplates.json';
+import { marketParticipantGetActorsMock } from './data/market-participant-get-actors';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
@@ -35,6 +38,7 @@ export function marketParticipantMocks(apiBase: string) {
     getActorContact(apiBase),
     getOrganization(apiBase),
     getUserRoles(apiBase),
+    getActors(),
   ];
 }
 
@@ -105,5 +109,11 @@ function getActorContact(apiBase: string) {
 function getUserRoles(apiBase: string) {
   return rest.get(`${apiBase}/v1/MarketParticipantUserRoleTemplate/users`, (req, res, ctx) => {
     return res(ctx.json(userRoleData));
+  });
+}
+
+function getActors() {
+  return mockGetActorsQuery((req, res, ctx) => {
+    return res(ctx.delay(300), ctx.data(marketParticipantGetActorsMock));
   });
 }

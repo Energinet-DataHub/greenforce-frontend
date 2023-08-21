@@ -31,7 +31,7 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
   selector: 'watt-radio',
   styleUrls: ['./watt-radio.component.scss'],
   template: `
-    <label>
+    <label class="watt-text-m">
       <input
         type="radio"
         [attr.name]="group"
