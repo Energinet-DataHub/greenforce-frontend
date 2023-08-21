@@ -115,7 +115,7 @@ export class DhMessageArchiveDrawerComponent implements OnInit, OnDestroy {
 
   getDocument(id: string) {
     this.apiStore.getDocument({
-      id: id,
+      id,
       onSuccessFn: this.onSuccesFn,
       onErrorFn: this.onErrorFn,
     });
