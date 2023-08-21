@@ -17,7 +17,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 import { map, Observable } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -39,7 +39,7 @@ import { DhChargesGeneralErrorComponent } from './dh-charges-general-error/dh-ch
   imports: [
     CommonModule,
     WattSpinnerComponent,
-    LetModule,
+    RxLet,
     TranslocoModule,
     DhChargeItemComponent,
     DhChargesNotFoundComponent,

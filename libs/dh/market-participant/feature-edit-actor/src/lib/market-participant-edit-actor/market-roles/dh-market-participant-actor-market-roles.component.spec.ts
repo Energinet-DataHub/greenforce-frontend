@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { render, screen, within } from '@testing-library/angular';
+import { render, screen, within, fireEvent } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import {
@@ -87,7 +87,7 @@ describe(DhMarketParticipantActorMarketRolesComponent, () => {
     const addButton = screen.getByRole('button', {
       name: 'add',
     });
-    userEvent.click(addButton);
+    fireEvent.click(addButton);
 
     // select market role
     const marketRoleOptions = within(
@@ -95,10 +95,10 @@ describe(DhMarketParticipantActorMarketRolesComponent, () => {
         name: en.marketParticipant.actor.create.marketRoles.marketRole,
       })
     ).getByRole('combobox');
-    userEvent.click(marketRoleOptions);
+    fireEvent.click(marketRoleOptions);
 
     const marketRoleOption = screen.getByText(en.marketParticipant.marketRoles.GridAccessProvider);
-    userEvent.click(marketRoleOption);
+    fireEvent.click(marketRoleOption);
 
     // select grid area
     const gridAreaOptions = within(
@@ -106,10 +106,10 @@ describe(DhMarketParticipantActorMarketRolesComponent, () => {
         name: en.marketParticipant.actor.create.marketRoles.gridArea,
       })
     ).getByRole('combobox');
-    userEvent.click(gridAreaOptions);
+    fireEvent.click(gridAreaOptions);
 
     const gridAreaOption = screen.getByText(`${gridAreas[0].code} - ${gridAreas[0].name}`);
-    userEvent.click(gridAreaOption);
+    fireEvent.click(gridAreaOption);
 
     // select metering point types
     const meteringPointTypeOptions = within(
@@ -117,10 +117,10 @@ describe(DhMarketParticipantActorMarketRolesComponent, () => {
         name: en.marketParticipant.actor.create.marketRoles.meteringPointTypes,
       })
     ).getByRole('combobox');
-    userEvent.click(meteringPointTypeOptions);
+    fireEvent.click(meteringPointTypeOptions);
 
     const meteringPointTypeOption = screen.getByText('D01VeProduction');
-    userEvent.click(meteringPointTypeOption);
+    fireEvent.click(meteringPointTypeOption);
     userEvent.tab();
 
     // assert
@@ -143,7 +143,7 @@ describe(DhMarketParticipantActorMarketRolesComponent, () => {
       name: 'delete',
     });
 
-    userEvent.click(deleteButton);
+    fireEvent.click(deleteButton);
 
     // assert
     expect(outputFn).toHaveBeenLastCalledWith(expected);

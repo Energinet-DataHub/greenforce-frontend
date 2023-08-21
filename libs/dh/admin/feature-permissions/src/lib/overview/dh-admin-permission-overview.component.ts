@@ -24,7 +24,7 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
-import { DhEmDashFallbackPipe, exportCsv } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -124,7 +124,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
 
       const lines = marketRoles.map((x) => [`"${x.name}"`, `"${x.description}"`]);
 
-      exportCsv(headers, lines);
+      exportToCSV({ headers, lines });
     }
   }
 }

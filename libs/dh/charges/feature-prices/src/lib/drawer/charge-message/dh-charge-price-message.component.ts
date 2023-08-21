@@ -30,8 +30,8 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template/let';
-import { PushModule } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
 import { Subject, takeUntil } from 'rxjs';
 import { DhChargesPricesDrawerService } from '../dh-charges-prices-drawer.service';
 
@@ -39,8 +39,8 @@ import { DhChargesPricesDrawerService } from '../dh-charges-prices-drawer.servic
   standalone: true,
   imports: [
     CommonModule,
-    PushModule,
-    LetModule,
+    RxPush,
+    RxLet,
     WattEmptyStateComponent,
     WattDatePipe,
     TranslocoModule,

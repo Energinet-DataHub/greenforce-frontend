@@ -2,29 +2,27 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@angular-slider/ngx-slider](https://github.com/angular-slider/ngx-slider) | 2.0.4 | MIT |
-| [@angular/animations](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 15.2.6 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@angular/material-date-fns-adapter](https://github.com/angular/components) | 15.2.6 | MIT |
-| [@angular/material](https://github.com/angular/components) | 15.2.6 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 15.2.6 | MIT |
-| [@apollo/client](https://github.com/apollographql/apollo-client) | 3.7.11 | MIT |
-| [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.0-beta.0 | MIT |
-| [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.0-beta.0 | MIT |
-| [@babel/core](https://github.com/babel/babel) | 7.21.4 | MIT |
+  | [@angular/animations](https://github.com/angular/angular) | 16.2.0 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 16.2.0 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 16.2.0 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 16.2.0 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 16.2.0 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 16.2.0 | MIT |
+| [@angular/material-date-fns-adapter](https://github.com/angular/components) | 16.2.0 | MIT |
+| [@angular/material](https://github.com/angular/components) | 16.2.0 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 16.2.0 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 16.2.0 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 16.2.0 | MIT |
+| [@apollo/client](https://github.com/apollographql/apollo-client) | 3.7.17 | MIT |
+| [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.2 | MIT |
+| [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.2 | MIT |
 | [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 3.0.2 | MIT |
 | [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.12 | MIT |
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 4.2.6 | MIT |
-| [@ngrx/component-store](https://github.com/ngrx/platform) | 15.4.0 | MIT |
+| [@ngrx/component-store](https://github.com/ngrx/platform) | 16.1.0 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.7 | MIT |
-| [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 14.0.0 | MIT |
-| [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 14.0.0 | MIT |
+| [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 16.0.0 | MIT |
+| [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 16.0.2 | MIT |
 | [@vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 5.0.0 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 3.8.0 | MIT |
@@ -36,7 +34,8 @@
 | [inputmask](https://github.com/RobinHerbots/Inputmask) | 5.0.7 | MIT |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 3.1.2 | MIT |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 3.0.11 | ISC |
+| [ngx-highlightjs](https://github.com/murhafsousli/ngx-highlightjs) | 10.0.0 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 6.0.0 | MIT |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.5.7 | Apache-2.0 |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
-| [zone.js](https://github.com/angular/angular) | 0.12.0 | MIT |
+| [zone.js](https://github.com/angular/angular) | 0.13.1 | MIT |

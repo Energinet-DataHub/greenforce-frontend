@@ -18,8 +18,8 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { provideComponentStore } from '@ngrx/component-store';
 import { MatDividerModule } from '@angular/material/divider';
-import { PushModule } from '@rx-angular/template/push';
-import { LetModule } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -28,6 +28,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattDrawerComponent, WATT_DRAWER, WattDrawerSize } from '@energinet-datahub/watt/drawer';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { DhMessageArchiveDocumentStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -59,12 +60,13 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
     ActorNamePipe,
     DocumentTypeNamePipe,
     WattButtonComponent,
-    PushModule,
+    RxPush,
     DhEmDashFallbackPipe,
     WattSpinnerComponent,
-    LetModule,
+    RxLet,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
+    WattCodeComponent,
   ],
   providers: [provideComponentStore(DhMessageArchiveDocumentStore)],
 })

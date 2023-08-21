@@ -17,7 +17,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, switchMap, tap, throwError, withLatestFrom } from 'rxjs';
+import { Observable, of, exhaustMap, switchMap, tap, throwError, withLatestFrom } from 'rxjs';
 import { fromUnixTime } from 'date-fns';
 
 import {
@@ -27,7 +27,7 @@ import {
 } from './eo-transfers.service';
 
 interface EoTransfersState {
-  hasLoaded: boolean;
+  loadingTransferAgreements: boolean;
   patchingTransfer: boolean;
   patchingTransferError: HttpErrorResponse | null;
   transfers: EoListedTransfer[];
@@ -36,14 +36,22 @@ interface EoTransfersState {
   historyOfSelectedTransfer: EoTransferAgreementsHistory[];
   historyOfSelectedTransferError: HttpErrorResponse | null;
   historyOfSelectedTransferLoading: boolean;
+  walletDepositEndpoint?: string;
+  walletDepositEndpointError: HttpErrorResponse | null;
+  walletDepositEndpointLoading: boolean;
+}
+
+export interface EoExistingTransferAgreement {
+  startDate: number;
+  endDate: number | null;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class EoTransfersStore extends ComponentStore<EoTransfersState> {
-  readonly hasLoaded$ = this.select((state) => state.hasLoaded);
   readonly transfers$ = this.select((state) => state.transfers);
+  readonly loadingTransferAgreements$ = this.select((state) => state.loadingTransferAgreements);
   readonly selectedTransfer$ = this.select((state) => state.selectedTransfer);
   readonly error$ = this.select((state) => state.error);
 
@@ -56,6 +64,12 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   );
   readonly historyOfSelectedTransferLoading$ = this.select(
     (state) => state.historyOfSelectedTransferLoading
+  );
+
+  readonly walletDepositEndpoint$ = this.select((state) => state.walletDepositEndpoint);
+  readonly walletDepositEndpointError$ = this.select((state) => state.walletDepositEndpointError);
+  readonly walletDepositEndpointLoading$ = this.select(
+    (state) => state.walletDepositEndpointLoading
   );
 
   readonly setSelectedTransfer = this.updater(
@@ -79,20 +93,27 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
 
   readonly getTransfers = this.effect(() => {
     return this.service.getTransfers().pipe(
+      tap(() => {
+        this.patchState({ loadingTransferAgreements: true, error: null });
+      }),
       tapResponse(
         (response) => {
           this.setTransfers(
-            response.result.map((transfer) => {
-              return {
-                ...transfer,
-                startDate: fromUnixTime(transfer.startDate).getTime(),
-                endDate: transfer.endDate ? fromUnixTime(transfer.endDate).getTime() : null,
-              };
-            })
+            response && response.result
+              ? response.result.map((transfer) => {
+                  return {
+                    ...transfer,
+                    startDate: fromUnixTime(transfer.startDate).getTime(),
+                    endDate: transfer.endDate ? fromUnixTime(transfer.endDate).getTime() : null,
+                  };
+                })
+              : []
           );
+          this.patchState({ loadingTransferAgreements: false });
         },
         (error: HttpErrorResponse) => {
           this.setError(error);
+          this.patchState({ loadingTransferAgreements: false });
         }
       )
     );
@@ -159,11 +180,39 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
     }
   );
 
+  readonly createWalletDepositEndpoint = this.effect<void>((trigger$) =>
+    trigger$.pipe(
+      exhaustMap(() => {
+        this.patchState({
+          walletDepositEndpointLoading: true,
+          walletDepositEndpoint: undefined,
+          walletDepositEndpointError: null,
+        });
+        return this.service.createWalletDepositEndpoint().pipe(
+          tapResponse(
+            (response) => {
+              this.patchState({
+                walletDepositEndpoint: response.result,
+                walletDepositEndpointLoading: false,
+              });
+            },
+            (error: HttpErrorResponse) => {
+              this.patchState({
+                walletDepositEndpointError: error,
+                walletDepositEndpointLoading: false,
+              });
+            }
+          )
+        );
+      })
+    )
+  );
+
   private readonly setTransfers = this.updater(
     (state, transfers: EoListedTransfer[]): EoTransfersState => ({
       ...state,
       transfers,
-      hasLoaded: true,
+      loadingTransferAgreements: false,
       error: null,
     })
   );
@@ -185,11 +234,11 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
     (state, error: HttpErrorResponse | null): EoTransfersState => ({
       ...state,
       error,
-      hasLoaded: true,
+      loadingTransferAgreements: false,
     })
   );
 
-  private readonly setPatchingTransferError = this.updater(
+  readonly setPatchingTransferError = this.updater(
     (state, error: HttpErrorResponse | null): EoTransfersState => ({
       ...state,
       patchingTransferError: error,
@@ -226,9 +275,31 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
     })
   );
 
+  readonly getExistingTransferAgreements$ = (
+    receiverTin: string | null,
+    id?: string
+  ): Observable<EoExistingTransferAgreement[]> => {
+    if (!receiverTin) return of([]);
+    return this.select((state) =>
+      state.transfers
+        .filter((transfer) => transfer.id !== id)
+        .filter((transfer) => transfer.receiverTin === receiverTin)
+        .map((transfer) => {
+          return { startDate: transfer.startDate, endDate: transfer.endDate };
+        })
+        // Filter out transfers that have ended
+        .filter((transfer) => transfer.endDate === null || transfer.endDate > new Date().getTime())
+        .sort((a, b) => {
+          if (a.endDate === null) return 1; // a is lesser if its endDate is null
+          if (b.endDate === null) return -1; // b is lesser if its endDate is null
+          return a.endDate - b.endDate;
+        })
+    );
+  };
+
   constructor(private service: EoTransfersService) {
     super({
-      hasLoaded: false,
+      loadingTransferAgreements: false,
       transfers: [],
       error: null,
       patchingTransfer: false,
@@ -236,6 +307,8 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
       historyOfSelectedTransfer: [],
       historyOfSelectedTransferError: null,
       historyOfSelectedTransferLoading: false,
+      walletDepositEndpointError: null,
+      walletDepositEndpointLoading: false,
     });
   }
 

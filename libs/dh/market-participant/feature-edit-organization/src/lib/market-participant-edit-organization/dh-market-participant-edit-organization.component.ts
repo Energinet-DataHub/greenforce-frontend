@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { DhMarketParticipantEditOrganizationDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { LetModule } from '@rx-angular/template/let';
+import { RxLet } from '@rx-angular/template/let';
 import { DhMarketParticipantOrganizationMasterDataComponent } from './master-data/dh-market-participant-organization-master-data.component';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
@@ -39,7 +39,7 @@ import {
   providers: [DhMarketParticipantEditOrganizationDataAccessApiStore],
   standalone: true,
   imports: [
-    LetModule,
+    RxLet,
     CommonModule,
     TranslocoModule,
     WattButtonComponent,

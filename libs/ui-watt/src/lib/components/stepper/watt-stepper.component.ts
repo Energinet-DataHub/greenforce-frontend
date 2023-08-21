@@ -29,7 +29,7 @@ import { WattStepperStepComponent } from './watt-stepper-step.component';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { CommonModule } from '@angular/common';
 import { CdkStepper, StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { PushModule } from '@rx-angular/template/push';
+import { RxPush } from '@rx-angular/template/push';
 import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
 import { WattButtonComponent } from '../button';
 
@@ -45,7 +45,7 @@ import { WattButtonComponent } from '../button';
     CommonModule,
     WattIconComponent,
     WattButtonComponent,
-    PushModule,
+    RxPush,
   ],
   providers: [
     {

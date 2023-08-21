@@ -6,7 +6,7 @@
   "prefix": "dh",
   "targets": {
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": [
         "{workspaceRoot}/coverage/libs/dh/market-participant/feature-organization"
       ],
@@ -16,7 +16,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/dh/market-participant/feature-organization/src/**/*.ts",

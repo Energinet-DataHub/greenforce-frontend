@@ -559,6 +559,28 @@
         }
       }
     },
+    "actorsOverview": {
+      "actors": "Actors",
+      "columns": {
+        "glnOrEic": "GLN/EIC",
+        "name": "Name",
+        "marketRole": "Market role",
+        "status": "Status"
+      },
+      "status": {
+        "Active": "Active",
+        "Inactive": "Deactivated"
+      },
+      "filters": {
+        "marketRole": "Market role",
+        "status": "Status",
+        "reset": "Reset"
+      },
+      "emptyTitle": "No actors found",
+      "emptyMessage": "Try changing the search criteria",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
+    },
     "marketRolesOverview": {
       "marketRoles": "Market roles",
       "download": "Download",
@@ -766,6 +788,8 @@
       "headline": "Results",
       "emptyTitle": "No calculations found",
       "emptyMessage": "Try changing the search criteria",
+      "errorTitle": "{{shared.error.title}}",
+      "errorMessage": "{{shared.error.message}}",
       "search": "Search",
       "new": "New calculation",
       "create": {
@@ -812,8 +836,12 @@
         }
       },
       "processTypes": {
-        "BALANCE_FIXING": "Balance Fixing",
-        "AGGREGATION": "Aggregation"
+        "BALANCE_FIXING": "Balance fixing",
+        "AGGREGATION": "Aggregation",
+        "WHOLESALE_FIXING": "Wholesale fixing",
+        "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
+        "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
+        "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement"
       },
       "executionStates": {
         "PENDING": "Pending",

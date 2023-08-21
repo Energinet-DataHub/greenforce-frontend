@@ -13,22 +13,29 @@
 // limitations under the License.
 
 using System;
+using Energinet.DataHub.MarketParticipant.Client.Models;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class Actor
     {
-        public Guid Id { get; set; } = Guid.Empty;
+        public Guid Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
 
-        public string Number { get; set; }
+        public string GlnOrEicNumber { get; set; }
 
-        public string[] GridAreaCodes { get; set; } = Array.Empty<string>();
+        public EicFunction? MarketRole { get; set; }
 
-        public Actor(string number)
+        public GridAreaDto[] GridAreas { get; set; } = Array.Empty<GridAreaDto>();
+
+        public ActorStatus Status { get; set; }
+
+        public Actor(Guid id, string name, string glnOrEicNumber)
         {
-            Number = number;
+            Id = id;
+            Name = name;
+            GlnOrEicNumber = glnOrEicNumber;
         }
     }
 }

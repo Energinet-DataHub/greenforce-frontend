@@ -19,11 +19,13 @@ import { Inject, Injectable } from '@angular/core';
 import { map } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { getUnixTime } from 'date-fns';
 
 export interface EoTransfer {
   startDate: number;
   endDate: number | null;
   receiverTin: string;
+  base64EncodedWalletDepositEndpoint: string;
 }
 
 export interface EoListedTransfer extends EoTransfer {
@@ -46,6 +48,10 @@ export interface EoTransferAgreementsHistoryResponse {
   result: EoTransferAgreementsHistory[];
 }
 
+export interface EoWalletDepositEndpointResponse {
+  result: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -64,7 +70,11 @@ export class EoTransfersService {
   }
 
   createAgreement(transfer: EoTransfer) {
-    return this.http.post<EoListedTransfer>(`${this.#apiBase}/transfer-agreements`, transfer);
+    return this.http.post<EoListedTransfer>(`${this.#apiBase}/transfer-agreements`, {
+      ...transfer,
+      startDate: getUnixTime(transfer.startDate),
+      endDate: transfer.endDate ? getUnixTime(transfer.endDate) : null,
+    });
   }
 
   updateAgreement(transferId: string, endDate: number | null) {
@@ -84,6 +94,13 @@ export class EoTransfersService {
   getHistory(transferAgreementId: string) {
     return this.http.get<EoTransferAgreementsHistoryResponse>(
       `${this.#apiBase}/history/transfer-agreements/${transferAgreementId}`
+    );
+  }
+
+  createWalletDepositEndpoint() {
+    return this.http.post<EoWalletDepositEndpointResponse>(
+      `${this.#apiBase}/transfer-agreements/wallet-deposit-endpoint`,
+      {}
     );
   }
 }

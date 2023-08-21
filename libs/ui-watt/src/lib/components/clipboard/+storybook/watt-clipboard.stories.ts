@@ -20,7 +20,7 @@ import { importProvidersFrom } from '@angular/core';
 
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
 import { WattStorybookClipboardComponent } from './storybook-clipboard.component';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const meta: Meta<WattCopyToClipboardDirective> = {
   title: 'Components/Clipboard',

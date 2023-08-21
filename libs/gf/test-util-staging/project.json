@@ -6,7 +6,7 @@
   "prefix": "gf-test",
   "targets": {
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/gf/test-util-staging"],
       "options": {
         "jestConfig": "libs/gf/test-util-staging/jest.config.ts",
@@ -14,7 +14,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/gf/test-util-staging/src/**/*.ts",

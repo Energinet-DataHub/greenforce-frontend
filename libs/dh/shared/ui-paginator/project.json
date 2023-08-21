@@ -6,7 +6,7 @@
   "prefix": "dh",
   "targets": {
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/ui-paginator"],
       "options": {
         "jestConfig": "libs/dh/shared/ui-paginator/jest.config.ts",
@@ -14,7 +14,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/dh/shared/ui-paginator/**/*.ts",

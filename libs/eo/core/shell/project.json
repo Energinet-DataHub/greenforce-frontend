@@ -6,7 +6,7 @@
   "prefix": "eo",
   "targets": {
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/eo/core/shell"],
       "options": {
         "jestConfig": "libs/eo/core/shell/jest.config.ts",
@@ -14,7 +14,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/eo/core/shell/src/**/*.ts",

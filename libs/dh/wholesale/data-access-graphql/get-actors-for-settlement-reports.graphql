@@ -1,7 +1,9 @@
 query GetActorsForSettlementReport($eicFunctions: [EicFunction!]) {
   actors(eicFunctions: $eicFunctions) {
-    value: number
+    value: glnOrEicNumber
     displayValue: name
-    gridAreaCodes
+    gridAreas {
+      code
+    }
   }
 }
