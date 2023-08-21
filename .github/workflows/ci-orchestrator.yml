@@ -76,23 +76,12 @@ jobs:
   render_c4model_views:
     needs: changes
     if: ${{ needs.changes.outputs.render_c4model_views == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/structurizr-render-diagrams.yml@v12
+    uses: Energinet-DataHub/.github/.github/workflows/structurizr-render-diagrams.yml@xdast # TODO: Change to 'v12' when ready
     with:
       structurizr_workspace_filename: views
       included_model_filename: model
     secrets:
       pat_token_retrigger_workflow: ${{ secrets.pat_token_repo_workflow }}
-
-  verify_checkout:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          # Repository checkout must be called with a PAT token with `repo` and `workflow` scopes.
-          # Otherwise `stefanzweifel/git-auto-commit-action` used later in the workflow won't trigger new workflow runs.
-          # Link: https://github.com/stefanzweifel/git-auto-commit-action#commits-made-by-this-action-do-not-trigger-new-workflow-runs
-          token: ${{ secrets.pat_token_repo_workflow }}
 
   #
   # Branch policy status check
