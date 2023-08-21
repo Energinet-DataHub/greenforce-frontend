@@ -14,10 +14,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'wholesale.calculations'">
-  <!-- Table -->
+<vater-flex scrollable>
   <watt-table
-    [dataSource]="_data"
+    *transloco="let t; read: 'wholesale.calculations'"
+    [dataSource]="dataSource"
     [columns]="columns"
     [resolveHeader]="translateHeader"
     [activeRow]="selected"
@@ -63,24 +63,12 @@ limitations under the License.
   </watt-table>
 
   <!-- No calculations found -->
-  <div class="message">
-    <ng-container *ngIf="!loading && _data.filteredData.length === 0">
-      <watt-empty-state
-        *ngIf="error"
-        icon="custom-power"
-        [title]="t('errorTitle')"
-        [message]="t('errorMessage')"
-      />
-      <watt-empty-state
-        *ngIf="!error"
-        icon="cancel"
-        size="large"
-        [title]="t('emptyTitle')"
-        [message]="t('emptyMessage')"
-      />
-    </ng-container>
-  </div>
-
-  <!-- Paginator -->
-  <watt-paginator [for]="_data" />
-</ng-container>
+  <vater-stack justify="center" *ngIf="!loading && dataSource.filteredData.length === 0">
+    <watt-empty-state
+      *transloco="let t; read: 'wholesale.calculations'"
+      [icon]="error ? 'custom-power' : 'cancel'"
+      [title]="error ? t('errorTitle') : t('emptyTitle')"
+      [message]="error ? t('errorMessage') : t('emptyMessage')"
+    />
+  </vater-stack>
+</vater-flex>

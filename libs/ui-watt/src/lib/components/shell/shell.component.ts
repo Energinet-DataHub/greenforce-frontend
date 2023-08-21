@@ -23,13 +23,20 @@ import { filter, map, Subject, switchMap, takeUntil, first } from 'rxjs';
 
 import { WattBreakpoint, WattBreakpointsObserver } from '../../foundations/breakpoints';
 import { WattButtonComponent } from '../button';
+import { VaterFlexComponent } from '../vater/vater-flex.component';
 
 @Component({
   selector: 'watt-shell',
   styleUrls: ['./shell.component.scss'],
   templateUrl: './shell.component.html',
   standalone: true,
-  imports: [CommonModule, MatSidenavModule, MatToolbarModule, WattButtonComponent],
+  imports: [
+    CommonModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    WattButtonComponent,
+    VaterFlexComponent,
+  ],
 })
 export class WattShellComponent implements OnInit, OnDestroy {
   /**

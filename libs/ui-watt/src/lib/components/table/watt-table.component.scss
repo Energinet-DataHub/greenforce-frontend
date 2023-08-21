@@ -21,6 +21,7 @@ watt-table .mat-table {
   display: grid;
   position: relative;
   overflow: auto;
+  min-height: 45px; /* Magic number to prevent table shrinking below header height */
 }
 
 watt-table .mat-table {
@@ -50,6 +51,7 @@ watt-table .mat-table {
     height: auto;
     background: var(--watt-color-primary-ultralight);
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    z-index: 2 !important; // override local style
   }
 
   td.mat-cell {
@@ -96,7 +98,6 @@ watt-table .mat-table {
   th.watt-table-checkbox-cell {
     display: flex;
     align-items: center;
-    z-index: 2 !important; // override local style
   }
 
   .watt-table-align-center,

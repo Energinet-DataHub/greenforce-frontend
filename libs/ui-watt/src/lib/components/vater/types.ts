@@ -14,12 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export type Direction = 'row' | 'column';
+export type Justify =
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | 'space-between'
+  | 'space-around'
+  | 'space-evenly';
 
-h3 {
-  margin: 0;
-}
+export type Align = 'stretch' | 'flex-start' | 'flex-end' | 'center';
 
-watt-card {
-  position: absolute;
-  inset: 0;
-}
+// TODO: Get these values from design tokens
+export type Gap = 'xs' | 's' | 'm' | 'ml' | 'l' | 'xl';

@@ -40,6 +40,7 @@ import {
   GetGridAreasDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { executionStates, processTypes } from '@energinet-datahub/dh/wholesale/domain';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -57,6 +58,7 @@ const makeFormControl = <T>(value: T = null as T) =>
     RxPush,
     ReactiveFormsModule,
     TranslocoModule,
+    VaterStackComponent,
     WATT_FORM_FIELD,
     WattButtonComponent,
     WattDateRangeChipComponent,
@@ -66,15 +68,7 @@ const makeFormControl = <T>(value: T = null as T) =>
   selector: 'dh-calculations-filters',
   styles: [
     `
-      :host {
-        display: block;
-      }
-
       form {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        overflow: auto;
         overflow-y: hidden;
       }
 
@@ -84,7 +78,13 @@ const makeFormControl = <T>(value: T = null as T) =>
     `,
   ],
   template: `
-    <form [formGroup]="_formGroup" *transloco="let t; read: 'wholesale.calculations.filters'">
+    <form
+      vater-stack
+      direction="row"
+      gap="m"
+      [formGroup]="_formGroup"
+      *transloco="let t; read: 'wholesale.calculations.filters'"
+    >
       <watt-date-range-chip formControlName="period">{{ t('period') }}</watt-date-range-chip>
 
       <watt-form-field>

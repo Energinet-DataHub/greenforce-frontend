@@ -14,12 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-h3 {
-  margin: 0;
-}
-
-watt-card {
-  position: absolute;
-  inset: 0;
-}
+export { VaterFlexComponent } from './vater-flex.component';
+export { VaterStackComponent } from './vater-stack.component';
