@@ -11,7 +11,7 @@ workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-ar
 
     model {
         #
-        # DataHub 3.0 (extends)
+        # DataHub 3.0 (extends).
         #
         !ref dh3 {
 
