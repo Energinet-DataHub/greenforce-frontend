@@ -18,31 +18,19 @@
 import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
-import { MatRippleModule } from '@angular/material/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-nav-list-item',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatListModule, MatRippleModule],
+  imports: [CommonModule, RouterModule],
   template: `
-    <a
-      *ngIf="isExternalLink; else internalLink"
-      mat-list-item
-      mat-ripple
-      [href]="link"
-      [attr.target]="target"
+    <a *ngIf="isExternalLink; else internalLink" mat-ripple [href]="link" [attr.target]="target"
       ><ng-container *ngTemplateOutlet="templateContent"></ng-container
     ></a>
 
     <ng-template #internalLink>
-      <a
-        mat-list-item
-        mat-ripple
-        [routerLink]="link"
-        routerLinkActive="active"
-        (isActiveChange)="onRouterLinkActive($event)"
+      <a [routerLink]="link" routerLinkActive="active" (isActiveChange)="onRouterLinkActive($event)"
         ><ng-container *ngTemplateOutlet="templateContent"></ng-container
       ></a>
     </ng-template>
