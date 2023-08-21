@@ -25,6 +25,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.store';
+import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,6 +36,7 @@ import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.sto
     MatSortModule,
     WattBadgeComponent,
     WattSpinnerComponent,
+    EoBetaMessageComponent,
   ],
   standalone: true,
   selector: 'eo-metering-points-table',
@@ -56,11 +58,11 @@ import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.sto
         display: flex;
         justify-content: center;
         width: 65px;
+      }
 
-        &:hover:enabled {
-          cursor: pointer;
-          background-color: var(--watt-color-primary-light);
-        }
+      .link:hover:enabled {
+        cursor: pointer;
+        background-color: var(--watt-color-primary-light);
       }
 
       .loadingArea {
@@ -74,6 +76,7 @@ import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.sto
     `,
   ],
   template: `
+    <eo-eo-beta-message></eo-eo-beta-message>
     <mat-table matSort [dataSource]="dataSource">
       <!-- ID Column -->
       <ng-container matColumnDef="gsrn">
