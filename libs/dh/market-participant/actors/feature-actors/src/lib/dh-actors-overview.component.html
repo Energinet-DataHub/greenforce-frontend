@@ -36,7 +36,7 @@ limitations under the License.
     [dataSource]="dataSource"
     [columns]="columns"
     sortBy="name"
-    [loading]="loading"
+    [loading]="isLoading"
     sortDirection="asc"
     [sortClear]="false"
   >
@@ -67,7 +67,7 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  <ng-container *ngIf="!loading && dataSource.filteredData.length === 0">
+  <ng-container *ngIf="!isLoading && dataSource.filteredData.length === 0">
     <div class="watt-space-inset-m">
       <watt-empty-state
         *ngIf="!error"

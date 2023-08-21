@@ -105,19 +105,19 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
 
   searchInput$ = new BehaviorSubject<string>('');
 
-  loading = true;
+  isLoading = true;
   error = false;
 
   ngOnInit(): void {
     this.subscription = this.getActorsQuery$.valueChanges.subscribe({
       next: (result) => {
-        this.loading = result.loading;
+        this.isLoading = result.loading;
 
         this.dataSource.data = result.data?.actors;
       },
       error: () => {
         this.error = true;
-        this.loading = false;
+        this.isLoading = false;
       },
     });
 
