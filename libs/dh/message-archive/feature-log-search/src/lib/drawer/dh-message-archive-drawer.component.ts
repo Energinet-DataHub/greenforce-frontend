@@ -104,7 +104,7 @@ export class DhMessageArchiveDrawerComponent implements OnInit, OnDestroy {
     this.drawer.open();
 
     if (this.message) {
-      this.getDocument(this.message?.messageId);
+      this.getDocument(this.message.id);
     }
   }
 
@@ -113,9 +113,9 @@ export class DhMessageArchiveDrawerComponent implements OnInit, OnDestroy {
     this.message = null;
   }
 
-  getDocument(messageId: string) {
+  getDocument(id: string) {
     this.apiStore.getDocument({
-      id: messageId,
+      id,
       onSuccessFn: this.onSuccesFn,
       onErrorFn: this.onErrorFn,
     });
