@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 import { map } from 'rxjs';
 
@@ -25,7 +25,12 @@ import { map } from 'rxjs';
 export class EoScopeGuard implements CanActivate {
   constructor(private router: Router, private authStore: EoAuthStore) {}
 
-  canActivate() {
+  canActivate(route: ActivatedRouteSnapshot) {
+    // Skip authentication for specific routes
+    if (route.data && route.data.skipGuard) {
+      return true;
+    }
+
     return this.authStore.getScope$.pipe(
       map((scope) => {
         if (scope.includes('not-accepted-terms')) this.router.navigate(['/terms']);
