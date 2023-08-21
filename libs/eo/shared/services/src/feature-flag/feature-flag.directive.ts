@@ -19,7 +19,6 @@ import { EoAuthStore } from '../auth/auth.store';
 
 const knownFeatures = [
   'not-accepted-privacypolicy-terms',
-  'accepted-terms',
   'dashboard',
   'production',
   'meters',

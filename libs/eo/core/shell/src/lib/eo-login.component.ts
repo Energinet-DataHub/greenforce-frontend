@@ -48,7 +48,7 @@ export class EoLoginComponent {
           this.service.logout();
         } else if (scope.includes('not-accepted-privacypolicy-terms')) {
           this.router.navigate(['/terms']);
-        } else if (scope.includes('accepted-terms') && scope.includes('dashboard')) {
+        } else if (scope.includes('dashboard')) {
           this.router.navigate(['/dashboard']);
         } else this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
       });

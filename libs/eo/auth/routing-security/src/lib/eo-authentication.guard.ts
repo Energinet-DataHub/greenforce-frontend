@@ -31,7 +31,7 @@ export class EoScopeGuard implements CanActivate {
         if (scope.includes('not-accepted-privacypolicy-terms')) this.router.navigate(['/terms']);
         if (!this.authStore.token.getValue()) this.router.navigate(['']);
 
-        return !!scope.includes('accepted-terms');
+        return !scope.includes('not-accepted-privacypolicy-terms');
       })
     );
   }

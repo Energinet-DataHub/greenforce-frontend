@@ -23,7 +23,7 @@ export interface EoLoginToken {
   exp?: number;
   name?: string;
   nbf?: number;
-  /** @example "accepted-terms dashboard production meters certificates" */
+  /** @example "dashboard production meters certificates" */
   scope?: string;
   sub?: string;
   tin?: string;
