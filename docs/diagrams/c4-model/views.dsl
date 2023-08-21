@@ -22,31 +22,22 @@ workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-ar
 
             # Include Market Participant model
             !include https://raw.githubusercontent.com/Energinet-DataHub/geh-market-participant/main/docs/diagrams/c4-model/model.dsl
-
-            # Include EDI model
-            !include https://raw.githubusercontent.com/Energinet-DataHub/opengeh-edi/main/docs/diagrams/c4-model/model.dsl
-
-            # Include Wholesale model
-            !include https://raw.githubusercontent.com/Energinet-DataHub/opengeh-wholesale/main/docs/diagrams/c4-model/model.dsl
-
-            # Include Frontend model.
-            !include model.dsl
         }
     }
 
     views {
-        container dh3 "Frontend" {
-            title "[Container] DataHub 3.0 - Frontend (Simplified)"
-            include ->frontendDomain->
+        container dh3 "MarketParticipant" {
+            title "[Container] DataHub 3.0 - Market Participant (Simplified)"
+            include ->markpartDomain->
             exclude "relationship.tag==OAuth"
             exclude "element.tag==Intermediate Technology"
-            exclude dh3.sharedB2C
+            exclude "element.tag==deprecated"
         }
 
-        container dh3 "FrontendDetailed" {
-            title "[Container] DataHub 3.0 - Frontend (Detailed with OAuth)"
-            include ->frontendDomain->
-            exclude "relationship.tag==Simple View"
+        container dh3 "MarketParticipantDetailed" {
+            title "[Container] DataHub 3.0 - Market Participant (Detailed with OAuth)"
+            include ->markpartDomain->
+            exclude "element.tag==deprecated"
         }
     }
 }
