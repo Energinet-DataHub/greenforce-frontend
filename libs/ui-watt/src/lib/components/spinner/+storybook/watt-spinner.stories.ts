@@ -16,7 +16,7 @@
  */
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
-import { WattSpinnerComponent } from './../index';
+import { WattSpinnerComponent } from '../index';
 
 const meta: Meta<WattSpinnerComponent> = {
   title: 'Components/Spinner',
