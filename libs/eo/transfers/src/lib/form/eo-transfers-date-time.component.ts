@@ -219,7 +219,6 @@ export class EoTransfersDateTimeComponent
       const hours = date.getHours();
       this.form.controls.time.setValue(String(hours).padStart(2, '0'), { emitEvent: false });
 
-      // setHours() needs to be done after setting time, otherwise the time will be overwritten
       const ISOString = new Date(date.setHours(0, 0, 0, 0)).toISOString();
       this.form.controls.date.setValue(ISOString, { emitEvent: false });
     } else {
