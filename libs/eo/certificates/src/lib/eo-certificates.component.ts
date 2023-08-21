@@ -19,7 +19,6 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { EoCertificatesTableComponent } from './eo-certificates-table.component';
-import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
@@ -29,7 +28,6 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
     WattCheckboxComponent,
     EoCertificatesTableComponent,
     WattButtonComponent,
-    WattCardComponent,
     EoBetaMessageComponent,
   ],
   selector: 'eo-certificates',

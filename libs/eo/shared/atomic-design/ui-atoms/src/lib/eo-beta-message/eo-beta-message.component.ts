@@ -17,12 +17,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import {WattCardComponent} from "@energinet-datahub/watt/card";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-eo-beta-message',
   standalone: true,
-  imports: [CommonModule, WattButtonComponent],
+  imports: [CommonModule, WattButtonComponent, WattCardComponent],
   templateUrl: './eo-beta-message.component.html',
   styleUrls: ['./eo-beta-message.component.scss'],
 })

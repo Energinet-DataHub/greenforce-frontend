@@ -25,7 +25,6 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.store';
-import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
@@ -37,7 +36,6 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
     MatSortModule,
     WattBadgeComponent,
     WattSpinnerComponent,
-    WattCardComponent,
     EoBetaMessageComponent,
   ],
   standalone: true,
