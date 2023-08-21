@@ -23,19 +23,8 @@ import { Component, HostBinding, Input } from '@angular/core';
   selector: 'watt-spinner',
   standalone: true,
   styleUrls: ['./watt-spinner.component.scss'],
-  template: `<svg
-    preserveAspectRatio="xMidYMid meet"
-    focusable="false"
-    aria-hidden="true"
-    style="width:{{ diameter }}px; height: {{ diameter }}px;"
-    viewBox="0 0 38.4 38.4"
-  >
-    <circle
-      cx="50%"
-      cy="50%"
-      style="animation-name:circleRotate; stroke-dasharray: 106.814px; stroke-width: 10%; transform-origin: 50% 50% 0px;"
-      r="17"
-    ></circle>
+  template: `<svg class="spinner" viewBox="0 0 50 50">
+    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
   </svg>`,
 })
 export class WattSpinnerComponent {
