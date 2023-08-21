@@ -40,11 +40,11 @@ jobs:
   # ci_codeql:
   #   uses: ./.github/workflows/codeql.yml
 
-  #
-  # Detect changes to start relevant workflows
-  #
-  changes:
-    uses: ./.github/workflows/detect-changes.yml
+  # #
+  # # Detect changes to start relevant workflows
+  # #
+  # changes:
+  #   uses: ./.github/workflows/detect-changes.yml
 
   # #
   # # DataHub UI
@@ -74,8 +74,8 @@ jobs:
   # C4 model
   #
   render_c4model_views:
-    needs: changes
-    if: ${{ needs.changes.outputs.render_c4model_views == 'true' }}
+    # needs: changes
+    # if: ${{ needs.changes.outputs.render_c4model_views == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/structurizr-render-diagrams.yml@xdast # TODO: Use 'main' when ready
     with:
       structurizr_workspace_filename: views
