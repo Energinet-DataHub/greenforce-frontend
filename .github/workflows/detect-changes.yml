@@ -23,10 +23,10 @@ on:
     outputs:
       dh_dotnet:
         value: ${{ jobs.changes.outputs.dh_dotnet }}
-      dh_frontend:
-        value: ${{ jobs.changes.outputs.dh_frontend }}
-      watt_frontend:
-        value: ${{ jobs.changes.outputs.watt_frontend }}
+      # dh_frontend:
+      #   value: ${{ jobs.changes.outputs.dh_frontend }}
+      # watt_frontend:
+      #   value: ${{ jobs.changes.outputs.watt_frontend }}
       render_c4model_views:
         value: ${{ jobs.changes.outputs.render_c4model_views }}
 
@@ -37,8 +37,8 @@ jobs:
     # Set job outputs to values from filter step
     outputs:
       dh_dotnet: ${{ steps.filter.outputs.dh_dotnet }}
-      dh_frontend: ${{ steps.dh_affected.outputs.is-affected }}
-      watt_frontend: ${{ steps.watt_affected.outputs.is-affected }}
+      # dh_frontend: ${{ steps.dh_affected.outputs.is-affected }}
+      # watt_frontend: ${{ steps.watt_affected.outputs.is-affected }}
       render_c4model_views: ${{ steps.filter.outputs.render_c4model_views }}
     env:
       BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
@@ -65,29 +65,29 @@ jobs:
               - 'docs/diagrams/c4-model/views.json'
               - 'docs/diagrams/c4-model/model.dsl'
 
-      # needed for nx affected command
-      - name: "PR: Fetch base branch Git history"
-        if: ${{ env.IS_PULL_REQUEST == 'true' }}
-        run: git fetch --no-tags origin ${{ env.BASE_BRANCH }}
+      # # needed for nx affected command
+      # - name: "PR: Fetch base branch Git history"
+      #   if: ${{ env.IS_PULL_REQUEST == 'true' }}
+      #   run: git fetch --no-tags origin ${{ env.BASE_BRANCH }}
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: .nvmrc
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version-file: .nvmrc
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      # - name: 📥 Monorepo install
+      #   uses: ./.github/actions/yarn-nm-install
 
-      - name: Is DH affected?
-        id: dh_affected
-        uses: ./.github/actions/affected
-        with:
-          base: ${{ github.ref == 'refs/heads/main' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
-          project: app-dh
+      # - name: Is DH affected?
+      #   id: dh_affected
+      #   uses: ./.github/actions/affected
+      #   with:
+      #     base: ${{ github.ref == 'refs/heads/main' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+      #     project: app-dh
 
-      - name: Is Watt affected?
-        id: watt_affected
-        uses: ./.github/actions/affected
-        with:
-          base: ${{ github.ref == 'refs/heads/main' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
-          project: ui-watt
+      # - name: Is Watt affected?
+      #   id: watt_affected
+      #   uses: ./.github/actions/affected
+      #   with:
+      #     base: ${{ github.ref == 'refs/heads/main' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+      #     project: ui-watt
