@@ -27,10 +27,4 @@ import { WattCardComponent } from '@energinet-datahub/watt/card';
   templateUrl: './eo-beta-message.component.html',
   styleUrls: ['./eo-beta-message.component.scss'],
 })
-export class EoBetaMessageComponent {
-  isVisible = true;
-
-  closeMessage() {
-    this.isVisible = false;
-  }
-}
+export class EoBetaMessageComponent {}
