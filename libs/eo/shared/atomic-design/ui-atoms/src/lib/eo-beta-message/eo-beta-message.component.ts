@@ -17,7 +17,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import {WattCardComponent} from "@energinet-datahub/watt/card";
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
