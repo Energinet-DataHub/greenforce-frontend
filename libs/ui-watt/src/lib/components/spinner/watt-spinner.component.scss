@@ -1,8 +1,6 @@
 :host {
   display: block;
   --watt-spinner-circle-color: var(--watt-color-primary);
-  --watt-spinner-default-diameter: 44px;
-  --watt-spinner-diameter: var(--watt-spinner-default-diameter);
   width: var(--watt-spinner-diameter);
   height: var(--watt-spinner-diameter);
   position: relative;
