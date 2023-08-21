@@ -1,0 +1,55 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<ng-container *transloco="let t; read: 'marketParticipant.gridAreas'">
+  <ng-container *rxLet="isLoading$ as isLoading">
+    <!-- Validation -->
+    <ng-container *rxLet="validationError$ as validationError">
+      <watt-validation-message
+        type="danger"
+        *ngIf="validationError"
+        [message]="validationError.errorMessage"
+      >
+      </watt-validation-message>
+    </ng-container>
+
+    <!-- Table -->
+    <dh-market-participant-gridarea-overview
+      [gridAreas]="rows$ | push"
+      [gridChanges]="onGridAreaChanged"
+      [gridChangesLoading]="gridAreaChangesIsLoading$ | push"
+      [activeGridAreaAuditLog]="auditLog$ | push"
+      [getGridAreaData]="getGridAreaData"
+      [isLoadingAuditLog]="isLoadingAuditLog$ | push"
+    ></dh-market-participant-gridarea-overview>
+
+    <!-- Spinner -->
+    <div *ngIf="isLoading" class="overview__spinner spinner-container">
+      <watt-spinner></watt-spinner>
+    </div>
+
+    <!-- Empty -->
+    <ng-container *rxLet="rows$ as rows">
+      <watt-empty-state
+        *ngIf="!isLoading && rows.length === 0"
+        icon="power"
+        size="small"
+        [title]="t('noGridAreas')"
+      ></watt-empty-state>
+    </ng-container>
+  </ng-container>
+</ng-container>

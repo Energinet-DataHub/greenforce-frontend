@@ -1,0 +1,125 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let t; read: 'wholesale.settlementReports'">
+  <watt-card>
+    <watt-card-title>
+      <h3>
+        {{ t("results") }}
+        <span class="watt-chip-label">{{ dataSource.data.length }}</span>
+      </h3>
+    </watt-card-title>
+
+    <form [formGroup]="searchForm" class="form-grid watt-space-stack-m">
+      <watt-date-range-chip formControlName="period">{{
+        "shared.form.filters.period" | transloco
+      }}</watt-date-range-chip>
+
+      <watt-form-field class="grid-area-picker">
+        <watt-dropdown
+          formControlName="gridAreas"
+          [chipMode]="true"
+          [multiple]="true"
+          [options]="gridAreas"
+          [placeholder]="
+            searchForm.controls.gridAreas.disabled
+              ? t('filters.loadingGridAreas')
+              : t('filters.gridAreasPlaceholder')
+          "
+        ></watt-dropdown>
+      </watt-form-field>
+
+      <watt-form-field class="actor-picker">
+        <watt-dropdown
+          formControlName="actor"
+          [chipMode]="true"
+          [options]="actors"
+          [placeholder]="
+            searchForm.controls.actor.disabled
+              ? t('filters.loadingActors')
+              : t('filters.actorPlaceholder')
+          "
+        ></watt-dropdown>
+      </watt-form-field>
+
+      <watt-button variant="text" icon="undo" type="reset">
+        {{ "shared.form.reset" | transloco }}
+      </watt-button>
+    </form>
+
+    <watt-table
+      [dataSource]="dataSource"
+      [columns]="columns"
+      [selectable]="true"
+      sortBy="gridAreaCode"
+      sortDirection="asc"
+    >
+      <!-- Grid Area Name -->
+      <ng-container
+        *wattTableCell="columns.gridAreaName; header: t('table.gridAreaName'); let gridArea"
+      >
+        {{ gridArea.name }} ({{ gridArea.code }})
+      </ng-container>
+
+      <!-- Grid Area Code -->
+      <ng-container
+        *wattTableCell="columns.gridAreaCode; header: t('table.gridAreaCode'); let gridArea"
+      >
+        {{ gridArea.code }}
+      </ng-container>
+
+      <!-- Download -->
+      <ng-container *wattTableCell="columns.download; header: ''; let gridArea">
+        <watt-button
+          variant="icon"
+          title="{{ t('download') }}"
+          icon="download"
+          [disabled]="!searchForm.valid"
+          (click)="downloadClicked([gridArea])"
+        >
+        </watt-button>
+      </ng-container>
+      <ng-container *wattTableToolbar="let selection">
+        <ng-container *ngIf="selection.length === 1">
+          {{ t("selectedRows.singular", { selectedCount: selection.length }) }}
+        </ng-container>
+        <ng-container *ngIf="selection.length !== 1">
+          {{ t("selectedRows.plural", { selectedCount: selection.length }) }}
+        </ng-container>
+        <watt-table-toolbar-spacer />
+        <watt-button
+          icon="download"
+          (click)="downloadClicked(selection)"
+          [disabled]="!searchForm.valid"
+          >{{ t("downloadNoBasisData") }}
+        </watt-button>
+      </ng-container>
+    </watt-table>
+
+    <watt-empty-state
+      *ngIf="error"
+      icon="custom-power"
+      [title]="'shared.error.title' | transloco"
+      [message]="'shared.error.message' | transloco"
+    ></watt-empty-state>
+
+    <ng-container>
+      <h4 *ngIf="gridAreas.length === 0" class="no-results-text">
+        {{ t("noEntries") }}
+      </h4>
+    </ng-container>
+  </watt-card>
+</ng-container>

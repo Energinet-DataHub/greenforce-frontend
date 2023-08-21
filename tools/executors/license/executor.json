@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "add": {
+      "implementation": "./impl",
+      "schema": "./schema.json",
+      "description": "Adds licenses based on .licenserc"
+    }
+  }
+}

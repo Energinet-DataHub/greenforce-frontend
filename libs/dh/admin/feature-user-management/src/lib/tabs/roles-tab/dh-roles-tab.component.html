@@ -1,0 +1,76 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
+  <ng-container *rxLet="isLoading$ as isLoading">
+    <div *ngIf="isLoading" class="user-roles__spinner">
+      <watt-spinner></watt-spinner>
+    </div>
+
+    <ng-container *ngIf="!isLoading">
+      <dh-roles-tab-list-filter
+        (statusChanged)="updateFilterStatus($event)"
+        (eicFunctionChanged)="updateFilterEicFunction($event)"
+        (searchTermChanged)="updateSearchTerm($event)"
+      >
+      </dh-roles-tab-list-filter>
+
+      <watt-card *rxLet="roles$ as roles">
+        <watt-card-title>
+          <div class="create-role-header-container">
+            <h4>{{ t("rolesHeadline") }}</h4>
+            <div class="create-role-table-buttons">
+              <watt-button
+                *transloco="let t; read: 'admin.userManagement'"
+                icon="download"
+                variant="text"
+                (click)="download(rolesTable.filteredAndSortedData)"
+                >{{ t("download") }}</watt-button
+              >
+
+              <dh-shared-ui-paginator #paginator [length]="roles.length"> </dh-shared-ui-paginator>
+
+              <watt-button
+                *dhPermissionRequired="['user-roles:manage']"
+                icon="plus"
+                variant="secondary"
+                (click)="isCreateUserRoleModalVisible = true"
+                >{{ t("createuserrole") }}
+              </watt-button>
+            </div>
+          </div>
+        </watt-card-title>
+        <dh-roles-tab-table
+          #rolesTable
+          [roles]="roles"
+          [paginator]="paginator"
+          (userRoleDeactivated)="reloadRoles()"
+        ></dh-roles-tab-table>
+      </watt-card>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+    <div *ngIf="hasGeneralError" class="user-roles__error">
+      <dh-tab-data-general-error (reload)="reloadRoles()"></dh-tab-data-general-error>
+    </div>
+  </ng-container>
+</ng-container>
+
+<dh-create-user-role-modal
+  *ngIf="isCreateUserRoleModalVisible"
+  (closed)="modalOnClose($event)"
+></dh-create-user-role-modal>

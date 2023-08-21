@@ -1,0 +1,122 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let transloco; read: 'messageArchive.search'">
+  <ng-container *rxLet="searching$ as searching">
+    <ng-container *rxLet="continuationToken$ as continuationToken">
+      <form class="form" [formGroup]="searchForm" name="log-search-form" (ngSubmit)="onSubmit()">
+        <!-- MessageId -->
+        <watt-form-field>
+          <watt-label>{{ transloco("messageId") }}</watt-label>
+          <input formControlName="messageId" wattInput type="text" name="messageId" />
+        </watt-form-field>
+
+        <!-- Document Type -->
+        <watt-form-field>
+          <watt-label>{{ transloco("documentType") }}</watt-label>
+          <watt-dropdown
+            formControlName="documentTypes"
+            [options]="documentTypeFieldOptions"
+            name="documentType"
+            [placeholder]="transloco('typeOrChoose')"
+            [multiple]="true"
+          >
+          </watt-dropdown>
+        </watt-form-field>
+
+        <!-- Business Reason -->
+        <watt-form-field>
+          <watt-label>{{ transloco("businessReason") }}</watt-label>
+          <watt-dropdown
+            formControlName="businessReasons"
+            [options]="businessReasonFormFieldOptions"
+            name="businessReason"
+            [placeholder]="transloco('typeOrChoose')"
+            [multiple]="true"
+          >
+          </watt-dropdown>
+        </watt-form-field>
+
+        <!-- Sender -->
+        <watt-form-field>
+          <watt-label>{{ transloco("senderGln") }}</watt-label>
+          <watt-dropdown
+            formControlName="senderNumber"
+            [options]="(getActorOptions$ | async) ?? []"
+            name="senderNumber"
+            [placeholder]="transloco('typeOrChoose')"
+          >
+          </watt-dropdown>
+        </watt-form-field>
+
+        <!-- Receiver -->
+        <watt-form-field>
+          <watt-label>{{ transloco("receiverGln") }}</watt-label>
+          <watt-dropdown
+            formControlName="receiverNumber"
+            [options]="(getActorOptions$ | async) ?? []"
+            name="receiverNumber"
+            [placeholder]="transloco('typeOrChoose')"
+          >
+          </watt-dropdown>
+        </watt-form-field>
+
+        <div class="rowContainer">
+          <watt-form-field>
+            <watt-label>{{ transloco("periode") }}</watt-label>
+            <watt-datepicker formControlName="dateRange" [range]="true"></watt-datepicker>
+            <watt-error *ngIf="searchForm.controls.dateRange.errors?.rangeRequired">
+              {{ transloco("invalidDate") }}
+            </watt-error>
+          </watt-form-field>
+
+          <watt-form-field>
+            <watt-label>{{ transloco("time") }}</watt-label>
+            <watt-timepicker formControlName="timeRange" [range]="true"></watt-timepicker>
+          </watt-form-field>
+
+          <!-- Reference id -->
+          <watt-checkbox formControlName="includeRelated" wattInput name="reference-id">{{
+            transloco("includeRelatedMessage")
+          }}</watt-checkbox>
+          <div class="buttons-container">
+            <watt-button (click)="resetSearchCriteria()" icon="remove" variant="secondary">{{
+              transloco("clearSearch")
+            }}</watt-button>
+            <!-- Search -->
+            <watt-button
+              *rxLet="searching$ as seaching"
+              [disabled]="seaching"
+              variant="primary"
+              type="submit"
+              icon="search"
+              >{{ transloco("startSearch") }}</watt-button
+            >
+          </div>
+        </div>
+      </form>
+      <dh-message-archive-log-search-result
+        *rxLet="searchResult$ as searchResult"
+        [searchResult]="searchResult$ | push"
+        [hasSearchError]="hasSearchError$ | push"
+        [isInit]="isInit$ | push"
+        [isSearching]="searching"
+        [actors]="getActorOptions$ | push"
+      >
+      </dh-message-archive-log-search-result>
+    </ng-container>
+  </ng-container>
+</ng-container>

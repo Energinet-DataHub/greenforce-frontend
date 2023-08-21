@@ -1,0 +1,225 @@
+{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nx"],
+  "extends": ["plugin:storybook/recommended"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "@nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "depConstraints": [
+              {
+                "sourceTag": "type:app",
+                "onlyDependOnLibsWithTags": [
+                  "type:test-util",
+                  "type:shell",
+                  "type:environments",
+                  "type:assets",
+                  "type:styles"
+                ]
+              },
+              {
+                "sourceTag": "type:e2e",
+                "onlyDependOnLibsWithTags": [
+                  "type:api",
+                  "type:app",
+                  "type:assets",
+                  "type:domain",
+                  "type:e2e-util"
+                ]
+              },
+              {
+                "sourceTag": "type:feature",
+                "onlyDependOnLibsWithTags": [
+                  "type:assets",
+                  "type:configuration",
+                  "type:data-access",
+                  "type:domain",
+                  "type:environments",
+                  "type:feature",
+                  "type:routing",
+                  "type:test-util",
+                  "type:ui",
+                  "type:util"
+                ]
+              },
+              {
+                "sourceTag": "type:ui",
+                "onlyDependOnLibsWithTags": [
+                  "type:ui",
+                  "type:util",
+                  "type:test-util",
+                  "type:domain",
+                  "type:assets",
+                  "type:styles"
+                ]
+              },
+              {
+                "sourceTag": "type:data-access",
+                "onlyDependOnLibsWithTags": [
+                  "type:data-access",
+                  "type:routing",
+                  "type:util",
+                  "type:test-util",
+                  "type:domain",
+                  "type:environments"
+                ]
+              },
+              {
+                "sourceTag": "type:routing",
+                "onlyDependOnLibsWithTags": [
+                  "type:data-access",
+                  "type:routing",
+                  "type:util",
+                  "type:test-util",
+                  "type:shell",
+                  "type:domain"
+                ]
+              },
+              {
+                "sourceTag": "type:util",
+                "onlyDependOnLibsWithTags": [
+                  "type:util",
+                  "type:test-util",
+                  "type:environments"
+                ]
+              },
+              {
+                "sourceTag": "type:test-util",
+                "onlyDependOnLibsWithTags": [
+                  "type:feature",
+                  "type:data-access",
+                  "type:domain",
+                  "type:util",
+                  "type:test-util",
+                  "type:configuration",
+                  "type:assets"
+                ]
+              },
+              {
+                "sourceTag": "type:e2e-util",
+                "onlyDependOnLibsWithTags": [
+                  "type:util",
+                  "type:test-util",
+                  "type:e2e-util"
+                ]
+              },
+              {
+                "sourceTag": "type:domain",
+                "onlyDependOnLibsWithTags": [
+                  "type:domain",
+                  "type:util",
+                  "type:test-util"
+                ]
+              },
+              {
+                "sourceTag": "type:shell",
+                "onlyDependOnLibsWithTags": [
+                  "type:feature",
+                  "type:ui",
+                  "type:data-access",
+                  "type:routing",
+                  "type:util",
+                  "type:test-util",
+                  "type:shell",
+                  "type:domain",
+                  "type:configuration",
+                  "type:environments",
+                  "type:assets",
+                  "type:styles"
+                ]
+              },
+              {
+                "sourceTag": "type:configuration",
+                "onlyDependOnLibsWithTags": [
+                  "type:data-access",
+                  "type:routing",
+                  "type:util",
+                  "type:test-util",
+                  "type:configuration",
+                  "type:environments",
+                  "type:domain",
+                  "type:assets"
+                ]
+              },
+              {
+                "sourceTag": "type:environments",
+                "onlyDependOnLibsWithTags": [
+                  "type:util",
+                  "type:test-util",
+                  "type:environments",
+                  "type:assets"
+                ]
+              },
+              {
+                "sourceTag": "type:assets",
+                "onlyDependOnLibsWithTags": ["type:assets"]
+              },
+              {
+                "sourceTag": "type:styles",
+                "onlyDependOnLibsWithTags": ["type:assets", "type:styles"]
+              },
+              {
+                "sourceTag": "product:dh",
+                "onlyDependOnLibsWithTags": [
+                  "product:dh",
+                  "product:gf",
+                  "product:watt"
+                ]
+              },
+              {
+                "sourceTag": "product:eo",
+                "onlyDependOnLibsWithTags": [
+                  "product:eo",
+                  "product:gf",
+                  "product:watt"
+                ]
+              },
+              {
+                "sourceTag": "product:gf",
+                "onlyDependOnLibsWithTags": ["product:gf"]
+              },
+              {
+                "sourceTag": "product:watt",
+                "onlyDependOnLibsWithTags": ["product:watt", "type:test-util"]
+              },
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nx/typescript"]
+    },
+    {
+      "files": ["*.ts"],
+      "extends": ["plugin:@ngrx/component-store-strict"]
+    },
+    {
+      "files": ["*.js", "*.ts"],
+      "extends": ["plugin:sonarjs/recommended"],
+      "rules": {
+        "sonarjs/cognitive-complexity": ["error", 8]
+      }
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
+      "rules": {}
+    },
+    {
+      "files": "*.json",
+      "parser": "jsonc-eslint-parser",
+      "rules": {}
+    }
+  ]
+}

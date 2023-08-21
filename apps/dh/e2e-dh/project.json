@@ -1,0 +1,41 @@
+{
+  "name": "e2e-dh",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/dh/e2e-dh/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/dh/e2e-dh/cypress.config.ts",
+        "devServerTarget": "app-dh:serve:mocked",
+        "testingType": "e2e",
+        "baseUrl": "https://localhost:4200"
+      },
+      "configurations": {
+        "ci": {
+          "devServerTarget": "app-dh:serve:mocked",
+          "ignoreTestFiles": "**/*-healthchecks.cy.ts",
+          "browser": "chrome"
+        },
+        "health": {
+          "devServerTarget": "app-dh:serve:mocked",
+          "spec": "**/*-healthchecks.cy.ts",
+          "browser": "chrome"
+        },
+        "production": {
+          "devServerTarget": "app-dh:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/dh/e2e-dh/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": ["product:dh", "type:e2e"],
+  "implicitDependencies": ["app-dh"]
+}

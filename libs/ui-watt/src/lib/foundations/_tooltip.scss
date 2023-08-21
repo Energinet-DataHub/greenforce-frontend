@@ -1,0 +1,67 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@use "./typography/typography.import" as typography;
+@use "./spacing/spacing.import" as space;
+
+$arrow-size: 6px; // magic number by designer
+
+.mat-tooltip-panel .mat-tooltip {
+  @include typography.watt-text-s;
+  overflow: visible;
+  margin: var(--watt-space-m);
+  background-color: var(--watt-color-primary-dark);
+
+  &::before {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    border: $arrow-size solid transparent;
+  }
+
+  &.mat-tooltip-handset {
+    @include space.inset-squish-s;
+  }
+}
+
+.mat-tooltip-panel-below .mat-tooltip::before {
+  bottom: 100%;
+  left: calc(50% - $arrow-size);
+  border-top-width: 0;
+  border-bottom-color: var(--watt-color-primary-dark);
+}
+
+.mat-tooltip-panel-above .mat-tooltip::before {
+  top: 100%;
+  left: calc(50% - $arrow-size);
+  border-bottom-width: 0;
+  border-top-color: var(--watt-color-primary-dark);
+}
+
+.mat-tooltip-panel-left .mat-tooltip::before {
+  left: 100%;
+  top: calc(50% - $arrow-size);
+  border-right-width: 0;
+  border-left-color: var(--watt-color-primary-dark);
+}
+
+.mat-tooltip-panel-right .mat-tooltip::before {
+  right: 100%;
+  top: calc(50% - $arrow-size);
+  border-left-width: 0;
+  border-right-color: var(--watt-color-primary-dark);
+}

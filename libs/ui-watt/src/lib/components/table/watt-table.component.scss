@@ -1,0 +1,172 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@use "@energinet-datahub/watt/utils" as watt;
+
+watt-table,
+watt-table .mat-table {
+  display: grid;
+  position: relative;
+  overflow: auto;
+}
+
+watt-table .mat-table {
+  grid-template-columns: var(--watt-table-grid-template-columns);
+  grid-auto-rows: max-content;
+  max-height: 100%;
+  z-index: 1;
+
+  thead,
+  tbody,
+  tfoot,
+  tr.mat-row,
+  tr.mat-header-row,
+  tr.mat-footer-row {
+    display: contents;
+  }
+
+  tr.mat-header-row {
+    flex: 0 0 auto;
+  }
+
+  th.mat-header-cell {
+    display: flex;
+    position: sticky;
+    top: 0;
+    padding: 0 var(--watt-space-s);
+    height: auto;
+    background: var(--watt-color-primary-ultralight);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  td.mat-cell {
+    display: flex;
+    align-items: center;
+    min-height: 56px; /* Magic UX number */
+    padding: var(--watt-space-s) var(--watt-space-m);
+  }
+
+  .watt-table-clickable-row td {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .watt-table-highlight-row:hover:not(.watt-table-active-row) td {
+    background: var(--watt-color-neutral-grey-100);
+  }
+
+  .watt-table-active-row td {
+    background: var(--watt-color-secondary-ultralight);
+  }
+
+  .mat-sort-header-arrow {
+    margin: 0;
+  }
+
+  .mat-sort-header-position-before .mat-sort-header-arrow {
+    margin-left: var(--watt-space-s);
+  }
+
+  .mat-sort-header-position-after .mat-sort-header-arrow {
+    margin-right: var(--watt-space-s);
+  }
+
+  .watt-table-header-cell {
+    display: inline-block;
+    @include watt.space-inset-stretch-s;
+  }
+
+  .watt-table-checkbox-cell {
+    justify-content: center;
+  }
+
+  th.watt-table-checkbox-cell {
+    display: flex;
+    align-items: center;
+    z-index: 2 !important; // override local style
+  }
+
+  .watt-table-align-center,
+  .watt-table-align-center .mat-sort-header-container {
+    justify-content: center;
+  }
+
+  .watt-table-align-right,
+  .watt-table-align-right .mat-sort-header-container {
+    justify-content: right;
+  }
+}
+
+.watt-table-footer-spacer {
+  display: none;
+  height: 76px; // Magic BJH number
+  border: 0;
+}
+
+.watt-table-has-selection .watt-table-footer-spacer {
+  display: block;
+}
+
+.watt-table-has-selection + .watt-table-toolbar {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s cubic-bezier(0, 0, 0.2, 1), visibility 0.5s;
+}
+
+.watt-table-toolbar {
+  position: absolute;
+  bottom: var(--watt-space-m);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--watt-space-m);
+  min-height: 44px; // Magic UX number
+  border-radius: 22px; // Magic UX number
+  color: var(--watt-color-primary-contrast);
+  background-color: var(--watt-color-primary);
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: none;
+}
+
+.watt-table-loading-cell:before {
+  content: "";
+  flex: 1;
+  display: block;
+  max-width: 200px;
+  height: var(--watt-space-m);
+  border-radius: var(--watt-space-m);
+  opacity: 0.75;
+  animation: shine 2s infinite linear;
+  background-color: var(--watt-color-neutral-grey-200);
+  background-size: 300px;
+  background-position: -100px;
+  background-image: linear-gradient(
+    90deg,
+    var(--watt-color-neutral-grey-300) 0px,
+    var(--watt-color-neutral-grey-200) 40px,
+    var(--watt-color-neutral-grey-300) 80px
+  );
+}
+
+@keyframes shine {
+  40%,
+  100% {
+    background-position: 200px;
+  }
+}

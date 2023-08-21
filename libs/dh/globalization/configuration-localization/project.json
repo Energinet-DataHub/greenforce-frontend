@@ -1,0 +1,29 @@
+{
+  "name": "dh-globalization-configuration-localization",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/globalization/configuration-localization/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/globalization/configuration-localization"
+      ],
+      "options": {
+        "jestConfig": "libs/dh/globalization/configuration-localization/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/globalization/configuration-localization/src/**/*.ts",
+          "libs/dh/globalization/configuration-localization/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:globalization", "type:configuration"]
+}

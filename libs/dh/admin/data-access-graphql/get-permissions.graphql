@@ -1,0 +1,8 @@
+query GetPermissions($searchTerm: String) {
+  permissions(searchTerm: $searchTerm) {
+    id
+    name
+    description
+    created
+  }
+}

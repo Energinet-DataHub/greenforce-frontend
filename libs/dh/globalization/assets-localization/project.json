@@ -1,0 +1,9 @@
+{
+  "name": "dh-globalization-assets-localization",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/globalization/assets-localization/src",
+  "prefix": "dh",
+  "targets": {},
+  "tags": ["product:dh", "domain:globalization", "type:assets"]
+}

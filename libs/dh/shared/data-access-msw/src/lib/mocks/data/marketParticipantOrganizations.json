@@ -1,0 +1,3374 @@
+[
+  {
+    "organizationId": "b3bdd441-4f22-4f84-b88f-08da5f288474",
+    "name": "97 MJM",
+    "businessRegisterIdentifier": "344434",
+    "comment": "ok",
+    "status": "Deleted",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "efad0fee-9d7c-49c6-7c17-08da5f28ddb1",
+        "externalActorId": "8b93b711-a4f8-4434-b7ec-794e408316fa",
+        "actorNumber": { "value": "9561643029441" },
+        "status": "Active",
+        "name": { "value": "Navn Ændret" },
+        "marketRoles": [
+          {
+            "eicFunction": "BalanceResponsibleParty",
+            "gridAreas": [
+              {
+                "id": "2f8197d5-05a7-4f68-957c-73d95d1c9289",
+                "meteringPointTypes": ["D01VeProduction"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "actorId": "ccbc4dab-1c14-49af-7c18-08da5f28ddb1",
+        "externalActorId": null,
+        "actorNumber": { "value": "9561643029441" },
+        "status": "New",
+        "name": { "value": "123413123" },
+        "marketRoles": []
+      },
+      {
+        "actorId": "44ff3dc4-d4f0-4620-8ed8-cade66efccee",
+        "externalActorId": null,
+        "actorNumber": { "value": "11X0-0000-0544-U" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": []
+      }
+    ]
+  },
+  {
+    "organizationId": "f47627be-7fdc-4f52-d9b7-08da5b54ad57",
+    "name": "98 MJM",
+    "businessRegisterIdentifier": "99990094",
+    "comment": "Comment",
+    "status": "New",
+    "address": {
+      "streetName": "Vejen",
+      "number": "1",
+      "zipCode": "7000",
+      "city": "Fredericia",
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "bba9c1d9-6401-47e5-9ccf-08da5b54cabe",
+        "externalActorId": null,
+        "actorNumber": { "value": "2679900651087" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": [
+          {
+            "eicFunction": "MeterAdministrator",
+            "gridAreas": [
+              {
+                "id": "2f8197d5-05a7-4f68-957c-73d95d1c9289",
+                "meteringPointTypes": ["D01VeProduction"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "actorId": "4b6879fd-c7ae-4070-bc21-08da5e5bb8d2",
+        "externalActorId": null,
+        "actorNumber": { "value": "5173653442420" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": []
+      },
+      {
+        "actorId": "c728cf47-2188-4db6-e3b9-08da5e6475f2",
+        "externalActorId": null,
+        "actorNumber": { "value": "4005424144312" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": []
+      }
+    ]
+  },
+  {
+    "organizationId": "e2fab587-92a2-4fd9-5c35-08da5b43738e",
+    "name": "99 MMJ",
+    "businessRegisterIdentifier": "99990093",
+    "comment": "Hello",
+    "status": "New",
+    "address": {
+      "streetName": "Vejen",
+      "number": "1",
+      "zipCode": "7000",
+      "city": "Fredericia",
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "fdb587b5-1f37-4c2a-babb-08da5b43986b",
+        "externalActorId": null,
+        "actorNumber": { "value": "0781383147284" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": [
+          {
+            "eicFunction": "EnergySupplier",
+            "gridAreas": [
+              {
+                "id": "31e25acd-7a93-4740-b5c6-e931785d5d38",
+                "meteringPointTypes": ["D03NotUsed"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "actorId": "8da6487d-0525-4382-babc-08da5b43986b",
+        "externalActorId": null,
+        "actorNumber": { "value": "0814053749331" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": []
+      }
+    ]
+  },
+  {
+    "organizationId": "14baa99e-7352-4db0-d459-08da43b05b14",
+    "name": "A MJM 2",
+    "businessRegisterIdentifier": "99990115",
+    "comment": "h",
+    "status": "New",
+    "address": {
+      "streetName": "Vejen",
+      "number": "1",
+      "zipCode": "7000",
+      "city": "Fredericia",
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "e6d717fe-6184-4821-26a5-08da43b0820e",
+        "externalActorId": null,
+        "actorNumber": { "value": "8656101394160" },
+        "status": "Inactive",
+        "name": { "value": "" },
+        "marketRoles": [
+          {
+            "eicFunction": "SystemOperator",
+            "gridAreas": [
+              {
+                "id": "2f8197d5-05a7-4f68-957c-73d95d1c9289",
+                "meteringPointTypes": ["D01VeProduction"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "actorId": "552bf61e-4d47-41df-fbb9-08da58feca82",
+        "externalActorId": "7e5094e8-729a-4995-91f0-5e15c41525f5",
+        "actorNumber": { "value": "0963827376737" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          {
+            "eicFunction": "MeteredDataResponsible",
+            "gridAreas": [
+              {
+                "id": "2f8197d5-05a7-4f68-957c-73d95d1c9289",
+                "meteringPointTypes": ["D02Analysis"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "actorId": "a0efe840-0fb0-4c2c-d0a3-08da5aa0a67b",
+        "externalActorId": null,
+        "actorNumber": { "value": "0520580899080" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "4ec67d38-68c1-4099-b3e7-08da584664c0",
+    "name": "A MJM 2",
+    "businessRegisterIdentifier": "99990092",
+    "comment": "Comment",
+    "status": "New",
+    "address": {
+      "streetName": "Vej",
+      "number": "1",
+      "zipCode": "7000",
+      "city": "Fredericia",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "8ab50b10-5b41-4af4-1873-08da4a104def",
+    "name": "A MJM 2206091400",
+    "businessRegisterIdentifier": "99990116",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": "Vejen",
+      "number": "1",
+      "zipCode": "7000",
+      "city": "Fredericia",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "a726459a-0358-4d6c-ffb3-08da2749fbb7",
+    "name": "A MJM Test 3 ",
+    "businessRegisterIdentifier": "12345670",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": "Hejvej",
+      "number": "i",
+      "zipCode": "6000",
+      "city": "Fredericia",
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "85109890-6fea-486d-3ff3-08da2dc66d57",
+        "externalActorId": "5ef6f4d0-8f7d-4665-9f14-91c21ceca22d",
+        "actorNumber": { "value": "3583430789310" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": []
+      },
+      {
+        "actorId": "1492cd97-1aad-4267-db37-08da3a2de5db",
+        "externalActorId": "4dbce63b-288b-4d3c-9968-1ddf8ef1e4c5",
+        "actorNumber": { "value": "3583430789310" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "BalanceResponsibleParty", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "0f41b1c4-c009-42b3-fc4f-08da331380f6",
+    "name": "A MJM Testsdfsdfffff",
+    "businessRegisterIdentifier": "99990098",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": "Vejen TestVejen TestVejen TestVejen TestVejen TestVejen TestVeje",
+      "number": "1",
+      "zipCode": "7000",
+      "city": "Fredericia",
+      "country": "GB"
+    },
+    "actors": [
+      {
+        "actorId": "b4594138-132b-44a9-c241-08da3314c571",
+        "externalActorId": "b7d39a0d-f334-4de5-a5f3-81cad6f73609",
+        "actorNumber": { "value": "2678824437777" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": []
+      },
+      {
+        "actorId": "bdbfef68-7f59-4483-c244-08da3314c571",
+        "externalActorId": "fbcc7cd2-d378-4b6a-bf3b-67dddf810777",
+        "actorNumber": { "value": "6194960652523" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      },
+      {
+        "actorId": "c0abe83b-df48-4feb-aa81-08da3804e9ee",
+        "externalActorId": "78a19d28-640c-4178-91b7-e59d851e4315",
+        "actorNumber": { "value": "7914351637149" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": []
+      }
+    ]
+  },
+  {
+    "organizationId": "e586e897-60e7-4f95-c109-08da26affe2e",
+    "name": "A Test MJM",
+    "businessRegisterIdentifier": "99990119",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "b7158c89-8196-4799-c242-08da3314c571",
+        "externalActorId": "39a49d21-83e9-4470-b95f-5a0508a3d42b",
+        "actorNumber": { "value": "1057341175354" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": []
+      },
+      {
+        "actorId": "d8f74c86-2ee0-4775-c243-08da3314c571",
+        "externalActorId": "9e7a1861-199b-4cf9-a341-dc55e9d1f269",
+        "actorNumber": { "value": "1057341175354" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": []
+      },
+      {
+        "actorId": "4be4bffc-0d9b-48cc-e207-08da4300a6b3",
+        "externalActorId": null,
+        "actorNumber": { "value": "1193300930098" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": [
+          {
+            "eicFunction": "EnergySupplier",
+            "gridAreas": [
+              {
+                "id": "c5ee11ed-1d93-439d-8c6d-fabf993c7a3c",
+                "meteringPointTypes": ["D02Analysis"]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "3fba10f2-cd9e-4b3d-ff83-08da17182d5d",
+    "name": "ABC A/S",
+    "businessRegisterIdentifier": "99990118",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": "Hejvej",
+      "number": "3",
+      "zipCode": "7000",
+      "city": "Fredericia",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "ff9cf1d8-9c5f-4dee-d7b4-08da2910131e",
+    "name": "ABCD A/S",
+    "businessRegisterIdentifier": "99990076",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": "Testvej",
+      "number": "42",
+      "zipCode": "7100",
+      "city": "Vejle",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "0bd28eca-69a3-40a5-b678-19a2db936dfc",
+    "name": "Batman - DDM Test 1 -",
+    "businessRegisterIdentifier": "99990007",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "bc5afd9a-0f5b-46bf-9c51-44d0e02ee713",
+        "externalActorId": "0fc7e028-3157-48f2-8744-5c23effe857d",
+        "actorNumber": { "value": "8200000002765" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "98eeca55-b01c-4ec8-a624-b2401f3ad2ab",
+    "name": "Batman - DDM Test 2 -",
+    "businessRegisterIdentifier": "99990059",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "a447ca9d-381c-4105-bfb1-6c2feae3a9a1",
+        "externalActorId": "cb2266e1-7acd-49f7-95ae-858ef7800e39",
+        "actorNumber": { "value": "8200000003519" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "501c8550-066d-4c2a-9cff-74f2f5ab9437",
+    "name": "Batman - DDM Test 3 -",
+    "businessRegisterIdentifier": "99990039",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "a47f4b15-423e-4023-b373-74a682590800",
+        "externalActorId": "55878bd4-ef25-4f2e-8ba8-b2f3cca962e6",
+        "actorNumber": { "value": "8200000002727" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "bb01b793-1f2d-4e27-9f8d-19f70190b73c",
+    "name": "Batman - DDM Test 4 -",
+    "businessRegisterIdentifier": "99990008",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "f39ea90e-8c59-43bf-a7bf-f11a0ba14560",
+        "externalActorId": "1e2cc2e8-670e-40fa-bfae-be0fec70e9aa",
+        "actorNumber": { "value": "8200000005131" },
+        "status": "Active",
+        "name": { "value": "Net Batman operatør" },
+        "marketRoles": [
+          {
+            "eicFunction": "GridAccessProvider",
+            "gridAreas": [
+              {
+                "id": "be4dd3fa-b91e-4539-9868-0eaa1a0e4728",
+                "meteringPointTypes": [
+                  "D13NetLossCorrection",
+                  "D14ElectricalHeating",
+                  "D15NetConsumption",
+                  "D17OtherConsumption",
+                  "D18OtherProduction",
+                  "D20ExchangeReactiveEnergy",
+                  "D07ConsumptionFromGrid",
+                  "D08WholeSaleServicesInformation",
+                  "D09OwnProduction",
+                  "D10NetFromGrid",
+                  "D11NetToGrid",
+                  "D12TotalConsumption",
+                  "D01VeProduction",
+                  "D02Analysis",
+                  "D03NotUsed",
+                  "D04SurplusProductionGroup6",
+                  "D05NetProduction",
+                  "D06SupplyToGrid",
+                  "D99InternalUse",
+                  "E17Consumption",
+                  "E18Production",
+                  "E20Exchange"
+                ]
+              }
+            ]
+          },
+          {
+            "eicFunction": "MeteredDataResponsible",
+            "gridAreas": [
+              {
+                "id": "be4dd3fa-b91e-4539-9868-0eaa1a0e4728",
+                "meteringPointTypes": [
+                  "D01VeProduction",
+                  "D02Analysis",
+                  "E18Production",
+                  "E20Exchange",
+                  "D15NetConsumption",
+                  "D17OtherConsumption",
+                  "D18OtherProduction",
+                  "D20ExchangeReactiveEnergy",
+                  "D99InternalUse",
+                  "E17Consumption",
+                  "D09OwnProduction",
+                  "D10NetFromGrid",
+                  "D11NetToGrid",
+                  "D12TotalConsumption",
+                  "D13NetLossCorrection",
+                  "D14ElectricalHeating",
+                  "D03NotUsed",
+                  "D04SurplusProductionGroup6",
+                  "D05NetProduction",
+                  "D06SupplyToGrid",
+                  "D07ConsumptionFromGrid",
+                  "D08WholeSaleServicesInformation"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "22111b66-c7a5-4b53-2dc2-08da9fac024a",
+    "name": "Batman elleverandør DDQ",
+    "businessRegisterIdentifier": "12345677",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "9a14c0e1-cf8b-455e-837b-fd75e58aa84d",
+        "externalActorId": "f9885e5d-e11c-47ba-aac9-e6dc4fcf7773",
+        "actorNumber": { "value": "5178861303303" },
+        "status": "Active",
+        "name": { "value": "Gotham el forsyning" },
+        "marketRoles": [
+          {
+            "eicFunction": "EnergySupplier",
+            "gridAreas": [
+              {
+                "id": "a0b52135-39ba-49f8-b9ef-7bb1b90c1487",
+                "meteringPointTypes": [
+                  "Unknown",
+                  "D01VeProduction",
+                  "D02Analysis",
+                  "D03NotUsed",
+                  "D04SurplusProductionGroup6",
+                  "D05NetProduction",
+                  "D20ExchangeReactiveEnergy",
+                  "D99InternalUse",
+                  "E17Consumption",
+                  "E18Production",
+                  "E20Exchange",
+                  "D12TotalConsumption",
+                  "D13NetLossCorrection",
+                  "D14ElectricalHeating",
+                  "D15NetConsumption",
+                  "D17OtherConsumption",
+                  "D18OtherProduction",
+                  "D06SupplyToGrid",
+                  "D07ConsumptionFromGrid",
+                  "D08WholeSaleServicesInformation",
+                  "D09OwnProduction",
+                  "D10NetFromGrid",
+                  "D11NetToGrid"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "d0263beb-12e9-4da5-898f-2aa39f076d8f",
+    "name": "Batman Test Actor 1",
+    "businessRegisterIdentifier": "99990014",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "febcf445-54f6-4a95-9651-966d1f7ddd79",
+        "externalActorId": "158725db-35b5-4740-8ba4-80c616ec9f92",
+        "actorNumber": { "value": "8200000001409" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "a2b72984-c2f3-40da-b88c-7cab1c85dc45",
+    "name": "Batman U-001",
+    "businessRegisterIdentifier": "99990042",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "7f7974dd-d2af-460e-8684-cc61f58f8117",
+        "externalActorId": "a982de1f-3703-4e3c-be56-4e54418a2a59",
+        "actorNumber": { "value": "0808118335003" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          {
+            "eicFunction": "GridAccessProvider",
+            "gridAreas": [
+              {
+                "id": "a0b52135-39ba-49f8-b9ef-7bb1b90c1487",
+                "meteringPointTypes": [
+                  "D01VeProduction",
+                  "D02Analysis",
+                  "D03NotUsed",
+                  "D04SurplusProductionGroup6",
+                  "D05NetProduction",
+                  "D06SupplyToGrid",
+                  "D99InternalUse",
+                  "E17Consumption",
+                  "E18Production",
+                  "E20Exchange",
+                  "D13NetLossCorrection",
+                  "D14ElectricalHeating",
+                  "D15NetConsumption",
+                  "D17OtherConsumption",
+                  "D18OtherProduction",
+                  "D20ExchangeReactiveEnergy",
+                  "D07ConsumptionFromGrid",
+                  "D08WholeSaleServicesInformation",
+                  "D09OwnProduction",
+                  "D10NetFromGrid",
+                  "D11NetToGrid",
+                  "D12TotalConsumption"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "1bc29dca-43cc-4f17-8603-a3b3bf84895d",
+    "name": "Cerius A/S",
+    "businessRegisterIdentifier": "99990057",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "35e9362d-bf0d-42b0-88c5-70d3cf15e513",
+        "externalActorId": "8e6124b1-36f0-43ac-b022-73d9c0fde334",
+        "actorNumber": { "value": "5790000705184" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "b6f82a20-9aaf-4722-9596-3e336f7503c7",
+    "name": "CGI Danmark A/S",
+    "businessRegisterIdentifier": "99990023",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "66c646b1-bb7f-4795-a9af-3006ad2407fc",
+        "externalActorId": "bfa610c6-c732-4613-9860-2dc04e0894dd",
+        "actorNumber": { "value": "8200000004097" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "44118d69-31c5-45db-ad0b-583cdf5fe444",
+    "name": "CGI Danmark A/S",
+    "businessRegisterIdentifier": "99990033",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "ec3e8d05-d108-4f73-875e-024a813b9d13",
+        "externalActorId": "fa2837d8-430d-4182-871f-304ac4844043",
+        "actorNumber": { "value": "8200000001553" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "990f79b9-a892-45ca-8301-6a75f51bb64d",
+    "name": "CGI Danmark A/S",
+    "businessRegisterIdentifier": "99990036",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "7eae9c57-98fa-4962-bdb2-b80a2b018725",
+        "externalActorId": "46e6b59d-6056-4054-a3c2-99356c067817",
+        "actorNumber": { "value": "8200000004493" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "024fcedc-246e-42a5-ae81-99791ad6d029",
+    "name": "CGI Danmark A/S",
+    "businessRegisterIdentifier": "99990052",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "4eaca15d-4e6a-49ee-abf1-1dd2e41a4477",
+        "externalActorId": "ca34f9c1-2104-48f8-a2e8-d5a99a1f9fc3",
+        "actorNumber": { "value": "8200000004110" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "19d7a4b6-b639-4303-ad5b-08daa5d3c8c5",
+    "name": "DBJ TEST",
+    "businessRegisterIdentifier": "123",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "8483a3aa-216f-40e4-a3df-0adeb74657de",
+    "name": "ED Business Support AS",
+    "businessRegisterIdentifier": "99990004",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "d48ded37-6f6e-4965-b619-ca04c740ffd9",
+        "externalActorId": "c316bc8f-f89b-48da-a0c2-36e972b7ed7d",
+        "actorNumber": { "value": "5790002308369" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "a95cb115-8b4e-426e-927c-0565c2dc633b",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990001",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "27cf566a-3924-47df-ad83-bee47bf46ee3",
+        "externalActorId": "4b8abb49-71f9-465c-9ec3-8f7cbe3f4659",
+        "actorNumber": { "value": "8200000007340" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "463f18b2-330d-499d-afb0-0df09d1fa330",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990005",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "7a5387a7-d316-47bc-ae4a-6baf308352c7",
+        "externalActorId": "51fdc822-ebdd-4882-a80b-eb79cf420479",
+        "actorNumber": { "value": "5790002190223" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "ccadcbb0-c217-4f90-8ee8-172a428ab093",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990006",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "6145da7d-cf05-443d-b8cb-d9f83bdcf04a",
+        "externalActorId": "ef3e33bd-6963-405d-b1b2-f10929861050",
+        "actorNumber": { "value": "8200000004677" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "9946b9d8-5232-4538-9997-22bbcba91c90",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990010",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "4a4284f1-c3c0-4681-8749-83bf39bdbc64",
+        "externalActorId": "f52cd834-cc72-4bbe-961c-ea1d71bf854f",
+        "actorNumber": { "value": "8200000004141" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "21976d83-528f-463d-8477-310e9f1902f4",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990015",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "4a35519d-3e36-4d82-8662-b13fb83cf59d",
+        "externalActorId": "ae9fd1eb-b83d-42e2-8d1c-3b0c8f2b9ef2",
+        "actorNumber": { "value": "8200000006015" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "5f40b349-dcfa-44ab-8314-343613940296",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990017",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "af43d083-4969-4af6-a7b9-6bab2b06a4b0",
+        "externalActorId": "7122b8f6-3fe9-4896-a922-ddde63cc32e8",
+        "actorNumber": { "value": "8200000004653" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "96850b97-60d2-4049-a474-3890b30ee91d",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990019",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "eaaa462d-a397-46b6-bbec-2cbc509b85c9",
+        "externalActorId": "7fd4af08-11e5-46f1-b0e5-29c00c2f733f",
+        "actorNumber": { "value": "5790002190230" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "a8b7d264-b4bb-4f09-a9c0-4789939feb3f",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990028",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "73470df5-c20c-4ce1-9919-140bacda9820",
+        "externalActorId": "08707473-ce69-4699-9780-2c118dd527cf",
+        "actorNumber": { "value": "8200000007388" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "c0253588-ceb2-4117-a6fe-49b35b3f97c2",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990029",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "f42698ca-c051-4055-ad2d-b7047be7eb81",
+        "externalActorId": "3a4ff827-748e-4b1c-a7a2-357e1da5b4ac",
+        "actorNumber": { "value": "8200000004738" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "5e1a47a6-c734-4453-8927-53c03108f420",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990031",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "82191d07-f080-4dd7-84dc-0291fe7ea73a",
+        "externalActorId": "7ba7cbd1-ec9d-4352-ae13-4c04251d75bc",
+        "actorNumber": { "value": "8200000004165" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "ffd669bb-86a0-4df3-b7f7-7ea2a3b4f8be",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990043",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "6d202ae6-a62d-479a-b351-6c8521ced037",
+        "externalActorId": "0becf017-4611-429a-89b5-c194de60eac7",
+        "actorNumber": { "value": "8200000004509" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "e3d0fe62-92ec-4698-a6d3-8f501259a6b4",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990048",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "884c90cb-e0d3-4d41-bea8-fb7795118ca8",
+        "externalActorId": "b425d950-3e15-44a5-84bf-cf029ff110f6",
+        "actorNumber": { "value": "8200000004721" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "0aabcc27-96b8-42e2-bf08-a04b67369cc4",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990056",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "580b8190-4690-4b87-a961-0ea42306c6d0",
+        "externalActorId": "351fa112-a216-421e-a5f6-42cb73f75f5c",
+        "actorNumber": { "value": "8200000005919" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "d927db71-cec7-49ed-8609-b3660a7ccfce",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990060",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "b4bcd8eb-43ac-4af3-80f2-a189e009ebda",
+        "externalActorId": "14f60355-af6c-4267-a89f-2f20c07ea8ad",
+        "actorNumber": { "value": "8200000005711" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "0c72dec1-5682-4aba-bb12-bcaa55e4e741",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990062",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "5d562ca0-8502-4a88-91b2-c4e771be0cf2",
+        "externalActorId": "91fcc2f8-305a-49a7-8e95-730e49bbb85e",
+        "actorNumber": { "value": "5790002190254" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "a31b65b7-be2e-4b19-a780-c1d68c16b662",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990064",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "430a3eef-7354-4d8b-8f9c-5e1f12166408",
+        "externalActorId": "fc9ddf32-1985-4831-9c03-9f95aed6f02c",
+        "actorNumber": { "value": "8200000004714" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "1c9ee900-8825-4c15-9e75-c50391956fb9",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990065",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "ef17da90-99c4-4790-b058-8a01661c779a",
+        "externalActorId": "60257177-cedb-4798-9da1-452301439df7",
+        "actorNumber": { "value": "8200000005810" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "b7ece155-aca9-4d3e-a991-c786abbfdb18",
+    "name": "EG A/S",
+    "businessRegisterIdentifier": "99990066",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "4e815b0d-56bc-4f36-814a-44616b44adb9",
+        "externalActorId": "a363a555-e88b-4cde-a22b-1fd52854ec05",
+        "actorNumber": { "value": "8200000002857" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "0dd54790-6f79-47b9-9ec1-4119b28536f2",
+    "name": "ENDK - Ellev_1A",
+    "businessRegisterIdentifier": "99990026",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "c72a8a76-c134-46d8-af04-1815ce65d19a",
+        "externalActorId": "09591f53-b531-4db5-bb66-a2f52a393d82",
+        "actorNumber": { "value": "5790002420689" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "104a9a7c-0179-4d54-861f-37ed569774da",
+    "name": "ENDK - Ellev_1B",
+    "businessRegisterIdentifier": "99990018",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "0f3dbff4-948a-47dc-852d-fff224e687a5",
+        "externalActorId": "83510249-9f7c-4827-a67c-499a3a94f533",
+        "actorNumber": { "value": "8100000000115" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "8dba3753-6576-48a3-9248-25ca166c7919",
+    "name": "ENDK - Netområde 804",
+    "businessRegisterIdentifier": "99990013",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "f68d8071-4327-445c-a9e3-430eb0891f20",
+        "externalActorId": "0e223e42-bed4-4778-a973-8d0ad9813f71",
+        "actorNumber": { "value": "8100000000047" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "3ec60345-79ab-43c7-9ad7-68fb11bf3cfa",
+    "name": "Energinet DataHub A/S",
+    "businessRegisterIdentifier": "99990035",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "8f3f5dae-a598-43e0-9d01-c7d4fc95708a",
+        "externalActorId": "03603af3-8f70-4b23-b369-454aec9fb4f4",
+        "actorNumber": { "value": "5790001330552" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteringPointAdministrator", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "3f41da43-27b5-410b-8abb-83051ee4265d",
+    "name": "Energiselskabet Natur-Energi A/S",
+    "businessRegisterIdentifier": "99990045",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "dbcd35ed-ab7b-4cf1-a329-fab655265230",
+        "externalActorId": "8ff5c6cf-4b5b-456a-8a58-337efd49aa3b",
+        "actorNumber": { "value": "5790002473739" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "1862283d-dc24-45a9-8a80-851a80c7eea7",
+    "name": "Energiselskabet Natur-Energi A/S",
+    "businessRegisterIdentifier": "99990046",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "1ffd9556-64a9-4071-89a7-5d2a02f2dd48",
+        "externalActorId": "38312a77-50b5-41ce-bd5e-2d0ad7500c0a",
+        "actorNumber": { "value": "5790002473517" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "ca6dc8b8-0127-4187-9ac9-317024150330",
+    "name": "Fellowmind Denmark A/S",
+    "businessRegisterIdentifier": "99990016",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "4e51bf80-c68c-45ff-a126-6e72ce8dead5",
+        "externalActorId": "59090111-0b3e-4530-bc1f-5803a5017415",
+        "actorNumber": { "value": "5790000428687" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "a2c7c267-05f2-40c4-b44b-927d9ecf721b",
+    "name": "Fellowmind Denmark A/S",
+    "businessRegisterIdentifier": "99990050",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "aa0a49de-c84f-459a-b938-f92a679b2bfb",
+        "externalActorId": "dd85c8e2-7e6a-4489-bbf2-20b10acd8077",
+        "actorNumber": { "value": "8200000005056" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "682b154b-0921-42f8-93af-9e5d224bb745",
+    "name": "Fellowmind Denmark A/S",
+    "businessRegisterIdentifier": "99990053",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "853cc4f4-a36b-439a-bc3b-b2c180d53c09",
+        "externalActorId": "bbab4771-3fc4-4c44-99a7-f7ddf0737091",
+        "actorNumber": { "value": "8200000007203" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "ee324460-fb15-42b0-839d-257cab55a9ac",
+    "name": "Inactive Test Actor",
+    "businessRegisterIdentifier": "99990012",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "45113ec9-29d0-4475-9ac7-c97c44e72b25",
+        "externalActorId": "0e71f8a0-38a7-4d79-bf69-c6dcf8929f37",
+        "actorNumber": { "value": "5790001330553" },
+        "status": "Inactive",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "db04734f-8257-45f7-86aa-c9a38a20b212",
+    "name": "Joules U-001",
+    "businessRegisterIdentifier": "99990067",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "aa97ebc0-f778-420a-a3f2-bb3167337539",
+        "externalActorId": "b65bf5d4-16ed-415a-bc42-90331d2f8eaf",
+        "actorNumber": { "value": "8574664796620" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          {
+            "eicFunction": "GridAccessProvider",
+            "gridAreas": [
+              {
+                "id": "01635680-86e1-4146-a485-bbffe2330ff4",
+                "meteringPointTypes": [
+                  "D01VeProduction",
+                  "D02Analysis",
+                  "D03NotUsed",
+                  "D04SurplusProductionGroup6",
+                  "D05NetProduction",
+                  "D06SupplyToGrid",
+                  "D99InternalUse",
+                  "E17Consumption",
+                  "E18Production",
+                  "E20Exchange",
+                  "D13NetLossCorrection",
+                  "D14ElectricalHeating",
+                  "D15NetConsumption",
+                  "D17OtherConsumption",
+                  "D18OtherProduction",
+                  "D20ExchangeReactiveEnergy",
+                  "D07ConsumptionFromGrid",
+                  "D08WholeSaleServicesInformation",
+                  "D09OwnProduction",
+                  "D10NetFromGrid",
+                  "D11NetToGrid",
+                  "D12TotalConsumption"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "48ae9c0f-5524-44c0-a45a-0744899b0980",
+    "name": "KMD A/S",
+    "businessRegisterIdentifier": "99990003",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "2e25a1a1-3a98-4c0e-93e5-2a422d175400",
+        "externalActorId": "f88a12a4-4c5b-4e9c-bd6a-9c48e11ae505",
+        "actorNumber": { "value": "8200000007647" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "3f37e876-50a0-48ba-9cbb-1cf050afb5c3",
+    "name": "KMD A/S",
+    "businessRegisterIdentifier": "99990009",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "4fc18e78-5da8-4d15-a397-684c2e81a3e9",
+        "externalActorId": "8a679aa1-cb2e-4871-a643-5321e4e55449",
+        "actorNumber": { "value": "8200000007296" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "e0365d01-5787-4128-aee9-245bf765df68",
+    "name": "KMD A/S",
+    "businessRegisterIdentifier": "99990011",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "abecf74b-01c2-4c8f-ab35-627f892d4ffb",
+        "externalActorId": "478a4c63-605b-42db-ae77-b13865ac89ad",
+        "actorNumber": { "value": "8200000007630" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "f5d5996e-bd33-44d3-8476-3e6c8df538af",
+    "name": "KMD A/S",
+    "businessRegisterIdentifier": "99990024",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "368e1b9a-fb1e-4585-b511-37a342d6b89f",
+        "externalActorId": "4532d655-b91d-4d6d-8103-1b8471e0bdc6",
+        "actorNumber": { "value": "8200000004516" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "3f3a50b3-4970-4b81-985f-4d7b01d1193d",
+    "name": "KMD A/S",
+    "businessRegisterIdentifier": "99990030",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "87aafbe3-c688-49f0-bb5d-96fe2b07ee02",
+        "externalActorId": "61b46919-07e4-4a49-a22a-55708f9ebbf0",
+        "actorNumber": { "value": "8200000004233" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "65ea3d8a-2ed1-4911-b32f-74b5929bf460",
+    "name": "KMD A/S",
+    "businessRegisterIdentifier": "99990038",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "c7ab1733-f909-4149-a51a-b98e7cbf87dd",
+        "externalActorId": "8f7566a0-d540-4789-8739-72484060fbfd",
+        "actorNumber": { "value": "8200000007135" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "77d47a4e-e06c-40fc-884d-763196942762",
+    "name": "KMD A/S",
+    "businessRegisterIdentifier": "99990040",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "a2ed12c8-a3f1-4fe3-8933-d5d6656408ad",
+        "externalActorId": "c00df348-66aa-4aff-9ff7-6bb496e7b402",
+        "actorNumber": { "value": "8200000007319" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "b990aea4-39af-4cdd-b035-9e604008363b",
+    "name": "KMD A/S",
+    "businessRegisterIdentifier": "99990054",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "dbbec710-4629-4d11-8f95-4645c198bde1",
+        "externalActorId": "ea0aa193-c7a1-4899-892b-e863cd6637df",
+        "actorNumber": { "value": "8200000007272" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "a6175be9-a5ed-4bb0-9277-9fd8d1dfa5a2",
+    "name": "KMD A/S",
+    "businessRegisterIdentifier": "99990055",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "194ce64d-0bb4-44ba-8f6e-4dfb27fa13b3",
+        "externalActorId": "ddb53b36-9f61-41c4-bebe-77c06cd33151",
+        "actorNumber": { "value": "8200000004257" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "db0b5474-a4bf-4cfa-938e-b655672a0c03",
+    "name": "KMD A/S",
+    "businessRegisterIdentifier": "99990061",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "2f9c4993-d2e5-4fc6-b0c5-0b1339a2b954",
+        "externalActorId": "1114b900-ecb2-488b-9bb5-7b536d0a2ef8",
+        "actorNumber": { "value": "8200000007289" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "fbe5a257-4929-465d-a391-f2f278ec32ae",
+    "name": "KMD A/S",
+    "businessRegisterIdentifier": "99990073",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "52772fb5-d62d-4c03-a93e-cc4343239109",
+        "externalActorId": "2a0fd613-bb31-455b-9182-0534ac42ba59",
+        "actorNumber": { "value": "8200000007111" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "c2c2a8ef-1244-4eea-aa07-f6c77379ba28",
+    "name": "KMD A/S",
+    "businessRegisterIdentifier": "99990074",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "0c8f8693-9eeb-4af5-a705-6783038bfc71",
+        "externalActorId": "f35e48d3-423a-4507-bcf5-a4268d74fa01",
+        "actorNumber": { "value": "8200000002987" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "b26d9847-acca-495b-dc53-08da60e01598",
+    "name": "Mandalorian Test 1 (8200000007739)",
+    "businessRegisterIdentifier": "99990096",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "d50c00b0-b8d2-45af-892c-3a92f840e163",
+        "externalActorId": "d50c00b0-b8d2-45af-892c-3a92f840e163",
+        "actorNumber": { "value": "8200000007739" },
+        "status": "Active",
+        "name": { "value": "Mandalorian Test 1 Netvirksomhed" },
+        "marketRoles": [
+          {
+            "eicFunction": "GridAccessProvider",
+            "gridAreas": [
+              {
+                "id": "89801ec1-af12-46d9-b044-05a004a0d46c",
+                "meteringPointTypes": [
+                  "D01VeProduction",
+                  "D02Analysis",
+                  "D03NotUsed",
+                  "D04SurplusProductionGroup6",
+                  "D05NetProduction",
+                  "D06SupplyToGrid",
+                  "D99InternalUse",
+                  "E17Consumption",
+                  "E18Production",
+                  "E20Exchange",
+                  "D13NetLossCorrection",
+                  "D14ElectricalHeating",
+                  "D15NetConsumption",
+                  "D17OtherConsumption",
+                  "D18OtherProduction",
+                  "D20ExchangeReactiveEnergy",
+                  "D07ConsumptionFromGrid",
+                  "D08WholeSaleServicesInformation",
+                  "D09OwnProduction",
+                  "D10NetFromGrid",
+                  "D11NetToGrid",
+                  "D12TotalConsumption"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "8f816800-58db-4e24-dc54-08da60e01598",
+    "name": "Mandalorian Test 2 (8200000007746)",
+    "businessRegisterIdentifier": "99990097",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "4c91fbb2-8271-4bb9-859a-a85f21f96f61",
+        "externalActorId": "4c91fbb2-8271-4bb9-859a-a85f21f96f61",
+        "actorNumber": { "value": "8200000007746" },
+        "status": "Active",
+        "name": { "value": "Wholesale_GA2 Netvirksomhed" },
+        "marketRoles": [
+          {
+            "eicFunction": "GridAccessProvider",
+            "gridAreas": [
+              {
+                "id": "696e5dba-b028-4a5d-b8b4-e0c01afd3cfe",
+                "meteringPointTypes": [
+                  "D01VeProduction",
+                  "D02Analysis",
+                  "D03NotUsed",
+                  "D04SurplusProductionGroup6",
+                  "D05NetProduction",
+                  "D06SupplyToGrid",
+                  "D99InternalUse",
+                  "E17Consumption",
+                  "E18Production",
+                  "E20Exchange",
+                  "D13NetLossCorrection",
+                  "D14ElectricalHeating",
+                  "D15NetConsumption",
+                  "D17OtherConsumption",
+                  "D18OtherProduction",
+                  "D20ExchangeReactiveEnergy",
+                  "D07ConsumptionFromGrid",
+                  "D08WholeSaleServicesInformation",
+                  "D09OwnProduction",
+                  "D10NetFromGrid",
+                  "D11NetToGrid",
+                  "D12TotalConsumption"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "3b6d038b-cf9e-4bdf-b3a3-d852dfdacf00",
+    "name": "MD U-001",
+    "businessRegisterIdentifier": "99990070",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "25e5cbdf-8b96-4ef3-980b-86c292a82971",
+        "externalActorId": "de716833-4f62-4542-933d-3df435eb90c7",
+        "actorNumber": { "value": "9524143918127" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "f03296c3-bdaa-499c-b3e1-4303fcf82229",
+    "name": "Midtfyns Elforsyning A.m.b.A",
+    "businessRegisterIdentifier": "99990027",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "87c1b6a4-a3e8-4e21-a8de-5d1cce20d693",
+        "externalActorId": "b900386e-ca17-43b5-8fba-9f0e73f4345d",
+        "actorNumber": { "value": "5790001089023" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "00355b0f-9d80-46eb-fe51-08da42292533",
+    "name": "MJM Test org 1",
+    "businessRegisterIdentifier": "99990099",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "",
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "bdfa4b72-7dfc-4167-fe52-08da42292533",
+    "name": "MJM Test org 1",
+    "businessRegisterIdentifier": "99990100",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test ",
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "25d6ba3e-e0a4-48e0-fe53-08da42292533",
+    "name": "MJM Test org 1",
+    "businessRegisterIdentifier": "99990101",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test",
+      "number": null,
+      "zipCode": "",
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "2bc1ebca-9328-47e8-fe54-08da42292533",
+    "name": "MJM Test org 1",
+    "businessRegisterIdentifier": "99990102",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test",
+      "number": "",
+      "zipCode": "",
+      "city": "",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "bf6431bb-8537-4d46-fe55-08da42292533",
+    "name": "MJM Test org 1",
+    "businessRegisterIdentifier": "99990103",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test",
+      "number": "",
+      "zipCode": "",
+      "city": "",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "9b853c6f-5ec9-42f1-fe56-08da42292533",
+    "name": "MJM Test org 1",
+    "businessRegisterIdentifier": "99990104",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test",
+      "number": "",
+      "zipCode": "",
+      "city": "",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "c6b542d0-2e28-40da-fe57-08da42292533",
+    "name": "MJM Test org 2",
+    "businessRegisterIdentifier": "99990105",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test",
+      "number": "",
+      "zipCode": "",
+      "city": "",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "31ad3225-c55c-4717-fe58-08da42292533",
+    "name": "MJM Test org 2",
+    "businessRegisterIdentifier": "99990106",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test",
+      "number": "",
+      "zipCode": "",
+      "city": "",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "1fd49af0-3a11-4d84-fe59-08da42292533",
+    "name": "MJM Test org 2",
+    "businessRegisterIdentifier": "99990107",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test",
+      "number": "",
+      "zipCode": "",
+      "city": "",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "a66d25a3-3e0c-4ba8-fe5a-08da42292533",
+    "name": "MJM Test org 2",
+    "businessRegisterIdentifier": "99990108",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test",
+      "number": "",
+      "zipCode": "",
+      "city": "",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "025d8396-9403-412a-fe5b-08da42292533",
+    "name": "MJM Test org 2",
+    "businessRegisterIdentifier": "99990109",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test",
+      "number": "",
+      "zipCode": "",
+      "city": "",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "1ae9ec42-9b80-4ef9-fe5c-08da42292533",
+    "name": "MJM Test org 2",
+    "businessRegisterIdentifier": "99990110",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test",
+      "number": "",
+      "zipCode": "",
+      "city": "",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "35583615-792c-40ed-fe5d-08da42292533",
+    "name": "MJM Test org 2",
+    "businessRegisterIdentifier": "99990111",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test",
+      "number": "",
+      "zipCode": "",
+      "city": "",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "aef8c640-ed72-4d10-fe5e-08da42292533",
+    "name": "MJM Test org 2",
+    "businessRegisterIdentifier": "99990112",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test",
+      "number": "",
+      "zipCode": "",
+      "city": "",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "cc61a95b-93da-4afb-fe5f-08da42292533",
+    "name": "MJM Test org 2",
+    "businessRegisterIdentifier": "99990113",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test",
+      "number": "",
+      "zipCode": "",
+      "city": "",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "fddf272f-4375-4ef8-fe60-08da42292533",
+    "name": "MJM Test org 2",
+    "businessRegisterIdentifier": "99990114",
+    "comment": "",
+    "status": "New",
+    "address": {
+      "streetName": "Test",
+      "number": "",
+      "zipCode": "",
+      "city": "",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "2da4ea88-c792-41de-3a6f-08da52ae6aec",
+    "name": "MSP Koncern",
+    "businessRegisterIdentifier": "96857401",
+    "comment": "MSP min",
+    "status": "New",
+    "address": {
+      "streetName": "Pomosavej",
+      "number": "16",
+      "zipCode": "5270",
+      "city": "odense N",
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "7d26e65e-a1d0-4bff-f4d7-08da52af4bc1",
+        "externalActorId": null,
+        "actorNumber": { "value": "5710010010016" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeterAdministrator", "gridAreas": [] },
+          { "eicFunction": "MeterOperator", "gridAreas": [] },
+          { "eicFunction": "MeteredDataCollector", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "35dd8195-f0ac-4658-ae20-7f7c4d3d74c0",
+    "name": "N1",
+    "businessRegisterIdentifier": "99990044",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "9c88352d-5157-4fde-a333-ecf63685e12e",
+        "externalActorId": "a42757c3-50a9-43e9-b1f9-d0d2a4ddf5a0",
+        "actorNumber": { "value": "5790001089030" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "1569a429-fe2c-472b-9fb0-be7fa6cdbd21",
+    "name": "N1",
+    "businessRegisterIdentifier": "99990063",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "154ebccb-facb-426b-b0b9-3f370297a960",
+        "externalActorId": "9306c399-9038-4129-8895-4008a7b5747e",
+        "actorNumber": { "value": "5790000611003" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "8f9acb97-bfe4-4087-ab37-8588b23e9c77",
+    "name": "Nord Energi Net A/S",
+    "businessRegisterIdentifier": "99990047",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "fe470c48-082d-4fee-bbe5-a041dceb734c",
+        "externalActorId": "80146b69-ad6a-4f35-99f7-21db436d9bff",
+        "actorNumber": { "value": "5790000610877" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          {
+            "eicFunction": "GridAccessProvider",
+            "gridAreas": [
+              {
+                "id": "2f8197d5-05a7-4f68-957c-73d95d1c9289",
+                "meteringPointTypes": [
+                  "D13NetLossCorrection",
+                  "D14ElectricalHeating",
+                  "D15NetConsumption",
+                  "D17OtherConsumption",
+                  "D18OtherProduction",
+                  "D20ExchangeReactiveEnergy",
+                  "D07ConsumptionFromGrid",
+                  "D08WholeSaleServicesInformation",
+                  "D09OwnProduction",
+                  "D10NetFromGrid",
+                  "D11NetToGrid",
+                  "D12TotalConsumption",
+                  "D01VeProduction",
+                  "D02Analysis",
+                  "D03NotUsed",
+                  "D04SurplusProductionGroup6",
+                  "D05NetProduction",
+                  "D06SupplyToGrid",
+                  "D99InternalUse",
+                  "E17Consumption",
+                  "E18Production",
+                  "E20Exchange"
+                ]
+              }
+            ]
+          },
+          {
+            "eicFunction": "MeteredDataResponsible",
+            "gridAreas": [
+              {
+                "id": "2f8197d5-05a7-4f68-957c-73d95d1c9289",
+                "meteringPointTypes": [
+                  "D01VeProduction",
+                  "D02Analysis",
+                  "E18Production",
+                  "E20Exchange",
+                  "D15NetConsumption",
+                  "D17OtherConsumption",
+                  "D18OtherProduction",
+                  "D20ExchangeReactiveEnergy",
+                  "D99InternalUse",
+                  "E17Consumption",
+                  "D09OwnProduction",
+                  "D10NetFromGrid",
+                  "D11NetToGrid",
+                  "D12TotalConsumption",
+                  "D13NetLossCorrection",
+                  "D14ElectricalHeating",
+                  "D03NotUsed",
+                  "D04SurplusProductionGroup6",
+                  "D05NetProduction",
+                  "D06SupplyToGrid",
+                  "D07ConsumptionFromGrid",
+                  "D08WholeSaleServicesInformation"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "076fa387-f9d8-412e-9ea1-d735b72cdd46",
+    "name": "NRGi Elhandel A/S",
+    "businessRegisterIdentifier": "99990069",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "23ce49a7-a23b-4610-9893-d4932bb40969",
+        "externalActorId": "0d5eec16-9e52-42e0-96bc-4ff3fc3c9a5a",
+        "actorNumber": { "value": "5790002329111" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "ec863c4b-0cf8-4c5b-8b36-ddd6e362153f",
+    "name": "NRGi Elhandel A/S",
+    "businessRegisterIdentifier": "99990071",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "3d748678-170e-4412-a5a7-c4367d073978",
+        "externalActorId": "5b294533-eb98-4073-8477-094e720c903c",
+        "actorNumber": { "value": "5790001687137" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "97c4e6ee-dcf4-4b50-8948-06ef8c381dd2",
+    "name": "OK a.m.b.a.",
+    "businessRegisterIdentifier": "99990002",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "995b2135-9044-4df9-b9b8-f6a4908446d4",
+        "externalActorId": "519943be-f3f3-49d7-a332-eed2524bb586",
+        "actorNumber": { "value": "5790002420696" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "b7a9c0e2-44af-4679-8379-3e8d659692a4",
+    "name": "OK a.m.b.a.",
+    "businessRegisterIdentifier": "99990025",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "1a1c6a19-a23c-410e-b493-e5638a041bf8",
+        "externalActorId": "27f168a8-a23c-48f1-88aa-116ed7fd2bc1",
+        "actorNumber": { "value": "8100000000108" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "37dabfd1-d215-4bda-a63d-54e37ed3e0ca",
+    "name": "OK a.m.b.a.",
+    "businessRegisterIdentifier": "99990032",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "3c3eed0c-ab42-4134-97a3-e7ef500a7f67",
+        "externalActorId": "e47fd7e8-114a-4e5f-bc7c-19d12fd2d884",
+        "actorNumber": { "value": "8100000000146" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "30a1ac9a-71b9-4a3e-883f-3a8ed331a09e",
+    "name": "Radius Elnet A/S",
+    "businessRegisterIdentifier": "99990020",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "e69f65bc-cf1d-4480-95c5-d439395c94bc",
+        "externalActorId": "f9b5e62b-3576-4cc6-81b7-ccdea2010d41",
+        "actorNumber": { "value": "5790000705689" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "83b2ba54-2fe1-4db6-9eab-3b2f7b3d60e1",
+    "name": "Radius Elnet A/S",
+    "businessRegisterIdentifier": "99990021",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "85244377-6b84-410f-99c3-e35b58028b8f",
+        "externalActorId": "81ad2de5-57d5-48e3-83dc-35f3488afa6f",
+        "actorNumber": { "value": "5790000267958" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "afdf209d-22fe-4c07-86ee-3cb2d51123a3",
+    "name": "RAH Net A/S",
+    "businessRegisterIdentifier": "99990022",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "69739005-6a02-4f76-a230-b0160bce8f87",
+        "externalActorId": "3000e8c2-0dc0-4532-a40d-01ca17fe0d08",
+        "actorNumber": { "value": "5790000681327" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "5f74ff33-d301-4263-e5b8-08da4a10ead8",
+    "name": "RHC's Firma",
+    "businessRegisterIdentifier": "99990117",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "1d5d8cb2-9932-4712-0547-08da4a11f170",
+        "externalActorId": null,
+        "actorNumber": { "value": "3304216134687" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "762ccb00-f08d-45c1-53ae-08da318d35c8",
+    "name": "Svenske net aa1",
+    "businessRegisterIdentifier": "12365498",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": "P.O. Box 1200, ",
+      "number": null,
+      "zipCode": "SE-172 24",
+      "city": " Sundbyberg",
+      "country": "SE"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "591c0b3e-13d4-452d-1c63-08da3a3ee23a",
+    "name": "Test xkama",
+    "businessRegisterIdentifier": "1234",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": "testvej",
+      "number": "1",
+      "zipCode": "8000",
+      "city": "Aarhus c",
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "acde75a4-9320-47ac-34fc-08da49fa1fac",
+        "externalActorId": null,
+        "actorNumber": { "value": "4635611633925" },
+        "status": "New",
+        "name": { "value": "" },
+        "marketRoles": [
+          {
+            "eicFunction": "SystemOperator",
+            "gridAreas": [
+              {
+                "id": "c5ee11ed-1d93-439d-8c6d-fabf993c7a3c",
+                "meteringPointTypes": ["D01VeProduction"]
+              },
+              {
+                "id": "31e25acd-7a93-4740-b5c6-e931785d5d38",
+                "meteringPointTypes": [
+                  "D01VeProduction",
+                  "D02Analysis",
+                  "D03NotUsed",
+                  "D04SurplusProductionGroup6"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "5dd28ce2-23dd-4559-4ef2-08da1883f377",
+    "name": "Titans A/S",
+    "businessRegisterIdentifier": "99990080",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "c863e192-b71b-4294-a31f-82c97e6f38c1",
+    "name": "Titans U-001",
+    "businessRegisterIdentifier": "00000002",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "6b240197-d6dd-4437-bd68-3fc98b6f1a03",
+        "externalActorId": "20284dd9-8586-4b9d-87b3-e1f29faec8fd",
+        "actorNumber": { "value": "9316911914857" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "e492bfd1-59b3-4cea-ae5e-6ed4ba5fd121",
+    "name": "TREFOR El-net",
+    "businessRegisterIdentifier": "99990037",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "fad5f632-a23e-473d-942b-22f156d229a9",
+        "externalActorId": "5de61589-8846-45e1-af3f-786673a287a7",
+        "actorNumber": { "value": "5790000392261" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "ef082332-6262-464e-051a-08da85c665f2",
+    "name": "U-001 Batman test",
+    "businessRegisterIdentifier": "12345678",
+    "comment": null,
+    "status": "Active",
+    "address": {
+      "streetName": "Hej adresse",
+      "number": null,
+      "zipCode": "7000",
+      "city": "Herning",
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "618cc618-1cfa-4102-b7b3-ca7f27a89077",
+    "name": "Vindstød A/S",
+    "businessRegisterIdentifier": "99990068",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "68c167fe-cbe9-43a1-8123-de55486960e0",
+        "externalActorId": "8b678ccf-d6c0-4f5a-890b-7589746664f1",
+        "actorNumber": { "value": "5790002105289" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [{ "eicFunction": "EnergySupplier", "gridAreas": [] }]
+      }
+    ]
+  },
+  {
+    "organizationId": "bc561a74-7e78-426c-9c44-78ef6f139baf",
+    "name": "Volt - DDM Test 1 -",
+    "businessRegisterIdentifier": "99990041",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "15339a06-a628-44a5-96cc-a3c464f06ec4",
+        "externalActorId": "b8f00060-e02a-4418-a1bd-963778473238",
+        "actorNumber": { "value": "8100000000016" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "ae34ae80-f7f4-473c-a3f7-92cbc9683ef7",
+    "name": "Volt - DDM Test 2 -",
+    "businessRegisterIdentifier": "99990051",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "5bb71aab-edf2-4d75-9a2c-4afbbb6d03b0",
+        "externalActorId": "d49bc21d-87c0-426b-bd2d-a097a91de611",
+        "actorNumber": { "value": "8100000000023" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "467186d9-f518-4373-a64e-598d285b0ec0",
+    "name": "Volt - DDM Test 3 -",
+    "businessRegisterIdentifier": "99990034",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "e78feeb2-2878-4586-99b9-145edd470f95",
+        "externalActorId": "f718ac37-9b7f-42dc-943e-bd211ea044ff",
+        "actorNumber": { "value": "8100000000030" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "9c50b8b7-c936-4661-bcc5-91150b46f68e",
+    "name": "Volt - DDM Test 4 -",
+    "businessRegisterIdentifier": "99990049",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "08ed22e3-615d-4f0e-993d-cfc1f4a833f8",
+        "externalActorId": "d137bbdb-1f46-4037-941b-be6938142a3c",
+        "actorNumber": { "value": "9656626091925" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          {
+            "eicFunction": "GridAccessProvider",
+            "gridAreas": [
+              {
+                "id": "34d6a61e-0996-438b-89cd-ee0a1c73efc0",
+                "meteringPointTypes": [
+                  "D01VeProduction",
+                  "D02Analysis",
+                  "D03NotUsed",
+                  "D04SurplusProductionGroup6",
+                  "D05NetProduction",
+                  "D06SupplyToGrid",
+                  "D99InternalUse",
+                  "E17Consumption",
+                  "E18Production",
+                  "E20Exchange",
+                  "D13NetLossCorrection",
+                  "D14ElectricalHeating",
+                  "D15NetConsumption",
+                  "D17OtherConsumption",
+                  "D18OtherProduction",
+                  "D20ExchangeReactiveEnergy",
+                  "D07ConsumptionFromGrid",
+                  "D08WholeSaleServicesInformation",
+                  "D09OwnProduction",
+                  "D10NetFromGrid",
+                  "D11NetToGrid",
+                  "D12TotalConsumption"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "f39747cb-3947-49bc-9c9f-f8ecc1033da0",
+    "name": "Volt - EZ Test 1 -",
+    "businessRegisterIdentifier": "99990075",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "dd8953b0-14a8-44da-81e2-7663a99c4e90",
+        "externalActorId": "af450c03-1937-4ea1-bb66-17b6e4aa51f5",
+        "actorNumber": { "value": "5790000432752" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "TradeResponsibleParty", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "798fbe32-04ce-491c-b983-afce7e98cf65",
+    "name": "Vores Elnet A/S",
+    "businessRegisterIdentifier": "99990058",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "7217b266-5e2a-42d9-8312-8b7b4483015c",
+        "externalActorId": "b6d3dcb7-2722-426a-8970-ece730165919",
+        "actorNumber": { "value": "5790001087975" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] },
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "b5ba780d-26a2-4daa-89a1-e6ea7c70add0",
+    "name": "Vores Elnet A/S",
+    "businessRegisterIdentifier": "99990072",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": [
+      {
+        "actorId": "16d66994-3909-4207-abb1-63ab33ba5e3a",
+        "externalActorId": "c3fe13ec-03e5-48f1-b1c8-4c501077e203",
+        "actorNumber": { "value": "5790000610976" },
+        "status": "Active",
+        "name": { "value": "" },
+        "marketRoles": [
+          { "eicFunction": "GridAccessProvider", "gridAreas": [] },
+          { "eicFunction": "MeteredDataResponsible", "gridAreas": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "organizationId": "1877edd2-e9f6-416b-17c5-08da245ca2a0",
+    "name": "X1",
+    "businessRegisterIdentifier": "99990084",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "c5d1d68c-cc37-4eeb-17c6-08da245ca2a0",
+    "name": "X2",
+    "businessRegisterIdentifier": "99990085",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "0cdfb0de-11e3-43a5-00c7-08da245e5187",
+    "name": "x3",
+    "businessRegisterIdentifier": "99990086",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "3ada0b23-8d24-4cc9-ece7-08da245c35f2",
+    "name": "xABC2",
+    "businessRegisterIdentifier": "99990081",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "c8059c92-e31f-4151-ece8-08da245c35f2",
+    "name": "xABC2",
+    "businessRegisterIdentifier": "99990082",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "7d5f6755-bb8d-4777-ece9-08da245c35f2",
+    "name": "xABC2",
+    "businessRegisterIdentifier": "99990083",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "c25e36b9-b471-4473-8734-08da26bbb592",
+    "name": "XYZ A/S",
+    "businessRegisterIdentifier": "99990087",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "ee18cde5-593f-4a4c-8735-08da26bbb592",
+    "name": "XYZ A/S",
+    "businessRegisterIdentifier": "99990088",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "b064a4e5-aea0-4a22-4494-08da26bf6657",
+    "name": "XYZ A/S",
+    "businessRegisterIdentifier": "99990089",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "3d32b7ae-6ac8-4219-4495-08da26bf6657",
+    "name": "XYZ A/S",
+    "businessRegisterIdentifier": "99990077",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "c7535910-cdf7-4f6f-4496-08da26bf6657",
+    "name": "XYZ A/S",
+    "businessRegisterIdentifier": "99990078",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "8abecd9d-1ea9-4039-4497-08da26bf6657",
+    "name": "XYZ A/S",
+    "businessRegisterIdentifier": "99990079",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "3a8bdfc8-3223-4fb3-4498-08da26bf6657",
+    "name": "XYZ A/S",
+    "businessRegisterIdentifier": "12312345",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "4101e29d-6840-4425-4499-08da26bf6657",
+    "name": "XYZ A/S",
+    "businessRegisterIdentifier": "99990090",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  },
+  {
+    "organizationId": "be822aa6-288a-48b7-449a-08da26bf6657",
+    "name": "XYZ A/S",
+    "businessRegisterIdentifier": "99990091",
+    "comment": null,
+    "status": "New",
+    "address": {
+      "streetName": null,
+      "number": null,
+      "zipCode": null,
+      "city": null,
+      "country": "DK"
+    },
+    "actors": []
+  }
+]

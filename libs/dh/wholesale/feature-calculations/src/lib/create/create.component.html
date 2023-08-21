@@ -1,0 +1,204 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<watt-modal
+  #modal
+  size="normal"
+  *transloco="let t; read: 'wholesale.calculations'"
+  [title]="showPeriodWarning ? t('create.warning.title') : t('create.title')"
+  (closed)="onClose($event)"
+>
+  <ng-container *ngIf="!showPeriodWarning">
+    <ng-container *rxLet="gridAreasQuery.valueChanges; let result">
+      <ng-container *ngIf="result.data?.gridAreas">
+        <form
+          id="create-calculation"
+          class="grid"
+          novalidate
+          [formGroup]="formGroup"
+          (ngSubmit)="
+            latestPeriodEnd && formGroup.controls.processType.value === 'BALANCE_FIXING'
+              ? (showPeriodWarning = true)
+              : modal.close(true)
+          "
+        >
+          <!-- Period Warning-->
+          <watt-validation-message
+            *ngIf="latestPeriodEnd && formGroup.controls.processType.value === 'BALANCE_FIXING'"
+            size="normal"
+            type="warning"
+            icon="warning"
+            message="{{
+              t('create.periodWarning', { latestPeriodEnd: latestPeriodEnd | wattDate })
+            }}"
+          />
+
+          <!-- Execution type -->
+          <div class="chips">
+            <label>{{ t("create.executionType") }}</label>
+            <watt-filter-chip
+              choice
+              name="executionType"
+              value="ACTUAL"
+              [selected]="true"
+              (selectionChange)="onExecutionTypeSelected($event)"
+            >
+              {{ t("executionTypes.ACTUAL") }}
+            </watt-filter-chip>
+            <watt-filter-chip
+              choice
+              name="executionType"
+              value="SIMULATION"
+              [disabled]="true"
+              (selectionChange)="onExecutionTypeSelected($event)"
+            >
+              {{ t("executionTypes.SIMULATION") }}
+            </watt-filter-chip>
+          </div>
+
+          <!-- scheduling -->
+          <div class="chips">
+            <label>{{ t("create.scheduling") }}</label>
+            <watt-filter-chip choice name="schedule" value="NOW" [selected]="true">
+              {{ t("scheduling.NOW") }}
+            </watt-filter-chip>
+            <watt-filter-chip choice name="schedule" value="SCHEDULED" [disabled]="true">
+              {{ t("scheduling.SCHEDULED") }}
+            </watt-filter-chip>
+          </div>
+
+          <!-- Process type -->
+          <watt-form-field>
+            <watt-label>{{ t("create.processType.label") }}</watt-label>
+            <watt-dropdown
+              formControlName="processType"
+              [options]="processTypes | push"
+              [showResetOption]="false"
+              [multiple]="false"
+            ></watt-dropdown>
+            <watt-error *ngIf="formGroup.controls.processType.errors?.required">
+              {{ t("create.processType.error") }}
+            </watt-error>
+          </watt-form-field>
+
+          <!-- Monthly summation -->
+          <div class="chips">
+            <label>{{ t("create.summation") }}</label>
+            <watt-filter-chip choice name="summation" value="yes" [disabled]="true">
+              {{ t("summation.YES") }}
+            </watt-filter-chip>
+            <watt-filter-chip choice name="summation" value="no" [disabled]="true">
+              {{ t("summation.NO") }}
+            </watt-filter-chip>
+          </div>
+
+          <!-- Date range -->
+          <watt-form-field>
+            <watt-label>{{ t("create.period.label") }}</watt-label>
+            <watt-datepicker
+              formControlName="dateRange"
+              [rangeMonthOnlyMode]="monthOnly.includes(formGroup.controls.processType.value)"
+              [range]="true"
+              [min]="minDate"
+              [max]="maxDate"
+            />
+            <watt-error *ngIf="formGroup.controls.dateRange.errors?.rangeRequired">
+              {{ t("create.period.required") }}
+            </watt-error>
+            <watt-error
+              *ngIf="
+                formGroup.controls.dateRange.errors?.invalidPeriod &&
+                !formGroup.controls.dateRange.errors?.rangeRequired
+              "
+            >
+              {{ t("create.period.invalid") }}
+            </watt-error>
+          </watt-form-field>
+
+          <!-- Grid areas -->
+          <watt-form-field>
+            <watt-label>{{ t("create.gridArea.label") }}</watt-label>
+            <watt-dropdown
+              formControlName="gridAreas"
+              [options]="gridAreas$ | push"
+              [showResetOption]="false"
+              [multiple]="true"
+            ></watt-dropdown>
+            <watt-hint>{{
+              t("create.gridArea.hint", { count: formGroup.controls.gridAreas.value?.length })
+            }}</watt-hint>
+            <watt-error *ngIf="formGroup.controls.gridAreas.errors?.required">
+              {{ t("create.gridArea.required") }}
+            </watt-error>
+          </watt-form-field>
+        </form>
+      </ng-container>
+
+      <div *ngIf="result.loading" class="center">
+        <watt-spinner />
+      </div>
+
+      <div *ngIf="result.error" class="center">
+        <watt-empty-state
+          icon="custom-power"
+          [title]="t('create.emptyTitle')"
+          [message]="t('create.emptyMessage')"
+        />
+      </div>
+    </ng-container>
+
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="modal.close(false)">
+        {{ t("create.cancel") }}
+      </watt-button>
+      <watt-button
+        type="submit"
+        formId="create-calculation"
+        [disabled]="!formGroup.valid || loading"
+      >
+        {{ t("create.confirm") }}
+      </watt-button>
+    </watt-modal-actions>
+  </ng-container>
+  <ng-container *ngIf="showPeriodWarning">
+    <ng-container *transloco="let t; read: 'wholesale.calculations.create.warning'">
+      <watt-validation-message
+        type="warning"
+        icon="warning"
+        size="normal"
+        [label]="t('message.label')"
+        [message]="t('message.body')"
+      />
+      <p>{{ t("body") }}</p>
+      <p>{{ t("confirmation") }}</p>
+      <watt-form-field>
+        <input #input wattInput [formControl]="confirmFormControl" value="" autocomplete="off" />
+        <watt-hint>{{ t("hint") }}</watt-hint>
+      </watt-form-field>
+      <watt-modal-actions>
+        <watt-button variant="secondary" (click)="modal.close(false)">
+          {{ t("cancel") }}
+        </watt-button>
+        <watt-button
+          [disabled]="input.value.toUpperCase() !== t('validation')"
+          (click)="modal.close(true)"
+        >
+          {{ t("confirm") }}
+        </watt-button>
+      </watt-modal-actions>
+    </ng-container>
+  </ng-container>
+</watt-modal>

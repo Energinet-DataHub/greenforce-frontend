@@ -1,0 +1,28 @@
+{
+  "name": "dh-shared-data-access-api",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": ["api-dh"],
+  "projectType": "library",
+  "sourceRoot": "libs/dh/shared/data-access-api/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/data-access-api"],
+      "options": {
+        "jestConfig": "libs/dh/shared/data-access-api/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/shared/data-access-api/src/**/*.ts",
+          "libs/dh/shared/data-access-api/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "scope:shared", "type:data-access"]
+}

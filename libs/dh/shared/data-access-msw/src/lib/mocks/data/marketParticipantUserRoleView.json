@@ -1,0 +1,39 @@
+[
+  {
+    "id": "00000000-0000-0000-0000-000000000001",
+    "organizationName": "Energinet DataHub A/S",
+    "name": "Energinet DataHub A/S (FAS)",
+    "actorNumber": "5790001330583",
+    "userRoles": [
+      {
+        "id": "b50dfe6b-962b-448e-88e6-97b715fb33bc",
+        "name": "Supporter",
+        "marketRole": "EnergySupplier",
+        "description": "Beskrivelse Supporter",
+        "userActorId": "00000000-0000-0000-0000-000000000001"
+      },
+      {
+        "id": "b50dfe6b-962b-448e-88e6-97b715fb33ba",
+        "name": "Lys ansvarlig",
+        "marketRole": "EnergySupplier",
+        "description": "Beskrivelse Lys ansvarlig",
+        "userActorId": null
+      }
+    ]
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000002",
+    "organizationName": "Nordlys A/S",
+    "name": "Energi mister",
+    "actorNumber": "3790001330583",
+    "userRoles": [
+      {
+        "id": "b50dfe6b-962b-448e-88e6-97b715fb33bc",
+        "name": "Lys ansvarlig",
+        "marketRole": "EnergySupplier",
+        "description": "Beskrivelse Lys ansvarlig",
+        "userActorId": "00000000-0000-0000-0000-000000000002"
+      }
+    ]
+  }
+]

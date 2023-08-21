@@ -1,0 +1,29 @@
+{
+  "name": "dh-globalization-data-access-localization",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/globalization/data-access-localization/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/globalization/data-access-localization"
+      ],
+      "options": {
+        "jestConfig": "libs/dh/globalization/data-access-localization/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/globalization/data-access-localization/src/**/*.ts",
+          "libs/dh/globalization/data-access-localization/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:globalization", "type:data-access"]
+}
