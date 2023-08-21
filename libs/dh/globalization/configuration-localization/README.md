@@ -1,1 +1,0 @@
-# DataHub localization configuration
