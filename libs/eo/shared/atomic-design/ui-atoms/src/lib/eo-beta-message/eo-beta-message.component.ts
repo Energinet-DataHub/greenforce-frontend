@@ -14,18 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
-/**
- * Usage:
- * `import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';`
- */
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
+
 @Component({
-  selector: 'watt-spinner',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-eo-beta-message',
   standalone: true,
-  template: `<mat-spinner [diameter]="diameter"></mat-spinner>`,
-  imports: [MatProgressSpinnerModule],
+  imports: [CommonModule, WattButtonComponent, WattCardComponent],
+  templateUrl: './eo-beta-message.component.html',
+  styleUrls: ['./eo-beta-message.component.scss'],
 })
-export class WattSpinnerComponent {
-  @Input() diameter = 44;
-}
+export class EoBetaMessageComponent {}
