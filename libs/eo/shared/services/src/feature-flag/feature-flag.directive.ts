@@ -18,7 +18,7 @@ import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
 import { EoAuthStore } from '../auth/auth.store';
 
 const knownFeatures = [
-  'not-accepted-terms',
+  'not-accepted-privacypolicy-terms',
   'accepted-terms',
   'dashboard',
   'production',

@@ -46,7 +46,7 @@ export class EoLoginComponent {
           this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
         } else if (isTokenExpired) {
           this.service.logout();
-        } else if (scope.includes('not-accepted-terms')) {
+        } else if (scope.includes('not-accepted-privacypolicy-terms')) {
           this.router.navigate(['/terms']);
         } else if (scope.includes('accepted-terms') && scope.includes('dashboard')) {
           this.router.navigate(['/dashboard']);
