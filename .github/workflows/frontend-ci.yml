@@ -1,336 +1,336 @@
-# Copyright 2020 Energinet DataHub A/S
-#
-# Licensed under the Apache License, Version 2.0 (the "License2");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-name: GreenForce Frontend CI
+# # Copyright 2020 Energinet DataHub A/S
+# #
+# # Licensed under the Apache License, Version 2.0 (the "License2");
+# # you may not use this file except in compliance with the License.
+# # You may obtain a copy of the License at
+# #
+# #     http://www.apache.org/licenses/LICENSE-2.0
+# #
+# # Unless required by applicable law or agreed to in writing, software
+# # distributed under the License is distributed on an "AS IS" BASIS,
+# # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# # See the License for the specific language governing permissions and
+# # limitations under the License.
+# name: GreenForce Frontend CI
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+# concurrency:
+#   group: ${{ github.workflow }}-${{ github.ref }}
+#   cancel-in-progress: true
 
-env:
-  BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
-  is-main-branch: ${{ github.ref == 'refs/heads/main' }}
-  is-pull-request: ${{ github.event_name == 'pull_request' }}
-  NODE_OPTIONS: --max_old_space_size=6144
-  node-version-file: .nvmrc
-  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  yarn-version: 3.5.0
+# env:
+#   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+#   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
+#   is-pull-request: ${{ github.event_name == 'pull_request' }}
+#   NODE_OPTIONS: --max_old_space_size=6144
+#   node-version-file: .nvmrc
+#   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
+#   yarn-version: 3.5.0
 
-  # Nx Cloud
-  NX_BRANCH: ${{ github.event.number }}
-  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-  NX_RUN_GROUP: ${{ github.run_id }}
+#   # Nx Cloud
+#   NX_BRANCH: ${{ github.event.number }}
+#   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+#   NX_RUN_GROUP: ${{ github.run_id }}
 
-  # DH E2E
-  # Note: Cypress automatically removes the "CYPRESS_" prefix in CI
-  CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_U1_USERNAME }}
-  CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_U1_PASSWORD }}
-  CYPRESS_DH_E2E_B2C_URL: https://devDataHubB2C.b2clogin.com
-  # See https://github.com/cypress-io/cypress/issues/25357
-  ELECTRON_EXTRA_LAUNCH_ARGS: --disable-gpu
-on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - apps/dh/api-dh/**
-      - .github/workflows/api-dh-app-*.yml
-  pull_request:
-    branches:
-      - main
-    paths-ignore:
-      - apps/dh/api-dh/**
-      - .github/workflows/api-dh-app-*.yml
-  workflow_dispatch: {}
+#   # DH E2E
+#   # Note: Cypress automatically removes the "CYPRESS_" prefix in CI
+#   CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_U1_USERNAME }}
+#   CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_U1_PASSWORD }}
+#   CYPRESS_DH_E2E_B2C_URL: https://devDataHubB2C.b2clogin.com
+#   # See https://github.com/cypress-io/cypress/issues/25357
+#   ELECTRON_EXTRA_LAUNCH_ARGS: --disable-gpu
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths-ignore:
+#       - apps/dh/api-dh/**
+#       - .github/workflows/api-dh-app-*.yml
+#   pull_request:
+#     branches:
+#       - main
+#     paths-ignore:
+#       - apps/dh/api-dh/**
+#       - .github/workflows/api-dh-app-*.yml
+#   workflow_dispatch: {}
 
-jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      # needed for Nx affected command
-      - name: "PR: Check out source code with current branch Git history"
-        if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ github.head_ref }}
+# jobs:
+#   build:
+#     name: Build
+#     runs-on: ubuntu-latest
+#     steps:
+#       # needed for Nx affected command
+#       - name: "PR: Check out source code with current branch Git history"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         uses: actions/checkout@v3
+#         with:
+#           fetch-depth: 0
+#           ref: ${{ github.head_ref }}
 
-      # needed for Nx affected command
-      - name: "PR: Fetch base branch Git history"
-        if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags origin $BASE_BRANCH
+#       # needed for Nx affected command
+#       - name: "PR: Fetch base branch Git history"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: "Merge: Check out source code"
-        if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v3
+#       - name: "Merge: Check out source code"
+#         if: ${{ env.is-pull-request == 'false' }}
+#         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: ${{ env.node-version-file }}
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version-file: ${{ env.node-version-file }}
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+#       - name: 📥 Monorepo install
+#         uses: ./.github/actions/yarn-nm-install
 
-      - name: "PR: Production build of affected products"
-        if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:build --base=origin/$BASE_BRANCH
+#       - name: "PR: Production build of affected products"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         run: yarn affected:build --base=origin/$BASE_BRANCH
 
-      - name: "Merge: Production build of all products"
-        if: ${{ env.is-pull-request == 'false' }}
-        run: yarn build
+#       - name: "Merge: Production build of all products"
+#         if: ${{ env.is-pull-request == 'false' }}
+#         run: yarn build
 
-  sonarcloud:
-    name: SonarCloud
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+#   sonarcloud:
+#     name: SonarCloud
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#         with:
+#           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2.0.0
-        with:
-          args: >
-            -Dsonar.projectKey=geh-frontend-app
-            -Dsonar.organization=energinet-datahub
-            -Dsonar.sources=apps/dh/app-dh,libs/dh,libs/ui-watt,libs/gf
-            -Dsonar.exclusions=libs/dh/shared/assets/src/assets/b2c-custom-layouts/**/*,**/*.spec.ts,libs/dh/shared/domain/src/lib/generated/**/*,libs/dh/shared/data-access-msw/src/assets/mockServiceWorker.js,libs/dh/shared/data-access-msw/src/lib/mocks/**/*
-            -Dsonar.cpd.exclusions=libs/dh/globalization/assets-localization/src/assets/i18n/*.json
-            -Dsonar.coverage.exclusions=libs/ui-watt/**/+storybook/*,libs/ui-watt/**/*.stories.ts,
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#       - name: SonarCloud Scan
+#         uses: SonarSource/sonarcloud-github-action@v2.0.0
+#         with:
+#           args: >
+#             -Dsonar.projectKey=geh-frontend-app
+#             -Dsonar.organization=energinet-datahub
+#             -Dsonar.sources=apps/dh/app-dh,libs/dh,libs/ui-watt,libs/gf
+#             -Dsonar.exclusions=libs/dh/shared/assets/src/assets/b2c-custom-layouts/**/*,**/*.spec.ts,libs/dh/shared/domain/src/lib/generated/**/*,libs/dh/shared/data-access-msw/src/assets/mockServiceWorker.js,libs/dh/shared/data-access-msw/src/lib/mocks/**/*
+#             -Dsonar.cpd.exclusions=libs/dh/globalization/assets-localization/src/assets/i18n/*.json
+#             -Dsonar.coverage.exclusions=libs/ui-watt/**/+storybook/*,libs/ui-watt/**/*.stories.ts,
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+#           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  e2e:
-    name: End-to-end test
-    runs-on: ubuntu-latest
+#   e2e:
+#     name: End-to-end test
+#     runs-on: ubuntu-latest
 
-    steps:
-      # needed for Nx affected command
-      - name: "PR: Check out source code with current branch Git history"
-        if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ github.head_ref }}
+#     steps:
+#       # needed for Nx affected command
+#       - name: "PR: Check out source code with current branch Git history"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         uses: actions/checkout@v3
+#         with:
+#           fetch-depth: 0
+#           ref: ${{ github.head_ref }}
 
-      # needed for Nx affected command
-      - name: "PR: Fetch base branch Git history"
-        if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags origin $BASE_BRANCH
+#       # needed for Nx affected command
+#       - name: "PR: Fetch base branch Git history"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: "Merge: Check out source code"
-        if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v3
+#       - name: "Merge: Check out source code"
+#         if: ${{ env.is-pull-request == 'false' }}
+#         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: ${{ env.node-version-file }}
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version-file: ${{ env.node-version-file }}
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+#       - name: 📥 Monorepo install
+#         uses: ./.github/actions/yarn-nm-install
 
-      - name: "PR: End-to-end test affected products"
-        if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
+#       - name: "PR: End-to-end test affected products"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
 
-      - name: Upload artifact
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: cypress-e2e
-          path: dist/cypress/apps/
+#       - name: Upload artifact
+#         if: failure()
+#         uses: actions/upload-artifact@v3
+#         with:
+#           name: cypress-e2e
+#           path: dist/cypress/apps/
 
-      - name: "Merge: End-to-end test all products"
-        if: ${{ env.is-pull-request == 'false' }}
-        run: yarn e2e --configuration=ci
+#       - name: "Merge: End-to-end test all products"
+#         if: ${{ env.is-pull-request == 'false' }}
+#         run: yarn e2e --configuration=ci
 
-  format:
-    name: "PR: Format"
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+#   format:
+#     name: "PR: Format"
+#     if: github.event_name == 'pull_request'
+#     runs-on: ubuntu-latest
 
-    steps:
-      # needed for Nx affected command
-      - name: Check out source code with current branch Git history
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ github.head_ref }}
-          token: ${{ secrets.PAT_TOKEN }}
+#     steps:
+#       # needed for Nx affected command
+#       - name: Check out source code with current branch Git history
+#         uses: actions/checkout@v3
+#         with:
+#           fetch-depth: 0
+#           ref: ${{ github.head_ref }}
+#           token: ${{ secrets.PAT_TOKEN }}
 
-      # needed for Nx affected command
-      - name: Fetch base branch Git history
-        run: git fetch --no-tags origin $BASE_BRANCH
+#       # needed for Nx affected command
+#       - name: Fetch base branch Git history
+#         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: ${{ env.node-version-file }}
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version-file: ${{ env.node-version-file }}
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+#       - name: 📥 Monorepo install
+#         uses: ./.github/actions/yarn-nm-install
 
-      - name: Revert postinstall changes
-        run: git reset --hard
+#       - name: Revert postinstall changes
+#         run: git reset --hard
 
-      - name: Format projects and configuration files
-        run: yarn format --base=origin/$BASE_BRANCH
+#       - name: Format projects and configuration files
+#         run: yarn format --base=origin/$BASE_BRANCH
 
-      - name: Commit formatted files
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A || cd .
-          git commit -m "style: format" || cd .
-          git push origin --force-with-lease || cd .
+#       - name: Commit formatted files
+#         run: |
+#           git config user.name "github-actions[bot]"
+#           git config user.email "github-actions[bot]@users.noreply.github.com"
+#           git add -A || cd .
+#           git commit -m "style: format" || cd .
+#           git push origin --force-with-lease || cd .
 
-      - name: Check formatting of projects and configuration files
-        run: yarn format:check --base=origin/$BASE_BRANCH
+#       - name: Check formatting of projects and configuration files
+#         run: yarn format:check --base=origin/$BASE_BRANCH
 
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
+#   lint:
+#     name: Lint
+#     runs-on: ubuntu-latest
 
-    steps:
-      # needed for Nx affected command
-      - name: "PR: Check out source code with current branch Git history"
-        if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ github.head_ref }}
-          token: ${{ secrets.PAT_TOKEN }}
+#     steps:
+#       # needed for Nx affected command
+#       - name: "PR: Check out source code with current branch Git history"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         uses: actions/checkout@v3
+#         with:
+#           fetch-depth: 0
+#           ref: ${{ github.head_ref }}
+#           token: ${{ secrets.PAT_TOKEN }}
 
-      # needed for Nx affected command
-      - name: "PR: Fetch base branch Git history"
-        if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags origin $BASE_BRANCH
+#       # needed for Nx affected command
+#       - name: "PR: Fetch base branch Git history"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: "Merge: Check out source code"
-        if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v3
+#       - name: "Merge: Check out source code"
+#         if: ${{ env.is-pull-request == 'false' }}
+#         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: ${{ env.node-version-file }}
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version-file: ${{ env.node-version-file }}
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+#       - name: 📥 Monorepo install
+#         uses: ./.github/actions/yarn-nm-install
 
-      - name: Revert postinstall changes
-        run: git reset --hard
+#       - name: Revert postinstall changes
+#         run: git reset --hard
 
-      - name: "PR: Fix affected projects using lint rules"
-        if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:lint:fix --base=origin/$BASE_BRANCH
+#       - name: "PR: Fix affected projects using lint rules"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         run: yarn affected:lint:fix --base=origin/$BASE_BRANCH
 
-      - name: "PR: Commit fixed files"
-        if: ${{ env.is-pull-request == 'true' }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A || cd .
-          git commit -m "style: lint" || cd .
-          git push origin --force-with-lease || cd .
+#       - name: "PR: Commit fixed files"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         run: |
+#           git config user.name "github-actions[bot]"
+#           git config user.email "github-actions[bot]@users.noreply.github.com"
+#           git add -A || cd .
+#           git commit -m "style: lint" || cd .
+#           git push origin --force-with-lease || cd .
 
-      - name: "Merge: Lint workspace and all projects"
-        if: ${{ env.is-pull-request == 'false' }}
-        run: yarn lint
+#       - name: "Merge: Lint workspace and all projects"
+#         if: ${{ env.is-pull-request == 'false' }}
+#         run: yarn lint
 
-  test:
-    name: Unit and integration test
-    runs-on: ubuntu-latest
+#   test:
+#     name: Unit and integration test
+#     runs-on: ubuntu-latest
 
-    steps:
-      # needed for Nx affected command
-      - name: "PR: Check out source code with current branch Git history"
-        if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ github.head_ref }}
+#     steps:
+#       # needed for Nx affected command
+#       - name: "PR: Check out source code with current branch Git history"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         uses: actions/checkout@v3
+#         with:
+#           fetch-depth: 0
+#           ref: ${{ github.head_ref }}
 
-      # needed for Nx affected command
-      - name: "PR: Fetch base branch Git history"
-        if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags origin $BASE_BRANCH
+#       # needed for Nx affected command
+#       - name: "PR: Fetch base branch Git history"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: "Merge: Check out source code"
-        if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v3
+#       - name: "Merge: Check out source code"
+#         if: ${{ env.is-pull-request == 'false' }}
+#         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: ${{ env.node-version-file }}
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version-file: ${{ env.node-version-file }}
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+#       - name: 📥 Monorepo install
+#         uses: ./.github/actions/yarn-nm-install
 
-      - name: "PR: Test affected projects"
-        if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:test --base=origin/$BASE_BRANCH
+#       - name: "PR: Test affected projects"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         run: yarn affected:test --base=origin/$BASE_BRANCH
 
-      - name: "Merge: Test all projects"
-        if: ${{ env.is-pull-request == 'false' }}
-        run: yarn test
+#       - name: "Merge: Test all projects"
+#         if: ${{ env.is-pull-request == 'false' }}
+#         run: yarn test
 
-  componentTests:
-    name: Component test
-    runs-on: ubuntu-latest
+#   componentTests:
+#     name: Component test
+#     runs-on: ubuntu-latest
 
-    steps:
-      # needed for Nx affected command
-      - name: "PR: Check out source code with current branch Git history"
-        if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ github.head_ref }}
+#     steps:
+#       # needed for Nx affected command
+#       - name: "PR: Check out source code with current branch Git history"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         uses: actions/checkout@v3
+#         with:
+#           fetch-depth: 0
+#           ref: ${{ github.head_ref }}
 
-      # needed for Nx affected command
-      - name: "PR: Fetch base branch Git history"
-        if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags origin $BASE_BRANCH
+#       # needed for Nx affected command
+#       - name: "PR: Fetch base branch Git history"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: "Merge: Check out source code"
-        if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v3
+#       - name: "Merge: Check out source code"
+#         if: ${{ env.is-pull-request == 'false' }}
+#         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: ${{ env.node-version-file }}
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version-file: ${{ env.node-version-file }}
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+#       - name: 📥 Monorepo install
+#         uses: ./.github/actions/yarn-nm-install
 
-      - name: "PR: Test affected projects"
-        if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected -t component-test --base=origin/$BASE_BRANCH
+#       - name: "PR: Test affected projects"
+#         if: ${{ env.is-pull-request == 'true' }}
+#         run: yarn affected -t component-test --base=origin/$BASE_BRANCH
 
-      - name: "Merge: Test all projects"
-        if: ${{ env.is-pull-request == 'false' }}
-        run: yarn nx run-many -t component-test
+#       - name: "Merge: Test all projects"
+#         if: ${{ env.is-pull-request == 'false' }}
+#         run: yarn nx run-many -t component-test
 
-      - name: Upload artifact
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: cypress-component-tests
-          path: dist/cypress/libs/
+#       - name: Upload artifact
+#         if: failure()
+#         uses: actions/upload-artifact@v3
+#         with:
+#           name: cypress-component-tests
+#           path: dist/cypress/libs/
