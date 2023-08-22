@@ -24,10 +24,19 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { RxLet } from '@rx-angular/template/let';
 import { map, tap } from 'rxjs';
 import { EoCertificatesStore } from './eo-certificates.store';
+import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, EoStackComponent, RouterModule, RxLet, UpperCasePipe, WattDatePipe],
+  imports: [
+    MatCardModule,
+    EoStackComponent,
+    RouterModule,
+    RxLet,
+    UpperCasePipe,
+    WattDatePipe,
+    EoBetaMessageComponent,
+  ],
   selector: 'eo-certificates',
   standalone: true,
   styles: [
@@ -58,15 +67,7 @@ import { EoCertificatesStore } from './eo-certificates.store';
     `,
   ],
   template: `
-    <mat-card class="watt-space-stack-l">
-      <h3 class="watt-space-stack-m">This is the beginning</h3>
-      <p class="watt-space-stack-m">
-        This page is based on real data and is working towards the coming solution regarding
-        certificates. So it is not just a test, though these data cannot yet be used in a legal
-        sense. It will be communicated, when it is out of beta and can be used legally. So you can
-        try this without any consequences.
-      </p>
-    </mat-card>
+    <eo-eo-beta-message></eo-eo-beta-message>
     <div class="certificate">
       <eo-stack size="M" *rxLet="certificate$; let cert">
         <mat-card>

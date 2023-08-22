@@ -15,26 +15,23 @@
  * limitations under the License.
  */
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { TranslocoModule, translate } from '@ngneat/transloco';
 import { BehaviorSubject, Observable, Subscription, combineLatest, debounceTime, map } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
 import { ActorsFilters, AllFiltersCombined } from './actors-filters';
-import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
 import { DhActor } from './dh-actor';
 import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
 import { dhToJSON } from './dh-json-util';
+import { DhActorsTableComponent } from './dh-actors-table.component';
 
 @Component({
   standalone: true,
@@ -55,28 +52,15 @@ import { dhToJSON } from './dh-json-util';
       watt-search {
         margin-left: auto;
       }
-
-      watt-paginator {
-        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
-
-        display: block;
-        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
-          var(--watt-space-ml--negative);
-      }
     `,
   ],
   imports: [
     TranslocoModule,
-    NgIf,
     DhActorsFiltersComponent,
-    DhActorStatusBadgeComponent,
-    DhEmDashFallbackPipe,
-    WATT_TABLE,
     WATT_CARD,
     WattSearchComponent,
-    WattPaginatorComponent,
-    WattEmptyStateComponent,
     WattButtonComponent,
+    DhActorsTableComponent,
   ],
 })
 export class DhActorsOverviewComponent implements OnInit, OnDestroy {
@@ -89,14 +73,7 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
     query: GetActorsDocument,
   });
 
-  dataSource = new WattTableDataSource<DhActor>([]);
-
-  columns: WattTableColumnDef<DhActor> = {
-    glnOrEicNumber: { accessor: 'glnOrEicNumber' },
-    name: { accessor: 'name' },
-    marketRole: { accessor: 'marketRole' },
-    status: { accessor: 'status' },
-  };
+  tableDataSource = new WattTableDataSource<DhActor>([]);
 
   filters$ = new BehaviorSubject<ActorsFilters>({
     actorStatus: null,
@@ -105,23 +82,23 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
 
   searchInput$ = new BehaviorSubject<string>('');
 
-  loading = true;
-  error = false;
+  isLoading = true;
+  hasError = false;
 
   ngOnInit(): void {
     this.subscription = this.getActorsQuery$.valueChanges.subscribe({
       next: (result) => {
-        this.loading = result.loading;
+        this.isLoading = result.loading;
 
-        this.dataSource.data = result.data?.actors;
+        this.tableDataSource.data = result.data?.actors;
       },
       error: () => {
-        this.error = true;
-        this.loading = false;
+        this.hasError = true;
+        this.isLoading = false;
       },
     });
 
-    this.dataSource.filterPredicate = dhActorsCustomFilterPredicate;
+    this.tableDataSource.filterPredicate = dhActorsCustomFilterPredicate;
 
     const filtersCombined$: Observable<AllFiltersCombined> = combineLatest([
       this.filters$,
@@ -131,7 +108,7 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
     this.subscription?.add(
       filtersCombined$.subscribe({
         next: (filters) => {
-          this.dataSource.filter = dhToJSON(filters);
+          this.tableDataSource.filter = dhToJSON(filters);
         },
       })
     );
@@ -143,11 +120,14 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
   }
 
   download(): void {
-    if (!this.dataSource.sort) {
+    if (!this.tableDataSource.sort) {
       return;
     }
 
-    const dataSorted = this.dataSource.sortData(this.dataSource.filteredData, this.dataSource.sort);
+    const dataSorted = this.tableDataSource.sortData(
+      this.tableDataSource.filteredData,
+      this.tableDataSource.sort
+    );
 
     const actorsOverviewPath = 'marketParticipant.actorsOverview';
 
