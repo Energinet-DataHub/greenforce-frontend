@@ -25,6 +25,7 @@ workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-ar
         }
     }
 
+
     views {
         container dh3 "MarketParticipant" {
             title "[Container] DataHub 3.0 - Market Participant (Simplified)"
