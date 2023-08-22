@@ -130,7 +130,7 @@ export const WithRequired: StoryFn<WattTextFieldComponent> = () => ({
     exampleFormControl: new FormControl(null),
   },
   template: `<watt-text-field [required]="true" [label]="label" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl">
-              <span info *ngIf="exampleFormControl.dirty && exampleFormControl.hasError('required')">This field is required</span>
+              <span error *ngIf="exampleFormControl.dirty && exampleFormControl.hasError('required')">This field is required</span>
             </watt-text-field>`,
 });
 
