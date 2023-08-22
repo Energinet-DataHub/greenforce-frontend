@@ -28,7 +28,7 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
 import { WattFieldComponent } from '../field/watt-field.component';
 import { WattIconComponent, WattIcon } from '../../foundations/icon';
 
-export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
+export type WattInputTypes = 'checkbox' | 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 
 @Component({
   standalone: true,

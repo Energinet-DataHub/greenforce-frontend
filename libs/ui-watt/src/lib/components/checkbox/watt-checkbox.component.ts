@@ -14,103 +14,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, forwardRef, ViewEncapsulation } from '@angular/core';
-import {
-  ControlValueAccessor,
-  UntypedFormControl,
-  NG_VALUE_ACCESSOR,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import {
-  MatLegacyCheckboxChange as MatCheckboxChange,
-  MatLegacyCheckboxModule as MatCheckboxModule,
-} from '@angular/material/legacy-checkbox';
-
-const customValueAccessor = {
-  multi: true,
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => WattCheckboxComponent),
-};
-
-const selector = 'watt-checkbox';
+import { Component, ElementRef, HostBinding, forwardRef, inject } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
-  selector,
+  selector: 'watt-checkbox',
   styles: [
     `
-      ${selector} .mat-checkbox-frame {
-        border-color: var(--watt-color-primary);
-      }
-
-      ${selector} {
-        line-height: 16px;
+      :host {
+        display: block;
       }
     `,
   ],
-  templateUrl: './watt-checkbox.component.html',
-  providers: [customValueAccessor],
+  template: `<label>
+    <input [(ngModel)]="model" type="checkbox" />
+    <ng-content />
+  </label>`,
   standalone: true,
-  imports: [MatCheckboxModule, ReactiveFormsModule],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => WattCheckboxComponent),
+      multi: true,
+    },
+  ],
+  imports: [FormsModule],
 })
 export class WattCheckboxComponent implements ControlValueAccessor {
-  /**
-   * @ignore
-   */
-  internalControl = new UntypedFormControl(false);
+  model!: string;
+  private element = inject(ElementRef);
 
-  /**
-   * @ignore
-   */
-  writeValue(value: boolean) {
-    this.internalControl.setValue(value);
-  }
+  @HostBinding('attr.disabled')
+  isDisabled = false;
 
-  /**
-   * @ignore
-   */
-  onValueChange(event: MatCheckboxChange) {
-    this.onTouched();
-    this.onChange(event.checked);
-  }
-
-  /**
-   * @ignore
-   */
-  registerOnChange(onChangeFn: (isChecked: boolean) => void) {
-    this.onChange = onChangeFn;
-  }
-
-  /**
-   * @ignore
-   */
-  registerOnTouched(onTouchFn: () => void) {
-    this.onTouched = onTouchFn;
-  }
-
-  /**
-   * @ignore
-   */
-  setDisabledState(disabled: boolean) {
-    if (disabled) {
-      this.internalControl.disable({ emitEvent: false });
-    } else {
-      this.internalControl.enable({ emitEvent: false });
-    }
-  }
-
-  /**
-   * @ignore
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onChange = (isChecked: boolean) => {
-    // Intentionally left empty
+  /* @ignore */
+  onChange: (value: string) => void = () => {
+    /* left blank intentionally */
   };
 
-  /**
-   * @ignore
-   */
-  onTouched = () => {
-    // Intentionally left empty
-  };
+  /* @ignore */
+  writeValue(value: string): void {
+    this.model = value;
+  }
+
+  /* @ignore */
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
+  }
+
+  /* @ignore */
+  registerOnTouched(fn: () => void): void {
+    this.element.nativeElement.addEventListener('focusout', fn);
+  }
+
+  /* @ignore */
+  setDisabledState(isDisabled: boolean): void {
+    this.isDisabled = isDisabled;
+  }
 }
