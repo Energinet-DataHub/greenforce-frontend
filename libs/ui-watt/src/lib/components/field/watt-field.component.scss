@@ -37,16 +37,20 @@
   content: " *";
 }
 
-watt-field [error],
-.ng.valid watt-field [error] {
+watt-field watt-field-hint {
+  display: block;
+}
+
+watt-field watt-field-error,
+.ng-valid watt-field watt-field-error {
   display: none;
 }
 
-.ng-dirty.ng-invalid watt-field [hint] {
+.ng-dirty.ng-invalid watt-field watt-field-hint {
   display: none;
 }
 
-.ng-dirty.ng-invalid watt-field [error] {
+.ng-dirty.ng-invalid watt-field watt-field-error {
   display: block;
   color: var(--watt-color-state-danger);
 }
@@ -80,8 +84,8 @@ watt-field {
       }
     }
 
-    [hint],
-    [error] {
+    watt-field-hint,
+    watt-field-error {
       @include watt.typography-watt-text-s;
       padding-left: var(--watt-space-s);
     }

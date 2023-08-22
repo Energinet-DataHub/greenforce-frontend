@@ -27,8 +27,8 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
       <div class="watt-field-wrapper">
         <ng-content />
       </div>
-      <ng-content select="[hint]" />
-      <ng-content select="[error]" />
+      <ng-content select="watt-field-hint" />
+      <ng-content select="watt-field-error" />
     </label>
   `,
 })

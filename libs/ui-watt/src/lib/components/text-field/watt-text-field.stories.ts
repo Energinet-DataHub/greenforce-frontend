@@ -19,7 +19,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { WattTextFieldComponent } from './watt-text-field.component';
-import { WattFieldComponent } from '../field';
+import { WattFieldComponent, WattFieldErrorComponent, WattFieldHintComponent } from '../field';
 import { WattButtonComponent } from '../button';
 
 const meta: Meta<WattTextFieldComponent> = {
@@ -33,6 +33,8 @@ const meta: Meta<WattTextFieldComponent> = {
         WattIconComponent,
         WattFieldComponent,
         WattButtonComponent,
+        WattFieldErrorComponent,
+        WattFieldHintComponent,
       ],
     }),
   ],
@@ -130,7 +132,7 @@ export const WithRequired: StoryFn<WattTextFieldComponent> = () => ({
     exampleFormControl: new FormControl(null),
   },
   template: `<watt-text-field [required]="true" [label]="label" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl">
-              <span error *ngIf="exampleFormControl.dirty && exampleFormControl.hasError('required')">This field is required</span>
+              <watt-field-error>This field is required</watt-field-error>
             </watt-text-field>`,
 });
 
@@ -158,7 +160,7 @@ export const WithHint: StoryFn<WattTextFieldComponent> = () => ({
     exampleFormControl: new FormControl(null),
   },
   template: `<watt-text-field [required]="true" [label]="label" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl">
-              <span error>This field is required</span>
-              <span hint>This is a hint</span>
+              <watt-field-error>This field is required</watt-field-error>
+              <watt-field-hint>This is a hint</watt-field-hint>
             </watt-text-field>`,
 });

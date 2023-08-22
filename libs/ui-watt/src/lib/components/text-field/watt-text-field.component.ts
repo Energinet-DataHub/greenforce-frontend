@@ -55,8 +55,8 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       [required]="required"
     />
     <ng-content />
-    <ng-content ngProjectAs="[hint]" select="[hint]" />
-    <ng-content ngProjectAs="[error]" select="[error]" />
+    <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
+    <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
   </watt-field> `,
 })
 export class WattTextFieldComponent implements ControlValueAccessor {
