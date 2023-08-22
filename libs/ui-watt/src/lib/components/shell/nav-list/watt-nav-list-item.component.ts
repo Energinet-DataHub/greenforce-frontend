@@ -25,7 +25,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <a *ngIf="isExternalLink; else internalLink" mat-ripple [href]="link" [attr.target]="target"
+    <a *ngIf="isExternalLink; else internalLink" [href]="link" [attr.target]="target"
       ><ng-container *ngTemplateOutlet="templateContent"></ng-container
     ></a>
 
