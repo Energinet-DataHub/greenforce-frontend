@@ -22,23 +22,23 @@ import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-des
 import { EoTransfersStore } from './eo-transfers.store';
 import { EoTransfersTableComponent } from './eo-transfers-table.component';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers',
-  imports: [WattCardComponent, EoTransfersTableComponent, EoPopupMessageComponent, NgIf, RxPush],
+  imports: [
+    WattCardComponent,
+    EoTransfersTableComponent,
+    EoPopupMessageComponent,
+    NgIf,
+    RxPush,
+    EoBetaMessageComponent,
+  ],
   standalone: true,
   template: `
     <eo-popup-message *ngIf="error$ | push"></eo-popup-message>
-    <watt-card class="watt-space-stack-l">
-      <h3 class="watt-space-stack-m">This is the beginning</h3>
-      <p class="watt-space-stack-m">
-        This page is based on real data and is working towards the coming solution regarding
-        certificates. So it is not just a test, though these data cannot yet be used in a legal
-        sense. It will be communicated, when it is out of beta and can be used legally. So you can
-        try this without any consequences.
-      </p>
-    </watt-card>
+    <eo-eo-beta-message></eo-eo-beta-message>
     <watt-card class="watt-space-stack-m">
       <eo-transfers-table
         [transfers]="transfers$ | push"

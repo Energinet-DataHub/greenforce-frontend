@@ -28,3 +28,4 @@ export * from './lib/eo-resolution-picker/eo-resolution-picker.component';
 export * from './lib/eo-scroll-view/eo-scroll-view.component';
 export * from './lib/eo-stack/eo-stack.component';
 export * from './lib/eo-vimeo-player/eo-vimeo-player.component';
+export * from './lib/eo-beta-message/eo-beta-message.component';
