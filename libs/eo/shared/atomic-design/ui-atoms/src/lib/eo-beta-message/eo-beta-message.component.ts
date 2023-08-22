@@ -14,22 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 
-import { WattSpinnerComponent } from './../index';
-
-const meta: Meta<WattSpinnerComponent> = {
-  title: 'Components/Spinner',
-  decorators: [
-    moduleMetadata({
-      imports: [WattSpinnerComponent],
-    }),
-  ],
-  component: WattSpinnerComponent,
-};
-
-export default meta;
-
-export const Spinner: StoryFn<WattSpinnerComponent> = (args) => ({
-  props: args,
-});
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-eo-beta-message',
+  standalone: true,
+  imports: [CommonModule, WattButtonComponent, WattCardComponent],
+  templateUrl: './eo-beta-message.component.html',
+  styleUrls: ['./eo-beta-message.component.scss'],
+})
+export class EoBetaMessageComponent {}
