@@ -23,7 +23,7 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
 })
 export class EoTermsService {
   #apiBase: string;
-  private currentVersion: number = -1;
+  private currentVersion = -1;
   constructor(
     private http: HttpClient,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
