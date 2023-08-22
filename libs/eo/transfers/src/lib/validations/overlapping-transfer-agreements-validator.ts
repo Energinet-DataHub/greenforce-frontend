@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {AbstractControl, FormGroup} from '@angular/forms';
-import {clearErrors, setValidationErrorsWithData} from './utils';
-import {EoExistingTransferAgreement} from '../eo-transfers.store';
+import { AbstractControl, FormGroup } from '@angular/forms';
+import { clearErrors, setValidationErrorsWithData } from './utils';
+import { EoExistingTransferAgreement } from '../eo-transfers.store';
 
 interface OverlappingTransferAgreementsValidatorError {
   start: EoExistingTransferAgreement | null;
