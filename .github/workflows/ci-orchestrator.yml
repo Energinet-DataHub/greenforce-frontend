@@ -34,11 +34,11 @@ jobs:
     secrets:
       pat_token: ${{ secrets.PAT_TOKEN_REPO_WORKFLOW }}
 
-  # #
-  # # CodeQL Check
-  # #
-  # ci_codeql:
-  #   uses: ./.github/workflows/codeql.yml
+  #
+  # CodeQL Check
+  #
+  ci_codeql:
+    uses: ./.github/workflows/codeql.yml
 
   #
   # Detect changes to start relevant workflows
