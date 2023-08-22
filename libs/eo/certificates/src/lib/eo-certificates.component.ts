@@ -19,6 +19,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { EoCertificatesTableComponent } from './eo-certificates-table.component';
+import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,20 +28,13 @@ import { EoCertificatesTableComponent } from './eo-certificates-table.component'
     WattCheckboxComponent,
     EoCertificatesTableComponent,
     WattButtonComponent,
+    EoBetaMessageComponent,
   ],
   selector: 'eo-certificates',
   standalone: true,
   styles: [],
   template: `
-    <mat-card class="watt-space-stack-l">
-      <h3 class="watt-space-stack-m">This is the beginning</h3>
-      <p class="watt-space-stack-m">
-        This page is based on real data and is working towards the coming solution regarding
-        certificates. So it is not just a test, though these data cannot yet be used in a legal
-        sense. It will be communicated, when it is out of beta and can be used legally. So you can
-        try this without any consequences.
-      </p>
-    </mat-card>
+    <eo-eo-beta-message></eo-eo-beta-message>
     <mat-card class="watt-space-stack-m">
       <eo-certificates-table></eo-certificates-table>
     </mat-card>

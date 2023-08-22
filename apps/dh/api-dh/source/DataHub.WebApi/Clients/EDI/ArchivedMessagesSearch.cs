@@ -90,6 +90,7 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
             foreach (var archivedMessageDto in searchResultResponseMessages)
             {
                 result.Add(new ArchivedMessage(
+                    archivedMessageDto.Id,
                     archivedMessageDto.MessageId,
                     archivedMessageDto.DocumentType,
                     DateTimeOffset.Parse(archivedMessageDto.CreatedAt),

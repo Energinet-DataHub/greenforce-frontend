@@ -21,7 +21,7 @@ import { StorybookInputWrapperComponent } from './storybook-input-wrapper.compon
 import { StorybookInputOverviewComponent } from './storybook-input-overview.component';
 
 const meta: Meta<StorybookInputWrapperComponent> = {
-  title: 'Components/Text Field',
+  title: 'Components/Legacy Text Field',
   component: StorybookInputWrapperComponent,
   decorators: [
     applicationConfig({
