@@ -1,4 +1,4 @@
-{/**
+/**
  * @license
  * Copyright 2020 Energinet DataHub A/S
  *
@@ -13,26 +13,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */}
-
-import {
-  Meta,
-} from '@storybook/addon-docs';
-
-<Meta title="Components/Legacy Text Field" />
-
-## How to use
-
-Import the `WATT_FORM_FIELD` and `WattInputDirective`.
-
-```typescript
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
+ */
+import { Component } from '@angular/core';
 
 @Component({
-  imports: [WATT_FORM_FIELD, WattInputDirective],
+  selector: 'watt-field-hint',
+  template: `<ng-content></ng-content>`,
+  standalone: true,
 })
-class YourComponent {}
-```
-
-**\*NOTE:** Remember also to import `FormsModule` and `ReactiveFormsModule` from Angular.
+export class WattFieldHintComponent {}
