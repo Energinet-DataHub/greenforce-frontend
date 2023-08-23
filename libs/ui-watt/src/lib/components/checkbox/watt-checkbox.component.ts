@@ -14,23 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ElementRef, HostBinding, forwardRef, inject } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  ViewEncapsulation,
+  forwardRef,
+  inject,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'watt-checkbox',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
+  styleUrls: ['./watt-checkbox.component.scss'],
   template: `<label>
-    <input [(ngModel)]="model" type="checkbox" />
+    <input
+      [(ngModel)]="model"
+      [disabled]="isDisabled"
+      (ngModelChange)="onChange($event)"
+      type="checkbox"
+    />
     <ng-content />
   </label>`,
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
