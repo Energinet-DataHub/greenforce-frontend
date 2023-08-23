@@ -25,6 +25,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { DhActor } from './dh-actor';
 import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
+import { DhActorDrawerComponent } from './drawer/dh-actor-drawer.component';
 
 @Component({
   selector: 'dh-actors-table',
@@ -55,9 +56,12 @@ import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badg
 
     DhEmDashFallbackPipe,
     DhActorStatusBadgeComponent,
+    DhActorDrawerComponent,
   ],
 })
 export class DhActorsTableComponent {
+  activeRow: DhActor | undefined = undefined;
+
   columns: WattTableColumnDef<DhActor> = {
     glnOrEicNumber: { accessor: 'glnOrEicNumber' },
     name: { accessor: 'name' },
@@ -69,4 +73,12 @@ export class DhActorsTableComponent {
   @Input() hasError!: boolean;
 
   @Input() tableDataSource!: WattTableDataSource<DhActor>;
+
+  onRowClick(actor: DhActor): void {
+    this.activeRow = actor;
+  }
+
+  onClose(): void {
+    this.activeRow = undefined;
+  }
 }

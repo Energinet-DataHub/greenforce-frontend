@@ -22,6 +22,8 @@ limitations under the License.
     [loading]="isLoading"
     sortDirection="asc"
     [sortClear]="false"
+    [activeRow]="activeRow"
+    (rowClick)="onRowClick($event)"
   >
     <ng-container
       *wattTableCell="columns['glnOrEicNumber']; header: t('columns.glnOrEic'); let actor"
@@ -70,3 +72,5 @@ limitations under the License.
 
   <watt-paginator [for]="tableDataSource" [pageSize]="100" />
 </ng-container>
+
+<dh-actor-drawer [actor]="activeRow" (closed)="onClose()"></dh-actor-drawer>
