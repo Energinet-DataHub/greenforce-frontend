@@ -15,14 +15,17 @@
  * limitations under the License.
  */
 import { Component, Input } from '@angular/core';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { DhActor } from './dh-actor';
-import { TranslocoModule } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
+import { TranslocoModule } from '@ngneat/transloco';
+
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+
+import { DhActor } from './dh-actor';
+import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
+import { DhActorDrawerComponent } from './drawer/dh-actor-drawer.component';
 
 @Component({
   selector: 'dh-actors-table',
@@ -53,9 +56,12 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
     DhEmDashFallbackPipe,
     DhActorStatusBadgeComponent,
+    DhActorDrawerComponent,
   ],
 })
 export class DhActorsTableComponent {
+  activeRow: DhActor | undefined = undefined;
+
   columns: WattTableColumnDef<DhActor> = {
     glnOrEicNumber: { accessor: 'glnOrEicNumber' },
     name: { accessor: 'name' },
@@ -67,4 +73,12 @@ export class DhActorsTableComponent {
   @Input() hasError!: boolean;
 
   @Input() tableDataSource!: WattTableDataSource<DhActor>;
+
+  onRowClick(actor: DhActor): void {
+    this.activeRow = actor;
+  }
+
+  onClose(): void {
+    this.activeRow = undefined;
+  }
 }
