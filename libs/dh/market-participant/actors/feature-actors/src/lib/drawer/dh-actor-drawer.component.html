@@ -1,0 +1,56 @@
+<ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.drawer'">
+  <watt-drawer #drawer (closed)="onClose()">
+    <watt-drawer-topbar>
+      <dh-actor-status-badge [status]="actor?.status" />
+    </watt-drawer-topbar>
+
+    <watt-drawer-heading>
+      <h2 class="actor-heading">{{ actor?.name }}</h2>
+
+      <div class="actor-metadata">
+        <div class="actor-metadata__item">
+          <span class="watt-label">{{ t("metadata.marketRole") }}</span>
+          <span>
+            <ng-container *ngIf="actor?.marketRole; else marketRoleNotSet">
+              {{ "marketParticipant.marketRoles." + actor?.marketRole | transloco }}
+            </ng-container>
+
+            <ng-template #marketRoleNotSet>
+              {{ actor?.marketRole | dhEmDashFallback }}
+            </ng-template>
+          </span>
+        </div>
+
+        <div class="actor-metadata__item">
+          <span class="watt-label">{{ t("metadata.organization") }}</span>
+          <span>{{ undefined | dhEmDashFallback }}</span>
+        </div>
+      </div>
+    </watt-drawer-heading>
+
+    <watt-drawer-content *ngIf="drawer.isOpen">
+      <watt-tabs>
+        <watt-tab [label]="t('tabs.masterData.tabLabel')">
+          <watt-card variant="solid">
+            <watt-description-list variant="stack">
+              <watt-description-list-item
+                [label]="t('tabs.masterData.glnOrEic')"
+                [value]="actor?.glnOrEicNumber"
+              ></watt-description-list-item>
+
+              <watt-description-list-item
+                [label]="t('tabs.masterData.name')"
+                [value]="actor?.name"
+              ></watt-description-list-item>
+
+              <watt-description-list-item
+                [label]="t('tabs.masterData.marketRole')"
+                [value]="marketRoleOrFallback"
+              ></watt-description-list-item>
+            </watt-description-list>
+          </watt-card>
+        </watt-tab>
+      </watt-tabs>
+    </watt-drawer-content>
+  </watt-drawer>
+</ng-container>
