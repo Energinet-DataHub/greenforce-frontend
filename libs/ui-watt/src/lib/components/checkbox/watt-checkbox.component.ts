@@ -18,6 +18,8 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  Input,
+  OnInit,
   ViewEncapsulation,
   forwardRef,
   inject,
@@ -32,6 +34,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
       [(ngModel)]="model"
       [disabled]="isDisabled"
       (ngModelChange)="onChange($event)"
+      [required]="required"
       type="checkbox"
     />
     <ng-content />
@@ -47,12 +50,21 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
   ],
   imports: [FormsModule],
 })
-export class WattCheckboxComponent implements ControlValueAccessor {
+export class WattCheckboxComponent implements ControlValueAccessor, OnInit {
   model!: string;
   private element = inject(ElementRef);
 
+  @Input() indeterminate = false;
+  @Input() required = false;
+
   @HostBinding('attr.disabled')
   isDisabled = false;
+
+  ngOnInit(): void {
+    if (this.indeterminate) {
+      this.element.nativeElement.indeterminate = true;
+    }
+  }
 
   /* @ignore */
   onChange: (value: string) => void = () => {
@@ -76,6 +88,7 @@ export class WattCheckboxComponent implements ControlValueAccessor {
 
   /* @ignore */
   setDisabledState(isDisabled: boolean): void {
+    console.log('setDisabledState', isDisabled);
     this.isDisabled = isDisabled;
   }
 }

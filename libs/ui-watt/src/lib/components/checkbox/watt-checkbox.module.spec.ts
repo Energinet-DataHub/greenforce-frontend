@@ -75,10 +75,13 @@ describe(WattCheckboxComponent, () => {
       const initialState = { value: true, disabled: true };
       const { fixture, checkboxLabel } = await setup(initialState);
 
+      console.log(fixture.componentInstance.checkboxControl);
+
       if (checkboxLabel) {
         fireEvent.click(checkboxLabel);
       }
 
+      console.log(fixture.componentInstance.checkboxControl.value);
       const actualValue = fixture.componentInstance.checkboxControl.value;
       expect(actualValue).toBeTruthy();
     });

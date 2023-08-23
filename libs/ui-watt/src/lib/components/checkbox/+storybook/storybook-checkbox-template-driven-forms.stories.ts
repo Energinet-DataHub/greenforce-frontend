@@ -18,13 +18,14 @@ import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormsModule } from '@angular/forms';
 
 import { WattCheckboxComponent } from '../watt-checkbox.component';
+import { StoryBookCheckboxRequiredComponent } from './storybook-checkbox-required.component';
 
 const meta: Meta<WattCheckboxComponent> = {
   title: 'Components/Checkbox/Template-Driven Forms',
   component: WattCheckboxComponent,
   decorators: [
     moduleMetadata({
-      imports: [FormsModule, WattCheckboxComponent],
+      imports: [FormsModule, WattCheckboxComponent, StoryBookCheckboxRequiredComponent],
     }),
   ],
 };
@@ -86,6 +87,7 @@ export const Disabled: StoryFn<WattCheckboxComponent> = () => ({
   },
   template: `<watt-checkbox [(ngModel)]="exampleModel" [disabled]="isDisabled">Keep me signed in</watt-checkbox>`,
 });
+
 Disabled.parameters = {
   docs: {
     source: {
@@ -93,3 +95,7 @@ Disabled.parameters = {
     },
   },
 };
+
+export const Required: StoryFn<WattCheckboxComponent> = () => ({
+  template: `<watt-storybook-checkbox-required /> `,
+});
