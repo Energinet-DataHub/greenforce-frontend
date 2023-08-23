@@ -1,4 +1,8 @@
 watt-checkbox {
+  --watt-checkbox-disabled-color: var(--watt-color-neutral-grey-400);
+  --watt-checkbox-color: var(--watt-color-primary);
+  --watt-checkbox-checkmark-color: var(--watt-on-dark-high-emphasis);
+
   display: block;
 
   input {
@@ -7,7 +11,7 @@ watt-checkbox {
     padding: 0;
     width: 1.15em;
     height: 1.15em;
-    border: 0.15em solid var(--watt-color-primary);
+    border: 0.15em solid var(--watt-checkbox-color);
     display: grid;
     place-content: center;
   }
@@ -18,7 +22,7 @@ watt-checkbox {
     height: 0.65em;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em var(--watt-on-dark-high-emphasis);
+    box-shadow: inset 1em 1em var(--watt-checkbox-checkmark-color);
     transform-origin: bottom left;
     clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
   }
@@ -28,16 +32,16 @@ watt-checkbox {
   }
 
   input:checked {
-    background-color: var(--watt-color-primary);
+    background-color: var(--watt-checkbox-color);
   }
 
   input:disabled {
-    border-color: var(--watt-color-neutral-grey-400);
-    background-color: var(--watt-color-neutral-grey-400);
+    border-color: var(--watt-checkbox-disabled-color);
+    background-color: var(--watt-checkbox-disabled-color);
   }
 
   &[disabled="true"] label {
-    color: var(--watt-color-neutral-grey-400);
+    color: var(--watt-checkbox-disabled-color);
   }
 
   label {
