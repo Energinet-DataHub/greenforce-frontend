@@ -20,6 +20,7 @@ watt-nav-list {
   background-color: var(--watt-color-primary-dark);
 
   watt-nav-list-item {
+    display: block;
     a {
       @include watt.space-inset-squish-m;
       display: block;
@@ -67,6 +68,10 @@ watt-nav-list {
 
     .mat-expansion-panel-body {
       padding: 0;
+    }
+
+    watt-nav-list-item a {
+      padding-left: var(--watt-space-l);
     }
   }
 }
