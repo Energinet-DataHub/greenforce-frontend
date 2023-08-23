@@ -15,14 +15,16 @@
  * limitations under the License.
  */
 import { Component, Input } from '@angular/core';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { DhActor } from './dh-actor';
-import { TranslocoModule } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
+import { TranslocoModule } from '@ngneat/transloco';
+
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+
+import { DhActor } from './dh-actor';
+import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
 
 @Component({
   selector: 'dh-actors-table',
