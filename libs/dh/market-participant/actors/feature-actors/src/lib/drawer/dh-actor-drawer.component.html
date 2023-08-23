@@ -1,0 +1,72 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.drawer'">
+  <watt-drawer #drawer (closed)="onClose()">
+    <watt-drawer-topbar>
+      <dh-actor-status-badge [status]="actor?.status" />
+    </watt-drawer-topbar>
+
+    <watt-drawer-heading>
+      <h2 class="actor-heading">{{ actor?.name }}</h2>
+
+      <div class="actor-metadata">
+        <div class="actor-metadata__item">
+          <span class="watt-label">{{ t("metadata.marketRole") }}</span>
+          <span>
+            <ng-container *ngIf="actor?.marketRole; else marketRoleNotSet">
+              {{ "marketParticipant.marketRoles." + actor?.marketRole | transloco }}
+            </ng-container>
+
+            <ng-template #marketRoleNotSet>
+              {{ actor?.marketRole | dhEmDashFallback }}
+            </ng-template>
+          </span>
+        </div>
+
+        <div class="actor-metadata__item">
+          <span class="watt-label">{{ t("metadata.organization") }}</span>
+          <span>{{ undefined | dhEmDashFallback }}</span>
+        </div>
+      </div>
+    </watt-drawer-heading>
+
+    <watt-drawer-content *ngIf="drawer.isOpen">
+      <watt-tabs>
+        <watt-tab [label]="t('tabs.masterData.tabLabel')">
+          <watt-card variant="solid">
+            <watt-description-list variant="stack">
+              <watt-description-list-item
+                [label]="t('tabs.masterData.glnOrEic')"
+                [value]="actor?.glnOrEicNumber"
+              ></watt-description-list-item>
+
+              <watt-description-list-item
+                [label]="t('tabs.masterData.name')"
+                [value]="actor?.name"
+              ></watt-description-list-item>
+
+              <watt-description-list-item
+                [label]="t('tabs.masterData.marketRole')"
+                [value]="marketRoleOrFallback"
+              ></watt-description-list-item>
+            </watt-description-list>
+          </watt-card>
+        </watt-tab>
+      </watt-tabs>
+    </watt-drawer-content>
+  </watt-drawer>
+</ng-container>
