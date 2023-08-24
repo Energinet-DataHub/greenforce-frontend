@@ -1,4 +1,4 @@
-{/**
+/**
  * @license
  * Copyright 2020 Energinet DataHub A/S
  *
@@ -13,26 +13,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */}
+ */
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
-import {
-  Meta,
-} from '@storybook/addon-docs';
+import { WattSpinnerComponent } from '../index';
 
-<Meta title="Components/Legacy Text Field" />
+const meta: Meta<WattSpinnerComponent> = {
+  title: 'Components/Spinner',
+  decorators: [
+    moduleMetadata({
+      imports: [WattSpinnerComponent],
+    }),
+  ],
+  component: WattSpinnerComponent,
+};
 
-## How to use
+export default meta;
 
-Import the `WATT_FORM_FIELD` and `WattInputDirective`.
-
-```typescript
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
-
-@Component({
-  imports: [WATT_FORM_FIELD, WattInputDirective],
-})
-class YourComponent {}
-```
-
-**\*NOTE:** Remember also to import `FormsModule` and `ReactiveFormsModule` from Angular.
+export const Spinner: StoryFn<WattSpinnerComponent> = (args) => ({
+  props: args,
+});

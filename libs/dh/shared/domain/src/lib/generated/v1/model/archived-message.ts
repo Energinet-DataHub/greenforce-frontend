@@ -12,7 +12,8 @@
 
 
 export interface ArchivedMessage { 
-    messageId: string;
+    id: string;
+    messageId?: string | null;
     documentType?: string | null;
     createdDate?: string | null;
     senderGln?: string | null;

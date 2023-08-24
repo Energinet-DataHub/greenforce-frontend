@@ -553,21 +553,44 @@
       }
     },
     "actorsOverview": {
-      "actors": "Aktører",
-      "columns": {
+      "shared": {
         "glnOrEic": "GLN/EIC",
         "name": "Navn",
         "marketRole": "Markedsrolle",
         "status": "Status"
+      },
+      "actors": "Aktører",
+      "columns": {
+        "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
+        "name": "{{ marketParticipant.actorsOverview.shared.name }}",
+        "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}"
       },
       "status": {
         "Active": "Aktiv",
         "Inactive": "Deaktiveret"
       },
       "filters": {
-        "marketRole": "Markedsrolle",
-        "status": "Status",
-        "reset": "Nulstil"
+        "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}",
+        "reset": "{{ shared.form.reset }}"
+      },
+      "drawer": {
+        "metadata": {
+          "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
+          "organization": "Organisation"
+        },
+        "tabs": {
+          "masterData": {
+            "tabLabel": "Information",
+            "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
+            "name": "{{ marketParticipant.actorsOverview.shared.name }}",
+            "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}"
+          },
+          "history": {
+            "tabLabel": "Historik"
+          }
+        }
       },
       "emptyTitle": "Ingen aktører fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",

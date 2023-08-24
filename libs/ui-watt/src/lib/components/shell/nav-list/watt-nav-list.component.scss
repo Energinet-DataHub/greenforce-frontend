@@ -18,28 +18,24 @@
 
 watt-nav-list {
   background-color: var(--watt-color-primary-dark);
-  display: block;
 
-  .mat-list-base {
-    padding-top: 0;
-  }
+  watt-nav-list-item {
+    display: block;
+    a {
+      @include watt.space-inset-squish-m;
+      display: block;
+      border-left: var(--watt-space-xs) solid transparent;
+      color: var(--watt-color-neutral-white);
+      text-decoration: none;
+    }
 
-  .mat-nav-list .mat-list-item {
-    border-left: var(--watt-space-xs) solid transparent;
-    color: var(--watt-color-primary-contrast);
-    height: auto;
-
-    &:hover,
-    &.active {
+    a:hover,
+    a.active {
       background-color: var(--watt-color-primary);
     }
 
-    &.active {
+    a.active {
       border-left-color: var(--watt-color-secondary);
-    }
-
-    .mat-list-item-content {
-      @include watt.space-inset-squish-m;
     }
   }
 
@@ -74,9 +70,8 @@ watt-nav-list {
       padding: 0;
     }
 
-    .mat-nav-list .mat-list-item .mat-list-item-content {
-      padding: var(--watt-space-s) var(--watt-space-m) var(--watt-space-s)
-        var(--watt-space-l);
+    watt-nav-list-item a {
+      padding-left: var(--watt-space-l);
     }
   }
 }
