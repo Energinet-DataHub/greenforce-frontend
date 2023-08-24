@@ -152,7 +152,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
         next: () => {
           setTimeout(() => {
             this.loadData();
-          }, 5000);
+          }, 6000);
         },
         error: (error) => {
           this.toggleContractLoading(gsrn);
