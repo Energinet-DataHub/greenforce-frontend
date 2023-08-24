@@ -38,6 +38,7 @@ export interface EoCertificateContract {
   id: string;
   gsrn: string;
   startDate: number;
+  endDate: number;
   created: number;
 }
 
@@ -85,18 +86,10 @@ export class EoCertificatesService {
   }
 
   patchContract(id: string) {
-    const currentTimeInSeconds = Math.floor(new Date().getTime() / 1000);
+    const apiEndpoint = `${this.#apiBase}/certificates/contracts/${id}`;
+    const currentTimeInSeconds = Math.floor(Date.now() / 1000) + 5;
     const payload = { endDate: currentTimeInSeconds };
 
-    console.log('Payload creation time in seconds: ', currentTimeInSeconds);
-
-    return this.http
-      .patch<EoCertificateContract>(`${this.#apiBase}/certificates/contracts/${id}`, payload)
-      .pipe(
-        tap(() => {
-          const requestTimeInSeconds = Math.floor(new Date().getTime() / 1000);
-          console.log('Request sent time in seconds: ', requestTimeInSeconds);
-        })
-      );
+    return this.http.patch<EoCertificateContract>(apiEndpoint, payload);
   }
 }

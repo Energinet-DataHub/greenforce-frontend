@@ -90,6 +90,13 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     })
   );
 
+  private isActiveContract(contract: EoCertificateContract | undefined): boolean {
+    if (!contract) return false;
+    const now = Math.floor(Date.now() / 1000);
+    return (!contract.startDate || contract.startDate <= now) &&
+      (!contract.endDate || contract.endDate >= now);
+  }
+
   loadData() {
     this.setLoading(true);
     forkJoin([this.certService.getContracts(), this.service.getMeteringPoints()]).subscribe({
@@ -98,7 +105,9 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
         this.setMeteringPoints(
           mpList.meteringPoints.map((mp: MeteringPoint) => ({
             ...mp,
-            contract: contractList?.result.find((contract) => contract.gsrn === mp.gsrn),
+            contract: contractList?.result.find((contract) =>
+              contract.gsrn === mp.gsrn && this.isActiveContract(contract)
+            ),
             loadingContract: false,
           }))
         );
@@ -131,19 +140,22 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     });
   }
   deactivateCertificateContract(gsrn: string): void {
+    this.toggleContractLoading(gsrn);
+
     this.getContractIdForGsrn(gsrn)
       .pipe(
-        filter((id) => !!id), // Ensure the id exists before proceeding
+        filter((id) => !!id),
         switchMap((id) => this.certService.patchContract(id!))
       )
       .subscribe({
-        next: (updatedContract) => {
-          console.log('Contract successfully updated:', updatedContract);
-          // Optionally, you can update the store state here if needed
+        next: () => {
+          setTimeout(() => {
+            this.loadData();
+          }, 5000);
         },
         error: (error) => {
-          console.error('Error updating contract:', error);
-          // Handle error, maybe set an error state in the store
+          this.toggleContractLoading(gsrn);
+          this.setError(error);
         },
       });
   }
