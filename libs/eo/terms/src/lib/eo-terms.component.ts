@@ -86,7 +86,10 @@ interface VersionResponse {
             ></eo-privacy-policy>
           </eo-scroll-view>
           <div class="watt-space-stack-m">
-            <watt-checkbox [(ngModel)]="hasAcceptedPrivacyPolicy" [disabled]="loadingPrivacyPolicyFailed">
+            <watt-checkbox
+              [(ngModel)]="hasAcceptedPrivacyPolicy"
+              [disabled]="loadingPrivacyPolicyFailed"
+            >
               I have seen the Privacy Policy
             </watt-checkbox>
           </div>
