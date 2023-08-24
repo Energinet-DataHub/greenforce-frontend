@@ -166,4 +166,8 @@ export class DhCalculationsFiltersComponent implements OnInit {
       .pipe(debounceTime(500))
       .subscribe((value) => this.filter.emit(value));
   }
+
+  reset() {
+    this._formGroup.reset();
+  }
 }

@@ -46,6 +46,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             Query = provider.GetRequiredService<GraphQLQuery>();
             Mutation = provider.GetRequiredService<GraphQLMutation>();
+            Subscription = provider.GetRequiredService<GraphQLSubscription>();
         }
     }
 }

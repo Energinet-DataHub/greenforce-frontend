@@ -18,6 +18,7 @@ import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { CommonModule, KeyValue } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ContentChild,
   ContentChildren,
@@ -36,9 +37,21 @@ import {
 } from '@angular/core';
 import type { QueryList } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RxLet } from '@rx-angular/template/let';
+import {
+  map,
+  type Subscription,
+  startWith,
+  scan,
+  of,
+  Subject,
+  takeUntil,
+  expand,
+  delay,
+  EMPTY,
+} from 'rxjs';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
-import { map, type Subscription } from 'rxjs';
 import { WattCheckboxComponent } from '../checkbox';
 
 export interface WattTableColumn<T> {
@@ -145,7 +158,7 @@ export interface WattSortableDataSource<T> extends DataSource<T> {
  */
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSortModule, MatTableModule, WattCheckboxComponent],
+  imports: [CommonModule, FormsModule, MatSortModule, MatTableModule, RxLet, WattCheckboxComponent],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],
@@ -240,16 +253,18 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   activeRow?: T;
 
   /**
-   * Custom comparator function to determine if two rows are equal.
+   * Option to determine the behavior when comparing two rows. Can be
+   * a custom comparator function or a key of the row object to compare.
+   * The comparator is used when determining active and flashing rows.
    *
    * @remarks
-   * The default behavior for determining the active row is to compare
-   * the two row objects using strict equality check. This is sufficient
-   * as long as the instances remain the same, which may not be the case
-   * if row data is recreated or rebuilt from serialization.
+   * The default behavior for determining if two rows are equal is to compare
+   * the two row objects using strict equality check. This is sufficient as
+   * long as the instances remain the same, which may not be the case if row
+   * data is recreated or rebuilt from serialization.
    */
   @Input()
-  activeRowComparator?: (currentRow: T, activeRow: T) => boolean;
+  rowComparator: keyof T | ((a: T, b: T) => boolean) = (a, b) => a === b;
 
   /**
    * Emits whenever the selection updates. Only works when selectable is `true`.
@@ -291,7 +306,39 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   _element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /** @ignore */
+  _cdr = inject<ChangeDetectorRef>(ChangeDetectorRef);
+
+  /** @ignore */
   _subscription!: Subscription;
+
+  /** @ignore */
+  _flashSubject = new Subject<T[]>();
+
+  /** @ignore */
+  _rowsToFlash$ = this._flashSubject.pipe(
+    // Stamp each row with an expiration time (10 seconds from now)
+    map((rows) => rows.map((row) => ({ row, expire: Date.now() + 10000 }))),
+    // Accumulate rows to flash and filter out expired rows
+    scan((acc, curr) => acc.concat(curr).filter(({ expire }) => expire > Date.now())),
+    // Expand observable with delay until next row expires
+    expand((acc) =>
+      !acc.length
+        ? EMPTY
+        : of(acc).pipe(
+            // Delay until next row expires
+            delay(acc[0].expire - Date.now()),
+            // Filter out expired rows
+            map((acc) => acc.filter(({ expire }) => expire > Date.now())),
+            // Stop expanding if there are new rows to flash
+            // (remaining rows will be handled by next expand)
+            takeUntil(this._flashSubject)
+          )
+    ),
+    // Map to array of rows
+    map((acc) => acc.map(({ row }) => row)),
+    // Template requires an initial value
+    startWith([])
+  );
 
   /** @ignore */
   private isInitialSelectionSet = false;
@@ -358,6 +405,14 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
     }
   }
 
+  /**
+   * Flashes the given rows by highlighting them for 10 seconds.
+   * If the same row is flashed multiple times, the timer is reset.
+   */
+  flash(rows: T[]) {
+    this._flashSubject.next(rows);
+  }
+
   /** @ignore */
   get _columnSelection() {
     return this.dataSource.filteredData.every((row) => this._selectionModel.isSelected(row));
@@ -395,12 +450,21 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
     return column.value.cell?.(row) ?? this.getCellData(row, column.value);
   }
 
+  _rowEqual(a: T, b: T) {
+    return typeof this.rowComparator === 'function'
+      ? this.rowComparator(a, b)
+      : a[this.rowComparator] === b[this.rowComparator];
+  }
+
   /** @ignore */
   _isActiveRow(row: T) {
     if (!this.activeRow) return false;
-    return this.activeRowComparator
-      ? this.activeRowComparator(row, this.activeRow)
-      : row === this.activeRow;
+    return this._rowEqual(row, this.activeRow);
+  }
+
+  /** @ignore */
+  _isFlashingRow(row: T, rowsToFlash: T[]) {
+    return rowsToFlash.some((rowToFlash) => this._rowEqual(row, rowToFlash));
   }
 
   /** @ignore */
