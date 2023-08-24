@@ -87,7 +87,7 @@ watt-checkbox {
     background-color: var(--watt-checkbox-disabled-color);
   }
 
-  &[disabled="true"] label {
+  &.watt-checkbox--disabled label {
     color: var(--watt-checkbox-disabled-color);
     cursor: inherit;
   }
