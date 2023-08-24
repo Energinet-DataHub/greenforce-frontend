@@ -115,18 +115,28 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
         <mat-header-cell *matHeaderCellDef mat-sort-header>Granular Certificates</mat-header-cell>
         <mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.type === 'production'">
-
             <!-- Show the 'Activated' badge -->
-            <watt-badge *ngIf="element.contract && hoveredRow !== element.gsrn && !element.loadingContract" type="success">Activated</watt-badge>
+            <watt-badge
+              *ngIf="element.contract && hoveredRow !== element.gsrn && !element.loadingContract"
+              type="success"
+              >Activated</watt-badge
+            >
 
             <!-- Show the 'Activate/Cancel' button -->
             <button
-              *ngIf="!element.contract || (element.contract && (hoveredRow === element.gsrn || element.loadingContract))"
+              *ngIf="
+                !element.contract ||
+                (element.contract && (hoveredRow === element.gsrn || element.loadingContract))
+              "
               [disabled]="element.loadingContract"
               class="link"
-              (click)="!element.contract ? createContract(element.gsrn) : deactivateContract(element.gsrn)"
+              (click)="
+                !element.contract ? createContract(element.gsrn) : deactivateContract(element.gsrn)
+              "
             >
-              <ng-container *ngIf="!element.loadingContract">{{ !element.contract ? 'Activate' : 'Cancel' }}</ng-container>
+              <ng-container *ngIf="!element.loadingContract">{{
+                !element.contract ? 'Activate' : 'Cancel'
+              }}</ng-container>
               <watt-spinner *ngIf="element.loadingContract" [diameter]="16"></watt-spinner>
             </button>
           </ng-container>

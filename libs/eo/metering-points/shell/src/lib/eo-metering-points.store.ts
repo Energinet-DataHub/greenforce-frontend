@@ -133,8 +133,8 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     this.certService.createContract(gsrn).subscribe({
       next: (contract) => {
         setTimeout(() => {
-        this.setContract(contract);
-        this.toggleContractLoading(gsrn);
+          this.setContract(contract);
+          this.toggleContractLoading(gsrn);
         }, 6000);
       },
       error: (error) => {
