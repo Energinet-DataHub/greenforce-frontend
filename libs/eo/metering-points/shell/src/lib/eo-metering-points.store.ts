@@ -143,10 +143,9 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   }
   deactivateCertificateContract(gsrn: string): void {
     this.toggleContractLoading(gsrn);
-
     this.getContractIdForGsrn(gsrn)
       .pipe(
-        filter((id) => !!id),
+        filter((id): id is string => !!id),
         switchMap((id) => this.certService.patchContract(id!))
       )
       .subscribe({

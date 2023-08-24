@@ -26,7 +26,6 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.store';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EoCertificateContract } from '@energinet-datahub/eo/certificates';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

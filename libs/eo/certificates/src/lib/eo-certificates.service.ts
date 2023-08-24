@@ -17,7 +17,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 export interface EoCertificate {
   dateFrom: number;
