@@ -146,7 +146,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     this.getContractIdForGsrn(gsrn)
       .pipe(
         filter((id): id is string => !!id),
-        switchMap((id) => this.certService.patchContract(id!))
+        switchMap((id) => this.certService.patchContract(id))
       )
       .subscribe({
         next: () => {
