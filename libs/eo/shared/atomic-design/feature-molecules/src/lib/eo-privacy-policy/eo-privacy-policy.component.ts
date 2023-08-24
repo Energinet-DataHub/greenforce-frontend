@@ -14,20 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AsyncPipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EoTermsService } from '@energinet-datahub/eo/shared/services';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-interface VersionResponse {
-  version: number;
-}
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+
+import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [EoScrollViewComponent, AsyncPipe],
+  imports: [EoScrollViewComponent, AsyncPipe, NgIf, WattEmptyStateComponent],
   selector: 'eo-privacy-policy',
   styles: [
     `
@@ -35,11 +32,7 @@ interface VersionResponse {
         display: block;
       }
 
-      small {
-        color: var(--watt-color-neutral-grey-700);
-      }
-
-      .policy ::ng-deep {
+      :host ::ng-deep {
         h2 {
           margin-bottom: 16px;
         }
@@ -90,18 +83,21 @@ interface VersionResponse {
       }
     `,
   ],
-  template: ` <div class="policy" [innerHTML]="privacyPolicy$ | async"></div> `,
+  template: `
+    <ng-container *ngIf="policy; else fallback">
+      <div [innerHTML]="policy"></div>
+    </ng-container>
+
+    <ng-template #fallback>
+      <watt-empty-state
+        icon="danger"
+        title="Oops, we could not load the privacy policy!"
+        message="Please ensure that you have no browser extensions blocking the privacy policy enabled. Try turning off possible ad blockers and reloading the page."
+      ></watt-empty-state>
+    </ng-template>
+  `,
 })
 export class EoPrivacyPolicyComponent {
-  privacyPolicy$ = this.http.get('/assets/html/privacy-policy.html', { responseType: 'text' });
-  bag$ = this.http.get<VersionResponse>('/assets/configuration/privacy-policy.json').subscribe({
-    next: (response) => {
-      this.termsService.setVersion(response.version);
-    },
-    error: () => {
-      this.termsService.setVersion(-1);
-    },
-  });
-
-  constructor(private http: HttpClient, private termsService: EoTermsService) {}
+  @Input() policy!: string | null;
+  @Input() hasError = false;
 }

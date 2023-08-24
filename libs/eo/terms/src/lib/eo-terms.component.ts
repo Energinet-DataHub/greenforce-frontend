@@ -14,10 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { catchError, of, switchMap } from 'rxjs';
+
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+
 import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
@@ -25,10 +32,10 @@ import {
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService, EoTermsService } from '@energinet-datahub/eo/shared/services';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
+interface VersionResponse {
+  version: number;
+}
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
@@ -42,6 +49,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
     EoScrollViewComponent,
     WattSpinnerComponent,
     NgIf,
+    AsyncPipe,
   ],
   selector: 'eo-auth-terms',
   styles: [
@@ -71,10 +79,14 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
       <div class="eo-layout-centered-content">
         <div class="content-wrapper">
           <eo-scroll-view class="watt-space-stack-l">
-            <eo-privacy-policy class="watt-space-stack-l"></eo-privacy-policy>
+            <eo-privacy-policy
+              class="watt-space-stack-l"
+              [policy]="privacyPolicy$ | async"
+              [hasError]="loadingPrivacyPolicyFailed"
+            ></eo-privacy-policy>
           </eo-scroll-view>
           <div class="watt-space-stack-m">
-            <watt-checkbox [(ngModel)]="hasAcceptedPrivacyPolicy">
+            <watt-checkbox [(ngModel)]="hasAcceptedPrivacyPolicy" [disabled]="loadingPrivacyPolicyFailed">
               I have seen the Privacy Policy
             </watt-checkbox>
           </div>
@@ -99,14 +111,30 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
   `,
 })
 export class EoTermsComponent {
+  private http = inject(HttpClient);
+  private termsService = inject(EoTermsService);
+  private authService = inject(EoAuthService);
+  private router = inject(Router);
+  private policyVersion$ = this.http.get<VersionResponse>(
+    '/assets/configuration/privacy-policy.json'
+  );
+
+  loadingPrivacyPolicyFailed = false;
+  privacyPolicy$ = this.policyVersion$.pipe(
+    switchMap((response) => {
+      this.termsService.setVersion(response.version);
+      return this.http.get('/assets/html/privacy-policy.html', { responseType: 'text' });
+    }),
+    catchError(() => {
+      this.termsService.setVersion(-1); // Is this needed anymore?
+      this.loadingPrivacyPolicyFailed = true;
+
+      return of(null);
+    })
+  );
+
   hasAcceptedPrivacyPolicy = false;
   startedAcceptFlow = false;
-
-  constructor(
-    private authService: EoAuthService,
-    private termsService: EoTermsService,
-    private router: Router
-  ) {}
 
   onCancel() {
     this.authService.logout();
