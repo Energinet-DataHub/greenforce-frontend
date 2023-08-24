@@ -93,8 +93,10 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   private isActiveContract(contract: EoCertificateContract | undefined): boolean {
     if (!contract) return false;
     const now = Math.floor(Date.now() / 1000);
-    return (!contract.startDate || contract.startDate <= now) &&
-      (!contract.endDate || contract.endDate >= now);
+    return (
+      (!contract.startDate || contract.startDate <= now) &&
+      (!contract.endDate || contract.endDate >= now)
+    );
   }
 
   loadData() {
@@ -105,8 +107,8 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
         this.setMeteringPoints(
           mpList.meteringPoints.map((mp: MeteringPoint) => ({
             ...mp,
-            contract: contractList?.result.find((contract) =>
-              contract.gsrn === mp.gsrn && this.isActiveContract(contract)
+            contract: contractList?.result.find(
+              (contract) => contract.gsrn === mp.gsrn && this.isActiveContract(contract)
             ),
             loadingContract: false,
           }))
