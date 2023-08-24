@@ -51,7 +51,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
       (closed)="onClosed()"
       *ngIf="opened"
     >
-      <form *ngIf="!(walletDepositEndpointError$ | push); else error" style="min-height: 416px;">
+      <form *ngIf="!(walletDepositEndpointError$ | push); else error">
         <p>
           To receive granular certificates the sender must create a transfer agreement. They need
           this key to identify the recipient (you).
