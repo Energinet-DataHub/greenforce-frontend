@@ -23,6 +23,10 @@ form.ng-submitted watt-checkbox.ng-invalid input {
   border-color: var(--watt-checkbox-error-color);
 }
 
+form.ng-submitted watt-checkbox.watt-checkbox--indeterminate.ng-invalid input {
+  background-color: var(--watt-checkbox-error-color);
+}
+
 watt-checkbox {
   --watt-checkbox-disabled-color: var(--watt-color-neutral-grey-400);
   --watt-checkbox-color: var(--watt-color-primary);
@@ -70,11 +74,21 @@ watt-checkbox {
     );
   }
 
+  &.watt-checkbox--indeterminate input::before {
+    clip-path: polygon(29% 44%, 76.5% 44%, 76.5% 56.25%, 29% 56.25%);
+    transform: scale(1);
+  }
+
+  &.watt-checkbox--indeterminate.ng-dirty.ng-invalid input::before {
+    background-color: var(--watt-checkbox-error-color);
+  }
+
   input:checked::before {
     transform: scale(1);
   }
 
-  input:checked {
+  input:checked,
+  &.watt-checkbox--indeterminate input {
     background-color: var(--watt-checkbox-color);
   }
 

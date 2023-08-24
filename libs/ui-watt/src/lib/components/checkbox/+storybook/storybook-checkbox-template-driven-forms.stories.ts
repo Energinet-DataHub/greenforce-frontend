@@ -99,3 +99,10 @@ Disabled.parameters = {
 export const Required: StoryFn<WattCheckboxComponent> = () => ({
   template: `<watt-storybook-checkbox-required /> `,
 });
+
+export const Indeterminate: StoryFn<WattCheckboxComponent> = () => ({
+  props: {
+    exampleModel: null,
+  },
+  template: `<watt-checkbox [(ngModel)]="exampleModel">Keep me signed in</watt-checkbox>`,
+});

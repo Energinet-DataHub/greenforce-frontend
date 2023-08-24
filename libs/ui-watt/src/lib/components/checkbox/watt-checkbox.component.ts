@@ -19,7 +19,6 @@ import {
   ElementRef,
   HostBinding,
   Input,
-  OnInit,
   ViewEncapsulation,
   forwardRef,
   inject,
@@ -31,10 +30,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
   styleUrls: ['./watt-checkbox.component.scss'],
   template: `<label>
     <input
-      [ngModel]="model"
+      [ngModel]="checked"
       [disabled]="isdisabled"
-      (ngModelChange)="onChange($event)"
+      [indeterminate]="indeterminate"
       [required]="required"
+      (ngModelChange)="onModelChange($event)"
       type="checkbox"
     />
     <ng-content />
@@ -50,43 +50,42 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
   ],
   imports: [FormsModule],
 })
-export class WattCheckboxComponent implements ControlValueAccessor, OnInit {
-  model!: string;
+export class WattCheckboxComponent implements ControlValueAccessor {
   private element = inject(ElementRef);
 
-  @Input() indeterminate = false;
-  @Input() required = false;
+  checked: boolean | null = null;
 
   @HostBinding('class.watt-checkbox--disabled')
   isdisabled = false;
 
-  ngOnInit(): void {
-    if (this.indeterminate) {
-      this.element.nativeElement.indeterminate = true;
-    }
-  }
+  @HostBinding('class.watt-checkbox--indeterminate')
+  indeterminate = false;
 
-  /* @ignore */
-  onChange: (value: string) => void = () => {
-    /* left blank intentionally */
+  @Input() required = false;
+
+  onChange: (value: boolean) => void = () => {
+    //
   };
 
-  /* @ignore */
-  writeValue(value: string): void {
-    this.model = value;
-  }
-
-  /* @ignore */
-  registerOnChange(fn: (value: string) => void): void {
+  registerOnChange(fn: (value: boolean) => void): void {
     this.onChange = fn;
   }
 
-  /* @ignore */
-  registerOnTouched(fn: () => void): void {
+  registerOnTouched(fn: (value: boolean) => void): void {
     this.element.nativeElement.addEventListener('focusout', fn);
   }
 
-  /* @ignore */
+  writeValue(checked: boolean | null) {
+    this.indeterminate = checked === null ? true : false;
+    this.checked = checked;
+  }
+
+  onModelChange(e: boolean) {
+    this.indeterminate = false;
+    this.checked = e;
+    this.onChange(e);
+  }
+
   setDisabledState(isDisabled: boolean): void {
     this.isdisabled = isDisabled;
   }
