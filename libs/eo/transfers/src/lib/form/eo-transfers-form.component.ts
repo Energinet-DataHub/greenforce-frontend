@@ -170,7 +170,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
       </style>
       <ng-container [formGroup]="form">
         <watt-form-field class="receiver">
-          <watt-label>CVR NR./TIN</watt-label>
+          <watt-label>CVR NO./TIN</watt-label>
           <input
             wattInput
             required="true"
@@ -291,7 +291,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   protected preventNonNumericInput(event: KeyboardEvent) {
-    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'];
+    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Control', 'Alt'];
     const isNumericInput = /^[0-9]+$/.test(event.key);
     const isSpecialKey = allowedKeys.includes(event.key);
 
