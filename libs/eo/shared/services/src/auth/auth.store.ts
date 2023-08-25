@@ -23,11 +23,9 @@ export interface EoLoginToken {
   exp?: number;
   name?: string;
   nbf?: number;
-  /** @example "accepted-terms dashboard production meters certificates" */
+  /** @example "dashboard production meters certificates" */
   scope?: string;
   sub?: string;
-  /** @example 3 - To indicate that the latest terms version is 3 */
-  trm?: number;
   tin?: string;
 }
 
@@ -46,7 +44,6 @@ export class EoAuthStore extends ComponentStore<AuthState> {
   getScope$ = this.select((state) => state.scope?.split(' ') ?? []);
   getTokenNotBefore$ = this.select((state) => state.nbf ?? 0);
   getTokenExpiry$ = this.select((state) => state.exp ?? 0);
-  getTermsVersion$ = this.select((state) => state.trm);
   getTin$ = this.select((state) => state.tin);
   isTokenExpired$ = this.select((state) => Date.now() / 1000 > (state.exp ?? 0));
 
