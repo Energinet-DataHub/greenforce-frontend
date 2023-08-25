@@ -38,6 +38,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Resolve(x => x.Source.Status)
                 .Description("The status of the actor.");
 
+            Field<OrganizationDtoType>("organization")
+                .Resolve(x => x.Source.Organization)
+                .Description("The organization of the actor.");
+
             // Below are commented out since the actor number is currently
             // the only field that market participant and wholesale have in common
             // AND it is also not currently possible to get actor information from
