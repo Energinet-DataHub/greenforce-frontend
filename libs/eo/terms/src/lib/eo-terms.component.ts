@@ -129,7 +129,7 @@ export class EoTermsComponent {
       return this.http.get('/assets/html/privacy-policy.html', { responseType: 'text' });
     }),
     catchError(() => {
-      this.termsService.setVersion(-1); // Is this needed anymore?
+      this.termsService.setVersion(-1);
       this.loadingPrivacyPolicyFailed = true;
 
       return of(null);
