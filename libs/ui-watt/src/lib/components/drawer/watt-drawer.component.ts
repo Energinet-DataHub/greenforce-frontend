@@ -30,10 +30,12 @@ import {
   Input,
   ElementRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 
 import { WattButtonComponent } from '../button';
 import { WattSpinnerComponent } from '../spinner';
+import { WattCssCustomPropertiesService } from '../../utils/css-custom-properties.service';
 
 import { WattDrawerTopbarComponent } from './watt-drawer-topbar.component';
 import { WattDrawerActionsComponent } from './watt-drawer-actions.component';
@@ -51,6 +53,7 @@ export type WattDrawerSize = 'small' | 'normal' | 'large';
   imports: [A11yModule, MatSidenavModule, WattButtonComponent, WattSpinnerComponent, CommonModule],
 })
 export class WattDrawerComponent implements OnDestroy {
+  private cssCustomPropertiesService = inject(WattCssCustomPropertiesService);
   private static currentDrawer?: WattDrawerComponent;
 
   /** Used to adjust drawer size to best fit the content. */
@@ -133,6 +136,12 @@ export class WattDrawerComponent implements OnDestroy {
       WattDrawerComponent.currentDrawer = this;
       this.isOpen = true;
       this.cdr.detectChanges();
+
+      const value = this.cssCustomPropertiesService.getPropertyValue(
+        '--watt-toolbar-z-index-when-drawer-is-open'
+      );
+
+      this.cssCustomPropertiesService.setPropertyValue('--watt-toolbar-z-index', value);
     }
   }
 
@@ -144,6 +153,12 @@ export class WattDrawerComponent implements OnDestroy {
       WattDrawerComponent.currentDrawer = undefined;
       this.isOpen = false;
       this.closed.emit();
+
+      const value = this.cssCustomPropertiesService.getPropertyValue(
+        '--watt-toolbar-z-index-when-drawer-is-closed'
+      );
+
+      this.cssCustomPropertiesService.setPropertyValue('--watt-toolbar-z-index', value);
     }
   }
 }
