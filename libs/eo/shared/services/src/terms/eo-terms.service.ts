@@ -17,40 +17,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { switchMap } from 'rxjs';
-import { EoAuthStore } from '../auth/auth.store';
-
-export interface AuthTermsResponse {
-  /**
-   * A single line of raw text
-   */
-  readonly headline: string;
-  /**
-   * A string containing safe HTML
-   */
-  readonly terms: string;
-  /**
-   * A string: I.eg: "0.1"
-   */
-  readonly version: string;
-}
 
 @Injectable({
   providedIn: 'root',
 })
 export class EoTermsService {
   #apiBase: string;
+  private currentVersion = -1;
   constructor(
     private http: HttpClient,
-    private authStore: EoAuthStore,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#apiBase = `${apiEnvironment.apiBase}`;
   }
 
+  setVersion(version: number) {
+    this.currentVersion = version;
+  }
+
   acceptTerms() {
-    return this.authStore.getTermsVersion$.pipe(
-      switchMap((version) => this.http.put(`${this.#apiBase}/terms/accept`, { version }))
-    );
+    return this.http.put(`${this.#apiBase}/terms/user/accept/${this.currentVersion}`, null);
   }
 }
