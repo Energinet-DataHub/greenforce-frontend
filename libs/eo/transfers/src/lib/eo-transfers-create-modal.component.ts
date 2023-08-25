@@ -21,6 +21,7 @@ import {
   Component,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 
@@ -77,12 +78,10 @@ export class EoTransfersCreateModalComponent {
   protected opened = false;
   protected existingTransferAgreements$: Observable<EoExistingTransferAgreement[]> = of([]);
 
-  constructor(
-    private service: EoTransfersService,
-    private store: EoTransfersStore,
-    private cd: ChangeDetectorRef,
-    protected authStore: EoAuthStore
-  ) {}
+  protected authStore = inject(EoAuthStore);
+  private service = inject(EoTransfersService);
+  private store = inject(EoTransfersStore);
+  private cd = inject(ChangeDetectorRef);
 
   open() {
     /**
@@ -94,6 +93,9 @@ export class EoTransfersCreateModalComponent {
   }
 
   onClosed() {
+    this.creatingTransferAgreement = false;
+    this.creatingTransferAgreementFailed = false;
+    this.isFormValid = false;
     this.opened = false;
     this.existingTransferAgreements$ = of([]);
   }
@@ -103,11 +105,11 @@ export class EoTransfersCreateModalComponent {
   }
 
   createAgreement(transferAgreement: {
-    receiverTin: string;
-    base64EncodedWalletDepositEndpoint: string;
+    receiver: { tin: string; base64EncodedWalletDepositEndpoint: string },
     period: { startDate: number; endDate: number | null; hasEndDate: boolean };
   }) {
-    const { receiverTin, base64EncodedWalletDepositEndpoint, period } = transferAgreement;
+    const { receiver, period } = transferAgreement;
+    const { tin: receiverTin, base64EncodedWalletDepositEndpoint } = receiver;
     const { startDate, endDate } = period;
 
     if (!receiverTin || !startDate) return;

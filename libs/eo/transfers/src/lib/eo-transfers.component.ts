@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
+import { tap } from 'rxjs';
+
+import { WattCardComponent } from '@energinet-datahub/watt/card';
 
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoTransfersStore } from './eo-transfers.store';
 import { EoTransfersTableComponent } from './eo-transfers-table.component';
-import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
@@ -51,9 +53,12 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
 })
 export class EoTransfersComponent implements OnInit {
   protected store = inject(EoTransfersStore);
+  private cd = inject(ChangeDetectorRef);
 
   error$ = this.store.error$;
-  loading$ = this.store.loadingTransferAgreements$;
+  loading$ = this.store.loadingTransferAgreements$.pipe(tap(() => {
+    this.cd.detectChanges();
+  }));
   transfers$ = this.store.transfers$;
   selectedTransfer$ = this.store.selectedTransfer$;
 

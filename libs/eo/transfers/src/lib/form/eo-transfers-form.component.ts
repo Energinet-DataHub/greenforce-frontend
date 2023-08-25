@@ -58,14 +58,18 @@ export interface EoTransfersFormInitialValues {
   endDate: number | null;
 }
 
+export interface EoTransfersFormReceiver {
+  tin: FormControl<string | null>;
+  base64EncodedWalletDepositEndpoint: FormControl<string | null>;
+}
+
 export interface EoTransferFormPeriod {
   startDate: FormControl<number | null>;
   endDate: FormControl<number | null>;
 }
 
 export interface EoTransfersForm {
-  receiverTin: FormControl<string | null>;
-  base64EncodedWalletDepositEndpoint: FormControl<string | null>;
+  receiver: FormGroup<EoTransfersFormReceiver>;
   period: FormGroup<EoTransferFormPeriod>;
 }
 
@@ -103,7 +107,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
     `
       eo-transfers-form .receiver {
         max-width: 300px;
-        margin-top: var(--watt-space-l);
+        margin-top: 17px;
       }
     `,
   ],
@@ -112,16 +116,14 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
     <ng-container *ngIf="mode === 'create'; then create; else edit"></ng-container>
 
     <ng-template #create>
-      <form [formGroup]="form">
+      <form [formGroup]="form" class="watt-modal-content--full-width">
         <watt-stepper (completed)="onSubmit()">
           <watt-stepper-step
             label="Recipient"
             nextButtonLabel="Agreement details"
-            [stepControl]="form.controls.receiverTin"
+            [stepControl]="form.controls.receiver"
           >
-            <div style="min-height: 280px;">
-              <ng-container *ngTemplateOutlet="receiver"></ng-container>
-            </div>
+            <ng-container *ngTemplateOutlet="receiver"></ng-container>
           </watt-stepper-step>
           <watt-stepper-step
             label="Agreement details"
@@ -139,7 +141,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
     </ng-template>
 
     <ng-template #edit>
-      <form [formGroup]="form">
+      <form [formGroup]="form" class="watt-modal-content--full-width">
         <ng-container *ngTemplateOutlet="receiver"></ng-container>
         <eo-transfers-form-period
           formGroupName="period"
@@ -168,7 +170,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           overflow: visible;
         }
       </style>
-      <ng-container [formGroup]="form">
+      <ng-container [formGroup]="form.controls.receiver">
         <watt-form-field class="receiver">
           <watt-label>CVR NO./TIN</watt-label>
           <input
@@ -176,23 +178,25 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
             required="true"
             inputmode="numeric"
             type="text"
-            formControlName="receiverTin"
+            formControlName="tin"
             [maxlength]="8"
             (keydown)="preventNonNumericInput($event)"
             data-testid="new-agreement-receiver-input"
           />
         </watt-form-field>
         <eo-transfers-errors
-          [showError]="form.controls.receiverTin.touched || form.controls.receiverTin.dirty"
+          [showError]="
+            form.controls.receiver.controls.tin.touched || form.controls.receiver.controls.tin.dirty
+          "
         >
           <watt-error
-            [style.opacity]="form.controls.receiverTin.errors?.['receiverTinEqualsSenderTin'] ? 1 : 0"
+            [style.opacity]="form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin'] ? 1 : 0"
           >
             The receiver cannot be your own TIN/CVR
           </watt-error>
           <watt-error
             [style.opacity]="
-      form.controls.receiverTin.errors?.['receiverTinEqualsSenderTin'] ? 0 : form.controls.receiverTin.errors ? 1 : 0
+      form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin'] ? 0 : form.controls.receiver.controls.tin.errors ? 1 : 0
     "
           >
             An 8-digit TIN/CVR number is required
@@ -210,12 +214,12 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
         </watt-form-field>
         <eo-transfers-errors
           [showError]="
-            form.controls.base64EncodedWalletDepositEndpoint.touched ||
-            form.controls.base64EncodedWalletDepositEndpoint.dirty
+            form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.touched ||
+            form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.dirty
           "
         >
           <watt-error
-            [style.opacity]="form.controls.base64EncodedWalletDepositEndpoint.errors?.['pattern'] ? 1 : 0"
+            [style.opacity]="form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.errors?.['pattern'] ? 1 : 0"
           >
             Not a valid Wallet Deposit Endpoint
           </watt-error>
@@ -252,16 +256,17 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit(): void {
     this.initForm();
 
-    this.form.controls['receiverTin'].valueChanges
+    const tin = this.form.controls.receiver.controls['tin'];
+    tin.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         switchMap(() => {
-          return of(this.form.controls['receiverTin'].valid);
+          return of(tin.valid);
         }),
         distinctUntilChanged()
       )
       .subscribe((receiverTinValidity) => {
-        const receiverTin = receiverTinValidity ? this.form.controls['receiverTin'].value : null;
+        const receiverTin = receiverTinValidity ? tin.value : null;
         this.receiverTinChanged.emit(receiverTin);
       });
   }
@@ -292,10 +297,11 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
 
   protected preventNonNumericInput(event: KeyboardEvent) {
     const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Control', 'Alt'];
+    const selectAll = event.key === 'a' && (event.metaKey || event.ctrlKey);
     const isNumericInput = /^[0-9]+$/.test(event.key);
     const isSpecialKey = allowedKeys.includes(event.key);
 
-    if (!isNumericInput && !isSpecialKey) {
+    if (!isNumericInput && !isSpecialKey && !selectAll) {
       event.preventDefault();
     }
   }
@@ -305,26 +311,28 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
       this.initialValues;
 
     this.form = new FormGroup<EoTransfersForm>({
-      receiverTin: new FormControl(
-        {
-          value: receiverTin || '',
-          disabled: !this.editableFields.includes('receiverTin'),
-        },
-        {
-          validators: [
+      receiver: new FormGroup({
+        tin: new FormControl(
+          {
+            value: receiverTin || '',
+            disabled: !this.editableFields.includes('receiverTin'),
+          },
+          {
+            validators: [
+              Validators.required,
+              Validators.pattern('^[0-9]{8}$'),
+              compareValidator(this.senderTin || '', 'receiverTinEqualsSenderTin'),
+            ],
+          }
+        ),
+        base64EncodedWalletDepositEndpoint: new FormControl(
+          base64EncodedWalletDepositEndpoint || '',
+          [
             Validators.required,
-            Validators.pattern('^[0-9]{8}$'),
-            compareValidator(this.senderTin || '', 'receiverTinEqualsSenderTin'),
-          ],
-        }
-      ),
-      base64EncodedWalletDepositEndpoint: new FormControl(
-        base64EncodedWalletDepositEndpoint || '',
-        [
-          Validators.required,
-          Validators.pattern(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/),
-        ]
-      ),
+            Validators.pattern(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/),
+          ]
+        ),
+      }),
       period: new FormGroup(
         {
           startDate: new FormControl(
@@ -333,7 +341,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
               disabled: !this.editableFields.includes('startDate'),
             },
             {
-              validators: [nextHourOrLaterValidator()],
+              validators: [Validators.required, nextHourOrLaterValidator()],
             }
           ),
           endDate: new FormControl(
