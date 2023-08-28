@@ -227,7 +227,7 @@ export class EoTransfersTableComponent implements OnChanges {
       this.dataSource.data = this.transfers;
 
       // Ensure that the empty table message is only shown after the first load
-      if(!changes['transfers'].isFirstChange()) {
+      if (!changes['transfers'].isFirstChange()) {
         this.hasLoaded = true;
       }
     }

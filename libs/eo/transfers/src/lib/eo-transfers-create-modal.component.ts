@@ -105,7 +105,7 @@ export class EoTransfersCreateModalComponent {
   }
 
   createAgreement(transferAgreement: {
-    receiver: { tin: string; base64EncodedWalletDepositEndpoint: string },
+    receiver: { tin: string; base64EncodedWalletDepositEndpoint: string };
     period: { startDate: number; endDate: number | null; hasEndDate: boolean };
   }) {
     const { receiver, period } = transferAgreement;

@@ -15,7 +15,13 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 import { tap } from 'rxjs';
 
@@ -56,9 +62,11 @@ export class EoTransfersComponent implements OnInit {
   private cd = inject(ChangeDetectorRef);
 
   error$ = this.store.error$;
-  loading$ = this.store.loadingTransferAgreements$.pipe(tap(() => {
-    this.cd.detectChanges();
-  }));
+  loading$ = this.store.loadingTransferAgreements$.pipe(
+    tap(() => {
+      this.cd.detectChanges();
+    })
+  );
   transfers$ = this.store.transfers$;
   selectedTransfer$ = this.store.selectedTransfer$;
 
