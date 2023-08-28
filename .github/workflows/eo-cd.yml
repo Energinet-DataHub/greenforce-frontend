@@ -161,25 +161,11 @@ jobs:
 
       - uses: ./.github/actions/yaml-increment-version
         with:
-          yaml-file: build/infrastructure/eo/chart/Chart.yaml
+          yaml-file: build/infrastructure/eo/configuration.yaml
           yaml-path: version
           token: ${{ secrets.PAT_TOKEN }}
 
-  bump_app_version:
-    runs-on: ubuntu-latest
-    name: Bump App version
-    if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
-    needs: affected
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: ./.github/actions/yaml-increment-version
-        with:
-          yaml-file: build/infrastructure/eo/chart/values.yaml
-          yaml-path: app.image.tag
-          token: ${{ secrets.PAT_TOKEN }}
-
-  build_container_and_release_chart:
+  build_container:
     runs-on: ubuntu-latest
     name: Build containers
     needs:
@@ -202,37 +188,16 @@ jobs:
           image-name: ${{ matrix.containers.image_name }}
           image-tag: ${{ matrix.containers.image_tag }}
 
-      - name: Get info from Chart.yaml
-        id: chart-info
-        uses: Energinet-DataHub/energy-origin/.github/actions/chart-info@main
-        with:
-          chart-folder: build/infrastructure/eo/chart
-          chart-version: version
-
-      - name: Release helm chart
-        uses: Energinet-DataHub/energy-origin/.github/actions/helm-release-bundle-chart@main
-        with:
-          containers: ${{ needs.define_build.outputs.containers }}
-          deploy-key: ${{ secrets.DEPLOY_KEY_HELM_CHARTS }}
-          chart-folder: build/infrastructure/eo/chart
-          chart-repository: ${{ github.repository_owner }}/helm-charts
-          chart-version: ${{ needs.define_build.outputs.chart_version }}
-          version_yaml_path_prefix: "" # yamllint disable-line rule:quoted-strings
-
   update-environment:
-    name: Update preview environment
-    needs:
-      - build_container_and_release_chart
+    name: Update environment
     runs-on: ubuntu-latest
+    needs:
+      - build_container
     if: github.event_name == 'push' && github.ref_name == 'main' || github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'preview/')
+    concurrency: commits-base-environment
     steps:
-      - uses: actions/checkout@v3
-
       - name: Update environment
-        uses: Energinet-DataHub/energy-origin/.github/actions/update-base-environment@main
+        uses: ./.github/actions/update-base-environment
         with:
-          env_branch: ${{ github.event_name == 'push' && github.ref_name == 'main' && 'main' || github.event.pull_request.head.ref }}
-          app_name: ${{ needs.build_container_and_release_chart.outputs.chart_name }}
-          chart_name: ${{ needs.build_container_and_release_chart.outputs.chart_name }}
-          chart_version: ${{ needs.build_container_and_release_chart.outputs.chart_version }}
+          configuration: build/infrastructure/eo/configuration.yaml
           deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}
