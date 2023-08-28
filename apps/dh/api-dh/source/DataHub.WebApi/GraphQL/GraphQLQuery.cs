@@ -226,6 +226,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var gridAreas = await client.GetGridAreasAsync();
                     var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
                     var actorDto = await client.GetActorAsync(context.GetArgument<Guid>("id"));
+                    var organization = await client.GetOrganizationAsync(actorDto.OrganizationId);
+
                     var actor = new Actor(actorDto.ActorId, actorDto.Name.Value, actorDto.ActorNumber.Value)
                     {
                         GridAreas = actorDto.MarketRoles
@@ -236,6 +238,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
                         MarketRole = actorDto.MarketRoles.FirstOrDefault()?.EicFunction,
                         Status = actorDto.Status,
+                        Organization = organization,
                     };
                     return actor;
                 });
@@ -249,6 +252,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 {
                     var eicFunctions = context.GetArgument("eicFunctions", Array.Empty<EicFunction>());
                     var gridAreas = await client.GetGridAreasAsync();
+                    var organizations = await client.GetOrganizationsAsync();
+                    var organizationLookup = organizations.ToDictionary(x => x.OrganizationId);
                     var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
                     var actors = await client.GetActorsAsync();
 
@@ -270,6 +275,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
                         MarketRole = x.MarketRoles.FirstOrDefault()?.EicFunction,
                         Status = x.Status,
+                        Organization = organizationLookup[x.OrganizationId],
                     });
 
                     // TODO: Is this the right place to filter this list?
