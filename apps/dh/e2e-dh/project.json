@@ -18,6 +18,12 @@
           "ignoreTestFiles": "**/*-healthchecks.cy.ts",
           "browser": "chrome"
         },
+        "loginflow": {
+          "devServerTarget": "app-dh:serve:production",
+          "spec": "**/app-shell.cy.ts",
+          "browser": "chrome",
+          "baseUrl": "https://jolly-sand-03f839703.azurestaticapps.net/"
+        },
         "health": {
           "devServerTarget": "app-dh:serve:mocked",
           "spec": "**/*-healthchecks.cy.ts",
@@ -30,12 +36,21 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/dh/e2e-dh/**/*.{js,ts}"]
+        "lintFilePatterns": [
+          "apps/dh/e2e-dh/**/*.{js,ts}"
+        ]
       }
     }
   },
-  "tags": ["product:dh", "type:e2e"],
-  "implicitDependencies": ["app-dh"]
+  "tags": [
+    "product:dh",
+    "type:e2e"
+  ],
+  "implicitDependencies": [
+    "app-dh"
+  ]
 }
