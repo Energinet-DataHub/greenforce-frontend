@@ -219,6 +219,11 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           "
         >
           <watt-error
+            [style.opacity]="form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.errors?.['required'] ? 1 : 0"
+          >
+            A Wallet Deposit Endpoint is required
+          </watt-error>
+          <watt-error
             [style.opacity]="form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.errors?.['pattern'] ? 1 : 0"
           >
             Not a valid Wallet Deposit Endpoint
