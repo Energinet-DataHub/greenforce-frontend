@@ -97,4 +97,10 @@
 
   // shadows
   --watt-bottom-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
+
+  // Topbar z-index
+  --watt-toolbar-z-index-when-drawer-is-open: "auto";
+  --watt-toolbar-z-index-when-drawer-is-closed: 2;
+
+  --watt-toolbar-z-index: var(--watt-toolbar-z-index-when-drawer-is-closed);
 }

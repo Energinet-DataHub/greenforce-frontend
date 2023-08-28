@@ -560,21 +560,44 @@
       }
     },
     "actorsOverview": {
-      "actors": "Actors",
-      "columns": {
+      "shared": {
         "glnOrEic": "GLN/EIC",
         "name": "Name",
         "marketRole": "Market role",
         "status": "Status"
+      },
+      "actors": "Actors",
+      "columns": {
+        "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
+        "name": "{{ marketParticipant.actorsOverview.shared.name }}",
+        "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}"
       },
       "status": {
         "Active": "Active",
         "Inactive": "Deactivated"
       },
       "filters": {
-        "marketRole": "Market role",
-        "status": "Status",
-        "reset": "Reset"
+        "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}",
+        "reset": "{{ shared.form.reset }}"
+      },
+      "drawer": {
+        "metadata": {
+          "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
+          "organization": "Organisation"
+        },
+        "tabs": {
+          "masterData": {
+            "tabLabel": "Information",
+            "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
+            "name": "{{ marketParticipant.actorsOverview.shared.name }}",
+            "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}"
+          },
+          "history": {
+            "tabLabel": "History"
+          }
+        }
       },
       "emptyTitle": "No actors found",
       "emptyMessage": "Try changing the search criteria",
