@@ -29,7 +29,6 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
   GridAreaChanges,
@@ -50,7 +49,6 @@ import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh
     CommonModule,
     RxLet,
     MatTableModule,
-    MatMenuModule,
     TranslocoModule,
     WattBadgeComponent,
     WattButtonComponent,
