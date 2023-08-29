@@ -16,199 +16,124 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import {
-  MatLegacyTableDataSource as MatTableDataSource,
-  MatLegacyTableModule as MatTableModule,
-} from '@angular/material/legacy-table';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { AfterViewInit, ChangeDetectionStrategy, Component, inject } from '@angular/core';
+
+import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+
 import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.store';
-import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
     AsyncPipe,
-    MatTableModule,
-    MatSortModule,
     WattBadgeComponent,
     WattSpinnerComponent,
-    EoBetaMessageComponent,
+    WATT_TABLE,
+    WattPaginatorComponent,
+    WattEmptyStateComponent,
+    MatSlideToggleModule,
   ],
   standalone: true,
   selector: 'eo-metering-points-table',
   styles: [
     `
-      .tag {
-        display: inline-flex;
-        background-color: var(--watt-color-primary-light);
-        padding: var(--watt-space-xs) var(--watt-space-m);
-        text-transform: capitalize;
-        border-radius: var(--watt-space-m);
+      :host {
+        --mdc-switch-selected-track-color: var(--watt-color-primary);
+        --mdc-switch-selected-hover-track-color: var(--watt-color-primary);
+        --mdc-switch-selected-focus-track-color: var(--watt-color-primary);
       }
 
-      .link {
-        border: 1px solid var(--watt-color-primary-light);
-        border-radius: var(--watt-space-s);
-        padding: var(--watt-space-xs) 0;
-        background: white;
-        display: flex;
-        justify-content: center;
-        width: 65px;
+      watt-empty-state {
+        padding: var(--watt-space-s);
       }
 
-      .link:hover:enabled {
-        cursor: pointer;
-        background-color: var(--watt-color-primary-light);
-      }
-
-      .loadingArea {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: white;
-        gap: 1rem;
-        padding: 2rem;
+      watt-paginator {
+        display: block;
+        margin: 0 -24px -24px -24px;
       }
     `,
   ],
   template: `
-    <eo-eo-beta-message></eo-eo-beta-message>
-    <mat-table matSort [dataSource]="dataSource">
-      <!-- ID Column -->
-      <ng-container matColumnDef="gsrn">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.gsrn }}</mat-cell>
+    <watt-table [loading]="!!(isLoading$ | async)" [columns]="columns" [dataSource]="dataSource">
+      <!-- ADDRESS Column -->
+      <ng-container *wattTableCell="columns.address; let meteringPoint">
+        <ng-container *ngIf="meteringPoint.address?.address1">
+          {{ meteringPoint.address.address1 + ',' }}
+        </ng-container>
+        <ng-container *ngIf="meteringPoint.address?.address2">
+          {{ meteringPoint.address.address2 + ',' }}
+        </ng-container>
+        <ng-container *ngIf="meteringPoint.address?.locality">
+          {{ meteringPoint.address.locality + ',' }}
+        </ng-container>
+        {{ meteringPoint?.address?.postalCode }}
+        {{ meteringPoint?.address?.city }}
       </ng-container>
 
-      <!-- Address Column -->
-      <ng-container matColumnDef="address">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Address </mat-header-cell>
-        <mat-cell *matCellDef="let element"
-          ><ng-container *ngIf="element.address?.address1">
-            {{ element.address.address1 + ',' }}
-          </ng-container>
-          <ng-container *ngIf="element.address?.address2">
-            {{ element.address.address2 + ',' }}
-          </ng-container>
-          <ng-container *ngIf="element.address?.locality">
-            {{ element.address.locality + ',' }}
-          </ng-container>
-          {{ element?.address?.postalCode }}
-          {{ element?.address?.city }}</mat-cell
-        >
+      <ng-container *wattTableCell="columns.type; let meteringPoint">
+        <watt-badge type="neutral">{{ meteringPoint.type }}</watt-badge>
       </ng-container>
 
-      <!-- Tags column -->
-      <ng-container matColumnDef="tags">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Tags</mat-header-cell>
-        <mat-cell *matCellDef="let element"
-          ><div class="tag">{{ element?.type }}</div>
-        </mat-cell>
+      <!-- GRANULAR CERTIFICATES Column -->
+      <ng-container *wattTableCell="columns.gc; let meteringPoint">
+        <ng-container *ngIf="meteringPoint.type === 'production'">
+          <mat-slide-toggle
+            (change)="onToggleContract($event, meteringPoint.gsrn)"
+            [checked]="meteringPoint.contract && !meteringPoint.loadingContract"
+          ></mat-slide-toggle>
+        </ng-container>
       </ng-container>
+    </watt-table>
 
-      <!-- GC column -->
-      <ng-container matColumnDef="granular certificates">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Granular Certificates</mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <ng-container *ngIf="element.type === 'production'">
-            <!-- Show the 'Activated' badge -->
-            <watt-badge
-              *ngIf="element.contract && hoveredRow !== element.gsrn && !element.loadingContract"
-              type="success"
-              >Activated</watt-badge
-            >
+    <watt-empty-state
+      *ngIf="(isLoading$ | async) === false && dataSource.data.length === 0"
+      icon="custom-power"
+      title="No metering points found"
+      message="You do not have any metering points."
+    ></watt-empty-state>
 
-            <!-- Show the 'Activate/Cancel' button -->
-            <button
-              *ngIf="
-                !element.contract ||
-                (element.contract && (hoveredRow === element.gsrn || element.loadingContract))
-              "
-              [disabled]="element.loadingContract"
-              class="link"
-              (click)="
-                !element.contract ? createContract(element.gsrn) : deactivateContract(element.gsrn)
-              "
-            >
-              <ng-container *ngIf="!element.loadingContract">{{
-                !element.contract ? 'Activate' : 'Cancel'
-              }}</ng-container>
-              <watt-spinner *ngIf="element.loadingContract" [diameter]="16"></watt-spinner>
-            </button>
-          </ng-container>
-        </mat-cell>
-      </ng-container>
+    <!-- TODO: Error handling fetching metering points-->
 
-      <!-- No data to show -->
-      <ng-container *ngIf="(isLoading$ | async) === false">
-        <ng-container *matNoDataRow>You do not have any metering points.</ng-container>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row
-        *matRowDef="let row; columns: displayedColumns"
-        (mouseenter)="onRowHover(row.gsrn)"
-        (mouseleave)="onRowLeave()"
-      ></mat-row>
-    </mat-table>
-
-    <div class="loadingArea" *ngIf="(isLoading$ | async) === true">
-      Fetching metering points - please wait
-      <watt-spinner [diameter]="16"></watt-spinner>
-    </div>
+    <watt-paginator [for]="dataSource" />
   `,
 })
 export class EoMeteringPointListComponent implements AfterViewInit {
-  @ViewChild(MatSort) sort!: MatSort;
+  private store = inject(EoMeteringPointsStore);
 
-  dataSource: MatTableDataSource<EoMeteringPoint> = new MatTableDataSource();
-  displayedColumns: Array<string> = ['gsrn', 'address', 'tags', 'granular certificates'];
-  isLoading$;
+  dataSource: WattTableDataSource<EoMeteringPoint> = new WattTableDataSource(undefined);
+  columns: WattTableColumnDef<EoMeteringPoint> = {
+    gsrn: { accessor: 'gsrn', header: 'ID' },
+    address: { accessor: (meteringPoint) => meteringPoint.address.address1 },
+    type: { accessor: (meteringPoint) => meteringPoint.type },
+    gc: {
+      accessor: (meteringPoint) => {
+        const itemHasActiveContract = meteringPoint.contract ? 'active' : 'enable';
+        return meteringPoint.type === 'production' ? itemHasActiveContract : '';
+      },
+      header: 'Granular Certificates',
+      align: 'center',
+    },
+  };
+  isLoading$ = this.store.loading$;
   hoveredRow: string | null = null;
 
-  constructor(private store: EoMeteringPointsStore) {
-    this.isLoading$ = this.store.loading$;
-  }
-
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.sortingDataAccessor = (item, property) => {
-      const itemHasActiveContract = item.contract ? 'active' : 'enable';
-
-      switch (property) {
-        case 'tags':
-          return item.type;
-        case 'address':
-          return item.address.address1.toLowerCase();
-        case 'granular certificates':
-          return item.type === 'production' ? itemHasActiveContract : '';
-        default:
-          return item[property as keyof unknown];
-      }
-    };
-
     this.store.meteringPoints$.subscribe(
       (meteringPoints) => (this.dataSource.data = meteringPoints)
     );
   }
 
-  createContract(gsrn: string) {
-    this.store.createCertificateContract(gsrn);
-  }
-
-  deactivateContract(gsrn: string) {
-    this.store.deactivateCertificateContract(gsrn);
-  }
-
-  onRowHover(gsrn: string) {
-    this.hoveredRow = gsrn;
-  }
-
-  onRowLeave() {
-    this.hoveredRow = null;
+  onToggleContract(event: { checked: boolean }, gsrn: string) {
+    if (event.checked) {
+      this.store.createCertificateContract(gsrn);
+    } else {
+      this.store.deactivateCertificateContract(gsrn);
+    }
   }
 }
