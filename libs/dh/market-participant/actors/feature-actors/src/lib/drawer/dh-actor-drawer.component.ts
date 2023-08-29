@@ -111,6 +111,10 @@ export class DhActorDrawerComponent {
     return emDash;
   }
 
+  get gridAreaOrFallback() {
+    return this.actor?.gridAreas?.[0]?.code ?? emDash;
+  }
+
   private loadActor(id: string): void {
     this.subscription?.unsubscribe();
 
