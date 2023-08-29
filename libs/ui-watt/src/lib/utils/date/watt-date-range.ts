@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface WattDateRange {
-  start: string;
-  end: string;
+export interface WattRange<T> {
+  start: T;
+  end: T;
 }
+
+/**
+ * This is included for legacy reasons, components should return Date objects instead of strings.
+ * @deprecated Avoid using strings as dates, use Date objects instead.
+ */
+export type WattDateRange = WattRange<string>;
