@@ -17,7 +17,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { formatInTimeZone } from 'date-fns-tz';
 
-import { WattDateRange } from './watt-date-range';
+import { WattRange } from './watt-date-range';
 
 const formatStrings = {
   short: 'dd-MM-yyyy',
@@ -35,7 +35,7 @@ export class WattDatePipe implements PipeTransform {
    * @param input WattDateRange or string in ISO 8601 format or unix timestamp number
    */
   transform(
-    input?: WattDateRange | Date | string | number | null,
+    input?: WattRange<Date> | WattRange<string> | Date | string | number | null,
     format: keyof typeof formatStrings = 'short',
     timeZone = 'Europe/Copenhagen'
   ): string | null {
