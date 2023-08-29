@@ -99,6 +99,6 @@ export const marketParticipantActors: Actor[] = [
     ],
     marketRole: null,
     status: null,
-    organization: undefined,
+    organization: null,
   },
 ];
