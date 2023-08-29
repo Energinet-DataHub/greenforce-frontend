@@ -1,7 +1,6 @@
 schema {
   query: GraphQLQuery
   mutation: GraphQLMutation
-  subscription: GraphQLSubscription
 }
 
 type GraphQLQuery {
@@ -297,6 +296,9 @@ type Actor {
 
   """The status of the actor."""
   status: ActorStatus
+
+  """The organization of the actor."""
+  organization: Organization
 }
 
 enum ActorStatus {
@@ -334,8 +336,4 @@ input CreateCalculationInput {
 
   """The grid areas to be included in the calculation."""
   gridAreaCodes: [String!]!
-}
-
-type GraphQLSubscription {
-  onCalculationCreated: Calculation!
 }
