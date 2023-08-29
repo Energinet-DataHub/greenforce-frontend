@@ -16,7 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
