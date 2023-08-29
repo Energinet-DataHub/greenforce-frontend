@@ -70,5 +70,5 @@ export class WattDateChipComponent {
   @Input() disabled = false;
   @Input() label?: string;
   @Input() value?: string;
-  @Output() selectionChange = new EventEmitter<string>();
+  @Output() selectionChange = new EventEmitter<Date>();
 }
