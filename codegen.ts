@@ -16,11 +16,18 @@ const config: CodegenConfig = {
         'typescript-operations',
         'typed-document-node',
         'typescript-msw',
+        '@homebound/graphql-typescript-scalar-type-policies',
       ],
       config: {
         scalars: {
-          DateRange: '{ start: string, end: string}',
-          DateTimeOffset: 'string',
+          Date: 'Date',
+          DateRange: '{ start: Date, end: Date }',
+          DateTimeOffset: 'Date',
+        },
+        scalarTypePolicies: {
+          Date: 'libs/dh/shared/domain/src/lib/type-policies#dateTypePolicy',
+          DateTimeOffset: 'libs/dh/shared/domain/src/lib/type-policies#dateTypePolicy',
+          DateRange: 'libs/dh/shared/domain/src/lib/type-policies#dateRangeTypePolicy',
         },
       },
     },
