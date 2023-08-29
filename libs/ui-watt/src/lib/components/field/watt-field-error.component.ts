@@ -14,7 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface DateRange {
-  start: string;
-  end: string;
-}
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'watt-field-error',
+  template: `<ng-content></ng-content>`,
+  standalone: true,
+})
+export class WattFieldErrorComponent {}

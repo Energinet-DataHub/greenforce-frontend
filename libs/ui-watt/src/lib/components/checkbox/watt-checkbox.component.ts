@@ -14,103 +14,79 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, forwardRef, ViewEncapsulation } from '@angular/core';
 import {
-  ControlValueAccessor,
-  UntypedFormControl,
-  NG_VALUE_ACCESSOR,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import {
-  MatLegacyCheckboxChange as MatCheckboxChange,
-  MatLegacyCheckboxModule as MatCheckboxModule,
-} from '@angular/material/legacy-checkbox';
-
-const customValueAccessor = {
-  multi: true,
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => WattCheckboxComponent),
-};
-
-const selector = 'watt-checkbox';
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  ViewEncapsulation,
+  forwardRef,
+  inject,
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
-  selector,
-  styles: [
-    `
-      ${selector} .mat-checkbox-frame {
-        border-color: var(--watt-color-primary);
-      }
-
-      ${selector} {
-        line-height: 16px;
-      }
-    `,
-  ],
-  templateUrl: './watt-checkbox.component.html',
-  providers: [customValueAccessor],
+  selector: 'watt-checkbox',
+  styleUrls: ['./watt-checkbox.component.scss'],
+  template: `<label>
+    <input
+      [ngModel]="checked"
+      [disabled]="isdisabled"
+      [indeterminate]="indeterminate"
+      [required]="required"
+      (ngModelChange)="onModelChange($event)"
+      type="checkbox"
+    />
+    <ng-content />
+  </label>`,
   standalone: true,
-  imports: [MatCheckboxModule, ReactiveFormsModule],
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => WattCheckboxComponent),
+      multi: true,
+    },
+  ],
+  imports: [FormsModule],
 })
 export class WattCheckboxComponent implements ControlValueAccessor {
-  /**
-   * @ignore
-   */
-  internalControl = new UntypedFormControl(false);
+  private element = inject(ElementRef);
 
-  /**
-   * @ignore
-   */
-  writeValue(value: boolean) {
-    this.internalControl.setValue(value);
-  }
+  checked: boolean | null = null;
 
-  /**
-   * @ignore
-   */
-  onValueChange(event: MatCheckboxChange) {
-    this.onTouched();
-    this.onChange(event.checked);
-  }
+  @HostBinding('class.watt-checkbox--disabled')
+  isdisabled = false;
 
-  /**
-   * @ignore
-   */
-  registerOnChange(onChangeFn: (isChecked: boolean) => void) {
-    this.onChange = onChangeFn;
-  }
+  @HostBinding('class.watt-checkbox--indeterminate')
+  indeterminate = false;
 
-  /**
-   * @ignore
-   */
-  registerOnTouched(onTouchFn: () => void) {
-    this.onTouched = onTouchFn;
-  }
+  @Input() required = false;
 
-  /**
-   * @ignore
-   */
-  setDisabledState(disabled: boolean) {
-    if (disabled) {
-      this.internalControl.disable({ emitEvent: false });
-    } else {
-      this.internalControl.enable({ emitEvent: false });
-    }
-  }
-
-  /**
-   * @ignore
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onChange = (isChecked: boolean) => {
-    // Intentionally left empty
+  onChange: (value: boolean) => void = () => {
+    //
   };
 
-  /**
-   * @ignore
-   */
-  onTouched = () => {
-    // Intentionally left empty
-  };
+  registerOnChange(fn: (value: boolean) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: (value: boolean) => void): void {
+    this.element.nativeElement.addEventListener('focusout', fn);
+  }
+
+  writeValue(checked: boolean | null) {
+    this.indeterminate = checked === null ? true : false;
+    this.checked = checked;
+  }
+
+  onModelChange(e: boolean) {
+    this.indeterminate = false;
+    this.checked = e;
+    this.onChange(e);
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.isdisabled = isDisabled;
+  }
 }

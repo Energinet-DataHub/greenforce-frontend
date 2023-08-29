@@ -14,18 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import { Component, ViewEncapsulation } from '@angular/core';
-import { WattCheckboxComponent } from '../watt-checkbox.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'storybook-checkbox-states',
-  styleUrls: ['./storybook-checkbox-states.component.scss'],
-  templateUrl: './storybook-checkbox-states.component.html',
+  selector: 'watt-field-hint',
+  template: `<ng-content></ng-content>`,
   standalone: true,
-  imports: [WattCheckboxComponent, ReactiveFormsModule],
 })
-export class StorybookCheckboxStatesComponent {}
+export class WattFieldHintComponent {}

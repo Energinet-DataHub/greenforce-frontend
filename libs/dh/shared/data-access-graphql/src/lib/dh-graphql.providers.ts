@@ -26,6 +26,7 @@ import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-applica
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { ActorTokenService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { scalarTypePolicies } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { errorHandler } from './error-handler';
 import { makeEnvironmentProviders } from '@angular/core';
@@ -49,6 +50,7 @@ export const graphQLProviders = makeEnvironmentProviders([
       return {
         cache: new InMemoryCache({
           typePolicies: {
+            ...scalarTypePolicies,
             Query: {
               fields: {
                 calculation(_, { args, toReference }) {

@@ -14,22 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "@energinet-datahub/watt/utils" as watt;
+watt-text-field {
+  display: block;
+  width: 100%;
 
-.error {
-  .mat-checkbox-frame {
-    border-color: var(--watt-color-state-danger);
+  input {
+    border: none;
+    width: 100%;
+    outline: none;
+    padding: 0;
+    background-color: transparent;
   }
-
-  .mat-checkbox-label {
-    color: var(--watt-color-state-danger);
-  }
-}
-
-section {
-  pointer-events: none;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  margin-bottom: 2rem;
-  align-items: center;
 }

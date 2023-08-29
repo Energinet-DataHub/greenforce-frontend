@@ -37,6 +37,10 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
+input {
+  font: inherit;
+}
+
 /**
   * Fix dropdown overlay positioning
   * We use the attribute selector to make sure we only target the dropdowns

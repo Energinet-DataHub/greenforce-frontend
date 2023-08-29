@@ -82,8 +82,8 @@ export class DhCalculationsComponent implements AfterViewInit, OnInit, OnDestroy
 
   filter$ = new BehaviorSubject<GetCalculationsQueryVariables>({
     executionTime: {
-      start: sub(startOfDay(new Date()), { days: 10 }).toISOString(),
-      end: endOfDay(new Date()).toISOString(),
+      start: sub(startOfDay(new Date()), { days: 10 }),
+      end: endOfDay(new Date()),
     },
   });
 
