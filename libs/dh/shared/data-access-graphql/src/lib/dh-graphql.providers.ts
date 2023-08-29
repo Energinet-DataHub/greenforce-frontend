@@ -16,14 +16,27 @@
  */
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache, ApolloLink, Operation } from '@apollo/client/core';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+
+import { InMemoryCache, ApolloLink, Operation, split } from '@apollo/client/core';
 
 import { DhApiEnvironment, dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { ActorTokenService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { scalarTypePolicies } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { errorHandler } from './error-handler';
 import { makeEnvironmentProviders } from '@angular/core';
-import { scalarTypePolicies } from '@energinet-datahub/dh/shared/domain/graphql';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { firstValueFrom, map } from 'rxjs';
+
+function isSubscriptionQuery(operation: Operation) {
+  const definition = getMainDefinition(operation.query);
+  return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+}
 
 export const graphQLProviders = makeEnvironmentProviders([
   {
@@ -31,7 +44,8 @@ export const graphQLProviders = makeEnvironmentProviders([
     useFactory(
       httpLink: HttpLink,
       dhApiEnvironment: DhApiEnvironment,
-      dhApplicationInsights: DhApplicationInsights
+      dhApplicationInsights: DhApplicationInsights,
+      actorTokenService: ActorTokenService
     ) {
       return {
         cache: new InMemoryCache({
@@ -51,14 +65,27 @@ export const graphQLProviders = makeEnvironmentProviders([
         }),
         link: ApolloLink.from([
           errorHandler(dhApplicationInsights),
-          httpLink.create({
-            uri: (operation: Operation) => {
-              return `${dhApiEnvironment.apiBase}/graphql?${operation.operationName}`;
-            },
-          }),
+          split(
+            isSubscriptionQuery,
+            new GraphQLWsLink(
+              createClient({
+                url: `${dhApiEnvironment.apiBase.replace('http', 'ws')}/graphql`,
+                connectionParams: () =>
+                  firstValueFrom(
+                    actorTokenService
+                      .acquireToken()
+                      .pipe(map((token) => ({ Authorization: `Bearer ${token}` })))
+                  ),
+              })
+            ),
+            httpLink.create({
+              uri: (operation: Operation) =>
+                `${dhApiEnvironment.apiBase}/graphql?${operation.operationName}`,
+            })
+          ),
         ]),
       };
     },
-    deps: [HttpLink, dhApiEnvironmentToken, DhApplicationInsights],
+    deps: [HttpLink, dhApiEnvironmentToken, DhApplicationInsights, ActorTokenService],
   },
 ]);

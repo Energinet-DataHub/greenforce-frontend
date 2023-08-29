@@ -14,11 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
-import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import {
+  WATT_TABLE,
+  WattTableDataSource,
+  WattTableColumnDef,
+  WattTableComponent,
+} from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -62,6 +74,9 @@ export class DhCalculationsTableComponent {
 
   @Output() selectedRow: EventEmitter<Calculation> = new EventEmitter();
 
+  @ViewChild('table')
+  table!: WattTableComponent<Calculation>;
+
   _data: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {
     startedBy: { accessor: 'createdByUserName' },
@@ -73,4 +88,6 @@ export class DhCalculationsTableComponent {
   };
 
   translateHeader = (key: string) => translate(`wholesale.calculations.columns.${key}`);
+
+  flash = (rows: Calculation[]) => this.table.flash(rows);
 }

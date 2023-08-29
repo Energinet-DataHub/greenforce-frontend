@@ -31,6 +31,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import {
   GetCalculationsDocument,
   GetCalculationsQueryVariables,
+  OnCalculationCreatedDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -38,6 +39,7 @@ import { DhCalculationsCreateComponent } from './create/create.component';
 import { DhCalculationsDetailsComponent } from './details/details.component';
 import { DhCalculationsFiltersComponent } from './filters/filters.component';
 import { DhCalculationsTableComponent } from './table/table.component';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   selector: 'dh-calculations',
@@ -62,6 +64,13 @@ export class DhCalculationsComponent implements AfterViewInit, OnInit, OnDestroy
   @ViewChild('details')
   details!: DhCalculationsDetailsComponent;
 
+  @ViewChild('filters')
+  filters!: DhCalculationsFiltersComponent;
+
+  @ViewChild('table')
+  table!: DhCalculationsTableComponent;
+
+  private toast = inject(WattToastService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private apollo = inject(Apollo);
@@ -82,7 +91,6 @@ export class DhCalculationsComponent implements AfterViewInit, OnInit, OnDestroy
     switchMap(
       (variables) =>
         this.apollo.watchQuery({
-          pollInterval: 10000,
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
@@ -93,18 +101,45 @@ export class DhCalculationsComponent implements AfterViewInit, OnInit, OnDestroy
     takeUntil(this.destroy$)
   );
 
+  onCalculationCreated$ = this.apollo.subscribe({
+    query: OnCalculationCreatedDocument,
+  });
+
   error = false;
   loading = false;
   search = '';
   calculations: Calculation[] = [];
+  flash: string[] = [];
 
   ngOnInit() {
+    // Must not trigger toast when creating via UI (should just optimistically update the table)
+    this.onCalculationCreated$.subscribe({
+      next: (result) => {
+        if (result.data?.onCalculationCreated) {
+          this.flash = this.flash.concat(result.data.onCalculationCreated.id);
+          this.toast.open({
+            message: 'New results available',
+            type: 'info',
+            duration: 20000,
+            actionLabel: 'Show Latest',
+            action: (ref) => {
+              this.filters.reset();
+              ref.dismiss();
+            },
+          });
+        }
+      },
+    });
+
     this.calculations$.subscribe({
       next: (result) => {
         this.loading = result.loading;
 
         if (result.data?.calculations) {
           this.calculations = result.data.calculations;
+          const rows = this.calculations.filter((c) => this.flash.includes(c.id));
+          if (rows.length) this.table.flash(rows);
+          this.flash = [];
         }
 
         this.selected = this.calculations?.find((calculation) => calculation.id === this.routerId);

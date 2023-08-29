@@ -88,11 +88,6 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit, OnDes
 
   filteredAndSortedData: MarketParticipantUserRoleDto[] = [];
 
-  activeRowComparator = (
-    currentRow: MarketParticipantUserRoleDto,
-    activeRow: MarketParticipantUserRoleDto
-  ): boolean => currentRow.id === activeRow.id;
-
   translateHeader = (key: string) =>
     translate(`admin.userManagement.tabs.roles.table.columns.${key}`);
 

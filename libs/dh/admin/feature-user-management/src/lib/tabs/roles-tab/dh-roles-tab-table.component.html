@@ -25,7 +25,7 @@ limitations under the License.
     sortDirection="asc"
     (rowClick)="onRowClick($event)"
     [activeRow]="activeRow"
-    [activeRowComparator]="activeRowComparator"
+    rowComparator="id"
     [sortClear]="false"
   >
     <ng-container *wattTableCell="columns['marketRole']; let mr">

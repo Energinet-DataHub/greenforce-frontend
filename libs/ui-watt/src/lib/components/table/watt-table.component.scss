@@ -57,6 +57,7 @@ watt-table .mat-table {
     align-items: center;
     min-height: 56px; /* Magic UX number */
     padding: var(--watt-space-s) var(--watt-space-m);
+    background: white;
   }
 
   .watt-table-clickable-row td {
@@ -64,12 +65,24 @@ watt-table .mat-table {
     user-select: none;
   }
 
-  .watt-table-highlight-row:hover:not(.watt-table-active-row) td {
+  .watt-table-highlight-row
+    :hover:not(.watt-table-active-row, .watt-table-flash-row)
+    td {
     background: var(--watt-color-neutral-grey-100);
   }
 
+  tr.mat-row:not(:hover) td {
+    transition: background 200ms;
+  }
+
+  .watt-table-flash-row td {
+    background: var(--watt-color-state-info-light);
+    animation: flash 800ms ease-out;
+  }
+
   .watt-table-active-row td {
-    background: var(--watt-color-secondary-ultralight);
+    // Property is !important to override flash animation
+    background: var(--watt-color-secondary-ultralight) !important;
   }
 
   .mat-sort-header-arrow {
@@ -168,5 +181,20 @@ watt-table .mat-table {
   40%,
   100% {
     background-position: 200px;
+  }
+}
+
+@keyframes flash {
+  0% {
+    background: transparent;
+  }
+  33% {
+    background: var(--watt-color-state-info-light);
+  }
+  67% {
+    background: transparent;
+  }
+  100% {
+    background: var(--watt-color-state-info-light);
   }
 }

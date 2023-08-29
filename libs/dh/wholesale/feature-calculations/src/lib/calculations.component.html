@@ -26,8 +26,9 @@ limitations under the License.
         {{ t("new") }}
       </watt-button>
     </watt-card-title>
-    <dh-calculations-filters [initial]="filter$.value" (filter)="filter$.next($event)" />
+    <dh-calculations-filters #filters [initial]="filter$.value" (filter)="filter$.next($event)" />
     <dh-calculations-table
+      #table
       [data]="calculations"
       [filter]="search"
       [selected]="selected"

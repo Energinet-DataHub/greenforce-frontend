@@ -29,6 +29,7 @@
 | [chartjs-plugin-datalabels](https://github.com/chartjs/chartjs-plugin-datalabels) | 2.0.0 | MIT |
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
+| [graphql-ws](https://github.com/enisdenjo/graphql-ws) | 5.14.0 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.6.0 | MIT |
 | [include-media](https://github.com/eduardoboucas/include-media) | 2.0.0 | MIT |
 | [inputmask](https://github.com/RobinHerbots/Inputmask) | 5.0.7 | MIT |

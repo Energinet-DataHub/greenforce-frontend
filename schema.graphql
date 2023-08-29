@@ -1,6 +1,7 @@
 schema {
   query: GraphQLQuery
   mutation: GraphQLMutation
+  subscription: GraphQLSubscription
 }
 
 type GraphQLQuery {
@@ -336,4 +337,8 @@ input CreateCalculationInput {
 
   """The grid areas to be included in the calculation."""
   gridAreaCodes: [String!]!
+}
+
+type GraphQLSubscription {
+  onCalculationCreated: Calculation!
 }

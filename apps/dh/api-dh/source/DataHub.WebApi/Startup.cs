@@ -27,6 +27,7 @@ using GraphQL.DataLoader;
 using GraphQL.Server.Ui.Playground;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.WebSockets;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -121,6 +122,9 @@ namespace Energinet.DataHub.WebApi
                                     ?? new ApiClientSettings();
             services.AddDomainClients(apiClientSettings);
             services.AddGraphQLSchema();
+            // services.AddWebSockets(x => {
+            //     x.KeepAliveInterval = TimeSpan.FromSeconds(60);
+            // });
             services.AddGraphQL(options =>
                     options.ConfigureExecution((opt, next) =>
                     {
@@ -132,8 +136,8 @@ namespace Energinet.DataHub.WebApi
                     .AddAuthorizationRule()
                     .AddSystemTextJson()
                     .AddSchema<GraphQLSchema>()
-                    .AddErrorInfoProvider(opts =>
-                        opts.ExposeExceptionDetails = true));
+                    .AddErrorInfoProvider(opts => opts.ExposeExceptionDetails = true)
+                    .AddWebSocketAuthentication<JwtWebSocketAuthenticationService>());
 
             SetupHealthEndpoints(services, apiClientSettings);
         }
@@ -160,6 +164,7 @@ namespace Energinet.DataHub.WebApi
             app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseWebSockets();
 
             app.UseEndpoints(endpoints =>
             {

@@ -17,11 +17,13 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'wholesale.calculations'">
   <!-- Table -->
   <watt-table
+    #table
     [dataSource]="_data"
     [columns]="columns"
+    [loading]="loading"
     [resolveHeader]="translateHeader"
     [activeRow]="selected"
-    [loading]="loading"
+    rowComparator="id"
     sortBy="executionTimeStart"
     sortDirection="desc"
     (rowClick)="selectedRow.emit($event)"
