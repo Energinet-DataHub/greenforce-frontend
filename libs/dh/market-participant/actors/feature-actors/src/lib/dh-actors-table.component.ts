@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -74,8 +74,13 @@ export class DhActorsTableComponent {
 
   @Input() tableDataSource!: WattTableDataSource<DhActor>;
 
+  @ViewChild(DhActorDrawerComponent)
+  drawer: DhActorDrawerComponent | undefined;
+
   onRowClick(actor: DhActor): void {
     this.activeRow = actor;
+
+    this.drawer?.open(actor.id);
   }
 
   onClose(): void {

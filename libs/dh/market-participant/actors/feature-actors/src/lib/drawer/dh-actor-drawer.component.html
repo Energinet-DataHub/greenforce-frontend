@@ -39,7 +39,7 @@ limitations under the License.
 
         <div class="actor-metadata__item">
           <span class="watt-label">{{ t("metadata.organization") }}</span>
-          <span>{{ undefined | dhEmDashFallback }}</span>
+          <span>{{ actor?.organization?.name | dhEmDashFallback }}</span>
         </div>
       </div>
     </watt-drawer-heading>
