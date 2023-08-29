@@ -25,7 +25,7 @@ import {
 } from '@angular/material/datepicker';
 import endOfDay from 'date-fns/endOfDay';
 
-import { WattDatePipe, WattDateRange } from '../../../utils/date';
+import { WattDatePipe, WattRange } from '../../../utils/date';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 
@@ -93,6 +93,6 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
 export class WattDateRangeChipComponent {
   @Input() disabled = false;
   @Input() label?: string;
-  @Input() value?: WattDateRange;
-  @Output() selectionChange = new EventEmitter<WattDateRange | null>();
+  @Input() value?: WattRange<Date>;
+  @Output() selectionChange = new EventEmitter<WattRange<Date> | null>();
 }

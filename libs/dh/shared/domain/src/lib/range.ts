@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface DateRange {
-  start: string;
-  end: string;
+export interface Range<T> {
+  start: T;
+  end: T;
 }
+
+export type DateRange = Range<Date>;
