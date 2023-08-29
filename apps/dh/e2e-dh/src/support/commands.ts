@@ -66,7 +66,12 @@ Cypress.Commands.add('login', (email: string, password: string) => {
     },
     {
       validate: () => {
-        cy.document().its('cookie').should('contain', 'ai_session');
+        cy.findByRole('heading', {
+          name: new RegExp(daTranslations.meteringPoint.search.title, 'i'),
+        });
+
+        // cy.document().its('cookie').should('contain', 'ai_session');
+
         // cy.visit(Cypress.config('baseUrl'));
         // cy.get('h1').contains(daTranslations.meteringPoint.search.title);
       },
