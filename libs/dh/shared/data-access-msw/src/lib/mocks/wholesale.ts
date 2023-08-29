@@ -17,6 +17,7 @@
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 import { rest } from 'msw';
+import parseISO from 'date-fns/parseISO';
 
 export function wholesaleMocks(apiBase: string) {
   return [
@@ -41,10 +42,11 @@ function createCalculation() {
   });
 }
 
-const periodStart = '2021-12-01T23:00:00Z';
-const periodEnd = '2021-12-02T23:00:00Z';
-const executionTimeStart = '2021-12-01T23:00:00Z';
-const executionTimeEnd = '2021-12-02T23:00:00Z';
+const periodStart = parseISO('2021-12-01T23:00:00Z');
+const periodEnd = parseISO('2021-12-02T23:00:00Z');
+const executionTimeStart = parseISO('2021-12-01T23:00:00Z');
+const executionTimeEnd = parseISO('2021-12-02T23:00:00Z');
+const validFrom = parseISO('0001-01-01T00:00:00+00:00');
 const fakeUserEmail = 'email@example.com';
 
 export const mockedGridAreas: graphql.GridArea[] = [
@@ -54,7 +56,7 @@ export const mockedGridAreas: graphql.GridArea[] = [
     code: '805',
     name: 'hello',
     priceAreaCode: graphql.PriceAreaCode.Dk_1,
-    validFrom: '0001-01-01T00:00:00+00:00',
+    validFrom,
     validTo: null,
   },
   {
@@ -63,7 +65,7 @@ export const mockedGridAreas: graphql.GridArea[] = [
     code: '806',
     name: 'hello again',
     priceAreaCode: graphql.PriceAreaCode.Dk_1,
-    validFrom: '0001-01-01T00:00:00+00:00',
+    validFrom,
     validTo: null,
   },
 ];
@@ -215,26 +217,26 @@ const mockedCalculations: graphql.Calculation[] = [
   },
 ];
 
+const executionTime = parseISO('2023-03-03T07:38:29.3776159+00:00');
+const period = {
+  start: parseISO('2020-01-28T23:00:00.000Z'),
+  end: parseISO('2020-01-29T22:59:59.998Z'),
+};
+
 const mockedSettlementReports: graphql.SettlementReport[] = [
   {
     batchNumber: '8ff516a1-95b0-4f07-9b58-3fb94791c63b',
     processType: graphql.ProcessType.BalanceFixing,
-    period: {
-      start: '2020-01-28T23:00:00.000Z',
-      end: '2020-01-29T22:59:59.998Z',
-    },
-    executionTime: '2023-03-03T07:38:29.3776159+00:00',
+    period,
+    executionTime,
     gridArea: mockedGridAreas[0],
     __typename: 'SettlementReport',
   },
   {
     batchNumber: '911d0c33-3232-49e1-a0ef-bcef313d1098',
     processType: graphql.ProcessType.Aggregation,
-    period: {
-      start: '2020-01-28T23:00:00.000Z',
-      end: '2020-01-29T22:59:59.998Z',
-    },
-    executionTime: '2023-03-03T07:38:29.3776159+00:00',
+    period,
+    executionTime,
     gridArea: mockedGridAreas[1],
     __typename: 'SettlementReport',
   },
