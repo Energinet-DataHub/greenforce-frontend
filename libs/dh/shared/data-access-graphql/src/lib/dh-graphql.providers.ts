@@ -43,6 +43,12 @@ export const graphQLProviders = makeEnvironmentProviders([
                     id: args?.['id'],
                   });
                 },
+                actor(_, { args, toReference }) {
+                  return toReference({
+                    __typename: 'Actor',
+                    id: args?.['id'],
+                  });
+                },
               },
             },
           },
