@@ -36,21 +36,12 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/dh/e2e-dh/**/*.{js,ts}"
-        ]
+        "lintFilePatterns": ["apps/dh/e2e-dh/**/*.{js,ts}"]
       }
     }
   },
-  "tags": [
-    "product:dh",
-    "type:e2e"
-  ],
-  "implicitDependencies": [
-    "app-dh"
-  ]
+  "tags": ["product:dh", "type:e2e"],
+  "implicitDependencies": ["app-dh"]
 }
