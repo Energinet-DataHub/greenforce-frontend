@@ -67,7 +67,7 @@ The application is deployed to five different environments as listed below:
 [dh-t-001]: https://ashy-forest-09ecf8003.2.azurestaticapps.net
 
 > This is identical to **U-001**, except it also hosts
-> [B2C](https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/).
+> [B2C](https://learn.microsoft.com/en-us/azure/active-directory-b2c/overview).
 > This service can be accessed from **localhost**, **U-001** and **U-002**.
 
 ### Documentation
