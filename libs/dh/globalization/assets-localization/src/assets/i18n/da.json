@@ -585,7 +585,8 @@
             "tabLabel": "Information",
             "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
-            "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}"
+            "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
+            "gridArea": "Netområde"
           },
           "history": {
             "tabLabel": "Historik"
