@@ -141,7 +141,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
     </ng-template>
 
     <ng-template #edit>
-      <form [formGroup]="form" class="watt-modal-content--full-width">
+      <form [formGroup]="form">
         <ng-container *ngTemplateOutlet="receiver"></ng-container>
         <eo-transfers-form-period
           formGroupName="period"
@@ -330,13 +330,16 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
             ],
           }
         ),
-        base64EncodedWalletDepositEndpoint: new FormControl(
-          base64EncodedWalletDepositEndpoint || '',
-          [
+        base64EncodedWalletDepositEndpoint: new FormControl({
+          value: base64EncodedWalletDepositEndpoint || '',
+          disabled: !this.editableFields.includes('base64EncodedWalletDepositEndpoint'),
+        },
+        {
+          validators: [
             Validators.required,
             Validators.pattern(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/),
           ]
-        ),
+        }),
       }),
       period: new FormGroup(
         {

@@ -24,21 +24,29 @@ import {
   inject,
 } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
+import { Observable, of } from 'rxjs';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { EoTransfersService } from './eo-transfers.service';
 import { EoExistingTransferAgreement, EoTransfersStore } from './eo-transfers.store';
 import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
 import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
-import { Observable, of } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-transfers-create-modal',
-  imports: [WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent, RxPush],
+  imports: [
+    WATT_MODAL,
+    WattValidationMessageComponent,
+    NgIf,
+    EoTransfersFormComponent,
+    RxPush,
+    WattSpinnerComponent,
+  ],
   standalone: true,
   template: `
     <watt-modal
@@ -46,10 +54,14 @@ import { Observable, of } from 'rxjs';
       title="New transfer agreement"
       [size]="'small'"
       closeLabel="Close modal"
-      [loading]="creatingTransferAgreement"
       (closed)="onClosed()"
       *ngIf="opened"
     >
+      <!-- We don't use the build-in loading state for the modal, since it wont update properly -->
+      <div class="watt-modal__spinner" style="z-index: 1;" *ngIf="creatingTransferAgreement">
+        <watt-spinner></watt-spinner>
+      </div>
+
       <watt-validation-message
         *ngIf="creatingTransferAgreementFailed"
         label="Oops!"
