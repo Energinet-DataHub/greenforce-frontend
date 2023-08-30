@@ -28,13 +28,7 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    AsyncPipe,
-    NgIf,
-    EoMeteringPointsTableComponent,
-    WATT_CARD,
-    EoBetaMessageComponent,
-  ],
+  imports: [AsyncPipe, NgIf, EoMeteringPointsTableComponent, WATT_CARD, EoBetaMessageComponent],
   selector: 'eo-metering-points-shell',
   styles: [
     `

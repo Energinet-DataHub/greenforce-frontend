@@ -47,7 +47,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       loading: true,
       meteringPoints: [],
       meteringPointError: null,
-      contractError: null
+      contractError: null,
     });
   }
 
@@ -61,7 +61,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     (state, meteringPoints: EoMeteringPoint[]): EoMeteringPointsState => ({
       ...state,
       meteringPoints,
-      meteringPointError: null
+      meteringPointError: null,
     })
   );
 
@@ -78,13 +78,11 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     (state, contract: { gsrn: string; active: boolean }): EoMeteringPointsState => ({
       ...state,
       meteringPoints: state.meteringPoints.map((meteringPoint) => {
-        if(meteringPoint.gsrn !== contract.gsrn) return meteringPoint;
+        if (meteringPoint.gsrn !== contract.gsrn) return meteringPoint;
 
         return {
           ...meteringPoint,
-          contract: contract.active
-            ? this.generateActiveContract(contract.gsrn)
-            : undefined,
+          contract: contract.active ? this.generateActiveContract(contract.gsrn) : undefined,
         };
       }),
     })
