@@ -23,14 +23,14 @@ export default async function (host: Tree, schema: { name: string }) {
   generateFiles(
     host,
     joinPathFragments(__dirname, './files'),
-    `./libs/ui-watt/src/lib/components/${substitutions.fileName}`,
+    `./libs/watt/src/lib/components/${substitutions.fileName}`,
     { tmpl: '', ...substitutions }
   );
 
   // Add reference to base configuration
   updateJson(host, './tsconfig.base.json', (json) => {
     json.compilerOptions.paths[`@energinet-datahub/watt/${substitutions.fileName}`] = [
-      `libs/ui-watt/src/lib/components/${substitutions.fileName}/index.ts`,
+      `libs/watt/src/lib/components/${substitutions.fileName}/index.ts`,
     ];
     return json;
   });
