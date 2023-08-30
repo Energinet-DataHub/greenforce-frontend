@@ -1,0 +1,15 @@
+query GetActorById($id: ID!) {
+  actor(id: $id) {
+    id
+    glnOrEicNumber
+    name
+    marketRole
+    status
+    gridAreas {
+      code
+    }
+    organization {
+      name
+    }
+  }
+}
