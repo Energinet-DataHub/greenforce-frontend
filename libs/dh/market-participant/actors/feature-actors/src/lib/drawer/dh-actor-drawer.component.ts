@@ -126,9 +126,6 @@ export class DhActorDrawerComponent {
         next: (result) => {
           this.actor = result.data?.actor;
         },
-        error: (error) => {
-          console.log('error', error);
-        },
       });
   }
 }
