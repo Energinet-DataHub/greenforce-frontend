@@ -31,6 +31,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public ActorStatus Status { get; set; }
 
+        public OrganizationDto? Organization { get; set; }
+
         public Actor(Guid id, string name, string glnOrEicNumber)
         {
             Id = id;

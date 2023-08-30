@@ -296,6 +296,9 @@ type Actor {
 
   """The status of the actor."""
   status: ActorStatus
+
+  """The organization of the actor."""
+  organization: Organization
 }
 
 enum ActorStatus {

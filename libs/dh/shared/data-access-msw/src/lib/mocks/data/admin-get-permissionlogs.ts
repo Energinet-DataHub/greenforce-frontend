@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { graphql } from '@energinet-datahub/dh/shared/domain';
+import parseISO from 'date-fns/parseISO';
 
 export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
   {
@@ -23,7 +24,7 @@ export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
     changedByUserId: '1',
     changedByUserName: 'datahub',
     permissionAuditLogType: graphql.PermissionAuditLogType.Created,
-    timestamp: '2023-03-17',
+    timestamp: parseISO('2023-03-17'),
     value: 'val1',
   },
   {
@@ -32,7 +33,7 @@ export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
     changedByUserId: '1',
     changedByUserName: 'datahub',
     permissionAuditLogType: graphql.PermissionAuditLogType.DescriptionChange,
-    timestamp: '2023-03-18',
+    timestamp: parseISO('2023-03-18'),
     value: 'val2',
   },
   {
@@ -41,7 +42,7 @@ export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
     changedByUserId: '1',
     changedByUserName: 'datahub',
     permissionAuditLogType: graphql.PermissionAuditLogType.Created,
-    timestamp: '2023-03-17',
+    timestamp: parseISO('2023-03-17'),
     value: 'val3',
   },
 ];

@@ -21,7 +21,7 @@ the Storybook automigration scripts could run successfully. The changes that wer
 
 The following commands ran successfully and your Storybook configuration was successfully migrated to the latest version 7:
 
-- `npx storybook@latest automigrate --config-dir libs/ui-watt/.storybook --renderer @storybook/angular`
+- `npx storybook@latest automigrate --config-dir libs/watt/.storybook --renderer @storybook/angular`
 
 Please make sure to check the results yourself and make sure that everything is working as expected.
 

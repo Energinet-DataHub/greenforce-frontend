@@ -23,6 +23,7 @@ import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-applica
 
 import { errorHandler } from './error-handler';
 import { makeEnvironmentProviders } from '@angular/core';
+import { scalarTypePolicies } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const graphQLProviders = makeEnvironmentProviders([
   {
@@ -35,11 +36,18 @@ export const graphQLProviders = makeEnvironmentProviders([
       return {
         cache: new InMemoryCache({
           typePolicies: {
+            ...scalarTypePolicies,
             Query: {
               fields: {
                 calculation(_, { args, toReference }) {
                   return toReference({
                     __typename: 'Calculation',
+                    id: args?.['id'],
+                  });
+                },
+                actor(_, { args, toReference }) {
+                  return toReference({
+                    __typename: 'Actor',
                     id: args?.['id'],
                   });
                 },
