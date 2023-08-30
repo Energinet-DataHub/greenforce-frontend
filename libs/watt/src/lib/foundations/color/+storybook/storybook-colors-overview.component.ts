@@ -122,7 +122,7 @@ export class StorybookColorsOverviewComponent {
    * @ignore
    */
   copyToClipboard(color: string) {
-    `var(${navigator.clipboard.writeText(color)})`;
+    navigator.clipboard.writeText(color);
   }
 
   /**
