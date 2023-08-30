@@ -16,16 +16,16 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-
-import { EoMeteringPoint, EoMeteringPointsStore } from './eo-metering-points.store';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
+import { EoMeteringPoint } from './eo-metering-points.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -50,7 +50,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
       }
 
       watt-empty-state {
-        padding: var(--watt-space-s);
+        padding: var(--watt-space-l);
       }
 
       watt-paginator {
@@ -60,7 +60,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     `,
   ],
   template: `
-    <watt-table [loading]="!!(isLoading$ | async)" [columns]="columns" [dataSource]="dataSource">
+    <watt-table [loading]="loading" [columns]="columns" [dataSource]="dataSource">
       <!-- ADDRESS Column -->
       <ng-container *wattTableCell="columns.address; let meteringPoint">
         <ng-container *ngIf="meteringPoint.address?.address1">
@@ -82,30 +82,42 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
       <!-- GRANULAR CERTIFICATES Column -->
       <ng-container *wattTableCell="columns.gc; let meteringPoint">
-        <ng-container *ngIf="meteringPoint.type === 'production'">
+        <div
+          *ngIf="meteringPoint.type === 'production'"
+          style="display: flex; align-items: center;"
+        >
           <mat-slide-toggle
-            (change)="onToggleContract($event, meteringPoint.gsrn)"
+            (change)="toggleContract.emit({ checked: $event.checked, gsrn: meteringPoint.gsrn })"
+            [disabled]="meteringPoint.loadingContract"
             [checked]="meteringPoint.contract && !meteringPoint.loadingContract"
           ></mat-slide-toggle>
-        </ng-container>
+          <watt-spinner
+            [diameter]="24"
+            style="margin-left: var(--watt-space-m);"
+            [style.opacity]="meteringPoint.loadingContract ? 1 : 0"
+          ></watt-spinner>
+        </div>
       </ng-container>
     </watt-table>
 
     <watt-empty-state
-      *ngIf="(isLoading$ | async) === false && dataSource.data.length === 0"
+      *ngIf="loading === false && dataSource.data.length === 0 && !hasError"
       icon="custom-power"
       title="No metering points found"
       message="You do not have any metering points."
     ></watt-empty-state>
 
-    <!-- TODO: Error handling fetching metering points-->
+    <watt-empty-state
+      *ngIf="loading === false && hasError"
+      icon="custom-power"
+      title="Oops! Something went wrong."
+      message="Please try reloading the page.."
+    ></watt-empty-state>
 
     <watt-paginator [for]="dataSource" />
   `,
 })
-export class EoMeteringPointListComponent implements AfterViewInit {
-  private store = inject(EoMeteringPointsStore);
-
+export class EoMeteringPointsTableComponent {
   dataSource: WattTableDataSource<EoMeteringPoint> = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<EoMeteringPoint> = {
     gsrn: { accessor: 'gsrn', header: 'ID' },
@@ -120,20 +132,11 @@ export class EoMeteringPointListComponent implements AfterViewInit {
       align: 'center',
     },
   };
-  isLoading$ = this.store.loading$;
-  hoveredRow: string | null = null;
 
-  ngAfterViewInit() {
-    this.store.meteringPoints$.subscribe(
-      (meteringPoints) => (this.dataSource.data = meteringPoints)
-    );
+  @Input() set meteringPoints(data: EoMeteringPoint[] | null) {
+    this.dataSource.data = data || [];
   }
-
-  onToggleContract(event: { checked: boolean }, gsrn: string) {
-    if (event.checked) {
-      this.store.createCertificateContract(gsrn);
-    } else {
-      this.store.deactivateCertificateContract(gsrn);
-    }
-  }
+  @Input() loading = false;
+  @Input() hasError = false;
+  @Output() toggleContract = new EventEmitter<{ checked: boolean; gsrn: string }>();
 }

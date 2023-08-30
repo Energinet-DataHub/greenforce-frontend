@@ -19,12 +19,11 @@ import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
-import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoMeteringPointListComponent } from './eo-metering-point-table.component';
+import { EoMeteringPointsTableComponent } from './eo-metering-point-table.component';
 import { EoMeteringPointsStore } from './eo-metering-points.store';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,8 +31,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   imports: [
     AsyncPipe,
     NgIf,
-    EoPopupMessageComponent,
-    EoMeteringPointListComponent,
+    EoMeteringPointsTableComponent,
     WATT_CARD,
     EoBetaMessageComponent,
   ],
@@ -53,7 +51,12 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
       <watt-card-title>
         <h3 class="watt-on-light--high-emphasis">Results</h3>
       </watt-card-title>
-      <eo-metering-points-table></eo-metering-points-table>
+      <eo-metering-points-table
+        [meteringPoints]="meteringPoints$ | async"
+        [loading]="!!(isLoading$ | async)"
+        [hasError]="!!(meteringPointError$ | async)"
+        (toggleContract)="onToggleContract($event)"
+      ></eo-metering-points-table>
     </watt-card>
   `,
 })
@@ -62,16 +65,30 @@ export class EoMeteringPointsShellComponent implements OnInit {
   private toastService = inject(WattToastService);
   private destroyRef = inject(DestroyRef);
 
-  error$ = this.meteringPointStore.error$;
+  isLoading$ = this.meteringPointStore.loading$;
+  meteringPoints$ = this.meteringPointStore.meteringPoints$;
+  contractError$ = this.meteringPointStore.contractError$;
+  meteringPointError$ = this.meteringPointStore.meteringPointError$;
 
   ngOnInit(): void {
-    this.error$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((error) => {
-      if(error) {
+    this.meteringPointStore.loadMeteringPoints();
+
+    this.contractError$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((error) => {
+      if (error) {
         this.toastService.open({
           message: 'Issue encountered. Please try again or reload the page.',
           type: 'danger',
         });
       }
     });
+  }
+
+  onToggleContract(event: { checked: boolean; gsrn: string }) {
+    const { checked, gsrn } = event;
+    if (checked) {
+      this.meteringPointStore.createCertificateContract(gsrn);
+    } else {
+      this.meteringPointStore.deactivateCertificateContract(gsrn);
+    }
   }
 }
