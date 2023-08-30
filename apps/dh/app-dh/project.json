@@ -38,9 +38,9 @@
             "output": "assets"
           },
           {
-            "input": "libs/ui-watt/src/assets",
+            "input": "libs/watt/src/assets",
             "glob": "**/*",
-            "output": "assets/ui-watt"
+            "output": "assets/watt"
           },
           {
             "input": "libs/dh/shared/data-access-msw/src/assets",
@@ -50,7 +50,7 @@
         ],
         "styles": ["apps/dh/app-dh/src/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/ui-watt/src/lib/styles"]
+          "includePaths": ["libs/watt/src/lib/styles"]
         },
         "scripts": []
       },

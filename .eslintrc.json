@@ -11,6 +11,7 @@
           "error",
           {
             "enforceBuildableLibDependency": true,
+            "allow": ["@energinet-datahub/watt"],
             "depConstraints": [
               {
                 "sourceTag": "type:app",
@@ -185,7 +186,7 @@
               },
               {
                 "sourceTag": "product:watt",
-                "onlyDependOnLibsWithTags": ["product:watt", "type:test-util"]
+                "onlyDependOnLibsWithTags": ["product:watt"]
               },
               {
                 "sourceTag": "*",

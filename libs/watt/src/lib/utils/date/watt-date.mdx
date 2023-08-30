@@ -1,0 +1,60 @@
+{/\*\*
+
+- @license
+- Copyright 2020 Energinet DataHub A/S
+-
+- Licensed under the Apache License, Version 2.0 (the "License2");
+- you may not use this file except in compliance with the License.
+- You may obtain a copy of the License at
+-
+-     http://www.apache.org/licenses/LICENSE-2.0
+-
+- Unless required by applicable law or agreed to in writing, software
+- distributed under the License is distributed on an "AS IS" BASIS,
+- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- See the License for the specific language governing permissions and
+- limitations under the License.
+  \*/}
+
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="Utils/Date Format" />
+
+# Date Format
+
+Watt ships with an Angular pipe utility for easy formatting of dates. It supports outputting
+two different formats, date with time and date without time. The format is always in Danish
+locale and in the Europe/Copenhagen timezone. The default format is date without time.
+
+The pipe accepts strings or a DateRange object of strings in ISO 8601 format.
+
+## Example
+
+The following code shows the different use cases of the WattDatePipe:
+
+```ts
+import { Component } from '@angular/core';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+
+@Component({
+  standalone: true,
+  imports: [WattDatePipe],
+  template: `
+    <!-- 01-01-2022 -->
+    <span>{{ date | wattDate }}</span>
+    <!-- 01-01-2022 00:00 -->
+    <span>{{ date | wattDate : 'long' }}</span>
+    <!-- 25-03-2019 ― 27-03-2019 -->
+    <span>{{ dateRange | wattDate }}</span>
+    <!-- 25-03-2019 23:00 ― 27-03-2019 22:59 -->
+    <span>{{ dateRange | wattDate : 'long' }}</span>
+  `,
+})
+class MyComponent {
+  date = '2021-12-31T23:00:00Z';
+  dateRange = {
+    start: '2019-03-25T22:00:00Z',
+    end: '2019-03-27T21:59:59Z',
+  };
+}
+```
