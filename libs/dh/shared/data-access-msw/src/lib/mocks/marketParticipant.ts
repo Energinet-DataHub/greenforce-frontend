@@ -16,7 +16,11 @@
  */
 import { rest } from 'msw';
 
-import { mockGetActorsQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  Actor,
+  mockGetActorByIdQuery,
+  mockGetActorsQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import organizationsData from './data/marketParticipantOrganizations.json';
 import { marketParticipantOrganizationsWithActors } from './data/marketParticipantOrganizationsWithActors';
@@ -26,7 +30,7 @@ import actorData from './data/marketPaticipantActor.json';
 import actorContactsData from './data/marketPaticipantActorContacts.json';
 import organizationData from './data/marketPaticipantOrganization.json';
 import userRoleData from './data/marketParticipantUserRoleTemplates.json';
-import { marketParticipantGetActorsMock } from './data/market-participant-get-actors';
+import { marketParticipantActors } from './data/market-participant-actors';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
@@ -39,6 +43,7 @@ export function marketParticipantMocks(apiBase: string) {
     getOrganization(apiBase),
     getUserRoles(apiBase),
     getActors(),
+    getActorById(),
   ];
 }
 
@@ -114,6 +119,16 @@ function getUserRoles(apiBase: string) {
 
 function getActors() {
   return mockGetActorsQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data(marketParticipantGetActorsMock));
+    return res(ctx.delay(300), ctx.data({ actors: marketParticipantActors }));
+  });
+}
+
+function getActorById() {
+  return mockGetActorByIdQuery((req, res, ctx) => {
+    const { id } = req.variables;
+
+    const actor = marketParticipantActors.find((a) => a.id === id) as Actor;
+
+    return res(ctx.delay(300), ctx.data({ actor }));
   });
 }
