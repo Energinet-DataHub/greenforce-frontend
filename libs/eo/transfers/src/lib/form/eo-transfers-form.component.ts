@@ -330,16 +330,20 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
             ],
           }
         ),
-        base64EncodedWalletDepositEndpoint: new FormControl({
-          value: base64EncodedWalletDepositEndpoint || '',
-          disabled: !this.editableFields.includes('base64EncodedWalletDepositEndpoint'),
-        },
-        {
-          validators: [
-            Validators.required,
-            Validators.pattern(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/),
-          ]
-        }),
+        base64EncodedWalletDepositEndpoint: new FormControl(
+          {
+            value: base64EncodedWalletDepositEndpoint || '',
+            disabled: !this.editableFields.includes('base64EncodedWalletDepositEndpoint'),
+          },
+          {
+            validators: [
+              Validators.required,
+              Validators.pattern(
+                /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+              ),
+            ],
+          }
+        ),
       }),
       period: new FormGroup(
         {
