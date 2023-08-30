@@ -21,7 +21,7 @@ import { DhTranslocoHttpLoader } from '@energinet-datahub/dh/globalization/data-
 import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
 import { environment } from '@energinet-datahub/dh/shared/environments';
 
-export const dhTranslocoConfig = {
+export const dhTranslocoConfig = translocoConfig({
   availableLangs: [DisplayLanguage.Danish, DisplayLanguage.English],
   defaultLang: DisplayLanguage.Danish,
   fallbackLang: [DisplayLanguage.Danish, DisplayLanguage.English],
@@ -34,9 +34,9 @@ export const dhTranslocoConfig = {
   // Remove this option if your application doesn't support changing language in runtime.
   reRenderOnLangChange: true,
   prodMode: environment.production,
-};
+});
 
 export const translocoProviders: EnvironmentProviders[] = provideTransloco({
-  config: translocoConfig(dhTranslocoConfig),
+  config: dhTranslocoConfig,
   loader: DhTranslocoHttpLoader,
 });
