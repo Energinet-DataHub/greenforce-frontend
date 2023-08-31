@@ -40,6 +40,7 @@ import {
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { RxPush } from '@rx-angular/template/push';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -58,6 +59,7 @@ import { RxPush } from '@rx-angular/template/push';
     DhUserStatusComponent,
     DhEditUserModalComponent,
     DhPermissionRequiredDirective,
+    WATT_MODAL,
   ],
 })
 export class DhUserDrawerComponent {
@@ -68,6 +70,9 @@ export class DhUserDrawerComponent {
 
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
+
+  @ViewChild('deactivateConfirmationModal')
+  deactivateConfirmationModal!: WattModalComponent;
 
   selectedUser: MarketParticipantUserOverviewItemDto | null = null;
 
@@ -108,7 +113,10 @@ export class DhUserDrawerComponent {
         }),
     });
 
-  deactivate = () =>
+  requestDeactiveUser = () => this.deactivateConfirmationModal.open();
+
+  deactivate = (success: boolean) =>
+    success &&
     this.userStatusStore.deactivateUser({
       id: this.selectedUser?.id ?? '',
       onSuccess: () =>
