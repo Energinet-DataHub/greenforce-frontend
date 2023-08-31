@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { makeEnvironmentProviders } from '@angular/core';
-import { dhTranslocoHttpLoaderProvider } from '@energinet-datahub/dh/globalization/data-access-localization';
+import { EnvironmentProviders } from '@angular/core';
+import { provideTransloco, translocoConfig } from '@ngneat/transloco';
+
+import { DhTranslocoHttpLoader } from '@energinet-datahub/dh/globalization/data-access-localization';
 import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
 import { environment } from '@energinet-datahub/dh/shared/environments';
-import { TRANSLOCO_CONFIG, translocoConfig } from '@ngneat/transloco';
 
-export const dhTranslocoConfig = {
+export const dhTranslocoConfig = translocoConfig({
   availableLangs: [DisplayLanguage.Danish, DisplayLanguage.English],
   defaultLang: DisplayLanguage.Danish,
   fallbackLang: [DisplayLanguage.Danish, DisplayLanguage.English],
@@ -33,12 +34,9 @@ export const dhTranslocoConfig = {
   // Remove this option if your application doesn't support changing language in runtime.
   reRenderOnLangChange: true,
   prodMode: environment.production,
-};
+});
 
-export const translocoProviders = makeEnvironmentProviders([
-  {
-    provide: TRANSLOCO_CONFIG,
-    useValue: translocoConfig(dhTranslocoConfig),
-  },
-  dhTranslocoHttpLoaderProvider,
-]);
+export const translocoProviders: EnvironmentProviders[] = provideTransloco({
+  config: dhTranslocoConfig,
+  loader: DhTranslocoHttpLoader,
+});
