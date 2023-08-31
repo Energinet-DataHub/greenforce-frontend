@@ -27,7 +27,7 @@ limitations under the License.
       <watt-button
         *ngIf="selectedUser?.status !== 'Inactive'"
         variant="secondary"
-        (click)="deactivate()"
+        (click)="requestDeactivateUser()"
         [loading]="isDeactivating$ | push : { strategy: 'native' }"
         >{{ t("deactivate") }}</watt-button
       >
@@ -53,4 +53,35 @@ limitations under the License.
     [user]="selectedUser"
     (closed)="modalOnClose()"
   ></dh-edit-user-modal>
+
+  <watt-modal
+    #deactivateConfirmationModal
+    [size]="'small'"
+    [title]="t('deactivateConfirmation.title')"
+    [disableClose]="true"
+    (closed)="deactivate($event)"
+  >
+    <p>
+      {{
+        t("deactivateConfirmation.body", {
+          first: selectedUser?.firstName,
+          last: selectedUser?.lastName,
+          email: selectedUser?.email
+        })
+      }}
+    </p>
+    <p>
+      <b>
+        {{ t("deactivateConfirmation.important") }}
+      </b>
+    </p>
+    <watt-modal-actions>
+      <watt-button (click)="deactivateConfirmationModal.close(false)">{{
+        t("deactivateConfirmation.reject")
+      }}</watt-button>
+      <watt-button variant="secondary" (click)="deactivateConfirmationModal.close(true)">{{
+        t("deactivateConfirmation.confirm", { email: selectedUser?.email })
+      }}</watt-button>
+    </watt-modal-actions>
+  </watt-modal>
 </ng-container>
