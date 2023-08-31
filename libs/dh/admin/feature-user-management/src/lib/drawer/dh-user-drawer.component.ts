@@ -113,7 +113,7 @@ export class DhUserDrawerComponent {
         }),
     });
 
-  requestDeactiveUser = () => this.deactivateConfirmationModal.open();
+  requestDeactivateUser = () => this.deactivateConfirmationModal.open();
 
   deactivate = (success: boolean) =>
     success &&

@@ -27,7 +27,7 @@ limitations under the License.
       <watt-button
         *ngIf="selectedUser?.status !== 'Inactive'"
         variant="secondary"
-        (click)="requestDeactiveUser()"
+        (click)="requestDeactivateUser()"
         [loading]="isDeactivating$ | push : { strategy: 'native' }"
         >{{ t("deactivate") }}</watt-button
       >
