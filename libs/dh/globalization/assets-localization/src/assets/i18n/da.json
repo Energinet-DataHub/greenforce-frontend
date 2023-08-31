@@ -948,9 +948,9 @@
         "executionTime": "Kørsel tid",
         "executionTimeRequired": "Eksekveringstid påkrævet",
         "actor": "Aktør",
-        "loadingActors": "Henter Aktører...",
+        "loadingActors": "Henter elleverandører...",
         "loadingGridAreas": "Henter netområder...",
-        "actorPlaceholder": "Vælg aktør",
+        "actorPlaceholder": "Vælg elleverandør",
         "processTypePlaceholder": "Vælg procestype",
         "gridAreasPlaceholder": "Vælg netområde(r)"
       }
