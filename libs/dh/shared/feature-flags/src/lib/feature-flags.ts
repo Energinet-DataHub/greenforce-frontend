@@ -22,11 +22,7 @@ export type DhFeatureFlag = {
   disabledEnvironments: DhAppEnvironment[];
 };
 
-function satisfies<A>() {
-  return <T extends A>(x: T) => x;
-}
 export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
-const makeFeatureFlags = satisfies<FeatureFlagConfig>();
 
 /**
  * Feature flag example:
@@ -39,7 +35,7 @@ const makeFeatureFlags = satisfies<FeatureFlagConfig>();
 
 const created = '08-08-2023';
 
-export const dhFeatureFlagsConfig = makeFeatureFlags({
+export const dhFeatureFlagsConfig = {
   start_wholesale_process_feature_flag: {
     created,
     disabledEnvironments: [],
@@ -60,6 +56,6 @@ export const dhFeatureFlagsConfig = makeFeatureFlags({
     created: '04-07-2023',
     disabledEnvironments: [],
   },
-});
+} satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
