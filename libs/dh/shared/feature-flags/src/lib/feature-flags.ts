@@ -33,7 +33,7 @@ export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
  * },
  */
 
-const created = '08-08-2023';
+const created = '31-08-2023';
 
 export const dhFeatureFlagsConfig = {
   start_wholesale_process_feature_flag: {
@@ -53,7 +53,7 @@ export const dhFeatureFlagsConfig = {
     disabledEnvironments: [],
   },
   market_participant_actors_feature_flag: {
-    created: '04-07-2023',
+    created,
     disabledEnvironments: [],
   },
 } satisfies FeatureFlagConfig;
