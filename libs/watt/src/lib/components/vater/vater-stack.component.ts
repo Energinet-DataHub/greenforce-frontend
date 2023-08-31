@@ -42,7 +42,7 @@ export class VaterStackComponent {
   direction: Direction = 'column';
 
   @Input()
-  gap: Gap = 'xs'; // TODO: Default to '0' when design tokens are available
+  gap?: Gap;
 
   @Input()
   @HostBinding('style.justify-content')
@@ -50,7 +50,7 @@ export class VaterStackComponent {
 
   @HostBinding('style.gap')
   get _gap() {
-    return `var(--watt-space-${this.gap})`;
+    return this.gap ? `var(--watt-space-${this.gap})` : undefined;
   }
 
   @HostBinding('style.height')
