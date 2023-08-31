@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* eslint-disable sonarjs/no-duplicate-string */
 import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
 
 export type DhFeatureFlag = {
@@ -22,11 +21,7 @@ export type DhFeatureFlag = {
   disabledEnvironments: DhAppEnvironment[];
 };
 
-function satisfies<A>() {
-  return <T extends A>(x: T) => x;
-}
 export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
-const makeFeatureFlags = satisfies<FeatureFlagConfig>();
 
 /**
  * Feature flag example:
@@ -37,9 +32,9 @@ const makeFeatureFlags = satisfies<FeatureFlagConfig>();
  * },
  */
 
-const created = '08-08-2023';
+const created = '31-08-2023';
 
-export const dhFeatureFlagsConfig = makeFeatureFlags({
+export const dhFeatureFlagsConfig = {
   start_wholesale_process_feature_flag: {
     created,
     disabledEnvironments: [],
@@ -57,9 +52,9 @@ export const dhFeatureFlagsConfig = makeFeatureFlags({
     disabledEnvironments: [],
   },
   market_participant_actors_feature_flag: {
-    created: '04-07-2023',
+    created,
     disabledEnvironments: [],
   },
-});
+} satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
