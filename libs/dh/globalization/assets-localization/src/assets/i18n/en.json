@@ -1004,7 +1004,7 @@
         "deactivateConfirmation": {
           "title": "Deactivate user",
           "body": "User {{first}} {{last}} ({{email}}) will be deactivated and sign-in will be blocked.",
-          "important": "If the user is currently signed in, it can take up to 30 minutes for the user loses access.",
+          "important": "If the user is currently signed in, it can take up to 30 minutes before the user loses access.",
           "confirm": "Deactivate {{email}}",
           "reject": "Cancel"
         },
