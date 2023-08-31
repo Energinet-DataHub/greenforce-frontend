@@ -151,9 +151,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.EO_SONAR_TOKEN }}
 
-  bump_helm_chart_version:
+  bump_configuration_version:
     runs-on: ubuntu-latest
-    name: Bump Helm chart version
+    name: Bump configuration version
     if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
     needs: affected
     steps:
@@ -193,7 +193,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build_container
-    if: github.event_name == 'push' && github.ref_name == 'main' || github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'preview/')
     concurrency: commits-base-environment
     steps:
       - name: Update environment
