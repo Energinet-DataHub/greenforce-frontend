@@ -47,6 +47,7 @@ import type { WattDropdownOptions } from './watt-dropdown-option';
 import type { WattDropdownValue } from './watt-dropdown-value';
 
 import { WattMenuChipComponent } from '../chip';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
   selector: 'watt-dropdown',
@@ -62,6 +63,7 @@ import { WattMenuChipComponent } from '../chip';
     NgxMatSelectSearchModule,
     WattMenuChipComponent,
     WattFieldComponent,
+    WattIconComponent,
   ],
 })
 export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {

@@ -51,17 +51,21 @@ const template = `
     [multiple]="multiple"
     [formControl]="exampleFormControl"
     [placeholder]="placeholder"
+    [noOptionsFoundLabel]="noOptionsFoundLabel"
     [options]="options">
       <watt-field-error>This field is required</watt-field-error>
       <watt-field-hint>This is a hint</watt-field-hint>
     </watt-dropdown>
 `;
 
+const noOptionsFoundLabel = 'No team found.';
+
 const DefaultTemplate: Story = {
   render: (args) => ({
     props: {
       ...args,
       label: 'Team',
+      noOptionsFoundLabel,
       exampleFormControl: new FormControl({ value: null, disabled: false }),
     },
     template,
@@ -73,6 +77,7 @@ const DisabledTemplate: Story = {
     props: {
       ...args,
       label: 'Team',
+      noOptionsFoundLabel,
       exampleFormControl: new FormControl({ value: null, disabled: true }),
     },
     template,
@@ -84,6 +89,7 @@ const ValidationTemplate: Story = {
     props: {
       ...args,
       label: 'Team',
+      noOptionsFoundLabel,
       exampleFormControl: new FormControl(null, Validators.required),
     },
     template,
@@ -114,7 +120,6 @@ export const MultiSelect: Story = {
   args: {
     options: dropdownOptions,
     placeholder,
-    noOptionsFoundLabel: 'No team found.',
     multiple: true,
   },
 };
