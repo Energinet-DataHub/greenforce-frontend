@@ -854,7 +854,7 @@
       "processTypes": {
         "BALANCE_FIXING": "Balancefiksering",
         "AGGREGATION": "Aggregering",
-        "WHOLESALE_FIXING": "Engrosafregning",
+        "WHOLESALE_FIXING": "Engrosfiksering",
         "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
         "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
         "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
@@ -948,9 +948,9 @@
         "executionTime": "Kørsel tid",
         "executionTimeRequired": "Eksekveringstid påkrævet",
         "actor": "Aktør",
-        "loadingActors": "Henter Aktører...",
+        "loadingActors": "Henter elleverandører...",
         "loadingGridAreas": "Henter netområder...",
-        "actorPlaceholder": "Vælg aktør",
+        "actorPlaceholder": "Vælg elleverandør",
         "processTypePlaceholder": "Vælg procestype",
         "gridAreasPlaceholder": "Vælg netområde(r)"
       }
