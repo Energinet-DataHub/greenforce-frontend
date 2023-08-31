@@ -854,7 +854,7 @@
       "processTypes": {
         "BALANCE_FIXING": "Balancefiksering",
         "AGGREGATION": "Aggregering",
-        "WHOLESALE_FIXING": "Engrosafregning",
+        "WHOLESALE_FIXING": "Engrosfiksering",
         "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
         "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
         "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
