@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 import { graphql } from '@energinet-datahub/dh/shared/domain';
+import parseISO from 'date-fns/parseISO';
 
 export const adminPermissionDetailsMock: graphql.GetPermissionDetailsQuery = {
   permission: {
     id: 1,
     name: 'organizations:view',
     description: 'Description for OrganizationView',
-    created: '2023-03-07T00:00:00+00:00',
+    created: parseISO('2023-03-07T00:00:00+00:00'),
     assignableTo: [graphql.EicFunction.BalanceResponsibleParty, graphql.EicFunction.BillingAgent],
     userRoles: [
       {

@@ -1,0 +1,71 @@
+{/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */}
+import { ArgsTable, Meta, Source, Story } from '@storybook/blocks';
+
+import * as VaterStories from './vater.stories.ts';
+import { VaterStackComponent } from './vater-stack.component.ts';
+import { VaterFlexComponent } from './vater-flex.component.ts';
+
+<Meta of={VaterStories} />
+
+
+## Stack
+
+The `vater-stack` layout component is a simple element designed to create stack-based layouts
+with ease. It allows you to arrange child elements vertically (in a column) or horizontally
+(in a row) within a container. If the dimensions of the child elements surpass the container's
+width (or height, depending on the stacking direction), they will shrink when possible or otherwise
+overflow to fit the available space. They will never expand beyond their original dimensions.
+
+<Story of={VaterStories.Stack} />
+<ArgsTable of={VaterStackComponent} />
+<Source
+  language='html'
+  dark={true}
+  code={`
+<!-- Horizontally align two buttons with a small gap -->
+<vater-stack direction="row" gap="s">
+  <watt-button>Ok</watt-button>
+  <watt-button>Close</watt-button>
+</vater-stack>
+  `}
+/>
+
+## Flex
+Next layout component is `vater-flex`, meant to simplify the creation of flexible layouts.
+Like the `vater-stack` component, it provides the ability to arrange child elements vertically
+(column) or horizontally (row). What makes `vater-flex` distinct is its ability to stretch
+child elements along the flex direction. Additionally, the component offers a `scrollable` input,
+allowing the container to shrink beyond the minimum height while showing a scrollbar.
+
+<Story of={VaterStories.Flex} />
+<ArgsTable of={VaterFlexComponent} />
+<Source
+  language='html'
+  dark={true}
+  code={`
+<!-- Button on top with a card stretched to fill the remaining height -->
+<vater-flex gap="m">
+  <watt-button>Log out</watt-button>
+  <watt-card style="height: 100%">
+    <h3>Heading</h3>
+    <p>Content</p>
+  </watt-card>
+</vater-flex>
+  `}
+/>
+

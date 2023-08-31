@@ -15,8 +15,10 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { Component, ViewChild, Output, EventEmitter, Input } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { TranslocoModule, translate } from '@ngneat/transloco';
+import { Apollo } from 'apollo-angular';
+import { Subscription, takeUntil } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
@@ -26,8 +28,9 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhActor } from '../dh-actor';
+import { DhActorExtended } from '../dh-actor';
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 
 @Component({
@@ -72,24 +75,29 @@ import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-bad
   ],
 })
 export class DhActorDrawerComponent {
-  #actor: DhActor | undefined = undefined;
+  private apollo = inject(Apollo);
+  private subscription?: Subscription;
+
+  private getActorByIdQuery$ = this.apollo.watchQuery({
+    errorPolicy: 'all',
+    returnPartialData: true,
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetActorByIdDocument,
+  });
+
+  actor: DhActorExtended | undefined = undefined;
 
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
 
-  @Input() set actor(value: DhActor | undefined) {
-    this.#actor = value;
-
-    if (value) {
-      this.drawer?.open();
-    }
-  }
-
-  get actor(): DhActor | undefined {
-    return this.#actor;
-  }
-
   @Output() closed = new EventEmitter<void>();
+
+  public open(actorId: string): void {
+    this.drawer?.open();
+
+    this.loadActor(actorId);
+  }
 
   onClose(): void {
     this.closed.emit();
@@ -101,5 +109,23 @@ export class DhActorDrawerComponent {
     }
 
     return emDash;
+  }
+
+  get gridAreaOrFallback() {
+    return this.actor?.gridAreas?.[0]?.code ?? emDash;
+  }
+
+  private loadActor(id: string): void {
+    this.subscription?.unsubscribe();
+
+    this.getActorByIdQuery$.setVariables({ id });
+
+    this.subscription = this.getActorByIdQuery$.valueChanges
+      .pipe(takeUntil(this.closed))
+      .subscribe({
+        next: (result) => {
+          this.actor = result.data?.actor;
+        },
+      });
   }
 }

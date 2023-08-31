@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DateRange } from '@energinet-datahub/dh/shared/domain';
 import type { ResultOf } from '@graphql-typed-document-node/core';
+import { Range } from '@energinet-datahub/dh/shared/domain';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 
 export type GridArea = ResultOf<typeof graphql.GetGridAreasDocument>['gridAreas'][0];
 
 export function filterValidGridAreas(
   gridAreas: GridArea[],
-  dateRange: DateRange | null
+  dateRange: Range<string> | null
 ): GridArea[] {
   if (dateRange === null) return gridAreas;
   return gridAreas.filter((gridArea) => {

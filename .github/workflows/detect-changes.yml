@@ -90,4 +90,4 @@ jobs:
         uses: ./.github/actions/affected
         with:
           base: ${{ github.ref == 'refs/heads/main' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
-          project: ui-watt
+          project: watt

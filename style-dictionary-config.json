@@ -5,7 +5,7 @@
       "transformGroup": "css",
       "files": [
         {
-          "destination": "libs/ui-watt/src/lib/foundations/_tokens.scss",
+          "destination": "libs/watt/src/lib/foundations/_tokens.scss",
           "format": "css/variables"
         }
       ]

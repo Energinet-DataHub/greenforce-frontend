@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
+import parseISO from 'date-fns/parseISO';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
@@ -37,7 +38,7 @@ import {
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe, WattDateRange } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
@@ -48,7 +49,6 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
-import { DateRange } from '@energinet-datahub/dh/shared/domain';
 import {
   CreateCalculationDocument,
   GetGridAreasDocument,
@@ -64,7 +64,7 @@ import {
 interface FormValues {
   processType: FormControl<ProcessType>;
   gridAreas: FormControl<string[] | null>;
-  dateRange: FormControl<DateRange | null>;
+  dateRange: FormControl<WattDateRange | null>;
 }
 
 @Component({
@@ -141,7 +141,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     .pipe(map((t) => processTypes.map((value) => ({ displayValue: t[value], value }))));
 
   selectedExecutionType = 'ACTUAL';
-  latestPeriodEnd?: string | null;
+  latestPeriodEnd?: Date | null;
   showPeriodWarning = false;
 
   gridAreas$: Observable<WattDropdownOption[]> = combineLatest([
@@ -198,7 +198,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
         variables: {
           input: {
             gridAreaCodes: gridAreas,
-            period: dateRange,
+            period: { start: parseISO(dateRange.start), end: parseISO(dateRange.end) },
             processType: processType,
           },
         },
@@ -314,8 +314,8 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
         fetchPolicy: 'network-only',
         variables: {
           period: {
-            end: dateRange.value.end,
-            start: dateRange.value.start,
+            end: parseISO(dateRange.value.end),
+            start: parseISO(dateRange.value.start),
           },
         },
       })

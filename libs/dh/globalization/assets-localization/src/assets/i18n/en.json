@@ -592,7 +592,8 @@
             "tabLabel": "Information",
             "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
-            "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}"
+            "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
+            "gridArea": "Grid area"
           },
           "history": {
             "tabLabel": "History"
@@ -955,9 +956,9 @@
         "executionTime": "Execution time",
         "executionTimeRequired": "Execution time is required",
         "actor": "Actor",
-        "loadingActors": "Loading actors...",
+        "loadingActors": "Loading energy suppliers...",
         "loadingGridAreas": "Loading grid areas...",
-        "actorPlaceholder": "Select actor",
+        "actorPlaceholder": "Select energy supplier",
         "processTypePlaceholder": "Select process type",
         "gridAreasPlaceholder": "Select grid area(s)"
       }

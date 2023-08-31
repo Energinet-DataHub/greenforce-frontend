@@ -25,7 +25,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RxLet } from '@rx-angular/template/let';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import { MatMenuModule } from '@angular/material/menu';
 import {
   MatLegacyTableDataSource as MatTableDataSource,
   MatLegacyTableModule as MatTableModule,

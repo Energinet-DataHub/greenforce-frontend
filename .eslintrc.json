@@ -11,6 +11,7 @@
           "error",
           {
             "enforceBuildableLibDependency": true,
+            "allow": ["@energinet-datahub/watt"],
             "depConstraints": [
               {
                 "sourceTag": "type:app",
