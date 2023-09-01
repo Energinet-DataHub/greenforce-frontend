@@ -17,6 +17,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { Observable } from 'rxjs';
 
 export interface EoCertificate {
   dateFrom: number;
@@ -37,6 +38,7 @@ export interface EoCertificateContract {
   id: string;
   gsrn: string;
   startDate: number;
+  endDate: number | null;
   created: number;
 }
 
@@ -68,6 +70,10 @@ export class EoCertificatesService {
     return this.http.get<EoContractResponse>(`${this.#apiBase}/certificates/contracts`);
   }
 
+  getContract(id: string): Observable<EoContractResponse> {
+    return this.http.get<EoContractResponse>(`/api/certificates/contracts/${id}`);
+  }
+
   /**
    * @param gsrn ID of meteringpoint
    * Sends request to create a GC contract for a specific meteringpoint
@@ -76,6 +82,12 @@ export class EoCertificatesService {
     return this.http.post<EoCertificateContract>(`${this.#apiBase}/certificates/contracts`, {
       gsrn,
       startDate: Math.floor(new Date().getTime() / 1000),
+    });
+  }
+
+  patchContract(id: string) {
+    return this.http.patch<EoCertificateContract>(`${this.#apiBase}/certificates/contracts/${id}`, {
+      endDate: Math.floor(Date.now() / 1000),
     });
   }
 }

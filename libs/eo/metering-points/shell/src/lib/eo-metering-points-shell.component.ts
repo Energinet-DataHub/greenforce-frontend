@@ -15,24 +15,74 @@
  * limitations under the License.
  */
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoMeteringPointListComponent } from './eo-metering-point-table.component';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+
+import { EoMeteringPointsTableComponent } from './eo-metering-point-table.component';
 import { EoMeteringPointsStore } from './eo-metering-points.store';
+import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [AsyncPipe, NgIf, EoPopupMessageComponent, EoMeteringPointListComponent],
+  imports: [AsyncPipe, NgIf, EoMeteringPointsTableComponent, WATT_CARD, EoBetaMessageComponent],
   selector: 'eo-metering-points-shell',
-  styles: [``],
+  styles: [
+    `
+      watt-card-title {
+        display: flex;
+        gap: var(--watt-space-m);
+        align-items: center;
+      }
+    `,
+  ],
   template: `
-    <eo-popup-message *ngIf="error$ | async"></eo-popup-message>
-    <eo-metering-points-table></eo-metering-points-table>
+    <eo-eo-beta-message></eo-eo-beta-message>
+    <watt-card>
+      <watt-card-title>
+        <h3 class="watt-on-light--high-emphasis">Results</h3>
+      </watt-card-title>
+      <eo-metering-points-table
+        [meteringPoints]="meteringPoints$ | async"
+        [loading]="!!(isLoading$ | async)"
+        [hasError]="!!(meteringPointError$ | async)"
+        (toggleContract)="onToggleContract($event)"
+      ></eo-metering-points-table>
+    </watt-card>
   `,
 })
-export class EoMeteringPointsShellComponent {
-  error$ = this.meteringPointStore.error$;
+export class EoMeteringPointsShellComponent implements OnInit {
+  private meteringPointStore = inject(EoMeteringPointsStore);
+  private toastService = inject(WattToastService);
+  private destroyRef = inject(DestroyRef);
 
-  constructor(private meteringPointStore: EoMeteringPointsStore) {}
+  isLoading$ = this.meteringPointStore.loading$;
+  meteringPoints$ = this.meteringPointStore.meteringPoints$;
+  contractError$ = this.meteringPointStore.contractError$;
+  meteringPointError$ = this.meteringPointStore.meteringPointError$;
+
+  ngOnInit(): void {
+    this.meteringPointStore.loadMeteringPoints();
+
+    this.contractError$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((error) => {
+      if (error) {
+        this.toastService.open({
+          message: 'Issue encountered. Please try again or reload the page.',
+          type: 'danger',
+        });
+      }
+    });
+  }
+
+  onToggleContract(event: { checked: boolean; gsrn: string }) {
+    const { checked, gsrn } = event;
+    if (checked) {
+      this.meteringPointStore.createCertificateContract(gsrn);
+    } else {
+      this.meteringPointStore.deactivateCertificateContract(gsrn);
+    }
+  }
 }

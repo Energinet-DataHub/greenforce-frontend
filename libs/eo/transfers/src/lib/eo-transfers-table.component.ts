@@ -173,7 +173,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     </watt-table>
 
     <!-- No Data to show -->
-    <p *ngIf="dataSource.data.length < 1" class="watt-space-stack-s no-data">
+    <p *ngIf="dataSource.data.length < 1 && hasLoaded" class="watt-space-stack-s no-data">
       You do not have any transfer agreements to show right now.
     </p>
 
@@ -220,10 +220,16 @@ export class EoTransfersTableComponent implements OnChanges {
         transfer.endDate ? this.utils.isDateActive(transfer.startDate, transfer.endDate) : true,
     },
   } as WattTableColumnDef<EoTransferTableElement>;
+  hasLoaded = false;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['transfers']) {
       this.dataSource.data = this.transfers;
+
+      // Ensure that the empty table message is only shown after the first load
+      if (!changes['transfers'].isFirstChange()) {
+        this.hasLoaded = true;
+      }
     }
 
     /*
