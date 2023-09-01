@@ -15,11 +15,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <mat-stepper animationDuration="0" class="watt-stepper" [linear]="true" #stepper>
-  <ng-template matStepperIcon="edit">
+  <ng-template matStepperIcon="edit" let-index="index">
+    {{ index + 1 }}
+  </ng-template>
+  <ng-template matStepperIcon="done">
     <watt-icon name="checkmark"></watt-icon>
   </ng-template>
-  <ng-template matStepperIcon="last">
-    <watt-icon name="checkmark"></watt-icon>
+  <ng-template matStepperIcon="number" let-index="index">
+    <ng-container *ngIf="this.stepper.steps.get(0)?.completed; else notCompleted">
+      <watt-icon name="checkmark"></watt-icon>
+    </ng-container>
+    <ng-template #notCompleted>
+      {{ index + 1 }}
+    </ng-template>
   </ng-template>
   <ng-template matStepperIcon="error" let-index="index">
     {{ index + 1 }}

@@ -71,18 +71,35 @@ import { isToday } from 'date-fns';
         padding-bottom: 0;
       }
 
+      .mat-calendar-body-cell {
+        pointer-events: none;
+      }
+
+      .mat-calendar-body-cell-content {
+        pointer-events: all;
+        border: none !important;
+      }
+
       .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
         &:hover .mat-calendar-body-cell-content {
-          background: none !important;
           color: var(--watt-color-neutral-black) !important;
+          box-shadow: none;
         }
 
         &.eo-transfers-form-overlapping-date .mat-calendar-body-cell-content {
-          background: var(--watt-color-state-warning-light);
+          background: linear-gradient(
+            -45deg,
+            var(--watt-color-state-warning-light) 50%,
+            var(--watt-color-primary-light) 50%
+          ) !important;
 
           &.mat-calendar-body-selected,
           &:hover {
-            background: var(--watt-color-state-warning) !important;
+            background: linear-gradient(
+              -45deg,
+              var(--watt-color-state-warning) 50%,
+              var(--watt-color-primary) 50%
+            ) !important;
             color: var(--watt-color-neutral-black) !important;
           }
         }
@@ -90,8 +107,9 @@ import { isToday } from 'date-fns';
         &.eo-transfers-form-fully-booked {
           pointer-events: none;
           .mat-calendar-body-cell-content {
+            pointer-events: none;
             background: var(--watt-color-state-danger-light);
-            color: var(--watt-color-neutral-black) !important;
+            color: rgba(0, 0, 0, 0.38) !important;
 
             &.mat-calendar-body-selected,
             &:hover {
@@ -102,6 +120,7 @@ import { isToday } from 'date-fns';
         }
 
         .mat-calendar-body-today {
+          box-shadow: none !important;
           border: none !important;
         }
       }
@@ -200,7 +219,6 @@ export class EoTransfersDateTimeComponent
       const hours = date.getHours();
       this.form.controls.time.setValue(String(hours).padStart(2, '0'), { emitEvent: false });
 
-      // setHours() needs to be done after setting time, otherwise the time will be overwritten
       const ISOString = new Date(date.setHours(0, 0, 0, 0)).toISOString();
       this.form.controls.date.setValue(ISOString, { emitEvent: false });
     } else {
@@ -274,7 +292,8 @@ export class EoTransfersDateTimeComponent
 
   private isOverlappingWithExistingTransferAgreement(date: number): boolean {
     return this.existingTransferAgreements.some((agreement) => {
-      return !!(date > agreement.startDate && date < (agreement.endDate || date));
+      const endDate = agreement.endDate || Infinity;
+      return date > agreement.startDate && date <= endDate;
     });
   }
 }

@@ -26,7 +26,7 @@ import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core'
       eo-transfers-errors {
         display: block;
         margin-top: var(--watt-space-xs);
-        min-height: 48px;
+        min-height: 36px;
         overflow: hidden;
         padding-left: var(--watt-space-s);
         position: relative;
