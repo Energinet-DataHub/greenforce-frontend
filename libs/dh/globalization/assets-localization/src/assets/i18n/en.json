@@ -47,6 +47,7 @@
       "marketParticipantActors": "Actors",
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid areas",
+      "eSett": "eSett",
       "chargePrices": {
         "menuGroupLabel": "Prices",
         "search": "Search prices",
