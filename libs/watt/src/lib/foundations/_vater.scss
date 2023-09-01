@@ -1,0 +1,47 @@
+.vater-fill-horizontal {
+  width: 100%;
+}
+
+.vater-fill-vertical {
+  height: 100%;
+}
+
+.vater-fill-both {
+  width: 100%;
+  height: 100%;
+}
+
+.vater-inset-0 {
+  position: absolute;
+  inset: 0;
+}
+
+.vater-inset-xs {
+  position: absolute;
+  inset: var(--watt-space-xs);
+}
+
+.vater-inset-s {
+  position: absolute;
+  inset: var(--watt-space-s);
+}
+
+.vater-inset-m {
+  position: absolute;
+  inset: var(--watt-space-m);
+}
+
+.vater-inset-ml {
+  position: absolute;
+  inset: var(--watt-space-ml);
+}
+
+.vater-inset-l {
+  position: absolute;
+  inset: var(--watt-space-l);
+}
+
+.vater-inset-xl {
+  position: absolute;
+  inset: var(--watt-space-xl);
+}
