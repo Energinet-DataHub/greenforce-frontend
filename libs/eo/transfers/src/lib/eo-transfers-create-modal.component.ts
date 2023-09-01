@@ -19,6 +19,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  NgZone,
   ViewChild,
   ViewEncapsulation,
   inject,
@@ -94,6 +95,7 @@ export class EoTransfersCreateModalComponent {
   private service = inject(EoTransfersService);
   private store = inject(EoTransfersStore);
   private cd = inject(ChangeDetectorRef);
+  private zone = inject(NgZone);
 
   open() {
     /**
@@ -131,11 +133,13 @@ export class EoTransfersCreateModalComponent {
       .createAgreement({ receiverTin, base64EncodedWalletDepositEndpoint, startDate, endDate })
       .subscribe({
         next: (transfer) => {
-          this.store.addTransfer(transfer);
+          this.zone.run(() => {
+            this.store.addTransfer(transfer);
+          });
           this.creatingTransferAgreement = false;
           this.creatingTransferAgreementFailed = false;
-          this.cd.detectChanges();
           this.modal.close(true);
+          this.cd.detectChanges();
         },
         error: () => {
           this.creatingTransferAgreement = false;
