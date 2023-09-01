@@ -67,7 +67,7 @@ The application is deployed to five different environments as listed below:
 [dh-t-001]: https://ashy-forest-09ecf8003.2.azurestaticapps.net
 
 > This is identical to **U-001**, except it also hosts
-> [B2C](https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/).
+> [B2C](https://learn.microsoft.com/en-us/azure/active-directory-b2c/overview).
 > This service can be accessed from **localhost**, **U-001** and **U-002**.
 
 ### Documentation
@@ -161,12 +161,12 @@ yarn nx serve app-eo
 
 ## Watt Design System
 
-> Contributing? Check the [Watt Design System README](libs/ui-watt/README.md)
+> Contributing? Check the [Watt Design System README](libs/watt/README.md)
 > for developer documentation.
 
 This is a shared UI library meant to be used by all frontend apps and it
 contains basic components and functionality for speeding up app development.
-It is located in `libs/ui-watt` and can be imported from
+It is located in `libs/watt` and can be imported from
 `@energinet-datahub/watt` in other libraries.
 
 The design system is showcased using [Storybook](https://storybook.js.org),
@@ -247,7 +247,7 @@ all follow the same naming convention:
    └── <product>                              # Libraries are grouped by a product root folder
       └── <domain>                            # Products can contain several domains ex. auth, core, etc.
          └── <library type>-<library name>    # Domains can contain several libraries prefixed by type
-   └── ui-watt                                # Special product, see "Watt Design System" section
+   └── watt                                   # Special product, see "Watt Design System" section
 ```
 
 _Note: Certain library types should not have a name; in that case simply omit

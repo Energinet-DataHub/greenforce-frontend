@@ -6,5 +6,5 @@
   "prefix": "eo",
   "targets": {},
   "tags": ["product:eo", "scope:shared", "type:styles"],
-  "implicitDependencies": ["ui-watt"]
+  "implicitDependencies": ["watt"]
 }

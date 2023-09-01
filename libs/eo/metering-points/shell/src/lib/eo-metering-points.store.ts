@@ -18,7 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EoCertificateContract, EoCertificatesService } from '@energinet-datahub/eo/certificates';
 import { ComponentStore } from '@ngrx/component-store';
-import { forkJoin } from 'rxjs';
+import { filter, forkJoin, map, Observable, switchMap, take } from 'rxjs';
 import { EoMeteringPointsService, MeteringPoint } from './eo-metering-points.service';
 
 export interface EoMeteringPoint extends MeteringPoint {
@@ -31,7 +31,8 @@ export interface EoMeteringPoint extends MeteringPoint {
 interface EoMeteringPointsState {
   loading: boolean;
   meteringPoints: EoMeteringPoint[];
-  error: HttpErrorResponse | null;
+  meteringPointError: HttpErrorResponse | null;
+  contractError: HttpErrorResponse | null;
 }
 
 @Injectable({
@@ -45,10 +46,9 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     super({
       loading: true,
       meteringPoints: [],
-      error: null,
+      meteringPointError: null,
+      contractError: null,
     });
-
-    this.loadData();
   }
 
   readonly loading$ = this.select((state) => state.loading);
@@ -61,6 +61,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     (state, meteringPoints: EoMeteringPoint[]): EoMeteringPointsState => ({
       ...state,
       meteringPoints,
+      meteringPointError: null,
     })
   );
 
@@ -73,6 +74,30 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     })
   );
 
+  private readonly updateMeteringPointContract = this.updater(
+    (state, contract: { gsrn: string; active: boolean }): EoMeteringPointsState => ({
+      ...state,
+      meteringPoints: state.meteringPoints.map((meteringPoint) => {
+        if (meteringPoint.gsrn !== contract.gsrn) return meteringPoint;
+
+        return {
+          ...meteringPoint,
+          contract: contract.active ? this.generateActiveContract(contract.gsrn) : undefined,
+        };
+      }),
+    })
+  );
+
+  private generateActiveContract(gsrn: string): EoCertificateContract {
+    return {
+      gsrn,
+      created: Math.floor(Date.now() / 1000),
+      id: '',
+      startDate: Math.floor(Date.now() / 1000),
+      endDate: null,
+    };
+  }
+
   private readonly toggleContractLoading = this.updater(
     (state, gsrn: string): EoMeteringPointsState => ({
       ...state,
@@ -82,32 +107,46 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     })
   );
 
-  readonly error$ = this.select((state) => state.error);
-  private readonly setError = this.updater(
-    (state, error: HttpErrorResponse | null): EoMeteringPointsState => ({
-      ...state,
-      error,
-    })
-  );
+  readonly meteringPointError$ = this.select((state) => state.meteringPointError);
+  readonly contractError$ = this.select((state) => state.contractError);
 
-  loadData() {
+  private isActiveContract(contract: EoCertificateContract | undefined): boolean {
+    if (!contract) return false;
+    const now = Math.floor(Date.now() / 1000);
+
+    return (
+      (!contract.startDate || contract.startDate <= now) &&
+      (!contract.endDate || contract.endDate >= now)
+    );
+  }
+
+  loadMeteringPoints() {
     this.setLoading(true);
     forkJoin([this.certService.getContracts(), this.service.getMeteringPoints()]).subscribe({
       next: ([contractList, mpList]) => {
         this.setLoading(false);
         this.setMeteringPoints(
-          mpList.meteringPoints.map((mp: MeteringPoint) => ({
+          mpList.meteringPoints?.map((mp: MeteringPoint) => ({
             ...mp,
-            contract: contractList?.result.find((contract) => contract.gsrn === mp.gsrn),
+            contract: contractList?.result.find(
+              (contract) => contract.gsrn === mp.gsrn && this.isActiveContract(contract)
+            ),
             loadingContract: false,
           }))
         );
       },
       error: (error) => {
         this.setLoading(false);
-        this.setError(error);
+        this.patchState({ meteringPointError: error });
       },
     });
+  }
+
+  private getContractIdForGsrn(gsrn: string): Observable<string | null> {
+    return this.meteringPoints$.pipe(
+      take(1),
+      map((meteringPoints) => meteringPoints.find((mp) => mp.gsrn === gsrn)?.contract?.id || null)
+    );
   }
 
   createCertificateContract(gsrn: string) {
@@ -116,11 +155,32 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       next: (contract) => {
         this.setContract(contract);
         this.toggleContractLoading(gsrn);
+        this.patchState({ contractError: null });
       },
       error: (error) => {
-        this.setError(error);
+        this.patchState({ contractError: error });
         this.toggleContractLoading(gsrn);
       },
     });
+  }
+
+  deactivateCertificateContract(gsrn: string): void {
+    this.toggleContractLoading(gsrn);
+    this.getContractIdForGsrn(gsrn)
+      .pipe(
+        filter((id): id is string => !!id),
+        switchMap((id) => this.certService.patchContract(id))
+      )
+      .subscribe({
+        next: () => {
+          this.updateMeteringPointContract({ gsrn, active: false });
+          this.toggleContractLoading(gsrn);
+          this.patchState({ contractError: null });
+        },
+        error: (error) => {
+          this.toggleContractLoading(gsrn);
+          this.patchState({ contractError: error });
+        },
+      });
   }
 }
