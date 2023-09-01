@@ -854,7 +854,7 @@
       "processTypes": {
         "BALANCE_FIXING": "Balancefiksering",
         "AGGREGATION": "Aggregering",
-        "WHOLESALE_FIXING": "Engrosafregning",
+        "WHOLESALE_FIXING": "Engrosfiksering",
         "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
         "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
         "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
@@ -948,9 +948,9 @@
         "executionTime": "Kørsel tid",
         "executionTimeRequired": "Eksekveringstid påkrævet",
         "actor": "Aktør",
-        "loadingActors": "Henter Aktører...",
+        "loadingActors": "Henter elleverandører...",
         "loadingGridAreas": "Henter netområder...",
-        "actorPlaceholder": "Vælg aktør",
+        "actorPlaceholder": "Vælg elleverandør",
         "processTypePlaceholder": "Vælg procestype",
         "gridAreasPlaceholder": "Vælg netområde(r)"
       }
@@ -993,6 +993,13 @@
         "deactivate": "Deaktiver bruger",
         "deactivateError": "Noget gik galt. Brugeren blev ikke deaktiveret. Prøv igen",
         "deactivateSuccess": "Brugeren blev deaktiveret",
+        "deactivateConfirmation": {
+          "title": "Deaktiver bruger",
+          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret og login vil blive spærret.",
+          "important": "Hvis brugeren er allerede logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
+          "confirm": "Deaktiver {{email}}",
+          "reject": "Fortryd"
+        },
         "editRole": "Rediger rolle",
         "disable": "Deaktiver",
         "disablingUserRole": "Deaktiverer bruger rollen",

@@ -19,25 +19,35 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  NgZone,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
+import { Observable, of } from 'rxjs';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { EoTransfersService } from './eo-transfers.service';
 import { EoExistingTransferAgreement, EoTransfersStore } from './eo-transfers.store';
 import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
 import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
-import { Observable, of } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-transfers-create-modal',
-  imports: [WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent, RxPush],
+  imports: [
+    WATT_MODAL,
+    WattValidationMessageComponent,
+    NgIf,
+    EoTransfersFormComponent,
+    RxPush,
+    WattSpinnerComponent,
+  ],
   standalone: true,
   template: `
     <watt-modal
@@ -45,10 +55,14 @@ import { Observable, of } from 'rxjs';
       title="New transfer agreement"
       [size]="'small'"
       closeLabel="Close modal"
-      [loading]="creatingTransferAgreement"
       (closed)="onClosed()"
       *ngIf="opened"
     >
+      <!-- We don't use the build-in loading state for the modal, since it wont update properly -->
+      <div class="watt-modal__spinner" style="z-index: 1;" *ngIf="creatingTransferAgreement">
+        <watt-spinner></watt-spinner>
+      </div>
+
       <watt-validation-message
         *ngIf="creatingTransferAgreementFailed"
         label="Oops!"
@@ -77,12 +91,11 @@ export class EoTransfersCreateModalComponent {
   protected opened = false;
   protected existingTransferAgreements$: Observable<EoExistingTransferAgreement[]> = of([]);
 
-  constructor(
-    private service: EoTransfersService,
-    private store: EoTransfersStore,
-    private cd: ChangeDetectorRef,
-    protected authStore: EoAuthStore
-  ) {}
+  protected authStore = inject(EoAuthStore);
+  private service = inject(EoTransfersService);
+  private store = inject(EoTransfersStore);
+  private cd = inject(ChangeDetectorRef);
+  private zone = inject(NgZone);
 
   open() {
     /**
@@ -94,6 +107,9 @@ export class EoTransfersCreateModalComponent {
   }
 
   onClosed() {
+    this.creatingTransferAgreement = false;
+    this.creatingTransferAgreementFailed = false;
+    this.isFormValid = false;
     this.opened = false;
     this.existingTransferAgreements$ = of([]);
   }
@@ -103,11 +119,11 @@ export class EoTransfersCreateModalComponent {
   }
 
   createAgreement(transferAgreement: {
-    receiverTin: string;
-    base64EncodedWalletDepositEndpoint: string;
+    receiver: { tin: string; base64EncodedWalletDepositEndpoint: string };
     period: { startDate: number; endDate: number | null; hasEndDate: boolean };
   }) {
-    const { receiverTin, base64EncodedWalletDepositEndpoint, period } = transferAgreement;
+    const { receiver, period } = transferAgreement;
+    const { tin: receiverTin, base64EncodedWalletDepositEndpoint } = receiver;
     const { startDate, endDate } = period;
 
     if (!receiverTin || !startDate) return;
@@ -117,11 +133,13 @@ export class EoTransfersCreateModalComponent {
       .createAgreement({ receiverTin, base64EncodedWalletDepositEndpoint, startDate, endDate })
       .subscribe({
         next: (transfer) => {
-          this.store.addTransfer(transfer);
+          this.zone.run(() => {
+            this.store.addTransfer(transfer);
+          });
           this.creatingTransferAgreement = false;
           this.creatingTransferAgreementFailed = false;
-          this.cd.detectChanges();
           this.modal.close(true);
+          this.cd.detectChanges();
         },
         error: () => {
           this.creatingTransferAgreement = false;
