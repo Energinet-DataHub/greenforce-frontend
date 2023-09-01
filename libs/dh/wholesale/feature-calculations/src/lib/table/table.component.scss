@@ -14,28 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 :host {
-  display: grid;
-  grid-template-rows: minmax(45px, auto) minmax(0, 1fr) auto;
-  height: 100%;
-}
-
-.message {
-  display: flex;
-  overflow: auto;
-  height: 100%;
-
-  & > * {
-    margin: auto;
-  }
-}
-
-watt-empty-state {
-  padding: var(--watt-space-s);
-}
-
-watt-paginator {
-  display: block;
-  margin: 0 -24px -24px -24px;
+  display: contents;
 }

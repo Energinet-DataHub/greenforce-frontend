@@ -21,15 +21,6 @@ h3 {
   margin: 0; // TODO: Consider other solutions
 }
 
-watt-card {
-  position: absolute;
-  inset: var(--watt-space-l);
-}
-
-watt-search {
-  margin-left: auto;
-}
-
 watt-paginator {
   display: block;
   margin: calc(-1 * var(--watt-space-m)) -24px -24px;

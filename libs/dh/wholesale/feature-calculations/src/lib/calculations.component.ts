@@ -22,7 +22,12 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { sub, startOfDay, endOfDay } from 'date-fns';
 import { BehaviorSubject, Subject, switchMap, takeUntil } from 'rxjs';
 
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
@@ -51,7 +56,9 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
     DhCalculationsTableComponent,
     TranslocoModule,
     VaterFlexComponent,
+    VaterSpacerComponent,
     VaterStackComponent,
+    VaterUtilityDirective,
     WATT_CARD,
     WattButtonComponent,
     WattPaginatorComponent,
