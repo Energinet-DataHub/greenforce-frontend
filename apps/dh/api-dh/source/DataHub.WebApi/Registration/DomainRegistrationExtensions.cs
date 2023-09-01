@@ -31,8 +31,9 @@ namespace Energinet.DataHub.WebApi.Registration
         public static IServiceCollection AddDomainClients(this IServiceCollection services, ApiClientSettings apiClientSettings)
         {
             return services
-                .AddHttpClient(serviceProvider => (string?)serviceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext!.Request.Headers["Authorization"] ?? string.Empty)
+                .AddHttpClient()
                 .AddHttpContextAccessor()
+                .AddAuthorizedHttpClient()
                 .RegisterEDIServices(apiClientSettings.MessageArchiveBaseUrl)
                 .AddChargesClient(
                     GetBaseUri(apiClientSettings.ChargesBaseUrl))
@@ -47,11 +48,12 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddSingleton(apiClientSettings);
         }
 
-        private static IServiceCollection AddHttpClient(this IServiceCollection serviceCollection, Func<IServiceProvider, string> authorizationHeaderProvider)
+        private static IServiceCollection AddAuthorizedHttpClient(this IServiceCollection serviceCollection)
         {
             return serviceCollection
-                .AddHttpClient()
-                .AddSingleton(provider => new AuthorizedHttpClientFactory(provider.GetRequiredService<IHttpClientFactory>(), () => authorizationHeaderProvider(provider)));
+                .AddSingleton(provider => new AuthorizedHttpClientFactory(
+                    provider.GetRequiredService<IHttpClientFactory>(),
+                    () => (string?)provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.Request.Headers["Authorization"] ?? string.Empty));
         }
 
         private static Uri GetBaseUri(string baseUrl)
