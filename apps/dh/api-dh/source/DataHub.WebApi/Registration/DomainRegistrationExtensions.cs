@@ -13,25 +13,26 @@
 // limitations under the License.
 
 using System;
-using System.Linq;
 using System.Net.Http;
 using Energinet.DataHub.Charges.Clients.Registration.Charges.ServiceCollectionExtensions;
 using Energinet.DataHub.MarketParticipant.Client.Extensions;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
+using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
+// ReSharper disable UnusedMethodReturnValue.Global
+// ReSharper disable UnusedMethodReturnValue.Local
 namespace Energinet.DataHub.WebApi.Registration
 {
     public static class DomainRegistrationExtensions
     {
         public static IServiceCollection AddDomainClients(this IServiceCollection services, ApiClientSettings apiClientSettings)
         {
-            services
-                .AddHttpClient()
+            return services
+                .AddHttpClient(serviceProvider => (string?)serviceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext!.Request.Headers["Authorization"] ?? string.Empty)
                 .AddHttpContextAccessor()
-                .AddSingleton(provider => new AuthorizedHttpClientFactory(provider.GetRequiredService<IHttpClientFactory>(), () => AuthorizationHeaderProvider(provider)))
                 .RegisterEDIServices(apiClientSettings.MessageArchiveBaseUrl)
                 .AddChargesClient(
                     GetBaseUri(apiClientSettings.ChargesBaseUrl))
@@ -40,45 +41,40 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddMarketParticipantClient(
                     GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
                 .AddWholesaleClient(
-                    GetBaseUri(apiClientSettings.WholesaleBaseUrl),
-                    AuthorizationHeaderProvider);
+                    GetBaseUri(apiClientSettings.WholesaleBaseUrl))
+                .AddESettClient(
+                    GetBaseUri(apiClientSettings.ESettExchangeBaseUrl))
+                .AddSingleton(apiClientSettings);
+        }
 
-            services.AddSingleton(apiClientSettings);
-
-            return services;
+        private static IServiceCollection AddHttpClient(this IServiceCollection serviceCollection, Func<IServiceProvider, string> authorizationHeaderProvider)
+        {
+            return serviceCollection
+                .AddHttpClient()
+                .AddSingleton(provider => new AuthorizedHttpClientFactory(provider.GetRequiredService<IHttpClientFactory>(), () => authorizationHeaderProvider(provider)));
         }
 
         private static Uri GetBaseUri(string baseUrl)
         {
-            var emptyUrl = "https://empty";
-            var baseUri = Uri.TryCreate(baseUrl, UriKind.Absolute, out var url)
+            return Uri.TryCreate(baseUrl, UriKind.Absolute, out var url)
                 ? url
-                : new Uri(emptyUrl);
-            return baseUri;
+                : new Uri("https://empty");
         }
 
-        private static IServiceCollection AddWholesaleClient(
-            this IServiceCollection serviceCollection,
-            Uri wholesaleBaseUri,
-            Func<IServiceProvider, string> authorizationHeaderProvider)
+        private static IServiceCollection AddWholesaleClient(this IServiceCollection serviceCollection, Uri wholesaleBaseUri)
         {
-            if (serviceCollection.All(x => x.ServiceType != typeof(IHttpClientFactory)))
-            {
-                serviceCollection.AddHttpClient();
-            }
-
-            serviceCollection.AddSingleton(provider => new AuthorizedHttpClientFactory(provider.GetRequiredService<IHttpClientFactory>(), () => authorizationHeaderProvider(provider)));
-            serviceCollection.AddScoped<IWholesaleClient_V3, WholesaleClient_V3>(
+            return serviceCollection.AddScoped<IWholesaleClient_V3, WholesaleClient_V3>(
                 provider => new WholesaleClient_V3(
                     wholesaleBaseUri.ToString(),
                     provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(wholesaleBaseUri)));
-            return serviceCollection;
         }
 
-        private static string AuthorizationHeaderProvider(IServiceProvider serviceProvider)
+        private static IServiceCollection AddESettClient(this IServiceCollection serviceCollection, Uri baseUri)
         {
-            var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
-            return (string?)httpContextAccessor.HttpContext!.Request.Headers["Authorization"] ?? string.Empty;
+            return serviceCollection.AddScoped<IESettExchangeClient_V1, ESettExchangeClient_V1>(
+                provider => new ESettExchangeClient_V1(
+                    baseUri.ToString(),
+                    provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
         }
     }
 }
