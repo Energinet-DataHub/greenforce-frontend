@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Translation, TranslocoLoader } from '@ngneat/transloco';
-import { Observable } from 'rxjs';
+export type Direction = 'row' | 'column';
+export type Justify =
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | 'space-between'
+  | 'space-around'
+  | 'space-evenly';
 
-@Injectable()
-export class DhTranslocoHttpLoader implements TranslocoLoader {
-  constructor(private http: HttpClient) {}
+export type Align = 'stretch' | 'flex-start' | 'flex-end' | 'center';
 
-  getTranslation(lang: string): Observable<Translation> {
-    return this.http.get<Translation>(`/assets/i18n/${lang}.json`);
-  }
-}
+// TODO: Get these values from design tokens
+export type Gap = 'xs' | 's' | 'm' | 'ml' | 'l' | 'xl';

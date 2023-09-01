@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "watt",
+            "prefix": ["watt", "vater"],
             "style": "kebab-case"
           }
         ]
