@@ -803,6 +803,9 @@
       }
     }
   },
+  "eSett": {
+    "topBarTitle": "eSett messages"
+  },
   "wholesale": {
     "BALANCE_FIXING": "Balance Fixing",
     "WHOLESALE_FIXING": "Wholesale Fixing",

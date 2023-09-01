@@ -795,6 +795,9 @@
       }
     }
   },
+  "eSett": {
+    "topBarTitle": "eSett meddelelser"
+  },
   "wholesale": {
     "BALANCE_FIXING": "Balancefiksering",
     "WHOLESALE_FIXING": "Engrosfiksering",
