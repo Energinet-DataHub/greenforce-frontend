@@ -38,7 +38,9 @@ limitations under the License.
       transloco("marketParticipantGridAreas")
     }}</watt-nav-list-item>
 
-    <watt-nav-list-item link="/esett">{{ transloco("eSett") }}</watt-nav-list-item>
+    <watt-nav-list-item *dhPermissionRequired="['esett-exchange:manage']" link="/esett">{{
+      transloco("eSett")
+    }}</watt-nav-list-item>
   </watt-nav-list>
 
   <watt-nav-list [expandable]="true" [title]="transloco('chargePrices.menuGroupLabel')">
