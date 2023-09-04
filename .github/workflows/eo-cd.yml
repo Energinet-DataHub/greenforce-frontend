@@ -196,7 +196,7 @@ jobs:
     concurrency: commits-base-environment
     steps:
       - name: Update environment
-        uses: Energinet-DataHub/energy-origin/.github/actions/update-base-environment@1745-eliminate-charts
+        uses: Energinet-DataHub/energy-origin/.github/actions/update-base-environment@main
         with:
           configuration: build/infrastructure/eo/configuration.yaml
           deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}
