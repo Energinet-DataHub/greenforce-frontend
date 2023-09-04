@@ -16,6 +16,8 @@
  */
 import { Routes } from '@angular/router';
 
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import { DhESettShellComponent } from './dh-esett-shell.component';
 
 export const dhESettShellRoutes: Routes = [
@@ -23,6 +25,7 @@ export const dhESettShellRoutes: Routes = [
     path: '',
     pathMatch: 'full',
     component: DhESettShellComponent,
+    canActivate: [PermissionGuard(['esett-exchange:manage'])],
     data: {
       titleTranslationKey: 'eSett.topBarTitle',
     },
