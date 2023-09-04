@@ -57,7 +57,6 @@ import { WattPaginatorIntlService } from './watt-paginator-intl.service';
       [pageSizeOptions]="pageSizeOptions"
       [showFirstLastButtons]="true"
       [attr.aria-label]="description"
-      [selectConfig]="{ disableOptionCentering: false }"
     ></mat-paginator>
   `,
 })
