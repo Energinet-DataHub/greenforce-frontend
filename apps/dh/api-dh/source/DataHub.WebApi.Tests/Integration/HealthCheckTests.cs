@@ -89,6 +89,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
                     "/messagearchive/monitor/live",
                     "/marketparticipant/monitor/live",
                     "/wholesale/monitor/live",
+                    "/esett/monitor/live",
                 }).UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
 
