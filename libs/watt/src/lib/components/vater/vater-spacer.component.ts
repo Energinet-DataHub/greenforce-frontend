@@ -14,7 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { VaterFlexComponent } from './vater-flex.component';
-export { VaterSpacerComponent } from './vater-spacer.component';
-export { VaterStackComponent } from './vater-stack.component';
-export { VaterUtilityDirective } from './vater-utility.directive';
+import { Component, ViewEncapsulation } from '@angular/core';
+
+@Component({
+  selector: 'vater-spacer, [vater-spacer]',
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  styles: [
+    `
+      vater-spacer,
+      [vater-spacer] {
+        flex: 1;
+        align-self: stretch;
+      }
+    `,
+  ],
+  template: `<ng-content />`,
+})
+export class VaterSpacerComponent {}

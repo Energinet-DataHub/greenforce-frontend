@@ -52,7 +52,6 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
     `
       .start-date {
         position: relative;
-        margin-bottom: var(--watt-space-s);
       }
 
       .watt-label {
@@ -109,7 +108,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
   template: `
     <ng-container [formGroup]="form">
       <!-- Start of period -->
-      <fieldset class="start-date">
+      <fieldset class="start-date" [ngClass]="{ 'has-error': form.controls.startDate.errors }">
         <p class="watt-label">Start of period <span class="asterisk">*</span></p>
         <eo-transfers-datetime
           formControlName="startDate"
@@ -122,6 +121,9 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
             !!form.controls.startDate.errors
           "
         >
+          <watt-error [style.opacity]="form.controls.startDate.errors?.['required'] ? 1 : 0">
+            The start of the period is required
+          </watt-error>
           <watt-error [style.opacity]="form.controls.startDate.errors?.['nextHourOrLater'] ? 1 : 0">
             The start of the period must be at least the next hour from now
           </watt-error>

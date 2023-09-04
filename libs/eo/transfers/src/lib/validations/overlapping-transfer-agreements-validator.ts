@@ -58,11 +58,9 @@ function validate(
   controlEnd: number | null,
   existingTransferAgreements: EoExistingTransferAgreement[]
 ): OverlappingTransferAgreementsValidatorError {
-  const infinity = Infinity;
-
   for (const period of existingTransferAgreements) {
     const { startDate, endDate } = period;
-    const effectiveEndDate = endDate ?? infinity;
+    const effectiveEndDate = endDate ?? Infinity;
 
     if (
       isOverlappingPeriod(
@@ -83,10 +81,10 @@ export function isOverlappingPeriod(
   period: { startDate: number; endDate: number | null },
   comparingPeriod: { startDate: number; endDate?: number | null }
 ): boolean {
-  // Two periods overlap if (StartA <= EndB) and (EndA >= StartB)
-  // If period end is undefined, we treat it as "infinity", so it always overlaps if the other period start is after its start
+  const endDateOfPeriod = period.endDate ?? Infinity;
+  const endDateOfComparingPeriod = comparingPeriod.endDate ?? Infinity;
+
   return (
-    period.startDate < (comparingPeriod.endDate || Infinity) &&
-    (period.endDate || Infinity) > comparingPeriod.startDate
+    period.startDate <= endDateOfComparingPeriod && endDateOfPeriod >= comparingPeriod.startDate
   );
 }

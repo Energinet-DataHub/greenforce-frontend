@@ -221,12 +221,13 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
     (state, transfer: EoListedTransfer): EoTransfersState => ({
       ...state,
       transfers: [
+        ...state.transfers,
         {
           ...transfer,
           startDate: fromUnixTime(transfer.startDate).getTime(),
           endDate: transfer.endDate ? fromUnixTime(transfer.endDate).getTime() : null,
         },
-      ].concat(state.transfers),
+      ],
     })
   );
 
