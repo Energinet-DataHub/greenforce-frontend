@@ -14,15 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const permissions = [
-  'organizations:manage',
-  'grid-areas:manage',
-  'actors:manage',
-  'users:manage',
-  'user-roles:manage',
-  'permissions:manage',
-  'calculations:manage',
-  'settlement-reports:manage',
-  'esett-exchange:manage',
-] as const;
-export type Permission = (typeof permissions)[number];
+import { Component } from '@angular/core';
+import { TranslocoDirective } from '@ngneat/transloco';
+
+import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+
+@Component({
+  selector: 'dh-esett-shell',
+  standalone: true,
+  template: `<watt-tabs *transloco="let t; read: 'eSett.tabs'">
+    <watt-tab [label]="t('outgoingMessages.tabLabel')">
+      <div>Tab 1</div>
+    </watt-tab>
+  </watt-tabs>`,
+  imports: [TranslocoDirective, WATT_TABS],
+})
+export class DhESettShellComponent {}
