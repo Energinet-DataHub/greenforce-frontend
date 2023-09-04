@@ -33,14 +33,6 @@ export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialo
         display: block;
       }
 
-      button {
-        all: unset;
-        pointer-events: none;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        flex: 1 1 auto;
-      }
-
       .menu-icon {
         margin-left: var(--watt-space-xs);
         transition: linear 0.2s all;
@@ -67,6 +59,7 @@ export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialo
   template: `
     <watt-chip [disabled]="disabled" [selected]="selected">
       <button
+        class="cdk-visually-hidden"
         [attr.aria-haspopup]="hasPopup"
         [attr.aria-expanded]="opened"
         [attr.aria-pressed]="selected"

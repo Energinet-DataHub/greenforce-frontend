@@ -33,6 +33,7 @@ import { VaterUtilityDirective } from './vater-utility.directive';
       vater-flex,
       [vater-flex] {
         display: flex;
+        line-height: normal;
       }
 
       vater-flex > *,
