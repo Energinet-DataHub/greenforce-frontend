@@ -22,20 +22,21 @@ namespace Energinet.DataHub.WebApi.Registration
     {
         public static IServiceCollection SetupHealthEndpoints(this IServiceCollection services, ApiClientSettings apiClientSettingsService)
         {
-            const string liveEndpointPath = "/monitor/live";
-            var marketParticipantLiveHealthUrl = apiClientSettingsService.MarketParticipantBaseUrl == string.Empty
-                ? throw new ArgumentException()
-                : new Uri(apiClientSettingsService.MarketParticipantBaseUrl + liveEndpointPath);
-            var wholesaleLiveHealthUrl = apiClientSettingsService.WholesaleBaseUrl == string.Empty
-                ? throw new ArgumentException()
-                : new Uri(apiClientSettingsService.WholesaleBaseUrl + liveEndpointPath);
-
-            services.AddHealthChecks()
+            services
+                .AddHealthChecks()
                 .AddLiveCheck()
-                .AddServiceHealthCheck("marketParticipant", marketParticipantLiveHealthUrl)
-                .AddServiceHealthCheck("wholesale", wholesaleLiveHealthUrl);
+                .AddServiceHealthCheck("marketParticipant", CreateHealthEndpointUri(apiClientSettingsService.MarketParticipantBaseUrl))
+                .AddServiceHealthCheck("wholesale", CreateHealthEndpointUri(apiClientSettingsService.WholesaleBaseUrl))
+                .AddServiceHealthCheck("eSettExchange", CreateHealthEndpointUri(apiClientSettingsService.ESettExchangeBaseUrl));
 
             return services;
+        }
+
+        private static Uri CreateHealthEndpointUri(string baseUri)
+        {
+            return string.IsNullOrWhiteSpace(baseUri)
+                ? throw new ArgumentException("Invalid baseUri", nameof(baseUri))
+                : new Uri(baseUri + "/monitor/live");
         }
     }
 }

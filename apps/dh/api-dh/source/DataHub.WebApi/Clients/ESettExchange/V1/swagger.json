@@ -1,0 +1,144 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Energinet.DataHub.ESett.Exchange.Hosts.WebApi",
+    "version": "v1"
+  },
+  "paths": {
+    "/esett/search": {
+      "post": {
+        "tags": [
+          "Esett"
+        ],
+        "operationId": "search",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExchangeEventSearchResult"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExchangeEventSearchResult"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExchangeEventSearchResult"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ExchangeEventSearchFilter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "processType": {
+            "$ref": "#/components/schemas/ProcessType"
+          },
+          "timeSeriesType": {
+            "$ref": "#/components/schemas/TimeSeriesType"
+          },
+          "gridAreaCode": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ExchangeEventSearchResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "documentId": {
+            "type": "string"
+          },
+          "processType": {
+            "$ref": "#/components/schemas/ProcessType"
+          },
+          "timeSeriesType": {
+            "$ref": "#/components/schemas/TimeSeriesType"
+          },
+          "gridAreaCode": {
+            "type": "string"
+          }
+        }
+      },
+      "ProcessType": {
+        "type": "string",
+        "enum": [
+          "Unspecified",
+          "BalanceFixing",
+          "Aggregation"
+        ]
+      },
+      "TimeSeriesType": {
+        "type": "string",
+        "enum": [
+          "Unspecified",
+          "MgaExchange",
+          "Production",
+          "Consumption"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [
+        "Bearer"
+      ]
+    }
+  ]
+}
