@@ -14,6 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: contents;
-}
+import { Routes } from '@angular/router';
+
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+
+import { DhESettShellComponent } from './dh-esett-shell.component';
+
+export const dhESettShellRoutes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: DhESettShellComponent,
+    canActivate: [PermissionGuard(['esett-exchange:manage'])],
+    data: {
+      titleTranslationKey: 'eSett.topBarTitle',
+    },
+  },
+];
