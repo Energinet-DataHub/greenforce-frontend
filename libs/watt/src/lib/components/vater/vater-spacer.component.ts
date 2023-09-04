@@ -24,7 +24,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
     `
       vater-spacer,
       [vater-spacer] {
-        flex-basis: 100%;
+        flex: 1;
         align-self: stretch;
       }
     `,

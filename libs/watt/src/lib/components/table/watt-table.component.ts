@@ -360,6 +360,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
 
   /** @ignore */
   get _columnSelection() {
+    if (this.dataSource.filteredData.length === 0) return false;
     return this.dataSource.filteredData.every((row) => this._selectionModel.isSelected(row));
   }
 
