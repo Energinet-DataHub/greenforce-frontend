@@ -797,7 +797,12 @@
     }
   },
   "eSett": {
-    "topBarTitle": "eSett meddelelser"
+    "topBarTitle": "eSett meddelelser",
+    "tabs": {
+      "outgoingMessages": {
+        "tabLabel": "Udgående"
+      }
+    }
   },
   "wholesale": {
     "BALANCE_FIXING": "Balancefiksering",

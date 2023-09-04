@@ -805,7 +805,12 @@
     }
   },
   "eSett": {
-    "topBarTitle": "eSett messages"
+    "topBarTitle": "eSett messages",
+    "tabs": {
+      "outgoingMessages": {
+        "tabLabel": "Outgoing"
+      }
+    }
   },
   "wholesale": {
     "BALANCE_FIXING": "Balance Fixing",
