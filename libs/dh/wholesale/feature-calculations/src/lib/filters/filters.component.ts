@@ -40,6 +40,7 @@ import {
   GetGridAreasDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { executionStates, processTypes } from '@energinet-datahub/dh/wholesale/domain';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -54,9 +55,11 @@ const makeFormControl = <T>(value: T = null as T) =>
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    RxPush,
     ReactiveFormsModule,
+    RxPush,
     TranslocoModule,
+    VaterSpacerComponent,
+    VaterStackComponent,
     WATT_FORM_FIELD,
     WattButtonComponent,
     WattDateRangeChipComponent,
@@ -66,27 +69,21 @@ const makeFormControl = <T>(value: T = null as T) =>
   selector: 'dh-calculations-filters',
   styles: [
     `
-      :host {
-        display: block;
-      }
-
       form {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        overflow: auto;
         overflow-y: hidden;
-      }
-
-      watt-button {
-        margin-left: auto;
       }
     `,
   ],
   template: `
-    <form [formGroup]="_formGroup" *transloco="let t; read: 'wholesale.calculations.filters'">
+    <form
+      vater-stack
+      direction="row"
+      gap="m"
+      tabindex="-1"
+      [formGroup]="_formGroup"
+      *transloco="let t; read: 'wholesale.calculations.filters'"
+    >
       <watt-date-range-chip formControlName="period">{{ t('period') }}</watt-date-range-chip>
-
       <watt-form-field>
         <watt-dropdown
           formControlName="processTypes"
@@ -96,7 +93,6 @@ const makeFormControl = <T>(value: T = null as T) =>
           [placeholder]="t('processType')"
         />
       </watt-form-field>
-
       <watt-form-field>
         <watt-dropdown
           formControlName="gridAreaCodes"
@@ -106,11 +102,9 @@ const makeFormControl = <T>(value: T = null as T) =>
           [placeholder]="t('gridAreas')"
         />
       </watt-form-field>
-
       <watt-date-range-chip formControlName="executionTime">
         {{ t('executionTime') }}
       </watt-date-range-chip>
-
       <watt-form-field>
         <watt-dropdown
           formControlName="executionStates"
@@ -120,7 +114,7 @@ const makeFormControl = <T>(value: T = null as T) =>
           [placeholder]="t('executionStates')"
         />
       </watt-form-field>
-
+      <vater-spacer />
       <watt-button variant="text" icon="undo" type="reset">{{ t('reset') }}</watt-button>
     </form>
   `,
