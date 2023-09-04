@@ -49,12 +49,12 @@ watt-table .mat-table {
     position: sticky;
     top: 0;
     padding: 0 var(--watt-space-s);
-    min-height: 44px;
     height: auto;
     background: var(--watt-color-primary-ultralight);
     box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12) inset;
     border: 0;
     z-index: 2 !important; // override local style
+    white-space: nowrap;
   }
 
   td.mat-cell {
