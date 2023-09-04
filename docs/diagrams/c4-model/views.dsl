@@ -40,6 +40,7 @@ workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-ar
             include ->frontendDomain->
             exclude "relationship.tag==OAuth"
             exclude "element.tag==Intermediate Technology"
+            exclude dh3.sharedB2C
         }
 
         container dh3 "FrontendDetailed" {
