@@ -47,6 +47,7 @@
       "marketParticipantActors": "Actors",
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid areas",
+      "eSett": "eSett",
       "chargePrices": {
         "menuGroupLabel": "Prices",
         "search": "Search prices",
@@ -800,6 +801,14 @@
       "priceAreaCodes": {
         "Dk1": "DK1",
         "Dk2": "DK2"
+      }
+    }
+  },
+  "eSett": {
+    "topBarTitle": "eSett messages",
+    "tabs": {
+      "outgoingMessages": {
+        "tabLabel": "Outgoing"
       }
     }
   },

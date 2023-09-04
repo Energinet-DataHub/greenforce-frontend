@@ -14,15 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const permissions = [
-  'organizations:manage',
-  'grid-areas:manage',
-  'actors:manage',
-  'users:manage',
-  'user-roles:manage',
-  'permissions:manage',
-  'calculations:manage',
-  'settlement-reports:manage',
-  'esett-exchange:manage',
-] as const;
-export type Permission = (typeof permissions)[number];
+export { dhESettShellRoutes as default } from './lib/dh-esett-shell.routes';

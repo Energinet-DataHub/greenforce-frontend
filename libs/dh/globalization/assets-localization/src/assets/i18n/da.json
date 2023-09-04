@@ -47,6 +47,7 @@
       "marketParticipantActors": "Aktører",
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
+      "eSett": "eSett",
       "chargePrices": {
         "menuGroupLabel": "Priser",
         "search": "Søg priser",
@@ -792,6 +793,14 @@
       "priceAreaCodes": {
         "Dk1": "DK1",
         "Dk2": "DK2"
+      }
+    }
+  },
+  "eSett": {
+    "topBarTitle": "eSett meddelelser",
+    "tabs": {
+      "outgoingMessages": {
+        "tabLabel": "Udgående"
       }
     }
   },
