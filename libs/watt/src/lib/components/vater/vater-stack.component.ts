@@ -16,10 +16,17 @@
  */
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { Align, Direction, Gap, Justify } from './types';
+import { VaterUtilityDirective } from './vater-utility.directive';
 
 @Component({
   selector: 'vater-stack, [vater-stack]',
   encapsulation: ViewEncapsulation.None,
+  hostDirectives: [
+    {
+      directive: VaterUtilityDirective,
+      inputs: ['fill'],
+    },
+  ],
   standalone: true,
   styles: [
     `
@@ -51,10 +58,5 @@ export class VaterStackComponent {
   @HostBinding('style.gap')
   get _gap() {
     return this.gap ? `var(--watt-space-${this.gap})` : undefined;
-  }
-
-  @HostBinding('style.height')
-  get _height() {
-    return this.direction === 'column' ? '100%' : undefined;
   }
 }
