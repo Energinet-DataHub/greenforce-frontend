@@ -5,10 +5,50 @@
     "version": "v1"
   },
   "paths": {
+    "/esett/{documentId}": {
+      "get": {
+        "tags": [
+          "ESett"
+        ],
+        "operationId": "esett",
+        "parameters": [
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeEventTrackingResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeEventTrackingResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeEventTrackingResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/esett/search": {
       "post": {
         "tags": [
-          "Esett"
+          "ESett"
         ],
         "operationId": "search",
         "requestBody": {
@@ -66,6 +106,16 @@
   },
   "components": {
     "schemas": {
+      "DocumentStatus": {
+        "type": "string",
+        "enum": [
+          "Received",
+          "AwaitingDispatch",
+          "AwaitingReply",
+          "Accepted",
+          "Rejected"
+        ]
+      },
       "ExchangeEventSearchFilter": {
         "type": "object",
         "additionalProperties": false,
@@ -87,6 +137,19 @@
           "gridAreaCode": {
             "type": "string",
             "nullable": true
+          },
+          "documentStatus": {
+            "$ref": "#/components/schemas/DocumentStatus"
+          },
+          "periodFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "periodTo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },
@@ -97,21 +160,56 @@
           "documentId": {
             "type": "string"
           },
+          "gridAreaCode": {
+            "type": "string"
+          },
           "processType": {
             "$ref": "#/components/schemas/ProcessType"
           },
           "timeSeriesType": {
             "$ref": "#/components/schemas/TimeSeriesType"
           },
+          "documentStatus": {
+            "$ref": "#/components/schemas/DocumentStatus"
+          }
+        }
+      },
+      "ExchangeEventTrackingResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "documentId": {
+            "type": "string"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          },
           "gridAreaCode": {
             "type": "string"
+          },
+          "processType": {
+            "$ref": "#/components/schemas/ProcessType"
+          },
+          "timeSeriesType": {
+            "$ref": "#/components/schemas/TimeSeriesType"
+          },
+          "periodFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodTo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "documentStatus": {
+            "$ref": "#/components/schemas/DocumentStatus"
           }
         }
       },
       "ProcessType": {
         "type": "string",
         "enum": [
-          "Unspecified",
           "BalanceFixing",
           "Aggregation"
         ]
@@ -119,7 +217,6 @@
       "TimeSeriesType": {
         "type": "string",
         "enum": [
-          "Unspecified",
           "MgaExchange",
           "Production",
           "Consumption"
