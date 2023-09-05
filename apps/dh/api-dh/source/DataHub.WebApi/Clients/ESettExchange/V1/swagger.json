@@ -76,26 +76,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExchangeEventSearchResult"
-                  }
+                  "$ref": "#/components/schemas/ExchangeEventSearchResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExchangeEventSearchResult"
-                  }
+                  "$ref": "#/components/schemas/ExchangeEventSearchResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExchangeEventSearchResult"
-                  }
+                  "$ref": "#/components/schemas/ExchangeEventSearchResponse"
                 }
               }
             }
@@ -129,17 +120,20 @@
             "format": "int32"
           },
           "processType": {
-            "$ref": "#/components/schemas/ProcessType"
+            "$ref": "#/components/schemas/ProcessType",
+            "nullable": true
           },
           "timeSeriesType": {
-            "$ref": "#/components/schemas/TimeSeriesType"
+            "$ref": "#/components/schemas/TimeSeriesType",
+            "nullable": true
           },
           "gridAreaCode": {
             "type": "string",
             "nullable": true
           },
           "documentStatus": {
-            "$ref": "#/components/schemas/DocumentStatus"
+            "$ref": "#/components/schemas/DocumentStatus",
+            "nullable": true
           },
           "periodFrom": {
             "type": "string",
@@ -150,6 +144,22 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          }
+        }
+      },
+      "ExchangeEventSearchResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExchangeEventSearchResult"
+            }
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

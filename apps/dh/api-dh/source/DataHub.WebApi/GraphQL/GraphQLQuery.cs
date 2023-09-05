@@ -291,7 +291,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 });
 
             Field<NonNullGraphType<ExchangeEventTrackingResultType>>("esettExchangeEvent")
-                .Argument<StringGraphType>("documentId", "The id of the exchange document.")
+                .Argument<NonNullGraphType<StringGraphType>>("documentId", "The id of the exchange document.")
                 .Resolve()
                 .WithScope()
                 .WithService<IESettExchangeClient_V1>()
@@ -301,9 +301,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     return await client.EsettAsync(documentId!);
                 });
 
-            Field<NonNullGraphType<ListGraphType<ExchangeEventSearchResultType>>>("esettExchangeEvents")
-                .Argument<IntGraphType>("pageNumber", "The number of the page to retrieve data for.")
-                .Argument<IntGraphType>("pageSize", "The number of items on each page.")
+            Field<NonNullGraphType<ExchangeEventSearchResponseType>>("esettExchangeEvents")
+                .Argument<NonNullGraphType<IntGraphType>>("pageNumber", "The number of the page to retrieve data for.")
+                .Argument<NonNullGraphType<IntGraphType>>("pageSize", "The number of items on each page.")
                 .Argument<DateTimeGraphType>("periodFrom", "The start date and time of the filter period.")
                 .Argument<DateTimeGraphType>("periodTo", "The end date and time of the filter period.")
                 .Argument<StringGraphType>("gridAreaCode", "The code of the grid area the document is referencing.")

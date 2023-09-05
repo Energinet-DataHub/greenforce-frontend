@@ -23,7 +23,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
         {
             Field(x => x.DocumentId).Description("The id of the found exchanged document.");
             Field(x => x.GridAreaCode).Description("The code of the grid area the document is referencing.");
-            Field<ExchangeEventProcessTypeType>("processType")
+            Field<NonNullGraphType<ExchangeEventProcessTypeType>>("processType")
                 .Resolve(x => x.Source.ProcessType)
                 .Description("The type of process that generated the calculation results in the document.");
             Field(x => x.DocumentStatus).Description("The delivery status of the document.");
