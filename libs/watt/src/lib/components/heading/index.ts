@@ -14,10 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-@use "@energinet-datahub/watt/utils" as watt;
-
-watt-paginator {
-  display: block;
-  margin: calc(-1 * var(--watt-space-m)) -24px -24px;
-}
+export { WattHeadingComponent } from './watt-heading.component';

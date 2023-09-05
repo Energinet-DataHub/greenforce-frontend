@@ -14,10 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
-@use "@energinet-datahub/watt/utils" as watt;
-
-watt-paginator {
-  display: block;
-  margin: calc(-1 * var(--watt-space-m)) -24px -24px;
+@Component({
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: '[watt-heading]',
+  styles: [
+    `
+      :host-context(watt-card) {
+        height: 44px;
+        line-height: 44px;
+        margin: 0;
+      }
+    `,
+  ],
+  template: `<ng-content />`,
+})
+export class WattHeadingComponent {
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input({ transform: (value: string) => `watt-headline-${value}` })
+  @HostBinding('class')
+  size?: '1' | '2' | '3' | '4' | '5' | '6';
 }

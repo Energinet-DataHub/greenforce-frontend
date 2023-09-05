@@ -14,10 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { StoryObj, Meta } from '@storybook/angular';
 
-@use "@energinet-datahub/watt/utils" as watt;
+import { WattHeadingComponent } from './watt-heading.component';
 
-watt-paginator {
-  display: block;
-  margin: calc(-1 * var(--watt-space-m)) -24px -24px;
-}
+const meta: Meta<WattHeadingComponent> = {
+  title: 'Components/Heading',
+  component: WattHeadingComponent,
+};
+
+export default meta;
+
+export const Overview: StoryObj<WattHeadingComponent> = {
+  render: (args) => ({
+    props: args,
+    template: `<watt-heading>Heading</watt-heading>`,
+  }),
+};
