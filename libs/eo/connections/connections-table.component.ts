@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { NgIf } from '@angular/common';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { EoConnection } from './connections.service';
-import { NgIf } from '@angular/common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

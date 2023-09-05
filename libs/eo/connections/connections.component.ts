@@ -18,10 +18,6 @@ import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-
-import { EoBetaMessageComponent } from '../shared/atomic-design/ui-atoms/src/lib/eo-beta-message/eo-beta-message.component';
-import { EoConnectionsTableComponent } from './connections-table.component';
-import { EoConnectionsStore } from './connections.store';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   VaterFlexComponent,
@@ -29,6 +25,10 @@ import {
   VaterStackComponent,
 } from '@energinet-datahub/watt/vater';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
+
+import { EoBetaMessageComponent } from '../shared/atomic-design/ui-atoms/src/lib/eo-beta-message/eo-beta-message.component';
+import { EoConnectionsTableComponent } from './connections-table.component';
+import { EoConnectionsStore } from './connections.store';
 
 @Component({
   standalone: true,
