@@ -305,6 +305,7 @@
         "libs/eo/shared/utilities/src/index.ts"
       ],
       "@energinet-datahub/eo/terms": ["libs/eo/terms/src/index.ts"],
+      "@energinet-datahub/eo/connections": ["libs/eo/connections/index.ts"],
       "@energinet-datahub/eo/transfers": ["libs/eo/transfers/src/index.ts"],
       "@energinet-datahub/gf/configuration-danish-locale": [
         "libs/gf/configuration-danish-locale/src/index.ts"
