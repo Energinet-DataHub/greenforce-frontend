@@ -110,8 +110,8 @@ jobs:
         id: version
         uses: Energinet-DataHub/energy-origin/.github/actions/yaml-semver@main
         with:
-          yaml_file: build/infrastructure/eo/configuration.yaml
-          yaml_path: version
+          yaml-file: build/infrastructure/eo/configuration.yaml
+          yaml-path: version
 
   sonarcloud:
     name: SonarCloud
