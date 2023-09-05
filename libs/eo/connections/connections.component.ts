@@ -28,6 +28,7 @@ import {
   VaterSpacerComponent,
   VaterStackComponent,
 } from '@energinet-datahub/watt/vater';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 @Component({
   standalone: true,
@@ -40,6 +41,7 @@ import {
     VaterFlexComponent,
     VaterStackComponent,
     VaterSpacerComponent,
+    WattSearchComponent
   ],
   styles: [
     `
@@ -71,6 +73,7 @@ import {
             ><small>{{ (store.connections$ | async)?.length || 0 }}</small></div
           >
           <vater-spacer />
+          <watt-search label="Search" (search)="search = $event" />
           <watt-button variant="secondary" icon="plus">New invitation link</watt-button>
         </vater-stack>
       </watt-card-title>
@@ -78,12 +81,14 @@ import {
         [connections]="store.connections$ | async"
         [loading]="!!(store.loadingConnections$ | async)"
         [hasError]="!!(store.loadingConnectionsError$ | async)"
+        [filter]="search"
       ></eo-connections-table>
     </watt-card>
   `,
   encapsulation: ViewEncapsulation.None,
 })
 export class EoConnectionsComponent implements OnInit {
+  protected search = '';
   protected store = inject(EoConnectionsStore);
 
   ngOnInit(): void {

@@ -67,9 +67,16 @@ export class EoConnectionsTableComponent {
     name: { accessor: 'name' },
   };
 
-  @Input() set connections(data: EoConnection[] | null) {
-    this.dataSource.data = data || [];
-  }
   @Input() loading = false;
   @Input() hasError = false;
+
+  @Input()
+  set connections(data: EoConnection[] | null) {
+    this.dataSource.data = data || [];
+  }
+
+  @Input()
+  set filter(value: string) {
+    this.dataSource.filter = value;
+  }
 }

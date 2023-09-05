@@ -43,7 +43,7 @@ export class EoConnectionsService {
       // TODO: REMOVE THIS MAP
       map((response) => {
         return {
-          connections: response.meteringPoints.map((connection) => ({ id: 'MOCKED ID', name: 'MOCKED NAME' }))
+          connections: response.meteringPoints.map((connection, index) => ({ id: 'MOCKED ID ' + index, name: 'MOCKED NAME ' + index }))
         };
       }),
       delay(500) // TODO: REMOVE THIS DELAY
