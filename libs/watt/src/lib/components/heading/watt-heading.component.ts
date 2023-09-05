@@ -35,5 +35,5 @@ export class WattHeadingComponent {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input({ transform: (value: string) => `watt-headline-${value}` })
   @HostBinding('class')
-  size: '1' | '2' | '3' | '4' | '5' | '6' = '3';
+  size?: '1' | '2' | '3' | '4' | '5' | '6';
 }
