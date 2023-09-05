@@ -100,34 +100,18 @@ jobs:
           if-no-files-found: error
 
   define_build:
-    name: Define build matrix
+    name: Define build
     needs: affected
     runs-on: ubuntu-latest
     outputs:
-      chart_version: ${{ steps.get_semver.outputs.semver }}
-      containers: >-
-        [
-          {
-            "deployment_name": "app",
-            "dockerfile": "build/infrastructure/eo/host/Dockerfile",
-            "image_name": "eo-frontend-app",
-            "image_tag": "${{ steps.get_container_version.outputs.semver }}"
-          }
-        ]
+      version: ${{ steps.version.outputs.semver }}
     steps:
-      - name: Get chart version
-        id: get_semver
-        uses: Energinet-DataHub/energy-origin/.github/actions/get-semver@main
+      - name: Get version
+        id: version
+        uses: Energinet-DataHub/energy-origin/.github/actions/yaml-semver@main
         with:
-          yaml_file: build/infrastructure/eo/chart/Chart.yaml
-          yaml_path: version
-
-      - name: Get container version
-        id: get_container_version
-        uses: Energinet-DataHub/energy-origin/.github/actions/get-semver@main
-        with:
-          yaml_file: build/infrastructure/eo/chart/values.yaml
-          yaml_path: app.image.tag
+          yaml-file: build/infrastructure/eo/configuration.yaml
+          yaml-path: version
 
   sonarcloud:
     name: SonarCloud
@@ -165,18 +149,12 @@ jobs:
           yaml-path: version
           token: ${{ secrets.PAT_TOKEN }}
 
-  build_container:
+  build:
     runs-on: ubuntu-latest
-    name: Build containers
+    name: Build
     needs:
       - define_build
       - app
-    strategy:
-      matrix:
-        containers: ${{fromJson(needs.define_build.outputs.containers)}}
-    outputs:
-      chart_name: ${{ steps.chart-info.outputs.chart-name }}
-      chart_version: ${{ needs.define_build.outputs.chart_version }}
     steps:
       - uses: actions/checkout@v3
 
@@ -184,15 +162,15 @@ jobs:
         id: docker_build
         uses: Energinet-DataHub/energy-origin/.github/actions/build-and-push-container@main
         with:
-          dockerfile: ${{ matrix.containers.dockerfile }}
-          image-name: ${{ matrix.containers.image_name }}
-          image-tag: ${{ matrix.containers.image_tag }}
+          dockerfile: build/infrastructure/eo/host/Dockerfile
+          image-name: eo-frontend-app
+          image-tag: ${{ needs.define_build.outputs.version }}
 
   update-environment:
     name: Update environment
     runs-on: ubuntu-latest
     needs:
-      - build_container
+      - build
     concurrency: commits-base-environment
     steps:
       - name: Update environment
