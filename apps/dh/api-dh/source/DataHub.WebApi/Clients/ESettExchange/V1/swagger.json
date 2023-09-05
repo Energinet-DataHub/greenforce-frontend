@@ -55,17 +55,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+                  }
+                ]
               }
             }
           }
@@ -120,20 +132,32 @@
             "format": "int32"
           },
           "processType": {
-            "$ref": "#/components/schemas/ProcessType",
-            "nullable": true
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProcessType"
+              }
+            ]
           },
           "timeSeriesType": {
-            "$ref": "#/components/schemas/TimeSeriesType",
-            "nullable": true
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TimeSeriesType"
+              }
+            ]
           },
           "gridAreaCode": {
             "type": "string",
             "nullable": true
           },
           "documentStatus": {
-            "$ref": "#/components/schemas/DocumentStatus",
-            "nullable": true
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentStatus"
+              }
+            ]
           },
           "periodFrom": {
             "type": "string",
@@ -174,13 +198,25 @@
             "type": "string"
           },
           "processType": {
-            "$ref": "#/components/schemas/ProcessType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProcessType"
+              }
+            ]
           },
           "timeSeriesType": {
-            "$ref": "#/components/schemas/TimeSeriesType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TimeSeriesType"
+              }
+            ]
           },
           "documentStatus": {
-            "$ref": "#/components/schemas/DocumentStatus"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentStatus"
+              }
+            ]
           }
         }
       },
@@ -199,10 +235,18 @@
             "type": "string"
           },
           "processType": {
-            "$ref": "#/components/schemas/ProcessType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProcessType"
+              }
+            ]
           },
           "timeSeriesType": {
-            "$ref": "#/components/schemas/TimeSeriesType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TimeSeriesType"
+              }
+            ]
           },
           "periodFrom": {
             "type": "string",
@@ -213,7 +257,11 @@
             "format": "date-time"
           },
           "documentStatus": {
-            "$ref": "#/components/schemas/DocumentStatus"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentStatus"
+              }
+            ]
           }
         }
       },
