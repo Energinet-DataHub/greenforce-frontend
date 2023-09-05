@@ -16,14 +16,14 @@
  */
 import { Component, Input } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-import { DhOutgoingMessage } from './dh-outgoing-message';
+import { DhOutgoingMessage } from '../dh-outgoing-message';
 
 @Component({
   selector: 'dh-outgoing-messages-table',
@@ -46,7 +46,7 @@ import { DhOutgoingMessage } from './dh-outgoing-message';
   ],
   imports: [
     NgIf,
-    TranslocoModule,
+    TranslocoDirective,
 
     WATT_TABLE,
     WattPaginatorComponent,

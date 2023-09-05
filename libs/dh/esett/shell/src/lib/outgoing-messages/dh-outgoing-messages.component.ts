@@ -22,8 +22,8 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
+import { DhOutgoingMessagesTableComponent } from './table/dh-outgoing-messages-table.component';
 import { DhOutgoingMessage } from './dh-outgoing-message';
-import { DhOutgoingMessagesTableComponent } from './dh-outgoing-messages-table.component';
 
 @Component({
   standalone: true,
