@@ -17,10 +17,6 @@
 
 @use "@energinet-datahub/watt/utils" as watt;
 
-h3 {
-  margin: 0;
-}
-
 watt-paginator {
   display: block;
   margin: calc(-1 * var(--watt-space-m)) -24px -24px;
