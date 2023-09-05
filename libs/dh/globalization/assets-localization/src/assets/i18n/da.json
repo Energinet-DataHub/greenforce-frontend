@@ -47,6 +47,7 @@
       "marketParticipantActors": "Aktører",
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
+      "eSett": "eSett",
       "chargePrices": {
         "menuGroupLabel": "Priser",
         "search": "Søg priser",
@@ -795,6 +796,28 @@
       }
     }
   },
+  "eSett": {
+    "topBarTitle": "eSett meddelelser",
+    "tabs": {
+      "outgoingMessages": {
+        "tabLabel": "Udgående"
+      }
+    },
+    "outgoingMessages": {
+      "tabHeading": "Udgående meddelelser",
+      "columns": {
+        "id": "ID",
+        "calculationType": "Beregningstype",
+        "messageType": "Meddelelsestype",
+        "gridArea": "Netområde",
+        "status": "Status"
+      },
+      "emptyTitle": "Ingen udgående meddelelser fundet",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
+    }
+  },
   "wholesale": {
     "BALANCE_FIXING": "Balancefiksering",
     "WHOLESALE_FIXING": "Engrosfiksering",
@@ -993,6 +1016,13 @@
         "deactivate": "Deaktiver bruger",
         "deactivateError": "Noget gik galt. Brugeren blev ikke deaktiveret. Prøv igen",
         "deactivateSuccess": "Brugeren blev deaktiveret",
+        "deactivateConfirmation": {
+          "title": "Deaktiver bruger",
+          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret og login vil blive spærret.",
+          "important": "Hvis brugeren er allerede logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
+          "confirm": "Deaktiver {{email}}",
+          "reject": "Fortryd"
+        },
         "editRole": "Rediger rolle",
         "disable": "Deaktiver",
         "disablingUserRole": "Deaktiverer bruger rollen",

@@ -76,6 +76,7 @@ describe('EoCertificatesService', () => {
         id: '1234',
         gsrn: '2345',
         startDate: 1234,
+        endDate: 4321,
         created: 2345,
       };
 
@@ -101,6 +102,7 @@ describe('EoCertificatesService', () => {
         gsrn,
         startDate: Math.floor(new Date().getTime() / 1000),
         created: Math.floor(new Date().getTime() / 1000),
+        endDate: Math.floor(new Date().getTime() / 1000),
       };
 
       service.createContract(gsrn).subscribe((res) => {

@@ -287,15 +287,15 @@ workflows. Expanding it looks like this:
 ```|
 ...
 └── tools
-   ├── <product>     # Various non-nx tools separated by product
-   ├── executors     # Perform all sorts of actions on your code
-   └── generators    # Automate tasks using code generation
+   ├── <product>           # Various non-Nx tools separated by product
+   ├── executors           # Perform all sorts of actions on your code
+   └── workspace-plugin    # Automate tasks using code generation
 ```
 
 Executors and generators are [Nx] inventions; for
 documentation on how to work with them, see
-[Use Task Executors](https://nx.dev/plugin-features/use-task-executors) and
-[Use Code Generators](https://nx.dev/plugin-features/use-code-generators).
+[Use Task Executors](https://nx.dev/core-features/plugin-features/use-task-executors) and
+[Use Code Generators](https://nx.dev/core-features/plugin-features/use-code-generators).
 
 ## Scripts
 

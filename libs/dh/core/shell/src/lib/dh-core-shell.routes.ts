@@ -52,6 +52,11 @@ export const dhCoreShellRoutes: Routes = [
         canActivate: [MsalGuard],
       },
       {
+        path: 'esett',
+        loadChildren: () => import('@energinet-datahub/dh/esett/shell'),
+        canActivate: [MsalGuard],
+      },
+      {
         path: dhMarketParticipantPath,
         loadChildren: () =>
           import('@energinet-datahub/dh/market-participant/shell').then(

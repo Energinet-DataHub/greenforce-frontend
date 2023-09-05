@@ -16,6 +16,10 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
+:host {
+  height: 44px; /* Magix UX number (replace with variable) */
+}
+
 label {
   display: inline-block;
   width: 100%;

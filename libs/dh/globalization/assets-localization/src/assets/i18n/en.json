@@ -47,6 +47,7 @@
       "marketParticipantActors": "Actors",
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid areas",
+      "eSett": "eSett",
       "chargePrices": {
         "menuGroupLabel": "Prices",
         "search": "Search prices",
@@ -803,6 +804,28 @@
       }
     }
   },
+  "eSett": {
+    "topBarTitle": "eSett messages",
+    "tabs": {
+      "outgoingMessages": {
+        "tabLabel": "Outgoing"
+      }
+    },
+    "outgoingMessages": {
+      "tabHeading": "Outgoing messages",
+      "columns": {
+        "id": "ID",
+        "calculationType": "Calculation type",
+        "messageType": "Message type",
+        "gridArea": "Grid area",
+        "status": "Status"
+      },
+      "emptyTitle": "No outgoing messages found",
+      "emptyMessage": "Try changing the search criteria",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
+    }
+  },
   "wholesale": {
     "BALANCE_FIXING": "Balance Fixing",
     "WHOLESALE_FIXING": "Wholesale Fixing",
@@ -1001,6 +1024,13 @@
         "deactivate": "Deactivate user",
         "deactivateError": "Something went wrong. The user could not be deactivated. Please try again",
         "deactivateSuccess": "The user has been deactivated",
+        "deactivateConfirmation": {
+          "title": "Deactivate user",
+          "body": "User {{first}} {{last}} ({{email}}) will be deactivated and sign-in will be blocked.",
+          "important": "If the user is currently signed in, it can take up to 30 minutes before the user loses access.",
+          "confirm": "Deactivate {{email}}",
+          "reject": "Cancel"
+        },
         "editRole": "Edit role",
         "disable": "Disable",
         "disablingUserRole": "Disabling user role",
