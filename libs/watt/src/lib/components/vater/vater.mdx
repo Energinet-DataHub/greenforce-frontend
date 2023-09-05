@@ -19,6 +19,8 @@ import { ArgsTable, Meta, Source, Story } from '@storybook/blocks';
 import * as VaterStories from './vater.stories.ts';
 import { VaterStackComponent } from './vater-stack.component.ts';
 import { VaterFlexComponent } from './vater-flex.component.ts';
+import { VaterSpacerComponent } from './vater-spacer.component.ts';
+import { VaterUtilityDirective } from './vater-utility.directive.ts';
 
 <Meta of={VaterStories} />
 
@@ -45,7 +47,9 @@ overflow to fit the available space. They will never expand beyond their origina
   `}
 />
 
+
 ## Flex
+
 Next layout component is `vater-flex`, meant to simplify the creation of flexible layouts.
 Like the `vater-stack` component, it provides the ability to arrange child elements vertically
 (column) or horizontally (row). What makes `vater-flex` distinct is its ability to stretch
@@ -61,7 +65,7 @@ allowing the container to shrink beyond the minimum height while showing a scrol
 <!-- Button on top with a card stretched to fill the remaining height -->
 <vater-flex gap="m">
   <watt-button>Log out</watt-button>
-  <watt-card style="height: 100%">
+  <watt-card vater fill="vertical">
     <h3>Heading</h3>
     <p>Content</p>
   </watt-card>
@@ -69,3 +73,49 @@ allowing the container to shrink beyond the minimum height while showing a scrol
   `}
 />
 
+
+## Spacer
+
+The `VaterSpacerComponent` serves as a handy tool for improving the flexibility of layouts when
+utilized in conjunction with the `vater-flex` component. It provides a straightforward method for
+inserting space between items, enabling you to easily fine-tune the alignment of your content.
+
+<Story of={VaterStories.Spacer} />
+<Source
+  language='html'
+  dark={true}
+  code={`
+<!-- Container with a left aligned title and a right aligned log out button -->
+<vater-flex>
+  <h1>Dashboard</h1>
+  <vater-spacer />
+  <watt-button>Log out</watt-button>
+</vater-flex>
+  `}
+/>
+
+
+## Utility
+
+The `VaterUtilityDirective` simplifies class assignment by offering an intuitive, effortless,
+and inherently type-safe mechanism for applying utility classes. This not only streamlines
+development but also enhances the development experience by enabling editor auto-completion
+for CSS utilities.
+
+<ArgsTable of={VaterUtilityDirective} />
+<Source
+  language='html'
+  dark={true}
+  code={`
+<!-- Card positioned to fill the entire view minus a medium margin -->
+<watt-card vater inset="m">
+  <!-- The fill utility is available on vater-flex and vater-stack by default -->
+  <vater-flex fill="horizontal">
+    <h1>Results</h1>
+    <vater-spacer />
+    <watt-search label="Search" />
+  </vater-flex>
+  <watt-table />
+</watt-card>
+  `}
+/>

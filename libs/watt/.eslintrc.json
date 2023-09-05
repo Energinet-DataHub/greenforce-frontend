@@ -13,7 +13,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "watt",
+            "prefix": ["watt", "vater"],
             "style": "camelCase"
           }
         ],

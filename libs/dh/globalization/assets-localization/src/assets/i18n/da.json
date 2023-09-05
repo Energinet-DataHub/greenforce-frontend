@@ -47,6 +47,7 @@
       "marketParticipantActors": "Aktører",
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
+      "eSett": "eSett",
       "chargePrices": {
         "menuGroupLabel": "Priser",
         "search": "Søg priser",
@@ -793,6 +794,28 @@
         "Dk1": "DK1",
         "Dk2": "DK2"
       }
+    }
+  },
+  "eSett": {
+    "topBarTitle": "eSett meddelelser",
+    "tabs": {
+      "outgoingMessages": {
+        "tabLabel": "Udgående"
+      }
+    },
+    "outgoingMessages": {
+      "tabHeading": "Udgående meddelelser",
+      "columns": {
+        "id": "ID",
+        "calculationType": "Beregningstype",
+        "messageType": "Meddelelsestype",
+        "gridArea": "Netområde",
+        "status": "Status"
+      },
+      "emptyTitle": "Ingen udgående meddelelser fundet",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
     }
   },
   "wholesale": {
