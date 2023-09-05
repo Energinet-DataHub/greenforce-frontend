@@ -14,21 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
-
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-
-import { DhOutgoingMessagesComponent } from './outgoing-messages/dh-outgoing-messages.component';
-
-@Component({
-  selector: 'dh-esett-shell',
-  standalone: true,
-  template: `<watt-tabs *transloco="let t; read: 'eSett.tabs'">
-    <watt-tab [label]="t('outgoingMessages.tabLabel')">
-      <dh-outgoing-messages />
-    </watt-tab>
-  </watt-tabs>`,
-  imports: [TranslocoDirective, WATT_TABS, DhOutgoingMessagesComponent],
-})
-export class DhESettShellComponent {}
+export interface DhOutgoingMessage {
+  id: string;
+  calculationType: string;
+  messageType: string;
+  gridArea: string;
+  status: string;
+}
