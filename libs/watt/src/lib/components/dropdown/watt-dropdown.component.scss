@@ -17,8 +17,8 @@
 @use "@energinet-datahub/watt/utils" as watt;
 
 watt-dropdown {
-  --input-color: var(--watt-typography-text-color);
-  --input-placeholder-color: var(--watt-on-light-high-emphasis);
+  --watt-input-color: var(--watt-typography-text-color);
+  --watt-input-placeholder-color: var(--watt-on-light-high-emphasis);
 
   display: block;
   width: 100%;
@@ -52,7 +52,7 @@ watt-dropdown {
 
   .mat-input-element {
     @include watt.typography-watt-text-s;
-    color: var(--input-color);
+    color: var(--watt-input-color);
     caret-color: var(--watt-color-neutral-grey-900) !important;
     padding: 0 12px;
   }
@@ -95,12 +95,12 @@ watt-dropdown {
   }
 
   .mat-mdc-select-placeholder {
-    color: var(--input-placeholder-color);
+    color: var(--watt-input-placeholder-color);
   }
 }
 
 .watt-dropdown-panel {
-  --input-color: var(--watt-typography-text-color);
+  --watt-input-color: var(--watt-typography-text-color);
   // Add 2px because watt-form-field has 1px border on each side
   &:not(.watt-dropdown-panel-chip-mode) {
     min-width: calc(100% + 2px) !important;
@@ -145,7 +145,7 @@ watt-dropdown {
   .mat-mdc-option.mdc-list-item,
   .mat-select-search-no-entries-found {
     @include watt.typography-watt-text-s;
-    color: var(--input-color);
+    color: var(--watt-input-color);
   }
 
   .mat-mdc-option.mdc-list-item .mat-select-search-no-entries-found {
