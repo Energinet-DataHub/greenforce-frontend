@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { Component, HostBinding, Input } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 /**
  * Component primarily used for displaying errors
@@ -27,7 +27,7 @@ import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/lega
 
 @Component({
   standalone: true,
-  imports: [MatButtonModule, MatIconModule],
+  imports: [WattIconComponent],
   selector: 'eo-popup-message',
   styles: [
     `
@@ -82,7 +82,7 @@ import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/lega
         <p>{{ message }}</p>
       </div>
 
-      <a class="close" (click)="hidden = true"><mat-icon>close</mat-icon></a>
+      <a class="close" (click)="hidden = true"><watt-icon name="close"></watt-icon></a>
     </div>
   `,
 })
