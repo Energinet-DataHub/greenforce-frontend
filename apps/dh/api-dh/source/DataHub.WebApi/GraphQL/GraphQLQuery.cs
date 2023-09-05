@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Energinet.DataHub.WebApi.Extensions;
@@ -24,6 +25,7 @@ using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 using NodaTime;
+using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -286,6 +288,61 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
                     var actorId = context.User!.GetAssociatedActor();
                     return accessibleActors.Where(actor => actor.Id == actorId);
+                });
+
+            Field<NonNullGraphType<ExchangeEventTrackingResultType>>("esettExchangeEvent")
+                .Argument<NonNullGraphType<StringGraphType>>("documentId", "The id of the exchange document.")
+                .Resolve()
+                .WithScope()
+                .WithService<IESettExchangeClient_V1>()
+                .ResolveAsync(async (context, client) =>
+                {
+                    var documentId = context.GetArgument<string?>("documentId");
+                    return await client.EsettAsync(documentId!);
+                });
+
+            Field<NonNullGraphType<ExchangeEventSearchResponseType>>("esettExchangeEvents")
+                .Argument<NonNullGraphType<IntGraphType>>("pageNumber", "The number of the page to retrieve data for.")
+                .Argument<NonNullGraphType<IntGraphType>>("pageSize", "The number of items on each page.")
+                .Argument<DateTimeGraphType>("periodFrom", "The start date and time of the filter period.")
+                .Argument<DateTimeGraphType>("periodTo", "The end date and time of the filter period.")
+                .Argument<StringGraphType>("gridAreaCode", "The code of the grid area the document is referencing.")
+                .Argument<ExchangeEventProcessTypeType>("processType", "The type of process that generated the calculation results in the document.")
+                .Argument<EnumerationGraphType<DocumentStatus>>("documentStatus", "The delivery status of the document.")
+                .Argument<EnumerationGraphType<TimeSeriesType>>("timeSeriesType", "The type of calculation result in the document.")
+                .Resolve()
+                .WithScope()
+                .WithService<IESettExchangeClient_V1>()
+                .ResolveAsync(async (context, client) =>
+                {
+                    var exchangeEventSearchFilter = new ExchangeEventSearchFilter
+                    {
+                        PageNumber = context.GetArgument<int>("pageNumber"),
+                        PageSize = context.GetArgument<int>("pageSize"),
+                        PeriodFrom = context.GetArgument<DateTimeOffset?>("periodFrom"),
+                        PeriodTo = context.GetArgument<DateTimeOffset?>("periodTo"),
+                        GridAreaCode = context.GetArgument<string?>("gridAreaCode"),
+                    };
+
+                    var processTypeFilter = context.GetArgument<Clients.ESettExchange.v1.ProcessType?>("processType");
+                    if (processTypeFilter.HasValue)
+                    {
+                        exchangeEventSearchFilter.ProcessType = processTypeFilter.Value;
+                    }
+
+                    var documentStatusFilter = context.GetArgument<DocumentStatus?>("documentStatus");
+                    if (documentStatusFilter.HasValue)
+                    {
+                        exchangeEventSearchFilter.DocumentStatus = documentStatusFilter.Value;
+                    }
+
+                    var timeSeriesTypeFilter = context.GetArgument<TimeSeriesType?>("timeSeriesType");
+                    if (timeSeriesTypeFilter.HasValue)
+                    {
+                        exchangeEventSearchFilter.TimeSeriesType = timeSeriesTypeFilter.Value;
+                    }
+
+                    return await client.SearchAsync(exchangeEventSearchFilter);
                 });
         }
     }
