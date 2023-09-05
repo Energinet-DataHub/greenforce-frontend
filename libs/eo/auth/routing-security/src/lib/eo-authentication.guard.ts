@@ -19,7 +19,6 @@ import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 import { map } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root',
 })
