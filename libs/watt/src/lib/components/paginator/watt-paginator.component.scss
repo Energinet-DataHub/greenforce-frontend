@@ -57,6 +57,9 @@ watt-paginator {
 
   .mat-mdc-select-arrow-wrapper {
     color: var(--watt-color-primary);
+    .mat-mdc-select-arrow {
+      width: 18px;
+    }
   }
 
   .mat-mdc-paginator-container {
