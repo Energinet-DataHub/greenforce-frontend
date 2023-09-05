@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { NgIf } from '@angular/common';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
@@ -30,16 +30,23 @@ import { EoConnection } from './connections.service';
   selector: 'eo-connections-table',
   styles: [
     `
-      watt-empty-state {
-        padding: var(--watt-space-l);
+      eo-connections-table {
+        watt-empty-state {
+          padding: var(--watt-space-l);
+        }
+
+        watt-paginator {
+          display: block;
+          margin: 0 -24px -24px -24px;
+        }
       }
 
-      watt-paginator {
-        display: block;
-        margin: 0 -24px -24px -24px;
+      watt-table table {
+        --watt-table-grid-template-columns: 162px auto;
       }
     `,
   ],
+  encapsulation: ViewEncapsulation.None,
   template: `
     <watt-table [loading]="loading" [columns]="columns" [dataSource]="dataSource"></watt-table>
 
