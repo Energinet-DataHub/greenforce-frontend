@@ -19,7 +19,7 @@ limitations under the License.
 <watt-card vater inset="l" *transloco="let t; read: 'wholesale.calculations'">
   <vater-flex fill="vertical" gap="m">
     <vater-stack direction="row" gap="m">
-      <h3 class="watt-on-light--high-emphasis">{{ t("headline") }}</h3>
+      <h2 watt-heading size="3">{{ t("headline") }}</h2>
       <watt-spinner *ngIf="loading" [diameter]="22" />
       <vater-spacer />
       <watt-search [label]="t('search')" (search)="search = $event" />

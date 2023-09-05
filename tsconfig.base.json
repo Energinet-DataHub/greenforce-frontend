@@ -376,6 +376,9 @@
       "@energinet-datahub/watt/form-field": [
         "libs/watt/src/lib/components/form-field/index.ts"
       ],
+      "@energinet-datahub/watt/heading": [
+        "libs/watt/src/lib/components/heading/index.ts"
+      ],
       "@energinet-datahub/watt/icon": [
         "libs/watt/src/lib/foundations/icon/index.ts"
       ],

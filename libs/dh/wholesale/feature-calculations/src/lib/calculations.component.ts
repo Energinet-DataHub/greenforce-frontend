@@ -43,6 +43,7 @@ import { DhCalculationsCreateComponent } from './create/create.component';
 import { DhCalculationsDetailsComponent } from './details/details.component';
 import { DhCalculationsFiltersComponent } from './filters/filters.component';
 import { DhCalculationsTableComponent } from './table/table.component';
+import { WattHeadingComponent } from '@energinet-datahub/watt/heading';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 @Component({
@@ -61,6 +62,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
     VaterUtilityDirective,
     WATT_CARD,
     WattButtonComponent,
+    WattHeadingComponent,
     WattPaginatorComponent,
     WattSearchComponent,
     WattSpinnerComponent,
