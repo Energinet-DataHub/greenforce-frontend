@@ -5,27 +5,79 @@
     "version": "v1"
   },
   "paths": {
+    "/esett/{documentId}": {
+      "get": {
+        "tags": [
+          "ESett"
+        ],
+        "operationId": "esett",
+        "parameters": [
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeEventTrackingResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeEventTrackingResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeEventTrackingResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/esett/search": {
       "post": {
         "tags": [
-          "Esett"
+          "ESett"
         ],
         "operationId": "search",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExchangeEventSearchFilter"
+                  }
+                ]
               }
             }
           }
@@ -36,26 +88,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExchangeEventSearchResult"
-                  }
+                  "$ref": "#/components/schemas/ExchangeEventSearchResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExchangeEventSearchResult"
-                  }
+                  "$ref": "#/components/schemas/ExchangeEventSearchResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExchangeEventSearchResult"
-                  }
+                  "$ref": "#/components/schemas/ExchangeEventSearchResponse"
                 }
               }
             }
@@ -66,6 +109,16 @@
   },
   "components": {
     "schemas": {
+      "DocumentStatus": {
+        "type": "string",
+        "enum": [
+          "Received",
+          "AwaitingDispatch",
+          "AwaitingReply",
+          "Accepted",
+          "Rejected"
+        ]
+      },
       "ExchangeEventSearchFilter": {
         "type": "object",
         "additionalProperties": false,
@@ -79,14 +132,58 @@
             "format": "int32"
           },
           "processType": {
-            "$ref": "#/components/schemas/ProcessType"
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProcessType"
+              }
+            ]
           },
           "timeSeriesType": {
-            "$ref": "#/components/schemas/TimeSeriesType"
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TimeSeriesType"
+              }
+            ]
           },
           "gridAreaCode": {
             "type": "string",
             "nullable": true
+          },
+          "documentStatus": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentStatus"
+              }
+            ]
+          },
+          "periodFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "periodTo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "ExchangeEventSearchResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExchangeEventSearchResult"
+            }
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -97,21 +194,80 @@
           "documentId": {
             "type": "string"
           },
+          "gridAreaCode": {
+            "type": "string"
+          },
           "processType": {
-            "$ref": "#/components/schemas/ProcessType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProcessType"
+              }
+            ]
           },
           "timeSeriesType": {
-            "$ref": "#/components/schemas/TimeSeriesType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TimeSeriesType"
+              }
+            ]
+          },
+          "documentStatus": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentStatus"
+              }
+            ]
+          }
+        }
+      },
+      "ExchangeEventTrackingResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "documentId": {
+            "type": "string"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
           },
           "gridAreaCode": {
             "type": "string"
+          },
+          "processType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProcessType"
+              }
+            ]
+          },
+          "timeSeriesType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TimeSeriesType"
+              }
+            ]
+          },
+          "periodFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodTo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "documentStatus": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentStatus"
+              }
+            ]
           }
         }
       },
       "ProcessType": {
         "type": "string",
         "enum": [
-          "Unspecified",
           "BalanceFixing",
           "Aggregation"
         ]
@@ -119,7 +275,6 @@
       "TimeSeriesType": {
         "type": "string",
         "enum": [
-          "Unspecified",
           "MgaExchange",
           "Production",
           "Consumption"
