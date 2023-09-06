@@ -213,6 +213,10 @@ input {
   width: 100%;
 }
 
+input:invalid {
+  outline: 1px solid var(--color-state-danger);
+}
+
 input:focus-visible {
   outline: 1px solid var(--primary-color);
 }
