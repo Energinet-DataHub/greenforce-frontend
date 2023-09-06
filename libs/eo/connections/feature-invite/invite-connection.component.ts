@@ -32,7 +32,7 @@ import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { EoInviteConnectionService } from './invite-connection.service';
+import { EoInviteConnectionService } from '../data-access-api/invite-connection.service';
 
 @Component({
   selector: 'eo-invite-connection',

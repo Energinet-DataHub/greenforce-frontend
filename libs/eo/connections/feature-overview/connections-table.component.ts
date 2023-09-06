@@ -21,7 +21,7 @@ import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-import { EoConnection } from './connections.service';
+import { EoConnection } from '../data-access-api/connections.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

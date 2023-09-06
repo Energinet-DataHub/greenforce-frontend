@@ -257,7 +257,10 @@
       "@energinet-datahub/eo/certificates": [
         "libs/eo/certificates/src/index.ts"
       ],
-      "@energinet-datahub/eo/connections": ["libs/eo/connections/index.ts"],
+      "@energinet-datahub/eo/connections/data-access-api": ["libs/eo/connections/data-access-api/index.ts"],
+      "@energinet-datahub/eo/connections/shell": ["libs/eo/connections/shell/index.ts"],
+      "@energinet-datahub/eo/connections/feature-invite": ["libs/eo/connections/feature-invite/index.ts"],
+      "@energinet-datahub/eo/connections/feature-overview": ["libs/eo/connections/feature-overview/index.ts"],
       "@energinet-datahub/eo/consumption-page/shell": [
         "libs/eo/consumption-page/shell/src/index.ts"
       ],

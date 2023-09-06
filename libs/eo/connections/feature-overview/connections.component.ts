@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, Signal, ViewChild, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, Signal, computed, inject, signal } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -26,10 +26,10 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
-import { EoBetaMessageComponent } from '../shared/atomic-design/ui-atoms/src/lib/eo-beta-message/eo-beta-message.component';
+import { EoBetaMessageComponent } from '../../shared/atomic-design/ui-atoms/src/lib/eo-beta-message/eo-beta-message.component';
 import { EoConnectionsTableComponent } from './connections-table.component';
-import { EoInviteConnectionComponent } from './invite-connection/invite-connection.component';
-import { EoConnection, EoConnectionsService } from './connections.service';
+import { EoInviteConnectionComponent } from '../feature-invite/invite-connection.component';
+import { EoConnection, EoConnectionsService } from '../data-access-api/connections.service';
 
 @Component({
   standalone: true,

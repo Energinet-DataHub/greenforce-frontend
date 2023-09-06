@@ -16,6 +16,6 @@
  */
 import { Routes } from '@angular/router';
 
-import { EoConnectionsComponent } from './connections.component';
+import { EoConnectionsComponent } from '../feature-overview/connections.component';
 
 export const eoConnectionsRoutes: Routes = [{ path: '', component: EoConnectionsComponent }];
