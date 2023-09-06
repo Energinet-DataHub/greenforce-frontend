@@ -18,6 +18,17 @@ const Utils = {
   showContent: function () {
     Utils.waitFor('main', (main) => {
       main.style.display = 'block';
+
+      const element = document.getElementById("otpCode");
+      if (element) {
+        const nextSibling = element.nextElementSibling;
+        const parent = element.parentElement;
+
+        if (nextSibling) {
+          parent.insertBefore(nextSibling, element);
+        }
+      }
+
     });
   },
   waitFor: function (selector, callback) {
