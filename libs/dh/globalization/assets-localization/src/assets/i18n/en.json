@@ -813,6 +813,10 @@
     },
     "outgoingMessages": {
       "tabHeading": "Outgoing messages",
+      "filters": {
+        "period": "{{ shared.form.filters.period }}",
+        "reset": "{{ shared.form.reset }}"
+      },
       "columns": {
         "id": "ID",
         "calculationType": "Calculation type",

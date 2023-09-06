@@ -22,6 +22,12 @@ limitations under the License.
     <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
   </watt-card-title>
 
+  <dh-outgoing-messages-filters
+    class="watt-space-stack-m"
+    [initial]="filter$.value"
+    (filter)="filter$.next($event)"
+  />
+
   <dh-outgoing-messages-table
     [tableDataSource]="tableDataSource"
     [isLoading]="isLoading"

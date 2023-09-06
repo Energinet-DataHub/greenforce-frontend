@@ -17,13 +17,16 @@
 import { Component } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { BehaviorSubject } from 'rxjs';
+import { endOfDay, startOfDay, sub } from 'date-fns';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
+import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
 import { DhOutgoingMessagesTableComponent } from './table/dh-outgoing-messages-table.component';
 import { DhOutgoingMessage } from './dh-outgoing-message';
+import { GetESettOutgoingMessagesQueryVariables } from './dh-outgoing-messages-filters';
 
 @Component({
   standalone: true,
@@ -53,6 +56,7 @@ import { DhOutgoingMessage } from './dh-outgoing-message';
     WATT_CARD,
     WattSearchComponent,
 
+    DhOutgoingMessagesFiltersComponent,
     DhOutgoingMessagesTableComponent,
   ],
 })
@@ -63,4 +67,11 @@ export class DhOutgoingMessagesComponent {
 
   isLoading = false;
   hasError = false;
+
+  filter$ = new BehaviorSubject<GetESettOutgoingMessagesQueryVariables>({
+    period: {
+      start: sub(startOfDay(new Date()), { days: 2 }),
+      end: endOfDay(new Date()),
+    },
+  });
 }

@@ -805,6 +805,10 @@
     },
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
+      "filters": {
+        "period": "{{ shared.form.filters.period }}",
+        "reset": "{{ shared.form.reset }}"
+      },
       "columns": {
         "id": "ID",
         "calculationType": "Beregningstype",
