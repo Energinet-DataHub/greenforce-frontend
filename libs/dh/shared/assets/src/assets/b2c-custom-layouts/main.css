@@ -185,11 +185,6 @@ ul {
   color: var(--color-state-danger);
 }
 
-.highlightError {
-  outline: 1px solid var(--color-state-danger) !important;
-  border: none;
-}
-
 label {
   font-family: "Open Sans", sans-serif;
   font-style: normal;
@@ -290,4 +285,5 @@ button#next {
 .imprint {
   display: none;
 }
+
 /** END Localize content **/

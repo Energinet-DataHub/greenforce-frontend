@@ -67,12 +67,6 @@ limitations under the License.
         display: none;
       }
 
-      #simplemodal-container {
-        background-color: white;
-        border-radius: 2px;
-        color: black;
-      }
-
       .qrCodeControlContent img {
         width: 200px;
         margin: auto;
@@ -121,6 +115,18 @@ limitations under the License.
         color: var(--typography-text-color);
         margin-bottom: 0;
         display: block;
+      }
+
+      form > #verifying_blurb {
+        display: none;
+      }
+
+      #verifying_blurb {
+        background-color: var(--color-neutral-white);
+        border-radius: 4px;
+        box-shadow: 0px 4px 18px 3px rgba(46, 50, 52, 0.08),
+          0px 1px 6px rgba(11, 60, 93, 0.12);
+        padding: 2rem 5rem;
       }
 
       main {
