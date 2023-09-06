@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation, inject, signal } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ViewChild,
+  ViewEncapsulation,
+  inject,
+  signal,
+} from '@angular/core';
 import { NgIf } from '@angular/common';
 
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
@@ -72,9 +79,7 @@ import { EoInviteConnectionService } from './invite-connection.service';
         </vater-stack>
       </form>
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal.close(true)">
-          Close
-        </watt-button>
+        <watt-button variant="secondary" (click)="modal.close(true)"> Close </watt-button>
       </watt-modal-actions>
     </watt-modal>
 
@@ -99,7 +104,9 @@ export class EoInviteConnectionComponent {
     link: null,
   };
   protected isOpen = signal<boolean>(false);
-  protected inviteLink = signal<{ loading: boolean; hasError: boolean; link: string | null }>(this.inviteLinkIntialState);
+  protected inviteLink = signal<{ loading: boolean; hasError: boolean; link: string | null }>(
+    this.inviteLinkIntialState
+  );
 
   open() {
     this.isOpen.set(true);
@@ -120,7 +127,7 @@ export class EoInviteConnectionComponent {
       },
       error: () => {
         this.inviteLink.set({ loading: false, hasError: true, link: null });
-      }
+      },
     });
   }
 }

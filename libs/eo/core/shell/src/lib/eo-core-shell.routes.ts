@@ -126,7 +126,9 @@ export const eoShellRoutes: Routes = [
         canActivate: [EoScopeGuard],
         data: { title: 'Connections' },
         loadChildren: () =>
-          import('@energinet-datahub/eo/connections').then((esModule) => esModule.eoConnectionsRoutes),
+          import('@energinet-datahub/eo/connections').then(
+            (esModule) => esModule.eoConnectionsRoutes
+          ),
       },
       {
         path: eoPrivacyPolicyRoutePath,

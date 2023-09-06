@@ -71,12 +71,14 @@ import { EoConnection, EoConnectionsService } from './connections.service';
       <watt-card-title>
         <vater-stack direction="row" gap="s">
           <h3 class="watt-on-light--high-emphasis">Results</h3>
-          <div class="badge"
-            ><small>{{ amountOfConnections() }}</small></div
-          >
+          <div class="badge">
+            <small>{{ amountOfConnections() }}</small>
+          </div>
           <vater-spacer />
           <watt-search label="Search" (search)="search = $event" />
-          <watt-button variant="secondary" icon="plus" (click)="inviteConnection.open()">New invitation link</watt-button>
+          <watt-button variant="secondary" icon="plus" (click)="inviteConnection.open()"
+            >New invitation link</watt-button
+          >
         </vater-stack>
       </watt-card-title>
       <eo-connections-table
@@ -94,26 +96,32 @@ export class EoConnectionsComponent implements OnInit {
   private connectionsService = inject(EoConnectionsService);
 
   protected search = '';
-  protected connections = signal<{loading: boolean; hasError: boolean; data: EoConnection[] | null}>({
+  protected connections = signal<{
+    loading: boolean;
+    hasError: boolean;
+    data: EoConnection[] | null;
+  }>({
     loading: false,
     hasError: false,
-    data: null
+    data: null,
   });
-  protected amountOfConnections: Signal<number> = computed(() => this.connections().data?.length || 0);
+  protected amountOfConnections: Signal<number> = computed(
+    () => this.connections().data?.length || 0
+  );
 
   ngOnInit(): void {
     this.loadConnections();
   }
 
   private loadConnections() {
-    this.connections.set({loading: true, hasError: false, data: null});
+    this.connections.set({ loading: true, hasError: false, data: null });
     this.connectionsService.getConnections().subscribe({
       next: (data) => {
-        this.connections.set({loading: false, hasError: false, data});
-      } ,
+        this.connections.set({ loading: false, hasError: false, data });
+      },
       error: () => {
-        this.connections.set({loading: false, hasError: false, data: null});
-      }
+        this.connections.set({ loading: false, hasError: false, data: null });
+      },
     });
   }
 }

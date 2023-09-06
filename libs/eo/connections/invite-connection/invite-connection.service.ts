@@ -38,12 +38,14 @@ export class EoInviteConnectionService {
   }
 
   generateInviteLink() {
-    return this.http.post<EoGenerateInvitationLinkResponse>(
-      `${this.#apiBase}/transfer-agreements/wallet-deposit-endpoint`,
-      {}
-    ).pipe(
-      map((x) => x.result),
-      delay(1000)
-    );
+    return this.http
+      .post<EoGenerateInvitationLinkResponse>(
+        `${this.#apiBase}/transfer-agreements/wallet-deposit-endpoint`,
+        {}
+      )
+      .pipe(
+        map((x) => x.result),
+        delay(1000)
+      );
   }
 }

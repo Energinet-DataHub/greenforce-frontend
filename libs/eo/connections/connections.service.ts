@@ -43,7 +43,10 @@ export class EoConnectionsService {
     return this.http.get<MeteringPointsResponse>(`${this.#apiBase}/meteringpoints`).pipe(
       // TODO: REMOVE THIS MAP
       map((response) => {
-        return response.meteringPoints.map((connection, index) => ({ id: 'MOCKED ID ' + index, name: 'MOCKED NAME ' + index }))
+        return response.meteringPoints.map((connection, index) => ({
+          id: 'MOCKED ID ' + index,
+          name: 'MOCKED NAME ' + index,
+        }));
       }),
       delay(500) // TODO: REMOVE THIS DELAY
     );
