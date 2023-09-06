@@ -19,13 +19,13 @@ const Utils = {
     Utils.waitFor('main', (main) => {
       main.style.display = 'block';
 
-      const element = document.getElementById("otpCode");
+      const element = document.getElementById('otpCode');
       if (element) {
-        const nextSibling = element.nextElementSibling;
+        const previousSibling = element.previousElementSibling;
         const parent = element.parentElement;
 
-        if (nextSibling) {
-          parent.insertBefore(nextSibling, element);
+        if (previousSibling) {
+          parent.insertBefore(element, previousSibling);
         }
       }
 

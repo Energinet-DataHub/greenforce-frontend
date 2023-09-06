@@ -180,9 +180,14 @@ ul {
   padding: 0;
 }
 
-.error,
 .error.itemLevel {
   color: var(--color-state-danger);
+}
+
+.error.pageLevel {
+  padding: 0.25rem 0.5rem;
+  background-color: #f4c9c8;
+  border-radius: 4px;
 }
 
 label {
