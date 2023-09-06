@@ -14,21 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { debounceTime } from 'rxjs';
 
-import { WattFormChipDirective } from '@energinet-datahub/watt/form-field';
+import { WattFormChipDirective, WattFormFieldComponent } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { GetESettOutgoingMessagesQueryVariables } from '../dh-outgoing-messages-filters';
+import { DhOutgoingMessagesFilters } from '../dh-outgoing-messages-filters';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
-type Filters = FormControls<GetESettOutgoingMessagesQueryVariables>;
+type Filters = FormControls<DhOutgoingMessagesFilters>;
 
 /** Helper function for creating form control with `nonNullable` based on value. */
 const makeFormControl = <T>(value: T = null as T) =>
@@ -36,17 +44,8 @@ const makeFormControl = <T>(value: T = null as T) =>
 
 @Component({
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    TranslocoDirective,
-
-    VaterSpacerComponent,
-    VaterStackComponent,
-    WattButtonComponent,
-    WattDateRangeChipComponent,
-    WattFormChipDirective,
-  ],
   selector: 'dh-outgoing-messages-filters',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       :host {
@@ -58,6 +57,18 @@ const makeFormControl = <T>(value: T = null as T) =>
       }
     `,
   ],
+  imports: [
+    ReactiveFormsModule,
+    TranslocoDirective,
+
+    VaterSpacerComponent,
+    VaterStackComponent,
+    WattButtonComponent,
+    WattDateRangeChipComponent,
+    WattFormChipDirective,
+    WattFormFieldComponent,
+    WattDropdownComponent,
+  ],
   template: `
     <form
       vater-stack
@@ -67,6 +78,46 @@ const makeFormControl = <T>(value: T = null as T) =>
       [formGroup]="formGroup"
       *transloco="let t; read: 'eSett.outgoingMessages.filters'"
     >
+      <watt-form-field>
+        <watt-dropdown
+          formControlName="calculationTypes"
+          [chipMode]="true"
+          [multiple]="true"
+          [options]="[]"
+          [placeholder]="t('calculationType')"
+        />
+      </watt-form-field>
+
+      <watt-form-field>
+        <watt-dropdown
+          formControlName="messageTypes"
+          [chipMode]="true"
+          [multiple]="true"
+          [options]="[]"
+          [placeholder]="t('messageType')"
+        />
+      </watt-form-field>
+
+      <watt-form-field>
+        <watt-dropdown
+          formControlName="gridAreas"
+          [chipMode]="true"
+          [multiple]="true"
+          [options]="[]"
+          [placeholder]="t('gridArea')"
+        />
+      </watt-form-field>
+
+      <watt-form-field>
+        <watt-dropdown
+          formControlName="status"
+          [chipMode]="true"
+          [multiple]="true"
+          [options]="[]"
+          [placeholder]="t('status')"
+        />
+      </watt-form-field>
+
       <watt-date-range-chip formControlName="period">{{ t('period') }}</watt-date-range-chip>
 
       <vater-spacer />
@@ -75,13 +126,17 @@ const makeFormControl = <T>(value: T = null as T) =>
   `,
 })
 export class DhOutgoingMessagesFiltersComponent implements OnInit {
-  @Input() initial?: GetESettOutgoingMessagesQueryVariables;
-  @Output() filter = new EventEmitter<GetESettOutgoingMessagesQueryVariables>();
+  @Input() initial?: DhOutgoingMessagesFilters;
+  @Output() filter = new EventEmitter<DhOutgoingMessagesFilters>();
 
   formGroup!: FormGroup<Filters>;
 
   ngOnInit() {
     this.formGroup = new FormGroup<Filters>({
+      calculationTypes: makeFormControl(this.initial?.calculationTypes),
+      messageTypes: makeFormControl(this.initial?.messageTypes),
+      gridAreas: makeFormControl(this.initial?.gridAreas),
+      status: makeFormControl(this.initial?.status),
       period: makeFormControl(this.initial?.period),
     });
 

@@ -26,7 +26,7 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
 import { DhOutgoingMessagesTableComponent } from './table/dh-outgoing-messages-table.component';
 import { DhOutgoingMessage } from './dh-outgoing-message';
-import { GetESettOutgoingMessagesQueryVariables } from './dh-outgoing-messages-filters';
+import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
 
 @Component({
   standalone: true,
@@ -68,7 +68,7 @@ export class DhOutgoingMessagesComponent {
   isLoading = false;
   hasError = false;
 
-  filter$ = new BehaviorSubject<GetESettOutgoingMessagesQueryVariables>({
+  filter$ = new BehaviorSubject<DhOutgoingMessagesFilters>({
     period: {
       start: sub(startOfDay(new Date()), { days: 2 }),
       end: endOfDay(new Date()),
