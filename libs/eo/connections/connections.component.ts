@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -33,15 +33,15 @@ import { EoConnectionsStore } from './connections.store';
 @Component({
   standalone: true,
   imports: [
+    AsyncPipe,
     EoBetaMessageComponent,
     EoConnectionsTableComponent,
-    WATT_CARD,
-    AsyncPipe,
-    WattButtonComponent,
     VaterFlexComponent,
-    VaterStackComponent,
     VaterSpacerComponent,
-    WattSearchComponent
+    VaterStackComponent,
+    WATT_CARD,
+    WattButtonComponent,
+    WattSearchComponent,
   ],
   styles: [
     `
@@ -85,7 +85,6 @@ import { EoConnectionsStore } from './connections.store';
       ></eo-connections-table>
     </watt-card>
   `,
-  encapsulation: ViewEncapsulation.None,
 })
 export class EoConnectionsComponent implements OnInit {
   protected search = '';
