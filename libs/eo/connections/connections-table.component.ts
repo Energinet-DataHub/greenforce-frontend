@@ -39,10 +39,10 @@ import { EoConnection } from './connections.service';
           display: block;
           margin: 0 -24px -24px -24px;
         }
-      }
 
-      watt-table table {
-        --watt-table-grid-template-columns: 162px auto;
+        watt-table table {
+          --watt-table-grid-template-columns: 162px auto;
+        }
       }
     `,
   ],
