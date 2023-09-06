@@ -28,7 +28,6 @@ const Utils = {
           parent.insertBefore(element, previousSibling);
         }
       }
-
     });
   },
   waitFor: function (selector, callback) {
