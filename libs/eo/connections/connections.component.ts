@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, Signal, computed, inject, signal } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -28,7 +28,7 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 import { EoBetaMessageComponent } from '../shared/atomic-design/ui-atoms/src/lib/eo-beta-message/eo-beta-message.component';
 import { EoConnectionsTableComponent } from './connections-table.component';
-import { EoConnectionsStore } from './connections.store';
+import { EoConnection, EoConnectionsService } from './connections.service';
 
 @Component({
   standalone: true,
@@ -70,7 +70,7 @@ import { EoConnectionsStore } from './connections.store';
         <vater-stack direction="row" gap="s">
           <h3 class="watt-on-light--high-emphasis">Results</h3>
           <div class="badge"
-            ><small>{{ (store.connections$ | async)?.length || 0 }}</small></div
+            ><small>{{ amountOfConnections() }}</small></div
           >
           <vater-spacer />
           <watt-search label="Search" (search)="search = $event" />
@@ -78,19 +78,38 @@ import { EoConnectionsStore } from './connections.store';
         </vater-stack>
       </watt-card-title>
       <eo-connections-table
-        [connections]="store.connections$ | async"
-        [loading]="!!(store.loadingConnections$ | async)"
-        [hasError]="!!(store.loadingConnectionsError$ | async)"
+        [connections]="connections().data"
+        [loading]="connections().loading"
+        [hasError]="connections().hasError"
         [filter]="search"
       ></eo-connections-table>
     </watt-card>
   `,
 })
 export class EoConnectionsComponent implements OnInit {
+  private connectionsService = inject(EoConnectionsService);
+
   protected search = '';
-  protected store = inject(EoConnectionsStore);
+  protected connections = signal<{loading: boolean; hasError: boolean; data: EoConnection[] | null}>({
+    loading: false,
+    hasError: false,
+    data: null
+  });
+  protected amountOfConnections: Signal<number> = computed(() => this.connections().data?.length || 0);
 
   ngOnInit(): void {
-    this.store.getConnections();
+    this.loadConnections();
+  }
+
+  private loadConnections() {
+    this.connections.set({loading: true, hasError: false, data: null});
+    this.connectionsService.getConnections().subscribe({
+      next: (data) => {
+        this.connections.set({loading: false, hasError: false, data});
+      } ,
+      error: () => {
+        this.connections.set({loading: false, hasError: false, data: null});
+      }
+    });
   }
 }

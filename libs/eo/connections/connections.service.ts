@@ -39,13 +39,11 @@ interface ConnectionsResponse {
 export class EoConnectionsService {
   #apiBase: string;
 
-  getConnections(): Observable<ConnectionsResponse> {
+  getConnections(): Observable<EoConnection[]> {
     return this.http.get<MeteringPointsResponse>(`${this.#apiBase}/meteringpoints`).pipe(
       // TODO: REMOVE THIS MAP
       map((response) => {
-        return {
-          connections: response.meteringPoints.map((connection, index) => ({ id: 'MOCKED ID ' + index, name: 'MOCKED NAME ' + index }))
-        };
+        return response.meteringPoints.map((connection, index) => ({ id: 'MOCKED ID ' + index, name: 'MOCKED NAME ' + index }))
       }),
       delay(500) // TODO: REMOVE THIS DELAY
     );
