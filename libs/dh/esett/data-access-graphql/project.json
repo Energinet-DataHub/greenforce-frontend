@@ -1,0 +1,8 @@
+{
+  "name": "dh-esett-data-access-graphql",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/esett/data-access-graphql/src",
+  "prefix": "dh",
+  "tags": ["product:dh", "domain:esett", "type:data-access"]
+}
