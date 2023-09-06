@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, Signal, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, Signal, ViewChild, computed, inject, signal } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -28,6 +28,7 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 import { EoBetaMessageComponent } from '../shared/atomic-design/ui-atoms/src/lib/eo-beta-message/eo-beta-message.component';
 import { EoConnectionsTableComponent } from './connections-table.component';
+import { EoInviteConnectionComponent } from './invite-connection/invite-connection.component';
 import { EoConnection, EoConnectionsService } from './connections.service';
 
 @Component({
@@ -36,6 +37,7 @@ import { EoConnection, EoConnectionsService } from './connections.service';
     AsyncPipe,
     EoBetaMessageComponent,
     EoConnectionsTableComponent,
+    EoInviteConnectionComponent,
     VaterFlexComponent,
     VaterSpacerComponent,
     VaterStackComponent,
@@ -74,7 +76,7 @@ import { EoConnection, EoConnectionsService } from './connections.service';
           >
           <vater-spacer />
           <watt-search label="Search" (search)="search = $event" />
-          <watt-button variant="secondary" icon="plus">New invitation link</watt-button>
+          <watt-button variant="secondary" icon="plus" (click)="inviteConnection.open()">New invitation link</watt-button>
         </vater-stack>
       </watt-card-title>
       <eo-connections-table
@@ -84,6 +86,8 @@ import { EoConnection, EoConnectionsService } from './connections.service';
         [filter]="search"
       ></eo-connections-table>
     </watt-card>
+
+    <eo-invite-connection #inviteConnection></eo-invite-connection>
   `,
 })
 export class EoConnectionsComponent implements OnInit {

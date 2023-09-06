@@ -14,67 +14,65 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation, inject, signal } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { RxPush } from '@rx-angular/template/push';
 
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
-
-import { EoTransfersStore } from './eo-transfers.store';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+
+import { EoInviteConnectionService } from './invite-connection.service';
+
 @Component({
+  selector: 'eo-invite-connection',
+  standalone: true,
   encapsulation: ViewEncapsulation.None,
-  selector: 'eo-transfers-wallet-modal',
   imports: [
     NgIf,
-    RxPush,
     WATT_FORM_FIELD,
     WATT_MODAL,
     WattButtonComponent,
     WattCopyToClipboardDirective,
     WattInputDirective,
     WattEmptyStateComponent,
+    VaterStackComponent,
   ],
-  standalone: true,
   template: `
     <watt-modal
       #modal
-      title="Create Wallet Deposit Endpoint"
-      [loading]="loading"
-      loadingMessage="Please wait while we generate your key"
+      title="New invitation link"
+      [loading]="inviteLink().loading"
+      loadingMessage="Please wait while we generate your invitation link"
       size="small"
       closeLabel="Close modal"
       (closed)="onClosed()"
-      *ngIf="opened"
+      *ngIf="isOpen()"
     >
-      <form *ngIf="!(walletDepositEndpointError$ | push); else error">
+      <form *ngIf="!inviteLink().hasError; else error">
+        <p>To enter into a transfer agreement you must be connected with the other organisation.</p>
+        <br />
+        <p>Copy and send the invitation link to the organisation you would like to connect with.</p>
+        <br />
         <p>
-          To receive granular certificates the sender must create a transfer agreement. They need
-          this key to identify the recipient (you).
+          <strong>The link can only be used by one organisation.</strong>
         </p>
-        <p style="margin-top: var(--watt-space-s);">
-          <strong>The key is one-time use only</strong>
-        </p>
-        <div style="display: flex; align-items: center; margin: var(--watt-space-xl) 0;">
+        <br />
+        <vater-stack direction="row">
           <watt-form-field>
-            <watt-label>KEY</watt-label>
-            <input wattInput type="text" [value]="(walletDepositEndpoint$ | push) || ''" #key />
+            <watt-label>Invitation link</watt-label>
+            <input wattInput type="text" [value]="inviteLink().link" #key />
           </watt-form-field>
           <watt-button variant="text" icon="contentCopy" [wattCopyToClipboard]="key.value"
-            >Copy key</watt-button
+            >Copy link</watt-button
           >
-        </div>
+        </vater-stack>
       </form>
       <watt-modal-actions>
-        <watt-button
-          variant="secondary"
-          data-testid="close-new-agreement-button"
-          (click)="modal.close(true)"
-        >
+        <watt-button variant="secondary" (click)="modal.close(true)">
           Close
         </watt-button>
       </watt-modal-actions>
@@ -84,41 +82,45 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
       <watt-empty-state
         icon="power"
         title="An unexpected error occured"
-        message="We are sorry, we could not generate your key. Please try again later."
-        style="margin: var(--watt-space-xl) 0;"
+        message="We are sorry, we could not generate your invitation link. Please try again later."
       >
       </watt-empty-state>
     </ng-template>
   `,
 })
-export class EoTransfersWalletModalComponent {
+export class EoInviteConnectionComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
   private cd = inject(ChangeDetectorRef);
-  private store = inject(EoTransfersStore);
-
-  protected opened = false;
-  protected walletDepositEndpoint$ = this.store.walletDepositEndpoint$;
-  protected walletDepositEndpointError$ = this.store.walletDepositEndpointError$;
-  protected walletDepositEndpointLoading$ = this.store.walletDepositEndpointLoading$;
-  loading = false;
+  private inviteConnectionService = inject(EoInviteConnectionService);
+  private inviteLinkIntialState = {
+    loading: false,
+    hasError: false,
+    link: null,
+  };
+  protected isOpen = signal<boolean>(false);
+  protected inviteLink = signal<{ loading: boolean; hasError: boolean; link: string | null }>(this.inviteLinkIntialState);
 
   open() {
-    this.opened = true;
+    this.isOpen.set(true);
     this.cd.detectChanges();
     this.modal.open();
-    this.createWalletDepositEndpoint();
-
-    this.walletDepositEndpointLoading$.subscribe((loading) => {
-      this.loading = loading;
-    });
+    this.createInviteLink();
   }
 
   onClosed() {
-    this.opened = false;
+    this.isOpen.set(false);
   }
 
-  createWalletDepositEndpoint() {
-    this.store.createWalletDepositEndpoint();
+  private createInviteLink() {
+    this.inviteLink.set({ loading: true, hasError: false, link: null });
+    this.inviteConnectionService.generateInviteLink().subscribe({
+      next: (link) => {
+        this.inviteLink.set({ loading: false, hasError: false, link });
+      },
+      error: () => {
+        this.inviteLink.set({ loading: false, hasError: true, link: null });
+      }
+    });
   }
 }

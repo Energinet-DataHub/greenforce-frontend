@@ -40,7 +40,6 @@ import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.component';
 import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
-import { EoTransfersWalletModalComponent } from './eo-transfers-wallet-modal-component';
 
 interface EoTransferTableElement extends EoListedTransfer {
   period?: string;
@@ -61,7 +60,6 @@ interface EoTransferTableElement extends EoListedTransfer {
     ReactiveFormsModule,
     EoTransfersDrawerComponent,
     EoTransfersCreateModalComponent,
-    EoTransfersWalletModalComponent,
     WattDatePipe,
     NgIf,
   ],
@@ -112,15 +110,6 @@ interface EoTransferTableElement extends EoListedTransfer {
           (click)="transfersModal.open()"
         >
           New transfer agreement
-        </watt-button>
-
-        <watt-button
-          data-testid="create-wallet-endpoint-button"
-          icon="plus"
-          variant="secondary"
-          (click)="transfersWalletModalComponent.open()"
-        >
-          Create Wallet Endpoint
         </watt-button>
       </div>
     </div>
@@ -187,7 +176,6 @@ interface EoTransferTableElement extends EoListedTransfer {
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
 
     <eo-transfers-create-modal></eo-transfers-create-modal>
-    <eo-transfers-wallet-modal></eo-transfers-wallet-modal>
     <eo-transfers-drawer
       [transfer]="selectedTransfer"
       (closed)="transferSelected.emit(undefined)"
@@ -202,8 +190,6 @@ export class EoTransfersTableComponent implements OnChanges {
 
   @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
   @ViewChild(EoTransfersCreateModalComponent) transfersModal!: EoTransfersCreateModalComponent;
-  @ViewChild(EoTransfersWalletModalComponent)
-  transfersWalletModalComponent!: EoTransfersWalletModalComponent;
 
   utils = inject(SharedUtilities);
   private fb = inject(FormBuilder);
