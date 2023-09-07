@@ -1,0 +1,30 @@
+query getOutgoingMessages(
+  $pageNumber: Int!
+  $pageSize: Int!
+  $periodFrom: DateTime
+  $periodTo: DateTime
+  $gridAreaCode: String
+  $processType: ExchangeEventProcessType
+  $documentStatus: DocumentStatus
+  $timeSeriesType: TimeSeriesType
+) {
+  esettExchangeEvents(
+    pageNumber: $pageNumber
+    pageSize: $pageSize
+    periodFrom: $periodFrom
+    periodTo: $periodTo
+    gridAreaCode: $gridAreaCode
+    processType: $processType
+    documentStatus: $documentStatus
+    timeSeriesType: $timeSeriesType
+  ) {
+    items {
+      documentId
+      gridAreaCode
+      processType
+      documentStatus
+      timeSeriesType
+    }
+    totalCount
+  }
+}
