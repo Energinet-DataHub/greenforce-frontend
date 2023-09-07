@@ -60,7 +60,7 @@ export const DataTable: StoryObj<WattDataTableComponent<PeriodicElement>> = {
     template: `
       <watt-data-table vater inset="m" [dataSource]="dataSource">
         <h3>Results</h3>
-        <watt-button icon="plus" variant="secondary">New</watt-button>
+        <watt-button icon="plus" variant="secondary">Add Element</watt-button>
         <watt-data-filters>
           <vater-stack gap="s" direction="row">
             <watt-filter-chip choice [selected]="true" name="classification">Any Classification</watt-filter-chip>
