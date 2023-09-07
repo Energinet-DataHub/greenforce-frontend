@@ -35,7 +35,7 @@ const tableStoryArgs = TableStory.args ?? {};
 const tableStoryTemplate = TableStory(tableStoryArgs, {} as StoryContext).template;
 
 const meta: Meta = {
-  title: 'Components/Data Viewer',
+  title: 'Components/Data Presentation',
   decorators: [
     applicationConfig({ providers: [provideAnimations()] }),
     moduleMetadata({
