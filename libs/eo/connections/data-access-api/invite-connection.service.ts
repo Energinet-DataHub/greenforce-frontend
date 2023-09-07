@@ -33,10 +33,6 @@ export class EoInviteConnectionService {
   }
 
   generateInviteLink() {
-    return this.http
-      .post<string>(
-        `${this.#apiBase}/connection-invitations`,
-        {}
-      );
+    return this.http.post<string>(`${this.#apiBase}/connection-invitations`, {});
   }
 }

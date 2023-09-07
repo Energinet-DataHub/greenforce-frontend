@@ -50,7 +50,7 @@ export class EoConnectionsService {
           companyTin: 'MOCKED COMPANY TIN ' + index,
           name: 'MOCKED NAME ' + index,
         }));
-      }),
+      })
     );
   }
 
