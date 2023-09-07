@@ -17,6 +17,9 @@
 import { Component, Input, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { RxPush } from '@rx-angular/template/push';
+import { first } from 'rxjs';
+
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
@@ -31,8 +34,6 @@ import { WattEmptyStateComponent } from '../empty-state';
 
 import { WattDataIntlService } from './watt-data-intl.service';
 import { WattDataSourceService } from './watt-data-source.service';
-import { RxPush } from '@rx-angular/template/push';
-import { first } from 'rxjs';
 
 @Component({
   selector: 'watt-data-table',
