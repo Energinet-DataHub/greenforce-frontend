@@ -19,12 +19,13 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { debounceTime } from 'rxjs';
+import { Subscription, debounceTime } from 'rxjs';
 
 import { WattFormChipDirective, WattFormFieldComponent } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -125,13 +126,15 @@ const makeFormControl = <T>(value: T = null as T) =>
     </form>
   `,
 })
-export class DhOutgoingMessagesFiltersComponent implements OnInit {
+export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
+  private subscription: Subscription | null = null;
+
   @Input() initial?: DhOutgoingMessagesFilters;
   @Output() filter = new EventEmitter<DhOutgoingMessagesFilters>();
 
   formGroup!: FormGroup<Filters>;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.formGroup = new FormGroup<Filters>({
       calculationTypes: makeFormControl(this.initial?.calculationTypes),
       messageTypes: makeFormControl(this.initial?.messageTypes),
@@ -140,8 +143,13 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit {
       period: makeFormControl(this.initial?.period),
     });
 
-    this.formGroup.valueChanges
+    this.subscription = this.formGroup.valueChanges
       .pipe(debounceTime(500))
       .subscribe((value) => this.filter.emit(value));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+    this.subscription = null;
   }
 }
