@@ -16,7 +16,7 @@
  */
 import { Component, Input } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -43,7 +43,15 @@ import { DhOutgoingMessage } from '../dh-outgoing-message';
       }
     `,
   ],
-  imports: [NgIf, TranslocoDirective, WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent],
+  imports: [
+    NgIf,
+    TranslocoDirective,
+    TranslocoPipe,
+
+    WATT_TABLE,
+    WattPaginatorComponent,
+    WattEmptyStateComponent,
+  ],
 })
 export class DhOutgoingMessagesTableComponent {
   activeRow: DhOutgoingMessage | undefined = undefined;
