@@ -23,7 +23,7 @@ import {
 } from '@storybook/angular';
 import { WattDataTableComponent } from './watt-data-table.component';
 import { WattButtonComponent } from '../button';
-import { PeriodicElement, Table as TableStory } from '../table/watt-table.stories';
+import { Table as TableStory } from '../table/watt-table.stories';
 import { WATT_TABLE } from '../table';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -54,7 +54,7 @@ const meta: Meta = {
 
 export default meta;
 
-export const DataTable: StoryObj<WattDataTableComponent<PeriodicElement>> = {
+export const DataTable: StoryObj<WattDataTableComponent> = {
   render: (args) => ({
     props: { ...args, ...tableStoryArgs },
     template: `
