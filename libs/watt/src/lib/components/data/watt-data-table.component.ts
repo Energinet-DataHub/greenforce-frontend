@@ -82,7 +82,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
           <vater-stack direction="row" gap="s">
             <ng-content select="h3" />
             <ng-content select="h4" />
-            <span class="watt-chip-label">{{ dataSource.data.length }}</span>
+            <span class="watt-chip-label">{{ _getCount() }}</span>
           </vater-stack>
           <vater-spacer />
           <watt-search *ngIf="enableSearch" [label]="intl.search" (search)="onSearch($event)" />
@@ -112,8 +112,13 @@ export class WattDataTableComponent<T> {
   @Input() error: unknown;
   @Input() loading = false;
   @Input() enableSearch = true;
+  @Input() count?: number;
 
   intl = inject(WattDataIntlService);
+
+  _getCount() {
+    return typeof this.count === 'undefined' ? this.dataSource.data.length : this.count;
+  }
 
   onSearch(value: string) {
     this.dataSource.filter = value;
