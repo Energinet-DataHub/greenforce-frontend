@@ -60,7 +60,7 @@ export const DataTable: StoryObj<WattDataTableComponent> = {
   render: (args) => ({
     props: { ...args, ...tableStoryArgs },
     template: `
-      <watt-data-table>
+      <watt-data-table vater inset="m">
         <h3>Results</h3>
         <watt-button icon="plus" variant="secondary">Add Element</watt-button>
         <watt-data-filters>
