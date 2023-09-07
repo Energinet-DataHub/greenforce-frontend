@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { defineConfig } from "cypress";
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
@@ -28,6 +28,3 @@ export default defineConfig({
     excludeSpecPattern: `${__dirname}/src/e2e/b2c-healthchecks.cy.ts`,
   },
 });
-
-
-
