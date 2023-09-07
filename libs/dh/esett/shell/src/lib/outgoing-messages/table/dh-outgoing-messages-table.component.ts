@@ -19,7 +19,6 @@ import { NgIf } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
@@ -44,26 +43,17 @@ import { DhOutgoingMessage } from '../dh-outgoing-message';
       }
     `,
   ],
-  imports: [
-    NgIf,
-    TranslocoDirective,
-
-    WATT_TABLE,
-    WattPaginatorComponent,
-    WattEmptyStateComponent,
-
-    DhEmDashFallbackPipe,
-  ],
+  imports: [NgIf, TranslocoDirective, WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent],
 })
 export class DhOutgoingMessagesTableComponent {
   activeRow: DhOutgoingMessage | undefined = undefined;
 
   columns: WattTableColumnDef<DhOutgoingMessage> = {
-    id: { accessor: 'id' },
-    calculationType: { accessor: 'calculationType' },
-    messageType: { accessor: 'messageType' },
-    gridArea: { accessor: 'gridArea' },
-    status: { accessor: 'status' },
+    id: { accessor: 'documentId' },
+    calculationType: { accessor: 'processType' },
+    messageType: { accessor: 'timeSeriesType' },
+    gridArea: { accessor: 'gridAreaCode' },
+    status: { accessor: 'documentStatus' },
   };
 
   @Input() isLoading!: boolean;

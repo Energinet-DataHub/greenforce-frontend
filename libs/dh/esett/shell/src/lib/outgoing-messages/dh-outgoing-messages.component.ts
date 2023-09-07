@@ -14,14 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject, switchMap, takeUntil } from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
+import { Apollo } from 'apollo-angular';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { GetOutgoingMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
 import { DhOutgoingMessagesTableComponent } from './table/dh-outgoing-messages-table.component';
@@ -60,8 +62,12 @@ import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
     DhOutgoingMessagesTableComponent,
   ],
 })
-export class DhOutgoingMessagesComponent {
+export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
+  private apollo = inject(Apollo);
+  private destroy$ = new Subject<void>();
+
   tableDataSource = new WattTableDataSource<DhOutgoingMessage>([]);
+  totalCount = 0;
 
   searchInput$ = new BehaviorSubject<string>('');
 
@@ -74,4 +80,45 @@ export class DhOutgoingMessagesComponent {
       end: endOfDay(new Date()),
     },
   });
+
+  outgoingMessages$ = this.filter$.pipe(
+    switchMap(
+      (filters) =>
+        this.apollo.watchQuery({
+          useInitialLoading: true,
+          notifyOnNetworkStatusChange: true,
+          fetchPolicy: 'cache-and-network',
+          query: GetOutgoingMessagesDocument,
+          variables: {
+            pageNumber: 1,
+            pageSize: 100,
+            periodFrom: filters.period?.start,
+            periodTo: filters.period?.end,
+          },
+        }).valueChanges
+    ),
+    takeUntil(this.destroy$)
+  );
+
+  ngOnInit() {
+    this.outgoingMessages$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (result) => {
+        this.isLoading = result.loading;
+
+        this.tableDataSource.data = result.data?.esettExchangeEvents.items;
+        this.totalCount = result.data?.esettExchangeEvents.totalCount;
+
+        this.hasError = !!result.errors;
+      },
+      error: () => {
+        this.hasError = true;
+        this.isLoading = false;
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
