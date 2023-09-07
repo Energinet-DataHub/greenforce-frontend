@@ -28,3 +28,4 @@ jobs:
         with:
           install: false
           config-file: apps/dh/e2e-dh/cypress-acceptance-tests.config.ts
+          working-directory: ${{ github.workspace }}/apps/dh/e2e-dh
