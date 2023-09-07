@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewEncapsulation, inject } from '@angular/core';
+import { Component, ContentChild, Input, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
@@ -26,7 +26,7 @@ import {
 
 import { WattCardComponent } from '../card';
 import { WattSearchComponent } from '../search';
-import { WattTableDataSource } from '../table';
+import { WattTableComponent } from '../table';
 import { WattPaginatorComponent } from '../paginator';
 import { WattEmptyStateComponent } from '../empty-state';
 
@@ -82,7 +82,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
           <vater-stack direction="row" gap="s">
             <ng-content select="h3" />
             <ng-content select="h4" />
-            <span class="watt-chip-label">{{ _getCount() }}</span>
+            <span class="watt-chip-label">{{ count ?? this.table.dataSource.data.length }}</span>
           </vater-stack>
           <vater-spacer />
           <watt-search *ngIf="enableSearch" [label]="intl.search" (search)="onSearch($event)" />
@@ -90,9 +90,9 @@ import { WattDataIntlService } from './watt-data-intl.service';
         </vater-stack>
         <ng-content select="watt-data-filters" />
         <vater-flex scrollable fill="vertical">
-          <ng-content />
+          <ng-content select="watt-table" />
           <div
-            *ngIf="!loading && dataSource.filteredData.length === 0"
+            *ngIf="!loading && this.table.dataSource.filteredData.length === 0"
             class="watt-data-table--empty-state"
           >
             <watt-empty-state
@@ -102,25 +102,23 @@ import { WattDataIntlService } from './watt-data-intl.service';
             />
           </div>
         </vater-flex>
-        <watt-paginator [for]="dataSource" />
+        <watt-paginator [for]="this.table.dataSource" />
       </vater-flex>
     </watt-card>
   `,
 })
-export class WattDataTableComponent<T> {
-  @Input({ required: true }) dataSource!: WattTableDataSource<T>;
+export class WattDataTableComponent {
   @Input() error: unknown;
   @Input() loading = false;
   @Input() enableSearch = true;
   @Input() count?: number;
 
+  @ContentChild(WattTableComponent, { descendants: true })
+  table!: WattTableComponent<unknown>;
+
   intl = inject(WattDataIntlService);
 
-  _getCount() {
-    return typeof this.count === 'undefined' ? this.dataSource.data.length : this.count;
-  }
-
   onSearch(value: string) {
-    this.dataSource.filter = value;
+    this.table.dataSource.filter = value;
   }
 }
