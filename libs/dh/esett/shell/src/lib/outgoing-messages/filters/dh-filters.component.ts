@@ -47,6 +47,7 @@ const makeFormControl = <T>(value: T = null as T) =>
   standalone: true,
   selector: 'dh-outgoing-messages-filters',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './dh-filters.component.html',
   styles: [
     `
       :host {
@@ -70,61 +71,6 @@ const makeFormControl = <T>(value: T = null as T) =>
     WattFormFieldComponent,
     WattDropdownComponent,
   ],
-  template: `
-    <form
-      vater-stack
-      direction="row"
-      gap="m"
-      tabindex="-1"
-      [formGroup]="formGroup"
-      *transloco="let t; read: 'eSett.outgoingMessages.filters'"
-    >
-      <watt-form-field>
-        <watt-dropdown
-          formControlName="calculationTypes"
-          [chipMode]="true"
-          [multiple]="true"
-          [options]="[]"
-          [placeholder]="t('calculationType')"
-        />
-      </watt-form-field>
-
-      <watt-form-field>
-        <watt-dropdown
-          formControlName="messageTypes"
-          [chipMode]="true"
-          [multiple]="true"
-          [options]="[]"
-          [placeholder]="t('messageType')"
-        />
-      </watt-form-field>
-
-      <watt-form-field>
-        <watt-dropdown
-          formControlName="gridAreas"
-          [chipMode]="true"
-          [multiple]="true"
-          [options]="[]"
-          [placeholder]="t('gridArea')"
-        />
-      </watt-form-field>
-
-      <watt-form-field>
-        <watt-dropdown
-          formControlName="status"
-          [chipMode]="true"
-          [multiple]="true"
-          [options]="[]"
-          [placeholder]="t('status')"
-        />
-      </watt-form-field>
-
-      <watt-date-range-chip formControlName="period">{{ t('period') }}</watt-date-range-chip>
-
-      <vater-spacer />
-      <watt-button variant="text" icon="undo" type="reset">{{ t('reset') }}</watt-button>
-    </form>
-  `,
 })
 export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
   private subscription: Subscription | null = null;
