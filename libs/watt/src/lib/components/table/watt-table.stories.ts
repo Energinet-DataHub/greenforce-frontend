@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  applicationConfig,
-  componentWrapperDecorator,
-  moduleMetadata,
-  StoryFn,
-} from '@storybook/angular';
+import { applicationConfig, moduleMetadata, StoryFn } from '@storybook/angular';
 import { MatSortModule } from '@angular/material/sort';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
@@ -27,11 +22,6 @@ import { WattTableColumnDef, WATT_TABLE } from './watt-table.component';
 import { WattTableDataSource } from './watt-table-data-source';
 import { WattButtonComponent } from '../button';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
-
-function removeDecoratorFromSource(snippet: string) {
-  const matches = snippet.match(/^<.+?>(.+)<\/.+>$/s);
-  return matches?.[1] ?? snippet;
-}
 
 export interface PeriodicElement {
   name: string;
@@ -71,7 +61,6 @@ export default {
       imports: [WATT_TABLE, WattButtonComponent, WattIconComponent, MatSortModule],
     }),
   ],
-  parameters: { docs: { transformSource: removeDecoratorFromSource } },
 };
 
 export const Table: StoryFn = (args) => {
