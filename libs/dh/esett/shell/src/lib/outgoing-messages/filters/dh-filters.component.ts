@@ -32,16 +32,13 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhOutgoingMessagesFilters } from '../dh-outgoing-messages-filters';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
 type Filters = FormControls<DhOutgoingMessagesFilters>;
-
-/** Helper function for creating form control with `nonNullable` based on value. */
-const makeFormControl = <T>(value: T = null as T) =>
-  new FormControl(value, { nonNullable: Boolean(value) });
 
 @Component({
   standalone: true,
@@ -82,11 +79,11 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.formGroup = new FormGroup<Filters>({
-      calculationTypes: makeFormControl(this.initial?.calculationTypes),
-      messageTypes: makeFormControl(this.initial?.messageTypes),
-      gridAreas: makeFormControl(this.initial?.gridAreas),
-      status: makeFormControl(this.initial?.status),
-      period: makeFormControl(this.initial?.period),
+      calculationTypes: dhMakeFormControl(this.initial?.calculationTypes),
+      messageTypes: dhMakeFormControl(this.initial?.messageTypes),
+      gridAreas: dhMakeFormControl(this.initial?.gridAreas),
+      status: dhMakeFormControl(this.initial?.status),
+      period: dhMakeFormControl(this.initial?.period),
     });
 
     this.subscription = this.formGroup.valueChanges

@@ -41,14 +41,11 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { executionStates, processTypes } from '@energinet-datahub/dh/wholesale/domain';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
 type Filters = FormControls<GetCalculationsQueryVariables>;
-
-/** Helper function for creating form control with `nonNullable` based on value. */
-const makeFormControl = <T>(value: T = null as T) =>
-  new FormControl(value, { nonNullable: Boolean(value) });
 
 @Component({
   standalone: true,
@@ -149,11 +146,11 @@ export class DhCalculationsFiltersComponent implements OnInit {
 
   ngOnInit() {
     this._formGroup = new FormGroup<Filters>({
-      executionTime: makeFormControl(this.initial?.executionTime),
-      period: makeFormControl(this.initial?.period),
-      gridAreaCodes: makeFormControl(this.initial?.gridAreaCodes),
-      processTypes: makeFormControl(this.initial?.processTypes),
-      executionStates: makeFormControl(this.initial?.executionStates),
+      executionTime: dhMakeFormControl(this.initial?.executionTime),
+      period: dhMakeFormControl(this.initial?.period),
+      gridAreaCodes: dhMakeFormControl(this.initial?.gridAreaCodes),
+      processTypes: dhMakeFormControl(this.initial?.processTypes),
+      executionStates: dhMakeFormControl(this.initial?.executionStates),
     });
 
     this._formGroup.valueChanges

@@ -24,7 +24,7 @@ import {
   Output,
   inject,
 } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Observable, Subscription, debounceTime, map } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
@@ -35,10 +35,9 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { ActorsFilters } from '../actors-filters';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 /** Helper function for creating form control with `nonNullable` based on value. */
-const makeFormControl = <T>(value: T | null = null) =>
-  new FormControl(value, { nonNullable: Boolean(value) });
 
 @Component({
   standalone: true,
@@ -114,8 +113,8 @@ export class DhActorsFiltersComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      actorStatus: makeFormControl<ActorStatus[]>(this.initial.actorStatus),
-      marketRoles: makeFormControl<EicFunction[]>(this.initial.marketRoles),
+      actorStatus: dhMakeFormControl<ActorStatus[]>(this.initial.actorStatus),
+      marketRoles: dhMakeFormControl<EicFunction[]>(this.initial.marketRoles),
     });
 
     this.formGroupSubscription = this.formGroup.valueChanges
