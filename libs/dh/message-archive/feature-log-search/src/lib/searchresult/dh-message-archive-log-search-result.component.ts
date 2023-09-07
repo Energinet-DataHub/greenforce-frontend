@@ -26,10 +26,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { RxLet } from '@rx-angular/template/let';
-import {
-  MatLegacyTableDataSource as MatTableDataSource,
-  MatLegacyTableModule as MatTableModule,
-} from '@angular/material/legacy-table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -43,6 +39,7 @@ import {
   WattTableComponent,
   WattTableColumnDef,
   WattTableCellDirective,
+  WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
@@ -66,7 +63,6 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
     CommonModule,
     TranslocoModule,
     RxLet,
-    MatTableModule,
     MatSortModule,
     WattIconComponent,
     WattTableComponent,
@@ -99,8 +95,7 @@ export class DhMessageArchiveLogSearchResultComponent implements AfterViewInit, 
   @Input() isInit = false;
   @Input() actors!: WattDropdownOptions;
 
-  readonly dataSource: MatTableDataSource<ArchivedMessage> =
-    new MatTableDataSource<ArchivedMessage>();
+  readonly dataSource = new WattTableDataSource<ArchivedMessage>();
 
   constructor() {
     this.columns = {
