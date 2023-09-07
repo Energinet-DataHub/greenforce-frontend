@@ -15,7 +15,9 @@ jobs:
             node_modules
           key: e2e-dh-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
-      - run: npm i cypress
+      - name: Install Cypress
+        run: npm i cypress
+        working-directory: /apps/dh/e2e-dh
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
