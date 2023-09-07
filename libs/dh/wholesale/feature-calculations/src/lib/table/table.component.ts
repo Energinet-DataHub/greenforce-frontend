@@ -69,7 +69,9 @@ export class DhCalculationsTableComponent {
     this.dataSource.filter = value;
   }
 
-  @Output() selectedRow: EventEmitter<Calculation> = new EventEmitter();
+  @Output() selectedRow = new EventEmitter();
+
+  @Output() create = new EventEmitter<void>();
 
   dataSource: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {

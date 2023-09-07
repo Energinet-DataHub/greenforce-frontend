@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <watt-data-table vater inset="m" *transloco="let t; read: 'wholesale.calculations'">
   <h3>{{ t("headline") }}</h3>
-  <watt-button variant="secondary" icon="plus">
+  <watt-button variant="secondary" icon="plus" (click)="create.emit()">
     {{ t("new") }}
   </watt-button>
   <watt-table
