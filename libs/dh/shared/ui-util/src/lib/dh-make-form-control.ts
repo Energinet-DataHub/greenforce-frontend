@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-em-dash-fallback.pipe';
-export * from './lib/em-dash';
-export * from './lib/export-to-csv';
-export * from './lib/dh-make-form-control';
+import { FormControl } from '@angular/forms';
+
+/**
+ * Helper function for creating form control with `nonNullable` based on value.
+ */
+export const dhMakeFormControl = <T>(value: T | null = null) =>
+  new FormControl(value, { nonNullable: Boolean(value) });
