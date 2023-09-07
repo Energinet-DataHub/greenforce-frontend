@@ -27,7 +27,7 @@ import { DhOutgoingMessage } from '../dh-outgoing-message';
 @Component({
   selector: 'dh-outgoing-messages-table',
   standalone: true,
-  templateUrl: './dh-outgoing-messages-table.component.html',
+  templateUrl: './dh-table.component.html',
   styles: [
     `
       :host {
