@@ -62,7 +62,7 @@ export const DataTable: StoryObj<WattDataTableComponent<PeriodicElement>> = {
         <h3>Results</h3>
         <watt-button icon="plus" variant="secondary">Add Element</watt-button>
         <watt-data-filters>
-          <vater-stack gap="s" direction="row">
+          <vater-stack fill="vertical" gap="s" direction="row">
             <watt-filter-chip choice [selected]="true" name="classification">Any Classification</watt-filter-chip>
             <watt-filter-chip choice name="classification">Metals</watt-filter-chip>
             <watt-filter-chip choice name="classification">Non-Metals</watt-filter-chip>
