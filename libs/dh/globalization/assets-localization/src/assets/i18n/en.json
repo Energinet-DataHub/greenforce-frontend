@@ -819,6 +819,24 @@
     },
     "outgoingMessages": {
       "tabHeading": "Outgoing messages",
+      "shared": {
+        "calculationType": {
+          "BALANCE_FIXING": "Balance fixing",
+          "AGGREGATION": "Aggregation"
+        },
+        "messageType": {
+          "MGA_EXCHANGE": "MGA Exchange",
+          "PRODUCTION": "Production",
+          "CONSUMPTION": "Consumption"
+        },
+        "documentStatus": {
+          "RECEIVED": "Received",
+          "AWAITING_DISPATCH": "Awaiting dispatch",
+          "AWAITING_REPLY": "Awaiting reply",
+          "ACCEPTED": "Accepted",
+          "REJECTED": "Not accepted"
+        }
+      },
       "filters": {
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
