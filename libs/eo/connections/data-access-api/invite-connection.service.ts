@@ -16,8 +16,13 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { Observable, map } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+
+interface InviteConnectionResponse {
+  connectionInvitationId: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +37,12 @@ export class EoInviteConnectionService {
     this.#apiBase = `${apiEnvironment.apiBase}`;
   }
 
-  generateInviteLink() {
-    return this.http.post<string>(`${this.#apiBase}/connection-invitations`, {});
+  generateInviteLink(): Observable<string> {
+    return this.http
+      .post<InviteConnectionResponse>(`${this.#apiBase}/connection-invitations`, null).pipe(
+        map((response) => {
+          return `${window.location.origin}/connections?accept-invitation=${response.connectionInvitationId}`;
+        })
+      );
   }
 }
