@@ -4,7 +4,7 @@ import { WattTableDataSource } from '../table';
 
 @Injectable()
 export class WattDataSourceService<T = unknown> {
-  source$ = new ReplaySubject<WattTableDataSource<T>>();
+  source$ = new ReplaySubject<WattTableDataSource<T>>(1);
 
   register(dataSource: WattTableDataSource<T>) {
     this.source$.next(dataSource);
