@@ -38,7 +38,7 @@ import type { QueryList } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
-import { map, type Subscription } from 'rxjs';
+import { map, takeUntil, type Subscription, Subject } from 'rxjs';
 import { WattCheckboxComponent } from '../checkbox';
 
 export interface WattTableColumn<T> {
@@ -291,7 +291,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   _element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /** @ignore */
-  _subscription!: Subscription;
+  private destroy$ = new Subject<void>();
 
   /** @ignore */
   private isInitialSelectionSet = false;
@@ -304,8 +304,11 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
 
   ngAfterViewInit() {
     this.dataSource.sort = this._sort;
-    this._subscription = this._selectionModel.changed
-      .pipe(map(() => this._selectionModel.selected))
+    this._selectionModel.changed
+      .pipe(
+        map(() => this._selectionModel.selected),
+        takeUntil(this.destroy$)
+      )
       .subscribe((selection) => this.selectionChange.emit(selection));
 
     // Make sorting by text case insensitive
@@ -346,7 +349,8 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   }
 
   ngOnDestroy() {
-    this._subscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /**
@@ -371,6 +375,12 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
     } else {
       this.clearSelection();
     }
+  }
+
+  get _filteredSelection() {
+    return this._selectionModel.selected.filter((row) =>
+      this.dataSource.filteredData.includes(row)
+    );
   }
 
   /** @ignore */
