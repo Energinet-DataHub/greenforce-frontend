@@ -8,17 +8,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/Cypress
-            node_modules
-          key: e2e-dh-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install Cypress
-        run: npm i cypress
-        working-directory: ${{ github.workspace }}/apps/dh/e2e-dh
-
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
         env:
@@ -26,6 +17,5 @@ jobs:
           CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_U1_USERNAME }}
           CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_U1_PASSWORD }}
         with:
-          install: false
-          config-file: cypress-acceptance-tests.config.js
+          config-file: cypress-acceptance-tests.config.ts
           working-directory: ${{ github.workspace }}/apps/dh/e2e-dh

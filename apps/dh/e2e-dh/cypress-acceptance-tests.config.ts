@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module.exports = {
+import { defineConfig } from 'cypress';
+
+export default defineConfig({
   e2e: {
     // videosFolder: 'cypress/videos',
     // screenshotsFolder: 'cypress/screenshots',
@@ -25,4 +27,4 @@ module.exports = {
     fixturesFolder: `${__dirname}/src/fixtures`,
     excludeSpecPattern: `${__dirname}/src/e2e/b2c-healthchecks.cy.ts`,
   },
-};
+});
