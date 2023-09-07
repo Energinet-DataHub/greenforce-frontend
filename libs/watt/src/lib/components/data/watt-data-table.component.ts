@@ -79,8 +79,11 @@ import { WattDataIntlService } from './watt-data-intl.service';
     <watt-card vater fill="vertical">
       <vater-flex fill="vertical" gap="m">
         <vater-stack direction="row" gap="m">
-          <ng-content select="h3" />
-          <ng-content select="h4" />
+          <vater-stack direction="row" gap="s">
+            <ng-content select="h3" />
+            <ng-content select="h4" />
+            <span class="watt-chip-label">{{ dataSource.data.length }}</span>
+          </vater-stack>
           <vater-spacer />
           <watt-search [label]="intl.search" (search)="onSearch($event)" />
           <ng-content select="watt-button" />
