@@ -6,12 +6,7 @@ import { WattTableDataSource } from '../table';
 export class WattDataSourceService<T = unknown> {
   source$ = new ReplaySubject<WattTableDataSource<T>>();
 
-  constructor() {
-    console.log('constructed');
-  }
-
   register(dataSource: WattTableDataSource<T>) {
-    console.log('register');
     this.source$.next(dataSource);
   }
 }
