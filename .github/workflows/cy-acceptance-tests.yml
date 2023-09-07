@@ -1,0 +1,28 @@
+name: Cypress Acceptance Tests
+on: push
+jobs:
+  cypress-run:
+    name: Cypress run
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/Cypress
+            node_modules
+          key: e2e-dh-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - run: npm i cypress
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        env:
+          CYPRESS_baseUrl: https://jolly-sand-03f839703.azurestaticapps.net
+          CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_U1_USERNAME }}
+          CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_U1_PASSWORD }}
+        with:
+          install: false
+          config-file: apps/dh/e2e-dh/cypress-acceptance-tests.config.ts
