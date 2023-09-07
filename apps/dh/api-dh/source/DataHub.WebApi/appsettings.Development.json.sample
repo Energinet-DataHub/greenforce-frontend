@@ -13,6 +13,7 @@
     "WholesaleBaseUrl": "https://localhost:7133",
     "MarketParticipantBaseUrl": "https://localhost:5001",
     "MessageArchiveBaseUrl": "https://localhost:5001"
+    "ESettExchangeBaseUrl": "https://localhost:5001"
   },
 
   "B2C_TENANT_ID" : "B2C_TENANT_ID",
