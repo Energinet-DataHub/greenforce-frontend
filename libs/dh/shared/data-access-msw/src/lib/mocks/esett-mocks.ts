@@ -14,7 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { mockGetOutgoingMessagesQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  DocumentStatus,
+  ExchangeEventProcessType,
+  ExchangeEventSearchResultType,
+  TimeSeriesType,
+  mockGetOutgoingMessagesQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+const exchangeEvents: ExchangeEventSearchResultType[] = [
+  {
+    documentId: '390161908',
+    gridAreaCode: 'DK1',
+    processType: ExchangeEventProcessType.Aggregation,
+    documentStatus: DocumentStatus.Accepted,
+    timeSeriesType: TimeSeriesType.Consumption,
+  },
+];
 
 export function eSettMocks() {
   return [getActorsForSettlementReportQuery()];
@@ -22,6 +38,14 @@ export function eSettMocks() {
 
 function getActorsForSettlementReportQuery() {
   return mockGetOutgoingMessagesQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data({ esettExchangeEvents: { items: [], totalCount: 0 } }));
+    return res(
+      ctx.delay(300),
+      ctx.data({
+        esettExchangeEvents: {
+          totalCount: exchangeEvents.length,
+          items: exchangeEvents,
+        },
+      })
+    );
   });
 }
