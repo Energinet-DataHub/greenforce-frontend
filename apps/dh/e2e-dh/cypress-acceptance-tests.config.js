@@ -9,4 +9,4 @@ module.exports = {
     fixturesFolder: `${__dirname}/src/fixtures`,
     excludeSpecPattern: `${__dirname}/src/e2e/b2c-healthchecks.cy.ts`,
   },
-}
+};
