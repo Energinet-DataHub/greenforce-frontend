@@ -149,7 +149,7 @@ jobs:
         uses: Energinet-DataHub/energy-origin/.github/actions/build-and-push-container@main
         with:
           dockerfile: build/infrastructure/eo/host/Dockerfile
-          image-name: eo-frontend-app
+          image-name: eo-frontend
           image-tag: ${{ needs.define_build.outputs.version }}
 
   update-environment:
