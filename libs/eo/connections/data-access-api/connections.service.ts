@@ -22,15 +22,16 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
 
 export interface EoConnection {
   id: string;
+  companyId: string;
+  companyTin: string;
+}
+
+export interface EoConnectionWithName extends EoConnection {
   name: string;
 }
 
-interface MeteringPointsResponse {
-  meteringPoints: [];
-}
-
 interface ConnectionsResponse {
-  connections: EoConnection[];
+  result: EoConnection[];
 }
 
 @Injectable({
@@ -39,16 +40,17 @@ interface ConnectionsResponse {
 export class EoConnectionsService {
   #apiBase: string;
 
-  getConnections(): Observable<EoConnection[]> {
-    return this.http.get<MeteringPointsResponse>(`${this.#apiBase}/meteringpoints`).pipe(
+  getConnections(): Observable<EoConnectionWithName[]> {
+    return this.http.get<ConnectionsResponse>(`${this.#apiBase}/connections`).pipe(
       // TODO: REMOVE THIS MAP
       map((response) => {
-        return response.meteringPoints.map((connection, index) => ({
+        return response.result.map((connection, index) => ({
           id: 'MOCKED ID ' + index,
+          companyId: 'MOCKED COMPANY ID ' + index,
+          companyTin: 'MOCKED COMPANY TIN ' + index,
           name: 'MOCKED NAME ' + index,
         }));
       }),
-      delay(500) // TODO: REMOVE THIS DELAY
     );
   }
 

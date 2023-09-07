@@ -16,13 +16,8 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { delay, map } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-
-export interface EoGenerateInvitationLinkResponse {
-  result: string;
-}
 
 @Injectable({
   providedIn: 'root',
@@ -39,13 +34,9 @@ export class EoInviteConnectionService {
 
   generateInviteLink() {
     return this.http
-      .post<EoGenerateInvitationLinkResponse>(
-        `${this.#apiBase}/transfer-agreements/wallet-deposit-endpoint`,
+      .post<string>(
+        `${this.#apiBase}/connection-invitations`,
         {}
-      )
-      .pipe(
-        map((x) => x.result),
-        delay(1000)
       );
   }
 }

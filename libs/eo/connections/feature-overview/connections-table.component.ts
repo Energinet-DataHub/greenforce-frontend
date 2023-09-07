@@ -21,7 +21,7 @@ import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-import { EoConnection } from '../data-access-api/connections.service';
+import { EoConnectionWithName } from '../data-access-api/connections.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,9 +68,9 @@ import { EoConnection } from '../data-access-api/connections.service';
   `,
 })
 export class EoConnectionsTableComponent {
-  dataSource: WattTableDataSource<EoConnection> = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<EoConnection> = {
-    id: { accessor: 'id', header: 'Company Id' },
+  dataSource: WattTableDataSource<EoConnectionWithName> = new WattTableDataSource(undefined);
+  columns: WattTableColumnDef<EoConnectionWithName> = {
+    id: { accessor: 'companyId', header: 'Company Id' },
     name: { accessor: 'name' },
   };
 
@@ -78,7 +78,7 @@ export class EoConnectionsTableComponent {
   @Input() hasError = false;
 
   @Input()
-  set connections(data: EoConnection[] | null) {
+  set connections(data: EoConnectionWithName[] | null) {
     this.dataSource.data = data || [];
   }
 
