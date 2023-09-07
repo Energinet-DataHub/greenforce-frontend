@@ -17,7 +17,7 @@ jobs:
 
       - name: Install Cypress
         run: npm i cypress
-        working-directory: /apps/dh/e2e-dh
+        working-directory: ${{ github.workspace }}/apps/dh/e2e-dh
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
