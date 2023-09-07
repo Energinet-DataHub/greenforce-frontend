@@ -23,12 +23,13 @@ import {
 } from '@storybook/angular';
 import { WattDataTableComponent } from './watt-data-table.component';
 import { WattButtonComponent } from '../button';
-import { PeriodicElement, Table as TableStory } from '../table/watt-table.stories';
+import { Table as TableStory } from '../table/watt-table.stories';
 import { WATT_TABLE } from '../table';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { VaterStackComponent, VaterUtilityDirective } from '../vater';
 import { WattFilterChipComponent } from '../chip';
+import { WattDataFiltersComponent } from './watt-data-filters.component';
 
 // Slightly hacky way to get the template from the table story
 const tableStoryArgs = TableStory.args ?? {};
@@ -43,6 +44,7 @@ const meta: Meta = {
         VaterStackComponent,
         VaterUtilityDirective,
         WattButtonComponent,
+        WattDataFiltersComponent,
         WattFilterChipComponent,
         WattIconComponent,
         WATT_TABLE,
@@ -54,11 +56,11 @@ const meta: Meta = {
 
 export default meta;
 
-export const DataTable: StoryObj<WattDataTableComponent<PeriodicElement>> = {
+export const DataTable: StoryObj<WattDataTableComponent> = {
   render: (args) => ({
     props: { ...args, ...tableStoryArgs },
     template: `
-      <watt-data-table vater inset="m" [dataSource]="dataSource">
+      <watt-data-table>
         <h3>Results</h3>
         <watt-button icon="plus" variant="secondary">Add Element</watt-button>
         <watt-data-filters>

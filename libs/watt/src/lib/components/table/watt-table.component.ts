@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DataSource, SelectionModel } from '@angular/cdk/collections';
+import { SelectionModel } from '@angular/cdk/collections';
 import { CommonModule, KeyValue } from '@angular/common';
 import {
   AfterViewInit,
@@ -38,8 +38,10 @@ import type { QueryList } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
-import { map, takeUntil, type Subscription, Subject } from 'rxjs';
+import { map, takeUntil, Subject } from 'rxjs';
 import { WattCheckboxComponent } from '../checkbox';
+import { WattDataSourceService } from '../data/watt-data-source.service';
+import { WattTableDataSource } from './watt-table-data-source';
 
 export interface WattTableColumn<T> {
   /**
@@ -133,12 +135,6 @@ export class WattTableToolbarDirective<T> {
   }
 }
 
-export interface WattSortableDataSource<T> extends DataSource<T> {
-  filteredData: T[];
-  sort?: MatSort | null;
-  sortingDataAccessor?: (row: T, sortHeaderId: string) => string | number;
-}
-
 /**
  * Usage:
  * `import { WATT_TABLE } from '@energinet-datahub/watt/table';`
@@ -156,7 +152,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
    */
-  @Input() dataSource!: WattSortableDataSource<T>;
+  @Input() dataSource!: WattTableDataSource<T>;
 
   /**
    * Column definition record with keys representing the column identifiers
@@ -290,6 +286,8 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   /** @ignore */
   _element = inject<ElementRef<HTMLElement>>(ElementRef);
 
+  _dataSourceService = inject(WattDataSourceService);
+
   /** @ignore */
   private destroy$ = new Subject<void>();
 
@@ -303,6 +301,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   }
 
   ngAfterViewInit() {
+    this._dataSourceService.register(this.dataSource);
     this.dataSource.sort = this._sort;
     this._selectionModel.changed
       .pipe(
