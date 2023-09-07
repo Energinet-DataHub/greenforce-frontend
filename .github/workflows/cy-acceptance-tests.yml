@@ -1,4 +1,3 @@
-name: Cypress Acceptance Tests
 on: push
 jobs:
   cypress-run:
@@ -16,6 +15,12 @@ jobs:
           CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_U1_USERNAME }}
           CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_U1_PASSWORD }}
         with:
-          config: baseUrl=https://jolly-sand-03f839703.azurestaticapps.net
-          config-file: cypress-acceptance-tests.config.ts
+          config: >
+            baseUrl=https://jolly-sand-03f839703.azurestaticapps.net,
+            video=true,
+            chromeWebSecurity=false,
+            supportFile=/src/support/e2e.ts,
+            specPattern=/src/**/*.cy.ts,
+            fixturesFolder=/src/fixtures,
+            excludeSpecPattern=/src/e2e/b2c-healthchecks.cy.ts
           working-directory: ${{ github.workspace }}/apps/dh/e2e-dh
