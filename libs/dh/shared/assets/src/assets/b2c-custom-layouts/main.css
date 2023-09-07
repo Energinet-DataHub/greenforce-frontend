@@ -180,14 +180,14 @@ ul {
   padding: 0;
 }
 
-.error,
 .error.itemLevel {
   color: var(--color-state-danger);
 }
 
-.highlightError {
-  outline: 1px solid var(--color-state-danger) !important;
-  border: none;
+.error.pageLevel {
+  padding: 0.25rem 0.5rem;
+  background-color: #f4c9c8;
+  border-radius: 4px;
 }
 
 label {
@@ -216,6 +216,10 @@ input {
   margin-bottom: 1rem;
   padding: 0 12px;
   width: 100%;
+}
+
+input:invalid {
+  outline: 1px solid var(--color-state-danger);
 }
 
 input:focus-visible {
@@ -290,4 +294,17 @@ button#next {
 .imprint {
   display: none;
 }
+
+form > .verifying-modal {
+  display: none;
+}
+
+#verifying_blurb {
+  background-color: var(--color-neutral-white);
+  border-radius: 4px;
+  box-shadow: 0px 4px 18px 3px rgba(46, 50, 52, 0.08),
+    0px 1px 6px rgba(11, 60, 93, 0.12);
+  padding: 2rem 5rem;
+}
+
 /** END Localize content **/
