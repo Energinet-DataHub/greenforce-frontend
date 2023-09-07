@@ -20,12 +20,18 @@ import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 
 type wholesaleTableData = WattTableDataSource<Calculation>;
 
@@ -38,13 +44,15 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
     TranslocoModule,
     VaterFlexComponent,
     VaterStackComponent,
+    VaterUtilityDirective,
     WattBadgeComponent,
+    WattButtonComponent,
+    WattDataTableComponent,
     WattEmptyStateComponent,
     DhEmDashFallbackPipe,
   ],
   selector: 'dh-calculations-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhCalculationsTableComponent {

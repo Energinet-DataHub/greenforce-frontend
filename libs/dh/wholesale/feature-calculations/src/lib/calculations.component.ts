@@ -66,7 +66,6 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
     WattSpinnerComponent,
   ],
   templateUrl: './calculations.component.html',
-  styleUrls: ['./calculations.component.scss'],
 })
 export class DhCalculationsComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('details')

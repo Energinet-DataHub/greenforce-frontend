@@ -16,27 +16,10 @@ limitations under the License.
 -->
 <dh-calculations-create #modal />
 <dh-calculations-details #details (closed)="onDetailsClosed()" />
-<watt-card vater inset="l" *transloco="let t; read: 'wholesale.calculations'">
-  <vater-flex fill="vertical" gap="m">
-    <vater-stack direction="row" gap="m">
-      <h3 class="watt-on-light--high-emphasis">{{ t("headline") }}</h3>
-      <watt-spinner *ngIf="loading" [diameter]="22" />
-      <vater-spacer />
-      <watt-search [label]="t('search')" (search)="search = $event" />
-      <watt-button variant="secondary" icon="plus" (click)="modal.open()">
-        {{ t("new") }}
-      </watt-button>
-    </vater-stack>
-    <dh-calculations-filters [initial]="filter$.value" (filter)="filter$.next($event)" />
-    <dh-calculations-table
-      #table
-      [data]="calculations"
-      [filter]="search"
-      [selected]="selected"
-      [loading]="loading"
-      [error]="error"
-      (selectedRow)="onSelected($event)"
-    />
-    <watt-paginator [for]="table.dataSource" />
-  </vater-flex>
-</watt-card>
+<dh-calculations-table
+  [data]="calculations"
+  [selected]="selected"
+  [loading]="loading"
+  [error]="error"
+  (selectedRow)="onSelected($event)"
+/>

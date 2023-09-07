@@ -14,7 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<vater-flex fill="vertical" scrollable>
+<watt-data-table vater inset="m" *transloco="let t; read: 'wholesale.calculations'">
+  <h3>{{ t("headline") }}</h3>
+  <watt-button variant="secondary" icon="plus">
+    {{ t("new") }}
+  </watt-button>
   <watt-table
     *transloco="let t; read: 'wholesale.calculations'"
     [dataSource]="dataSource"
@@ -61,18 +65,4 @@ limitations under the License.
       </watt-badge>
     </ng-container>
   </watt-table>
-
-  <!-- No calculations found -->
-  <vater-stack
-    fill="vertical"
-    justify="center"
-    *ngIf="!loading && dataSource.filteredData.length === 0"
-  >
-    <watt-empty-state
-      *transloco="let t; read: 'wholesale.calculations'"
-      [icon]="error ? 'custom-power' : 'cancel'"
-      [title]="error ? t('errorTitle') : t('emptyTitle')"
-      [message]="error ? t('errorMessage') : t('emptyMessage')"
-    />
-  </vater-stack>
-</vater-flex>
+</watt-data-table>
