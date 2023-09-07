@@ -286,7 +286,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   /** @ignore */
   _element = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  _dataSourceService = inject(WattDataSourceService);
+  _dataSourceService = inject(WattDataSourceService, { optional: true });
 
   /** @ignore */
   private destroy$ = new Subject<void>();
@@ -301,7 +301,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   }
 
   ngAfterViewInit() {
-    this._dataSourceService.register(this.dataSource);
+    this._dataSourceService?.register(this.dataSource);
     this.dataSource.sort = this._sort;
     this._selectionModel.changed
       .pipe(
