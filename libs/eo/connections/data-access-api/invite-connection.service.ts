@@ -39,7 +39,8 @@ export class EoInviteConnectionService {
 
   generateInviteLink(): Observable<string> {
     return this.http
-      .post<InviteConnectionResponse>(`${this.#apiBase}/connection-invitations`, null).pipe(
+      .post<InviteConnectionResponse>(`${this.#apiBase}/connection-invitations`, null)
+      .pipe(
         map((response) => {
           return `${window.location.origin}/connections?accept-invitation=${response.connectionInvitationId}`;
         })
