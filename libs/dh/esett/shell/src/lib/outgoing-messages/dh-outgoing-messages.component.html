@@ -17,10 +17,16 @@ limitations under the License.
 <watt-card *transloco="let t; read: 'eSett.outgoingMessages'">
   <watt-card-title>
     <h3>{{ t("tabHeading") }}</h3>
-    <span class="watt-chip-label">{{ tableDataSource.data.length }}</span>
+    <span class="watt-chip-label">{{ totalCount }}</span>
 
     <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
   </watt-card-title>
+
+  <dh-outgoing-messages-filters
+    class="watt-space-stack-m"
+    [initial]="filter$.value"
+    (filter)="filter$.next($event)"
+  />
 
   <dh-outgoing-messages-table
     [tableDataSource]="tableDataSource"

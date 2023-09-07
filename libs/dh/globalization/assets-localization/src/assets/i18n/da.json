@@ -798,6 +798,12 @@
   },
   "eSett": {
     "topBarTitle": "eSett meddelelser",
+    "shared": {
+      "calculationType": "Beregningstype",
+      "messageType": "Meddelelsestype",
+      "gridArea": "Netområde",
+      "status": "Status"
+    },
     "tabs": {
       "outgoingMessages": {
         "tabLabel": "Udgående"
@@ -805,12 +811,20 @@
     },
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
+      "filters": {
+        "calculationType": "{{ eSett.shared.calculationType }}",
+        "messageType": "{{ eSett.shared.messageType }}",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "status": "{{ eSett.shared.status }}",
+        "period": "{{ shared.form.filters.period }}",
+        "reset": "{{ shared.form.reset }}"
+      },
       "columns": {
         "id": "ID",
-        "calculationType": "Beregningstype",
-        "messageType": "Meddelelsestype",
-        "gridArea": "Netområde",
-        "status": "Status"
+        "calculationType": "{{ eSett.shared.calculationType }}",
+        "messageType": "{{ eSett.shared.messageType }}",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "status": "{{ eSett.shared.status }}"
       },
       "emptyTitle": "Ingen udgående meddelelser fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
