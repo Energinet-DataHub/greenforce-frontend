@@ -2,7 +2,6 @@
   "dependencies": {
     "@testing-library/cypress": "9.0.0",
     "cypress": "12.17.3",
-    "dotenv": "^16.3.1",
     "typescript": "5.1.6"
   }
 }
