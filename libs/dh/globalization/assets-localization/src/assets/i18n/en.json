@@ -851,7 +851,8 @@
         },
         "metadata": {
           "created": "Created",
-          "periode": "Calculated periode"
+          "periode": "Calculated periode",
+          "gridArea": "{{ eSett.shared.gridArea }}"
         }
       }
     }

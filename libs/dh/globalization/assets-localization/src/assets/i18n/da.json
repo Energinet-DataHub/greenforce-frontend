@@ -843,7 +843,8 @@
         },
         "metadata": {
           "created": "Oprettet",
-          "periode": "Beregnet periode"
+          "periode": "Beregnet periode",
+          "gridArea": "{{ eSett.shared.gridArea }}"
         }
       }
     }
