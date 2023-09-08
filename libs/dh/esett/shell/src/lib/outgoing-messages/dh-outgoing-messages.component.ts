@@ -92,6 +92,10 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
           variables: {
             pageNumber: 1,
             pageSize: 100,
+            processType: filters.calculationTypes,
+            timeSeriesType: filters.messageTypes,
+            gridAreaCode: filters.gridAreas,
+            documentStatus: filters.status,
             periodFrom: filters.period?.start,
             periodTo: filters.period?.end,
           },
