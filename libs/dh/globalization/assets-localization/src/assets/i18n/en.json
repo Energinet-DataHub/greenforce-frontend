@@ -508,6 +508,9 @@
     }
   },
   "marketParticipant": {
+    "apiErrorCodes": {
+      "globalLocationNumberValidation": "'Actor Number' must be a valid GLN or EIC."
+    },
     "actors": {
       "topBarTitle": "Actors",
       "tabs": {

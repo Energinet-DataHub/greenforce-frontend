@@ -501,6 +501,9 @@
     }
   },
   "marketParticipant": {
+    "apiErrorCodes": {
+      "globalLocationNumberValidation": "'Aktørnummer' skal være et gyldigt GLN eller EIC nummer"
+    },
     "actors": {
       "topBarTitle": "Aktører",
       "tabs": {

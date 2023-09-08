@@ -110,7 +110,7 @@ export interface MarketParticipantEditActorState {
   contactsAdded: boolean;
 
   // Validation
-  validation?: { translate: boolean; error: string };
+  validation?: { error: string };
 }
 
 const initialState: MarketParticipantEditActorState = {
@@ -167,7 +167,6 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           this.patchState({
             isLoading: false,
             validation: {
-              translate: true,
               error: `marketParticipant.actor.create.contacts.invalidConfiguration`,
             },
           });
@@ -179,7 +178,6 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           this.patchState({
             isLoading: false,
             validation: {
-              translate: true,
               error: `marketParticipant.actor.create.marketRoles.invalidConfiguration`,
             },
           });
@@ -204,9 +202,8 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
               this.patchState({
                 isLoading: false,
                 validation: {
-                  translate: false,
                   error: parseErrorResponse(errorResponse),
-                },
+                }
               });
             }
           )
@@ -336,7 +333,6 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   readonly handleError = (errorResponse: HttpErrorResponse) => {
     this.patchState({
       validation: {
-        translate: false,
         error: parseErrorResponse(errorResponse),
       },
     });
