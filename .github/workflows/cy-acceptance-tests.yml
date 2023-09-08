@@ -21,6 +21,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          config: baseUrl=$CYPRESS_DH_BASE_URL,videosFolder=$CYPRESS_VIDEOS_FOLDER,screenshotsFolder=$CYPRESS_SCREENSHOTS_FOLDER
+          config: baseUrl=${{ env.CYPRESS_DH_BASE_URL }},videosFolder=${{ env.CYPRESS_VIDEOS_FOLDER }},screenshotsFolder=${{ env.CYPRESS_SCREENSHOTS_FOLDER }}
           config-file: cypress-acceptance-tests.config.ts
-          working-directory: $DH_PATH_TO_E2E_TESTS #Should be adjusted to the path of the cypress tests
+          working-directory: ${{ env.DH_PATH_TO_E2E_TESTS }} # Use env to reference the environment variable
