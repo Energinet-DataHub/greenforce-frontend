@@ -69,8 +69,6 @@ Cypress.Commands.add('login', (email: string, password: string) => {
         cy.findByRole('heading', {
           name: new RegExp(daTranslations.meteringPoint.search.title, 'i'),
         });
-        // cy.visit(Cypress.config('baseUrl'));
-        // cy.get('h1').contains(daTranslations.meteringPoint.search.title);
       },
     }
   );
