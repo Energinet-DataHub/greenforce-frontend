@@ -9,8 +9,12 @@
   "shared": {
     "error": {
       "title": "An unexpected error occured",
-      "message": "Unfortunately, an error occurred while retrieving the necessary information.",
+      "message": "Unfortunately, an error occurred while retrieving the necessary information",
       "button": "Try again"
+    },
+    "empty": {
+      "title": "No results found",
+      "message": "Try changing the search criteria"
     },
     "fieldRequiredErrorText": "Field is required.",
     "navigation": {
