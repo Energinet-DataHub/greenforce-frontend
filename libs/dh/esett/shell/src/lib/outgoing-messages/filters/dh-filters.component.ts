@@ -22,17 +22,24 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  inject,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { Subscription, debounceTime } from 'rxjs';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { Observable, Subscription, debounceTime, map } from 'rxjs';
+import { RxPush } from '@rx-angular/template/push';
 
 import { WattFormChipDirective, WattFormFieldComponent } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DocumentStatus,
+  ExchangeEventProcessType,
+  TimeSeriesType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhOutgoingMessagesFilters } from '../dh-outgoing-messages-filters';
 
@@ -59,6 +66,7 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
+    RxPush,
 
     VaterSpacerComponent,
     VaterStackComponent,
@@ -70,10 +78,15 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
   ],
 })
 export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
+  private transloco = inject(TranslocoService);
   private subscription: Subscription | null = null;
 
   @Input() initial?: DhOutgoingMessagesFilters;
   @Output() filter = new EventEmitter<DhOutgoingMessagesFilters>();
+
+  calculationTypeOptions$ = this.getCalculationTypeOptions();
+  messageTypeOptions$ = this.getMessageTypeOptions();
+  documentStatusOptions$ = this.getDocumentStatusOptions();
 
   formGroup!: FormGroup<Filters>;
 
@@ -94,5 +107,42 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
     this.subscription = null;
+  }
+
+  private getCalculationTypeOptions(): Observable<WattDropdownOptions> {
+    return this.transloco
+      .selectTranslateObject('eSett.outgoingMessages.shared.calculationType')
+      .pipe(
+        map((translationObject) =>
+          Object.values(ExchangeEventProcessType).map((type) => ({
+            displayValue: translationObject[type],
+            value: type,
+          }))
+        )
+      );
+  }
+
+  private getMessageTypeOptions(): Observable<WattDropdownOptions> {
+    return this.transloco.selectTranslateObject('eSett.outgoingMessages.shared.messageType').pipe(
+      map((translationObject) =>
+        Object.values(TimeSeriesType).map((type) => ({
+          displayValue: translationObject[type],
+          value: type,
+        }))
+      )
+    );
+  }
+
+  private getDocumentStatusOptions(): Observable<WattDropdownOptions> {
+    return this.transloco
+      .selectTranslateObject('eSett.outgoingMessages.shared.documentStatus')
+      .pipe(
+        map((translationObject) =>
+          Object.values(DocumentStatus).map((status) => ({
+            displayValue: translationObject[status],
+            value: status,
+          }))
+        )
+      );
   }
 }
