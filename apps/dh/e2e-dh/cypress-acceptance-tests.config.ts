@@ -18,8 +18,6 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    // videosFolder: 'cypress/videos',
-    // screenshotsFolder: 'cypress/screenshots',
     video: true,
     chromeWebSecurity: false,
     supportFile: `${__dirname}/src/support/e2e.ts`,
