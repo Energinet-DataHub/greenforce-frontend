@@ -27,7 +27,7 @@ limitations under the License.
       formControlName="calculationTypes"
       [chipMode]="true"
       [multiple]="true"
-      [options]="[]"
+      [options]="calculationTypeOptions$ | push"
       [placeholder]="t('calculationType')"
     />
   </watt-form-field>
@@ -37,7 +37,7 @@ limitations under the License.
       formControlName="messageTypes"
       [chipMode]="true"
       [multiple]="true"
-      [options]="[]"
+      [options]="messageTypeOptions$ | push"
       [placeholder]="t('messageType')"
     />
   </watt-form-field>
@@ -57,7 +57,7 @@ limitations under the License.
       formControlName="status"
       [chipMode]="true"
       [multiple]="true"
-      [options]="[]"
+      [options]="documentStatusOptions$ | push"
       [placeholder]="t('status')"
     />
   </watt-form-field>
