@@ -24,6 +24,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { GetOutgoingMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
 import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
@@ -49,6 +50,14 @@ import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
       watt-search {
         margin-left: auto;
       }
+
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
+      }
     `,
   ],
   imports: [
@@ -57,6 +66,7 @@ import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
 
     WATT_CARD,
     WattSearchComponent,
+    WattPaginatorComponent,
 
     DhOutgoingMessagesFiltersComponent,
     DhOutgoingMessagesTableComponent,
