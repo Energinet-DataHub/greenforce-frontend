@@ -47,6 +47,7 @@
       "marketParticipantActors": "Aktører",
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
+      "eSett": "eSett",
       "chargePrices": {
         "menuGroupLabel": "Priser",
         "search": "Søg priser",
@@ -793,6 +794,42 @@
         "Dk1": "DK1",
         "Dk2": "DK2"
       }
+    }
+  },
+  "eSett": {
+    "topBarTitle": "eSett meddelelser",
+    "shared": {
+      "calculationType": "Beregningstype",
+      "messageType": "Meddelelsestype",
+      "gridArea": "Netområde",
+      "status": "Status"
+    },
+    "tabs": {
+      "outgoingMessages": {
+        "tabLabel": "Udgående"
+      }
+    },
+    "outgoingMessages": {
+      "tabHeading": "Udgående meddelelser",
+      "filters": {
+        "calculationType": "{{ eSett.shared.calculationType }}",
+        "messageType": "{{ eSett.shared.messageType }}",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "status": "{{ eSett.shared.status }}",
+        "period": "{{ shared.form.filters.period }}",
+        "reset": "{{ shared.form.reset }}"
+      },
+      "columns": {
+        "id": "ID",
+        "calculationType": "{{ eSett.shared.calculationType }}",
+        "messageType": "{{ eSett.shared.messageType }}",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "status": "{{ eSett.shared.status }}"
+      },
+      "emptyTitle": "Ingen udgående meddelelser fundet",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
     }
   },
   "wholesale": {

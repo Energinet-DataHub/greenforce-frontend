@@ -37,6 +37,37 @@ type GraphQLQuery {
     id: ID
   ): Actor!
   actors(eicFunctions: [EicFunction!]): [Actor!]!
+  esettExchangeEvent(
+    """The id of the exchange document."""
+    documentId: String!
+  ): ExchangeEventTrackingResultType!
+  esettExchangeEvents(
+    """The number of the page to retrieve data for."""
+    pageNumber: Int!
+
+    """The number of items on each page."""
+    pageSize: Int!
+
+    """The start date and time of the filter period."""
+    periodFrom: DateTime
+
+    """The end date and time of the filter period."""
+    periodTo: DateTime
+
+    """The code of the grid area the document is referencing."""
+    gridAreaCode: String
+
+    """
+    The type of process that generated the calculation results in the document.
+    """
+    processType: ExchangeEventProcessType
+
+    """The delivery status of the document."""
+    documentStatus: DocumentStatus
+
+    """The type of calculation result in the document."""
+    timeSeriesType: TimeSeriesType
+  ): ExchangeEventSearchResponseType!
 }
 
 type Permission {
@@ -307,6 +338,85 @@ enum ActorStatus {
   Inactive
   Passive
 }
+
+type ExchangeEventTrackingResultType {
+  """The id of the found exchanged document."""
+  documentId: String!
+
+  """The time when the document was generated."""
+  created: DateTimeOffset!
+
+  """The code of the grid area the document is referencing."""
+  gridAreaCode: String!
+
+  """The start date and time of the calculation period."""
+  periodFrom: DateTimeOffset!
+
+  """The end date and time of the calculation period."""
+  periodTo: DateTimeOffset!
+
+  """
+  The type of process that generated the calculation results in the document.
+  """
+  processType: ExchangeEventProcessType!
+
+  """The delivery status of the document."""
+  documentStatus: DocumentStatus!
+
+  """The type of calculation result in the document."""
+  timeSeriesType: TimeSeriesType!
+}
+
+enum ExchangeEventProcessType {
+  BALANCE_FIXING
+  AGGREGATION
+}
+
+enum DocumentStatus {
+  RECEIVED
+  AWAITING_DISPATCH
+  AWAITING_REPLY
+  ACCEPTED
+  REJECTED
+}
+
+enum TimeSeriesType {
+  MGA_EXCHANGE
+  PRODUCTION
+  CONSUMPTION
+}
+
+type ExchangeEventSearchResponseType {
+  """The partial result based on the specified page number and page size."""
+  items: [ExchangeEventSearchResultType!]!
+
+  """The total number of items in the result set."""
+  totalCount: Int!
+}
+
+type ExchangeEventSearchResultType {
+  """The id of the found exchanged document."""
+  documentId: String!
+
+  """The code of the grid area the document is referencing."""
+  gridAreaCode: String!
+
+  """
+  The type of process that generated the calculation results in the document.
+  """
+  processType: ExchangeEventProcessType!
+
+  """The delivery status of the document."""
+  documentStatus: DocumentStatus!
+
+  """The type of calculation result in the document."""
+  timeSeriesType: TimeSeriesType!
+}
+
+"""
+The `DateTime` scalar type represents a date and time. `DateTime` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
+"""
+scalar DateTime
 
 type GraphQLMutation {
   updatePermission(

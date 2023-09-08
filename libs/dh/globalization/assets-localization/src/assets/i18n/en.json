@@ -47,6 +47,7 @@
       "marketParticipantActors": "Actors",
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid areas",
+      "eSett": "eSett",
       "chargePrices": {
         "menuGroupLabel": "Prices",
         "search": "Search prices",
@@ -801,6 +802,42 @@
         "Dk1": "DK1",
         "Dk2": "DK2"
       }
+    }
+  },
+  "eSett": {
+    "topBarTitle": "eSett messages",
+    "shared": {
+      "calculationType": "Calculation type",
+      "messageType": "Message type",
+      "gridArea": "Grid area",
+      "status": "Status"
+    },
+    "tabs": {
+      "outgoingMessages": {
+        "tabLabel": "Outgoing"
+      }
+    },
+    "outgoingMessages": {
+      "tabHeading": "Outgoing messages",
+      "filters": {
+        "calculationType": "{{ eSett.shared.calculationType }}",
+        "messageType": "{{ eSett.shared.messageType }}",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "status": "{{ eSett.shared.status }}",
+        "period": "{{ shared.form.filters.period }}",
+        "reset": "{{ shared.form.reset }}"
+      },
+      "columns": {
+        "id": "ID",
+        "calculationType": "{{ eSett.shared.calculationType }}",
+        "messageType": "{{ eSett.shared.messageType }}",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "status": "{{ eSett.shared.status }}"
+      },
+      "emptyTitle": "No outgoing messages found",
+      "emptyMessage": "Try changing the search criteria",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
     }
   },
   "wholesale": {

@@ -36,6 +36,7 @@ limitations under the License.
 
   <Target Name="NSwag" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="if not exist Clients/Wholesale/V3/swagger.json $(NSwagExe_Net60) run Clients/Wholesale/V3/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/Wholesale/V3/swagger.json')" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net70) run Clients/ESettExchange/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/ESettExchange/V1/swagger.json')" />
   </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
@@ -52,8 +53,8 @@ limitations under the License.
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="6.1.0" />
-    <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="7.4.1" />
-    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="7.4.1" />
+    <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="7.6.0" />
+    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="7.6.0" />
     <PackageReference Condition="!Exists('$(MarketingParticipantProjectReference)')" Include="Energinet.DataHub.MarketParticipant.Client" Version="2.31.7" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />

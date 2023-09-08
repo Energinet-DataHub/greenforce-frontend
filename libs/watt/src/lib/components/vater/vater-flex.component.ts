@@ -16,16 +16,24 @@
  */
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { Direction, Gap, Justify } from './types';
+import { VaterUtilityDirective } from './vater-utility.directive';
 
 @Component({
   selector: 'vater-flex, [vater-flex]',
   encapsulation: ViewEncapsulation.None,
+  hostDirectives: [
+    {
+      directive: VaterUtilityDirective,
+      inputs: ['fill'],
+    },
+  ],
   standalone: true,
   styles: [
     `
       vater-flex,
       [vater-flex] {
         display: flex;
+        line-height: normal;
       }
 
       vater-flex > *,
@@ -54,11 +62,6 @@ export class VaterFlexComponent {
   @HostBinding('style.gap')
   get _gap() {
     return this.gap ? `var(--watt-space-${this.gap})` : undefined;
-  }
-
-  @HostBinding('style.height')
-  get _height() {
-    return this.direction === 'column' ? '100%' : undefined;
   }
 
   @HostBinding('style.overflow')
