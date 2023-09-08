@@ -14,7 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-em-dash-fallback.pipe';
-export * from './lib/em-dash';
-export * from './lib/export-to-csv';
-export * from './lib/dh-make-form-control';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class WattDataIntlService {
+  readonly changes: Subject<void> = new Subject<void>();
+  search = 'Search';
+  emptyTitle = 'No results found';
+  emptyMessage = 'Try changing the search criteria.';
+  errorTitle = 'An unexpected error occured';
+  errorMessage = 'Unfortunately, an error occurred while retrieving the necessary information.';
+}
