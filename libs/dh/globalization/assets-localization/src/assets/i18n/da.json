@@ -817,7 +817,7 @@
           "AGGREGATION": "Aggregering"
         },
         "messageType": {
-          "MGA_EXCHANGE": "MGA Exchange",
+          "MGA_EXCHANGE": "MGA udveksling",
           "PRODUCTION": "Produktion",
           "CONSUMPTION": "Forbrug"
         },
