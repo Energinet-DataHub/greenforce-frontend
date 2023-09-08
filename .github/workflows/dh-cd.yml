@@ -58,7 +58,7 @@ jobs:
 
   frontend_promote_prerelease:
     needs: changes
-    if: ${{ needs.changes.outputs.dh_frontend == 'true' }}
+    if: ${{ needs.changes.outputs.dh_frontend == 'true' || needs.changes.outputs.dh_frontend_e2e == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v12
     with:
       release_name_prefix: ui_frontend

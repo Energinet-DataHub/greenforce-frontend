@@ -25,6 +25,8 @@ on:
         value: ${{ jobs.changes.outputs.dh_dotnet }}
       dh_frontend:
         value: ${{ jobs.changes.outputs.dh_frontend }}
+      dh_frontend_e2e:
+        value: ${{ jobs.changes.outputs.dh_frontend_e2e }}
       watt_frontend:
         value: ${{ jobs.changes.outputs.watt_frontend }}
       render_c4model_views:
@@ -38,6 +40,7 @@ jobs:
     outputs:
       dh_dotnet: ${{ steps.filter.outputs.dh_dotnet }}
       dh_frontend: ${{ steps.dh_affected.outputs.is-affected }}
+      dh_frontend_e2e: ${{ steps.filter.outputs.dh_frontend_e2e }}
       watt_frontend: ${{ steps.watt_affected.outputs.is-affected }}
       render_c4model_views: ${{ steps.filter.outputs.render_c4model_views }}
     env:
@@ -60,10 +63,14 @@ jobs:
               - '.github/workflows/dh-cd.yml'
               - '.github/actions/dotnet-*/**'
               - 'apps/dh/api-dh/**'
+            dh_frontend_e2e:
+            - '.github/workflows/dh-ci-frontend.yml'
+            - '.github/workflows/dh-cd.yml'
+            - 'apps/dh/e2e-dh/**'
             render_c4model_views:
-              - 'docs/diagrams/c4-model/views.dsl'
-              - 'docs/diagrams/c4-model/views.json'
-              - 'docs/diagrams/c4-model/model.dsl'
+            - 'docs/diagrams/c4-model/views.dsl'
+            - 'docs/diagrams/c4-model/views.json'
+            - 'docs/diagrams/c4-model/model.dsl'
 
       # needed for nx affected command
       - name: "PR: Fetch base branch Git history"
