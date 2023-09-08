@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-em-dash-fallback.pipe';
-export * from './lib/em-dash';
-export * from './lib/export-to-csv';
-export * from './lib/dh-make-form-control';
+export { WattDataFiltersComponent } from './watt-data-filters.component';
+export { WattDataIntlService } from './watt-data-intl.service';
+export { WattDataTableComponent } from './watt-data-table.component';
