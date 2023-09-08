@@ -508,6 +508,9 @@
     }
   },
   "marketParticipant": {
+    "apiErrorCodes": {
+      "globalLocationNumberValidation": "'Actor Number' must be a valid GLN or EIC."
+    },
     "actors": {
       "topBarTitle": "Actors",
       "tabs": {
@@ -806,6 +809,12 @@
   },
   "eSett": {
     "topBarTitle": "eSett messages",
+    "shared": {
+      "calculationType": "Calculation type",
+      "messageType": "Message type",
+      "gridArea": "Grid area",
+      "status": "Status"
+    },
     "tabs": {
       "outgoingMessages": {
         "tabLabel": "Outgoing"
@@ -813,12 +822,38 @@
     },
     "outgoingMessages": {
       "tabHeading": "Outgoing messages",
+      "shared": {
+        "calculationType": {
+          "BALANCE_FIXING": "Balance fixing",
+          "AGGREGATION": "Aggregation"
+        },
+        "messageType": {
+          "MGA_EXCHANGE": "MGA Exchange",
+          "PRODUCTION": "Production",
+          "CONSUMPTION": "Consumption"
+        },
+        "documentStatus": {
+          "RECEIVED": "Received",
+          "AWAITING_DISPATCH": "Awaiting dispatch",
+          "AWAITING_REPLY": "Awaiting reply",
+          "ACCEPTED": "Accepted",
+          "REJECTED": "Not accepted"
+        }
+      },
+      "filters": {
+        "calculationType": "{{ eSett.shared.calculationType }}",
+        "messageType": "{{ eSett.shared.messageType }}",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "status": "{{ eSett.shared.status }}",
+        "period": "{{ shared.form.filters.period }}",
+        "reset": "{{ shared.form.reset }}"
+      },
       "columns": {
         "id": "ID",
-        "calculationType": "Calculation type",
-        "messageType": "Message type",
-        "gridArea": "Grid area",
-        "status": "Status"
+        "calculationType": "{{ eSett.shared.calculationType }}",
+        "messageType": "{{ eSett.shared.messageType }}",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "status": "{{ eSett.shared.status }}"
       },
       "emptyTitle": "No outgoing messages found",
       "emptyMessage": "Try changing the search criteria",

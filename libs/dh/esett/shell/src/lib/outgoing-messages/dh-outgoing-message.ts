@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface DhOutgoingMessage {
-  id: string;
-  calculationType: string;
-  messageType: string;
-  gridArea: string;
-  status: string;
-}
+
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+import { GetOutgoingMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type DhOutgoingMessage = ResultOf<
+  typeof GetOutgoingMessagesDocument
+>['esettExchangeEvents']['items'][0];
