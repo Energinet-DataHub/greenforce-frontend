@@ -1,12 +1,9 @@
 name: Cypress Acceptance Tests
 on: push
 env:
-  CYPRESS_DH_E2E_BASE_URL: https://jolly-sand-03f839703.azurestaticapps.net
   CYPRESS_DH_E2E_B2C_URL: https://devDataHubB2C.b2clogin.com
   CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_U1_USERNAME }}
   CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_U1_PASSWORD }}
-  # See https://github.com/cypress-io/cypress/issues/25357
-  ELECTRON_EXTRA_LAUNCH_ARGS: --disable-gpu
 jobs:
   cypress-run:
     name: Cypress run
@@ -20,5 +17,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
+          config: baseUrl=https://jolly-sand-03f839703.azurestaticapps.net
           config-file: cypress-acceptance-tests.config.ts
           working-directory: ${{ github.workspace }}/apps/dh/e2e-dh
