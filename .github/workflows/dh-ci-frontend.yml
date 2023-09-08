@@ -56,8 +56,10 @@ jobs:
       - name: Setup Release
         shell: bash
         run: |
+          mkdir ${{ env.RELEASE_FOLDER_PATH }}/${{ env.APP_NAME }}
           cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }} ${{ env.RELEASE_FOLDER_PATH }}/${{ env.APP_NAME }}
-          cp -R ${{ github.workspace }}/apps/dh/e2e-${{ env.APP_NAME }} ${{ env.RELEASE_FOLDER_PATH }}/e2e-${{ env.APP_NAME }}
+          mkdir ${{ env.RELEASE_FOLDER_PATH }}/e2e-dh
+          cp -R ${{ github.workspace }}/apps/dh/e2e-dh ${{ env.RELEASE_FOLDER_PATH }}/e2e-dh
 
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
