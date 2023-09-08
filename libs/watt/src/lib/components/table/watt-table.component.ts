@@ -27,7 +27,6 @@ import {
   inject,
   Input,
   OnChanges,
-  OnDestroy,
   Output,
   SimpleChanges,
   TemplateRef,
