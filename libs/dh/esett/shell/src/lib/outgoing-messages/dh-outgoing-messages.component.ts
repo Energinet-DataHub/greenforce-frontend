@@ -26,7 +26,7 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { GetOutgoingMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
-import { DhOutgoingMessagesTableComponent } from './table/dh-outgoing-messages-table.component';
+import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
 import { DhOutgoingMessage } from './dh-outgoing-message';
 import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
 

@@ -814,6 +814,24 @@
     },
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
+      "shared": {
+        "calculationType": {
+          "BALANCE_FIXING": "Balancefiksering",
+          "AGGREGATION": "Aggregering"
+        },
+        "messageType": {
+          "MGA_EXCHANGE": "MGA udveksling",
+          "PRODUCTION": "Produktion",
+          "CONSUMPTION": "Forbrug"
+        },
+        "documentStatus": {
+          "RECEIVED": "Modtaget",
+          "AWAITING_DISPATCH": "Afventer afsendelse",
+          "AWAITING_REPLY": "Afventer svar",
+          "ACCEPTED": "Godkendt",
+          "REJECTED": "Ikke godkendt"
+        }
+      },
       "filters": {
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
