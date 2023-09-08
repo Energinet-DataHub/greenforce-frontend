@@ -25,7 +25,7 @@ limitations under the License.
         {{ outgoingMessage?.documentId }} - {{ outgoingMessage?.processType }}
       </h2>
 
-      <watt-description-list variant="flow">
+      <watt-description-list [groupsPerRow]="4" variant="flow">
         <watt-description-list-item
           [label]="t('metadata.created')"
           [value]="outgoingMessage?.created | wattDate : 'long'"
@@ -41,6 +41,10 @@ limitations under the License.
         <watt-description-list-item
           [label]="t('metadata.gridArea')"
           [value]="outgoingMessage?.gridAreaCode"
+        />
+        <watt-description-list-item
+          [label]="t('metadata.messageType')"
+          [value]="outgoingMessage?.processType"
         />
       </watt-description-list>
     </watt-drawer-heading>

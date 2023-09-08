@@ -844,7 +844,8 @@
         "metadata": {
           "created": "Oprettet",
           "periode": "Beregnet periode",
-          "gridArea": "{{ eSett.shared.gridArea }}"
+          "gridArea": "{{ eSett.shared.gridArea }}",
+          "messageType": "{{ eSett.shared.messageType }}"
         }
       }
     }
