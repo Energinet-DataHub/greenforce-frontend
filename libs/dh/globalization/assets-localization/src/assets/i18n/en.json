@@ -817,6 +817,13 @@
         "tabLabel": "Outgoing"
       }
     },
+    "status": {
+      "Received": "Received",
+      "AwaitingDispatch": "Awaiting dispatch",
+      "AwaitingReply": "Awaiting reply",
+      "Accepted": "Accepted",
+      "Rejected": "Rejected"
+    },
     "outgoingMessages": {
       "tabHeading": "Outgoing messages",
       "filters": {
@@ -837,7 +844,16 @@
       "emptyTitle": "No outgoing messages found",
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}"
+      "errorMessage": "{{ shared.error.message }}",
+      "drawer": {
+        "tabs": {
+          "message": "Message"
+        },
+        "metadata": {
+          "created": "Created",
+          "periode": "Calculated periode"
+        }
+      }
     }
   },
   "wholesale": {

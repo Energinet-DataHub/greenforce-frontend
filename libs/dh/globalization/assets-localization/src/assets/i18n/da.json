@@ -809,6 +809,13 @@
         "tabLabel": "Udgående"
       }
     },
+    "status": {
+      "Received": "Modtaget",
+      "AwaitingDispatch": "Afventer afsendelse",
+      "AwaitingReply": "Afventer svar",
+      "Accepted": "Accepteret",
+      "Rejected": "Afvist"
+    },
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
       "filters": {
@@ -829,7 +836,16 @@
       "emptyTitle": "Ingen udgående meddelelser fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}"
+      "errorMessage": "{{ shared.error.message }}",
+      "drawer": {
+        "tabs": {
+          "message": "Meddelelse"
+        },
+        "metadata": {
+          "created": "Oprettet",
+          "periode": "Beregnet periode"
+        }
+      }
     }
   },
   "wholesale": {
