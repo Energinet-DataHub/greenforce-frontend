@@ -1,5 +1,9 @@
 name: Cypress Acceptance Tests
 on: push
+env:
+  CYPRESS_DH_E2E_BASE_URL: https://jolly-sand-03f839703.azurestaticapps.net
+  CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_U1_USERNAME }}
+  CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_U1_PASSWORD }}
 jobs:
   cypress-run:
     name: Cypress run
@@ -12,10 +16,6 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
-        env:
-          CYPRESS_BASE_URL: https://jolly-sand-03f839703.azurestaticapps.net
-          CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_U1_USERNAME }}
-          CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_U1_PASSWORD }}
         with:
           config-file: cypress-acceptance-tests.config.ts
           working-directory: ${{ github.workspace }}/apps/dh/e2e-dh

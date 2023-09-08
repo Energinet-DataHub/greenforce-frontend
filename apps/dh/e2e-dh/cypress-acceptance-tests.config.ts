@@ -21,7 +21,7 @@ export default defineConfig({
   e2e: {
     // videosFolder: 'cypress/videos',
     // screenshotsFolder: 'cypress/screenshots',
-    baseUrl: process.env.CYPRESS_BASE_URL,
+    baseUrl: process.env.CYPRESS_DH_E2E_BASE_URL,
     video: true,
     chromeWebSecurity: false,
     supportFile: `${__dirname}/src/support/e2e.ts`,
