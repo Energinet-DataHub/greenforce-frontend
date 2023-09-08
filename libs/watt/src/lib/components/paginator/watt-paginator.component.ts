@@ -27,11 +27,12 @@ import {
   EventEmitter,
 } from '@angular/core';
 import {
-  MatLegacyPaginator as MatPaginator,
-  MatLegacyPaginatorIntl as MatPaginatorIntl,
-  MatLegacyPaginatorModule as MatPaginatorModule,
-  LegacyPageEvent as PageEvent,
-} from '@angular/material/legacy-paginator';
+  MatPaginator,
+  MatPaginatorIntl,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
+
 import { Subscription } from 'rxjs';
 import { WattTableDataSource } from '../table';
 import { WattPaginatorIntlService } from './watt-paginator-intl.service';
