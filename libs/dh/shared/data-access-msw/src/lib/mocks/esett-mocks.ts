@@ -30,6 +30,14 @@ const exchangeEvents: ExchangeEventSearchResultType[] = [
     documentStatus: DocumentStatus.Accepted,
     timeSeriesType: TimeSeriesType.Consumption,
   },
+
+  {
+    documentId: '390161909',
+    gridAreaCode: 'DK2',
+    processType: ExchangeEventProcessType.BalanceFixing,
+    documentStatus: DocumentStatus.Rejected,
+    timeSeriesType: TimeSeriesType.Production,
+  },
 ];
 
 export function eSettMocks() {
