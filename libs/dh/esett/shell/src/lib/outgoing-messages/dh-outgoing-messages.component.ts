@@ -20,6 +20,7 @@ import { BehaviorSubject, Subject, combineLatest, map, switchMap, takeUntil } fr
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
+import { PageEvent } from '@angular/material/paginator';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -82,12 +83,12 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
   totalCount = 0;
 
   searchInput$ = new BehaviorSubject<string>('');
-  pageSize$ = new BehaviorSubject<number>(100);
-  pageIndexUi$ = new BehaviorSubject<number>(0);
+  private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
+    pageIndex: 0,
+    pageSize: 100,
+  });
 
-  // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
-  // whereas our endpoint's `pageNumber` param starts at `1`
-  private pageIndexGraphQl$ = this.pageIndexUi$.pipe(map((index) => index + 1));
+  pageSize$ = this.pageMetaData$.pipe(map(({ pageSize }) => pageSize));
 
   isLoading = false;
   hasError = false;
@@ -101,21 +102,22 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
 
   private queryVariables$ = combineLatest({
     filters: this.filter$,
-    pageSize: this.pageSize$,
-    pageIndex: this.pageIndexGraphQl$,
+    pageMetaData: this.pageMetaData$,
   });
 
   outgoingMessages$ = this.queryVariables$.pipe(
     switchMap(
-      ({ filters, pageSize, pageIndex }) =>
+      ({ filters, pageMetaData }) =>
         this.apollo.watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
           query: GetOutgoingMessagesDocument,
           variables: {
-            pageNumber: pageIndex,
-            pageSize,
+            // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
+            // whereas our endpoint's `pageNumber` param starts at `1`
+            pageNumber: pageMetaData.pageIndex + 1,
+            pageSize: pageMetaData.pageSize,
             processType: filters.calculationTypes,
             timeSeriesType: filters.messageTypes,
             gridAreaCode: filters.gridAreas,
@@ -148,5 +150,9 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
+    this.pageMetaData$.next({ pageIndex, pageSize });
   }
 }

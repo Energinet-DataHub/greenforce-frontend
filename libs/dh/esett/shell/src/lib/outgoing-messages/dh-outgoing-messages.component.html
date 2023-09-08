@@ -36,7 +36,7 @@ limitations under the License.
 
   <watt-paginator
     [for]="tableDataSource"
-    (changed)="pageIndexUi$.next($event.pageIndex)"
+    (changed)="handlePageEvent($event)"
     [pageSize]="pageSize$ | push"
   />
 </watt-card>
