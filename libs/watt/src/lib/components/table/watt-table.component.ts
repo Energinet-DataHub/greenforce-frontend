@@ -27,7 +27,6 @@ import {
   inject,
   Input,
   OnChanges,
-  OnDestroy,
   Output,
   SimpleChanges,
   TemplateRef,
@@ -35,10 +34,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import type { QueryList } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
-import { map, takeUntil, Subject } from 'rxjs';
+import { map } from 'rxjs';
 import { WattCheckboxComponent } from '../checkbox';
 import { WattTableDataSource } from './watt-table-data-source';
 
@@ -146,7 +146,7 @@ export class WattTableToolbarDirective<T> {
   styleUrls: ['./watt-table.component.scss'],
   templateUrl: './watt-table.component.html',
 })
-export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestroy {
+export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
@@ -286,9 +286,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   _element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /** @ignore */
-  private destroy$ = new Subject<void>();
-
-  /** @ignore */
   private isInitialSelectionSet = false;
 
   /** @ignore */
@@ -297,14 +294,17 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
     return typeof column.accessor === 'function' ? column.accessor(row) : row[column.accessor];
   }
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this._sort;
+  constructor() {
     this._selectionModel.changed
       .pipe(
         map(() => this._selectionModel.selected),
-        takeUntil(this.destroy$)
+        takeUntilDestroyed()
       )
       .subscribe((selection) => this.selectionChange.emit(selection));
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this._sort;
 
     // Make sorting by text case insensitive
     this.dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
@@ -341,11 +341,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
 
       this._selectionModel.setSelection(...this.initialSelection);
     }
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   /**

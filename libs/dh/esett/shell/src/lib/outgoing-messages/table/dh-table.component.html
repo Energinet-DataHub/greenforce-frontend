@@ -26,27 +26,27 @@ limitations under the License.
     (rowClick)="onRowClick($event)"
   >
     <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let message">
-      {{ message.id }}
+      {{ message.documentId }}
     </ng-container>
 
     <ng-container
       *wattTableCell="columns['calculationType']; header: t('columns.calculationType'); let message"
     >
-      {{ message.calculationType }}
+      {{ "eSett.outgoingMessages.shared.calculationType." + message.processType | transloco }}
     </ng-container>
 
     <ng-container
       *wattTableCell="columns['messageType']; header: t('columns.messageType'); let message"
     >
-      {{ message.messageType }}
+      {{ "eSett.outgoingMessages.shared.messageType." + message.timeSeriesType | transloco }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
-      {{ message.gridArea }}
+      {{ message.gridAreaCode }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let actor">
-      {{ undefined | dhEmDashFallback }}
+    <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let message">
+      {{ "eSett.outgoingMessages.shared.documentStatus." + message.documentStatus | transloco }}
     </ng-container>
   </watt-table>
 

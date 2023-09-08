@@ -21,7 +21,7 @@ limitations under the License.
       type="danger"
       *ngIf="validation$ | push as validation"
       [label]="t('marketParticipant.actor.create.errorToastLabel')"
-      [message]="validation.translate ? t(validation.error) : validation.error"
+      [message]="t(validation.error)"
     ></watt-validation-message>
   </ng-container>
 

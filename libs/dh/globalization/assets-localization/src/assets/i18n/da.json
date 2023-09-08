@@ -505,6 +505,9 @@
     }
   },
   "marketParticipant": {
+    "apiErrorCodes": {
+      "globalLocationNumberValidation": "'Aktørnummer' skal være et gyldigt GLN eller EIC nummer"
+    },
     "actors": {
       "topBarTitle": "Aktører",
       "tabs": {
@@ -802,6 +805,12 @@
   },
   "eSett": {
     "topBarTitle": "eSett meddelelser",
+    "shared": {
+      "calculationType": "Beregningstype",
+      "messageType": "Meddelelsestype",
+      "gridArea": "Netområde",
+      "status": "Status"
+    },
     "tabs": {
       "outgoingMessages": {
         "tabLabel": "Udgående"
@@ -809,12 +818,38 @@
     },
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
+      "shared": {
+        "calculationType": {
+          "BALANCE_FIXING": "Balancefiksering",
+          "AGGREGATION": "Aggregering"
+        },
+        "messageType": {
+          "MGA_EXCHANGE": "MGA udveksling",
+          "PRODUCTION": "Produktion",
+          "CONSUMPTION": "Forbrug"
+        },
+        "documentStatus": {
+          "RECEIVED": "Modtaget",
+          "AWAITING_DISPATCH": "Afventer afsendelse",
+          "AWAITING_REPLY": "Afventer svar",
+          "ACCEPTED": "Godkendt",
+          "REJECTED": "Ikke godkendt"
+        }
+      },
+      "filters": {
+        "calculationType": "{{ eSett.shared.calculationType }}",
+        "messageType": "{{ eSett.shared.messageType }}",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "status": "{{ eSett.shared.status }}",
+        "period": "{{ shared.form.filters.period }}",
+        "reset": "{{ shared.form.reset }}"
+      },
       "columns": {
         "id": "ID",
-        "calculationType": "Beregningstype",
-        "messageType": "Meddelelsestype",
-        "gridArea": "Netområde",
-        "status": "Status"
+        "calculationType": "{{ eSett.shared.calculationType }}",
+        "messageType": "{{ eSett.shared.messageType }}",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "status": "{{ eSett.shared.status }}"
       },
       "emptyTitle": "Ingen udgående meddelelser fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",

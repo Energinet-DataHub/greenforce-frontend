@@ -25,6 +25,7 @@ import { adminMocks } from './mocks/admin';
 import { marketParticipantUserMocks } from './mocks/marketParticipantUser';
 import { marketParticipantUserRoleMocks } from './mocks/marketParticipantUserRole';
 import { tokenMocks } from './mocks/token';
+import { eSettMocks } from './mocks/esett-mocks';
 
 export function handlers(apiBase: string) {
   return [
@@ -37,6 +38,7 @@ export function handlers(apiBase: string) {
     ...marketParticipantUserMocks(apiBase),
     ...marketParticipantUserRoleMocks(apiBase),
     ...tokenMocks(apiBase),
+    ...eSettMocks(),
   ] as RequestHandler[];
 }
 
