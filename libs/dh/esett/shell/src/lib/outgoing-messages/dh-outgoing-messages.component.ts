@@ -16,9 +16,10 @@
  */
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { BehaviorSubject, Subject, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, combineLatest, map, switchMap, takeUntil } from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
+import { RxPush } from '@rx-angular/template/push';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -63,6 +64,7 @@ import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
   imports: [
     TranslocoDirective,
     TranslocoPipe,
+    RxPush,
 
     WATT_CARD,
     WattSearchComponent,
@@ -80,6 +82,12 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
   totalCount = 0;
 
   searchInput$ = new BehaviorSubject<string>('');
+  pageSize$ = new BehaviorSubject<number>(100);
+  pageIndexUi$ = new BehaviorSubject<number>(0);
+
+  // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
+  // whereas our endpoint's `pageNumber` param starts at `1`
+  private pageIndexGraphQl$ = this.pageIndexUi$.pipe(map((index) => index + 1));
 
   isLoading = false;
   hasError = false;
@@ -91,17 +99,23 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
     },
   });
 
-  outgoingMessages$ = this.filter$.pipe(
+  private queryVariables$ = combineLatest({
+    filters: this.filter$,
+    pageSize: this.pageSize$,
+    pageIndex: this.pageIndexGraphQl$,
+  });
+
+  outgoingMessages$ = this.queryVariables$.pipe(
     switchMap(
-      (filters) =>
+      ({ filters, pageSize, pageIndex }) =>
         this.apollo.watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
           query: GetOutgoingMessagesDocument,
           variables: {
-            pageNumber: 1,
-            pageSize: 100,
+            pageNumber: pageIndex,
+            pageSize,
             processType: filters.calculationTypes,
             timeSeriesType: filters.messageTypes,
             gridAreaCode: filters.gridAreas,
