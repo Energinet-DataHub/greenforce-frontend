@@ -203,7 +203,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
                 isLoading: false,
                 validation: {
                   error: parseErrorResponse(errorResponse),
-                }
+                },
               });
             }
           )
