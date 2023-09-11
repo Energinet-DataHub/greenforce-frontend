@@ -24,11 +24,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import {
-  WattTableColumnDef,
-  WattTableComponent,
-  WattTableDataSource,
-} from '@energinet-datahub/watt/table';
+import { WattTableColumnDef, WATT_TABLE, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -54,7 +50,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
     WattEmptyStateComponent,
     WattSpinnerComponent,
     WattPaginatorComponent,
-    WattTableComponent,
+    WATT_TABLE,
     WattValidationMessageComponent,
     DhEmDashFallbackPipe,
     DhMarketParticipantOrganizationOverviewGridAreasListComponent,
