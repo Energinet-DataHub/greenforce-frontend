@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
@@ -23,6 +23,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { DhOutgoingMessage } from '../dh-outgoing-message';
+import { DhOutgoingMessageDrawerComponent } from '../drawer/dh-outgoing-message-drawer.component';
 
 @Component({
   selector: 'dh-outgoing-messages-table',
@@ -51,10 +52,14 @@ import { DhOutgoingMessage } from '../dh-outgoing-message';
     WATT_TABLE,
     WattPaginatorComponent,
     WattEmptyStateComponent,
+
+    DhOutgoingMessageDrawerComponent,
   ],
 })
 export class DhOutgoingMessagesTableComponent {
   activeRow: DhOutgoingMessage | undefined = undefined;
+  @ViewChild(DhOutgoingMessageDrawerComponent)
+  drawer: DhOutgoingMessageDrawerComponent | undefined;
 
   columns: WattTableColumnDef<DhOutgoingMessage> = {
     id: { accessor: 'documentId' },
@@ -71,5 +76,11 @@ export class DhOutgoingMessagesTableComponent {
 
   onRowClick(activeRow: DhOutgoingMessage): void {
     this.activeRow = activeRow;
+    console.log(this.activeRow);
+    this.drawer?.open(activeRow.documentId);
+  }
+
+  onClose(): void {
+    this.activeRow = undefined;
   }
 }
