@@ -396,7 +396,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
-    if (column.value.header) return column.value.header;
+    if (typeof column.value.header === 'string') return column.value.header;
     const cell = this._cells.find((item) => item.column === column.value);
     return cell?.header ?? this.resolveHeader?.(column.key) ?? column.key;
   }
