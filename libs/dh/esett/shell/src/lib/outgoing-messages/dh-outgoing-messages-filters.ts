@@ -14,12 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { InputMaybe, Scalars } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  DocumentStatus,
+  ExchangeEventProcessType,
+  InputMaybe,
+  Scalars,
+  TimeSeriesType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type DhOutgoingMessagesFilters = {
-  calculationTypes?: InputMaybe<string[]>;
-  messageTypes?: InputMaybe<string[]>;
-  gridAreas?: InputMaybe<string[]>;
-  status?: InputMaybe<string[]>;
+  calculationTypes?: InputMaybe<ExchangeEventProcessType>;
+  messageTypes?: InputMaybe<TimeSeriesType>;
+  gridAreas?: InputMaybe<string>;
+  status?: InputMaybe<DocumentStatus>;
   period?: InputMaybe<Scalars['DateRange']>;
 };

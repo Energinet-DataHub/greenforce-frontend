@@ -28,6 +28,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { Observable, Subscription, debounceTime, map } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
+import { Apollo } from 'apollo-angular';
 
 import { WattFormChipDirective, WattFormFieldComponent } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -38,8 +39,10 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import {
   DocumentStatus,
   ExchangeEventProcessType,
+  GetGridAreasDocument,
   TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 import { DhOutgoingMessagesFilters } from '../dh-outgoing-messages-filters';
 
@@ -79,6 +82,7 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
 })
 export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
   private transloco = inject(TranslocoService);
+  private apollo = inject(Apollo);
   private subscription: Subscription | null = null;
 
   @Input() initial?: DhOutgoingMessagesFilters;
@@ -86,6 +90,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
 
   calculationTypeOptions$ = this.getCalculationTypeOptions();
   messageTypeOptions$ = this.getMessageTypeOptions();
+  gridAreaOptions$ = this.getGridAreaOptions();
   documentStatusOptions$ = this.getDocumentStatusOptions();
 
   formGroup!: FormGroup<Filters>;
@@ -128,6 +133,19 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
         Object.values(TimeSeriesType).map((type) => ({
           displayValue: translationObject[type],
           value: type,
+        }))
+      )
+    );
+  }
+
+  private getGridAreaOptions(): Observable<WattDropdownOptions> {
+    return this.apollo.watchQuery({ query: GetGridAreasDocument }).valueChanges.pipe(
+      map((result) => result.data?.gridAreas),
+      exists(),
+      map((gridAreas) =>
+        gridAreas.map((gridArea) => ({
+          value: gridArea.code,
+          displayValue: `${gridArea.name} (${gridArea.code})`,
         }))
       )
     );

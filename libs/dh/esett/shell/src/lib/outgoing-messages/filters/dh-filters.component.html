@@ -26,7 +26,6 @@ limitations under the License.
     <watt-dropdown
       formControlName="calculationTypes"
       [chipMode]="true"
-      [multiple]="true"
       [options]="calculationTypeOptions$ | push"
       [placeholder]="t('calculationType')"
     />
@@ -36,7 +35,6 @@ limitations under the License.
     <watt-dropdown
       formControlName="messageTypes"
       [chipMode]="true"
-      [multiple]="true"
       [options]="messageTypeOptions$ | push"
       [placeholder]="t('messageType')"
     />
@@ -46,8 +44,7 @@ limitations under the License.
     <watt-dropdown
       formControlName="gridAreas"
       [chipMode]="true"
-      [multiple]="true"
-      [options]="[]"
+      [options]="gridAreaOptions$ | push"
       [placeholder]="t('gridArea')"
     />
   </watt-form-field>
@@ -56,7 +53,6 @@ limitations under the License.
     <watt-dropdown
       formControlName="status"
       [chipMode]="true"
-      [multiple]="true"
       [options]="documentStatusOptions$ | push"
       [placeholder]="t('status')"
     />
