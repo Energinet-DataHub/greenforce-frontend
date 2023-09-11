@@ -29,7 +29,7 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { EoBetaMessageComponent } from '../../shared/atomic-design/ui-atoms/src/lib/eo-beta-message/eo-beta-message.component';
 import { EoConnectionsTableComponent } from './connections-table.component';
 import { EoInviteConnectionComponent } from '../feature-invite/invite-connection.component';
-import { EoConnectionWithName, EoConnectionsService } from '../data-access-api/connections.service';
+import { EoConnection, EoConnectionsService } from '../data-access-api/connections.service';
 
 @Component({
   standalone: true,
@@ -99,7 +99,7 @@ export class EoConnectionsComponent implements OnInit {
   protected connections = signal<{
     loading: boolean;
     hasError: boolean;
-    data: EoConnectionWithName[] | null;
+    data: EoConnection[] | null;
   }>({
     loading: false,
     hasError: false,
@@ -119,8 +119,8 @@ export class EoConnectionsComponent implements OnInit {
       next: (data) => {
         this.connections.set({ loading: false, hasError: false, data });
       },
-      error: () => {
-        this.connections.set({ loading: false, hasError: false, data: null });
+      error: (error) => {
+        this.connections.set({ loading: false, hasError: true, data: null });
       },
     });
   }

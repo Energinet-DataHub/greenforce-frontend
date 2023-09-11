@@ -40,17 +40,9 @@ interface ConnectionsResponse {
 export class EoConnectionsService {
   #apiBase: string;
 
-  getConnections(): Observable<EoConnectionWithName[]> {
+  getConnections(): Observable<EoConnection[]> {
     return this.http.get<ConnectionsResponse>(`${this.#apiBase}/connections`).pipe(
-      // TODO: REMOVE THIS MAP
-      map((response) => {
-        return response.result.map((connection, index) => ({
-          id: 'MOCKED ID ' + index,
-          companyId: 'MOCKED COMPANY ID ' + index,
-          companyTin: 'MOCKED COMPANY TIN ' + index,
-          name: 'MOCKED NAME ' + index,
-        }));
-      })
+      map((response) => response.result)
     );
   }
 
