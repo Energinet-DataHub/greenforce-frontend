@@ -27,10 +27,18 @@ import {
 const exchangeEvents: ExchangeEventSearchResultType[] = [
   {
     documentId: '390161908',
-    gridAreaCode: 'DK1',
+    gridAreaCode: '805',
     processType: ExchangeEventProcessType.Aggregation,
     documentStatus: DocumentStatus.Accepted,
     timeSeriesType: TimeSeriesType.Consumption,
+  },
+
+  {
+    documentId: '390161909',
+    gridAreaCode: '806',
+    processType: ExchangeEventProcessType.BalanceFixing,
+    documentStatus: DocumentStatus.Rejected,
+    timeSeriesType: TimeSeriesType.Production,
   },
 ];
 

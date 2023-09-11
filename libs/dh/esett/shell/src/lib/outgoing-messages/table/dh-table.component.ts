@@ -34,14 +34,6 @@ import { DhOutgoingMessageDrawerComponent } from '../drawer/dh-outgoing-message-
       :host {
         display: block;
       }
-
-      watt-paginator {
-        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
-
-        display: block;
-        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
-          var(--watt-space-ml--negative);
-      }
     `,
   ],
   imports: [
