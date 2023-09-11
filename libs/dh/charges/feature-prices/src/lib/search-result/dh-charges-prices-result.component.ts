@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, AfterViewInit, OnChanges, ViewChild, Input } from '@angular/core';
+import { Component, OnChanges, ViewChild, Input } from '@angular/core';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
