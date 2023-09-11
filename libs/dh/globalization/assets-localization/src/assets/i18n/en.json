@@ -820,6 +820,13 @@
         "tabLabel": "Outgoing"
       }
     },
+    "status": {
+      "Received": "Received",
+      "AwaitingDispatch": "Awaiting dispatch",
+      "AwaitingReply": "Awaiting reply",
+      "Accepted": "Accepted",
+      "Rejected": "Rejected"
+    },
     "outgoingMessages": {
       "tabHeading": "Outgoing messages",
       "shared": {
@@ -833,11 +840,11 @@
           "CONSUMPTION": "Consumption"
         },
         "documentStatus": {
-          "RECEIVED": "Received",
-          "AWAITING_DISPATCH": "Awaiting dispatch",
-          "AWAITING_REPLY": "Awaiting reply",
-          "ACCEPTED": "Accepted",
-          "REJECTED": "Not accepted"
+          "RECEIVED": "{{ eSett.status.Received }}",
+          "AWAITING_DISPATCH": "{{ eSett.status.AwaitingDispatch }}",
+          "AWAITING_REPLY": "{{ eSett.status.AwaitingReply }}",
+          "ACCEPTED": "{{ eSett.status.Accepted }}",
+          "REJECTED": "{{ eSett.status.Rejected }}"
         }
       },
       "filters": {
@@ -858,7 +865,18 @@
       "emptyTitle": "No outgoing messages found",
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}"
+      "errorMessage": "{{ shared.error.message }}",
+      "drawer": {
+        "tabs": {
+          "message": "Message"
+        },
+        "metadata": {
+          "created": "Created",
+          "periode": "Calculated periode",
+          "gridArea": "{{ eSett.shared.gridArea }}",
+          "messageType": "{{ eSett.shared.messageType }}"
+        }
+      }
     }
   },
   "wholesale": {

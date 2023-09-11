@@ -812,6 +812,13 @@
         "tabLabel": "Udgående"
       }
     },
+    "status": {
+      "Received": "Modtaget",
+      "AwaitingDispatch": "Afventer afsendelse",
+      "AwaitingReply": "Afventer svar",
+      "Accepted": "Accepteret",
+      "Rejected": "Afvist"
+    },
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
       "shared": {
@@ -825,11 +832,11 @@
           "CONSUMPTION": "Forbrug"
         },
         "documentStatus": {
-          "RECEIVED": "Modtaget",
-          "AWAITING_DISPATCH": "Afventer afsendelse",
-          "AWAITING_REPLY": "Afventer svar",
-          "ACCEPTED": "Godkendt",
-          "REJECTED": "Ikke godkendt"
+          "RECEIVED": "{{ eSett.status.Received }}",
+          "AWAITING_DISPATCH": "{{ eSett.status.AwaitingDispatch }}",
+          "AWAITING_REPLY": "{{ eSett.status.AwaitingReply }}",
+          "ACCEPTED": "{{ eSett.status.Accepted }}",
+          "REJECTED": "{{ eSett.status.Rejected }}"
         }
       },
       "filters": {
@@ -850,7 +857,18 @@
       "emptyTitle": "Ingen udgående meddelelser fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}"
+      "errorMessage": "{{ shared.error.message }}",
+      "drawer": {
+        "tabs": {
+          "message": "Meddelelse"
+        },
+        "metadata": {
+          "created": "Oprettet",
+          "periode": "Beregnet periode",
+          "gridArea": "{{ eSett.shared.gridArea }}",
+          "messageType": "{{ eSett.shared.messageType }}"
+        }
+      }
     }
   },
   "wholesale": {
