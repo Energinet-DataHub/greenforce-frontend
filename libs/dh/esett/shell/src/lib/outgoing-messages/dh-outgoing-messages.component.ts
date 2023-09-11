@@ -16,14 +16,17 @@
  */
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { BehaviorSubject, Subject, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, combineLatest, map, switchMap, takeUntil } from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
+import { RxPush } from '@rx-angular/template/push';
+import { PageEvent } from '@angular/material/paginator';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { GetOutgoingMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
 import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
@@ -49,14 +52,24 @@ import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
       watt-search {
         margin-left: auto;
       }
+
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
+      }
     `,
   ],
   imports: [
     TranslocoDirective,
     TranslocoPipe,
+    RxPush,
 
     WATT_CARD,
     WattSearchComponent,
+    WattPaginatorComponent,
 
     DhOutgoingMessagesFiltersComponent,
     DhOutgoingMessagesTableComponent,
@@ -70,6 +83,12 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
   totalCount = 0;
 
   searchInput$ = new BehaviorSubject<string>('');
+  private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
+    pageIndex: 0,
+    pageSize: 100,
+  });
+
+  pageSize$ = this.pageMetaData$.pipe(map(({ pageSize }) => pageSize));
 
   isLoading = false;
   hasError = false;
@@ -81,17 +100,28 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
     },
   });
 
-  outgoingMessages$ = this.filter$.pipe(
+  private queryVariables$ = combineLatest({
+    filters: this.filter$,
+    pageMetaData: this.pageMetaData$,
+  });
+
+  outgoingMessages$ = this.queryVariables$.pipe(
     switchMap(
-      (filters) =>
+      ({ filters, pageMetaData }) =>
         this.apollo.watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
           query: GetOutgoingMessagesDocument,
           variables: {
-            pageNumber: 1,
-            pageSize: 100,
+            // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
+            // whereas our endpoint's `pageNumber` param starts at `1`
+            pageNumber: pageMetaData.pageIndex + 1,
+            pageSize: pageMetaData.pageSize,
+            processType: filters.calculationTypes,
+            timeSeriesType: filters.messageTypes,
+            gridAreaCode: filters.gridAreas,
+            documentStatus: filters.status,
             periodFrom: filters.period?.start,
             periodTo: filters.period?.end,
           },
@@ -120,5 +150,9 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
+    this.pageMetaData$.next({ pageIndex, pageSize });
   }
 }
