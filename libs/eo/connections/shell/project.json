@@ -1,0 +1,8 @@
+{
+  "name": "eo-connections-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/connections/shell",
+  "prefix": "eo",
+  "tags": ["product:eo", "domain:connections", "type:shell"]
+}
