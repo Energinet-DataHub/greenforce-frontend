@@ -42,16 +42,28 @@ const exchangeEvents: ExchangeEventSearchResultType[] = [
   },
 ];
 
-const esettExchangeEvent: ExchangeEventTrackingResultType = {
-  documentId: '390161908',
-  gridAreaCode: '344 - N1 A/S',
-  processType: ExchangeEventProcessType.Aggregation,
-  documentStatus: DocumentStatus.Accepted,
-  timeSeriesType: TimeSeriesType.Consumption,
-  created: new Date('2021-01-01T00:10:00.000Z'),
-  periodFrom: new Date('2021-01-01T00:00:00.000Z'),
-  periodTo: new Date('2021-03-01T00:00:00.000Z'),
-};
+const detailedEsettExchangeEvents: ExchangeEventTrackingResultType[] = [
+  {
+    documentId: '390161908',
+    gridAreaCode: '805 - N1 A/S',
+    processType: ExchangeEventProcessType.Aggregation,
+    documentStatus: DocumentStatus.Accepted,
+    timeSeriesType: TimeSeriesType.Consumption,
+    created: new Date('2021-01-01T00:10:00.000Z'),
+    periodFrom: new Date('2021-01-01T00:00:00.000Z'),
+    periodTo: new Date('2021-03-01T00:00:00.000Z'),
+  },
+  {
+    documentId: '390161909',
+    gridAreaCode: '806 - N2 A/S',
+    processType: ExchangeEventProcessType.Aggregation,
+    documentStatus: DocumentStatus.Accepted,
+    timeSeriesType: TimeSeriesType.Consumption,
+    created: new Date('2021-01-01T00:10:00.000Z'),
+    periodFrom: new Date('2021-01-01T00:00:00.000Z'),
+    periodTo: new Date('2021-03-01T00:00:00.000Z'),
+  },
+];
 
 export function eSettMocks() {
   return [getActorsForSettlementReportQuery(), getOutgoingMessageByIdQuery()];
@@ -59,7 +71,14 @@ export function eSettMocks() {
 
 function getOutgoingMessageByIdQuery() {
   return mockGetOutgoingMessageByIdQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data({ esettExchangeEvent }));
+    const documentId = req.variables.documentId;
+    return res(
+      ctx.delay(300),
+      ctx.data({
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        esettExchangeEvent: detailedEsettExchangeEvents.find((x) => x.documentId === documentId)!,
+      })
+    );
   });
 }
 

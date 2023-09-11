@@ -832,11 +832,11 @@
           "CONSUMPTION": "Forbrug"
         },
         "documentStatus": {
-          "RECEIVED": "Modtaget",
-          "AWAITING_DISPATCH": "Afventer afsendelse",
-          "AWAITING_REPLY": "Afventer svar",
-          "ACCEPTED": "Godkendt",
-          "REJECTED": "Ikke godkendt"
+          "RECEIVED": "{{ eSett.status.Received }}",
+          "AWAITING_DISPATCH": "{{ eSett.status.AwaitingDispatch }}",
+          "AWAITING_REPLY": "{{ eSett.status.AwaitingReply }}",
+          "ACCEPTED": "{{ eSett.status.Accepted }}",
+          "REJECTED": "{{ eSett.status.Rejected }}"
         }
       },
       "filters": {

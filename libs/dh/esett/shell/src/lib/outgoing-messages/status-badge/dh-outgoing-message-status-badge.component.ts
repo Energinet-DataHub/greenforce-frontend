@@ -16,7 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DocumentStatus } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -27,21 +27,17 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   selector: 'dh-outgoing-message-status-badge',
   template: `
     <ng-container [ngSwitch]="status" *transloco="let t; read: 'eSett.status'">
-      <watt-badge *ngSwitchCase="'ACCEPTED'" type="success">{{ t('Accepted') }}</watt-badge>
-      <watt-badge *ngSwitchCase="'RECEIVED'" type="success">{{ t('Received') }}</watt-badge>
-      <watt-badge *ngSwitchCase="'AWAITING_DISPATCH'" type="neutral">{{
-        t('AwaitingDispatch')
-      }}</watt-badge>
-      <watt-badge *ngSwitchCase="'AWAITING_REPLY'" type="neutral">{{
-        t('AwaitingReply')
-      }}</watt-badge>
-      <watt-badge *ngSwitchCase="'REJECTED'" type="danger">{{ t('Rejected') }}</watt-badge>
+      <watt-badge *ngSwitchCase="'ACCEPTED'" type="success">{{ t(status!) }}</watt-badge>
+      <watt-badge *ngSwitchCase="'RECEIVED'" type="success">{{ t(status!) }}</watt-badge>
+      <watt-badge *ngSwitchCase="'AWAITING_DISPATCH'" type="neutral">{{ t(status!) }}</watt-badge>
+      <watt-badge *ngSwitchCase="'AWAITING_REPLY'" type="neutral">{{ t(status!) }}</watt-badge>
+      <watt-badge *ngSwitchCase="'REJECTED'" type="danger">{{ t(status!) }}</watt-badge>
 
       <ng-container *ngSwitchCase="null || undefined">{{ status | dhEmDashFallback }}</ng-container>
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, TranslocoModule, DhEmDashFallbackPipe, WattBadgeComponent],
+  imports: [CommonModule, TranslocoDirective, DhEmDashFallbackPipe, WattBadgeComponent],
 })
 export class DhOutgoingMessageStatusBadgeComponent {
   @Input({ required: true }) status: DocumentStatus | null | undefined = null;

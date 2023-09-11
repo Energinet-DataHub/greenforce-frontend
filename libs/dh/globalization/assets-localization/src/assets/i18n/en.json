@@ -840,11 +840,11 @@
           "CONSUMPTION": "Consumption"
         },
         "documentStatus": {
-          "RECEIVED": "Received",
-          "AWAITING_DISPATCH": "Awaiting dispatch",
-          "AWAITING_REPLY": "Awaiting reply",
-          "ACCEPTED": "Accepted",
-          "REJECTED": "Not accepted"
+          "RECEIVED": "{{ eSett.status.Received }}",
+          "AWAITING_DISPATCH": "{{ eSett.status.AwaitingDispatch }}",
+          "AWAITING_REPLY": "{{ eSett.status.AwaitingReply }}",
+          "ACCEPTED": "{{ eSett.status.Accepted }}",
+          "REJECTED": "{{ eSett.status.Rejected }}"
         }
       },
       "filters": {

@@ -68,7 +68,6 @@ export class DhOutgoingMessagesTableComponent {
 
   onRowClick(activeRow: DhOutgoingMessage): void {
     this.activeRow = activeRow;
-    console.log(this.activeRow);
     this.drawer?.open(activeRow.documentId);
   }
 
