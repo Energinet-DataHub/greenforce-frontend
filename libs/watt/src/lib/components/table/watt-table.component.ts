@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DataSource, SelectionModel } from '@angular/cdk/collections';
+import { SelectionModel } from '@angular/cdk/collections';
 import { CommonModule, KeyValue } from '@angular/common';
 import {
   AfterViewInit,
@@ -27,7 +27,6 @@ import {
   inject,
   Input,
   OnChanges,
-  OnDestroy,
   Output,
   SimpleChanges,
   TemplateRef,
@@ -35,11 +34,13 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import type { QueryList } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
-import { map, type Subscription } from 'rxjs';
+import { map } from 'rxjs';
 import { WattCheckboxComponent } from '../checkbox';
+import { WattTableDataSource } from './watt-table-data-source';
 
 export interface WattTableColumn<T> {
   /**
@@ -133,12 +134,6 @@ export class WattTableToolbarDirective<T> {
   }
 }
 
-export interface WattSortableDataSource<T> extends DataSource<T> {
-  filteredData: T[];
-  sort?: MatSort | null;
-  sortingDataAccessor?: (row: T, sortHeaderId: string) => string | number;
-}
-
 /**
  * Usage:
  * `import { WATT_TABLE } from '@energinet-datahub/watt/table';`
@@ -151,12 +146,12 @@ export interface WattSortableDataSource<T> extends DataSource<T> {
   styleUrls: ['./watt-table.component.scss'],
   templateUrl: './watt-table.component.html',
 })
-export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestroy {
+export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
    */
-  @Input() dataSource!: WattSortableDataSource<T>;
+  @Input() dataSource!: WattTableDataSource<T>;
 
   /**
    * Column definition record with keys representing the column identifiers
@@ -291,9 +286,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
   _element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /** @ignore */
-  _subscription!: Subscription;
-
-  /** @ignore */
   private isInitialSelectionSet = false;
 
   /** @ignore */
@@ -302,11 +294,17 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
     return typeof column.accessor === 'function' ? column.accessor(row) : row[column.accessor];
   }
 
+  constructor() {
+    this._selectionModel.changed
+      .pipe(
+        map(() => this._selectionModel.selected),
+        takeUntilDestroyed()
+      )
+      .subscribe((selection) => this.selectionChange.emit(selection));
+  }
+
   ngAfterViewInit() {
     this.dataSource.sort = this._sort;
-    this._subscription = this._selectionModel.changed
-      .pipe(map(() => this._selectionModel.selected))
-      .subscribe((selection) => this.selectionChange.emit(selection));
 
     // Make sorting by text case insensitive
     this.dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
@@ -345,10 +343,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
     }
   }
 
-  ngOnDestroy() {
-    this._subscription.unsubscribe();
-  }
-
   /**
    * Clears the selection. Only works when selectable is `true`.
    */
@@ -371,6 +365,12 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit, OnDestro
     } else {
       this.clearSelection();
     }
+  }
+
+  get _filteredSelection() {
+    return this._selectionModel.selected.filter((row) =>
+      this.dataSource.filteredData.includes(row)
+    );
   }
 
   /** @ignore */

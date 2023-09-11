@@ -16,6 +16,7 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
+import { translate } from '@ngneat/transloco';
 
 interface ServerErrorDescriptor {
   error: ErrorDescriptor;
@@ -39,7 +40,15 @@ export const parseErrorResponse = (errorResponse: HttpErrorResponse) => {
 
   if (isServerErrorDescriptor(errorDescriptor)) {
     if (errorDescriptor.error.details) {
-      return errorDescriptor.error.details.map((x) => x.message).join(' ');
+      return errorDescriptor.error.details
+        .map((x) => {
+          const translationKey = `marketParticipant.apiErrorCodes.${x.code[0].toLowerCase()}${[
+            x.code.slice(1),
+          ]}`;
+          const translation = translate(translationKey);
+          return translation === translationKey ? x.message : translation;
+        })
+        .join(' ');
     }
     return errorDescriptor.error.message;
   }

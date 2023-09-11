@@ -16,56 +16,85 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
+.cdk-overlay-pane div.mat-mdc-select-panel {
+  --mat-select-panel-background-color: white;
+  padding: 0;
+  @include watt.typography-watt-text-s;
+}
+
+.mat-mdc-select-panel
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(
+    .mat-mdc-option-multiple
+  ) {
+  --mat-option-selected-state-layer-color: var(--watt-color-neutral-grey-300);
+  color: var(--watt-color-primary);
+}
+
+.mat-mdc-select-panel .mat-mdc-option.mdc-list-item:hover {
+  --mat-option-hover-state-layer-color: var(--watt-color-neutral-grey-100);
+}
+
 watt-paginator {
   // Using box-shadow means the "border" will overlap table cell borders
   box-shadow: 0 -1px 0 var(--watt-color-neutral-grey-300);
   z-index: 100;
 
-  .mat-paginator,
-  .mat-paginator-page-size .mat-select-trigger {
+  .mat-mdc-paginator,
+  .mat-mdc-paginator-page-size .mat-mdc-select-trigger {
     @include watt.typography-watt-text-s;
   }
 
-  .mat-paginator-container {
-    justify-content: center;
-    padding: 0 20px; // Magic number to align with magic watt-card padding
+  .mat-mdc-paginator {
+    --mat-option-hover-state-layer-color: var(--watt-color-neutral-grey-100);
+    .mdc-notched-outline {
+      --mdc-outlined-text-field-outline-width: 0;
+      --mdc-outlined-text-field-focus-outline-width: 0;
+    }
+    .mat-mdc-paginator-page-size-select {
+      width: 80px;
+    }
   }
 
-  .mat-paginator-range-actions {
+  .mat-mdc-select-arrow-wrapper {
+    color: var(--watt-color-primary);
+    .mat-mdc-select-arrow {
+      width: 18px;
+    }
+  }
+
+  .mat-mdc-paginator-container {
+    justify-content: center;
+    padding: var(--watt-space-m) var(--watt-space-ml);
+  }
+
+  .mat-mdc-paginator-range-actions {
     display: contents;
   }
 
-  .mat-paginator-range-label {
+  .mat-mdc-paginator-range-label {
     margin: 0 auto;
+    user-select: none;
   }
 
-  .mat-icon-button {
-    line-height: 1;
-
-    // Decrease spacing between arrow buttons
-    width: 36px;
-    height: 36px;
+  .mdc-icon-button {
     color: var(--watt-color-primary);
+    --mdc-icon-button-disabled-icon-color: var(--watt-color-neutral-grey-500);
+    --mdc-icon-button-icon-size: 28px;
+    --mdc-icon-button-state-layer-size: 28px;
+    padding: 0;
+    margin-right: 5px;
   }
 
-  .mat-icon-button.mat-button-disabled.mat-button-disabled {
-    color: var(--watt-color-neutral-grey-500);
-  }
-
-  .mat-form-field-underline {
-    display: none;
-  }
-
-  .mat-select-value {
+  .mat-mdc-select-value {
     padding-right: var(--watt-space-xs);
     text-align: right;
   }
 
-  .mat-select-arrow {
+  .mat-mdc-select-arrow {
     color: var(--watt-color-primary);
   }
 
-  .mat-form-field-flex {
+  .mat-mdc-form-field-flex {
     height: var(--watt-space-l);
     align-items: center;
   }
