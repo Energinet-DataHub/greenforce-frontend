@@ -74,6 +74,7 @@ watt-dropdown {
 
   .mat-mdc-select-value {
     color: var(--watt-color-neutral-black);
+    padding-right: var(--watt-space-m);
   }
 
   .mat-mdc-select.mat-mdc-select-invalid.ng-pristine .mat-mdc-select-arrow {
