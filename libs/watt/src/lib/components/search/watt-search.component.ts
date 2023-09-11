@@ -44,7 +44,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   `,
 })
 export class WattSearchComponent {
-  @Input() label?: string;
+  @Input() label = '';
 
   /**
    * @ignore
