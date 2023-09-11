@@ -44,7 +44,7 @@ limitations under the License.
     <watt-dropdown
       formControlName="gridAreas"
       [chipMode]="true"
-      [options]="[]"
+      [options]="gridAreaOptions$ | push"
       [placeholder]="t('gridArea')"
     />
   </watt-form-field>
