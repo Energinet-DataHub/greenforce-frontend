@@ -14,10 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import type { ResultOf } from '@graphql-typed-document-node/core';
+import {
+  GetOutgoingMessageByIdDocument,
+  GetOutgoingMessagesDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { GetOutgoingMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+export type DhOutgoingMessageDetailed = ResultOf<
+  typeof GetOutgoingMessageByIdDocument
+>['esettExchangeEvent'];
 
 export type DhOutgoingMessage = ResultOf<
   typeof GetOutgoingMessagesDocument
