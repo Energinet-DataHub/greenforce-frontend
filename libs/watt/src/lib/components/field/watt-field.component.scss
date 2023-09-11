@@ -78,7 +78,7 @@ watt-field {
       padding: 0 var(--watt-space-m);
       align-items: center;
       gap: var(--watt-space-m);
-      background-color: #fff;
+      background-color: var(--watt-color-neutral-white);
 
       &:focus-within {
         --watt-border-color: var(--watt-color-primary);
