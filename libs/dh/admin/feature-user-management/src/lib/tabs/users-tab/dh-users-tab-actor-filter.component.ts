@@ -41,7 +41,7 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
       :host {
         display: block;
         watt-dropdown {
-          width: 30rem;
+          width: 15rem;
         }
       }
     `,
