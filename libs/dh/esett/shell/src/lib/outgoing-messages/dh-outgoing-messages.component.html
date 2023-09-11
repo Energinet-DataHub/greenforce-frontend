@@ -33,4 +33,10 @@ limitations under the License.
     [isLoading]="isLoading"
     [hasError]="hasError"
   />
+
+  <watt-paginator
+    [for]="tableDataSource"
+    (changed)="handlePageEvent($event)"
+    [pageSize]="pageSize$ | push"
+  />
 </watt-card>
