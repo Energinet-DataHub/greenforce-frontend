@@ -41,9 +41,9 @@ export class EoConnectionsService {
   #apiBase: string;
 
   getConnections(): Observable<EoConnection[]> {
-    return this.http.get<ConnectionsResponse>(`${this.#apiBase}/connections`).pipe(
-      map((response) => response.result)
-    );
+    return this.http
+      .get<ConnectionsResponse>(`${this.#apiBase}/connections`)
+      .pipe(map((response) => response.result));
   }
 
   constructor(

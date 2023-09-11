@@ -71,7 +71,11 @@ export class EoConnectionsTableComponent {
   dataSource: WattTableDataSource<EoConnection> = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<EoConnection> = {
     id: { accessor: 'companyId', header: 'Company Id' },
-    name: { accessor: () => { return '' } },
+    name: {
+      accessor: () => {
+        return '';
+      },
+    },
   };
 
   @Input() loading = false;
