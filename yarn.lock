@@ -17929,7 +17929,7 @@ cors@latest:
     ng-mocks: 14.0.1
     ng2-charts: 3.0.11
     ngx-highlightjs: 10.0.0
-    ngx-mat-select-search: 6.0.0
+    ngx-mat-select-search: 7.0.3
     nx: 16.7.0
     nx-cloud: 16.3.0
     prettier: 2.8.8
@@ -26769,14 +26769,14 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"ngx-mat-select-search@npm:6.0.0":
-  version: 6.0.0
-  resolution: "ngx-mat-select-search@npm:6.0.0"
+"ngx-mat-select-search@npm:7.0.3":
+  version: 7.0.3
+  resolution: "ngx-mat-select-search@npm:7.0.3"
   dependencies:
     tslib: ^2.4.0
   peerDependencies:
-    "@angular/material": ^15.0.0
-  checksum: 67cb3bb922ce87c5b8614203442d79c43b16343916fc2455fad8f527f26fede93232af3b50cadf47893e9ef01fa57b19ff4c7a5484ebb8508631ee2a42264b86
+    "@angular/material": ^15.0.0 || ^16.0.0
+  checksum: 62fce015d38a5ff8b989b46189401040eeef5b0d97b1a9758d3de9eca85232c06f3227d158a1af326dac51e09d00c5c63c1d0c8be9b96498249f4ddecce0f9d9
   languageName: node
   linkType: hard
 

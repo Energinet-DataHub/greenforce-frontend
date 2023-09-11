@@ -19,7 +19,7 @@ import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { fireEvent, within } from '@storybook/testing-library';
 
-import { WATT_FORM_FIELD } from '../../form-field';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '../../field';
 import { WattDropdownComponent } from '../watt-dropdown.component';
 import { WattDropdownOption } from '../watt-dropdown-option';
 
@@ -28,7 +28,7 @@ const meta: Meta<WattDropdownComponent> = {
   component: WattDropdownComponent,
   decorators: [
     moduleMetadata({
-      imports: [FormsModule, ReactiveFormsModule, WATT_FORM_FIELD],
+      imports: [FormsModule, ReactiveFormsModule, WattFieldErrorComponent, WattFieldHintComponent],
     }),
     applicationConfig({
       providers: [provideAnimations()],
@@ -46,24 +46,26 @@ const dropdownOptions: WattDropdownOption[] = [
 const placeholder = 'Select a team';
 
 const template = `
-<watt-form-field>
-  <watt-label>Label</watt-label>
-  <watt-dropdown
+  <watt-dropdown [label]="label"
     [chipMode]="chipMode"
     [multiple]="multiple"
     [formControl]="exampleFormControl"
     [placeholder]="placeholder"
-    [options]="options"></watt-dropdown>
-    <watt-error *ngIf="exampleFormControl.errors?.required">
-    Field is required
-    </watt-error>
-</watt-form-field>
+    [noOptionsFoundLabel]="noOptionsFoundLabel"
+    [options]="options">
+      <watt-field-error>This field is required</watt-field-error>
+      <watt-field-hint>This is a hint</watt-field-hint>
+    </watt-dropdown>
 `;
+
+const noOptionsFoundLabel = 'No team found.';
 
 const DefaultTemplate: Story = {
   render: (args) => ({
     props: {
       ...args,
+      label: 'Team',
+      noOptionsFoundLabel,
       exampleFormControl: new FormControl({ value: null, disabled: false }),
     },
     template,
@@ -74,6 +76,8 @@ const DisabledTemplate: Story = {
   render: (args) => ({
     props: {
       ...args,
+      label: 'Team',
+      noOptionsFoundLabel,
       exampleFormControl: new FormControl({ value: null, disabled: true }),
     },
     template,
@@ -84,6 +88,8 @@ const ValidationTemplate: Story = {
   render: (args) => ({
     props: {
       ...args,
+      label: 'Team',
+      noOptionsFoundLabel,
       exampleFormControl: new FormControl(null, Validators.required),
     },
     template,
@@ -114,7 +120,6 @@ export const MultiSelect: Story = {
   args: {
     options: dropdownOptions,
     placeholder,
-    noOptionsFoundLabel: 'No team found.',
     multiple: true,
   },
 };
