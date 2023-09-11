@@ -76,7 +76,11 @@ import { EoConnection, EoConnectionsService } from '../data-access-api/connectio
           </div>
           <vater-spacer />
           <watt-search label="Search" (search)="search = $event" />
-          <watt-button variant="secondary" icon="plus" (click)="inviteConnection.open()" data-testid="new-invitation-button"
+          <watt-button
+            variant="secondary"
+            icon="plus"
+            (click)="inviteConnection.open()"
+            data-testid="new-invitation-button"
             >New invitation link</watt-button
           >
         </vater-stack>

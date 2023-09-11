@@ -21,7 +21,8 @@ export class ConnectionsPo {
   private invitationLink = '[data-testid="invitation-link"]';
   private copyInvitationLinkButton = '[data-testid="copy-invitation-link-button"]';
   private connectionInvitationId = 'MOCKED-CONNECTION-INVITATION-ID';
-  private mockedInvitationLink = 'http://localhost:4200/connections?accept-invitation=' + this.connectionInvitationId;
+  private mockedInvitationLink =
+    'http://localhost:4200/connections?accept-invitation=' + this.connectionInvitationId;
 
   // Visibility
   headerIsVisible = () => cy.get('h2').should('contain.text', this.pageHeaderText);
@@ -33,7 +34,7 @@ export class ConnectionsPo {
   clickNewInvitationButton() {
     cy.intercept('POST', 'https://demo.energioprindelse.dk/api/connection-invitations', {
       statusCode: 200,
-      body: {"connectionInvitationId": this.connectionInvitationId},
+      body: { connectionInvitationId: this.connectionInvitationId },
     });
 
     cy.get(this.newInvitationButton).click();

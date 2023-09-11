@@ -71,9 +71,19 @@ import { EoInviteConnectionService } from '../data-access-api/invite-connection.
         <vater-stack direction="row">
           <watt-form-field>
             <watt-label>Invitation link</watt-label>
-            <input wattInput type="text" data-testid="invitation-link" [value]="inviteLink().link" #key />
+            <input
+              wattInput
+              type="text"
+              data-testid="invitation-link"
+              [value]="inviteLink().link"
+              #key
+            />
           </watt-form-field>
-          <watt-button variant="text" icon="contentCopy" data-testid="copy-invitation-link-button" [wattCopyToClipboard]="key.value"
+          <watt-button
+            variant="text"
+            icon="contentCopy"
+            data-testid="copy-invitation-link-button"
+            [wattCopyToClipboard]="key.value"
             >Copy link</watt-button
           >
         </vater-stack>
