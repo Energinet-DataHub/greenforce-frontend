@@ -38,7 +38,7 @@ git clone <https://github.com/Energinet-DataHub/opengeh-wholesale.git>
 
 ### eSett
 
-git clone <https://github.com/Energinet-DataHub/opengeh-esett-exchange.git>
+git clone github.com/Energinet-DataHub/opengeh-esett-exchange.git
 
 ## Generating HttpClient and DTOs
 
