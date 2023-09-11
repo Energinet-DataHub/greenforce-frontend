@@ -18,11 +18,7 @@ limitations under the License.
 <ng-container *ngIf="charges.length; else emptyTab">
   <watt-table *transloco="let t; read: 'charges'" [dataSource]="dataSource" [columns]="columns">
     <ng-container
-      *wattTableCell="
-        columns.chargeType;
-        let row;
-        header: t('chargeType.{{charges[0].chargeType}}')
-      "
+      *wattTableCell="columns.chargeType; let row; header: t('chargeType.' + charges[0].chargeType)"
     >
       <div>
         <div class="watt-text-s flex">
@@ -61,38 +57,38 @@ limitations under the License.
           {{ row.endDate | wattDate }}
         </div>
       </ng-container>
+    </ng-container>
 
-      <ng-container
-        *wattTableCell="
-          columns.quantity;
-          let row;
-          header: charges[0].chargeType !== chargeTypes.D03 ? t('quantity') : t('taxIndicator')
-        "
-      >
-        <div *ngIf="charges[0].chargeType !== chargeTypes.D03" class="watt-text-s">
-          {{ row.quantity }}
+    <ng-container
+      *wattTableCell="
+        columns.quantity;
+        let row;
+        header: charges[0].chargeType !== chargeTypes.D03 ? t('quantity') : t('taxIndicator')
+      "
+    >
+      <div *ngIf="charges[0].chargeType !== chargeTypes.D03" class="watt-text-s">
+        {{ row.quantity }}
+      </div>
+      <ng-container *ngIf="row.taxIndicator">
+        <div class="watt-text-s" *transloco="let transloco">
+          <watt-icon name="success" size="xs" class="primary-color"></watt-icon>
         </div>
-        <ng-container *ngIf="row.taxIndicator">
-          <div class="watt-text-s" *transloco="let transloco">
-            <watt-icon name="success" size="xs" class="primary-color"></watt-icon>
-          </div>
-          <div class="watt-text-s" *transloco="let transloco" data-testid="tax-cell">
-            {{ transloco("charges.taxIndicator") }}
-          </div>
-        </ng-container>
+        <div class="watt-text-s" *transloco="let transloco" data-testid="tax-cell">
+          {{ transloco("charges.taxIndicator") }}
+        </div>
       </ng-container>
+    </ng-container>
 
-      <ng-container
-        *wattTableCell="columns.transparentInvoicing; let row; header: t('transparentInvoicing')"
-      >
-        <ng-container *ngIf="row.transparentInvoicing">
-          <div class="watt-text-s">
-            <watt-icon name="success" size="xs" class="primary-color"></watt-icon>
-          </div>
-          <div class="watt-text-s" *transloco="let transloco" data-testid="invoicing-cell">
-            {{ transloco("charges.transparentInvoicing") }}
-          </div>
-        </ng-container>
+    <ng-container
+      *wattTableCell="columns.transparentInvoicing; let row; header: t('transparentInvoicing')"
+    >
+      <ng-container *ngIf="row.transparentInvoicing">
+        <div class="watt-text-s">
+          <watt-icon name="success" size="xs" class="primary-color"></watt-icon>
+        </div>
+        <div class="watt-text-s" *transloco="let transloco" data-testid="invoicing-cell">
+          {{ transloco("charges.transparentInvoicing") }}
+        </div>
       </ng-container>
     </ng-container>
   </watt-table>
