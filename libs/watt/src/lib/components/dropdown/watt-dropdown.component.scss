@@ -124,10 +124,6 @@ watt-dropdown {
     transform: scaleY(1) !important;
   }
 
-  .mdc-list-item.mat-mdc-option[aria-disabled="true"].contains-mat-select-search {
-    top: -2px;
-  }
-
   .mat-mdc-option.mdc-list-item.contains-mat-select-search.mat-mdc-option-multiple {
     background-color: transparent;
   }
