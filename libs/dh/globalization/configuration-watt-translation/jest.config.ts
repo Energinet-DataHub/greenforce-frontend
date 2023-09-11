@@ -16,11 +16,11 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-globalization-ui-watt-translation',
+  displayName: 'dh-globalization-configuration-watt-translation',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../../../coverage/libs/dh/globalization/ui-watt-translation',
+  coverageDirectory: '../../../../coverage/libs/dh/globalization/configuration-watt-translation',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

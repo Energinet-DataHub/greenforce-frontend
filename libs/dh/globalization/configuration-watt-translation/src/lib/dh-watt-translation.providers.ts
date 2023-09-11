@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 import { Injectable, makeEnvironmentProviders } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
+
 import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
 import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
-import { TranslocoService } from '@ngneat/transloco';
 
 @Injectable()
 export class DhClipboardIntlService extends WattClipboardIntlService {
@@ -48,7 +49,7 @@ export class DhPaginatorIntlService extends WattPaginatorIntlService {
   }
 }
 
-export const uiWattTranslationsProviders = makeEnvironmentProviders([
+export const dhWattTranslationsProviders = makeEnvironmentProviders([
   {
     provide: WattClipboardIntlService,
     useClass: DhClipboardIntlService,
