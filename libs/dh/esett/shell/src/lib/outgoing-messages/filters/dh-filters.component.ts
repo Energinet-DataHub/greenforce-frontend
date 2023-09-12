@@ -30,7 +30,7 @@ import { Observable, Subscription, debounceTime, map } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { Apollo } from 'apollo-angular';
 
-import { WattFormChipDirective, WattFormFieldComponent } from '@energinet-datahub/watt/form-field';
+import { WattFormChipDirective } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
@@ -64,6 +64,10 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
       form {
         overflow-y: hidden;
       }
+
+      watt-dropdown {
+        width: auto;
+      }
     `,
   ],
   imports: [
@@ -76,7 +80,6 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
     WattButtonComponent,
     WattDateRangeChipComponent,
     WattFormChipDirective,
-    WattFormFieldComponent,
     WattDropdownComponent,
   ],
 })

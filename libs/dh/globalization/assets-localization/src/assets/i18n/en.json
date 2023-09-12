@@ -820,13 +820,6 @@
         "tabLabel": "Outgoing"
       }
     },
-    "status": {
-      "Received": "Received",
-      "AwaitingDispatch": "Awaiting dispatch",
-      "AwaitingReply": "Awaiting reply",
-      "Accepted": "Accepted",
-      "Rejected": "Rejected"
-    },
     "outgoingMessages": {
       "tabHeading": "Outgoing messages",
       "shared": {
@@ -840,11 +833,11 @@
           "CONSUMPTION": "Consumption"
         },
         "documentStatus": {
-          "RECEIVED": "{{ eSett.status.Received }}",
-          "AWAITING_DISPATCH": "{{ eSett.status.AwaitingDispatch }}",
-          "AWAITING_REPLY": "{{ eSett.status.AwaitingReply }}",
-          "ACCEPTED": "{{ eSett.status.Accepted }}",
-          "REJECTED": "{{ eSett.status.Rejected }}"
+          "RECEIVED": "Received",
+          "AWAITING_DISPATCH": "Awaiting dispatch",
+          "AWAITING_REPLY": "Awaiting reply",
+          "ACCEPTED": "Accepted",
+          "REJECTED": "Rejected"
         }
       },
       "filters": {
