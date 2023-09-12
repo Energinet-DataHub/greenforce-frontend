@@ -11,20 +11,19 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-using System;
-using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class ExchangeEventTrackingResultType : ObjectGraphType<ExchangeEventTrackingResult>
+    public class ESettOutgoingMessageType : ObjectGraphType<ESettOutogingMessage>
     {
-        public ExchangeEventTrackingResultType()
+        public ESettOutgoingMessageType()
         {
             Field(x => x.DocumentId).Description("The id of the found exchanged document.");
             Field(x => x.Created).Description("The time when the document was generated.");
-            Field(x => x.GridAreaCode).Description("The code of the grid area the document is referencing.");
+            Field<NonNullGraphType<GridAreaType>>("gridArea")
+               .Resolve(x => x.Source.GridArea)
+               .Description("The grid area of the document.");
             Field(x => x.PeriodFrom).Description("The start date and time of the calculation period.");
             Field(x => x.PeriodTo).Description("The end date and time of the calculation period.");
             Field<NonNullGraphType<ExchangeEventProcessTypeType>>("processType")
@@ -32,6 +31,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Description("The type of process that generated the calculation results in the document.");
             Field(x => x.DocumentStatus).Description("The delivery status of the document.");
             Field(x => x.TimeSeriesType).Description("The type of calculation result in the document.");
+            Field(x => x.DownloadLink).Description("The link to the document.");
         }
     }
 }

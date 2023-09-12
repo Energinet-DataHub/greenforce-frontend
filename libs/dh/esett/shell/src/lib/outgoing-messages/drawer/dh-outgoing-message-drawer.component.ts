@@ -14,15 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
-import { Subscription, takeUntil } from 'rxjs';
+
+import { Subscription, lastValueFrom, map, takeUntil } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
@@ -51,6 +54,7 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
   ],
   imports: [
     NgIf,
+    AsyncPipe,
     TranslocoDirective,
 
     WATT_DRAWER,
@@ -58,6 +62,7 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
     WATT_CARD,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
+    WattCodeComponent,
 
     DhEmDashFallbackPipe,
     WattDatePipe,
@@ -67,6 +72,7 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
 })
 export class DhOutgoingMessageDrawerComponent {
   private apollo = inject(Apollo);
+  private http = inject(HttpClient);
   private subscription?: Subscription;
 
   private getOutgoingMessageByIdQuery$ = this.apollo.watchQuery({
@@ -83,6 +89,8 @@ export class DhOutgoingMessageDrawerComponent {
   drawer: WattDrawerComponent | undefined;
 
   @Output() closed = new EventEmitter<void>();
+
+  RawXml: Promise<string> | undefined;
 
   public open(outgoingMessageId: string): void {
     this.drawer?.open();
@@ -101,7 +109,14 @@ export class DhOutgoingMessageDrawerComponent {
       .pipe(takeUntil(this.closed))
       .subscribe({
         next: (result) => {
-          this.outgoingMessage = result.data?.esettExchangeEvent;
+          this.outgoingMessage = result.data?.eSettOutgoingMessage;
+          if (this.outgoingMessage) {
+            this.RawXml = lastValueFrom(
+              this.http
+                .get(this.outgoingMessage.downloadLink, { responseType: 'arraybuffer' })
+                .pipe(map((res) => String.fromCharCode(...new Uint8Array(res))))
+            );
+          }
         },
       });
   }
