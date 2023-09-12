@@ -136,6 +136,15 @@ namespace Energinet.DataHub.WebApi
                         opts.ExposeExceptionDetails = true));
 
             SetupHealthEndpoints(services, apiClientSettings);
+
+            services
+                .AddGraphQLServer()
+                .AddQueryType<Choco.Query>()
+                .AddType<Choco.ActorType>()
+                .AddType<Choco.CalculationType>()
+                .AddType<Choco.ExchangeEventProcessType>()
+                .AddType<Choco.PermissionType>()
+                .BindRuntimeType<NodaTime.Interval, Choco.DateRangeType>();
         }
 
         /// <summary>
@@ -173,6 +182,7 @@ namespace Energinet.DataHub.WebApi
                 // Health check
                 endpoints.MapLiveHealthChecks();
                 endpoints.MapReadyHealthChecks();
+                endpoints.MapGraphQL(path: "/choco");
             });
 
             app.UseGraphQL("/graphql", config =>
