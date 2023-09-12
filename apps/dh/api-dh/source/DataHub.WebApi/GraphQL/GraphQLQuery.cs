@@ -319,7 +319,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                         PeriodTo = exchangeEventTrackignResult.PeriodTo,
                         ProcessType = exchangeEventTrackignResult.ProcessType,
                         TimeSeriesType = exchangeEventTrackignResult.TimeSeriesType,
-                        DownloadLink = linkGenerator.GetUriByAction(httpContext.HttpContext!, "ResponseDocument", "EsettExchange", new { documentId }),
+                        GetResponseDocumentLink = linkGenerator.GetUriByAction(httpContext.HttpContext!, "ResponseDocument", "EsettExchange", new { documentId }),
+                        GetDispatchDocumentLink = linkGenerator.GetUriByAction(httpContext.HttpContext!, "GetDispatchDocument", "EsettExchange", new { documentId }),
                     };
                 });
 

@@ -51,10 +51,16 @@ limitations under the License.
 
     <watt-drawer-content *ngIf="drawer.isOpen">
       <watt-tabs>
-        <watt-tab [label]="t('tabs.message')">
+        <watt-tab *ngIf="DispatchDocument" [label]="t('tabs.message')">
           <watt-code
-            *ngIf="RawXml"
-            [code]="RawXml | async"
+            [code]="DispatchDocument | async"
+            [languages]="['xml', 'json']"
+            [lineNumbers]="true"
+          />
+        </watt-tab>
+        <watt-tab *ngIf="ResponseDocument" [label]="t('tabs.receipt')">
+          <watt-code
+            [code]="ResponseDocument | async"
             [languages]="['xml', 'json']"
             [lineNumbers]="true"
           />

@@ -366,8 +366,11 @@ type ESettOutgoingMessageType {
   """The type of calculation result in the document."""
   timeSeriesType: TimeSeriesType!
 
-  """The link to the document."""
-  downloadLink: String!
+  """The link to the dispatch document."""
+  getDispatchDocumentLink: String!
+
+  """The link to the response document."""
+  getResponseDocumentLink: String!
 }
 
 enum ExchangeEventProcessType {

@@ -31,7 +31,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Description("The type of process that generated the calculation results in the document.");
             Field(x => x.DocumentStatus).Description("The delivery status of the document.");
             Field(x => x.TimeSeriesType).Description("The type of calculation result in the document.");
-            Field(x => x.DownloadLink).Description("The link to the document.");
+            Field(x => x.GetDispatchDocumentLink).Description("The link to the dispatch document.");
+            Field(x => x.GetResponseDocumentLink).Description("The link to the response document.");
         }
     }
 }

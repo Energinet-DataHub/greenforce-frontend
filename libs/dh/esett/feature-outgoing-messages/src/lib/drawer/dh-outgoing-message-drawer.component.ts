@@ -32,7 +32,10 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { GetOutgoingMessageByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  DocumentStatus,
+  GetOutgoingMessageByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhOutgoingMessageDetailed } from '../dh-outgoing-message';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
 
@@ -77,8 +80,8 @@ export class DhOutgoingMessageDrawerComponent {
 
   private getOutgoingMessageByIdQuery$ = this.apollo.watchQuery({
     errorPolicy: 'all',
+    useInitialLoading: false,
     returnPartialData: true,
-    useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: GetOutgoingMessageByIdDocument,
   });
@@ -90,7 +93,8 @@ export class DhOutgoingMessageDrawerComponent {
 
   @Output() closed = new EventEmitter<void>();
 
-  RawXml: Promise<string> | undefined;
+  DispatchDocument: Promise<string> | undefined;
+  ResponseDocument: Promise<string> | undefined;
 
   public open(outgoingMessageId: string): void {
     this.drawer?.open();
@@ -104,16 +108,39 @@ export class DhOutgoingMessageDrawerComponent {
 
   private loadOutgoingMessage(id: string): void {
     this.subscription?.unsubscribe();
+    this.DispatchDocument = undefined;
+    this.ResponseDocument = undefined;
     this.getOutgoingMessageByIdQuery$.setVariables({ documentId: id });
     this.subscription = this.getOutgoingMessageByIdQuery$.valueChanges
       .pipe(takeUntil(this.closed))
       .subscribe({
         next: (result) => {
+          if (
+            this.outgoingMessage !== undefined &&
+            this.outgoingMessage.documentId === result.data?.eSettOutgoingMessage?.documentId
+          )
+            return;
+
           this.outgoingMessage = result.data?.eSettOutgoingMessage;
-          if (this.outgoingMessage) {
-            this.RawXml = lastValueFrom(
+
+          if (this.outgoingMessage === undefined) return;
+
+          if (this.outgoingMessage.documentStatus !== DocumentStatus.Received) {
+            this.DispatchDocument = lastValueFrom(
               this.http
-                .get(this.outgoingMessage.downloadLink, { responseType: 'arraybuffer' })
+                .get(this.outgoingMessage.getDispatchDocumentLink, { responseType: 'arraybuffer' })
+                .pipe(map((res) => String.fromCharCode(...new Uint8Array(res))))
+            );
+          }
+
+          if (
+            (this.outgoingMessage.documentStatus !== DocumentStatus.Received &&
+              this.outgoingMessage.documentStatus === DocumentStatus.Accepted) ||
+            this.outgoingMessage.documentStatus === DocumentStatus.Rejected
+          ) {
+            this.ResponseDocument = lastValueFrom(
+              this.http
+                .get(this.outgoingMessage.getResponseDocumentLink, { responseType: 'arraybuffer' })
                 .pipe(map((res) => String.fromCharCode(...new Uint8Array(res))))
             );
           }

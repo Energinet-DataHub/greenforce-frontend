@@ -35,6 +35,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public DocumentStatus DocumentStatus { get; set; } = default!;
 
-        public string? DownloadLink { get; set; } = default!;
+        public string? GetDispatchDocumentLink { get; set; } = default!;
+
+        public string? GetResponseDocumentLink { get; set; } = default!;
     }
 }

@@ -51,6 +51,12 @@ export const graphQLProviders = makeEnvironmentProviders([
                     id: args?.['id'],
                   });
                 },
+                outgoingMessage(_, { args, toReference }) {
+                  return toReference({
+                    __typename: 'ESettOutgoingMessageType',
+                    id: args?.['documentId'],
+                  });
+                },
               },
             },
           },
