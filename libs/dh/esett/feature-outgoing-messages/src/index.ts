@@ -14,10 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { defineConfig } from 'cypress';
-import { nxComponentTestingPreset } from '@nx/angular/plugins/component-testing';
-
-export default defineConfig({
-  component: nxComponentTestingPreset(__filename),
-  video: true,
-});
+export { DhOutgoingMessagesComponent } from './lib/dh-outgoing-messages.component';
