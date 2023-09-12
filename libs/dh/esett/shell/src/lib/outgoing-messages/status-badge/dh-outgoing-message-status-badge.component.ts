@@ -26,7 +26,10 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   standalone: true,
   selector: 'dh-outgoing-message-status-badge',
   template: `
-    <ng-container [ngSwitch]="status" *transloco="let t; read: 'eSett.status'">
+    <ng-container
+      [ngSwitch]="status"
+      *transloco="let t; read: 'eSett.outgoingMessages.shared.documentStatus'"
+    >
       <watt-badge *ngSwitchCase="'ACCEPTED'" type="success">{{ t(status!) }}</watt-badge>
       <watt-badge *ngSwitchCase="'RECEIVED'" type="success">{{ t(status!) }}</watt-badge>
       <watt-badge *ngSwitchCase="'AWAITING_DISPATCH'" type="neutral">{{ t(status!) }}</watt-badge>

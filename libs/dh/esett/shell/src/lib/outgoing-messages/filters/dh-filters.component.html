@@ -22,41 +22,33 @@ limitations under the License.
   [formGroup]="formGroup"
   *transloco="let t; read: 'eSett.outgoingMessages.filters'"
 >
-  <watt-form-field>
-    <watt-dropdown
-      formControlName="calculationTypes"
-      [chipMode]="true"
-      [options]="calculationTypeOptions$ | push"
-      [placeholder]="t('calculationType')"
-    />
-  </watt-form-field>
+  <watt-dropdown
+    formControlName="calculationTypes"
+    [chipMode]="true"
+    [options]="calculationTypeOptions$ | push"
+    [placeholder]="t('calculationType')"
+  />
 
-  <watt-form-field>
-    <watt-dropdown
-      formControlName="messageTypes"
-      [chipMode]="true"
-      [options]="messageTypeOptions$ | push"
-      [placeholder]="t('messageType')"
-    />
-  </watt-form-field>
+  <watt-dropdown
+    formControlName="messageTypes"
+    [chipMode]="true"
+    [options]="messageTypeOptions$ | push"
+    [placeholder]="t('messageType')"
+  />
 
-  <watt-form-field>
-    <watt-dropdown
-      formControlName="gridAreas"
-      [chipMode]="true"
-      [options]="gridAreaOptions$ | push"
-      [placeholder]="t('gridArea')"
-    />
-  </watt-form-field>
+  <watt-dropdown
+    formControlName="gridAreas"
+    [chipMode]="true"
+    [options]="gridAreaOptions$ | push"
+    [placeholder]="t('gridArea')"
+  />
 
-  <watt-form-field>
-    <watt-dropdown
-      formControlName="status"
-      [chipMode]="true"
-      [options]="documentStatusOptions$ | push"
-      [placeholder]="t('status')"
-    />
-  </watt-form-field>
+  <watt-dropdown
+    formControlName="status"
+    [chipMode]="true"
+    [options]="documentStatusOptions$ | push"
+    [placeholder]="t('status')"
+  />
 
   <watt-date-range-chip formControlName="period">{{ t("period") }}</watt-date-range-chip>
 

@@ -812,13 +812,6 @@
         "tabLabel": "Udgående"
       }
     },
-    "status": {
-      "Received": "Modtaget",
-      "AwaitingDispatch": "Afventer afsendelse",
-      "AwaitingReply": "Afventer svar",
-      "Accepted": "Accepteret",
-      "Rejected": "Afvist"
-    },
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
       "shared": {
@@ -832,11 +825,11 @@
           "CONSUMPTION": "Forbrug"
         },
         "documentStatus": {
-          "RECEIVED": "{{ eSett.status.Received }}",
-          "AWAITING_DISPATCH": "{{ eSett.status.AwaitingDispatch }}",
-          "AWAITING_REPLY": "{{ eSett.status.AwaitingReply }}",
-          "ACCEPTED": "{{ eSett.status.Accepted }}",
-          "REJECTED": "{{ eSett.status.Rejected }}"
+          "RECEIVED": "Modtaget",
+          "AWAITING_DISPATCH": "Afventer afsendelse",
+          "AWAITING_REPLY": "Afventer svar",
+          "ACCEPTED": "Accepteret",
+          "REJECTED": "Afvist"
         }
       },
       "filters": {
