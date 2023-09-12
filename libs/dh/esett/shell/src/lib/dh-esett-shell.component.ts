@@ -18,8 +18,7 @@ import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-
-import { DhOutgoingMessagesComponent } from './outgoing-messages/dh-outgoing-messages.component';
+import { DhOutgoingMessagesComponent } from '@energinet-datahub/dh/esett/feature-outgoing-messages';
 
 @Component({
   selector: 'dh-esett-shell',
