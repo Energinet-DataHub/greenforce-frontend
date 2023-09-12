@@ -48,6 +48,7 @@ namespace Energinet.DataHub.WebApi.Choco
 
             descriptor
                 .Field("statusType")
+                .Type<StatusType>()
                 .Resolve(context => context.Parent<BatchDto>().ExecutionState switch
                 {
                     BatchState.Pending => "warning",

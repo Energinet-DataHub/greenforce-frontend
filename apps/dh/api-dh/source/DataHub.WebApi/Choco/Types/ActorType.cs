@@ -15,7 +15,6 @@
 using System.Linq;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using HotChocolate.Types;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Choco
 {
