@@ -1,5 +1,5 @@
-query GetPermissionDetails($id: ID!) {
-  permission(id: $id) {
+query GetPermissionDetails($id: Int!) {
+  permissionById(id: $id) {
     id
     name
     description

@@ -1,5 +1,5 @@
-query GetActorById($id: ID!) {
-  actor(id: $id) {
+query GetActorById($id: UUID!) {
+  actorById(id: $id) {
     id
     glnOrEicNumber
     name

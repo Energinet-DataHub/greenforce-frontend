@@ -1,4 +1,4 @@
-query GetPermissionLogs($id: ID!) {
+query GetPermissionLogs($id: Int!) {
   permissionLogs(id: $id) {
     permissionId
     changedByUserId
