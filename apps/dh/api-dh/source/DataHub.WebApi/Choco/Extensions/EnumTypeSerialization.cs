@@ -20,6 +20,7 @@ namespace Energinet.DataHub.WebApi.Choco
     public static class EnumTypeSerialization
     {
         internal static void AsIsCase<T>(this IEnumTypeDescriptor<T> descriptor)
+            where T : Enum
         {
             descriptor.BindValuesExplicitly();
 
