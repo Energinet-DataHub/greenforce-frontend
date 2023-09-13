@@ -17,7 +17,6 @@
 import { rest } from 'msw';
 
 import {
-  Actor,
   mockGetActorByIdQuery,
   mockGetActorsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
