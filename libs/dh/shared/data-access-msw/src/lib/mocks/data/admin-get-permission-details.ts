@@ -18,7 +18,7 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
 import parseISO from 'date-fns/parseISO';
 
 export const adminPermissionDetailsMock: graphql.GetPermissionDetailsQuery = {
-  permission: {
+  permissionById: {
     id: 1,
     name: 'organizations:view',
     description: 'Description for OrganizationView',

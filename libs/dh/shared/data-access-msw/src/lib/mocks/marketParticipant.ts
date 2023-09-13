@@ -126,9 +126,7 @@ function getActors() {
 function getActorById() {
   return mockGetActorByIdQuery((req, res, ctx) => {
     const { id } = req.variables;
-
-    const actor = marketParticipantActors.find((a) => a.id === id) as Actor;
-
-    return res(ctx.delay(300), ctx.data({ actor }));
+    const actorById = marketParticipantActors.find((a) => a.id === id);
+    return actorById ? res(ctx.delay(300), ctx.data({ actorById })) : res(ctx.status(404));
   });
 }

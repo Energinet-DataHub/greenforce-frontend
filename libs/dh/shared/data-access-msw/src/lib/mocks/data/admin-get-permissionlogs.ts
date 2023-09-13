@@ -17,9 +17,9 @@
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import parseISO from 'date-fns/parseISO';
 
-export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
+export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLogViewDto[] = [
   {
-    __typename: 'PermissionAuditLog',
+    __typename: 'PermissionAuditLogViewDto',
     permissionId: 1,
     changedByUserId: '1',
     changedByUserName: 'datahub',
@@ -28,7 +28,7 @@ export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
     value: 'val1',
   },
   {
-    __typename: 'PermissionAuditLog',
+    __typename: 'PermissionAuditLogViewDto',
     permissionId: 1,
     changedByUserId: '1',
     changedByUserName: 'datahub',
@@ -37,7 +37,7 @@ export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLog[] = [
     value: 'val2',
   },
   {
-    __typename: 'PermissionAuditLog',
+    __typename: 'PermissionAuditLogViewDto',
     permissionId: 2,
     changedByUserId: '1',
     changedByUserName: 'datahub',

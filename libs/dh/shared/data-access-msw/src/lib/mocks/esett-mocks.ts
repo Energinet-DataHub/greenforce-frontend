@@ -17,14 +17,14 @@
 import {
   DocumentStatus,
   ExchangeEventProcessType,
-  ExchangeEventSearchResultType,
-  ExchangeEventTrackingResultType,
+  ExchangeEventSearchResult,
+  EsettExchangeEvent,
   TimeSeriesType,
   mockGetOutgoingMessagesQuery,
   mockGetOutgoingMessageByIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-const exchangeEvents: ExchangeEventSearchResultType[] = [
+const exchangeEvents: ExchangeEventSearchResult[] = [
   {
     documentId: '390161908',
     gridAreaCode: '805',
@@ -42,9 +42,10 @@ const exchangeEvents: ExchangeEventSearchResultType[] = [
   },
 ];
 
-const detailedEsettExchangeEvents: ExchangeEventTrackingResultType[] = [
+const detailedEsettExchangeEvents: EsettExchangeEvent[] = [
   {
     documentId: '390161908',
+    gridArea: '805',
     gridAreaCode: '805 - N1 A/S',
     processType: ExchangeEventProcessType.Aggregation,
     documentStatus: DocumentStatus.Accepted,
@@ -55,6 +56,7 @@ const detailedEsettExchangeEvents: ExchangeEventTrackingResultType[] = [
   },
   {
     documentId: '390161909',
+    gridArea: '806',
     gridAreaCode: '806 - N2 A/S',
     processType: ExchangeEventProcessType.Aggregation,
     documentStatus: DocumentStatus.Accepted,
@@ -71,14 +73,11 @@ export function eSettMocks() {
 
 function getOutgoingMessageByIdQuery() {
   return mockGetOutgoingMessageByIdQuery((req, res, ctx) => {
-    const documentId = req.variables.documentId;
-    return res(
-      ctx.delay(300),
-      ctx.data({
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        esettExchangeEvent: detailedEsettExchangeEvents.find((x) => x.documentId === documentId)!,
-      })
-    );
+    const id = req.variables.documentId;
+    const esettExchangeEventById = detailedEsettExchangeEvents.find((x) => x.documentId === id);
+    return esettExchangeEventById
+      ? res(ctx.delay(300), ctx.data({ esettExchangeEventById }))
+      : res(ctx.status(404));
   });
 }
 

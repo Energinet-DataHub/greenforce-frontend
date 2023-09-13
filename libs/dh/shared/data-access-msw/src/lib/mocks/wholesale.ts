@@ -37,7 +37,9 @@ function createCalculation() {
   return graphql.mockCreateCalculationMutation((_req, res, ctx) => {
     return res(
       ctx.delay(500),
-      ctx.data({ createCalculation: { id: '779195a4-2505-4290-97a6-f3eba2b7d179' } })
+      ctx.data({
+        createCalculation: { calculation: { id: '779195a4-2505-4290-97a6-f3eba2b7d179' } },
+      })
     );
   });
 }
@@ -49,22 +51,22 @@ const executionTimeEnd = parseISO('2021-12-02T23:00:00Z');
 const validFrom = parseISO('0001-01-01T00:00:00+00:00');
 const fakeUserEmail = 'email@example.com';
 
-export const mockedGridAreas: graphql.GridArea[] = [
+export const mockedGridAreas: graphql.GridAreaDto[] = [
   {
-    __typename: 'GridArea',
+    __typename: 'GridAreaDto',
     id: '1',
     code: '805',
     name: 'hello',
-    priceAreaCode: graphql.PriceAreaCode.Dk_1,
+    priceAreaCode: graphql.PriceAreaCode.Dk1,
     validFrom,
     validTo: null,
   },
   {
-    __typename: 'GridArea',
+    __typename: 'GridAreaDto',
     id: '2',
     code: '806',
     name: 'hello again',
-    priceAreaCode: graphql.PriceAreaCode.Dk_1,
+    priceAreaCode: graphql.PriceAreaCode.Dk1,
     validFrom,
     validTo: null,
   },
@@ -78,10 +80,11 @@ const mockedCalculations: graphql.Calculation[] = [
     executionTimeStart,
     executionTimeEnd: null,
     executionState: graphql.BatchState.Pending,
-    statusType: graphql.StatusType.Warning,
+    statusType: graphql.ProcessStatus.Warning,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.Aggregation,
     createdByUserName: fakeUserEmail,
+    areSettlementReportsCreated: false,
   },
   {
     __typename: 'Calculation',
@@ -90,10 +93,11 @@ const mockedCalculations: graphql.Calculation[] = [
     executionTimeStart,
     executionTimeEnd: null,
     executionState: graphql.BatchState.Executing,
-    statusType: graphql.StatusType.Info,
+    statusType: graphql.ProcessStatus.Info,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: '',
+    areSettlementReportsCreated: false,
   },
   {
     __typename: 'Calculation',
@@ -102,10 +106,11 @@ const mockedCalculations: graphql.Calculation[] = [
     executionTimeStart,
     executionTimeEnd,
     executionState: graphql.BatchState.Completed,
-    statusType: graphql.StatusType.Success,
+    statusType: graphql.ProcessStatus.Success,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
+    areSettlementReportsCreated: false,
   },
   {
     __typename: 'Calculation',
@@ -114,10 +119,11 @@ const mockedCalculations: graphql.Calculation[] = [
     executionTimeStart,
     executionTimeEnd,
     executionState: graphql.BatchState.Failed,
-    statusType: graphql.StatusType.Danger,
+    statusType: graphql.ProcessStatus.Danger,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
+    areSettlementReportsCreated: false,
   },
   {
     __typename: 'Calculation',
@@ -126,10 +132,11 @@ const mockedCalculations: graphql.Calculation[] = [
     executionTimeStart,
     executionTimeEnd: null,
     executionState: graphql.BatchState.Pending,
-    statusType: graphql.StatusType.Warning,
+    statusType: graphql.ProcessStatus.Warning,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
+    areSettlementReportsCreated: false,
   },
   {
     __typename: 'Calculation',
@@ -138,10 +145,11 @@ const mockedCalculations: graphql.Calculation[] = [
     executionTimeStart,
     executionTimeEnd: null,
     executionState: graphql.BatchState.Executing,
-    statusType: graphql.StatusType.Info,
+    statusType: graphql.ProcessStatus.Info,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
+    areSettlementReportsCreated: false,
   },
   {
     __typename: 'Calculation',
@@ -150,10 +158,11 @@ const mockedCalculations: graphql.Calculation[] = [
     executionTimeStart,
     executionTimeEnd,
     executionState: graphql.BatchState.Completed,
-    statusType: graphql.StatusType.Success,
+    statusType: graphql.ProcessStatus.Success,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
+    areSettlementReportsCreated: false,
   },
   {
     __typename: 'Calculation',
@@ -162,10 +171,11 @@ const mockedCalculations: graphql.Calculation[] = [
     executionTimeStart,
     executionTimeEnd,
     executionState: graphql.BatchState.Failed,
-    statusType: graphql.StatusType.Danger,
+    statusType: graphql.ProcessStatus.Danger,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
+    areSettlementReportsCreated: false,
   },
   {
     __typename: 'Calculation',
@@ -174,10 +184,11 @@ const mockedCalculations: graphql.Calculation[] = [
     executionTimeStart,
     executionTimeEnd: null,
     executionState: graphql.BatchState.Pending,
-    statusType: graphql.StatusType.Warning,
+    statusType: graphql.ProcessStatus.Warning,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
+    areSettlementReportsCreated: false,
   },
   {
     __typename: 'Calculation',
@@ -186,10 +197,11 @@ const mockedCalculations: graphql.Calculation[] = [
     executionTimeStart,
     executionTimeEnd: null,
     executionState: graphql.BatchState.Executing,
-    statusType: graphql.StatusType.Info,
+    statusType: graphql.ProcessStatus.Info,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
+    areSettlementReportsCreated: false,
   },
   {
     __typename: 'Calculation',
@@ -198,10 +210,11 @@ const mockedCalculations: graphql.Calculation[] = [
     executionTimeStart,
     executionTimeEnd,
     executionState: graphql.BatchState.Completed,
-    statusType: graphql.StatusType.Success,
+    statusType: graphql.ProcessStatus.Success,
     gridAreas: mockedGridAreas,
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
+    areSettlementReportsCreated: false,
   },
   {
     __typename: 'Calculation',
@@ -210,10 +223,11 @@ const mockedCalculations: graphql.Calculation[] = [
     executionTimeStart,
     executionTimeEnd,
     executionState: graphql.BatchState.Failed,
-    statusType: graphql.StatusType.Danger,
+    statusType: graphql.ProcessStatus.Danger,
     gridAreas: [],
     processType: graphql.ProcessType.BalanceFixing,
     createdByUserName: fakeUserEmail,
+    areSettlementReportsCreated: false,
   },
 ];
 
@@ -311,10 +325,12 @@ function getActorsForSettlementReportQuery() {
 }
 
 function getCalculation() {
-  return graphql.mockGetCalculationQuery((req, res, ctx) => {
+  return graphql.mockGetCalculationByIdQuery((req, res, ctx) => {
     const id = req.variables.id;
-    const calculation = mockedCalculations.find((c) => c.id === id);
-    return res(ctx.delay(300), ctx.data({ calculation }));
+    const calculationById = mockedCalculations.find((c) => c.id === id);
+    return calculationById
+      ? res(ctx.delay(300), ctx.data({ calculationById }))
+      : res(ctx.status(404));
   });
 }
 
