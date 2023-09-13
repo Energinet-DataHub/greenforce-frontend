@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { BehaviorSubject, Subject, combineLatest, map, switchMap, takeUntil } from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
@@ -27,6 +27,8 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { GetOutgoingMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
 import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
@@ -70,6 +72,7 @@ import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
     WATT_CARD,
     WattSearchComponent,
     WattPaginatorComponent,
+    WattButtonComponent,
 
     DhOutgoingMessagesFiltersComponent,
     DhOutgoingMessagesTableComponent,
@@ -154,5 +157,36 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
 
   handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
     this.pageMetaData$.next({ pageIndex, pageSize });
+  }
+
+  download(): void {
+    if (!this.tableDataSource.sort) {
+      return;
+    }
+
+    const dataSorted = this.tableDataSource.sortData(
+      this.tableDataSource.filteredData,
+      this.tableDataSource.sort
+    );
+
+    const outgoingMessagesPath = 'eSett.outgoingMessages';
+
+    const headers = [
+      `"${translate(outgoingMessagesPath + '.columns.id')}"`,
+      `"${translate(outgoingMessagesPath + '.columns.calculationType')}"`,
+      `"${translate(outgoingMessagesPath + '.columns.messageType')}"`,
+      `"${translate(outgoingMessagesPath + '.columns.gridArea')}"`,
+      `"${translate(outgoingMessagesPath + '.columns.status')}"`,
+    ];
+
+    const lines = dataSorted.map((message) => [
+      `"${message.documentId}"`,
+      `"${translate(outgoingMessagesPath + '.shared.calculationType.' + message.processType)}"`,
+      `"${translate(outgoingMessagesPath + '.shared.messageType.' + message.timeSeriesType)}"`,
+      `"${message.gridAreaCode}"`,
+      `"${translate(outgoingMessagesPath + '.shared.documentStatus.' + message.documentStatus)}"`,
+    ]);
+
+    exportToCSV({ headers, lines, fileName: 'eSett-outgoing-messages' });
   }
 }
