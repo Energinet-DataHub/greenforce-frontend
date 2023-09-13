@@ -21,20 +21,7 @@ namespace Energinet.DataHub.WebApi.Choco
     {
         protected override void Configure(IEnumTypeDescriptor<EicFunction> descriptor)
         {
-            descriptor.Value(EicFunction.BalanceResponsibleParty).Name("BalanceResponsibleParty");
-            descriptor.Value(EicFunction.BillingAgent).Name("BillingAgent");
-            descriptor.Value(EicFunction.EnergySupplier).Name("EnergySupplier");
-            descriptor.Value(EicFunction.GridAccessProvider).Name("GridAccessProvider");
-            descriptor.Value(EicFunction.ImbalanceSettlementResponsible).Name("ImbalanceSettlementResponsible");
-            descriptor.Value(EicFunction.MeteredDataAdministrator).Name("MeteredDataAdministrator");
-            descriptor.Value(EicFunction.MeteredDataResponsible).Name("MeteredDataResponsible");
-            descriptor.Value(EicFunction.MeteringPointAdministrator).Name("MeteringPointAdministrator");
-            descriptor.Value(EicFunction.SystemOperator).Name("SystemOperator");
-            descriptor.Value(EicFunction.DanishEnergyAgency).Name("DanishEnergyAgency");
-            descriptor.Value(EicFunction.ElOverblik).Name("ElOverblik");
-            descriptor.Value(EicFunction.DataHubAdministrator).Name("DataHubAdministrator");
-            descriptor.Value(EicFunction.IndependentAggregator).Name("IndependentAggregator");
-            descriptor.Value(EicFunction.SerialEnergyTrader).Name("SerialEnergyTrader");
+            descriptor.AsIsCase();
         }
     }
 }

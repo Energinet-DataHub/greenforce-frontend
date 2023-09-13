@@ -12,16 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using System;
 using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.Choco
 {
-    public class ActorStatusType : EnumType<ActorStatus>
+    public static class EnumTypeSerialization
     {
-        protected override void Configure(IEnumTypeDescriptor<ActorStatus> descriptor)
+        internal static void AsIsCase<T>(this IEnumTypeDescriptor<T> descriptor)
         {
-            descriptor.AsIsCase();
+            descriptor.BindValuesExplicitly();
+
+            foreach (T value in typeof(T).GetEnumValues())
+            {
+                descriptor.Value(value).Name(Enum.GetName(typeof(T), value));
+            }
         }
     }
 }
