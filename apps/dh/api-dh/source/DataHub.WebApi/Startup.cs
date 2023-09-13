@@ -139,14 +139,16 @@ namespace Energinet.DataHub.WebApi
 
             services
                 .AddGraphQLServer()
+                .AddMutationConventions(applyToAllMutations: true)
                 .AddQueryType<Choco.Query>()
+                .AddMutationType<Choco.Mutation>()
                 .AddType<Choco.ActorStatusType>()
                 .AddType<Choco.ActorType>()
                 .AddType<Choco.CalculationType>()
                 .AddType<Choco.EicFunctionType>()
                 .AddType<Choco.ExchangeEventProcessType>()
                 .AddType<Choco.PermissionType>()
-                .AddType<Choco.StatusType>()
+                .AddType<Choco.ProcessStatusType>()
                 .BindRuntimeType<NodaTime.Interval, Choco.DateRangeType>();
         }
 

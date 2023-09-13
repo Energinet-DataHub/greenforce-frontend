@@ -12,22 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using HotChocolate.Types;
-
 namespace Energinet.DataHub.WebApi.Choco
 {
-    public static class EnumTypeSerialization
+    public enum ProcessStatus
     {
-        internal static void AsIsCase<T>(this IEnumTypeDescriptor<T> descriptor)
-            where T : Enum
-        {
-            descriptor.BindValuesExplicitly();
-
-            foreach (T value in typeof(T).GetEnumValues())
-            {
-                descriptor.Value(value).Name(Enum.GetName(typeof(T), value));
-            }
-        }
+        Warning,
+        Success,
+        Danger,
+        Info,
     }
 }

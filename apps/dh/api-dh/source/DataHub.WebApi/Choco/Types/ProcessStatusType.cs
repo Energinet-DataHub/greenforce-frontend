@@ -16,15 +16,11 @@ using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.Choco
 {
-    public class StatusType : EnumType<string>
+    public class ProcessStatusType : EnumType<ProcessStatus>
     {
-        protected override void Configure(IEnumTypeDescriptor<string> descriptor)
+        protected override void Configure(IEnumTypeDescriptor<ProcessStatus> descriptor)
         {
-            descriptor.Name("StatusType");
-            descriptor.Value("warning").Name("warning");
-            descriptor.Value("success").Name("success");
-            descriptor.Value("danger").Name("danger");
-            descriptor.Value("info").Name("info");
+            descriptor.AsLowerCase();
         }
     }
 }

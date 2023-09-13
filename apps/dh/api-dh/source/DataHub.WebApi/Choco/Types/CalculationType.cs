@@ -48,14 +48,13 @@ namespace Energinet.DataHub.WebApi.Choco
 
             descriptor
                 .Field("statusType")
-                .Type<StatusType>()
                 .Resolve(context => context.Parent<BatchDto>().ExecutionState switch
                 {
-                    BatchState.Pending => "warning",
-                    BatchState.Completed => "success",
-                    BatchState.Failed => "danger",
-                    BatchState.Executing => "info",
-                    _ => "info",
+                    BatchState.Pending => ProcessStatus.Warning,
+                    BatchState.Completed => ProcessStatus.Success,
+                    BatchState.Failed => ProcessStatus.Danger,
+                    BatchState.Executing => ProcessStatus.Info,
+                    _ => ProcessStatus.Info,
                 });
         }
     }
