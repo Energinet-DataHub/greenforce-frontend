@@ -810,6 +810,9 @@
     "tabs": {
       "outgoingMessages": {
         "tabLabel": "Udgående"
+      },
+      "balanceResponsible": {
+        "tabLabel": "Balanceansvarlig"
       }
     },
     "outgoingMessages": {
@@ -863,6 +866,21 @@
           "messageType": "{{ eSett.shared.messageType }}"
         }
       }
+    },
+    "balanceResponsible": {
+      "tabHeading": "Balanceansvarlig",
+      "columns": {
+        "id": "ID",
+        "date": "Dato",
+        "electricitySupplier": "Elleverandør",
+        "balanceResponsible": "Balanceansvarlig",
+        "meteringPointType": "Målepunktstype",
+        "validFrom": "Gyldig fra"
+      },
+      "emptyTitle": "Ingen meddelelser fundet",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
     }
   },
   "wholesale": {
