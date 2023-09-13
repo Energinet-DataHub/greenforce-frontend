@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { Observable, delay, map } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Observable, map } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
@@ -38,18 +38,18 @@ interface ConnectionsResponse {
   providedIn: 'root',
 })
 export class EoConnectionsService {
-  #apiBase: string;
+  #apiEnvironment: EoApiEnvironment = inject(eoApiEnvironmentToken);
+  #http: HttpClient = inject(HttpClient);
+
+  #apiBase = `${this.#apiEnvironment.apiBase}`;
 
   getConnections(): Observable<EoConnection[]> {
-    return this.http
+    return this.#http
       .get<ConnectionsResponse>(`${this.#apiBase}/connections`)
       .pipe(map((response) => response.result));
   }
 
-  constructor(
-    private http: HttpClient,
-    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
-  ) {
-    this.#apiBase = `${apiEnvironment.apiBase}`;
+  deleteConnection(connectionId: string) {
+    return this.#http.delete(`${this.#apiBase}/connections/${connectionId}`);
   }
 }

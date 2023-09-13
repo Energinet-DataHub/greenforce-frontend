@@ -1,8 +1,0 @@
-{
-  "name": "eo-connections-feature-invite",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/eo/connections/feature-invite",
-  "prefix": "eo",
-  "tags": ["product:eo", "domain:connections", "type:feature"]
-}
