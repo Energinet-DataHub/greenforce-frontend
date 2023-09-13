@@ -23,12 +23,11 @@ namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class EsettExchangeResolvers
     {
-        public async Task<string> GetGridAreaAsync(
+        public Task<string> GetGridAreaAsync(
             [Parent] ExchangeEventTrackingResult result,
-            GridAreaByCodeBatchDataLoader dataLoader)
-            {
-                var gridArea = await dataLoader.LoadAsync(result.GridAreaCode);
-                return $"{gridArea.Code} - ${gridArea.Name}";
-            }
+            GridAreaByCodeBatchDataLoader dataLoader) =>
+            dataLoader
+                .LoadAsync(result.GridAreaCode)
+                .Then(gridArea => $"{gridArea.Code} - ${gridArea.Name}");
     }
 }
