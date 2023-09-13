@@ -39,13 +39,13 @@ export const graphQLProviders = makeEnvironmentProviders([
             ...scalarTypePolicies,
             Query: {
               fields: {
-                calculation(_, { args, toReference }) {
+                calculationById(_, { args, toReference }) {
                   return toReference({
                     __typename: 'Calculation',
                     id: args?.['id'],
                   });
                 },
-                actor(_, { args, toReference }) {
+                actorById(_, { args, toReference }) {
                   return toReference({
                     __typename: 'Actor',
                     id: args?.['id'],
