@@ -22,7 +22,7 @@ using NodaTime.Text;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public sealed class DateRangeType : ScalarType<Interval, ObjectValueNode>
+    public sealed class DateRangeType : AnyType
     {
         public DateRangeType()
             : base("DateRange")
@@ -30,40 +30,82 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Description = "Represents a date range";
         }
 
+        public override Type RuntimeType { get; } = typeof(Interval);
+
+        public override bool IsInstanceOfType(IValueNode valueSyntax)
+        {
+            return valueSyntax == null
+                ? throw new ArgumentNullException(nameof(valueSyntax))
+                : valueSyntax is ObjectValueNode;
+        }
+
+        public override object? ParseLiteral(IValueNode valueSyntax)
+        {
+            if (valueSyntax is NullValueNode)
+            {
+                return null;
+            }
+
+            if (valueSyntax is ObjectValueNode objectValue)
+            {
+                var entries = objectValue.Fields?.ToDictionary(
+                    x => x.Name.Value,
+                    x => x.Value switch
+                    {
+                        StringValueNode s => s.Value,
+                        _ => throw new FormatException(),
+                    });
+
+                if (entries == null || !ContainsStartAndEnd(entries))
+                {
+                    throw new SerializationException("Object must contain both start and end", this);
+                }
+
+                var start = GetStartInstant(entries["start"]);
+                var end = GetEndInstant(entries["end"]);
+
+                return new Interval(start, end);
+            }
+
+            throw new SerializationException("DateRange must be an object", this);
+        }
+
+        public override IValueNode ParseValue(object? runtimeValue) =>
+            runtimeValue switch
+            {
+                null => NullValueNode.Default,
+                Interval interval => new ObjectValueNode(new List<ObjectFieldNode>
+                {
+                    new ObjectFieldNode("start", new StringValueNode(FormatStart(interval.Start))),
+                    new ObjectFieldNode("end", new StringValueNode(FormatEnd(interval.End))),
+                }),
+                _ => throw new SerializationException("Value must be an Interval", this),
+            };
+
         public override IValueNode ParseResult(object? resultValue) =>
             resultValue switch {
                 null => NullValueNode.Default,
                 Interval interval => ParseValue(interval),
-                _ => throw new FormatException(),
+                _ => throw new SerializationException("Value must be an Interval", this),
             };
 
-        protected override Interval ParseLiteral(ObjectValueNode valueSyntax)
+        public override bool TrySerialize(object? runtimeValue, out object? resultValue)
         {
-            var entries = valueSyntax.Fields?.ToDictionary(
-                x => x.Name.Value,
-                x => x.Value switch
-                {
-                    StringValueNode s => s.Value,
-                    _ => throw new FormatException(),
-                });
+            resultValue = null;
 
-            if (entries == null || !ContainsStartAndEnd(entries))
+            if (runtimeValue is Interval interval)
             {
-                throw new FormatException();
+                resultValue = new Dictionary<string, object>
+                {
+                    { "start", FormatStart(interval.Start) },
+                    { "end", FormatEnd(interval.End) },
+                }.AsReadOnly();
+
+                return true;
             }
 
-            var start = GetStartInstant(entries["start"]);
-            var end = GetEndInstant(entries["end"]);
-
-            return new Interval(start, end);
+            return false;
         }
-
-        protected override ObjectValueNode ParseValue(Interval runtimeValue) =>
-            new(new List<ObjectFieldNode>
-            {
-                new ObjectFieldNode("start", new StringValueNode(FormatStart(runtimeValue.Start))),
-                new ObjectFieldNode("end", new StringValueNode(FormatEnd(runtimeValue.End))),
-            });
 
         private const string JsDateFormat = "yyyy-MM-ddTHH:mm:ss.fff'Z'";
 
