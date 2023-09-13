@@ -14,20 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import 'jest-preset-angular/setup-jest';
 
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { DhOutgoingMessagesComponent } from '@energinet-datahub/dh/esett/feature-outgoing-messages';
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSW } from '@energinet-datahub/dh/shared/test-util-msw';
 
-@Component({
-  selector: 'dh-esett-shell',
-  standalone: true,
-  template: `<watt-tabs *transloco="let t; read: 'eSett.tabs'">
-    <watt-tab [label]="t('outgoingMessages.tabLabel')">
-      <dh-outgoing-messages />
-    </watt-tab>
-  </watt-tabs>`,
-  imports: [TranslocoDirective, WATT_TABS, DhOutgoingMessagesComponent],
-})
-export class DhESettShellComponent {}
+setupMSW();
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
