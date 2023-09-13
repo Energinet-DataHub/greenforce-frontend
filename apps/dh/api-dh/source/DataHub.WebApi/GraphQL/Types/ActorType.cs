@@ -34,6 +34,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             descriptor
                 .Field(f => f.MarketRoles)
+                .Name("marketRole")
                 .Resolve(context =>
                     context.Parent<ActorDto>().MarketRoles.FirstOrDefault()?.EicFunction);
 
