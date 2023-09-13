@@ -32,6 +32,7 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddType<ActorType>()
                 .AddType<CalculationType>()
                 .AddType<EicFunctionType>()
+                .AddType<EsettExchangeEventType>()
                 .AddType<ExchangeEventProcessType>()
                 .AddType<PermissionType>()
                 .AddType<ProcessStatusType>()

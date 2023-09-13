@@ -27,25 +27,23 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
   standalone: true,
   template: `
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
-      <watt-form-field class="userrole-search-field">
-        <watt-label>{{ t('filter.userrole') }}</watt-label>
-        <watt-dropdown
-          [placeholder]="t('searchUserRolePlaceHolder')"
-          [formControl]="userRoleControl"
-          [options]="userRoleOptions"
-          [multiple]="true"
-        ></watt-dropdown>
-      </watt-form-field>
+      <watt-dropdown
+        [placeholder]="t('searchUserRolePlaceHolder')"
+        [formControl]="userRoleControl"
+        [options]="userRoleOptions"
+        [label]="t('filter.userrole')"
+        [multiple]="true"
+      ></watt-dropdown>
     </ng-container>
   `,
   styles: [
     `
       :host {
         display: block;
-      }
 
-      .userrole-search-field {
-        width: 30rem;
+        watt-dropdown {
+          width: 15rem;
+        }
       }
     `,
   ],

@@ -17,7 +17,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { MatLegacySelectHarness as MatSelectHarness } from '@angular/material/legacy-select/testing';
+import { MatSelectHarness } from '@angular/material/select/testing';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/angular';
 import { MockProvider } from 'ng-mocks';

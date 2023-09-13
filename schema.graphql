@@ -53,6 +53,18 @@ enum EicFunction {
   SerialEnergyTrader
 }
 
+type EsettExchangeEvent {
+  gridArea: String!
+  documentId: String!
+  created: DateTime!
+  gridAreaCode: String!
+  processType: ExchangeEventProcessType!
+  timeSeriesType: TimeSeriesType!
+  periodFrom: DateTime!
+  periodTo: DateTime!
+  documentStatus: DocumentStatus!
+}
+
 enum ExchangeEventProcessType {
   BALANCE_FIXING
   AGGREGATION
@@ -93,7 +105,7 @@ type Query {
   settlementReports(gridAreaCodes: [String!], period: DateRange, executionTime: DateRange): [SettlementReport!]!
   actorById(id: UUID!): Actor!
   actors(eicFunctions: [EicFunction!]): [Actor!]!
-  esettExchangeEventById(documentId: String!): ExchangeEventTrackingResult!
+  esettExchangeEventById(documentId: String!): EsettExchangeEvent!
   esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, processType: ExchangeEventProcessType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
 }
 
@@ -148,12 +160,31 @@ enum ProcessType {
   THIRD_CORRECTION_SETTLEMENT
 }
 
+enum TimeSeriesType {
+  MGA_EXCHANGE
+  PRODUCTION
+  CONSUMPTION
+}
+
+enum DocumentStatus {
+  RECEIVED
+  AWAITING_DISPATCH
+  AWAITING_REPLY
+  ACCEPTED
+  REJECTED
+}
+
 type UserRoleDto {
   id: UUID!
   name: String!
   description: String!
   eicFunction: EicFunction!
   status: UserRoleStatus!
+}
+
+enum UserRoleStatus {
+  ACTIVE
+  INACTIVE
 }
 
 type AddressDto {
@@ -181,34 +212,9 @@ input UpdatePermissionDtoInput {
   description: String!
 }
 
-enum TimeSeriesType {
-  MGA_EXCHANGE
-  PRODUCTION
-  CONSUMPTION
-}
-
-enum DocumentStatus {
-  RECEIVED
-  AWAITING_DISPATCH
-  AWAITING_REPLY
-  ACCEPTED
-  REJECTED
-}
-
 type ExchangeEventSearchResponse {
   items: [ExchangeEventSearchResult!]!
   totalCount: Int!
-}
-
-type ExchangeEventTrackingResult {
-  documentId: String!
-  created: DateTime!
-  gridAreaCode: String!
-  processType: ExchangeEventProcessType!
-  timeSeriesType: TimeSeriesType!
-  periodFrom: DateTime!
-  periodTo: DateTime!
-  documentStatus: DocumentStatus!
 }
 
 type SettlementReport {
@@ -235,11 +241,6 @@ type PermissionAuditLogViewDto {
   permissionAuditLogType: PermissionAuditLogType!
   timestamp: DateTime!
   value: String!
-}
-
-enum UserRoleStatus {
-  ACTIVE
-  INACTIVE
 }
 
 enum PermissionAuditLogType {
