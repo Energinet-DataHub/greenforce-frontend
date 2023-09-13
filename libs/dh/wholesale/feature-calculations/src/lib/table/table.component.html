@@ -33,12 +33,12 @@ limitations under the License.
 
     <!-- Period From -->
     <ng-container *wattTableCell="columns.periodFrom; let calculation">
-      {{ calculation.period?.start | wattDate }}
+      {{ calculation.period.start | wattDate }}
     </ng-container>
 
     <!-- Period To -->
     <ng-container *wattTableCell="columns.periodTo; let calculation">
-      {{ calculation.period?.end | wattDate }}
+      {{ calculation.period.end | wattDate }}
     </ng-container>
 
     <!-- Execution Time -->
