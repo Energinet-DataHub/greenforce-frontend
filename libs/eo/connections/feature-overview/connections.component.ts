@@ -121,7 +121,7 @@ export class EoConnectionsComponent implements OnInit {
   onConnectionRemoved(connection: EoConnection) {
     this.connections.set({
       ...this.connections(),
-      data: this.connections().data?.filter(c => c.id !== connection.id) ?? null
+      data: this.connections().data?.filter((c) => c.id !== connection.id) ?? null,
     });
   }
 

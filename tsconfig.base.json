@@ -263,11 +263,11 @@
       "@energinet-datahub/eo/connections/feature-invite-connection": [
         "libs/eo/connections/feature-invite-connection/index.ts"
       ],
-      "@energinet-datahub/eo/connections/feature-remove-connection": [
-        "libs/eo/connections/feature-remove-connection/index.ts"
-      ],
       "@energinet-datahub/eo/connections/feature-overview": [
         "libs/eo/connections/feature-overview/index.ts"
+      ],
+      "@energinet-datahub/eo/connections/feature-remove-connection": [
+        "libs/eo/connections/feature-remove-connection/index.ts"
       ],
       "@energinet-datahub/eo/connections/shell": [
         "libs/eo/connections/shell/index.ts"

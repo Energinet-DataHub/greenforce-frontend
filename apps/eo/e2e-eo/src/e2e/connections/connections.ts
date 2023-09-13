@@ -40,12 +40,11 @@ Given('I am logged in as Charlotte CSR', () => {
 
 When('I go to the connections page', () => {
   cy.intercept('GET', 'https://demo.energioprindelse.dk/api/connections', {
-      statusCode: 200,
-      body: {
-        result: mockedConnections
-      },
-    });
-
+    statusCode: 200,
+    body: {
+      result: mockedConnections,
+    },
+  });
 
   shared.clickConnectionsMenuItem();
   po.urlIsTransfersPage();
@@ -62,7 +61,7 @@ When('I click on the "removal" button of a connection', () => {
 
 When('I confirm I want to remove the connection', () => {
   po.clickConfirmRemoveConnectionButton();
-})
+});
 
 Then('I can see a invitation link', () => {
   po.invitationLinkIsVisible();

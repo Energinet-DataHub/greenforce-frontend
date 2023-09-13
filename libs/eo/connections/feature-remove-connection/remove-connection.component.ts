@@ -70,9 +70,7 @@ import { EoConnection, EoConnectionsService } from '../data-access-api/connectio
       (closed)="onConfirmationClosed($event)"
       *ngIf="isOpen()"
     >
-      <p>
-        Removing the connection will not affect ongoing or planned transfer agreements.
-      </p>
+      <p>Removing the connection will not affect ongoing or planned transfer agreements.</p>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="confirmationModal.close(false)"
           >Cancel</watt-button
