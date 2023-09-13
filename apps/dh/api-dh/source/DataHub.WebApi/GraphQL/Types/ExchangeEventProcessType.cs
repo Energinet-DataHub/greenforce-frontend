@@ -12,17 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using NodaTime;
+using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public record SettlementReport(
-        Guid BatchNumber,
-        ProcessType ProcessType,
-        GridAreaDto GridArea,
-        Interval Period,
-        DateTimeOffset? ExecutionTime);
+    public class ExchangeEventProcessType : EnumType<ProcessType>
+    {
+        protected override void Configure(IEnumTypeDescriptor<ProcessType> descriptor)
+        {
+            descriptor.Name("ExchangeEventProcessType");
+        }
+    }
 }

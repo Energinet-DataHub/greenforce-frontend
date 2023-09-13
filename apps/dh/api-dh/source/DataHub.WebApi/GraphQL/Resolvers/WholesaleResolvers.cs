@@ -12,17 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using NodaTime;
+using HotChocolate;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public record SettlementReport(
-        Guid BatchNumber,
-        ProcessType ProcessType,
-        GridAreaDto GridArea,
-        Interval Period,
-        DateTimeOffset? ExecutionTime);
+    public class WholesaleResolvers
+    {
+        public async Task<string?> GetCreatedByUserNameAsync(
+            [Parent] BatchDto batch,
+            UserBatchDataLoader dataLoader) =>
+            (await dataLoader.LoadAsync(batch.CreatedByUserId)).Email;
+
+        public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
+            [Parent] BatchDto batch,
+            GridAreaByCodeBatchDataLoader dataLoader) =>
+            await Task.WhenAll(batch.GridAreaCodes.Select(async c => await dataLoader.LoadAsync(c)));
+    }
 }

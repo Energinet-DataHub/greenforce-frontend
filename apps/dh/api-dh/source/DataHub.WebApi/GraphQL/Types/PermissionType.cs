@@ -12,17 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using NodaTime;
+using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public record SettlementReport(
-        Guid BatchNumber,
-        ProcessType ProcessType,
-        GridAreaDto GridArea,
-        Interval Period,
-        DateTimeOffset? ExecutionTime);
+    public class PermissionType : ObjectType<PermissionDetailsDto>
+    {
+        protected override void Configure(IObjectTypeDescriptor<PermissionDetailsDto> descriptor)
+        {
+            descriptor.Name("Permission");
+            descriptor
+               .Field("userRoles")
+               .ResolveWith<MarketParticipantResolvers>(c => c.GetAssignedPermissionAsync(default!, default!));
+        }
+    }
 }
