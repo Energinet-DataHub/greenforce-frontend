@@ -47,7 +47,7 @@ describe(dhActorsCustomFilterPredicate.name, () => {
 
   describe('when the function is called', () => {
     it('return true if all filters are at their initial state', () => {
-      const actor = createActor({ status: null, marketRole: null });
+      const actor = createActor({ status: ActorStatus.Active, marketRole: null });
 
       const filters: AllFiltersCombined = {
         actorStatus: null,
@@ -77,21 +77,6 @@ describe(dhActorsCustomFilterPredicate.name, () => {
       it('return false if the actor status is NOT found the filter', () => {
         const actor = createActor({
           status: ActorStatus.Active,
-          marketRole: EicFunction.BalanceResponsibleParty,
-        });
-
-        const filters: AllFiltersCombined = {
-          actorStatus: [ActorStatus.Inactive],
-          marketRoles: null,
-          searchInput: '',
-        };
-
-        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
-      });
-
-      it('return false if the actor status is null', () => {
-        const actor = createActor({
-          status: null,
           marketRole: EicFunction.BalanceResponsibleParty,
         });
 
