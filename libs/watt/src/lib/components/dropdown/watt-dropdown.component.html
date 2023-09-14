@@ -14,47 +14,54 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-menu-chip
-  *ngIf="chipMode"
-  [opened]="matSelect.panelOpen"
-  [selected]="!!matSelect?.triggerValue"
-  [disabled]="matSelectControl.disabled"
->
-  {{ placeholder }}<span *ngIf="showTriggerValue">: {{ matSelect?.triggerValue }}</span>
-  <span class="watt-chip-label" *ngIf="showChipLabel">{{ matSelectControl.value?.length }}</span>
-</watt-menu-chip>
-
-<mat-select
-  [formControl]="matSelectControl"
-  [placeholder]="placeholder"
-  #matSelect
-  [multiple]="multiple"
-  [disableOptionCentering]="true"
-  [ngClass]="{ chip: chipMode }"
-  [panelClass]="{
-    'watt-dropdown-panel': true,
-    'watt-dropdown-panel-chip-mode': chipMode
-  }"
->
-  <mat-option
-    ><ngx-mat-select-search
-      [formControl]="filterControl"
-      [placeholderLabel]="placeholder"
-      [showToggleAllCheckbox]="multiple"
-      (toggleAll)="onToggleAll($event)"
-      [toggleAllCheckboxChecked]="isToggleAllChecked"
-      [toggleAllCheckboxIndeterminate]="isToggleAllIndeterminate"
-      [noEntriesFoundLabel]="noOptionsFoundLabel"
-    ></ngx-mat-select-search
-  ></mat-option>
-
-  <mat-option *ngIf="!multiple && showResetOption">{{ emDash }}</mat-option>
-
-  <mat-option
-    *ngFor="let option of filteredOptions$ | push"
-    [value]="option.value"
-    [disabled]="option.disabled"
+<watt-field [label]="label">
+  <watt-menu-chip
+    *ngIf="chipMode"
+    [opened]="matSelect.panelOpen"
+    (toggle)="matSelect.open()"
+    [selected]="!!matSelect?.triggerValue"
+    [disabled]="matSelectControl.disabled"
   >
-    {{ option.displayValue }}
-  </mat-option>
-</mat-select>
+    {{ placeholder }}<span *ngIf="showTriggerValue">: {{ matSelect?.triggerValue }}</span>
+    <span class="watt-chip-label" *ngIf="showChipLabel">{{ matSelectControl.value?.length }}</span>
+  </watt-menu-chip>
+
+  <mat-select
+    [formControl]="matSelectControl"
+    [placeholder]="placeholder"
+    #matSelect
+    [multiple]="multiple"
+    [ngClass]="{ chip: chipMode }"
+    [panelClass]="{
+      'watt-dropdown-panel': true,
+      'watt-dropdown-panel-chip-mode': chipMode
+    }"
+  >
+    <mat-option
+      ><ngx-mat-select-search
+        [formControl]="filterControl"
+        [placeholderLabel]="placeholder"
+        closeIcon="close"
+        [showToggleAllCheckbox]="multiple"
+        (toggleAll)="onToggleAll($event)"
+        [toggleAllCheckboxChecked]="isToggleAllChecked"
+        [toggleAllCheckboxIndeterminate]="isToggleAllIndeterminate"
+        [noEntriesFoundLabel]="noOptionsFoundLabel"
+      >
+        <watt-icon ngxMatSelectSearchClear name="close" size="s" /> </ngx-mat-select-search
+    ></mat-option>
+
+    <mat-option *ngIf="!multiple && showResetOption">{{ emDash }}</mat-option>
+
+    <mat-option
+      *ngFor="let option of filteredOptions$ | push"
+      [value]="option.value"
+      [disabled]="option.disabled"
+    >
+      {{ option.displayValue }}
+    </mat-option>
+  </mat-select>
+  <ng-content />
+  <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
+  <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
+</watt-field>

@@ -818,6 +818,9 @@
     "tabs": {
       "outgoingMessages": {
         "tabLabel": "Outgoing"
+      },
+      "balanceResponsible": {
+        "tabLabel": "Balance responsible"
       }
     },
     "outgoingMessages": {
@@ -837,7 +840,7 @@
           "AWAITING_DISPATCH": "Awaiting dispatch",
           "AWAITING_REPLY": "Awaiting reply",
           "ACCEPTED": "Accepted",
-          "REJECTED": "Not accepted"
+          "REJECTED": "Rejected"
         }
       },
       "filters": {
@@ -856,6 +859,32 @@
         "status": "{{ eSett.shared.status }}"
       },
       "emptyTitle": "No outgoing messages found",
+      "emptyMessage": "Try changing the search criteria",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}",
+      "drawer": {
+        "tabs": {
+          "message": "Message"
+        },
+        "metadata": {
+          "created": "Created",
+          "periode": "Calculated periode",
+          "gridArea": "{{ eSett.shared.gridArea }}",
+          "messageType": "{{ eSett.shared.messageType }}"
+        }
+      }
+    },
+    "balanceResponsible": {
+      "tabHeading": "Balance responsible",
+      "columns": {
+        "id": "ID",
+        "date": "Date",
+        "electricitySupplier": "Electricity supplier",
+        "balanceResponsible": "Balance responsible",
+        "meteringPointType": "Type of metering point",
+        "validFrom": "Valid from"
+      },
+      "emptyTitle": "No messages found",
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
