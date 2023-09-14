@@ -60,7 +60,7 @@ import { EoConsumptionStore } from './eo-consumption.store';
     `,
   ],
   template: `
-    <eo-popup-message></eo-popup-message>
+    <eo-popup-message *ngIf="error$ | async"></eo-popup-message>
 
     <div class="content">
       <eo-stack size="L">
