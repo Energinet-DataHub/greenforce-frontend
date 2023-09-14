@@ -17,18 +17,18 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { EoLineChartComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { RxLet } from '@rx-angular/template/let';
 import { map } from 'rxjs';
 import { EoProductionStore } from './eo-production.store';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   standalone: true,
-  imports: [RxLet, MatCardModule, EoLineChartComponent, WattSpinnerComponent, NgIf, AsyncPipe],
+  imports: [RxLet, WATT_CARD, EoLineChartComponent, WattSpinnerComponent, NgIf, AsyncPipe],
   selector: 'eo-production-line-chart',
-  template: ` <mat-card class="chart-card watt-space-inline-l">
+  template: ` <watt-card class="chart-card watt-space-inline-l">
     <h3 class="watt-space-stack-s">kWh</h3>
     <ng-container>
       <div *ngIf="(loadingDone$ | async) === false" class="loadingObfuscator">
@@ -36,7 +36,7 @@ import { EoProductionStore } from './eo-production.store';
       </div>
       <eo-line-chart *rxLet="dataInKWH$ as data" [data]="data"></eo-line-chart>
     </ng-container>
-  </mat-card>`,
+  </watt-card>`,
   styles: [
     `
       :host {

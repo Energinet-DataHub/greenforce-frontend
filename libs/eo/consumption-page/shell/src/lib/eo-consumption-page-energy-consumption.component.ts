@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatCardModule],
+  imports: [WATT_CARD],
   selector: 'eo-consumption-page-energy-consumption',
   styles: [
     `
@@ -28,7 +28,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
         display: block;
       }
 
-      mat-card {
+      watt-card {
         img {
           display: block;
           width: 544px; // Magic number by designer
@@ -38,7 +38,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
     `,
   ],
   template: `
-    <mat-card>
+    <watt-card>
       <h3 class="watt-space-stack-m">Energy consumption in Denmark</h3>
       <p class="watt-space-stack-m">
         The most important measure in the energy balance of Denmark is the total consumption of
@@ -60,7 +60,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
           [WorldData]
         </a>
       </p>
-    </mat-card>
+    </watt-card>
   `,
 })
 export class EoConsumptionPageEnergyConsumptionComponent {}

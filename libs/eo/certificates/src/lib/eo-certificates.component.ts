@@ -15,29 +15,29 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { EoCertificatesTableComponent } from './eo-certificates-table.component';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatCardModule,
     WattCheckboxComponent,
     EoCertificatesTableComponent,
     WattButtonComponent,
     EoBetaMessageComponent,
+    WATT_CARD,
   ],
   selector: 'eo-certificates',
   standalone: true,
   styles: [],
   template: `
     <eo-eo-beta-message></eo-eo-beta-message>
-    <mat-card class="watt-space-stack-m">
+    <watt-card class="watt-space-stack-m">
       <eo-certificates-table></eo-certificates-table>
-    </mat-card>
+    </watt-card>
   `,
 })
 export class EoCertificatesComponent {}
