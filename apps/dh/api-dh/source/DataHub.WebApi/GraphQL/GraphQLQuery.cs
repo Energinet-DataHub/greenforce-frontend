@@ -301,10 +301,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var gridAreas = await marketParticipantClient.GetGridAreasAsync();
                     var gridAreaLookup = gridAreas.ToDictionary(x => x.Code);
                     var documentId = context.GetArgument<string>("documentId");
-                    var exchangeEventTrackignResult = await client.EsettAsync(documentId);
-                    var gridArea = gridAreaLookup[exchangeEventTrackignResult.GridAreaCode];
-                    exchangeEventTrackignResult.GridAreaCode = $"{gridArea.Code} - ${gridArea.Name}";
-                    return exchangeEventTrackignResult;
+                    var exchangeEventTrackingResult = await client.EsettAsync(documentId);
+                    var gridArea = gridAreaLookup[exchangeEventTrackingResult.GridAreaCode];
+                    exchangeEventTrackingResult.GridAreaCode = $"{gridArea.Code} - ${gridArea.Name}";
+                    return exchangeEventTrackingResult;
                 });
 
             Field<NonNullGraphType<ExchangeEventSearchResponseType>>("esettExchangeEvents")

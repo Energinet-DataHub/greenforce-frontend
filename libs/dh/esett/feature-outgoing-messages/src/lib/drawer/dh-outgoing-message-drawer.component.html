@@ -17,7 +17,10 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'eSett.outgoingMessages.drawer'">
   <watt-drawer #drawer (closed)="onClose()">
     <watt-drawer-topbar>
-      <dh-outgoing-message-status-badge [status]="outgoingMessage?.documentStatus" />
+      <dh-outgoing-message-status-badge
+        [status]="outgoingMessage?.documentStatus"
+        [created]="outgoingMessage?.created"
+      />
     </watt-drawer-topbar>
 
     <watt-drawer-heading>

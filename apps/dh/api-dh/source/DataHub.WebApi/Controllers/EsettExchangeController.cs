@@ -12,10 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.IO;
-using System.Linq;
-using System.Net.Mime;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Microsoft.AspNetCore.Mvc;
@@ -35,16 +31,13 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         [HttpGet("DispatchDocument")]
         [Produces("application/octet-stream")]
-        public async Task<ActionResult<Stream>> GetDispatchDocumentAsync(string documentId)
+        public async Task<ActionResult<FileResponse>> GetDispatchDocumentAsync(string documentId)
         {
             try
             {
-                var fileStream = await _client
-                    .DispatchDocumentAsync(documentId);
-
-                return File(
-                    fileStream,
-                    MediaTypeNames.Application.Octet);
+                return await _client
+                    .DispatchDocumentAsync(documentId)
+                    .ConfigureAwait(false);
             }
             catch (ApiException e) when (e.StatusCode == 404)
             {
@@ -54,17 +47,13 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         [HttpGet("ResponseDocument")]
         [Produces("application/octet-stream")]
-        public async Task<ActionResult<Stream>> ResponseDocumentAsync(string documentId)
+        public async Task<ActionResult<FileResponse>> ResponseDocumentAsync(string documentId)
         {
             try
             {
-                var fileStream = await _client
+                return await _client
                     .ResponseDocumentAsync(documentId)
                     .ConfigureAwait(false);
-
-                return File(
-                    fileStream,
-                    MediaTypeNames.Application.Octet);
             }
             catch (ApiException e) when (e.StatusCode == 404)
             {
