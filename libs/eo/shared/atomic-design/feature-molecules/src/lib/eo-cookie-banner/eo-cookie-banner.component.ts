@@ -16,7 +16,6 @@
  */
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 
@@ -69,7 +68,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
     </watt-card>
   `,
   standalone: true,
-  imports: [WattButtonComponent, WATT_CARD, MatSlideToggleModule, FormsModule],
+  imports: [WattButtonComponent, WATT_CARD, FormsModule],
 })
 export class EoCookieBannerComponent {
   cookies = {
