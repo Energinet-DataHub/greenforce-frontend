@@ -21,6 +21,7 @@ import {
   Component,
   OnInit,
   inject,
+  signal,
 } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 import { tap } from 'rxjs';
@@ -33,6 +34,7 @@ import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-des
 import { EoTransfersStore } from './eo-transfers.store';
 import { EoTransfersTableComponent } from './eo-transfers-table.component';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoTransfersService } from './eo-transfers.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,7 +62,7 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
       ></eo-transfers-table>
     </watt-card>
 
-    <vater-stack>
+    <vater-stack *ngIf="showAutomationError() && (transfers$ | push).length > 0">
       <p style="display: flex; gap: var(--watt-space-xs);">
         <watt-icon name="warning" fill />We are currently experiencing an issue handling certificates<br />
       </p>
@@ -70,6 +72,8 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
 })
 export class EoTransfersComponent implements OnInit {
   protected store = inject(EoTransfersStore);
+  protected showAutomationError = signal<boolean>(false);
+  private transfersService = inject(EoTransfersService);
   private cd = inject(ChangeDetectorRef);
 
   error$ = this.store.error$;
@@ -83,5 +87,15 @@ export class EoTransfersComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.getTransfers();
+    this.setShowAutomationError();
+  }
+
+  private setShowAutomationError() {
+    this.transfersService.transferAutomationHasError().subscribe({
+      next: (x) => {
+        x ? this.showAutomationError.set(true) : this.showAutomationError.set(false);
+      },
+      error: () => this.showAutomationError.set(true)
+    })
   }
 }
