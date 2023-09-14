@@ -15,6 +15,7 @@
 using Energinet.DataHub.WebApi.GraphQL;
 using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Registration
 {
@@ -25,18 +26,11 @@ namespace Energinet.DataHub.WebApi.Registration
             return services
                 .AddGraphQLServer()
                 .AddAuthorization()
-                .AddMutationConventions(applyToAllMutations: true)
                 .AddQueryType<Query>()
+                .AddMutationConventions(applyToAllMutations: true)
                 .AddMutationType<Mutation>()
-                .AddType<ActorStatusType>()
-                .AddType<ActorType>()
-                .AddType<CalculationType>()
-                .AddType<EicFunctionType>()
-                .AddType<EsettExchangeEventType>()
-                .AddType<ExchangeEventProcessType>()
-                .AddType<PermissionType>()
-                .AddType<ProcessStatusType>()
-                .BindRuntimeType<NodaTime.Interval, DateRangeType>();
+                .AddWebApiTypes()
+                .BindRuntimeType<Interval, DateRangeType>();
         }
     }
 }
