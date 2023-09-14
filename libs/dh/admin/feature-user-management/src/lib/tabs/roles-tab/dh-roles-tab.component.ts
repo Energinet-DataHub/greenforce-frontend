@@ -23,7 +23,7 @@ import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -56,12 +56,12 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
     WattSpinnerComponent,
     RxPush,
     DhRolesTabTableComponent,
-    DhSharedUiPaginatorComponent,
     DhRolesTabListFilterComponent,
     DhTabDataGeneralErrorComponent,
     RxLet,
     DhPermissionRequiredDirective,
     DhCreateUserRoleModalComponent,
+    WattPaginatorComponent,
     WATT_MODAL,
   ],
 })

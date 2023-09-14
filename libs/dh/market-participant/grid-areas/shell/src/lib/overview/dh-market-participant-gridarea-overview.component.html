@@ -43,84 +43,28 @@ limitations under the License.
 
   <!-- Table -->
   <div class="card-container">
-    <mat-table [dataSource]="dataSource" aria-label="gridAreas">
-      <!-- Code -->
-      <ng-container matColumnDef="code">
-        <mat-header-cell *matHeaderCellDef>
-          {{ t("columns.code") }}
-        </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <a (click)="open(element)">
-            {{ element.code | dhEmDashFallback }}
-          </a>
-        </mat-cell>
-      </ng-container>
-
-      <!-- Name -->
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef>
-          {{ t("columns.name") }}
-        </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{ element.name }}
-        </mat-cell>
-      </ng-container>
-
-      <!-- Actor name -->
-      <ng-container matColumnDef="actorName">
-        <mat-header-cell *matHeaderCellDef>
-          {{ t("columns.actorName") }}
-        </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{ element.actorName | dhEmDashFallback }}
-        </mat-cell>
-      </ng-container>
-
-      <!-- Actor number -->
-      <ng-container matColumnDef="actorNumber">
-        <mat-header-cell *matHeaderCellDef>
-          {{ t("columns.actorNumber") }}
-        </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{ element.actorNumber | dhEmDashFallback }}
-        </mat-cell>
-      </ng-container>
-
+    <watt-table
+      *transloco="let translateColumns; read: 'marketParticipant.gridAreas.columns'"
+      [columns]="columns"
+      [dataSource]="dataSource"
+      [resolveHeader]="translateColumns"
+      (rowClick)="open($event)"
+      aria-label="gridAreas"
+    >
       <!-- Price area code -->
-      <ng-container matColumnDef="priceAreaCode">
-        <mat-header-cell *matHeaderCellDef>
-          {{ t("columns.priceAreaCode") }}
-        </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{ t("priceAreaCodes." + element.priceAreaCode) }}
-        </mat-cell>
+      <ng-container *wattTableCell="columns.priceAreaCode; let row">
+        {{ t("priceAreaCodes." + row.priceAreaCode) }}
       </ng-container>
 
       <!-- Valid from -->
-      <ng-container matColumnDef="validFrom">
-        <mat-header-cell *matHeaderCellDef>
-          {{ t("columns.validFrom") }}
-        </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{ element.validFrom | wattDate }}
-        </mat-cell>
+      <ng-container *wattTableCell="columns.validFrom; let row">
+        {{ row.validFrom | wattDate }}
       </ng-container>
 
       <!-- Valid to -->
-      <ng-container matColumnDef="validTo">
-        <mat-header-cell *matHeaderCellDef>
-          {{ t("columns.validTo") }}
-        </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{ element.validTo | wattDate | dhEmDashFallback }}
-        </mat-cell>
+      <ng-container *wattTableCell="columns.validTo; let row">
+        {{ row.validTo | wattDate | dhEmDashFallback }}
       </ng-container>
-
-      <mat-header-row *matHeaderRowDef="columnIds; sticky: false"></mat-header-row>
-      <mat-row
-        *matRowDef="let row; columns: columnIds"
-        [class.watt-table-row--highlighted]="isSelected(row)"
-      ></mat-row>
-    </mat-table>
+    </watt-table>
   </div>
 </ng-container>

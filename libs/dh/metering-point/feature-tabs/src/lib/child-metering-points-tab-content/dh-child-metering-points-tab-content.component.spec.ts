@@ -26,6 +26,7 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 
 import { DhChildMeteringPointsTabContentComponent } from './dh-child-metering-points-tab-content.component';
+import { WattTableDataSource } from '@energinet-datahub/watt/table';
 
 const testData: MeteringPointSimpleCimDto[] = [
   {
@@ -55,7 +56,7 @@ describe(DhChildMeteringPointsTabContentComponent.name, () => {
   async function setup(childMeteringPoints?: Array<MeteringPointSimpleCimDto>) {
     const { fixture } = await render(DhChildMeteringPointsTabContentComponent, {
       componentProperties: {
-        sortedData: childMeteringPoints,
+        dataSource: new WattTableDataSource(childMeteringPoints),
         childMeteringPoints,
       },
       imports: [getTranslocoTestingModule()],
