@@ -28,14 +28,15 @@ import {
 
 const exchangeEvents: ExchangeEventSearchResultType[] = [
   {
+    created: new Date(2023, 1, 1),
     documentId: '390161908',
     gridAreaCode: '805',
     processType: ExchangeEventProcessType.Aggregation,
     documentStatus: DocumentStatus.Accepted,
     timeSeriesType: TimeSeriesType.Consumption,
   },
-
   {
+    created:  new Date(2023, 1, 1),
     documentId: '390161909',
     gridAreaCode: '806',
     processType: ExchangeEventProcessType.BalanceFixing,
@@ -43,7 +44,16 @@ const exchangeEvents: ExchangeEventSearchResultType[] = [
     timeSeriesType: TimeSeriesType.Production,
   },
   {
+    created:  new Date(2023, 1, 1),
     documentId: '390161910',
+    gridAreaCode: '806',
+    processType: ExchangeEventProcessType.BalanceFixing,
+    documentStatus: DocumentStatus.AwaitingReply,
+    timeSeriesType: TimeSeriesType.Production,
+  },
+  {
+    created:  new Date(),
+    documentId: '390161911',
     gridAreaCode: '806',
     processType: ExchangeEventProcessType.BalanceFixing,
     documentStatus: DocumentStatus.AwaitingReply,
