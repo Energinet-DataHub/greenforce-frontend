@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
 import { MatSort, MatSortable, MatSortModule, Sort } from '@angular/material/sort';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RouterModule } from '@angular/router';
 
