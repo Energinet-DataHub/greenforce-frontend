@@ -17,7 +17,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantGridAreaDto,
+  MarketParticipantActorGridAreaDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-organization-overview-grid-areas-list',
@@ -29,7 +32,7 @@ import { MarketParticipantGridAreaDto } from '@energinet-datahub/dh/shared/domai
 })
 export class DhMarketParticipantOrganizationOverviewGridAreasListComponent {
   @Input() gridAreas: MarketParticipantGridAreaDto[] = [];
-  @Input() marketRoleGridAreas: MarketParticipantGridAreaDto[] = [];
+  @Input() marketRoleGridAreas: MarketParticipantActorGridAreaDto[] = [];
 
   readonly getGridAreaInfo = (id: string) => {
     const grid = this.gridAreas.find((x) => x.id === id);
