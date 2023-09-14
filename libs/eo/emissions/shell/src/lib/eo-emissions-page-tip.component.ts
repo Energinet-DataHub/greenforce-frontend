@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatCardModule],
+  imports: [WATT_CARD],
   selector: 'eo-emissions-page-tip',
   styles: [
     `
@@ -45,7 +45,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
     `,
   ],
   template: `
-    <mat-card>
+    <watt-card>
       <div class="tip watt-space-stack-m">
         <img alt="Decrease CO2 emissions | EnergyOrigin" src="/assets/icons/lightbulb.svg" />
         <h1>Tip</h1>
@@ -54,7 +54,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
         You can decrease emissions by investing in local renewable energy production to cover your
         energy consumption. It could be solar panels, wind turbines, etc.
       </p>
-    </mat-card>
+    </watt-card>
   `,
 })
 export class EoEmissionsPageTipComponent {}
