@@ -864,7 +864,8 @@
       "errorMessage": "{{ shared.error.message }}",
       "drawer": {
         "tabs": {
-          "message": "Message"
+          "message": "Message",
+          "receipt": "Receipt"
         },
         "metadata": {
           "created": "Created",

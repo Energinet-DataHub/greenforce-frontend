@@ -43,7 +43,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                     .DispatchDocumentAsync(documentId);
 
                 return File(
-                    fileStream,
+                    fileStream.Stream,
                     MediaTypeNames.Application.Octet);
             }
             catch (ApiException e) when (e.StatusCode == 404)
@@ -63,7 +63,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                     .ConfigureAwait(false);
 
                 return File(
-                    fileStream,
+                    fileStream.Stream,
                     MediaTypeNames.Application.Octet);
             }
             catch (ApiException e) when (e.StatusCode == 404)
