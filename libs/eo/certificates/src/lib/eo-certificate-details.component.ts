@@ -71,9 +71,10 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
     <div class="certificate">
       <eo-stack size="M" *rxLet="certificate$; let cert">
         <watt-card>
-          <watt-card-title><h4><b>Static Data</b></h4></watt-card-title>
+          <watt-card-title
+            ><h4><b>Static Data</b></h4></watt-card-title
+          >
           <eo-stack size="M">
-
             <div class="grid-table">
               <b>Energy</b>
               <div>{{ cert?.quantity?.toLocaleString() }} Wh</div>

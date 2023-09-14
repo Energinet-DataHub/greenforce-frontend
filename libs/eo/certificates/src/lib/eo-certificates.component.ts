@@ -28,7 +28,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
     EoCertificatesTableComponent,
     WattButtonComponent,
     EoBetaMessageComponent,
-    WATT_CARD
+    WATT_CARD,
   ],
   selector: 'eo-certificates',
   standalone: true,
