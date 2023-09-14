@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatCardModule],
+  imports: [WATT_CARD],
   selector: 'eo-emissions-page-lead-by-example',
   styles: [
     `
@@ -28,7 +28,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
         display: block;
       }
 
-      mat-card {
+      watt-card {
         background: var(--watt-color-neutral-white);
         img {
           display: block;
@@ -39,7 +39,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
     `,
   ],
   template: `
-    <mat-card>
+    <watt-card>
       <h3 class="watt-space-stack-m">
         <strong>CASE: Inspiration from Sønderborg municipality</strong>
       </h3>
@@ -73,7 +73,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
           >ProjectZero</a
         >.
       </p>
-    </mat-card>
+    </watt-card>
   `,
 })
 export class EoEmissionsPageLeadByExampleComponent {}
