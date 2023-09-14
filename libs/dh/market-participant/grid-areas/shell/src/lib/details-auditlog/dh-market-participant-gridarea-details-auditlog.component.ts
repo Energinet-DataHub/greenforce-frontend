@@ -17,13 +17,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  WattTableColumnDef,
+  WattTableComponent,
+  WattTableDataSource,
+} from '@energinet-datahub/watt/table';
 
 interface AuditLogEntry {
   timestamp: string;
@@ -38,10 +42,10 @@ interface AuditLogEntry {
   imports: [
     CommonModule,
     TranslocoModule,
-    MatTableModule,
     WattEmptyStateComponent,
     WattSpinnerComponent,
     WattDatePipe,
+    WattTableComponent,
     DhPermissionRequiredDirective,
   ],
 })
@@ -51,11 +55,15 @@ export class DhMarketParticipantGridAreaDetailsAuditLogComponent implements OnCh
   @Input() isLoading = false;
   @Input() auditLogEntries: MarketParticipantGridAreaAuditLogEntryDto[] = [];
 
-  displayedColumns: string[] = ['timestamp', 'message'];
-  rows: AuditLogEntry[] = [];
+  columns: WattTableColumnDef<AuditLogEntry> = {
+    time: { accessor: 'timestamp' },
+    change: { accessor: 'message' },
+  };
+
+  dataSource = new WattTableDataSource<AuditLogEntry>();
 
   ngOnChanges(): void {
-    this.rows = this.auditLogEntries
+    this.dataSource.data = this.auditLogEntries
       .map((entry) => {
         const translatedField = this.translocoServie.translate(
           'marketParticipant.gridAreas.detailsAuditLog.fields.' + entry.field.toLowerCase()
