@@ -38,15 +38,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public async Task<IEnumerable<PermissionDetailsDto>> GetPermissionsAsync(
             string searchTerm,
-            [Service] IMarketParticipantPermissionsClient client)
-            {
-                var permissionDetailsDtos = await client.GetPermissionsAsync();
-                return searchTerm is not null
-                    ? permissionDetailsDtos.Where(x =>
-                        x.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ||
-                        x.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase))
-                    : permissionDetailsDtos;
-            }
+            [Service] IMarketParticipantPermissionsClient client) =>
+            (await client.GetPermissionsAsync())
+                .Where(x =>
+                    searchTerm is null ||
+                    x.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ||
+                    x.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase));
 
         public async Task<IEnumerable<PermissionAuditLogViewDto>> GetPermissionLogsAsync(
             int id,
