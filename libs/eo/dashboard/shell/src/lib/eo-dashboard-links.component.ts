@@ -16,13 +16,13 @@
  */
 
 import { Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   standalone: true,
-  imports: [MatCardModule],
+  imports: [WATT_CARD],
   selector: 'eo-dashboard-links',
-  template: ` <mat-card>
+  template: ` <watt-card>
     <h3 class="watt-space-stack-s">Links</h3>
     <ul>
       <li>
@@ -57,7 +57,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
         doing.
       </li>
     </ul>
-  </mat-card>`,
+  </watt-card>`,
   styles: [
     `
       :host {
