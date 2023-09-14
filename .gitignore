@@ -468,3 +468,7 @@ style-dirctionay-tokens
 
 # Cypress
 cypress.env.json
+
+# Azurite
+__azurite*
+__blobstorage*

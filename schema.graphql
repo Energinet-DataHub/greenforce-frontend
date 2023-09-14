@@ -37,10 +37,10 @@ type GraphQLQuery {
     id: ID
   ): Actor!
   actors(eicFunctions: [EicFunction!]): [Actor!]!
-  esettExchangeEvent(
+  eSettOutgoingMessage(
     """The id of the exchange document."""
     documentId: String!
-  ): ExchangeEventTrackingResultType!
+  ): ESettOutgoingMessageType!
   esettExchangeEvents(
     """The number of the page to retrieve data for."""
     pageNumber: Int!
@@ -339,15 +339,15 @@ enum ActorStatus {
   Passive
 }
 
-type ExchangeEventTrackingResultType {
+type ESettOutgoingMessageType {
   """The id of the found exchanged document."""
   documentId: String!
 
   """The time when the document was generated."""
   created: DateTimeOffset!
 
-  """The code of the grid area the document is referencing."""
-  gridAreaCode: String!
+  """The grid area of the document."""
+  gridArea: GridArea!
 
   """The start date and time of the calculation period."""
   periodFrom: DateTimeOffset!
@@ -365,6 +365,12 @@ type ExchangeEventTrackingResultType {
 
   """The type of calculation result in the document."""
   timeSeriesType: TimeSeriesType!
+
+  """The link to the dispatch document."""
+  getDispatchDocumentLink: String!
+
+  """The link to the response document."""
+  getResponseDocumentLink: String!
 }
 
 enum ExchangeEventProcessType {
