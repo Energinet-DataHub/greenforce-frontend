@@ -58,9 +58,6 @@ import { AsyncPipe, NgIf } from '@angular/common';
       <watt-nav-list-item link="{{ routes.dashboard }}" onFeatureFlag="dashboard">
         Dashboard
       </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.production }}" onFeatureFlag="production">
-        Production
-      </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.meteringpoints }}" onFeatureFlag="meters">
         Metering Points
       </watt-nav-list-item>
