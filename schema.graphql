@@ -404,6 +404,9 @@ type ExchangeEventSearchResultType {
   """The id of the found exchanged document."""
   documentId: String!
 
+  """The time when the document was generated."""
+  created: DateTimeOffset!
+
   """The code of the grid area the document is referencing."""
   gridAreaCode: String!
 

@@ -253,6 +253,10 @@
           "gridAreaCode": {
             "type": "string"
           },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          },
           "processType": {
             "allOf": [
               {

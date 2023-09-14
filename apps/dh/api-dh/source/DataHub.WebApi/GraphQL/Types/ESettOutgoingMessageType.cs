@@ -15,7 +15,7 @@ using GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class ESettOutgoingMessageType : ObjectGraphType<ESettOutogingMessage>
+    public class ESettOutgoingMessageType : ObjectGraphType<ESettOutgoingMessage>
     {
         public ESettOutgoingMessageType()
         {

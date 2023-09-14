@@ -308,17 +308,17 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var gridAreas = await marketParticipantClient.GetGridAreasAsync();
                     var gridAreaLookup = gridAreas.ToDictionary(x => x.Code);
                     var documentId = context.GetArgument<string>("documentId");
-                    var exchangeEventTrackignResult = await client.EsettAsync(documentId);
-                    return new ESettOutogingMessage
+                    var exchangeEventTrackingResult = await client.EsettAsync(documentId);
+                    return new ESettOutgoingMessage
                     {
-                        DocumentId = exchangeEventTrackignResult.DocumentId,
-                        Created = exchangeEventTrackignResult.Created,
-                        DocumentStatus = exchangeEventTrackignResult.DocumentStatus,
-                        GridArea = gridAreaLookup[exchangeEventTrackignResult.GridAreaCode],
-                        PeriodFrom = exchangeEventTrackignResult.PeriodFrom,
-                        PeriodTo = exchangeEventTrackignResult.PeriodTo,
-                        ProcessType = exchangeEventTrackignResult.ProcessType,
-                        TimeSeriesType = exchangeEventTrackignResult.TimeSeriesType,
+                        DocumentId = exchangeEventTrackingResult.DocumentId,
+                        Created = exchangeEventTrackingResult.Created,
+                        DocumentStatus = exchangeEventTrackingResult.DocumentStatus,
+                        GridArea = gridAreaLookup[exchangeEventTrackingResult.GridAreaCode],
+                        PeriodFrom = exchangeEventTrackingResult.PeriodFrom,
+                        PeriodTo = exchangeEventTrackingResult.PeriodTo,
+                        ProcessType = exchangeEventTrackingResult.ProcessType,
+                        TimeSeriesType = exchangeEventTrackingResult.TimeSeriesType,
                         GetResponseDocumentLink = linkGenerator.GetUriByAction(httpContext.HttpContext!, "ResponseDocument", "EsettExchange", new { documentId }),
                         GetDispatchDocumentLink = linkGenerator.GetUriByAction(httpContext.HttpContext!, "GetDispatchDocument", "EsettExchange", new { documentId }),
                     };

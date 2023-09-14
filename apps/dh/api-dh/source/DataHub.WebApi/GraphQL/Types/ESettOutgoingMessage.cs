@@ -17,7 +17,7 @@ using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class ESettOutogingMessage
+    public class ESettOutgoingMessage
     {
         public string DocumentId { get; set; } = default!;
 
