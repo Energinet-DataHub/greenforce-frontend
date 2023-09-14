@@ -18,22 +18,68 @@ import {
   DocumentStatus,
   ExchangeEventProcessType,
   ExchangeEventSearchResultType,
+  ExchangeEventTrackingResultType,
   TimeSeriesType,
   mockGetOutgoingMessagesQuery,
+  mockGetOutgoingMessageByIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 const exchangeEvents: ExchangeEventSearchResultType[] = [
   {
     documentId: '390161908',
-    gridAreaCode: 'DK1',
+    gridAreaCode: '805',
     processType: ExchangeEventProcessType.Aggregation,
     documentStatus: DocumentStatus.Accepted,
     timeSeriesType: TimeSeriesType.Consumption,
   },
+
+  {
+    documentId: '390161909',
+    gridAreaCode: '806',
+    processType: ExchangeEventProcessType.BalanceFixing,
+    documentStatus: DocumentStatus.Rejected,
+    timeSeriesType: TimeSeriesType.Production,
+  },
+];
+
+const detailedEsettExchangeEvents: ExchangeEventTrackingResultType[] = [
+  {
+    documentId: '390161908',
+    gridAreaCode: '805 - N1 A/S',
+    processType: ExchangeEventProcessType.Aggregation,
+    documentStatus: DocumentStatus.Accepted,
+    timeSeriesType: TimeSeriesType.Consumption,
+    created: new Date('2021-01-01T00:10:00.000Z'),
+    periodFrom: new Date('2021-01-01T00:00:00.000Z'),
+    periodTo: new Date('2021-03-01T00:00:00.000Z'),
+  },
+  {
+    documentId: '390161909',
+    gridAreaCode: '806 - N2 A/S',
+    processType: ExchangeEventProcessType.Aggregation,
+    documentStatus: DocumentStatus.Accepted,
+    timeSeriesType: TimeSeriesType.Consumption,
+    created: new Date('2021-01-01T00:10:00.000Z'),
+    periodFrom: new Date('2021-01-01T00:00:00.000Z'),
+    periodTo: new Date('2021-03-01T00:00:00.000Z'),
+  },
 ];
 
 export function eSettMocks() {
-  return [getActorsForSettlementReportQuery()];
+  return [getActorsForSettlementReportQuery(), getOutgoingMessageByIdQuery()];
+}
+
+function getOutgoingMessageByIdQuery() {
+  return mockGetOutgoingMessageByIdQuery((req, res, ctx) => {
+    const documentId = req.variables.documentId;
+    return res(
+      ctx.delay(300),
+      ctx.data({
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        esettExchangeEvent: detailedEsettExchangeEvents.find((x) => x.documentId === documentId)!,
+      })
+    );
+  });
 }
 
 function getActorsForSettlementReportQuery() {

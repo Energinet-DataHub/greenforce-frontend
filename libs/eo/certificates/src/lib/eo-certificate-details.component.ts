@@ -16,7 +16,6 @@
  */
 import { UpperCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
@@ -25,17 +24,18 @@ import { RxLet } from '@rx-angular/template/let';
 import { map, tap } from 'rxjs';
 import { EoCertificatesStore } from './eo-certificates.store';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatCardModule,
     EoStackComponent,
     RouterModule,
     RxLet,
     UpperCasePipe,
     WattDatePipe,
     EoBetaMessageComponent,
+    WATT_CARD,
   ],
   selector: 'eo-certificates',
   standalone: true,
@@ -70,9 +70,11 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
     <eo-eo-beta-message></eo-eo-beta-message>
     <div class="certificate">
       <eo-stack size="M" *rxLet="certificate$; let cert">
-        <mat-card>
+        <watt-card>
+          <watt-card-title
+            ><h4><b>Static Data</b></h4></watt-card-title
+          >
           <eo-stack size="M">
-            <h4><b>Static Data</b></h4>
             <div class="grid-table">
               <b>Energy</b>
               <div>{{ cert?.quantity?.toLocaleString() }} Wh</div>
@@ -86,8 +88,8 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
               <div>{{ cert?.id }}</div>
             </div>
           </eo-stack>
-        </mat-card>
-        <mat-card>
+        </watt-card>
+        <watt-card>
           <div class="space-between">
             <eo-stack size="M">
               <h4><b>Technology</b></h4>
@@ -104,13 +106,13 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
               style="height: 79px;"
             />
           </div>
-        </mat-card>
+        </watt-card>
         <h4>
           <a class="link" routerLink="/${eoCertificatesRoutePath}"> << Back to Certificates </a>
         </h4>
       </eo-stack>
       <eo-stack size="M">
-        <mat-card>
+        <watt-card>
           <eo-stack size="M">
             <h4><b>Bidding Zone</b></h4>
             <p><b>DK1</b></p>
@@ -120,7 +122,7 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
               style="height: 204px; display: block"
             />
           </eo-stack>
-        </mat-card>
+        </watt-card>
       </eo-stack>
     </div>
   `,

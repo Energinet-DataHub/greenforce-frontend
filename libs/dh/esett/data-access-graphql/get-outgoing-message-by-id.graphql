@@ -1,0 +1,12 @@
+query GetOutgoingMessageById($documentId: String!) {
+  esettExchangeEvent(documentId: $documentId) {
+    documentId
+    processType
+    created
+    periodFrom
+    periodTo
+    documentStatus
+    gridAreaCode
+    timeSeriesType
+  }
+}

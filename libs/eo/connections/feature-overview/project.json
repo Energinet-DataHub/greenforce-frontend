@@ -1,0 +1,8 @@
+{
+  "name": "eo-connections-feature-overview",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/connections/feature-overview",
+  "prefix": "eo",
+  "tags": ["product:eo", "domain:connections", "type:feature"]
+}
