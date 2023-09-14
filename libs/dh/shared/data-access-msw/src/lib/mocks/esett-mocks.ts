@@ -36,7 +36,7 @@ const exchangeEvents: ExchangeEventSearchResultType[] = [
     timeSeriesType: TimeSeriesType.Consumption,
   },
   {
-    created:  new Date(2023, 1, 1),
+    created: new Date(2023, 1, 1),
     documentId: '390161909',
     gridAreaCode: '806',
     processType: ExchangeEventProcessType.BalanceFixing,
@@ -44,7 +44,7 @@ const exchangeEvents: ExchangeEventSearchResultType[] = [
     timeSeriesType: TimeSeriesType.Production,
   },
   {
-    created:  new Date(2023, 1, 1),
+    created: new Date(2023, 1, 1),
     documentId: '390161910',
     gridAreaCode: '806',
     processType: ExchangeEventProcessType.BalanceFixing,
@@ -52,7 +52,7 @@ const exchangeEvents: ExchangeEventSearchResultType[] = [
     timeSeriesType: TimeSeriesType.Production,
   },
   {
-    created:  new Date(),
+    created: new Date(),
     documentId: '390161911',
     gridAreaCode: '806',
     processType: ExchangeEventProcessType.BalanceFixing,
