@@ -91,7 +91,7 @@ describe(DhMarketParticipantActorMarketRolesComponent, () => {
 
     // select market role
     const marketRoleOptions = within(
-      screen.getByRole('cell', {
+      screen.getByRole('gridcell', {
         name: en.marketParticipant.actor.create.marketRoles.marketRole,
       })
     ).getByRole('combobox');
@@ -102,7 +102,7 @@ describe(DhMarketParticipantActorMarketRolesComponent, () => {
 
     // select grid area
     const gridAreaOptions = within(
-      screen.getByRole('cell', {
+      screen.getByRole('gridcell', {
         name: en.marketParticipant.actor.create.marketRoles.gridArea,
       })
     ).getByRole('combobox');
@@ -113,7 +113,7 @@ describe(DhMarketParticipantActorMarketRolesComponent, () => {
 
     // select metering point types
     const meteringPointTypeOptions = within(
-      screen.getByRole('cell', {
+      screen.getByRole('gridcell', {
         name: en.marketParticipant.actor.create.marketRoles.meteringPointTypes,
       })
     ).getByRole('combobox');

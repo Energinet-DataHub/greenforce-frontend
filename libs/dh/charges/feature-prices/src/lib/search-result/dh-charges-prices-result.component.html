@@ -31,10 +31,7 @@ limitations under the License.
           </watt-button>
 
           <!-- Pagination -->
-          <dh-shared-ui-paginator
-            [length]="result?.length ?? 0"
-            [pageSize]="100"
-          ></dh-shared-ui-paginator>
+          <watt-paginator [for]="dataSource" [length]="result?.length ?? 0" [pageSize]="100" />
         </div>
       </watt-card-title>
 

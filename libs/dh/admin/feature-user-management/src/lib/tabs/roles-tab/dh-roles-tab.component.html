@@ -41,7 +41,7 @@ limitations under the License.
                 >{{ t("download") }}</watt-button
               >
 
-              <dh-shared-ui-paginator #paginator [length]="roles.length"> </dh-shared-ui-paginator>
+              <watt-paginator #paginator [length]="roles.length" />
 
               <watt-button
                 *dhPermissionRequired="['user-roles:manage']"

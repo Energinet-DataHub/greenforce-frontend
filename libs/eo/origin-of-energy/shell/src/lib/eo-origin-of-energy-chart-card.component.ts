@@ -16,20 +16,20 @@
  */
 
 import { Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { EoOriginOfEnergyPieChartComponent } from './eo-origin-of-energy-pie-chart.component';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   standalone: true,
-  imports: [EoOriginOfEnergyPieChartComponent, MatCardModule],
+  imports: [EoOriginOfEnergyPieChartComponent, WATT_CARD],
   selector: 'eo-origin-of-energy-chart-card',
-  template: ` <mat-card>
+  template: ` <watt-card>
     <h3>Your share of renewable energy in 2021</h3>
     <p>Based on the hourly declaration</p>
     <div class="chart-box">
       <eo-origin-of-energy-pie-chart></eo-origin-of-energy-pie-chart>
     </div>
-  </mat-card>`,
+  </watt-card>`,
   styles: [
     `
       :host {

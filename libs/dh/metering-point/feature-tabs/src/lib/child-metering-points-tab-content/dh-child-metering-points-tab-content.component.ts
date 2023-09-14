@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
-import { MatSort, MatSortable, MatSortModule, Sort } from '@angular/material/sort';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { Component, Input, ChangeDetectionStrategy, inject } from '@angular/core';
+import { MatSortModule } from '@angular/material/sort';
 import { TranslocoModule } from '@ngneat/transloco';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhStatusBadgeComponent } from '@energinet-datahub/dh/metering-point/ui-status-badge';
 import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/domain';
 
@@ -34,60 +34,27 @@ import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/domain';
   styleUrls: ['./dh-child-metering-points-tab-content.component.scss'],
   standalone: true,
   imports: [
-    MatTableModule,
     TranslocoModule,
     DhStatusBadgeComponent,
     WattIconComponent,
     MatSortModule,
     CommonModule,
     WattEmptyStateComponent,
+    WATT_TABLE,
     RouterModule,
     WattDatePipe,
   ],
 })
-export class DhChildMeteringPointsTabContentComponent implements AfterViewInit {
-  displayedColumns: string[] = ['childMeteringPoint', 'effectivePeriod', 'status'];
-  sortedData: Array<MeteringPointSimpleCimDto> = [];
+export class DhChildMeteringPointsTabContentComponent {
   @Input()
   childMeteringPoints: Array<MeteringPointSimpleCimDto> | null | undefined;
 
-  @ViewChild(MatSort) matSort?: MatSort;
+  columns: WattTableColumnDef<MeteringPointSimpleCimDto> = {
+    childMeteringPoint: { accessor: 'gsrnNumber' },
+    effectivePeriod: { accessor: 'effectiveDate' },
+    status: { accessor: 'connectionState' },
+  };
 
-  ngAfterViewInit(): void {
-    if (this.childMeteringPoints != undefined) {
-      this.setDefaultSorting();
-    }
-  }
-
-  sortData(sort: Sort) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const data = this.childMeteringPoints!.slice();
-    if (!sort.active || sort.direction === '') {
-      this.sortedData = data;
-      this.setDefaultSorting();
-      return;
-    }
-
-    this.sortedData = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'childMeteringPoint':
-          return this.compare(a.gsrnNumber, b.gsrnNumber, isAsc);
-        case 'effectivePeriod':
-          return this.compare(a.effectiveDate, b.effectiveDate, isAsc);
-        case 'status':
-          return this.compare(a.connectionState, b.connectionState, isAsc);
-        default:
-          return 0;
-      }
-    });
-  }
-
-  setDefaultSorting() {
-    this.matSort?.sort(this.matSort.sortables.get('childMeteringPoint') as MatSortable);
-  }
-
-  compare(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
+  router = inject(Router);
+  dataSource = new WattTableDataSource<MeteringPointSimpleCimDto>();
 }

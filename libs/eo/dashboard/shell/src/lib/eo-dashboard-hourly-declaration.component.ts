@@ -16,13 +16,13 @@
  */
 
 import { Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   standalone: true,
-  imports: [MatCardModule],
+  imports: [WATT_CARD],
   selector: 'eo-dashboard-hourly-declaration',
-  template: ` <mat-card>
+  template: ` <watt-card>
     <h3>Hourly declaration</h3>
     <p class="watt-space-stack-m">
       The hourly declaration describes the origin of the energy you have consumed within a given
@@ -32,7 +32,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
       The declaration is calculated as a weighted average based on your hourly electricity
       consumption and the corresponding hourly residual mix in your bidding zone.
     </p>
-  </mat-card>`,
+  </watt-card>`,
   styles: [
     `
       :host {
