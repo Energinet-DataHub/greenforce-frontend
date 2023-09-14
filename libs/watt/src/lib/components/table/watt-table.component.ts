@@ -327,7 +327,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
       // Make sorting by text case insensitive.
       if (typeof cell === 'string') return cell.toLowerCase();
       if (cell instanceof Date) return cell.getTime();
-      return (cell as number);
+      return cell as number;
     };
   }
 

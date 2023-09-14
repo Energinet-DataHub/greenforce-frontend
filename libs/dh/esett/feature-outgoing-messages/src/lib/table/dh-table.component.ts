@@ -28,27 +28,27 @@ import { DhOutgoingMessageDrawerComponent } from '../drawer/dh-outgoing-message-
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
 
 @Component({
-    selector: 'dh-outgoing-messages-table',
-    standalone: true,
-    templateUrl: './dh-table.component.html',
-    styles: [
-        `
+  selector: 'dh-outgoing-messages-table',
+  standalone: true,
+  templateUrl: './dh-table.component.html',
+  styles: [
+    `
       :host {
         display: block;
       }
     `,
-    ],
-    imports: [
-        NgIf,
-        TranslocoDirective,
-        TranslocoPipe,
-        WATT_TABLE,
-        WattPaginatorComponent,
-        WattEmptyStateComponent,
-        DhOutgoingMessageDrawerComponent,
-        DhOutgoingMessageStatusBadgeComponent,
-        WattDatePipe
-    ]
+  ],
+  imports: [
+    NgIf,
+    TranslocoDirective,
+    TranslocoPipe,
+    WATT_TABLE,
+    WattPaginatorComponent,
+    WattEmptyStateComponent,
+    DhOutgoingMessageDrawerComponent,
+    DhOutgoingMessageStatusBadgeComponent,
+    WattDatePipe,
+  ],
 })
 export class DhOutgoingMessagesTableComponent {
   activeRow: DhOutgoingMessage | undefined = undefined;
