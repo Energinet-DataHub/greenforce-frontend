@@ -21,9 +21,14 @@ using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Energinet.DataHub.WebApi.Extensions;
+using Flurl;
 using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Routing;
 using NodaTime;
 using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
 
@@ -290,21 +295,33 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     return accessibleActors.Where(actor => actor.Id == actorId);
                 });
 
-            Field<NonNullGraphType<ExchangeEventTrackingResultType>>("esettExchangeEvent")
+            Field<NonNullGraphType<ESettOutgoingMessageType>>("eSettOutgoingMessage")
                 .Argument<NonNullGraphType<StringGraphType>>("documentId", "The id of the exchange document.")
                 .Resolve()
                 .WithScope()
                 .WithService<IESettExchangeClient_V1>()
                 .WithService<IMarketParticipantClient>()
-                .ResolveAsync(async (context, client, marketParticipantClient) =>
+                .WithService<LinkGenerator>()
+                .WithService<IHttpContextAccessor>()
+                .ResolveAsync(async (context, client, marketParticipantClient, linkGenerator, httpContext) =>
                 {
                     var gridAreas = await marketParticipantClient.GetGridAreasAsync();
                     var gridAreaLookup = gridAreas.ToDictionary(x => x.Code);
                     var documentId = context.GetArgument<string>("documentId");
                     var exchangeEventTrackignResult = await client.EsettAsync(documentId);
-                    var gridArea = gridAreaLookup[exchangeEventTrackignResult.GridAreaCode];
-                    exchangeEventTrackignResult.GridAreaCode = $"{gridArea.Code} - ${gridArea.Name}";
-                    return exchangeEventTrackignResult;
+                    return new ESettOutogingMessage
+                    {
+                        DocumentId = exchangeEventTrackignResult.DocumentId,
+                        Created = exchangeEventTrackignResult.Created,
+                        DocumentStatus = exchangeEventTrackignResult.DocumentStatus,
+                        GridArea = gridAreaLookup[exchangeEventTrackignResult.GridAreaCode],
+                        PeriodFrom = exchangeEventTrackignResult.PeriodFrom,
+                        PeriodTo = exchangeEventTrackignResult.PeriodTo,
+                        ProcessType = exchangeEventTrackignResult.ProcessType,
+                        TimeSeriesType = exchangeEventTrackignResult.TimeSeriesType,
+                        GetResponseDocumentLink = linkGenerator.GetUriByAction(httpContext.HttpContext!, "ResponseDocument", "EsettExchange", new { documentId }),
+                        GetDispatchDocumentLink = linkGenerator.GetUriByAction(httpContext.HttpContext!, "GetDispatchDocument", "EsettExchange", new { documentId }),
+                    };
                 });
 
             Field<NonNullGraphType<ExchangeEventSearchResponseType>>("esettExchangeEvents")
