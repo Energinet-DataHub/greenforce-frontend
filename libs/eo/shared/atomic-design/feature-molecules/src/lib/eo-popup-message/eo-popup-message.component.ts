@@ -36,7 +36,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
         display: block;
 
         @include watt.media('<Large') {
-          .mat-card {
+          .watt-card {
             border-radius: 0;
           }
         }
@@ -60,7 +60,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
         }
       }
 
-      .mat-card {
+      .watt-card {
         background-color: var(--watt-color-state-danger-light);
         padding: var(--watt-space-m);
       }
@@ -75,7 +75,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
     `,
   ],
   template: `
-    <div class="mat-card watt-space-stack-l container">
+    <div class="watt-card watt-space-stack-l container">
       <img alt="Danger icon" src="/assets/icons/danger.svg" />
       <div class="content">
         <h4 class="watt-space-stack-s">{{ title }}</h4>

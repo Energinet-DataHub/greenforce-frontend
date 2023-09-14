@@ -28,7 +28,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
         display: block;
       }
 
-      mat-card {
+      watt-card {
         img {
           display: block;
           width: 544px; // Magic number by designer

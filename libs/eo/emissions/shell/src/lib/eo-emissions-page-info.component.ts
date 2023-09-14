@@ -31,7 +31,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
       :host {
         display: block;
       }
-      mat-card {
+      watt-card {
         background: var(--watt-color-state-warning-light);
 
         .output {

@@ -30,7 +30,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
       :host {
         display: block;
       }
-      mat-card {
+      watt-card {
         .output {
           display: flex;
           align-items: flex-end;

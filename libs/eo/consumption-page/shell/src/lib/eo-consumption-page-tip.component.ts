@@ -27,7 +27,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
       :host {
         display: block;
       }
-      mat-card {
+      watt-card {
         background: var(--watt-color-primary-light);
         border-radius: var(--watt-space-m);
 
