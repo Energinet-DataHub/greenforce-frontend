@@ -309,7 +309,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var gridAreaLookup = gridAreas.ToDictionary(x => x.Code);
                     var documentId = context.GetArgument<string>("documentId");
                     var exchangeEventTrackingResult = await client.EsettAsync(documentId);
-                    return new ESettOutgoingMessageType
+                    return new ESettOutgoingMessage
                     {
                         DocumentId = exchangeEventTrackingResult.DocumentId,
                         Created = exchangeEventTrackingResult.Created,
