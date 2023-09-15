@@ -83,7 +83,7 @@ To create a new query using Hot Chocolate, follow this example:
 3. Restart the server and it should now be possible to query
    the list of books in the [playground](#playground).
 
-## Testing
+### Testing
 
 Our GraphQL testing setup uses snapshots to check for changes in schema and payloads. Since the
 GraphQL server heavily relies on inferring types from client interactions, we need to be thorough
