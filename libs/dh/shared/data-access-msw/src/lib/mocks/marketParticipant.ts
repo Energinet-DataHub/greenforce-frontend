@@ -17,6 +17,7 @@
 import { rest } from 'msw';
 
 import {
+  Actor,
   mockGetActorByIdQuery,
   mockGetActorsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -118,14 +119,16 @@ function getUserRoles(apiBase: string) {
 
 function getActors() {
   return mockGetActorsQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data({ actors: marketParticipantActors }));
+    return res(ctx.delay(300), ctx.data({ __typename: 'Query', actors: marketParticipantActors }));
   });
 }
 
 function getActorById() {
   return mockGetActorByIdQuery((req, res, ctx) => {
     const { id } = req.variables;
-    const actorById = marketParticipantActors.find((a) => a.id === id);
-    return actorById ? res(ctx.delay(300), ctx.data({ actorById })) : res(ctx.status(404));
+
+    const actorById = marketParticipantActors.find((a) => a.id === id) as Actor;
+
+    return res(ctx.delay(300), ctx.data({ __typename: 'Query', actorById }));
   });
 }

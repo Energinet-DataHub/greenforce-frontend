@@ -14,34 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { PermissionAuditLogType, PermissionLog } from '@energinet-datahub/dh/shared/domain/graphql';
 import parseISO from 'date-fns/parseISO';
 
-export const adminPermissionPermissionLogsMock: graphql.PermissionAuditLogViewDto[] = [
+export const adminPermissionPermissionLogsMock: PermissionLog[] = [
   {
-    __typename: 'PermissionAuditLogViewDto',
-    permissionId: 1,
-    changedByUserId: '1',
+    __typename: 'PermissionLog',
     changedByUserName: 'datahub',
-    permissionAuditLogType: graphql.PermissionAuditLogType.Created,
+    type: PermissionAuditLogType.Created,
     timestamp: parseISO('2023-03-17'),
     value: 'val1',
   },
   {
-    __typename: 'PermissionAuditLogViewDto',
-    permissionId: 1,
-    changedByUserId: '1',
+    __typename: 'PermissionLog',
     changedByUserName: 'datahub',
-    permissionAuditLogType: graphql.PermissionAuditLogType.DescriptionChange,
+    type: PermissionAuditLogType.DescriptionChange,
     timestamp: parseISO('2023-03-18'),
     value: 'val2',
   },
   {
-    __typename: 'PermissionAuditLogViewDto',
-    permissionId: 2,
-    changedByUserId: '1',
+    __typename: 'PermissionLog',
     changedByUserName: 'datahub',
-    permissionAuditLogType: graphql.PermissionAuditLogType.Created,
+    type: PermissionAuditLogType.Created,
     timestamp: parseISO('2023-03-17'),
     value: 'val3',
   },

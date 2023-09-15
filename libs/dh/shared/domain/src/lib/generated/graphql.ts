@@ -27,7 +27,7 @@ export enum ActorStatus {
 }
 
 export type Actor = {
-  __typename?: 'Actor';
+  __typename: 'Actor';
   id: Scalars['UUID'];
   name: Scalars['String'];
   glnOrEicNumber: Scalars['String'];
@@ -40,7 +40,7 @@ export type Actor = {
 
 /** An immutable calculation. */
 export type Calculation = {
-  __typename?: 'Calculation';
+  __typename: 'Calculation';
   id: Scalars['UUID'];
   period: Scalars['DateRange'];
   createdByUserName?: Maybe<Scalars['String']>;
@@ -74,7 +74,7 @@ export enum EicFunction {
 }
 
 export type EsettOutgoingMessage = {
-  __typename?: 'EsettOutgoingMessage';
+  __typename: 'EsettOutgoingMessage';
   gridArea: GridAreaDto;
   getResponseDocumentLink?: Maybe<Scalars['String']>;
   getDispatchDocumentLink?: Maybe<Scalars['String']>;
@@ -93,7 +93,7 @@ export enum ExchangeEventProcessType {
 }
 
 export type Permission = {
-  __typename?: 'Permission';
+  __typename: 'Permission';
   userRoles: Array<UserRoleDto>;
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -116,7 +116,7 @@ export enum ApplyPolicy {
 }
 
 export type Query = {
-  __typename?: 'Query';
+  __typename: 'Query';
   permissionById: Permission;
   permissions: Array<Permission>;
   permissionLogs: Array<PermissionLog>;
@@ -208,7 +208,7 @@ export type QueryEsettExchangeEventsArgs = {
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
+  __typename: 'Mutation';
   updatePermission: Permission;
   createCalculation: CreateCalculationPayload;
 };
@@ -224,7 +224,7 @@ export type MutationCreateCalculationArgs = {
 };
 
 export type GridAreaDto = {
-  __typename?: 'GridAreaDto';
+  __typename: 'GridAreaDto';
   id: Scalars['UUID'];
   code: Scalars['String'];
   name: Scalars['String'];
@@ -234,7 +234,7 @@ export type GridAreaDto = {
 };
 
 export type OrganizationDto = {
-  __typename?: 'OrganizationDto';
+  __typename: 'OrganizationDto';
   organizationId: Scalars['UUID'];
   name: Scalars['String'];
   businessRegisterIdentifier: Scalars['String'];
@@ -276,7 +276,7 @@ export enum DocumentStatus {
 }
 
 export type UserRoleDto = {
-  __typename?: 'UserRoleDto';
+  __typename: 'UserRoleDto';
   id: Scalars['UUID'];
   name: Scalars['String'];
   description: Scalars['String'];
@@ -290,7 +290,7 @@ export enum UserRoleStatus {
 }
 
 export type AddressDto = {
-  __typename?: 'AddressDto';
+  __typename: 'AddressDto';
   streetName?: Maybe<Scalars['String']>;
   number?: Maybe<Scalars['String']>;
   zipCode?: Maybe<Scalars['String']>;
@@ -316,13 +316,13 @@ export type UpdatePermissionDtoInput = {
 };
 
 export type ExchangeEventSearchResponse = {
-  __typename?: 'ExchangeEventSearchResponse';
+  __typename: 'ExchangeEventSearchResponse';
   items: Array<ExchangeEventSearchResult>;
   totalCount: Scalars['Int'];
 };
 
 export type SettlementReport = {
-  __typename?: 'SettlementReport';
+  __typename: 'SettlementReport';
   batchNumber: Scalars['UUID'];
   processType: ProcessType;
   gridArea: GridAreaDto;
@@ -331,7 +331,7 @@ export type SettlementReport = {
 };
 
 export type UserRoleWithPermissionsDto = {
-  __typename?: 'UserRoleWithPermissionsDto';
+  __typename: 'UserRoleWithPermissionsDto';
   id: Scalars['UUID'];
   name: Scalars['String'];
   description: Scalars['String'];
@@ -341,7 +341,7 @@ export type UserRoleWithPermissionsDto = {
 };
 
 export type PermissionLog = {
-  __typename?: 'PermissionLog';
+  __typename: 'PermissionLog';
   changedByUserName: Scalars['String'];
   value?: Maybe<Scalars['String']>;
   timestamp: Scalars['DateTime'];
@@ -355,7 +355,7 @@ export enum PermissionAuditLogType {
 }
 
 export type ExchangeEventSearchResult = {
-  __typename?: 'ExchangeEventSearchResult';
+  __typename: 'ExchangeEventSearchResult';
   documentId: Scalars['String'];
   gridAreaCode: Scalars['String'];
   created: Scalars['DateTime'];
@@ -371,7 +371,7 @@ export type CreateCalculationInput = {
 };
 
 export type CreateCalculationPayload = {
-  __typename?: 'CreateCalculationPayload';
+  __typename: 'CreateCalculationPayload';
   calculation?: Maybe<Calculation>;
 };
 
@@ -380,28 +380,28 @@ export type GetPermissionDetailsQueryVariables = Exact<{
 }>;
 
 
-export type GetPermissionDetailsQuery = { __typename?: 'Query', permissionById: { __typename?: 'Permission', id: number, name: string, description: string, created: Date, assignableTo: Array<EicFunction>, userRoles: Array<{ __typename?: 'UserRoleDto', id: any, name: string, description: string, eicFunction: EicFunction, status: UserRoleStatus }> } };
-
-export type GetPermissionsQueryVariables = Exact<{
-  searchTerm: Scalars['String'];
-}>;
-
-
-export type GetPermissionsQuery = { __typename?: 'Query', permissions: Array<{ __typename?: 'Permission', id: number, name: string, description: string, created: Date }> };
+export type GetPermissionDetailsQuery = { __typename: 'Query', permissionById: { __typename: 'Permission', id: number, name: string, description: string, created: Date, assignableTo: Array<EicFunction>, userRoles: Array<{ __typename: 'UserRoleDto', id: any, name: string, description: string, eicFunction: EicFunction, status: UserRoleStatus }> } };
 
 export type GetPermissionLogsQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type GetPermissionLogsQuery = { __typename?: 'Query', permissionLogs: Array<{ __typename?: 'PermissionLog', changedByUserName: string, type: PermissionAuditLogType, timestamp: Date, value?: string | null }> };
+export type GetPermissionLogsQuery = { __typename: 'Query', permissionLogs: Array<{ __typename: 'PermissionLog', changedByUserName: string, type: PermissionAuditLogType, timestamp: Date, value?: string | null }> };
+
+export type GetPermissionsQueryVariables = Exact<{
+  searchTerm: Scalars['String'];
+}>;
+
+
+export type GetPermissionsQuery = { __typename: 'Query', permissions: Array<{ __typename: 'Permission', id: number, name: string, description: string, created: Date }> };
 
 export type GetOutgoingMessageByIdQueryVariables = Exact<{
   documentId: Scalars['String'];
 }>;
 
 
-export type GetOutgoingMessageByIdQuery = { __typename?: 'Query', esettOutgoingMessageById: { __typename?: 'EsettOutgoingMessage', documentId: string, processType: ExchangeEventProcessType, created: Date, periodFrom: Date, periodTo: Date, documentStatus: DocumentStatus, getDispatchDocumentLink?: string | null, getResponseDocumentLink?: string | null, timeSeriesType: TimeSeriesType, gridArea: { __typename?: 'GridAreaDto', code: string, name: string } } };
+export type GetOutgoingMessageByIdQuery = { __typename: 'Query', esettOutgoingMessageById: { __typename: 'EsettOutgoingMessage', documentId: string, processType: ExchangeEventProcessType, created: Date, periodFrom: Date, periodTo: Date, documentStatus: DocumentStatus, getDispatchDocumentLink?: string | null, getResponseDocumentLink?: string | null, timeSeriesType: TimeSeriesType, gridArea: { __typename: 'GridAreaDto', code: string, name: string } } };
 
 export type GetOutgoingMessagesQueryVariables = Exact<{
   pageNumber: Scalars['Int'];
@@ -415,33 +415,33 @@ export type GetOutgoingMessagesQueryVariables = Exact<{
 }>;
 
 
-export type GetOutgoingMessagesQuery = { __typename?: 'Query', esettExchangeEvents: { __typename?: 'ExchangeEventSearchResponse', totalCount: number, items: Array<{ __typename?: 'ExchangeEventSearchResult', created: Date, documentId: string, gridAreaCode: string, processType: ExchangeEventProcessType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType }> } };
+export type GetOutgoingMessagesQuery = { __typename: 'Query', esettExchangeEvents: { __typename: 'ExchangeEventSearchResponse', totalCount: number, items: Array<{ __typename: 'ExchangeEventSearchResult', created: Date, documentId: string, gridAreaCode: string, processType: ExchangeEventProcessType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType }> } };
 
 export type CreateCalculationMutationVariables = Exact<{
   input: CreateCalculationInput;
 }>;
 
 
-export type CreateCalculationMutation = { __typename?: 'Mutation', createCalculation: { __typename?: 'CreateCalculationPayload', calculation?: { __typename?: 'Calculation', id: any } | null } };
+export type CreateCalculationMutation = { __typename: 'Mutation', createCalculation: { __typename: 'CreateCalculationPayload', calculation?: { __typename: 'Calculation', id: any } | null } };
 
 export type GetActorFilterQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetActorFilterQuery = { __typename?: 'Query', actors: Array<{ __typename?: 'Actor', value: any, displayValue: string, gridAreas: Array<{ __typename?: 'GridAreaDto', code: string }> }> };
+export type GetActorFilterQuery = { __typename: 'Query', actors: Array<{ __typename: 'Actor', value: any, displayValue: string, gridAreas: Array<{ __typename: 'GridAreaDto', code: string }> }> };
 
 export type GetActorsForSettlementReportQueryVariables = Exact<{
   eicFunctions?: InputMaybe<Array<EicFunction> | EicFunction>;
 }>;
 
 
-export type GetActorsForSettlementReportQuery = { __typename?: 'Query', actors: Array<{ __typename?: 'Actor', value: string, displayValue: string, gridAreas: Array<{ __typename?: 'GridAreaDto', code: string }> }> };
+export type GetActorsForSettlementReportQuery = { __typename: 'Query', actors: Array<{ __typename: 'Actor', value: string, displayValue: string, gridAreas: Array<{ __typename: 'GridAreaDto', code: string }> }> };
 
 export type GetCalculationByIdQueryVariables = Exact<{
   id: Scalars['UUID'];
 }>;
 
 
-export type GetCalculationByIdQuery = { __typename?: 'Query', calculationById: { __typename?: 'Calculation', id: any, executionState: BatchState, executionTimeEnd?: Date | null, executionTimeStart?: Date | null, period: { start: Date, end: Date }, statusType: ProcessStatus, processType: ProcessType, createdByUserName?: string | null, gridAreas: Array<{ __typename?: 'GridAreaDto', code: string, name: string, id: any, priceAreaCode: PriceAreaCode, validFrom: Date }> } };
+export type GetCalculationByIdQuery = { __typename: 'Query', calculationById: { __typename: 'Calculation', id: any, executionState: BatchState, executionTimeEnd?: Date | null, executionTimeStart?: Date | null, period: { start: Date, end: Date }, statusType: ProcessStatus, processType: ProcessType, createdByUserName?: string | null, gridAreas: Array<{ __typename: 'GridAreaDto', code: string, name: string, id: any, priceAreaCode: PriceAreaCode, validFrom: Date }> } };
 
 export type GetCalculationsQueryVariables = Exact<{
   executionTime?: InputMaybe<Scalars['DateRange']>;
@@ -452,19 +452,19 @@ export type GetCalculationsQueryVariables = Exact<{
 }>;
 
 
-export type GetCalculationsQuery = { __typename?: 'Query', calculations: Array<{ __typename?: 'Calculation', id: any, executionState: BatchState, executionTimeEnd?: Date | null, executionTimeStart?: Date | null, period: { start: Date, end: Date }, statusType: ProcessStatus, processType: ProcessType, createdByUserName?: string | null, gridAreas: Array<{ __typename?: 'GridAreaDto', code: string, name: string }> }> };
+export type GetCalculationsQuery = { __typename: 'Query', calculations: Array<{ __typename: 'Calculation', id: any, executionState: BatchState, executionTimeEnd?: Date | null, executionTimeStart?: Date | null, period: { start: Date, end: Date }, statusType: ProcessStatus, processType: ProcessType, createdByUserName?: string | null, gridAreas: Array<{ __typename: 'GridAreaDto', code: string, name: string }> }> };
 
 export type GetGridAreasQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetGridAreasQuery = { __typename?: 'Query', gridAreas: Array<{ __typename?: 'GridAreaDto', code: string, name: string, validTo?: Date | null, validFrom: Date }> };
+export type GetGridAreasQuery = { __typename: 'Query', gridAreas: Array<{ __typename: 'GridAreaDto', code: string, name: string, validTo?: Date | null, validFrom: Date }> };
 
 export type GetLatestBalanceFixingQueryVariables = Exact<{
   period?: InputMaybe<Scalars['DateRange']>;
 }>;
 
 
-export type GetLatestBalanceFixingQuery = { __typename?: 'Query', calculations: Array<{ __typename?: 'Calculation', period: { start: Date, end: Date } }> };
+export type GetLatestBalanceFixingQuery = { __typename: 'Query', calculations: Array<{ __typename: 'Calculation', period: { start: Date, end: Date } }> };
 
 export type GetSettlementReportsQueryVariables = Exact<{
   period?: InputMaybe<Scalars['DateRange']>;
@@ -472,24 +472,24 @@ export type GetSettlementReportsQueryVariables = Exact<{
 }>;
 
 
-export type GetSettlementReportsQuery = { __typename?: 'Query', settlementReports: Array<{ __typename?: 'SettlementReport', batchNumber: any, processType: ProcessType, period: { start: Date, end: Date }, executionTime?: Date | null, gridArea: { __typename?: 'GridAreaDto', code: string, name: string } }> };
+export type GetSettlementReportsQuery = { __typename: 'Query', settlementReports: Array<{ __typename: 'SettlementReport', batchNumber: any, processType: ProcessType, period: { start: Date, end: Date }, executionTime?: Date | null, gridArea: { __typename: 'GridAreaDto', code: string, name: string } }> };
 
 export type GetActorByIdQueryVariables = Exact<{
   id: Scalars['UUID'];
 }>;
 
 
-export type GetActorByIdQuery = { __typename?: 'Query', actorById: { __typename?: 'Actor', id: any, glnOrEicNumber: string, name: string, marketRole?: EicFunction | null, status: ActorStatus, gridAreas: Array<{ __typename?: 'GridAreaDto', code: string }>, organization: { __typename?: 'OrganizationDto', name: string } } };
+export type GetActorByIdQuery = { __typename: 'Query', actorById: { __typename: 'Actor', id: any, glnOrEicNumber: string, name: string, marketRole?: EicFunction | null, status: ActorStatus, gridAreas: Array<{ __typename: 'GridAreaDto', code: string }>, organization: { __typename: 'OrganizationDto', name: string } } };
 
 export type GetActorsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetActorsQuery = { __typename?: 'Query', actors: Array<{ __typename?: 'Actor', id: any, glnOrEicNumber: string, name: string, marketRole?: EicFunction | null, status: ActorStatus }> };
+export type GetActorsQuery = { __typename: 'Query', actors: Array<{ __typename: 'Actor', id: any, glnOrEicNumber: string, name: string, marketRole?: EicFunction | null, status: ActorStatus }> };
 
 
 export const GetPermissionDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPermissionDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"permissionById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"assignableTo"}},{"kind":"Field","name":{"kind":"Name","value":"userRoles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"eicFunction"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<GetPermissionDetailsQuery, GetPermissionDetailsQueryVariables>;
-export const GetPermissionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPermissions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"searchTerm"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"permissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"searchTerm"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchTerm"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"created"}}]}}]}}]} as unknown as DocumentNode<GetPermissionsQuery, GetPermissionsQueryVariables>;
 export const GetPermissionLogsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPermissionLogs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"permissionLogs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"changedByUserName"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]} as unknown as DocumentNode<GetPermissionLogsQuery, GetPermissionLogsQueryVariables>;
+export const GetPermissionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPermissions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"searchTerm"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"permissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"searchTerm"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchTerm"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"created"}}]}}]}}]} as unknown as DocumentNode<GetPermissionsQuery, GetPermissionsQueryVariables>;
 export const GetOutgoingMessageByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetOutgoingMessageById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"esettOutgoingMessageById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"documentId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"processType"}},{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"periodFrom"}},{"kind":"Field","name":{"kind":"Name","value":"periodTo"}},{"kind":"Field","name":{"kind":"Name","value":"documentStatus"}},{"kind":"Field","name":{"kind":"Name","value":"gridArea"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"getDispatchDocumentLink"}},{"kind":"Field","name":{"kind":"Name","value":"getResponseDocumentLink"}},{"kind":"Field","name":{"kind":"Name","value":"timeSeriesType"}}]}}]}}]} as unknown as DocumentNode<GetOutgoingMessageByIdQuery, GetOutgoingMessageByIdQueryVariables>;
 export const GetOutgoingMessagesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOutgoingMessages"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageNumber"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"periodFrom"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateTime"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"periodTo"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateTime"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"gridAreaCode"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"processType"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ExchangeEventProcessType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"documentStatus"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DocumentStatus"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"timeSeriesType"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"TimeSeriesType"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"esettExchangeEvents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageNumber"}}},{"kind":"Argument","name":{"kind":"Name","value":"pageSize"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}}},{"kind":"Argument","name":{"kind":"Name","value":"periodFrom"},"value":{"kind":"Variable","name":{"kind":"Name","value":"periodFrom"}}},{"kind":"Argument","name":{"kind":"Name","value":"periodTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"periodTo"}}},{"kind":"Argument","name":{"kind":"Name","value":"gridAreaCode"},"value":{"kind":"Variable","name":{"kind":"Name","value":"gridAreaCode"}}},{"kind":"Argument","name":{"kind":"Name","value":"processType"},"value":{"kind":"Variable","name":{"kind":"Name","value":"processType"}}},{"kind":"Argument","name":{"kind":"Name","value":"documentStatus"},"value":{"kind":"Variable","name":{"kind":"Name","value":"documentStatus"}}},{"kind":"Argument","name":{"kind":"Name","value":"timeSeriesType"},"value":{"kind":"Variable","name":{"kind":"Name","value":"timeSeriesType"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreaCode"}},{"kind":"Field","name":{"kind":"Name","value":"processType"}},{"kind":"Field","name":{"kind":"Name","value":"documentStatus"}},{"kind":"Field","name":{"kind":"Name","value":"timeSeriesType"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<GetOutgoingMessagesQuery, GetOutgoingMessagesQueryVariables>;
 export const CreateCalculationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateCalculation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateCalculationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createCalculation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"calculation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<CreateCalculationMutation, CreateCalculationMutationVariables>;
@@ -524,23 +524,6 @@ export const mockGetPermissionDetailsQuery = (resolver: ResponseResolver<GraphQL
  * @param resolver a function that accepts a captured request and may return a mocked response.
  * @see https://mswjs.io/docs/basics/response-resolver
  * @example
- * mockGetPermissionsQuery((req, res, ctx) => {
- *   const { searchTerm } = req.variables;
- *   return res(
- *     ctx.data({ permissions })
- *   )
- * })
- */
-export const mockGetPermissionsQuery = (resolver: ResponseResolver<GraphQLRequest<GetPermissionsQueryVariables>, GraphQLContext<GetPermissionsQuery>, any>) =>
-  graphql.query<GetPermissionsQuery, GetPermissionsQueryVariables>(
-    'GetPermissions',
-    resolver
-  )
-
-/**
- * @param resolver a function that accepts a captured request and may return a mocked response.
- * @see https://mswjs.io/docs/basics/response-resolver
- * @example
  * mockGetPermissionLogsQuery((req, res, ctx) => {
  *   const { id } = req.variables;
  *   return res(
@@ -551,6 +534,23 @@ export const mockGetPermissionsQuery = (resolver: ResponseResolver<GraphQLReques
 export const mockGetPermissionLogsQuery = (resolver: ResponseResolver<GraphQLRequest<GetPermissionLogsQueryVariables>, GraphQLContext<GetPermissionLogsQuery>, any>) =>
   graphql.query<GetPermissionLogsQuery, GetPermissionLogsQueryVariables>(
     'GetPermissionLogs',
+    resolver
+  )
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetPermissionsQuery((req, res, ctx) => {
+ *   const { searchTerm } = req.variables;
+ *   return res(
+ *     ctx.data({ permissions })
+ *   )
+ * })
+ */
+export const mockGetPermissionsQuery = (resolver: ResponseResolver<GraphQLRequest<GetPermissionsQueryVariables>, GraphQLContext<GetPermissionsQuery>, any>) =>
+  graphql.query<GetPermissionsQuery, GetPermissionsQueryVariables>(
+    'GetPermissions',
     resolver
   )
 

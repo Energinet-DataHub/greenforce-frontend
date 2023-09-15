@@ -28,6 +28,7 @@ import {
 
 const exchangeEvents: ExchangeEventSearchResult[] = [
   {
+    __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
     documentId: '390161908',
     gridAreaCode: '805',
@@ -36,6 +37,7 @@ const exchangeEvents: ExchangeEventSearchResult[] = [
     timeSeriesType: TimeSeriesType.Consumption,
   },
   {
+    __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
     documentId: '390161909',
     gridAreaCode: '806',
@@ -44,6 +46,7 @@ const exchangeEvents: ExchangeEventSearchResult[] = [
     timeSeriesType: TimeSeriesType.Production,
   },
   {
+    __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
     documentId: '390161910',
     gridAreaCode: '806',
@@ -52,6 +55,7 @@ const exchangeEvents: ExchangeEventSearchResult[] = [
     timeSeriesType: TimeSeriesType.Production,
   },
   {
+    __typename: 'ExchangeEventSearchResult',
     created: new Date(),
     documentId: '390161911',
     gridAreaCode: '806',
@@ -68,8 +72,10 @@ const getResponseDocumentLink =
 
 const detailedEsettExchangeEvents: EsettOutgoingMessage[] = [
   {
+    __typename: 'EsettOutgoingMessage',
     documentId: '390161908',
     gridArea: {
+      __typename: 'GridAreaDto',
       code: '805',
       name: 'N1 A/S',
       priceAreaCode: PriceAreaCode.Dk1,
@@ -87,8 +93,10 @@ const detailedEsettExchangeEvents: EsettOutgoingMessage[] = [
     getResponseDocumentLink,
   },
   {
+    __typename: 'EsettOutgoingMessage',
     documentId: '390161909',
     gridArea: {
+      __typename: 'GridAreaDto',
       code: '806',
       name: 'N2 A/S',
       priceAreaCode: PriceAreaCode.Dk2,
@@ -106,8 +114,10 @@ const detailedEsettExchangeEvents: EsettOutgoingMessage[] = [
     getResponseDocumentLink,
   },
   {
+    __typename: 'EsettOutgoingMessage',
     documentId: '390161910',
     gridArea: {
+      __typename: 'GridAreaDto',
       code: '806',
       name: 'N2 A/S',
       priceAreaCode: PriceAreaCode.Dk2,
@@ -170,7 +180,7 @@ function getOutgoingMessageByIdQuery() {
     const id = req.variables.documentId;
     const esettOutgoingMessageById = detailedEsettExchangeEvents.find((x) => x.documentId === id);
     return esettOutgoingMessageById
-      ? res(ctx.delay(300), ctx.data({ esettOutgoingMessageById }))
+      ? res(ctx.delay(300), ctx.data({ __typename: 'Query', esettOutgoingMessageById }))
       : res(ctx.status(404));
   });
 }
@@ -180,7 +190,9 @@ function getActorsForSettlementReportQuery() {
     return res(
       ctx.delay(300),
       ctx.data({
+        __typename: 'Query',
         esettExchangeEvents: {
+          __typename: 'ExchangeEventSearchResponse',
           totalCount: exchangeEvents.length,
           items: exchangeEvents,
         },

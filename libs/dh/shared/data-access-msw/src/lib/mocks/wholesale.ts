@@ -38,7 +38,13 @@ function createCalculation() {
     return res(
       ctx.delay(500),
       ctx.data({
-        createCalculation: { calculation: { id: '779195a4-2505-4290-97a6-f3eba2b7d179' } },
+        __typename: 'Mutation',
+        createCalculation: {
+          calculation: {
+            __typename: 'Calculation',
+            id: '779195a4-2505-4290-97a6-f3eba2b7d179',
+          },
+        },
       })
     );
   });
@@ -258,59 +264,87 @@ const mockedSettlementReports: graphql.SettlementReport[] = [
 
 const mockedFilteredActors: ActorFilter = [
   {
+    __typename: 'Actor',
     value: '10',
     displayValue: 'EnergySupplier (805)',
-    gridAreas: [{ code: '805' }],
+    gridAreas: [{ __typename: 'GridAreaDto', code: '805' }],
   },
   {
+    __typename: 'Actor',
     value: '20',
     displayValue: 'GridAccessProvider (806)',
-    gridAreas: [{ code: '806' }],
+    gridAreas: [{ __typename: 'GridAreaDto', code: '806' }],
   },
   {
+    __typename: 'Actor',
     value: '30',
     displayValue: 'EnergySupplier (805, 806)',
-    gridAreas: [{ code: '805' }, { code: '806' }],
+    gridAreas: [
+      { __typename: 'GridAreaDto', code: '805' },
+      { __typename: 'GridAreaDto', code: '806' },
+    ],
   },
   {
+    __typename: 'Actor',
     value: '40',
     displayValue: 'GridAccessProvider (805, 806)',
-    gridAreas: [{ code: '805' }, { code: '806' }],
+    gridAreas: [
+      { __typename: 'GridAreaDto', code: '805' },
+      { __typename: 'GridAreaDto', code: '806' },
+    ],
   },
   // No grid areas found
   {
+    __typename: 'Actor',
     value: '50',
     displayValue: 'GridAccessProvider (807, 808)',
-    gridAreas: [{ code: '807' }, { code: '808' }],
+    gridAreas: [
+      { __typename: 'GridAreaDto', code: '807' },
+      { __typename: 'GridAreaDto', code: '808' },
+    ],
   },
 ];
 
 const mockedActorsForSettlementReport: ActorFilter = [
   {
+    __typename: 'Actor',
     value: '10',
     displayValue: 'Energy Go - EnergySupplier (805)',
-    gridAreas: [{ code: '805' }],
+    gridAreas: [{ __typename: 'GridAreaDto', code: '805' }],
   },
   {
+    __typename: 'Actor',
     value: '20',
     displayValue: 'Nordlys - GridAccessProvider (806)',
-    gridAreas: [{ code: '806' }],
+    gridAreas: [{ __typename: 'GridAreaDto', code: '806' }],
   },
   {
+    __typename: 'Actor',
     value: '30',
     displayValue: 'Mod Strøm - EnergySupplier (807, 808)',
-    gridAreas: [{ code: '805' }, { code: '806' }],
+    gridAreas: [
+      { __typename: 'GridAreaDto', code: '805' },
+      { __typename: 'GridAreaDto', code: '806' },
+    ],
   },
   {
+    __typename: 'Actor',
     value: '40',
     displayValue: 'Stor Strøm - GridAccessProvider (807, 808)',
-    gridAreas: [{ code: '807' }, { code: '808' }],
+    gridAreas: [
+      { __typename: 'GridAreaDto', code: '807' },
+      { __typename: 'GridAreaDto', code: '808' },
+    ],
   },
 ];
 
 function getFilteredActors() {
   return graphql.mockGetActorFilterQuery((req, res, ctx) => {
-    return res(ctx.status(200), ctx.data({ actors: mockedFilteredActors }), ctx.delay(300));
+    return res(
+      ctx.status(200),
+      ctx.data({ __typename: 'Query', actors: mockedFilteredActors }),
+      ctx.delay(300)
+    );
   });
 }
 
@@ -318,7 +352,7 @@ function getActorsForSettlementReportQuery() {
   return graphql.mockGetActorsForSettlementReportQuery((req, res, ctx) => {
     return res(
       ctx.status(200),
-      ctx.data({ actors: mockedActorsForSettlementReport }),
+      ctx.data({ __typename: 'Query', actors: mockedActorsForSettlementReport }),
       ctx.delay(300)
     );
   });
@@ -329,7 +363,7 @@ function getCalculation() {
     const id = req.variables.id;
     const calculationById = mockedCalculations.find((c) => c.id === id);
     return calculationById
-      ? res(ctx.delay(300), ctx.data({ calculationById }))
+      ? res(ctx.delay(300), ctx.data({ __typename: 'Query', calculationById }))
       : res(ctx.status(404));
   });
 }
@@ -355,7 +389,7 @@ function downloadSettlementReportData(apiBase: string) {
 
 function getCalculations() {
   return graphql.mockGetCalculationsQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data({ calculations: mockedCalculations }));
+    return res(ctx.delay(300), ctx.data({ __typename: 'Query', calculations: mockedCalculations }));
     //return res(ctx.status(404), ctx.delay(300));
     //return res(ctx.status(500), ctx.delay(300));
   });
@@ -363,13 +397,16 @@ function getCalculations() {
 
 function getSettlementReports() {
   return graphql.mockGetSettlementReportsQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data({ settlementReports: mockedSettlementReports }));
+    return res(
+      ctx.delay(300),
+      ctx.data({ __typename: 'Query', settlementReports: mockedSettlementReports })
+    );
   });
 }
 
 function getGridAreas() {
   return graphql.mockGetGridAreasQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data({ gridAreas: mockedGridAreas }));
+    return res(ctx.delay(300), ctx.data({ __typename: 'Query', gridAreas: mockedGridAreas }));
   });
 }
 
@@ -377,7 +414,12 @@ function getLatestBalanceFixing() {
   return graphql.mockGetLatestBalanceFixingQuery((req, res, ctx) => {
     return res(
       ctx.delay(300),
-      ctx.data({ calculations: [{ period: { start: periodStart, end: periodEnd } }] })
+      ctx.data({
+        __typename: 'Query',
+        calculations: [
+          { __typename: 'Calculation', period: { start: periodStart, end: periodEnd } },
+        ],
+      })
     );
   });
 }

@@ -14,15 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-text-field {
+watt-textarea-field {
   display: block;
   width: 100%;
+  --watt-textarea-min-height: 200px;
 
-  input {
+  textarea {
     border: none;
     width: 100%;
     outline: none;
-    padding: 0 var(--watt-space-m);
+    padding: var(--watt-space-s);
     background-color: transparent;
+    min-height: var(--watt-textarea-min-height);
   }
 }

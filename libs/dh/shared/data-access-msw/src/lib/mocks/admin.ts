@@ -129,10 +129,8 @@ function getAdminPermissionDetails() {
 function getAdminPermissionLogs() {
   return graphql.mockGetPermissionLogsQuery((req, res, ctx) => {
     const permId = req.variables.id;
-    const permissionLogs = adminPermissionPermissionLogsMock.filter(
-      (log) => log.permissionId === permId
-    );
-    return res(ctx.delay(300), ctx.data({ permissionLogs }));
+    const permissionLogs = [adminPermissionPermissionLogsMock[permId]];
+    return res(ctx.delay(300), ctx.data({ __typename: 'Query', permissionLogs }));
   });
 }
 
