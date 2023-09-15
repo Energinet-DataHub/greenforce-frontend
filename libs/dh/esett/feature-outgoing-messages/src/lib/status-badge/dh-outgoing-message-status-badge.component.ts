@@ -57,13 +57,7 @@ export class DhOutgoingMessageStatusBadgeComponent {
   isSevere(): boolean {
     if (!this.created) return false;
 
-    /**
-     * Note: The `this.created` property is a Date object in production but a string in development.
-     * That is because GraphQL automatically converts the value to a Date in production, but not in development.
-     */
-    const createdDate = new Date(this.created);
-
-    const secondsPassed = differenceInSeconds(new Date(), createdDate);
+    const secondsPassed = differenceInSeconds(new Date(), this.created);
 
     switch (this.status) {
       case 'RECEIVED':
