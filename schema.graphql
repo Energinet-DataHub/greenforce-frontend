@@ -95,7 +95,7 @@ enum ApplyPolicy {
 type Query {
   permissionById(id: Int!): Permission!
   permissions(searchTerm: String!): [Permission!]!
-  permissionLogs(id: Int!): [PermissionAuditLogViewDto!]!
+  permissionLogs(id: Int!): [PermissionLog!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
   organizationById(id: UUID!): OrganizationDto!
   organizations: [OrganizationDto!]!
@@ -234,13 +234,11 @@ type UserRoleWithPermissionsDto {
   permissions: [Permission!]!
 }
 
-type PermissionAuditLogViewDto {
-  permissionId: Int!
-  changedByUserId: UUID!
+type PermissionLog {
   changedByUserName: String!
-  permissionAuditLogType: PermissionAuditLogType!
+  value: String
   timestamp: DateTime!
-  value: String!
+  type: PermissionAuditLogType!
 }
 
 enum PermissionAuditLogType {

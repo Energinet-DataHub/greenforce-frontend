@@ -14,6 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.GridAreaByCodeBatchDataLoader>();
             builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.GridAreaByIdBatchDataLoader>();
             builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.UserBatchDataLoader>();
+            builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.UserCacheDataLoader>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.DateRangeType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorStatusType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorType>();

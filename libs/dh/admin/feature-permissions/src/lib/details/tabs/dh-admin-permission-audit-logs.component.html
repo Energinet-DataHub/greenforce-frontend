@@ -45,9 +45,7 @@ limitations under the License.
 
         <ng-container *wattTableCell="columns['entry']; let element">
           <div
-            [innerHTML]="
-              t('logs.permissionsDetails.auditLogType.' + element.permissionAuditLogType, element)
-            "
+            [innerHTML]="t('logs.permissionsDetails.auditLogType.' + element.type, element)"
           ></div>
         </ng-container>
       </watt-table>

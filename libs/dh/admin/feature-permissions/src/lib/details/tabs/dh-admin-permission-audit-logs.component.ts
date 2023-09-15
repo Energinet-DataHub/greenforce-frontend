@@ -77,7 +77,7 @@ export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDest
 
   columns: WattTableColumnDef<PermissionAuditLog> = {
     timestamp: { accessor: 'timestamp' },
-    entry: { accessor: 'permissionId', sort: false },
+    entry: { accessor: null },
   };
 
   constructor(private trans: TranslocoService) {}

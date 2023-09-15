@@ -45,48 +45,30 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     x.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ||
                     x.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase));
 
-        public async Task<IEnumerable<PermissionAuditLogViewDto>> GetPermissionLogsAsync(
+        public async Task<IEnumerable<PermissionLog>> GetPermissionLogsAsync(
             int id,
-            [Service] IMarketParticipantClient userClient,
-            [Service] IMarketParticipantPermissionsClient permissionClient)
-            {
-                var permission =
-                    (await permissionClient.GetPermissionsAsync()).Single(permission =>
-                        permission.Id == id);
-                var auditLogs = await permissionClient.GetAuditLogsAsync(id);
-                var userLookup = new Dictionary<Guid, UserDto>();
-                var auditLogsViewDtos = new List<PermissionAuditLogViewDto>
+            [Service] IMarketParticipantPermissionsClient client)
+        {
+            var permissionTask = client.GetPermissionAsync(id);
+            var logs = await client.GetAuditLogsAsync(id);
+
+            return logs
+                .Select(log => new PermissionLog
                 {
-                    new(id,
-                        Guid.Empty,
-                        "DataHub",
-                        PermissionAuditLogType.Created,
-                        permission.Created,
-                        string.Empty),
-                };
-
-                foreach (var log in auditLogs)
+                    ChangedByUserId = log.ChangedByUserId,
+                    Value = log.Value,
+                    Timestamp = log.Timestamp,
+                    Type = log.PermissionChangeType switch {
+                        PermissionChangeType.DescriptionChange =>
+                            PermissionAuditLogType.DescriptionChange,
+                    },
+                })
+                .Prepend(new PermissionLog
                 {
-                    var userFoundInCache = userLookup.ContainsKey(log.ChangedByUserId);
-                    if (!userFoundInCache)
-                    {
-                        var user = await userClient.GetUserAsync(log.ChangedByUserId);
-                        userLookup.TryAdd(log.ChangedByUserId, user);
-                    }
-
-                    userLookup.TryGetValue(log.ChangedByUserId, out var userCache);
-
-                    auditLogsViewDtos.Add(new PermissionAuditLogViewDto(
-                        log.PermissionId,
-                        log.ChangedByUserId,
-                        userCache?.Name ?? throw new KeyNotFoundException("User not found"),
-                        log.PermissionChangeType == PermissionChangeType.DescriptionChange ? PermissionAuditLogType.DescriptionChange : PermissionAuditLogType.Unknown,
-                        log.Timestamp,
-                        log.Value));
-                }
-
-                return auditLogsViewDtos;
-            }
+                    Timestamp = (await permissionTask).Created,
+                    Type = PermissionAuditLogType.Created,
+                });
+        }
 
         public Task<UserRoleWithPermissionsDto> GetUserRoleByIdAsync(
             Guid id,
