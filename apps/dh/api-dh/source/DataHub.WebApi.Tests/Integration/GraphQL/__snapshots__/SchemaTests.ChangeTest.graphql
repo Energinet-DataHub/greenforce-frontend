@@ -43,11 +43,12 @@ type CreateCalculationPayload {
   calculation: Calculation
 }
 
-type EsettExchangeEvent {
-  gridArea: String!
+type EsettOutgoingMessage {
+  gridArea: GridAreaDto!
+  getResponseDocumentLink: String
+  getDispatchDocumentLink: String
   documentId: String!
   created: DateTime!
-  gridAreaCode: String!
   processType: ExchangeEventProcessType!
   timeSeriesType: TimeSeriesType!
   periodFrom: DateTime!
@@ -63,6 +64,7 @@ type ExchangeEventSearchResponse {
 type ExchangeEventSearchResult {
   documentId: String!
   gridAreaCode: String!
+  created: DateTime!
   processType: ExchangeEventProcessType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
@@ -121,7 +123,7 @@ type Query {
   settlementReports(gridAreaCodes: [String!] period: DateRange executionTime: DateRange): [SettlementReport!]!
   actorById(id: UUID!): Actor!
   actors(eicFunctions: [EicFunction!]): [Actor!]!
-  esettExchangeEventById(documentId: String!): EsettExchangeEvent!
+  esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int! pageSize: Int! periodFrom: DateTime periodTo: DateTime gridAreaCode: String processType: ExchangeEventProcessType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
 }
 
