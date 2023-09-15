@@ -40,6 +40,7 @@ function createCalculation() {
       ctx.data({
         __typename: 'Mutation',
         createCalculation: {
+          __typename: 'CreateCalculationPayload',
           calculation: {
             __typename: 'Calculation',
             id: '779195a4-2505-4290-97a6-f3eba2b7d179',
