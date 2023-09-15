@@ -18,18 +18,18 @@ import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { WattIconComponent } from '../../foundations/icon/icon.component';
-import { WattTextFieldComponent } from './watt-text-field.component';
+import { WattTextAreaFieldComponent } from './watt-textarea-field.component';
 import { WattFieldComponent, WattFieldErrorComponent, WattFieldHintComponent } from '../field';
 import { WattButtonComponent } from '../button';
 
-const meta: Meta<WattTextFieldComponent> = {
-  title: 'Components/Text Field',
-  component: WattTextFieldComponent,
+const meta: Meta<WattTextAreaFieldComponent> = {
+  title: 'Components/TextArea Field',
+  component: WattTextAreaFieldComponent,
   decorators: [
     moduleMetadata({
       imports: [
         ReactiveFormsModule,
-        WattTextFieldComponent,
+        WattTextAreaFieldComponent,
         WattIconComponent,
         WattFieldComponent,
         WattButtonComponent,
@@ -42,15 +42,15 @@ const meta: Meta<WattTextFieldComponent> = {
 
 export default meta;
 
-const template = `<watt-text-field [label]="label" [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl" />
+const template = `<watt-textarea-field [label]="label" [required]="required" [placeholder]="placeholder" [formControl]="exampleFormControl" />
                   <p>Value: {{exampleFormControl.value}}</p>`;
 
 const howToUseGuideBasic = `
 How to use
 
-1. Import ${WattTextFieldComponent.name} in a component
+1. Import ${WattTextAreaFieldComponent.name} in a component
 
-import { ${WattTextFieldComponent.name} } from '@energinet-datahub/watt/text-field';
+import { ${WattTextAreaFieldComponent.name} } from '@energinet-datahub/watt/textarea-field';
 
 2. Create FormControl in a component
 
@@ -60,15 +60,15 @@ exampleFormControl = new FormControl('');
 
 ${template}`;
 
-export const Input: StoryFn<WattTextFieldComponent> = () => ({
+export const TextArea: StoryFn<WattTextAreaFieldComponent> = () => ({
   props: {
-    label: 'Input',
+    label: 'TextArea',
     exampleFormControl: new FormControl(null),
   },
   template,
 });
 
-Input.parameters = {
+TextArea.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
@@ -76,7 +76,7 @@ Input.parameters = {
   },
 };
 
-export const WithDisabled: StoryFn<WattTextFieldComponent> = () => ({
+export const WithDisabled: StoryFn<WattTextAreaFieldComponent> = () => ({
   props: {
     label: 'disabled',
     exampleFormControl: new FormControl({ value: null, disabled: true }),
@@ -92,7 +92,7 @@ WithDisabled.parameters = {
   },
 };
 
-export const WithValue: StoryFn<WattTextFieldComponent> = () => ({
+export const WithValue: StoryFn<WattTextAreaFieldComponent> = () => ({
   props: {
     label: 'withValue',
     exampleFormControl: new FormControl({ value: 'this is a value', disabled: false }),
@@ -108,7 +108,7 @@ WithValue.parameters = {
   },
 };
 
-export const WithPlaceholder: StoryFn<WattTextFieldComponent> = () => ({
+export const WithPlaceholder: StoryFn<WattTextAreaFieldComponent> = () => ({
   props: {
     label: 'withPlaceholder',
     exampleFormControl: new FormControl(null),
@@ -117,50 +117,23 @@ export const WithPlaceholder: StoryFn<WattTextFieldComponent> = () => ({
   template,
 });
 
-export const WithNumber: StoryFn<WattTextFieldComponent> = () => ({
-  props: {
-    label: 'number',
-    exampleFormControl: new FormControl(null),
-    type: 'number',
-  },
-  template,
-});
-
-export const WithRequired: StoryFn<WattTextFieldComponent> = () => ({
+export const WithRequired: StoryFn<WattTextAreaFieldComponent> = () => ({
   props: {
     label: 'required',
     exampleFormControl: new FormControl(null),
   },
-  template: `<watt-text-field [required]="true" [label]="label" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl">
+  template: `<watt-textarea-field [required]="true" [label]="label" [placeholder]="placeholder" [formControl]="exampleFormControl">
               <watt-field-error>This field is required</watt-field-error>
-            </watt-text-field>`,
+            </watt-textarea-field>`,
 });
 
-export const WithPrefix: StoryFn<WattTextFieldComponent> = () => ({
-  props: {
-    label: 'Prefix',
-    exampleFormControl: new FormControl(null),
-  },
-  template: `<watt-text-field prefix="search" [label]="label" [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl" />`,
-});
-
-export const WithSuffix: StoryFn<WattTextFieldComponent> = () => ({
-  props: {
-    label: 'Suffix',
-    exampleFormControl: new FormControl(null),
-  },
-  template: `<watt-text-field [label]="label" [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl">
-              <watt-button variant="icon" icon="search" />
-             </watt-text-field>`,
-});
-
-export const WithHint: StoryFn<WattTextFieldComponent> = () => ({
+export const WithHint: StoryFn<WattTextAreaFieldComponent> = () => ({
   props: {
     label: 'hint',
     exampleFormControl: new FormControl(null),
   },
-  template: `<watt-text-field [required]="true" [label]="label" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl">
+  template: `<watt-textarea-field [required]="true" [label]="label" [placeholder]="placeholder" [formControl]="exampleFormControl">
               <watt-field-error>This field is required</watt-field-error>
               <watt-field-hint>This is a hint</watt-field-hint>
-            </watt-text-field>`,
+            </watt-textarea-field>`,
 });
