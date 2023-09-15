@@ -19,8 +19,8 @@ import { Directive, ElementRef, EventEmitter, forwardRef, inject } from '@angula
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { WattFilterChipComponent } from '../chip/watt-filter-chip.component';
-import { WattDateChipComponent } from '../input/datepicker/watt-date-chip.component';
-import { WattDateRangeChipComponent } from '../input/datepicker/watt-date-range-chip.component';
+import { WattDateChipComponent } from '../picker/datepicker/watt-date-chip.component';
+import { WattDateRangeChipComponent } from '../picker/datepicker/watt-date-range-chip.component';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface WattChip {

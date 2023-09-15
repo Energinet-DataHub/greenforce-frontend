@@ -34,11 +34,12 @@ import { RxLet } from '@rx-angular/template/let';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/watt-text-field';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattFieldComponent } from '@energinet-datahub/watt/field';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
   DhAdminMarketRolePermissionsStore,
@@ -84,10 +85,11 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
     TranslocoModule,
     WattTabComponent,
     WattTabsComponent,
-    WATT_FORM_FIELD,
-    WattInputDirective,
     ReactiveFormsModule,
     WattSpinnerComponent,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
+    WattFieldComponent,
     WATT_CARD,
     DhPermissionsTableComponent,
   ],

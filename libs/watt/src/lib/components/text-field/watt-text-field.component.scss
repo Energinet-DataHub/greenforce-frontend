@@ -24,5 +24,9 @@ watt-text-field {
     outline: none;
     padding: 0;
     background-color: transparent;
+
+    &::placeholder {
+      color: var(--watt-on-light-low-emphasis);
+    }
   }
 }

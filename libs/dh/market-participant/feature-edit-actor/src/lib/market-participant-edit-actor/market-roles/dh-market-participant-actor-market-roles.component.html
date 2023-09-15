@@ -19,67 +19,58 @@ limitations under the License.
     <ng-container matColumnDef="marketRole">
       <mat-header-cell *matHeaderCellDef>{{ t("marketRole") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
-        <watt-form-field>
-          <watt-dropdown
-            [disabled]="isReadonly(element)"
-            [attr.aria-label]="t('marketRole')"
-            required
-            [options]="marketRoles"
-            [(ngModel)]="element.marketRole"
-            (ngModelChange)="onMarketRoleDropdownChanged()"
-          >
-          </watt-dropdown>
-        </watt-form-field>
+        <watt-dropdown
+          [disabled]="isReadonly(element)"
+          [label]="t('marketRole')"
+          required
+          [options]="marketRoles"
+          [(ngModel)]="element.marketRole"
+          (ngModelChange)="onMarketRoleDropdownChanged()"
+        >
+        </watt-dropdown>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="gridArea">
       <mat-header-cell *matHeaderCellDef>{{ t("gridArea") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
-        <watt-form-field>
-          <watt-dropdown
-            [disabled]="isReadonly(element)"
-            [attr.aria-label]="t('gridArea')"
-            required
-            [options]="gridAreaOptions"
-            [(ngModel)]="element.gridArea"
-            (ngModelChange)="onDropdownChanged()"
-          >
-          </watt-dropdown>
-        </watt-form-field>
+        <watt-dropdown
+          [disabled]="isReadonly(element)"
+          [label]="t('gridArea')"
+          required
+          [options]="gridAreaOptions"
+          [(ngModel)]="element.gridArea"
+          (ngModelChange)="onDropdownChanged()"
+        >
+        </watt-dropdown>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="meteringPointTypes">
       <mat-header-cell *matHeaderCellDef>{{ t("meteringPointTypes") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
-        <watt-form-field>
-          <watt-dropdown
-            [disabled]="isReadonly(element)"
-            [attr.aria-label]="t('meteringPointTypes')"
-            required
-            [multiple]="true"
-            [options]="meteringPointTypes"
-            [(ngModel)]="element.meteringPointTypes"
-            (ngModelChange)="onDropdownChanged()"
-          >
-          </watt-dropdown>
-        </watt-form-field>
+        <watt-dropdown
+          [disabled]="isReadonly(element)"
+          [label]="t('meteringPointTypes')"
+          required
+          [multiple]="true"
+          [options]="meteringPointTypes"
+          [(ngModel)]="element.meteringPointTypes"
+          (ngModelChange)="onDropdownChanged()"
+        >
+        </watt-dropdown>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="comment">
       <mat-header-cell *matHeaderCellDef>{{ t("commentLabel") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
-        <watt-form-field>
-          <input
-            [attr.aria-label]="t('commentLabel')"
-            [disabled]="isReadonly(element)"
-            wattInput
-            [(ngModel)]="element.comment"
-            (ngModelChange)="onCommentChanged()"
-          />
-        </watt-form-field>
+        <watt-text-field
+          [label]="t('commentLabel')"
+          [disabled]="isReadonly(element)"
+          [(ngModel)]="element.comment"
+          (ngModelChange)="onCommentChanged()"
+        />
       </mat-cell>
     </ng-container>
 

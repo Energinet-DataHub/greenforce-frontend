@@ -61,6 +61,7 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
       .filter-container {
         display: inline-flex;
         gap: var(--watt-space-m);
+        padding-bottom: var(--watt-space-m);
       }
 
       .users-overview {

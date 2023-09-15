@@ -38,11 +38,12 @@ import {
   MatDateRangePicker,
   MatCalendarCellClassFunction,
 } from '@angular/material/datepicker';
-import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatFormFieldControl } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { combineLatest, map, merge, startWith, takeUntil, tap } from 'rxjs';
 import { parse, isValid, parseISO, endOfDay, startOfMonth, endOfMonth } from 'date-fns';
 import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+import { WattFieldComponent } from '@energinet-datahub/watt/field';
 
 import { WattButtonComponent } from '../../button';
 import { WattInputMaskService } from '../shared/watt-input-mask.service';
@@ -75,12 +76,19 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatDatepickerModule, MatInputModule, WattButtonComponent, CommonModule],
+  imports: [
+    MatDatepickerModule,
+    MatInputModule,
+    WattButtonComponent,
+    CommonModule,
+    WattFieldComponent,
+  ],
 })
 export class WattDatepickerComponent extends WattPickerBase {
   @Input() max?: Date;
   @Input() min?: Date;
   @Input() rangeMonthOnlyMode = false;
+  @Input() label = '';
 
   /**
    * @ignore

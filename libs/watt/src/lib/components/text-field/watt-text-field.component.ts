@@ -46,6 +46,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
   template: `<watt-field [label]="label">
     <watt-icon *ngIf="prefix" [name]="prefix" />
     <input
+      [attr.aria-label]="label"
       [attr.type]="type"
       [attr.placeholder]="placeholder"
       [value]="value"
@@ -53,6 +54,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       [disabled]="isDisabled"
       (ngModelChange)="onChange($event)"
       [required]="required"
+      [maxlength]="maxLength"
     />
     <ng-content />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
@@ -64,8 +66,9 @@ export class WattTextFieldComponent implements ControlValueAccessor {
   @Input() type: WattInputTypes = 'text';
   @Input() placeholder?: string;
   @Input() required = false;
-  @Input() label!: string;
+  @Input() label = '';
   @Input() prefix?: WattIcon;
+  @Input() maxLength: string | number | null = null;
 
   /* @ignore */
   model!: string;

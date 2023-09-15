@@ -27,14 +27,14 @@ import { ArchivedMessageSearchCriteria } from '@energinet-datahub/dh/shared/doma
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/watt-text-field';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import {
   danishTimeZoneIdentifier,
   WattDatepickerComponent,
 } from '@energinet-datahub/watt/datepicker';
 import { WattDateRange } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -55,8 +55,6 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     DhMessageArchiveActorDataAccessApiStore,
   ],
   imports: [
-    WATT_FORM_FIELD,
-    WattInputDirective,
     WattButtonComponent,
     WattCheckboxComponent,
     WattDatepickerComponent,
@@ -71,6 +69,8 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     WattSpinnerComponent,
     ReactiveFormsModule,
     RxPush,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
   ],
 })
 export class DhMessageArchiveLogSearchComponent {

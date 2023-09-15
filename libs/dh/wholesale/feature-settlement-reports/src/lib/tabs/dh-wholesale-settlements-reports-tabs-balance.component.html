@@ -28,32 +28,28 @@ limitations under the License.
         "shared.form.filters.period" | transloco
       }}</watt-date-range-chip>
 
-      <watt-form-field class="grid-area-picker">
-        <watt-dropdown
-          formControlName="gridAreas"
-          [chipMode]="true"
-          [multiple]="true"
-          [options]="gridAreas"
-          [placeholder]="
-            searchForm.controls.gridAreas.disabled
-              ? t('filters.loadingGridAreas')
-              : t('filters.gridAreasPlaceholder')
-          "
-        ></watt-dropdown>
-      </watt-form-field>
+      <watt-dropdown
+        formControlName="gridAreas"
+        [chipMode]="true"
+        [multiple]="true"
+        [options]="gridAreas"
+        [placeholder]="
+          searchForm.controls.gridAreas.disabled
+            ? t('filters.loadingGridAreas')
+            : t('filters.gridAreasPlaceholder')
+        "
+      ></watt-dropdown>
 
-      <watt-form-field class="actor-picker">
-        <watt-dropdown
-          formControlName="actor"
-          [chipMode]="true"
-          [options]="actors"
-          [placeholder]="
-            searchForm.controls.actor.disabled
-              ? t('filters.loadingActors')
-              : t('filters.actorPlaceholder')
-          "
-        ></watt-dropdown>
-      </watt-form-field>
+      <watt-dropdown
+        formControlName="actor"
+        [chipMode]="true"
+        [options]="actors"
+        [placeholder]="
+          searchForm.controls.actor.disabled
+            ? t('filters.loadingActors')
+            : t('filters.actorPlaceholder')
+        "
+      ></watt-dropdown>
 
       <watt-button variant="text" icon="undo" type="reset">
         {{ "shared.form.reset" | transloco }}

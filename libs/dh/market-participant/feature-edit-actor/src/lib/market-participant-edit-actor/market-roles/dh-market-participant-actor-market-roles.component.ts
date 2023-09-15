@@ -28,9 +28,8 @@ import {
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { FormsModule } from '@angular/forms';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/watt-text-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   MarketParticipantActorMarketRoleDto,
@@ -64,9 +63,8 @@ export interface EditableMarketRoleRow {
     FormsModule,
     MatTableModule,
     WattButtonComponent,
-    WattInputDirective,
-    WATT_FORM_FIELD,
     WattDropdownComponent,
+    WattTextFieldComponent,
   ],
 })
 export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {

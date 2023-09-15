@@ -38,12 +38,12 @@ import { provideComponentStore } from '@ngrx/component-store';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattFieldComponent, WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/watt-text-field';
 import {
   MarketParticipantCreateUserRoleDto,
   MarketParticipantEicFunction,
@@ -81,9 +81,10 @@ interface UserRoleForm {
     WattIconComponent,
     CommonModule,
     ReactiveFormsModule,
-    WattInputDirective,
-    WATT_FORM_FIELD,
     WattDropdownComponent,
+    WattFieldComponent,
+    WattFieldErrorComponent,
+    WattTextFieldComponent,
     RxPush,
     RxLet,
     WATT_STEPPER,

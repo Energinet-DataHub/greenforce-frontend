@@ -27,11 +27,13 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
+import { MatFormFieldControl } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatInputModule } from '@angular/material/input';
 import { OverlayModule } from '@angular/cdk/overlay';
+
+import { WattFieldComponent } from '@energinet-datahub/watt/field';
 
 import { WattButtonComponent } from '../../button';
 import { WattSliderComponent } from '../../slider';
@@ -104,9 +106,11 @@ const getTruthyAt =
     MatInputModule,
     OverlayModule,
     CommonModule,
+    WattFieldComponent,
   ],
 })
 export class WattTimepickerComponent extends WattPickerBase {
+  @Input() label = '';
   /**
    * Text to display on label for time range slider.
    */

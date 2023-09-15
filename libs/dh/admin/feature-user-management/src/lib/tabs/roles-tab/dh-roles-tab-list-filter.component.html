@@ -19,16 +19,19 @@ limitations under the License.
   *transloco="let t; read: 'admin.userManagement.tabs.roles.filter'"
 >
   <dh-shared-ui-search [placeholder]="t('search')" (search)="search($event)"></dh-shared-ui-search>
-  <watt-form-field>
-    <watt-label>{{ t("status") }}</watt-label>
-    <watt-dropdown [formControl]="statusFormControl" [options]="statusListOptions"></watt-dropdown>
-  </watt-form-field>
-  <watt-form-field>
-    <watt-label>{{ t("marketRole") }}</watt-label>
-    <watt-dropdown
-      [formControl]="eicFunctionFormControl"
-      [options]="eicFunctionListListOptions"
-      [multiple]="true"
-    ></watt-dropdown>
-  </watt-form-field>
+
+  <watt-dropdown
+    class="status"
+    [label]="t('status')"
+    [formControl]="statusFormControl"
+    [options]="statusListOptions"
+  />
+
+  <watt-dropdown
+    class="marketRole"
+    [label]="t('marketRole')"
+    [formControl]="eicFunctionFormControl"
+    [options]="eicFunctionListListOptions"
+    [multiple]="true"
+  />
 </ng-container>

@@ -35,14 +35,17 @@ import {
   tap,
 } from 'rxjs';
 
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
+import {
+  WattFieldErrorComponent,
+  WattFieldHintComponent,
+  WattFieldComponent,
+} from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDatePipe, WattDateRange } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -78,7 +81,6 @@ interface FormValues {
     RxPush,
     ReactiveFormsModule,
     TranslocoModule,
-    WATT_FORM_FIELD,
     WATT_MODAL,
     WattButtonComponent,
     WattDatepickerComponent,
@@ -86,9 +88,11 @@ interface FormValues {
     WattDropdownComponent,
     WattEmptyStateComponent,
     WattFilterChipComponent,
-    WattInputDirective,
     WattSpinnerComponent,
     WattValidationMessageComponent,
+    WattFieldErrorComponent,
+    WattFieldHintComponent,
+    WattFieldComponent,
   ],
 })
 export class DhCalculationsCreateComponent implements OnInit, OnDestroy {

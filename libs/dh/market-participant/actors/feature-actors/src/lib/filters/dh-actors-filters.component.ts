@@ -29,7 +29,6 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Observable, Subscription, debounceTime, map } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -46,7 +45,6 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
     ReactiveFormsModule,
     TranslocoModule,
     RxPush,
-    WATT_FORM_FIELD,
     WattButtonComponent,
     WattDropdownComponent,
   ],
@@ -75,25 +73,21 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
       [formGroup]="formGroup"
       *transloco="let t; read: 'marketParticipant.actorsOverview.filters'"
     >
-      <watt-form-field>
-        <watt-dropdown
-          formControlName="actorStatus"
-          [options]="actorStatusOptions | push"
-          [multiple]="true"
-          [chipMode]="true"
-          [placeholder]="t('status')"
-        />
-      </watt-form-field>
+      <watt-dropdown
+        formControlName="actorStatus"
+        [options]="actorStatusOptions | push"
+        [multiple]="true"
+        [chipMode]="true"
+        [placeholder]="t('status')"
+      />
 
-      <watt-form-field>
-        <watt-dropdown
-          formControlName="marketRoles"
-          [options]="marketRolesOptions | push"
-          [multiple]="true"
-          [chipMode]="true"
-          [placeholder]="t('marketRole')"
-        />
-      </watt-form-field>
+      <watt-dropdown
+        formControlName="marketRoles"
+        [options]="marketRolesOptions | push"
+        [multiple]="true"
+        [chipMode]="true"
+        [placeholder]="t('marketRole')"
+      />
 
       <watt-button variant="text" icon="undo" type="reset">{{ t('reset') }}</watt-button>
     </form>
