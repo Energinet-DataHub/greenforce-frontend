@@ -17,6 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { differenceInSeconds } from 'date-fns';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DocumentStatus } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -30,15 +31,15 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
       [ngSwitch]="status"
       *transloco="let t; read: 'eSett.outgoingMessages.shared.documentStatus'"
     >
-      <watt-badge *ngSwitchCase="'RECEIVED'" [type]="isSevere() ? 'danger' : 'neutral'">{{
-        t(status!)
-      }}</watt-badge>
-      <watt-badge *ngSwitchCase="'AWAITING_DISPATCH'" [type]="isSevere() ? 'danger' : 'neutral'">{{
-        t(status!)
-      }}</watt-badge>
-      <watt-badge *ngSwitchCase="'AWAITING_REPLY'" [type]="isSevere() ? 'danger' : 'neutral'">{{
-        t(status!)
-      }}</watt-badge>
+      <watt-badge *ngSwitchCase="'RECEIVED'" [type]="isSevere() ? 'danger' : 'neutral'">
+        {{ t(status!) }}
+      </watt-badge>
+      <watt-badge *ngSwitchCase="'AWAITING_DISPATCH'" [type]="isSevere() ? 'danger' : 'neutral'">
+        {{ t(status!) }}
+      </watt-badge>
+      <watt-badge *ngSwitchCase="'AWAITING_REPLY'" [type]="isSevere() ? 'danger' : 'neutral'">
+        {{ t(status!) }}
+      </watt-badge>
 
       <watt-badge *ngSwitchCase="'ACCEPTED'" type="success">{{ t(status!) }}</watt-badge>
       <watt-badge *ngSwitchCase="'REJECTED'" type="warning">{{ t(status!) }}</watt-badge>
@@ -56,8 +57,13 @@ export class DhOutgoingMessageStatusBadgeComponent {
   isSevere(): boolean {
     if (!this.created) return false;
 
-    const passedTime = new Date().getTime() - this.created?.getTime();
-    const secondsPassed = passedTime / 1000;
+    /**
+     * Note: The `this.created` property is a Date object in production but a string in development.
+     * That is because GraphQL automatically converts the value to a Date in production, but not in development.
+     */
+    const createdDate = new Date(this.created);
+
+    const secondsPassed = differenceInSeconds(new Date(), createdDate);
 
     switch (this.status) {
       case 'RECEIVED':
