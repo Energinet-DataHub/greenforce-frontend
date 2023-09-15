@@ -24,13 +24,6 @@ import { DhBalanceResponsibleComponent } from '@energinet-datahub/dh/esett/featu
 @Component({
   selector: 'dh-esett-shell',
   standalone: true,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
   template: `<watt-tabs *transloco="let t; read: 'eSett.tabs'">
     <watt-tab [label]="t('outgoingMessages.tabLabel')">
       <dh-outgoing-messages />
