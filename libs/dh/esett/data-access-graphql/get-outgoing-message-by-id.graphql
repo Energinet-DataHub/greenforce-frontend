@@ -1,5 +1,5 @@
 query GetOutgoingMessageById($documentId: String!) {
-  eSettOutgoingMessage(documentId: $documentId) {
+  esettOutgoingMessageById(documentId: $documentId) {
     documentId
     processType
     created

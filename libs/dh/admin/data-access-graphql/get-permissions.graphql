@@ -1,4 +1,4 @@
-query GetPermissions($searchTerm: String) {
+query GetPermissions($searchTerm: String!) {
   permissions(searchTerm: $searchTerm) {
     id
     name

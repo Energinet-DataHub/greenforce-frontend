@@ -119,10 +119,7 @@ function getUserRoles(apiBase: string) {
 
 function getActors() {
   return mockGetActorsQuery((req, res, ctx) => {
-    return res(
-      ctx.delay(300),
-      ctx.data({ __typename: 'GraphQLQuery', actors: marketParticipantActors })
-    );
+    return res(ctx.delay(300), ctx.data({ __typename: 'Query', actors: marketParticipantActors }));
   });
 }
 
@@ -130,8 +127,8 @@ function getActorById() {
   return mockGetActorByIdQuery((req, res, ctx) => {
     const { id } = req.variables;
 
-    const actor = marketParticipantActors.find((a) => a.id === id) as Actor;
+    const actorById = marketParticipantActors.find((a) => a.id === id) as Actor;
 
-    return res(ctx.delay(300), ctx.data({ __typename: 'GraphQLQuery', actor }));
+    return res(ctx.delay(300), ctx.data({ __typename: 'Query', actorById }));
   });
 }
