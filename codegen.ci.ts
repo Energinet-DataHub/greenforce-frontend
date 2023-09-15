@@ -22,6 +22,7 @@ const config: CodegenConfig = {
         '@homebound/graphql-typescript-scalar-type-policies',
       ],
       config: {
+        nonOptionalTypename: true,
         scalars: {
           Date: 'Date',
           DateRange: '{ start: Date, end: Date }',
