@@ -34,7 +34,7 @@ import { Subscription } from 'rxjs';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/watt-text-field';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 import { meteringPointIdValidator } from './dh-metering-point.validator';

@@ -43,7 +43,7 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFieldComponent, WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/watt-text-field';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import {
   MarketParticipantCreateUserRoleDto,
   MarketParticipantEicFunction,

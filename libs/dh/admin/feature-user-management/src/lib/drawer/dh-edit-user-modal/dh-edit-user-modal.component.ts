@@ -38,7 +38,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/watt-text-field';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { HttpStatusCode } from '@angular/common/http';
 

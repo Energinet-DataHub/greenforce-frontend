@@ -19,7 +19,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattTextFieldComponent } from '@energinet-datahub/watt/watt-text-field';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 export const searchDebounceTimeMs = 250;

@@ -45,7 +45,7 @@ import {
 import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/watt-text-field';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
 

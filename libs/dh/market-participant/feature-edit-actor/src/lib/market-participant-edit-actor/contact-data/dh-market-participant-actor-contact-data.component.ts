@@ -30,7 +30,7 @@ import { ActorContactChanges } from '@energinet-datahub/dh/market-participant/da
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormsModule } from '@angular/forms';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/watt-text-field';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   MarketParticipantActorContactDto,

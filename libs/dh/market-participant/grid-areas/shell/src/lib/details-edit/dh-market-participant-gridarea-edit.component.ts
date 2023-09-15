@@ -22,7 +22,7 @@ import {
   GridAreaOverviewRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/watt-text-field';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { FormsModule } from '@angular/forms';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';

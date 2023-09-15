@@ -37,7 +37,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/watt-text-field';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattFieldComponent } from '@energinet-datahub/watt/field';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
