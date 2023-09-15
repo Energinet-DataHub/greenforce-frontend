@@ -49,7 +49,6 @@ import { WattFieldComponent } from '../field/watt-field.component';
       (ngModelChange)="onChange($event)"
       [required]="required"
     ></textarea>
-    <ng-content />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
   </watt-field>`,
