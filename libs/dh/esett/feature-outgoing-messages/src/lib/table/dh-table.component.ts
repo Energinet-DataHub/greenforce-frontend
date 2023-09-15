@@ -22,6 +22,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhOutgoingMessage } from '../dh-outgoing-message';
 import { DhOutgoingMessageDrawerComponent } from '../drawer/dh-outgoing-message-drawer.component';
@@ -34,7 +35,7 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
   styles: [
     `
       :host {
-        display: block;
+        display: contents;
       }
     `,
   ],
@@ -42,12 +43,16 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
     NgIf,
     TranslocoDirective,
     TranslocoPipe,
+
     WATT_TABLE,
     WattPaginatorComponent,
     WattEmptyStateComponent,
+    WattDatePipe,
+    VaterFlexComponent,
+    VaterStackComponent,
+
     DhOutgoingMessageDrawerComponent,
     DhOutgoingMessageStatusBadgeComponent,
-    WattDatePipe,
   ],
 })
 export class DhOutgoingMessagesTableComponent {
