@@ -58,12 +58,14 @@ limitations under the License.
         </watt-text-field>
 
         <!-- Description -->
-        <watt-field [label]="t('steps.masterData.description')">
-          <textarea formControlName="description"></textarea>
+        <watt-textarea-field
+          formControlName="description"
+          [label]="t('steps.masterData.description')"
+        >
           <watt-field-error *ngIf="userRoleForm.controls.description.hasError('required')">
             {{ "shared.fieldRequiredErrorText" | transloco }}
           </watt-field-error>
-        </watt-field>
+        </watt-textarea-field>
       </form>
     </watt-stepper-step>
 

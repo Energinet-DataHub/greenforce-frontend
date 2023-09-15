@@ -22,7 +22,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      form.ng-invalid watt-field-error {
+      watt-field-error {
         color: var(--watt-color-state-danger);
       }
     `,
