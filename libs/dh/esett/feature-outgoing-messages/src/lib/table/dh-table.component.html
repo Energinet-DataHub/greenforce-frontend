@@ -20,9 +20,15 @@ limitations under the License.
     [columns]="columns"
     [loading]="isLoading"
     [sortClear]="false"
+    sortBy="created"
+    sortDirection="desc"
     [activeRow]="activeRow"
     (rowClick)="onRowClick($event)"
   >
+    <ng-container *wattTableCell="columns['created']; header: t('columns.created'); let message">
+      {{ message.created | wattDate : "long" }}
+    </ng-container>
+
     <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let message">
       {{ message.documentId }}
     </ng-container>
@@ -44,7 +50,10 @@ limitations under the License.
     </ng-container>
 
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let message">
-      {{ "eSett.outgoingMessages.shared.documentStatus." + message.documentStatus | transloco }}
+      <dh-outgoing-message-status-badge
+        [status]="message?.documentStatus"
+        [created]="message?.created"
+      />
     </ng-container>
   </watt-table>
 

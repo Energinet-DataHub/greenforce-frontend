@@ -14,17 +14,31 @@
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using HotChocolate.Types;
+using Microsoft.AspNetCore.Routing;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class EsettExchangeEventType : ObjectType<ExchangeEventTrackingResult>
     {
-        protected override void Configure(IObjectTypeDescriptor<ExchangeEventTrackingResult> descriptor)
+        protected override void Configure(
+            IObjectTypeDescriptor<ExchangeEventTrackingResult> descriptor)
         {
-            descriptor.Name("EsettExchangeEvent");
+            descriptor.Name("EsettOutgoingMessage");
+
             descriptor
-               .Field("gridArea")
+               .Field(f => f.GridAreaCode)
+               .Name("gridArea")
                .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default!, default!));
+
+            descriptor
+                .Field("getResponseDocumentLink")
+                .ResolveWith<EsettExchangeResolvers>(c =>
+                    c.GetDocumentLink("ResponseDocument", default!, default!, default!));
+
+            descriptor
+                .Field("getDispatchDocumentLink")
+                .ResolveWith<EsettExchangeResolvers>(c =>
+                    c.GetDocumentLink("GetDispatchDocument", default!, default!, default!));
         }
     }
 }

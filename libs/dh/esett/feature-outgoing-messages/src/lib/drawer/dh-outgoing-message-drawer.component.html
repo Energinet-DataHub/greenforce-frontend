@@ -17,7 +17,10 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'eSett.outgoingMessages.drawer'">
   <watt-drawer #drawer (closed)="onClose()">
     <watt-drawer-topbar>
-      <dh-outgoing-message-status-badge [status]="outgoingMessage?.documentStatus" />
+      <dh-outgoing-message-status-badge
+        [status]="outgoingMessage?.documentStatus"
+        [created]="outgoingMessage?.created"
+      />
     </watt-drawer-topbar>
 
     <watt-drawer-heading>
@@ -40,7 +43,7 @@ limitations under the License.
         />
         <watt-description-list-item
           [label]="t('metadata.gridArea')"
-          [value]="outgoingMessage?.gridArea"
+          value="{{ outgoingMessage?.gridArea?.code }} - {{ outgoingMessage?.gridArea?.name }}"
         />
         <watt-description-list-item
           [label]="t('metadata.messageType')"
@@ -51,7 +54,20 @@ limitations under the License.
 
     <watt-drawer-content *ngIf="drawer.isOpen">
       <watt-tabs>
-        <watt-tab [label]="t('tabs.message')"> </watt-tab>
+        <watt-tab *ngIf="dispatchDocument" [label]="t('tabs.message')">
+          <watt-code
+            [code]="dispatchDocument | push"
+            [languages]="['xml', 'json']"
+            [lineNumbers]="true"
+          />
+        </watt-tab>
+        <watt-tab *ngIf="responseDocument" [label]="t('tabs.receipt')">
+          <watt-code
+            [code]="responseDocument | push"
+            [languages]="['xml', 'json']"
+            [lineNumbers]="true"
+          />
+        </watt-tab>
       </watt-tabs>
     </watt-drawer-content>
   </watt-drawer>

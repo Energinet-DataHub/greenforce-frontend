@@ -185,7 +185,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     : actors.Where(actor => actor.ActorId == user.GetAssociatedActor());
             }
 
-        public Task<ExchangeEventTrackingResult> GetEsettExchangeEventByIdAsync(
+        public Task<ExchangeEventTrackingResult> GetEsettOutgoingMessageByIdAsync(
             string documentId,
             [Service] IESettExchangeClient_V1 client) =>
             client.EsettAsync(documentId);

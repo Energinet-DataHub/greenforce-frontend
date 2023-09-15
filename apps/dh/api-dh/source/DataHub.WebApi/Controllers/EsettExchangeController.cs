@@ -12,10 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.IO;
-using System.Linq;
-using System.Net.Mime;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Microsoft.AspNetCore.Mvc;
@@ -39,14 +36,13 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             try
             {
-                var fileStream = await _client
-                    .DispatchDocumentAsync(documentId);
+                var fileResponse = await _client
+                    .DispatchDocumentAsync(documentId)
+                    .ConfigureAwait(false);
 
-                return File(
-                    fileStream,
-                    MediaTypeNames.Application.Octet);
+                return File(fileResponse.Stream, "application/octet-stream");
             }
-            catch (ApiException e) when (e.StatusCode == 404)
+            catch (Clients.ESettExchange.v1.ApiException e) when (e.StatusCode == 404)
             {
                 return NotFound();
             }
@@ -58,15 +54,13 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             try
             {
-                var fileStream = await _client
+                var fileResponse = await _client
                     .ResponseDocumentAsync(documentId)
                     .ConfigureAwait(false);
 
-                return File(
-                    fileStream,
-                    MediaTypeNames.Application.Octet);
+                return File(fileResponse.Stream, "application/octet-stream");
             }
-            catch (ApiException e) when (e.StatusCode == 404)
+            catch (Clients.ESettExchange.v1.ApiException e) when (e.StatusCode == 404)
             {
                 return NotFound();
             }

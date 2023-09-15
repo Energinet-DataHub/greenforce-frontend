@@ -12,22 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using HotChocolate;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class EsettExchangeResolvers
     {
-        public Task<string> GetGridAreaAsync(
+        public Task<GridAreaDto> GetGridAreaAsync(
             [Parent] ExchangeEventTrackingResult result,
             GridAreaByCodeBatchDataLoader dataLoader) =>
-            dataLoader
-                .LoadAsync(result.GridAreaCode)
-                .Then(gridArea => $"{gridArea.Code} - ${gridArea.Name}");
+            dataLoader.LoadAsync(result.GridAreaCode);
+
+        public string? GetDocumentLink(
+            string action,
+            [Parent] ExchangeEventTrackingResult result,
+            [Service] IHttpContextAccessor httpContextAccessor,
+            [Service] LinkGenerator linkGenerator) =>
+                linkGenerator.GetUriByAction(
+                    httpContextAccessor.HttpContext!,
+                    action,
+                    "EsettExchange",
+                    new { documentId = result.DocumentId });
     }
 }

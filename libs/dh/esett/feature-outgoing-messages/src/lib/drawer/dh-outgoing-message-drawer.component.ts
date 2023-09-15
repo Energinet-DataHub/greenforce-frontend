@@ -15,21 +15,28 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
-import { Subscription, takeUntil } from 'rxjs';
+import { RxPush } from '@rx-angular/template/push';
+import { Observable, Subscription, map, takeUntil } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { GetOutgoingMessageByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  DocumentStatus,
+  GetOutgoingMessageByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { DhOutgoingMessageDetailed } from '../dh-outgoing-message';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
 
@@ -52,12 +59,14 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
   imports: [
     NgIf,
     TranslocoDirective,
+    RxPush,
 
     WATT_DRAWER,
     WATT_TABS,
     WATT_CARD,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
+    WattCodeComponent,
 
     DhEmDashFallbackPipe,
     WattDatePipe,
@@ -67,15 +76,8 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
 })
 export class DhOutgoingMessageDrawerComponent {
   private apollo = inject(Apollo);
+  private http = inject(HttpClient);
   private subscription?: Subscription;
-
-  private getOutgoingMessageByIdQuery$ = this.apollo.watchQuery({
-    errorPolicy: 'all',
-    returnPartialData: true,
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
-    query: GetOutgoingMessageByIdDocument,
-  });
 
   outgoingMessage: DhOutgoingMessageDetailed | undefined = undefined;
 
@@ -83,6 +85,9 @@ export class DhOutgoingMessageDrawerComponent {
   drawer: WattDrawerComponent | undefined;
 
   @Output() closed = new EventEmitter<void>();
+
+  dispatchDocument: Observable<string> | undefined;
+  responseDocument: Observable<string> | undefined;
 
   public open(outgoingMessageId: string): void {
     this.drawer?.open();
@@ -96,13 +101,49 @@ export class DhOutgoingMessageDrawerComponent {
 
   private loadOutgoingMessage(id: string): void {
     this.subscription?.unsubscribe();
-    this.getOutgoingMessageByIdQuery$.setVariables({ documentId: id });
-    this.subscription = this.getOutgoingMessageByIdQuery$.valueChanges
-      .pipe(takeUntil(this.closed))
+
+    this.dispatchDocument = undefined;
+    this.responseDocument = undefined;
+
+    this.subscription = this.apollo
+      .watchQuery({
+        errorPolicy: 'all',
+        useInitialLoading: true,
+        notifyOnNetworkStatusChange: true,
+        query: GetOutgoingMessageByIdDocument,
+        variables: { documentId: id },
+      })
+      .valueChanges.pipe(takeUntil(this.closed))
       .subscribe({
         next: (result) => {
-          this.outgoingMessage = result.data?.esettExchangeEventById;
+          this.outgoingMessage = result.data?.esettOutgoingMessageById;
+
+          if (this.outgoingMessage === undefined) {
+            return;
+          }
+
+          if (
+            this.outgoingMessage.getDispatchDocumentLink &&
+            this.outgoingMessage.documentStatus !== DocumentStatus.Received
+          ) {
+            this.dispatchDocument = this.loadDocument(this.outgoingMessage.getDispatchDocumentLink);
+          }
+
+          if (
+            this.outgoingMessage.getResponseDocumentLink &&
+            ((this.outgoingMessage.documentStatus !== DocumentStatus.Received &&
+              this.outgoingMessage.documentStatus === DocumentStatus.Accepted) ||
+              this.outgoingMessage.documentStatus === DocumentStatus.Rejected)
+          ) {
+            this.responseDocument = this.loadDocument(this.outgoingMessage.getResponseDocumentLink);
+          }
         },
       });
+  }
+
+  private loadDocument(documentLink: string): Observable<string> {
+    return this.http
+      .get(documentLink, { responseType: 'arraybuffer' })
+      .pipe(map((res) => String.fromCharCode(...new Uint8Array(res))));
   }
 }
