@@ -152,7 +152,7 @@ function getAdminPermissionLogs() {
     const permissionLogs = adminPermissionPermissionLogsMock.filter(
       (log) => log.permissionId.toString() === permId
     );
-    return res(ctx.delay(300), ctx.data({ permissionLogs }));
+    return res(ctx.delay(300), ctx.data({ __typename: 'GraphQLQuery', permissionLogs }));
   });
 }
 

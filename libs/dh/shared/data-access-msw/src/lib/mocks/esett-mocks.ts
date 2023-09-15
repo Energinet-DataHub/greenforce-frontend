@@ -28,6 +28,7 @@ import {
 
 const exchangeEvents: ExchangeEventSearchResultType[] = [
   {
+    __typename: 'ExchangeEventSearchResultType',
     created: new Date(2023, 1, 1),
     documentId: '390161908',
     gridAreaCode: '805',
@@ -36,6 +37,7 @@ const exchangeEvents: ExchangeEventSearchResultType[] = [
     timeSeriesType: TimeSeriesType.Consumption,
   },
   {
+    __typename: 'ExchangeEventSearchResultType',
     created: new Date(2023, 1, 1),
     documentId: '390161909',
     gridAreaCode: '806',
@@ -44,6 +46,7 @@ const exchangeEvents: ExchangeEventSearchResultType[] = [
     timeSeriesType: TimeSeriesType.Production,
   },
   {
+    __typename: 'ExchangeEventSearchResultType',
     created: new Date(2023, 1, 1),
     documentId: '390161910',
     gridAreaCode: '806',
@@ -52,6 +55,7 @@ const exchangeEvents: ExchangeEventSearchResultType[] = [
     timeSeriesType: TimeSeriesType.Production,
   },
   {
+    __typename: 'ExchangeEventSearchResultType',
     created: new Date(),
     documentId: '390161911',
     gridAreaCode: '806',
@@ -68,8 +72,10 @@ const getResponseDocumentLink =
 
 const detailedEsettExchangeEvents: ESettOutgoingMessageType[] = [
   {
+    __typename: 'ESettOutgoingMessageType',
     documentId: '390161908',
     gridArea: {
+      __typename: 'GridArea',
       code: '805',
       name: 'N1 A/S',
       priceAreaCode: PriceAreaCode.Dk_1,
@@ -87,8 +93,10 @@ const detailedEsettExchangeEvents: ESettOutgoingMessageType[] = [
     getResponseDocumentLink,
   },
   {
+    __typename: 'ESettOutgoingMessageType',
     documentId: '390161909',
     gridArea: {
+      __typename: 'GridArea',
       code: '806',
       name: 'N2 A/S',
       priceAreaCode: PriceAreaCode.Dk_2,
@@ -106,8 +114,10 @@ const detailedEsettExchangeEvents: ESettOutgoingMessageType[] = [
     getResponseDocumentLink,
   },
   {
+    __typename: 'ESettOutgoingMessageType',
     documentId: '390161910',
     gridArea: {
+      __typename: 'GridArea',
       code: '806',
       name: 'N2 A/S',
       priceAreaCode: PriceAreaCode.Dk_2,
@@ -171,6 +181,7 @@ function getOutgoingMessageByIdQuery() {
     return res(
       ctx.delay(300),
       ctx.data({
+        __typename: 'GraphQLQuery',
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         eSettOutgoingMessage: detailedEsettExchangeEvents.find((x) => x.documentId === documentId)!,
       })
@@ -183,7 +194,9 @@ function getActorsForSettlementReportQuery() {
     return res(
       ctx.delay(300),
       ctx.data({
+        __typename: 'GraphQLQuery',
         esettExchangeEvents: {
+          __typename: 'ExchangeEventSearchResponseType',
           totalCount: exchangeEvents.length,
           items: exchangeEvents,
         },

@@ -157,6 +157,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
               return this.selectedGridAreas?.includes(x.code);
             })
             .map((g) => ({
+              __typename: 'GridArea',
               code: g.code,
               id: g.code,
               name: g.name,
