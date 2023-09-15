@@ -17,20 +17,44 @@
 @use "@energinet-datahub/watt/utils" as watt;
 
 watt-dropdown {
+  --watt-input-color: var(--watt-typography-text-color);
+  --watt-input-placeholder-color: var(--watt-on-light-high-emphasis);
+
   display: block;
   width: 100%;
 
-  .mat-select-arrow {
-    color: var(--watt-dropdown-arrow-color, rgba(0, 0, 0, 0.54));
+  watt-field label .watt-field-wrapper {
+    padding: 0;
   }
 
-  .mat-select-arrow {
+  &.watt-chip-mode watt-field label .watt-field-wrapper,
+  &.watt-chip-mode.ng-dirty.ng-invalid .watt-field-wrapper {
+    border: none;
+  }
+
+  &.watt-chip-mode.ng-dirty.ng-invalid .watt-field-wrapper watt-chip label {
+    border: 1px solid var(--watt-color-state-danger);
+  }
+
+  &.watt-chip-mode[disabled="true"] watt-field label .watt-field-wrapper {
+    background-color: transparent;
+  }
+
+  .mat-mdc-select-arrow {
+    color: var(--watt-dropdown-arrow-color, rgba(0, 0, 0, 0.54));
     border: none;
     width: auto;
     height: auto;
   }
 
-  .mat-select-arrow::before {
+  .mati-input-element {
+    @include watt.typography-watt-text-s;
+    color: var(--watt-input-color);
+    caret-color: var(--watt-color-neutral-grey-900) !important;
+    padding: 0 12px;
+  }
+
+  .mat-mdc-select-arrow::before {
     width: 0.6em;
     height: 0.6em;
     bottom: 0.2em;
@@ -43,16 +67,17 @@ watt-dropdown {
     content: "";
   }
 
-  .mat-select-trigger {
+  .mat-mdc-select-trigger {
     @include watt.typography-watt-text-s;
     padding: 0 var(--watt-space-m);
   }
 
-  .mat-select-value {
+  .mat-mdc-select-value {
     color: var(--watt-color-neutral-black);
+    padding-right: var(--watt-space-m);
   }
 
-  .mat-select.mat-select-invalid.ng-pristine .mat-select-arrow {
+  .mat-mdc-select.mat-mdc-select-invalid.ng-pristine .mat-mdc-select-arrow {
     color: currentColor;
   }
 
@@ -66,56 +91,104 @@ watt-dropdown {
     visibility: hidden;
     position: absolute;
   }
+
+  .mat-mdc-select-placeholder {
+    color: var(--watt-input-placeholder-color);
+  }
 }
 
 .watt-dropdown-panel {
+  --watt-input-color: var(--watt-typography-text-color);
   // Add 2px because watt-form-field has 1px border on each side
-  min-width: calc(100% + 2px) !important;
-  margin-top: -16px;
-  margin-left: -1px;
+  &:not(.watt-dropdown-panel-chip-mode) {
+    min-width: calc(100% + 2px) !important;
+    margin-top: -34px;
+    margin-left: -1px;
+  }
+
+  .mat-mdc-checkbox.mat-select-search-toggle-all-checkbox {
+    padding: 0;
+    margin: 0 var(--watt-space-m);
+  }
+
+  .mat-datepicker-content .mat-mdc-icon-button {
+    --mat-mdc-button-persistent-ripple-color: transparent;
+    --mat-mdc-button-ripple-color: transparent;
+  }
 
   &.watt-dropdown-panel-chip-mode {
     margin-top: 0;
+    width: 250px;
   }
 
-  &.mat-select-search-panel {
+  &.mat-mdc-select-search-panel {
     transform: scaleY(1) !important;
   }
 
-  .mat-checkbox-frame {
+  .mat-mdc-option.mdc-list-item.contains-mat-select-search.mat-mdc-option-multiple {
+    background-color: transparent;
+  }
+
+  ngx-mat-select-search
+    .mat-select-search-inner.mat-select-search-inner-toggle-all
+    .mat-select-search-input {
+    padding-left: 0;
+  }
+
+  .mdc-list-item .mat-select-search-input,
+  .mat-mdc-option.mdc-list-item,
+  .mat-select-search-no-entries-found {
+    @include watt.typography-watt-text-s;
+    color: var(--watt-input-color);
+  }
+
+  .mat-mdc-option.mdc-list-item .mat-select-search-no-entries-found {
+    padding: var(--watt-space-s);
+  }
+
+  .mat-checkbox-frame,
+  .mat-mdc-checkbox {
     border-color: var(--watt-color-primary);
   }
 
-  .mat-pseudo-checkbox {
+  :not(.mat-mdc-option-multiple) .mat-pseudo-checkbox {
+    display: none;
+  }
+
+  .mat-pseudo-checkbox,
+  .mat-mdc-checkbox {
     color: var(--watt-color-primary);
   }
 
-  .mat-option {
+  .mat-mdc-option {
     color: var(--watt-color-neutral-black);
+    min-height: 42px;
 
-    &.mat-active,
-    &.mat-selected:not(.mat-option-multiple),
-    &:hover:not(.mat-option-disabled),
-    &:focus:not(.mat-option-disabled) {
+    &.mdc-list-item.mat-mdc-option-active,
+    &.mdc-list-item.mdc-list-item--selected.mat-mdc-option-active:not(
+        .mat-mdc-option-multiple
+      ),
+    &:hover:not(.mat-mdc-option-disabled, .contains-mat-select-search),
+    &:focus:not(.mat-mdc-option-disabled) {
       background-color: var(--watt-color-primary-light);
     }
 
-    .mat-select-search-no-entries-found {
+    .mat-mdc-select-search-no-entries-found {
       text-align: center;
       padding: 0;
     }
 
-    &.mat-option-disabled {
+    &.mat-mdc-option-disabled {
       color: var(--watt-color-neutral-grey-400);
       cursor: not-allowed;
     }
   }
 
-  .mat-select-search-input:not(.mat-select-search-hidden) {
+  .mat-mdc-select-search-input:not(.mat-mdc-select-search-hidden) {
     color: var(--watt-color-neutral-black);
   }
 
-  .mat-select-search-clear {
+  .mat-mdc-select-search-clear {
     background-color: var(--watt-color-neutral-white);
     color: var(--watt-color-neutral-grey-400);
 

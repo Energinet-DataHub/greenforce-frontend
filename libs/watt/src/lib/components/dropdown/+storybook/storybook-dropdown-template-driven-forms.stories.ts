@@ -18,9 +18,9 @@ import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/ang
 import { FormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { WATT_FORM_FIELD } from '../../form-field';
 import { WattDropdownComponent } from '../watt-dropdown.component';
 import { WattDropdownOption } from '../watt-dropdown-option';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '../../field';
 
 const dropdownOptions: WattDropdownOption[] = [
   { value: 'outlaws', displayValue: 'The Outlaws' },
@@ -38,7 +38,7 @@ const meta: Meta<WattDropdownComponent> = {
       providers: [provideAnimations()],
     }),
     moduleMetadata({
-      imports: [FormsModule, WATT_FORM_FIELD],
+      imports: [FormsModule, WattFieldErrorComponent, WattFieldHintComponent],
     }),
   ],
 };
@@ -68,11 +68,10 @@ const howToUseGuideBasic = `
 
  <watt-dropdown [(ngModel)]="singleSelectionModel" [options]="options"></watt-dropdown>
 
- 5. Wrap the dropdown component in a "watt-form-field"
-
- <watt-form-field>
-  <watt-dropdown [(ngModel)]="singleSelectionModel" [options]="options"></watt-dropdown>
- </watt-form-field>`;
+  <watt-dropdown [(ngModel)]="singleSelectionModel" [options]="options">
+    <watt-field-error>This field is required</watt-field-error>
+    <watt-field-hint>This is a hint</watt-field-hint>
+  </watt-dropdown>`;
 
 export const SingleSelect: StoryFn<WattDropdownComponent> = (
   args: Partial<WattDropdownComponent>
@@ -81,13 +80,16 @@ export const SingleSelect: StoryFn<WattDropdownComponent> = (
     singleSelectionModel: '',
     options: args.options,
     placeholder: args.placeholder,
+    label: args.label,
   },
-  template: `<watt-form-field>
+  template: `
     <watt-dropdown
       [(ngModel)]="singleSelectionModel"
       [placeholder]="placeholder"
-      [options]="options"></watt-dropdown>
-  </watt-form-field>`,
+      [options]="options">
+        <watt-field-error>This field is required</watt-field-error>
+        <watt-field-hint>This is a hint</watt-field-hint>
+      </watt-dropdown>`,
 });
 SingleSelect.args = {
   options: dropdownOptions,
@@ -110,18 +112,22 @@ export const MultiSelect: StoryFn<WattDropdownComponent> = (
     placeholder: args.placeholder,
     noOptionsFoundLabel: args.noOptionsFoundLabel,
   },
-  template: `<watt-form-field>
+  template: `
     <watt-dropdown
       [multiple]="true"
       [(ngModel)]="multiSelectionModel"
       [placeholder]="placeholder"
       [noOptionsFoundLabel]="noOptionsFoundLabel"
-      [options]="options"></watt-dropdown>
-  </watt-form-field>`,
+      [options]="options">
+        <watt-field-error>This field is required</watt-field-error>
+        <watt-field-hint>This is a hint</watt-field-hint>
+      </watt-dropdown>
+`,
 });
 MultiSelect.args = {
   options: dropdownOptions,
   placeholder: 'Select a team',
+  label: 'Team',
   noOptionsFoundLabel: 'No team found.',
 };
 MultiSelect.parameters = {
@@ -135,11 +141,14 @@ MultiSelect.parameters = {
 export const WithLabel: StoryFn<WattDropdownComponent> = () => ({
   props: {
     singleSelectionModel: '',
+    label: 'Team',
   },
-  template: `<watt-form-field>
-    <watt-label>Label</watt-label>
-    <watt-dropdown [(ngModel)]="singleSelectionModel"></watt-dropdown>
-  </watt-form-field>`,
+  template: `
+    <watt-dropdown [label]="label" [(ngModel)]="singleSelectionModel">
+      <watt-field-error>This field is required</watt-field-error>
+      <watt-field-hint>This is a hint</watt-field-hint>
+    </watt-dropdown>
+`,
 });
 WithLabel.parameters = {
   docs: {
@@ -153,20 +162,19 @@ export const WithValidation: StoryFn<WattDropdownComponent> = () => ({
   props: {
     singleSelectionModel: '',
     options: dropdownOptions,
+    label: 'Team',
   },
-  template: `<watt-form-field>
-    <watt-label>Label</watt-label>
-
+  template: `
     <watt-dropdown
       #singleSelection="ngModel"
       [(ngModel)]="singleSelectionModel"
-      required
-      [options]="options"></watt-dropdown>
+      [required]="true"
+      [label]="label"
+      [options]="options">
 
-    <watt-error *ngIf="singleSelection.errors?.required">
-      Field is required
-    </watt-error>
-  </watt-form-field>`,
+      <watt-field-error>This field is required</watt-field-error>
+      <watt-field-hint>This is a hint</watt-field-hint>
+    </watt-dropdown>`,
 });
 WithValidation.parameters = {
   docs: {

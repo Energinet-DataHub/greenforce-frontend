@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatCardModule, EoStackComponent],
+  imports: [WATT_CARD, EoStackComponent],
   selector: 'eo-emissions-page-greenhouse-gasses',
   styles: [
     `
@@ -29,7 +29,7 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-
         display: block;
       }
 
-      mat-card {
+      watt-card {
         img {
           display: block;
           width: 544px; // Magic number by designer
@@ -39,7 +39,7 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-
     `,
   ],
   template: `
-    <mat-card>
+    <watt-card>
       <eo-stack size="M">
         <img
           alt="Danish ministry of climate and energy utilities | EnergyOrigin"
@@ -64,7 +64,7 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-
           >.
         </p>
       </eo-stack>
-    </mat-card>
+    </watt-card>
   `,
 })
 export class EoEmissionsPageGreenhouseGassesComponent {}

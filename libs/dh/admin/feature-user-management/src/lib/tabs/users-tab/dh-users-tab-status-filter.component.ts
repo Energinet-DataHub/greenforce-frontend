@@ -28,20 +28,21 @@ import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain
   standalone: true,
   template: `
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
-      <watt-form-field>
-        <watt-label>{{ t('filter.status') }}</watt-label>
-        <watt-dropdown
-          [formControl]="statusControl"
-          [options]="userStatusOptions"
-          [multiple]="true"
-        ></watt-dropdown>
-      </watt-form-field>
+      <watt-dropdown
+        [label]="t('filter.status')"
+        [formControl]="statusControl"
+        [options]="userStatusOptions"
+        [multiple]="true"
+      ></watt-dropdown>
     </ng-container>
   `,
   styles: [
     `
       :host {
         display: block;
+        watt-dropdown {
+          width: 15rem;
+        }
       }
     `,
   ],

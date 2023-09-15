@@ -1,0 +1,17 @@
+query GetOutgoingMessageById($documentId: String!) {
+  esettOutgoingMessageById(documentId: $documentId) {
+    documentId
+    processType
+    created
+    periodFrom
+    periodTo
+    documentStatus
+    gridArea {
+      code
+      name
+    }
+    getDispatchDocumentLink
+    getResponseDocumentLink
+    timeSeriesType
+  }
+}

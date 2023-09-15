@@ -18,8 +18,8 @@ import {
   Actor,
   ActorStatus,
   EicFunction,
-  GridArea,
-  Organization,
+  GridAreaDto,
+  OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const marketParticipantActors: Actor[] = [
@@ -30,14 +30,16 @@ export const marketParticipantActors: Actor[] = [
     name: 'Test Actor 1',
     gridAreas: [
       {
+        __typename: 'GridAreaDto',
         code: 'DK1',
-      } as GridArea,
+      } as GridAreaDto,
     ],
     marketRole: EicFunction.BalanceResponsibleParty,
     status: ActorStatus.Active,
     organization: {
+      __typename: 'OrganizationDto',
       name: 'Test Organization 1',
-    } as Organization,
+    } as OrganizationDto,
   },
   {
     __typename: 'Actor',
@@ -46,14 +48,16 @@ export const marketParticipantActors: Actor[] = [
     name: 'Test Actor 2',
     gridAreas: [
       {
+        __typename: 'GridAreaDto',
         code: 'DK1',
-      } as GridArea,
+      } as GridAreaDto,
     ],
     marketRole: EicFunction.BalanceResponsibleParty,
     status: ActorStatus.Inactive,
     organization: {
+      __typename: 'OrganizationDto',
       name: 'Test Organization 2',
-    } as Organization,
+    } as OrganizationDto,
   },
   {
     __typename: 'Actor',
@@ -62,14 +66,16 @@ export const marketParticipantActors: Actor[] = [
     name: 'Test Actor 3',
     gridAreas: [
       {
+        __typename: 'GridAreaDto',
         code: 'DK2',
-      } as GridArea,
+      } as GridAreaDto,
     ],
     marketRole: EicFunction.DanishEnergyAgency,
     status: ActorStatus.Inactive,
     organization: {
+      __typename: 'OrganizationDto',
       name: 'Test Organization 2',
-    } as Organization,
+    } as OrganizationDto,
   },
   {
     __typename: 'Actor',
@@ -78,14 +84,16 @@ export const marketParticipantActors: Actor[] = [
     name: 'Test Actor 4',
     gridAreas: [
       {
+        __typename: 'GridAreaDto',
         code: 'DK2',
-      } as GridArea,
+      } as GridAreaDto,
     ],
     marketRole: EicFunction.DanishEnergyAgency,
     status: ActorStatus.Active,
     organization: {
+      __typename: 'OrganizationDto',
       name: 'Test Organization 3',
-    } as Organization,
+    } as OrganizationDto,
   },
   {
     __typename: 'Actor',
@@ -94,11 +102,12 @@ export const marketParticipantActors: Actor[] = [
     name: 'Test Actor 4',
     gridAreas: [
       {
+        __typename: 'GridAreaDto',
         code: 'DK2',
-      } as GridArea,
+      } as GridAreaDto,
     ],
     marketRole: null,
-    status: null,
-    organization: null,
+    status: null as unknown as ActorStatus,
+    organization: null as unknown as OrganizationDto,
   },
 ];

@@ -85,7 +85,7 @@ describe(DhMarketParticipantActorContactDataComponent, () => {
     const { outputFn } = await setup(contacts);
 
     const deleteButton = within(
-      screen.getByRole('cell', { name: /delete button for existing contact/i })
+      screen.getByRole('gridcell', { name: /delete button for existing contact/i })
     ).getByRole('button');
 
     // act
@@ -111,7 +111,7 @@ describe(DhMarketParticipantActorContactDataComponent, () => {
     };
 
     const categories = within(
-      screen.getByRole('cell', { name: /category field for new contact/i })
+      screen.getByRole('gridcell', { name: /category field for new contact/i })
     ).getByRole('combobox');
     fireEvent.click(categories);
 

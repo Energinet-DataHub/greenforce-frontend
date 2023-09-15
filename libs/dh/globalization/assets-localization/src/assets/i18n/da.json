@@ -814,6 +814,9 @@
     "tabs": {
       "outgoingMessages": {
         "tabLabel": "Udgående"
+      },
+      "balanceResponsible": {
+        "tabLabel": "Balanceansvarlig"
       }
     },
     "outgoingMessages": {
@@ -824,7 +827,7 @@
           "AGGREGATION": "Aggregering"
         },
         "messageType": {
-          "MGA_EXCHANGE": "MGA udveksling",
+          "MGA_EXCHANGE": "Udveksling",
           "PRODUCTION": "Produktion",
           "CONSUMPTION": "Forbrug"
         },
@@ -832,8 +835,8 @@
           "RECEIVED": "Modtaget",
           "AWAITING_DISPATCH": "Afventer afsendelse",
           "AWAITING_REPLY": "Afventer svar",
-          "ACCEPTED": "Godkendt",
-          "REJECTED": "Ikke godkendt"
+          "ACCEPTED": "Accepteret",
+          "REJECTED": "Afvist"
         }
       },
       "filters": {
@@ -845,6 +848,7 @@
         "reset": "{{ shared.form.reset }}"
       },
       "columns": {
+        "created": "Oprettet",
         "id": "ID",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
@@ -852,6 +856,33 @@
         "status": "{{ eSett.shared.status }}"
       },
       "emptyTitle": "Ingen udgående meddelelser fundet",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}",
+      "drawer": {
+        "tabs": {
+          "message": "Meddelelse",
+          "receipt": "Kvittering"
+        },
+        "metadata": {
+          "created": "Oprettet",
+          "periode": "Beregnet periode",
+          "gridArea": "{{ eSett.shared.gridArea }}",
+          "messageType": "{{ eSett.shared.messageType }}"
+        }
+      }
+    },
+    "balanceResponsible": {
+      "tabHeading": "Balanceansvarlig",
+      "columns": {
+        "id": "ID",
+        "date": "Dato",
+        "electricitySupplier": "Elleverandør",
+        "balanceResponsible": "Balanceansvarlig",
+        "meteringPointType": "Målepunktstype",
+        "validFrom": "Gyldig fra"
+      },
+      "emptyTitle": "Ingen meddelelser fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"

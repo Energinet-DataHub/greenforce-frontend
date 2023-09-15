@@ -9,6 +9,7 @@ To make it easier to run and debug our microservices. A backend directory has be
 - Market participant
 - Message archive
 - Wholesale
+- eSett
 
 ## Add new projects
 
@@ -34,6 +35,10 @@ git clone <https://github.com/Energinet-DataHub/geh-message-archive.git>
 ### Wholesale
 
 git clone <https://github.com/Energinet-DataHub/opengeh-wholesale.git>
+
+### eSett
+
+git clone github.com/Energinet-DataHub/opengeh-esett-exchange.git
 
 ## Generating HttpClient and DTOs
 

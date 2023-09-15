@@ -18,17 +18,35 @@ import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-
-import { DhOutgoingMessagesComponent } from './outgoing-messages/dh-outgoing-messages.component';
+import { DhOutgoingMessagesComponent } from '@energinet-datahub/dh/esett/feature-outgoing-messages';
+import { DhBalanceResponsibleComponent } from '@energinet-datahub/dh/esett/feature-balance-responsible';
 
 @Component({
   selector: 'dh-esett-shell',
   standalone: true,
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
   template: `<watt-tabs *transloco="let t; read: 'eSett.tabs'">
     <watt-tab [label]="t('outgoingMessages.tabLabel')">
       <dh-outgoing-messages />
     </watt-tab>
+
+    <watt-tab [label]="t('balanceResponsible.tabLabel')">
+      <dh-balance-responsible />
+    </watt-tab>
   </watt-tabs>`,
-  imports: [TranslocoDirective, WATT_TABS, DhOutgoingMessagesComponent],
+  imports: [
+    TranslocoDirective,
+
+    WATT_TABS,
+
+    DhOutgoingMessagesComponent,
+    DhBalanceResponsibleComponent,
+  ],
 })
 export class DhESettShellComponent {}

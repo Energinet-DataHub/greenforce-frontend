@@ -17,6 +17,7 @@
 import {
   Component,
   Host,
+  HostBinding,
   Input,
   OnChanges,
   OnDestroy,
@@ -37,17 +38,16 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
-import {
-  MatLegacySelectModule as MatSelectModule,
-  MatLegacySelect as MatSelect,
-} from '@angular/material/legacy-select';
+import { MatSelectModule, MatSelect } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { of, ReplaySubject, Subject, distinctUntilChanged, map, takeUntil, take } from 'rxjs';
+import { WattFieldComponent } from '../field';
 
 import type { WattDropdownOptions } from './watt-dropdown-option';
 import type { WattDropdownValue } from './watt-dropdown-value';
 
 import { WattMenuChipComponent } from '../chip';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
   selector: 'watt-dropdown',
@@ -62,6 +62,8 @@ import { WattMenuChipComponent } from '../chip';
     ReactiveFormsModule,
     NgxMatSelectSearchModule,
     WattMenuChipComponent,
+    WattFieldComponent,
+    WattIconComponent,
   ],
 })
 export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
@@ -81,6 +83,13 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    * @ignore
    */
   private validateParentAsync?: AsyncValidatorFn;
+
+  /**
+   * @ignore
+   *
+   */
+  @HostBinding('attr.disabled')
+  isDisabled = false;
 
   /**
    * @ignore
@@ -146,6 +155,9 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    * Set the mode of the dropdown.
    */
   @Input() chipMode = false;
+  @HostBinding('class.watt-chip-mode') get chipModeClass() {
+    return this.chipMode;
+  }
 
   /**
    *
@@ -167,6 +179,11 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    * Sets the placeholder for the dropdown.
    */
   @Input() placeholder = '';
+
+  /**
+   * Sets the label for the dropdown.
+   */
+  @Input() label = '';
 
   /**
    * Label to be shown when no options are found after filtering.
@@ -231,6 +248,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    * @ignore
    */
   setDisabledState(shouldDisable: boolean): void {
+    this.isDisabled = shouldDisable;
     if (shouldDisable) {
       this.matSelectControl.disable();
     } else {

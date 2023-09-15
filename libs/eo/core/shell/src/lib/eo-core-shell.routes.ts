@@ -18,6 +18,7 @@ import { Routes } from '@angular/router';
 import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
   eoCertificatesRoutePath,
+  eoConnectionsRoutePath,
   eoConsumptionPageRoutePath,
   eoDashboardRoutePath,
   eoEmissionsRoutePath,
@@ -119,6 +120,15 @@ export const eoShellRoutes: Routes = [
         data: { title: 'Transfers' },
         loadChildren: () =>
           import('@energinet-datahub/eo/transfers').then((esModule) => esModule.eoTransfersRoutes),
+      },
+      {
+        path: eoConnectionsRoutePath,
+        canActivate: [EoScopeGuard],
+        data: { title: 'Connections' },
+        loadChildren: () =>
+          import('@energinet-datahub/eo/connections/shell').then(
+            (esModule) => esModule.eoConnectionsRoutes
+          ),
       },
       {
         path: eoPrivacyPolicyRoutePath,

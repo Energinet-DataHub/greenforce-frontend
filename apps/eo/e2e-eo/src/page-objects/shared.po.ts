@@ -30,4 +30,5 @@ export class SharedPO {
   clickOnlyNecessaryButton = () => cy.get(this.onlyNecessaryButton).click();
   clickLogoutMenuItem = () => cy.get(this.navListItem).contains('Log out').click();
   clickTransfersMenuItem = () => cy.get(this.navListItem).contains('Transfers').click();
+  clickConnectionsMenuItem = () => cy.get(this.navListItem).contains('Connections').click();
 }

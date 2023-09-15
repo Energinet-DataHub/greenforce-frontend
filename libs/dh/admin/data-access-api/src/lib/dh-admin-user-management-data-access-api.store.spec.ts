@@ -28,7 +28,7 @@ import {
 
 import { DhAdminUserManagementDataAccessApiStore } from './dh-admin-user-management-data-access-api.store';
 
-describe(DhAdminUserManagementDataAccessApiStore.name, () => {
+describe(DhAdminUserManagementDataAccessApiStore, () => {
   async function setup() {
     const httpMock = {
       v1MarketParticipantUserOverviewSearchUsersPost: jest.fn(() => of()),

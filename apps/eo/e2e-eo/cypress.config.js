@@ -65,7 +65,6 @@ export default defineConfig({
     fileServerFolder: '.',
     fixturesFolder: './src/fixtures',
     video: false,
-    videoUploadOnPasses: false,
     videosFolder: 'dist/cypress/apps/eo/e2e-eo/videos',
     viewportHeight: 800,
     viewportWidth: 1280,

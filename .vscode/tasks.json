@@ -38,6 +38,18 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": "build eSett",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/backend/opengeh-esett-exchange/source/eSettExchange/WebApi/WebApi.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": "publish",
       "command": "dotnet",
       "type": "process",

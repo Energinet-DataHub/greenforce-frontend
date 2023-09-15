@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   standalone: true,
-  imports: [MatCardModule],
+  imports: [WATT_CARD],
   selector: 'eo-origin-of-energy-chart-tips',
   template: `
-    <mat-card class="tip-card">
+    <watt-card class="tip-card">
       <div class="tip-card-header">
         <img class="lightbulb-icon" src="/assets/icons/lightbulb.svg" alt="Global goal 7.2" />
         <h1>Tip</h1>
@@ -31,7 +31,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
         You can increase your share of renewable energy by shifting your consumption to periods with
         more renewable energy in the grid.
       </p>
-    </mat-card>
+    </watt-card>
   `,
   styles: [
     `

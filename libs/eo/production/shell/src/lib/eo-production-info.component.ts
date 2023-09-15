@@ -16,37 +16,30 @@
  */
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { EoProductionStore } from './eo-production.store';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatCardModule, WattSpinnerComponent, NgIf, AsyncPipe],
+  imports: [WATT_CARD, WattSpinnerComponent, NgIf, AsyncPipe],
   selector: 'eo-production-info',
   styles: [
     `
       :host {
         display: block;
       }
-      mat-card {
-        .output {
-          display: flex;
-          align-items: flex-end;
-          gap: 12px;
-        }
-      }
     `,
   ],
   template: `
-    <mat-card>
+    <watt-card>
       <h4 class="output watt-space-stack-s">Your electricity production</h4>
       <h1 *ngIf="loadingDone$ | async; else loading">
         {{ convertTokWh((totalMeasurement$ | async) || 0).toLocaleString() }}
         kWh
       </h1>
-    </mat-card>
+    </watt-card>
 
     <ng-template #loading><watt-spinner [diameter]="36"></watt-spinner></ng-template>
   `,

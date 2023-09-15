@@ -27,25 +27,22 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
   standalone: true,
   template: `
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
-      <watt-form-field class="actor-search-field">
-        <watt-label>{{ t('filter.actor') }}</watt-label>
-        <watt-dropdown
-          [placeholder]="t('searchActorPlaceHolder')"
-          [formControl]="actorControl"
-          [options]="actorOptions"
-          [multiple]="false"
-        ></watt-dropdown>
-      </watt-form-field>
+      <watt-dropdown
+        [label]="t('filter.actor')"
+        [placeholder]="t('searchActorPlaceHolder')"
+        [formControl]="actorControl"
+        [options]="actorOptions"
+        [multiple]="false"
+      ></watt-dropdown>
     </ng-container>
   `,
   styles: [
     `
       :host {
         display: block;
-      }
-
-      .actor-search-field {
-        width: 30rem;
+        watt-dropdown {
+          width: 15rem;
+        }
       }
     `,
   ],

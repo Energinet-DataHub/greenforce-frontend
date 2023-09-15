@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { DataSource } from '@angular/cdk/collections';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { WattPaginatorComponent } from '../paginator';
 
 /**

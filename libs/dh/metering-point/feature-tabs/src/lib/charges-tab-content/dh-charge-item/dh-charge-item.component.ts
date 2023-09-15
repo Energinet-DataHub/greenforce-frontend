@@ -16,13 +16,13 @@
  */
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { ChargeLinkV1Dto, ChargeType } from '@energinet-datahub/dh/shared/domain';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 @Component({
   selector: 'dh-charge-item',
@@ -33,13 +33,25 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
     TranslocoModule,
     CommonModule,
     WattEmptyStateComponent,
-    MatTableModule,
     WattDatePipe,
     WattIconComponent,
+    WATT_TABLE,
   ],
 })
 export class DhChargeItemComponent {
-  @Input() charges: Array<ChargeLinkV1Dto> = [];
   @Input() title = '';
+  @Input() set charges(value: ChargeLinkV1Dto[]) {
+    this.dataSource.data = value;
+  }
+
   chargeTypes = ChargeType;
+  dataSource = new WattTableDataSource<ChargeLinkV1Dto>();
+
+  columns: WattTableColumnDef<ChargeLinkV1Dto> = {
+    chargeType: { accessor: (row) => `${row.chargeName}:${row.chargeId}` },
+    chargeOwner: { accessor: (row) => `${row.chargeOwnerName}:${row.chargeOwner}` },
+    startDate: { accessor: 'startDate' },
+    quantity: { accessor: 'quantity' },
+    transparentInvoicing: { accessor: 'transparentInvoicing' },
+  };
 }

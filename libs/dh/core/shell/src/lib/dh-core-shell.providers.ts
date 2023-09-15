@@ -28,7 +28,7 @@ import {
 } from '@azure/msal-angular';
 
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
-import { uiWattTranslationsProviders } from '@energinet-datahub/dh/globalization/ui-watt-translation';
+import { dhWattTranslationsProviders } from '@energinet-datahub/dh/globalization/configuration-watt-translation';
 import {
   MSALGuardConfigFactory,
   MSALInstanceFactory,
@@ -46,7 +46,7 @@ import { HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
 export const dhCoreShellProviders = [
   importProvidersFrom([MatSnackBarModule, DhApiModule.forRoot(), MsalModule, TranslocoModule]),
   environment.production ? applicationInsightsProviders : [],
-  uiWattTranslationsProviders,
+  dhWattTranslationsProviders,
   danishLocalProviders,
   translocoProviders,
   graphQLProviders,

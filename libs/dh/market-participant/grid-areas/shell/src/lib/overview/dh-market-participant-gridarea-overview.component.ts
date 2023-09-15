@@ -17,10 +17,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { RxLet } from '@rx-angular/template/let';
-import {
-  MatLegacyTableDataSource as MatTableDataSource,
-  MatLegacyTableModule as MatTableModule,
-} from '@angular/material/legacy-table';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
@@ -29,6 +25,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
   GridAreaChanges,
@@ -48,7 +45,6 @@ import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh
   imports: [
     CommonModule,
     RxLet,
-    MatTableModule,
     TranslocoModule,
     WattBadgeComponent,
     WattButtonComponent,
@@ -59,6 +55,7 @@ import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh
     DhEmDashFallbackPipe,
     WattDatePipe,
     WATT_DRAWER,
+    WATT_TABLE,
     DhMarketParticipantGridAreaDetailsHeaderComponent,
     DhMarketParticipantGridAreaEditComponent,
     DhMarketParticipantGridAreaDetailsAuditLogComponent,
@@ -67,7 +64,15 @@ import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh
 export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
 
-  columnIds = ['code', 'name', 'actorName', 'actorNumber', 'priceAreaCode', 'validFrom', 'validTo'];
+  columns = {
+    code: { accessor: 'code' },
+    name: { accessor: 'name' },
+    actorName: { accessor: 'actorName' },
+    actorNumber: { accessor: 'actorNumber' },
+    priceAreaCode: { accessor: 'priceAreaCode' },
+    validFrom: { accessor: 'validFrom' },
+    validTo: { accessor: 'validTo' },
+  } satisfies WattTableColumnDef<GridAreaOverviewRow>;
 
   @Input() gridAreas: GridAreaOverviewRow[] = [];
   @Input() gridChanges!: (changes: {
@@ -80,8 +85,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   @Input() activeGridAreaAuditLog: MarketParticipantGridAreaAuditLogEntryDto[] = [];
   @Input() getGridAreaData!: (gridAreaId: string) => void;
 
-  readonly dataSource: MatTableDataSource<GridAreaOverviewRow> =
-    new MatTableDataSource<GridAreaOverviewRow>();
+  readonly dataSource = new WattTableDataSource<GridAreaOverviewRow>();
 
   activeRow?: GridAreaOverviewRow;
 

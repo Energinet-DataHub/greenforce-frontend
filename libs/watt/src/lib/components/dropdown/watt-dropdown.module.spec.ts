@@ -20,7 +20,7 @@ import { By } from '@angular/platform-browser';
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { MatLegacySelectHarness as MatSelectHarness } from '@angular/material/legacy-select/testing';
+import { MatSelectHarness } from '@angular/material/select/testing';
 
 import { WattDropdownOptions } from './watt-dropdown-option';
 import { WattDropdownComponent } from './watt-dropdown.component';
@@ -33,9 +33,9 @@ const dropdownOptions: WattDropdownOptions = [
   { value: 'joules', displayValue: 'Joules' },
 ];
 
-const matOptionClass = '.mat-option';
+const matOptionClass = '.mat-mdc-option';
 
-describe(WattDropdownComponent.name, () => {
+describe(WattDropdownComponent, () => {
   function getFilterInput(): HTMLInputElement {
     const inputs: HTMLInputElement[] = screen.getAllByRole('textbox', {
       // We search for "hidden" input elements because as of `ngx-mat-select-search` v5.0.0
@@ -45,7 +45,11 @@ describe(WattDropdownComponent.name, () => {
       hidden: true,
     });
 
-    const [visibleInput] = inputs.filter((input) => input.classList.contains('mat-input-element'));
+    const [visibleInput] = inputs.filter(
+      (input) =>
+        input.classList.contains('mat-select-search-input') &&
+        input.classList.contains('mat-select-search-hidden') === false
+    );
 
     return visibleInput;
   }
@@ -203,6 +207,7 @@ describe(WattDropdownComponent.name, () => {
         await matSelect.open();
 
         const filterInput = getFilterInput();
+
         userEvent.type(filterInput, 'outlaws');
 
         // Number of options is 3:
@@ -287,7 +292,7 @@ describe(WattDropdownComponent.name, () => {
         expect(actialOptions.length).toBe(expectedOptions);
 
         const noOptionsFoundDe: DebugElement = fixture.debugElement.query(
-          By.css('.mat-select-search-inside-mat-option  .mat-select-search-no-entries-found')
+          By.css('.mat-mdc-option .mat-select-search-no-entries-found')
         );
 
         const actualLabel = noOptionsFoundDe.nativeElement.textContent.trim();
@@ -442,7 +447,7 @@ describe(WattDropdownComponent.name, () => {
         expect(actialOptions.length).toBe(expectedOptions);
 
         const noOptionsFoundDe: DebugElement = fixture.debugElement.query(
-          By.css('.mat-select-search-inside-mat-option  .mat-select-search-no-entries-found')
+          By.css('.mat-mdc-option .mat-select-search-no-entries-found')
         );
 
         const actualLabel = noOptionsFoundDe.nativeElement.textContent.trim();

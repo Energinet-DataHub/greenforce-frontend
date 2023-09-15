@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   standalone: true,
-  imports: [MatCardModule],
+  imports: [WATT_CARD],
   selector: 'eo-origin-of-energy-what-is-it',
-  template: `<mat-card class="description-card">
+  template: `<watt-card class="description-card">
     <p class="watt-space-stack-m"><strong>What is it?</strong></p>
     <table>
       <th width="200">Renewables</th>
@@ -47,7 +47,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
         </td>
       </tr>
     </table>
-  </mat-card>`,
+  </watt-card>`,
   styles: [
     `
       :host {

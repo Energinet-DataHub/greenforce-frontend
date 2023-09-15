@@ -101,7 +101,7 @@ const issueTitle = issues
 
 if (issueTitle) {
   const createResponse = await execAsync(
-    `gh issue develop ${issue} --name ${type}/${issueTitle} --issue-repo ${selectedRepo} --checkout`
+    `gh issue develop ${issue} --repo ${selectedRepo} --name ${type}/${issueTitle} --branch-repo=Energinet-Datahub/greenforce-frontend --checkout`
   );
 
   console.log(

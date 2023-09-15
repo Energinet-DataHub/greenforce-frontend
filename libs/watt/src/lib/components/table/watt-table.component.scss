@@ -16,15 +16,21 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
+watt-table {
+  --mat-table-row-item-label-text-font: $primary-font-family;
+  --mat-table-row-item-outline-color: var(--watt-color-neutral-grey-300);
+  --mat-table-header-headline-font: $primary-font-family;
+}
+
 watt-table,
-watt-table .mat-table {
+watt-table .mat-mdc-table {
   display: grid;
   position: relative;
   overflow: auto;
   min-height: 44px; /* Magix UX number (replace with variable) */
 }
 
-watt-table .mat-table {
+watt-table .mat-mdc-table {
   grid-template-columns: var(--watt-table-grid-template-columns);
   grid-auto-rows: max-content;
   max-height: 100%;
@@ -33,17 +39,18 @@ watt-table .mat-table {
   thead,
   tbody,
   tfoot,
-  tr.mat-row,
-  tr.mat-header-row,
-  tr.mat-footer-row {
+  tr.mat-mdc-row,
+  tr.mat-mdc-header-row,
+  tr.mat-mdc-footer-row {
     display: contents;
   }
 
-  tr.mat-header-row {
+  tr.mat-mdc-header-row {
     flex: 0 0 auto;
   }
 
-  th.mat-header-cell {
+  th.mat-mdc-header-cell {
+    @include watt.typography-watt-label;
     box-sizing: border-box;
     display: flex;
     position: sticky;
@@ -55,13 +62,18 @@ watt-table .mat-table {
     border: 0;
     z-index: 2 !important; // override local style
     white-space: nowrap;
+    user-select: none;
   }
 
-  td.mat-cell {
+  td.mat-mdc-cell {
     display: flex;
     align-items: center;
     min-height: 56px; /* Magic UX number */
     padding: var(--watt-space-s) var(--watt-space-m);
+  }
+
+  tr.mdc-data-table__row:last-child .mat-mdc-cell {
+    border-bottom: 1px solid var(--watt-color-neutral-grey-300);
   }
 
   .watt-table-clickable-row td {
