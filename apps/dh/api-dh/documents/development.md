@@ -86,7 +86,7 @@ To create a new query using Hot Chocolate, follow this example:
 ### Testing
 
 Our GraphQL testing setup uses snapshots to check for changes in schema and payloads. Since the
-GraphQL server heavily relies on inferring types from client interactions, we need to be thorough
+GraphQL server heavily relies on inferring types from client services, we need to be thorough
 in testing the entire schema for any unexpected field updates. If the new schema doesn't match the
 stored snapshot exactly, this test will fail.
 
