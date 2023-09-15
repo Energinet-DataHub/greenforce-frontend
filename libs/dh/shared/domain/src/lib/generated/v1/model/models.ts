@@ -20,7 +20,6 @@ export * from './charge-type';
 export * from './charge-v1-dto';
 export * from './charge-vat-classification';
 export * from './create-charge-v1-dto';
-export * from './file-response';
 export * from './market-participant-actor-contact-dto';
 export * from './market-participant-actor-dto';
 export * from './market-participant-actor-grid-area-dto';
