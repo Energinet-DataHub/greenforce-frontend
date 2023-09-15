@@ -18,7 +18,7 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
 import parseISO from 'date-fns/parseISO';
 
 export const adminPermissionsMock: graphql.GetPermissionsQuery = {
-  __typename: 'GraphQLQuery',
+  __typename: 'Query',
   permissions: [
     {
       __typename: 'Permission',

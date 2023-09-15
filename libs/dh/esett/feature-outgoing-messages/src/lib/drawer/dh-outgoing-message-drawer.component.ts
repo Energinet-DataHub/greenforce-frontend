@@ -116,20 +116,24 @@ export class DhOutgoingMessageDrawerComponent {
       .valueChanges.pipe(takeUntil(this.closed))
       .subscribe({
         next: (result) => {
-          this.outgoingMessage = result.data?.eSettOutgoingMessage;
+          this.outgoingMessage = result.data?.esettOutgoingMessageById;
 
           if (this.outgoingMessage === undefined) {
             return;
           }
 
-          if (this.outgoingMessage.documentStatus !== DocumentStatus.Received) {
+          if (
+            this.outgoingMessage.getDispatchDocumentLink &&
+            this.outgoingMessage.documentStatus !== DocumentStatus.Received
+          ) {
             this.dispatchDocument = this.loadDocument(this.outgoingMessage.getDispatchDocumentLink);
           }
 
           if (
-            (this.outgoingMessage.documentStatus !== DocumentStatus.Received &&
+            this.outgoingMessage.getResponseDocumentLink &&
+            ((this.outgoingMessage.documentStatus !== DocumentStatus.Received &&
               this.outgoingMessage.documentStatus === DocumentStatus.Accepted) ||
-            this.outgoingMessage.documentStatus === DocumentStatus.Rejected
+              this.outgoingMessage.documentStatus === DocumentStatus.Rejected)
           ) {
             this.responseDocument = this.loadDocument(this.outgoingMessage.getResponseDocumentLink);
           }
