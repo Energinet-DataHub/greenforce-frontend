@@ -19,7 +19,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { FileResponse } from '../model/file-response';
+import { Stream } from '../model/stream';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -96,9 +96,9 @@ export class EsettExchangeHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1EsettExchangeDispatchDocumentGet(documentId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<FileResponse>;
-    public v1EsettExchangeDispatchDocumentGet(documentId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<HttpResponse<FileResponse>>;
-    public v1EsettExchangeDispatchDocumentGet(documentId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<HttpEvent<FileResponse>>;
+    public v1EsettExchangeDispatchDocumentGet(documentId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<Stream>;
+    public v1EsettExchangeDispatchDocumentGet(documentId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<HttpResponse<Stream>>;
+    public v1EsettExchangeDispatchDocumentGet(documentId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<HttpEvent<Stream>>;
     public v1EsettExchangeDispatchDocumentGet(documentId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -146,7 +146,7 @@ export class EsettExchangeHttp {
         }
 
         let localVarPath = `/v1/EsettExchange/DispatchDocument`;
-        return this.httpClient.request<FileResponse>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Stream>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -164,9 +164,9 @@ export class EsettExchangeHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1EsettExchangeResponseDocumentGet(documentId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<FileResponse>;
-    public v1EsettExchangeResponseDocumentGet(documentId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<HttpResponse<FileResponse>>;
-    public v1EsettExchangeResponseDocumentGet(documentId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<HttpEvent<FileResponse>>;
+    public v1EsettExchangeResponseDocumentGet(documentId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<Stream>;
+    public v1EsettExchangeResponseDocumentGet(documentId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<HttpResponse<Stream>>;
+    public v1EsettExchangeResponseDocumentGet(documentId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<HttpEvent<Stream>>;
     public v1EsettExchangeResponseDocumentGet(documentId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -214,7 +214,7 @@ export class EsettExchangeHttp {
         }
 
         let localVarPath = `/v1/EsettExchange/ResponseDocument`;
-        return this.httpClient.request<FileResponse>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Stream>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

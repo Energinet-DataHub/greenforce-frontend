@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Microsoft.AspNetCore.Mvc;
@@ -31,15 +32,17 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         [HttpGet("DispatchDocument")]
         [Produces("application/octet-stream")]
-        public async Task<ActionResult<FileResponse>> GetDispatchDocumentAsync(string documentId)
+        public async Task<ActionResult<Stream>> GetDispatchDocumentAsync(string documentId)
         {
             try
             {
-                return await _client
+                var fileResponse = await _client
                     .DispatchDocumentAsync(documentId)
                     .ConfigureAwait(false);
+
+                return File(fileResponse.Stream, "application/octet-stream");
             }
-            catch (ApiException e) when (e.StatusCode == 404)
+            catch (Clients.ESettExchange.v1.ApiException e) when (e.StatusCode == 404)
             {
                 return NotFound();
             }
@@ -47,15 +50,17 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         [HttpGet("ResponseDocument")]
         [Produces("application/octet-stream")]
-        public async Task<ActionResult<FileResponse>> ResponseDocumentAsync(string documentId)
+        public async Task<ActionResult<Stream>> ResponseDocumentAsync(string documentId)
         {
             try
             {
-                return await _client
+                var fileResponse = await _client
                     .ResponseDocumentAsync(documentId)
                     .ConfigureAwait(false);
+
+                return File(fileResponse.Stream, "application/octet-stream");
             }
-            catch (ApiException e) when (e.StatusCode == 404)
+            catch (Clients.ESettExchange.v1.ApiException e) when (e.StatusCode == 404)
             {
                 return NotFound();
             }
