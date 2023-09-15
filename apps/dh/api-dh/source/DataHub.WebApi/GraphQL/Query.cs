@@ -51,7 +51,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
         {
             var permissionTask = client.GetPermissionAsync(id);
             var logs = await client.GetAuditLogsAsync(id);
-
             return logs
                 .Select(log => new PermissionLog
                 {
