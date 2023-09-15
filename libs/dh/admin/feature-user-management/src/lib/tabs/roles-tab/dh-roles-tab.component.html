@@ -32,7 +32,6 @@ limitations under the License.
         <watt-card-title>
           <div class="create-role-header-container">
             <h4>{{ t("rolesHeadline") }}</h4>
-            <dh-shared-ui-paginator #paginator [length]="roles.length"> </dh-shared-ui-paginator>
             <div>
               <watt-button
                 *transloco="let t; read: 'admin.userManagement'"
@@ -41,6 +40,9 @@ limitations under the License.
                 (click)="download(rolesTable.filteredAndSortedData)"
                 >{{ t("download") }}</watt-button
               >
+
+              <watt-paginator #paginator [length]="roles.length" />
+
               <watt-button
                 *dhPermissionRequired="['user-roles:manage']"
                 icon="plus"

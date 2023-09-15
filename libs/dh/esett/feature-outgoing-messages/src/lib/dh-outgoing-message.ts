@@ -22,7 +22,7 @@ import {
 
 export type DhOutgoingMessageDetailed = ResultOf<
   typeof GetOutgoingMessageByIdDocument
->['esettExchangeEvent'];
+>['eSettOutgoingMessage'];
 
 export type DhOutgoingMessage = ResultOf<
   typeof GetOutgoingMessagesDocument

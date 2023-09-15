@@ -16,9 +16,8 @@
  */
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   selector: 'eo-cookie-banner',
@@ -32,7 +31,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
         transform: translate(-50%, -50%);
       }
 
-      mat-card.mat-card {
+      watt-card {
         gap: var(--watt-space-m);
         display: flex;
         flex-direction: column;
@@ -42,7 +41,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       .buttons {
         gap: var(--watt-space-l);
         display: flex;
-        margin: 0 auto var(--watt-space-m) auto;
+        margin: 0 auto;
       }
 
       watt-button ::ng-deep button {
@@ -51,7 +50,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
     `,
   ],
   template: `
-    <mat-card>
+    <watt-card>
       <h1>No cookies, no energy</h1>
       <p>Some are used for statistics and others are set by third party services.</p>
       <p>By clicking OK you accept the use of the types of cookies selected below.</p>
@@ -66,10 +65,10 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
           >Accept all
         </watt-button>
       </div>
-    </mat-card>
+    </watt-card>
   `,
   standalone: true,
-  imports: [WattButtonComponent, MatCardModule, MatSlideToggleModule, FormsModule],
+  imports: [WattButtonComponent, WATT_CARD, FormsModule],
 })
 export class EoCookieBannerComponent {
   cookies = {

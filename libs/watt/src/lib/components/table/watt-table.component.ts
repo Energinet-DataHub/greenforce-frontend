@@ -37,10 +37,11 @@ import type { QueryList } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatTableModule } from '@angular/material/table';
 import { map } from 'rxjs';
 import { WattCheckboxComponent } from '../checkbox';
 import { WattTableDataSource } from './watt-table-data-source';
+import { WattDatePipe } from '../../utils/date/watt-date.pipe';
 
 export interface WattTableColumn<T> {
   /**
@@ -52,8 +53,6 @@ export interface WattTableColumn<T> {
   accessor: keyof T | ((row: T) => unknown) | null;
 
   /**
-   * @deprecated Use `header` input with WattTableCellDirective instead.
-   *
    * Resolve the header text to a static display value. This will prevent
    * the `resolveHeader` input function from being called for this column.
    */
@@ -141,6 +140,7 @@ export class WattTableToolbarDirective<T> {
 @Component({
   standalone: true,
   imports: [CommonModule, FormsModule, MatSortModule, MatTableModule, WattCheckboxComponent],
+  providers: [WattDatePipe],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],
@@ -183,8 +183,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   @Input() loading = false;
 
   /**
-   * @deprecated Use `header` input with WattTableCellDirective instead.
-   *
    * Optional callback for determining header text for columns that
    * do not have a static header text set in the column definition.
    * Useful for providing translations of column headers.
@@ -286,12 +284,24 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   _element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /** @ignore */
+  _datePipe = inject(WattDatePipe);
+
+  /** @ignore */
   private isInitialSelectionSet = false;
+
+  /** @ignore */
+  private formatCellData(cell: unknown) {
+    if (!cell) return '—';
+    if (cell instanceof Date) return this._datePipe.transform(cell);
+    return cell;
+  }
 
   /** @ignore */
   private getCellData(row: T, column?: WattTableColumn<T>) {
     if (!column?.accessor) return null;
-    return typeof column.accessor === 'function' ? column.accessor(row) : row[column.accessor];
+    const { accessor } = column;
+    const cell = typeof accessor === 'function' ? accessor(row) : row[accessor];
+    return this.formatCellData(cell);
   }
 
   constructor() {
@@ -306,10 +316,18 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.sort = this._sort;
 
-    // Make sorting by text case insensitive
     this.dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
-      const data = this.getCellData(row, this.columns[sortHeaderId]);
-      return typeof data === 'string' ? data.toLowerCase() : (data as number);
+      const sortColumn = this.columns[sortHeaderId];
+      if (!sortColumn?.accessor) return '';
+
+      // Access raw value for sorting, instead of applying default formatting.
+      const { accessor } = sortColumn;
+      const cell = typeof accessor === 'function' ? accessor(row) : row[accessor];
+
+      // Make sorting by text case insensitive.
+      if (typeof cell === 'string') return cell.toLowerCase();
+      if (cell instanceof Date) return cell.getTime();
+      return cell as number;
     };
   }
 
@@ -386,7 +404,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
-    if (column.value.header) return column.value.header;
+    if (typeof column.value.header === 'string') return column.value.header;
     const cell = this._cells.find((item) => item.column === column.value);
     return cell?.header ?? this.resolveHeader?.(column.key) ?? column.key;
   }

@@ -38,7 +38,7 @@ export function handlers(apiBase: string) {
     ...marketParticipantUserMocks(apiBase),
     ...marketParticipantUserRoleMocks(apiBase),
     ...tokenMocks(apiBase),
-    ...eSettMocks(),
+    ...eSettMocks(apiBase),
   ] as RequestHandler[];
 }
 

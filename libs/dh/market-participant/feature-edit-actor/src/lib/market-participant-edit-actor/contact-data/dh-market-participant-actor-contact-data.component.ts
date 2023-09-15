@@ -28,7 +28,6 @@ import {
 } from '@angular/core';
 import { ActorContactChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { FormsModule } from '@angular/forms';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/watt-text-field';
@@ -37,6 +36,7 @@ import {
   MarketParticipantActorContactDto,
   MarketParticipantContactCategory,
 } from '@energinet-datahub/dh/shared/domain';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 interface EditableActorContactRow {
   contact: MarketParticipantActorContactDto;
@@ -56,8 +56,8 @@ interface EditableActorContactRow {
     CommonModule,
     TranslocoModule,
     FormsModule,
-    MatTableModule,
     WattButtonComponent,
+    WATT_TABLE,
     WattDropdownComponent,
     WattTextFieldComponent,
   ],
@@ -72,7 +72,13 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
 
   constructor(private cd: ChangeDetectorRef) {}
 
-  columnIds = ['type', 'name', 'email', 'phone', 'delete'];
+  columns: WattTableColumnDef<EditableActorContactRow> = {
+    category: { accessor: (row) => row.changed.category },
+    name: { accessor: (row) => row.changed.name },
+    email: { accessor: (row) => row.changed.email },
+    phone: { accessor: (row) => row.changed.phone },
+    delete: { accessor: null, header: '' },
+  };
 
   contactCategories: WattDropdownOption[] = Object.keys(MarketParticipantContactCategory).map(
     (key) => ({
@@ -81,7 +87,7 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
     })
   );
 
-  contactRows: EditableActorContactRow[] = [];
+  dataSource = new WattTableDataSource<EditableActorContactRow>();
   deletedContacts: MarketParticipantActorContactDto[] = [];
 
   ngOnChanges(changes: SimpleChanges) {
@@ -90,7 +96,7 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
     const contacts = this.contacts;
     if (contacts === undefined) return;
 
-    this.contactRows = contacts
+    this.dataSource.data = contacts
       .map(
         (contact): EditableActorContactRow => ({
           isExisting: true,
@@ -113,10 +119,10 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
       this.deletedContacts = [...this.deletedContacts, row.contact];
     }
 
-    const copy = [...this.contactRows];
+    const copy = [...this.dataSource.data];
     const index = copy.indexOf(row);
     copy.splice(index, 1);
-    this.contactRows = copy;
+    this.dataSource.data = copy;
 
     this.cd.detectChanges();
     this.raiseContactsChanged();
@@ -131,7 +137,7 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
   readonly onModelChanged = (row: EditableActorContactRow) => {
     if (row.isNewPlaceholder) {
       row.isNewPlaceholder = false;
-      this.contactRows = [...this.contactRows, this.createPlaceholder()];
+      this.dataSource.data = [...this.dataSource.data, this.createPlaceholder()];
     }
 
     row.isModified =
@@ -144,12 +150,12 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
   };
 
   readonly raiseContactsChanged = () => {
-    const oldModified = this.contactRows
+    const oldModified = this.dataSource.data
       .filter((row) => row.isModified)
       .filter((row) => row.isExisting)
       .map((row) => row.contact);
 
-    const newModified = this.contactRows
+    const newModified = this.dataSource.data
       .filter((row) => row.isModified)
       .filter((row) => !row.isNewPlaceholder)
       .map((row) => row.changed);

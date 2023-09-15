@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, AfterViewInit, OnChanges, ViewChild, Input } from '@angular/core';
+import { Component, OnChanges, ViewChild, Input } from '@angular/core';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
@@ -30,11 +30,11 @@ import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-
 
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { DhChargesPricesDrawerComponent } from '../drawer/dh-charges-prices-drawer.component';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 import { formatInTimeZone } from 'date-fns-tz';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 @Component({
   standalone: true,
@@ -50,7 +50,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
     WattTooltipDirective,
     WattSpinnerComponent,
     WattDatePipe,
-    DhSharedUiPaginatorComponent,
+    WattPaginatorComponent,
     DhChargesPricesDrawerComponent,
     WATT_CARD,
   ],
@@ -58,9 +58,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
   templateUrl: './dh-charges-prices-result.component.html',
   styleUrls: ['./dh-charges-prices-result.component.scss'],
 })
-export class DhChargesPricesResultComponent implements AfterViewInit, OnChanges {
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
+export class DhChargesPricesResultComponent implements OnChanges {
   @ViewChild(DhChargesPricesDrawerComponent)
   chargePriceDrawer!: DhChargesPricesDrawerComponent;
 
@@ -108,10 +106,6 @@ export class DhChargesPricesResultComponent implements AfterViewInit, OnChanges 
 
   ngOnChanges() {
     if (this.result) this.dataSource.data = this.result;
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator.instance;
   }
 
   rowClicked(charge: ChargeV1Dto) {
