@@ -33,6 +33,12 @@
     .lastname {
       margin-left: auto;
     }
+
+    .domain {
+      padding-right: var(--watt-space-s);
+      color: var(--watt-color-neutral-grey-600);
+      display: block;
+    }
   }
 
   .user-role-error {

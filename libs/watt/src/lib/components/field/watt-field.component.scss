@@ -24,16 +24,16 @@
   background-color: var(--watt-field-disabled-background-color);
 }
 
-.ng-dirty.ng-invalid .watt-field-wrapper {
+form.ng-dirty.ng-invalid .ng-dirty.ng-invalid .watt-field-wrapper {
   border: 1px solid var(--watt-color-state-danger);
 }
 
-.ng-dirty.ng-invalid watt-field .label {
+form.ng-dirty.ng-invalid .ng-dirty.ng-invalid watt-field .label {
   color: var(--watt-color-state-danger);
 }
 
 [required] watt-field .label::after,
-.ng-dirty.ng-invalid watt-field .label::after {
+.ng-dirty.ng-invalid .ng-dirty.ng-invalid watt-field .label::after {
   content: " *";
 }
 
@@ -46,11 +46,11 @@ watt-field watt-field-error,
   display: none;
 }
 
-.ng-dirty.ng-invalid watt-field watt-field-hint {
+form.ng-dirty.ng-invalid .ng-dirty.ng-invalid watt-field watt-field-hint {
   display: none;
 }
 
-.ng-dirty.ng-invalid watt-field watt-field-error {
+form.ng-dirty.ng-invalid .ng-dirty.ng-invalid watt-field watt-field-error {
   display: block;
   color: var(--watt-color-state-danger);
 }

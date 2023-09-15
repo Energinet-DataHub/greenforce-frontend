@@ -68,6 +68,7 @@ limitations under the License.
         </watt-text-field>
 
         <watt-text-field [label]="t('email')" class="email" [formControl]="userInfo.controls.email">
+          <span class="domain">@{{ organizationDomain$ | push }}</span>
           <watt-field-error *ngIf="userInfo.controls.email.hasError('required')">
             {{ "shared.fieldRequiredErrorText" | transloco }}
           </watt-field-error>
