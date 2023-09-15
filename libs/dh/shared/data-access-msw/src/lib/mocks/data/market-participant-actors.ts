@@ -30,12 +30,14 @@ export const marketParticipantActors: Actor[] = [
     name: 'Test Actor 1',
     gridAreas: [
       {
+        __typename: 'GridAreaDto',
         code: 'DK1',
       } as GridAreaDto,
     ],
     marketRole: EicFunction.BalanceResponsibleParty,
     status: ActorStatus.Active,
     organization: {
+      __typename: 'OrganizationDto',
       name: 'Test Organization 1',
     } as OrganizationDto,
   },
@@ -46,12 +48,14 @@ export const marketParticipantActors: Actor[] = [
     name: 'Test Actor 2',
     gridAreas: [
       {
+        __typename: 'GridAreaDto',
         code: 'DK1',
       } as GridAreaDto,
     ],
     marketRole: EicFunction.BalanceResponsibleParty,
     status: ActorStatus.Inactive,
     organization: {
+      __typename: 'OrganizationDto',
       name: 'Test Organization 2',
     } as OrganizationDto,
   },
@@ -62,12 +66,14 @@ export const marketParticipantActors: Actor[] = [
     name: 'Test Actor 3',
     gridAreas: [
       {
+        __typename: 'GridAreaDto',
         code: 'DK2',
       } as GridAreaDto,
     ],
     marketRole: EicFunction.DanishEnergyAgency,
     status: ActorStatus.Inactive,
     organization: {
+      __typename: 'OrganizationDto',
       name: 'Test Organization 2',
     } as OrganizationDto,
   },
@@ -78,12 +84,14 @@ export const marketParticipantActors: Actor[] = [
     name: 'Test Actor 4',
     gridAreas: [
       {
+        __typename: 'GridAreaDto',
         code: 'DK2',
       } as GridAreaDto,
     ],
     marketRole: EicFunction.DanishEnergyAgency,
     status: ActorStatus.Active,
     organization: {
+      __typename: 'OrganizationDto',
       name: 'Test Organization 3',
     } as OrganizationDto,
   },
@@ -94,6 +102,7 @@ export const marketParticipantActors: Actor[] = [
     name: 'Test Actor 4',
     gridAreas: [
       {
+        __typename: 'GridAreaDto',
         code: 'DK2',
       } as GridAreaDto,
     ],
