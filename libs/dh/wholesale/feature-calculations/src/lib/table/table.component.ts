@@ -24,7 +24,7 @@ import {
   Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { translate, TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
