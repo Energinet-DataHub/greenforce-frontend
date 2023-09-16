@@ -14,13 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Output,
+  EventEmitter,
+  inject,
+  OnInit,
+  Input,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -32,6 +40,17 @@ import {
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
+import { DhCalculationsFiltersComponent } from '../filters/filters.component';
+import { BehaviorSubject, switchMap } from 'rxjs';
+import sub from 'date-fns/sub';
+import startOfDay from 'date-fns/startOfDay';
+import endOfDay from 'date-fns/endOfDay';
+import { Apollo } from 'apollo-angular';
+import {
+  GetCalculationsDocument,
+  GetCalculationsQueryVariables,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 type wholesaleTableData = WattTableDataSource<Calculation>;
 
@@ -40,6 +59,7 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
   imports: [
     WATT_TABLE,
     CommonModule,
+    DhCalculationsFiltersComponent,
     WattDatePipe,
     TranslocoModule,
     VaterFlexComponent,
@@ -48,6 +68,7 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
     WattBadgeComponent,
     WattButtonComponent,
     WattDataTableComponent,
+    WattDataFiltersComponent,
     WattEmptyStateComponent,
     DhEmDashFallbackPipe,
   ],
@@ -55,23 +76,37 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhCalculationsTableComponent {
-  @Input() selected?: Calculation;
-  @Input() loading = false;
-  @Input() error = false;
+export class DhCalculationsTableComponent implements OnInit {
+  private apollo = inject(Apollo);
 
-  @Input() set data(calculations: Calculation[]) {
-    this.dataSource.data = calculations;
-  }
-
-  @Input()
-  set filter(value: string) {
-    this.dataSource.filter = value;
-  }
-
+  @Input() id?: string;
   @Output() selectedRow = new EventEmitter();
-
   @Output() create = new EventEmitter<void>();
+
+  loading = false;
+  error = false;
+
+  filter$ = new BehaviorSubject<GetCalculationsQueryVariables>({
+    executionTime: {
+      start: sub(startOfDay(new Date()), { days: 10 }),
+      end: endOfDay(new Date()),
+    },
+  });
+
+  calculations$ = this.filter$.pipe(
+    switchMap(
+      (variables) =>
+        this.apollo.watchQuery({
+          pollInterval: 10000,
+          useInitialLoading: true,
+          notifyOnNetworkStatusChange: true,
+          fetchPolicy: 'cache-and-network',
+          query: GetCalculationsDocument,
+          variables: variables,
+        }).valueChanges
+    ),
+    takeUntilDestroyed()
+  );
 
   dataSource: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {
@@ -83,5 +118,19 @@ export class DhCalculationsTableComponent {
     status: { accessor: 'executionState' },
   };
 
-  translateHeader = (key: string) => translate(`wholesale.calculations.columns.${key}`);
+  getActiveRow = () => this.dataSource.data.find((row) => row.id === this.id);
+
+  ngOnInit() {
+    this.calculations$.subscribe({
+      next: (result) => {
+        this.loading = result.loading;
+        this.error = !!result.errors;
+        if (result.data?.calculations) this.dataSource.data = result.data.calculations;
+      },
+      error: (error) => {
+        this.error = error;
+        this.loading = false;
+      },
+    });
+  }
 }
