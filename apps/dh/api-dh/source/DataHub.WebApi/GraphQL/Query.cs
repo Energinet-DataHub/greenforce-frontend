@@ -31,6 +31,11 @@ namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class Query
     {
+        public Task<PermissionDetailsDto> GetPermissionByIdAsync(
+            int id,
+            [Service] IMarketParticipantPermissionsClient client) =>
+            client.GetPermissionAsync(id);
+
         public async Task<IEnumerable<PermissionDetailsDto>> GetPermissionsAsync(
             string searchTerm,
             [Service] IMarketParticipantPermissionsClient client) =>
