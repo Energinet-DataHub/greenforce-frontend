@@ -85,7 +85,26 @@ To create a new query using Hot Chocolate, follow this example:
 
 ### Testing
 
-TBA
+Our GraphQL testing setup uses snapshots to check for changes in schema and payloads. Since the
+GraphQL server heavily relies on inferring types from client services, we need to be thorough
+in testing the entire schema for any unexpected field updates. If the new schema doesn't match the
+stored snapshot exactly, this test will fail.
+
+To determine if any changes have occurred in the snapshots, execute the following command:
+
+```sh
+yarn nx test api-dh
+```
+
+If the tests fail because of snapshot mismatches, you'll see a comparison in the console, and a
+`__MISMATCH__` folder will pop up inside the `__snapshots__` folder, located at
+`apps/dh/api-dh/source/DataHub.WebApi.Tests/Integration/GraphQL`.
+
+Take a close look at the changes. If they're intentional, you can simply replace the file(s) in the
+`__snapshots__` folder with the ones in the `__MISMATCH__` folder (they have the same names, so
+dragging and dropping should work). If the changes weren't intentional, fix the problem in the
+server code, and then rerun the test command. The files in `__MISMATCH__` will automatically be
+deleted as soon as their corresponding tests passes.
 
 ### Evolution over versioning
 
