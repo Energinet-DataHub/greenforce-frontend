@@ -19,10 +19,10 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
 
-import { localizationProviders } from '../../+storybook/storybook-configuration-localization.providers';
+import { localizationProviders } from '../../shared/+storybook/storybook-configuration-localization.providers';
 import { WattDatepickerComponent } from '../watt-datepicker.component';
-import { WattFormChipDirective } from '../../../form-field/chip.directive';
-import { WATT_FORM_FIELD } from '../../../form-field';
+import { WattFieldErrorComponent } from '../../../field/watt-field-error.component';
+import { WattFormChipDirective } from '../../../field/chip.directive';
 import { WattRangeValidators } from '../../shared/validators';
 
 import { WattDateChipComponent } from '../watt-date-chip.component';
@@ -46,11 +46,11 @@ export default {
     moduleMetadata({
       imports: [
         ReactiveFormsModule,
-        WATT_FORM_FIELD,
         WattDatepickerComponent,
         WattFormChipDirective,
         WattDateChipComponent,
         WattDateRangeChipComponent,
+        WattFieldErrorComponent,
       ],
     }),
   ],
@@ -64,43 +64,47 @@ export default {
 } as Meta;
 
 const template = `
-<watt-form-field>
-  <watt-label>Single date</watt-label>
-  <watt-datepicker [formControl]="exampleFormControlSingle" />
-  <watt-error *ngIf="exampleFormControlSingle?.errors?.required">
+
+  <watt-datepicker label="Single date" [formControl]="exampleFormControlSingle">
+    <watt-field-error *ngIf="exampleFormControlSingle?.errors?.required">
       Date is required
-  </watt-error>
-</watt-form-field>
+    </watt-field-error>
+  </watt-datepicker>
+
 <p>Value: <code>{{ exampleFormControlSingle.value | json }}</code></p>
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlSingle?.errors | json }}</code></p>
 
 <br />
 
-<watt-form-field>
-  <watt-label>Date range</watt-label>
-  <watt-datepicker [formControl]="exampleFormControlRange" [range]="true" />
-  <watt-error *ngIf="exampleFormControlRange?.errors?.rangeRequired">
-      Date range is required
-  </watt-error>
-</watt-form-field>
+<watt-datepicker label="Date range" [formControl]="exampleFormControlRange" [range]="true">
+  <watt-field-error *ngIf="exampleFormControlRange?.errors?.rangeRequired">
+    Date range is required
+  </watt-field-error>
+</watt-datepicker>
+
 <p>Selected range: <code data-testid="rangeValue">{{ exampleFormControlRange.value | json }}</code></p>
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
 
-<watt-date-chip [formControl]="exampleChipFormControlSingle">Single date</watt-date-chip>
-<watt-error *ngIf="exampleChipFormControlSingle?.touched && exampleChipFormControlSingle?.errors?.required">
+<watt-date-chip [formControl]="exampleChipFormControlSingle">
+  Single date
+  <watt-field-error *ngIf="exampleChipFormControlSingle?.touched && exampleChipFormControlSingle?.errors?.required">
     Date is required
-</watt-error>
+  </watt-field-error>
+</watt-date-chip>
+
 
 <p>Value: <code>{{ exampleChipFormControlSingle.value | json }}</code></p>
 <p *ngIf="withValidations">Errors: <code>{{ exampleChipFormControlSingle?.errors | json }}</code></p>
 
-<watt-date-range-chip [formControl]="exampleChipFormControlRange">Date range</watt-date-range-chip>
-<watt-error *ngIf="exampleChipFormControlRange?.touched && exampleChipFormControlRange?.errors?.rangeRequired">
+<watt-date-range-chip [formControl]="exampleChipFormControlRange">
+  Date range
+  <watt-field-error *ngIf="exampleChipFormControlRange?.touched && exampleChipFormControlRange?.errors?.rangeRequired">
     Date range is required
-</watt-error>
+  </watt-field-error>
+</watt-date-range-chip>
+
 <p>Selected range: <code data-testid="rangeValue">{{ exampleChipFormControlRange.value | json }}</code></p>
 <p *ngIf="withValidations">Errors: <code>{{ exampleChipFormControlRange?.errors | json }}</code></p>
-
 `;
 
 export const WithFormControl: StoryFn<WattDatepickerStoryConfig> = (args) => ({

@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "../shared/picker" as *;
+import { makeEnvironmentProviders } from '@angular/core';
+import { danishDatetimeProviders } from '../../../../configuration/watt-danish-datetime.providers';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 
-watt-datepicker {
-  @extend %datepicker;
-}
-
-.watt-datepicker-range__panel--month-only .mat-calendar-period-button {
-  pointer-events: none;
-}
+export const localizationProviders = makeEnvironmentProviders([
+  danishLocalProviders,
+  danishDatetimeProviders,
+]);

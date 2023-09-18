@@ -19,10 +19,10 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
 
-import { localizationProviders } from '../../+storybook/storybook-configuration-localization.providers';
-import { WATT_FORM_FIELD } from '../../../form-field';
+import { localizationProviders } from '../../shared/+storybook/storybook-configuration-localization.providers';
 import { WattRangeValidators } from '../../shared/validators';
 import { WattTimepickerComponent } from '../watt-timepicker.component';
+import { WattFieldErrorComponent } from '../../../field/watt-field-error.component';
 
 export default {
   title: 'Components/Timepicker',
@@ -31,36 +31,32 @@ export default {
       providers: [provideAnimations(), localizationProviders],
     }),
     moduleMetadata({
-      imports: [ReactiveFormsModule, WATT_FORM_FIELD, WattTimepickerComponent],
+      imports: [ReactiveFormsModule, WattTimepickerComponent, WattFieldErrorComponent],
     }),
   ],
   component: WattTimepickerComponent,
 } as Meta;
 
 const template = `
- <watt-form-field>
-   <watt-label>Single time</watt-label>
-   <watt-timepicker [formControl]="exampleFormControlSingle"></watt-timepicker>
-   <watt-error *ngIf="exampleFormControlSingle?.errors?.required">
-       Time is required
-   </watt-error>
- </watt-form-field>
+  <watt-timepicker label="Single time" [formControl]="exampleFormControlSingle">
+    <watt-field-error *ngIf="exampleFormControlSingle?.errors?.required">
+      Time is required
+    </watt-field-error>
+  </watt-timepicker>
 
  <p>Value: <code>{{exampleFormControlSingle.value | json}}</code></p>
  <p *ngIf="withValidations">Errors: <code>{{exampleFormControlSingle?.errors | json}}</code></p>
 
  <br />
 
- <watt-form-field>
-   <watt-label>Time range</watt-label>
-   <watt-timepicker sliderLabel="Adjust time range" [formControl]="exampleFormControlRange" [range]="true"></watt-timepicker>
-   <watt-error *ngIf="exampleFormControlRange?.errors?.rangeRequired">
-       Time range is required
-   </watt-error>
- </watt-form-field>
+  <watt-timepicker label="Time range" sliderLabel="Adjust time range" [formControl]="exampleFormControlRange" [range]="true">
+    <watt-field-error *ngIf="exampleFormControlRange?.errors?.rangeRequired">
+      Time range is required
+    </watt-field-error>
+  </watt-timepicker>
 
- <p>Selected range: <code>{{exampleFormControlRange.value | json}}</code></p>
- <p *ngIf="withValidations">Errors: <code>{{exampleFormControlRange?.errors | json}}</code></p>
+  <p>Selected range: <code>{{exampleFormControlRange.value | json}}</code></p>
+  <p *ngIf="withValidations">Errors: <code>{{exampleFormControlRange?.errors | json}}</code></p>
  `;
 
 const initialValue = '00:00';

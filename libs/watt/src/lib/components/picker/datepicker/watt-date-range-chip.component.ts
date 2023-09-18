@@ -28,6 +28,7 @@ import endOfDay from 'date-fns/endOfDay';
 import { WattDatePipe, WattRange } from '../../../utils/date';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
+import { WattFieldComponent } from '../../field/watt-field.component';
 
 @Injectable()
 export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<Date> {
@@ -46,6 +47,7 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
     WattMenuChipComponent,
     WattDatePipe,
     WattIconComponent,
+    WattFieldComponent,
   ],
   selector: 'watt-date-range-chip',
   styles: [
@@ -64,30 +66,39 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
   ],
   template: `
     <mat-date-range-picker #picker></mat-date-range-picker>
-    <watt-menu-chip
-      hasPopup="dialog"
-      [disabled]="disabled"
-      [selected]="value?.start && value?.end ? true : false"
-      [opened]="picker.opened"
-      (toggle)="picker.open()"
-    >
-      <mat-date-range-input #input class="cdk-visually-hidden" separator="" [rangePicker]="picker">
-        <input type="text" matStartDate tabindex="-1" role="none" [value]="value?.start" />
-        <input
-          type="text"
-          matEndDate
-          tabindex="-1"
-          role="none"
-          [value]="value?.end"
-          (dateChange)="value = input.value!"
-          (dateChange)="selectionChange.emit($event.value ? input.value! : null)"
-        />
-      </mat-date-range-input>
-      <ng-content />
-      <span class="value" *ngIf="value?.start && value?.end">
-        {{ value | wattDate }}
-      </span>
-    </watt-menu-chip>
+    <watt-field [chipMode]="true">
+      <watt-menu-chip
+        hasPopup="dialog"
+        [disabled]="disabled"
+        [selected]="value?.start && value?.end ? true : false"
+        [opened]="picker.opened"
+        (toggle)="picker.open()"
+      >
+        <mat-date-range-input
+          #input
+          class="cdk-visually-hidden"
+          separator=""
+          [rangePicker]="picker"
+        >
+          <input type="text" matStartDate tabindex="-1" role="none" [value]="value?.start" />
+          <input
+            type="text"
+            matEndDate
+            tabindex="-1"
+            role="none"
+            [value]="value?.end"
+            (dateChange)="value = input.value!"
+            (dateChange)="selectionChange.emit($event.value ? input.value! : null)"
+          />
+        </mat-date-range-input>
+        <ng-content />
+        <span class="value" *ngIf="value?.start && value?.end">
+          {{ value | wattDate }}
+        </span>
+      </watt-menu-chip>
+      <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
+      <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
+    </watt-field>
   `,
 })
 export class WattDateRangeChipComponent {

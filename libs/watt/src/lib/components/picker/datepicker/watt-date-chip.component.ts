@@ -22,6 +22,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { WattDatePipe } from '../../../utils/date';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
+import { WattFieldComponent } from '../../field/watt-field.component';
 
 @Component({
   standalone: true,
@@ -29,6 +30,7 @@ import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
     CommonModule,
     MatDatepickerModule,
     WattMenuChipComponent,
+    WattFieldComponent,
     WattDatePipe,
     WattIconComponent,
   ],
@@ -45,25 +47,29 @@ import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
   ],
   template: `
     <mat-datepicker #picker />
-    <watt-menu-chip
-      hasPopup="dialog"
-      [disabled]="disabled"
-      [selected]="!!value"
-      [opened]="picker.opened"
-      (toggle)="picker.open()"
-    >
-      <input
-        tabindex="-1"
-        class="cdk-visually-hidden"
-        type="text"
-        [value]="value"
-        [matDatepicker]="picker"
-        (dateChange)="value = $event.value"
-        (dateChange)="selectionChange.emit($event.value)"
-      />
-      <ng-content />
-      <ng-container *ngIf="value">: {{ value | wattDate }}</ng-container>
-    </watt-menu-chip>
+    <watt-field [chipMode]="true">
+      <watt-menu-chip
+        hasPopup="dialog"
+        [disabled]="disabled"
+        [selected]="!!value"
+        [opened]="picker.opened"
+        (toggle)="picker.open()"
+      >
+        <input
+          tabindex="-1"
+          class="cdk-visually-hidden"
+          type="text"
+          [value]="value"
+          [matDatepicker]="picker"
+          (dateChange)="value = $event.value"
+          (dateChange)="selectionChange.emit($event.value)"
+        />
+        <ng-content />
+        <ng-container *ngIf="value">: {{ value | wattDate }}</ng-container>
+      </watt-menu-chip>
+      <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
+      <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
+    </watt-field>
   `,
 })
 export class WattDateChipComponent {

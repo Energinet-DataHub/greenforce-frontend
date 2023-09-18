@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "../datepicker" as *;
+@use "../shared/picker" as *;
 
 watt-timepicker {
   @extend %datepicker;
