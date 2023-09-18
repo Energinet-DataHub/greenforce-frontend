@@ -24,6 +24,13 @@ import { DhActorsOverviewComponent } from '@energinet-datahub/dh/market-particip
 @Component({
   selector: 'dh-market-participant-actors-shell',
   standalone: true,
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.actors.tabs'">
       <watt-tabs>
