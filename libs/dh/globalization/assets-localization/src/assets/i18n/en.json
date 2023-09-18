@@ -831,7 +831,7 @@
           "AGGREGATION": "Aggregation"
         },
         "messageType": {
-          "MGA_EXCHANGE": "MGA Exchange",
+          "MGA_EXCHANGE": "Exchange",
           "PRODUCTION": "Production",
           "CONSUMPTION": "Consumption"
         },
@@ -852,6 +852,7 @@
         "reset": "{{ shared.form.reset }}"
       },
       "columns": {
+        "created": "Created",
         "id": "ID",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
@@ -864,7 +865,8 @@
       "errorMessage": "{{ shared.error.message }}",
       "drawer": {
         "tabs": {
-          "message": "Message"
+          "message": "Message",
+          "receipt": "Receipt"
         },
         "metadata": {
           "created": "Created",

@@ -13,22 +13,24 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.GraphQL;
-using GraphQL.DataLoader;
-using GraphQL.MicrosoftDI;
-using GraphQL.Types;
+using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Registration
 {
     public static class GraphQLRegistrationExtensions
     {
-        public static IServiceCollection AddGraphQLSchema(this IServiceCollection services)
+        public static IRequestExecutorBuilder AddGraphQLServices(this IServiceCollection services)
         {
             return services
-                .AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>()
-                .AddSingleton<DataLoaderDocumentListener>()
-                .AddSingleton<ISchema, GraphQLSchema>(services => new GraphQLSchema(new SelfActivatingServiceProvider(services)))
-                .AddSingleton<DateRangeType>();
+                .AddGraphQLServer()
+                .AddAuthorization()
+                .AddQueryType<Query>()
+                .AddMutationConventions(applyToAllMutations: true)
+                .AddMutationType<Mutation>()
+                .AddWebApiTypes()
+                .BindRuntimeType<Interval, DateRangeType>();
         }
     }
 }

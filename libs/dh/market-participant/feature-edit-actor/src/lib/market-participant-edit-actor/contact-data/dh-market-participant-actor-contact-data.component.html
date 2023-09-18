@@ -15,113 +15,91 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'marketParticipant.contacts'">
-  <mat-table [dataSource]="contactRows" aria-label="contacts">
+  <watt-table [dataSource]="dataSource" [columns]="columns" aria-label="contacts">
     <!-- Contact Type -->
-    <ng-container matColumnDef="type">
-      <mat-header-cell *matHeaderCellDef>{{ t("category") }}</mat-header-cell>
-      <mat-cell *matCellDef="let element" class="field">
-        <watt-form-field>
-          <watt-dropdown
-            [attr.aria-label]="
-              element.isExisting
-                ? t('ariaLabelCategoryForExistingContact')
-                : t('ariaLabelCategoryForNewContact')
-            "
-            required
-            [options]="contactCategories"
-            [(ngModel)]="element.changed.category"
-            (ngModelChange)="onDropdownChanged(element)"
-          >
-          </watt-dropdown>
-        </watt-form-field>
-      </mat-cell>
+    <ng-container *wattTableCell="columns.category; let row">
+      <watt-form-field>
+        <watt-dropdown
+          [attr.aria-label]="
+            row.isExisting
+              ? t('ariaLabelCategoryForExistingContact')
+              : t('ariaLabelCategoryForNewContact')
+          "
+          required
+          [options]="contactCategories"
+          [(ngModel)]="row.changed.category"
+          (ngModelChange)="onDropdownChanged(row)"
+        >
+        </watt-dropdown>
+      </watt-form-field>
     </ng-container>
 
     <!-- Name -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef>{{ t("name") }}</mat-header-cell>
-      <mat-cell *matCellDef="let element" class="field">
-        <watt-form-field
-          ><input
-            [attr.aria-label]="
-              element.isExisting
-                ? t('ariaLabelNameForExistingContact')
-                : t('ariaLabelNameForNewContact')
-            "
-            wattInput
-            required
-            [placeholder]="t('namePlaceholder')"
-            [(ngModel)]="element.changed.name"
-            (ngModelChange)="onModelChanged(element)"
-          />
-        </watt-form-field>
-      </mat-cell>
+    <ng-container *wattTableCell="columns.name; let row">
+      <watt-form-field
+        ><input
+          [attr.aria-label]="
+            row.isExisting ? t('ariaLabelNameForExistingContact') : t('ariaLabelNameForNewContact')
+          "
+          wattInput
+          required
+          [placeholder]="t('namePlaceholder')"
+          [(ngModel)]="row.changed.name"
+          (ngModelChange)="onModelChanged(row)"
+        />
+      </watt-form-field>
     </ng-container>
 
     <!-- Email -->
-    <ng-container matColumnDef="email">
-      <mat-header-cell *matHeaderCellDef>{{ t("email") }}</mat-header-cell>
-      <mat-cell *matCellDef="let element" class="field">
-        <watt-form-field
-          ><input
-            [attr.aria-label]="
-              element.isExisting
-                ? t('ariaLabelMailForExistingContact')
-                : t('ariaLabelMailForNewContact')
-            "
-            wattInput
-            required
-            type="email"
-            [placeholder]="t('emailPlaceholder')"
-            [(ngModel)]="element.changed.email"
-            (ngModelChange)="onModelChanged(element)"
-        /></watt-form-field>
-      </mat-cell>
+    <ng-container *wattTableCell="columns.email; let row">
+      <watt-form-field
+        ><input
+          [attr.aria-label]="
+            row.isExisting ? t('ariaLabelMailForExistingContact') : t('ariaLabelMailForNewContact')
+          "
+          wattInput
+          required
+          type="email"
+          [placeholder]="t('emailPlaceholder')"
+          [(ngModel)]="row.changed.email"
+          (ngModelChange)="onModelChanged(row)"
+      /></watt-form-field>
     </ng-container>
 
     <!-- Phone -->
-    <ng-container matColumnDef="phone">
-      <mat-header-cell *matHeaderCellDef>{{ t("phone") }}</mat-header-cell>
-      <mat-cell *matCellDef="let element" class="field">
-        <watt-form-field>
-          <input
-            [attr.aria-label]="
-              element.isExisting
-                ? t('ariaLabelPhoneForExistingContact')
-                : t('ariaLabelPhoneForNewContact')
-            "
-            wattInput
-            type="tel"
-            [placeholder]="t('phonePlaceholder')"
-            [(ngModel)]="element.changed.phone"
-            (ngModelChange)="onModelChanged(element)"
-          />
-        </watt-form-field>
-      </mat-cell>
+    <ng-container *wattTableCell="columns.phone; let row">
+      <watt-form-field>
+        <input
+          [attr.aria-label]="
+            row.isExisting
+              ? t('ariaLabelPhoneForExistingContact')
+              : t('ariaLabelPhoneForNewContact')
+          "
+          wattInput
+          type="tel"
+          [placeholder]="t('phonePlaceholder')"
+          [(ngModel)]="row.changed.phone"
+          (ngModelChange)="onModelChanged(row)"
+        />
+      </watt-form-field>
     </ng-container>
 
     <!-- Delete -->
-    <ng-container matColumnDef="delete">
-      <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <ng-container *ngIf="!element.isNewPlaceholder">
-          <watt-button
-            class="delete-button"
-            [attr.aria-label]="
-              element.isExisting
-                ? t('ariaLabelDeleteForExistingContact')
-                : t('ariaLabelDeleteForNewContact')
-            "
-            variant="icon"
-            icon="remove"
-            (click)="onRowDelete(element)"
-          >
-          </watt-button>
-        </ng-container>
-      </mat-cell>
+    <ng-container *wattTableCell="columns.delete; let row">
+      <ng-container *ngIf="!row.isNewPlaceholder">
+        <watt-button
+          class="delete-button"
+          [attr.aria-label]="
+            row.isExisting
+              ? t('ariaLabelDeleteForExistingContact')
+              : t('ariaLabelDeleteForNewContact')
+          "
+          variant="icon"
+          icon="remove"
+          (click)="onRowDelete(row)"
+        >
+        </watt-button>
+      </ng-container>
     </ng-container>
-
-    <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
-  </mat-table>
+  </watt-table>
 </ng-container>

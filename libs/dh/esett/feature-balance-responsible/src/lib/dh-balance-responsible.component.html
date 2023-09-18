@@ -14,19 +14,22 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card *transloco="let t; read: 'eSett.balanceResponsible'">
-  <watt-card-title>
-    <h3>{{ t("tabHeading") }}</h3>
-    <span class="watt-chip-label">{{ tableDataSource.data.length }}</span>
+<watt-card vater inset="0" *transloco="let t; read: 'eSett.balanceResponsible'">
+  <vater-flex fill="vertical" gap="m">
+    <vater-stack direction="row" gap="s">
+      <h3>{{ t("tabHeading") }}</h3>
+      <span class="watt-chip-label">{{ tableDataSource.data.length }}</span>
 
-    <watt-search [label]="'shared.search' | transloco" />
-  </watt-card-title>
+      <vater-spacer />
+      <watt-search [label]="'shared.search' | transloco" />
+    </vater-stack>
 
-  <dh-balance-responsible-table
-    [tableDataSource]="tableDataSource"
-    [isLoading]="isLoading"
-    [hasError]="hasError"
-  />
+    <dh-balance-responsible-table
+      [tableDataSource]="tableDataSource"
+      [isLoading]="isLoading"
+      [hasError]="hasError"
+    />
 
-  <watt-paginator [for]="tableDataSource" [pageSize]="100" />
+    <watt-paginator [for]="tableDataSource" [pageSize]="100" />
+  </vater-flex>
 </watt-card>

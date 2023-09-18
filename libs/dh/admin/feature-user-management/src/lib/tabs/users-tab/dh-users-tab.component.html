@@ -47,13 +47,12 @@ limitations under the License.
           "
         ></ng-container>
 
-        <dh-shared-ui-paginator
+        <watt-paginator
           [length]="totalUserCount$ | push"
           [pageSize]="pageSize$ | push"
           [pageIndex]="pageIndex$ | push"
           (changed)="onPageChange($event)"
-        >
-        </dh-shared-ui-paginator>
+        />
 
         <watt-button
           *dhPermissionRequired="['users:manage']"

@@ -22,6 +22,12 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 
 import { DhBalanceResponsibleTableComponent } from './table/dh-table.component';
 import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
@@ -36,14 +42,8 @@ import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
         display: block;
       }
 
-      watt-card-title {
-        align-items: center;
-        display: flex;
-        gap: var(--watt-space-s);
-      }
-
-      watt-search {
-        margin-left: auto;
+      h3 {
+        margin: 0;
       }
 
       watt-paginator {
@@ -63,6 +63,10 @@ import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
     WATT_CARD,
     WattSearchComponent,
     WattPaginatorComponent,
+    VaterFlexComponent,
+    VaterStackComponent,
+    VaterSpacerComponent,
+    VaterUtilityDirective,
 
     DhBalanceResponsibleTableComponent,
   ],

@@ -31,7 +31,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { GetCalculationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetCalculationByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
 import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.component';
 
@@ -77,13 +77,13 @@ export class DhCalculationsDetailsComponent {
         returnPartialData: true,
         useInitialLoading: true,
         notifyOnNetworkStatusChange: true,
-        query: GetCalculationDocument,
+        query: GetCalculationByIdDocument,
         variables: { id },
       })
       .valueChanges.pipe(takeUntil(this.closed))
       .subscribe({
         next: (result) => {
-          this.calculation = result.data?.calculation ?? undefined;
+          this.calculation = result.data?.calculationById ?? undefined;
           this.loading = result.loading;
           this.error = !!result.errors;
         },

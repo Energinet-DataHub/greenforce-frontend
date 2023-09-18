@@ -31,6 +31,7 @@ jobs:
     uses: Energinet-DataHub/.github/.github/workflows/ci-base.yml@v12
     with:
       skip_license_check: true # Handled by another workflow
+      skip_markdown_links_check: true # Handled by another workflow
     secrets:
       pat_token: ${{ secrets.PAT_TOKEN_REPO_WORKFLOW }}
 

@@ -26,12 +26,12 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { FormsModule } from '@angular/forms';
 import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import {
   MarketParticipantActorMarketRoleDto,
   MarketParticipantActorStatus,
@@ -62,10 +62,10 @@ export interface EditableMarketRoleRow {
     CommonModule,
     TranslocoModule,
     FormsModule,
-    MatTableModule,
     WattButtonComponent,
     WattInputDirective,
     WATT_FORM_FIELD,
+    WATT_TABLE,
     WattDropdownComponent,
   ],
 })
@@ -77,9 +77,15 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
 
   @Output() changed = new EventEmitter<MarketRoleChanges>();
 
-  columnIds = ['marketRole', 'gridArea', 'meteringPointTypes', 'comment', 'delete'];
+  columns: WattTableColumnDef<EditableMarketRoleRow> = {
+    marketRole: { accessor: 'marketRole' },
+    gridArea: { accessor: 'gridArea' },
+    meteringPointTypes: { accessor: 'meteringPointTypes' },
+    commentLabel: { accessor: 'comment' },
+    delete: { accessor: null, header: '' },
+  };
 
-  rows: EditableMarketRoleRow[] = [];
+  dataSource = new WattTableDataSource<EditableMarketRoleRow>();
   deleted: { marketRole?: MarketParticipantEicFunction }[] = [];
 
   availableMeteringPointTypes = Object.values(MarketParticipantMeteringPointType);
@@ -122,7 +128,7 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
       );
     }
 
-    this.rows = rows;
+    this.dataSource.data = rows;
     this.calculateAvailableMarketRoles();
   }
 
@@ -140,14 +146,14 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   };
 
   readonly raiseChanged = () => {
-    const grouped = this.marketRoleGroupService.groupRows(this.rows);
+    const grouped = this.marketRoleGroupService.groupRows(this.dataSource.data);
 
     const marketRoleChanges: MarketRoleChanges = {
       marketRoles: grouped,
       isValid: true,
     };
 
-    marketRoleChanges.isValid = this.rows.reduce(
+    marketRoleChanges.isValid = this.dataSource.data.reduce(
       (r, v) =>
         r &&
         !!v.marketRole &&
@@ -161,7 +167,7 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   };
 
   readonly calculateAvailableMarketRoles = () => {
-    const currentlySelectedMarketRoles = this.rows
+    const currentlySelectedMarketRoles = this.dataSource.data
       .filter((x) => !!x.marketRole)
       .map((x) => x.marketRole as MarketParticipantEicFunction);
 
@@ -178,18 +184,18 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   };
 
   readonly onRowDelete = (row: EditableMarketRoleRow) => {
-    const copy = [...this.rows];
+    const copy = [...this.dataSource.data];
     const index = copy.indexOf(row);
     copy.splice(index, 1);
-    this.rows = copy;
+    this.dataSource.data = copy;
 
     this.cd.detectChanges();
     this.raiseChanged();
   };
 
   readonly onRowAdd = () => {
-    this.rows = [
-      ...this.rows,
+    this.dataSource.data = [
+      ...this.dataSource.data,
       { existing: false, meteringPointTypes: this.availableMeteringPointTypes },
     ];
   };

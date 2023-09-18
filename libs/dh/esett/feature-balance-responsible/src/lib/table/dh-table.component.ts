@@ -20,6 +20,7 @@ import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
 
@@ -30,11 +31,20 @@ import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
   styles: [
     `
       :host {
-        display: block;
+        display: contents;
       }
     `,
   ],
-  imports: [NgIf, TranslocoDirective, TranslocoPipe, WATT_TABLE, WattEmptyStateComponent],
+  imports: [
+    NgIf,
+    TranslocoDirective,
+    TranslocoPipe,
+
+    WATT_TABLE,
+    WattEmptyStateComponent,
+    VaterFlexComponent,
+    VaterStackComponent,
+  ],
 })
 export class DhBalanceResponsibleTableComponent {
   columns: WattTableColumnDef<DhBalanceResponsibleMessage> = {

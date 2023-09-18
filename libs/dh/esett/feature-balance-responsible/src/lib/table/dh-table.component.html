@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'eSett.balanceResponsible'">
+<vater-flex fill="vertical" scrollable *transloco="let t; read: 'eSett.balanceResponsible'">
   <watt-table
     [dataSource]="tableDataSource"
     [columns]="columns"
@@ -66,21 +66,15 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  <ng-container *ngIf="!isLoading && tableDataSource.filteredData.length === 0">
-    <div class="watt-space-inset-m">
-      <watt-empty-state
-        *ngIf="!hasError"
-        icon="cancel"
-        [title]="t('emptyTitle')"
-        [message]="t('emptyMessage')"
-      />
-
-      <watt-empty-state
-        *ngIf="hasError"
-        icon="custom-power"
-        [title]="t('errorTitle')"
-        [message]="t('errorMessage')"
-      />
-    </div>
-  </ng-container>
-</ng-container>
+  <vater-stack
+    fill="vertical"
+    justify="center"
+    *ngIf="!isLoading && tableDataSource.filteredData.length === 0"
+  >
+    <watt-empty-state
+      [icon]="hasError ? 'custom-power' : 'cancel'"
+      [title]="hasError ? t('errorTitle') : t('emptyTitle')"
+      [message]="hasError ? t('errorMessage') : t('emptyMessage')"
+    />
+  </vater-stack>
+</vater-flex>
