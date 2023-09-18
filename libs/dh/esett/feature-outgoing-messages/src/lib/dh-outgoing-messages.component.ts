@@ -29,6 +29,12 @@ import { GetOutgoingMessagesDocument } from '@energinet-datahub/dh/shared/domain
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 
 import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
 import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
@@ -45,14 +51,8 @@ import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
         display: block;
       }
 
-      watt-card-title {
-        align-items: center;
-        display: flex;
-        gap: var(--watt-space-s);
-      }
-
-      watt-search {
-        margin-left: auto;
+      h3 {
+        margin: 0;
       }
 
       watt-paginator {
@@ -73,6 +73,10 @@ import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
     WattSearchComponent,
     WattPaginatorComponent,
     WattButtonComponent,
+    VaterFlexComponent,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    VaterUtilityDirective,
 
     DhOutgoingMessagesFiltersComponent,
     DhOutgoingMessagesTableComponent,
