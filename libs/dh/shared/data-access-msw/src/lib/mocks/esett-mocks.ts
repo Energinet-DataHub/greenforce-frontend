@@ -134,6 +134,27 @@ const detailedEsettExchangeEvents: EsettOutgoingMessage[] = [
     getDispatchDocumentLink,
     getResponseDocumentLink,
   },
+  {
+    __typename: 'EsettOutgoingMessage',
+    documentId: '390161911',
+    gridArea: {
+      __typename: 'GridAreaDto',
+      code: '806',
+      name: 'N2 A/S',
+      priceAreaCode: PriceAreaCode.Dk2,
+      id: '2',
+      validTo: null,
+      validFrom: new Date(),
+    },
+    processType: ExchangeEventProcessType.Aggregation,
+    documentStatus: DocumentStatus.AwaitingReply,
+    timeSeriesType: TimeSeriesType.Consumption,
+    created: new Date('2023-01-01T00:10:00.000Z'),
+    periodFrom: new Date('2023-01-01T00:00:00.000Z'),
+    periodTo: new Date('2023-03-01T00:00:00.000Z'),
+    getDispatchDocumentLink,
+    getResponseDocumentLink,
+  },
 ];
 
 export function eSettMocks(apiBase: string) {
@@ -179,6 +200,7 @@ function getOutgoingMessageByIdQuery() {
   return mockGetOutgoingMessageByIdQuery((req, res, ctx) => {
     const id = req.variables.documentId;
     const esettOutgoingMessageById = detailedEsettExchangeEvents.find((x) => x.documentId === id);
+
     return esettOutgoingMessageById
       ? res(ctx.delay(300), ctx.data({ __typename: 'Query', esettOutgoingMessageById }))
       : res(ctx.status(404));
