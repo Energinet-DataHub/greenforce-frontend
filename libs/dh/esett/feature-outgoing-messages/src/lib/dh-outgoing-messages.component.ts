@@ -24,7 +24,6 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { GetOutgoingMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -70,7 +69,6 @@ import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
     RxPush,
 
     WATT_CARD,
-    WattSearchComponent,
     WattPaginatorComponent,
     WattButtonComponent,
     VaterFlexComponent,
@@ -89,7 +87,6 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
   tableDataSource = new WattTableDataSource<DhOutgoingMessage>([]);
   totalCount = 0;
 
-  searchInput$ = new BehaviorSubject<string>('');
   private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
     pageIndex: 0,
     pageSize: 100,
