@@ -16,6 +16,15 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
+watt-drawer {
+  watt-tabs {
+    .mat-tab-group,
+    .mat-tab-body-wrapper {
+      height: auto;
+    }
+  }
+}
+
 watt-tabs {
   .mat-tab-group,
   .mat-tab-body-wrapper {
