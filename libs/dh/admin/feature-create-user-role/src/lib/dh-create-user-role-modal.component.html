@@ -35,6 +35,7 @@ limitations under the License.
       <form [formGroup]="userRoleForm" class="user-role-form">
         <!-- Eic Function -->
         <watt-dropdown
+          class="eic-function"
           [label]="t('steps.masterData.selectEicFunctionStatus')"
           formControlName="eicFunction"
           [options]="eicFunctionOptions"

@@ -35,6 +35,7 @@ limitations under the License.
     >
       <form [formGroup]="userInfo" class="userInfoForm">
         <watt-dropdown
+          class="actor"
           [label]="t('actor')"
           [formControl]="userInfo.controls.actorId"
           [options]="(actorOptions$ | push) ?? []"

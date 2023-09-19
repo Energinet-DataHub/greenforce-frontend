@@ -21,7 +21,6 @@ limitations under the License.
       <watt-text-field
         [(ngModel)]="this.searchCriteria.chargeIdOrName"
         name="idOrNAme"
-        wattInput
         type="text"
         [placeholder]="t('enterIdOrName')"
         [label]="t('idOrName')"
@@ -36,8 +35,7 @@ limitations under the License.
         [placeholder]="t('enterOwner')"
         [multiple]="true"
         [title]="this.searchCriteria.ownerIds"
-      >
-      </watt-dropdown>
+      />
 
       <!-- Type -->
       <watt-dropdown
@@ -48,8 +46,7 @@ limitations under the License.
         [placeholder]="t('selectChargeType')"
         [multiple]="true"
         [title]="this.searchCriteria.chargeTypes"
-      >
-      </watt-dropdown>
+      />
 
       <!-- Validity -->
       <watt-dropdown
@@ -60,18 +57,13 @@ limitations under the License.
         name="validity"
         [placeholder]="'charges.prices.validityOptions.Now' | transloco"
         [multiple]="false"
-      >
-      </watt-dropdown>
+      />
 
       <!-- Date valid from -->
-      <watt-datepicker [label]="t('dateValidFrom')" disabled>
-        [(ngModel)]="this.searchCriteria.dateTimeValidFrom"
-      </watt-datepicker>
+      <watt-datepicker [label]="t('dateValidFrom')" disabled="true" />
 
       <!-- Date to -->
-      <watt-datepicker [label]="t('dateValidTo')" disabled>
-        [(ngModel)]="this.searchCriteria.dateTimeValidTo"
-      </watt-datepicker>
+      <watt-datepicker [label]="t('dateValidTo')" disabled="true" />
     </div>
     <div class="buttons-container">
       <!-- Clear -->

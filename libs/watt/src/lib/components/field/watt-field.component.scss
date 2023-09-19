@@ -62,22 +62,33 @@ watt-field {
   --watt-border-color: var(--watt-on-light-low-emphasis);
   --watt-label-text-color: var(--watt-text-color);
 
+  width: 100%;
+  display: block;
+
   .label {
-    min-height: 19px;
+    min-height: 27px;
     display: block;
+    padding-bottom: var(--watt-space-s);
   }
 
   label {
     color: var(--watt-label-text-color);
+    display: block;
+    width: 100%;
+
+    .watt-field-wrapper.chip {
+      border: none;
+    }
 
     .watt-field-wrapper {
       @include watt.typography-watt-text-s;
       display: flex;
       min-height: 44px;
+      padding-left: var(--watt-space-s);
       width: 100%;
       border-radius: var(--watt-input-border-radius);
-      overflow: hidden;
       border: 1px solid var(--watt-border-color);
+      overflow: hidden;
       color: var(--watt-text-color);
       align-items: center;
       gap: var(--watt-space-m);

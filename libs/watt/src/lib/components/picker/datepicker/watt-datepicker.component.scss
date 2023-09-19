@@ -18,6 +18,10 @@
 
 watt-datepicker {
   @extend %datepicker;
+
+  watt-button .mat-button {
+    background: transparent;
+  }
 }
 
 .watt-datepicker-range__panel--month-only .mat-calendar-period-button {

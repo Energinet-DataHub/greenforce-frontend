@@ -54,16 +54,16 @@ limitations under the License.
       (focusout)="onFocusOut($event)"
     ></watt-button>
 
-    <mat-date-range-picker
-      [panelClass]="rangeMonthOnlyMode ? 'watt-datepicker-range__panel--month-only' : ''"
-      [startView]="rangeMonthOnlyMode ? 'multi-year' : 'month'"
-      (monthSelected)="onMonthSelected($event)"
-      #rangeDatepicker
-    ></mat-date-range-picker>
     <ng-content />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
   </watt-field>
+  <mat-date-range-picker
+    [panelClass]="rangeMonthOnlyMode ? 'watt-datepicker-range__panel--month-only' : ''"
+    [startView]="rangeMonthOnlyMode ? 'multi-year' : 'month'"
+    (monthSelected)="onMonthSelected($event)"
+    #rangeDatepicker
+  ></mat-date-range-picker>
 </ng-container>
 
 <ng-template #singleInputTemplate>
@@ -92,13 +92,13 @@ limitations under the License.
       (focusout)="onFocusOut($event)"
     ></watt-button>
 
-    <mat-datepicker
-      #singleDatepicker
-      panelClass="watt-datepicker-single__panel"
-      [dateClass]="dateClass"
-    ></mat-datepicker>
     <ng-content />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
   </watt-field>
+  <mat-datepicker
+    #singleDatepicker
+    panelClass="watt-datepicker-single__panel"
+    [dateClass]="dateClass"
+  ></mat-datepicker>
 </ng-template>

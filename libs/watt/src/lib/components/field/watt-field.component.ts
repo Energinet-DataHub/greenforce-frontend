@@ -14,19 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
+import { NgIf, NgClass } from '@angular/common';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'watt-field',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, NgClass],
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./watt-field.component.scss'],
   template: `
     <label>
       <span *ngIf="!chipMode" class="label">{{ label }}</span>
-      <div class="watt-field-wrapper">
+      <div class="watt-field-wrapper" [ngClass]="{ chip: chipMode }">
         <ng-content />
       </div>
       <ng-content select="watt-field-hint" />

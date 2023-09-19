@@ -19,6 +19,7 @@
 
 %datepicker {
   watt-button[variant="icon"] {
+    margin-left: auto;
     .watt-button--icon {
       // 2px to adjust for the focus border on the button itself
       height: 42px;
@@ -26,24 +27,18 @@
   }
 
   display: flex;
-  input {
-    border: none;
-    outline: none;
-  }
+  align-items: center;
+  font-family: watt.$typography-monospace-font-family;
 
+  input.mat-date-range-input-inner,
   input.mat-mdc-input-element {
-    padding-left: var(--watt-space-m);
-  }
-
-  input.mat-mdc-input-element,
-  input.mat-start-date,
-  input.mat-end-date {
-    font-family: watt.$typography-monospace-font-family;
+    border: none;
+    caret-color: var(--watt-color-neutral-black);
     letter-spacing: -0.03em;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
     background-clip: text;
     color: transparent;
-    text-transform: none;
-    caret-color: var(--watt-color-neutral-grey-900) !important;
 
     &:disabled {
       background-image: none !important;
@@ -53,7 +48,6 @@
   // The following style fixes alignment on smaller devices / iOS / Safari
   .mat-date-range-input-container {
     align-items: initial;
-    padding: 0 var(--watt-space-m);
   }
 
   .mat-date-range-input-start-wrapper,
@@ -72,9 +66,10 @@
     opacity: 1 !important;
   }
 
-  .mat-date-range-input-inner::placeholder,
+  .mat-date-range-input-inner::-webkit-input-placeholder,
   .mat-date-range-input-hide-placeholders
-    .mat-date-range-input-inner::input-placeholder {
+    .mat-date-range-input-inner::-webkit-input-placeholder {
     color: $placeholder-color !important;
+    -webkit-text-fill-color: $placeholder-color;
   }
 }

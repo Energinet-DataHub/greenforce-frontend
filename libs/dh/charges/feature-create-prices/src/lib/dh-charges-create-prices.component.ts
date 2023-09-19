@@ -35,6 +35,7 @@ import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldComponent } from '@energinet-datahub/watt/field';
+import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 import {
   DhChargesDataAccessApiStore,
   DhMarketParticipantDataAccessApiStore,
@@ -72,6 +73,7 @@ import { add } from 'date-fns';
     WattFieldErrorComponent,
     WattTextFieldComponent,
     WattFieldComponent,
+    WattTextAreaFieldComponent,
   ],
 })
 export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {

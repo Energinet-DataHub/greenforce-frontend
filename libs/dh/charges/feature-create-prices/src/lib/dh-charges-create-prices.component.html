@@ -92,21 +92,19 @@ limitations under the License.
           </watt-dropdown>
 
           <!-- Price Description -->
-          <watt-field class="description" [label]="t('createPrices.priceDescription')">
-            <textarea formControlName="description"></textarea>
+          <watt-textarea-field class="description" formControlName="description">
             <watt-field-error *ngIf="charge.controls['description'].hasError('required')">
               {{ "shared.fieldRequiredErrorText" | transloco }}
             </watt-field-error>
             <watt-field-error *ngIf="charge.controls['description'].hasError('maxlength')">
               {{ "shared.fieldRequiredErrorText" | transloco }}
             </watt-field-error>
-          </watt-field>
-
+          </watt-textarea-field>
           <!-- Resolution -->
 
           <watt-dropdown
             class="resolution"
-            label="{{ t('createPrices.resolution') }} *"
+            label="{{ t('resolution') }} *"
             formControlName="resolution"
             [options]="resolutionOptions"
             name="validityOption"

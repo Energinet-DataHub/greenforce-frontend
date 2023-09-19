@@ -24,6 +24,10 @@
     max-width: 720px;
     gap: var(--watt-space-m);
 
+    .actor {
+      flex-basis: 100%;
+    }
+
     .firstname,
     .lastname,
     .phoneNumber {
@@ -38,6 +42,10 @@
       padding-right: var(--watt-space-s);
       color: var(--watt-color-neutral-grey-600);
       display: block;
+    }
+
+    watt-dropdown {
+      width: 200px;
     }
   }
 
