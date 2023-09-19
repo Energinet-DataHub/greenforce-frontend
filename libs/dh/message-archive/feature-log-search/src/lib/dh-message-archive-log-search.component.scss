@@ -25,11 +25,10 @@
   align-items: center;
   box-shadow: var(--watt-bottom-box-shadow);
   background-color: var(--watt-color-neutral-white);
-  .mat-checkbox {
-    .mat-checkbox-layout {
-      text-transform: initial;
-      font-weight: initial;
-    }
+
+  watt-checkbox {
+    height: 31px;
+    align-self: flex-end;
   }
 }
 
