@@ -39,8 +39,6 @@ import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { Subject, takeUntil, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
 import { EoExistingTransferAgreement } from '../eo-transfers.store';
 import { isToday } from 'date-fns';
@@ -52,7 +50,6 @@ import { isToday } from 'date-fns';
     CommonModule,
     ReactiveFormsModule,
     EoTransfersTimepickerComponent,
-    WATT_FORM_FIELD,
     WattDatepickerComponent,
   ],
   styles: [
@@ -128,14 +125,7 @@ import { isToday } from 'date-fns';
   ],
   template: `
     <ng-container [formGroup]="form">
-      <watt-form-field>
-        <watt-datepicker
-          #endDatePicker
-          formControlName="date"
-          [min]="min"
-          [dateClass]="dateClass"
-        />
-      </watt-form-field>
+      <watt-datepicker #endDatePicker formControlName="date" [min]="min" [dateClass]="dateClass" />
       <eo-transfers-timepicker
         formControlName="time"
         [disabledHours]="disabledHours"

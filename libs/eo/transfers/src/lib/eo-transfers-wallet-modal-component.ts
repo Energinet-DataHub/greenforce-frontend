@@ -18,11 +18,10 @@ import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation, inject } fr
 import { NgIf } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 
 import { EoTransfersStore } from './eo-transfers.store';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -32,12 +31,11 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
   imports: [
     NgIf,
     RxPush,
-    WATT_FORM_FIELD,
     WATT_MODAL,
     WattButtonComponent,
     WattCopyToClipboardDirective,
-    WattInputDirective,
     WattEmptyStateComponent,
+    WattTextFieldComponent,
   ],
   standalone: true,
   template: `
@@ -60,11 +58,12 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
           <strong>The key is one-time use only</strong>
         </p>
         <div style="display: flex; align-items: center; margin: var(--watt-space-xl) 0;">
-          <watt-form-field>
-            <watt-label>KEY</watt-label>
-            <input wattInput type="text" [value]="(walletDepositEndpoint$ | push) || ''" #key />
-          </watt-form-field>
-          <watt-button variant="text" icon="contentCopy" [wattCopyToClipboard]="key.value"
+          <watt-text-field label="KEY" [value]="(walletDepositEndpoint$ | push) || ''" #key />
+          <watt-button
+            style="margin-top:28px;"
+            variant="text"
+            icon="contentCopy"
+            [wattCopyToClipboard]="key.value"
             >Copy key</watt-button
           >
         </div>
