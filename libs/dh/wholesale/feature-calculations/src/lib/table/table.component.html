@@ -14,33 +14,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<vater-flex fill="vertical" scrollable>
+<watt-data-table vater inset="m" *transloco="let t; read: 'wholesale.calculations'" [error]="error">
+  <h3>{{ t("headline") }}</h3>
+  <watt-button variant="secondary" icon="plus" (click)="create.emit()">
+    {{ t("new") }}
+  </watt-button>
+  <watt-data-filters>
+    <dh-calculations-filters [initial]="filter$.value" (filter)="filter$.next($event)" />
+  </watt-data-filters>
   <watt-table
-    *transloco="let t; read: 'wholesale.calculations'"
+    *transloco="let translateHeader; read: 'wholesale.calculations.columns'"
     [dataSource]="dataSource"
     [columns]="columns"
     [resolveHeader]="translateHeader"
-    [activeRow]="selected"
+    [activeRow]="getActiveRow()"
     [loading]="loading"
     sortBy="executionTimeStart"
     sortDirection="desc"
     (rowClick)="selectedRow.emit($event)"
   >
-    <!-- Started By -->
-    <ng-container *wattTableCell="columns.startedBy; let calculation">
-      {{ calculation.createdByUserName | dhEmDashFallback }}
-    </ng-container>
-
-    <!-- Period From -->
-    <ng-container *wattTableCell="columns.periodFrom; let calculation">
-      {{ calculation.period.start | wattDate }}
-    </ng-container>
-
-    <!-- Period To -->
-    <ng-container *wattTableCell="columns.periodTo; let calculation">
-      {{ calculation.period.end | wattDate }}
-    </ng-container>
-
     <!-- Execution Time -->
     <ng-container *wattTableCell="columns.executionTime; let calculation">
       <div>
@@ -61,18 +53,4 @@ limitations under the License.
       </watt-badge>
     </ng-container>
   </watt-table>
-
-  <!-- No calculations found -->
-  <vater-stack
-    fill="vertical"
-    justify="center"
-    *ngIf="!loading && dataSource.filteredData.length === 0"
-  >
-    <watt-empty-state
-      *transloco="let t; read: 'wholesale.calculations'"
-      [icon]="error ? 'custom-power' : 'cancel'"
-      [title]="error ? t('errorTitle') : t('emptyTitle')"
-      [message]="error ? t('errorMessage') : t('emptyMessage')"
-    />
-  </vater-stack>
-</vater-flex>
+</watt-data-table>
