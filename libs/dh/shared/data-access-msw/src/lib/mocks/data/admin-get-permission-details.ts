@@ -18,8 +18,8 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
 import parseISO from 'date-fns/parseISO';
 
 export const adminPermissionDetailsMock: graphql.GetPermissionDetailsQuery = {
-  __typename: 'GraphQLQuery',
-  permission: {
+  __typename: 'Query',
+  permissionById: {
     __typename: 'Permission',
     id: 1,
     name: 'organizations:view',
@@ -28,7 +28,7 @@ export const adminPermissionDetailsMock: graphql.GetPermissionDetailsQuery = {
     assignableTo: [graphql.EicFunction.BalanceResponsibleParty, graphql.EicFunction.BillingAgent],
     userRoles: [
       {
-        __typename: 'UserRole',
+        __typename: 'UserRoleDto',
         id: '2ca09c29-ffc9-4155-d925-08db05f27124',
         name: 'Test role 1',
         description: 'Description 1',

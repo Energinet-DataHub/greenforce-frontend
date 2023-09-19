@@ -106,7 +106,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   }
 
   refresh(): void {
-    this.query.refetch({ searchTerm: this.searchTerm || undefined });
+    this.query.refetch({ searchTerm: this.searchTerm ?? '' });
   }
 
   exportAsCsv(): void {

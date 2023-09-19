@@ -18,7 +18,6 @@ limitations under the License.
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
     <ProjectGuid>{32D65373-1631-4219-9152-8C4B2E2E937B}</ProjectGuid>
     <AssemblyName>Energinet.DataHub.WebApi.Tests</AssemblyName>
@@ -30,6 +29,8 @@ limitations under the License.
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CookieCrumble" Version="13.5.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="WireMock.Net" Version="1.5.13" />
     <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="4.0.2" />
     <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="4.0.2" />

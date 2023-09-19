@@ -33,18 +33,18 @@ limitations under the License.
     >
   </watt-drawer-actions>
 
-  <watt-drawer-content *ngIf="drawer.isOpen">
+  <watt-drawer-content *ngIf="drawer.isOpen && selectedPermission">
     <watt-tabs>
       <watt-tab [label]="t('information')">
         <watt-card variant="solid">
           <watt-description-list variant="stack">
             <watt-description-list-item
               [label]="t('permissionName')"
-              [value]="selectedPermission?.name"
+              [value]="selectedPermission.name"
             />
             <watt-description-list-item
               [label]="t('permissionDescription')"
-              [value]="selectedPermission?.description"
+              [value]="selectedPermission.description"
             />
           </watt-description-list>
         </watt-card>

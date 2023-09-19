@@ -20,11 +20,9 @@ import { RxPush } from '@rx-angular/template/push';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import {
   VaterFlexComponent,
-  VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
@@ -61,11 +59,9 @@ import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
     RxPush,
 
     WATT_CARD,
-    WattSearchComponent,
     WattPaginatorComponent,
     VaterFlexComponent,
     VaterStackComponent,
-    VaterSpacerComponent,
     VaterUtilityDirective,
 
     DhBalanceResponsibleTableComponent,

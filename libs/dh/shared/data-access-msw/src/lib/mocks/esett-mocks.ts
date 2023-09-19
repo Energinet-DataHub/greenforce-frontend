@@ -18,17 +18,17 @@ import { rest } from 'msw';
 import {
   DocumentStatus,
   ExchangeEventProcessType,
-  ExchangeEventSearchResultType,
-  ESettOutgoingMessageType,
+  ExchangeEventSearchResult,
+  EsettOutgoingMessage,
   TimeSeriesType,
   mockGetOutgoingMessagesQuery,
   mockGetOutgoingMessageByIdQuery,
   PriceAreaCode,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-const exchangeEvents: ExchangeEventSearchResultType[] = [
+const exchangeEvents: ExchangeEventSearchResult[] = [
   {
-    __typename: 'ExchangeEventSearchResultType',
+    __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
     documentId: '390161908',
     gridAreaCode: '805',
@@ -37,7 +37,7 @@ const exchangeEvents: ExchangeEventSearchResultType[] = [
     timeSeriesType: TimeSeriesType.Consumption,
   },
   {
-    __typename: 'ExchangeEventSearchResultType',
+    __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
     documentId: '390161909',
     gridAreaCode: '806',
@@ -46,7 +46,7 @@ const exchangeEvents: ExchangeEventSearchResultType[] = [
     timeSeriesType: TimeSeriesType.Production,
   },
   {
-    __typename: 'ExchangeEventSearchResultType',
+    __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
     documentId: '390161910',
     gridAreaCode: '806',
@@ -55,7 +55,7 @@ const exchangeEvents: ExchangeEventSearchResultType[] = [
     timeSeriesType: TimeSeriesType.Production,
   },
   {
-    __typename: 'ExchangeEventSearchResultType',
+    __typename: 'ExchangeEventSearchResult',
     created: new Date(),
     documentId: '390161911',
     gridAreaCode: '806',
@@ -70,15 +70,15 @@ const getDispatchDocumentLink =
 const getResponseDocumentLink =
   'https://localhost:5001/v1/EsettExchange/ResponseDocument?documentId=390254675-3';
 
-const detailedEsettExchangeEvents: ESettOutgoingMessageType[] = [
+const detailedEsettExchangeEvents: EsettOutgoingMessage[] = [
   {
-    __typename: 'ESettOutgoingMessageType',
+    __typename: 'EsettOutgoingMessage',
     documentId: '390161908',
     gridArea: {
-      __typename: 'GridArea',
+      __typename: 'GridAreaDto',
       code: '805',
       name: 'N1 A/S',
-      priceAreaCode: PriceAreaCode.Dk_1,
+      priceAreaCode: PriceAreaCode.Dk1,
       id: '1',
       validTo: null,
       validFrom: new Date(),
@@ -93,13 +93,13 @@ const detailedEsettExchangeEvents: ESettOutgoingMessageType[] = [
     getResponseDocumentLink,
   },
   {
-    __typename: 'ESettOutgoingMessageType',
+    __typename: 'EsettOutgoingMessage',
     documentId: '390161909',
     gridArea: {
-      __typename: 'GridArea',
+      __typename: 'GridAreaDto',
       code: '806',
       name: 'N2 A/S',
-      priceAreaCode: PriceAreaCode.Dk_2,
+      priceAreaCode: PriceAreaCode.Dk2,
       id: '2',
       validTo: null,
       validFrom: new Date(),
@@ -114,13 +114,13 @@ const detailedEsettExchangeEvents: ESettOutgoingMessageType[] = [
     getResponseDocumentLink,
   },
   {
-    __typename: 'ESettOutgoingMessageType',
+    __typename: 'EsettOutgoingMessage',
     documentId: '390161910',
     gridArea: {
-      __typename: 'GridArea',
+      __typename: 'GridAreaDto',
       code: '806',
       name: 'N2 A/S',
-      priceAreaCode: PriceAreaCode.Dk_2,
+      priceAreaCode: PriceAreaCode.Dk2,
       id: '2',
       validTo: null,
       validFrom: new Date(),
@@ -131,6 +131,27 @@ const detailedEsettExchangeEvents: ESettOutgoingMessageType[] = [
     created: new Date('2022-01-01T00:10:00.000Z'),
     periodFrom: new Date('2022-01-01T00:00:00.000Z'),
     periodTo: new Date('2022-03-01T00:00:00.000Z'),
+    getDispatchDocumentLink,
+    getResponseDocumentLink,
+  },
+  {
+    __typename: 'EsettOutgoingMessage',
+    documentId: '390161911',
+    gridArea: {
+      __typename: 'GridAreaDto',
+      code: '806',
+      name: 'N2 A/S',
+      priceAreaCode: PriceAreaCode.Dk2,
+      id: '2',
+      validTo: null,
+      validFrom: new Date(),
+    },
+    processType: ExchangeEventProcessType.Aggregation,
+    documentStatus: DocumentStatus.AwaitingReply,
+    timeSeriesType: TimeSeriesType.Consumption,
+    created: new Date('2023-01-01T00:10:00.000Z'),
+    periodFrom: new Date('2023-01-01T00:00:00.000Z'),
+    periodTo: new Date('2023-03-01T00:00:00.000Z'),
     getDispatchDocumentLink,
     getResponseDocumentLink,
   },
@@ -177,15 +198,12 @@ function getDispatchDocument(apiBase: string) {
 
 function getOutgoingMessageByIdQuery() {
   return mockGetOutgoingMessageByIdQuery((req, res, ctx) => {
-    const documentId = req.variables.documentId;
-    return res(
-      ctx.delay(300),
-      ctx.data({
-        __typename: 'GraphQLQuery',
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        eSettOutgoingMessage: detailedEsettExchangeEvents.find((x) => x.documentId === documentId)!,
-      })
-    );
+    const id = req.variables.documentId;
+    const esettOutgoingMessageById = detailedEsettExchangeEvents.find((x) => x.documentId === id);
+
+    return esettOutgoingMessageById
+      ? res(ctx.delay(300), ctx.data({ __typename: 'Query', esettOutgoingMessageById }))
+      : res(ctx.status(404));
   });
 }
 
@@ -194,9 +212,9 @@ function getActorsForSettlementReportQuery() {
     return res(
       ctx.delay(300),
       ctx.data({
-        __typename: 'GraphQLQuery',
+        __typename: 'Query',
         esettExchangeEvents: {
-          __typename: 'ExchangeEventSearchResponseType',
+          __typename: 'ExchangeEventSearchResponse',
           totalCount: exchangeEvents.length,
           items: exchangeEvents,
         },

@@ -38,7 +38,7 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 type UserRole = ResultOf<
   typeof graphql.GetPermissionDetailsDocument
->['permission']['userRoles'][number];
+>['permissionById']['userRoles'][number];
 
 @Component({
   selector: 'dh-admin-permission-roles',
@@ -71,7 +71,7 @@ type UserRole = ResultOf<
   ],
 })
 export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() selectedPermission: PermissionDto | null = null;
+  @Input({ required: true }) selectedPermission!: PermissionDto;
   private apollo = inject(Apollo);
 
   subscription!: Subscription;
@@ -88,7 +88,7 @@ export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDes
   private getPermissionQuery?: QueryRef<
     graphql.GetPermissionDetailsQuery,
     {
-      id: string;
+      id: number;
     }
   >;
 
@@ -97,12 +97,12 @@ export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDes
       useInitialLoading: true,
       notifyOnNetworkStatusChange: true,
       query: graphql.GetPermissionDetailsDocument,
-      variables: { id: this.selectedPermission?.id.toString() ?? '' },
+      variables: { id: this.selectedPermission.id },
     });
 
     this.subscription = this.getPermissionQuery.valueChanges.subscribe({
       next: (result) => {
-        this.userRoles = result.data?.permission?.userRoles ?? [];
+        this.userRoles = result.data?.permissionById?.userRoles ?? [];
         this.loading = result.loading;
         this.error = result.error;
         this.dataSource.data = this.userRoles;
