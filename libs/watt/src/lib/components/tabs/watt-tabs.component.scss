@@ -58,7 +58,7 @@ watt-tabs {
   }
 
   .mat-tab-body-wrapper {
-    @include watt.space-inset-l;
+    padding: var(--watt-space-ml);
   }
 
   .mat-tab-body.mat-tab-body-active,

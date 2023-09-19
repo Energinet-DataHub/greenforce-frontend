@@ -92,7 +92,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
         <vater-flex scrollable fill="vertical">
           <ng-content select="watt-table" />
           <div
-            *ngIf="!loading && this.table.dataSource.filteredData.length === 0"
+            *ngIf="!table.loading && this.table.dataSource.filteredData.length === 0"
             class="watt-data-table--empty-state"
           >
             <watt-empty-state
@@ -109,7 +109,6 @@ import { WattDataIntlService } from './watt-data-intl.service';
 })
 export class WattDataTableComponent {
   @Input() error: unknown;
-  @Input() loading = false;
   @Input() enableSearch = true;
   @Input() count?: number;
 
