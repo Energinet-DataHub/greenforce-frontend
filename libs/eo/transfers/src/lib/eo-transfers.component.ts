@@ -47,7 +47,7 @@ import { EoTransfersService } from './eo-transfers.service';
     RxPush,
     EoBetaMessageComponent,
     WattIconComponent,
-    VaterStackComponent
+    VaterStackComponent,
   ],
   standalone: true,
   template: `
@@ -64,7 +64,8 @@ import { EoTransfersService } from './eo-transfers.service';
 
     <vater-stack *ngIf="showAutomationError() && (transfers$ | push).length > 0">
       <p style="display: flex; gap: var(--watt-space-xs);">
-        <watt-icon name="warning" fill />We are currently experiencing an issue handling certificates<br />
+        <watt-icon name="warning" fill />We are currently experiencing an issue handling
+        certificates<br />
       </p>
       <small>Once we resolve the issue, the outstanding transfers will update automatically.</small>
     </vater-stack>
@@ -95,7 +96,7 @@ export class EoTransfersComponent implements OnInit {
       next: (x) => {
         x ? this.showAutomationError.set(true) : this.showAutomationError.set(false);
       },
-      error: () => this.showAutomationError.set(true)
-    })
+      error: () => this.showAutomationError.set(true),
+    });
   }
 }

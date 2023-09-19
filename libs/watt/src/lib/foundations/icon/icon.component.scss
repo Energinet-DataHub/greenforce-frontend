@@ -44,8 +44,8 @@ watt-icon {
       }
 
       .material-symbols-sharp {
-        font-variation-settings: "FILL" var(--watt-icon-fill), "wght" $weight, "GRAD" $grade,
-          "opsz" $opticalSize;
+        font-variation-settings: "FILL" var(--watt-icon-fill), "wght" $weight,
+          "GRAD" $grade, "opsz" $opticalSize;
       }
     }
   }

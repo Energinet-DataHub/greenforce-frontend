@@ -110,8 +110,8 @@ export class EoTransfersService {
   }
 
   transferAutomationHasError(): Observable<boolean> {
-    return this.http.get<{status: TransferAutomationStatus}>(`${this.#apiBase}/transfer-automation/status`).pipe(
-      map((response) => response.status === TransferAutomationStatus.Error)
-    );
+    return this.http
+      .get<{ status: TransferAutomationStatus }>(`${this.#apiBase}/transfer-automation/status`)
+      .pipe(map((response) => response.status === TransferAutomationStatus.Error));
   }
 }
