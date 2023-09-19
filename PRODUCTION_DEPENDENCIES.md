@@ -18,7 +18,7 @@
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.2 | MIT |
 | [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 3.0.2 | MIT |
 | [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.12 | MIT |
-| [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.9 | MIT |
+| [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
 | [@ngrx/component-store](https://github.com/ngrx/platform) | 16.2.0 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.7 | MIT |
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 16.0.0 | MIT |
