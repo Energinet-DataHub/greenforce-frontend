@@ -16,10 +16,18 @@
  */
 @use "./watt-icon-variables" as variables;
 
+:root {
+  --watt-icon-fill: 0;
+}
+
 watt-icon {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &[fill] {
+    --watt-icon-fill: 1;
+  }
 
   @each $name, $settings in variables.$settings {
     $size: map-get($settings, size);
@@ -36,8 +44,8 @@ watt-icon {
       }
 
       .material-symbols-sharp {
-        font-variation-settings: "FILL" 0, "wght" $weight, "GRAD" $grade,
-          "opsz" $opticalSize;
+        font-variation-settings: "FILL" var(--watt-icon-fill), "wght" $weight,
+          "GRAD" $grade, "opsz" $opticalSize;
       }
     }
   }
