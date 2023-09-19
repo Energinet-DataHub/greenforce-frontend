@@ -14,11 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, inject, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  inject,
+  Output,
+  EventEmitter,
+  Input,
+  effect,
+  signal,
+  OnChanges,
+  Injector,
+  AfterViewInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule } from '@ngneat/transloco';
-import { Subscription, takeUntil } from 'rxjs';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -54,43 +65,56 @@ import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.compo
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
 })
-export class DhCalculationsDetailsComponent {
-  @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
+export class DhCalculationsDetailsComponent implements OnChanges, AfterViewInit {
+  private apollo = inject(Apollo);
+  private injector = inject(Injector);
 
   @Output() closed = new EventEmitter<void>();
+  @Input() id?: string;
 
-  private apollo = inject(Apollo);
-  private subscription?: Subscription;
+  @ViewChild(WattDrawerComponent)
+  drawer!: WattDrawerComponent;
 
-  id?: string;
   calculation?: Calculation;
   error = false;
   loading = false;
 
-  open(id: string): void {
-    this.id = id;
-    this.drawer.open();
-    this.subscription?.unsubscribe();
-    this.subscription = this.apollo
-      .watchQuery({
-        errorPolicy: 'all',
-        returnPartialData: true,
-        useInitialLoading: true,
-        notifyOnNetworkStatusChange: true,
-        query: GetCalculationByIdDocument,
-        variables: { id },
-      })
-      .valueChanges.pipe(takeUntil(this.closed))
-      .subscribe({
-        next: (result) => {
-          this.calculation = result.data?.calculationById ?? undefined;
-          this.loading = result.loading;
-          this.error = !!result.errors;
-        },
-        error: (error) => {
-          this.error = error;
-          this.loading = false;
-        },
-      });
+  // This is required until we have real signal based components in Angular
+  calculationId = signal<string | undefined>(undefined);
+  ngOnChanges() {
+    this.calculationId.set(this.id);
+  }
+
+  ngAfterViewInit() {
+    effect(
+      () => {
+        const id = this.calculationId();
+        if (!id) return;
+        this.drawer.open();
+        const subscription = this.apollo
+          .watchQuery({
+            errorPolicy: 'all',
+            returnPartialData: true,
+            useInitialLoading: true,
+            notifyOnNetworkStatusChange: true,
+            query: GetCalculationByIdDocument,
+            variables: { id },
+          })
+          .valueChanges.subscribe({
+            next: (result) => {
+              this.calculation = result.data?.calculationById ?? undefined;
+              this.loading = result.loading;
+              this.error = !!result.errors;
+            },
+            error: (error) => {
+              this.error = error;
+              this.loading = false;
+            },
+          });
+
+        return () => subscription.unsubscribe();
+      },
+      { injector: this.injector }
+    );
   }
 }
