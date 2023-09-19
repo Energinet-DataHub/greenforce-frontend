@@ -24,7 +24,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./watt-field.component.scss'],
   template: `
-    <label>
+    <label [attr.for]="id ? id : null">
       <span *ngIf="!chipMode" class="label">{{ label }}</span>
       <div class="watt-field-wrapper" [ngClass]="{ chip: chipMode }">
         <ng-content />
@@ -36,5 +36,6 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 })
 export class WattFieldComponent {
   @Input() label!: string;
+  @Input() id!: string;
   @Input() chipMode = false;
 }

@@ -25,7 +25,6 @@ import {
   Optional,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
 import { Subject } from 'rxjs';
 
 import { WattInputMaskService } from './watt-input-mask.service';
@@ -34,9 +33,7 @@ import { WattDateRange } from '../../../utils/date';
 import { WattRangeInputService } from './watt-range-input.service';
 
 @Directive()
-export abstract class WattPickerBase
-  implements AfterViewInit, OnDestroy, ControlValueAccessor, MatFormFieldControl<WattDateRange>
-{
+export abstract class WattPickerBase implements AfterViewInit, OnDestroy, ControlValueAccessor {
   /**
    * @ignore
    */

@@ -23,7 +23,6 @@ import userEvent from '@testing-library/user-event';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 import { WattTimepickerComponent } from './';
-import { WATT_FORM_FIELD } from '../../form-field';
 import { WattDateRange } from '../../../utils/date';
 import { danishDatetimeProviders } from '../../../configuration/watt-danish-datetime.providers';
 
@@ -49,13 +48,7 @@ describe(WattTimepickerComponent, () => {
 
     const { fixture } = await render(TestComponent, {
       providers: [danishLocalProviders, danishDatetimeProviders],
-      imports: [
-        WattTimepickerComponent,
-        ReactiveFormsModule,
-        FormsModule,
-        WATT_FORM_FIELD,
-        BrowserAnimationsModule,
-      ],
+      imports: [WattTimepickerComponent, ReactiveFormsModule, FormsModule, BrowserAnimationsModule],
     });
 
     const [startTimeInput, endTimeInput] = screen.queryAllByRole('textbox') as HTMLInputElement[];
@@ -69,13 +62,11 @@ describe(WattTimepickerComponent, () => {
 
   describe('with reactive forms', () => {
     const template = `
-<watt-form-field>
   <watt-timepicker
     [formControl]="timeRangeControl"
     [range]="true"
     sliderLabel="Adjust time range"
-  ></watt-timepicker>
-</watt-form-field>`;
+  ></watt-timepicker>`;
 
     commonTests(template);
 

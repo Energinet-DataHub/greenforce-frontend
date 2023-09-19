@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *ngIf="!range; else rangeTemplate">
-  <watt-field [label]="label">
+  <watt-field [id]="id" [label]="label">
     <input
       matInput
       aria-label="time-input"
@@ -33,7 +33,7 @@ limitations under the License.
 </ng-container>
 
 <ng-template #rangeTemplate>
-  <watt-field [label]="label">
+  <watt-field [id]="id" [label]="label">
     <mat-date-range-input
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
