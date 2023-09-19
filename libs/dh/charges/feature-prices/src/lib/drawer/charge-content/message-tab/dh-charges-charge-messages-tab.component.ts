@@ -28,7 +28,6 @@ import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { Subject, takeUntil } from 'rxjs';
 import { DhChargeMessagesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 import {
@@ -48,6 +47,7 @@ import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 import { DhDrawerDatepickerComponent } from '../drawer-datepicker/dh-drawer-datepicker.component';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { DhChargesPricesDrawerService } from '../../dh-charges-prices-drawer.service';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 @Component({
   standalone: true,
@@ -62,7 +62,7 @@ import { DhChargesPricesDrawerService } from '../../dh-charges-prices-drawer.ser
     WattTooltipDirective,
     WattSpinnerComponent,
     WattDatePipe,
-    DhSharedUiPaginatorComponent,
+    WattPaginatorComponent,
     DhDrawerDatepickerComponent,
   ],
   selector: 'dh-charges-charge-messages-tab',
@@ -72,8 +72,8 @@ import { DhChargesPricesDrawerService } from '../../dh-charges-prices-drawer.ser
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhChargesChargeMessagesTabComponent implements OnInit, OnChanges, OnDestroy {
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
+  @ViewChild(WattPaginatorComponent)
+  paginator!: WattPaginatorComponent<unknown>;
 
   @ViewChild(DhDrawerDatepickerComponent)
   drawerDatepickerComponent!: DhDrawerDatepickerComponent;

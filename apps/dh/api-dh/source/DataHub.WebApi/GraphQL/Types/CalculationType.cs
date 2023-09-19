@@ -12,71 +12,50 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Linq;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using GraphQL.DataLoader;
-using GraphQL.MicrosoftDI;
-using GraphQL.Types;
+using HotChocolate.Types;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class CalculationType : ObjectGraphType<BatchDto>
+    public class CalculationType : ObjectType<BatchDto>
     {
-        public CalculationType(IDataLoaderContextAccessor accessor)
+        protected override void Configure(IObjectTypeDescriptor<BatchDto> descriptor)
         {
-            Name = "Calculation";
-            Field(x => x.BatchId).Name("id").Description("The id of the calculation.");
-            Field(x => x.ExecutionState).Description("The execution state.");
-            Field(x => x.ExecutionTimeStart, nullable: true).Description("The execution start time.");
-            Field(x => x.ExecutionTimeEnd, nullable: true).Description("The execution end time.");
-            Field(x => x.ProcessType).Description("The process type.");
+            descriptor
+                .Name("Calculation")
+                .Description("An immutable calculation.");
 
-            Field<NonNullGraphType<StringGraphType>>("createdByUserName")
-                .Resolve()
-                .WithScope()
-                .WithService<IMarketParticipantClient>()
-                .Resolve((context, markpart) =>
+            descriptor
+                .Field(x => x.BatchId)
+                .Name("id");
+
+            descriptor
+                .Ignore(x => x.PeriodStart)
+                .Ignore(x => x.PeriodEnd)
+                .Field(f => new Interval(Instant.FromDateTimeOffset(f.PeriodStart), Instant.FromDateTimeOffset(f.PeriodEnd)))
+                .Name("period");
+
+            descriptor
+                .Field(f => f.CreatedByUserId)
+                .Name("createdByUserName")
+                .ResolveWith<WholesaleResolvers>(c => c.GetCreatedByUserNameAsync(default!, default!));
+
+            descriptor
+               .Field(f => f.GridAreaCodes)
+               .Name("gridAreas")
+               .ResolveWith<WholesaleResolvers>(c => c.GetGridAreasAsync(default!, default!));
+
+            descriptor
+                .Field("statusType")
+                .Resolve(context => context.Parent<BatchDto>().ExecutionState switch
                 {
-                    var loader = accessor.Context!.GetOrAddLoader("SearchUsersAsync", () => markpart.SearchUsersAsync(
-                        1,
-                        int.MaxValue,
-                        UserOverviewSortProperty.Email,
-                        SortDirection.Asc,
-                        new UserOverviewFilterDto(null, null, Enumerable.Empty<Guid>(), Enumerable.Empty<UserStatus>())));
-                    var result = loader.LoadAsync();
-                    return result.Then(users => users.Users.FirstOrDefault(u => u.Id == context.Source.CreatedByUserId)).Then(u => u?.Email ?? string.Empty);
+                    BatchState.Pending => ProcessStatus.Warning,
+                    BatchState.Completed => ProcessStatus.Success,
+                    BatchState.Failed => ProcessStatus.Danger,
+                    BatchState.Executing => ProcessStatus.Info,
+                    _ => ProcessStatus.Info,
                 });
-
-            // TODO: Can this be optimized in case only the grid area code is queried?
-            Field<NonNullGraphType<ListGraphType<NonNullGraphType<GridAreaType>>>>("gridAreas")
-               .Resolve()
-               .WithScope()
-               .WithService<IMarketParticipantClient>()
-               .Resolve((context, client) =>
-               {
-                   var loader = accessor.Context!.GetOrAddLoader("GetGridAreasAsync", () => client.GetGridAreasAsync());
-                   var result = loader.LoadAsync();
-                   return result.Then(gridAreas => gridAreas.Where(gridArea => context.Source.GridAreaCodes.Contains(gridArea.Code)));
-               });
-
-            Field<NonNullGraphType<StatusTypeEnum>>("statusType")
-                .Resolve(context => context.Source.ExecutionState switch
-                {
-                    BatchState.Pending => "warning",
-                    BatchState.Completed => "success",
-                    BatchState.Failed => "danger",
-                    BatchState.Executing => "info",
-                    _ => "info",
-                });
-
-            Field<DateRangeType>("period")
-               .Resolve(context => new Interval(
-                   Instant.FromDateTimeOffset(context.Source.PeriodStart),
-                   Instant.FromDateTimeOffset(context.Source.PeriodEnd)));
         }
     }
 }

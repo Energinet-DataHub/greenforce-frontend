@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { BehaviorSubject, Subject, combineLatest, map, switchMap, takeUntil } from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
@@ -24,9 +24,16 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { GetOutgoingMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 
 import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
 import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
@@ -43,14 +50,8 @@ import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
         display: block;
       }
 
-      watt-card-title {
-        align-items: center;
-        display: flex;
-        gap: var(--watt-space-s);
-      }
-
-      watt-search {
-        margin-left: auto;
+      h3 {
+        margin: 0;
       }
 
       watt-paginator {
@@ -68,8 +69,12 @@ import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
     RxPush,
 
     WATT_CARD,
-    WattSearchComponent,
     WattPaginatorComponent,
+    WattButtonComponent,
+    VaterFlexComponent,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    VaterUtilityDirective,
 
     DhOutgoingMessagesFiltersComponent,
     DhOutgoingMessagesTableComponent,
@@ -82,7 +87,6 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
   tableDataSource = new WattTableDataSource<DhOutgoingMessage>([]);
   totalCount = 0;
 
-  searchInput$ = new BehaviorSubject<string>('');
   private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
     pageIndex: 0,
     pageSize: 100,
@@ -154,5 +158,36 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
 
   handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
     this.pageMetaData$.next({ pageIndex, pageSize });
+  }
+
+  download(): void {
+    if (!this.tableDataSource.sort) {
+      return;
+    }
+
+    const dataSorted = this.tableDataSource.sortData(
+      this.tableDataSource.filteredData,
+      this.tableDataSource.sort
+    );
+
+    const outgoingMessagesPath = 'eSett.outgoingMessages';
+
+    const headers = [
+      `"${translate(outgoingMessagesPath + '.columns.id')}"`,
+      `"${translate(outgoingMessagesPath + '.columns.calculationType')}"`,
+      `"${translate(outgoingMessagesPath + '.columns.messageType')}"`,
+      `"${translate(outgoingMessagesPath + '.columns.gridArea')}"`,
+      `"${translate(outgoingMessagesPath + '.columns.status')}"`,
+    ];
+
+    const lines = dataSorted.map((message) => [
+      `"${message.documentId}"`,
+      `"${translate(outgoingMessagesPath + '.shared.calculationType.' + message.processType)}"`,
+      `"${translate(outgoingMessagesPath + '.shared.messageType.' + message.timeSeriesType)}"`,
+      `"${message.gridAreaCode}"`,
+      `"${translate(outgoingMessagesPath + '.shared.documentStatus.' + message.documentStatus)}"`,
+    ]);
+
+    exportToCSV({ headers, lines, fileName: 'eSett-outgoing-messages' });
   }
 }

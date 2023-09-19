@@ -73,6 +73,15 @@
         "parallel": false
       },
       "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net7.0"]
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npm run check:dotnet",
+          "dotnet test apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release"
+        ]
+      }
     }
   },
   "tags": ["product:dh", "type:api"]

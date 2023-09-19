@@ -53,7 +53,7 @@ import {
 } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-export type settlementReportsTableColumns = graphql.GridArea & { download: boolean };
+export type settlementReportsTableColumns = graphql.GridAreaDto & { download: boolean };
 
 @Component({
   standalone: true,
@@ -158,10 +158,11 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
               return this.selectedGridAreas?.includes(x.code);
             })
             .map((g) => ({
+              __typename: 'GridAreaDto',
               code: g.code,
               id: g.code,
               name: g.name,
-              priceAreaCode: graphql.PriceAreaCode.Dk_1,
+              priceAreaCode: graphql.PriceAreaCode.Dk1,
               validFrom: g.validFrom,
               validtTo: g.validTo,
               download: true,

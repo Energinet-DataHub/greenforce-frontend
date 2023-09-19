@@ -818,6 +818,9 @@
     "tabs": {
       "outgoingMessages": {
         "tabLabel": "Outgoing"
+      },
+      "balanceResponsible": {
+        "tabLabel": "Balance responsible"
       }
     },
     "outgoingMessages": {
@@ -828,7 +831,7 @@
           "AGGREGATION": "Aggregation"
         },
         "messageType": {
-          "MGA_EXCHANGE": "MGA Exchange",
+          "MGA_EXCHANGE": "Exchange",
           "PRODUCTION": "Production",
           "CONSUMPTION": "Consumption"
         },
@@ -849,6 +852,7 @@
         "reset": "{{ shared.form.reset }}"
       },
       "columns": {
+        "created": "Created",
         "id": "ID",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
@@ -861,7 +865,8 @@
       "errorMessage": "{{ shared.error.message }}",
       "drawer": {
         "tabs": {
-          "message": "Message"
+          "message": "Message",
+          "receipt": "Receipt"
         },
         "metadata": {
           "created": "Created",
@@ -870,6 +875,21 @@
           "messageType": "{{ eSett.shared.messageType }}"
         }
       }
+    },
+    "balanceResponsible": {
+      "tabHeading": "Balance responsible",
+      "columns": {
+        "id": "ID",
+        "date": "Date",
+        "electricitySupplier": "Electricity supplier",
+        "balanceResponsible": "Balance responsible",
+        "meteringPointType": "Type of metering point",
+        "validFrom": "Valid from"
+      },
+      "emptyTitle": "No messages found",
+      "emptyMessage": "Try changing the search criteria",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
     }
   },
   "wholesale": {

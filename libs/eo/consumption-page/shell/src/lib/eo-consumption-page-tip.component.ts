@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatCardModule],
+  imports: [WATT_CARD],
   selector: 'eo-consumption-page-tip',
   styles: [
     `
       :host {
         display: block;
       }
-      mat-card {
+      watt-card {
         background: var(--watt-color-primary-light);
         border-radius: var(--watt-space-m);
 
@@ -45,13 +45,13 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
     `,
   ],
   template: `
-    <mat-card>
+    <watt-card>
       <div class="tip watt-space-stack-m">
         <img alt="Decrease power consumption | EnergyOrigin" src="/assets/icons/lightbulb.svg" />
         <h1>Tip</h1>
       </div>
       <p>You can decrease your consumption by turning off devices that use standby power.</p>
-    </mat-card>
+    </watt-card>
   `,
 })
 export class EoConsumptionPageTipComponent {}

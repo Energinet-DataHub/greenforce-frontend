@@ -16,7 +16,6 @@
  */
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EO_MEDIA } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoOriginOfEnergyChartCardComponent } from './eo-origin-of-energy-chart-card.component';
@@ -34,7 +33,6 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
     AsyncPipe,
     EoPopupMessageComponent,
     EO_MEDIA,
-    MatCardModule,
     EoOriginOfEnergyWhatIsItComponent,
     EoOriginOfEnergyChartCardComponent,
     EoOriginOfEnergyGlobalGoalsMediaComponent,

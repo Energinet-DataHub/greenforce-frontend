@@ -14,29 +14,35 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card *transloco="let t; read: 'eSett.outgoingMessages'">
-  <watt-card-title>
-    <h3>{{ t("tabHeading") }}</h3>
-    <span class="watt-chip-label">{{ totalCount }}</span>
+<watt-card vater inset="0" *transloco="let t; read: 'eSett.outgoingMessages'">
+  <vater-flex fill="vertical" gap="m">
+    <vater-stack direction="row" gap="s">
+      <h3>{{ t("tabHeading") }}</h3>
+      <span class="watt-chip-label">{{ totalCount }}</span>
 
-    <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
-  </watt-card-title>
+      <vater-spacer />
 
-  <dh-outgoing-messages-filters
-    class="watt-space-stack-m"
-    [initial]="filter$.value"
-    (filter)="filter$.next($event)"
-  />
+      <watt-button icon="download" variant="text" (click)="download()">{{
+        "shared.download" | transloco
+      }}</watt-button>
+    </vater-stack>
 
-  <dh-outgoing-messages-table
-    [tableDataSource]="tableDataSource"
-    [isLoading]="isLoading"
-    [hasError]="hasError"
-  />
+    <dh-outgoing-messages-filters
+      class="watt-space-stack-m"
+      [initial]="filter$.value"
+      (filter)="filter$.next($event)"
+    />
 
-  <watt-paginator
-    [for]="tableDataSource"
-    (changed)="handlePageEvent($event)"
-    [pageSize]="pageSize$ | push"
-  />
+    <dh-outgoing-messages-table
+      [tableDataSource]="tableDataSource"
+      [isLoading]="isLoading"
+      [hasError]="hasError"
+    />
+
+    <watt-paginator
+      [for]="tableDataSource"
+      (changed)="handlePageEvent($event)"
+      [pageSize]="pageSize$ | push"
+    />
+  </vater-flex>
 </watt-card>

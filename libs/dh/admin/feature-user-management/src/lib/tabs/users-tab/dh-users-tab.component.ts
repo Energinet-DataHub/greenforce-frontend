@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import {
@@ -27,7 +27,6 @@ import {
   DhAdminUserRolesManagementDataAccessApiStore,
   DhUserActorsDataAccessApiStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import {
   MarketParticipantSortDirection,
   MarketParticipantUserOverviewSortProperty,
@@ -45,6 +44,7 @@ import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filte
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhInviteUserModalComponent } from '@energinet-datahub/dh/admin/feature-invite-user-modal';
 import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 @Component({
   selector: 'dh-users-tab',
@@ -100,11 +100,11 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
     WATT_CARD,
     DhUsersTabTableComponent,
     DhUsersTabStatusFilterComponent,
-    DhSharedUiPaginatorComponent,
     DhUsersTabGeneralErrorComponent,
     DhUsersTabActorFilterComponent,
     DhUsersTabUserRoleFilterComponent,
     WattButtonComponent,
+    WattPaginatorComponent,
     DhPermissionRequiredDirective,
     DhInviteUserModalComponent,
     DhSharedUiSearchComponent,

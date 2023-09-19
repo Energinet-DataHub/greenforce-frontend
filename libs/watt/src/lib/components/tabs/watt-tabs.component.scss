@@ -16,7 +16,21 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
+watt-drawer {
+  watt-tabs {
+    .mat-tab-group,
+    .mat-tab-body-wrapper {
+      height: auto;
+    }
+  }
+}
+
 watt-tabs {
+  .mat-tab-group,
+  .mat-tab-body-wrapper {
+    height: 100%;
+  }
+
   .mat-tab-group.mat-primary
     .mat-tab-label.cdk-focused.cdk-keyboard-focused:focus {
     background-color: var(--watt-color-primary-ultralight);
@@ -50,6 +64,7 @@ watt-tabs {
   .mat-tab-body.mat-tab-body-active,
   .mat-tab-group.mat-tab-group-dynamic-height .mat-tab-body.mat-tab-body-active,
   .mat-tab-group-dynamic-height .mat-tab-body-content {
+    position: relative;
     overflow: initial;
   }
 

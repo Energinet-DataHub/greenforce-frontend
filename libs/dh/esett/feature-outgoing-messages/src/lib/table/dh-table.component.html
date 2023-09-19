@@ -14,17 +14,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'eSett.outgoingMessages'">
+<vater-flex fill="vertical" scrollable *transloco="let t; read: 'eSett.outgoingMessages'">
   <watt-table
     [dataSource]="tableDataSource"
     [columns]="columns"
-    sortBy="name"
     [loading]="isLoading"
-    sortDirection="asc"
     [sortClear]="false"
+    sortBy="created"
+    sortDirection="desc"
     [activeRow]="activeRow"
     (rowClick)="onRowClick($event)"
   >
+    <ng-container *wattTableCell="columns['created']; header: t('columns.created'); let message">
+      {{ message.created | wattDate : "long" }}
+    </ng-container>
+
     <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let message">
       {{ message.documentId }}
     </ng-container>
@@ -46,27 +50,24 @@ limitations under the License.
     </ng-container>
 
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let message">
-      {{ "eSett.outgoingMessages.shared.documentStatus." + message.documentStatus | transloco }}
+      <dh-outgoing-message-status-badge
+        [status]="message?.documentStatus"
+        [created]="message?.created"
+      />
     </ng-container>
   </watt-table>
 
-  <ng-container *ngIf="!isLoading && tableDataSource.filteredData.length === 0">
-    <div class="watt-space-inset-m">
-      <watt-empty-state
-        *ngIf="!hasError"
-        icon="cancel"
-        [title]="t('emptyTitle')"
-        [message]="t('emptyMessage')"
-      />
-
-      <watt-empty-state
-        *ngIf="hasError"
-        icon="custom-power"
-        [title]="t('errorTitle')"
-        [message]="t('errorMessage')"
-      />
-    </div>
-  </ng-container>
-</ng-container>
+  <vater-stack
+    fill="vertical"
+    justify="center"
+    *ngIf="!isLoading && tableDataSource.filteredData.length === 0"
+  >
+    <watt-empty-state
+      [icon]="hasError ? 'custom-power' : 'cancel'"
+      [title]="hasError ? t('errorTitle') : t('emptyTitle')"
+      [message]="hasError ? t('errorMessage') : t('emptyMessage')"
+    />
+  </vater-stack>
+</vater-flex>
 
 <dh-outgoing-message-drawer (closed)="onClose()" />

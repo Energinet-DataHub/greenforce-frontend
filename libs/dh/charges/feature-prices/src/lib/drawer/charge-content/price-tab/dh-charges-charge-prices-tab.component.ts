@@ -31,7 +31,6 @@ import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { DhChargePricesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 import {
   ChargePricesSearchCriteriaV1Dto,
@@ -51,6 +50,7 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 @Component({
   standalone: true,
@@ -64,8 +64,8 @@ import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
     WattTooltipDirective,
     WattSpinnerComponent,
     TranslocoModule,
-    DhSharedUiPaginatorComponent,
     WattDatePipe,
+    WattPaginatorComponent,
     RxPush,
     DhFeatureFlagDirective,
   ],
@@ -76,8 +76,8 @@ import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhChargesChargePricesTabComponent implements OnInit, OnChanges, OnDestroy {
-  @ViewChild(DhSharedUiPaginatorComponent)
-  paginator!: DhSharedUiPaginatorComponent;
+  @ViewChild(WattPaginatorComponent)
+  paginator!: WattPaginatorComponent<unknown>;
 
   @ViewChild(DhDrawerDatepickerComponent)
   drawerDatepickerComponent!: DhDrawerDatepickerComponent;
