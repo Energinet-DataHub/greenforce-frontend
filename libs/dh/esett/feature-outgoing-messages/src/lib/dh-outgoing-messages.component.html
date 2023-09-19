@@ -21,7 +21,6 @@ limitations under the License.
       <span class="watt-chip-label">{{ totalCount }}</span>
 
       <vater-spacer />
-      <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
 
       <watt-button icon="download" variant="text" (click)="download()">{{
         "shared.download" | transloco
