@@ -14,143 +14,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Apollo } from 'apollo-angular';
-import { TranslocoModule } from '@ngneat/transloco';
-import { sub, startOfDay, endOfDay } from 'date-fns';
-import { BehaviorSubject, Subject, switchMap, takeUntil } from 'rxjs';
-
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-
-import {
-  GetCalculationsDocument,
-  GetCalculationsQueryVariables,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 import { DhCalculationsCreateComponent } from './create/create.component';
 import { DhCalculationsDetailsComponent } from './details/details.component';
-import { DhCalculationsFiltersComponent } from './filters/filters.component';
 import { DhCalculationsTableComponent } from './table/table.component';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 @Component({
   selector: 'dh-calculations',
   standalone: true,
   imports: [
-    CommonModule,
     DhCalculationsCreateComponent,
     DhCalculationsDetailsComponent,
-    DhCalculationsFiltersComponent,
     DhCalculationsTableComponent,
-    TranslocoModule,
-    VaterFlexComponent,
-    VaterSpacerComponent,
-    VaterStackComponent,
-    VaterUtilityDirective,
-    WATT_CARD,
-    WattButtonComponent,
-    WattPaginatorComponent,
-    WattSearchComponent,
-    WattSpinnerComponent,
   ],
-  templateUrl: './calculations.component.html',
-  styleUrls: ['./calculations.component.scss'],
+  template: `
+    <dh-calculations-create #modal />
+    <dh-calculations-details [id]="id()" (closed)="navigate(null)" />
+    <dh-calculations-table
+      [id]="id()"
+      (selectedRow)="navigate($event.id)"
+      (create)="modal.open()"
+    />
+  `,
 })
-export class DhCalculationsComponent implements AfterViewInit, OnInit, OnDestroy {
-  @ViewChild('details')
-  details!: DhCalculationsDetailsComponent;
-
+export class DhCalculationsComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private apollo = inject(Apollo);
-  private destroy$ = new Subject<void>();
 
-  private routerId = this.route.snapshot.queryParams.id;
+  @ViewChild(DhCalculationsDetailsComponent)
+  details!: DhCalculationsDetailsComponent;
 
-  selected?: Calculation;
+  id = toSignal<string>(this.route.queryParams.pipe(map((p) => p.id ?? undefined)));
 
-  filter$ = new BehaviorSubject<GetCalculationsQueryVariables>({
-    executionTime: {
-      start: sub(startOfDay(new Date()), { days: 10 }),
-      end: endOfDay(new Date()),
-    },
-  });
-
-  calculations$ = this.filter$.pipe(
-    switchMap(
-      (variables) =>
-        this.apollo.watchQuery({
-          pollInterval: 10000,
-          useInitialLoading: true,
-          notifyOnNetworkStatusChange: true,
-          fetchPolicy: 'cache-and-network',
-          query: GetCalculationsDocument,
-          variables: variables,
-        }).valueChanges
-    ),
-    takeUntil(this.destroy$)
-  );
-
-  error = false;
-  loading = false;
-  search = '';
-  calculations: Calculation[] = [];
-
-  ngOnInit() {
-    this.calculations$.subscribe({
-      next: (result) => {
-        this.loading = result.loading;
-
-        if (result.data?.calculations) {
-          this.calculations = result.data.calculations;
-        }
-
-        this.selected = this.calculations?.find((calculation) => calculation.id === this.routerId);
-        this.error = !!result.errors;
-      },
-      error: (error) => {
-        this.error = error;
-        this.loading = false;
-      },
-    });
-  }
-
-  ngAfterViewInit() {
-    if (this.routerId) this.details.open(this.routerId);
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  onSelected(calculation: Calculation) {
-    this.selected = calculation;
+  navigate(id: string | null) {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { id: calculation.id },
-    });
-
-    this.details.open(calculation.id);
-  }
-
-  onDetailsClosed() {
-    this.selected = undefined;
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { id: null },
+      queryParams: { id },
     });
   }
 }
