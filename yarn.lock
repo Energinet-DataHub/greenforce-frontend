@@ -7119,12 +7119,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ngneat/transloco@npm:5.0.9":
-  version: 5.0.9
-  resolution: "@ngneat/transloco@npm:5.0.9"
+"@ngneat/transloco@npm:5.0.7":
+  version: 5.0.7
+  resolution: "@ngneat/transloco@npm:5.0.7"
   dependencies:
     "@ngneat/transloco-utils": ^5.0.0
-    flat: 6.0.0
+    flat: 5.0.2
     fs-extra: ^11.0.0
     glob: ^10.0.0
     lodash.kebabcase: ^4.1.1
@@ -7133,7 +7133,7 @@ __metadata:
     tslib: ^2.2.0
   peerDependencies:
     "@angular/core": ">=16.0.0"
-  checksum: 64fabf3ed5e8922e62ffbde78ce46467605e8ad58f853025fd1d5525be5e327a431fc279aa3067f5c9d6c5cdc9166d587319647ec53972ebb4943846f3559481
+  checksum: 47363eddb7f61ab8b65d1d2331a1d30fc8c075fc36c780d82f32e5d71b5a1fa24fe12d9e8b7bfad58f014f61f8dabb5947f98d20207c0bd5ee4f973138be1c29
   languageName: node
   linkType: hard
 
@@ -17849,7 +17849,7 @@ cors@latest:
     "@homebound/graphql-typescript-scalar-type-policies": ^2.8.0
     "@microsoft/applicationinsights-angularplugin-js": 3.0.2
     "@microsoft/applicationinsights-web": 2.8.12
-    "@ngneat/transloco": 5.0.9
+    "@ngneat/transloco": 5.0.7
     "@ngneat/transloco-keys-manager": 3.8.0
     "@ngneat/transloco-optimize": 5.0.3
     "@ngrx/component-store": 16.2.0
@@ -19993,15 +19993,6 @@ cors@latest:
   bin:
     flat: cli.js
   checksum: 12a1536ac746db74881316a181499a78ef953632ddd28050b7a3a43c62ef5462e3357c8c29d76072bb635f147f7a9a1f0c02efef6b4be28f8db62ceb3d5c7f5d
-  languageName: node
-  linkType: hard
-
-"flat@npm:6.0.0":
-  version: 6.0.0
-  resolution: "flat@npm:6.0.0"
-  bin:
-    flat: cli.js
-  checksum: 5351e7cf20b27e4aa7943b0c1223f1d08b484a9419a7dcb4026cbbfe8cc735161f1996d20c49b35d3099549bd0e10e3edd33c33da3a52b521d039103db751ebc
   languageName: node
   linkType: hard
 
