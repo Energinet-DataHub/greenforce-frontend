@@ -4,20 +4,12 @@
     "sourceMap": false,
     "outDir": "../../../dist/out-tsc",
     "allowJs": true,
-    "types": [
-      "cypress",
-      "@testing-library/cypress",
-      "node"
-    ],
+    "types": ["cypress", "@testing-library/cypress", "node"],
     "paths": {
       "@energinet-datahub/dh/globalization/assets-localization": [
         "assets-localization/src/index.ts"
       ]
     }
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.js",
-    "cypress.config.ts"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.js", "cypress.config.ts"]
 }
