@@ -59,6 +59,7 @@ jobs:
           mkdir -p ${{ env.RELEASE_FOLDER_PATH }}
           cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }} ${{ env.RELEASE_FOLDER_PATH }}
           cp -R ${{ github.workspace }}/apps/dh/e2e-dh ${{ env.RELEASE_FOLDER_PATH }}
+          cp -R ${{ github.workspace }}/libs/dh/globalization/assets-localization ${{ env.RELEASE_FOLDER_PATH }}/e2e-dh
 
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
