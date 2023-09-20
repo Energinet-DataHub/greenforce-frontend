@@ -59,14 +59,14 @@ import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDestroy {
   dataSource = new WattTableDataSource<PermissionAuditLog>();
 
-  @Input() selectedPermission: PermissionDto | null = null;
+  @Input({ required: true }) selectedPermission!: PermissionDto;
   auditLogs: PermissionAuditLog | null = null;
 
   private apollo = inject(Apollo);
   private getPermissionLogsQuery?: QueryRef<
     graphql.GetPermissionLogsQuery,
     {
-      id: string;
+      id: number;
     }
   >;
   private subscription?: Subscription;
@@ -77,7 +77,7 @@ export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDest
 
   columns: WattTableColumnDef<PermissionAuditLog> = {
     timestamp: { accessor: 'timestamp' },
-    entry: { accessor: 'permissionId', sort: false },
+    entry: { accessor: null },
   };
 
   constructor(private trans: TranslocoService) {}
@@ -87,7 +87,7 @@ export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDest
       useInitialLoading: true,
       notifyOnNetworkStatusChange: true,
       query: graphql.GetPermissionLogsDocument,
-      variables: { id: this.selectedPermission?.id.toString() ?? '' },
+      variables: { id: this.selectedPermission.id },
     });
 
     this.subscription = this.getPermissionLogsQuery.valueChanges.subscribe({

@@ -439,6 +439,12 @@
       "@energinet-datahub/watt/tabs": [
         "libs/watt/src/lib/components/tabs/index.ts"
       ],
+      "@energinet-datahub/watt/text-field": [
+        "libs/watt/src/lib/components/text-field/index.ts"
+      ],
+      "@energinet-datahub/watt/textarea-field": [
+        "libs/watt/src/lib/components/textarea-field/index.ts"
+      ],
       "@energinet-datahub/watt/timepicker": [
         "libs/watt/src/lib/components/input/timepicker/index.ts"
       ],
@@ -456,9 +462,6 @@
       ],
       "@energinet-datahub/watt/vater": [
         "libs/watt/src/lib/components/vater/index.ts"
-      ],
-      "@energinet-datahub/watt/watt-text-field": [
-        "libs/watt/src/lib/components/text-field/index.ts"
       ],
       "@energinet-datahub/workspace-plugin": [
         "tools/workspace-plugin/src/index.ts"

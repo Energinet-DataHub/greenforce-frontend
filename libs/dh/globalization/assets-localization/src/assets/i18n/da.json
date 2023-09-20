@@ -9,8 +9,12 @@
   "shared": {
     "error": {
       "title": "Ups! Der opstod en fejl",
-      "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
+      "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "button": "Prøv igen"
+    },
+    "empty": {
+      "title": "Ingen resultater fundet",
+      "message": "Prøv at ændre dine søgeindstillinger"
     },
     "fieldRequiredErrorText": "Feltet er påkrævet.",
     "navigation": {
@@ -823,7 +827,7 @@
           "AGGREGATION": "Aggregering"
         },
         "messageType": {
-          "MGA_EXCHANGE": "MGA udveksling",
+          "MGA_EXCHANGE": "Udveksling",
           "PRODUCTION": "Produktion",
           "CONSUMPTION": "Forbrug"
         },
@@ -844,6 +848,7 @@
         "reset": "{{ shared.form.reset }}"
       },
       "columns": {
+        "created": "Oprettet",
         "id": "ID",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
@@ -856,7 +861,8 @@
       "errorMessage": "{{ shared.error.message }}",
       "drawer": {
         "tabs": {
-          "message": "Meddelelse"
+          "message": "Meddelelse",
+          "receipt": "Kvittering"
         },
         "metadata": {
           "created": "Oprettet",

@@ -21,9 +21,12 @@ import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhOutgoingMessage } from '../dh-outgoing-message';
 import { DhOutgoingMessageDrawerComponent } from '../drawer/dh-outgoing-message-drawer.component';
+import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
 
 @Component({
   selector: 'dh-outgoing-messages-table',
@@ -32,7 +35,7 @@ import { DhOutgoingMessageDrawerComponent } from '../drawer/dh-outgoing-message-
   styles: [
     `
       :host {
-        display: block;
+        display: contents;
       }
     `,
   ],
@@ -44,8 +47,12 @@ import { DhOutgoingMessageDrawerComponent } from '../drawer/dh-outgoing-message-
     WATT_TABLE,
     WattPaginatorComponent,
     WattEmptyStateComponent,
+    WattDatePipe,
+    VaterFlexComponent,
+    VaterStackComponent,
 
     DhOutgoingMessageDrawerComponent,
+    DhOutgoingMessageStatusBadgeComponent,
   ],
 })
 export class DhOutgoingMessagesTableComponent {
@@ -54,6 +61,7 @@ export class DhOutgoingMessagesTableComponent {
   drawer: DhOutgoingMessageDrawerComponent | undefined;
 
   columns: WattTableColumnDef<DhOutgoingMessage> = {
+    created: { accessor: 'created' },
     id: { accessor: 'documentId' },
     calculationType: { accessor: 'processType' },
     messageType: { accessor: 'timeSeriesType' },

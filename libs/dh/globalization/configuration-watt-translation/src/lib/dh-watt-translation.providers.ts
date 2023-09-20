@@ -18,6 +18,7 @@ import { Injectable, makeEnvironmentProviders } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
+import { WattDataIntlService } from '@energinet-datahub/watt/data';
 import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
 
 @Injectable()
@@ -28,6 +29,22 @@ export class DhClipboardIntlService extends WattClipboardIntlService {
     transloco.selectTranslate('clipboard.success').subscribe((value) => (this.success = value));
 
     transloco.selectTranslate('clipboard.error').subscribe((value) => (this.error = value));
+  }
+}
+
+@Injectable()
+export class DhDataIntlService extends WattDataIntlService {
+  constructor(transloco: TranslocoService) {
+    super();
+
+    transloco.selectTranslateObject('shared').subscribe((translations) => {
+      this.search = translations.search;
+      this.emptyTitle = translations.empty.title;
+      this.emptyMessage = translations.empty.message;
+      this.errorTitle = translations.error.title;
+      this.errorMessage = translations.error.message;
+      this.changes.next();
+    });
   }
 }
 
@@ -53,6 +70,10 @@ export const dhWattTranslationsProviders = makeEnvironmentProviders([
   {
     provide: WattClipboardIntlService,
     useClass: DhClipboardIntlService,
+  },
+  {
+    provide: WattDataIntlService,
+    useClass: DhDataIntlService,
   },
   {
     provide: WattPaginatorIntlService,

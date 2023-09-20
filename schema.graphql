@@ -1,97 +1,40 @@
-schema {
-  query: GraphQLQuery
-  mutation: GraphQLMutation
+"""Represents a date range"""
+scalar DateRange
+
+enum ActorStatus {
+  New
+  Active
+  Inactive
+  Passive
 }
 
-type GraphQLQuery {
-  permission(
-    """The id of the permission"""
-    id: ID
-  ): Permission!
-  permissions(
-    """The search term for which to look for in name and description"""
-    searchTerm: String
-  ): [Permission!]!
-  permissionLogs(
-    """The id of the permission"""
-    id: ID
-  ): [PermissionAuditLog!]!
-  userrole(
-    """The id of the user role"""
-    id: ID
-  ): UserRoleWithPermissions!
-  organizations: [Organization]
-  organization(
-    """The id of the organization"""
-    id: ID
-  ): Organization
-  gridAreas: [GridArea!]!
-  calculation(
-    """The id of the calculation"""
-    id: ID
-  ): Calculation
-  calculations(executionTime: DateRange, executionStates: [BatchState!], processTypes: [ProcessType!], gridAreaCodes: [String], period: DateRange, first: Int): [Calculation!]!
-  settlementReports(processType: ProcessType, gridAreaCodes: [String], period: DateRange, executionTime: DateRange): [SettlementReport!]!
-  actor(
-    """The id of the actor"""
-    id: ID
-  ): Actor!
-  actors(eicFunctions: [EicFunction!]): [Actor!]!
-  esettExchangeEvent(
-    """The id of the exchange document."""
-    documentId: String!
-  ): ExchangeEventTrackingResultType!
-  esettExchangeEvents(
-    """The number of the page to retrieve data for."""
-    pageNumber: Int!
-
-    """The number of items on each page."""
-    pageSize: Int!
-
-    """The start date and time of the filter period."""
-    periodFrom: DateTime
-
-    """The end date and time of the filter period."""
-    periodTo: DateTime
-
-    """The code of the grid area the document is referencing."""
-    gridAreaCode: String
-
-    """
-    The type of process that generated the calculation results in the document.
-    """
-    processType: ExchangeEventProcessType
-
-    """The delivery status of the document."""
-    documentStatus: DocumentStatus
-
-    """The type of calculation result in the document."""
-    timeSeriesType: TimeSeriesType
-  ): ExchangeEventSearchResponseType!
-}
-
-type Permission {
-  """The ID of the permission."""
-  id: Int!
-
-  """The name of the permission."""
+type Actor {
+  id: UUID!
   name: String!
-
-  """The description of the permission."""
-  description: String!
-
-  """The created date of the permission."""
-  created: DateTimeOffset!
-
-  """The EIC functions this permission is assignable to."""
-  assignableTo: [EicFunction!]!
-  userRoles: [UserRole!]!
+  glnOrEicNumber: String!
+  marketRole: EicFunction
+  gridAreas: [GridAreaDto!]!
+  organization: OrganizationDto!
+  externalActorId: UUID
+  status: ActorStatus!
 }
 
-"""
-The `DateTimeOffset` scalar type represents a date, time and offset from UTC. `DateTimeOffset` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
-"""
-scalar DateTimeOffset
+"""An immutable calculation."""
+type Calculation {
+  id: UUID!
+  period: DateRange!
+  createdByUserName: String
+  gridAreas: [GridAreaDto!]!
+  statusType: ProcessStatus!
+  runId: Long
+  resolution: String
+  unit: String
+  executionTimeStart: DateTime
+  executionTimeEnd: DateTime
+  executionState: BatchState!
+  areSettlementReportsCreated: Boolean!
+  processType: ProcessType!
+}
 
 enum EicFunction {
   BalanceResponsibleParty
@@ -110,163 +53,96 @@ enum EicFunction {
   SerialEnergyTrader
 }
 
-type UserRole {
-  """The user role id."""
-  id: ID!
+type EsettOutgoingMessage {
+  gridArea: GridAreaDto!
+  getResponseDocumentLink: String
+  getDispatchDocumentLink: String
+  documentId: String!
+  created: DateTime!
+  processType: ExchangeEventProcessType!
+  timeSeriesType: TimeSeriesType!
+  periodFrom: DateTime!
+  periodTo: DateTime!
+  documentStatus: DocumentStatus!
+}
 
-  """The user role name."""
+enum ExchangeEventProcessType {
+  BALANCE_FIXING
+  AGGREGATION
+}
+
+type Permission {
+  userRoles: [UserRoleDto!]!
+  id: Int!
   name: String!
-
-  """The user role description"""
   description: String!
-
-  """The EIC function the user role belongs to"""
-  eicFunction: EicFunction!
-
-  """The user role status"""
-  status: UserRoleStatus!
+  created: DateTime!
+  assignableTo: [EicFunction!]!
 }
 
-enum UserRoleStatus {
-  ACTIVE
-  INACTIVE
+enum ProcessStatus {
+  warning
+  success
+  danger
+  info
 }
 
-type PermissionAuditLog {
-  """Permission id"""
-  permissionId: Int!
-
-  """Changed by user id"""
-  changedByUserId: ID!
-
-  """Time of change"""
-  timestamp: DateTimeOffset!
-
-  """Permission audit log type"""
-  permissionAuditLogType: PermissionAuditLogType!
-
-  """Changed by user name"""
-  changedByUserName: String!
-
-  """The new value after the change"""
-  value: String!
+enum ApplyPolicy {
+  BEFORE_RESOLVER
+  AFTER_RESOLVER
+  VALIDATION
 }
 
-enum PermissionAuditLogType {
-  UNKNOWN
-  DESCRIPTION_CHANGE
-  CREATED
+type Query {
+  permissionById(id: Int!): Permission!
+  permissions(searchTerm: String!): [Permission!]!
+  permissionLogs(id: Int!): [PermissionLog!]!
+  userRoleById(id: UUID!): UserRoleWithPermissionsDto!
+  organizationById(id: UUID!): OrganizationDto!
+  organizations: [OrganizationDto!]!
+  gridAreas: [GridAreaDto!]!
+  calculationById(id: UUID!): Calculation!
+  calculations(executionTime: DateRange, executionStates: [BatchState!], processTypes: [ProcessType!], gridAreaCodes: [String!], period: DateRange, first: Int): [Calculation!]!
+  settlementReports(gridAreaCodes: [String!], period: DateRange, executionTime: DateRange): [SettlementReport!]!
+  actorById(id: UUID!): Actor!
+  actors(eicFunctions: [EicFunction!]): [Actor!]!
+  esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
+  esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, processType: ExchangeEventProcessType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
 }
 
-type UserRoleWithPermissions {
-  """User role id"""
-  id: ID!
-
-  """User role name"""
-  name: String!
-
-  """User role description."""
-  description: String
-
-  """User role status."""
-  status: UserRoleStatus
-
-  """User role market role."""
-  eicFunction: EicFunction
-
-  """User role permissions."""
-  permissions: [Permission]
+type Mutation {
+  updatePermission(input: UpdatePermissionDtoInput!): Permission!
+  createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
 }
 
-type Organization {
-  """The ID of the organization."""
-  organizationId: ID!
+scalar UUID
 
-  """The name of the organization."""
-  name: String!
-
-  """The business register identifier of the organization."""
-  businessRegisterIdentifier: String!
-
-  """The status of the organization."""
-  status: OrganizationStatus!
-
-  """The comment of the organization."""
-  comment: String!
-
-  """The address of the organization."""
-  address: Address!
-}
-
-enum OrganizationStatus {
-  NEW
-  ACTIVE
-  BLOCKED
-  DELETED
-}
-
-type Address {
-  """The city of the address."""
-  city: String
-
-  """The country of the address."""
-  country: String!
-
-  """The number of the address."""
-  number: String
-
-  """The street name of the address."""
-  streetName: String
-
-  """The zip code of the address."""
-  zipCode: String
-}
-
-type GridArea {
-  """The grid area id."""
-  id: ID!
-
-  """The grid area code."""
+type GridAreaDto {
+  id: UUID!
   code: String!
-
-  """The grid area name."""
   name: String!
-
-  """The price area code for the grid area."""
   priceAreaCode: PriceAreaCode!
-
-  """Date that the grid area is valid from"""
-  validFrom: DateTimeOffset!
-
-  """Date that the grid area is valid to"""
-  validTo: DateTimeOffset
+  validFrom: DateTime!
+  validTo: DateTime
 }
 
-enum PriceAreaCode {
-  DK_1
-  DK_2
+type OrganizationDto {
+  organizationId: UUID!
+  name: String!
+  businessRegisterIdentifier: String!
+  domain: String!
+  comment: String!
+  status: OrganizationStatus!
+  address: AddressDto!
 }
 
-type Calculation {
-  """The id of the calculation."""
-  id: ID!
+"""
+The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
 
-  """The execution state."""
-  executionState: BatchState!
-
-  """The execution start time."""
-  executionTimeStart: DateTimeOffset
-
-  """The execution end time."""
-  executionTimeEnd: DateTimeOffset
-
-  """The process type."""
-  processType: ProcessType!
-  createdByUserName: String!
-  gridAreas: [GridArea!]!
-  statusType: StatusType!
-  period: DateRange
-}
+"""The `DateTime` scalar represents an ISO-8601 compliant date time type."""
+scalar DateTime
 
 enum BatchState {
   PENDING
@@ -275,6 +151,7 @@ enum BatchState {
   FAILED
 }
 
+"""Defines the wholesale process type"""
 enum ProcessType {
   BALANCE_FIXING
   AGGREGATION
@@ -284,92 +161,10 @@ enum ProcessType {
   THIRD_CORRECTION_SETTLEMENT
 }
 
-"""How the status should be represented visually."""
-enum StatusType {
-  warning
-  success
-  danger
-  info
-}
-
-scalar DateRange
-
-type SettlementReport {
-  """The batch number"""
-  batchNumber: ID!
-
-  """The process type."""
-  processType: ProcessType!
-
-  """The grid area."""
-  gridArea: GridArea!
-  period: DateRange
-
-  """The execution time."""
-  executionTime: DateTimeOffset
-}
-
-type Actor {
-  """The id of the actor."""
-  id: ID!
-
-  """The gln or eic number of the actor."""
-  glnOrEicNumber: String!
-
-  """The name of the actor."""
-  name: String!
-
-  """The grid areas the actor belongs to."""
-  gridAreas: [GridArea!]!
-
-  """The market role of the actor."""
-  marketRole: EicFunction
-
-  """The status of the actor."""
-  status: ActorStatus
-
-  """The organization of the actor."""
-  organization: Organization
-}
-
-enum ActorStatus {
-  New
-  Active
-  Inactive
-  Passive
-}
-
-type ExchangeEventTrackingResultType {
-  """The id of the found exchanged document."""
-  documentId: String!
-
-  """The time when the document was generated."""
-  created: DateTimeOffset!
-
-  """The code of the grid area the document is referencing."""
-  gridAreaCode: String!
-
-  """The start date and time of the calculation period."""
-  periodFrom: DateTimeOffset!
-
-  """The end date and time of the calculation period."""
-  periodTo: DateTimeOffset!
-
-  """
-  The type of process that generated the calculation results in the document.
-  """
-  processType: ExchangeEventProcessType!
-
-  """The delivery status of the document."""
-  documentStatus: DocumentStatus!
-
-  """The type of calculation result in the document."""
-  timeSeriesType: TimeSeriesType!
-}
-
-enum ExchangeEventProcessType {
-  BALANCE_FIXING
-  AGGREGATION
+enum TimeSeriesType {
+  MGA_EXCHANGE
+  PRODUCTION
+  CONSUMPTION
 }
 
 enum DocumentStatus {
@@ -380,70 +175,94 @@ enum DocumentStatus {
   REJECTED
 }
 
-enum TimeSeriesType {
-  MGA_EXCHANGE
-  PRODUCTION
-  CONSUMPTION
+type UserRoleDto {
+  id: UUID!
+  name: String!
+  description: String!
+  eicFunction: EicFunction!
+  status: UserRoleStatus!
 }
 
-type ExchangeEventSearchResponseType {
-  """The partial result based on the specified page number and page size."""
-  items: [ExchangeEventSearchResultType!]!
-
-  """The total number of items in the result set."""
-  totalCount: Int!
+enum UserRoleStatus {
+  ACTIVE
+  INACTIVE
 }
 
-type ExchangeEventSearchResultType {
-  """The id of the found exchanged document."""
-  documentId: String!
-
-  """The code of the grid area the document is referencing."""
-  gridAreaCode: String!
-
-  """
-  The type of process that generated the calculation results in the document.
-  """
-  processType: ExchangeEventProcessType!
-
-  """The delivery status of the document."""
-  documentStatus: DocumentStatus!
-
-  """The type of calculation result in the document."""
-  timeSeriesType: TimeSeriesType!
+type AddressDto {
+  streetName: String
+  number: String
+  zipCode: String
+  city: String
+  country: String!
 }
 
-"""
-The `DateTime` scalar type represents a date and time. `DateTime` expects timestamps to be formatted in accordance with the [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
-"""
-scalar DateTime
-
-type GraphQLMutation {
-  updatePermission(
-    """Permission to update"""
-    input: UpdatePermissionInput!
-  ): Permission!
-  createCalculation(
-    """Calculation to create"""
-    input: CreateCalculationInput!
-  ): Calculation!
+enum OrganizationStatus {
+  NEW
+  ACTIVE
+  BLOCKED
+  DELETED
 }
 
-input UpdatePermissionInput {
-  """The id of the permission to update"""
+enum PriceAreaCode {
+  DK1
+  DK2
+}
+
+input UpdatePermissionDtoInput {
   id: Int!
-
-  """The description of the permission to update"""
   description: String!
 }
 
-input CreateCalculationInput {
-  """The period for the calculation."""
-  period: DateRange!
+type ExchangeEventSearchResponse {
+  items: [ExchangeEventSearchResult!]!
+  totalCount: Int!
+}
 
-  """The process type for the calculation."""
+type SettlementReport {
+  batchNumber: UUID!
   processType: ProcessType!
+  gridArea: GridAreaDto!
+  period: DateRange!
+  executionTime: DateTime
+}
 
-  """The grid areas to be included in the calculation."""
+type UserRoleWithPermissionsDto {
+  id: UUID!
+  name: String!
+  description: String!
+  eicFunction: EicFunction!
+  status: UserRoleStatus!
+  permissions: [Permission!]!
+}
+
+type PermissionLog {
+  changedByUserName: String!
+  value: String
+  timestamp: DateTime!
+  type: PermissionAuditLogType!
+}
+
+enum PermissionAuditLogType {
+  UNKNOWN
+  DESCRIPTION_CHANGE
+  CREATED
+}
+
+type ExchangeEventSearchResult {
+  documentId: String!
+  gridAreaCode: String!
+  created: DateTime!
+  processType: ExchangeEventProcessType!
+  timeSeriesType: TimeSeriesType!
+  documentStatus: DocumentStatus!
+}
+
+input CreateCalculationInput {
+  period: DateRange!
   gridAreaCodes: [String!]!
+  processType: ProcessType!
+}
+
+type CreateCalculationPayload {
+  calculation: Calculation
 }

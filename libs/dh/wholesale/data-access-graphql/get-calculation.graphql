@@ -1,5 +1,5 @@
-query GetCalculation($id: ID!) {
-  calculation(id: $id) {
+query GetCalculationById($id: UUID!) {
+  calculationById(id: $id) {
     id
     executionState
     executionTimeEnd

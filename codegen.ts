@@ -19,14 +19,15 @@ const config: CodegenConfig = {
         '@homebound/graphql-typescript-scalar-type-policies',
       ],
       config: {
+        nonOptionalTypename: true,
         scalars: {
           Date: 'Date',
           DateRange: '{ start: Date, end: Date }',
-          DateTimeOffset: 'Date',
+          DateTime: 'Date',
         },
         scalarTypePolicies: {
           Date: 'libs/dh/shared/domain/src/lib/type-policies#dateTypePolicy',
-          DateTimeOffset: 'libs/dh/shared/domain/src/lib/type-policies#dateTypePolicy',
+          DateTime: 'libs/dh/shared/domain/src/lib/type-policies#dateTypePolicy',
           DateRange: 'libs/dh/shared/domain/src/lib/type-policies#dateRangeTypePolicy',
         },
       },

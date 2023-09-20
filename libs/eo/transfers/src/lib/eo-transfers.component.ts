@@ -21,16 +21,20 @@ import {
   Component,
   OnInit,
   inject,
+  signal,
 } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 import { tap } from 'rxjs';
 
 import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoTransfersStore } from './eo-transfers.store';
 import { EoTransfersTableComponent } from './eo-transfers-table.component';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoTransfersService } from './eo-transfers.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,6 +46,8 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
     NgIf,
     RxPush,
     EoBetaMessageComponent,
+    WattIconComponent,
+    VaterStackComponent,
   ],
   standalone: true,
   template: `
@@ -55,10 +61,20 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
         (transferSelected)="store.setSelectedTransfer($event)"
       ></eo-transfers-table>
     </watt-card>
+
+    <vater-stack *ngIf="showAutomationError() && (transfers$ | push).length > 0">
+      <p style="display: flex; gap: var(--watt-space-xs);">
+        <watt-icon name="warning" fill />We are currently experiencing an issue handling
+        certificates<br />
+      </p>
+      <small>Once we resolve the issue, the outstanding transfers will update automatically.</small>
+    </vater-stack>
   `,
 })
 export class EoTransfersComponent implements OnInit {
   protected store = inject(EoTransfersStore);
+  protected showAutomationError = signal<boolean>(false);
+  private transfersService = inject(EoTransfersService);
   private cd = inject(ChangeDetectorRef);
 
   error$ = this.store.error$;
@@ -72,5 +88,15 @@ export class EoTransfersComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.getTransfers();
+    this.setShowAutomationError();
+  }
+
+  private setShowAutomationError() {
+    this.transfersService.transferAutomationHasError().subscribe({
+      next: (x) => {
+        x ? this.showAutomationError.set(true) : this.showAutomationError.set(false);
+      },
+      error: () => this.showAutomationError.set(true),
+    });
   }
 }

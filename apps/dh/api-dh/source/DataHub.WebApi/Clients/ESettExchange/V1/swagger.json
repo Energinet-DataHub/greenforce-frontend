@@ -65,20 +65,8 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Stream"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Stream"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Stream"
-                }
+              "application/octet-stream": {
+                "schema": {}
               }
             }
           }
@@ -105,20 +93,8 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Stream"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Stream"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Stream"
-                }
+              "application/octet-stream": {
+                "schema": {}
               }
             }
           }
@@ -277,6 +253,10 @@
           "gridAreaCode": {
             "type": "string"
           },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          },
           "processType": {
             "allOf": [
               {
@@ -351,45 +331,6 @@
           "BalanceFixing",
           "Aggregation"
         ]
-      },
-      "Stream": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "canRead": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "canWrite": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "canSeek": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "canTimeout": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "length": {
-            "type": "integer",
-            "readOnly": true,
-            "format": "int64"
-          },
-          "position": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "readTimeout": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "writeTimeout": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
       },
       "TimeSeriesType": {
         "type": "string",

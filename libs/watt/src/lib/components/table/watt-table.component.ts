@@ -316,10 +316,18 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.sort = this._sort;
 
-    // Make sorting by text case insensitive
     this.dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
-      const data = this.getCellData(row, this.columns[sortHeaderId]);
-      return typeof data === 'string' ? data.toLowerCase() : (data as number);
+      const sortColumn = this.columns[sortHeaderId];
+      if (!sortColumn?.accessor) return '';
+
+      // Access raw value for sorting, instead of applying default formatting.
+      const { accessor } = sortColumn;
+      const cell = typeof accessor === 'function' ? accessor(row) : row[accessor];
+
+      // Make sorting by text case insensitive.
+      if (typeof cell === 'string') return cell.toLowerCase();
+      if (cell instanceof Date) return cell.getTime();
+      return cell as number;
     };
   }
 
