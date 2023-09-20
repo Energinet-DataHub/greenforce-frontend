@@ -340,6 +340,8 @@ dotnet_diagnostic.CA2238.severity = warning
 dotnet_diagnostic.CA2240.severity = warning
 dotnet_diagnostic.CA2241.severity = warning
 dotnet_diagnostic.CA2242.severity = warning
+dotnet_diagnostic.CS8509.severity = warning
+dotnet_diagnostic.CS8524.severity = none
 
 ###############################
 # StyleCop Analyzers          #

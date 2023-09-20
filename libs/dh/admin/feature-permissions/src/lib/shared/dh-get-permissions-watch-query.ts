@@ -18,7 +18,7 @@ import { inject } from '@angular/core';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { Apollo } from 'apollo-angular';
 
-export function getPermissionsWatchQuery(searchTerm?: string) {
+export function getPermissionsWatchQuery(searchTerm = '') {
   const apollo = inject(Apollo);
   return apollo.watchQuery({
     useInitialLoading: true,

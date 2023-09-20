@@ -124,7 +124,7 @@ export class DhActorDrawerComponent {
       .pipe(takeUntil(this.closed))
       .subscribe({
         next: (result) => {
-          this.actor = result.data?.actor;
+          this.actor = result.data?.actorById;
         },
       });
   }

@@ -55,6 +55,7 @@ import { WattPaginatorIntlService } from './watt-paginator-intl.service';
       [length]="length"
       [pageSize]="pageSize"
       [pageSizeOptions]="pageSizeOptions"
+      [pageIndex]="pageIndex"
       [showFirstLastButtons]="true"
       [attr.aria-label]="description"
     ></mat-paginator>
@@ -64,6 +65,7 @@ export class WattPaginatorComponent<T> implements OnInit, OnDestroy {
   @Input() length = 0;
   @Input() pageSizeOptions = [50, 100, 150, 200, 250];
   @Input() pageSize = 50;
+  @Input() pageIndex = 0;
   @Input() set for(dataSource: WattTableDataSource<T>) {
     if (!dataSource) return;
     dataSource.paginator = this.instance;

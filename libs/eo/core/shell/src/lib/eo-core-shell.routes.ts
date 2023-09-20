@@ -19,14 +19,12 @@ import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
   eoCertificatesRoutePath,
   eoConnectionsRoutePath,
-  eoConsumptionPageRoutePath,
   eoDashboardRoutePath,
   eoEmissionsRoutePath,
   eoHelpRoutePath,
   eoMeteringPointsRoutePath,
   eoOriginOfEnergyRoutePath,
   eoPrivacyPolicyRoutePath,
-  eoProductionRoutePath,
   eoTransferRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoLoginComponent } from './eo-login.component';
@@ -76,24 +74,6 @@ export const eoShellRoutes: Routes = [
         loadChildren: () =>
           import('@energinet-datahub/eo/origin-of-energy/shell').then(
             (esModule) => esModule.eoOriginOfEnergyRoutes
-          ),
-      },
-      {
-        path: eoConsumptionPageRoutePath,
-        canActivate: [EoScopeGuard],
-        data: { title: 'Consumption' },
-        loadChildren: () =>
-          import('@energinet-datahub/eo/consumption-page/shell').then(
-            (esModule) => esModule.eoConsumptionPageRoutes
-          ),
-      },
-      {
-        path: eoProductionRoutePath,
-        canActivate: [EoScopeGuard],
-        data: { title: 'Production' },
-        loadChildren: () =>
-          import('@energinet-datahub/eo/production/shell').then(
-            (esModule) => esModule.eoProductionRoutes
           ),
       },
       {

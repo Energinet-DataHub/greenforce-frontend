@@ -15,23 +15,23 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { Router } from '@angular/router';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EoEmissionsDataComponent } from './eo-emissions-data.component';
 import { EoEmissionsStore } from './eo-emissions.store';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatCardModule, WattButtonComponent, EoEmissionsDataComponent],
+  imports: [WATT_CARD, WattButtonComponent, EoEmissionsDataComponent],
   selector: 'eo-emissions-page-info',
   styles: [
     `
       :host {
         display: block;
       }
-      mat-card {
+      watt-card {
         background: var(--watt-color-state-warning-light);
 
         .output {
@@ -44,11 +44,11 @@ import { EoEmissionsStore } from './eo-emissions.store';
     `,
   ],
   template: `
-    <mat-card>
+    <watt-card>
       <h4>Your emissions in 2021</h4>
       <eo-emissions-data class="output watt-space-stack-m"></eo-emissions-data>
       <watt-button variant="text" icon="save" (click)="openSurvey()"> Export details </watt-button>
-    </mat-card>
+    </watt-card>
   `,
 })
 export class EoEmissionsPageInfoComponent {

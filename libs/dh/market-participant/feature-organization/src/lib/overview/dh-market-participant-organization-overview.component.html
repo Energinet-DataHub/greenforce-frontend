@@ -17,125 +17,88 @@ limitations under the License.
 
 <ng-container *transloco="let t; read: 'marketParticipant.organization'">
   <!-- Table -->
-  <mat-table [dataSource]="dataSource" aria-label="organizations">
-    <!-- Organization Name -->
-    <ng-container matColumnDef="org-name">
-      <mat-header-cell *matHeaderCellDef>
-        {{ t("columns.organization") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        {{ element.organization.name }}
-      </mat-cell>
-    </ng-container>
-
-    <!-- Actor GLN -->
-    <ng-container matColumnDef="actor-gln">
-      <mat-header-cell *matHeaderCellDef>
-        {{ t("columns.gln") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        {{ element.actor?.actorNumber.value | dhEmDashFallback }}
-      </mat-cell>
-    </ng-container>
-
+  <watt-table
+    #table
+    *transloco="let translateColumns; read: 'marketParticipant.organization.columns'"
+    [columns]="columns"
+    [dataSource]="dataSource"
+    [resolveHeader]="translateColumns"
+    aria-label="organizations"
+  >
     <!-- Actor status -->
-    <ng-container matColumnDef="actor-status">
-      <mat-header-cell *matHeaderCellDef>
-        {{ t("columns.status") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <watt-badge *ngIf="element.actor !== undefined" type="info">{{
-          t("status." + element.actor.status)
-        }}</watt-badge>
-        <watt-badge *ngIf="element.actor === undefined" type="warning">{{
-          t("columns.noActors")
-        }}</watt-badge>
-      </mat-cell>
+    <ng-container *wattTableCell="columns.status; let row">
+      <watt-badge *ngIf="row.actor !== undefined" type="info">
+        {{ t("status." + row.actor.status) }}
+      </watt-badge>
+      <watt-badge *ngIf="row.actor === undefined" type="warning">
+        {{ t("columns.noActors") }}
+      </watt-badge>
     </ng-container>
 
     <!-- Actor market roles -->
-    <ng-container matColumnDef="actor-roles">
-      <mat-header-cell *matHeaderCellDef>
-        {{ t("columns.marketRoles") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <div class="market-roles-cell" *ngIf="element.actor !== undefined">
-          <div *ngFor="let marketRole of element.actor.marketRoles">
-            {{ "marketParticipant.marketRoles." + marketRole.eicFunction | transloco }}
-          </div>
+    <ng-container *wattTableCell="columns.marketRoles; let row">
+      <div class="market-roles-cell" *ngIf="row.actor !== undefined">
+        <div *ngFor="let marketRole of row.actor.marketRoles">
+          {{ "marketParticipant.marketRoles." + marketRole.eicFunction | transloco }}
         </div>
-        <div class="list-cell-container" *ngIf="element.actor === undefined">
-          {{ null | dhEmDashFallback }}
-        </div>
-      </mat-cell>
+      </div>
+      <div class="list-cell-container" *ngIf="row.actor === undefined">
+        {{ null | dhEmDashFallback }}
+      </div>
     </ng-container>
 
     <!-- Actor grid areas -->
-    <ng-container matColumnDef="actor-grid-areas">
-      <mat-header-cell *matHeaderCellDef>
-        {{ t("columns.gridAreas") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <div class="market-roles-cell" *ngIf="element.actor !== undefined">
-          <div *ngFor="let marketRole of element.actor.marketRoles">
-            <dh-market-participant-organization-overview-grid-areas-list
-              [gridAreas]="gridAreas"
-              [marketRoleGridAreas]="marketRole.gridAreas"
-            >
-            </dh-market-participant-organization-overview-grid-areas-list>
-          </div>
-          <div class="list-cell-container" *ngIf="element.actor === undefined">
-            {{ null | dhEmDashFallback }}
-          </div>
+    <ng-container *wattTableCell="columns.gridAreas; let row">
+      <div class="market-roles-cell" *ngIf="row.actor !== undefined">
+        <div *ngFor="let marketRole of row.actor.marketRoles">
+          <dh-market-participant-organization-overview-grid-areas-list
+            [gridAreas]="gridAreas"
+            [marketRoleGridAreas]="marketRole.gridAreas"
+          >
+          </dh-market-participant-organization-overview-grid-areas-list>
         </div>
-      </mat-cell>
+        <div class="list-cell-container" *ngIf="row.actor === undefined">
+          {{ null | dhEmDashFallback }}
+        </div>
+      </div>
     </ng-container>
 
     <!-- Edit -->
-    <ng-container matColumnDef="row-edit">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <watt-button
-          *dhPermissionRequired="['organizations:manage', 'actors:manage']"
-          variant="icon"
-          icon="edit"
-          [mat-menu-trigger-for]="menu"
+    <ng-container *wattTableCell="columns.edit; let row">
+      <watt-button
+        *dhPermissionRequired="['organizations:manage', 'actors:manage']"
+        variant="icon"
+        icon="edit"
+        [mat-menu-trigger-for]="menu"
+      >
+      </watt-button>
+      <mat-menu #menu="matMenu">
+        <button
+          *dhPermissionRequired="['organizations:manage']"
+          mat-menu-item
+          (click)="onEditOrganization(row)"
         >
-        </watt-button>
-        <mat-menu #menu="matMenu">
+          {{ t("editOrganization") }}
+        </button>
+        <button
+          mat-menu-item
+          *dhPermissionRequired="['actors:manage']"
+          (click)="onCreateActor(row)"
+        >
+          {{ t("createActor") }}
+        </button>
+        <ng-container *dhPermissionRequired="['actors:manage']">
           <button
-            *dhPermissionRequired="['organizations:manage']"
             mat-menu-item
-            (click)="onEditOrganization(element)"
+            (click)="onEditActor(row.organization.organizationId, row.actor.actorId)"
+            *ngIf="row.actor"
           >
-            {{ t("editOrganization") }}
+            {{ t("editActor") }}
           </button>
-          <button
-            mat-menu-item
-            *dhPermissionRequired="['actors:manage']"
-            (click)="onCreateActor(element)"
-          >
-            {{ t("createActor") }}
-          </button>
-          <ng-container *dhPermissionRequired="['actors:manage']">
-            <button
-              mat-menu-item
-              (click)="onEditActor(element.organization.organizationId, element.actor.actorId)"
-              *ngIf="element.actor"
-            >
-              {{ t("editActor") }}
-            </button>
-          </ng-container>
-        </mat-menu>
-      </mat-cell>
+        </ng-container>
+      </mat-menu>
     </ng-container>
+  </watt-table>
 
-    <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
-  </mat-table>
-
-  <dh-shared-ui-paginator
-    [pageSize]="10"
-    [pageSizeOptions]="[5, 10, 20, 50]"
-  ></dh-shared-ui-paginator>
+  <watt-paginator [for]="dataSource" [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]" />
 </ng-container>

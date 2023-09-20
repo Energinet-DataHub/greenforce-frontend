@@ -16,14 +16,14 @@
  */
 
 import { Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { RouterModule } from '@angular/router';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   standalone: true,
-  imports: [MatCardModule, RouterModule],
+  imports: [WATT_CARD, RouterModule],
   selector: 'eo-dashboard-get-data',
-  template: `<mat-card>
+  template: `<watt-card>
     <h3 class="watt-space-stack-s">Get Data for your CSR-report</h3>
     <img
       class="watt-space-stack-m"
@@ -34,7 +34,7 @@ import { RouterModule } from '@angular/router';
       You can get the data, that you need to fill out your CSR-report, especially the ones
       concerning energy use and emissions.
     </p>
-  </mat-card>`,
+  </watt-card>`,
   styles: [
     `
       :host {

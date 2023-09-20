@@ -20,11 +20,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Energinet.DataHub.Core.App.WebApp.Authentication;
 using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
-using Energinet.DataHub.WebApi.GraphQL;
 using Energinet.DataHub.WebApi.Registration;
-using GraphQL;
-using GraphQL.DataLoader;
-using GraphQL.Server.Ui.Playground;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -120,20 +116,13 @@ namespace Energinet.DataHub.WebApi
             var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>()
                                     ?? new ApiClientSettings();
             services.AddDomainClients(apiClientSettings);
-            services.AddGraphQLSchema();
-            services.AddGraphQL(options =>
-                    options.ConfigureExecution((opt, next) =>
-                    {
-                        var listener = opt.RequestServices!.GetRequiredService<DataLoaderDocumentListener>();
-                        opt.Listeners.Add(listener);
-                        opt.EnableMetrics = true;
-                        return next(opt);
-                    })
-                    .AddAuthorizationRule()
-                    .AddSystemTextJson()
-                    .AddSchema<GraphQLSchema>()
-                    .AddErrorInfoProvider(opts =>
-                        opts.ExposeExceptionDetails = true));
+
+            services
+                .AddGraphQLServices()
+                .ModifyRequestOptions(options =>
+                {
+                    options.IncludeExceptionDetails = Environment.IsDevelopment();
+                });
 
             SetupHealthEndpoints(services, apiClientSettings);
         }
@@ -163,33 +152,19 @@ namespace Energinet.DataHub.WebApi
 
             app.UseEndpoints(endpoints =>
             {
-                var builder = endpoints.MapControllers();
+                var controllerBuilder = endpoints.MapControllers();
+                var graphQLBuilder = endpoints.MapGraphQL(path: "/graphql");
 
                 if (!Environment.IsDevelopment())
                 {
-                    builder.RequireAuthorization();
+                    controllerBuilder.RequireAuthorization();
+                    graphQLBuilder.RequireAuthorization();
                 }
 
                 // Health check
                 endpoints.MapLiveHealthChecks();
                 endpoints.MapReadyHealthChecks();
             });
-
-            app.UseGraphQL("/graphql", config =>
-            {
-                config.AuthorizationRequired = !Environment.IsDevelopment();
-            });
-
-            if (Environment.IsDevelopment())
-            {
-                app.UseGraphQLPlayground(
-                    "/",
-                    new PlaygroundOptions
-                    {
-                        GraphQLEndPoint = "/graphql",
-                        SubscriptionsEndPoint = "/graphql",
-                    });
-            }
         }
 
         protected virtual void SetupHealthEndpoints(IServiceCollection services, ApiClientSettings apiClientSettingsService)

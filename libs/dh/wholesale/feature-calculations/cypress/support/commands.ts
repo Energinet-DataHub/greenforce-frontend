@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 /// <reference types="cypress" />
+/// <reference types="@testing-library/cypress" />
 import { mount } from 'cypress/angular';
 import '@testing-library/cypress/add-commands';
 

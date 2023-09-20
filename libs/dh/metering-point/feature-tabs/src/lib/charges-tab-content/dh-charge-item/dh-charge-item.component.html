@@ -16,115 +16,82 @@ limitations under the License.
 -->
 <h4>{{ title }}</h4>
 <ng-container *ngIf="charges.length; else emptyTab">
-  <mat-table #matTable [dataSource]="charges">
-    <ng-container matColumnDef="chargeType">
-      <mat-header-cell *matHeaderCellDef class="header-cell watt-label">{{
-        "charges.chargeType." + charges[0].chargeType | transloco
-      }}</mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <div class="multi-line-cell">
-          <div class="watt-text-s flex">
-            {{ row.chargeName }}
-          </div>
-          <div class="watt-text-s secondary-text">
-            {{ row.chargeId }}
-          </div>
+  <watt-table *transloco="let t; read: 'charges'" [dataSource]="dataSource" [columns]="columns">
+    <ng-container
+      *wattTableCell="columns.chargeType; let row; header: t('chargeType.' + charges[0].chargeType)"
+    >
+      <div>
+        <div class="watt-text-s flex">
+          {{ row.chargeName }}
         </div>
-      </mat-cell>
+        <div class="watt-text-s secondary-text">
+          {{ row.chargeId }}
+        </div>
+      </div>
     </ng-container>
 
-    <ng-container matColumnDef="owner">
-      <mat-header-cell *matHeaderCellDef class="header-cell watt-label">
-        {{ "charges.chargeOwner" | transloco }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <div class="multi-line-cell">
-          <div class="watt-text-s">
-            {{ row.chargeOwnerName }}
-          </div>
-          <div class="watt-text-s secondary-text">
-            {{ row.chargeOwner }}
-          </div>
+    <ng-container *wattTableCell="columns.chargeOwner; let row; header: t('chargeOwner')">
+      <div>
+        <div class="watt-text-s">
+          {{ row.chargeOwnerName }}
         </div>
-      </mat-cell>
+        <div class="watt-text-s secondary-text">
+          {{ row.chargeOwner }}
+        </div>
+      </div>
     </ng-container>
 
-    <ng-container matColumnDef="date">
-      <mat-header-cell *matHeaderCellDef class="header-cell watt-label">{{
-        "charges.startDate" | transloco
-      }}</mat-header-cell>
-      <mat-cell *matCellDef="let row">
+    <ng-container *wattTableCell="columns.startDate; let row; header: t('startDate')">
+      <div class="watt-text-s">
+        <watt-icon name="date" size="xs" class="primary-color"></watt-icon>
+      </div>
+      <div class="watt-text-s" data-testid="date-cell-from">
+        {{ row.startDate | wattDate }}
+      </div>
+      <ng-container *ngIf="row.endDate">
+        <div class="watt-text-s secondary-text" *transloco="let transloco">-</div>
         <div class="watt-text-s">
           <watt-icon name="date" size="xs" class="primary-color"></watt-icon>
         </div>
-        <div class="watt-text-s" data-testid="date-cell-from">
-          {{ row.startDate | wattDate }}
+        <div class="watt-text-s" data-testid="date-cell-to">
+          {{ row.endDate | wattDate }}
         </div>
-        <ng-container *ngIf="row.endDate">
-          <div class="watt-text-s secondary-text" *transloco="let transloco">-</div>
-          <div class="watt-text-s">
-            <watt-icon name="date" size="xs" class="primary-color"></watt-icon>
-          </div>
-          <div class="watt-text-s" data-testid="date-cell-to">
-            {{ row.endDate | wattDate }}
-          </div>
-        </ng-container>
-      </mat-cell>
+      </ng-container>
     </ng-container>
 
-    <ng-container matColumnDef="quantity">
-      <mat-header-cell *matHeaderCellDef class="header-cell watt-label">
-        <ng-container *transloco="let transloco">
-          <div *ngIf="charges[0].chargeType !== chargeTypes.D03">
-            {{ transloco("charges.quantity") }}
-          </div>
-          <ng-container *ngIf="charges[0].chargeType === chargeTypes.D03">
-            {{ transloco("charges.taxIndicator") }}
-          </ng-container>
-        </ng-container>
-      </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <div *ngIf="charges[0].chargeType !== chargeTypes.D03" class="watt-text-s">
-          {{ row.quantity }}
-        </div>
-        <ng-container *ngIf="row.taxIndicator">
-          <div class="watt-text-s" *transloco="let transloco">
-            <watt-icon name="success" size="xs" class="primary-color"></watt-icon>
-          </div>
-          <div class="watt-text-s" *transloco="let transloco" data-testid="tax-cell">
-            {{ transloco("charges.taxIndicator") }}
-          </div>
-        </ng-container>
-      </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="invoicing">
-      <mat-header-cell *matHeaderCellDef class="header-cell watt-label">
-        <ng-container *transloco="let transloco">
-          {{ transloco("charges.transparentInvoicing") }}
-        </ng-container>
-      </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <ng-container *ngIf="row.transparentInvoicing">
-          <div class="watt-text-s">
-            <watt-icon name="success" size="xs" class="primary-color"></watt-icon>
-          </div>
-          <div class="watt-text-s" *transloco="let transloco" data-testid="invoicing-cell">
-            {{ transloco("charges.transparentInvoicing") }}
-          </div>
-        </ng-container>
-      </mat-cell>
-    </ng-container>
-
-    <!-- Header and Row Declarations -->
-    <mat-header-row
-      *matHeaderRowDef="['chargeType', 'owner', 'date', 'quantity', 'invoicing']"
-    ></mat-header-row>
-    <mat-row
-      *matRowDef="let row; columns: ['chargeType', 'owner', 'date', 'quantity', 'invoicing']"
+    <ng-container
+      *wattTableCell="
+        columns.quantity;
+        let row;
+        header: charges[0].chargeType !== chargeTypes.D03 ? t('quantity') : t('taxIndicator')
+      "
     >
-    </mat-row>
-  </mat-table>
+      <div *ngIf="charges[0].chargeType !== chargeTypes.D03" class="watt-text-s">
+        {{ row.quantity }}
+      </div>
+      <ng-container *ngIf="row.taxIndicator">
+        <div class="watt-text-s" *transloco="let transloco">
+          <watt-icon name="success" size="xs" class="primary-color"></watt-icon>
+        </div>
+        <div class="watt-text-s" *transloco="let transloco" data-testid="tax-cell">
+          {{ transloco("charges.taxIndicator") }}
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns.transparentInvoicing; let row; header: t('transparentInvoicing')"
+    >
+      <ng-container *ngIf="row.transparentInvoicing">
+        <div class="watt-text-s">
+          <watt-icon name="success" size="xs" class="primary-color"></watt-icon>
+        </div>
+        <div class="watt-text-s" *transloco="let transloco" data-testid="invoicing-cell">
+          {{ transloco("charges.transparentInvoicing") }}
+        </div>
+      </ng-container>
+    </ng-container>
+  </watt-table>
 </ng-container>
 
 <ng-template #emptyTab>

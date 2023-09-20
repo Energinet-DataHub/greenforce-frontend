@@ -79,6 +79,12 @@
         "libs/dh/charges/shell/src/index.ts"
       ],
       "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
+      "@energinet-datahub/dh/esett/feature-balance-responsible": [
+        "libs/dh/esett/feature-balance-responsible/src/index.ts"
+      ],
+      "@energinet-datahub/dh/esett/feature-outgoing-messages": [
+        "libs/dh/esett/feature-outgoing-messages/src/index.ts"
+      ],
       "@energinet-datahub/dh/esett/shell": ["libs/dh/esett/shell/src/index.ts"],
       "@energinet-datahub/dh/globalization/assets-localization": [
         "libs/dh/globalization/assets-localization/src/index.ts"
@@ -214,9 +220,6 @@
       ],
       "@energinet-datahub/dh/shared/test-util-msw": [
         "libs/dh/shared/test-util-msw/src/index.ts"
-      ],
-      "@energinet-datahub/dh/shared/ui-paginator": [
-        "libs/dh/shared/ui-paginator/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/ui-search": [
         "libs/dh/shared/ui-search/src/index.ts"
@@ -439,6 +442,12 @@
       "@energinet-datahub/watt/tabs": [
         "libs/watt/src/lib/components/tabs/index.ts"
       ],
+      "@energinet-datahub/watt/text-field": [
+        "libs/watt/src/lib/components/text-field/index.ts"
+      ],
+      "@energinet-datahub/watt/textarea-field": [
+        "libs/watt/src/lib/components/textarea-field/index.ts"
+      ],
       "@energinet-datahub/watt/timepicker": [
         "libs/watt/src/lib/components/input/timepicker/index.ts"
       ],
@@ -456,9 +465,6 @@
       ],
       "@energinet-datahub/watt/vater": [
         "libs/watt/src/lib/components/vater/index.ts"
-      ],
-      "@energinet-datahub/watt/watt-text-field": [
-        "libs/watt/src/lib/components/text-field/index.ts"
       ],
       "@energinet-datahub/workspace-plugin": [
         "tools/workspace-plugin/src/index.ts"

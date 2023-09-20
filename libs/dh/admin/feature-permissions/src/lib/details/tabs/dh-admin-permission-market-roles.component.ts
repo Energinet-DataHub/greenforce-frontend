@@ -38,7 +38,7 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 type MarketRole = ResultOf<
   typeof graphql.GetPermissionDetailsDocument
->['permission']['assignableTo'][number];
+>['permissionById']['assignableTo'][number];
 
 @Component({
   selector: 'dh-admin-permission-market-roles',
@@ -71,7 +71,7 @@ type MarketRole = ResultOf<
   ],
 })
 export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() selectedPermission: PermissionDto | null = null;
+  @Input({ required: true }) selectedPermission!: PermissionDto;
   private apollo = inject(Apollo);
 
   subscription!: Subscription;
@@ -88,7 +88,7 @@ export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges,
   private getPermissionQuery?: QueryRef<
     graphql.GetPermissionDetailsQuery,
     {
-      id: string;
+      id: number;
     }
   >;
 
@@ -97,12 +97,12 @@ export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges,
       useInitialLoading: true,
       notifyOnNetworkStatusChange: true,
       query: graphql.GetPermissionDetailsDocument,
-      variables: { id: this.selectedPermission?.id.toString() ?? '' },
+      variables: { id: this.selectedPermission.id },
     });
 
     this.subscription = this.getPermissionQuery.valueChanges.subscribe({
       next: (result) => {
-        this.marketRoles = result.data?.permission?.assignableTo ?? [];
+        this.marketRoles = result.data?.permissionById?.assignableTo ?? [];
         this.loading = result.loading;
         this.error = result.error;
         this.dataSource.data = this.marketRoles;

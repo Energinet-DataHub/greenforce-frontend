@@ -29,7 +29,6 @@ import { translate, TranslocoModule } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
 
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import {
   WattTableDataSource,
   WattTableColumnDef,
@@ -39,6 +38,7 @@ import {
 
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 @Component({
   selector: 'dh-roles-tab-table',
@@ -55,7 +55,7 @@ import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.compone
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     WATT_TABLE,
-    DhSharedUiPaginatorComponent,
+    WattPaginatorComponent,
     DhRoleStatusComponent,
     DhRoleDrawerComponent,
     TranslocoModule,
@@ -68,7 +68,7 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit, OnDes
 
   @Input() roles: MarketParticipantUserRoleDto[] = [];
 
-  @Input() paginator!: DhSharedUiPaginatorComponent;
+  @Input() paginator!: WattPaginatorComponent<unknown>;
   @Output() userRoleDeactivated = new EventEmitter<void>();
 
   @ViewChild(DhRoleDrawerComponent)

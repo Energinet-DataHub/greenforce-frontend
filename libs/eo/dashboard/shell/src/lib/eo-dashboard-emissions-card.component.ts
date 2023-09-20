@@ -16,18 +16,18 @@
  */
 
 import { Component } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { EoEmissionsDataComponent } from '@energinet-datahub/eo/emissions/shell';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
   standalone: true,
-  imports: [MatCardModule, EoEmissionsDataComponent],
+  imports: [WATT_CARD, EoEmissionsDataComponent],
   selector: 'eo-dashboard-emissions-card',
-  template: ` <mat-card>
+  template: ` <watt-card>
     <h3 class="watt-space-stack-s">Emissions</h3>
     <p class="watt-space-stack-s">Your emissions in 2021</p>
     <eo-emissions-data></eo-emissions-data>
-  </mat-card>`,
+  </watt-card>`,
   styles: [
     `
       :host {

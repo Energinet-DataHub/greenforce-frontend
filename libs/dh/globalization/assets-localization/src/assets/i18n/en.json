@@ -9,8 +9,12 @@
   "shared": {
     "error": {
       "title": "An unexpected error occured",
-      "message": "Unfortunately, an error occurred while retrieving the necessary information.",
+      "message": "Unfortunately, an error occurred while retrieving the necessary information",
       "button": "Try again"
+    },
+    "empty": {
+      "title": "No results found",
+      "message": "Try changing the search criteria"
     },
     "fieldRequiredErrorText": "Field is required.",
     "navigation": {
@@ -818,14 +822,10 @@
     "tabs": {
       "outgoingMessages": {
         "tabLabel": "Outgoing"
+      },
+      "balanceResponsible": {
+        "tabLabel": "Balance responsible"
       }
-    },
-    "status": {
-      "Received": "Received",
-      "AwaitingDispatch": "Awaiting dispatch",
-      "AwaitingReply": "Awaiting reply",
-      "Accepted": "Accepted",
-      "Rejected": "Rejected"
     },
     "outgoingMessages": {
       "tabHeading": "Outgoing messages",
@@ -835,16 +835,16 @@
           "AGGREGATION": "Aggregation"
         },
         "messageType": {
-          "MGA_EXCHANGE": "MGA Exchange",
+          "MGA_EXCHANGE": "Exchange",
           "PRODUCTION": "Production",
           "CONSUMPTION": "Consumption"
         },
         "documentStatus": {
-          "RECEIVED": "{{ eSett.status.Received }}",
-          "AWAITING_DISPATCH": "{{ eSett.status.AwaitingDispatch }}",
-          "AWAITING_REPLY": "{{ eSett.status.AwaitingReply }}",
-          "ACCEPTED": "{{ eSett.status.Accepted }}",
-          "REJECTED": "{{ eSett.status.Rejected }}"
+          "RECEIVED": "Received",
+          "AWAITING_DISPATCH": "Awaiting dispatch",
+          "AWAITING_REPLY": "Awaiting reply",
+          "ACCEPTED": "Accepted",
+          "REJECTED": "Rejected"
         }
       },
       "filters": {
@@ -856,6 +856,7 @@
         "reset": "{{ shared.form.reset }}"
       },
       "columns": {
+        "created": "Created",
         "id": "ID",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
@@ -868,7 +869,8 @@
       "errorMessage": "{{ shared.error.message }}",
       "drawer": {
         "tabs": {
-          "message": "Message"
+          "message": "Message",
+          "receipt": "Receipt"
         },
         "metadata": {
           "created": "Created",
@@ -877,6 +879,21 @@
           "messageType": "{{ eSett.shared.messageType }}"
         }
       }
+    },
+    "balanceResponsible": {
+      "tabHeading": "Balance responsible",
+      "columns": {
+        "id": "ID",
+        "date": "Date",
+        "electricitySupplier": "Electricity supplier",
+        "balanceResponsible": "Balance responsible",
+        "meteringPointType": "Type of metering point",
+        "validFrom": "Valid from"
+      },
+      "emptyTitle": "No messages found",
+      "emptyMessage": "Try changing the search criteria",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
     }
   },
   "wholesale": {

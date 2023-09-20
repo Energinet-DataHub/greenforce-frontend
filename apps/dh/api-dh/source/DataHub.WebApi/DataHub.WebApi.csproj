@@ -15,10 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
     <ProjectGuid>{845192D8-844B-4F74-BB51-AB80617FF6C1}</ProjectGuid>
     <AssemblyName>Energinet.DataHub.WebApi</AssemblyName>
@@ -27,6 +25,9 @@ limitations under the License.
     <WarningsAsErrors />
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>false</IsPackable>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
     <MarketingParticipantProjectReference>../../../../../backend/geh-market-participant/source/api-client/Energinet.DataHub.MarketParticipant.Client/source/Energinet.DataHub.MarketParticipant.Client/Energinet.DataHub.MarketParticipant.Client.csproj</MarketingParticipantProjectReference>
   </PropertyGroup>
 
@@ -44,12 +45,25 @@ limitations under the License.
     <Exec Command="dotnet swagger tofile --output $(OutputPath)/swagger.json $(OutputPath)/$(AssemblyName).dll v1" />
   </Target>
 
+  <Target Name="AddSourceGeneratedFiles" AfterTargets="CoreCompile">
+    <ItemGroup>
+      <Compile Include="Generated\**" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="RemoveSourceGeneratedFiles" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <Compile Remove="Generated\**" />
+    </ItemGroup>
+  </Target>
+
   <ItemGroup>
-    <PackageReference Include="GraphQL.DataLoader" Version="7.3.0" />
-    <PackageReference Include="GraphQL.MicrosoftDI" Version="7.2.2" />
-    <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="7.2.0" />
-    <PackageReference Include="GraphQL.Server.Ui.Playground" Version="7.2.0" />
-    <PackageReference Include="GraphQL.SystemTextJson" Version="7.2.2" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="13.5.1" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.5.1" />
+    <PackageReference Include="HotChocolate.Types.Analyzers" Version="13.5.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="6.1.0" />

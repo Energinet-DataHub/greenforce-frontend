@@ -5,7 +5,7 @@ Notes regarding the development of the DataHub Backend-For-Frontend (BFF).
 ## Introduction
 
 The BFF exposes two different services, a GraphQL API using
-[GraphQL .NET] and a REST API built with ASP.NET Core MVC.
+[Hot Chocolate] and a REST API built with ASP.NET Core MVC.
 The primary data fetching should be done using GraphQL,
 but there are exceptions where the REST API is a better fit.
 For example, GraphQL is not a great protocol for file downloads, so
@@ -22,12 +22,12 @@ DataHub employee, take a look at the [dh3-dev-secrets] repository.
 
 This section serves as a brief introduction on how to use GraphQL
 in the BFF. For more technical documentation regarding the C# part,
-visit the [GraphQL .NET] website.
+visit the [Hot Chocolate] website.
 
 ### Playground
 
 When the BFF is running locally, it is possible to test queries in the
-playground. To do so, navigate to [localhost:5001] in the browser.
+playground. To do so, navigate to [localhost:5001/graphql] in the browser.
 Most queries need an `Authorization` header to be set with a Bearer token,
 which can be obtained by inspecting network calls in the [dev environment]
 and copying it.
@@ -51,7 +51,7 @@ with the other files.
 
 ### Creating a new query
 
-To create a new query using GraphQL .NET, follow this example:
+To create a new query using Hot Chocolate, follow this example:
 
 1. Define the data model class (skip this if using an existing DTO):
 
@@ -64,47 +64,47 @@ To create a new query using GraphQL .NET, follow this example:
     }
     ```
 
-2. Create a new class that inherits from ObjectGraphType and represents
-   the data model class. This class will define the GraphQL type:
+2. In the `Query.cs` file, add a new `GetBooks` method:
 
     ```csharp
-    public class BookType : ObjectGraphType<Book>
-   {
-        public BookType()
-        {
-            Field(x => x.Id);
-            Field(x => x.Title);
-            Field(x => x.Author);
-        }
-    }
-    ```
-
-3. In the `GraphQLQuery.cs` file, add a new call to `Field` with the
-desired query name and the ObjectGraphType defined previously:
-
-    ```csharp
-    public sealed class GraphQLQuery : ObjectGraphType
+    public class Query
     {
-        public GraphQLQuery()
-        {
-            Field<ListGraphType<BookType>>("books")
-                .Resolve(context => new List<Book>
-                {
-                    new Book { Id = 1, Title = "The Great Gatsby", Author = "F. Scott Fitzgerald" },
-                    new Book { Id = 2, Title = "To Kill a Mockingbird", Author = "Harper Lee" }
-                });
-
-            // ...
-        }
+        public IEnumerable<Book> GetBooks() =>
+            new List<Book>
+            {
+                new Book { Id = 1, Title = "The Great Gatsby", Author = "F. Scott Fitzgerald" },
+                new Book { Id = 2, Title = "To Kill a Mockingbird", Author = "Harper Lee" }
+            }
+        
+        // ...
     }
     ```
 
-4. Restart the server and it should now be possible to query
+3. Restart the server and it should now be possible to query
    the list of books in the [playground](#playground).
 
 ### Testing
 
-TBA
+Our GraphQL testing setup uses snapshots to check for changes in schema and payloads. Since the
+GraphQL server heavily relies on inferring types from client services, we need to be thorough
+in testing the entire schema for any unexpected field updates. If the new schema doesn't match the
+stored snapshot exactly, this test will fail.
+
+To determine if any changes have occurred in the snapshots, execute the following command:
+
+```sh
+yarn nx test api-dh
+```
+
+If the tests fail because of snapshot mismatches, you'll see a comparison in the console, and a
+`__MISMATCH__` folder will pop up inside the `__snapshots__` folder, located at
+`apps/dh/api-dh/source/DataHub.WebApi.Tests/Integration/GraphQL`.
+
+Take a close look at the changes. If they're intentional, you can simply replace the file(s) in the
+`__snapshots__` folder with the ones in the `__MISMATCH__` folder (they have the same names, so
+dragging and dropping should work). If the changes weren't intentional, fix the problem in the
+server code, and then rerun the test command. The files in `__MISMATCH__` will automatically be
+deleted as soon as their corresponding tests passes.
 
 ### Evolution over versioning
 
@@ -144,10 +144,10 @@ with the version (e.g. `\v1\`).
 [`DataHub.WebApi`]: ../source/DataHub.WebApi/
 [Startup.cs]: ../source/DataHub.WebApi/Startup.cs
 [sample file]: ../source/DataHub.WebApi/appsettings.Development.json.sample
-[localhost:5001]: https://localhost:5001
+[localhost:5001/graphql]: https://localhost:5001/graphql
 [dh3-dev-secrets]: https://github.com/Energinet-DataHub/dh3-dev-secrets
 [dev environment]: https://jolly-sand-03f839703.azurestaticapps.net
-[GraphQL .NET]: https://graphql-dotnet.github.io
+[Hot Chocolate]: https://chillicream.com/docs/hotchocolate/v13
 [Swashbuckle]: https://github.com/domaindrivendev/Swashbuckle.AspNetCore
 [Swashbuckle-get-started]: https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle
 [GraphQL Code Generator]: https://the-guild.dev/graphql/codegen

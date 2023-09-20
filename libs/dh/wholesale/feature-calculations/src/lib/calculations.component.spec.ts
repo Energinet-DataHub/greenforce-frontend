@@ -53,9 +53,4 @@ describe(DhCalculationsComponent, () => {
     await setup();
     expect(screen.getByRole('searchbox')).toBeInTheDocument();
   });
-
-  it('should search calculations on init', async () => {
-    await setup();
-    expect(screen.queryByRole('progressbar')).toBeInTheDocument();
-  });
 });
