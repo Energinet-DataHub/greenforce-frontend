@@ -23,6 +23,8 @@ export class ConnectionsPo {
   private connectionInvitationId = 'MOCKED-CONNECTION-INVITATION-ID';
   private mockedInvitationLink =
     'http://localhost:4200/connections?accept-invitation=' + this.connectionInvitationId;
+  private removeConnectionButton = '[data-testid="remove-connection-button"]';
+  private confirmRemovalButton = '[data-testid="confirm-removal-button"]';
 
   // Visibility
   headerIsVisible = () => cy.get('h2').should('contain.text', this.pageHeaderText);
@@ -38,6 +40,17 @@ export class ConnectionsPo {
     });
 
     cy.get(this.newInvitationButton).click();
+  }
+
+  clickRemoveConnectionButton() {
+    cy.intercept('DELETE', 'https://demo.energioprindelse.dk/api/connections/ID1', {
+      statusCode: 200,
+    });
+    cy.get(this.removeConnectionButton).first().click();
+  }
+
+  clickConfirmRemoveConnectionButton() {
+    cy.get(this.confirmRemovalButton).click();
   }
 
   clickCopyInitiationLinkButton() {
