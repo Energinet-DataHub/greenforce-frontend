@@ -55,7 +55,7 @@ import { EoRemoveConnectionComponent } from '../feature-remove-connection';
         }
 
         watt-table table {
-          --watt-table-grid-template-columns: 162px auto 0fr;
+          --watt-table-grid-template-columns: auto auto 60px;
         }
       }
     `,
