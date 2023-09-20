@@ -43,6 +43,9 @@ export class ConnectionsPo {
   }
 
   clickRemoveConnectionButton() {
+    cy.intercept('DELETE', 'https://demo.energioprindelse.dk/api/connections/ID1', {
+      statusCode: 200,
+    });
     cy.get(this.removeConnectionButton).first().click();
   }
 
