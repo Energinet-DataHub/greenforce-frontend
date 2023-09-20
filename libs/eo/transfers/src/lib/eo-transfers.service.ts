@@ -52,11 +52,6 @@ export interface EoWalletDepositEndpointResponse {
   result: string;
 }
 
-export const enum TransferAutomationStatus {
-  Success = 'Success',
-  Error = 'Error',
-}
-
 @Injectable({
   providedIn: 'root',
 })
