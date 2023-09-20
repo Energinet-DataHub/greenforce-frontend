@@ -16,25 +16,12 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
-[disabled="true"] watt-field .label {
+[watt-field-disabled="true"] watt-field .label {
   color: var(--watt-disabled-text-label-color);
 }
 
-[disabled="true"] .watt-field-wrapper {
+[watt-field-disabled="true"] .watt-field-wrapper {
   background-color: var(--watt-field-disabled-background-color);
-}
-
-form.ng-dirty.ng-invalid .ng-dirty.ng-invalid .watt-field-wrapper {
-  border: 1px solid var(--watt-color-state-danger);
-}
-
-form.ng-dirty.ng-invalid .ng-dirty.ng-invalid watt-field .label {
-  color: var(--watt-color-state-danger);
-}
-
-[required] watt-field .label::after,
-.ng-dirty.ng-invalid .ng-dirty.ng-invalid watt-field .label::after {
-  content: " *";
 }
 
 watt-field watt-field-hint {
@@ -46,12 +33,28 @@ watt-field watt-field-error,
   display: none;
 }
 
-form.ng-dirty.ng-invalid .ng-dirty.ng-invalid watt-field watt-field-hint {
+.ng-dirty.ng-invalid watt-field watt-field-hint {
   display: none;
 }
 
-form.ng-dirty.ng-invalid .ng-dirty.ng-invalid watt-field watt-field-error {
+.ng-dirty.ng-invalid watt-field watt-field-error {
   display: block;
+}
+
+form.ng-dirty .ng-invalid .watt-field-wrapper,
+.ng-dirty.ng-invalid:not(form) .watt-field-wrapper {
+  border-color: var(--watt-color-state-danger);
+}
+
+form.ng-dirty .ng-invalid watt-field .label,
+.ng-dirty.ng-invalid:not(form) watt-field .label {
+  color: var(--watt-color-state-danger);
+}
+
+[required] watt-field .label::after,
+form.ng-dirty .ng-invalid watt-field .label::after,
+.ng-dirty.ng-invalid:not(form) watt-field .label::after {
+  content: " *";
 }
 
 watt-field {
@@ -65,6 +68,14 @@ watt-field {
   width: 100%;
   display: block;
 
+  &:not(.watt-field--chip) {
+    min-height: 100px;
+  }
+
+  &.watt-field--chip .watt-field-wrapper {
+    border: none;
+  }
+
   .label {
     min-height: 27px;
     display: block;
@@ -75,10 +86,6 @@ watt-field {
     color: var(--watt-label-text-color);
     display: block;
     width: 100%;
-
-    .watt-field-wrapper.chip {
-      border: none;
-    }
 
     .watt-field-wrapper {
       @include watt.typography-watt-text-s;

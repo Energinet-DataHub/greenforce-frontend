@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { NgIf, NgClass } from '@angular/common';
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'watt-field',
@@ -26,7 +26,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
   template: `
     <label [attr.for]="id ? id : null">
       <span *ngIf="!chipMode" class="label">{{ label }}</span>
-      <div class="watt-field-wrapper" [ngClass]="{ chip: chipMode }">
+      <div class="watt-field-wrapper">
         <ng-content />
       </div>
       <ng-content select="watt-field-hint" />
@@ -38,4 +38,8 @@ export class WattFieldComponent {
   @Input() label!: string;
   @Input() id!: string;
   @Input() chipMode = false;
+  @HostBinding('class')
+  get _chip() {
+    return this.chipMode ? `watt-field--chip` : undefined;
+  }
 }

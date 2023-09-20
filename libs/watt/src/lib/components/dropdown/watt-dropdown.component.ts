@@ -88,7 +88,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    * @ignore
    *
    */
-  @HostBinding('attr.disabled')
+  @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
 
   /**

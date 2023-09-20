@@ -63,7 +63,7 @@ export class WattTextAreaFieldComponent implements ControlValueAccessor {
   model!: string;
   private element = inject(ElementRef);
 
-  @HostBinding('attr.disabled')
+  @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
 
   /* @ignore */

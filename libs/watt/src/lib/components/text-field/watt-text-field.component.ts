@@ -23,6 +23,7 @@ import {
   HostBinding,
   inject,
   ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { WattFieldComponent } from '../field/watt-field.component';
@@ -49,12 +50,13 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       [attr.aria-label]="label"
       [attr.type]="type"
       [attr.placeholder]="placeholder"
+      [disabled]="isDisabled"
       [value]="value"
       [(ngModel)]="model"
-      [disabled]="isDisabled"
       (ngModelChange)="onChange($event)"
       [required]="required"
       [maxlength]="maxLength"
+      #inputField
     />
     <ng-content />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
@@ -70,11 +72,13 @@ export class WattTextFieldComponent implements ControlValueAccessor {
   @Input() prefix?: WattIcon;
   @Input() maxLength: string | number | null = null;
 
+  @ViewChild('inputField') inputField!: ElementRef<HTMLInputElement>;
+
   /* @ignore */
   model!: string;
   private element = inject(ElementRef);
 
-  @HostBinding('attr.disabled')
+  @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
 
   /* @ignore */
@@ -100,5 +104,9 @@ export class WattTextFieldComponent implements ControlValueAccessor {
   /* @ignore */
   setDisabledState(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
+  }
+
+  setFocus(): void {
+    this.inputField.nativeElement.focus();
   }
 }

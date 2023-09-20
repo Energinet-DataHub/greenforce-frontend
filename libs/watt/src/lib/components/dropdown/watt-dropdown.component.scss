@@ -82,7 +82,7 @@ watt-dropdown {
     background: var(--watt-color-neutral-white);
   }
 
-  .chip .mat-mdc-select {
+  .watt-field--chip .mat-mdc-select {
     visibility: hidden;
     position: absolute;
   }
