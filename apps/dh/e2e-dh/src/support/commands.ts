@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 import '@testing-library/cypress/add-commands';
-// Appearantly there are some issues with `paths` so we need to use absolute paths for now.
-import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
 function loginViaB2C(email: string, password: string) {
   cy.visit('/');
@@ -66,8 +64,10 @@ Cypress.Commands.add('login', (email: string, password: string) => {
     },
     {
       validate: () => {
-        cy.visit(Cypress.config('baseUrl'));
-        cy.get('h1').contains(daTranslations.meteringPoint.search.title);
+        cy.findByRole('heading', {
+          name: new RegExp('Søg målepunkter', 'i'),
+          timeout: 10000,
+        });
       },
     }
   );

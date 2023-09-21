@@ -14,11 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-describe('Application shell', () => {
-  it('should display welcome message', () => {
-    cy.visit('/metering-point/search');
-    cy.findByRole('heading', {
-      name: new RegExp('Søg målepunkter', 'i'),
-    });
-  });
+import { defineConfig } from 'cypress';
+
+export default defineConfig({
+  e2e: {
+    video: true,
+    chromeWebSecurity: false,
+    supportFile: `${__dirname}/src/support/e2e.ts`,
+    specPattern: `${__dirname}/src/**/*.cy.ts`,
+    excludeSpecPattern: `${__dirname}/src/e2e/b2c-healthchecks.cy.ts`,
+    fixturesFolder: `${__dirname}/src/fixtures`,
+  },
 });
