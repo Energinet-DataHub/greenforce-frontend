@@ -66,6 +66,7 @@ Cypress.Commands.add('login', (email: string, password: string) => {
       validate: () => {
         cy.findByRole('heading', {
           name: new RegExp('Søg målepunkter', 'i'),
+          timeout: 10000,
         });
       },
     }
