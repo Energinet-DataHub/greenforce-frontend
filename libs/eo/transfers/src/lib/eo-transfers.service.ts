@@ -16,7 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { getUnixTime } from 'date-fns';
@@ -102,5 +102,11 @@ export class EoTransfersService {
       `${this.#apiBase}/transfer-agreements/wallet-deposit-endpoint`,
       {}
     );
+  }
+
+  transferAutomationHasError(): Observable<boolean> {
+    return this.http
+      .get<{ healthy: boolean }>(`${this.#apiBase}/transfer-automation/status`)
+      .pipe(map((response) => !response.healthy));
   }
 }

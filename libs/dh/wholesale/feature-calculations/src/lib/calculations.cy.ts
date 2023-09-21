@@ -16,15 +16,17 @@
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { importProvidersFrom } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ApolloModule } from 'apollo-angular';
+
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
-import { importProvidersFrom } from '@angular/core';
-import { ApolloModule } from 'apollo-angular';
-import { RouterTestingModule } from '@angular/router/testing';
+
 import { DhCalculationsComponent } from './calculations.component';
 
 const { calculations } = daTranslations.wholesale;

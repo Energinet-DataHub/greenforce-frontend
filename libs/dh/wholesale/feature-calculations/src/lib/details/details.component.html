@@ -14,49 +14,47 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let transloco; read: 'wholesale.calculations'">
-  <watt-drawer #drawer (closed)="closed.emit()">
-    <watt-drawer-topbar
-      ><watt-badge [type]="calculation?.statusType ?? 'skeleton'" *ngIf="!error">{{
-        calculation?.executionState
-          ? transloco("executionStates." + calculation?.executionState)
-          : "unknown"
-      }}</watt-badge></watt-drawer-topbar
-    >
-    <watt-drawer-heading>
-      <div class="headline-container">
-        <h3 class="headline watt-headline-1">
-          {{ transloco("details.headline", { id }) }}
-        </h3>
-      </div>
-    </watt-drawer-heading>
-    <watt-drawer-content>
-      <watt-description-list>
-        <watt-description-list-item
-          [label]="transloco('details.period')"
-          [value]="calculation?.period | wattDate : 'long' | dhEmDashFallback"
-        />
-        <watt-description-list-item
-          [label]="transloco('details.executionTime')"
-          [value]="calculation?.executionTimeStart | wattDate : 'long' | dhEmDashFallback"
-        />
-      </watt-description-list>
+<watt-drawer #drawer (closed)="closed.emit()">
+  <watt-drawer-topbar *transloco="let transloco; read: 'wholesale.calculations'"
+    ><watt-badge [type]="calculation?.statusType ?? 'skeleton'" *ngIf="!error">{{
+      calculation?.executionState
+        ? transloco("executionStates." + calculation?.executionState)
+        : "unknown"
+    }}</watt-badge></watt-drawer-topbar
+  >
+  <watt-drawer-heading *transloco="let transloco; read: 'wholesale.calculations'">
+    <div class="headline-container">
+      <h3 class="headline watt-headline-1">
+        {{ transloco("details.headline", { id }) }}
+      </h3>
+    </div>
+  </watt-drawer-heading>
+  <watt-drawer-content *transloco="let transloco; read: 'wholesale.calculations'">
+    <watt-description-list>
+      <watt-description-list-item
+        [label]="transloco('details.period')"
+        [value]="calculation?.period | wattDate : 'long' | dhEmDashFallback"
+      />
+      <watt-description-list-item
+        [label]="transloco('details.executionTime')"
+        [value]="calculation?.executionTimeStart | wattDate : 'long' | dhEmDashFallback"
+      />
+    </watt-description-list>
 
-      <ng-container *ngIf="calculation">
-        <dh-calculations-grid-areas *ngIf="calculation.gridAreas" [data]="calculation.gridAreas" />
-      </ng-container>
+    <ng-container *ngIf="calculation">
+      <dh-calculations-grid-areas *ngIf="calculation.gridAreas" [data]="calculation.gridAreas" />
+    </ng-container>
 
-      <div class="center" *ngIf="loading && !calculation?.gridAreas">
-        <watt-spinner />
-      </div>
+    <div class="center" *ngIf="loading && !calculation?.gridAreas">
+      <watt-spinner />
+    </div>
 
-      <div *ngIf="error" class="center">
-        <watt-empty-state
-          icon="custom-power"
-          [title]="transloco('details.emptyTitle')"
-          [message]="transloco('details.emptyMessage')"
-        />
-      </div>
-    </watt-drawer-content>
-  </watt-drawer>
-</ng-container>
+    <div *ngIf="error" class="center">
+      <watt-empty-state
+        icon="custom-power"
+        [title]="transloco('details.emptyTitle')"
+        [message]="transloco('details.emptyMessage')"
+      />
+    </div>
+  </watt-drawer-content>
+</watt-drawer>
