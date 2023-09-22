@@ -29,12 +29,10 @@ import { NgIf } from '@angular/common';
 import { first } from 'rxjs';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { EoConnection, EoConnectionsService } from '../data-access-api/connections.service';
@@ -45,11 +43,9 @@ import { EoConnection, EoConnectionsService } from '../data-access-api/connectio
   encapsulation: ViewEncapsulation.None,
   imports: [
     NgIf,
-    WATT_FORM_FIELD,
     WATT_MODAL,
     WattButtonComponent,
     WattCopyToClipboardDirective,
-    WattInputDirective,
     WattEmptyStateComponent,
     VaterStackComponent,
   ],
@@ -92,7 +88,7 @@ export class EoRemoveConnectionComponent {
 
   private cd = inject(ChangeDetectorRef);
   private connectionsService = inject(EoConnectionsService);
-  private toastService = inject(WattToastService);
+  private toastService: WattToastService = inject(WattToastService);
 
   protected isRemovingConnection = signal<boolean>(false);
   protected isOpen = signal<boolean>(false);
