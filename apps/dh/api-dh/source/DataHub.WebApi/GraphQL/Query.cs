@@ -200,7 +200,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             DocumentStatus? documentStatus,
             TimeSeriesType? timeSeriesType,
             [Service] IESettExchangeClient_V1 client) =>
-            client.SearchAsync(new ExchangeEventSearchFilter
+            client.Search2Async(new ExchangeEventSearchFilter
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
@@ -210,6 +210,18 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 ProcessType = processType,
                 DocumentStatus = documentStatus,
                 TimeSeriesType = timeSeriesType,
+            });
+
+        public Task<BalanceResponsibleSearchResponse> SearchEsettBalanceResponsibleAsync(
+            int pageNumber,
+            int pageSize,
+            string searchText,
+            [Service] IESettExchangeClient_V1 client) =>
+            client.SearchAsync(new BalanceResponsibleSearchFilter
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                SearchText = searchText,
             });
     }
 }
