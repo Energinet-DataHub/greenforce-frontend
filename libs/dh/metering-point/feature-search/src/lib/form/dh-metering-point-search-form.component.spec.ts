@@ -18,7 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { render, screen, fireEvent, waitFor } from '@testing-library/angular';
+import { render, screen, waitFor } from '@testing-library/angular';
 import { TestBed } from '@angular/core/testing';
 import userEvent from '@testing-library/user-event';
 
@@ -34,7 +34,7 @@ import {
 import { DhMeteringPointSearchComponent } from '../dh-metering-point-search.component';
 import { DhMeteringPointSearchFormComponent } from './dh-metering-point-search-form.component';
 
-describe(DhMeteringPointSearchFormComponent.name, () => {
+describe(DhMeteringPointSearchFormComponent, () => {
   async function setup() {
     const { fixture, navigate } = await render(DhMeteringPointSearchFormComponent, {
       imports: [NoopAnimationsModule, getTranslocoTestingModule()],
@@ -56,9 +56,12 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
       name: enTranslations.meteringPoint.search.searchButton,
     });
 
+    const searchControl = screen.getByTestId('searchInput');
+
     const activatedRoute = TestBed.inject(ActivatedRoute);
 
     return {
+      searchControl,
       input,
       submitButton,
       submitSpy,
@@ -87,19 +90,19 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
     const value = '23';
     userEvent.type(input, value);
-    expect(input.value).toBe(value);
+    waitFor(() => expect(input.value).toBe(value));
 
     clearButton.click();
-    expect(input.value).toBe('');
+    waitFor(() => expect(input.value).toBe(''));
   });
 
-  it('should not show errors before input has been blurred', async () => {
+  it('should not show errors before input has been typed', async () => {
     const { input } = await setup();
     expect(
       screen.queryByText(enTranslations.meteringPoint.search.searchInvalidLength)
     ).not.toBeInTheDocument();
 
-    fireEvent.blur(input);
+    userEvent.type(input, invalidMeteringPointId);
 
     expect(
       screen.queryByText(enTranslations.meteringPoint.search.searchInvalidLength)
@@ -126,14 +129,14 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
     });
 
     it('should not submit invalid form, but instead show error message and focus input', async () => {
-      const { submitButton, submitSpy, input, activatedRoute } = await setup();
+      const { submitButton, submitSpy, input, activatedRoute, searchControl } = await setup();
 
       userEvent.type(input, invalidMeteringPointId);
       userEvent.click(submitButton);
 
       const errors = screen.getByText(enTranslations.meteringPoint.search.searchInvalidLength);
 
-      expect(input).toBeInvalid();
+      await waitFor(() => expect(searchControl).toBeInvalid());
       expect(input).toHaveFocus();
       expect(errors).toBeInTheDocument();
       expect(submitSpy).not.toHaveBeenCalled();
@@ -148,7 +151,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
   describe('on deeplink', () => {
     it('should have initial value', async () => {
-      const { fixture, input, navigate } = await setup();
+      const { fixture, input, navigate, searchControl } = await setup();
       await navigate(
         `${dhMeteringPointPath}/${dhMeteringPointSearchPath}?q=${validMeteringPointId}`
       );
@@ -158,12 +161,12 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
       const errors = screen.queryByText(enTranslations.meteringPoint.search.searchInvalidLength);
 
       expect(input.value).toBe(validMeteringPointId);
-      expect(input).toBeValid();
+      expect(searchControl).toBeValid();
       expect(errors).not.toBeInTheDocument();
     });
 
     it('should show error message, if initial value is not valid', async () => {
-      const { fixture, input, navigate } = await setup();
+      const { fixture, input, navigate, searchControl } = await setup();
       await navigate(
         `${dhMeteringPointPath}/${dhMeteringPointSearchPath}?q=${invalidMeteringPointId}`
       );
@@ -174,11 +177,11 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
       expect(errors).toBeInTheDocument();
       expect(input.value).toBe(invalidMeteringPointId);
-      expect(input).toBeInvalid();
+      expect(searchControl).toBeInvalid();
     });
 
     it('should not show error message, if initial value is empty', async () => {
-      const { fixture, input, navigate } = await setup();
+      const { fixture, input, navigate, searchControl } = await setup();
       await navigate(`${dhMeteringPointPath}/${dhMeteringPointSearchPath}`);
 
       fixture.componentInstance.ngAfterViewInit();
@@ -187,7 +190,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
       expect(errors).not.toBeInTheDocument();
       expect(input.value).toBe('');
-      expect(input).toBeValid();
+      expect(searchControl).toBeValid();
     });
   });
 });

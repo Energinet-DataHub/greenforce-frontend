@@ -18,14 +18,15 @@ import { NgClass, NgIf } from '@angular/common';
 import {
   Component,
   Input,
-  forwardRef,
   ViewEncapsulation,
   HostBinding,
   inject,
   ElementRef,
   ViewChild,
+  Self,
+  Optional,
 } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
 import { WattFieldComponent } from '../field/watt-field.component';
 import { WattIconComponent, WattIcon } from '../../foundations/icon';
 
@@ -34,13 +35,6 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
 @Component({
   standalone: true,
   imports: [NgClass, FormsModule, WattFieldComponent, WattIconComponent, NgIf],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => WattTextFieldComponent),
-      multi: true,
-    },
-  ],
   selector: 'watt-text-field',
   styleUrls: ['./watt-text-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -50,12 +44,11 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       [attr.aria-label]="label"
       [attr.type]="type"
       [attr.placeholder]="placeholder"
+      [attr.maxlength]="maxLength ? maxLength : null"
       [disabled]="isDisabled"
-      [value]="value"
       [(ngModel)]="model"
-      (ngModelChange)="onChange($event)"
+      (ngModelChange)="onChanged($event)"
       [required]="required"
-      [maxlength]="maxLength"
       #inputField
     />
     <ng-content />
@@ -71,15 +64,25 @@ export class WattTextFieldComponent implements ControlValueAccessor {
   @Input() label = '';
   @Input() prefix?: WattIcon;
   @Input() maxLength: string | number | null = null;
+  @HostBinding('attr.aria-invalid')
+  invalid = false;
 
   @ViewChild('inputField') inputField!: ElementRef<HTMLInputElement>;
-
-  /* @ignore */
   model!: string;
+
   private element = inject(ElementRef);
 
   @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
+
+  constructor(@Self() @Optional() private control: NgControl) {
+    this.control.valueAccessor = this;
+  }
+
+  onChanged(value: string): void {
+    this.onChange(value);
+    this.updateInvalid();
+  }
 
   /* @ignore */
   onChange: (value: string) => void = () => {
@@ -89,6 +92,7 @@ export class WattTextFieldComponent implements ControlValueAccessor {
   /* @ignore */
   writeValue(value: string): void {
     this.model = value;
+    this.updateInvalid();
   }
 
   /* @ignore */
@@ -108,5 +112,9 @@ export class WattTextFieldComponent implements ControlValueAccessor {
 
   setFocus(): void {
     this.inputField.nativeElement.focus();
+  }
+
+  updateInvalid(): void {
+    this.invalid = this.control.invalid ?? false;
   }
 }
