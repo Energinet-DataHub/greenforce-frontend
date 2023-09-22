@@ -40,10 +40,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
             string searchTerm,
             [Service] IMarketParticipantPermissionsClient client) =>
             (await client.GetPermissionsAsync())
-                .Where(x =>
-                    searchTerm is null ||
-                    x.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ||
-                    x.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase));
+            .Where(x =>
+                searchTerm is null ||
+                x.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ||
+                x.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase));
 
         public async Task<IEnumerable<PermissionLog>> GetPermissionLogsAsync(
             int id,
@@ -57,7 +57,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     ChangedByUserId = log.ChangedByUserId,
                     Value = log.Value,
                     Timestamp = log.Timestamp,
-                    Type = log.PermissionChangeType switch {
+                    Type = log.PermissionChangeType switch
+                    {
                         PermissionChangeType.DescriptionChange =>
                             PermissionAuditLogType.DescriptionChange,
                     },
@@ -100,24 +101,24 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Interval? period,
             int? first,
             [Service] IWholesaleClient_V3 client)
-            {
-                executionStates ??= Array.Empty<BatchState>();
-                processTypes ??= Array.Empty<ProcessType>();
-                var minExecutionTime = executionTime?.Start.ToDateTimeOffset();
-                var maxExecutionTime = executionTime?.End.ToDateTimeOffset();
-                var periodStart = period?.Start.ToDateTimeOffset();
-                var periodEnd = period?.End.ToDateTimeOffset();
+        {
+            executionStates ??= Array.Empty<BatchState>();
+            processTypes ??= Array.Empty<ProcessType>();
+            var minExecutionTime = executionTime?.Start.ToDateTimeOffset();
+            var maxExecutionTime = executionTime?.End.ToDateTimeOffset();
+            var periodStart = period?.Start.ToDateTimeOffset();
+            var periodEnd = period?.End.ToDateTimeOffset();
 
-                // The API only allows for a single execution state to be specified
-                BatchState? executionState = executionStates.Length == 1 ? executionStates[0] : null;
+            // The API only allows for a single execution state to be specified
+            BatchState? executionState = executionStates.Length == 1 ? executionStates[0] : null;
 
-                var batches = (await client.SearchBatchesAsync(gridAreaCodes, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd))
-                    .OrderByDescending(x => x.ExecutionTimeStart)
-                    .Where(x => executionStates.Length <= 1 || executionStates.Contains(x.ExecutionState))
-                    .Where(x => processTypes.Length == 0 || processTypes.Contains(x.ProcessType));
+            var batches = (await client.SearchBatchesAsync(gridAreaCodes, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd))
+                .OrderByDescending(x => x.ExecutionTimeStart)
+                .Where(x => executionStates.Length <= 1 || executionStates.Contains(x.ExecutionState))
+                .Where(x => processTypes.Length == 0 || processTypes.Contains(x.ProcessType));
 
-                return first is not null ? batches.Take(first.Value) : batches;
-            }
+            return first is not null ? batches.Take(first.Value) : batches;
+        }
 
         public async Task<IEnumerable<SettlementReport>> GetSettlementReportsAsync(
             string[]? gridAreaCodes,
@@ -125,36 +126,36 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Interval? executionTime,
             [Service] IWholesaleClient_V3 wholesaleClient,
             [Service] IMarketParticipantClient marketParticipantClient)
+        {
+            gridAreaCodes ??= Array.Empty<string>();
+            var minExecutionTime =
+                executionTime?.HasStart == true ? executionTime?.Start.ToDateTimeOffset() : null;
+            var maxExecutionTime = executionTime?.HasEnd == true ? executionTime?.End.ToDateTimeOffset() : null;
+            var periodStart = period?.HasStart == true ? period?.Start.ToDateTimeOffset() : null;
+            var periodEnd = period?.HasEnd == true ? period?.End.ToDateTimeOffset() : null;
+
+            var gridAreasTask = marketParticipantClient.GetGridAreasAsync();
+            var batchesTask = wholesaleClient.SearchBatchesAsync(gridAreaCodes, BatchState.Completed, minExecutionTime, maxExecutionTime, periodStart, periodEnd);
+            var batches = await batchesTask;
+            var gridAreas = await gridAreasTask;
+
+            return batches.Aggregate(new List<SettlementReport>(), (accumulator, batch) =>
             {
-                gridAreaCodes ??= Array.Empty<string>();
-                var minExecutionTime =
-                    executionTime?.HasStart == true ? executionTime?.Start.ToDateTimeOffset() : null;
-                var maxExecutionTime = executionTime?.HasEnd == true ? executionTime?.End.ToDateTimeOffset() : null;
-                var periodStart = period?.HasStart == true ? period?.Start.ToDateTimeOffset() : null;
-                var periodEnd = period?.HasEnd == true ? period?.End.ToDateTimeOffset() : null;
+                var settlementReports = batch.GridAreaCodes
+                    .Where(gridAreaCode => gridAreaCodes.Length == 0 || gridAreaCodes.Contains(gridAreaCode))
+                    .Select(gridAreaCode => new SettlementReport(
+                        batch.BatchId,
+                        ProcessType.BalanceFixing,
+                        gridAreas.First(gridArea => gridArea.Code == gridAreaCode),
+                        new Interval(
+                            Instant.FromDateTimeOffset(batch.PeriodStart),
+                            Instant.FromDateTimeOffset(batch.PeriodEnd)),
+                        batch.ExecutionTimeStart));
 
-                var gridAreasTask = marketParticipantClient.GetGridAreasAsync();
-                var batchesTask = wholesaleClient.SearchBatchesAsync(gridAreaCodes, BatchState.Completed, minExecutionTime, maxExecutionTime, periodStart, periodEnd);
-                var batches = await batchesTask;
-                var gridAreas = await gridAreasTask;
-
-                return batches.Aggregate(new List<SettlementReport>(), (accumulator, batch) =>
-                {
-                    var settlementReports = batch.GridAreaCodes
-                        .Where(gridAreaCode => gridAreaCodes.Length == 0 || gridAreaCodes.Contains(gridAreaCode))
-                        .Select(gridAreaCode => new SettlementReport(
-                            batch.BatchId,
-                            ProcessType.BalanceFixing,
-                            gridAreas.First(gridArea => gridArea.Code == gridAreaCode),
-                            new Interval(
-                                Instant.FromDateTimeOffset(batch.PeriodStart),
-                                Instant.FromDateTimeOffset(batch.PeriodEnd)),
-                            batch.ExecutionTimeStart));
-
-                    accumulator.AddRange(settlementReports);
-                    return accumulator;
-                });
-            }
+                accumulator.AddRange(settlementReports);
+                return accumulator;
+            });
+        }
 
         public Task<ActorDto> GetActorByIdAsync(
             Guid id,
@@ -165,25 +166,26 @@ namespace Energinet.DataHub.WebApi.GraphQL
             EicFunction[]? eicFunctions,
             [Service] IHttpContextAccessor httpContextAccessor,
             [Service] IMarketParticipantClient client)
+        {
+            var actors = await client.GetActorsAsync();
+
+            // TODO: The contents of eicFunctions is not currently used?
+            actors = eicFunctions switch
             {
-                var actors = await client.GetActorsAsync();
+                { Length: 0 } => actors,
+                _ => actors.Where(x =>
+                    x.MarketRoles.Any(y =>
+                        y.EicFunction is EicFunction.EnergySupplier or EicFunction.GridAccessProvider)),
+            };
 
-                // TODO: The contents of eicFunctions is not currently used?
-                actors = eicFunctions switch {
-                    { Length: 0 } => actors,
-                    _ => actors.Where(x =>
-                        x.MarketRoles.Any(y =>
-                            y.EicFunction is EicFunction.EnergySupplier or EicFunction.GridAccessProvider)),
-                };
-
-                // TODO: Is this the right place to filter this list?
-                var user = httpContextAccessor.HttpContext?.User;
-                return user is null
-                    ? Enumerable.Empty<ActorDto>()
-                    : user.IsFas()
+            // TODO: Is this the right place to filter this list?
+            var user = httpContextAccessor.HttpContext?.User;
+            return user is null
+                ? Enumerable.Empty<ActorDto>()
+                : user.IsFas()
                     ? actors
                     : actors.Where(actor => actor.ActorId == user.GetAssociatedActor());
-            }
+        }
 
         public Task<ExchangeEventTrackingResult> GetEsettOutgoingMessageByIdAsync(
             string documentId,
@@ -200,7 +202,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             DocumentStatus? documentStatus,
             TimeSeriesType? timeSeriesType,
             [Service] IESettExchangeClient_V1 client) =>
-            client.SearchAsync(new ExchangeEventSearchFilter
+            client.Search2Async(new ExchangeEventSearchFilter
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
@@ -210,6 +212,18 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 ProcessType = processType,
                 DocumentStatus = documentStatus,
                 TimeSeriesType = timeSeriesType,
+            });
+
+        public Task<BalanceResponsibleSearchResponse> SearchEsetBalanceResponsibleAsync(
+            int pageNumber,
+            int pageSize,
+            string searchText,
+            [Service] IESettExchangeClient_V1 client) =>
+            client.SearchAsync(new BalanceResponsibleSearchFilter
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                SearchText = searchText,
             });
     }
 }
