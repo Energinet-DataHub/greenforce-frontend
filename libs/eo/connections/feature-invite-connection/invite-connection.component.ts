@@ -75,7 +75,6 @@ import { EoInviteConnectionService } from '../data-access-api/invite-connection.
           />
           <watt-button
             variant="text"
-            style="margin-top:26px"
             icon="contentCopy"
             data-testid="copy-invitation-link-button"
             [wattCopyToClipboard]="key.value"

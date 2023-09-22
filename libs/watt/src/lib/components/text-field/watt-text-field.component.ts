@@ -46,6 +46,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       [attr.placeholder]="placeholder"
       [attr.maxlength]="maxLength ? maxLength : null"
       [disabled]="isDisabled"
+      [value]="value"
       [(ngModel)]="model"
       (ngModelChange)="onChanged($event)"
       [required]="required"
@@ -76,6 +77,7 @@ export class WattTextFieldComponent implements ControlValueAccessor {
   isDisabled = false;
 
   constructor(@Self() @Optional() private control: NgControl) {
+    if (!this.control) return;
     this.control.valueAccessor = this;
   }
 
@@ -115,6 +117,7 @@ export class WattTextFieldComponent implements ControlValueAccessor {
   }
 
   updateInvalid(): void {
+    if (!this.control) return;
     this.invalid = this.control.invalid ?? false;
   }
 }
