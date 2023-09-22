@@ -28,7 +28,7 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 import { EoBetaMessageComponent } from '../../shared/atomic-design/ui-atoms/src/lib/eo-beta-message/eo-beta-message.component';
 import { EoConnectionsTableComponent } from './connections-table.component';
-import { EoInviteConnectionComponent } from '../feature-invite/invite-connection.component';
+import { EoInviteConnectionComponent } from '../feature-invite-connection/invite-connection.component';
 import { EoConnection, EoConnectionsService } from '../data-access-api/connections.service';
 
 @Component({
@@ -90,6 +90,7 @@ import { EoConnection, EoConnectionsService } from '../data-access-api/connectio
         [loading]="connections().loading"
         [hasError]="connections().hasError"
         [filter]="search"
+        (connectionRemoved)="onConnectionRemoved($event)"
       ></eo-connections-table>
     </watt-card>
 
@@ -117,13 +118,20 @@ export class EoConnectionsComponent implements OnInit {
     this.loadConnections();
   }
 
+  onConnectionRemoved(connection: EoConnection) {
+    this.connections.set({
+      ...this.connections(),
+      data: this.connections().data?.filter((c) => c.id !== connection.id) ?? null,
+    });
+  }
+
   private loadConnections() {
     this.connections.set({ loading: true, hasError: false, data: null });
     this.connectionsService.getConnections().subscribe({
       next: (data) => {
         this.connections.set({ loading: false, hasError: false, data });
       },
-      error: (error) => {
+      error: () => {
         this.connections.set({ loading: false, hasError: true, data: null });
       },
     });

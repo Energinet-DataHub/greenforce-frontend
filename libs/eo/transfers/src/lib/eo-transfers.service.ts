@@ -52,11 +52,6 @@ export interface EoWalletDepositEndpointResponse {
   result: string;
 }
 
-export const enum TransferAutomationStatus {
-  Success = 'Success',
-  Error = 'Error',
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -111,7 +106,7 @@ export class EoTransfersService {
 
   transferAutomationHasError(): Observable<boolean> {
     return this.http
-      .get<{ status: TransferAutomationStatus }>(`${this.#apiBase}/transfer-automation/status`)
-      .pipe(map((response) => response.status === TransferAutomationStatus.Error));
+      .get<{ healthy: boolean }>(`${this.#apiBase}/transfer-automation/status`)
+      .pipe(map((response) => !response.healthy));
   }
 }

@@ -1,6 +1,6 @@
 {
-  "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "sourceMap": false,
     "outDir": "../../../dist/out-tsc",
     "allowJs": true,

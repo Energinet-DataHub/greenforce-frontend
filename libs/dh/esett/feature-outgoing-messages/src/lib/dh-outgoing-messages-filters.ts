@@ -27,5 +27,5 @@ export type DhOutgoingMessagesFilters = {
   messageTypes?: InputMaybe<TimeSeriesType>;
   gridAreas?: InputMaybe<string>;
   status?: InputMaybe<DocumentStatus>;
-  period?: InputMaybe<Scalars['DateRange']>;
+  period?: InputMaybe<Scalars['DateRange']['input']>;
 };

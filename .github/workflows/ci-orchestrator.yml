@@ -52,7 +52,7 @@ jobs:
   #
   dh_ci_frontend:
     needs: changes
-    if: ${{ needs.changes.outputs.dh_frontend == 'true' }}
+    if: ${{ needs.changes.outputs.dh_frontend == 'true' || needs.changes.outputs.dh_frontend_e2e == 'true' }}
     uses: ./.github/workflows/dh-ci-frontend.yml
     secrets: inherit
 

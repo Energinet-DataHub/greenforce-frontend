@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { NgIf } from '@angular/common';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
@@ -22,10 +29,17 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { EoConnection } from '../data-access-api/connections.service';
+import { EoRemoveConnectionComponent } from '../feature-remove-connection';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent, NgIf],
+  imports: [
+    EoRemoveConnectionComponent,
+    WATT_TABLE,
+    WattPaginatorComponent,
+    WattEmptyStateComponent,
+    NgIf,
+  ],
   standalone: true,
   selector: 'eo-connections-table',
   styles: [
@@ -41,14 +55,20 @@ import { EoConnection } from '../data-access-api/connections.service';
         }
 
         watt-table table {
-          --watt-table-grid-template-columns: 162px auto;
+          --watt-table-grid-template-columns: auto auto 60px;
         }
       }
     `,
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
-    <watt-table [loading]="loading" [columns]="columns" [dataSource]="dataSource"></watt-table>
+    <watt-table #table [loading]="loading" [columns]="columns" [dataSource]="dataSource">
+      <eo-remove-connection
+        *wattTableCell="table.columns['actions']; let element"
+        [connection]="element"
+        (connectionRemoved)="connectionRemoved.emit($event)"
+      ></eo-remove-connection>
+    </watt-table>
 
     <watt-empty-state
       *ngIf="loading === false && dataSource.data.length === 0 && !hasError"
@@ -72,9 +92,11 @@ export class EoConnectionsTableComponent {
   columns: WattTableColumnDef<EoConnection> = {
     id: { accessor: 'companyId', header: 'Company Id' },
     name: {
-      accessor: () => {
-        return '';
-      },
+      accessor: () => '',
+    },
+    actions: {
+      accessor: () => '',
+      header: ' ',
     },
   };
 
@@ -90,4 +112,6 @@ export class EoConnectionsTableComponent {
   set filter(value: string) {
     this.dataSource.filter = value;
   }
+
+  @Output() connectionRemoved = new EventEmitter<EoConnection>();
 }
