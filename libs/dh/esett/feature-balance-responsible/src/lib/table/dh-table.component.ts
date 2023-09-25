@@ -58,7 +58,7 @@ export class DhBalanceResponsibleTableComponent {
     balanceResponsible: { accessor: 'balanceResponsible' },
     gridArea: { accessor: null },
     meteringPointType: { accessor: 'meteringPointType' },
-    id: { accessor: 'id' },
+    created: { accessor: 'createdDate' },
   };
 
   translateHeader = (columnId: string): string => {

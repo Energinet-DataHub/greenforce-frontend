@@ -889,7 +889,7 @@
         "balanceResponsible": "Balance responsible",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "meteringPointType": "Type of metering point",
-        "id": "ID"
+        "created": "Received"
       },
       "emptyTitle": "No messages found",
       "emptyMessage": "Try changing the search criteria",

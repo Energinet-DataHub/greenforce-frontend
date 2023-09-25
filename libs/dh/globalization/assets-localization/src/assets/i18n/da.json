@@ -881,7 +881,7 @@
         "balanceResponsible": "Balanceansvarlig",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "meteringPointType": "Målepunktstype",
-        "id": "ID"
+        "created": "Modtaget"
       },
       "emptyTitle": "Ingen meddelelser fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
