@@ -1,8 +1,12 @@
-query getBalanceResponsibleMessages($pageNumber: Int!, $pageSize: Int!) {
+query getBalanceResponsibleMessages(
+  $pageNumber: Int!
+  $pageSize: Int!
+  $searchText: String!
+) {
   searchEsetBalanceResponsible(
     pageNumber: $pageNumber
     pageSize: $pageSize
-    searchText: ""
+    searchText: $searchText
   ) {
     items {
       id
