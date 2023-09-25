@@ -21,6 +21,7 @@ import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
 
@@ -44,6 +45,7 @@ import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
     WattEmptyStateComponent,
     VaterFlexComponent,
     VaterStackComponent,
+    DhEmDashFallbackPipe,
   ],
 })
 export class DhBalanceResponsibleTableComponent {
