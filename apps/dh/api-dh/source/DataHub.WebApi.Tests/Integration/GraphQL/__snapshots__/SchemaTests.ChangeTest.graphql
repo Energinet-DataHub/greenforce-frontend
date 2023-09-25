@@ -27,11 +27,12 @@ type AddressDto {
 }
 
 type BalanceResponsibleSearchResponse {
-  items: [BalanceResponsibleSearchResult!]!
+  items: [BalanceResponsibleType!]!
   totalCount: Int!
 }
 
-type BalanceResponsibleSearchResult {
+type BalanceResponsibleType {
+  gridArea: GridAreaDto!
   id: String!
   receivedDateTime: DateTime!
   supplier: ActorNumber!
@@ -39,7 +40,6 @@ type BalanceResponsibleSearchResult {
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
   validToDate: DateTime!
-  gridArea: String!
 }
 
 "An immutable calculation."
