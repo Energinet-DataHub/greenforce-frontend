@@ -19,6 +19,8 @@ import {
   mockGetOutgoingMessagesQuery,
   mockGetOutgoingMessageByIdQuery,
   mockGetBalanceResponsibleMessagesQuery,
+  BalanceResponsibleSearchResult,
+  TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { eSettExchangeEvents } from './data/esett-exchange-events';
@@ -92,6 +94,24 @@ function getActorsForSettlementReportQuery() {
 }
 
 function getBalanceResponsibleMessagesQuery() {
+  const mockData: BalanceResponsibleSearchResult[] = [
+    {
+      __typename: 'BalanceResponsibleSearchResult',
+      id: '1',
+      createdDate: new Date('2021-01-01T00:00:00.000Z'),
+      supplier: {
+        __typename: 'ActorNumber',
+        value: 'Test Elleverandør',
+      },
+      balanceResponsible: {
+        __typename: 'ActorNumber',
+        value: 'Test Balanceansvarlig',
+      },
+      meteringPointType: TimeSeriesType.Production,
+      validFromDate: new Date('2021-01-01T00:00:00.000Z'),
+    },
+  ];
+
   return mockGetBalanceResponsibleMessagesQuery((req, res, ctx) => {
     return res(
       ctx.delay(300),
@@ -100,7 +120,7 @@ function getBalanceResponsibleMessagesQuery() {
         searchEsetBalanceResponsible: {
           __typename: 'BalanceResponsibleSearchResponse',
           totalCount: 0,
-          items: [],
+          items: mockData,
         },
       })
     );
