@@ -24,7 +24,7 @@ limitations under the License.
     <ng-container
       *wattTableCell="columns['validFrom']; header: t('columns.validFrom'); let message"
     >
-      {{ message.validFromDate }}
+      {{ message.validFromDate | wattDate }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['validTo']; header: t('columns.validTo'); let message">

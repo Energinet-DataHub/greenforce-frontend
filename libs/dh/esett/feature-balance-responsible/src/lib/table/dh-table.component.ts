@@ -24,6 +24,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 @Component({
   selector: 'dh-balance-responsible-table',
@@ -42,6 +43,7 @@ import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
     TranslocoPipe,
 
     WATT_TABLE,
+    WattDatePipe,
     WattEmptyStateComponent,
     VaterFlexComponent,
     VaterStackComponent,
