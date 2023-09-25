@@ -119,7 +119,7 @@ function getBalanceResponsibleMessagesQuery() {
         __typename: 'Query',
         searchEsetBalanceResponsible: {
           __typename: 'BalanceResponsibleSearchResponse',
-          totalCount: 0,
+          totalCount: mockData.length,
           items: mockData,
         },
       })
