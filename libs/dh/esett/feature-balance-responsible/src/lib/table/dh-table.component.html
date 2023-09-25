@@ -22,10 +22,6 @@ limitations under the License.
     [loading]="isLoading"
     [sortClear]="false"
   >
-    <ng-container *wattTableCell="columns['validTo']; let message">
-      {{ undefined | dhEmDashFallback }}
-    </ng-container>
-
     <ng-container
       *wattTableCell="
         columns['electricitySupplier'];
@@ -47,7 +43,7 @@ limitations under the License.
     </ng-container>
 
     <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
-      {{ undefined | dhEmDashFallback }}
+      {{ message.gridArea.code }}
     </ng-container>
 
     <ng-container

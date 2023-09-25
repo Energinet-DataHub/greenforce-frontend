@@ -19,4 +19,4 @@ import { GetBalanceResponsibleMessagesDocument } from '@energinet-datahub/dh/sha
 
 export type DhBalanceResponsibleMessage = ResultOf<
   typeof GetBalanceResponsibleMessagesDocument
->['searchEsetBalanceResponsible']['items'][0];
+>['searchEsettBalanceResponsible']['items'][0];

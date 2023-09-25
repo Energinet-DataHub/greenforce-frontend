@@ -3,14 +3,14 @@ query getBalanceResponsibleMessages(
   $pageSize: Int!
   $searchText: String!
 ) {
-  searchEsetBalanceResponsible(
+  searchEsettBalanceResponsible(
     pageNumber: $pageNumber
     pageSize: $pageSize
     searchText: $searchText
   ) {
     items {
       id
-      createdDate
+      receivedDateTime
       supplier {
         value
       }
@@ -19,6 +19,10 @@ query getBalanceResponsibleMessages(
       }
       meteringPointType
       validFromDate
+      validToDate
+      gridArea {
+        code
+      }
     }
     totalCount
   }

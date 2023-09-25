@@ -53,12 +53,12 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 export class DhBalanceResponsibleTableComponent {
   columns: WattTableColumnDef<DhBalanceResponsibleMessage> = {
     validFrom: { accessor: 'validFromDate' },
-    validTo: { accessor: null },
+    validTo: { accessor: 'validToDate' },
     electricitySupplier: { accessor: 'supplier' },
     balanceResponsible: { accessor: 'balanceResponsible' },
-    gridArea: { accessor: null },
+    gridArea: { accessor: 'gridArea' },
     meteringPointType: { accessor: 'meteringPointType' },
-    created: { accessor: 'createdDate' },
+    received: { accessor: 'receivedDateTime' },
   };
 
   translateHeader = (columnId: string): string => {
