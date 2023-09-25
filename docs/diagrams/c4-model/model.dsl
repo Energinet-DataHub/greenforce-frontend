@@ -9,7 +9,6 @@ frontendDomain = group "Frontend" {
         # Domain-to-domain relationships
         this -> wholesaleApi "Uses" "json/https"
         this -> markpartApi "Uses" "json/https"
-        this -> eSettApi "Uses" "json/https"
     }
     bffApi = container "BFF API" {
         description "API Gateway to BFF Web API"
