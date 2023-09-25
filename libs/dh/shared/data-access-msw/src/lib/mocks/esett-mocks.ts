@@ -18,6 +18,7 @@ import { rest } from 'msw';
 import {
   mockGetOutgoingMessagesQuery,
   mockGetOutgoingMessageByIdQuery,
+  mockGetBalanceResponsibleMessagesQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { eSettExchangeEvents } from './data/esett-exchange-events';
@@ -29,6 +30,7 @@ export function eSettMocks(apiBase: string) {
     getOutgoingMessageByIdQuery(),
     getResponseDocument(apiBase),
     getDispatchDocument(apiBase),
+    getBalanceResponsibleMessagesQuery(),
   ];
 }
 
@@ -83,6 +85,22 @@ function getActorsForSettlementReportQuery() {
           __typename: 'ExchangeEventSearchResponse',
           totalCount: eSettExchangeEvents.length,
           items: eSettExchangeEvents,
+        },
+      })
+    );
+  });
+}
+
+function getBalanceResponsibleMessagesQuery() {
+  return mockGetBalanceResponsibleMessagesQuery((req, res, ctx) => {
+    return res(
+      ctx.delay(300),
+      ctx.data({
+        __typename: 'Query',
+        searchEsetBalanceResponsible: {
+          __typename: 'BalanceResponsibleSearchResponse',
+          totalCount: 0,
+          items: [],
         },
       })
     );
