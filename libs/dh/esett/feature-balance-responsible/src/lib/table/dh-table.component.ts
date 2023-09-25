@@ -48,12 +48,13 @@ import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
 })
 export class DhBalanceResponsibleTableComponent {
   columns: WattTableColumnDef<DhBalanceResponsibleMessage> = {
-    id: { accessor: 'id' },
-    date: { accessor: 'date' },
-    electricitySupplier: { accessor: 'electricitySupplier' },
+    validFrom: { accessor: 'validFromDate' },
+    validTo: { accessor: null },
+    electricitySupplier: { accessor: 'supplier' },
     balanceResponsible: { accessor: 'balanceResponsible' },
+    gridArea: { accessor: null },
     meteringPointType: { accessor: 'meteringPointType' },
-    validFrom: { accessor: 'validFrom' },
+    id: { accessor: 'id' },
   };
 
   @Input() isLoading!: boolean;

@@ -21,12 +21,14 @@ limitations under the License.
     [loading]="isLoading"
     [sortClear]="false"
   >
-    <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let message">
-      {{ message.id }}
+    <ng-container
+      *wattTableCell="columns['validFrom']; header: t('columns.validFrom'); let message"
+    >
+      {{ message.validFromDate }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['date']; header: t('columns.date'); let message">
-      {{ message.date }}
+    <ng-container *wattTableCell="columns['validTo']; header: t('columns.validTo'); let message">
+      -
     </ng-container>
 
     <ng-container
@@ -36,7 +38,7 @@ limitations under the License.
         let message
       "
     >
-      {{ message.electricitySupplier }}
+      {{ message.supplier.value }}
     </ng-container>
 
     <ng-container
@@ -49,6 +51,10 @@ limitations under the License.
       {{ message.balanceResponsible }}
     </ng-container>
 
+    <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
+      -
+    </ng-container>
+
     <ng-container
       *wattTableCell="
         columns['meteringPointType'];
@@ -59,10 +65,8 @@ limitations under the License.
       {{ message.meteringPointType }}
     </ng-container>
 
-    <ng-container
-      *wattTableCell="columns['validFrom']; header: t('columns.validFrom'); let message"
-    >
-      {{ message.validFrom }}
+    <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let message">
+      {{ message.id }}
     </ng-container>
   </watt-table>
 

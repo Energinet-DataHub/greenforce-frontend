@@ -14,12 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { BehaviorSubject, Subject, switchMap, takeUntil, map } from 'rxjs';
+import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
+import { PageEvent } from '@angular/material/paginator';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { GetBalanceResponsibleMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import {
   VaterFlexComponent,
@@ -67,9 +71,67 @@ import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
     DhBalanceResponsibleTableComponent,
   ],
 })
-export class DhBalanceResponsibleComponent {
+export class DhBalanceResponsibleComponent implements OnInit, OnDestroy {
+  private apollo = inject(Apollo);
+  private destroy$ = new Subject<void>();
+
+  private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
+    pageIndex: 0,
+    pageSize: 100,
+  });
+
   tableDataSource = new WattTableDataSource<DhBalanceResponsibleMessage>([]);
+  totalCount = 0;
 
   isLoading = false;
   hasError = false;
+
+  pageSize$ = this.pageMetaData$.pipe(map(({ pageSize }) => pageSize));
+
+  outgoingMessages$ = this.pageMetaData$.pipe(
+    switchMap(
+      ({ pageIndex, pageSize }) =>
+        this.apollo.watchQuery({
+          useInitialLoading: true,
+          notifyOnNetworkStatusChange: true,
+          fetchPolicy: 'cache-and-network',
+          query: GetBalanceResponsibleMessagesDocument,
+          variables: {
+            // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
+            // whereas our endpoint's `pageNumber` param starts at `1`
+            pageNumber: pageIndex + 1,
+            pageSize,
+            // TODO: Search functionality intentionally left out for now
+            searchText: '',
+          },
+        }).valueChanges
+    ),
+    takeUntil(this.destroy$)
+  );
+
+  ngOnInit() {
+    this.outgoingMessages$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (result) => {
+        this.isLoading = result.loading;
+
+        this.tableDataSource.data = result.data?.searchEsetBalanceResponsible.items;
+        this.totalCount = result.data?.searchEsetBalanceResponsible.totalCount;
+
+        this.hasError = !!result.errors;
+      },
+      error: () => {
+        this.hasError = true;
+        this.isLoading = false;
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
+    this.pageMetaData$.next({ pageIndex, pageSize });
+  }
 }

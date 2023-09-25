@@ -875,12 +875,13 @@
     "balanceResponsible": {
       "tabHeading": "Balanceansvarlig",
       "columns": {
-        "id": "ID",
-        "date": "Dato",
+        "validFrom": "Gyldig fra",
+        "validTo": "Gyldig til",
         "electricitySupplier": "Elleverandør",
         "balanceResponsible": "Balanceansvarlig",
+        "gridArea": "{{ eSett.shared.gridArea }}",
         "meteringPointType": "Målepunktstype",
-        "validFrom": "Gyldig fra"
+        "id": "ID"
       },
       "emptyTitle": "Ingen meddelelser fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
