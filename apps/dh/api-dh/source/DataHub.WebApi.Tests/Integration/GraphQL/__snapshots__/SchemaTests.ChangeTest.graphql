@@ -33,11 +33,13 @@ type BalanceResponsibleSearchResponse {
 
 type BalanceResponsibleSearchResult {
   id: String!
-  createdDate: DateTime!
+  receivedDateTime: DateTime!
   supplier: ActorNumber!
   balanceResponsible: ActorNumber!
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
+  validToDate: DateTime!
+  gridArea: String!
 }
 
 "An immutable calculation."

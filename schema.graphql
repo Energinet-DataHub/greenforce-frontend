@@ -108,7 +108,7 @@ type Query {
   actors(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, processType: ExchangeEventProcessType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
-  searchEsetBalanceResponsible(pageNumber: Int!, pageSize: Int!, searchText: String!): BalanceResponsibleSearchResponse!
+  searchEsettBalanceResponsible(pageNumber: Int!, pageSize: Int!, searchText: String!): BalanceResponsibleSearchResponse!
 }
 
 type Mutation {
@@ -265,11 +265,13 @@ type ExchangeEventSearchResult {
 
 type BalanceResponsibleSearchResult {
   id: String!
-  createdDate: DateTime!
+  receivedDateTime: DateTime!
   supplier: ActorNumber!
   balanceResponsible: ActorNumber!
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
+  validToDate: DateTime!
+  gridArea: String!
 }
 
 type ActorNumber {
