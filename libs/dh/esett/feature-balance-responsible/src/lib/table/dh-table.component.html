@@ -62,7 +62,7 @@ limitations under the License.
         let message
       "
     >
-      {{ message.meteringPointType }}
+      {{ "eSett.outgoingMessages.shared.messageType." + message.meteringPointType | transloco }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let message">
