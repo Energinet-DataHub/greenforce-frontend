@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, DestroyRef } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { BehaviorSubject, Subject, switchMap, takeUntil, map } from 'rxjs';
+import { BehaviorSubject, switchMap, map } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -71,9 +72,9 @@ import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
     DhBalanceResponsibleTableComponent,
   ],
 })
-export class DhBalanceResponsibleComponent implements OnInit, OnDestroy {
+export class DhBalanceResponsibleComponent implements OnInit {
   private apollo = inject(Apollo);
-  private destroy$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
 
   private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
     pageIndex: 0,
@@ -106,11 +107,11 @@ export class DhBalanceResponsibleComponent implements OnInit, OnDestroy {
           },
         }).valueChanges
     ),
-    takeUntil(this.destroy$)
+    takeUntilDestroyed(this.destroyRef)
   );
 
   ngOnInit() {
-    this.outgoingMessages$.pipe(takeUntil(this.destroy$)).subscribe({
+    this.outgoingMessages$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (result) => {
         this.isLoading = result.loading;
 
@@ -124,11 +125,6 @@ export class DhBalanceResponsibleComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       },
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
