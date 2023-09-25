@@ -1,13 +1,5 @@
 # Read description in the 'views.dsl' file.
 
-eSettDomain = group "eSett Exchange" {
-    eSettApi = container "eSett Exchange WebAPI" {
-        description "eSett exchange API"
-        technology "Asp.Net Core Web API"
-        tags "Microsoft Azure - App Services" "Titans"
-    }
-}
-
 frontendDomain = group "Frontend" {
     bffApp = container "BFF Web API" {
         description "Backend for frontend (BFF) combines data for presentation on DataHub 3 UI"
