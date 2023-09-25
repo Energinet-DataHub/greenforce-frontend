@@ -275,7 +275,7 @@
           "id": {
             "type": "string"
           },
-          "createdDate": {
+          "receivedDateTime": {
             "type": "string",
             "format": "date-time"
           },
@@ -303,6 +303,13 @@
           "validFromDate": {
             "type": "string",
             "format": "date-time"
+          },
+          "validToDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gridArea": {
+            "type": "string"
           }
         }
       },
