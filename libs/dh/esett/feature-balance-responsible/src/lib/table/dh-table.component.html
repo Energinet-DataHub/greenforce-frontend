@@ -18,16 +18,11 @@ limitations under the License.
   <watt-table
     [dataSource]="tableDataSource"
     [columns]="columns"
+    [resolveHeader]="translateHeader"
     [loading]="isLoading"
     [sortClear]="false"
   >
-    <ng-container
-      *wattTableCell="columns['validFrom']; header: t('columns.validFrom'); let message"
-    >
-      {{ message.validFromDate | wattDate }}
-    </ng-container>
-
-    <ng-container *wattTableCell="columns['validTo']; header: t('columns.validTo'); let message">
+    <ng-container *wattTableCell="columns['validTo']; let message">
       {{ undefined | dhEmDashFallback }}
     </ng-container>
 

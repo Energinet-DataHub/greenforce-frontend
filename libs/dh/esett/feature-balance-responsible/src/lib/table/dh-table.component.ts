@@ -16,7 +16,7 @@
  */
 import { Component, Input } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -59,6 +59,12 @@ export class DhBalanceResponsibleTableComponent {
     gridArea: { accessor: null },
     meteringPointType: { accessor: 'meteringPointType' },
     id: { accessor: 'id' },
+  };
+
+  translateHeader = (columnId: string): string => {
+    const baseKey = 'eSett.balanceResponsible.columns';
+
+    return translate(`${baseKey}.${columnId}`);
   };
 
   @Input() isLoading!: boolean;
