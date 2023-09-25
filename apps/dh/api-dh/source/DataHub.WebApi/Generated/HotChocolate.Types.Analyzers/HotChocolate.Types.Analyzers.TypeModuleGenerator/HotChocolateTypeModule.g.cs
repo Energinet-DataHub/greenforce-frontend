@@ -18,6 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.DateRangeType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorStatusType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorType>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.BalanceResponsibleType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.CalculationType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.EicFunctionType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.EsettExchangeEventType>();
