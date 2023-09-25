@@ -16,13 +16,15 @@
  */
 import { Component, Input } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 @Component({
   selector: 'dh-balance-responsible-table',
@@ -41,19 +43,28 @@ import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
     TranslocoPipe,
 
     WATT_TABLE,
+    WattDatePipe,
     WattEmptyStateComponent,
     VaterFlexComponent,
     VaterStackComponent,
+    DhEmDashFallbackPipe,
   ],
 })
 export class DhBalanceResponsibleTableComponent {
   columns: WattTableColumnDef<DhBalanceResponsibleMessage> = {
-    id: { accessor: 'id' },
-    date: { accessor: 'date' },
-    electricitySupplier: { accessor: 'electricitySupplier' },
+    validFrom: { accessor: 'validFromDate' },
+    validTo: { accessor: 'validToDate' },
+    electricitySupplier: { accessor: 'supplier' },
     balanceResponsible: { accessor: 'balanceResponsible' },
+    gridArea: { accessor: 'gridArea' },
     meteringPointType: { accessor: 'meteringPointType' },
-    validFrom: { accessor: 'validFrom' },
+    received: { accessor: 'receivedDateTime' },
+  };
+
+  translateHeader = (columnId: string): string => {
+    const baseKey = 'eSett.balanceResponsible.columns';
+
+    return translate(`${baseKey}.${columnId}`);
   };
 
   @Input() isLoading!: boolean;
