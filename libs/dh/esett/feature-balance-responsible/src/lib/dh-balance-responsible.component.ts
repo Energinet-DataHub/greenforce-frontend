@@ -101,7 +101,7 @@ export class DhBalanceResponsibleComponent implements OnInit, OnDestroy {
             // whereas our endpoint's `pageNumber` param starts at `1`
             pageNumber: pageIndex + 1,
             pageSize,
-            // TODO: Search functionality intentionally left out for now
+            // Note: Search functionality intentionally left out for now
             searchText: '',
           },
         }).valueChanges
