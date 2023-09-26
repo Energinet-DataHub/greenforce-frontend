@@ -36,9 +36,9 @@ limitations under the License.
     />
 
     <watt-paginator
-      [for]="tableDataSource"
-      (changed)="handlePageEvent($event)"
+      [length]="totalCount"
       [pageSize]="pageSize$ | push"
+      (changed)="handlePageEvent($event)"
     />
   </vater-flex>
 </watt-card>
