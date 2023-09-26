@@ -32,6 +32,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         width: 160px; // Magic UX number
       }
 
+
       img {
         width: 100%;
         display: block;
