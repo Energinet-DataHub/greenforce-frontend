@@ -18,17 +18,10 @@ limitations under the License.
   <watt-table
     [dataSource]="tableDataSource"
     [columns]="columns"
+    [resolveHeader]="translateHeader"
     [loading]="isLoading"
     [sortClear]="false"
   >
-    <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let message">
-      {{ message.id }}
-    </ng-container>
-
-    <ng-container *wattTableCell="columns['date']; header: t('columns.date'); let message">
-      {{ message.date }}
-    </ng-container>
-
     <ng-container
       *wattTableCell="
         columns['electricitySupplier'];
@@ -36,7 +29,7 @@ limitations under the License.
         let message
       "
     >
-      {{ message.electricitySupplier }}
+      {{ message.supplier.value }}
     </ng-container>
 
     <ng-container
@@ -46,7 +39,11 @@ limitations under the License.
         let message
       "
     >
-      {{ message.balanceResponsible }}
+      {{ message.balanceResponsible.value }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
+      {{ message.gridArea.code }}
     </ng-container>
 
     <ng-container
@@ -56,13 +53,7 @@ limitations under the License.
         let message
       "
     >
-      {{ message.meteringPointType }}
-    </ng-container>
-
-    <ng-container
-      *wattTableCell="columns['validFrom']; header: t('columns.validFrom'); let message"
-    >
-      {{ message.validFrom }}
+      {{ "eSett.outgoingMessages.shared.messageType." + message.meteringPointType | transloco }}
     </ng-container>
   </watt-table>
 

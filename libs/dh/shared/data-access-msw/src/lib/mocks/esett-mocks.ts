@@ -16,146 +16,16 @@
  */
 import { rest } from 'msw';
 import {
-  DocumentStatus,
-  ExchangeEventProcessType,
-  ExchangeEventSearchResult,
-  EsettOutgoingMessage,
-  TimeSeriesType,
   mockGetOutgoingMessagesQuery,
   mockGetOutgoingMessageByIdQuery,
-  PriceAreaCode,
+  mockGetBalanceResponsibleMessagesQuery,
+  BalanceResponsibleType,
+  TimeSeriesType,
+  GridAreaDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-const exchangeEvents: ExchangeEventSearchResult[] = [
-  {
-    __typename: 'ExchangeEventSearchResult',
-    created: new Date(2023, 1, 1),
-    documentId: '390161908',
-    gridAreaCode: '805',
-    processType: ExchangeEventProcessType.Aggregation,
-    documentStatus: DocumentStatus.Accepted,
-    timeSeriesType: TimeSeriesType.Consumption,
-  },
-  {
-    __typename: 'ExchangeEventSearchResult',
-    created: new Date(2023, 1, 1),
-    documentId: '390161909',
-    gridAreaCode: '806',
-    processType: ExchangeEventProcessType.BalanceFixing,
-    documentStatus: DocumentStatus.Rejected,
-    timeSeriesType: TimeSeriesType.Production,
-  },
-  {
-    __typename: 'ExchangeEventSearchResult',
-    created: new Date(2023, 1, 1),
-    documentId: '390161910',
-    gridAreaCode: '806',
-    processType: ExchangeEventProcessType.BalanceFixing,
-    documentStatus: DocumentStatus.AwaitingReply,
-    timeSeriesType: TimeSeriesType.Production,
-  },
-  {
-    __typename: 'ExchangeEventSearchResult',
-    created: new Date(),
-    documentId: '390161911',
-    gridAreaCode: '806',
-    processType: ExchangeEventProcessType.BalanceFixing,
-    documentStatus: DocumentStatus.AwaitingReply,
-    timeSeriesType: TimeSeriesType.Production,
-  },
-];
-
-const getDispatchDocumentLink =
-  'https://localhost:5001/v1/EsettExchange/DispatchDocument?documentId=390254675-3';
-const getResponseDocumentLink =
-  'https://localhost:5001/v1/EsettExchange/ResponseDocument?documentId=390254675-3';
-
-const detailedEsettExchangeEvents: EsettOutgoingMessage[] = [
-  {
-    __typename: 'EsettOutgoingMessage',
-    documentId: '390161908',
-    gridArea: {
-      __typename: 'GridAreaDto',
-      code: '805',
-      name: 'N1 A/S',
-      priceAreaCode: PriceAreaCode.Dk1,
-      id: '1',
-      validTo: null,
-      validFrom: new Date(),
-    },
-    processType: ExchangeEventProcessType.Aggregation,
-    documentStatus: DocumentStatus.Accepted,
-    timeSeriesType: TimeSeriesType.Consumption,
-    created: new Date('2021-01-01T00:10:00.000Z'),
-    periodFrom: new Date('2021-01-01T00:00:00.000Z'),
-    periodTo: new Date('2021-03-01T00:00:00.000Z'),
-    getDispatchDocumentLink,
-    getResponseDocumentLink,
-  },
-  {
-    __typename: 'EsettOutgoingMessage',
-    documentId: '390161909',
-    gridArea: {
-      __typename: 'GridAreaDto',
-      code: '806',
-      name: 'N2 A/S',
-      priceAreaCode: PriceAreaCode.Dk2,
-      id: '2',
-      validTo: null,
-      validFrom: new Date(),
-    },
-    processType: ExchangeEventProcessType.Aggregation,
-    documentStatus: DocumentStatus.Rejected,
-    timeSeriesType: TimeSeriesType.Consumption,
-    created: new Date('2021-02-01T00:10:00.000Z'),
-    periodFrom: new Date('2021-02-01T00:00:00.000Z'),
-    periodTo: new Date('2021-05-01T00:00:00.000Z'),
-    getDispatchDocumentLink,
-    getResponseDocumentLink,
-  },
-  {
-    __typename: 'EsettOutgoingMessage',
-    documentId: '390161910',
-    gridArea: {
-      __typename: 'GridAreaDto',
-      code: '806',
-      name: 'N2 A/S',
-      priceAreaCode: PriceAreaCode.Dk2,
-      id: '2',
-      validTo: null,
-      validFrom: new Date(),
-    },
-    processType: ExchangeEventProcessType.Aggregation,
-    documentStatus: DocumentStatus.AwaitingReply,
-    timeSeriesType: TimeSeriesType.Consumption,
-    created: new Date('2022-01-01T00:10:00.000Z'),
-    periodFrom: new Date('2022-01-01T00:00:00.000Z'),
-    periodTo: new Date('2022-03-01T00:00:00.000Z'),
-    getDispatchDocumentLink,
-    getResponseDocumentLink,
-  },
-  {
-    __typename: 'EsettOutgoingMessage',
-    documentId: '390161911',
-    gridArea: {
-      __typename: 'GridAreaDto',
-      code: '806',
-      name: 'N2 A/S',
-      priceAreaCode: PriceAreaCode.Dk2,
-      id: '2',
-      validTo: null,
-      validFrom: new Date(),
-    },
-    processType: ExchangeEventProcessType.Aggregation,
-    documentStatus: DocumentStatus.AwaitingReply,
-    timeSeriesType: TimeSeriesType.Consumption,
-    created: new Date('2023-01-01T00:10:00.000Z'),
-    periodFrom: new Date('2023-01-01T00:00:00.000Z'),
-    periodTo: new Date('2023-03-01T00:00:00.000Z'),
-    getDispatchDocumentLink,
-    getResponseDocumentLink,
-  },
-];
+import { eSettExchangeEvents } from './data/esett-exchange-events';
+import { eSettDetailedExchangeEvents } from './esett-detailed-exchange-events';
 
 export function eSettMocks(apiBase: string) {
   return [
@@ -163,6 +33,7 @@ export function eSettMocks(apiBase: string) {
     getOutgoingMessageByIdQuery(),
     getResponseDocument(apiBase),
     getDispatchDocument(apiBase),
+    getBalanceResponsibleMessagesQuery(),
   ];
 }
 
@@ -199,7 +70,7 @@ function getDispatchDocument(apiBase: string) {
 function getOutgoingMessageByIdQuery() {
   return mockGetOutgoingMessageByIdQuery((req, res, ctx) => {
     const id = req.variables.documentId;
-    const esettOutgoingMessageById = detailedEsettExchangeEvents.find((x) => x.documentId === id);
+    const esettOutgoingMessageById = eSettDetailedExchangeEvents.find((x) => x.documentId === id);
 
     return esettOutgoingMessageById
       ? res(ctx.delay(300), ctx.data({ __typename: 'Query', esettOutgoingMessageById }))
@@ -215,8 +86,47 @@ function getActorsForSettlementReportQuery() {
         __typename: 'Query',
         esettExchangeEvents: {
           __typename: 'ExchangeEventSearchResponse',
-          totalCount: exchangeEvents.length,
-          items: exchangeEvents,
+          totalCount: eSettExchangeEvents.length,
+          items: eSettExchangeEvents,
+        },
+      })
+    );
+  });
+}
+
+function getBalanceResponsibleMessagesQuery() {
+  const mockData: BalanceResponsibleType[] = [
+    {
+      __typename: 'BalanceResponsibleType',
+      id: '1',
+      receivedDateTime: new Date('2021-01-01T00:00:00.000Z'),
+      supplier: {
+        __typename: 'ActorNumber',
+        value: 'Test Elleverandør',
+      },
+      balanceResponsible: {
+        __typename: 'ActorNumber',
+        value: 'Test Balanceansvarlig',
+      },
+      gridArea: {
+        __typename: 'GridAreaDto',
+        code: '344',
+      } as GridAreaDto,
+      meteringPointType: TimeSeriesType.Production,
+      validFromDate: new Date('2021-01-01T00:00:00.000Z'),
+      validToDate: new Date('2021-02-01T00:00:00.000Z'),
+    },
+  ];
+
+  return mockGetBalanceResponsibleMessagesQuery((req, res, ctx) => {
+    return res(
+      ctx.delay(300),
+      ctx.data({
+        __typename: 'Query',
+        searchEsettBalanceResponsible: {
+          __typename: 'BalanceResponsibleSearchResponse',
+          totalCount: mockData.length,
+          items: mockData,
         },
       })
     );
