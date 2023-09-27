@@ -51,7 +51,10 @@ export class EoAuthService {
     this.clearToken();
     this.handleToken(this.route.snapshot.queryParamMap.get('token'));
     this.router.navigate([], {
-      queryParams: { token: undefined },
+      queryParams: {
+        token: undefined,
+        redirectionPath: this.route.snapshot.queryParamMap.get('redirectionPath'),
+      },
       replaceUrl: true,
     });
   }
@@ -63,10 +66,15 @@ export class EoAuthService {
   }
 
   startLogin() {
-    const loginUrl = `${this.#authApiBase}/login`;
-    window.location.href = window.location.host.includes('localhost')
-      ? `${loginUrl}?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/login`
-      : loginUrl;
+    const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
+
+    let href = `${this.#authApiBase}/login?overrideRedirectionUri=${window.location.protocol}//${
+      window.location.host
+    }/login`;
+
+    if (redirectionPath) href += `?redirectionPath=${redirectionPath}`;
+
+    window.location.href = href;
   }
 
   logout() {

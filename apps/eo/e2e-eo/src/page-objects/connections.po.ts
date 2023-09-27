@@ -22,7 +22,7 @@ export class ConnectionsPo {
   private copyInvitationLinkButton = '[data-testid="copy-invitation-link-button"]';
   private connectionInvitationId = 'MOCKED-CONNECTION-INVITATION-ID';
   private mockedInvitationLink =
-    'http://localhost:4200/connections?accept-invitation=' + this.connectionInvitationId;
+    'http://localhost:4200/connections?respond-invite=' + this.connectionInvitationId;
   private removeConnectionButton = '[data-testid="remove-connection-button"]';
   private confirmRemovalButton = '[data-testid="confirm-removal-button"]';
 
@@ -36,7 +36,7 @@ export class ConnectionsPo {
   clickNewInvitationButton() {
     cy.intercept('POST', 'https://demo.energioprindelse.dk/api/connection-invitations', {
       statusCode: 200,
-      body: { connectionInvitationId: this.connectionInvitationId },
+      body: { id: this.connectionInvitationId },
     });
 
     cy.get(this.newInvitationButton).click();
