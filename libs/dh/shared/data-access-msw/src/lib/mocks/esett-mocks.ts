@@ -29,7 +29,7 @@ import { eSettDetailedExchangeEvents } from './data/esett-detailed-exchange-even
 
 export function eSettMocks(apiBase: string) {
   return [
-    getActorsForSettlementReportQuery(),
+    getOutgoingMessagesQuery(),
     getOutgoingMessageByIdQuery(),
     getResponseDocument(apiBase),
     getDispatchDocument(apiBase),
@@ -78,7 +78,7 @@ function getOutgoingMessageByIdQuery() {
   });
 }
 
-function getActorsForSettlementReportQuery() {
+function getOutgoingMessagesQuery() {
   return mockGetOutgoingMessagesQuery((req, res, ctx) => {
     return res(
       ctx.delay(300),
