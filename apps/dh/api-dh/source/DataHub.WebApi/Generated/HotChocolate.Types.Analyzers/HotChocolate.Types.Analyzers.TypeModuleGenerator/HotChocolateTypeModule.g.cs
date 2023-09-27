@@ -11,6 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             RegisterGeneratedDataLoader(builder);
 
+            builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.ActorNameByNumberBatchDataLoader>();
             builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.GridAreaByCodeBatchDataLoader>();
             builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.GridAreaByIdBatchDataLoader>();
             builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.UserBatchDataLoader>();

@@ -23,6 +23,7 @@ query getBalanceResponsibleMessages(
       gridArea {
         code
       }
+      getStorageDocumentLink
     }
     totalCount
   }
