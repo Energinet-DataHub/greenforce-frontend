@@ -68,11 +68,11 @@ export class EoAuthService {
   startLogin() {
     const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
 
-    let href = `${this.#authApiBase}/login?overrideRedirectionUri=${
-      window.location.protocol
-    }//${window.location.host}/login`;
+    let href = `${this.#authApiBase}/login?overrideRedirectionUri=${window.location.protocol}//${
+      window.location.host
+    }/login`;
 
-    if(redirectionPath) href += `?redirectionPath=${redirectionPath}`;
+    if (redirectionPath) href += `?redirectionPath=${redirectionPath}`;
 
     window.location.href = href;
   }
