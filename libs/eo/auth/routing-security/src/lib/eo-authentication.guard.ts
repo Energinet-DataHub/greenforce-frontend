@@ -33,9 +33,9 @@ export class EoScopeGuard implements CanActivate {
 
     return this.authStore.getScope$.pipe(
       map((scope) => {
-        if(scope.length === 0) {
+        if (scope.length === 0) {
           this.router.navigate(['/login'], {
-            queryParams: { redirectionPath: window.location.pathname + window.location.search }
+            queryParams: { redirectionPath: window.location.pathname + window.location.search },
           });
           return false;
         }

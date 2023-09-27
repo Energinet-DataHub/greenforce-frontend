@@ -51,7 +51,9 @@ export class EoInviteConnectionService {
   }
 
   getInvitation(connectionInvitationId: string) {
-    return this.http.get<InviteConnectionResponse>(`${this.#apiBase}/connection-invitations/${connectionInvitationId}`);
+    return this.http.get<InviteConnectionResponse>(
+      `${this.#apiBase}/connection-invitations/${connectionInvitationId}`
+    );
   }
 
   acceptInvitation(connectionInvitationId: string) {

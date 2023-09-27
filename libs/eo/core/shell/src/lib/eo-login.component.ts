@@ -37,7 +37,12 @@ import { combineLatest, take } from 'rxjs';
   template: `<div class="spinner"><watt-spinner></watt-spinner></div>`,
 })
 export class EoLoginComponent {
-  constructor(private service: EoAuthService, private store: EoAuthStore, private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private service: EoAuthService,
+    private store: EoAuthStore,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.service.handleLogin();
     combineLatest([this.store.getScope$, this.store.isTokenExpired$])
       .pipe(take(1))

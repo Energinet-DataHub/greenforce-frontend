@@ -14,8 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnInit, Signal, ViewChild, computed, inject, signal } from '@angular/core';
-import {} from '@angular/router'
+import {
+  Component,
+  Input,
+  OnInit,
+  Signal,
+  ViewChild,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
+import {} from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -97,12 +106,17 @@ import { EoConnection, EoConnectionsService } from '../data-access-api/connectio
     </watt-card>
 
     <eo-invite-connection #inviteConnection />
-    <eo-invite-connection-repsond [connectionInvitationId]="connectionInvitationId" (closed)="onInviteClosed($event)" #inviteConnectionRespond />
+    <eo-invite-connection-repsond
+      [connectionInvitationId]="connectionInvitationId"
+      (closed)="onInviteClosed($event)"
+      #inviteConnectionRespond
+    />
   `,
 })
 export class EoConnectionsComponent implements OnInit {
   @Input('respond-invite') connectionInvitationId!: string;
-  @ViewChild('inviteConnectionRespond', {static: true}) inviteConnectionRespond!: EoInviteConnectionRespondComponent;
+  @ViewChild('inviteConnectionRespond', { static: true })
+  inviteConnectionRespond!: EoInviteConnectionRespondComponent;
 
   private connectionsService = inject(EoConnectionsService);
 
@@ -123,13 +137,13 @@ export class EoConnectionsComponent implements OnInit {
   ngOnInit(): void {
     this.loadConnections();
 
-    if(this.connectionInvitationId) {
+    if (this.connectionInvitationId) {
       this.inviteConnectionRespond.open();
     }
   }
 
   onInviteClosed(connection: EoConnection | null) {
-    if(!connection) return;
+    if (!connection) return;
     this.connections.set({
       ...this.connections(),
       data: [...(this.connections().data ?? []), connection],
