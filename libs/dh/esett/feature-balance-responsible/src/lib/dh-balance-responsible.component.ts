@@ -115,8 +115,8 @@ export class DhBalanceResponsibleComponent implements OnInit {
       next: (result) => {
         this.isLoading = result.loading;
 
-        this.tableDataSource.data = result.data?.searchEsettBalanceResponsible.items;
-        this.totalCount = result.data?.searchEsettBalanceResponsible.totalCount;
+        this.tableDataSource.data = result.data?.searchEsettBalanceResponsible.items ?? [];
+        this.totalCount = result.data?.searchEsettBalanceResponsible.totalCount ?? 0;
 
         this.hasError = !!result.errors;
       },

@@ -139,8 +139,8 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
       next: (result) => {
         this.isLoading = result.loading;
 
-        this.tableDataSource.data = result.data?.esettExchangeEvents.items;
-        this.totalCount = result.data?.esettExchangeEvents.totalCount;
+        this.tableDataSource.data = result.data?.esettExchangeEvents.items ?? [];
+        this.totalCount = result.data?.esettExchangeEvents.totalCount ?? 0;
 
         this.hasError = !!result.errors;
       },
@@ -165,14 +165,13 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const dataSorted = this.tableDataSource.sortData(
-      this.tableDataSource.filteredData,
-      this.tableDataSource.sort
-    );
+    const dataToSort = structuredClone<DhOutgoingMessage[]>(this.tableDataSource.filteredData);
+    const dataSorted = this.tableDataSource.sortData(dataToSort, this.tableDataSource.sort);
 
     const outgoingMessagesPath = 'eSett.outgoingMessages';
 
     const headers = [
+      `"${translate(outgoingMessagesPath + '.columns.created')}"`,
       `"${translate(outgoingMessagesPath + '.columns.id')}"`,
       `"${translate(outgoingMessagesPath + '.columns.calculationType')}"`,
       `"${translate(outgoingMessagesPath + '.columns.messageType')}"`,
@@ -181,6 +180,7 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
     ];
 
     const lines = dataSorted.map((message) => [
+      `"${message.created.toISOString()}"`,
       `"${message.documentId}"`,
       `"${translate(outgoingMessagesPath + '.shared.calculationType.' + message.processType)}"`,
       `"${translate(outgoingMessagesPath + '.shared.messageType.' + message.timeSeriesType)}"`,
