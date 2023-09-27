@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EoAuthService, EoAuthStore } from '@energinet-datahub/eo/shared/services';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { combineLatest, take } from 'rxjs';
@@ -37,20 +37,42 @@ import { combineLatest, take } from 'rxjs';
   template: `<div class="spinner"><watt-spinner></watt-spinner></div>`,
 })
 export class EoLoginComponent {
-  constructor(private service: EoAuthService, private store: EoAuthStore, private router: Router) {
+  constructor(
+    private service: EoAuthService,
+    private store: EoAuthStore,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.service.handleLogin();
     combineLatest([this.store.getScope$, this.store.isTokenExpired$])
       .pipe(take(1))
       .subscribe(([scope, isTokenExpired]) => {
+        const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
+
         if (scope.length == 0) {
-          this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
-        } else if (isTokenExpired) {
+          redirectionPath
+            ? this.service.startLogin()
+            : this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
+          return;
+        }
+
+        if (isTokenExpired) {
           this.service.logout();
-        } else if (scope.includes('not-accepted-privacypolicy-terms')) {
+          return;
+        }
+
+        if (scope.includes('not-accepted-privacypolicy-terms')) {
           this.router.navigate(['/terms']);
-        } else if (scope.includes('dashboard')) {
-          this.router.navigate(['/dashboard']);
-        } else this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
+          return;
+        }
+
+        if (scope.includes('dashboard')) {
+          const path = redirectionPath ? redirectionPath : '/dashboard';
+          window.location.href = window.location.origin + path;
+          return;
+        }
+
+        this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
       });
   }
 }
