@@ -71,11 +71,28 @@ export class EoAuthService {
 
   logout() {
     this.stopMonitor();
-    sessionStorage.removeItem('token');
-    const logoutUrl = `${this.#authApiBase}/logout`;
-    window.location.href = window.location.host.includes('localhost')
-      ? `${logoutUrl}?overrideRedirectionUri=${window.location.protocol}//${window.location.host}`
-      : logoutUrl;
+
+    const isLocalhost = window.location.host.includes('localhost');
+    const logoutUrl = isLocalhost
+      ? `${this.#authApiBase}/logout?overrideRedirectionUri=${window.location.protocol}//${
+          window.location.host
+        }`
+      : `${this.#authApiBase}/logout`;
+
+    this.http.get<{ redirectionUri: string }>(logoutUrl).subscribe({
+      next: (response) => {
+        sessionStorage.removeItem('token');
+        window.location.href = response.redirectionUri;
+      },
+      error: () => {
+        // TODO: Remove this when the backend for the "next" method has been deployed
+        sessionStorage.removeItem('token');
+        const logoutUrl = `${this.#authApiBase}/logout`;
+        window.location.href = isLocalhost
+          ? `${logoutUrl}?overrideRedirectionUri=${window.location.protocol}//${window.location.host}`
+          : logoutUrl;
+      },
+    });
   }
 
   private clearToken() {
