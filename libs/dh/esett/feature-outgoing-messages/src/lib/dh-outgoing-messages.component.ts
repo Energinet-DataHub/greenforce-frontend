@@ -139,8 +139,8 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
       next: (result) => {
         this.isLoading = result.loading;
 
-        this.tableDataSource.data = result.data?.esettExchangeEvents.items;
-        this.totalCount = result.data?.esettExchangeEvents.totalCount;
+        this.tableDataSource.data = result.data?.esettExchangeEvents.items ?? [];
+        this.totalCount = result.data?.esettExchangeEvents.totalCount ?? 0;
 
         this.hasError = !!result.errors;
       },
