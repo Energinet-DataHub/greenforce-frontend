@@ -165,10 +165,8 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const dataSorted = this.tableDataSource.sortData(
-      this.tableDataSource.filteredData,
-      this.tableDataSource.sort
-    );
+    const dataToSort = structuredClone<DhOutgoingMessage[]>(this.tableDataSource.filteredData);
+    const dataSorted = this.tableDataSource.sortData(dataToSort, this.tableDataSource.sort);
 
     const outgoingMessagesPath = 'eSett.outgoingMessages';
 
