@@ -33,6 +33,13 @@ export class EoScopeGuard implements CanActivate {
 
     return this.authStore.getScope$.pipe(
       map((scope) => {
+        if (scope.length === 0) {
+          this.router.navigate(['/login'], {
+            queryParams: { redirectionPath: window.location.pathname + window.location.search },
+          });
+          return false;
+        }
+
         if (scope.includes('not-accepted-privacypolicy-terms')) this.router.navigate(['/terms']);
         if (!this.authStore.token.getValue()) this.router.navigate(['']);
 
