@@ -76,6 +76,7 @@ import { EoConnection } from '../data-access-api/connections.service';
     >
       <ng-container [ngSwitch]="contentTemplate()">
         <ng-container *ngSwitchDefault [ngTemplateOutlet]="default"></ng-container>
+        <ng-container *ngSwitchCase="'ownConnection'" [ngTemplateOutlet]="ownConnection"></ng-container>
         <ng-container *ngSwitchCase="'notFound'" [ngTemplateOutlet]="notFound"></ng-container>
         <ng-container
           *ngSwitchCase="'alreadyConnected'"
@@ -92,7 +93,7 @@ import { EoConnection } from '../data-access-api/connections.service';
       <div style="text-align: center;" [style.opacity]="isLoading() ? 0 : 1">
         <h3>
           {{ connectionInvitation()?.senderCompanyTin }} wants to connect <br />with your
-          organisation
+          organization
         </h3>
         <p>Connections can be used to enter into transfer agreements.</p>
       </div>
@@ -100,6 +101,19 @@ import { EoConnection } from '../data-access-api/connections.service';
       <watt-modal-actions *ngIf="!isLoading()">
         <watt-button variant="secondary" (click)="onDecline()"> Decline </watt-button>
         <watt-button variant="primary" (click)="onAccept()"> Accept invitation </watt-button>
+      </watt-modal-actions>
+    </ng-template>
+
+    <ng-template #ownConnection>
+      <watt-empty-state
+        icon="warning"
+        title="Invalid invitation"
+        message="You cannot Accept/Deny invitations from your own organization."
+      >
+      </watt-empty-state>
+
+      <watt-modal-actions>
+        <watt-button variant="secondary" (click)="modal.close(false)">Close</watt-button>
       </watt-modal-actions>
     </ng-template>
 
@@ -112,7 +126,7 @@ import { EoConnection } from '../data-access-api/connections.service';
       </watt-empty-state>
 
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="onDecline()">Close</watt-button>
+        <watt-button variant="secondary" (click)="modal.close(false)">Close</watt-button>
       </watt-modal-actions>
     </ng-template>
 
@@ -125,7 +139,7 @@ import { EoConnection } from '../data-access-api/connections.service';
       </watt-empty-state>
 
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="onDecline()">Close</watt-button>
+        <watt-button variant="secondary" (click)="modal.close(false)">Close</watt-button>
       </watt-modal-actions>
     </ng-template>
 
@@ -151,11 +165,11 @@ export class EoInviteConnectionRespondComponent implements OnChanges {
 
   protected isOpen = signal<boolean>(false);
   protected isLoading = signal<boolean>(false);
-  protected contentTemplate = signal<'notFound' | 'alreadyConnected' | 'unknownError' | null>(null);
+  protected contentTemplate = signal<'notFound' | 'alreadyConnected' | 'ownConnection' | 'unknownError' | null>(null);
   protected connectionInvitation = signal<InviteConnectionResponse | null>(null);
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.connectionInvitationId && changes.connectionInvitationId.currentValue) {
+    if (changes['connectionInvitationId'] && changes['connectionInvitationId'].currentValue) {
       this.isLoading.set(true);
       this.inviteConnectionService.getInvitation(this.connectionInvitationId).subscribe({
         next: (invitation) => {
@@ -166,7 +180,9 @@ export class EoInviteConnectionRespondComponent implements OnChanges {
         error: (error) => {
           this.isLoading.set(false);
 
-          if (error.status === 404) {
+          if(error.status === 400) {
+            this.contentTemplate.set('ownConnection');
+          } else if (error.status === 404) {
             this.contentTemplate.set('notFound');
           } else if (error.status === 409) {
             this.contentTemplate.set('alreadyConnected');
@@ -216,7 +232,7 @@ export class EoInviteConnectionRespondComponent implements OnChanges {
         this.toastService.open({
           message: `Could not connect with ${
             this.connectionInvitation()?.senderCompanyTin
-          }. Please try again or contact the organisation who sent the invitation to generate a new invitation.`,
+          }. Please try again or request the organization that sent the invitation to generate a new link.`,
           type: 'danger',
           duration: 24 * 60 * 60 * 1000, // 24 hours
         });
