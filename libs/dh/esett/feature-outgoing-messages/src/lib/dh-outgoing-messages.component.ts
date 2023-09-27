@@ -171,6 +171,7 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
     const outgoingMessagesPath = 'eSett.outgoingMessages';
 
     const headers = [
+      `"${translate(outgoingMessagesPath + '.columns.created')}"`,
       `"${translate(outgoingMessagesPath + '.columns.id')}"`,
       `"${translate(outgoingMessagesPath + '.columns.calculationType')}"`,
       `"${translate(outgoingMessagesPath + '.columns.messageType')}"`,
@@ -179,6 +180,7 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
     ];
 
     const lines = dataSorted.map((message) => [
+      `"${message.created.toISOString()}"`,
       `"${message.documentId}"`,
       `"${translate(outgoingMessagesPath + '.shared.calculationType.' + message.processType)}"`,
       `"${translate(outgoingMessagesPath + '.shared.messageType.' + message.timeSeriesType)}"`,
