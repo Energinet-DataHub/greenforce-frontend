@@ -66,15 +66,10 @@ export class EoAuthService {
   }
 
   startLogin() {
-    const isLocalhost = window.location.host.includes('localhost');
     const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
-    const loginUrl = `${this.#authApiBase}/login`;
-
-    if (isLocalhost) {
-      window.location.href = `${loginUrl}?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/login?redirectionPath=${redirectionPath}`;
-    } else {
-      window.location.href = loginUrl + `?redirectionPath=${redirectionPath}`;
-    }
+    window.location.href = `${this.#authApiBase}/login?overrideRedirectionUri=${
+      window.location.protocol
+    }//${window.location.host}/login?redirectionPath=${redirectionPath}`;
   }
 
   logout() {
