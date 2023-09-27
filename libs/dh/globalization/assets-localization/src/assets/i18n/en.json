@@ -883,12 +883,13 @@
     "balanceResponsible": {
       "tabHeading": "Balance responsible",
       "columns": {
-        "id": "ID",
-        "date": "Date",
+        "validFrom": "Valid from",
+        "validTo": "Valid to",
         "electricitySupplier": "Electricity supplier",
         "balanceResponsible": "Balance responsible",
+        "gridArea": "{{ eSett.shared.gridArea }}",
         "meteringPointType": "Type of metering point",
-        "validFrom": "Valid from"
+        "received": "Received"
       },
       "emptyTitle": "No messages found",
       "emptyMessage": "Try changing the search criteria",

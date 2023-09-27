@@ -18,7 +18,7 @@ limitations under the License.
   <vater-flex fill="vertical" gap="m">
     <vater-stack direction="row" gap="s">
       <h3>{{ t("tabHeading") }}</h3>
-      <span class="watt-chip-label">{{ tableDataSource.data.length }}</span>
+      <span class="watt-chip-label">{{ totalCount }}</span>
     </vater-stack>
 
     <dh-balance-responsible-table
@@ -27,6 +27,10 @@ limitations under the License.
       [hasError]="hasError"
     />
 
-    <watt-paginator [for]="tableDataSource" [pageSize]="100" />
+    <watt-paginator
+      [length]="totalCount"
+      [pageSize]="pageSize$ | push"
+      (changed)="handlePageEvent($event)"
+    />
   </vater-flex>
 </watt-card>

@@ -27,11 +27,7 @@ limitations under the License.
       }}</watt-button>
     </vater-stack>
 
-    <dh-outgoing-messages-filters
-      class="watt-space-stack-m"
-      [initial]="filter$.value"
-      (filter)="filter$.next($event)"
-    />
+    <dh-outgoing-messages-filters [initial]="filter$.value" (filter)="filter$.next($event)" />
 
     <dh-outgoing-messages-table
       [tableDataSource]="tableDataSource"
@@ -40,9 +36,9 @@ limitations under the License.
     />
 
     <watt-paginator
-      [for]="tableDataSource"
-      (changed)="handlePageEvent($event)"
+      [length]="totalCount"
       [pageSize]="pageSize$ | push"
+      (changed)="handlePageEvent($event)"
     />
   </vater-flex>
 </watt-card>

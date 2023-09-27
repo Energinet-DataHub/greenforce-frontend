@@ -14,11 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export type DhBalanceResponsibleMessage = {
-  id: string;
-  date: string;
-  electricitySupplier: string;
-  balanceResponsible: string;
-  meteringPointType: string;
-  validFrom: string;
-};
+import type { ResultOf } from '@graphql-typed-document-node/core';
+import { GetBalanceResponsibleMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type DhBalanceResponsibleMessage = ResultOf<
+  typeof GetBalanceResponsibleMessagesDocument
+>['searchEsettBalanceResponsible']['items'][0];

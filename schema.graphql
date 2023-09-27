@@ -19,6 +19,17 @@ type Actor {
   status: ActorStatus!
 }
 
+type BalanceResponsibleType {
+  gridArea: GridAreaDto!
+  id: String!
+  receivedDateTime: DateTime!
+  supplier: ActorNumber!
+  balanceResponsible: ActorNumber!
+  meteringPointType: TimeSeriesType!
+  validFromDate: DateTime!
+  validToDate: DateTime!
+}
+
 """An immutable calculation."""
 type Calculation {
   id: UUID!
@@ -108,6 +119,7 @@ type Query {
   actors(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, processType: ExchangeEventProcessType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
+  searchEsettBalanceResponsible(pageNumber: Int!, pageSize: Int!, searchText: String!): BalanceResponsibleSearchResponse!
 }
 
 type Mutation {
@@ -136,13 +148,23 @@ type OrganizationDto {
   address: AddressDto!
 }
 
+"""The `DateTime` scalar represents an ISO-8601 compliant date time type."""
+scalar DateTime
+
+type ActorNumber {
+  value: String!
+}
+
+enum TimeSeriesType {
+  MGA_EXCHANGE
+  PRODUCTION
+  CONSUMPTION
+}
+
 """
 The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1.
 """
 scalar Long
-
-"""The `DateTime` scalar represents an ISO-8601 compliant date time type."""
-scalar DateTime
 
 enum BatchState {
   PENDING
@@ -159,12 +181,6 @@ enum ProcessType {
   FIRST_CORRECTION_SETTLEMENT
   SECOND_CORRECTION_SETTLEMENT
   THIRD_CORRECTION_SETTLEMENT
-}
-
-enum TimeSeriesType {
-  MGA_EXCHANGE
-  PRODUCTION
-  CONSUMPTION
 }
 
 enum DocumentStatus {
@@ -211,6 +227,11 @@ enum PriceAreaCode {
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
+}
+
+type BalanceResponsibleSearchResponse {
+  items: [BalanceResponsibleType!]!
+  totalCount: Int!
 }
 
 type ExchangeEventSearchResponse {

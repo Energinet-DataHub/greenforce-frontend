@@ -5,6 +5,67 @@
     "version": "v1"
   },
   "paths": {
+    "/esett/balance-responsible/search": {
+      "post": {
+        "tags": [
+          "BalanceResponsible"
+        ],
+        "operationId": "search",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/BalanceResponsibleSearchFilter"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/BalanceResponsibleSearchFilter"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/BalanceResponsibleSearchFilter"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponsibleSearchResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponsibleSearchResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponsibleSearchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/esett/{documentId}": {
       "get": {
         "tags": [
@@ -106,7 +167,7 @@
         "tags": [
           "ESett"
         ],
-        "operationId": "search",
+        "operationId": "search2",
         "requestBody": {
           "content": {
             "application/json": {
@@ -165,6 +226,93 @@
   },
   "components": {
     "schemas": {
+      "ActorNumber": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "BalanceResponsibleSearchFilter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "searchText": {
+            "type": "string"
+          }
+        }
+      },
+      "BalanceResponsibleSearchResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BalanceResponsibleSearchResult"
+            }
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "BalanceResponsibleSearchResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "receivedDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "supplier": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorNumber"
+              }
+            ]
+          },
+          "balanceResponsible": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorNumber"
+              }
+            ]
+          },
+          "meteringPointType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TimeSeriesType"
+              }
+            ]
+          },
+          "validFromDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validToDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gridArea": {
+            "type": "string"
+          }
+        }
+      },
       "DocumentStatus": {
         "type": "string",
         "enum": [

@@ -14,12 +14,32 @@ type Actor {
   status: ActorStatus!
 }
 
+type ActorNumber {
+  value: String!
+}
+
 type AddressDto {
   streetName: String
   number: String
   zipCode: String
   city: String
   country: String!
+}
+
+type BalanceResponsibleSearchResponse {
+  items: [BalanceResponsibleType!]!
+  totalCount: Int!
+}
+
+type BalanceResponsibleType {
+  gridArea: GridAreaDto!
+  id: String!
+  receivedDateTime: DateTime!
+  supplier: ActorNumber!
+  balanceResponsible: ActorNumber!
+  meteringPointType: TimeSeriesType!
+  validFromDate: DateTime!
+  validToDate: DateTime!
 }
 
 "An immutable calculation."
@@ -125,6 +145,7 @@ type Query {
   actors(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int! pageSize: Int! periodFrom: DateTime periodTo: DateTime gridAreaCode: String processType: ExchangeEventProcessType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
+  searchEsettBalanceResponsible(pageNumber: Int! pageSize: Int! searchText: String!): BalanceResponsibleSearchResponse!
 }
 
 type SettlementReport {
