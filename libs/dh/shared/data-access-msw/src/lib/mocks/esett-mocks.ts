@@ -25,7 +25,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { eSettExchangeEvents } from './data/esett-exchange-events';
-import { eSettDetailedExchangeEvents } from './esett-detailed-exchange-events';
+import { eSettDetailedExchangeEvents } from './data/esett-detailed-exchange-events';
 
 export function eSettMocks(apiBase: string) {
   return [
