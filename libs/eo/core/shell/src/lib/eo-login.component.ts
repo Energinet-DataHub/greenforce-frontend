@@ -64,7 +64,8 @@ export class EoLoginComponent {
 
         if (scope.includes('dashboard')) {
           const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
-          const path = redirectionPath && redirectionPath !== 'null' ? redirectionPath : '/dashboard';
+          const path =
+            redirectionPath && redirectionPath !== 'null' ? redirectionPath : '/dashboard';
           window.location.href = window.location.origin + path;
           return;
         }
