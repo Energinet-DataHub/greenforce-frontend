@@ -17,7 +17,7 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
@@ -38,7 +38,7 @@ loadEoApiEnvironment()
         provideAnimations(),
         provideHttpClient(withInterceptorsFromDi()),
         ...eoCoreShellProviders,
-        provideRouter(eoShellRoutes),
+        provideRouter(eoShellRoutes, withComponentInputBinding()),
         provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
       ],
     })

@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, Signal, computed, inject, signal } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { Component, Input, OnInit, Signal, ViewChild, computed, inject, signal } from '@angular/core';
+import {} from '@angular/router'
+import { ActivatedRoute } from '@angular/router';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -29,15 +30,16 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { EoBetaMessageComponent } from '../../shared/atomic-design/ui-atoms/src/lib/eo-beta-message/eo-beta-message.component';
 import { EoConnectionsTableComponent } from './connections-table.component';
 import { EoInviteConnectionComponent } from '../feature-invite-connection/invite-connection.component';
+import { EoInviteConnectionRespondComponent } from '../feature-invite-connection-respond/invite-connection-respond.component';
 import { EoConnection, EoConnectionsService } from '../data-access-api/connections.service';
 
 @Component({
   standalone: true,
   imports: [
-    AsyncPipe,
     EoBetaMessageComponent,
     EoConnectionsTableComponent,
     EoInviteConnectionComponent,
+    EoInviteConnectionRespondComponent,
     VaterFlexComponent,
     VaterSpacerComponent,
     VaterStackComponent,
@@ -94,10 +96,14 @@ import { EoConnection, EoConnectionsService } from '../data-access-api/connectio
       ></eo-connections-table>
     </watt-card>
 
-    <eo-invite-connection #inviteConnection></eo-invite-connection>
+    <eo-invite-connection #inviteConnection />
+    <eo-invite-connection-repsond [connectionInvitationId]="connectionInvitationId" (closed)="onInviteClosed($event)" #inviteConnectionRespond />
   `,
 })
 export class EoConnectionsComponent implements OnInit {
+  @Input('respond-invite') connectionInvitationId!: string;
+  @ViewChild('inviteConnectionRespond', {static: true}) inviteConnectionRespond!: EoInviteConnectionRespondComponent;
+
   private connectionsService = inject(EoConnectionsService);
 
   protected search = '';
@@ -116,6 +122,18 @@ export class EoConnectionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadConnections();
+
+    if(this.connectionInvitationId) {
+      this.inviteConnectionRespond.open();
+    }
+  }
+
+  onInviteClosed(connection: EoConnection | null) {
+    if(!connection) return;
+    this.connections.set({
+      ...this.connections(),
+      data: [...(this.connections().data ?? []), connection],
+    });
   }
 
   onConnectionRemoved(connection: EoConnection) {

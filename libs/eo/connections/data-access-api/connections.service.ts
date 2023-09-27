@@ -46,7 +46,7 @@ export class EoConnectionsService {
   getConnections(): Observable<EoConnection[]> {
     return this.#http
       .get<ConnectionsResponse>(`${this.#apiBase}/connections`)
-      .pipe(map((response) => response.result));
+      .pipe(map((response) => response?.result));
   }
 
   deleteConnection(connectionId: string) {
