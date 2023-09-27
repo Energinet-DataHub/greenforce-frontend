@@ -49,18 +49,27 @@ export class EoLoginComponent {
       .subscribe(([scope, isTokenExpired]) => {
         if (scope.length == 0) {
           this.service.startLogin();
-        } else if (isTokenExpired) {
+          return;
+        }
+
+        if (isTokenExpired) {
           this.service.logout();
-        } else if (scope.includes('not-accepted-privacypolicy-terms')) {
+          return;
+        }
+
+        if (scope.includes('not-accepted-privacypolicy-terms')) {
           this.router.navigate(['/terms']);
-        } else if (scope.includes('dashboard')) {
+          return;
+        }
+
+        if (scope.includes('dashboard')) {
           const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
-          if (redirectionPath && redirectionPath !== 'null') {
-            window.location.href = window.location.origin + redirectionPath;
-          } else {
-            this.router.navigate(['/dashboard']);
-          }
-        } else this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
+          const path = redirectionPath && redirectionPath !== 'null' ? redirectionPath : '/dashboard';
+          window.location.href = window.location.origin + path;
+          return;
+        }
+
+        this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
       });
   }
 }
