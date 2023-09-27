@@ -76,7 +76,10 @@ import { EoConnection } from '../data-access-api/connections.service';
     >
       <ng-container [ngSwitch]="contentTemplate()">
         <ng-container *ngSwitchDefault [ngTemplateOutlet]="default"></ng-container>
-        <ng-container *ngSwitchCase="'ownConnection'" [ngTemplateOutlet]="ownConnection"></ng-container>
+        <ng-container
+          *ngSwitchCase="'ownConnection'"
+          [ngTemplateOutlet]="ownConnection"
+        ></ng-container>
         <ng-container *ngSwitchCase="'notFound'" [ngTemplateOutlet]="notFound"></ng-container>
         <ng-container
           *ngSwitchCase="'alreadyConnected'"
@@ -165,7 +168,9 @@ export class EoInviteConnectionRespondComponent implements OnChanges {
 
   protected isOpen = signal<boolean>(false);
   protected isLoading = signal<boolean>(false);
-  protected contentTemplate = signal<'notFound' | 'alreadyConnected' | 'ownConnection' | 'unknownError' | null>(null);
+  protected contentTemplate = signal<
+    'notFound' | 'alreadyConnected' | 'ownConnection' | 'unknownError' | null
+  >(null);
   protected connectionInvitation = signal<InviteConnectionResponse | null>(null);
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -180,7 +185,7 @@ export class EoInviteConnectionRespondComponent implements OnChanges {
         error: (error) => {
           this.isLoading.set(false);
 
-          if(error.status === 400) {
+          if (error.status === 400) {
             this.contentTemplate.set('ownConnection');
           } else if (error.status === 404) {
             this.contentTemplate.set('notFound');
