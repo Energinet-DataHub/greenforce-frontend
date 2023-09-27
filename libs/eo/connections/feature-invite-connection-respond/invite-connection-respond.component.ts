@@ -124,7 +124,7 @@ import { EoConnection } from '../data-access-api/connections.service';
       <watt-empty-state
         icon="warning"
         title="Not found"
-        message="Invitation seems to be expired or declined."
+        message="The invitation has expired, declined, or is already accepted."
       >
       </watt-empty-state>
 
