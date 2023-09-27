@@ -47,8 +47,12 @@ export class EoLoginComponent {
     combineLatest([this.store.getScope$, this.store.isTokenExpired$])
       .pipe(take(1))
       .subscribe(([scope, isTokenExpired]) => {
+        const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
+
         if (scope.length == 0) {
-          this.service.startLogin();
+          redirectionPath
+            ? this.service.startLogin()
+            : this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
           return;
         }
 
@@ -63,9 +67,7 @@ export class EoLoginComponent {
         }
 
         if (scope.includes('dashboard')) {
-          const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
-          const path =
-            redirectionPath && redirectionPath !== 'null' ? redirectionPath : '/dashboard';
+          const path = redirectionPath ? redirectionPath : '/dashboard';
           window.location.href = window.location.origin + path;
           return;
         }
