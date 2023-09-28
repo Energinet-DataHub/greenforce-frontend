@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
@@ -22,9 +22,10 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { DhBalanceResponsibleDrawerComponent } from '../drawer/dh-drawer.component';
 
 @Component({
   selector: 'dh-balance-responsible-table',
@@ -47,10 +48,17 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
     WattEmptyStateComponent,
     VaterFlexComponent,
     VaterStackComponent,
+
     DhEmDashFallbackPipe,
+    DhBalanceResponsibleDrawerComponent,
   ],
 })
 export class DhBalanceResponsibleTableComponent {
+  activeRow: DhBalanceResponsibleMessage | undefined = undefined;
+
+  @ViewChild(DhBalanceResponsibleDrawerComponent)
+  drawer: DhBalanceResponsibleDrawerComponent | undefined;
+
   columns: WattTableColumnDef<DhBalanceResponsibleMessage> = {
     validFrom: { accessor: 'validFromDate' },
     validTo: { accessor: 'validToDate' },
@@ -71,4 +79,14 @@ export class DhBalanceResponsibleTableComponent {
   @Input() hasError!: boolean;
 
   @Input() tableDataSource!: WattTableDataSource<DhBalanceResponsibleMessage>;
+
+  onRowClick(activeRow: DhBalanceResponsibleMessage): void {
+    this.activeRow = activeRow;
+
+    this.drawer?.open(activeRow);
+  }
+
+  onClose(): void {
+    this.activeRow = undefined;
+  }
 }
