@@ -14,6 +14,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<dh-balance-responsible-drawer (closed)="onClose()" />
+
 <vater-flex fill="vertical" scrollable *transloco="let t; read: 'eSett.balanceResponsible'">
   <watt-table
     [dataSource]="tableDataSource"
@@ -21,6 +23,8 @@ limitations under the License.
     [resolveHeader]="translateHeader"
     [loading]="isLoading"
     [sortClear]="false"
+    [activeRow]="activeRow"
+    (rowClick)="onRowClick($event)"
   >
     <ng-container
       *wattTableCell="
