@@ -60,9 +60,9 @@ export class EoConnectionsService {
             })
           );
         });
-        if(!updatedItems$) return of([]);
+        if (!updatedItems$) return of([]);
         return forkJoin(updatedItems$);
-      }),
+      })
     );
   }
 
