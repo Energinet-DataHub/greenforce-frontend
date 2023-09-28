@@ -131,6 +131,7 @@ function getBalanceResponsibleMessagesQuery() {
       gridArea: {
         __typename: 'GridAreaDto',
         code: '344',
+        name: 'N1 A/S',
       } as GridAreaDto,
       meteringPointType: TimeSeriesType.Production,
       validFromDate: new Date('2021-02-01T10:00:00.000Z'),
@@ -160,6 +161,7 @@ function getBalanceResponsibleMessagesQuery() {
       gridArea: {
         __typename: 'GridAreaDto',
         code: '999',
+        name: 'N2 A/S',
       } as GridAreaDto,
       meteringPointType: TimeSeriesType.Production,
       validFromDate: new Date('2022-01-01T10:00:00.000Z'),
