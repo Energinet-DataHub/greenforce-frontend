@@ -43,7 +43,8 @@ import {
   InviteConnectionResponse,
 } from '../data-access-api/invite-connection.service';
 import { Router } from '@angular/router';
-import { EoConnection } from '../data-access-api/connections.service';
+import { EoConnectionWithName } from '../data-access-api/connections.service';
+import { EoCvrService } from '../data-access-api/cvr.service';
 
 @Component({
   selector: 'eo-invite-connection-repsond',
@@ -95,8 +96,12 @@ import { EoConnection } from '../data-access-api/connections.service';
     <ng-template #default>
       <div style="text-align: center;" [style.opacity]="isLoading() ? 0 : 1">
         <h3>
-          {{ connectionInvitation()?.senderCompanyTin }} wants to connect <br />with your
-          organization
+          {{
+            connectionInvitation()?.companyName !== '—'
+              ? connectionInvitation()?.companyName
+              : connectionInvitation()?.senderCompanyTin
+          }}
+          wants to connect <br />with your organization
         </h3>
         <p>Connections can be used to enter into transfer agreements.</p>
       </div>
@@ -159,12 +164,14 @@ import { EoConnection } from '../data-access-api/connections.service';
 export class EoInviteConnectionRespondComponent implements OnChanges {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   @Input() connectionInvitationId!: string;
-  @Output() closed = new EventEmitter<EoConnection | null>();
+  @Output() closed = new EventEmitter<EoConnectionWithName | null>();
+  @Output() connectionCreated = new EventEmitter<{ id: string; companyTin: string }>();
 
   private cd = inject(ChangeDetectorRef);
   private router = inject(Router);
   private toastService = inject(WattToastService);
   private inviteConnectionService = inject(EoInviteConnectionService);
+  private cvrService = inject(EoCvrService);
 
   protected isOpen = signal<boolean>(false);
   protected isLoading = signal<boolean>(false);
@@ -180,7 +187,13 @@ export class EoInviteConnectionRespondComponent implements OnChanges {
         next: (invitation) => {
           this.isLoading.set(false);
           this.contentTemplate.set(null);
-          this.connectionInvitation.set(invitation);
+
+          this.cvrService.getCompanyName(invitation.senderCompanyTin).subscribe((companyName) => {
+            this.connectionInvitation.set({
+              ...invitation,
+              companyName,
+            });
+          });
         },
         error: (error) => {
           this.isLoading.set(false);
@@ -218,25 +231,37 @@ export class EoInviteConnectionRespondComponent implements OnChanges {
     const invitation = this.connectionInvitation();
     if (invitation) {
       this.closed.emit({
-        id: '',
+        id: invitation?.id,
         companyId: invitation?.senderCompanyId,
         companyTin: invitation?.senderCompanyTin,
+        companyName: invitation?.companyName ?? '—',
       });
     }
 
     this.inviteConnectionService.acceptInvitation(this.connectionInvitationId).subscribe({
-      next: () => {
+      next: (response) => {
         this.toastService.open({
           message: `You are now successfully connected with ${
-            this.connectionInvitation()?.senderCompanyTin
+            this.connectionInvitation()?.companyName !== '—'
+              ? this.connectionInvitation()?.companyName
+              : this.connectionInvitation()?.senderCompanyTin
           }.`,
           type: 'success',
         });
+
+        if (invitation) {
+          this.connectionCreated.emit({
+            id: response.id,
+            companyTin: invitation.senderCompanyTin,
+          });
+        }
       },
       error: () => {
         this.toastService.open({
           message: `Could not connect with ${
-            this.connectionInvitation()?.senderCompanyTin
+            this.connectionInvitation()?.companyName !== '—'
+              ? this.connectionInvitation()?.companyName
+              : this.connectionInvitation()?.senderCompanyTin
           }. Please try again or request the organization that sent the invitation to generate a new link.`,
           type: 'danger',
           duration: 24 * 60 * 60 * 1000, // 24 hours
@@ -246,10 +271,6 @@ export class EoInviteConnectionRespondComponent implements OnChanges {
   }
 
   onDecline() {
-    // We don't care about the response
-    this.inviteConnectionService
-      .declineInvitation(this.connectionInvitationId)
-      .subscribe({ next: () => {}, error: () => {} });
     this.modal.close(false);
     this.closed.emit(null);
   }

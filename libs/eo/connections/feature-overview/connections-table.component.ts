@@ -28,7 +28,7 @@ import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-import { EoConnection } from '../data-access-api/connections.service';
+import { EoConnectionWithName } from '../data-access-api/connections.service';
 import { EoRemoveConnectionComponent } from '../feature-remove-connection';
 
 @Component({
@@ -88,11 +88,11 @@ import { EoRemoveConnectionComponent } from '../feature-remove-connection';
   `,
 })
 export class EoConnectionsTableComponent {
-  dataSource: WattTableDataSource<EoConnection> = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<EoConnection> = {
-    id: { accessor: 'companyId', header: 'Company Id' },
+  dataSource: WattTableDataSource<EoConnectionWithName> = new WattTableDataSource(undefined);
+  columns: WattTableColumnDef<EoConnectionWithName> = {
+    companyTin: { accessor: 'companyTin', header: 'Company Tin' },
     name: {
-      accessor: () => '',
+      accessor: (x) => x.companyName,
     },
     actions: {
       accessor: () => '',
@@ -104,7 +104,7 @@ export class EoConnectionsTableComponent {
   @Input() hasError = false;
 
   @Input()
-  set connections(data: EoConnection[] | null) {
+  set connections(data: EoConnectionWithName[] | null) {
     this.dataSource.data = data || [];
   }
 
@@ -113,5 +113,5 @@ export class EoConnectionsTableComponent {
     this.dataSource.filter = value;
   }
 
-  @Output() connectionRemoved = new EventEmitter<EoConnection>();
+  @Output() connectionRemoved = new EventEmitter<EoConnectionWithName>();
 }
