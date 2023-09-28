@@ -103,11 +103,14 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
         display: flex;
         flex-wrap: wrap;
       }
-    `,
-    `
+
       eo-transfers-form .receiver {
         max-width: 300px;
         margin-top: 17px;
+      }
+
+      eo-transfers-form .mat-form-field-wrapper {
+        padding-bottom: 0 !important;
       }
     `,
   ],
