@@ -74,6 +74,7 @@ function getDispatchDocument(apiBase: string) {
 function getStorageDocumentLink(apiBase: string) {
   return rest.get(`${apiBase}/v1/EsettExchange/StorageDocument`, (req, res, ctx) => {
     return res(
+      ctx.delay(300),
       ctx.body(
         Uint8Array.from(
           atob(
