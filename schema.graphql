@@ -21,13 +21,16 @@ type Actor {
 
 type BalanceResponsibleType {
   gridArea: GridAreaDto!
+  supplierWithName: ActorNameDto!
+  balanceResponsibleWithName: ActorNameDto!
+  getStorageDocumentLink: String
   id: String!
   receivedDateTime: DateTime!
   supplier: ActorNumber!
   balanceResponsible: ActorNumber!
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
-  validToDate: DateTime!
+  validToDate: DateTime
 }
 
 """An immutable calculation."""
@@ -146,6 +149,10 @@ type OrganizationDto {
   comment: String!
   status: OrganizationStatus!
   address: AddressDto!
+}
+
+type ActorNameDto {
+  value: String!
 }
 
 """The `DateTime` scalar represents an ISO-8601 compliant date time type."""

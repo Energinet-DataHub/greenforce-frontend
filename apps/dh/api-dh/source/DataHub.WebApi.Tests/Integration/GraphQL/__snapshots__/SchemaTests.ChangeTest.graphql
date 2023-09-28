@@ -14,6 +14,10 @@ type Actor {
   status: ActorStatus!
 }
 
+type ActorNameDto {
+  value: String!
+}
+
 type ActorNumber {
   value: String!
 }
@@ -33,13 +37,16 @@ type BalanceResponsibleSearchResponse {
 
 type BalanceResponsibleType {
   gridArea: GridAreaDto!
+  supplierWithName: ActorNameDto!
+  balanceResponsibleWithName: ActorNameDto!
+  getStorageDocumentLink: String
   id: String!
   receivedDateTime: DateTime!
   supplier: ActorNumber!
   balanceResponsible: ActorNumber!
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
-  validToDate: DateTime!
+  validToDate: DateTime
 }
 
 "An immutable calculation."
