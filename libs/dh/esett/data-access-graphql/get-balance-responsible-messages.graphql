@@ -11,7 +11,13 @@ query getBalanceResponsibleMessages(
     items {
       id
       receivedDateTime
+      supplierWithName {
+        value
+      }
       supplier {
+        value
+      }
+      balanceResponsibleWithName {
         value
       }
       balanceResponsible {
