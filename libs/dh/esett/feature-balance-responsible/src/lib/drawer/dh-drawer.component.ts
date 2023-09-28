@@ -27,6 +27,7 @@ import {
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-balance-responsible-drawer',
@@ -53,6 +54,8 @@ import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattDatePipe,
+
+    DhEmDashFallbackPipe,
   ],
 })
 export class DhBalanceResponsibleDrawerComponent {
