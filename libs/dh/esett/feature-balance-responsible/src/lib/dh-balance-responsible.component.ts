@@ -24,7 +24,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { BalanceResponsibleSortProperty, GetBalanceResponsibleMessagesDocument, SortDirection } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  BalanceResponsibleSortProperty,
+  GetBalanceResponsibleMessagesDocument,
+  SortDirection,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import {
   VaterFlexComponent,
@@ -103,7 +107,7 @@ export class DhBalanceResponsibleComponent implements OnInit {
             pageNumber: pageIndex + 1,
             pageSize,
             sortProperty: BalanceResponsibleSortProperty.ReceivedDate,
-            sortDirection: SortDirection.Descending
+            sortDirection: SortDirection.Descending,
           },
         }).valueChanges
     ),
