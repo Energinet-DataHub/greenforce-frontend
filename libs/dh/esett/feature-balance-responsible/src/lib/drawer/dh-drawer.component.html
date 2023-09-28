@@ -19,34 +19,34 @@ limitations under the License.
     <watt-drawer-heading>
       <h2 class="message-heading">{{ balanceResponsibleMessage?.supplierWithName?.value }}</h2>
 
-      <watt-description-list [groupsPerRow]="4" variant="flow">
+      <watt-description-list *ngIf="balanceResponsibleMessage" [groupsPerRow]="4" variant="flow">
         <watt-description-list-item
           [label]="t('electricitySupplier')"
-          [value]="balanceResponsibleMessage?.supplierWithName?.value"
+          [value]="balanceResponsibleMessage.supplierWithName.value"
         />
         <watt-description-list-item
           [label]="t('balanceResponsible')"
-          [value]="balanceResponsibleMessage?.balanceResponsibleWithName?.value"
+          [value]="balanceResponsibleMessage.balanceResponsibleWithName.value"
         />
         <watt-description-list-item
           [label]="t('gridArea')"
-          [value]="balanceResponsibleMessage?.gridArea?.code"
+          [value]="balanceResponsibleMessage.gridArea.code"
         />
         <watt-description-list-item
           [label]="t('meteringPointType')"
-          [value]="balanceResponsibleMessage?.meteringPointType"
+          [value]="balanceResponsibleMessage.meteringPointType"
         />
         <watt-description-list-item
           [label]="t('validFrom')"
-          [value]="balanceResponsibleMessage?.validFromDate | wattDate"
+          [value]="balanceResponsibleMessage.validFromDate | wattDate"
         />
         <watt-description-list-item
           [label]="t('validTo')"
-          [value]="balanceResponsibleMessage?.validToDate | wattDate | dhEmDashFallback"
+          [value]="balanceResponsibleMessage.validToDate | wattDate | dhEmDashFallback"
         />
         <watt-description-list-item
           [label]="t('received')"
-          [value]="balanceResponsibleMessage?.receivedDateTime | wattDate : 'long'"
+          [value]="balanceResponsibleMessage.receivedDateTime | wattDate : 'long'"
         />
       </watt-description-list>
     </watt-drawer-heading>
