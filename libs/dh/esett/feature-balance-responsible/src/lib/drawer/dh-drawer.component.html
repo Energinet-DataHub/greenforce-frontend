@@ -51,6 +51,10 @@ limitations under the License.
       </watt-description-list>
     </watt-drawer-heading>
 
-    <watt-drawer-content *ngIf="drawer.isOpen"></watt-drawer-content>
+    <watt-drawer-content *ngIf="drawer.isOpen">
+      <div class="xml-message-container">
+        <watt-code [code]="xmlMessage$ | push" [languages]="['xml']" />
+      </div>
+    </watt-drawer-content>
   </watt-drawer>
 </ng-container>
