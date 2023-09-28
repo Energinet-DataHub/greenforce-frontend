@@ -155,15 +155,16 @@ export class EoConnectionsComponent implements OnInit {
   onConnectionCreated(connection: { id: string; companyTin: string }) {
     this.connections.set({
       ...this.connections(),
-      data: this.connections().data?.map((x) => {
-        if (x.companyTin === connection.companyTin) {
-          return {
-            ...x,
-            id: connection.id,
-          };
-        }
-        return x;
-      }) ?? null,
+      data:
+        this.connections().data?.map((x) => {
+          if (x.companyTin === connection.companyTin) {
+            return {
+              ...x,
+              id: connection.id,
+            };
+          }
+          return x;
+        }) ?? null,
     });
   }
 

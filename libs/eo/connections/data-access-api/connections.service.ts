@@ -47,24 +47,22 @@ export class EoConnectionsService {
   #apiBase = `${this.#apiEnvironment.apiBase}`;
 
   getConnections(): Observable<EoConnectionWithName[]> {
-    return this.#http
-      .get<ConnectionsResponse>(`${this.#apiBase}/connections`)
-      .pipe(
-        map((response) => response?.result),
-        mergeMap((connections) => {
-          const updatedItems$ = connections.map((connection) => {
-            return this.#cvrService.getCompanyName(connection.companyTin).pipe(
-              map((companyName) => {
-                return {
-                  ...connection,
-                  companyName,
-                };
-              })
-            );
-          });
-          return forkJoin(updatedItems$);
-        })
-      );
+    return this.#http.get<ConnectionsResponse>(`${this.#apiBase}/connections`).pipe(
+      map((response) => response?.result),
+      mergeMap((connections) => {
+        const updatedItems$ = connections.map((connection) => {
+          return this.#cvrService.getCompanyName(connection.companyTin).pipe(
+            map((companyName) => {
+              return {
+                ...connection,
+                companyName,
+              };
+            })
+          );
+        });
+        return forkJoin(updatedItems$);
+      })
+    );
   }
 
   deleteConnection(connectionId: string) {

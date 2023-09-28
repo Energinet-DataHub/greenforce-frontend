@@ -58,7 +58,9 @@ export class EoInviteConnectionService {
   }
 
   acceptInvitation(connectionInvitationId: string) {
-    return this.http.post<{id: string;}>(`${this.#apiBase}/connections`, { connectionInvitationId });
+    return this.http.post<{ id: string }>(`${this.#apiBase}/connections`, {
+      connectionInvitationId,
+    });
   }
 
   declineInvitation(connectionInvitationId: string) {

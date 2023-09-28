@@ -34,13 +34,11 @@ export class EoCvrService {
   #apiBase = `${this.#apiEnvironment.apiBase}`;
 
   getCompanyName(cvrNumber: string): Observable<string> {
-    return this.#http
-      .get<EoCvr>(`${this.#apiBase}/cvr/${cvrNumber}`)
-      .pipe(
-        map((response) => response?.companyName),
-        catchError(() => {
-          return of('—');
-        })
-      );
+    return this.#http.get<EoCvr>(`${this.#apiBase}/cvr/${cvrNumber}`).pipe(
+      map((response) => response?.companyName),
+      catchError(() => {
+        return of('—');
+      })
+    );
   }
 }
