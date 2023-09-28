@@ -122,7 +122,7 @@ type Query {
   actors(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, processType: ExchangeEventProcessType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
-  searchEsettBalanceResponsible(pageNumber: Int!, pageSize: Int!, searchText: String!): BalanceResponsibleSearchResponse!
+  balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
 }
 
 type Mutation {
@@ -236,8 +236,19 @@ input UpdatePermissionDtoInput {
   description: String!
 }
 
-type BalanceResponsibleSearchResponse {
-  items: [BalanceResponsibleType!]!
+enum SortDirection {
+  ASCENDING
+  DESCENDING
+}
+
+enum BalanceResponsibleSortProperty {
+  VALID_FROM
+  VALID_TO
+  RECEIVED_DATE
+}
+
+type BalanceResponsiblePageResult {
+  page: [BalanceResponsibleType!]!
   totalCount: Int!
 }
 
