@@ -118,7 +118,7 @@ function getBalanceResponsibleMessagesQuery() {
     {
       __typename: 'BalanceResponsibleType',
       id: '1',
-      receivedDateTime: new Date('2021-01-01T00:00:00.000Z'),
+      receivedDateTime: new Date('2021-02-01T00:00:00.000Z'),
       supplier: {
         __typename: 'ActorNumber',
         value: '123',
@@ -132,8 +132,8 @@ function getBalanceResponsibleMessagesQuery() {
         code: '344',
       } as GridAreaDto,
       meteringPointType: TimeSeriesType.Production,
-      validFromDate: new Date('2021-01-01T00:00:00.000Z'),
-      validToDate: new Date('2021-02-01T00:00:00.000Z'),
+      validFromDate: new Date('2021-02-01T10:00:00.000Z'),
+      validToDate: new Date('2021-05-02T00:00:00.000Z'),
       getStorageDocumentLink: storageDocumentLink,
       balanceResponsibleWithName: {
         __typename: "ActorNameDto",
@@ -147,7 +147,7 @@ function getBalanceResponsibleMessagesQuery() {
     {
       __typename: 'BalanceResponsibleType',
       id: '2',
-      receivedDateTime: new Date('2021-01-01T00:00:00.000Z'),
+      receivedDateTime: new Date('2022-01-01T00:00:00.000Z'),
       supplier: {
         __typename: 'ActorNumber',
         value: '111',
@@ -161,7 +161,7 @@ function getBalanceResponsibleMessagesQuery() {
         code: '999',
       } as GridAreaDto,
       meteringPointType: TimeSeriesType.Production,
-      validFromDate: new Date('2022-01-01T00:00:00.000Z'),
+      validFromDate: new Date('2022-01-01T10:00:00.000Z'),
       validToDate: null,
       getStorageDocumentLink: storageDocumentLink,
       balanceResponsibleWithName: {
