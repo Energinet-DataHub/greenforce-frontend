@@ -66,6 +66,34 @@
         }
       }
     },
+    "/esett/balance-responsible/{documentId}/storageDocument": {
+      "get": {
+        "tags": [
+          "BalanceResponsible"
+        ],
+        "operationId": "storageDocument",
+        "parameters": [
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/esett/{documentId}": {
       "get": {
         "tags": [
@@ -235,40 +263,7 @@
           }
         }
       },
-      "BalanceResponsibleSearchFilter": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "searchText": {
-            "type": "string"
-          }
-        }
-      },
-      "BalanceResponsibleSearchResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BalanceResponsibleSearchResult"
-            }
-          },
-          "totalCount": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "BalanceResponsibleSearchResult": {
+      "BalanceResponsibleResult": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -306,10 +301,44 @@
           },
           "validToDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "gridArea": {
             "type": "string"
+          }
+        }
+      },
+      "BalanceResponsibleSearchFilter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "searchText": {
+            "type": "string"
+          }
+        }
+      },
+      "BalanceResponsibleSearchResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BalanceResponsibleResult"
+            }
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

@@ -28,6 +28,16 @@ namespace Energinet.DataHub.WebApi.GraphQL
             GridAreaByCodeBatchDataLoader dataLoader) =>
             dataLoader.LoadAsync(result.GridAreaCode);
 
+        public Task<ActorNameDto> GetSupplierWithNameAsync(
+            [Parent] BalanceResponsibleResult result,
+            ActorNameByNumberBatchDataLoader dataLoader) =>
+            dataLoader.LoadAsync(result.Supplier.Value);
+
+        public Task<ActorNameDto> GetBalanceResponsibleWithNameAsync(
+            [Parent] BalanceResponsibleResult result,
+            ActorNameByNumberBatchDataLoader dataLoader) =>
+            dataLoader.LoadAsync(result.BalanceResponsible.Value);
+
         public string? GetDocumentLink(
             string action,
             [Parent] ExchangeEventTrackingResult result,
@@ -36,6 +46,16 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 linkGenerator.GetUriByAction(
                     httpContextAccessor.HttpContext!,
                     action,
+                    "EsettExchange",
+                    new { documentId = result.DocumentId });
+
+        public string? GetStorageDocumentLink(
+            [Parent] ExchangeEventTrackingResult result,
+            [Service] IHttpContextAccessor httpContextAccessor,
+            [Service] LinkGenerator linkGenerator) =>
+                linkGenerator.GetUriByAction(
+                    httpContextAccessor.HttpContext!,
+                    "StorageDocument",
                     "EsettExchange",
                     new { documentId = result.DocumentId });
     }
