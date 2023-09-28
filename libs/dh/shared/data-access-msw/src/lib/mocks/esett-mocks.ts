@@ -27,8 +27,8 @@ import {
 import { eSettExchangeEvents } from './data/esett-exchange-events';
 import { eSettDetailedExchangeEvents } from './esett-detailed-exchange-events';
 
-
-const storageDocumentLink ='https://localhost:5001/v1/EsettExchange/StorageDocument?documentId=390254675-3';
+const storageDocumentLink =
+  'https://localhost:5001/v1/EsettExchange/StorageDocument?documentId=390254675-3';
 
 export function eSettMocks(apiBase: string) {
   return [
@@ -37,7 +37,7 @@ export function eSettMocks(apiBase: string) {
     getResponseDocument(apiBase),
     getDispatchDocument(apiBase),
     getBalanceResponsibleMessagesQuery(),
-    getStorageDocumentLink(apiBase)
+    getStorageDocumentLink(apiBase),
   ];
 }
 
@@ -136,13 +136,13 @@ function getBalanceResponsibleMessagesQuery() {
       validToDate: new Date('2021-05-02T00:00:00.000Z'),
       getStorageDocumentLink: storageDocumentLink,
       balanceResponsibleWithName: {
-        __typename: "ActorNameDto",
+        __typename: 'ActorNameDto',
         value: '321 - Test Balance Ansvarlig',
       },
       supplierWithName: {
-        __typename: "ActorNameDto",
+        __typename: 'ActorNameDto',
         value: '123 - Test Supplier',
-      }
+      },
     },
     {
       __typename: 'BalanceResponsibleType',
@@ -165,13 +165,13 @@ function getBalanceResponsibleMessagesQuery() {
       validToDate: null,
       getStorageDocumentLink: storageDocumentLink,
       balanceResponsibleWithName: {
-        __typename: "ActorNameDto",
+        __typename: 'ActorNameDto',
         value: '222 - Test Balance Ansvarlig 2',
       },
       supplierWithName: {
-        __typename: "ActorNameDto",
+        __typename: 'ActorNameDto',
         value: '111 - Test Supplier 2',
-      }
+      },
     },
   ];
 
