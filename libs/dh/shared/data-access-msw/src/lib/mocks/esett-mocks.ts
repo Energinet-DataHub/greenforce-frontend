@@ -25,14 +25,14 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { eSettExchangeEvents } from './data/esett-exchange-events';
-import { eSettDetailedExchangeEvents } from './esett-detailed-exchange-events';
+import { eSettDetailedExchangeEvents } from './data/esett-detailed-exchange-events';
 
 const storageDocumentLink =
   'https://localhost:5001/v1/EsettExchange/StorageDocument?documentId=390254675-3';
 
 export function eSettMocks(apiBase: string) {
   return [
-    getActorsForSettlementReportQuery(),
+    getOutgoingMessagesQuery(),
     getOutgoingMessageByIdQuery(),
     getResponseDocument(apiBase),
     getDispatchDocument(apiBase),
@@ -97,7 +97,7 @@ function getOutgoingMessageByIdQuery() {
   });
 }
 
-function getActorsForSettlementReportQuery() {
+function getOutgoingMessagesQuery() {
   return mockGetOutgoingMessagesQuery((req, res, ctx) => {
     return res(
       ctx.delay(300),

@@ -51,7 +51,10 @@ export class EoAuthService {
     this.clearToken();
     this.handleToken(this.route.snapshot.queryParamMap.get('token'));
     this.router.navigate([], {
-      queryParams: { token: undefined },
+      queryParams: {
+        token: undefined,
+        redirectionPath: this.route.snapshot.queryParamMap.get('redirectionPath'),
+      },
       replaceUrl: true,
     });
   }
@@ -63,19 +66,41 @@ export class EoAuthService {
   }
 
   startLogin() {
-    const loginUrl = `${this.#authApiBase}/login`;
-    window.location.href = window.location.host.includes('localhost')
-      ? `${loginUrl}?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/login`
-      : loginUrl;
+    const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
+
+    let href = `${this.#authApiBase}/login?overrideRedirectionUri=${window.location.protocol}//${
+      window.location.host
+    }/login`;
+
+    if (redirectionPath) href += `?redirectionPath=${redirectionPath}`;
+
+    window.location.href = href;
   }
 
   logout() {
     this.stopMonitor();
-    sessionStorage.removeItem('token');
-    const logoutUrl = `${this.#authApiBase}/logout`;
-    window.location.href = window.location.host.includes('localhost')
-      ? `${logoutUrl}?overrideRedirectionUri=${window.location.protocol}//${window.location.host}`
-      : logoutUrl;
+
+    const isLocalhost = window.location.host.includes('localhost');
+    const logoutUrl = isLocalhost
+      ? `${this.#authApiBase}/logout?overrideRedirectionUri=${window.location.protocol}//${
+          window.location.host
+        }`
+      : `${this.#authApiBase}/logout`;
+
+    this.http.get<{ redirectionUri: string }>(logoutUrl).subscribe({
+      next: (response) => {
+        sessionStorage.removeItem('token');
+        window.location.href = response.redirectionUri;
+      },
+      error: () => {
+        // TODO: Remove this when the backend for the "next" method has been deployed
+        sessionStorage.removeItem('token');
+        const logoutUrl = `${this.#authApiBase}/logout`;
+        window.location.href = isLocalhost
+          ? `${logoutUrl}?overrideRedirectionUri=${window.location.protocol}//${window.location.host}`
+          : logoutUrl;
+      },
+    });
   }
 
   private clearToken() {
