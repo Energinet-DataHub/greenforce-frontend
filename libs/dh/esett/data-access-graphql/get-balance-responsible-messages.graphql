@@ -1,14 +1,16 @@
 query getBalanceResponsibleMessages(
   $pageNumber: Int!
   $pageSize: Int!
-  $searchText: String!
+  $sortProperty: BalanceResponsibleSortProperty!
+  $sortDirection: SortDirection!
 ) {
-  searchEsettBalanceResponsible(
+  balanceResponsible(
     pageNumber: $pageNumber
     pageSize: $pageSize
-    searchText: $searchText
+    sortProperty: $sortProperty
+    sortDirection: $sortDirection
   ) {
-    items {
+    page {
       id
       receivedDateTime
       supplierWithName {
