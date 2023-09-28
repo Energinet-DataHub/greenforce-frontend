@@ -30,7 +30,9 @@ limitations under the License.
         />
         <watt-description-list-item
           [label]="t('gridArea')"
-          [value]="balanceResponsibleMessage.gridArea.code"
+          value="{{ balanceResponsibleMessage.gridArea.name }} - {{
+            balanceResponsibleMessage.gridArea.code
+          }}"
         />
         <watt-description-list-item
           [label]="t('meteringPointType')"
