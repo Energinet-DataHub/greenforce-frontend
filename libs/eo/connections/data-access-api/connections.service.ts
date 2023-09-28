@@ -16,7 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, forkJoin, map, mergeMap } from 'rxjs';
+import { Observable, catchError, forkJoin, map, mergeMap, of } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
@@ -50,7 +50,7 @@ export class EoConnectionsService {
     return this.#http.get<ConnectionsResponse>(`${this.#apiBase}/connections`).pipe(
       map((response) => response?.result),
       mergeMap((connections) => {
-        const updatedItems$ = connections.map((connection) => {
+        const updatedItems$ = connections?.map((connection) => {
           return this.#cvrService.getCompanyName(connection.companyTin).pipe(
             map((companyName) => {
               return {
@@ -60,8 +60,9 @@ export class EoConnectionsService {
             })
           );
         });
+        if(!updatedItems$) return of([]);
         return forkJoin(updatedItems$);
-      })
+      }),
     );
   }
 
