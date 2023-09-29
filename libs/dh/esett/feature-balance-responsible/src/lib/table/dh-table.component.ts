@@ -60,10 +60,10 @@ export class DhBalanceResponsibleTableComponent {
   columns: WattTableColumnDef<DhBalanceResponsibleMessage> = {
     validFrom: { accessor: 'validFromDate' },
     validTo: { accessor: 'validToDate' },
-    electricitySupplier: { accessor: 'supplier' },
-    balanceResponsible: { accessor: 'balanceResponsible' },
-    gridArea: { accessor: 'gridArea' },
-    meteringPointType: { accessor: 'meteringPointType' },
+    electricitySupplier: { accessor: null },
+    balanceResponsible: { accessor: null },
+    gridArea: { accessor: null },
+    meteringPointType: { accessor: null },
     received: { accessor: 'receivedDateTime' },
   };
 
