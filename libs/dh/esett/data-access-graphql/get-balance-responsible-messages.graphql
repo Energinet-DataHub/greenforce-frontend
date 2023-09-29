@@ -30,6 +30,7 @@ query getBalanceResponsibleMessages(
       validToDate
       gridArea {
         code
+        name
       }
       getStorageDocumentLink
     }
