@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, OnInit, inject, DestroyRef } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { BehaviorSubject, switchMap, map } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -32,9 +32,12 @@ import {
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import {
   VaterFlexComponent,
+  VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhBalanceResponsibleTableComponent } from './table/dh-table.component';
 import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
@@ -72,6 +75,8 @@ import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
     VaterFlexComponent,
     VaterStackComponent,
     VaterUtilityDirective,
+    VaterSpacerComponent,
+    WattButtonComponent,
 
     DhBalanceResponsibleTableComponent,
   ],
@@ -133,5 +138,40 @@ export class DhBalanceResponsibleComponent implements OnInit {
 
   handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
     this.pageMetaData$.next({ pageIndex, pageSize });
+  }
+
+  download(): void {
+    if (!this.tableDataSource.sort) {
+      return;
+    }
+
+    const dataToSort = structuredClone<DhBalanceResponsibleMessage[]>(
+      this.tableDataSource.filteredData
+    );
+    const dataSorted = this.tableDataSource.sortData(dataToSort, this.tableDataSource.sort);
+
+    const outgoingMessagesPath = 'eSett.balanceResponsible';
+
+    const headers = [
+      translate(outgoingMessagesPath + '.columns.validFrom'),
+      translate(outgoingMessagesPath + '.columns.validTo'),
+      translate(outgoingMessagesPath + '.columns.electricitySupplier'),
+      translate(outgoingMessagesPath + '.columns.balanceResponsible'),
+      translate(outgoingMessagesPath + '.columns.gridArea'),
+      translate(outgoingMessagesPath + '.columns.meteringPointType'),
+      translate(outgoingMessagesPath + '.columns.received'),
+    ];
+
+    const lines = dataSorted.map((message) => [
+      message.validFromDate.toISOString(),
+      message.validToDate?.toISOString() ?? '',
+      message.supplierWithName.value,
+      message.balanceResponsibleWithName.value,
+      message.gridArea.code,
+      translate('eSett.outgoingMessages.shared.messageType.' + message.meteringPointType),
+      message.receivedDateTime.toISOString(),
+    ]);
+
+    exportToCSV({ headers, lines, fileName: 'eSett-balance-responsible-messages' });
   }
 }
