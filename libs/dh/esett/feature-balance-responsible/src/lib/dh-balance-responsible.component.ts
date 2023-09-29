@@ -24,7 +24,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { GetBalanceResponsibleMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  BalanceResponsibleSortProperty,
+  GetBalanceResponsibleMessagesDocument,
+  SortDirection,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import {
   VaterFlexComponent,
@@ -102,8 +106,8 @@ export class DhBalanceResponsibleComponent implements OnInit {
             // whereas our endpoint's `pageNumber` param starts at `1`
             pageNumber: pageIndex + 1,
             pageSize,
-            // Note: Search functionality intentionally left out for now
-            searchText: '',
+            sortProperty: BalanceResponsibleSortProperty.ReceivedDate,
+            sortDirection: SortDirection.Descending,
           },
         }).valueChanges
     ),
@@ -115,8 +119,8 @@ export class DhBalanceResponsibleComponent implements OnInit {
       next: (result) => {
         this.isLoading = result.loading;
 
-        this.tableDataSource.data = result.data?.searchEsettBalanceResponsible.items ?? [];
-        this.totalCount = result.data?.searchEsettBalanceResponsible.totalCount ?? 0;
+        this.tableDataSource.data = result.data?.balanceResponsible.page ?? [];
+        this.totalCount = result.data?.balanceResponsible.totalCount ?? 0;
 
         this.hasError = !!result.errors;
       },

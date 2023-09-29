@@ -180,10 +180,10 @@ function getBalanceResponsibleMessagesQuery() {
       ctx.delay(300),
       ctx.data({
         __typename: 'Query',
-        searchEsettBalanceResponsible: {
-          __typename: 'BalanceResponsibleSearchResponse',
+        balanceResponsible: {
+          __typename: 'BalanceResponsiblePageResult',
           totalCount: mockData.length,
-          items: mockData,
+          page: mockData,
         },
       })
     );
