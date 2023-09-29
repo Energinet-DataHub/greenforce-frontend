@@ -69,7 +69,7 @@ export class DhMarketParticipantGridAreaDetailsAuditLogComponent implements OnCh
           'marketParticipant.gridAreas.detailsAuditLog.fields.' + entry.field.toLowerCase()
         );
         const userDisplayName =
-          entry.userDisplayNam ??
+          entry.userDisplayName ??
           this.translocoServie.translate('marketParticipant.gridAreas.detailsAuditLog.unknown');
         const message = this.translocoServie.translate(
           'marketParticipant.gridAreas.detailsAuditLog.messageKey',
