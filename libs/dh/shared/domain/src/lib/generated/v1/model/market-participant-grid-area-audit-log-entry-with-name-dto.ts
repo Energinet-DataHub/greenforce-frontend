@@ -17,7 +17,7 @@ export interface MarketParticipantGridAreaAuditLogEntryWithNameDto {
     oldValue: string;
     newValue: string;
     gridAreaId: string;
-    userDisplayNam: string;
+    userDisplayName: string;
     field: MarketParticipantGridAreaAuditLogEntryField;
 }
 export namespace MarketParticipantGridAreaAuditLogEntryWithNameDto {
