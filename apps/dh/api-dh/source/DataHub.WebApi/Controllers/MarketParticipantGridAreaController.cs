@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -26,10 +27,14 @@ namespace Energinet.DataHub.WebApi.Controllers
     public class MarketParticipantGridAreaController : MarketParticipantControllerBase
     {
         private readonly IMarketParticipantClient _client;
+        private readonly IMarketParticipantAuditIdentityClient _marketParticipantAuditIdentityClient;
 
-        public MarketParticipantGridAreaController(IMarketParticipantClient client)
+        public MarketParticipantGridAreaController(
+            IMarketParticipantClient client,
+            IMarketParticipantAuditIdentityClient marketParticipantAuditIdentityClient)
         {
             _client = client;
+            _marketParticipantAuditIdentityClient = marketParticipantAuditIdentityClient;
         }
 
         /// <summary>
@@ -46,9 +51,30 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Retrieves all grid area audit logs for the given grid area
         /// </summary>
         [HttpGet("GetGridAreaAuditLogEntries")]
-        public Task<ActionResult<IEnumerable<GridAreaAuditLogEntryDto>>> GetGridAreaAuditLogEntriesAsync(Guid gridAreaId)
+        public Task<ActionResult<IEnumerable<GridAreaAuditLogEntryWithNameDto>>> GetGridAreaAuditLogEntriesAsync(Guid gridAreaId)
         {
-            return HandleExceptionAsync(() => _client.GetGridAreaAuditLogEntriesAsync(gridAreaId));
+            return HandleExceptionAsync(async () =>
+            {
+                var auditLogs = await _client.GetGridAreaAuditLogEntriesAsync(gridAreaId).ConfigureAwait(false);
+                var updatedAuditLogs = new List<GridAreaAuditLogEntryWithNameDto>();
+
+                foreach (var auditLog in auditLogs)
+                {
+                    var auditIdentity = await _marketParticipantAuditIdentityClient
+                        .GetAsync(auditLog.AuditIdentityId)
+                        .ConfigureAwait(false);
+
+                    updatedAuditLogs.Add(new GridAreaAuditLogEntryWithNameDto(
+                        auditLog.Timestamp,
+                        auditLog.OldValue,
+                        auditLog.NewValue,
+                        auditLog.GridAreaId,
+                        auditIdentity.DisplayName,
+                        auditLog.Field));
+                }
+
+                return (IEnumerable<GridAreaAuditLogEntryWithNameDto>)updatedAuditLogs;
+            });
         }
 
         [HttpPut]

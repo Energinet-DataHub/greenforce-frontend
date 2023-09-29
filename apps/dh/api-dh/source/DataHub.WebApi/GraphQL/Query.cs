@@ -55,7 +55,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             return logs
                 .Select(log => new PermissionLog
                 {
-                    ChangedByUserId = log.ChangedByUserId,
+                    ChangedByUserId = log.AuditIdentityId,
                     Value = log.Value,
                     Timestamp = log.Timestamp,
                     Type = log.PermissionChangeType switch

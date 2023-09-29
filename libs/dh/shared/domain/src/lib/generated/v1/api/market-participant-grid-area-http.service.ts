@@ -21,7 +21,7 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { MarketParticipantChangeGridAreaDto } from '../model/market-participant-change-grid-area-dto';
 // @ts-ignore
-import { MarketParticipantGridAreaAuditLogEntryDto } from '../model/market-participant-grid-area-audit-log-entry-dto';
+import { MarketParticipantGridAreaAuditLogEntryWithNameDto } from '../model/market-participant-grid-area-audit-log-entry-with-name-dto';
 // @ts-ignore
 import { MarketParticipantGridAreaDto } from '../model/market-participant-grid-area-dto';
 
@@ -164,9 +164,9 @@ export class MarketParticipantGridAreaHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantGridAreaGetGridAreaAuditLogEntriesGet(gridAreaId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<MarketParticipantGridAreaAuditLogEntryDto>>;
-    public v1MarketParticipantGridAreaGetGridAreaAuditLogEntriesGet(gridAreaId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<MarketParticipantGridAreaAuditLogEntryDto>>>;
-    public v1MarketParticipantGridAreaGetGridAreaAuditLogEntriesGet(gridAreaId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<MarketParticipantGridAreaAuditLogEntryDto>>>;
+    public v1MarketParticipantGridAreaGetGridAreaAuditLogEntriesGet(gridAreaId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<MarketParticipantGridAreaAuditLogEntryWithNameDto>>;
+    public v1MarketParticipantGridAreaGetGridAreaAuditLogEntriesGet(gridAreaId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<MarketParticipantGridAreaAuditLogEntryWithNameDto>>>;
+    public v1MarketParticipantGridAreaGetGridAreaAuditLogEntriesGet(gridAreaId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<MarketParticipantGridAreaAuditLogEntryWithNameDto>>>;
     public v1MarketParticipantGridAreaGetGridAreaAuditLogEntriesGet(gridAreaId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -216,7 +216,7 @@ export class MarketParticipantGridAreaHttp {
         }
 
         let localVarPath = `/v1/MarketParticipantGridArea/GetGridAreaAuditLogEntries`;
-        return this.httpClient.request<Array<MarketParticipantGridAreaAuditLogEntryDto>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<MarketParticipantGridAreaAuditLogEntryWithNameDto>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
