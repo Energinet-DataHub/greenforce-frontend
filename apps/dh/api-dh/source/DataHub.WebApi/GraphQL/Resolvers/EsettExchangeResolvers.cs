@@ -38,7 +38,25 @@ namespace Energinet.DataHub.WebApi.GraphQL
             ActorNameByNumberBatchDataLoader dataLoader) =>
             dataLoader.LoadAsync(result.BalanceResponsible.Value);
 
-        public string? GetDocumentLink(
+        public string? GetStorageDocumentLink(
+            [Parent] ExchangeEventTrackingResult result,
+            [Service] IHttpContextAccessor httpContextAccessor,
+            [Service] LinkGenerator linkGenerator) =>
+                GetDocumentLink("StorageDocument", result, httpContextAccessor, linkGenerator);
+
+        public string? GetResponseDocumentLink(
+            [Parent] ExchangeEventTrackingResult result,
+            [Service] IHttpContextAccessor httpContextAccessor,
+            [Service] LinkGenerator linkGenerator) =>
+                GetDocumentLink("ResponseDocument", result, httpContextAccessor, linkGenerator);
+
+        public string? GetDispatchDocumentLink(
+            [Parent] ExchangeEventTrackingResult result,
+            [Service] IHttpContextAccessor httpContextAccessor,
+            [Service] LinkGenerator linkGenerator) =>
+                GetDocumentLink("GetDispatchDocument", result, httpContextAccessor, linkGenerator);
+
+        private string? GetDocumentLink(
             string action,
             [Parent] ExchangeEventTrackingResult result,
             [Service] IHttpContextAccessor httpContextAccessor,
@@ -46,16 +64,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 linkGenerator.GetUriByAction(
                     httpContextAccessor.HttpContext!,
                     action,
-                    "EsettExchange",
-                    new { documentId = result.DocumentId });
-
-        public string? GetStorageDocumentLink(
-            [Parent] ExchangeEventTrackingResult result,
-            [Service] IHttpContextAccessor httpContextAccessor,
-            [Service] LinkGenerator linkGenerator) =>
-                linkGenerator.GetUriByAction(
-                    httpContextAccessor.HttpContext!,
-                    "StorageDocument",
                     "EsettExchange",
                     new { documentId = result.DocumentId });
     }
