@@ -38,7 +38,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             descriptor
                 .Field("getDispatchDocumentLink")
                 .ResolveWith<EsettExchangeResolvers>(c =>
-                    c.GetDocumentLink("GetDispatchDocument", default!, default!, default!));
+                    c.GetDocumentLink("DispatchDocument", default!, default!, default!));
         }
     }
 }
