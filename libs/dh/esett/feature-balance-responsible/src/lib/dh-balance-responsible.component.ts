@@ -16,19 +16,16 @@
  */
 import { Component, OnInit, inject, DestroyRef } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, switchMap, map } from 'rxjs';
+import { BehaviorSubject, switchMap, map, combineLatest } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Sort } from '@angular/material/sort';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import {
-  BalanceResponsibleSortProperty,
-  GetBalanceResponsibleMessagesDocument,
-  SortDirection,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetBalanceResponsibleMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import {
   VaterFlexComponent,
@@ -41,6 +38,7 @@ import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhBalanceResponsibleTableComponent } from './table/dh-table.component';
 import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
+import { dhSortMetadataMapper } from './util/dh-sort-metadata-mapper.operator';
 
 @Component({
   standalone: true,
@@ -85,9 +83,14 @@ export class DhBalanceResponsibleComponent implements OnInit {
   private apollo = inject(Apollo);
   private destroyRef = inject(DestroyRef);
 
-  private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
+  private pageMetadata$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
     pageIndex: 0,
     pageSize: 100,
+  });
+
+  sortMetadata$ = new BehaviorSubject<Sort>({
+    active: 'received',
+    direction: 'desc',
   });
 
   tableDataSource = new WattTableDataSource<DhBalanceResponsibleMessage>([]);
@@ -96,11 +99,16 @@ export class DhBalanceResponsibleComponent implements OnInit {
   isLoading = false;
   hasError = false;
 
-  pageSize$ = this.pageMetaData$.pipe(map(({ pageSize }) => pageSize));
+  pageSize$ = this.pageMetadata$.pipe(map(({ pageSize }) => pageSize));
 
-  outgoingMessages$ = this.pageMetaData$.pipe(
+  private queryVariables$ = combineLatest({
+    pageMetadata: this.pageMetadata$,
+    sortMetadata: this.sortMetadata$.pipe(dhSortMetadataMapper),
+  });
+
+  outgoingMessages$ = this.queryVariables$.pipe(
     switchMap(
-      ({ pageIndex, pageSize }) =>
+      ({ pageMetadata, sortMetadata }) =>
         this.apollo.watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
@@ -109,14 +117,13 @@ export class DhBalanceResponsibleComponent implements OnInit {
           variables: {
             // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
             // whereas our endpoint's `pageNumber` param starts at `1`
-            pageNumber: pageIndex + 1,
-            pageSize,
-            sortProperty: BalanceResponsibleSortProperty.ReceivedDate,
-            sortDirection: SortDirection.Descending,
+            pageNumber: pageMetadata.pageIndex + 1,
+            pageSize: pageMetadata.pageSize,
+            sortProperty: sortMetadata.sortProperty,
+            sortDirection: sortMetadata.sortDirection,
           },
         }).valueChanges
-    ),
-    takeUntilDestroyed(this.destroyRef)
+    )
   );
 
   ngOnInit() {
@@ -137,7 +144,7 @@ export class DhBalanceResponsibleComponent implements OnInit {
   }
 
   handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
-    this.pageMetaData$.next({ pageIndex, pageSize });
+    this.pageMetadata$.next({ pageIndex, pageSize });
   }
 
   download(): void {

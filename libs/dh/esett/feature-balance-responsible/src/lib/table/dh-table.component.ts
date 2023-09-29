@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { Sort } from '@angular/material/sort';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -60,10 +61,10 @@ export class DhBalanceResponsibleTableComponent {
   columns: WattTableColumnDef<DhBalanceResponsibleMessage> = {
     validFrom: { accessor: 'validFromDate' },
     validTo: { accessor: 'validToDate' },
-    electricitySupplier: { accessor: 'supplier' },
-    balanceResponsible: { accessor: 'balanceResponsible' },
-    gridArea: { accessor: 'gridArea' },
-    meteringPointType: { accessor: 'meteringPointType' },
+    electricitySupplier: { accessor: null },
+    balanceResponsible: { accessor: null },
+    gridArea: { accessor: null },
+    meteringPointType: { accessor: null },
     received: { accessor: 'receivedDateTime' },
   };
 
@@ -77,6 +78,9 @@ export class DhBalanceResponsibleTableComponent {
   @Input() hasError!: boolean;
 
   @Input() tableDataSource!: WattTableDataSource<DhBalanceResponsibleMessage>;
+  @Input() sortMetadata!: Sort;
+
+  @Output() sortChange = new EventEmitter<Sort>();
 
   onRowClick(activeRow: DhBalanceResponsibleMessage): void {
     this.activeRow = activeRow;

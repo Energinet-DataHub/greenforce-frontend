@@ -21,8 +21,11 @@ limitations under the License.
     [resolveHeader]="translateHeader"
     [loading]="isLoading"
     [sortClear]="false"
+    [sortBy]="sortMetadata.active"
+    [sortDirection]="sortMetadata.direction"
     [activeRow]="activeRow"
     (rowClick)="onRowClick($event)"
+    (sortChange)="sortChange.emit($event)"
   >
     <ng-container
       *wattTableCell="
