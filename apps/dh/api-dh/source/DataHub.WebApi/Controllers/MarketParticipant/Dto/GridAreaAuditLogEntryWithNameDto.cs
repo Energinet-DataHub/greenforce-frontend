@@ -22,5 +22,5 @@ public sealed record GridAreaAuditLogEntryWithNameDto(
     string OldValue,
     string NewValue,
     Guid GridAreaId,
-    string UserDisplayNam,
+    string UserDisplayName,
     GridAreaAuditLogEntryField Field);
