@@ -14,11 +14,11 @@ import { MarketParticipantGridAreaAuditLogEntryField } from './market-participan
 
 export interface MarketParticipantGridAreaAuditLogEntryDto { 
     timestamp: string;
-    userDisplayName?: string | null;
-    field: MarketParticipantGridAreaAuditLogEntryField;
     oldValue: string;
     newValue: string;
     gridAreaId: string;
+    auditIdentityId: string;
+    field: MarketParticipantGridAreaAuditLogEntryField;
 }
 export namespace MarketParticipantGridAreaAuditLogEntryDto {
 }
