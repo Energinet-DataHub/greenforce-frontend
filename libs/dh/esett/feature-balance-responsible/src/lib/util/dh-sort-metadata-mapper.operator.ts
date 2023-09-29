@@ -14,14 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { map, pipe } from 'rxjs';
+import { Sort } from '@angular/material/sort';
+import { Observable, map, pipe } from 'rxjs';
 
 import {
   BalanceResponsibleSortProperty,
   SortDirection,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const dhSortMetaDataMapper = pipe(
+type InType = Observable<Sort>;
+
+type OutType = Observable<{
+  sortProperty: BalanceResponsibleSortProperty;
+  sortDirection: SortDirection;
+}>;
+
+export const dhSortMetaDataMapper = pipe<InType, OutType>(
   map(({ active, direction }) => {
     const sortDirection = direction === 'asc' ? SortDirection.Ascending : SortDirection.Descending;
 
