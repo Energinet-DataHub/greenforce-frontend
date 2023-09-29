@@ -29,10 +29,10 @@ limitations under the License.
 
     <dh-balance-responsible-table
       [tableDataSource]="tableDataSource"
-      [sortMetaData]="sortMetaData$ | push"
+      [sortMetadata]="sortMetadata$ | push"
       [isLoading]="isLoading"
       [hasError]="hasError"
-      (sortChange)="sortMetaData$.next($event)"
+      (sortChange)="sortMetadata$.next($event)"
     />
 
     <watt-paginator

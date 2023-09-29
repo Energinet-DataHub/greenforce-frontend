@@ -78,7 +78,7 @@ export class DhBalanceResponsibleTableComponent {
   @Input() hasError!: boolean;
 
   @Input() tableDataSource!: WattTableDataSource<DhBalanceResponsibleMessage>;
-  @Input() sortMetaData!: Sort;
+  @Input() sortMetadata!: Sort;
 
   @Output() sortChange = new EventEmitter<Sort>();
 

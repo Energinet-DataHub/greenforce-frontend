@@ -29,7 +29,7 @@ type OutType = Observable<{
   sortDirection: SortDirection;
 }>;
 
-export const dhSortMetaDataMapper = pipe<InType, OutType>(
+export const dhSortMetadataMapper = pipe<InType, OutType>(
   map(({ active, direction }) => {
     const sortDirection = direction === 'asc' ? SortDirection.Ascending : SortDirection.Descending;
 
