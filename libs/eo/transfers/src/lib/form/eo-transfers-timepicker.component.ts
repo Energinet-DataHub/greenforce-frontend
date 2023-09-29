@@ -23,6 +23,7 @@ import {
   ViewChild,
   Output,
   EventEmitter,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   FormControl,
@@ -41,27 +42,30 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
   selector: 'eo-transfers-timepicker',
   standalone: true,
   imports: [WATT_FORM_FIELD, ReactiveFormsModule, WattDropdownComponent],
+  encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      :host {
+      eo-transfers-timepicker {
         max-width: 112px;
       }
 
-      watt-form-field {
-        margin-top: 0;
+      eo-transfers-timepicker watt-dropdown {
+        margin-top: var(--watt-space-xs);
+
+        .label {
+          display: none;
+        }
       }
     `,
   ],
   template: `
-    <watt-form-field>
-      <watt-dropdown
-        #dropdown
-        [formControl]="control"
-        [options]="options"
-        [showResetOption]="false"
-        placeholder="HH:MM"
-      ></watt-dropdown>
-    </watt-form-field>
+    <watt-dropdown
+      #dropdown
+      [formControl]="control"
+      [options]="options"
+      [showResetOption]="false"
+      placeholder="HH:MM"
+    ></watt-dropdown>
   `,
   providers: [
     {
