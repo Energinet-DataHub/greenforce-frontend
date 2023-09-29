@@ -35,7 +35,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhMarketParticipantGridAreaDetailsHeaderComponent } from '../details-header/dh-market-participant-gridarea-details-header.component';
 import { DhMarketParticipantGridAreaEditComponent } from '../details-edit/dh-market-participant-gridarea-edit.component';
 import { DhMarketParticipantGridAreaDetailsAuditLogComponent } from '../details-auditlog/dh-market-participant-gridarea-details-auditlog.component';
-import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantGridAreaAuditLogEntryWithNameDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-gridarea-overview',
@@ -82,7 +82,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   @Input() gridChangesLoading = false;
 
   @Input() isLoadingAuditLog = false;
-  @Input() activeGridAreaAuditLog: MarketParticipantGridAreaAuditLogEntryDto[] = [];
+  @Input() activeGridAreaAuditLog: MarketParticipantGridAreaAuditLogEntryWithNameDto[] = [];
   @Input() getGridAreaData!: (gridAreaId: string) => void;
 
   readonly dataSource = new WattTableDataSource<GridAreaOverviewRow>();

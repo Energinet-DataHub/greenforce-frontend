@@ -21,7 +21,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { MarketParticipantGridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantGridAreaAuditLogEntryWithNameDto } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   WattTableColumnDef,
@@ -53,7 +53,7 @@ export class DhMarketParticipantGridAreaDetailsAuditLogComponent implements OnCh
   constructor(private translocoServie: TranslocoService) {}
 
   @Input() isLoading = false;
-  @Input() auditLogEntries: MarketParticipantGridAreaAuditLogEntryDto[] = [];
+  @Input() auditLogEntries: MarketParticipantGridAreaAuditLogEntryWithNameDto[] = [];
 
   columns: WattTableColumnDef<AuditLogEntry> = {
     time: { accessor: 'timestamp' },
