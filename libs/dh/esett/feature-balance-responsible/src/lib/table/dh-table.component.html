@@ -33,7 +33,7 @@ limitations under the License.
         let message
       "
     >
-      {{ message.supplier.value }}
+      {{ message.supplierWithName.value }}
     </ng-container>
 
     <ng-container
@@ -43,7 +43,7 @@ limitations under the License.
         let message
       "
     >
-      {{ message.balanceResponsible.value }}
+      {{ message.balanceResponsibleWithName.value }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
@@ -58,6 +58,10 @@ limitations under the License.
       "
     >
       {{ "eSett.outgoingMessages.shared.messageType." + message.meteringPointType | transloco }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['received']; header: t('columns.received'); let message">
+      {{ message.receivedDateTime | wattDate : "long" }}
     </ng-container>
   </watt-table>
 

@@ -19,16 +19,11 @@ import {
   mockGetOutgoingMessagesQuery,
   mockGetOutgoingMessageByIdQuery,
   mockGetBalanceResponsibleMessagesQuery,
-  BalanceResponsibleType,
-  TimeSeriesType,
-  GridAreaDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { eSettExchangeEvents } from './data/esett-exchange-events';
 import { eSettDetailedExchangeEvents } from './data/esett-detailed-exchange-events';
-
-const storageDocumentLink =
-  'https://localhost:5001/v1/EsettExchange/StorageDocument?documentId=390254675-3';
+import { eSettBalanceResponsibleMessages } from './data/esett-balance-responsible-messages';
 
 export function eSettMocks(apiBase: string) {
   return [
@@ -74,6 +69,7 @@ function getDispatchDocument(apiBase: string) {
 function getStorageDocumentLink(apiBase: string) {
   return rest.get(`${apiBase}/v1/EsettExchange/StorageDocument`, (req, res, ctx) => {
     return res(
+      ctx.delay(300),
       ctx.body(
         Uint8Array.from(
           atob(
@@ -114,67 +110,6 @@ function getOutgoingMessagesQuery() {
 }
 
 function getBalanceResponsibleMessagesQuery() {
-  const mockData: BalanceResponsibleType[] = [
-    {
-      __typename: 'BalanceResponsibleType',
-      id: '1',
-      receivedDateTime: new Date('2021-02-01T00:00:00.000Z'),
-      supplier: {
-        __typename: 'ActorNumber',
-        value: '123',
-      },
-      balanceResponsible: {
-        __typename: 'ActorNumber',
-        value: '321',
-      },
-      gridArea: {
-        __typename: 'GridAreaDto',
-        code: '344',
-      } as GridAreaDto,
-      meteringPointType: TimeSeriesType.Production,
-      validFromDate: new Date('2021-02-01T10:00:00.000Z'),
-      validToDate: new Date('2021-05-02T00:00:00.000Z'),
-      getStorageDocumentLink: storageDocumentLink,
-      balanceResponsibleWithName: {
-        __typename: 'ActorNameDto',
-        value: '321 - Test Balance Ansvarlig',
-      },
-      supplierWithName: {
-        __typename: 'ActorNameDto',
-        value: '123 - Test Supplier',
-      },
-    },
-    {
-      __typename: 'BalanceResponsibleType',
-      id: '2',
-      receivedDateTime: new Date('2022-01-01T00:00:00.000Z'),
-      supplier: {
-        __typename: 'ActorNumber',
-        value: '111',
-      },
-      balanceResponsible: {
-        __typename: 'ActorNumber',
-        value: '222',
-      },
-      gridArea: {
-        __typename: 'GridAreaDto',
-        code: '999',
-      } as GridAreaDto,
-      meteringPointType: TimeSeriesType.Production,
-      validFromDate: new Date('2022-01-01T10:00:00.000Z'),
-      validToDate: null,
-      getStorageDocumentLink: storageDocumentLink,
-      balanceResponsibleWithName: {
-        __typename: 'ActorNameDto',
-        value: '222 - Test Balance Ansvarlig 2',
-      },
-      supplierWithName: {
-        __typename: 'ActorNameDto',
-        value: '111 - Test Supplier 2',
-      },
-    },
-  ];
-
   return mockGetBalanceResponsibleMessagesQuery((req, res, ctx) => {
     return res(
       ctx.delay(300),
@@ -182,8 +117,8 @@ function getBalanceResponsibleMessagesQuery() {
         __typename: 'Query',
         balanceResponsible: {
           __typename: 'BalanceResponsiblePageResult',
-          totalCount: mockData.length,
-          page: mockData,
+          totalCount: eSettBalanceResponsibleMessages.length,
+          page: eSettBalanceResponsibleMessages,
         },
       })
     );
