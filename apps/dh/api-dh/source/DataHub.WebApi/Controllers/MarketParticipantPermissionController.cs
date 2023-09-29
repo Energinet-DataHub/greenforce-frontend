@@ -27,15 +27,15 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class MarketParticipantPermissionsController : MarketParticipantControllerBase
     {
+        private readonly IMarketParticipantAuditIdentityClient _marketParticipantAuditIdentityClient;
         private readonly IMarketParticipantPermissionsClient _client;
-        private readonly IMarketParticipantClient _marketParticipantClient;
 
         public MarketParticipantPermissionsController(
-            IMarketParticipantPermissionsClient client,
-            IMarketParticipantClient marketParticipantClient)
+            IMarketParticipantAuditIdentityClient marketParticipantAuditIdentityClient,
+            IMarketParticipantPermissionsClient client)
         {
+            _marketParticipantAuditIdentityClient = marketParticipantAuditIdentityClient;
             _client = client;
-            _marketParticipantClient = marketParticipantClient;
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                     .ConfigureAwait(false);
 
                 var permissionAuditLogWithUser = new List<PermissionAuditLogViewDto>();
-                var userLookup = new Dictionary<Guid, UserDto>();
+                var userLookup = new Dictionary<Guid, GetAuditIdentityResponseDto>();
                 var permission = (await _client.GetPermissionsAsync()).FirstOrDefault(x => x.Id == permissionId) ?? throw new InvalidOperationException($"Permission {permissionId} was not found");
 
                 permissionAuditLogWithUser.Add(new PermissionAuditLogViewDto(
@@ -82,19 +82,19 @@ namespace Energinet.DataHub.WebApi.Controllers
 
                 foreach (var auditLog in permissionAuditLogs)
                 {
-                    var userFoundInCache = userLookup.ContainsKey(auditLog.ChangedByUserId);
+                    var userFoundInCache = userLookup.ContainsKey(auditLog.AuditIdentityId);
                     if (!userFoundInCache)
                     {
-                        var user = await _marketParticipantClient.GetUserAsync(auditLog.ChangedByUserId);
-                        userLookup.Add(auditLog.ChangedByUserId, user);
+                        var auditIdentityResponseDto = await _marketParticipantAuditIdentityClient.GetAsync(auditLog.AuditIdentityId);
+                        userLookup.Add(auditLog.AuditIdentityId, auditIdentityResponseDto);
                     }
 
-                    userLookup.TryGetValue(auditLog.ChangedByUserId, out var userDtoCache);
+                    userLookup.TryGetValue(auditLog.AuditIdentityId, out var userDtoCache);
 
                     permissionAuditLogWithUser.Add(new PermissionAuditLogViewDto(
                         auditLog.PermissionId,
-                        auditLog.ChangedByUserId,
-                        userDtoCache?.Name ?? throw new KeyNotFoundException("User not found"),
+                        auditLog.AuditIdentityId,
+                        userDtoCache?.DisplayName ?? throw new KeyNotFoundException("User not found"),
                         auditLog.PermissionChangeType == PermissionChangeType.DescriptionChange ? PermissionAuditLogType.DescriptionChange : PermissionAuditLogType.Unknown,
                         auditLog.Timestamp,
                         auditLog.Value));
