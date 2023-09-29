@@ -30,8 +30,8 @@ type AddressDto {
   country: String!
 }
 
-type BalanceResponsibleSearchResponse {
-  items: [BalanceResponsibleType!]!
+type BalanceResponsiblePageResult {
+  page: [BalanceResponsibleType!]!
   totalCount: Int!
 }
 
@@ -152,7 +152,7 @@ type Query {
   actors(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int! pageSize: Int! periodFrom: DateTime periodTo: DateTime gridAreaCode: String processType: ExchangeEventProcessType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
-  searchEsettBalanceResponsible(pageNumber: Int! pageSize: Int! searchText: String!): BalanceResponsibleSearchResponse!
+  balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
 }
 
 type SettlementReport {
@@ -196,6 +196,12 @@ enum ActorStatus {
   Active
   Inactive
   Passive
+}
+
+enum BalanceResponsibleSortProperty {
+  VALID_FROM
+  VALID_TO
+  RECEIVED_DATE
 }
 
 enum BatchState {
@@ -268,6 +274,11 @@ enum ProcessType {
   FIRST_CORRECTION_SETTLEMENT
   SECOND_CORRECTION_SETTLEMENT
   THIRD_CORRECTION_SETTLEMENT
+}
+
+enum SortDirection {
+  ASCENDING
+  DESCENDING
 }
 
 enum TimeSeriesType {
