@@ -72,9 +72,9 @@ Then('I have a button which copies the invitation link', () => {
 });
 
 Then('the connection is removed from the table', () => {
-  cy.get('eo-connections-table').should('not.contain', mockedConnections[0].companyId);
-  cy.get('eo-connections-table').should('contain', mockedConnections[1].companyId);
-  cy.get('eo-connections-table').should('contain', mockedConnections[2].companyId);
+  cy.get('eo-connections-table').should('not.contain', mockedConnections[0].companyTin);
+  cy.get('eo-connections-table').should('contain', mockedConnections[1].companyTin);
+  cy.get('eo-connections-table').should('contain', mockedConnections[2].companyTin);
 });
 
 Then('the badge of total connections updates', () => {

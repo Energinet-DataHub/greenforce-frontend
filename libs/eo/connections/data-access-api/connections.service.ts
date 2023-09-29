@@ -16,9 +16,11 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+
+import { EoCvrService } from './cvr.service';
 
 export interface EoConnection {
   id: string;
@@ -27,7 +29,7 @@ export interface EoConnection {
 }
 
 export interface EoConnectionWithName extends EoConnection {
-  name: string;
+  companyName: string;
 }
 
 interface ConnectionsResponse {
@@ -40,13 +42,28 @@ interface ConnectionsResponse {
 export class EoConnectionsService {
   #apiEnvironment: EoApiEnvironment = inject(eoApiEnvironmentToken);
   #http: HttpClient = inject(HttpClient);
+  #cvrService: EoCvrService = inject(EoCvrService);
 
   #apiBase = `${this.#apiEnvironment.apiBase}`;
 
-  getConnections(): Observable<EoConnection[]> {
-    return this.#http
-      .get<ConnectionsResponse>(`${this.#apiBase}/connections`)
-      .pipe(map((response) => response?.result));
+  getConnections(): Observable<EoConnectionWithName[]> {
+    return this.#http.get<ConnectionsResponse>(`${this.#apiBase}/connections`).pipe(
+      map((response) => response?.result),
+      mergeMap((connections) => {
+        const updatedItems$ = connections?.map((connection) => {
+          return this.#cvrService.getCompanyName(connection.companyTin).pipe(
+            map((companyName) => {
+              return {
+                ...connection,
+                companyName,
+              };
+            })
+          );
+        });
+        if (!updatedItems$) return of([]);
+        return forkJoin(updatedItems$);
+      })
+    );
   }
 
   deleteConnection(connectionId: string) {

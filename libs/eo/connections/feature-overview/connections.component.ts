@@ -25,7 +25,6 @@ import {
   signal,
 } from '@angular/core';
 import {} from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -40,7 +39,7 @@ import { EoBetaMessageComponent } from '../../shared/atomic-design/ui-atoms/src/
 import { EoConnectionsTableComponent } from './connections-table.component';
 import { EoInviteConnectionComponent } from '../feature-invite-connection/invite-connection.component';
 import { EoInviteConnectionRespondComponent } from '../feature-invite-connection-respond/invite-connection-respond.component';
-import { EoConnection, EoConnectionsService } from '../data-access-api/connections.service';
+import { EoConnectionWithName, EoConnectionsService } from '../data-access-api/connections.service';
 
 @Component({
   standalone: true,
@@ -109,6 +108,7 @@ import { EoConnection, EoConnectionsService } from '../data-access-api/connectio
     <eo-invite-connection-repsond
       [connectionInvitationId]="connectionInvitationId"
       (closed)="onInviteClosed($event)"
+      (connectionCreated)="onConnectionCreated($event)"
       #inviteConnectionRespond
     />
   `,
@@ -124,7 +124,7 @@ export class EoConnectionsComponent implements OnInit {
   protected connections = signal<{
     loading: boolean;
     hasError: boolean;
-    data: EoConnection[] | null;
+    data: EoConnectionWithName[] | null;
   }>({
     loading: false,
     hasError: false,
@@ -142,15 +142,33 @@ export class EoConnectionsComponent implements OnInit {
     }
   }
 
-  onInviteClosed(connection: EoConnection | null) {
+  onInviteClosed(connection: EoConnectionWithName | null) {
     if (!connection) return;
     this.connections.set({
       ...this.connections(),
+      loading: false,
+      hasError: false,
       data: [...(this.connections().data ?? []), connection],
     });
   }
 
-  onConnectionRemoved(connection: EoConnection) {
+  onConnectionCreated(connection: { id: string; companyTin: string }) {
+    this.connections.set({
+      ...this.connections(),
+      data:
+        this.connections().data?.map((x) => {
+          if (x.companyTin === connection.companyTin) {
+            return {
+              ...x,
+              id: connection.id,
+            };
+          }
+          return x;
+        }) ?? null,
+    });
+  }
+
+  onConnectionRemoved(connection: EoConnectionWithName) {
     this.connections.set({
       ...this.connections(),
       data: this.connections().data?.filter((c) => c.id !== connection.id) ?? null,
