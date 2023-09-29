@@ -95,7 +95,14 @@ export class DhBalanceResponsibleDrawerComponent {
 
   private loadDocument(documentLink: string): Observable<string> {
     return this.http.get(documentLink, { responseType: 'arraybuffer' }).pipe(
-      map((res) => String.fromCharCode(...new Uint8Array(res))),
+      map((res) => {
+        let xml = '';
+        const data = new Uint8Array(res);
+        for (let i = 0; i < data.length; i++) {
+          xml += String.fromCharCode(data[i]);
+        }
+        return xml;
+      }),
       takeUntil(this.closed)
     );
   }
