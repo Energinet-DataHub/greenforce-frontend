@@ -20,7 +20,7 @@ import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/cor
 import { TranslocoDirective } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
-import { Observable, Subscription, map, switchMap, takeUntil } from 'rxjs';
+import { Observable, Subscription, switchMap, takeUntil } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
