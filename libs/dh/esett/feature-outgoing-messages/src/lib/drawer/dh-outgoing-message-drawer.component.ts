@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
@@ -77,7 +76,6 @@ import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
 })
 export class DhOutgoingMessageDrawerComponent {
   private apollo = inject(Apollo);
-  private http = inject(HttpClient);
   private readonly esettHttp = inject(EsettExchangeHttp);
   private subscription?: Subscription;
 
