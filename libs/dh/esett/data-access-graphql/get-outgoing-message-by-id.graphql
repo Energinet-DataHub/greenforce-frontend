@@ -10,8 +10,6 @@ query GetOutgoingMessageById($documentId: String!) {
       code
       name
     }
-    getDispatchDocumentLink
-    getResponseDocumentLink
     timeSeriesType
   }
 }

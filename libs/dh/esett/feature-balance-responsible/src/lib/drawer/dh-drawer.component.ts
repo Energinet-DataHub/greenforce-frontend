@@ -67,7 +67,6 @@ import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
   ],
 })
 export class DhBalanceResponsibleDrawerComponent {
-  private readonly http = inject(HttpClient);
   private readonly esettHttp = inject(EsettExchangeHttp);
 
   balanceResponsibleMessage: DhBalanceResponsibleMessage | undefined;
@@ -83,8 +82,8 @@ export class DhBalanceResponsibleDrawerComponent {
 
     this.balanceResponsibleMessage = message;
 
-    if (this.balanceResponsibleMessage.getStorageDocumentLink) {
-      this.xmlMessage$ = this.loadDocument(this.balanceResponsibleMessage.getStorageDocumentLink);
+    if (this.balanceResponsibleMessage.id) {
+      this.xmlMessage$ = this.loadDocument(this.balanceResponsibleMessage.id);
     }
   }
 

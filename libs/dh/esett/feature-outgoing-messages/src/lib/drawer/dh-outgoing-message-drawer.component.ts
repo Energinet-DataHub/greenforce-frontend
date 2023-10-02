@@ -77,7 +77,6 @@ import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
 })
 export class DhOutgoingMessageDrawerComponent {
   private apollo = inject(Apollo);
-  private http = inject(HttpClient);
   private readonly esettHttp = inject(EsettExchangeHttp);
   private subscription?: Subscription;
 
