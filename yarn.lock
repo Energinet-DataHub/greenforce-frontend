@@ -4015,20 +4015,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dprint/formatter@npm:^0.2.0":
-  version: 0.2.0
-  resolution: "@dprint/formatter@npm:0.2.0"
-  checksum: 83507fc3b8f9bff1d8c7e4ca98876e339d84b0138706fbae63374c84eada091259d74a521cde8168829ac848b7a140e021c5de9662944f07063153b80b8b818d
-  languageName: node
-  linkType: hard
-
-"@dprint/typescript@npm:^0.71.2":
-  version: 0.71.2
-  resolution: "@dprint/typescript@npm:0.71.2"
-  checksum: c0ffe4bbf3d000e84d7339830d2e4ffbb9386227f62ade6b692e15401bebf188e9833e10d3b5d6625e807d7db02054b746e478acc686227d9c1ea878391ec707
-  languageName: node
-  linkType: hard
-
 "@emotion/use-insertion-effect-with-fallbacks@npm:^1.0.0":
   version: 1.0.0
   resolution: "@emotion/use-insertion-effect-with-fallbacks@npm:1.0.0"
@@ -4748,7 +4734,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/plugin-helpers@npm:^2.6.2, @graphql-codegen/plugin-helpers@npm:^2.7.2":
+"@graphql-codegen/plugin-helpers@npm:^2.7.2":
   version: 2.7.2
   resolution: "@graphql-codegen/plugin-helpers@npm:2.7.2"
   dependencies:
@@ -4761,6 +4747,22 @@ __metadata:
   peerDependencies:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
   checksum: 66e0d507ad5db60b67092ebf7632d464d56ab446ac8fd87c293e00d9016944912d8cf9199e3e026b0a9247a50f50c4118a44f49e13675db64211652cd6259b05
+  languageName: node
+  linkType: hard
+
+"@graphql-codegen/plugin-helpers@npm:^3.0.0":
+  version: 3.1.2
+  resolution: "@graphql-codegen/plugin-helpers@npm:3.1.2"
+  dependencies:
+    "@graphql-tools/utils": ^9.0.0
+    change-case-all: 1.0.15
+    common-tags: 1.8.2
+    import-from: 4.0.0
+    lodash: ~4.17.0
+    tslib: ~2.4.0
+  peerDependencies:
+    graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+  checksum: 4d0c615738570681b5ffd3c07305a35d6aa3e5fd87c9199c0a670b95529ab865b1df978ce584d5b415107a567ac484e56a48db129a6d1d2eb8a254fbd3260e39
   languageName: node
   linkType: hard
 
@@ -4808,18 +4810,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/typescript-msw@npm:1.1.6":
-  version: 1.1.6
-  resolution: "@graphql-codegen/typescript-msw@npm:1.1.6"
+"@graphql-codegen/typescript-msw@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@graphql-codegen/typescript-msw@npm:2.0.0"
   dependencies:
-    "@graphql-codegen/plugin-helpers": ^2.7.2
+    "@graphql-codegen/plugin-helpers": ^3.0.0
     "@graphql-codegen/visitor-plugin-common": 2.13.1
     auto-bind: ~4.0.0
-    change-case-all: 1.0.14
-    tslib: ~2.4.0
+    change-case-all: 1.0.15
+    tslib: ~2.6.0
   peerDependencies:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 85f1b71c01ddf1a397d6ac63fc54a589b9fc98bf40be790b5636daf56faf6ce1462a9462ca265b984e2977f59d81251dc55db153c05f5a8d6941615a94cecd88
+  checksum: 718dd5c44c03331078a5b8ad9f7d8dab625331ce5807a59cd812efae6182b2bb12e94b9336a7f5a34bd9daa44811333c6bd8faa85c5ff4d8055174c0fb9dff68
   languageName: node
   linkType: hard
 
@@ -5246,7 +5248,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-tools/utils@npm:9.2.1":
+"@graphql-tools/utils@npm:9.2.1, @graphql-tools/utils@npm:^9.0.0":
   version: 9.2.1
   resolution: "@graphql-tools/utils@npm:9.2.1"
   dependencies:
@@ -5331,14 +5333,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@homebound/graphql-typescript-scalar-type-policies@npm:^2.8.0":
-  version: 2.8.0
-  resolution: "@homebound/graphql-typescript-scalar-type-policies@npm:2.8.0"
+"@homebound/graphql-typescript-scalar-type-policies@npm:2.11.0":
+  version: 2.11.0
+  resolution: "@homebound/graphql-typescript-scalar-type-policies@npm:2.11.0"
   dependencies:
-    "@graphql-codegen/plugin-helpers": ^2.6.2
-    change-case: ^4.1.1
-    ts-poet: ^5.0.1
-  checksum: a267d997905806221f7a7dbdaec5798313fd67e7cd5f531660857c50b4f4a09b121d0f04e72cf9b97014d18345ad98a04e3b43b35e4a2b355fa4dbc3ac0f3a2d
+    "@graphql-codegen/plugin-helpers": ^5.0.1
+    change-case: ^4.1.2
+    ts-poet: ^6.6.0
+  checksum: dd06e12c6ae865dcf9726da15e4ab07b3de5522d485833bf8b6847382df525f6b63554d2e70adceda6622efa2cc26dba1fccaa30809ee3d314519d9c5098299b
   languageName: node
   linkType: hard
 
@@ -15364,7 +15366,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"change-case@npm:^4.1.1, change-case@npm:^4.1.2":
+"change-case@npm:^4.1.2":
   version: 4.1.2
   resolution: "change-case@npm:4.1.2"
   dependencies:
@@ -17441,6 +17443,15 @@ cors@latest:
   languageName: node
   linkType: hard
 
+"detect-libc@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "detect-libc@npm:1.0.3"
+  bin:
+    detect-libc: ./bin/detect-libc.js
+  checksum: daaaed925ffa7889bd91d56e9624e6c8033911bb60f3a50a74a87500680652969dbaab9526d1e200a4c94acf80fc862a22131841145a0a8482d60a99c24f4a3e
+  languageName: node
+  linkType: hard
+
 "detect-newline@npm:^3.0.0":
   version: 3.1.0
   resolution: "detect-newline@npm:3.1.0"
@@ -17771,6 +17782,15 @@ cors@latest:
   languageName: node
   linkType: hard
 
+"dprint-node@npm:^1.0.7":
+  version: 1.0.8
+  resolution: "dprint-node@npm:1.0.8"
+  dependencies:
+    detect-libc: ^1.0.3
+  checksum: ac53b71296d155664319877f0e8c9fe94e084457ce9aae68081b9dd7165916f2829222923c59b1399d95680362f18a8da5994e7f76a8f52035e02bbd14ba76bc
+  languageName: node
+  linkType: hard
+
 "dset@npm:^3.1.2":
   version: 3.1.2
   resolution: "dset@npm:3.1.2"
@@ -17994,9 +18014,9 @@ cors@latest:
     "@graphql-codegen/schema-ast": 4.0.0
     "@graphql-codegen/typed-document-node": 5.0.1
     "@graphql-codegen/typescript": 4.0.1
-    "@graphql-codegen/typescript-msw": 1.1.6
+    "@graphql-codegen/typescript-msw": 2.0.0
     "@graphql-codegen/typescript-operations": 4.0.1
-    "@homebound/graphql-typescript-scalar-type-policies": ^2.8.0
+    "@homebound/graphql-typescript-scalar-type-policies": 2.11.0
     "@microsoft/applicationinsights-angularplugin-js": 3.0.2
     "@microsoft/applicationinsights-web": 2.8.12
     "@ngneat/transloco": 5.0.7
@@ -21210,17 +21230,10 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"graphql@npm:16.8.1":
+"graphql@npm:16.8.1, graphql@npm:^15.0.0 || ^16.0.0":
   version: 16.8.1
   resolution: "graphql@npm:16.8.1"
   checksum: 8d304b7b6f708c8c5cc164b06e92467dfe36aff6d4f2cf31dd19c4c2905a0e7b89edac4b7e225871131fd24e21460836b369de0c06532644d15b461d55b1ccc0
-  languageName: node
-  linkType: hard
-
-"graphql@npm:^15.0.0 || ^16.0.0":
-  version: 16.6.0
-  resolution: "graphql@npm:16.6.0"
-  checksum: bf1d9e3c1938ce3c1a81e909bd3ead1ae4707c577f91cff1ca2eca474bfbc7873d5d7b942e1e9777ff5a8304421dba57a4b76d7a29eb19de8711cb70e3c2415e
   languageName: node
   linkType: hard
 
@@ -33606,13 +33619,12 @@ proxy-middleware@latest:
   languageName: node
   linkType: hard
 
-"ts-poet@npm:^5.0.1":
-  version: 5.2.0
-  resolution: "ts-poet@npm:5.2.0"
+"ts-poet@npm:^6.6.0":
+  version: 6.6.0
+  resolution: "ts-poet@npm:6.6.0"
   dependencies:
-    "@dprint/formatter": ^0.2.0
-    "@dprint/typescript": ^0.71.2
-  checksum: cf38e73a3e03784774d2017a04963805340d152eddbff906abdcee7b2631b82e7f8c25d2778ec0d2a3aff559375628d5c9299f7d4c3297bfa2a182b16f536a83
+    dprint-node: ^1.0.7
+  checksum: 23161ca7ab2de0ffa09802117e242379d89336976800c2813a2711f04d26fabaf31cfb9493a8c4a9a883b07213fead42e98ecb418a762df7dfa84a23ce737252
   languageName: node
   linkType: hard
 
@@ -33707,7 +33719,7 @@ proxy-middleware@latest:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.5.0, tslib@npm:^2.6.2":
+"tslib@npm:^2.5.0, tslib@npm:^2.6.2, tslib@npm:~2.6.0":
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
   checksum: 329ea56123005922f39642318e3d1f0f8265d1e7fcb92c633e0809521da75eeaca28d2cf96d7248229deb40e5c19adf408259f4b9640afd20d13aecc1430f3ad
