@@ -59,10 +59,6 @@
             "type": "string",
             "nullable": true
           },
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
           "meteringPointType": {
             "$ref": "#/components/schemas/MeteringPointType"
           },

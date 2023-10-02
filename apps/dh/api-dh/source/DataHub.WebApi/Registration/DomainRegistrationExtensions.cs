@@ -47,7 +47,7 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddESettClient(
                     GetBaseUri(apiClientSettings.ESettExchangeBaseUrl))
                 .AddEdiWebAppClient(
-                    GetBaseUri(apiClientSettings.EdiB2CWebAppBaseUrl))
+                    GetBaseUri(apiClientSettings.EdiB2CWebApiBaseUrl))
                 .AddSingleton(apiClientSettings);
         }
 

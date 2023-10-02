@@ -12,22 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi
-{
-    public class ApiClientSettings
-    {
-        public string MeteringPointBaseUrl { get; set; } = string.Empty;
+namespace Energinet.DataHub.WebApi.Clients.EDI.B2CWebApi.Models;
 
-        public string ChargesBaseUrl { get; set; } = string.Empty;
-
-        public string MessageArchiveBaseUrl { get; set; } = string.Empty;
-
-        public string MarketParticipantBaseUrl { get; set; } = string.Empty;
-
-        public string WholesaleBaseUrl { get; set; } = string.Empty;
-
-        public string ESettExchangeBaseUrl { get; set; } = string.Empty;
-
-        public string EdiB2CWebApiBaseUrl { get; set; } = string.Empty;
-    }
-}
+public record RequestAggregatedMeasureDataMarketRequest(
+    string BusinessReason,
+    string MeteringPointType,
+    string StartDate,
+    string? EndDate,
+    string? GridArea,
+    string? EnergySupplierId,
+    string? BalanceResponsibleId);
