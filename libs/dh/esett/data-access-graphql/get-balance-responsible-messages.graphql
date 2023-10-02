@@ -1,0 +1,39 @@
+query getBalanceResponsibleMessages(
+  $pageNumber: Int!
+  $pageSize: Int!
+  $sortProperty: BalanceResponsibleSortProperty!
+  $sortDirection: SortDirection!
+) {
+  balanceResponsible(
+    pageNumber: $pageNumber
+    pageSize: $pageSize
+    sortProperty: $sortProperty
+    sortDirection: $sortDirection
+  ) {
+    page {
+      id
+      receivedDateTime
+      supplierWithName {
+        value
+      }
+      supplier {
+        value
+      }
+      balanceResponsibleWithName {
+        value
+      }
+      balanceResponsible {
+        value
+      }
+      meteringPointType
+      validFromDate
+      validToDate
+      gridArea {
+        code
+        name
+      }
+      getStorageDocumentLink
+    }
+    totalCount
+  }
+}

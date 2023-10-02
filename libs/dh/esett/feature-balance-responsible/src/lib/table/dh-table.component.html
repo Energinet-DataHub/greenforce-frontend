@@ -18,17 +18,15 @@ limitations under the License.
   <watt-table
     [dataSource]="tableDataSource"
     [columns]="columns"
+    [resolveHeader]="translateHeader"
     [loading]="isLoading"
     [sortClear]="false"
+    [sortBy]="sortMetadata.active"
+    [sortDirection]="sortMetadata.direction"
+    [activeRow]="activeRow"
+    (rowClick)="onRowClick($event)"
+    (sortChange)="sortChange.emit($event)"
   >
-    <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let message">
-      {{ message.id }}
-    </ng-container>
-
-    <ng-container *wattTableCell="columns['date']; header: t('columns.date'); let message">
-      {{ message.date }}
-    </ng-container>
-
     <ng-container
       *wattTableCell="
         columns['electricitySupplier'];
@@ -36,7 +34,7 @@ limitations under the License.
         let message
       "
     >
-      {{ message.electricitySupplier }}
+      {{ message.supplierWithName.value }}
     </ng-container>
 
     <ng-container
@@ -46,7 +44,11 @@ limitations under the License.
         let message
       "
     >
-      {{ message.balanceResponsible }}
+      {{ message.balanceResponsibleWithName.value }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
+      {{ message.gridArea.code }}
     </ng-container>
 
     <ng-container
@@ -56,13 +58,11 @@ limitations under the License.
         let message
       "
     >
-      {{ message.meteringPointType }}
+      {{ "eSett.outgoingMessages.shared.messageType." + message.meteringPointType | transloco }}
     </ng-container>
 
-    <ng-container
-      *wattTableCell="columns['validFrom']; header: t('columns.validFrom'); let message"
-    >
-      {{ message.validFrom }}
+    <ng-container *wattTableCell="columns['received']; header: t('columns.received'); let message">
+      {{ message.receivedDateTime | wattDate : "long" }}
     </ng-container>
   </watt-table>
 
@@ -78,3 +78,5 @@ limitations under the License.
     />
   </vater-stack>
 </vater-flex>
+
+<dh-balance-responsible-drawer (closed)="onClose()" />

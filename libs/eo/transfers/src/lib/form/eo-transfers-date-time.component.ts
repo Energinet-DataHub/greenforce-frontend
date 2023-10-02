@@ -59,25 +59,25 @@ import { isToday } from 'date-fns';
         gap: var(--watt-space-m);
       }
 
-      watt-form-field {
+      eo-transfers-datetime watt-form-field {
         max-width: 160px;
         margin-top: 0;
       }
 
-      .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+      eo-transfers-datetime .mat-form-field-appearance-legacy .mat-form-field-wrapper {
         padding-bottom: 0;
       }
 
-      .mat-calendar-body-cell {
+      eo-transfers-datetime .mat-calendar-body-cell {
         pointer-events: none;
       }
 
-      .mat-calendar-body-cell-content {
+      eo-transfers-datetime .mat-calendar-body-cell-content {
         pointer-events: all;
         border: none !important;
       }
 
-      .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
+      eo-transfers-datetime .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
         &:hover .mat-calendar-body-cell-content {
           color: var(--watt-color-neutral-black) !important;
           box-shadow: none;

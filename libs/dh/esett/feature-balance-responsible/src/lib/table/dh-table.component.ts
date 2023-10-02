@@ -14,15 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { Sort } from '@angular/material/sort';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
+import { DhBalanceResponsibleDrawerComponent } from '../drawer/dh-drawer.component';
 
 @Component({
   selector: 'dh-balance-responsible-table',
@@ -41,23 +44,51 @@ import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
     TranslocoPipe,
 
     WATT_TABLE,
+    WattDatePipe,
     WattEmptyStateComponent,
     VaterFlexComponent,
     VaterStackComponent,
+
+    DhBalanceResponsibleDrawerComponent,
   ],
 })
 export class DhBalanceResponsibleTableComponent {
+  activeRow: DhBalanceResponsibleMessage | undefined = undefined;
+
+  @ViewChild(DhBalanceResponsibleDrawerComponent)
+  drawer: DhBalanceResponsibleDrawerComponent | undefined;
+
   columns: WattTableColumnDef<DhBalanceResponsibleMessage> = {
-    id: { accessor: 'id' },
-    date: { accessor: 'date' },
-    electricitySupplier: { accessor: 'electricitySupplier' },
-    balanceResponsible: { accessor: 'balanceResponsible' },
-    meteringPointType: { accessor: 'meteringPointType' },
-    validFrom: { accessor: 'validFrom' },
+    validFrom: { accessor: 'validFromDate' },
+    validTo: { accessor: 'validToDate' },
+    electricitySupplier: { accessor: null },
+    balanceResponsible: { accessor: null },
+    gridArea: { accessor: null },
+    meteringPointType: { accessor: null },
+    received: { accessor: 'receivedDateTime' },
+  };
+
+  translateHeader = (columnId: string): string => {
+    const baseKey = 'eSett.balanceResponsible.columns';
+
+    return translate(`${baseKey}.${columnId}`);
   };
 
   @Input() isLoading!: boolean;
   @Input() hasError!: boolean;
 
   @Input() tableDataSource!: WattTableDataSource<DhBalanceResponsibleMessage>;
+  @Input() sortMetadata!: Sort;
+
+  @Output() sortChange = new EventEmitter<Sort>();
+
+  onRowClick(activeRow: DhBalanceResponsibleMessage): void {
+    this.activeRow = activeRow;
+
+    this.drawer?.open(activeRow);
+  }
+
+  onClose(): void {
+    this.activeRow = undefined;
+  }
 }

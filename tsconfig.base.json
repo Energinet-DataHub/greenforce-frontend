@@ -266,6 +266,9 @@
       "@energinet-datahub/eo/connections/feature-invite-connection": [
         "libs/eo/connections/feature-invite-connection/index.ts"
       ],
+      "@energinet-datahub/eo/connections/feature-invite-connection-respond": [
+        "libs/eo/connections/feature-invite-connection-respond/index.ts"
+      ],
       "@energinet-datahub/eo/connections/feature-overview": [
         "libs/eo/connections/feature-overview/index.ts"
       ],

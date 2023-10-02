@@ -882,13 +882,23 @@
     },
     "balanceResponsible": {
       "tabHeading": "Balance responsible",
-      "columns": {
-        "id": "ID",
-        "date": "Date",
+      "shared": {
+        "validFrom": "Valid from",
+        "validTo": "Valid to",
         "electricitySupplier": "Electricity supplier",
         "balanceResponsible": "Balance responsible",
+        "gridArea": "{{ eSett.shared.gridArea }}",
         "meteringPointType": "Type of metering point",
-        "validFrom": "Valid from"
+        "received": "Received"
+      },
+      "columns": {
+        "validFrom": "{{ eSett.balanceResponsible.shared.validFrom }}",
+        "validTo": "{{ eSett.balanceResponsible.shared.validTo }}",
+        "electricitySupplier": "{{ eSett.balanceResponsible.shared.electricitySupplier }}",
+        "balanceResponsible": "{{ eSett.balanceResponsible.shared.balanceResponsible }}",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "meteringPointType": "{{ eSett.balanceResponsible.shared.meteringPointType }}",
+        "received": "{{ eSett.balanceResponsible.shared.received }}"
       },
       "emptyTitle": "No messages found",
       "emptyMessage": "Try changing the search criteria",

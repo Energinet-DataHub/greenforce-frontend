@@ -14,6 +14,10 @@ type Actor {
   status: ActorStatus!
 }
 
+type ActorNameDto {
+  value: String!
+}
+
 type ActorNumber {
   value: String!
 }
@@ -26,18 +30,23 @@ type AddressDto {
   country: String!
 }
 
-type BalanceResponsibleSearchResponse {
-  items: [BalanceResponsibleSearchResult!]!
+type BalanceResponsiblePageResult {
+  page: [BalanceResponsibleType!]!
   totalCount: Int!
 }
 
-type BalanceResponsibleSearchResult {
+type BalanceResponsibleType {
+  gridArea: GridAreaDto!
+  supplierWithName: ActorNameDto!
+  balanceResponsibleWithName: ActorNameDto!
+  getStorageDocumentLink: String
   id: String!
-  createdDate: DateTime!
+  receivedDateTime: DateTime!
   supplier: ActorNumber!
   balanceResponsible: ActorNumber!
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
+  validToDate: DateTime
 }
 
 "An immutable calculation."
@@ -143,7 +152,7 @@ type Query {
   actors(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int! pageSize: Int! periodFrom: DateTime periodTo: DateTime gridAreaCode: String processType: ExchangeEventProcessType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
-  searchEsetBalanceResponsible(pageNumber: Int! pageSize: Int! searchText: String!): BalanceResponsibleSearchResponse!
+  balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
 }
 
 type SettlementReport {
@@ -187,6 +196,12 @@ enum ActorStatus {
   Active
   Inactive
   Passive
+}
+
+enum BalanceResponsibleSortProperty {
+  VALID_FROM
+  VALID_TO
+  RECEIVED_DATE
 }
 
 enum BatchState {
@@ -259,6 +274,11 @@ enum ProcessType {
   FIRST_CORRECTION_SETTLEMENT
   SECOND_CORRECTION_SETTLEMENT
   THIRD_CORRECTION_SETTLEMENT
+}
+
+enum SortDirection {
+  ASCENDING
+  DESCENDING
 }
 
 enum TimeSeriesType {

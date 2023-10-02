@@ -35,7 +35,7 @@ import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard'
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
-import { EoConnection, EoConnectionsService } from '../data-access-api/connections.service';
+import { EoConnectionWithName, EoConnectionsService } from '../data-access-api/connections.service';
 
 @Component({
   selector: 'eo-remove-connection',
@@ -82,8 +82,8 @@ import { EoConnection, EoConnectionsService } from '../data-access-api/connectio
   `,
 })
 export class EoRemoveConnectionComponent {
-  @Input({ required: true }) connection!: EoConnection;
-  @Output() connectionRemoved = new EventEmitter<EoConnection>();
+  @Input({ required: true }) connection!: EoConnectionWithName;
+  @Output() connectionRemoved = new EventEmitter<EoConnectionWithName>();
   @ViewChild(WattModalComponent) confirmationModal!: WattModalComponent;
 
   private cd = inject(ChangeDetectorRef);

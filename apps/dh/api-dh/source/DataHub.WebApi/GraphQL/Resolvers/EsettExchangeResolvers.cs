@@ -28,7 +28,35 @@ namespace Energinet.DataHub.WebApi.GraphQL
             GridAreaByCodeBatchDataLoader dataLoader) =>
             dataLoader.LoadAsync(result.GridAreaCode);
 
-        public string? GetDocumentLink(
+        public Task<ActorNameDto> GetSupplierWithNameAsync(
+            [Parent] BalanceResponsibleResult result,
+            ActorNameByNumberBatchDataLoader dataLoader) =>
+            dataLoader.LoadAsync(result.Supplier.Value);
+
+        public Task<ActorNameDto> GetBalanceResponsibleWithNameAsync(
+            [Parent] BalanceResponsibleResult result,
+            ActorNameByNumberBatchDataLoader dataLoader) =>
+            dataLoader.LoadAsync(result.BalanceResponsible.Value);
+
+        public string? GetStorageDocumentLink(
+            [Parent] ExchangeEventTrackingResult result,
+            [Service] IHttpContextAccessor httpContextAccessor,
+            [Service] LinkGenerator linkGenerator) =>
+                GetDocumentLink("StorageDocument", result, httpContextAccessor, linkGenerator);
+
+        public string? GetResponseDocumentLink(
+            [Parent] ExchangeEventTrackingResult result,
+            [Service] IHttpContextAccessor httpContextAccessor,
+            [Service] LinkGenerator linkGenerator) =>
+                GetDocumentLink("ResponseDocument", result, httpContextAccessor, linkGenerator);
+
+        public string? GetDispatchDocumentLink(
+            [Parent] ExchangeEventTrackingResult result,
+            [Service] IHttpContextAccessor httpContextAccessor,
+            [Service] LinkGenerator linkGenerator) =>
+                GetDocumentLink("GetDispatchDocument", result, httpContextAccessor, linkGenerator);
+
+        private string? GetDocumentLink(
             string action,
             [Parent] ExchangeEventTrackingResult result,
             [Service] IHttpContextAccessor httpContextAccessor,

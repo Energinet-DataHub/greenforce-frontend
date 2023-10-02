@@ -20,8 +20,12 @@ import { Observable, map } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
-interface InviteConnectionResponse {
-  connectionInvitationId: string;
+export interface InviteConnectionResponse {
+  id: string;
+  senderCompanyId: string;
+  senderCompanyTin: string;
+  createdAt: string;
+  companyName?: string;
 }
 
 @Injectable({
@@ -42,8 +46,24 @@ export class EoInviteConnectionService {
       .post<InviteConnectionResponse>(`${this.#apiBase}/connection-invitations`, null)
       .pipe(
         map((response) => {
-          return `${window.location.origin}/connections?accept-invitation=${response.connectionInvitationId}`;
+          return `${window.location.origin}/connections?respond-invite=${response.id}`;
         })
       );
+  }
+
+  getInvitation(connectionInvitationId: string) {
+    return this.http.get<InviteConnectionResponse>(
+      `${this.#apiBase}/connection-invitations/${connectionInvitationId}`
+    );
+  }
+
+  acceptInvitation(connectionInvitationId: string) {
+    return this.http.post<{ id: string }>(`${this.#apiBase}/connections`, {
+      connectionInvitationId,
+    });
+  }
+
+  declineInvitation(connectionInvitationId: string) {
+    return this.http.delete(`${this.#apiBase}/connection-invitations/${connectionInvitationId}`);
   }
 }

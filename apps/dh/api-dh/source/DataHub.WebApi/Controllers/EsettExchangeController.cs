@@ -65,5 +65,23 @@ namespace Energinet.DataHub.WebApi.Controllers
                 return NotFound();
             }
         }
+
+        [HttpGet("StorageDocument")]
+        [Produces("application/octet-stream")]
+        public async Task<ActionResult<Stream>> StorageDocumentAsync(string documentId)
+        {
+            try
+            {
+                var fileResponse = await _client
+                    .StorageDocumentAsync(documentId)
+                    .ConfigureAwait(false);
+
+                return File(fileResponse.Stream, "application/octet-stream");
+            }
+            catch (Clients.ESettExchange.v1.ApiException e) when (e.StatusCode == 404)
+            {
+                return NotFound();
+            }
+        }
     }
 }

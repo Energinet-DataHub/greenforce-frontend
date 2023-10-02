@@ -19,6 +19,20 @@ type Actor {
   status: ActorStatus!
 }
 
+type BalanceResponsibleType {
+  gridArea: GridAreaDto!
+  supplierWithName: ActorNameDto!
+  balanceResponsibleWithName: ActorNameDto!
+  getStorageDocumentLink: String
+  id: String!
+  receivedDateTime: DateTime!
+  supplier: ActorNumber!
+  balanceResponsible: ActorNumber!
+  meteringPointType: TimeSeriesType!
+  validFromDate: DateTime!
+  validToDate: DateTime
+}
+
 """An immutable calculation."""
 type Calculation {
   id: UUID!
@@ -108,7 +122,7 @@ type Query {
   actors(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, processType: ExchangeEventProcessType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
-  searchEsetBalanceResponsible(pageNumber: Int!, pageSize: Int!, searchText: String!): BalanceResponsibleSearchResponse!
+  balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
 }
 
 type Mutation {
@@ -137,13 +151,27 @@ type OrganizationDto {
   address: AddressDto!
 }
 
+type ActorNameDto {
+  value: String!
+}
+
+"""The `DateTime` scalar represents an ISO-8601 compliant date time type."""
+scalar DateTime
+
+type ActorNumber {
+  value: String!
+}
+
+enum TimeSeriesType {
+  MGA_EXCHANGE
+  PRODUCTION
+  CONSUMPTION
+}
+
 """
 The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1.
 """
 scalar Long
-
-"""The `DateTime` scalar represents an ISO-8601 compliant date time type."""
-scalar DateTime
 
 enum BatchState {
   PENDING
@@ -160,12 +188,6 @@ enum ProcessType {
   FIRST_CORRECTION_SETTLEMENT
   SECOND_CORRECTION_SETTLEMENT
   THIRD_CORRECTION_SETTLEMENT
-}
-
-enum TimeSeriesType {
-  MGA_EXCHANGE
-  PRODUCTION
-  CONSUMPTION
 }
 
 enum DocumentStatus {
@@ -214,8 +236,19 @@ input UpdatePermissionDtoInput {
   description: String!
 }
 
-type BalanceResponsibleSearchResponse {
-  items: [BalanceResponsibleSearchResult!]!
+enum SortDirection {
+  ASCENDING
+  DESCENDING
+}
+
+enum BalanceResponsibleSortProperty {
+  VALID_FROM
+  VALID_TO
+  RECEIVED_DATE
+}
+
+type BalanceResponsiblePageResult {
+  page: [BalanceResponsibleType!]!
   totalCount: Int!
 }
 
@@ -261,19 +294,6 @@ type ExchangeEventSearchResult {
   processType: ExchangeEventProcessType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
-}
-
-type BalanceResponsibleSearchResult {
-  id: String!
-  createdDate: DateTime!
-  supplier: ActorNumber!
-  balanceResponsible: ActorNumber!
-  meteringPointType: TimeSeriesType!
-  validFromDate: DateTime!
-}
-
-type ActorNumber {
-  value: String!
 }
 
 input CreateCalculationInput {

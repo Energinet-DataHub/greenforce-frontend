@@ -17,7 +17,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
-  MarketParticipantGridAreaAuditLogEntryDto,
+  MarketParticipantGridAreaAuditLogEntryWithNameDto,
   MarketParticipantGridAreaHttp,
 } from '@energinet-datahub/dh/shared/domain';
 import { exhaustMap, Observable, switchMap, tap } from 'rxjs';
@@ -27,7 +27,7 @@ import { parseErrorResponse } from './dh-market-participant-error-handling';
 interface MarketParticipantGridAreaState {
   isLoading: boolean;
   isLoadingAuditLog: boolean;
-  auditLog: MarketParticipantGridAreaAuditLogEntryDto[];
+  auditLog: MarketParticipantGridAreaAuditLogEntryWithNameDto[];
 
   // Validation
   validation?: {

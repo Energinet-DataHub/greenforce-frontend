@@ -29,12 +29,18 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class MarketParticipantUserController : MarketParticipantControllerBase
     {
+        private readonly IMarketParticipantAuditIdentityClient _marketParticipantAuditIdentityClient;
         private readonly IMarketParticipantClient _marketParticipantClient;
         private readonly IMarketParticipantUserRoleClient _marketParticipantUserRoleClient;
         private readonly IMarketParticipantUserInvitationClient _marketParticipantUserInvitationClient;
 
-        public MarketParticipantUserController(IMarketParticipantClient marketParticipantClient, IMarketParticipantUserRoleClient marketParticipantUserRoleClient, IMarketParticipantUserInvitationClient marketParticipantUserInvitationClient)
+        public MarketParticipantUserController(
+            IMarketParticipantAuditIdentityClient marketParticipantAuditIdentityClient,
+            IMarketParticipantClient marketParticipantClient,
+            IMarketParticipantUserRoleClient marketParticipantUserRoleClient,
+            IMarketParticipantUserInvitationClient marketParticipantUserInvitationClient)
         {
+            _marketParticipantAuditIdentityClient = marketParticipantAuditIdentityClient;
             _marketParticipantClient = marketParticipantClient;
             _marketParticipantUserRoleClient = marketParticipantUserRoleClient;
             _marketParticipantUserInvitationClient = marketParticipantUserInvitationClient;
@@ -96,21 +102,21 @@ namespace Energinet.DataHub.WebApi.Controllers
 
                 foreach (var auditLog in auditLogs.InviteAuditLogs)
                 {
-                    var changedByUserDto = await _marketParticipantClient
-                        .GetUserAsync(auditLog.ChangedByUserId)
+                    var changedByUserDto = await _marketParticipantAuditIdentityClient
+                        .GetAsync(auditLog.AuditIdentityId)
                         .ConfigureAwait(false);
 
                     userAuditLogs.Add(new UserAuditLogDto(
                         auditLog.ActorName,
-                        changedByUserDto.Name,
+                        changedByUserDto.DisplayName,
                         UserAuditLogType.UserInvite,
                         auditLog.Timestamp));
                 }
 
                 foreach (var auditLog in auditLogs.UserRoleAssignmentAuditLogs)
                 {
-                    var changedByUserDto = await _marketParticipantClient
-                        .GetUserAsync(auditLog.ChangedByUserId)
+                    var changedByUserDto = await _marketParticipantAuditIdentityClient
+                        .GetAsync(auditLog.AuditIdentityId)
                         .ConfigureAwait(false);
 
                     var userRoleDto = await _marketParticipantUserRoleClient
@@ -127,15 +133,15 @@ namespace Energinet.DataHub.WebApi.Controllers
 
                     userAuditLogs.Add(new UserAuditLogDto(
                         userRoleDto.Name,
-                        changedByUserDto.Name,
+                        changedByUserDto.DisplayName,
                         auditLogType,
                         auditLog.Timestamp));
                 }
 
                 foreach (var auditLog in auditLogs.IdentityAuditLogs)
                 {
-                    var changedByUserDto = await _marketParticipantClient
-                        .GetUserAsync(auditLog.ChangedByUserId)
+                    var changedByUserDto = await _marketParticipantAuditIdentityClient
+                        .GetAsync(auditLog.AuditIdentityId)
                         .ConfigureAwait(false);
 
                     var auditLogType = auditLog.Field switch
@@ -149,7 +155,7 @@ namespace Energinet.DataHub.WebApi.Controllers
 
                     userAuditLogs.Add(new UserAuditLogDto(
                         auditLog.NewValue,
-                        changedByUserDto.Name,
+                        changedByUserDto.DisplayName,
                         auditLogType,
                         auditLog.Timestamp));
                 }

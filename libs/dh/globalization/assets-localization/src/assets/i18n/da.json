@@ -874,13 +874,23 @@
     },
     "balanceResponsible": {
       "tabHeading": "Balanceansvarlig",
-      "columns": {
-        "id": "ID",
-        "date": "Dato",
+      "shared": {
+        "validFrom": "Gyldig fra",
+        "validTo": "Gyldig til",
         "electricitySupplier": "Elleverandør",
         "balanceResponsible": "Balanceansvarlig",
+        "gridArea": "{{ eSett.shared.gridArea }}",
         "meteringPointType": "Målepunktstype",
-        "validFrom": "Gyldig fra"
+        "received": "Modtaget"
+      },
+      "columns": {
+        "validFrom": "{{ eSett.balanceResponsible.shared.validFrom }}",
+        "validTo": "{{ eSett.balanceResponsible.shared.validTo }}",
+        "electricitySupplier": "{{ eSett.balanceResponsible.shared.electricitySupplier }}",
+        "balanceResponsible": "{{ eSett.balanceResponsible.shared.balanceResponsible }}",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "meteringPointType": "{{ eSett.balanceResponsible.shared.meteringPointType }}",
+        "received": "{{ eSett.balanceResponsible.shared.received }}"
       },
       "emptyTitle": "Ingen meddelelser fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",

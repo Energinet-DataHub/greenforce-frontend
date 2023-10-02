@@ -142,8 +142,9 @@ export class DhOutgoingMessageDrawerComponent {
   }
 
   private loadDocument(documentLink: string): Observable<string> {
-    return this.http
-      .get(documentLink, { responseType: 'arraybuffer' })
-      .pipe(map((res) => String.fromCharCode(...new Uint8Array(res))));
+    return this.http.get(documentLink, { responseType: 'arraybuffer' }).pipe(
+      map((res) => new TextDecoder().decode(res)),
+      takeUntil(this.closed)
+    );
   }
 }

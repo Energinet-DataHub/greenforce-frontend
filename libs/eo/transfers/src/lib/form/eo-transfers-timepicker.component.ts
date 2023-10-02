@@ -23,6 +23,7 @@ import {
   ViewChild,
   Output,
   EventEmitter,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   FormControl,
@@ -40,14 +41,19 @@ import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/wa
   selector: 'eo-transfers-timepicker',
   standalone: true,
   imports: [ReactiveFormsModule, WattDropdownComponent],
+  encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      :host {
+      eo-transfers-timepicker {
         max-width: 112px;
       }
 
-      watt-form-field {
-        margin-top: 0;
+      eo-transfers-timepicker watt-dropdown {
+        margin-top: var(--watt-space-xs);
+
+        .label {
+          display: none;
+        }
       }
     `,
   ],

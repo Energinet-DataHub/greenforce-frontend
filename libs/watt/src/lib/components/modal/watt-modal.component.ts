@@ -88,6 +88,9 @@ export class WattModalComponent implements AfterViewInit {
   @Input()
   closeLabel = 'Close';
 
+  @Input()
+  minHeight = '147px';
+
   /**
    * When modal is closed, emits `true` if it was "accepted",
    * otherwise emits `false`.

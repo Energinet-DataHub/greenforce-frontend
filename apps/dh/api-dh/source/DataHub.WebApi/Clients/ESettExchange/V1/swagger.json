@@ -5,61 +5,98 @@
     "version": "v1"
   },
   "paths": {
-    "/esett/balance-responsible/search": {
-      "post": {
+    "/esett/balance-responsible": {
+      "get": {
         "tags": [
           "BalanceResponsible"
         ],
-        "operationId": "search",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/BalanceResponsibleSearchFilter"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/BalanceResponsibleSearchFilter"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/BalanceResponsibleSearchFilter"
-                  }
-                ]
-              }
+        "operationId": "balance-responsible",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sortProperty",
+            "in": "query",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/BalanceResponsibleSortProperty"
+                }
+              ]
+            }
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/SortDirection"
+                }
+              ]
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/BalanceResponsibleSearchResponse"
+                  "$ref": "#/components/schemas/BalanceResponsiblePageResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BalanceResponsibleSearchResponse"
+                  "$ref": "#/components/schemas/BalanceResponsiblePageResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BalanceResponsibleSearchResponse"
+                  "$ref": "#/components/schemas/BalanceResponsiblePageResult"
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/esett/balance-responsible/{documentId}/storageDocument": {
+      "get": {
+        "tags": [
+          "BalanceResponsible"
+        ],
+        "operationId": "storageDocument",
+        "parameters": [
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {}
               }
             }
           }
@@ -167,7 +204,7 @@
         "tags": [
           "ESett"
         ],
-        "operationId": "search2",
+        "operationId": "search",
         "requestBody": {
           "content": {
             "application/json": {
@@ -235,31 +272,14 @@
           }
         }
       },
-      "BalanceResponsibleSearchFilter": {
+      "BalanceResponsiblePageResult": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "searchText": {
-            "type": "string"
-          }
-        }
-      },
-      "BalanceResponsibleSearchResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "items": {
+          "page": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/BalanceResponsibleSearchResult"
+              "$ref": "#/components/schemas/BalanceResponsibleResult"
             }
           },
           "totalCount": {
@@ -268,14 +288,14 @@
           }
         }
       },
-      "BalanceResponsibleSearchResult": {
+      "BalanceResponsibleResult": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "id": {
             "type": "string"
           },
-          "createdDate": {
+          "receivedDateTime": {
             "type": "string",
             "format": "date-time"
           },
@@ -303,8 +323,24 @@
           "validFromDate": {
             "type": "string",
             "format": "date-time"
+          },
+          "validToDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "gridArea": {
+            "type": "string"
           }
         }
+      },
+      "BalanceResponsibleSortProperty": {
+        "type": "string",
+        "enum": [
+          "ValidFrom",
+          "ValidTo",
+          "ReceivedDate"
+        ]
       },
       "DocumentStatus": {
         "type": "string",
@@ -471,6 +507,13 @@
         "enum": [
           "BalanceFixing",
           "Aggregation"
+        ]
+      },
+      "SortDirection": {
+        "type": "string",
+        "enum": [
+          "Ascending",
+          "Descending"
         ]
       },
       "TimeSeriesType": {

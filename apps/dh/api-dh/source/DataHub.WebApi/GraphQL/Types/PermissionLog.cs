@@ -30,11 +30,11 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public PermissionAuditLogType Type { get; set; }
 
-        public async Task<string> GetChangedByUserNameAsync(UserCacheDataLoader dataLoader)
+        public async Task<string> GetChangedByUserNameAsync(AuditIdentityCacheDataLoader dataLoader)
         {
             return ChangedByUserId is null
                 ? "DataHub"
-                : await dataLoader.LoadAsync(ChangedByUserId.Value).Then(x => x.Name);
+                : await dataLoader.LoadAsync(ChangedByUserId.Value).Then(x => x.DisplayName);
         }
     }
 }
