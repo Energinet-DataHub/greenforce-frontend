@@ -44,7 +44,6 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
     meteringPointType: TimeSeriesType.Production,
     validFromDate: new Date('2021-02-01T10:00:00.000Z'),
     validToDate: new Date('2021-05-02T00:00:00.000Z'),
-    getStorageDocumentLink: storageDocumentLink,
     balanceResponsibleWithName: {
       __typename: 'ActorNameDto',
       value: '321 - Test Balance Ansvarlig',
@@ -74,7 +73,6 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
     meteringPointType: TimeSeriesType.Production,
     validFromDate: new Date('2022-01-01T10:00:00.000Z'),
     validToDate: null,
-    getStorageDocumentLink: storageDocumentLink,
     balanceResponsibleWithName: {
       __typename: 'ActorNameDto',
       value: '222 - Test Balance Ansvarlig 2',
