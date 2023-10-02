@@ -20,9 +20,6 @@ import {
   TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-const storageDocumentLink =
-  'https://localhost:5001/v1/EsettExchange/StorageDocument?documentId=390254675-3';
-
 export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
   {
     __typename: 'BalanceResponsibleType',

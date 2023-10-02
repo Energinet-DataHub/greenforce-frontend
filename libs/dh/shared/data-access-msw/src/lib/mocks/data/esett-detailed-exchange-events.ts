@@ -22,11 +22,6 @@ import {
   PriceAreaCode,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-const getDispatchDocumentLink =
-  'https://localhost:5001/v1/EsettExchange/DispatchDocument?documentId=390254675-3';
-const getResponseDocumentLink =
-  'https://localhost:5001/v1/EsettExchange/ResponseDocument?documentId=390254675-3';
-
 export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
   {
     __typename: 'EsettOutgoingMessage',
