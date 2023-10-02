@@ -19,7 +19,7 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy } from 
 import { FormsModule } from '@angular/forms';
 import { OrganizationChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
@@ -39,7 +39,7 @@ import { getValidOrganizationStatusTransitionOptions } from './get-valid-organiz
     FormsModule,
     TranslocoModule,
     WattDropdownComponent,
-    WattTextFieldComponent,
+    WattTextFieldTDComponent,
     WattFieldErrorComponent,
   ],
 })

@@ -20,7 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { MarketParticipantActorStatus } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
@@ -39,7 +39,7 @@ import { getValidStatusTransitionOptions } from './get-valid-status-transition-o
     FormsModule,
     TranslocoModule,
     WattDropdownComponent,
-    WattTextFieldComponent,
+    WattTextFieldTDComponent,
     WattFieldErrorComponent,
   ],
 })
