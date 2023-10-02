@@ -122,8 +122,7 @@ export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges,
       changes.selectedPermission.firstChange === false &&
       changes.selectedPermission.currentValue
     ) {
-      const id = changes.selectedPermission.currentValue.id.toString();
-
+      const id = changes.selectedPermission.currentValue.id;
       this.getPermissionQuery?.refetch({ id });
     }
   }

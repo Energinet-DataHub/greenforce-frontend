@@ -122,8 +122,7 @@ export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDes
       changes.selectedPermission.firstChange === false &&
       changes.selectedPermission.currentValue
     ) {
-      const id = changes.selectedPermission.currentValue.id.toString();
-
+      const id = changes.selectedPermission.currentValue.id;
       this.getPermissionQuery?.refetch({ id });
     }
   }
