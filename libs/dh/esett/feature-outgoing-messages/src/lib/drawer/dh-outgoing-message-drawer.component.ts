@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
