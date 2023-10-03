@@ -1,0 +1,101 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "B2C web api for EDI",
+    "version": "v1"
+  },
+  "paths": {
+    "/RequestAggregatedMeasureData": {
+      "post": {
+        "tags": [
+          "RequestAggregatedMeasureData"
+        ],
+        "operationId": "RequestAggregatedMeasureData",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MeteringPointType": {
+        "type": "integer",
+        "format": "int32",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "RequestAggregatedMeasureDataMarketRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "businessReason": {
+            "type": "string"
+          },
+          "meteringPointType": {
+            "$ref": "#/components/schemas/MeteringPointType"
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "gridArea": {
+            "type": "string",
+            "nullable": true
+          },
+          "energySupplierId": {
+            "type": "string",
+            "nullable": true
+          },
+          "balanceResponsibleId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [
+        "Bearer"
+      ]
+    }
+  ]
+}
