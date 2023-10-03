@@ -39,7 +39,6 @@ type BalanceResponsibleType {
   gridArea: GridAreaDto!
   supplierWithName: ActorNameDto!
   balanceResponsibleWithName: ActorNameDto!
-  getStorageDocumentLink: String
   id: String!
   receivedDateTime: DateTime!
   supplier: ActorNumber!
@@ -72,8 +71,6 @@ type CreateCalculationPayload {
 
 type EsettOutgoingMessage {
   gridArea: GridAreaDto!
-  getResponseDocumentLink: String
-  getDispatchDocumentLink: String
   documentId: String!
   created: DateTime!
   processType: ExchangeEventProcessType!
