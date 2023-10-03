@@ -35,7 +35,7 @@ import { WattModalActionsComponent } from '@energinet-datahub/watt/modal';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 import {
@@ -83,7 +83,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
     WattDatepickerComponent,
     WattModalActionsComponent,
     WattButtonComponent,
-    WattTextFieldComponent,
+    WattTextFieldTDComponent,
     WattFieldErrorComponent,
     EoTransfersPeriodComponent,
     EoTransfersTimepickerComponent,

@@ -33,27 +33,35 @@ watt-field watt-field-error,
   display: none;
 }
 
-.ng-dirty.ng-invalid watt-field watt-field-hint {
+.ng-dirty.ng-invalid:not(form) watt-field watt-field-hint {
   display: none;
 }
 
-.ng-dirty.ng-invalid watt-field watt-field-error {
+.ng-dirty.ng-invalid:not(form):not(.ng-pristine):not(.ng-untouched)
+  watt-field
+  watt-field-error {
   display: block;
 }
 
-form.ng-dirty .ng-invalid .watt-field-wrapper,
-.ng-dirty.ng-invalid:not(form) .watt-field-wrapper {
+form.ng-dirty.ng-submitted .ng-invalid .watt-field-wrapper,
+.ng-dirty.ng-invalid:not(form):not(.ng-pristine):not(.ng-untouched)
+  .watt-field-wrapper {
   border-color: var(--watt-color-state-danger);
 }
 
-form.ng-dirty .ng-invalid watt-field .label,
-.ng-dirty.ng-invalid:not(form) watt-field .label {
+form.ng-dirty.ng-submitted .ng-invalid watt-field .label,
+.ng-dirty.ng-invalid:not(form):not(.ng-pristine):not(.ng-untouched)
+  watt-field
+  .label {
   color: var(--watt-color-state-danger);
 }
 
 [required] watt-field .label::after,
-form.ng-dirty .ng-invalid watt-field .label::after,
-.ng-dirty.ng-invalid:not(form) watt-field .label::after {
+[required="true"] watt-field .label::after,
+form.ng-dirty.ng-submitted .ng-invalid watt-field .label::after,
+.ng-dirty.ng-invalid:not(form):not(.ng-pristine):not(.ng-untouched)
+  watt-field
+  .label::after {
   content: " *";
 }
 

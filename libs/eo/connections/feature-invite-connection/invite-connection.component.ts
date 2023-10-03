@@ -29,7 +29,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
 
 import { EoInviteConnectionService } from '../data-access-api/invite-connection.service';
 
@@ -44,7 +44,7 @@ import { EoInviteConnectionService } from '../data-access-api/invite-connection.
     WattCopyToClipboardDirective,
     WattEmptyStateComponent,
     VaterStackComponent,
-    WattTextFieldComponent,
+    WattTextFieldTDComponent,
   ],
   template: `
     <watt-modal
