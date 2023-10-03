@@ -33,7 +33,7 @@ import { Subscription } from 'rxjs';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 import { meteringPointIdValidator } from './dh-metering-point.validator';
@@ -51,14 +51,14 @@ import { meteringPointIdValidator } from './dh-metering-point.validator';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    WattTextFieldTDComponent,
+    WattTextFieldComponent,
     WattFieldErrorComponent,
   ],
 })
 export class DhMeteringPointSearchFormComponent implements AfterViewInit, OnDestroy {
   @Input() loading = false;
   @Output() search = new EventEmitter<string>();
-  @ViewChild('searchInput') searchInput?: WattTextFieldTDComponent;
+  @ViewChild('searchInput') searchInput?: WattTextFieldComponent;
 
   queryParamsSubscription?: Subscription;
 
