@@ -92,7 +92,7 @@ export class RequestAggregatedMeasureDataHttp {
     }
 
     /**
-     * Get saved request and response logs.
+     * Request Aggregated Measure Data
      * @param businessReason 
      * @param meteringPointType 
      * @param startDate 
