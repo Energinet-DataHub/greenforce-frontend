@@ -15,12 +15,11 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
-import { Observable, Subscription, map, takeUntil } from 'rxjs';
+import { Observable, Subscription, switchMap, takeUntil } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -39,6 +38,7 @@ import {
 
 import { DhOutgoingMessageDetailed } from '../dh-outgoing-message';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
+import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-outgoing-message-drawer',
@@ -59,6 +59,7 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
   imports: [
     NgIf,
     TranslocoDirective,
+    TranslocoPipe,
     RxPush,
 
     WATT_DRAWER,
@@ -76,7 +77,7 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
 })
 export class DhOutgoingMessageDrawerComponent {
   private apollo = inject(Apollo);
-  private http = inject(HttpClient);
+  private readonly esettHttp = inject(EsettExchangeHttp);
   private subscription?: Subscription;
 
   outgoingMessage: DhOutgoingMessageDetailed | undefined = undefined;
@@ -123,27 +124,42 @@ export class DhOutgoingMessageDrawerComponent {
           }
 
           if (
-            this.outgoingMessage.getDispatchDocumentLink &&
+            this.outgoingMessage.documentId &&
             this.outgoingMessage.documentStatus !== DocumentStatus.Received
           ) {
-            this.dispatchDocument = this.loadDocument(this.outgoingMessage.getDispatchDocumentLink);
+            this.dispatchDocument = this.loadDispatchDocument(this.outgoingMessage.documentId);
           }
 
           if (
-            this.outgoingMessage.getResponseDocumentLink &&
+            this.outgoingMessage.documentId &&
             ((this.outgoingMessage.documentStatus !== DocumentStatus.Received &&
               this.outgoingMessage.documentStatus === DocumentStatus.Accepted) ||
               this.outgoingMessage.documentStatus === DocumentStatus.Rejected)
           ) {
-            this.responseDocument = this.loadDocument(this.outgoingMessage.getResponseDocumentLink);
+            this.responseDocument = this.loadResponseDocument(this.outgoingMessage.documentId);
           }
         },
       });
   }
 
-  private loadDocument(documentLink: string): Observable<string> {
-    return this.http.get(documentLink, { responseType: 'arraybuffer' }).pipe(
-      map((res) => new TextDecoder().decode(res)),
+  private loadResponseDocument(documentLink: string): Observable<string> {
+    return this.esettHttp.v1EsettExchangeResponseDocumentGet(documentLink).pipe(
+      switchMap((res) => {
+        const blobPart = res as unknown as BlobPart;
+        const blob = new Blob([blobPart]);
+        return new Response(blob).text();
+      }),
+      takeUntil(this.closed)
+    );
+  }
+
+  private loadDispatchDocument(documentLink: string): Observable<string> {
+    return this.esettHttp.v1EsettExchangeDispatchDocumentGet(documentLink).pipe(
+      switchMap((res) => {
+        const blobPart = res as unknown as BlobPart;
+        const blob = new Blob([blobPart]);
+        return new Response(blob).text();
+      }),
       takeUntil(this.closed)
     );
   }

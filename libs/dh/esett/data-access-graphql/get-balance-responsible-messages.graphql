@@ -32,7 +32,6 @@ query getBalanceResponsibleMessages(
         code
         name
       }
-      getStorageDocumentLink
     }
     totalCount
   }

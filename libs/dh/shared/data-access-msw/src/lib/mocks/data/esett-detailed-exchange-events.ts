@@ -22,11 +22,6 @@ import {
   PriceAreaCode,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-const getDispatchDocumentLink =
-  'https://localhost:5001/v1/EsettExchange/DispatchDocument?documentId=390254675-3';
-const getResponseDocumentLink =
-  'https://localhost:5001/v1/EsettExchange/ResponseDocument?documentId=390254675-3';
-
 export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
   {
     __typename: 'EsettOutgoingMessage',
@@ -46,8 +41,6 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     created: new Date('2021-01-01T00:10:00.000Z'),
     periodFrom: new Date('2021-01-01T00:00:00.000Z'),
     periodTo: new Date('2021-03-01T00:00:00.000Z'),
-    getDispatchDocumentLink,
-    getResponseDocumentLink,
   },
   {
     __typename: 'EsettOutgoingMessage',
@@ -67,8 +60,6 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     created: new Date('2021-02-01T00:10:00.000Z'),
     periodFrom: new Date('2021-02-01T00:00:00.000Z'),
     periodTo: new Date('2021-05-01T00:00:00.000Z'),
-    getDispatchDocumentLink,
-    getResponseDocumentLink,
   },
   {
     __typename: 'EsettOutgoingMessage',
@@ -88,8 +79,6 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     created: new Date('2022-01-01T00:10:00.000Z'),
     periodFrom: new Date('2022-01-01T00:00:00.000Z'),
     periodTo: new Date('2022-03-01T00:00:00.000Z'),
-    getDispatchDocumentLink,
-    getResponseDocumentLink,
   },
   {
     __typename: 'EsettOutgoingMessage',
@@ -103,13 +92,11 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
       validTo: null,
       validFrom: new Date(),
     },
-    processType: ExchangeEventProcessType.Aggregation,
+    processType: ExchangeEventProcessType.BalanceFixing,
     documentStatus: DocumentStatus.AwaitingReply,
     timeSeriesType: TimeSeriesType.Consumption,
     created: new Date('2023-01-01T00:10:00.000Z'),
     periodFrom: new Date('2023-01-01T00:00:00.000Z'),
     periodTo: new Date('2023-03-01T00:00:00.000Z'),
-    getDispatchDocumentLink,
-    getResponseDocumentLink,
   },
 ];
