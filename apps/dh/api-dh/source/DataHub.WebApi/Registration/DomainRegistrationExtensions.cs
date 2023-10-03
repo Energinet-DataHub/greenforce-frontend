@@ -15,6 +15,7 @@
 using System;
 using System.Net.Http;
 using Energinet.DataHub.Charges.Clients.Registration.Charges.ServiceCollectionExtensions;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.MarketParticipant.Client.Extensions;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
@@ -45,6 +46,8 @@ namespace Energinet.DataHub.WebApi.Registration
                     GetBaseUri(apiClientSettings.WholesaleBaseUrl))
                 .AddESettClient(
                     GetBaseUri(apiClientSettings.ESettExchangeBaseUrl))
+                .AddEdiWebAppClient(
+                    GetBaseUri(apiClientSettings.EdiB2CWebApiBaseUrl))
                 .AddSingleton(apiClientSettings);
         }
 
@@ -75,6 +78,14 @@ namespace Energinet.DataHub.WebApi.Registration
         {
             return serviceCollection.AddScoped<IESettExchangeClient_V1, ESettExchangeClient_V1>(
                 provider => new ESettExchangeClient_V1(
+                    baseUri.ToString(),
+                    provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
+        }
+
+        private static IServiceCollection AddEdiWebAppClient(this IServiceCollection serviceCollection, Uri baseUri)
+        {
+            return serviceCollection.AddScoped<IEdiB2CWebAppClient_V1, EdiB2CWebAppClient_V1>(
+                provider => new EdiB2CWebAppClient_V1(
                     baseUri.ToString(),
                     provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
         }
