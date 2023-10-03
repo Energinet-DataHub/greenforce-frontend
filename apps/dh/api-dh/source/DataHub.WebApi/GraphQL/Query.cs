@@ -71,6 +71,25 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 });
         }
 
+        public async Task<IEnumerable<UserRoleAuditLog>> GetUserRoleAuditLogsAsync(
+            Guid id,
+            [Service] IMarketParticipantUserRoleClient client)
+        {
+            var logs = await client.GetUserRoleAuditLogsAsync(id);
+            return logs.Select(log => new UserRoleAuditLog
+            {
+                AuditIdentityId = log.AuditIdentityId,
+                UserRoleId = log.UserRoleId,
+                Name = log.Name,
+                Description = log.Description,
+                Permissions = log.Permissions,
+                EicFunction = log.EicFunction,
+                Status = log.Status,
+                ChangeType = log.ChangeType,
+                Timestamp = log.Timestamp,
+            });
+        }
+
         public Task<UserRoleWithPermissionsDto> GetUserRoleByIdAsync(
             Guid id,
             [Service] IMarketParticipantUserRoleClient client) =>
