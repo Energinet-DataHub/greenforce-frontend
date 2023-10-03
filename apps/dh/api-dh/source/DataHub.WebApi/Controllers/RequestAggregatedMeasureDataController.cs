@@ -12,10 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
@@ -37,11 +33,10 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Get saved request and response logs.
+        /// Request Aggregated Measure Data
         /// </summary>
-        /// <returns>Search result.</returns>
         [HttpPost("Request")]
-        public async Task<ActionResult<SearchResult>> SearchRequestResponseLogsAsync(
+        public async Task<ActionResult<SearchResult>> RequestAsync(
             string businessReason,
             string meteringPointType,
             string startDate,

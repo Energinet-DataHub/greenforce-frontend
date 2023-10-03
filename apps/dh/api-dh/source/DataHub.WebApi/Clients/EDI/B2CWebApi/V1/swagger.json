@@ -56,15 +56,13 @@
         "additionalProperties": false,
         "properties": {
           "businessReason": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "meteringPointType": {
             "$ref": "#/components/schemas/MeteringPointType"
           },
           "startDate": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "endDate": {
             "type": "string",
