@@ -31,7 +31,7 @@ public class UserRoleAuditLog
 
     public string? Description { get; set; }
 
-    public IEnumerable<int> Permissions { get; set; } = Array.Empty<int>();
+    public IEnumerable<string> Permissions { get; set; } = Array.Empty<string>();
 
     public EicFunction? EicFunction { get; set; }
 

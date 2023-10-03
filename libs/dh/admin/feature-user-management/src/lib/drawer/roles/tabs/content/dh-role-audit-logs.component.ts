@@ -14,27 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, Input, OnChanges, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
-import { provideComponentStore } from '@ngrx/component-store';
-import { takeUntil } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
-import {
-  DhAdminUserRoleAuditLogsDataAccessApiStore,
-  DhRoleAuditLogEntry,
-} from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  graphql,
+  MarketParticipantUserRoleWithPermissionsDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 import { DhAuditChangeCellComponent } from './dh-audit-change-cell.component';
+import { Apollo, QueryRef } from 'apollo-angular';
+import { ApolloError } from '@apollo/client';
+import { UserRoleAuditLog } from '../../../../userRoleAuditLog';
 
 @Component({
   selector: 'dh-role-audit-logs',
@@ -57,7 +66,6 @@ import { DhAuditChangeCellComponent } from './dh-audit-change-cell.component';
       }
     `,
   ],
-  providers: [provideComponentStore(DhAdminUserRoleAuditLogsDataAccessApiStore)],
   imports: [
     CommonModule,
     RxLet,
@@ -71,37 +79,58 @@ import { DhAuditChangeCellComponent } from './dh-audit-change-cell.component';
     DhAuditChangeCellComponent,
   ],
 })
-export class DhRoleAuditLogsComponent implements OnInit, OnChanges {
-  private store = inject(DhAdminUserRoleAuditLogsDataAccessApiStore);
+export class DhRoleAuditLogsComponent implements OnInit, OnDestroy, OnChanges {
+  private apollo = inject(Apollo);
+  private getUserRoleAuditLogsQuery?: QueryRef<
+    graphql.GetUserRoleAuditLogsQuery,
+    {
+      id: string;
+    }
+  >;
+  private subscription?: Subscription;
 
-  dataSource = new WattTableDataSource<DhRoleAuditLogEntry>();
+  dataSource = new WattTableDataSource<UserRoleAuditLog>();
 
-  auditLogs$ = this.store.auditLogs$;
-  auditLogCount$ = this.store.auditLogCount$;
+  isLoading = false;
+  error?: ApolloError;
 
-  isLoading$ = this.store.isLoading$;
-  hasGeneralError$ = this.store.hasGeneralError$;
-
-  columns: WattTableColumnDef<DhRoleAuditLogEntry> = {
+  columns: WattTableColumnDef<UserRoleAuditLog> = {
     timestamp: { accessor: 'timestamp' },
-    entry: { accessor: 'entry', sort: false },
+    entry: { accessor: null },
   };
 
-  @Input() role: MarketParticipantUserRoleWithPermissionsDto | null = null;
+  @Input({ required: true }) role!: MarketParticipantUserRoleWithPermissionsDto;
 
   ngOnInit(): void {
-    this.store.auditLogs$.pipe(takeUntil(this.store.destroy$)).subscribe((logs) => {
-      this.dataSource.data = logs;
+    console.log('init called');
+
+    this.getUserRoleAuditLogsQuery = this.apollo.watchQuery({
+      useInitialLoading: true,
+      notifyOnNetworkStatusChange: true,
+      query: graphql.GetUserRoleAuditLogsDocument,
+      variables: { id: this.role.id },
+    });
+
+    this.subscription = this.getUserRoleAuditLogsQuery.valueChanges.subscribe({
+      next: (result) => {
+        this.isLoading = result.loading;
+        this.error = result.error;
+        this.dataSource.data = result.data?.userRoleAuditLogs ?? [];
+      },
+      error: (error) => {
+        this.error = error;
+      },
     });
   }
 
-  ngOnChanges(): void {
-    this.reloadAuditLogs();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.role.currentValue) {
+      const id = changes.role.currentValue.id;
+      this.getUserRoleAuditLogsQuery?.refetch({ id });
+    }
   }
 
-  reloadAuditLogs(): void {
-    if (this.role) {
-      this.store.getAuditLogs(this.role.id);
-    }
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }
