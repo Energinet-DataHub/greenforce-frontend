@@ -16,7 +16,7 @@
  */
 import { NgIf } from '@angular/common';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { Observable, Subscription, switchMap, takeUntil } from 'rxjs';
@@ -59,6 +59,7 @@ import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
   imports: [
     NgIf,
     TranslocoDirective,
+    TranslocoPipe,
     RxPush,
 
     WATT_DRAWER,
