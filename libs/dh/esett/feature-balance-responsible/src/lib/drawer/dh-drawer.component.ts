@@ -15,11 +15,10 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
-import { Observable, map, takeUntil } from 'rxjs';
+import { Observable, switchMap, takeUntil } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import {
@@ -28,9 +27,9 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
-
 import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-balance-responsible-drawer',
@@ -67,7 +66,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   ],
 })
 export class DhBalanceResponsibleDrawerComponent {
-  private readonly http = inject(HttpClient);
+  private readonly esettHttp = inject(EsettExchangeHttp);
 
   balanceResponsibleMessage: DhBalanceResponsibleMessage | undefined;
   xmlMessage$: Observable<string> | null = null;
@@ -82,8 +81,8 @@ export class DhBalanceResponsibleDrawerComponent {
 
     this.balanceResponsibleMessage = message;
 
-    if (this.balanceResponsibleMessage.getStorageDocumentLink) {
-      this.xmlMessage$ = this.loadDocument(this.balanceResponsibleMessage.getStorageDocumentLink);
+    if (this.balanceResponsibleMessage.id) {
+      this.xmlMessage$ = this.loadDocument(this.balanceResponsibleMessage.id);
     }
   }
 
@@ -94,8 +93,12 @@ export class DhBalanceResponsibleDrawerComponent {
   }
 
   private loadDocument(documentLink: string): Observable<string> {
-    return this.http.get(documentLink, { responseType: 'arraybuffer' }).pipe(
-      map((res) => new TextDecoder().decode(res)),
+    return this.esettHttp.v1EsettExchangeStorageDocumentGet(documentLink).pipe(
+      switchMap((res) => {
+        const blobPart = res as unknown as BlobPart;
+        const blob = new Blob([blobPart]);
+        return new Response(blob).text();
+      }),
       takeUntil(this.closed)
     );
   }
