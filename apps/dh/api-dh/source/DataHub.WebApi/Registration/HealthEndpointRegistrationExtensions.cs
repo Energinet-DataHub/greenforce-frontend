@@ -27,8 +27,8 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddLiveCheck()
                 .AddServiceHealthCheck("marketParticipant", CreateHealthEndpointUri(apiClientSettingsService.MarketParticipantBaseUrl))
                 .AddServiceHealthCheck("wholesale", CreateHealthEndpointUri(apiClientSettingsService.WholesaleBaseUrl))
-                .AddServiceHealthCheck("eSettExchange", CreateHealthEndpointUri(apiClientSettingsService.ESettExchangeBaseUrl));
-
+                .AddServiceHealthCheck("eSettExchange", CreateHealthEndpointUri(apiClientSettingsService.ESettExchangeBaseUrl))
+                .AddServiceHealthCheck("ediB2CWebApi", CreateHealthEndpointUri(apiClientSettingsService.EdiB2CWebApiBaseUrl));
             return services;
         }
 

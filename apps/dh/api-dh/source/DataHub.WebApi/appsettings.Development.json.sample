@@ -14,6 +14,7 @@
     "MarketParticipantBaseUrl": "https://localhost:5001",
     "MessageArchiveBaseUrl": "https://localhost:5001"
     "ESettExchangeBaseUrl": "https://localhost:5001"
+    "EdiB2CWebApiBaseUrl": "https://localhost:5091"
   },
 
   "B2C_TENANT_ID" : "B2C_TENANT_ID",
