@@ -92,7 +92,7 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
       validTo: null,
       validFrom: new Date(),
     },
-    processType: ExchangeEventProcessType.Aggregation,
+    processType: ExchangeEventProcessType.BalanceFixing,
     documentStatus: DocumentStatus.AwaitingReply,
     timeSeriesType: TimeSeriesType.Consumption,
     created: new Date('2023-01-01T00:10:00.000Z'),
