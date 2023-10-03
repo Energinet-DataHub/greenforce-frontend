@@ -25,6 +25,7 @@ import {
   ViewChild,
   Self,
   Optional,
+  AfterViewInit,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
 import { WattFieldComponent } from '../field/watt-field.component';
@@ -57,7 +58,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
   </watt-field> `,
 })
-export class WattTextFieldTDComponent implements ControlValueAccessor {
+export class WattTextFieldTDComponent implements ControlValueAccessor, AfterViewInit {
   @Input() value!: string;
   @Input() type: WattInputTypes = 'text';
   @Input() placeholder?: string;
@@ -79,6 +80,13 @@ export class WattTextFieldTDComponent implements ControlValueAccessor {
   constructor(@Self() @Optional() private control: NgControl) {
     if (!this.control) return;
     this.control.valueAccessor = this;
+  }
+
+  ngAfterViewInit(): void {
+    const attrName = 'data-testid';
+    const testIdAttribute = this.element.nativeElement.getAttribute(attrName);
+    this.element.nativeElement.removeAttribute(attrName);
+    this.inputField.nativeElement.setAttribute(attrName, testIdAttribute);
   }
 
   onChanged(value: string): void {

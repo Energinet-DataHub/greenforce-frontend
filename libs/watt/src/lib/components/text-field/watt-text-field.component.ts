@@ -23,6 +23,8 @@ import {
   ElementRef,
   ViewChild,
   forwardRef,
+  AfterViewInit,
+  inject,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -65,7 +67,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
   </watt-field> `,
 })
-export class WattTextFieldComponent implements ControlValueAccessor {
+export class WattTextFieldComponent implements ControlValueAccessor, AfterViewInit {
   @Input() value!: string;
   @Input() type: WattInputTypes = 'text';
   @Input() placeholder?: string;
@@ -75,11 +77,20 @@ export class WattTextFieldComponent implements ControlValueAccessor {
   @Input() maxLength: string | number | null = null;
   @Input() formControl!: FormControl;
 
+  private element = inject(ElementRef);
+
   @ViewChild('inputField') inputField!: ElementRef<HTMLInputElement>;
   model!: string;
 
   @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
+
+  ngAfterViewInit(): void {
+    const attrName = 'data-testid';
+    const testIdAttribute = this.element.nativeElement.getAttribute(attrName);
+    this.element.nativeElement.removeAttribute(attrName);
+    this.inputField.nativeElement.setAttribute(attrName, testIdAttribute);
+  }
 
   onChanged(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
