@@ -25,7 +25,11 @@ limitations under the License.
 
     <watt-drawer-heading>
       <h2 class="message-heading">
-        {{ outgoingMessage?.documentId }} - {{ outgoingMessage?.processType }}
+        {{ outgoingMessage?.documentId }} -
+        {{
+          "eSett.outgoingMessages.shared.calculationType." + outgoingMessage?.processType
+            | transloco
+        }}
       </h2>
 
       <watt-description-list [groupsPerRow]="4" variant="flow">
@@ -47,7 +51,10 @@ limitations under the License.
         />
         <watt-description-list-item
           [label]="t('metadata.messageType')"
-          [value]="outgoingMessage?.processType"
+          value="{{
+            'eSett.outgoingMessages.shared.calculationType.' + outgoingMessage?.processType
+              | transloco
+          }}"
         />
       </watt-description-list>
     </watt-drawer-heading>
