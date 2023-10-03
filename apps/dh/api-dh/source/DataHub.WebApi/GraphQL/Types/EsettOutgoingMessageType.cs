@@ -29,16 +29,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
                .Field(f => f.GridAreaCode)
                .Name("gridArea")
                .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default!, default!));
-
-            descriptor
-                .Field("getResponseDocumentLink")
-                .ResolveWith<EsettExchangeResolvers>(c =>
-                    c.GetResponseDocumentLink(default!, default!, default!));
-
-            descriptor
-                .Field("getDispatchDocumentLink")
-                .ResolveWith<EsettExchangeResolvers>(c =>
-                    c.GetDispatchDocumentLink(default!, default!, default!));
         }
     }
 }

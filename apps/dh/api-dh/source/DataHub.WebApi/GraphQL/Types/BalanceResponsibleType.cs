@@ -36,11 +36,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
             descriptor
                .Field("balanceResponsibleWithName")
                .ResolveWith<EsettExchangeResolvers>(c => c.GetBalanceResponsibleWithNameAsync(default!, default!));
-
-            descriptor
-                .Field("getStorageDocumentLink")
-                .ResolveWith<EsettExchangeResolvers>(c =>
-                    c.GetStorageDocumentLink(default!, default!, default!));
         }
     }
 }
