@@ -237,15 +237,20 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
     public enum MeteringPointType
     {
 
-        _0 = 0,
+        [System.Runtime.Serialization.EnumMember(Value = @"Production")]
+        Production = 0,
 
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = @"FlexConsumption")]
+        FlexConsumption = 1,
 
-        _2 = 2,
+        [System.Runtime.Serialization.EnumMember(Value = @"TotalConsumption")]
+        TotalConsumption = 2,
 
-        _3 = 3,
+        [System.Runtime.Serialization.EnumMember(Value = @"NonProfiledConsumption")]
+        NonProfiledConsumption = 3,
 
-        _4 = 4,
+        [System.Runtime.Serialization.EnumMember(Value = @"Exchange")]
+        Exchange = 4,
 
     }
 
@@ -256,6 +261,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         public string BusinessReason { get; set; }
 
         [Newtonsoft.Json.JsonProperty("meteringPointType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public MeteringPointType MeteringPointType { get; set; }
 
         [Newtonsoft.Json.JsonProperty("startDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
