@@ -14,7 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const WHOLESALE_BASE_PATH = 'wholesale';
-export const WHOLESALE_CALCULATIONS_PATH = 'calculations';
-export const WHOLESALE_SETTLEMENT_REPORTS_PATH = `settlement-reports`;
-export const WHOLESALE_REQUEST_CALCULATION_PATH = `request-calculation`;
+export { DhWholesaleRequestCalculationComponent as default } from './lib/dh-wholesale-request-calculation';

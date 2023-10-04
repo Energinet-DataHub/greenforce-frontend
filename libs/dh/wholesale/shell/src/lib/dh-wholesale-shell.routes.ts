@@ -20,6 +20,7 @@ import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorizat
 import {
   WHOLESALE_CALCULATIONS_PATH,
   WHOLESALE_SETTLEMENT_REPORTS_PATH,
+  WHOLESALE_REQUEST_CALCULATION_PATH,
 } from '@energinet-datahub/dh/wholesale/routing';
 
 export const dhWholesaleShellRoutes: Route[] = [
@@ -40,6 +41,14 @@ export const dhWholesaleShellRoutes: Route[] = [
       ),
     data: {
       titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
+    },
+  },
+  {
+    path: WHOLESALE_REQUEST_CALCULATION_PATH,
+    canActivate: [PermissionGuard(['calculations:manage'])],
+    loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-request-calculation'),
+    data: {
+      titleTranslationKey: 'wholesale.requestCalculation.topBarTitle',
     },
   },
 ];

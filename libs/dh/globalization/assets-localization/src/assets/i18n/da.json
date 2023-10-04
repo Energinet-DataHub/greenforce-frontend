@@ -61,7 +61,8 @@
         "menuGroupLabel": "Afregninger",
         "calculations": "Beregninger",
         "overview": "Oversigt",
-        "settlementReports": "Afregningsrapporter"
+        "settlementReports": "Afregningsrapporter",
+        "requestCalculation": "Anmod om beregning"
       },
       "admin": {
         "menuGroupLabel": "Opsætning",
@@ -1009,6 +1010,9 @@
         "name": "navn",
         "emptyTitle": "Ingen netområder fundet"
       }
+    },
+    "requestCalculation": {
+      "topBarTitle": "Anmod om beregning"
     },
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",

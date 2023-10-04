@@ -14,7 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const WHOLESALE_BASE_PATH = 'wholesale';
-export const WHOLESALE_CALCULATIONS_PATH = 'calculations';
-export const WHOLESALE_SETTLEMENT_REPORTS_PATH = `settlement-reports`;
-export const WHOLESALE_REQUEST_CALCULATION_PATH = `request-calculation`;
+import 'jest-preset-angular/setup-jest';
+
+import {
+  setUpAngularTestingLibrary,
+  setUpNgMocks,
+  setUpTestbed,
+} from '@energinet-datahub/gf/test-util-staging';
+import { setupMSW } from '@energinet-datahub/dh/shared/test-util-msw';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+
+setupMSW();
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
+setUpNgMocks();

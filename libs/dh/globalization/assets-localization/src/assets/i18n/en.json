@@ -61,7 +61,8 @@
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
         "overview": "Overview",
-        "settlementReports": "Settlement Reports"
+        "settlementReports": "Settlement Reports",
+        "requestCalculation": "Request calculation"
       },
       "admin": {
         "menuGroupLabel": "Settings",
@@ -1017,6 +1018,9 @@
         "name": "name",
         "emptyTitle": "No grid areas found"
       }
+    },
+    "requestCalculation": {
+      "topBarTitle": "Request calculation"
     },
     "settlementReports": {
       "topBarTitle": "Settlement Reports",

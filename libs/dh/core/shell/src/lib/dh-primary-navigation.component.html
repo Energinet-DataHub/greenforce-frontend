@@ -59,6 +59,11 @@ limitations under the License.
     <watt-nav-list [expandable]="true" [title]="transloco('wholesale.menuGroupLabel')">
       <watt-nav-list-item
         *dhPermissionRequired="['calculations:manage']"
+        link="/wholesale/request-calculation"
+        >{{ transloco("wholesale.requestCalculation") }}</watt-nav-list-item
+      >
+      <watt-nav-list-item
+        *dhPermissionRequired="['calculations:manage']"
         link="/wholesale/calculations"
         >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
       >
