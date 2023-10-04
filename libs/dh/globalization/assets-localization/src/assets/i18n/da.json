@@ -1135,16 +1135,14 @@
               },
               "logs": {
                 "roles": {
-                  "Created": "<b>{{ changedByUserName }}</b> oprettede brugerrollen",
-                  "NameChange": "<b>{{ changedByUserName }}</b> ændrede navn på brugerrollen til <b>{{ changedValueTo }}</b>",
-                  "DescriptionChange": "<b>{{ changedByUserName }}</b> ændrede beskrivelse til <b>{{ changedValueTo }}</b>",
-                  "EicFunctionChange": "<b>{{ changedByUserName }}</b> ændrede eic function til <b>{{ changedValueTo }}</b>",
-                  "StatusChange": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
-                  "PermissionAdded": {
-                    "singular": "<b>{{ changedByUserName }}</b> tilføjede rettigheden <b>{{ changedValueTo }}</b>",
-                    "plural": "<b>{{ changedByUserName }}</b> tilføjede rettighederne <b>{{ changedValueTo }}</b>"
-                  },
-                  "PermissionRemoved": "<b>{{ changedByUserName }}</b> fjernede rettigheden <b>{{ changedValueTo }}</b>"
+                  "CREATED": "<b>{{ changedByUserName }}</b> oprettede brugerrollen",
+                  "NAME_CHANGE": "<b>{{ changedByUserName }}</b> ændrede navn på brugerrollen til <b>{{ changedValueTo }}</b>",
+                  "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelse til <b>{{ changedValueTo }}</b>",
+                  "EIC_FUNCTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede markedsrollen til <b>{{ changedValueTo }}</b>",
+                  "STATUS_CHANGE": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
+                  "PERMISSIONS_CHANGE": "<b>{{ changedByUserName }}</b> ændrede rettighederne til <b>{{ changedValueTo }}</b>",
+                  "PERMISSION_ADDED": "<b>{{ changedByUserName }}</b> tilføjede rettigheder: <b>{{ changedValueTo }}</b>",
+                  "PERMISSION_REMOVED": "<b>{{ changedByUserName }}</b> fjernede rettigheder: <b>{{ changedValueTo }}</b>"
                 }
               }
             }
