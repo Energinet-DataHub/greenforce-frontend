@@ -22,7 +22,6 @@ import { RxPush } from '@rx-angular/template/push';
 import { Observable, Subscription, switchMap, takeUntil } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import {
@@ -68,8 +67,6 @@ import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattCodeComponent,
-
-    DhEmDashFallbackPipe,
     WattDatePipe,
 
     DhOutgoingMessageStatusBadgeComponent,
