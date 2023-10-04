@@ -79,7 +79,7 @@ import { UserRoleAuditLog } from '../../../../userRoleAuditLog';
     DhAuditChangeCellComponent,
   ],
 })
-export class DhRoleAuditLogsComponent implements OnInit, OnDestroy, OnChanges {
+export class DhRoleAuditLogsComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);
   private getUserRoleAuditLogsQuery?: QueryRef<
     graphql.GetUserRoleAuditLogsQuery,
@@ -107,6 +107,7 @@ export class DhRoleAuditLogsComponent implements OnInit, OnDestroy, OnChanges {
       notifyOnNetworkStatusChange: true,
       query: graphql.GetUserRoleAuditLogsDocument,
       variables: { id: this.role.id },
+      fetchPolicy: 'cache-and-network',
     });
 
     this.subscription = this.getUserRoleAuditLogsQuery.valueChanges.subscribe({
@@ -119,13 +120,6 @@ export class DhRoleAuditLogsComponent implements OnInit, OnDestroy, OnChanges {
         this.error = error;
       },
     });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.role.currentValue) {
-      const id = changes.role.currentValue.id;
-      this.getUserRoleAuditLogsQuery?.refetch({ id });
-    }
   }
 
   ngOnDestroy(): void {
