@@ -25,14 +25,11 @@ import {
   forwardRef,
   AfterViewInit,
   inject,
-  Self,
-  Optional,
 } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
   NG_VALUE_ACCESSOR,
-  NgControl,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { WattFieldComponent } from '../field/watt-field.component';
@@ -87,11 +84,6 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
   @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
-
-  constructor(@Self() @Optional() private control: NgControl) {
-    if (!this.control) return;
-    this.control.valueAccessor = this;
-  }
 
   ngAfterViewInit(): void {
     const attrName = 'data-testid';
