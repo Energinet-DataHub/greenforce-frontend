@@ -47,5 +47,5 @@ import { DhRoleAuditLogsComponent } from './content/dh-role-audit-logs.component
   ],
 })
 export class DhDrawerRoleTabsComponent {
-  @Input() role: MarketParticipantUserRoleWithPermissionsDto | null = null;
+  @Input({ required: true }) role!: MarketParticipantUserRoleWithPermissionsDto;
 }

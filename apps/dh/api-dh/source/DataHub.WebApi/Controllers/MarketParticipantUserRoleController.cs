@@ -136,40 +136,6 @@ namespace Energinet.DataHub.WebApi.Controllers
             return HandleExceptionAsync(() => _userRoleClient.UpdateAsync(userRoleId, userRole));
         }
 
-        /// <summary>
-        ///     Retrieves the audit log history for the specified user role.
-        /// </summary>
-        [HttpGet]
-        [Route("GetUserRoleAuditLogs")]
-        public Task<ActionResult<UserRoleAuditLogsDto>> GetUserRoleAuditLogsAsync(Guid userRoleId)
-        {
-            return HandleExceptionAsync(async () =>
-            {
-                var userRoleAuditLogsResult = await _userRoleClient
-                    .GetUserRoleAuditLogsAsync(userRoleId)
-                    .ConfigureAwait(false);
-
-                var userRoleAuditLogs = new List<UserRoleAuditLogDto>();
-
-                foreach (var auditLog in userRoleAuditLogsResult)
-                {
-                    var userDto = await _marketParticipantClient
-                        .GetUserAsync(auditLog.ChangedByUserId)
-                        .ConfigureAwait(false);
-
-                    userRoleAuditLogs.Add(new UserRoleAuditLogDto(
-                        auditLog.UserRoleId,
-                        auditLog.ChangedByUserId,
-                        userDto.Name,
-                        auditLog.Timestamp,
-                        auditLog.UserRoleChangeType,
-                        auditLog.ChangeDescriptionJson));
-                }
-
-                return new UserRoleAuditLogsDto(userRoleAuditLogs);
-            });
-        }
-
         [HttpGet]
         [Route("Permissions")]
         public Task<ActionResult<IEnumerable<PermissionDetailsDto>>> GetPermissionDetailsAsync(EicFunction eicFunction)
