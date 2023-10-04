@@ -171,16 +171,7 @@ export class DhMessageArchiveLogSearchComponent {
     const dateTimeFrom = zonedTimeToUtc(dateRange?.start ?? '', danishTimeZoneIdentifier);
     const dateTimeTo = zonedTimeToUtc(dateRange?.end ?? '', danishTimeZoneIdentifier);
 
-    if (timeRange?.start && timeRange.end && dateRange?.start && dateRange?.end) {
-      const [fromHours, fromMinuts] = timeRange.start.split(':');
-      const [toHours, toMinutes] = timeRange.end.split(':');
-
-      dateTimeFrom.setHours(Number.parseInt(fromHours));
-      dateTimeFrom.setMinutes(Number.parseInt(fromMinuts));
-
-      dateTimeTo.setHours(Number.parseInt(toHours));
-      dateTimeTo.setMinutes(Number.parseInt(toMinutes));
-    }
+    this.setRanges(timeRange, dateRange, dateTimeFrom, dateTimeTo);
 
     Object.assign(this.searchCriteria, {
       dateTimeFrom: dateTimeFrom.toISOString(),
@@ -193,6 +184,24 @@ export class DhMessageArchiveLogSearchComponent {
     });
 
     this.store.searchLogs(this.searchCriteria);
+  }
+
+  private setRanges(
+    timeRange: WattDateRange | undefined,
+    dateRange: WattDateRange | undefined,
+    dateTimeFrom: Date,
+    dateTimeTo: Date
+  ) {
+    if (timeRange?.start && timeRange.end && dateRange?.start && dateRange?.end) {
+      const [fromHours, fromMinuts] = timeRange.start.split(':');
+      const [toHours, toMinutes] = timeRange.end.split(':');
+
+      dateTimeFrom.setHours(Number.parseInt(fromHours));
+      dateTimeFrom.setMinutes(Number.parseInt(fromMinuts));
+
+      dateTimeTo.setHours(Number.parseInt(toHours));
+      dateTimeTo.setMinutes(Number.parseInt(toMinutes));
+    }
   }
 
   loadMore(continuationToken?: string | null) {
