@@ -25,11 +25,14 @@ limitations under the License.
 
     <watt-drawer-heading>
       <h2 class="message-heading">
-        {{ outgoingMessage?.documentId }} -
-        {{
-          "eSett.outgoingMessages.shared.calculationType." + outgoingMessage?.processType
-            | transloco
-        }}
+        {{ outgoingMessage?.documentId }}
+        <ng-container *ngIf="outgoingMessage?.processType">
+          -
+          {{
+            "eSett.outgoingMessages.shared.calculationType." + outgoingMessage?.processType
+              | transloco
+          }}
+        </ng-container>
       </h2>
 
       <watt-description-list [groupsPerRow]="4" variant="flow">
@@ -51,10 +54,7 @@ limitations under the License.
         />
         <watt-description-list-item
           [label]="t('metadata.messageType')"
-          value="{{
-            'eSett.outgoingMessages.shared.calculationType.' + outgoingMessage?.processType
-              | transloco
-          }}"
+          [value]="messageTypeValue"
         />
       </watt-description-list>
     </watt-drawer-heading>
