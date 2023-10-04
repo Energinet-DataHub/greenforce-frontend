@@ -83,7 +83,6 @@ export enum EicFunction {
   MeteringPointAdministrator = 'MeteringPointAdministrator',
   SystemOperator = 'SystemOperator',
   DanishEnergyAgency = 'DanishEnergyAgency',
-  ElOverblik = 'ElOverblik',
   DataHubAdministrator = 'DataHubAdministrator',
   IndependentAggregator = 'IndependentAggregator',
   SerialEnergyTrader = 'SerialEnergyTrader'

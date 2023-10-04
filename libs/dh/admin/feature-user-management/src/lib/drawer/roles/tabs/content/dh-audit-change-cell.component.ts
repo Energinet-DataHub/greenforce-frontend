@@ -52,24 +52,17 @@ import { CommonModule } from '@angular/common';
           })
         "
       ></div>
-      <div
-        *ngIf="entry.changeType === 'EIC_FUNCTION_CHANGE'"
-        [innerHTML]="
-          t('logs.roles.EIC_FUNCTION_CHANGE', {
-            changedValueTo: entry.eicFunction,
-            changedByUserName: entry.changedByUserName
-          })
-        "
-      ></div>
-      <div
-        *ngIf="entry.changeType === 'STATUS_CHANGE'"
-        [innerHTML]="
-          t('logs.roles.STATUS_CHANGE', {
-            changedValueTo: entry.status,
-            changedByUserName: entry.changedByUserName
-          })
-        "
-      ></div>
+      <ng-container *transloco="let tStatus; read: 'admin.userManagement.roleStatus'">
+        <div
+          *ngIf="entry.changeType === 'STATUS_CHANGE'"
+          [innerHTML]="
+            t('logs.roles.STATUS_CHANGE', {
+              changedValueTo: tStatus(entry.status.toLowerCase()),
+              changedByUserName: entry.changedByUserName
+            })
+          "
+        ></div>
+      </ng-container>
       <div
         *ngIf="entry.changeType === 'PERMISSIONS_CHANGE'"
         [innerHTML]="
