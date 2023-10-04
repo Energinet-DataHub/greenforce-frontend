@@ -41,14 +41,13 @@
   "components": {
     "schemas": {
       "MeteringPointType": {
-        "type": "integer",
-        "format": "int32",
+        "type": "string",
         "enum": [
-          0,
-          1,
-          2,
-          3,
-          4
+          "Production",
+          "FlexConsumption",
+          "TotalConsumption",
+          "NonProfiledConsumption",
+          "Exchange"
         ]
       },
       "RequestAggregatedMeasureDataMarketRequest": {
