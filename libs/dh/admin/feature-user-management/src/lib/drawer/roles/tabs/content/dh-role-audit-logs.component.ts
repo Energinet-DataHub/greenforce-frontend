@@ -102,8 +102,6 @@ export class DhRoleAuditLogsComponent implements OnInit, OnDestroy, OnChanges {
   @Input({ required: true }) role!: MarketParticipantUserRoleWithPermissionsDto;
 
   ngOnInit(): void {
-    console.log('init called');
-
     this.getUserRoleAuditLogsQuery = this.apollo.watchQuery({
       useInitialLoading: true,
       notifyOnNetworkStatusChange: true,
