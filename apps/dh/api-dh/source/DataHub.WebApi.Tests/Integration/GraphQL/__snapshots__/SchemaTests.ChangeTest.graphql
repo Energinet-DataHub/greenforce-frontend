@@ -65,6 +65,10 @@ type Calculation {
   processType: ProcessType!
 }
 
+type CreateAggregatedMeasureDataRequestPayload {
+  boolean: Boolean
+}
+
 type CreateCalculationPayload {
   calculation: Calculation
 }
@@ -106,6 +110,7 @@ type GridAreaDto {
 type Mutation {
   updatePermission(input: UpdatePermissionDtoInput!): Permission!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
+  createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
 }
 
 type OrganizationDto {
@@ -190,6 +195,16 @@ type UserRoleWithPermissionsDto {
   permissions: [Permission!]!
 }
 
+input CreateAggregatedMeasureDataRequestInput {
+  businessReason: String!
+  meteringPointType: MeteringPointType!
+  startDate: String!
+  endDate: String
+  gridArea: String
+  energySupplierId: String
+  balanceResponsibleId: String
+}
+
 input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
@@ -249,6 +264,14 @@ enum EicFunction {
 enum ExchangeEventProcessType {
   BALANCE_FIXING
   AGGREGATION
+}
+
+enum MeteringPointType {
+  PRODUCTION
+  FLEX_CONSUMPTION
+  TOTAL_CONSUMPTION
+  NON_PROFILED_CONSUMPTION
+  EXCHANGE
 }
 
 enum OrganizationStatus {

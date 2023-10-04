@@ -13,7 +13,9 @@
 // limitations under the License.
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
@@ -21,51 +23,77 @@ using HotChocolate;
 using HotChocolate.Types;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class Mutation
 {
-    public class Mutation
+    [UseMutationConvention(Disable = true)]
+    public Task<PermissionDetailsDto> UpdatePermissionAsync(
+        UpdatePermissionDto input,
+        [Service] IMarketParticipantPermissionsClient client) =>
+        client
+            .UpdatePermissionAsync(input)
+            .Then(() => client.GetPermissionAsync(input.Id));
+
+    public Task<BatchDto> CreateCalculationAsync(
+        Interval period,
+        string[] gridAreaCodes,
+        ProcessType processType,
+        [Service] IWholesaleClient_V3 client)
     {
-        [UseMutationConvention(Disable = true)]
-        public Task<PermissionDetailsDto> UpdatePermissionAsync(
-            UpdatePermissionDto input,
-            [Service] IMarketParticipantPermissionsClient client) =>
-            client
-                .UpdatePermissionAsync(input)
-                .Then(() => client.GetPermissionAsync(input.Id));
+        if (!period.HasEnd || !period.HasStart)
+        {
+            throw new Exception("Period cannot be open-ended");
+        }
 
-        public Task<BatchDto> CreateCalculationAsync(
-            Interval period,
-            string[] gridAreaCodes,
-            ProcessType processType,
-            [Service] IWholesaleClient_V3 client)
+        var batchRequestDto = new BatchRequestDto
+        {
+            StartDate = period.Start.ToDateTimeOffset(),
+            EndDate = period.End.ToDateTimeOffset(),
+            GridAreaCodes = gridAreaCodes,
+            ProcessType = processType,
+        };
+
+        return client
+            .CreateBatchAsync(batchRequestDto)
+            .Then(batchId => new BatchDto
             {
-                if (!period.HasEnd || !period.HasStart)
-                {
-                    throw new Exception("Period cannot be open-ended");
-                }
+                BatchId = batchId,
+                ExecutionState = BatchState.Pending,
+                PeriodStart = batchRequestDto.StartDate,
+                PeriodEnd = batchRequestDto.EndDate,
+                ExecutionTimeEnd = null,
+                ExecutionTimeStart = null,
+                AreSettlementReportsCreated = false,
+                GridAreaCodes = gridAreaCodes,
+                ProcessType = processType,
+            });
+    }
 
-                var batchRequestDto = new BatchRequestDto
+    public async Task<bool> CreateAggregatedMeasureDataRequestAsync(
+        string businessReason,
+        MeteringPointType meteringPointType,
+        string startDate,
+        string? endDate,
+        string? gridArea,
+        string? energySupplierId,
+        string? balanceResponsibleId,
+        CancellationToken cancellationToken,
+        [Service] IEdiB2CWebAppClient_V1 client)
+    {
+        await client.RequestAggregatedMeasureDataAsync(
+            new RequestAggregatedMeasureDataMarketRequest()
                 {
-                    StartDate = period.Start.ToDateTimeOffset(),
-                    EndDate = period.End.ToDateTimeOffset(),
-                    GridAreaCodes = gridAreaCodes,
-                    ProcessType = processType,
-                };
-
-                return client
-                    .CreateBatchAsync(batchRequestDto)
-                    .Then(batchId => new BatchDto
-                    {
-                        BatchId = batchId,
-                        ExecutionState = BatchState.Pending,
-                        PeriodStart = batchRequestDto.StartDate,
-                        PeriodEnd = batchRequestDto.EndDate,
-                        ExecutionTimeEnd = null,
-                        ExecutionTimeStart = null,
-                        AreSettlementReportsCreated = false,
-                        GridAreaCodes = gridAreaCodes,
-                        ProcessType = processType,
-                    });
-            }
+                    BusinessReason = businessReason,
+                    MeteringPointType = meteringPointType,
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    GridArea = gridArea,
+                    EnergySupplierId = energySupplierId,
+                    BalanceResponsibleId = balanceResponsibleId,
+                },
+            cancellationToken)
+            .ConfigureAwait(false);
+        return true;
     }
 }
