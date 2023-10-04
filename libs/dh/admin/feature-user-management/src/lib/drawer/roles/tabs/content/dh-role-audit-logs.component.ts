@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  inject,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
