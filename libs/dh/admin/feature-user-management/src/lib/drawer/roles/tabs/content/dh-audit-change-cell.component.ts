@@ -16,34 +16,83 @@
  */
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-
-import { UserRoleAuditLogExtended } from '@energinet-datahub/dh/admin/data-access-api';
+import { UserRoleAuditLog } from '../../../../userRoleAuditLog';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'dh-audit-change-cell',
-  imports: [TranslocoModule],
+  imports: [TranslocoModule, CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ng-container *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.history'">
       <div
+        *ngIf="entry.changeType === 'CREATED'"
         [innerHTML]="
-          entry.userRoleChangeType === 'PermissionsChange'
-            ? entry.changeType === 'added'
-              ? isSinglePermissionChange
-                ? t('logs.roles.PermissionAdded.singular', entry)
-                : t('logs.roles.PermissionAdded.plural', entry)
-              : t('logs.roles.PermissionRemoved', entry)
-            : t('logs.roles.' + entry.userRoleChangeType, entry)
+          t('logs.roles.CREATED', {
+            changedByUserName: entry.changedByUserName
+          })
+        "
+      ></div>
+      <div
+        *ngIf="entry.changeType === 'NAME_CHANGE'"
+        [innerHTML]="
+          t('logs.roles.NAME_CHANGE', {
+            changedValueTo: entry.name,
+            changedByUserName: entry.changedByUserName
+          })
+        "
+      ></div>
+      <div
+        *ngIf="entry.changeType === 'DESCRIPTION_CHANGE'"
+        [innerHTML]="
+          t('logs.roles.DESCRIPTION_CHANGE', {
+            changedValueTo: entry.description,
+            changedByUserName: entry.changedByUserName
+          })
+        "
+      ></div>
+      <ng-container *transloco="let tStatus; read: 'admin.userManagement.roleStatus'">
+        <div
+          *ngIf="entry.changeType === 'STATUS_CHANGE'"
+          [innerHTML]="
+            t('logs.roles.STATUS_CHANGE', {
+              changedValueTo: tStatus(entry.status.toLowerCase()),
+              changedByUserName: entry.changedByUserName
+            })
+          "
+        ></div>
+      </ng-container>
+      <div
+        *ngIf="entry.changeType === 'PERMISSIONS_CHANGE'"
+        [innerHTML]="
+          t('logs.roles.PERMISSIONS_CHANGE', {
+            changedValueTo: entry.permissions,
+            changedByUserName: entry.changedByUserName
+          })
+        "
+      ></div>
+      <div
+        *ngIf="entry.changeType === 'PERMISSION_ADDED'"
+        [innerHTML]="
+          t('logs.roles.PERMISSION_ADDED', {
+            changedValueTo: entry.permissions,
+            changedByUserName: entry.changedByUserName
+          })
+        "
+      ></div>
+      <div
+        *ngIf="entry.changeType === 'PERMISSION_REMOVED'"
+        [innerHTML]="
+          t('logs.roles.PERMISSION_REMOVED', {
+            changedValueTo: entry.permissions,
+            changedByUserName: entry.changedByUserName
+          })
         "
       ></div>
     </ng-container>
   `,
 })
 export class DhAuditChangeCellComponent {
-  @Input() entry!: UserRoleAuditLogExtended;
-
-  get isSinglePermissionChange(): boolean {
-    return this.entry.changedValueTo.includes(',') === false;
-  }
+  @Input() entry!: UserRoleAuditLog;
 }

@@ -16,13 +16,13 @@
  */
 import { NgIf } from '@angular/common';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { Observable, Subscription, switchMap, takeUntil } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { emDash } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import {
@@ -35,10 +35,10 @@ import {
   DocumentStatus,
   GetOutgoingMessageByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
 
 import { DhOutgoingMessageDetailed } from '../dh-outgoing-message';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
-import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-outgoing-message-drawer',
@@ -68,8 +68,6 @@ import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattCodeComponent,
-
-    DhEmDashFallbackPipe,
     WattDatePipe,
 
     DhOutgoingMessageStatusBadgeComponent,
@@ -89,6 +87,16 @@ export class DhOutgoingMessageDrawerComponent {
 
   dispatchDocument: Observable<string> | undefined;
   responseDocument: Observable<string> | undefined;
+
+  get messageTypeValue(): string {
+    if (this.outgoingMessage?.processType) {
+      return translate(
+        'eSett.outgoingMessages.shared.calculationType.' + this.outgoingMessage?.processType
+      );
+    }
+
+    return emDash;
+  }
 
   public open(outgoingMessageId: string): void {
     this.drawer?.open();

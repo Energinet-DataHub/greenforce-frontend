@@ -22,8 +22,7 @@ import marketParticipantActorQuerySelectionActors from './data/marketParticipant
 import marketParticipantUserRoleGetAll from './data/marketParticipantUserRoleGetAll.json';
 import marketParticipantUserGetUserAuditLogs from './data/marketParticipantUserGetUserAuditLogs.json';
 import marketParticipantUserRoleGetUserRoleWithPermissions from './data/marketParticipantUserRoleGetUserRoleWithPermissions.json';
-
-import { marketParticipantUserRoleAuditLogs } from './data/marketParticipantUserRoleGetUserRoleAuditLogs';
+import { getUserRoleAuditLogsMock } from './data/get-user-role-audit-logs';
 import { adminPermissionsMock } from './data/admin-get-permissions';
 import { adminPermissionPermissionLogsMock } from './data/admin-get-permissionlogs';
 import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
@@ -39,12 +38,12 @@ export function adminMocks(apiBase: string) {
     getMarketParticipantUserRoleGetAll(apiBase),
     getMarketParticipantUserGetUserAuditLogs(apiBase),
     getMarketParticipantUserRoleGetUserRoleWithPermissions(apiBase),
-    getMarketParticipantUserRoleGetUserRoleAuditLogs(apiBase),
     putMarketParticipantUserRoleUpdate(apiBase),
     getMarketParticipantOrganizationGetFilteredActors(apiBase),
     getAdminPermissions(),
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
+    getUserRoleAuditLogs(),
     putMarketParticipantPermissionsUpdate(apiBase),
     putMarketParticipantUserUpdateUserIdentity(apiBase),
     putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase),
@@ -110,13 +109,10 @@ function getMarketParticipantUserRoleGetUserRoleWithPermissions(apiBase: string)
   );
 }
 
-function getMarketParticipantUserRoleGetUserRoleAuditLogs(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipantUserRole/GetUserRoleAuditLogs`,
-    (req, res, ctx) => {
-      return res(ctx.json(marketParticipantUserRoleAuditLogs));
-    }
-  );
+function getUserRoleAuditLogs() {
+  return graphql.mockGetUserRoleAuditLogsQuery((req, res, ctx) => {
+    return res(ctx.data(getUserRoleAuditLogsMock));
+  });
 }
 
 function putMarketParticipantUserRoleUpdate(apiBase: string) {
