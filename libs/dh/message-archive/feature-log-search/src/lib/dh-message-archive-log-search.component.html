@@ -21,7 +21,7 @@ limitations under the License.
         <!-- MessageId -->
         <watt-text-field
           [label]="transloco('messageId')"
-          formControlName="messageId"
+          [formControl]="searchForm.controls.messageId"
           type="text"
           name="messageId"
         />

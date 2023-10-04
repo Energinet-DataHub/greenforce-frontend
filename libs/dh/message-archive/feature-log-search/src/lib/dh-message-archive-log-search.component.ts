@@ -74,7 +74,7 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
   ],
 })
 export class DhMessageArchiveLogSearchComponent {
-  searchForm: FormGroup = new FormGroup({
+  searchForm = new FormGroup({
     messageId: new FormControl('', { nonNullable: true }),
     documentTypes: new FormControl([], { nonNullable: true }),
     businessReasons: new FormControl([], { nonNullable: true }),
@@ -168,18 +168,18 @@ export class DhMessageArchiveLogSearchComponent {
       businessReasons,
     } = this.searchForm.value;
 
-    const dateTimeFrom = zonedTimeToUtc(dateRange?.start, danishTimeZoneIdentifier);
-    const dateTimeTo = zonedTimeToUtc(dateRange?.end, danishTimeZoneIdentifier);
+    const dateTimeFrom = zonedTimeToUtc(dateRange?.start ?? '', danishTimeZoneIdentifier);
+    const dateTimeTo = zonedTimeToUtc(dateRange?.end ?? '', danishTimeZoneIdentifier);
 
     if (timeRange?.start && timeRange.end && dateRange?.start && dateRange?.end) {
       const [fromHours, fromMinuts] = timeRange.start.split(':');
       const [toHours, toMinutes] = timeRange.end.split(':');
 
-      dateTimeFrom.setHours(fromHours);
-      dateTimeFrom.setMinutes(fromMinuts);
+      dateTimeFrom.setHours(Number.parseInt(fromHours));
+      dateTimeFrom.setMinutes(Number.parseInt(fromMinuts));
 
-      dateTimeTo.setHours(toHours);
-      dateTimeTo.setMinutes(toMinutes);
+      dateTimeTo.setHours(Number.parseInt(toHours));
+      dateTimeTo.setMinutes(Number.parseInt(toMinutes));
     }
 
     Object.assign(this.searchCriteria, {
