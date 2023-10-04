@@ -23,7 +23,7 @@ export const getUserRoleAuditLogsMock: graphql.GetUserRoleAuditLogsQuery = {
   userRoleAuditLogs: [
     {
       __typename: 'UserRoleAuditLog',
-      changedByUserName: "Test User 1 (test1@datahub.dk)",
+      changedByUserName: 'Test User 1 (test1@datahub.dk)',
       name: 'Supporter',
       permissions: [],
       status: UserRoleStatus.Active,
@@ -32,7 +32,7 @@ export const getUserRoleAuditLogsMock: graphql.GetUserRoleAuditLogsQuery = {
     },
     {
       __typename: 'UserRoleAuditLog',
-      changedByUserName: "Test User 1 (test1@datahub.dk)",
+      changedByUserName: 'Test User 1 (test1@datahub.dk)',
       name: 'Supporter',
       permissions: [],
       status: UserRoleStatus.Active,
@@ -41,7 +41,7 @@ export const getUserRoleAuditLogsMock: graphql.GetUserRoleAuditLogsQuery = {
     },
     {
       __typename: 'UserRoleAuditLog',
-      changedByUserName: "Test User 2 (test2@datahub.dk)",
+      changedByUserName: 'Test User 2 (test2@datahub.dk)',
       name: '',
       description: 'En beskrivelse',
       permissions: [],
@@ -51,7 +51,7 @@ export const getUserRoleAuditLogsMock: graphql.GetUserRoleAuditLogsQuery = {
     },
     {
       __typename: 'UserRoleAuditLog',
-      changedByUserName: "Test User 2 (test2@datahub.dk)",
+      changedByUserName: 'Test User 2 (test2@datahub.dk)',
       name: '',
       permissions: ['organizations:view', 'organizations:manage', 'users:view', 'users:manage'],
       status: UserRoleStatus.Active,
@@ -60,7 +60,7 @@ export const getUserRoleAuditLogsMock: graphql.GetUserRoleAuditLogsQuery = {
     },
     {
       __typename: 'UserRoleAuditLog',
-      changedByUserName: "Test User 3 (test3@datahub.dk)",
+      changedByUserName: 'Test User 3 (test3@datahub.dk)',
       name: '',
       permissions: ['users:view'],
       status: UserRoleStatus.Active,
@@ -69,7 +69,7 @@ export const getUserRoleAuditLogsMock: graphql.GetUserRoleAuditLogsQuery = {
     },
     {
       __typename: 'UserRoleAuditLog',
-      changedByUserName: "Test User 3 (test3@datahub.dk)",
+      changedByUserName: 'Test User 3 (test3@datahub.dk)',
       name: '',
       permissions: [],
       status: UserRoleStatus.Inactive,
