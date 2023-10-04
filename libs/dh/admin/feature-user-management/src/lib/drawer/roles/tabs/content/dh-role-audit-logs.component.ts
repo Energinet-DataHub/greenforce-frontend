@@ -18,10 +18,8 @@ import {
   Component,
   inject,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
-  SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
