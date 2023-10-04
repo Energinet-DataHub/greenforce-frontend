@@ -143,6 +143,7 @@ type Query {
   permissionById(id: Int!): Permission!
   permissions(searchTerm: String!): [Permission!]!
   permissionLogs(id: Int!): [PermissionLog!]!
+  userRoleAuditLogs(id: UUID!): [UserRoleAuditLog!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
   organizationById(id: UUID!): OrganizationDto!
   organizations: [OrganizationDto!]!
@@ -163,6 +164,18 @@ type SettlementReport {
   gridArea: GridAreaDto!
   period: DateRange!
   executionTime: DateTime
+}
+
+type UserRoleAuditLog {
+  changedByUserName: String!
+  userRoleId: UUID!
+  name: String!
+  description: String
+  permissions: [String!]!
+  eicFunction: EicFunction
+  status: UserRoleStatus!
+  changeType: UserRoleChangeType!
+  timestamp: DateTime!
 }
 
 type UserRoleDto {
@@ -305,6 +318,17 @@ enum TimeSeriesType {
   MGA_EXCHANGE
   PRODUCTION
   CONSUMPTION
+}
+
+enum UserRoleChangeType {
+  CREATED
+  NAME_CHANGE
+  DESCRIPTION_CHANGE
+  EIC_FUNCTION_CHANGE
+  STATUS_CHANGE
+  PERMISSIONS_CHANGE
+  PERMISSION_ADDED
+  PERMISSION_REMOVED
 }
 
 enum UserRoleStatus {
