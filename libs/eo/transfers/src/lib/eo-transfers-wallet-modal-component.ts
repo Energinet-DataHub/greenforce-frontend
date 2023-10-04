@@ -73,7 +73,12 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
           <strong>The key is one-time use only</strong>
         </p>
         <div style="display: flex; align-items: center; margin: var(--watt-space-xl) 0;">
-          <watt-text-field label="KEY" [formControl]="walletDepositEndpoint" [value]="(walletDepositEndpoint$ | async) || ''" #key />
+          <watt-text-field
+            label="KEY"
+            [formControl]="walletDepositEndpoint"
+            [value]="(walletDepositEndpoint$ | async) || ''"
+            #key
+          />
           <watt-button
             style="margin-top:28px;"
             variant="text"
