@@ -25,6 +25,13 @@ import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
 import { ActorsFilters, AllFiltersCombined } from './actors-filters';
@@ -43,23 +50,32 @@ import { DhActorsTableComponent } from './table/dh-actors-table.component';
         display: block;
       }
 
-      watt-card-title {
-        align-items: center;
-        display: flex;
-        gap: var(--watt-space-s);
+      h3 {
+        margin: 0;
       }
 
-      watt-search {
-        margin-left: auto;
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
       }
     `,
   ],
   imports: [
     TranslocoModule,
-    DhActorsFiltersComponent,
+
     WATT_CARD,
+    WattPaginatorComponent,
+    VaterFlexComponent,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    VaterUtilityDirective,
     WattSearchComponent,
     WattButtonComponent,
+
+    DhActorsFiltersComponent,
     DhActorsTableComponent,
   ],
 })
