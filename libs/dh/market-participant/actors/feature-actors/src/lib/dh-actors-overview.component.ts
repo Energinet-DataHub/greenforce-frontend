@@ -31,7 +31,7 @@ import { ActorsFilters, AllFiltersCombined } from './actors-filters';
 import { DhActor } from './dh-actor';
 import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
 import { dhToJSON } from './dh-json-util';
-import { DhActorsTableComponent } from './dh-actors-table.component';
+import { DhActorsTableComponent } from './table/dh-actors-table.component';
 
 @Component({
   standalone: true,

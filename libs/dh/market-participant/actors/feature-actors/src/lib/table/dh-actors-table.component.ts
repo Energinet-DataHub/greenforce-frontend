@@ -23,9 +23,9 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-import { DhActor } from './dh-actor';
-import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
-import { DhActorDrawerComponent } from './drawer/dh-actor-drawer.component';
+import { DhActor } from '../dh-actor';
+import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
+import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
 
 @Component({
   selector: 'dh-actors-table',
