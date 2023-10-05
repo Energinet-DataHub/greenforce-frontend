@@ -353,7 +353,7 @@ function getActorsForSettlementReportQuery() {
   return graphql.mockGetActorsForSettlementReportQuery((req, res, ctx) => {
     return res(
       ctx.status(200),
-      ctx.data({ __typename: 'Query', actors: mockedActorsForSettlementReport }),
+      ctx.data({ __typename: 'Query', actorsForEicFunction: mockedActorsForSettlementReport }),
       ctx.delay(300)
     );
   });
