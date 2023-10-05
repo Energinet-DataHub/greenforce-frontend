@@ -193,7 +193,11 @@ namespace Energinet.DataHub.WebApi.GraphQL
             [Service] IMarketParticipantClient client) =>
             client.GetActorAsync(id);
 
-        public async Task<IEnumerable<ActorDto>> GetActorsAsync(
+        public Task<IEnumerable<ActorDto>> GetActorsAsync(
+            [Service] IMarketParticipantClient client) =>
+            client.GetActorsAsync();
+
+        public async Task<IEnumerable<ActorDto>> GetActorsForEicFunctionAsync(
             EicFunction[]? eicFunctions,
             [Service] IHttpContextAccessor httpContextAccessor,
             [Service] IMarketParticipantClient client)
