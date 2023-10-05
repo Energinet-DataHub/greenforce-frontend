@@ -14,27 +14,29 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card *transloco="let t; read: 'marketParticipant.actorsOverview'">
-  <watt-card-title>
-    <h3>{{ t("actors") }}</h3>
-    <span class="watt-chip-label">{{ tableDataSource.data.length }}</span>
+<watt-card vater inset="0" *transloco="let t; read: 'marketParticipant.actorsOverview'">
+  <vater-flex fill="vertical" gap="m">
+    <vater-stack direction="row" gap="s">
+      <h3>{{ t("actors") }}</h3>
+      <span class="watt-chip-label">{{ tableDataSource.data.length }}</span>
 
-    <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
+      <vater-spacer />
 
-    <watt-button icon="download" variant="text" (click)="download()">{{
-      "shared.download" | transloco
-    }}</watt-button>
-  </watt-card-title>
+      <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
 
-  <dh-actors-filters
-    class="watt-space-stack-m"
-    [initial]="filters$.value"
-    (filter)="filters$.next($event)"
-  />
+      <watt-button icon="download" variant="text" (click)="download()">{{
+        "shared.download" | transloco
+      }}</watt-button>
+    </vater-stack>
 
-  <dh-actors-table
-    [tableDataSource]="tableDataSource"
-    [isLoading]="isLoading"
-    [hasError]="hasError"
-  ></dh-actors-table>
+    <dh-actors-filters [initial]="filters$.value" (filter)="filters$.next($event)" />
+
+    <dh-actors-table
+      [tableDataSource]="tableDataSource"
+      [isLoading]="isLoading"
+      [hasError]="hasError"
+    />
+
+    <watt-paginator [for]="tableDataSource" [pageSize]="100" />
+  </vater-flex>
 </watt-card>
