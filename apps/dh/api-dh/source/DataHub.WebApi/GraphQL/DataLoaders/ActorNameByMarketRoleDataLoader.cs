@@ -22,20 +22,34 @@ using GreenDonut;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class ActorNameByNumberBatchDataLoader : BatchDataLoader<string, ActorNameDto>
+    public class ActorNameByMarketRoleDataLoader : BatchDataLoader<(string ActorNumber, EicFunction EicFunction), ActorNameDto?>
     {
         private readonly IMarketParticipantClient _client;
 
-        public ActorNameByNumberBatchDataLoader(
+        public ActorNameByMarketRoleDataLoader(
             IMarketParticipantClient client,
             IBatchScheduler batchScheduler,
             DataLoaderOptions? options = null)
             : base(batchScheduler, options) =>
             _client = client;
 
-        protected override async Task<IReadOnlyDictionary<string, ActorNameDto>> LoadBatchAsync(
-            IReadOnlyList<string> keys,
-            CancellationToken cancellationToken) =>
-            (await _client.GetActorsAsync()).ToDictionary(x => x.ActorNumber.Value, y => y.Name);
+        protected override async Task<IReadOnlyDictionary<(string ActorNumber, EicFunction EicFunction), ActorNameDto?>>
+            LoadBatchAsync(IReadOnlyList<(string ActorNumber, EicFunction EicFunction)> keys, CancellationToken cancellationToken)
+        {
+            var actorNumbers = keys.Select(x => x.ActorNumber).ToHashSet();
+
+            var actors = await _client.GetActorsAsync().ConfigureAwait(false);
+            var dictionary = new Dictionary<(string, EicFunction), ActorNameDto?>();
+
+            foreach (var actor in actors.Where(x => actorNumbers.Contains(x.ActorNumber.Value)))
+            {
+                foreach (var marketRole in actor.MarketRoles)
+                {
+                    dictionary.TryAdd((actor.ActorNumber.Value, marketRole.EicFunction), actor.Name);
+                }
+            }
+
+            return dictionary;
+        }
     }
 }
