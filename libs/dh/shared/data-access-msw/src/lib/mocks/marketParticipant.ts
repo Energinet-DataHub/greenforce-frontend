@@ -20,6 +20,7 @@ import {
   Actor,
   mockGetActorByIdQuery,
   mockGetActorsQuery,
+  mockGetOrganizationsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import organizationsData from './data/marketParticipantOrganizations.json';
@@ -31,6 +32,7 @@ import actorContactsData from './data/marketPaticipantActorContacts.json';
 import organizationData from './data/marketPaticipantOrganization.json';
 import userRoleData from './data/marketParticipantUserRoleTemplates.json';
 import { marketParticipantActors } from './data/market-participant-actors';
+import { getOrganizationsQueryMock } from './data/market-participant-organizations';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
@@ -44,6 +46,7 @@ export function marketParticipantMocks(apiBase: string) {
     getUserRoles(apiBase),
     getActors(),
     getActorById(),
+    getOrganizations_GrahpQL(),
   ];
 }
 
@@ -130,5 +133,11 @@ function getActorById() {
     const actorById = marketParticipantActors.find((a) => a.id === id) as Actor;
 
     return res(ctx.delay(300), ctx.data({ __typename: 'Query', actorById }));
+  });
+}
+
+function getOrganizations_GrahpQL() {
+  return mockGetOrganizationsQuery((req, res, ctx) => {
+    return res(ctx.delay(300), ctx.data(getOrganizationsQueryMock));
   });
 }
