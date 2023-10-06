@@ -50,7 +50,7 @@ import { DhOrganization } from '../dh-organization';
 })
 export class DhOrganizationsTableComponent {
   columns: WattTableColumnDef<DhOrganization> = {
-    cvrOrOrganizationId: { accessor: 'organizationId' },
+    cvrOrBusinessRegisterId: { accessor: 'businessRegisterIdentifier' },
     name: { accessor: 'name' },
     status: { accessor: 'status' },
   };

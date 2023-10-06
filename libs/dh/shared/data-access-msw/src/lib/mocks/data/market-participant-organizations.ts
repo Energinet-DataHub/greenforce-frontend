@@ -9,12 +9,14 @@ export const getOrganizationsQueryMock: GetOrganizationsQuery = {
     {
       __typename: 'OrganizationDto',
       organizationId: 'b3bdd441-4f22-3f33-b88f-08da5f288474',
+      businessRegisterIdentifier: '12345677',
       name: 'Sort Strøm',
       status: OrganizationStatus.Active,
     },
     {
       __typename: 'OrganizationDto',
       organizationId: '23f2fca9-2b4b-1150-99e9-08dbc66e2700',
+      businessRegisterIdentifier: '99990115',
       name: 'Hvid Strøm',
       status: OrganizationStatus.New,
     },

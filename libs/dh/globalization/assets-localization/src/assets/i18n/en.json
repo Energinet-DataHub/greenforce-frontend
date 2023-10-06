@@ -617,12 +617,12 @@
     "organizationsOverview": {
       "organizations": "Organisations",
       "shared": {
-        "cvrOrOrganizationId": "CVR/Organization ID",
+        "cvrOrBusinessRegisterId": "CVR/Business ID",
         "name": "Name",
         "status": "Status"
       },
       "columns": {
-        "cvrOrOrganizationId": "{{ marketParticipant.organizationsOverview.shared.cvrOrOrganizationId }}",
+        "cvrOrBusinessRegisterId": "{{ marketParticipant.organizationsOverview.shared.cvrOrBusinessRegisterId }}",
         "name": "{{ marketParticipant.organizationsOverview.shared.name }}",
         "status": "{{ marketParticipant.organizationsOverview.shared.status }}"
       },

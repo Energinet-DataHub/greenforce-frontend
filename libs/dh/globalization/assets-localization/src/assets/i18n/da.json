@@ -610,12 +610,12 @@
     "organizationsOverview": {
       "organizations": "Organisationer",
       "shared": {
-        "cvrOrOrganizationId": "CVR/Virksomhedsid",
+        "cvrOrBusinessRegisterId": "CVR/Virksomhedsid",
         "name": "Navn",
         "status": "Status"
       },
       "columns": {
-        "cvrOrOrganizationId": "{{ marketParticipant.organizationsOverview.shared.cvrOrOrganizationId }}",
+        "cvrOrBusinessRegisterId": "{{ marketParticipant.organizationsOverview.shared.cvrOrBusinessRegisterId }}",
         "name": "{{ marketParticipant.organizationsOverview.shared.name }}",
         "status": "{{ marketParticipant.organizationsOverview.shared.status }}"
       },
