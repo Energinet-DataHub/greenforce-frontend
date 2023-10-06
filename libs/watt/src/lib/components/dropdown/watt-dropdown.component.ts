@@ -66,7 +66,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
     WattIconComponent,
   ],
 })
-export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
+export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDestroy {
   /**
    * @ignore
    */
@@ -125,6 +125,8 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    */
   isToggleAllIndeterminate = false;
 
+  _options: WattDropdownOptions = [];
+
   /**
    * @ignore
    */
@@ -163,7 +165,14 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    *
    * Sets the options for the dropdown.
    */
-  @Input() options: WattDropdownOptions = [];
+  @Input()
+  set options(options: WattDropdownOptions) {
+    this._options = options;
+    this.filteredOptions$.next(options);
+  }
+  get options(): WattDropdownOptions {
+    return this._options;
+  }
 
   /**
    * Sets support for selecting multiple dropdown options.
@@ -204,15 +213,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
     this.initializePropertiesFromParent();
     this.bindParentValidatorsToControl();
     this.bindControlToParent();
-  }
-
-  /**
-   * @ignore
-   */
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['options']?.currentValue !== changes['options']?.previousValue) {
-      this.filteredOptions$.next(this.options.slice());
-    }
   }
 
   /**
