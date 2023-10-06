@@ -50,12 +50,21 @@
           "Exchange"
         ]
       },
+      "ProcessType": {
+        "type": "string",
+        "enum": [
+          "PreliminaryAggregation",
+          "BalanceFixing",
+          "WholesaleFixing",
+          "Correction"
+        ]
+      },
       "RequestAggregatedMeasureDataMarketRequest": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "businessReason": {
-            "type": "string"
+          "processType": {
+            "$ref": "#/components/schemas/ProcessType"
           },
           "meteringPointType": {
             "$ref": "#/components/schemas/MeteringPointType"
