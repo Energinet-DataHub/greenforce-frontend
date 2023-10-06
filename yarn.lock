@@ -18098,6 +18098,7 @@ cors@latest:
     jest-environment-jsdom: 29.4.3
     jest-preset-angular: 13.1.1
     jest-preview: 0.3.1
+    jsonc-eslint-parser: 2.1.0
     jwt-decode: 3.1.2
     kill-port-process: 3.1.0
     msw: 1.3.1
@@ -24576,6 +24577,18 @@ cors@latest:
   bin:
     json5: lib/cli.js
   checksum: 2a7436a93393830bce797d4626275152e37e877b265e94ca69c99e3d20c2b9dab021279146a39cdb700e71b2dd32a4cebd1514cd57cee102b1af906ce5040349
+  languageName: node
+  linkType: hard
+
+"jsonc-eslint-parser@npm:2.1.0":
+  version: 2.1.0
+  resolution: "jsonc-eslint-parser@npm:2.1.0"
+  dependencies:
+    acorn: ^8.5.0
+    eslint-visitor-keys: ^3.0.0
+    espree: ^9.0.0
+    semver: ^7.3.5
+  checksum: 58a36c835a1d021a1cb91cf29f340420093443b91b307c09761ee00517cae2e4dc665436b3ef9caef6cc2feb768453087ce1bf2e8dfc2934067c9227ed69c6dc
   languageName: node
   linkType: hard
 
