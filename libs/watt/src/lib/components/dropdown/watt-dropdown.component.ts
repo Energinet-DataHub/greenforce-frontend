@@ -19,10 +19,8 @@ import {
   Host,
   HostBinding,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
-  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -392,7 +390,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
    * @ignore
    */
   private filterOptions() {
-    if (!this.options) {
+    if (!this._options) {
       return;
     }
 
@@ -402,12 +400,12 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
     if (search) {
       search = search.toLowerCase();
     } else {
-      return this.filteredOptions$.next(this.options.slice());
+      return this.filteredOptions$.next(this._options.slice());
     }
 
     // filter the options
     this.filteredOptions$.next(
-      this.options.filter((option) => option.displayValue.toLowerCase().indexOf(search) > -1)
+      this._options.filter((option) => option.displayValue.toLowerCase().indexOf(search) > -1)
     );
   }
 
