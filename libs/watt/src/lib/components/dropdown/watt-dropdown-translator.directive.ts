@@ -21,9 +21,9 @@ import { TranslocoService } from '@ngneat/transloco';
 
 @Directive({
   standalone: true,
-  selector: '[wattDropdownTranslate]',
+  selector: '[wattDropdownTranslator]',
 })
-export class WattDropdownTranslateDirective implements OnInit {
+export class WattDropdownTranslatorDirective implements OnInit {
   @Input({ required: true }) translate = '';
   destroyRef = inject(DestroyRef);
   constructor(private trans: TranslocoService, private host: WattDropdownComponent) {}
