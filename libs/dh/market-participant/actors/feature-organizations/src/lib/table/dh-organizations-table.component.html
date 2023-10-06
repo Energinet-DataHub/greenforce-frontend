@@ -1,0 +1,60 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<vater-flex
+  fill="vertical"
+  scrollable
+  *transloco="let t; read: 'marketParticipant.organizationsOverview'"
+>
+  <watt-table
+    [dataSource]="tableDataSource"
+    [columns]="columns"
+    sortBy="name"
+    [loading]="isLoading"
+    sortDirection="asc"
+    [sortClear]="false"
+  >
+    <ng-container
+      *wattTableCell="
+        columns['cvrOrOrganizationId'];
+        header: t('columns.cvrOrOrganizationId');
+        let organization
+      "
+    >
+      {{ organization.organizationId }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let organization">
+      {{ organization.name }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let organization">
+      {{ organization.status }}
+    </ng-container>
+  </watt-table>
+
+  <vater-stack
+    fill="vertical"
+    justify="center"
+    *ngIf="!isLoading && tableDataSource.filteredData.length === 0"
+  >
+    <watt-empty-state
+      [icon]="hasError ? 'custom-power' : 'cancel'"
+      [title]="hasError ? t('errorTitle') : t('emptyTitle')"
+      [message]="hasError ? t('errorMessage') : t('emptyMessage')"
+    />
+  </vater-stack>
+</vater-flex>

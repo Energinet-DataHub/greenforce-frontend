@@ -23,6 +23,11 @@ import {
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattTableDataSource } from '@energinet-datahub/watt/table';
+
+import { DhOrganizationsTableComponent } from './table/dh-organizations-table.component';
+import { DhOrganization } from './dh-organization';
 
 @Component({
   standalone: true,
@@ -37,6 +42,14 @@ import {
       h3 {
         margin: 0;
       }
+
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
+      }
     `,
   ],
   imports: [
@@ -46,6 +59,14 @@ import {
     VaterFlexComponent,
     VaterStackComponent,
     VaterUtilityDirective,
+    WattPaginatorComponent,
+
+    DhOrganizationsTableComponent,
   ],
 })
-export class DhOrganizationsOverviewComponent {}
+export class DhOrganizationsOverviewComponent {
+  tableDataSource = new WattTableDataSource<DhOrganization>([]);
+
+  isLoading = true;
+  hasError = false;
+}
