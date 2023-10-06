@@ -40,7 +40,16 @@ import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { MatSelectModule, MatSelect } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { of, ReplaySubject, Subject, distinctUntilChanged, map, takeUntil, take } from 'rxjs';
+import {
+  of,
+  ReplaySubject,
+  Subject,
+  distinctUntilChanged,
+  map,
+  takeUntil,
+  take,
+  filter,
+} from 'rxjs';
 import { WattFieldComponent } from '../field';
 
 import type { WattDropdownOptions } from './watt-dropdown-option';
@@ -66,7 +75,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
     WattIconComponent,
   ],
 })
-export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDestroy, OnChanges {
+export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDestroy {
   /**
    * @ignore
    */
@@ -203,12 +212,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
 
   constructor(@Host() private parentControlDirective: NgControl) {
     this.parentControlDirective.valueAccessor = this;
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['options']?.currentValue !== changes['options']?.previousValue) {
-      this.filteredOptions$.next(this._options.slice());
-    }
   }
 
   /**
@@ -424,6 +427,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
     this.filteredOptions$
       .pipe(
         take(1),
+        filter((options) => options != null && options !== undefined),
         map((options) => options.map((option) => option.value))
       )
       .subscribe((filteredOptions: string[]) => {
