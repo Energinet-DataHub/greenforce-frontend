@@ -37,8 +37,8 @@ type BalanceResponsiblePageResult {
 
 type BalanceResponsibleType {
   gridArea: GridAreaDto!
-  supplierWithName: ActorNameDto!
-  balanceResponsibleWithName: ActorNameDto!
+  supplierWithName: ActorNameDto
+  balanceResponsibleWithName: ActorNameDto
   id: String!
   receivedDateTime: DateTime!
   supplier: ActorNumber!

@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using HotChocolate.Types;
-using Microsoft.AspNetCore.Routing;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {

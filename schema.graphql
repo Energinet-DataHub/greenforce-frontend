@@ -21,8 +21,8 @@ type Actor {
 
 type BalanceResponsibleType {
   gridArea: GridAreaDto!
-  supplierWithName: ActorNameDto!
-  balanceResponsibleWithName: ActorNameDto!
+  supplierWithName: ActorNameDto
+  balanceResponsibleWithName: ActorNameDto
   id: String!
   receivedDateTime: DateTime!
   supplier: ActorNumber!
@@ -126,6 +126,7 @@ type Query {
 type Mutation {
   updatePermission(input: UpdatePermissionDtoInput!): Permission!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
+  createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
 }
 
 scalar UUID
@@ -229,6 +230,14 @@ enum PriceAreaCode {
   DK2
 }
 
+enum MeteringPointType {
+  PRODUCTION
+  FLEX_CONSUMPTION
+  TOTAL_CONSUMPTION
+  NON_PROFILED_CONSUMPTION
+  EXCHANGE
+}
+
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
@@ -325,4 +334,18 @@ input CreateCalculationInput {
 
 type CreateCalculationPayload {
   calculation: Calculation
+}
+
+input CreateAggregatedMeasureDataRequestInput {
+  businessReason: String!
+  meteringPointType: MeteringPointType!
+  startDate: String!
+  endDate: String
+  gridArea: String
+  energySupplierId: String
+  balanceResponsibleId: String
+}
+
+type CreateAggregatedMeasureDataRequestPayload {
+  boolean: Boolean
 }
