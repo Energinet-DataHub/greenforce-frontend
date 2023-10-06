@@ -42,7 +42,9 @@ limitations under the License.
         *ngIf="!error"
       >
         <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
-          {{ element }}
+          <ng-container *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'">
+            {{ translateMarketRole(element) }}
+          </ng-container>
         </ng-container>
       </watt-table>
 
