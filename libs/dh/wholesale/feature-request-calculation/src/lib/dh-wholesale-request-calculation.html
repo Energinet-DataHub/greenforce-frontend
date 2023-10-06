@@ -1,7 +1,15 @@
-<watt-card >
-  <vater-stack direction="column">
-    <form [formGroup]="form">
-      <watt-dropdown label="" [formControl]="form.controls.processType" [options]="progressTypeOptions" />
-    </form>
-  </vater-stack>
+<watt-card vater inset="0" *transloco="let t; read: 'wholesale.requestCalculation'">
+  <form [formGroup]="form">
+    <vater-flex fill="vertical" gap="m">
+      <vater-stack direction="row" gap="s">
+        <watt-dropdown
+          translate="wholesale.shared"
+          [label]="t('processType')"
+          [formControl]="form.controls.processType"
+          [options]="progressTypeOptions"
+          wattDropdownTranslate
+        />
+      </vater-stack>
+    </vater-flex>
+  </form>
 </watt-card>

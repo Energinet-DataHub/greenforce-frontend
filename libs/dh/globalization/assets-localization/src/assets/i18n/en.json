@@ -38,7 +38,8 @@
     },
     "download": "Download",
     "search": "Search",
-    "selectedValues": "{{count}} selected"
+    "selectedValues": "{{count}} selected",
+    "processType": "Calculation type"
   },
   "clipboard": {
     "success": "Copied to clipboard",
@@ -908,9 +909,17 @@
     }
   },
   "wholesale": {
-    "BALANCE_FIXING": "Balance Fixing",
-    "WHOLESALE_FIXING": "Wholesale Fixing",
-    "AGGREGATION": "Aggregation",
+    "shared": {
+      "BALANCE_FIXING": "Balance fixing",
+      "AGGREGATION": "Aggregation",
+      "WHOLESALE_FIXING": "Wholesale fixing",
+      "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
+      "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
+      "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement"
+    },
+    "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+    "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
+    "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
     "calculations": {
       "topBarTitle": "Calculations",
       "headline": "Results",
@@ -928,7 +937,7 @@
         "executionType": "Execution Type",
         "scheduling": "Execution",
         "processType": {
-          "label": "Process Type",
+          "label": "{{shared.processType}}",
           "error": "Process type is required"
         },
         "summation": "Monthly summation",
@@ -964,12 +973,12 @@
         }
       },
       "processTypes": {
-        "BALANCE_FIXING": "Balance fixing",
-        "AGGREGATION": "Aggregation",
-        "WHOLESALE_FIXING": "Wholesale fixing",
-        "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
-        "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
-        "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement"
+        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
+        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}"
       },
       "executionStates": {
         "PENDING": "Pending",
@@ -993,7 +1002,7 @@
         "executionStates": "Status",
         "executionTime": "Execution time",
         "gridAreas": "Grid areas",
-        "processType": "Calculation type",
+        "processType": "{{shared.processType}}",
         "reset": "{{shared.form.reset}}",
         "period": "{{shared.form.filters.period}}"
       },
@@ -1002,7 +1011,7 @@
         "periodFrom": "Period from",
         "periodTo": "Period to",
         "executionTime": "Execution time",
-        "processType": "Process type",
+        "processType": "{{shared.processType}}",
         "status": "Status"
       },
       "details": {
@@ -1020,7 +1029,8 @@
       }
     },
     "requestCalculation": {
-      "topBarTitle": "Request calculation"
+      "topBarTitle": "Request calculation",
+      "processType": "{{shared.processType}}"
     },
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
@@ -1037,12 +1047,12 @@
       "noEntries": "No results",
       "results": "Search results",
       "tabs": {
-        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
-        "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
+        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}"
       },
       "table": {
         "title": "Processes",
-        "processType": "Process type",
+        "processType": "{{shared.processType}}",
         "gridAreaName": "Grid area",
         "gridAreaCode": "Grid Area Code",
         "periodStart": "Period from",
@@ -1053,11 +1063,11 @@
         "download": "—"
       },
       "processTypes": {
-        "BALANCE_FIXING": "Balance Fixing",
-        "AGGREGATION": "Aggregation"
+        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}"
       },
       "filters": {
-        "processType": "Process type",
+        "processType": "{{shared.processType}}",
         "gridArea": "Grid area",
         "period": "Period",
         "executionTime": "Execution time",
@@ -1066,7 +1076,7 @@
         "loadingActors": "Loading energy suppliers...",
         "loadingGridAreas": "Loading grid areas...",
         "actorPlaceholder": "Select energy supplier",
-        "processTypePlaceholder": "Select process type",
+        "processTypePlaceholder": "Select {{shared.processType}}",
         "gridAreasPlaceholder": "Select grid area(s)"
       }
     }
