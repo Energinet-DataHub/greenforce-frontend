@@ -73,7 +73,7 @@ public class Mutation
     }
 
     public async Task<bool> CreateAggregatedMeasureDataRequestAsync(
-        Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType processType,
+        EdiB2CWebAppProcessType processType,
         MeteringPointType meteringPointType,
         string startDate,
         string? endDate,
