@@ -18,6 +18,7 @@ import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
+import { BehaviorSubject } from 'rxjs';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
@@ -31,6 +32,8 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { DhOrganizationsTableComponent } from './table/dh-table.component';
 import { DhOrganization } from './dh-organization';
+import { DhOrganizationsFilters } from './dh-organizations-filters';
+import { DhOrganizationsFiltersComponent } from './filters/dh-filters.component';
 
 @Component({
   standalone: true,
@@ -64,6 +67,7 @@ import { DhOrganization } from './dh-organization';
     VaterUtilityDirective,
     WattPaginatorComponent,
 
+    DhOrganizationsFiltersComponent,
     DhOrganizationsTableComponent,
   ],
 })
@@ -78,6 +82,10 @@ export class DhOrganizationsOverviewComponent implements OnInit {
   });
 
   tableDataSource = new WattTableDataSource<DhOrganization>([]);
+
+  filters$ = new BehaviorSubject<DhOrganizationsFilters>({
+    organizationStatus: null,
+  });
 
   isLoading = true;
   hasError = false;

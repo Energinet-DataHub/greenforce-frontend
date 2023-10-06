@@ -619,6 +619,16 @@
         "name": "{{ marketParticipant.organizationsOverview.shared.name }}",
         "status": "{{ marketParticipant.organizationsOverview.shared.status }}"
       },
+      "status": {
+        "New": "Ny",
+        "Active": "Aktiv",
+        "Blocked": "Blokeret",
+        "Deleted": "Slettet"
+      },
+      "filters": {
+        "status": "{{ marketParticipant.organizationsOverview.shared.status }}",
+        "reset": "{{ shared.form.reset }}"
+      },
       "emptyTitle": "Ingen organisationer fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",

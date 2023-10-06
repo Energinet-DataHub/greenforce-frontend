@@ -626,6 +626,16 @@
         "name": "{{ marketParticipant.organizationsOverview.shared.name }}",
         "status": "{{ marketParticipant.organizationsOverview.shared.status }}"
       },
+      "status": {
+        "New": "New",
+        "Active": "Active",
+        "Blocked": "Blocked",
+        "Deleted": "Deleted"
+      },
+      "filters": {
+        "status": "{{ marketParticipant.organizationsOverview.shared.status }}",
+        "reset": "{{ shared.form.reset }}"
+      },
       "emptyTitle": "No organisations found",
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",

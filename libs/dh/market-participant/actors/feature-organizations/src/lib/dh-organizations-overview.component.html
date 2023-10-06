@@ -21,6 +21,8 @@ limitations under the License.
       <span class="watt-chip-label">{{ tableDataSource.data.length }} </span>
     </vater-stack>
 
+    <dh-organizations-filters [initial]="filters$.value" (filter)="filters$.next($event)" />
+
     <dh-organizations-table
       [tableDataSource]="tableDataSource"
       [isLoading]="isLoading"
