@@ -19,8 +19,10 @@ import {
   Host,
   HostBinding,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
+  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -64,7 +66,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
     WattIconComponent,
   ],
 })
-export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDestroy, OnChanges {
   /**
    * @ignore
    */
@@ -201,6 +203,12 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
 
   constructor(@Host() private parentControlDirective: NgControl) {
     this.parentControlDirective.valueAccessor = this;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['options']?.currentValue !== changes['options']?.previousValue) {
+      this.filteredOptions$.next(this._options.slice());
+    }
   }
 
   /**
