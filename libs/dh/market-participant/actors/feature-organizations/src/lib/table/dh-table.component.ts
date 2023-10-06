@@ -28,7 +28,7 @@ import { DhOrganization } from '../dh-organization';
 @Component({
   selector: 'dh-organizations-table',
   standalone: true,
-  templateUrl: './dh-organizations-table.component.html',
+  templateUrl: './dh-table.component.html',
   styles: [
     `
       :host {

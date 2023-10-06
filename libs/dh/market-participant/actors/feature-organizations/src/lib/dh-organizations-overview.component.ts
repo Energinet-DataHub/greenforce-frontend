@@ -29,7 +29,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { DhOrganizationsTableComponent } from './table/dh-organizations-table.component';
+import { DhOrganizationsTableComponent } from './table/dh-table.component';
 import { DhOrganization } from './dh-organization';
 
 @Component({
