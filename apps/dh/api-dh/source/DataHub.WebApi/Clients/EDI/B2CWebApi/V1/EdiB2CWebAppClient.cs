@@ -255,10 +255,29 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum ProcessType
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"PreliminaryAggregation")]
+        PreliminaryAggregation = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"BalanceFixing")]
+        BalanceFixing = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"WholesaleFixing")]
+        WholesaleFixing = 2,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Correction")]
+        Correction = 3,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class RequestAggregatedMeasureDataMarketRequest
     {
-        [Newtonsoft.Json.JsonProperty("businessReason", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string BusinessReason { get; set; }
+        [Newtonsoft.Json.JsonProperty("processType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public ProcessType ProcessType { get; set; }
 
         [Newtonsoft.Json.JsonProperty("meteringPointType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
