@@ -614,6 +614,9 @@
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
     },
+    "organizationsOverview": {
+      "organizations": "Organisations"
+    },
     "marketRolesOverview": {
       "marketRoles": "Market roles",
       "download": "Download",
