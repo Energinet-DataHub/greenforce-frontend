@@ -1,0 +1,35 @@
+﻿// Copyright 2020 Energinet DataHub A/S
+//
+// Licensed under the Apache License, Version 2.0 (the "License2");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using System.Linq;
+using Energinet.DataHub.MarketParticipant.Client.Models;
+using HotChocolate.Types;
+
+namespace Energinet.DataHub.WebApi.GraphQL
+{
+    public class OrganizationType : ObjectType<OrganizationDto>
+    {
+        protected override void Configure(IObjectTypeDescriptor<OrganizationDto> descriptor)
+        {
+            descriptor.Name("Organization");
+
+            descriptor
+                .Field(f => f.OrganizationId)
+                .Resolve(context => context.Parent<OrganizationDto>().OrganizationId.ToString());
+            descriptor
+                .Field("actors")
+               .ResolveWith<MarketParticipantResolvers>(c => c.GetActorsForOrganizationAsync(default!, default!));
+        }
+    }
+}

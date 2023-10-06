@@ -41,5 +41,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
             [Parent] ActorDto actor,
             [Service] IMarketParticipantClient client) =>
             client.GetOrganizationAsync(actor.OrganizationId);
+
+        public async Task<List<ActorDto>?> GetActorsForOrganizationAsync(
+            [Parent] OrganizationDto organization,
+            ActorByOrganizationBatchDataLoader dataLoader) =>
+            await dataLoader.LoadAsync(organization.OrganizationId.ToString());
     }
 }
