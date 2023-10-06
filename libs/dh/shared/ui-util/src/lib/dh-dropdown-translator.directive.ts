@@ -16,14 +16,14 @@
  */
 import { DestroyRef, Directive, Input, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { WattDropdownComponent } from './watt-dropdown.component';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { TranslocoService } from '@ngneat/transloco';
 
 @Directive({
   standalone: true,
-  selector: '[wattDropdownTranslator]',
+  selector: '[dhDropdownTranslator]',
 })
-export class WattDropdownTranslatorDirective implements OnInit {
+export class DhDropdownTranslatorDirective implements OnInit {
   @Input({ required: true }) translate = '';
   destroyRef = inject(DestroyRef);
   constructor(private trans: TranslocoService, private host: WattDropdownComponent) {}

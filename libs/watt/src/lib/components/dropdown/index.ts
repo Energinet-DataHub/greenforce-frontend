@@ -15,6 +15,5 @@
  * limitations under the License.
  */
 export { WattDropdownComponent } from './watt-dropdown.component';
-export { WattDropdownTranslatorDirective } from './watt-dropdown-translator.directive';
 export { type WattDropdownOption, type WattDropdownOptions } from './watt-dropdown-option';
 export { type WattDropdownValue } from './watt-dropdown-value';
