@@ -17,14 +17,10 @@ export class WattDropdownTranslateDirective implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (keys) => {
-          this.host.options = this.host.options.map((option) => {
-            const translatedDisplayValue = keys[option.value];
-            console.log(translatedDisplayValue);
-            return {
-              ...option,
-              displayValue: translatedDisplayValue,
-            };
-          });
+          this.host.options = this.host.options.map((option) => ({
+            ...option,
+            displayValue: keys[option.value],
+          }));
         },
       });
   }
