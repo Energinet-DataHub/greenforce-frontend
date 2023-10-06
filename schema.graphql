@@ -49,6 +49,13 @@ type Calculation {
   processType: ProcessType!
 }
 
+enum EdiB2CProcessType {
+  preliminaryaggregation
+  balancefixing
+  wholesalefixing
+  correction
+}
+
 enum EicFunction {
   BalanceResponsibleParty
   BillingAgent
@@ -338,7 +345,7 @@ type CreateCalculationPayload {
 }
 
 input CreateAggregatedMeasureDataRequestInput {
-  businessReason: String!
+  processType: EdiB2CProcessType!
   meteringPointType: MeteringPointType!
   startDate: String!
   endDate: String
