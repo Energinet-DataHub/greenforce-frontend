@@ -32,13 +32,16 @@ import { GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphq
 
 import { DhActorExtended } from '../dh-actor';
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
+import { DhActorsEditActorModalComponent } from "../edit/dh-actors-edit-actor-modal.component";
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
-  selector: 'dh-actor-drawer',
-  standalone: true,
-  templateUrl: './dh-actor-drawer.component.html',
-  styles: [
-    `
+    selector: 'dh-actor-drawer',
+    standalone: true,
+    templateUrl: './dh-actor-drawer.component.html',
+    styles: [
+        `
       :host {
         display: block;
       }
@@ -59,20 +62,23 @@ import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-bad
         gap: var(--watt-space-s);
       }
     `,
-  ],
-  imports: [
-    NgIf,
-    TranslocoModule,
+    ],
+    imports: [
+        NgIf,
+        TranslocoModule,
 
-    WATT_DRAWER,
-    WATT_TABS,
-    WATT_CARD,
-    WattDescriptionListComponent,
-    WattDescriptionListItemComponent,
+        WATT_DRAWER,
+        WATT_TABS,
+        WATT_CARD,
+        WattDescriptionListComponent,
+        WattDescriptionListItemComponent,
+        WattButtonComponent,
 
-    DhEmDashFallbackPipe,
-    DhActorStatusBadgeComponent,
-  ],
+        DhEmDashFallbackPipe,
+        DhPermissionRequiredDirective,
+        DhActorsEditActorModalComponent,
+        DhActorStatusBadgeComponent,
+    ],
 })
 export class DhActorDrawerComponent {
   private apollo = inject(Apollo);

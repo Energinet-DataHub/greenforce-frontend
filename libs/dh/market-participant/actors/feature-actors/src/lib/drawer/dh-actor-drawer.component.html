@@ -20,6 +20,15 @@ limitations under the License.
       <dh-actor-status-badge [status]="actor?.status" />
     </watt-drawer-topbar>
 
+    <watt-drawer-actions>
+      <watt-button
+        *dhPermissionRequired="['actors:manage']"
+        variant="secondary"
+        (click)="editActorModal.open()"
+        >{{ t("edit") }}</watt-button
+      >
+    </watt-drawer-actions>
+
     <watt-drawer-heading>
       <h2 class="actor-heading">{{ actor?.glnOrEicNumber }} {{ actor?.name }}</h2>
 
@@ -75,3 +84,6 @@ limitations under the License.
     </watt-drawer-content>
   </watt-drawer>
 </ng-container>
+
+<dh-actors-edit-actor-modal #editActorModal [actor]="actor">
+</dh-actors-edit-actor-modal>
