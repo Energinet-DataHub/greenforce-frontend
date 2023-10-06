@@ -22,11 +22,11 @@ limitations under the License.
       <watt-description-list *ngIf="balanceResponsibleMessage" [groupsPerRow]="4" variant="flow">
         <watt-description-list-item
           [label]="t('electricitySupplier')"
-          [value]="balanceResponsibleMessage.supplierWithName.value"
+          [value]="balanceResponsibleMessage.supplierWithName?.value ?? ''"
         />
         <watt-description-list-item
           [label]="t('balanceResponsible')"
-          [value]="balanceResponsibleMessage.balanceResponsibleWithName.value"
+          [value]="balanceResponsibleMessage.balanceResponsibleWithName?.value ?? ''"
         />
         <watt-description-list-item
           [label]="t('gridArea')"
