@@ -20,24 +20,22 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { DhMarketRolesOverviewComponent } from '@energinet-datahub/dh/market-participant/actors/feature-market-roles';
 import { DhActorsOverviewComponent } from '@energinet-datahub/dh/market-participant/actors/feature-actors';
+import { DhOrganizationsOverviewComponent } from '@energinet-datahub/dh/market-participant/actors/feature-organizations';
 
 @Component({
   selector: 'dh-market-participant-actors-shell',
   standalone: true,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.actors.tabs'">
       <watt-tabs>
         <watt-tab [label]="t('actors.tabLabel')">
           <dh-actors-overview />
         </watt-tab>
-        <watt-tab [label]="t('organizations.tabLabel')" />
+
+        <watt-tab [label]="t('organizations.tabLabel')">
+          <dh-organizations-overview />
+        </watt-tab>
+
         <watt-tab [label]="t('marketRoles.tabLabel')">
           <dh-market-roles-overview />
         </watt-tab>
@@ -46,8 +44,10 @@ import { DhActorsOverviewComponent } from '@energinet-datahub/dh/market-particip
   `,
   imports: [
     TranslocoDirective,
+
     WATT_TABS,
     DhActorsOverviewComponent,
+    DhOrganizationsOverviewComponent,
     DhMarketRolesOverviewComponent,
   ],
 })

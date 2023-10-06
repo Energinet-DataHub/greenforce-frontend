@@ -24,29 +24,29 @@ namespace Energinet.DataHub.WebApi.GraphQL
     public class EsettExchangeResolvers
     {
         public Task<GridAreaDto> GetGridAreaAsync(
-            [Parent] ExchangeEventTrackingResult result,
+            [Parent] BalanceResponsibleResult result,
             GridAreaByCodeBatchDataLoader dataLoader) =>
-            dataLoader.LoadAsync(result.GridAreaCode);
+            dataLoader.LoadAsync(result.GridArea);
 
-        public Task<ActorNameDto> GetSupplierWithNameAsync(
+        public Task<ActorNameDto?> GetSupplierWithNameAsync(
             [Parent] BalanceResponsibleResult result,
-            ActorNameByNumberBatchDataLoader dataLoader) =>
-            dataLoader.LoadAsync(result.Supplier.Value);
+            ActorNameByMarketRoleDataLoader dataLoader) =>
+            dataLoader.LoadAsync((result.Supplier.Value, EicFunction.EnergySupplier));
 
-        public Task<ActorNameDto> GetBalanceResponsibleWithNameAsync(
+        public Task<ActorNameDto?> GetBalanceResponsibleWithNameAsync(
             [Parent] BalanceResponsibleResult result,
-            ActorNameByNumberBatchDataLoader dataLoader) =>
-            dataLoader.LoadAsync(result.BalanceResponsible.Value);
+            ActorNameByMarketRoleDataLoader dataLoader) =>
+            dataLoader.LoadAsync((result.BalanceResponsible.Value, EicFunction.BalanceResponsibleParty));
 
         private string? GetDocumentLink(
             string action,
             [Parent] ExchangeEventTrackingResult result,
             [Service] IHttpContextAccessor httpContextAccessor,
             [Service] LinkGenerator linkGenerator) =>
-                linkGenerator.GetUriByAction(
-                    httpContextAccessor.HttpContext!,
-                    action,
-                    "EsettExchange",
-                    new { documentId = result.DocumentId });
+            linkGenerator.GetUriByAction(
+                httpContextAccessor.HttpContext!,
+                action,
+                "EsettExchange",
+                new { documentId = result.DocumentId });
     }
 }

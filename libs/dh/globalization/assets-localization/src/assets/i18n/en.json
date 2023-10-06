@@ -593,6 +593,7 @@
         "reset": "{{ shared.form.reset }}"
       },
       "drawer": {
+        "edit": "Edit",
         "metadata": {
           "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
           "organization": "Organisation"
@@ -615,6 +616,9 @@
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
     },
+    "organizationsOverview": {
+      "organizations": "Organisations"
+    },
     "marketRolesOverview": {
       "marketRoles": "Market roles",
       "download": "Download",
@@ -634,7 +638,6 @@
       "MeteringPointAdministrator": "Metering point administrator",
       "SystemOperator": "System operator",
       "DanishEnergyAgency": "Energistyrelsen",
-      "ElOverblik": "ElOverblik",
       "DataHubAdministrator": "DataHub systemadministrator",
       "IndependentAggregator": "Uafhængig aggregator",
       "SerialEnergyTrader": "Seriel elhandler"
@@ -651,7 +654,6 @@
       "MeteringPointAdministrator": "A party responsible for administrating and making available the Metering Point characteristics, including registering the parties linked to the Metering Point.",
       "SystemOperator": " ",
       "DanishEnergyAgency": " ",
-      "ElOverblik": " ",
       "DataHubAdministrator": " ",
       "IndependentAggregator": " ",
       "SerialEnergyTrader": " "

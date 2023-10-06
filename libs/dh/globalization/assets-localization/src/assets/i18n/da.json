@@ -586,6 +586,7 @@
         "reset": "{{ shared.form.reset }}"
       },
       "drawer": {
+        "edit": "Rediger",
         "metadata": {
           "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
           "organization": "Organisation"
@@ -608,6 +609,9 @@
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
     },
+    "organizationsOverview": {
+      "organizations": "Organisationer"
+    },
     "marketRolesOverview": {
       "marketRoles": "Markedsroller",
       "download": "Download",
@@ -627,7 +631,6 @@
       "MeteringPointAdministrator": "Beskedadministrator",
       "SystemOperator": "Systemoperatør",
       "DanishEnergyAgency": "Energistyrelsen",
-      "ElOverblik": "ElOverblik",
       "DataHubAdministrator": "DataHub systemadministrator",
       "IndependentAggregator": "Uafhængig aggregator",
       "SerialEnergyTrader": "Seriel elhandler"
@@ -643,7 +646,6 @@
       "MeteringPointAdministrator": "En part, der er ansvarlig for at administrere og stille målepunktets karakteristika til rådighed, herunder registrere de parter, der er knyttet til målepunktet. DDZ ift. modtagelse af meddelelser.",
       "SystemOperator": "Ansvarlig for håndteringen af Energinets priselementer.",
       "DanishEnergyAgency": "Energistyrelsens adgang til forvaltningsretlige opgaver.",
-      "ElOverblik": "Eloverbliks adgang til kunder og tredieparter.",
       "DataHubAdministrator": "DataHub adgang til drift og support.",
       "IndependentAggregator": "Uafhængig aggregator.",
       "SerialEnergyTrader": "Seriel elhandler."

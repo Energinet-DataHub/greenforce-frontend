@@ -32,6 +32,9 @@ import { GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphq
 
 import { DhActorExtended } from '../dh-actor';
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
+import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -69,8 +72,11 @@ import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-bad
     WATT_CARD,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
+    WattButtonComponent,
 
     DhEmDashFallbackPipe,
+    DhPermissionRequiredDirective,
+    DhActorsEditActorModalComponent,
     DhActorStatusBadgeComponent,
   ],
 })

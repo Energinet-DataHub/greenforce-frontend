@@ -136,7 +136,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
   ngOnInit(): void {
     this.subscriptionActors = this.actorsQuery.valueChanges.subscribe({
       next: (result) => {
-        const actorsClone = structuredClone(result.data?.actors ?? []);
+        const actorsClone = structuredClone(result.data?.actorsForEicFunction ?? []);
         this.actors = actorsClone.sort((a: Actor, b: Actor) =>
           a.displayValue.localeCompare(b.displayValue, this.localeId)
         );
