@@ -14,8 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoModule } from '@ngneat/transloco';
+import { Apollo } from 'apollo-angular';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
@@ -24,6 +26,7 @@ import {
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { DhOrganizationsTableComponent } from './table/dh-organizations-table.component';
@@ -64,9 +67,32 @@ import { DhOrganization } from './dh-organization';
     DhOrganizationsTableComponent,
   ],
 })
-export class DhOrganizationsOverviewComponent {
+export class DhOrganizationsOverviewComponent implements OnInit {
+  private readonly apollo = inject(Apollo);
+  private readonly destroyRef = inject(DestroyRef);
+
+  private readonly getOrganizationsQuery$ = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetOrganizationsDocument,
+  });
+
   tableDataSource = new WattTableDataSource<DhOrganization>([]);
 
   isLoading = true;
   hasError = false;
+
+  ngOnInit(): void {
+    this.getOrganizationsQuery$.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (result) => {
+        this.isLoading = result.loading;
+
+        this.tableDataSource.data = result.data?.organizations ?? [];
+      },
+      error: () => {
+        this.hasError = true;
+        this.isLoading = false;
+      },
+    });
+  }
 }
