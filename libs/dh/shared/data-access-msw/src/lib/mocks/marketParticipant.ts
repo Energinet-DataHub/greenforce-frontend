@@ -34,7 +34,7 @@ import { marketParticipantActors } from './data/market-participant-actors';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
-    getOrganizations(apiBase),
+    getOrganizations_REST(apiBase),
     getAllOrganizationsWithActors(apiBase),
     getMarketParticipantGridArea(apiBase),
     getMarketParticipantGridAreaOverview(apiBase),
@@ -47,7 +47,7 @@ export function marketParticipantMocks(apiBase: string) {
   ];
 }
 
-function getOrganizations(apiBase: string) {
+function getOrganizations_REST(apiBase: string) {
   return rest.get(
     `${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizations`,
     (req, res, ctx) => {
