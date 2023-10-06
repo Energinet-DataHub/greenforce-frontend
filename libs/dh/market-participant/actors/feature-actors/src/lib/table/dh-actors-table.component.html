@@ -14,55 +14,41 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<vater-flex fill="vertical" scrollable *transloco="let t; read: 'eSett.balanceResponsible'">
+<vater-flex fill="vertical" scrollable *transloco="let t; read: 'marketParticipant.actorsOverview'">
   <watt-table
     [dataSource]="tableDataSource"
     [columns]="columns"
-    [resolveHeader]="translateHeader"
+    sortBy="name"
     [loading]="isLoading"
+    sortDirection="asc"
     [sortClear]="false"
-    [sortBy]="sortMetadata.active"
-    [sortDirection]="sortMetadata.direction"
     [activeRow]="activeRow"
     (rowClick)="onRowClick($event)"
-    (sortChange)="sortChange.emit($event)"
   >
     <ng-container
-      *wattTableCell="
-        columns['electricitySupplier'];
-        header: t('columns.electricitySupplier');
-        let message
-      "
+      *wattTableCell="columns['glnOrEicNumber']; header: t('columns.glnOrEic'); let actor"
     >
-      {{ message.supplierWithName?.value ?? "" }}
+      {{ actor.glnOrEicNumber }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let actor">
+      {{ actor.name }}
     </ng-container>
 
     <ng-container
-      *wattTableCell="
-        columns['balanceResponsible'];
-        header: t('columns.balanceResponsible');
-        let message
-      "
+      *wattTableCell="columns['marketRole']; header: t('columns.marketRole'); let actor"
     >
-      {{ message.balanceResponsibleWithName?.value ?? "" }}
+      <ng-container *ngIf="actor.marketRole; else marketRoleNotSet">
+        {{ "marketParticipant.marketRoles." + actor.marketRole | transloco }}
+      </ng-container>
+
+      <ng-template #marketRoleNotSet>
+        {{ actor.marketRole | dhEmDashFallback }}
+      </ng-template>
     </ng-container>
 
-    <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
-      {{ message.gridArea.code }}
-    </ng-container>
-
-    <ng-container
-      *wattTableCell="
-        columns['meteringPointType'];
-        header: t('columns.meteringPointType');
-        let message
-      "
-    >
-      {{ "eSett.outgoingMessages.shared.messageType." + message.meteringPointType | transloco }}
-    </ng-container>
-
-    <ng-container *wattTableCell="columns['received']; header: t('columns.received'); let message">
-      {{ message.receivedDateTime | wattDate : "long" }}
+    <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let actor">
+      <dh-actor-status-badge [status]="actor.status" />
     </ng-container>
   </watt-table>
 
@@ -79,4 +65,4 @@ limitations under the License.
   </vater-stack>
 </vater-flex>
 
-<dh-balance-responsible-drawer (closed)="onClose()" />
+<dh-actor-drawer (closed)="onClose()"></dh-actor-drawer>

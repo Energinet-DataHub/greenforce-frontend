@@ -37,8 +37,8 @@ type BalanceResponsiblePageResult {
 
 type BalanceResponsibleType {
   gridArea: GridAreaDto!
-  supplierWithName: ActorNameDto!
-  balanceResponsibleWithName: ActorNameDto!
+  supplierWithName: ActorNameDto
+  balanceResponsibleWithName: ActorNameDto
   id: String!
   receivedDateTime: DateTime!
   supplier: ActorNumber!
@@ -152,7 +152,8 @@ type Query {
   calculations(executionTime: DateRange executionStates: [BatchState!] processTypes: [ProcessType!] gridAreaCodes: [String!] period: DateRange first: Int): [Calculation!]!
   settlementReports(gridAreaCodes: [String!] period: DateRange executionTime: DateRange): [SettlementReport!]!
   actorById(id: UUID!): Actor!
-  actors(eicFunctions: [EicFunction!]): [Actor!]!
+  actors: [Actor!]!
+  actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int! pageSize: Int! periodFrom: DateTime periodTo: DateTime gridAreaCode: String processType: ExchangeEventProcessType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!

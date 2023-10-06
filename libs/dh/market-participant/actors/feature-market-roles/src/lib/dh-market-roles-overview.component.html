@@ -14,33 +14,43 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card *transloco="let t; read: 'marketParticipant.marketRolesOverview'">
-  <watt-card-title>
-    <h3>
-      {{ t("marketRoles") }}
+<watt-card vater inset="0" *transloco="let t; read: 'marketParticipant.marketRolesOverview'">
+  <vater-flex fill="vertical" gap="m">
+    <vater-stack direction="row" gap="s">
+      <h3>{{ t("marketRoles") }}</h3>
       <span class="watt-chip-label">{{ dataSource.data.length }}</span>
-    </h3>
 
-    <watt-button icon="download" variant="text" (click)="download()">{{
-      t("download")
-    }}</watt-button>
-  </watt-card-title>
+      <vater-spacer />
 
-  <watt-table
-    [dataSource]="dataSource"
-    [columns]="columns"
-    sortBy="name"
-    sortDirection="asc"
-    [sortClear]="false"
-  >
-    <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let marketRoleKey">
-      {{ "marketParticipant.marketRoles." + marketRoleKey | transloco }}
-    </ng-container>
+      <watt-button icon="download" variant="text" (click)="download()">{{
+        t("download")
+      }}</watt-button>
+    </vater-stack>
 
-    <ng-container
-      *wattTableCell="columns['description']; header: t('columns.description'); let marketRoleKey"
-    >
-      {{ "marketParticipant.marketRoleDescriptions." + marketRoleKey | transloco }}
-    </ng-container>
-  </watt-table>
+    <vater-flex fill="vertical" scrollable>
+      <watt-table
+        [dataSource]="dataSource"
+        [columns]="columns"
+        sortBy="name"
+        sortDirection="asc"
+        [sortClear]="false"
+      >
+        <ng-container
+          *wattTableCell="columns['name']; header: t('columns.name'); let marketRoleKey"
+        >
+          {{ "marketParticipant.marketRoles." + marketRoleKey | transloco }}
+        </ng-container>
+
+        <ng-container
+          *wattTableCell="
+            columns['description'];
+            header: t('columns.description');
+            let marketRoleKey
+          "
+        >
+          {{ "marketParticipant.marketRoleDescriptions." + marketRoleKey | transloco }}
+        </ng-container>
+      </watt-table>
+    </vater-flex>
+  </vater-flex>
 </watt-card>
