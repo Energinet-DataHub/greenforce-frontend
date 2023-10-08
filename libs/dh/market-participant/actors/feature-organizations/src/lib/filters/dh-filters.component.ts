@@ -25,16 +25,18 @@ import {
   inject,
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { Observable, debounceTime, map } from 'rxjs';
-import { RxPush } from '@rx-angular/template/push';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { debounceTime } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { OrganizationStatus } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import type { DhOrganizationsFilters } from '../dh-organizations-filters';
@@ -45,13 +47,13 @@ import type { DhOrganizationsFilters } from '../dh-organizations-filters';
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    RxPush,
 
     VaterSpacerComponent,
     VaterStackComponent,
     WATT_FORM_FIELD,
     WattButtonComponent,
     WattDropdownComponent,
+    DhDropdownTranslatorDirective,
   ],
   selector: 'dh-organizations-filters',
   styles: [
@@ -77,10 +79,12 @@ import type { DhOrganizationsFilters } from '../dh-organizations-filters';
       <watt-form-field>
         <watt-dropdown
           formControlName="organizationStatus"
-          [options]="statusOptions$ | push"
+          [options]="statusOptions"
           [multiple]="true"
           [chipMode]="true"
           [placeholder]="t('status')"
+          dhDropdownTranslator
+          translate="marketParticipant.organizationsOverview.status"
         />
       </watt-form-field>
 
@@ -90,7 +94,6 @@ import type { DhOrganizationsFilters } from '../dh-organizations-filters';
   `,
 })
 export class DhOrganizationsFiltersComponent implements OnInit {
-  private readonly transloco = inject(TranslocoService);
   private readonly destroyRef = inject(DestroyRef);
 
   @Input({ required: true }) initial!: DhOrganizationsFilters;
@@ -99,7 +102,7 @@ export class DhOrganizationsFiltersComponent implements OnInit {
 
   formGroup!: FormGroup;
 
-  statusOptions$ = this.buildOrganizationsStatusOptions();
+  statusOptions = this.buildOrganizationsStatusOptions();
 
   ngOnInit() {
     this.formGroup = new FormGroup({
@@ -111,16 +114,10 @@ export class DhOrganizationsFiltersComponent implements OnInit {
       .subscribe((value) => this.filter.emit(value));
   }
 
-  private buildOrganizationsStatusOptions(): Observable<WattDropdownOptions> {
-    return this.transloco
-      .selectTranslateObject('marketParticipant.organizationsOverview.status')
-      .pipe(
-        map((statusTranslations) =>
-          Object.keys(OrganizationStatus).map((key) => ({
-            displayValue: statusTranslations[key],
-            value: key,
-          }))
-        )
-      );
+  private buildOrganizationsStatusOptions(): WattDropdownOptions {
+    return Object.keys(OrganizationStatus).map((key) => ({
+      displayValue: key,
+      value: key,
+    }));
   }
 }
