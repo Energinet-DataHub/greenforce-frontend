@@ -37,7 +37,7 @@ import { OrganizationStatus } from '@energinet-datahub/dh/shared/domain/graphql'
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { DhOrganizationsFilters } from '../dh-organizations-filters';
+import type { DhOrganizationsFilters } from '../dh-organizations-filters';
 
 @Component({
   standalone: true,

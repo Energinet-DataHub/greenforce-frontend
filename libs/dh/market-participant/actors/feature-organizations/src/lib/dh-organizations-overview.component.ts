@@ -32,7 +32,7 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { DhOrganizationsTableComponent } from './table/dh-table.component';
 import { DhOrganization } from './dh-organization';
-import { DhOrganizationsFilters } from './dh-organizations-filters';
+import type { DhOrganizationsFilters } from './dh-organizations-filters';
 import { DhOrganizationsFiltersComponent } from './filters/dh-filters.component';
 
 @Component({

@@ -16,8 +16,8 @@
  */
 import { OrganizationStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export interface DhOrganizationsFilters {
+export type DhOrganizationsFilters = {
   organizationStatus: OrganizationStatus[] | null;
-}
+};
 
 export type AllFiltersCombined = DhOrganizationsFilters & { searchInput: string };
