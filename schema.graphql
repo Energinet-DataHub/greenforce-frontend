@@ -20,7 +20,7 @@ type Actor {
 }
 
 type BalanceResponsibleType {
-  gridArea: GridAreaDto!
+  gridAreaWithName: GridAreaDto
   supplierWithName: ActorNameDto
   balanceResponsibleWithName: ActorNameDto
   id: String!
@@ -30,6 +30,7 @@ type BalanceResponsibleType {
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
   validToDate: DateTime
+  gridArea: String!
 }
 
 """An immutable calculation."""
@@ -47,6 +48,13 @@ type Calculation {
   executionState: BatchState!
   areSettlementReportsCreated: Boolean!
   processType: ProcessType!
+}
+
+enum EdiB2CProcessType {
+  preliminaryaggregation
+  balancefixing
+  wholesalefixing
+  correction
 }
 
 enum EicFunction {
@@ -67,7 +75,7 @@ enum EicFunction {
 }
 
 type EsettOutgoingMessage {
-  gridArea: GridAreaDto!
+  gridArea: GridAreaDto
   documentId: String!
   created: DateTime!
   processType: ExchangeEventProcessType!
@@ -338,7 +346,7 @@ type CreateCalculationPayload {
 }
 
 input CreateAggregatedMeasureDataRequestInput {
-  businessReason: String!
+  processType: EdiB2CProcessType!
   meteringPointType: MeteringPointType!
   startDate: String!
   endDate: String

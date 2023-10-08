@@ -33,7 +33,8 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
       __typename: 'ActorNumber',
       value: '321',
     },
-    gridArea: {
+    gridArea: '344',
+    gridAreaWithName: {
       __typename: 'GridAreaDto',
       code: '344',
       name: 'N1 A/S',
@@ -62,7 +63,8 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
       __typename: 'ActorNumber',
       value: '222',
     },
-    gridArea: {
+    gridArea: '999',
+    gridAreaWithName: {
       __typename: 'GridAreaDto',
       code: '999',
       name: 'N2 A/S',
