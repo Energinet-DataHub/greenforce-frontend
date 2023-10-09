@@ -14,13 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Router, Routes } from '@angular/router';
-import { inject } from '@angular/core';
+import { Routes } from '@angular/router';
 
 import { DhMarketParticipantOrganizationComponent } from '@energinet-datahub/dh/market-participant/feature-organization';
 import { DhMarketParticipantEditOrganizationComponent } from '@energinet-datahub/dh/market-participant/feature-edit-organization';
 import {
-  dhMarketParticipantPath,
   dhMarketParticipantActorIdParam,
   dhMarketParticipantActorsCreatePath,
   dhMarketParticipantActorsEditPath,
@@ -33,7 +31,6 @@ import {
 } from '@energinet-datahub/dh/market-participant/routing';
 import { DhMarketParticipantEditActorComponent } from '@energinet-datahub/dh/market-participant/edit-actor';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 export const dhMarketParticipantShellRoutes: Routes = [
   {
@@ -43,22 +40,6 @@ export const dhMarketParticipantShellRoutes: Routes = [
   },
   {
     path: dhMarketParticipantActorsPath,
-    canMatch: [
-      () => {
-        const router = inject(Router);
-        const featureFlagsService = inject(DhFeatureFlagsService);
-
-        if (featureFlagsService.isEnabled('market_participant_actors_feature_flag')) {
-          return true;
-        }
-
-        return router.createUrlTree([
-          '/',
-          dhMarketParticipantPath,
-          dhMarketParticipantOrganizationsPath,
-        ]);
-      },
-    ],
     loadComponent: () =>
       import('@energinet-datahub/dh/market-participant/actors/shell').then(
         (esModule) => esModule.DhMarketParticipantActorsShellComponent
