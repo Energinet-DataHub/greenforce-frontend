@@ -29,6 +29,7 @@ jobs:
     with:
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       release_name_prefix: ui_dotnet
+      
 
   # Run all tests in 'Tests.dll'
   dotnet_ci_test:
