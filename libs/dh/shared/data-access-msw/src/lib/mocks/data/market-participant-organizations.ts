@@ -18,7 +18,6 @@ import {
   ActorStatus,
   EicFunction,
   GetOrganizationsQuery,
-  OrganizationStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const getOrganizationsQueryMock: GetOrganizationsQuery = {
@@ -29,7 +28,6 @@ export const getOrganizationsQueryMock: GetOrganizationsQuery = {
       organizationId: 'b3bdd441-4f22-3f33-b88f-08da5f288474',
       businessRegisterIdentifier: '12345677',
       name: 'Sort Strøm',
-      status: OrganizationStatus.Active,
       domain: 'sortstrom.dk',
       actors: [
         {
@@ -55,7 +53,6 @@ export const getOrganizationsQueryMock: GetOrganizationsQuery = {
       organizationId: '23f2fca9-2b4b-1150-99e9-08dbc66e2700',
       businessRegisterIdentifier: '99990115',
       name: 'Hvid Strøm',
-      status: OrganizationStatus.New,
       domain: 'hvidstrom.dk',
       actors: [
         {
