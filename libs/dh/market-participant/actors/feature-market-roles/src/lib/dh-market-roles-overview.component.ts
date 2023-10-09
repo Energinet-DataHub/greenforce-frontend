@@ -67,7 +67,7 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
 
   columns: WattTableColumnDef<string> = {
     name: { accessor: (value) => value },
-    description: { accessor: (value) => value },
+    description: { accessor: null },
   };
 
   ngAfterViewInit() {
