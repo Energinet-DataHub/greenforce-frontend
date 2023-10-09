@@ -14,8 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoModule } from '@ngneat/transloco';
+import { Apollo } from 'apollo-angular';
+import { BehaviorSubject } from 'rxjs';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
@@ -23,6 +26,14 @@ import {
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattTableDataSource } from '@energinet-datahub/watt/table';
+
+import { DhOrganizationsTableComponent } from './table/dh-table.component';
+import { DhOrganization } from './dh-organization';
+import type { DhOrganizationsFilters } from './dh-organizations-filters';
+import { DhOrganizationsFiltersComponent } from './filters/dh-filters.component';
 
 @Component({
   standalone: true,
@@ -37,6 +48,14 @@ import {
       h3 {
         margin: 0;
       }
+
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
+      }
     `,
   ],
   imports: [
@@ -46,6 +65,42 @@ import {
     VaterFlexComponent,
     VaterStackComponent,
     VaterUtilityDirective,
+    WattPaginatorComponent,
+
+    DhOrganizationsFiltersComponent,
+    DhOrganizationsTableComponent,
   ],
 })
-export class DhOrganizationsOverviewComponent {}
+export class DhOrganizationsOverviewComponent implements OnInit {
+  private readonly apollo = inject(Apollo);
+  private readonly destroyRef = inject(DestroyRef);
+
+  private readonly getOrganizationsQuery$ = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetOrganizationsDocument,
+  });
+
+  tableDataSource = new WattTableDataSource<DhOrganization>([]);
+
+  filters$ = new BehaviorSubject<DhOrganizationsFilters>({
+    organizationStatus: null,
+  });
+
+  isLoading = true;
+  hasError = false;
+
+  ngOnInit(): void {
+    this.getOrganizationsQuery$.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (result) => {
+        this.isLoading = result.loading;
+
+        this.tableDataSource.data = result.data?.organizations ?? [];
+      },
+      error: () => {
+        this.hasError = true;
+        this.isLoading = false;
+      },
+    });
+  }
+}
