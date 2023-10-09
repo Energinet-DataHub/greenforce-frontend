@@ -618,23 +618,11 @@
       "organizations": "Organisations",
       "shared": {
         "cvrOrBusinessRegisterId": "CVR/Business ID",
-        "name": "Name",
-        "status": "Status"
+        "name": "Name"
       },
       "columns": {
         "cvrOrBusinessRegisterId": "{{ marketParticipant.organizationsOverview.shared.cvrOrBusinessRegisterId }}",
-        "name": "{{ marketParticipant.organizationsOverview.shared.name }}",
-        "status": "{{ marketParticipant.organizationsOverview.shared.status }}"
-      },
-      "status": {
-        "New": "New",
-        "Active": "Active",
-        "Blocked": "Blocked",
-        "Deleted": "Deleted"
-      },
-      "filters": {
-        "status": "{{ marketParticipant.organizationsOverview.shared.status }}",
-        "reset": "{{ shared.form.reset }}"
+        "name": "{{ marketParticipant.organizationsOverview.shared.name }}"
       },
       "emptyTitle": "No organisations found",
       "emptyMessage": "Try changing the search criteria",

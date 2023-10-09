@@ -611,23 +611,11 @@
       "organizations": "Organisationer",
       "shared": {
         "cvrOrBusinessRegisterId": "CVR/Virksomhedsid",
-        "name": "Navn",
-        "status": "Status"
+        "name": "Navn"
       },
       "columns": {
         "cvrOrBusinessRegisterId": "{{ marketParticipant.organizationsOverview.shared.cvrOrBusinessRegisterId }}",
-        "name": "{{ marketParticipant.organizationsOverview.shared.name }}",
-        "status": "{{ marketParticipant.organizationsOverview.shared.status }}"
-      },
-      "status": {
-        "New": "Ny",
-        "Active": "Aktiv",
-        "Blocked": "Blokeret",
-        "Deleted": "Slettet"
-      },
-      "filters": {
-        "status": "{{ marketParticipant.organizationsOverview.shared.status }}",
-        "reset": "{{ shared.form.reset }}"
+        "name": "{{ marketParticipant.organizationsOverview.shared.name }}"
       },
       "emptyTitle": "Ingen organisationer fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
