@@ -38,7 +38,7 @@ export const getOrganizationsQueryMock: GetOrganizationsQuery = {
           name: 'Aktør 1',
           glnOrEicNumber: '123',
           marketRole: EicFunction.EnergySupplier,
-          status: ActorStatus.Active
+          status: ActorStatus.Active,
         },
         {
           __typename: 'Actor',
@@ -46,9 +46,9 @@ export const getOrganizationsQueryMock: GetOrganizationsQuery = {
           name: 'Aktør 2',
           glnOrEicNumber: '321',
           marketRole: EicFunction.BalanceResponsibleParty,
-          status: ActorStatus.Active
+          status: ActorStatus.Active,
         },
-      ]
+      ],
     },
     {
       __typename: 'Organization',
@@ -64,7 +64,7 @@ export const getOrganizationsQueryMock: GetOrganizationsQuery = {
           name: 'Aktør 3',
           glnOrEicNumber: '456',
           marketRole: EicFunction.EnergySupplier,
-          status: ActorStatus.Active
+          status: ActorStatus.Active,
         },
         {
           __typename: 'Actor',
@@ -72,7 +72,7 @@ export const getOrganizationsQueryMock: GetOrganizationsQuery = {
           name: 'Aktør 4',
           glnOrEicNumber: '654',
           marketRole: EicFunction.BalanceResponsibleParty,
-          status: ActorStatus.Active
+          status: ActorStatus.Active,
         },
         {
           __typename: 'Actor',
@@ -80,9 +80,9 @@ export const getOrganizationsQueryMock: GetOrganizationsQuery = {
           name: 'Aktør 5',
           glnOrEicNumber: '999',
           marketRole: EicFunction.EnergySupplier,
-          status: ActorStatus.Active
+          status: ActorStatus.Active,
         },
-      ]
+      ],
     },
   ],
 };
