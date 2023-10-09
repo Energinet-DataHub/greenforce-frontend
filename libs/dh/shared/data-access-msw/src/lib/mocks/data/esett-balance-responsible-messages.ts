@@ -81,4 +81,24 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
       value: '111 - Test Supplier 2',
     },
   },
+  {
+    __typename: 'BalanceResponsibleType',
+    id: '3',
+    receivedDateTime: new Date('2022-01-01T00:00:00.000Z'),
+    supplier: {
+      __typename: 'ActorNumber',
+      value: '888',
+    },
+    balanceResponsible: {
+      __typename: 'ActorNumber',
+      value: '999',
+    },
+    gridArea: '000',
+    gridAreaWithName: null,
+    meteringPointType: TimeSeriesType.Production,
+    validFromDate: new Date('2022-01-01T10:00:00.000Z'),
+    validToDate: null,
+    balanceResponsibleWithName: null,
+    supplierWithName: null,
+  },
 ];
