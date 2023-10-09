@@ -44,11 +44,11 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
     validToDate: new Date('2021-05-02T00:00:00.000Z'),
     balanceResponsibleWithName: {
       __typename: 'ActorNameDto',
-      value: '321 - Test Balance Ansvarlig',
+      value: 'Test Balance Ansvarlig',
     },
     supplierWithName: {
       __typename: 'ActorNameDto',
-      value: '123 - Test Supplier',
+      value: 'Test Supplier',
     },
   },
   {
@@ -74,11 +74,11 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
     validToDate: null,
     balanceResponsibleWithName: {
       __typename: 'ActorNameDto',
-      value: '222 - Test Balance Ansvarlig 2',
+      value: 'Test Balance Ansvarlig 2',
     },
     supplierWithName: {
       __typename: 'ActorNameDto',
-      value: '111 - Test Supplier 2',
+      value: 'Test Supplier 2',
     },
   },
   {
