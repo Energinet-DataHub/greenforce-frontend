@@ -38,8 +38,6 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
 
 import { ActorsFilters } from '../actors-filters';
 
-/** Helper function for creating form control with `nonNullable` based on value. */
-
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,

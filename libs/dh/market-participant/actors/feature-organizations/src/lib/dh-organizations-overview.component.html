@@ -15,10 +15,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-card vater inset="0" *transloco="let t; read: 'marketParticipant.organizationsOverview'">
-  <vater-flex gap="m">
+  <vater-flex fill="vertical" gap="m">
     <vater-stack direction="row" gap="s">
       <h3>{{ t("organizations") }}</h3>
-      <span class="watt-chip-label">0</span>
+      <span class="watt-chip-label">{{ tableDataSource.data.length }} </span>
     </vater-stack>
+
+    <dh-organizations-filters [initial]="filters$.value" (filter)="filters$.next($event)" />
+
+    <dh-organizations-table
+      [tableDataSource]="tableDataSource"
+      [isLoading]="isLoading"
+      [hasError]="hasError"
+    />
+
+    <watt-paginator [for]="tableDataSource" [pageSize]="100" />
   </vater-flex>
 </watt-card>
