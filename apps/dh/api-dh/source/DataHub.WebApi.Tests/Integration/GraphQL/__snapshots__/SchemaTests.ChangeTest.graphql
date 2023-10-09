@@ -198,7 +198,7 @@ type UserRoleWithPermissionsDto {
 }
 
 input CreateAggregatedMeasureDataRequestInput {
-  businessReason: String!
+  processType: EdiB2CProcessType!
   meteringPointType: MeteringPointType!
   startDate: String!
   endDate: String
@@ -244,6 +244,13 @@ enum DocumentStatus {
   AWAITING_REPLY
   ACCEPTED
   REJECTED
+}
+
+enum EdiB2CProcessType {
+  preliminaryaggregation
+  balancefixing
+  wholesalefixing
+  correction
 }
 
 enum EicFunction {
