@@ -29,7 +29,6 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { debounceTime } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { OrganizationStatus } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -50,7 +49,6 @@ import type { DhOrganizationsFilters } from '../dh-organizations-filters';
 
     VaterSpacerComponent,
     VaterStackComponent,
-    WATT_FORM_FIELD,
     WattButtonComponent,
     WattDropdownComponent,
     DhDropdownTranslatorDirective,
@@ -76,17 +74,13 @@ import type { DhOrganizationsFilters } from '../dh-organizations-filters';
       [formGroup]="formGroup"
       *transloco="let t; read: 'marketParticipant.organizationsOverview.filters'"
     >
-      <watt-form-field>
-        <watt-dropdown
-          formControlName="organizationStatus"
-          [options]="statusOptions"
-          [multiple]="true"
-          [chipMode]="true"
-          [placeholder]="t('status')"
-          dhDropdownTranslator
-          translate="marketParticipant.organizationsOverview.status"
-        />
-      </watt-form-field>
+      <watt-dropdown
+        [chipMode]="true"
+        [multiple]="true"
+        formControlName="organizationStatus"
+        [placeholder]="t('status')"
+        [options]="statusOptions"
+      />
 
       <vater-spacer />
       <watt-button variant="text" icon="undo" type="reset">{{ t('reset') }}</watt-button>
