@@ -22,17 +22,33 @@ limitations under the License.
       <watt-description-list *ngIf="balanceResponsibleMessage" [groupsPerRow]="4" variant="flow">
         <watt-description-list-item
           [label]="t('electricitySupplier')"
-          [value]="balanceResponsibleMessage.supplierWithName?.value ?? ''"
+          [value]="
+            balanceResponsibleMessage.supplierWithName
+              ? balanceResponsibleMessage.supplier.value +
+                ' - ' +
+                balanceResponsibleMessage.supplierWithName.value
+              : balanceResponsibleMessage.supplier.value
+          "
         />
         <watt-description-list-item
           [label]="t('balanceResponsible')"
-          [value]="balanceResponsibleMessage.balanceResponsibleWithName?.value ?? ''"
+          [value]="
+            balanceResponsibleMessage.balanceResponsibleWithName
+              ? balanceResponsibleMessage.balanceResponsible.value +
+                ' - ' +
+                balanceResponsibleMessage.balanceResponsibleWithName.value
+              : balanceResponsibleMessage.balanceResponsible.value
+          "
         />
         <watt-description-list-item
           [label]="t('gridArea')"
-          value="{{ balanceResponsibleMessage.gridArea.name }} - {{
-            balanceResponsibleMessage.gridArea.code
-          }}"
+          [value]="
+            balanceResponsibleMessage.gridAreaWithName
+              ? balanceResponsibleMessage.gridAreaWithName.name +
+                ' - ' +
+                balanceResponsibleMessage.gridAreaWithName.code
+              : balanceResponsibleMessage.gridArea
+          "
         />
         <watt-description-list-item
           [label]="t('meteringPointType')"
