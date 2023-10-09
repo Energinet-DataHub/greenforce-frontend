@@ -14,7 +14,7 @@ type Actor {
   glnOrEicNumber: String!
   marketRole: EicFunction
   gridAreas: [GridAreaDto!]!
-  organization: OrganizationDto!
+  organization: Organization!
   externalActorId: UUID
   status: ActorStatus!
 }
@@ -90,6 +90,17 @@ enum ExchangeEventProcessType {
   AGGREGATION
 }
 
+type Organization {
+  organizationId: String
+  actors: [Actor!]
+  name: String!
+  businessRegisterIdentifier: String!
+  domain: String!
+  comment: String!
+  status: OrganizationStatus!
+  address: AddressDto!
+}
+
 type Permission {
   userRoles: [UserRoleDto!]!
   id: Int!
@@ -118,8 +129,8 @@ type Query {
   permissionLogs(id: Int!): [PermissionLog!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditLog!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
-  organizationById(id: UUID!): OrganizationDto!
-  organizations: [OrganizationDto!]!
+  organizationById(id: UUID!): Organization!
+  organizations: [Organization!]!
   gridAreas: [GridAreaDto!]!
   calculationById(id: UUID!): Calculation!
   calculations(executionTime: DateRange, executionStates: [BatchState!], processTypes: [ProcessType!], gridAreaCodes: [String!], period: DateRange, first: Int): [Calculation!]!
@@ -147,16 +158,6 @@ type GridAreaDto {
   priceAreaCode: PriceAreaCode!
   validFrom: DateTime!
   validTo: DateTime
-}
-
-type OrganizationDto {
-  organizationId: UUID!
-  name: String!
-  businessRegisterIdentifier: String!
-  domain: String!
-  comment: String!
-  status: OrganizationStatus!
-  address: AddressDto!
 }
 
 type ActorNameDto {
@@ -206,6 +207,21 @@ enum DocumentStatus {
   REJECTED
 }
 
+enum OrganizationStatus {
+  NEW
+  ACTIVE
+  BLOCKED
+  DELETED
+}
+
+type AddressDto {
+  streetName: String
+  number: String
+  zipCode: String
+  city: String
+  country: String!
+}
+
 type UserRoleDto {
   id: UUID!
   name: String!
@@ -217,21 +233,6 @@ type UserRoleDto {
 enum UserRoleStatus {
   ACTIVE
   INACTIVE
-}
-
-type AddressDto {
-  streetName: String
-  number: String
-  zipCode: String
-  city: String
-  country: String!
-}
-
-enum OrganizationStatus {
-  NEW
-  ACTIVE
-  BLOCKED
-  DELETED
 }
 
 enum PriceAreaCode {
