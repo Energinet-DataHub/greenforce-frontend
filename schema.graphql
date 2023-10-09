@@ -20,7 +20,7 @@ type Actor {
 }
 
 type BalanceResponsibleType {
-  gridArea: GridAreaDto!
+  gridAreaWithName: GridAreaDto
   supplierWithName: ActorNameDto
   balanceResponsibleWithName: ActorNameDto
   id: String!
@@ -30,6 +30,7 @@ type BalanceResponsibleType {
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
   validToDate: DateTime
+  gridArea: String!
 }
 
 """An immutable calculation."""
@@ -74,7 +75,7 @@ enum EicFunction {
 }
 
 type EsettOutgoingMessage {
-  gridArea: GridAreaDto!
+  gridArea: GridAreaDto
   documentId: String!
   created: DateTime!
   processType: ExchangeEventProcessType!
