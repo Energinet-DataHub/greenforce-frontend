@@ -19,6 +19,13 @@ limitations under the License.
     <vater-stack direction="row" gap="s">
       <h3>{{ t("organizations") }}</h3>
       <span class="watt-chip-label">{{ tableDataSource.data.length }} </span>
+
+      <vater-spacer />
+
+      <watt-search [label]="'shared.search' | transloco" (search)="onSearch($event)" />
+      <watt-button icon="download" variant="text" (click)="download()">{{
+        "shared.download" | transloco
+      }}</watt-button>
     </vater-stack>
 
     <dh-organizations-table
