@@ -63,7 +63,7 @@ import {
 export class DhMarketRolesOverviewComponent implements AfterViewInit {
   private transloco = inject(TranslocoService);
 
-  dataSource = new WattTableDataSource(Object.keys(EicFunction));
+  dataSource = new WattTableDataSource(this.getMarketRoles());
 
   columns: WattTableColumnDef<string> = {
     name: { accessor: (value) => value },
@@ -107,5 +107,9 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
           exportToCSV({ headers, lines });
         }
       });
+  }
+
+  private getMarketRoles() {
+    return Object.keys(EicFunction).filter((role) => role !== EicFunction.ElOverblik);
   }
 }
