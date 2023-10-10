@@ -109,12 +109,12 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
     <ng-container [formGroup]="form">
       <!-- Start of period -->
       <fieldset class="start-date" [ngClass]="{ 'has-error': form.controls.startDate.errors }">
-        <p class="watt-label">Start of period <span class="asterisk">*</span></p>
         <eo-transfers-datetime
           formControlName="startDate"
+          label="Start of period"
           [min]="minStartDate"
           [existingTransferAgreements]="existingTransferAgreements"
-        ></eo-transfers-datetime>
+        />
         <eo-transfers-errors
           [showError]="
             (form.controls.startDate.touched || form.controls.startDate.dirty) &&

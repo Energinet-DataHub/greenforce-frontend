@@ -15,7 +15,15 @@
  * limitations under the License.
  */
 import { NgIf, NgClass } from '@angular/common';
-import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewEncapsulation,
+} from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'watt-field',
@@ -25,7 +33,9 @@ import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core'
   styleUrls: ['./watt-field.component.scss'],
   template: `
     <label [attr.for]="id ? id : null">
-      <span *ngIf="!chipMode" class="label">{{ label }}</span>
+      <span *ngIf="!chipMode && label" class="label" [ngClass]="{ required: _isRequired }">{{
+        label
+      }}</span>
       <div class="watt-field-wrapper">
         <ng-content />
       </div>
@@ -34,12 +44,25 @@ import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core'
     </label>
   `,
 })
-export class WattFieldComponent {
+export class WattFieldComponent implements OnChanges {
   @Input() label!: string;
+  @Input({ required: true }) control!: FormControl | null;
   @Input() id!: string;
   @Input() chipMode = false;
-  @HostBinding('class')
+  @HostBinding('class.watt-field--chip')
   get _chip() {
-    return this.chipMode ? `watt-field--chip` : undefined;
+    return this.chipMode;
+  }
+
+  @HostBinding('class.watt-field--invalid')
+  get _hasError() {
+    return this.control?.status === 'INVALID' && !!this.control?.touched;
+  }
+  protected _isRequired = false;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['control']) {
+      this._isRequired = this.control?.hasValidator(Validators.required) ?? false;
+    }
   }
 }

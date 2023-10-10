@@ -27,7 +27,7 @@ import {
   Optional,
   AfterViewInit,
 } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
+import { ControlValueAccessor, FormControl, FormsModule, NgControl } from '@angular/forms';
 import { WattFieldComponent } from '../field/watt-field.component';
 import { WattIconComponent, WattIcon } from '../../foundations/icon';
 
@@ -39,7 +39,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
   selector: 'watt-text-field',
   styleUrls: ['./watt-text-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  template: `<watt-field [label]="label">
+  template: `<watt-field [control]="formControl" [label]="label">
     <watt-icon *ngIf="prefix" [name]="prefix" />
     <input
       [attr.aria-label]="label"
@@ -77,9 +77,12 @@ export class WattTextFieldTDComponent implements ControlValueAccessor, AfterView
   @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
 
-  constructor(@Self() @Optional() private control: NgControl) {
+  formControl!: FormControl;
+
+  constructor(@Self() @Optional() protected control: NgControl) {
     if (!this.control) return;
     this.control.valueAccessor = this;
+    this.formControl = this.control.control as FormControl;
   }
 
   ngAfterViewInit(): void {

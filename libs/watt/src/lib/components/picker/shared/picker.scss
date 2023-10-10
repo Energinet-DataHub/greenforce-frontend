@@ -18,6 +18,9 @@
 @use "./variables" as *;
 
 %datepicker {
+  display: flex;
+  align-items: center;
+
   watt-button[variant="icon"] {
     margin-left: auto;
     .watt-button--icon {
@@ -27,13 +30,10 @@
   }
 
   input {
+    font-family: watt.$typography-monospace-font-family;
     border: none;
     outline: none;
   }
-
-  display: flex;
-  align-items: center;
-  font-family: watt.$typography-monospace-font-family;
 
   input.mat-date-range-input-inner,
   input.mat-mdc-input-element {

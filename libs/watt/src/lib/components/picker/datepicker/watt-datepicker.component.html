@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *ngIf="range; else singleInputTemplate">
-  <watt-field [label]="label">
+  <watt-field [control]="_control" [label]="label">
     <mat-date-range-input
       [disabled]="disabled"
       [rangePicker]="rangeDatepicker"
@@ -67,7 +67,7 @@ limitations under the License.
 </ng-container>
 
 <ng-template #singleInputTemplate>
-  <watt-field [label]="label">
+  <watt-field [control]="_control" [label]="label">
     <input
       matInput
       aria-label="date-input"

@@ -24,7 +24,7 @@ import {
   OnDestroy,
   Optional,
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 
 import { WattInputMaskService } from './watt-input-mask.service';
@@ -230,6 +230,12 @@ export abstract class WattPickerBase implements AfterViewInit, OnDestroy, Contro
    */
   ngControl: NgControl | null = null;
 
+  /**
+   *
+   * @ignore
+   */
+  protected _control: FormControl | null = null;
+
   constructor(
     public id: string,
     protected inputMaskService: WattInputMaskService,
@@ -250,6 +256,8 @@ export abstract class WattPickerBase implements AfterViewInit, OnDestroy, Contro
    * @ignore
    */
   ngAfterViewInit() {
+    this._control = this.ngControl?.control as FormControl;
+
     if (this.initialValue) {
       this.writeValue(this.initialValue);
     }

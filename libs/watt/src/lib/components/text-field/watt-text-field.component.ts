@@ -31,6 +31,7 @@ import {
   FormControl,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { WattFieldComponent } from '../field/watt-field.component';
 import { WattIconComponent, WattIcon } from '../../foundations/icon';
@@ -50,7 +51,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       multi: true,
     },
   ],
-  template: `<watt-field [label]="label">
+  template: `<watt-field [control]="formControl" [label]="label">
     <watt-icon *ngIf="prefix" [name]="prefix" />
     <input
       [attr.aria-label]="label"
@@ -60,18 +61,18 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       [formControl]="formControl"
       (blur)="onTouched()"
       (input)="onChanged($event)"
+      [maxlength]="maxLength"
       #inputField
     />
     <ng-content />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
-  </watt-field> `,
+  </watt-field>`,
 })
 export class WattTextFieldComponent implements ControlValueAccessor, AfterViewInit {
   @Input() value!: string;
   @Input() type: WattInputTypes = 'text';
   @Input() placeholder?: string;
-  @Input() required = false;
   @Input() label = '';
   @Input() prefix?: WattIcon;
   @Input() maxLength: string | number | null = null;

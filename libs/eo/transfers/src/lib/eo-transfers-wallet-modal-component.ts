@@ -34,11 +34,11 @@ import { FormControl } from '@angular/forms';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 
 import { EoTransfersStore } from './eo-transfers.store';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -64,7 +64,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
       (closed)="onClosed()"
       *ngIf="opened"
     >
-      <form *ngIf="(walletDepositEndpointError$ | async) !== undefined; else error">
+      <form *ngIf="(walletDepositEndpointError$ | async) === undefined; else error">
         <p>
           To receive granular certificates the sender must create a transfer agreement. They need
           this key to identify the recipient (you).
@@ -80,7 +80,6 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
             #key
           />
           <watt-button
-            style="margin-top:28px;"
             variant="text"
             icon="contentCopy"
             [wattCopyToClipboard]="key.value"

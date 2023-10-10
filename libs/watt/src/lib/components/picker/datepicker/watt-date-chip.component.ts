@@ -47,7 +47,7 @@ import { WattFieldComponent } from '../../field/watt-field.component';
   ],
   template: `
     <mat-datepicker #picker />
-    <watt-field [chipMode]="true">
+    <watt-field [control]="null" [chipMode]="true">
       <watt-menu-chip
         hasPopup="dialog"
         [disabled]="disabled"

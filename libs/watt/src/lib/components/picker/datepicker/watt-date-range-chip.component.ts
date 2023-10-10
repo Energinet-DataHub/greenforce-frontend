@@ -66,7 +66,7 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
   ],
   template: `
     <mat-date-range-picker #picker></mat-date-range-picker>
-    <watt-field [chipMode]="true">
+    <watt-field [control]="null" [chipMode]="true">
       <watt-menu-chip
         hasPopup="dialog"
         [disabled]="disabled"

@@ -37,25 +37,22 @@ watt-field watt-field-error,
   display: none;
 }
 
-.ng-invalid:not(form).ng-touched watt-field watt-field-error {
+watt-field.watt-field--invalid watt-field-error {
   display: block;
 }
 
-form.ng-dirty.ng-submitted .ng-invalid .watt-field-wrapper,
-.ng-invalid:not(form).ng-touched .watt-field-wrapper {
+form.ng-submitted watt-field.watt-field--invalid .watt-field-wrapper,
+watt-field.watt-field--invalid .watt-field-wrapper {
   border-color: var(--watt-color-state-danger);
 }
 
-form.ng-dirty.ng-submitted .ng-invalid watt-field .label,
-.ng-invalid:not(form).ng-touched watt-field .label {
+form.ng-submitted watt-field.watt-field--invalid .label,
+watt-field.watt-field--invalid .label {
   color: var(--watt-color-state-danger);
-}
 
-[required] watt-field .label::after,
-[required="true"] watt-field .label::after,
-form.ng-dirty.ng-submitted .ng-invalid watt-field .label::after,
-.ng-invalid:not(form).ng-touched watt-field .label::after {
-  content: " *";
+  &.required::after {
+    color: var(--watt-color-state-danger);
+  }
 }
 
 watt-field {
@@ -81,6 +78,11 @@ watt-field {
     min-height: 27px;
     display: block;
     padding-bottom: var(--watt-space-s);
+
+    &.required::after {
+      content: " *";
+      color: var(--watt-color-primary);
+    }
   }
 
   label {

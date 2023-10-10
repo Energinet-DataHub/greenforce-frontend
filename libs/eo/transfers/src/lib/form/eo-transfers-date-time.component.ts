@@ -57,6 +57,7 @@ import { isToday } from 'date-fns';
       eo-transfers-datetime {
         display: flex;
         gap: var(--watt-space-m);
+        align-items: flex-end;
       }
 
       eo-transfers-datetime watt-form-field {
@@ -125,7 +126,7 @@ import { isToday } from 'date-fns';
   ],
   template: `
     <ng-container [formGroup]="form">
-      <watt-datepicker #endDatePicker formControlName="date" [min]="min" [dateClass]="dateClass" />
+      <watt-datepicker [label]="label" #endDatePicker formControlName="date" [min]="min" [dateClass]="dateClass" />
       <eo-transfers-timepicker
         formControlName="time"
         [disabledHours]="disabledHours"
@@ -151,6 +152,7 @@ export class EoTransfersDateTimeComponent
 {
   @Input() min!: Date;
   @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
+  @Input() label = '';
 
   @ViewChild(EoTransfersTimepickerComponent) timepicker!: EoTransfersTimepickerComponent;
 
