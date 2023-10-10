@@ -47,7 +47,7 @@ public class Mutation
         [Service] IMarketParticipantClient client)
     {
         var actor = await client.GetActorAsync(actorId).ConfigureAwait(false);
-        if (actor.Name.Value != actorName)
+        if (!string.Equals(actor.Name.Value, actorName, StringComparison.Ordinal))
         {
             var changes = new ChangeActorDto(
                 actor.Status,
@@ -60,9 +60,9 @@ public class Mutation
         var allContacts = await client.GetContactsAsync(actorId).ConfigureAwait(false);
         var defaultContact = allContacts.SingleOrDefault(c => c.Category == ContactCategory.Default);
         if (defaultContact == null ||
-            defaultContact.Name != departmentName ||
-            defaultContact.Email != departmentEmail ||
-            defaultContact.Phone != departmentPhone)
+            !string.Equals(defaultContact.Name, departmentName, StringComparison.Ordinal) ||
+            !string.Equals(defaultContact.Email, departmentEmail, StringComparison.Ordinal) ||
+            !string.Equals(defaultContact.Phone, departmentPhone, StringComparison.Ordinal))
         {
             if (defaultContact != null)
             {
@@ -133,15 +133,15 @@ public class Mutation
     {
         await client.RequestAggregatedMeasureDataAsync(
             new RequestAggregatedMeasureDataMarketRequest()
-                {
-                    ProcessType = processType,
-                    MeteringPointType = meteringPointType,
-                    StartDate = startDate,
-                    EndDate = endDate,
-                    GridArea = gridArea,
-                    EnergySupplierId = energySupplierId,
-                    BalanceResponsibleId = balanceResponsibleId,
-                },
+            {
+                ProcessType = processType,
+                MeteringPointType = meteringPointType,
+                StartDate = startDate,
+                EndDate = endDate,
+                GridArea = gridArea,
+                EnergySupplierId = energySupplierId,
+                BalanceResponsibleId = balanceResponsibleId,
+            },
             cancellationToken)
             .ConfigureAwait(false);
         return true;
