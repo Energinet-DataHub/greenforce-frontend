@@ -15,5 +15,63 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *ngIf="actor">
-  <watt-modal [title]="actor.glnOrEicNumber"> </watt-modal>
+  <watt-modal
+    [loading]="isLoading"
+    [title]="actor.name"
+    *transloco="let t; read: 'marketParticipant.actorsOverview.edit'"
+  >
+    <form
+      id="updateActorForm"
+      [formGroup]="actorForm"
+      *rxLet="formInitialValues$"
+      (ngSubmit)="save()"
+    >
+      <watt-text-field
+        class="actor-field"
+        [required]="true"
+        [label]="t('name')"
+        [formControl]="actorForm.controls.name"
+      >
+        <watt-field-error>{{ t("required") }}</watt-field-error>
+      </watt-text-field>
+
+      <h4>{{ t("contactHeader") }}</h4>
+      <watt-text-field
+        class="contact-field"
+        [required]="true"
+        [label]="t('departmentName')"
+        [formControl]="actorForm.controls.departmentName"
+      >
+        <watt-field-error>{{ t("required") }}</watt-field-error>
+      </watt-text-field>
+      <watt-text-field
+        class="contact-field"
+        type="email"
+        [required]="true"
+        [label]="t('departmentEmail')"
+        [formControl]="actorForm.controls.departmentEmail"
+      >
+        <span wattSuffix class="email-suffix">@{{ emailDomain }}</span>
+        <watt-field-error>{{ t("required") }}</watt-field-error>
+      </watt-text-field>
+      <watt-text-field
+        class="phone-field"
+        type="tel"
+        [required]="true"
+        [label]="t('departmentPhone')"
+        [formControl]="actorForm.controls.departmentPhone"
+      >
+        <watt-field-error>{{ t("required") }}</watt-field-error>
+      </watt-text-field>
+    </form>
+
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="close()">
+        {{ t("cancel") }}
+      </watt-button>
+      <watt-button variant="secondary" type="submit" formId="updateActorForm">
+        {{ t("save") }}
+      </watt-button>
+    </watt-modal-actions>
+  </watt-modal>
 </ng-container>

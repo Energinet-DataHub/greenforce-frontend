@@ -602,6 +602,20 @@
           }
         }
       },
+      "edit": {
+        "name": "Aktørnavn",
+        "contactHeader": "Kontakt",
+        "departmentName": "Afdeling/Navn",
+        "departmentEmail": "Email",
+        "departmentPhone": "Telefonnr.",
+        "required": "Feltet er påkrævet",
+        "cancel": "Fortryd",
+        "save": "Gem ændringer",
+        "updateRequest": {
+          "success": "Ændringerne af aktøren er blevet gemt.",
+          "error": "Der opstod desværre en fejl, da vi skulle gemme aktøren."
+        }
+      },
       "emptyTitle": "Ingen aktører fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",

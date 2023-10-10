@@ -14,6 +14,7 @@ type Actor {
   glnOrEicNumber: String!
   marketRole: EicFunction
   gridAreas: [GridAreaDto!]!
+  contact: ActorContactDto
   organization: Organization!
   externalActorId: UUID
   status: ActorStatus!
@@ -68,7 +69,6 @@ enum EicFunction {
   MeteringPointAdministrator
   SystemOperator
   DanishEnergyAgency
-  ElOverblik
   DataHubAdministrator
   IndependentAggregator
   SerialEnergyTrader
@@ -145,6 +145,7 @@ type Query {
 
 type Mutation {
   updatePermission(input: UpdatePermissionDtoInput!): Permission!
+  updateActor(input: UpdateActorInput!): UpdateActorPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
@@ -159,6 +160,14 @@ type GridAreaDto {
   priceAreaCode: PriceAreaCode!
   validFrom: DateTime!
   validTo: DateTime
+}
+
+type ActorContactDto {
+  contactId: UUID!
+  category: ContactCategory!
+  name: String!
+  email: String!
+  phone: String
 }
 
 type ActorNameDto {
@@ -231,6 +240,11 @@ type UserRoleDto {
   status: UserRoleStatus!
 }
 
+type MarketParticipantError implements Error {
+  message: String!
+  statusCode: Int!
+}
+
 type MarketParticipantBadRequestError implements Error {
   message: String!
   jsonError: JSON!
@@ -246,6 +260,24 @@ scalar JSON
 enum UserRoleStatus {
   ACTIVE
   INACTIVE
+}
+
+enum ContactCategory {
+  DEFAULT
+  CHARGES
+  CHARGE_LINKS
+  ELECTRICAL_HEATING
+  END_OF_SUPPLY
+  ENERGINET_INQUIRY
+  ERROR_REPORT
+  INCORRECT_MOVE
+  INCORRECT_SWITCH
+  MEASUREMENT_DATA
+  METERING_POINT
+  NET_SETTLEMENT
+  NOTIFICATION
+  RECON
+  REMINDER
 }
 
 enum PriceAreaCode {
@@ -363,6 +395,21 @@ input AddressDtoInput {
   zipCode: String
   city: String
   country: String!
+}
+
+input UpdateActorInput {
+  actorId: UUID!
+  actorName: String!
+  departmentName: String!
+  departmentEmail: String!
+  departmentPhone: String!
+}
+
+union UpdateActorError = MarketParticipantError
+
+type UpdateActorPayload {
+  boolean: Boolean
+  errors: [UpdateActorError!]
 }
 
 input CreateCalculationInput {
