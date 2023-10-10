@@ -25,6 +25,10 @@
     max-width: 25rem;
   }
 
+  .eic-function {
+    flex-basis: 100%;
+  }
+
   .permissions-error {
     display: block;
     margin-bottom: var(--watt-space-ml);

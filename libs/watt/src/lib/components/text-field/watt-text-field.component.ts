@@ -18,13 +18,20 @@ import { NgClass, NgIf } from '@angular/common';
 import {
   Component,
   Input,
-  forwardRef,
   ViewEncapsulation,
   HostBinding,
-  inject,
   ElementRef,
+  ViewChild,
+  forwardRef,
+  AfterViewInit,
+  inject,
 } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormControl,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { WattFieldComponent } from '../field/watt-field.component';
 import { WattIconComponent, WattIcon } from '../../foundations/icon';
 
@@ -32,7 +39,10 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
 
 @Component({
   standalone: true,
-  imports: [NgClass, FormsModule, WattFieldComponent, WattIconComponent, NgIf],
+  imports: [NgClass, ReactiveFormsModule, WattFieldComponent, WattIconComponent, NgIf],
+  selector: 'watt-text-field',
+  styleUrls: ['./watt-text-field.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -40,44 +50,57 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       multi: true,
     },
   ],
-  selector: 'watt-text-field',
-  styleUrls: ['./watt-text-field.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  template: `<watt-field [label]="label">
+  template: `<watt-field [control]="formControl" [label]="label">
     <watt-icon *ngIf="prefix" [name]="prefix" />
     <input
+      [attr.aria-label]="label"
       [attr.type]="type"
       [attr.placeholder]="placeholder"
       [value]="value"
-      [(ngModel)]="model"
-      [disabled]="isDisabled"
-      (ngModelChange)="onChange($event)"
-      [required]="required"
+      [formControl]="formControl"
+      (blur)="onTouched()"
+      (input)="onChanged($event)"
+      [maxlength]="maxLength"
+      #inputField
     />
     <ng-content />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
-  </watt-field> `,
+  </watt-field>`,
 })
-export class WattTextFieldComponent implements ControlValueAccessor {
+export class WattTextFieldComponent implements ControlValueAccessor, AfterViewInit {
   @Input() value!: string;
   @Input() type: WattInputTypes = 'text';
   @Input() placeholder?: string;
-  @Input() required = false;
-  @Input() label!: string;
+  @Input() label = '';
   @Input() prefix?: WattIcon;
+  @Input() maxLength: string | number | null = null;
+  @Input() formControl!: FormControl;
 
-  /* @ignore */
-  model!: string;
   private element = inject(ElementRef);
 
-  @HostBinding('attr.disabled')
+  @ViewChild('inputField') inputField!: ElementRef<HTMLInputElement>;
+  model!: string;
+
+  @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
 
+  ngAfterViewInit(): void {
+    const attrName = 'data-testid';
+    const testIdAttribute = this.element.nativeElement.getAttribute(attrName);
+    this.element.nativeElement.removeAttribute(attrName);
+    this.inputField.nativeElement.setAttribute(attrName, testIdAttribute);
+  }
+
+  onChanged(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.onChange(value);
+  }
+
   /* @ignore */
-  onChange: (value: string) => void = () => {
-    /* left blank intentionally */
-  };
+  onChange!: (value: string) => void;
+
+  onTouched!: () => void;
 
   /* @ignore */
   writeValue(value: string): void {
@@ -91,11 +114,15 @@ export class WattTextFieldComponent implements ControlValueAccessor {
 
   /* @ignore */
   registerOnTouched(fn: () => void): void {
-    this.element.nativeElement.addEventListener('focusout', fn);
+    this.onTouched = fn;
   }
 
   /* @ignore */
   setDisabledState(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
+  }
+
+  setFocus(): void {
+    this.inputField.nativeElement.focus();
   }
 }

@@ -19,10 +19,9 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { WattButtonComponent } from '../button';
-import { WattInputDirective } from '../input';
-import { WATT_FORM_FIELD } from '../form-field';
 import { WATT_MODAL } from './';
 import { WattModalComponent } from './watt-modal.component';
+import { WattTextFieldComponent } from '../text-field';
 import { WattTooltipDirective } from '../tooltip';
 
 const meta: Meta<WattModalComponent> = {
@@ -36,10 +35,9 @@ const meta: Meta<WattModalComponent> = {
       imports: [
         ReactiveFormsModule,
         WattButtonComponent,
-        WATT_FORM_FIELD,
-        WattInputDirective,
         WATT_MODAL,
         WattTooltipDirective,
+        WattTextFieldComponent,
       ],
     }),
   ],
@@ -73,14 +71,8 @@ export const Normal: StoryFn<WattModalComponent> = (args) => ({
     <watt-button (click)="modal.open()">{{title}}</watt-button>
     <watt-modal #modal [title]="title" [size]="size" [disableClose]="disableClose" closeLabel="Close modal">
       <br>
-      <watt-form-field>
-        <watt-label>Username</watt-label>
-        <input wattInput [formControl]="exampleFormControl" />
-      </watt-form-field>
-      <watt-form-field>
-        <watt-label>Password</watt-label>
-        <input wattInput type="password" [formControl]="exampleFormControl" />
-      </watt-form-field>
+      <watt-text-field [formControl]="exampleFormControl" label="Username" />
+      <watt-text-field [formControl]="exampleFormControl" label="Password" type="password" />
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">Cancel</watt-button>
         <watt-button (click)="modal.close(true)">Save</watt-button>

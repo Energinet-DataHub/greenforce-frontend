@@ -16,140 +16,115 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'marketParticipant.organization.create.masterData'">
   <div class="form-container">
-    <watt-form-field class="field-name">
-      <watt-label>{{ t("organizationNameLabel") }}</watt-label>
-      <input
-        wattInput
-        [attr.aria-label]="t('organizationNameLabel')"
-        [(ngModel)]="changes.name"
-        #nameInputModel="ngModel"
-        required
-        maxlength="64"
-      />
-      <watt-error *ngIf="nameInputModel.hasError('required')">
+    <watt-text-field
+      [label]="t('organizationNameLabel')"
+      [(ngModel)]="changes.name"
+      #nameInputModel="ngModel"
+      [required]="true"
+      [maxlength]="64"
+      class="field-name"
+    >
+      <watt-field-error *ngIf="nameInputModel.hasError('required')">
         {{ "shared.fieldRequiredErrorText" | transloco }}
-      </watt-error>
-    </watt-form-field>
-    <watt-form-field class="field-bri">
-      <watt-label>{{ t("businessRegistrationIdetifierLabel") }}</watt-label>
-      <input
-        wattInput
-        [attr.aria-label]="t('businessRegistrationIdetifierLabel')"
-        [(ngModel)]="changes.businessRegisterIdentifier"
-        #businessRegisterIdentifierInputModel="ngModel"
-        required
-      />
-      <watt-error *ngIf="businessRegisterIdentifierInputModel.hasError('required')">
+      </watt-field-error>
+    </watt-text-field>
+
+    <watt-text-field
+      class="field-bri"
+      [label]="t('businessRegistrationIdetifierLabel')"
+      [(ngModel)]="changes.businessRegisterIdentifier"
+      #businessRegisterIdentifierInputModel="ngModel"
+      [required]="true"
+    >
+      <watt-field-error *ngIf="businessRegisterIdentifierInputModel.hasError('required')">
         {{ "shared.fieldRequiredErrorText" | transloco }}
-      </watt-error>
-    </watt-form-field>
+      </watt-field-error>
+    </watt-text-field>
   </div>
 
   <div class="form-container">
-    <watt-form-field class="field-street-name">
-      <watt-label>{{ t("streetNameLabel") }}</watt-label>
-      <input
-        wattInput
-        [attr.aria-label]="t('streetNameLabel')"
-        [(ngModel)]="changes.address.streetName"
-        #streetNameInputModel="ngModel"
-        maxlength="64"
-      />
-    </watt-form-field>
-    <watt-form-field class="field-street-number">
-      <watt-label>{{ t("streetNumberLabel") }}</watt-label>
-      <input
-        wattInput
-        [attr.aria-label]="t('streetNumberLabel')"
-        [(ngModel)]="changes.address.number"
-        #streetNumberInputModel="ngModel"
-        maxlength="64"
-      />
-    </watt-form-field>
+    <watt-text-field
+      class="field-street-name"
+      [label]="t('streetNameLabel')"
+      [(ngModel)]="changes.address.streetName"
+      #streetNameInputModel="ngModel"
+      [maxlength]="64"
+    />
+    <watt-text-field
+      class="field-street-number"
+      [label]="t('streetNumberLabel')"
+      [(ngModel)]="changes.address.number"
+      #streetNumberInputModel="ngModel"
+      [maxlength]="64"
+    />
   </div>
 
   <div class="form-container">
-    <watt-form-field class="field-zip-code">
-      <watt-label>{{ t("zipCodeLabel") }}</watt-label>
-      <input
-        wattInput
-        [attr.aria-label]="t('zipCodeLabel')"
-        [(ngModel)]="changes.address.zipCode"
-        #zipCodeInputModel="ngModel"
-        maxlength="64"
-      />
-    </watt-form-field>
-    <watt-form-field class="field-city">
-      <watt-label>{{ t("cityLabel") }}</watt-label>
-      <input
-        wattInput
-        [attr.aria-label]="t('cityLabel')"
-        [(ngModel)]="changes.address.city"
-        #cityInput="ngModel"
-        maxlength="64"
-      />
-    </watt-form-field>
+    <watt-text-field
+      class="field-zip-code"
+      [label]="t('zipCodeLabel')"
+      [(ngModel)]="changes.address.zipCode"
+      #zipCodeInputModel="ngModel"
+      [maxlength]="64"
+    />
+    <watt-text-field
+      class="field-city"
+      [label]="t('cityLabel')"
+      [attr.aria-label]="t('cityLabel')"
+      [(ngModel)]="changes.address.city"
+      #cityInput="ngModel"
+      [maxlength]="64"
+    />
   </div>
 
   <div class="form-container">
-    <watt-form-field class="field-country">
-      <watt-label>{{ t("countryLabel") }}</watt-label>
-      <watt-dropdown
-        [attr.aria-label]="t('countryLabel')"
-        [options]="countries"
-        [(ngModel)]="changes.address.country"
-        #countryInputModel="ngModel"
-        required
-        [showResetOption]="false"
-      >
-      </watt-dropdown>
-      <watt-error *ngIf="countryInputModel.hasError('required')">
+    <watt-dropdown
+      [label]="t('countryLabel')"
+      [options]="countries"
+      [(ngModel)]="changes.address.country"
+      #countryInputModel="ngModel"
+      required
+      [showResetOption]="false"
+    >
+      <watt-field-error *ngIf="countryInputModel.hasError('required')">
         {{ "shared.fieldRequiredErrorText" | transloco }}
-      </watt-error>
-    </watt-form-field>
+      </watt-field-error>
+    </watt-dropdown>
   </div>
 
   <div class="form-container">
-    <watt-form-field class="field-domain">
-      <watt-label>{{ t("domainLabel") }}</watt-label>
-      <input
-        [disabled]="!!changes.organizationId"
-        wattInput
-        [attr.aria-label]="t('domainLabel')"
-        [(ngModel)]="changes.domain"
-        #domainInputModel="ngModel"
-        maxlength="64"
-      />
-    </watt-form-field>
+    <watt-text-field
+      [label]="t('domainLabel')"
+      class="field-domain"
+      [disabled]="!!changes.organizationId"
+      [(ngModel)]="changes.domain"
+      #domainInputModel="ngModel"
+      [maxlength]="64"
+    />
   </div>
 
   <div class="form-container">
-    <watt-form-field class="field-comment">
-      <watt-label>{{ t("commentLabel") }}</watt-label>
-      <input
-        wattInput
-        [attr.aria-label]="t('commentLabel')"
-        [(ngModel)]="changes.comment"
-        #commentInputModel="ngModel"
-      />
-    </watt-form-field>
+    <watt-text-field
+      class="field-comment"
+      [label]="t('commentLabel')"
+      [(ngModel)]="changes.comment"
+      #commentInputModel="ngModel"
+    />
   </div>
 
   <div class="form-container">
-    <watt-form-field class="field-status">
-      <watt-label>{{ t("labelStatus") }}</watt-label>
-      <watt-dropdown
-        [(ngModel)]="changes.status"
-        [options]="statuses"
-        [disabled]="!changes.organizationId || initialOrganizationStatus === 'Deleted'"
-        #statusInputModel="ngModel"
-        required
-        [showResetOption]="false"
-      >
-      </watt-dropdown>
-      <watt-error *ngIf="statusInputModel.hasError('required')">
+    <watt-dropdown
+      [label]="t('labelStatus')"
+      [(ngModel)]="changes.status"
+      [options]="statuses"
+      [disabled]="!changes.organizationId || initialOrganizationStatus === 'Deleted'"
+      #statusInputModel="ngModel"
+      required
+      [showResetOption]="false"
+    >
+      <watt-field-error *ngIf="statusInputModel.hasError('required')">
         {{ "shared.fieldRequiredErrorText" | transloco }}
-      </watt-error>
-    </watt-form-field>
+      </watt-field-error>
+    </watt-dropdown>
   </div>
 </ng-container>

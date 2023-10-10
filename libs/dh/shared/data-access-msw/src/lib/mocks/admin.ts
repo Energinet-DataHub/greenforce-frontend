@@ -18,7 +18,6 @@ import { rest } from 'msw';
 
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 
-import { marketParticipantUserSearchUsers } from './data/marketParticipantUserSearchUsers';
 import marketParticipantActorQuerySelectionActors from './data/marketParticipantActorQuerySelectionActors.json';
 import marketParticipantUserRoleGetAll from './data/marketParticipantUserRoleGetAll.json';
 import marketParticipantUserGetUserAuditLogs from './data/marketParticipantUserGetUserAuditLogs.json';
@@ -27,6 +26,9 @@ import { getUserRoleAuditLogsMock } from './data/get-user-role-audit-logs';
 import { adminPermissionsMock } from './data/admin-get-permissions';
 import { adminPermissionPermissionLogsMock } from './data/admin-get-permissionlogs';
 import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
+import { marketParticipantUserRoles } from './data/admin-get-marketParticipantUserRoles';
+import { marketParticipantOrganization } from './data/admin-get-actorOrganization';
+import { marketParticipantUserSearchUsers } from './data/marketParticipantUserSearchUsers';
 import { marketParticipantOrganizationGetFilteredActors } from './data/marketParticipantOrganizationGetFilteredActors';
 
 export function adminMocks(apiBase: string) {
@@ -45,6 +47,8 @@ export function adminMocks(apiBase: string) {
     putMarketParticipantPermissionsUpdate(apiBase),
     putMarketParticipantUserUpdateUserIdentity(apiBase),
     putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase),
+    getMarketParticipantUserRoleGetAssignable(apiBase),
+    getActorOrganization(apiBase),
   ];
 }
 
@@ -59,6 +63,21 @@ function getMarketParticipantActorQuerySelectionActors(apiBase: string) {
     `${apiBase}/v1/MarketParticipantActorQuery/GetSelectionActors`,
     (req, res, ctx) => {
       return res(ctx.json(marketParticipantActorQuerySelectionActors));
+    }
+  );
+}
+
+function getMarketParticipantUserRoleGetAssignable(apiBase: string) {
+  return rest.get(`${apiBase}/v1/MarketParticipantUserRole/GetAssignable`, (req, res, ctx) => {
+    return res(ctx.json(marketParticipantUserRoles));
+  });
+}
+
+function getActorOrganization(apiBase: string) {
+  return rest.get(
+    `${apiBase}/v1/MarketParticipant/Organization/GetActorOrganization`,
+    (req, res, ctx) => {
+      return res(ctx.json(marketParticipantOrganization));
     }
   );
 }

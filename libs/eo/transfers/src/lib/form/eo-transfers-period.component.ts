@@ -21,8 +21,8 @@ import { CommonModule, NgClass, NgIf, NgSwitch } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 import { EoExistingTransferAgreement } from '../eo-transfers.store';
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
@@ -43,9 +43,9 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
     NgIf,
     NgSwitch,
     ReactiveFormsModule,
-    WATT_FORM_FIELD,
     WattDatePipe,
     WattRadioComponent,
+    WattFieldErrorComponent,
     EoTransferErrorsComponent,
   ],
   styles: [
@@ -109,25 +109,27 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
     <ng-container [formGroup]="form">
       <!-- Start of period -->
       <fieldset class="start-date" [ngClass]="{ 'has-error': form.controls.startDate.errors }">
-        <p class="watt-label">Start of period <span class="asterisk">*</span></p>
         <eo-transfers-datetime
           formControlName="startDate"
+          label="Start of period"
           [min]="minStartDate"
           [existingTransferAgreements]="existingTransferAgreements"
-        ></eo-transfers-datetime>
+        />
         <eo-transfers-errors
           [showError]="
             (form.controls.startDate.touched || form.controls.startDate.dirty) &&
             !!form.controls.startDate.errors
           "
         >
-          <watt-error [style.opacity]="form.controls.startDate.errors?.['required'] ? 1 : 0">
+          <watt-field-error [style.opacity]="form.controls.startDate.errors?.['required'] ? 1 : 0">
             The start of the period is required
-          </watt-error>
-          <watt-error [style.opacity]="form.controls.startDate.errors?.['nextHourOrLater'] ? 1 : 0">
+          </watt-field-error>
+          <watt-field-error
+            [style.opacity]="form.controls.startDate.errors?.['nextHourOrLater'] ? 1 : 0"
+          >
             The start of the period must be at least the next hour from now
-          </watt-error>
-          <watt-error
+          </watt-field-error>
+          <watt-field-error
             [style.opacity]="form.controls.startDate.errors?.['overlapping']?.start ? 1 : 0"
           >
             <ng-container *ngIf="form.controls.startDate.errors?.['overlapping']?.start; let error">
@@ -136,7 +138,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
               }}
               - {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
             </ng-container>
-          </watt-error>
+          </watt-field-error>
         </eo-transfers-errors>
       </fieldset>
 
@@ -164,15 +166,17 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
             <eo-transfers-errors
               [showError]="!!form.controls.endDate.errors || !!form.controls.hasEndDate.errors"
             >
-              <watt-error [style.opacity]="form.controls.endDate.errors?.['minToday'] ? 1 : 0">
+              <watt-field-error
+                [style.opacity]="form.controls.endDate.errors?.['minToday'] ? 1 : 0"
+              >
                 The end of the period must be today or later
-              </watt-error>
-              <watt-error
+              </watt-field-error>
+              <watt-field-error
                 [style.opacity]="form.controls.endDate.errors?.['endDateMustBeLaterThanStartDate'] ? 1 : 0"
               >
                 The end of the period must be later than the start of the period
-              </watt-error>
-              <watt-error
+              </watt-field-error>
+              <watt-field-error
                 [style.opacity]="form.controls.hasEndDate.errors?.['overlapping']?.end ? 1 : 0"
               >
                 <ng-container
@@ -183,8 +187,8 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
                   {{ error.startDate | wattDate : 'long' }} -
                   {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
                 </ng-container>
-              </watt-error>
-              <watt-error
+              </watt-field-error>
+              <watt-field-error
                 [style.opacity]="form.controls.endDate.errors?.['overlapping']?.end ? 1 : 0"
               >
                 <ng-container *ngIf="form.controls.endDate.errors?.['overlapping']?.end; let error">
@@ -192,7 +196,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
                   {{ error.startDate | wattDate : 'long' }} -
                   {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
                 </ng-container>
-              </watt-error>
+              </watt-field-error>
             </eo-transfers-errors>
           </div>
         </div>

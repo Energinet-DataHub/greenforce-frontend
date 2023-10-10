@@ -81,18 +81,17 @@ limitations under the License.
           </div>
 
           <!-- Process type -->
-          <watt-form-field>
-            <watt-label>{{ t("create.processType.label") }}</watt-label>
-            <watt-dropdown
-              formControlName="processType"
-              [options]="processTypes | push"
-              [showResetOption]="false"
-              [multiple]="false"
-            ></watt-dropdown>
-            <watt-error *ngIf="formGroup.controls.processType.errors?.required">
+          <watt-dropdown
+            [label]="t('create.processType.label')"
+            formControlName="processType"
+            [options]="processTypes | push"
+            [showResetOption]="false"
+            [multiple]="false"
+          >
+            <watt-field-error *ngIf="formGroup.controls.processType.errors?.required">
               {{ t("create.processType.error") }}
-            </watt-error>
-          </watt-form-field>
+            </watt-field-error>
+          </watt-dropdown>
 
           <!-- Monthly summation -->
           <div class="chips">
@@ -106,44 +105,42 @@ limitations under the License.
           </div>
 
           <!-- Date range -->
-          <watt-form-field>
-            <watt-label>{{ t("create.period.label") }}</watt-label>
-            <watt-datepicker
-              formControlName="dateRange"
-              [rangeMonthOnlyMode]="monthOnly.includes(formGroup.controls.processType.value)"
-              [range]="true"
-              [min]="minDate"
-              [max]="maxDate"
-            />
-            <watt-error *ngIf="formGroup.controls.dateRange.errors?.rangeRequired">
+          <watt-datepicker
+            [label]="t('create.period.label')"
+            formControlName="dateRange"
+            [rangeMonthOnlyMode]="monthOnly.includes(formGroup.controls.processType.value)"
+            [range]="true"
+            [min]="minDate"
+            [max]="maxDate"
+          >
+            <watt-field-error *ngIf="formGroup.controls.dateRange.errors?.rangeRequired">
               {{ t("create.period.required") }}
-            </watt-error>
-            <watt-error
+            </watt-field-error>
+            <watt-field-error
               *ngIf="
                 formGroup.controls.dateRange.errors?.invalidPeriod &&
                 !formGroup.controls.dateRange.errors?.rangeRequired
               "
             >
               {{ t("create.period.invalid") }}
-            </watt-error>
-          </watt-form-field>
+            </watt-field-error>
+          </watt-datepicker>
 
           <!-- Grid areas -->
-          <watt-form-field>
-            <watt-label>{{ t("create.gridArea.label") }}</watt-label>
-            <watt-dropdown
-              formControlName="gridAreas"
-              [options]="gridAreas$ | push"
-              [showResetOption]="false"
-              [multiple]="true"
-            ></watt-dropdown>
-            <watt-hint>{{
+          <watt-dropdown
+            [label]="t('create.gridArea.label')"
+            formControlName="gridAreas"
+            [options]="gridAreas$ | push"
+            [showResetOption]="false"
+            [multiple]="true"
+          >
+            <watt-field-hint>{{
               t("create.gridArea.hint", { count: formGroup.controls.gridAreas.value?.length })
-            }}</watt-hint>
-            <watt-error *ngIf="formGroup.controls.gridAreas.errors?.required">
+            }}</watt-field-hint>
+            <watt-field-error *ngIf="formGroup.controls.gridAreas.errors?.required">
               {{ t("create.gridArea.required") }}
-            </watt-error>
-          </watt-form-field>
+            </watt-field-error>
+          </watt-dropdown>
         </form>
       </ng-container>
 
@@ -184,10 +181,10 @@ limitations under the License.
       />
       <p>{{ t("body") }}</p>
       <p>{{ t("confirmation") }}</p>
-      <watt-form-field>
-        <input #input wattInput [formControl]="confirmFormControl" value="" autocomplete="off" />
-        <watt-hint>{{ t("hint") }}</watt-hint>
-      </watt-form-field>
+      <watt-field [control]="confirmFormControl">
+        <input #input [formControl]="confirmFormControl" value="" autocomplete="off" />
+        <watt-field-hint>{{ t("hint") }}</watt-field-hint>
+      </watt-field>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t("cancel") }}

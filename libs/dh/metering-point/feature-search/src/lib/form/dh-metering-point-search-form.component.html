@@ -19,29 +19,26 @@ limitations under the License.
   name="search-form"
   (ngSubmit)="onSubmit()"
 >
-  <watt-form-field>
-    <watt-label>{{ transloco("searchLabel") }}</watt-label>
-    <watt-icon name="search" wattPrefix></watt-icon>
-    <input
-      #searchInput
-      wattInput
-      type="text"
-      [placeholder]="transloco('searchPlaceholder')"
-      [formControl]="searchControl"
-      inputmode="numeric"
-    />
-    <watt-error *ngIf="searchControl.errors?.invalidMeteringPointId">
+  <watt-text-field
+    [label]="transloco('searchLabel')"
+    #searchInput
+    data-testid="searchInput"
+    [placeholder]="transloco('searchPlaceholder')"
+    [formControl]="searchControl"
+    prefix="search"
+  >
+    <watt-field-error *ngIf="searchControl.errors?.invalidMeteringPointId">
       {{ transloco("searchInvalidLength") }}
-    </watt-error>
+    </watt-field-error>
     <watt-button
       icon="close"
       type="reset"
       variant="icon"
-      wattSuffix
       data-testid="buttonClear"
       (click)="onSearchInputClear()"
     ></watt-button>
-  </watt-form-field>
+  </watt-text-field>
+
   <watt-button variant="primary" type="submit" [loading]="loading">{{
     transloco("searchButton")
   }}</watt-button>

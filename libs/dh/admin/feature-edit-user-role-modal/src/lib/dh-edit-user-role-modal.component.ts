@@ -34,11 +34,11 @@ import { RxLet } from '@rx-angular/template/let';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
   DhAdminMarketRolePermissionsStore,
@@ -51,6 +51,7 @@ import {
   MarketParticipantUserRoleWithPermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
+import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 
 @Component({
   selector: 'dh-edit-user-role-modal',
@@ -59,12 +60,7 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
   styles: [
     `
       .tab-master-data {
-        margin: calc(var(--watt-space-ml) * 2) 0 0 var(--watt-space-ml);
         width: 25rem;
-      }
-
-      .tab-permissions {
-        margin: 0 var(--watt-space-ml);
       }
 
       .spinner-container {
@@ -84,11 +80,12 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
     TranslocoModule,
     WattTabComponent,
     WattTabsComponent,
-    WATT_FORM_FIELD,
-    WattInputDirective,
     ReactiveFormsModule,
     WattSpinnerComponent,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
     WATT_CARD,
+    WattTextAreaFieldComponent,
     DhPermissionsTableComponent,
   ],
 })

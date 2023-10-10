@@ -35,7 +35,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
-import { WATT_FORM_FIELD, WattFormChipDirective } from '@energinet-datahub/watt/form-field';
+import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import {
   WholesaleProcessType,
   WholesaleSettlementReportHttp,
@@ -69,7 +69,6 @@ export type settlementReportsTableColumns = graphql.GridAreaDto & { download: bo
     WattDateRangeChipComponent,
     WattFormChipDirective,
     ReactiveFormsModule,
-    WATT_FORM_FIELD,
     WattDropdownComponent,
     WattEmptyStateComponent,
     CommonModule,
