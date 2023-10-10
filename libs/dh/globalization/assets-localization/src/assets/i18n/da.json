@@ -1024,7 +1024,14 @@
     },
     "requestCalculation": {
       "topBarTitle": "Anmod om beregning",
-      "processType": "{{shared.processType}}"
+      "processType": "{{shared.processType}}",
+      "meteringPointType": "Målepunktstype",
+      "processTypes": {
+        "preliminaryaggregation": "Aggregering",
+        "balancefixing": "Balancefiksering",
+        "wholesalefixing": "Engrosfiksering",
+        "correction": "Korrektion"
+      }
     },
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",

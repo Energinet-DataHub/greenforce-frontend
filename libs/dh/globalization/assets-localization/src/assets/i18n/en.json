@@ -1032,7 +1032,13 @@
     },
     "requestCalculation": {
       "topBarTitle": "Request calculation",
-      "processType": "{{shared.processType}}"
+      "processType": "{{shared.processType}}",
+      "processTypes": {
+        "preliminaryaggregation": "Aggregation",
+        "balancefixing": "Balance fixing",
+        "wholesalefixing": "Wholesale fixing",
+        "correction": "Correction"
+      }
     },
     "settlementReports": {
       "topBarTitle": "Settlement Reports",

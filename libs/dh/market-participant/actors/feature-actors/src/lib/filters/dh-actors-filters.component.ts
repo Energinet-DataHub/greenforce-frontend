@@ -33,7 +33,10 @@ import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { ActorsFilters } from '../actors-filters';
@@ -53,6 +56,7 @@ import { ActorsFilters } from '../actors-filters';
     WATT_FORM_FIELD,
     WattButtonComponent,
     WattDropdownComponent,
+    DhDropdownTranslatorDirective,
   ],
   selector: 'dh-actors-filters',
   styles: [
@@ -81,8 +85,10 @@ import { ActorsFilters } from '../actors-filters';
     >
       <watt-form-field>
         <watt-dropdown
+          dhDropdownTranslator
+          translate="marketParticipant.actorsOverview.status"
           formControlName="actorStatus"
-          [options]="actorStatusOptions | push"
+          [options]="actorStatusOptions"
           [multiple]="true"
           [chipMode]="true"
           [placeholder]="t('status')"
@@ -92,7 +98,7 @@ import { ActorsFilters } from '../actors-filters';
       <watt-form-field>
         <watt-dropdown
           formControlName="marketRoles"
-          [options]="marketRolesOptions | push"
+          [options]="marketRolesOptions"
           [multiple]="true"
           [chipMode]="true"
           [placeholder]="t('marketRole')"
@@ -113,8 +119,17 @@ export class DhActorsFiltersComponent implements OnInit, OnDestroy {
 
   formGroup!: FormGroup;
 
-  actorStatusOptions = this.buildActorStatusOptions();
-  marketRolesOptions = this.buildMarketRolesOptions();
+  actorStatusOptions = Object.keys(ActorStatus)
+    .filter((key) => !(key === ActorStatus.New || key === ActorStatus.Passive))
+    .map((key) => ({
+      displayValue: key,
+      value: key,
+    }));
+
+  marketRolesOptions = Object.keys(EicFunction).map((marketRole) => ({
+    value: marketRole,
+    displayValue: marketRole,
+  }));
 
   ngOnInit() {
     this.formGroup = new FormGroup({
@@ -129,29 +144,5 @@ export class DhActorsFiltersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.formGroupSubscription?.unsubscribe();
-  }
-
-  private buildActorStatusOptions(): Observable<WattDropdownOptions> {
-    return this.transloco.selectTranslateObject('marketParticipant.actorsOverview.status').pipe(
-      map((statusTranslations) =>
-        Object.keys(ActorStatus)
-          .filter((key) => !(key === ActorStatus.New || key === ActorStatus.Passive))
-          .map((key) => ({
-            displayValue: statusTranslations[key],
-            value: key,
-          }))
-      )
-    );
-  }
-
-  private buildMarketRolesOptions(): Observable<WattDropdownOptions> {
-    return this.transloco.selectTranslateObject('marketParticipant.marketRoles').pipe(
-      map((marketRolesTranslations) =>
-        Object.keys(EicFunction).map((marketRole) => ({
-          value: marketRole,
-          displayValue: marketRolesTranslations[marketRole],
-        }))
-      )
-    );
   }
 }

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MeteringPointType, ProcessType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { MeteringPointType, EdiB2CProcessType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import {
-  WattDropdownComponent,
-  WattDropdownOptions,
-  WattDropdownTranslateDirective,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { VaterStackComponent, VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { TranslocoDirective } from '@ngneat/transloco';
+import {
+  DhDropdownTranslatorDirective,
+  enumToDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-wholesale-request-calculation',
@@ -17,11 +17,11 @@ import { TranslocoDirective } from '@ngneat/transloco';
   imports: [
     WATT_CARD,
     WattDropdownComponent,
-    WattDropdownTranslateDirective,
+    DhDropdownTranslatorDirective,
     VaterStackComponent,
     VaterFlexComponent,
     ReactiveFormsModule,
-    FormsModule,z
+    FormsModule,
     TranslocoDirective,
   ],
 })
@@ -35,13 +35,6 @@ export class DhWholesaleRequestCalculationComponent {
 
   gridAreaOptions: WattDropdownOptions = [];
 
-  meteringPointTypes: WattDropdownOptions = Object.values(MeteringPointType).map((mp) => ({
-    displayValue: mp,
-    value: mp,
-  }));
-
-  progressTypeOptions: WattDropdownOptions = Object.values(ProcessType).map((mp) => ({
-    displayValue: mp,
-    value: mp,
-  }));
+  meteringPointTypes = enumToDropdownOptions(MeteringPointType);
+  progressTypeOptions = enumToDropdownOptions(EdiB2CProcessType);
 }

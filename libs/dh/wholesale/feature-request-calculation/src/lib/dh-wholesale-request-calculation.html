@@ -1,13 +1,18 @@
 <watt-card vater inset="0" *transloco="let t; read: 'wholesale.requestCalculation'">
   <form [formGroup]="form">
     <vater-flex fill="vertical" gap="m">
-      <vater-stack direction="row" gap="s">
+      <vater-stack direction="column" gap="s">
         <watt-dropdown
-          translate="wholesale.shared"
+          translate="wholesale.requestCalculation.processTypes"
           [label]="t('processType')"
           [formControl]="form.controls.processType"
           [options]="progressTypeOptions"
-          wattDropdownTranslate
+          dhDropdownTranslator
+        />
+        <watt-dropdown
+          [label]="t('meteringPointType')"
+          [formControl]="form.controls.meteringPointType"
+          [options]="meteringPointTypes"
         />
       </vater-stack>
     </vater-flex>
