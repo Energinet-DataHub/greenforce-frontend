@@ -141,7 +141,10 @@ export class EoShellComponent implements OnDestroy {
   title$: Observable<string> = this.titleStore.routeTitle$;
   cookiesSet: string | null = null;
 
-  constructor(private titleStore: EoTitleStore, private idleTimerService: IdleTimerService) {
+  constructor(
+    private titleStore: EoTitleStore,
+    private idleTimerService: IdleTimerService
+  ) {
     this.idleTimerService.startMonitor();
     this.getBannerStatus();
   }

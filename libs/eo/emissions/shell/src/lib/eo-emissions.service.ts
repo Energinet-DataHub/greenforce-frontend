@@ -32,7 +32,7 @@ interface EoEmissionsResponse {
         unit: string;
         value: number;
       };
-    }
+    },
   ];
 }
 

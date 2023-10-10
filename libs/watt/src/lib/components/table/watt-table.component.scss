@@ -139,7 +139,9 @@ watt-table .mat-mdc-table {
 .watt-table-has-selection + .watt-table-toolbar {
   opacity: 1;
   visibility: visible;
-  transition: opacity 0.3s cubic-bezier(0, 0, 0.2, 1), visibility 0.5s;
+  transition:
+    opacity 0.3s cubic-bezier(0, 0, 0.2, 1),
+    visibility 0.5s;
 }
 
 .watt-table-toolbar {

@@ -28,14 +28,14 @@ limitations under the License.
         *ngIf="selectedUser?.status !== 'Inactive'"
         variant="secondary"
         (click)="requestDeactivateUser()"
-        [loading]="isDeactivating$ | push : { strategy: 'native' }"
+        [loading]="isDeactivating$ | push: { strategy: 'native' }"
         >{{ t("deactivate") }}</watt-button
       >
       <watt-button
         *ngIf="selectedUser?.status === 'Invited' || selectedUser?.status === 'InviteExpired'"
         variant="secondary"
         (click)="reinvite()"
-        [loading]="isReinviting$ | push : { strategy: 'native' }"
+        [loading]="isReinviting$ | push: { strategy: 'native' }"
         >{{ t("reinvite") }}</watt-button
       >
       <watt-button variant="secondary" (click)="isEditUserModalVisible = true">{{

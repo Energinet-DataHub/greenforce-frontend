@@ -54,7 +54,10 @@ export class EoEmissionsDataComponent {
   loadingDone$ = this.store.loadingDone$;
   totalCO2$ = this.store.total$;
 
-  constructor(private store: EoEmissionsStore, private router: Router) {}
+  constructor(
+    private store: EoEmissionsStore,
+    private router: Router
+  ) {}
 
   convertToKg(num: number): number {
     if (!num || Number.isNaN(num)) return 0;

@@ -134,9 +134,9 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
           >
             <ng-container *ngIf="form.controls.startDate.errors?.['overlapping']?.start; let error">
               Chosen period overlaps with an existing agreement: <br />{{
-                error.startDate | wattDate : 'long'
+                error.startDate | wattDate: 'long'
               }}
-              - {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
+              - {{ (error.endDate | wattDate: 'long') || 'no end of period' }}
             </ng-container>
           </watt-field-error>
         </eo-transfers-errors>
@@ -172,7 +172,9 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
                 The end of the period must be today or later
               </watt-field-error>
               <watt-field-error
-                [style.opacity]="form.controls.endDate.errors?.['endDateMustBeLaterThanStartDate'] ? 1 : 0"
+                [style.opacity]="
+                  form.controls.endDate.errors?.['endDateMustBeLaterThanStartDate'] ? 1 : 0
+                "
               >
                 The end of the period must be later than the start of the period
               </watt-field-error>
@@ -184,8 +186,8 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
                 >
                   Because you haven't chosen an end date, the period overlaps with an existing
                   agreement:
-                  {{ error.startDate | wattDate : 'long' }} -
-                  {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
+                  {{ error.startDate | wattDate: 'long' }} -
+                  {{ (error.endDate | wattDate: 'long') || 'no end of period' }}
                 </ng-container>
               </watt-field-error>
               <watt-field-error
@@ -193,8 +195,8 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
               >
                 <ng-container *ngIf="form.controls.endDate.errors?.['overlapping']?.end; let error">
                   End by overlaps with an existing agreement:<br />
-                  {{ error.startDate | wattDate : 'long' }} -
-                  {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
+                  {{ error.startDate | wattDate: 'long' }} -
+                  {{ (error.endDate | wattDate: 'long') || 'no end of period' }}
                 </ng-container>
               </watt-field-error>
             </eo-transfers-errors>

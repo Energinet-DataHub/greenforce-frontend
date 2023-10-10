@@ -53,7 +53,10 @@ import { ApolloModule } from 'apollo-angular';
 export class DhCoreShellComponent {
   titleTranslationKey$ = this.dhTopBarStore.titleTranslationKey$;
 
-  constructor(private authService: MsalService, private dhTopBarStore: DhTopBarStore) {}
+  constructor(
+    private authService: MsalService,
+    private dhTopBarStore: DhTopBarStore
+  ) {}
 
   logout() {
     this.authService.logout();

@@ -37,7 +37,10 @@ export class IdleTimerService {
     fromEvent(document, 'keyup')
   );
 
-  constructor(private dialog: MatDialog, private authService: EoAuthService) {}
+  constructor(
+    private dialog: MatDialog,
+    private authService: EoAuthService
+  ) {}
 
   attachMonitorsWithTimer() {
     return this.monitoredEvents$.pipe(

@@ -18,7 +18,8 @@
 .card-container {
   padding: var(--watt-space-m);
   margin: var(--watt-space-xs);
-  box-shadow: 0px 1px 6px rgba(11, 60, 93, 0.12),
+  box-shadow:
+    0px 1px 6px rgba(11, 60, 93, 0.12),
     0px 4px 18px 3px rgba(46, 50, 52, 0.08);
   border-radius: 4px;
 }

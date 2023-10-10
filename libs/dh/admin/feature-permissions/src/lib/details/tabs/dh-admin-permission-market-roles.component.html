@@ -26,10 +26,10 @@ limitations under the License.
     <ng-container *ngIf="!isLoading">
       <watt-card-title *rxLet="marketRoles.length as marketRoleCount">
         <h4 *ngIf="marketRoleCount === 1 && !error">
-          {{t("rolesSingular", {marketRoleCount})}}
+          {{ t("rolesSingular", { marketRoleCount }) }}
         </h4>
         <h4 *ngIf="marketRoleCount !== 1 && !error">
-          {{t("rolesPlural", {marketRoleCount})}}
+          {{ t("rolesPlural", { marketRoleCount }) }}
         </h4>
       </watt-card-title>
 

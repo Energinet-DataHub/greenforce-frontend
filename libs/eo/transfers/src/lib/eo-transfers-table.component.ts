@@ -150,11 +150,11 @@ interface EoTransferTableElement extends EoListedTransfer {
       data-testid="transfers-table"
     >
       <ng-container *wattTableCell="table.columns['startDate']; let element">
-        {{ element.startDate | wattDate : 'long' }}
+        {{ element.startDate | wattDate: 'long' }}
       </ng-container>
 
       <ng-container *wattTableCell="table.columns['endDate']; let element">
-        {{ (element.endDate | wattDate : 'long') || ' — ' }}
+        {{ (element.endDate | wattDate: 'long') || ' — ' }}
       </ng-container>
 
       <!-- Status - Custom column -->

@@ -55,7 +55,10 @@ export class EoEmissionsPageInfoComponent {
   loadingDone$ = this.store.loadingDone$;
   totalCO2$ = this.store.total$;
 
-  constructor(private store: EoEmissionsStore, private router: Router) {}
+  constructor(
+    private store: EoEmissionsStore,
+    private router: Router
+  ) {}
 
   openSurvey() {
     this.router.navigate(['/emissions'], {

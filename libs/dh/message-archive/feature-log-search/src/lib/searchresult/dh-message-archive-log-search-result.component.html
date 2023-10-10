@@ -48,21 +48,21 @@ limitations under the License.
         </ng-container>
         <ng-container *wattTableCell="columns.senderGln; let element">
           <div>
-            {{ element.senderGln | actorName : actors | dhEmDashFallback }}
+            {{ element.senderGln | actorName: actors | dhEmDashFallback }}
             <br />
             <span class="number">{{ element.senderGln }}</span>
           </div>
         </ng-container>
         <ng-container *wattTableCell="columns.receiverGln; let element">
           <div>
-            {{ element.receiverGln | actorName : actors | dhEmDashFallback }}
+            {{ element.receiverGln | actorName: actors | dhEmDashFallback }}
             <br />
             <span class="number">{{ element.receiverGln }}</span>
           </div>
         </ng-container>
         <ng-container *wattTableCell="columns.createdDate; let element">
           <div style="white-space: nowrap">
-            {{ element.createdDate | wattDate : "long" | dhEmDashFallback }}
+            {{ element.createdDate | wattDate: "long" | dhEmDashFallback }}
           </div>
         </ng-container>
       </watt-table>

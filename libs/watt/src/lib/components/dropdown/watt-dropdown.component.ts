@@ -385,7 +385,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
           () =>
             ({
               ...this.parentControl?.errors,
-            } as ValidationErrors)
+            }) as ValidationErrors
         ),
         map((errors) => (Object.keys(errors).length > 0 ? errors : null)),
         takeUntil(this.destroy$)

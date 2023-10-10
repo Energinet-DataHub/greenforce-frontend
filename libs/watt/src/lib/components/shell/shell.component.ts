@@ -58,7 +58,10 @@ export class WattShellComponent implements OnInit, OnDestroy {
 
   @ViewChild('drawer') sidenav!: MatSidenav;
 
-  constructor(private breakpointObserver: WattBreakpointsObserver, private router: Router) {}
+  constructor(
+    private breakpointObserver: WattBreakpointsObserver,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.closeSidenavOnNavigation();

@@ -69,7 +69,7 @@ import { map, take, tap, timer } from 'rxjs';
     <watt-button variant="icon" icon="close" class="modal-close" (click)="close()"></watt-button>
     <div class="content">
       <p>You will be logged out in:</p>
-      <span class="watt-headline-1">{{ countDownTimer$ | async | date : 'mm:ss' }}</span>
+      <span class="watt-headline-1">{{ countDownTimer$ | async | date: 'mm:ss' }}</span>
       <br />
       <p>We are logging you out for security reasons.</p>
     </div>

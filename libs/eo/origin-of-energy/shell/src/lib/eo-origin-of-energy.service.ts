@@ -37,7 +37,7 @@ export interface EoOriginOfEnergyResponse {
         windOnshore: number;
         windOffshore: number;
       };
-    }
+    },
   ];
 }
 
