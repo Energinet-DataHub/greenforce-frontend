@@ -1,0 +1,6 @@
+mutation UpdateOrganization($input: UpdateOrganizationInput!) {
+  updateOrganization(input: $input)
+  {
+    boolean
+  }
+}

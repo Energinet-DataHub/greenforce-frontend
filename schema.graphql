@@ -147,6 +147,7 @@ type Mutation {
   updatePermission(input: UpdatePermissionDtoInput!): Permission!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
+  updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
 }
 
 scalar UUID
@@ -238,6 +239,14 @@ enum UserRoleStatus {
 enum PriceAreaCode {
   DK1
   DK2
+}
+
+input ChangeOrganizationDtoInput {
+  name: String!
+  businessRegisterIdentifier: String!
+  address: AddressDtoInput!
+  comment: String
+  status: OrganizationStatus!
 }
 
 enum MeteringPointType {
@@ -336,6 +345,14 @@ type ExchangeEventSearchResult {
   documentStatus: DocumentStatus!
 }
 
+input AddressDtoInput {
+  streetName: String
+  number: String
+  zipCode: String
+  city: String
+  country: String!
+}
+
 input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
@@ -357,5 +374,14 @@ input CreateAggregatedMeasureDataRequestInput {
 }
 
 type CreateAggregatedMeasureDataRequestPayload {
+  boolean: Boolean
+}
+
+input UpdateOrganizationInput {
+  orgId: UUID!
+  changes: ChangeOrganizationDtoInput!
+}
+
+type UpdateOrganizationPayload {
   boolean: Boolean
 }

@@ -98,4 +98,27 @@ public class Mutation
             .ConfigureAwait(false);
         return true;
     }
+
+    public async Task<bool> UpdateOrganizationAsync(
+        Guid orgId,
+        ChangeOrganizationDto changes,
+        [Service] IMarketParticipantClient client)
+    {
+         var organization = await client.GetOrganizationAsync(orgId).ConfigureAwait(false);
+         if (!string.Equals(organization.Name, changes.Name, StringComparison.OrdinalIgnoreCase) ||
+             !string.Equals(organization.BusinessRegisterIdentifier, changes.BusinessRegisterIdentifier, StringComparison.OrdinalIgnoreCase) ||
+             !string.Equals(organization.Comment, changes.Comment, StringComparison.OrdinalIgnoreCase) ||
+             !string.Equals(organization.Address.StreetName, changes.Address.StreetName, StringComparison.OrdinalIgnoreCase) ||
+             !string.Equals(organization.Address.City, changes.Address.City, StringComparison.OrdinalIgnoreCase) ||
+             !string.Equals(organization.Address.Country, changes.Address.Country, StringComparison.OrdinalIgnoreCase) ||
+             !string.Equals(organization.Address.Number, changes.Address.Number, StringComparison.OrdinalIgnoreCase) ||
+             !string.Equals(organization.Address.City, changes.Address.City, StringComparison.OrdinalIgnoreCase) ||
+             !string.Equals(organization.Address.ZipCode, changes.Address.ZipCode, StringComparison.OrdinalIgnoreCase))
+         {
+            changes = changes with { Status = organization.Status }; // Status on organizations are probably going away, will be hidden in UI, so we just use the original on the organization
+            await client.UpdateOrganizationAsync(orgId, changes).ConfigureAwait(false);
+         }
+
+         return true;
+    }
 }
