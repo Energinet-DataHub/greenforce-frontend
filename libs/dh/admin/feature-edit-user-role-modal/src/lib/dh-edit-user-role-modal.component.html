@@ -29,8 +29,7 @@ limitations under the License.
             <watt-text-field
               class="watt-space-stack-l"
               [label]="t('tab.masterData.nameInputLabel')"
-              formControlName="name"
-              type="text"
+              [formControl]="userRoleEditForm.controls.name"
             >
               <watt-field-error
                 *ngIf="userRoleEditForm.controls.name?.errors?.['nameAlreadyExists']"
@@ -42,12 +41,14 @@ limitations under the License.
               </watt-field-error>
             </watt-text-field>
 
-            <watt-field [label]="t('tab.masterData.descriptionInputLabel')">
-              <textarea formControlName="description"></textarea>
+            <watt-textarea-field
+              [label]="t('tab.masterData.descriptionInputLabel')"
+              formControlName="description"
+            >
               <watt-field-error *ngIf="userRoleEditForm.controls.description?.errors?.['required']">
                 {{ t("tab.validationErrors.required") }}
               </watt-field-error>
-            </watt-field>
+            </watt-textarea-field>
           </div>
         </watt-tab>
 

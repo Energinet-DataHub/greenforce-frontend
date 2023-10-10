@@ -181,7 +181,7 @@ limitations under the License.
       />
       <p>{{ t("body") }}</p>
       <p>{{ t("confirmation") }}</p>
-      <watt-field>
+      <watt-field [control]="confirmFormControl">
         <input #input [formControl]="confirmFormControl" value="" autocomplete="off" />
         <watt-field-hint>{{ t("hint") }}</watt-field-hint>
       </watt-field>

@@ -39,7 +39,6 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattFieldComponent } from '@energinet-datahub/watt/field';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
   DhAdminMarketRolePermissionsStore,
@@ -52,6 +51,7 @@ import {
   MarketParticipantUserRoleWithPermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
+import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 
 @Component({
   selector: 'dh-edit-user-role-modal',
@@ -60,12 +60,7 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
   styles: [
     `
       .tab-master-data {
-        margin: calc(var(--watt-space-ml) * 2) 0 0 var(--watt-space-ml);
         width: 25rem;
-      }
-
-      .tab-permissions {
-        margin: 0 var(--watt-space-ml);
       }
 
       .spinner-container {
@@ -89,8 +84,8 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-perm
     WattSpinnerComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
-    WattFieldComponent,
     WATT_CARD,
+    WattTextAreaFieldComponent,
     DhPermissionsTableComponent,
   ],
 })

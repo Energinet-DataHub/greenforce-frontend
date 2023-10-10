@@ -213,6 +213,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit, On
       .subscribe({
         next: (keys) => {
           this.eicFunctionOptions = Object.keys(MarketParticipantEicFunction)
+            .filter((entry) => entry !== MarketParticipantEicFunction.ElOverblik)
             .map((entry) => {
               return {
                 value: entry,

@@ -49,7 +49,10 @@ limitations under the License.
         </watt-dropdown>
 
         <!-- Name -->
-        <watt-text-field [label]="t('steps.masterData.name')" formControlName="name" type="text">
+        <watt-text-field
+          [label]="t('steps.masterData.name')"
+          [formControl]="userRoleForm.controls.name"
+        >
           <watt-field-error *ngIf="userRoleForm.controls.name.hasError('required')">
             {{ "shared.fieldRequiredErrorText" | transloco }}
           </watt-field-error>
