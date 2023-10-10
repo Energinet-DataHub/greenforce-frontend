@@ -96,6 +96,7 @@ export class DhActorsEditActorModalComponent {
       if (!queryResult.data || queryResult.loading) return;
 
       this.emailDomain = queryResult.data.actorById.organization.domain;
+      this.actorForm.markAsUntouched();
       this.actorForm.patchValue({
         name: queryResult.data.actorById.name,
         departmentName: queryResult.data.actorById.contact?.name,
