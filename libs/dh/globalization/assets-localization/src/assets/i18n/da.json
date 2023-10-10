@@ -634,7 +634,18 @@
       "emptyTitle": "Ingen organisationer fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}"
+      "errorMessage": "{{ shared.error.message }}",
+      "drawer": {
+        "edit": "Rediger organisation",
+        "tabs": {
+          "masterData": {
+            "tabLabel": "Information",
+            "businessRegisterIdentifier": "CVR",
+            "name": "Navn",
+            "domain": "Domæne"
+          }
+        }
+      }
     },
     "marketRolesOverview": {
       "marketRoles": "Markedsroller",
