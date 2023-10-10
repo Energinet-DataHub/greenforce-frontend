@@ -627,7 +627,18 @@
       "emptyTitle": "No organisations found",
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}"
+      "errorMessage": "{{ shared.error.message }}",
+      "drawer": {
+        "edit": "Edit organisation",
+        "tabs": {
+          "masterData": {
+            "tabLabel": "Information",
+            "businessRegisterIdentifier": "Business ID",
+            "name": "Name",
+            "domain": "Domain"
+          }
+        }
+      }
     },
     "marketRolesOverview": {
       "marketRoles": "Market roles",
