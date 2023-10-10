@@ -231,6 +231,18 @@ type UserRoleDto {
   status: UserRoleStatus!
 }
 
+type MarketParticipantBadRequestError implements Error {
+  message: String!
+  jsonError: JSON!
+  statusCode: Int!
+}
+
+interface Error {
+  message: String!
+}
+
+scalar JSON
+
 enum UserRoleStatus {
   ACTIVE
   INACTIVE
@@ -382,6 +394,9 @@ input UpdateOrganizationInput {
   changes: ChangeOrganizationDtoInput!
 }
 
+union UpdateOrganizationError = MarketParticipantBadRequestError
+
 type UpdateOrganizationPayload {
   boolean: Boolean
+  errors: [UpdateOrganizationError!]
 }
