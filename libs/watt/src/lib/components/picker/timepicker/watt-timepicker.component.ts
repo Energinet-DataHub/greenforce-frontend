@@ -33,8 +33,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { OverlayModule } from '@angular/cdk/overlay';
 
-import { WattFieldComponent } from '@energinet-datahub/watt/field';
-
 import { WattButtonComponent } from '../../button';
 import { WattSliderComponent } from '../../slider';
 import { BehaviorSubject, distinctUntilChanged, EMPTY, map, takeUntil } from 'rxjs';
@@ -45,6 +43,7 @@ import { WattDateRange } from '../../../utils/date';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattSliderValue } from '../../slider/watt-slider.component';
 import { WattPickerValue } from '../shared/watt-picker-value';
+import { WattFieldComponent } from '../../field/watt-field.component';
 
 /**
  * Note: `Inputmask` package uses upper case `MM` for "minutes" and
