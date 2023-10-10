@@ -63,11 +63,11 @@ import {
 export class DhMarketRolesOverviewComponent implements AfterViewInit {
   private transloco = inject(TranslocoService);
 
-  dataSource = new WattTableDataSource(Object.keys(EicFunction));
+  dataSource = new WattTableDataSource(this.getMarketRoles());
 
   columns: WattTableColumnDef<string> = {
     name: { accessor: (value) => value },
-    description: { accessor: (value) => value },
+    description: { accessor: null },
   };
 
   ngAfterViewInit() {
@@ -104,8 +104,12 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
             `"${translations['marketRoleDescriptions'][x]}"`,
           ]);
 
-          exportToCSV({ headers, lines });
+          exportToCSV({ headers, lines, fileName: 'market-roles' });
         }
       });
+  }
+
+  private getMarketRoles() {
+    return Object.keys(EicFunction).filter((role) => role !== EicFunction.ElOverblik);
   }
 }

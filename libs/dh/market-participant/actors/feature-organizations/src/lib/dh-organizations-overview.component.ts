@@ -16,24 +16,25 @@
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
-import { BehaviorSubject } from 'rxjs';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
   VaterFlexComponent,
+  VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhOrganizationsTableComponent } from './table/dh-table.component';
 import { DhOrganization } from './dh-organization';
-import type { DhOrganizationsFilters } from './dh-organizations-filters';
-import { DhOrganizationsFiltersComponent } from './filters/dh-filters.component';
 
 @Component({
   standalone: true,
@@ -65,9 +66,11 @@ import { DhOrganizationsFiltersComponent } from './filters/dh-filters.component'
     VaterFlexComponent,
     VaterStackComponent,
     VaterUtilityDirective,
+    VaterSpacerComponent,
     WattPaginatorComponent,
+    WattSearchComponent,
+    WattButtonComponent,
 
-    DhOrganizationsFiltersComponent,
     DhOrganizationsTableComponent,
   ],
 })
@@ -82,10 +85,6 @@ export class DhOrganizationsOverviewComponent implements OnInit {
   });
 
   tableDataSource = new WattTableDataSource<DhOrganization>([]);
-
-  filters$ = new BehaviorSubject<DhOrganizationsFilters>({
-    organizationStatus: null,
-  });
 
   isLoading = true;
   hasError = false;
@@ -102,5 +101,29 @@ export class DhOrganizationsOverviewComponent implements OnInit {
         this.isLoading = false;
       },
     });
+  }
+
+  onSearch(value: string): void {
+    this.tableDataSource.filter = value;
+  }
+
+  download(): void {
+    if (!this.tableDataSource.sort) {
+      return;
+    }
+
+    const dataToSort = structuredClone<DhOrganization[]>(this.tableDataSource.filteredData);
+    const dataSorted = this.tableDataSource.sortData(dataToSort, this.tableDataSource.sort);
+
+    const actorsOverviewPath = 'marketParticipant.organizationsOverview';
+
+    const headers = [
+      translate(actorsOverviewPath + '.columns.cvrOrBusinessRegisterId'),
+      translate(actorsOverviewPath + '.columns.name'),
+    ];
+
+    const lines = dataSorted.map((actor) => [actor.businessRegisterIdentifier, actor.name]);
+
+    exportToCSV({ headers, lines, fileName: 'organizations' });
   }
 }

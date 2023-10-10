@@ -56,7 +56,6 @@ export class DhOrganizationsTableComponent {
   columns: WattTableColumnDef<DhOrganization> = {
     cvrOrBusinessRegisterId: { accessor: 'businessRegisterIdentifier' },
     name: { accessor: 'name' },
-    status: { accessor: 'status' },
   };
 
   @Input() isLoading!: boolean;
