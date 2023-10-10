@@ -172,9 +172,9 @@ export class DhBalanceResponsibleComponent implements OnInit {
     const lines = dataSorted.map((message) => [
       message.validFromDate.toISOString(),
       message.validToDate?.toISOString() ?? '',
-      message.supplierWithName.value,
-      message.balanceResponsibleWithName.value,
-      message.gridArea.code,
+      message.supplierWithName?.value ?? '',
+      message.balanceResponsibleWithName?.value ?? '',
+      message.gridArea,
       translate('eSett.outgoingMessages.shared.messageType.' + message.meteringPointType),
       message.receivedDateTime.toISOString(),
     ]);

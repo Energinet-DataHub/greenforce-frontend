@@ -19,10 +19,8 @@ import {
   Host,
   HostBinding,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
-  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -40,7 +38,16 @@ import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { MatSelectModule, MatSelect } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { of, ReplaySubject, Subject, distinctUntilChanged, map, takeUntil, take } from 'rxjs';
+import {
+  of,
+  ReplaySubject,
+  Subject,
+  distinctUntilChanged,
+  map,
+  takeUntil,
+  take,
+  filter,
+} from 'rxjs';
 import { WattFieldComponent } from '../field';
 
 import type { WattDropdownOptions } from './watt-dropdown-option';
@@ -66,7 +73,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
     WattIconComponent,
   ],
 })
-export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
+export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDestroy {
   /**
    * @ignore
    */
@@ -125,6 +132,8 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    */
   isToggleAllIndeterminate = false;
 
+  _options: WattDropdownOptions = [];
+
   /**
    * @ignore
    */
@@ -163,7 +172,14 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    *
    * Sets the options for the dropdown.
    */
-  @Input() options: WattDropdownOptions = [];
+  @Input()
+  set options(options: WattDropdownOptions) {
+    this._options = options;
+    this.filteredOptions$.next(options);
+  }
+  get options(): WattDropdownOptions {
+    return this._options;
+  }
 
   /**
    * Sets support for selecting multiple dropdown options.
@@ -204,15 +220,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
     this.initializePropertiesFromParent();
     this.bindParentValidatorsToControl();
     this.bindControlToParent();
-  }
-
-  /**
-   * @ignore
-   */
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['options']?.currentValue !== changes['options']?.previousValue) {
-      this.filteredOptions$.next(this.options.slice());
-    }
   }
 
   /**
@@ -392,7 +399,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
    * @ignore
    */
   private filterOptions() {
-    if (!this.options) {
+    if (!this._options) {
       return;
     }
 
@@ -402,12 +409,12 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
     if (search) {
       search = search.toLowerCase();
     } else {
-      return this.filteredOptions$.next(this.options.slice());
+      return this.filteredOptions$.next(this._options.slice());
     }
 
     // filter the options
     this.filteredOptions$.next(
-      this.options.filter((option) => option.displayValue.toLowerCase().indexOf(search) > -1)
+      this._options.filter((option) => option.displayValue.toLowerCase().indexOf(search) > -1)
     );
   }
 
@@ -418,6 +425,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnCh
     this.filteredOptions$
       .pipe(
         take(1),
+        filter((options) => options != null && options !== undefined),
         map((options) => options.map((option) => option.value))
       )
       .subscribe((filteredOptions: string[]) => {

@@ -14,15 +14,15 @@ type Actor {
   glnOrEicNumber: String!
   marketRole: EicFunction
   gridAreas: [GridAreaDto!]!
-  organization: OrganizationDto!
+  organization: Organization!
   externalActorId: UUID
   status: ActorStatus!
 }
 
 type BalanceResponsibleType {
-  gridArea: GridAreaDto!
-  supplierWithName: ActorNameDto!
-  balanceResponsibleWithName: ActorNameDto!
+  gridAreaWithName: GridAreaDto
+  supplierWithName: ActorNameDto
+  balanceResponsibleWithName: ActorNameDto
   id: String!
   receivedDateTime: DateTime!
   supplier: ActorNumber!
@@ -30,6 +30,7 @@ type BalanceResponsibleType {
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
   validToDate: DateTime
+  gridArea: String!
 }
 
 """An immutable calculation."""
@@ -47,6 +48,13 @@ type Calculation {
   executionState: BatchState!
   areSettlementReportsCreated: Boolean!
   processType: ProcessType!
+}
+
+enum EdiB2CProcessType {
+  preliminaryaggregation
+  balancefixing
+  wholesalefixing
+  correction
 }
 
 enum EicFunction {
@@ -67,7 +75,7 @@ enum EicFunction {
 }
 
 type EsettOutgoingMessage {
-  gridArea: GridAreaDto!
+  gridArea: GridAreaDto
   documentId: String!
   created: DateTime!
   processType: ExchangeEventProcessType!
@@ -80,6 +88,17 @@ type EsettOutgoingMessage {
 enum ExchangeEventProcessType {
   BALANCE_FIXING
   AGGREGATION
+}
+
+type Organization {
+  organizationId: String
+  actors: [Actor!]
+  name: String!
+  businessRegisterIdentifier: String!
+  domain: String!
+  comment: String!
+  status: OrganizationStatus!
+  address: AddressDto!
 }
 
 type Permission {
@@ -110,14 +129,15 @@ type Query {
   permissionLogs(id: Int!): [PermissionLog!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditLog!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
-  organizationById(id: UUID!): OrganizationDto!
-  organizations: [OrganizationDto!]!
+  organizationById(id: UUID!): Organization!
+  organizations: [Organization!]!
   gridAreas: [GridAreaDto!]!
   calculationById(id: UUID!): Calculation!
   calculations(executionTime: DateRange, executionStates: [BatchState!], processTypes: [ProcessType!], gridAreaCodes: [String!], period: DateRange, first: Int): [Calculation!]!
   settlementReports(gridAreaCodes: [String!], period: DateRange, executionTime: DateRange): [SettlementReport!]!
   actorById(id: UUID!): Actor!
-  actors(eicFunctions: [EicFunction!]): [Actor!]!
+  actors: [Actor!]!
+  actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, processType: ExchangeEventProcessType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
@@ -126,6 +146,7 @@ type Query {
 type Mutation {
   updatePermission(input: UpdatePermissionDtoInput!): Permission!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
+  createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
 }
 
 scalar UUID
@@ -137,16 +158,6 @@ type GridAreaDto {
   priceAreaCode: PriceAreaCode!
   validFrom: DateTime!
   validTo: DateTime
-}
-
-type OrganizationDto {
-  organizationId: UUID!
-  name: String!
-  businessRegisterIdentifier: String!
-  domain: String!
-  comment: String!
-  status: OrganizationStatus!
-  address: AddressDto!
 }
 
 type ActorNameDto {
@@ -196,6 +207,21 @@ enum DocumentStatus {
   REJECTED
 }
 
+enum OrganizationStatus {
+  NEW
+  ACTIVE
+  BLOCKED
+  DELETED
+}
+
+type AddressDto {
+  streetName: String
+  number: String
+  zipCode: String
+  city: String
+  country: String!
+}
+
 type UserRoleDto {
   id: UUID!
   name: String!
@@ -209,24 +235,17 @@ enum UserRoleStatus {
   INACTIVE
 }
 
-type AddressDto {
-  streetName: String
-  number: String
-  zipCode: String
-  city: String
-  country: String!
-}
-
-enum OrganizationStatus {
-  NEW
-  ACTIVE
-  BLOCKED
-  DELETED
-}
-
 enum PriceAreaCode {
   DK1
   DK2
+}
+
+enum MeteringPointType {
+  PRODUCTION
+  FLEX_CONSUMPTION
+  TOTAL_CONSUMPTION
+  NON_PROFILED_CONSUMPTION
+  EXCHANGE
 }
 
 input UpdatePermissionDtoInput {
@@ -325,4 +344,18 @@ input CreateCalculationInput {
 
 type CreateCalculationPayload {
   calculation: Calculation
+}
+
+input CreateAggregatedMeasureDataRequestInput {
+  processType: EdiB2CProcessType!
+  meteringPointType: MeteringPointType!
+  startDate: String!
+  endDate: String
+  gridArea: String
+  energySupplierId: String
+  balanceResponsibleId: String
+}
+
+type CreateAggregatedMeasureDataRequestPayload {
+  boolean: Boolean
 }

@@ -51,10 +51,6 @@ export const dhFeatureFlagsConfig = {
     created,
     disabledEnvironments: [],
   },
-  market_participant_actors_feature_flag: {
-    created,
-    disabledEnvironments: [],
-  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;

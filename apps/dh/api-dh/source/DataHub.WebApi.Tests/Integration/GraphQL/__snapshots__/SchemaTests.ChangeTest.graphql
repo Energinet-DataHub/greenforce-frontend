@@ -9,7 +9,7 @@ type Actor {
   glnOrEicNumber: String!
   marketRole: EicFunction
   gridAreas: [GridAreaDto!]!
-  organization: OrganizationDto!
+  organization: Organization!
   externalActorId: UUID
   status: ActorStatus!
 }
@@ -36,9 +36,9 @@ type BalanceResponsiblePageResult {
 }
 
 type BalanceResponsibleType {
-  gridArea: GridAreaDto!
-  supplierWithName: ActorNameDto!
-  balanceResponsibleWithName: ActorNameDto!
+  gridAreaWithName: GridAreaDto
+  supplierWithName: ActorNameDto
+  balanceResponsibleWithName: ActorNameDto
   id: String!
   receivedDateTime: DateTime!
   supplier: ActorNumber!
@@ -46,6 +46,7 @@ type BalanceResponsibleType {
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
   validToDate: DateTime
+  gridArea: String!
 }
 
 "An immutable calculation."
@@ -74,7 +75,7 @@ type CreateCalculationPayload {
 }
 
 type EsettOutgoingMessage {
-  gridArea: GridAreaDto!
+  gridArea: GridAreaDto
   documentId: String!
   created: DateTime!
   processType: ExchangeEventProcessType!
@@ -113,8 +114,9 @@ type Mutation {
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
 }
 
-type OrganizationDto {
-  organizationId: UUID!
+type Organization {
+  organizationId: String
+  actors: [Actor!]
   name: String!
   businessRegisterIdentifier: String!
   domain: String!
@@ -145,14 +147,15 @@ type Query {
   permissionLogs(id: Int!): [PermissionLog!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditLog!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
-  organizationById(id: UUID!): OrganizationDto!
-  organizations: [OrganizationDto!]!
+  organizationById(id: UUID!): Organization!
+  organizations: [Organization!]!
   gridAreas: [GridAreaDto!]!
   calculationById(id: UUID!): Calculation!
   calculations(executionTime: DateRange executionStates: [BatchState!] processTypes: [ProcessType!] gridAreaCodes: [String!] period: DateRange first: Int): [Calculation!]!
   settlementReports(gridAreaCodes: [String!] period: DateRange executionTime: DateRange): [SettlementReport!]!
   actorById(id: UUID!): Actor!
-  actors(eicFunctions: [EicFunction!]): [Actor!]!
+  actors: [Actor!]!
+  actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int! pageSize: Int! periodFrom: DateTime periodTo: DateTime gridAreaCode: String processType: ExchangeEventProcessType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
@@ -196,7 +199,7 @@ type UserRoleWithPermissionsDto {
 }
 
 input CreateAggregatedMeasureDataRequestInput {
-  businessReason: String!
+  processType: EdiB2CProcessType!
   meteringPointType: MeteringPointType!
   startDate: String!
   endDate: String
@@ -242,6 +245,13 @@ enum DocumentStatus {
   AWAITING_REPLY
   ACCEPTED
   REJECTED
+}
+
+enum EdiB2CProcessType {
+  preliminaryaggregation
+  balancefixing
+  wholesalefixing
+  correction
 }
 
 enum EicFunction {

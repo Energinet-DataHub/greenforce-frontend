@@ -1,0 +1,15 @@
+query GetOrganizations {
+  organizations {
+    organizationId
+    businessRegisterIdentifier
+    name
+    domain
+    actors {
+      id
+      name
+      glnOrEicNumber
+      marketRole
+      status
+    }
+  }
+}

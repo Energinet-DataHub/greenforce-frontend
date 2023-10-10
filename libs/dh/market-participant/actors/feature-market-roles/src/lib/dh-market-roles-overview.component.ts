@@ -23,22 +23,51 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 
 @Component({
   selector: 'dh-market-roles-overview',
-  styleUrls: ['dh-market-roles-overview.component.scss'],
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      h3 {
+        margin: 0;
+      }
+    `,
+  ],
   templateUrl: './dh-market-roles-overview.component.html',
   standalone: true,
-  imports: [TranslocoModule, WattButtonComponent, WATT_TABLE, WATT_CARD],
+  imports: [
+    TranslocoModule,
+
+    WATT_CARD,
+    WATT_TABLE,
+    WattPaginatorComponent,
+    WattButtonComponent,
+    VaterFlexComponent,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    VaterUtilityDirective,
+    WattButtonComponent,
+  ],
 })
 export class DhMarketRolesOverviewComponent implements AfterViewInit {
   private transloco = inject(TranslocoService);
 
-  dataSource = new WattTableDataSource<string>(Object.keys(EicFunction));
+  dataSource = new WattTableDataSource(this.getMarketRoles());
 
   columns: WattTableColumnDef<string> = {
     name: { accessor: (value) => value },
-    description: { accessor: (value) => value },
+    description: { accessor: null },
   };
 
   ngAfterViewInit() {
@@ -75,8 +104,12 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
             `"${translations['marketRoleDescriptions'][x]}"`,
           ]);
 
-          exportToCSV({ headers, lines });
+          exportToCSV({ headers, lines, fileName: 'market-roles' });
         }
       });
+  }
+
+  private getMarketRoles() {
+    return Object.keys(EicFunction).filter((role) => role !== EicFunction.ElOverblik);
   }
 }

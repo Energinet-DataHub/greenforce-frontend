@@ -33,7 +33,8 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
       __typename: 'ActorNumber',
       value: '321',
     },
-    gridArea: {
+    gridArea: '344',
+    gridAreaWithName: {
       __typename: 'GridAreaDto',
       code: '344',
       name: 'N1 A/S',
@@ -43,11 +44,11 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
     validToDate: new Date('2021-05-02T00:00:00.000Z'),
     balanceResponsibleWithName: {
       __typename: 'ActorNameDto',
-      value: '321 - Test Balance Ansvarlig',
+      value: 'Test Balance Ansvarlig',
     },
     supplierWithName: {
       __typename: 'ActorNameDto',
-      value: '123 - Test Supplier',
+      value: 'Test Supplier',
     },
   },
   {
@@ -62,7 +63,8 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
       __typename: 'ActorNumber',
       value: '222',
     },
-    gridArea: {
+    gridArea: '999',
+    gridAreaWithName: {
       __typename: 'GridAreaDto',
       code: '999',
       name: 'N2 A/S',
@@ -72,11 +74,31 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
     validToDate: null,
     balanceResponsibleWithName: {
       __typename: 'ActorNameDto',
-      value: '222 - Test Balance Ansvarlig 2',
+      value: 'Test Balance Ansvarlig 2',
     },
     supplierWithName: {
       __typename: 'ActorNameDto',
-      value: '111 - Test Supplier 2',
+      value: 'Test Supplier 2',
     },
+  },
+  {
+    __typename: 'BalanceResponsibleType',
+    id: '3',
+    receivedDateTime: new Date('2022-01-01T00:00:00.000Z'),
+    supplier: {
+      __typename: 'ActorNumber',
+      value: '888',
+    },
+    balanceResponsible: {
+      __typename: 'ActorNumber',
+      value: '999',
+    },
+    gridArea: '000',
+    gridAreaWithName: null,
+    meteringPointType: TimeSeriesType.Production,
+    validFromDate: new Date('2022-01-01T10:00:00.000Z'),
+    validToDate: null,
+    balanceResponsibleWithName: null,
+    supplierWithName: null,
   },
 ];

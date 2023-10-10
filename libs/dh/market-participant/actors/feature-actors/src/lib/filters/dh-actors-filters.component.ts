@@ -32,11 +32,10 @@ import { RxPush } from '@rx-angular/template/push';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { ActorsFilters } from '../actors-filters';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-
-/** Helper function for creating form control with `nonNullable` based on value. */
 
 @Component({
   standalone: true,
@@ -45,6 +44,9 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
     ReactiveFormsModule,
     TranslocoModule,
     RxPush,
+
+    VaterSpacerComponent,
+    VaterStackComponent,
     WattButtonComponent,
     WattDropdownComponent,
   ],
@@ -56,20 +58,20 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
       }
 
       form {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        overflow: auto;
         overflow-y: hidden;
       }
 
-      watt-button {
-        margin-left: auto;
+      watt-dropdown {
+        width: auto;
       }
     `,
   ],
   template: `
     <form
+      vater-stack
+      direction="row"
+      gap="m"
+      tabindex="-1"
       [formGroup]="formGroup"
       *transloco="let t; read: 'marketParticipant.actorsOverview.filters'"
     >
@@ -89,6 +91,7 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
         [placeholder]="t('marketRole')"
       />
 
+      <vater-spacer />
       <watt-button variant="text" icon="undo" type="reset">{{ t('reset') }}</watt-button>
     </form>
   `,
