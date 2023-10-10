@@ -148,6 +148,7 @@ type Mutation {
   updateActor(input: UpdateActorInput!): UpdateActorPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
+  updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
 }
 
 scalar UUID
@@ -244,9 +245,17 @@ type MarketParticipantError implements Error {
   statusCode: Int!
 }
 
+type MarketParticipantBadRequestError implements Error {
+  message: String!
+  jsonError: JSON!
+  statusCode: Int!
+}
+
 interface Error {
   message: String!
 }
+
+scalar JSON
 
 enum UserRoleStatus {
   ACTIVE
@@ -274,6 +283,14 @@ enum ContactCategory {
 enum PriceAreaCode {
   DK1
   DK2
+}
+
+input ChangeOrganizationDtoInput {
+  name: String!
+  businessRegisterIdentifier: String!
+  address: AddressDtoInput!
+  comment: String
+  status: OrganizationStatus!
 }
 
 enum MeteringPointType {
@@ -372,6 +389,14 @@ type ExchangeEventSearchResult {
   documentStatus: DocumentStatus!
 }
 
+input AddressDtoInput {
+  streetName: String
+  number: String
+  zipCode: String
+  city: String
+  country: String!
+}
+
 input UpdateActorInput {
   actorId: UUID!
   actorName: String!
@@ -409,4 +434,16 @@ input CreateAggregatedMeasureDataRequestInput {
 
 type CreateAggregatedMeasureDataRequestPayload {
   boolean: Boolean
+}
+
+input UpdateOrganizationInput {
+  orgId: UUID!
+  changes: ChangeOrganizationDtoInput!
+}
+
+union UpdateOrganizationError = MarketParticipantBadRequestError
+
+type UpdateOrganizationPayload {
+  boolean: Boolean
+  errors: [UpdateOrganizationError!]
 }
