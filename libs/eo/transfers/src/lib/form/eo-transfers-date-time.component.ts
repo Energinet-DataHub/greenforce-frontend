@@ -126,7 +126,13 @@ import { isToday } from 'date-fns';
   ],
   template: `
     <ng-container [formGroup]="form">
-      <watt-datepicker [label]="label" #endDatePicker formControlName="date" [min]="min" [dateClass]="dateClass" />
+      <watt-datepicker
+        [label]="label"
+        #endDatePicker
+        formControlName="date"
+        [min]="min"
+        [dateClass]="dateClass"
+      />
       <eo-transfers-timepicker
         formControlName="time"
         [disabledHours]="disabledHours"

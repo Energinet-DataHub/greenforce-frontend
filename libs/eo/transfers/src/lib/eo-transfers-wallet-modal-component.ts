@@ -79,10 +79,7 @@ import { EoTransfersStore } from './eo-transfers.store';
             [value]="(walletDepositEndpoint$ | async) || ''"
             #key
           />
-          <watt-button
-            variant="text"
-            icon="contentCopy"
-            [wattCopyToClipboard]="key.value"
+          <watt-button variant="text" icon="contentCopy" [wattCopyToClipboard]="key.value"
             >Copy key</watt-button
           >
         </div>
