@@ -23,108 +23,117 @@ limitations under the License.
       <form [formGroup]="charge" (submit)="createPrice()">
         <div class="form-container">
           <!-- Charge Type -->
-          <watt-form-field class="charge-type">
-            <watt-label>{{ t("prices.chargeType") }} *</watt-label>
-            <watt-dropdown
-              formControlName="chargeType"
-              [options]="chargeTypeOptions"
-              (ngModelChange)="chargeTypeChanged($event)"
-              name="chargeType"
-              [showResetOption]="false"
-              [placeholder]="t('createPrices.selectChargeType')"
-            >
-            </watt-dropdown>
-            <watt-error *ngIf="charge.controls['chargeType'].hasError('required')">
+          <watt-dropdown
+            label="{{ t('prices.chargeType') }}"
+            formControlName="chargeType"
+            [options]="chargeTypeOptions"
+            (ngModelChange)="chargeTypeChanged($event)"
+            name="chargeType"
+            [showResetOption]="false"
+            [placeholder]="t('createPrices.selectChargeType')"
+          >
+            <watt-field-error *ngIf="charge.controls['chargeType'].hasError('required')">
               {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-error>
-          </watt-form-field>
+            </watt-field-error>
+          </watt-dropdown>
 
           <!-- Price Id -->
-          <watt-form-field class="price-id">
-            <watt-label>{{ t("createPrices.priceId") }}</watt-label>
-            <input wattInput type="text" formControlName="senderProvidedChargeId" required />
-            <watt-error *ngIf="charge.controls['senderProvidedChargeId'].hasError('required')">
+          <watt-text-field
+            class="price-id"
+            [label]="t('createPrices.priceId')"
+            type="text"
+            formControlName="senderProvidedChargeId"
+            [required]="true"
+          >
+            <watt-field-error
+              *ngIf="charge.controls['senderProvidedChargeId'].hasError('required')"
+            >
               {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-error>
-            <watt-error *ngIf="charge.controls['senderProvidedChargeId'].hasError('maxlength')">
+            </watt-field-error>
+            <watt-field-error
+              *ngIf="charge.controls['senderProvidedChargeId'].hasError('maxlength')"
+            >
               {{ t("senderProvidedChargeIdMaxLengthErrorText") }}
-            </watt-error>
-          </watt-form-field>
+            </watt-field-error>
+          </watt-text-field>
 
           <!-- Price Name -->
-          <watt-form-field class="price-name">
-            <watt-label>{{ t("createPrices.priceName") }}</watt-label>
-            <input wattInput type="text" formControlName="chargeName" required />
-            <watt-error *ngIf="charge.controls['chargeName'].hasError('required')">
+          <watt-text-field
+            class="price-name"
+            [label]="t('createPrices.priceName')"
+            type="text"
+            formControlName="chargeName"
+            [required]="true"
+          >
+            <watt-field-error *ngIf="charge.controls['chargeName'].hasError('required')">
               {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-error>
-            <watt-error *ngIf="charge.controls['chargeName'].hasError('maxlength')">
+            </watt-field-error>
+            <watt-field-error *ngIf="charge.controls['chargeName'].hasError('maxlength')">
               {{ t("chargeNameMaxLengthErrorText") }}
-            </watt-error>
-          </watt-form-field>
+            </watt-field-error>
+          </watt-text-field>
 
           <!-- Price Owner -->
-          <watt-form-field class="price-owner">
-            <watt-label>{{ t("createPrices.priceOwner") }} *</watt-label>
-            <watt-dropdown
-              formControlName="senderMarketParticipantId"
-              name="owner"
-              [options]="marketParticipantsOptions"
-              [placeholder]="t('prices.search.enterOwner')"
-              [showResetOption]="false"
-              (ngModelChange)="ownerChanged($event)"
+          <watt-dropdown
+            class="price-owner"
+            label="{{ t('createPrices.priceOwner') }}"
+            formControlName="senderMarketParticipantId"
+            name="owner"
+            [options]="marketParticipantsOptions"
+            [placeholder]="t('prices.search.enterOwner')"
+            [showResetOption]="false"
+            (ngModelChange)="ownerChanged($event)"
+          >
+            <watt-field-error
+              *ngIf="charge.controls['senderMarketParticipantId'].hasError('required')"
             >
-            </watt-dropdown>
-            <watt-error *ngIf="charge.controls['senderMarketParticipantId'].hasError('required')">
               {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-error>
-          </watt-form-field>
+            </watt-field-error>
+          </watt-dropdown>
 
           <!-- Price Description -->
-          <watt-form-field class="description">
-            <watt-label>{{ t("createPrices.priceDescription") }}</watt-label>
-            <textarea wattInput formControlName="description"></textarea>
-            <watt-error *ngIf="charge.controls['description'].hasError('required')">
+          <watt-textarea-field class="description" formControlName="description">
+            <watt-field-error *ngIf="charge.controls['description'].hasError('required')">
               {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-error>
-            <watt-error *ngIf="charge.controls['description'].hasError('maxlength')">
+            </watt-field-error>
+            <watt-field-error *ngIf="charge.controls['description'].hasError('maxlength')">
               {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-error>
-          </watt-form-field>
-
+            </watt-field-error>
+          </watt-textarea-field>
           <!-- Resolution -->
-          <watt-form-field class="resolution">
-            <watt-label>{{ t("resolution") }} *</watt-label>
-            <watt-dropdown
-              formControlName="resolution"
-              [options]="resolutionOptions"
-              name="validityOption"
-              [showResetOption]="false"
-              [placeholder]="t('createPrices.selectResolution')"
-            >
-            </watt-dropdown>
-            <watt-error *ngIf="charge.controls['resolution'].hasError('required')">
+
+          <watt-dropdown
+            class="resolution"
+            label="{{ t('resolution') }}"
+            formControlName="resolution"
+            [options]="resolutionOptions"
+            name="validityOption"
+            [showResetOption]="false"
+            [placeholder]="t('createPrices.selectResolution')"
+          >
+            <watt-field-error *ngIf="charge.controls['resolution'].hasError('required')">
               {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-error>
-          </watt-form-field>
+            </watt-field-error>
+          </watt-dropdown>
 
           <!-- Effective Date -->
           <div class="effective-date">
-            <watt-form-field>
-              <watt-label>{{ t("createPrices.validFromDateTime") }} *</watt-label>
-              <watt-datepicker formControlName="effectiveDate"></watt-datepicker>
-            </watt-form-field>
-            <watt-error
-              *ngIf="charge.controls['effectiveDate'].hasError('required') && hasSubmitted"
+            <watt-datepicker
+              label="{{ t('createPrices.validFromDateTime') }}"
+              formControlName="effectiveDate"
             >
-              {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-error>
+              <watt-field-error
+                *ngIf="charge.controls['effectiveDate'].hasError('required') && hasSubmitted"
+              >
+                {{ "shared.fieldRequiredErrorText" | transloco }}
+              </watt-field-error>
 
-            <watt-error
-              *ngIf="charge.controls['effectiveDate'].hasError('maxDate') && hasSubmitted"
-            >
-              {{ t("createPrices.maxDateValidationErrorText") }}
-            </watt-error>
+              <watt-field-error
+                *ngIf="charge.controls['effectiveDate'].hasError('maxDate') && hasSubmitted"
+              >
+                {{ t("createPrices.maxDateValidationErrorText") }}
+              </watt-field-error>
+            </watt-datepicker>
           </div>
 
           <div class="col-1 checkboxes">

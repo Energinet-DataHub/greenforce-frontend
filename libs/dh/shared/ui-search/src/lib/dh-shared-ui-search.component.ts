@@ -19,9 +19,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 
 export const searchDebounceTimeMs = 250;
 
@@ -30,10 +29,13 @@ export const searchDebounceTimeMs = 250;
   standalone: true,
   template: `
     <ng-container *transloco="let t; read: 'shared'">
-      <watt-form-field class="search-field">
-        <input wattInput [formControl]="searchControl" [placeholder]="placeholder ?? t('search')" />
+      <watt-text-field
+        class="search-field"
+        [formControl]="searchControl"
+        [placeholder]="placeholder ?? t('search')"
+      >
         <watt-button wattSuffix variant="icon" icon="search"></watt-button>
-      </watt-form-field>
+      </watt-text-field>
     </ng-container>
   `,
   styles: [
@@ -47,13 +49,7 @@ export const searchDebounceTimeMs = 250;
       }
     `,
   ],
-  imports: [
-    TranslocoModule,
-    ReactiveFormsModule,
-    WATT_FORM_FIELD,
-    WattInputDirective,
-    WattButtonComponent,
-  ],
+  imports: [TranslocoModule, ReactiveFormsModule, WattButtonComponent, WattTextFieldComponent],
 })
 export class DhSharedUiSearchComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
