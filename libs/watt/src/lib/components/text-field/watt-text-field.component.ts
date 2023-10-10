@@ -31,7 +31,6 @@ import {
   FormControl,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { WattFieldComponent } from '../field/watt-field.component';
 import { WattIconComponent, WattIcon } from '../../foundations/icon';
