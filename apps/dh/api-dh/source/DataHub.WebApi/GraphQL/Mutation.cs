@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
@@ -36,6 +37,54 @@ public class Mutation
         client
             .UpdatePermissionAsync(input)
             .Then(() => client.GetPermissionAsync(input.Id));
+
+    [Error(typeof(MarketParticipantException))]
+    public async Task<bool> UpdateActorAsync(
+        Guid actorId,
+        string actorName,
+        string departmentName,
+        string departmentEmail,
+        string departmentPhone,
+        [Service] IMarketParticipantClient client)
+    {
+        var actor = await client.GetActorAsync(actorId).ConfigureAwait(false);
+        if (!string.Equals(actor.Name.Value, actorName, StringComparison.Ordinal))
+        {
+            var changes = new ChangeActorDto(
+                actor.Status,
+                new ActorNameDto(actorName),
+                actor.MarketRoles);
+
+            await client.UpdateActorAsync(actorId, changes).ConfigureAwait(false);
+        }
+
+        var allContacts = await client.GetContactsAsync(actorId).ConfigureAwait(false);
+        var defaultContact = allContacts.SingleOrDefault(c => c.Category == ContactCategory.Default);
+        if (defaultContact == null ||
+            !string.Equals(defaultContact.Name, departmentName, StringComparison.Ordinal) ||
+            !string.Equals(defaultContact.Email, departmentEmail, StringComparison.Ordinal) ||
+            !string.Equals(defaultContact.Phone, departmentPhone, StringComparison.Ordinal))
+        {
+            if (defaultContact != null)
+            {
+                await client
+                    .DeleteContactAsync(actorId, defaultContact.ContactId)
+                    .ConfigureAwait(false);
+            }
+
+            var newDefaultContact = new CreateActorContactDto(
+                departmentName,
+                ContactCategory.Default,
+                departmentEmail,
+                departmentPhone);
+
+            await client
+                .CreateContactAsync(actorId, newDefaultContact)
+                .ConfigureAwait(false);
+        }
+
+        return true;
+    }
 
     public Task<BatchDto> CreateCalculationAsync(
         Interval period,
@@ -85,15 +134,15 @@ public class Mutation
     {
         await client.RequestAggregatedMeasureDataAsync(
             new RequestAggregatedMeasureDataMarketRequest()
-                {
-                    ProcessType = processType,
-                    MeteringPointType = meteringPointType,
-                    StartDate = startDate,
-                    EndDate = endDate,
-                    GridArea = gridArea,
-                    EnergySupplierId = energySupplierId,
-                    BalanceResponsibleId = balanceResponsibleId,
-                },
+            {
+                ProcessType = processType,
+                MeteringPointType = meteringPointType,
+                StartDate = startDate,
+                EndDate = endDate,
+                GridArea = gridArea,
+                EnergySupplierId = energySupplierId,
+                BalanceResponsibleId = balanceResponsibleId,
+            },
             cancellationToken)
             .ConfigureAwait(false);
         return true;

@@ -574,7 +574,7 @@
         "marketRole": "Market role",
         "status": "Status"
       },
-      "actors": "Actors",
+      "actors": "Market Parties",
       "columns": {
         "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
         "name": "{{ marketParticipant.actorsOverview.shared.name }}",
@@ -609,7 +609,21 @@
           }
         }
       },
-      "emptyTitle": "No actors found",
+      "edit": {
+        "name": "Market Party Name",
+        "contactHeader": "Contact",
+        "departmentName": "Department/Name",
+        "departmentEmail": "Email",
+        "departmentPhone": "Phone Number",
+        "required": "Field is required",
+        "cancel": "Cancel",
+        "save": "Save changes",
+        "updateRequest": {
+          "success": "The market party has been updated successfully.",
+          "error": "Unfortunately, an error occurred while updating the market party."
+        }
+      },
+      "emptyTitle": "No market parties found",
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"

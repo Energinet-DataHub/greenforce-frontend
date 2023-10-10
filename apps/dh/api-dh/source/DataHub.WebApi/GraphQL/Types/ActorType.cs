@@ -43,6 +43,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .ResolveWith<MarketParticipantResolvers>(c => c.GetGridAreasAsync(default!, default!));
 
             descriptor
+                .Field("contact")
+                .ResolveWith<MarketParticipantResolvers>(c => c.GetContactAsync(default!, default!));
+
+            descriptor
                 .Field(f => f.OrganizationId)
                 .Name("organization")
                 .ResolveWith<MarketParticipantResolvers>(c => c.GetOrganizationAsync(default!, default!));
