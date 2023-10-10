@@ -18,7 +18,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'watt-drawer-heading',
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   styles: [
     `
       :host {

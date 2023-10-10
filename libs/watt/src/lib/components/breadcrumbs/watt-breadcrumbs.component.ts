@@ -33,7 +33,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   standalone: true,
   imports: [CommonModule, WattIconComponent],
   encapsulation: ViewEncapsulation.None,
-  template: `<ng-template #templateRef><ng-content></ng-content></ng-template>`,
+  template: `<ng-template #templateRef><ng-content /></ng-template>`,
 })
 export class WattBreadcrumbComponent {
   @ViewChild('templateRef', { static: true }) public templateRef!: TemplateRef<unknown>;

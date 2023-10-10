@@ -28,7 +28,7 @@ export type WattBadgeSize = 'normal' | 'large';
   standalone: true,
   selector: 'watt-badge',
   styleUrls: ['./watt-badge.component.scss'],
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
 })
 export class WattBadgeComponent {
   @Input() type: WattBadgeType = 'info';
