@@ -5,7 +5,6 @@ query GetActorEditableFields($actorId: UUID!) {
       domain
     }
     contact {
-      contactId
       name
       email
       phone
