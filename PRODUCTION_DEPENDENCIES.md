@@ -36,6 +36,6 @@
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 3.0.11 | ISC |
 | [ngx-highlightjs](https://github.com/murhafsousli/ngx-highlightjs) | 10.0.0 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 7.0.4 | MIT |
-| [rxjs](https://github.com/reactivex/rxjs) | 7.5.7 | Apache-2.0 |
+| [rxjs](https://github.com/reactivex/rxjs) | 7.8.0 | Apache-2.0 |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
 | [zone.js](https://github.com/angular/angular) | 0.13.1 | MIT |
