@@ -1,6 +1,5 @@
 mutation UpdateOrganization($input: UpdateOrganizationInput!) {
-  updateOrganization(input: $input)
-  {
+  updateOrganization(input: $input) {
     boolean
   }
 }
