@@ -185,7 +185,7 @@
     "ng-mocks": "14.0.1",
     "nx": "16.10.0",
     "nx-cloud": "16.4.0",
-    "prettier": "2.8.8",
+    "prettier": "3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rimraf": "5.0.0",
