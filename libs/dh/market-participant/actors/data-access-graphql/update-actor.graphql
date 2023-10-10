@@ -1,0 +1,10 @@
+mutation UpdateActor($input: UpdateActorInput!) {
+  updateActor(input: $input) {
+    boolean
+    errors {
+      ... on Error {
+        message
+      }
+    }
+  }
+}

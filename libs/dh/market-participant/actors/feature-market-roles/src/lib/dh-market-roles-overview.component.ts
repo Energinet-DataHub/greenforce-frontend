@@ -110,6 +110,6 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
   }
 
   private getMarketRoles() {
-    return Object.keys(EicFunction).filter((role) => role !== EicFunction.ElOverblik);
+    return Object.keys(EicFunction);
   }
 }

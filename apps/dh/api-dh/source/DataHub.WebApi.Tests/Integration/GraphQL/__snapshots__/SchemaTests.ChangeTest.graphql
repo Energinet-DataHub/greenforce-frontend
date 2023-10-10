@@ -13,9 +13,18 @@ type Actor {
   glnOrEicNumber: String!
   marketRole: EicFunction
   gridAreas: [GridAreaDto!]!
+  contact: ActorContactDto
   organization: Organization!
   externalActorId: UUID
   status: ActorStatus!
+}
+
+type ActorContactDto {
+  contactId: UUID!
+  category: ContactCategory!
+  name: String!
+  email: String!
+  phone: String
 }
 
 type ActorNameDto {
@@ -118,8 +127,14 @@ type MarketParticipantBadRequestError implements Error {
   statusCode: Int!
 }
 
+type MarketParticipantError implements Error {
+  message: String!
+  statusCode: Int!
+}
+
 type Mutation {
   updatePermission(input: UpdatePermissionDtoInput!): Permission!
+  updateActor(input: UpdateActorInput!): UpdateActorPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
@@ -180,6 +195,11 @@ type SettlementReport {
   executionTime: DateTime
 }
 
+type UpdateActorPayload {
+  boolean: Boolean
+  errors: [UpdateActorError!]
+}
+
 type UpdateOrganizationPayload {
   boolean: Boolean
   errors: [UpdateOrganizationError!]
@@ -213,6 +233,8 @@ type UserRoleWithPermissionsDto {
   status: UserRoleStatus!
   permissions: [Permission!]!
 }
+
+union UpdateActorError = MarketParticipantError
 
 union UpdateOrganizationError = MarketParticipantBadRequestError
 
@@ -248,6 +270,14 @@ input CreateCalculationInput {
   processType: ProcessType!
 }
 
+input UpdateActorInput {
+  actorId: UUID!
+  actorName: String!
+  departmentName: String!
+  departmentEmail: String!
+  departmentPhone: String!
+}
+
 input UpdateOrganizationInput {
   orgId: UUID!
   changes: ChangeOrganizationDtoInput!
@@ -278,6 +308,24 @@ enum BatchState {
   FAILED
 }
 
+enum ContactCategory {
+  DEFAULT
+  CHARGES
+  CHARGE_LINKS
+  ELECTRICAL_HEATING
+  END_OF_SUPPLY
+  ENERGINET_INQUIRY
+  ERROR_REPORT
+  INCORRECT_MOVE
+  INCORRECT_SWITCH
+  MEASUREMENT_DATA
+  METERING_POINT
+  NET_SETTLEMENT
+  NOTIFICATION
+  RECON
+  REMINDER
+}
+
 enum DocumentStatus {
   RECEIVED
   AWAITING_DISPATCH
@@ -304,7 +352,6 @@ enum EicFunction {
   MeteringPointAdministrator
   SystemOperator
   DanishEnergyAgency
-  ElOverblik
   DataHubAdministrator
   IndependentAggregator
   SerialEnergyTrader
