@@ -14,7 +14,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-field [label]="label">
+<watt-field
+  [control]="matSelectControl"
+  [chipMode]="chipMode"
+  [label]="label"
+  (click)="matSelect.open()"
+>
   <watt-menu-chip
     *ngIf="chipMode"
     [opened]="matSelect.panelOpen"
@@ -27,6 +32,7 @@ limitations under the License.
   </watt-menu-chip>
 
   <mat-select
+    [attr.aria-label]="label"
     [formControl]="matSelectControl"
     [placeholder]="placeholder"
     #matSelect

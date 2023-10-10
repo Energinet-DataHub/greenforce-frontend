@@ -19,7 +19,6 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 
 @Component({
@@ -33,7 +32,7 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
         [options]="userRoleOptions"
         [label]="t('filter.userrole')"
         [multiple]="true"
-      ></watt-dropdown>
+      />
     </ng-container>
   `,
   styles: [
@@ -47,7 +46,7 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
       }
     `,
   ],
-  imports: [TranslocoModule, ReactiveFormsModule, WATT_FORM_FIELD, WattDropdownComponent],
+  imports: [TranslocoModule, ReactiveFormsModule, WattDropdownComponent],
 })
 export class DhUsersTabUserRoleFilterComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();

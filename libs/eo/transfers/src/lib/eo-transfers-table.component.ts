@@ -28,7 +28,6 @@ import {
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -52,7 +51,6 @@ interface EoTransferTableElement extends EoListedTransfer {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    WATT_FORM_FIELD,
     WATT_TABLE,
     WattBadgeComponent,
     WattButtonComponent,
@@ -126,18 +124,16 @@ interface EoTransferTableElement extends EoListedTransfer {
     </div>
     <div class="search-filters watt-space-stack-s">
       <form [formGroup]="filterForm">
-        <watt-form-field>
-          <watt-dropdown
-            [chipMode]="true"
-            placeholder="Status"
-            formControlName="statusFilter"
-            (ngModelChange)="applyFilters()"
-            [options]="[
-              { value: 'true', displayValue: 'Active' },
-              { value: 'false', displayValue: 'Inactive' }
-            ]"
-          ></watt-dropdown>
-        </watt-form-field>
+        <watt-dropdown
+          [chipMode]="true"
+          placeholder="Status"
+          formControlName="statusFilter"
+          (ngModelChange)="applyFilters()"
+          [options]="[
+            { value: 'true', displayValue: 'Active' },
+            { value: 'false', displayValue: 'Inactive' }
+          ]"
+        ></watt-dropdown>
       </form>
     </div>
     <watt-table

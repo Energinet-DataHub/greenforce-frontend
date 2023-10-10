@@ -19,74 +19,68 @@ limitations under the License.
     <ng-container *rxLet="continuationToken$ as continuationToken">
       <form class="form" [formGroup]="searchForm" name="log-search-form" (ngSubmit)="onSubmit()">
         <!-- MessageId -->
-        <watt-form-field>
-          <watt-label>{{ transloco("messageId") }}</watt-label>
-          <input formControlName="messageId" wattInput type="text" name="messageId" />
-        </watt-form-field>
+        <watt-text-field
+          [label]="transloco('messageId')"
+          [formControl]="searchForm.controls.messageId"
+          type="text"
+          name="messageId"
+        />
 
         <!-- Document Type -->
-        <watt-form-field>
-          <watt-label>{{ transloco("documentType") }}</watt-label>
-          <watt-dropdown
-            formControlName="documentTypes"
-            [options]="documentTypeFieldOptions"
-            name="documentType"
-            [placeholder]="transloco('typeOrChoose')"
-            [multiple]="true"
-          >
-          </watt-dropdown>
-        </watt-form-field>
+        <watt-dropdown
+          [label]="transloco('documentType')"
+          formControlName="documentTypes"
+          [options]="documentTypeFieldOptions"
+          name="documentType"
+          [placeholder]="transloco('typeOrChoose')"
+          [multiple]="true"
+        />
 
         <!-- Business Reason -->
-        <watt-form-field>
-          <watt-label>{{ transloco("businessReason") }}</watt-label>
-          <watt-dropdown
-            formControlName="businessReasons"
-            [options]="businessReasonFormFieldOptions"
-            name="businessReason"
-            [placeholder]="transloco('typeOrChoose')"
-            [multiple]="true"
-          >
-          </watt-dropdown>
-        </watt-form-field>
+        <watt-dropdown
+          [label]="transloco('businessReason')"
+          formControlName="businessReasons"
+          [options]="businessReasonFormFieldOptions"
+          name="businessReason"
+          [placeholder]="transloco('typeOrChoose')"
+          [multiple]="true"
+        />
 
         <!-- Sender -->
-        <watt-form-field>
-          <watt-label>{{ transloco("senderGln") }}</watt-label>
-          <watt-dropdown
-            formControlName="senderNumber"
-            [options]="(getActorOptions$ | async) ?? []"
-            name="senderNumber"
-            [placeholder]="transloco('typeOrChoose')"
-          >
-          </watt-dropdown>
-        </watt-form-field>
+        <watt-dropdown
+          [label]="transloco('senderGln')"
+          formControlName="senderNumber"
+          [options]="(getActorOptions$ | async) ?? []"
+          name="senderNumber"
+          [placeholder]="transloco('typeOrChoose')"
+        />
 
         <!-- Receiver -->
-        <watt-form-field>
-          <watt-label>{{ transloco("receiverGln") }}</watt-label>
-          <watt-dropdown
-            formControlName="receiverNumber"
-            [options]="(getActorOptions$ | async) ?? []"
-            name="receiverNumber"
-            [placeholder]="transloco('typeOrChoose')"
-          >
-          </watt-dropdown>
-        </watt-form-field>
+        <watt-dropdown
+          [label]="transloco('receiverGln')"
+          formControlName="receiverNumber"
+          [options]="(getActorOptions$ | async) ?? []"
+          name="receiverNumber"
+          [placeholder]="transloco('typeOrChoose')"
+        >
+        </watt-dropdown>
 
         <div class="rowContainer">
-          <watt-form-field>
-            <watt-label>{{ transloco("periode") }}</watt-label>
-            <watt-datepicker formControlName="dateRange" [range]="true"></watt-datepicker>
-            <watt-error *ngIf="searchForm.controls.dateRange.errors?.rangeRequired">
+          <watt-datepicker
+            [label]="transloco('periode')"
+            formControlName="dateRange"
+            [range]="true"
+          >
+            <watt-field-error *ngIf="searchForm.controls.dateRange.errors?.rangeRequired">
               {{ transloco("invalidDate") }}
-            </watt-error>
-          </watt-form-field>
+            </watt-field-error>
+          </watt-datepicker>
 
-          <watt-form-field>
-            <watt-label>{{ transloco("time") }}</watt-label>
-            <watt-timepicker formControlName="timeRange" [range]="true"></watt-timepicker>
-          </watt-form-field>
+          <watt-timepicker
+            [label]="transloco('time')"
+            formControlName="timeRange"
+            [range]="true"
+          ></watt-timepicker>
 
           <!-- Reference id -->
           <watt-checkbox formControlName="includeRelated" wattInput name="reference-id">{{

@@ -33,7 +33,7 @@ label {
 }
 
 label,
-watt-form-field {
+watt-text-field {
   flex: 1 1 auto;
 }
 
@@ -41,6 +41,6 @@ watt-icon {
   color: var(--watt-color-primary);
 }
 
-watt-form-field {
+watt-text-field {
   width: auto;
 }

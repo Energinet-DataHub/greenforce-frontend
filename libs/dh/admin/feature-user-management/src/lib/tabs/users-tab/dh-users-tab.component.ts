@@ -61,6 +61,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
       .filter-container {
         display: inline-flex;
         gap: var(--watt-space-m);
+        padding-bottom: var(--watt-space-m);
       }
 
       .users-overview {

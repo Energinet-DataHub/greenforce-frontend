@@ -20,13 +20,16 @@ limitations under the License.
       <watt-tabs class="watt-modal-content--full-width">
         <watt-tab [label]="t('tab.masterData.tabLabel')">
           <div class="tab-master-data">
-            <watt-form-field>
-              <watt-label>{{ t("tab.masterData.descriptionInputLabel") }}</watt-label>
-              <textarea wattInput formControlName="description"></textarea>
-              <watt-error *ngIf="userPermissionsForm.controls.description?.errors?.['required']">
+            <watt-textarea-field
+              [label]="t('tab.masterData.descriptionInputLabel')"
+              formControlName="description"
+            >
+              <watt-field-error
+                *ngIf="userPermissionsForm.controls.description?.errors?.['required']"
+              >
                 {{ t("validationErrors.required") }}
-              </watt-error>
-            </watt-form-field>
+              </watt-field-error>
+            </watt-textarea-field>
           </div>
         </watt-tab>
       </watt-tabs>

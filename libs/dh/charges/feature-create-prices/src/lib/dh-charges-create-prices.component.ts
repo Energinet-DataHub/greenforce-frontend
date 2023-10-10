@@ -18,8 +18,6 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { CommonModule } from '@angular/common';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 import {
   FormControl,
   FormGroup,
@@ -34,6 +32,10 @@ import { ChargeTypes, ResolutionOptions } from '@energinet-datahub/dh/charges/do
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
+import { WattFieldComponent } from '@energinet-datahub/watt/field';
+import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 import {
   DhChargesDataAccessApiStore,
   DhMarketParticipantDataAccessApiStore,
@@ -67,9 +69,11 @@ import { add } from 'date-fns';
     WATT_CARD,
     WattCheckboxComponent,
     WattDatepickerComponent,
-    WATT_FORM_FIELD,
-    WattInputDirective,
     WattDropdownComponent,
+    WattFieldErrorComponent,
+    WattTextFieldTDComponent,
+    WattFieldComponent,
+    WattTextAreaFieldComponent,
   ],
 })
 export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
