@@ -99,6 +99,7 @@ public class Mutation
         return true;
     }
 
+    [Error(typeof(MarketParticipantBadRequestException))]
     public async Task<bool> UpdateOrganizationAsync(
         Guid orgId,
         ChangeOrganizationDto changes,
@@ -115,7 +116,7 @@ public class Mutation
              !string.Equals(organization.Address.City, changes.Address.City, StringComparison.Ordinal) ||
              !string.Equals(organization.Address.ZipCode, changes.Address.ZipCode, StringComparison.Ordinal))
          {
-            changes = changes with { Status = organization.Status }; // Status on organizations are probably going away, will be hidden in UI, so we just use the original on the organization
+            changes = changes with { Status = organization.Status }; // Status on organizations are probably going away, will be hidden in UI, so we just use the original from the organization
             await client.UpdateOrganizationAsync(orgId, changes).ConfigureAwait(false);
          }
 
