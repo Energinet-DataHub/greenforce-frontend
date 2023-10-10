@@ -14,6 +14,7 @@ type Actor {
   glnOrEicNumber: String!
   marketRole: EicFunction
   gridAreas: [GridAreaDto!]!
+  contact: ActorContactDto
   organization: OrganizationDto!
   externalActorId: UUID
   status: ActorStatus!
@@ -60,7 +61,6 @@ enum EicFunction {
   MeteringPointAdministrator
   SystemOperator
   DanishEnergyAgency
-  ElOverblik
   DataHubAdministrator
   IndependentAggregator
   SerialEnergyTrader
@@ -126,6 +126,7 @@ type Query {
 
 type Mutation {
   updatePermission(input: UpdatePermissionDtoInput!): Permission!
+  updateActor(input: UpdateActorInput!): UpdateActorPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
 }
@@ -139,6 +140,14 @@ type GridAreaDto {
   priceAreaCode: PriceAreaCode!
   validFrom: DateTime!
   validTo: DateTime
+}
+
+type ActorContactDto {
+  contactId: UUID!
+  category: ContactCategory!
+  name: String!
+  email: String!
+  phone: String
 }
 
 type OrganizationDto {
@@ -224,6 +233,24 @@ enum OrganizationStatus {
   ACTIVE
   BLOCKED
   DELETED
+}
+
+enum ContactCategory {
+  DEFAULT
+  CHARGES
+  CHARGE_LINKS
+  ELECTRICAL_HEATING
+  END_OF_SUPPLY
+  ENERGINET_INQUIRY
+  ERROR_REPORT
+  INCORRECT_MOVE
+  INCORRECT_SWITCH
+  MEASUREMENT_DATA
+  METERING_POINT
+  NET_SETTLEMENT
+  NOTIFICATION
+  RECON
+  REMINDER
 }
 
 enum PriceAreaCode {
@@ -325,6 +352,18 @@ type ExchangeEventSearchResult {
   processType: ExchangeEventProcessType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
+}
+
+input UpdateActorInput {
+  actorId: UUID!
+  actorName: String!
+  departmentName: String!
+  departmentEmail: String!
+  departmentPhone: String!
+}
+
+type UpdateActorPayload {
+  actor: Actor
 }
 
 input CreateCalculationInput {

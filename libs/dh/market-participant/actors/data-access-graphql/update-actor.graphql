@@ -1,0 +1,7 @@
+mutation UpdateActor($input: UpdateActorInput!) {
+  updateActor(input: $input) {
+    actor {
+      id
+    }
+  }
+}

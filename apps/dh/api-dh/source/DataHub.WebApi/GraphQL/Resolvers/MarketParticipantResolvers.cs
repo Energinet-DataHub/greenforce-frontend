@@ -28,6 +28,17 @@ namespace Energinet.DataHub.WebApi.GraphQL
             [Service] IMarketParticipantUserRoleClient client) =>
             client.GetAssignedToPermissionAsync(permission.Id);
 
+        public async Task<ActorContactDto?> GetContactAsync(
+            [Parent] ActorDto actor,
+            [Service] IMarketParticipantClient client)
+        {
+            var allContacts = await client
+                .GetContactsAsync(actor.ActorId)
+                .ConfigureAwait(false);
+
+            return allContacts.SingleOrDefault(c => c.Category == ContactCategory.Default);
+        }
+
         public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
             [Parent] ActorDto actor,
             GridAreaByIdBatchDataLoader dataLoader) =>

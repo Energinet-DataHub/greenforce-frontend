@@ -15,5 +15,44 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *ngIf="actor">
-  <watt-modal [title]="actor.glnOrEicNumber"> </watt-modal>
+  <watt-modal
+    [loading]="isLoading"
+    [title]="actor.name"
+    *transloco="let t; read: 'marketParticipant.actorsOverview.edit'"
+  >
+    <form [formGroup]="actorForm" *rxLet="formInitialValues$">
+      <watt-form-field class="actor-field">
+        <watt-label>{{ t("name") }}</watt-label>
+        <input wattInput type="text" [formControl]="actorForm.controls.name" />
+        <watt-error>{{ t("required") }}</watt-error>
+      </watt-form-field>
+
+      <h4>{{ t("contactHeader") }}</h4>
+      <watt-form-field class="contact-field">
+        <watt-label>{{ t("departmentName") }}</watt-label>
+        <input wattInput type="text" [formControl]="actorForm.controls.departmentName" />
+        <watt-error>{{ t("required") }}</watt-error>
+      </watt-form-field>
+      <watt-form-field class="contact-field">
+        <watt-label>{{ t("departmentEmail") }}</watt-label>
+        <input wattInput type="email" [formControl]="actorForm.controls.departmentEmail" />
+        <span wattSuffix class="email-suffix">@{{ emailDomain }}</span>
+        <watt-error>{{ t("required") }}</watt-error>
+      </watt-form-field>
+      <watt-form-field class="phone-field">
+        <watt-label>{{ t("departmentPhone") }}</watt-label>
+        <input wattInput type="phone" [formControl]="actorForm.controls.departmentPhone" />
+        <watt-error>{{ t("required") }}</watt-error>
+      </watt-form-field>
+    </form>
+
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="close()">
+        {{ t("cancel") }}
+      </watt-button>
+      <watt-button variant="secondary" type="submit" (click)="save()">
+        {{ t("save") }}
+      </watt-button>
+    </watt-modal-actions>
+  </watt-modal>
 </ng-container>
