@@ -35,6 +35,10 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   providers: [DhMarketParticipantActorsEditActorDataAccessApiStore],
   styles: [
     `
+      watt-form-field {
+        padding-top: var(--watt-space-s);
+      }
+
       .actor-field {
         width: 80%;
       }
