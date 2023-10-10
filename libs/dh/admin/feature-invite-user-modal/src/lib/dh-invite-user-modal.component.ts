@@ -35,8 +35,6 @@ import { Subscription, tap } from 'rxjs';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_STEPPER, WattStepperComponent } from '@energinet-datahub/watt/stepper';
 import {
@@ -47,6 +45,8 @@ import {
 import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
 
 @Component({
@@ -64,12 +64,12 @@ import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
     WattIconComponent,
     CommonModule,
     ReactiveFormsModule,
-    WattInputDirective,
-    WATT_FORM_FIELD,
     WattDropdownComponent,
     RxPush,
     DhAssignableUserRolesComponent,
     WATT_STEPPER,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
   ],
 })
 export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {

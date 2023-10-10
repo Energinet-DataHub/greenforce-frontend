@@ -19,23 +19,22 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 import { meteringPointIdValidator } from './dh-metering-point.validator';
 
@@ -46,24 +45,24 @@ import { meteringPointIdValidator } from './dh-metering-point.validator';
   templateUrl: './dh-metering-point-search-form.component.html',
   standalone: true,
   imports: [
-    WATT_FORM_FIELD,
-    WattInputDirective,
     WattButtonComponent,
     WattIconComponent,
     TranslocoModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
   ],
 })
 export class DhMeteringPointSearchFormComponent implements AfterViewInit, OnDestroy {
   @Input() loading = false;
   @Output() search = new EventEmitter<string>();
-  @ViewChild('searchInput') searchInput?: ElementRef;
+  @ViewChild('searchInput') searchInput?: WattTextFieldComponent;
 
   queryParamsSubscription?: Subscription;
 
-  searchControl = new UntypedFormControl('', [meteringPointIdValidator()]);
+  searchControl = new FormControl('', [meteringPointIdValidator()]);
 
   constructor(
     private router: Router,
@@ -98,7 +97,7 @@ export class DhMeteringPointSearchFormComponent implements AfterViewInit, OnDest
       return;
     }
 
-    this.search.emit(this.searchControl.value);
+    this.search.emit(this.searchControl.value ?? '');
   }
 
   private updateQueryParam(q: string | null | undefined): void {
@@ -106,12 +105,13 @@ export class DhMeteringPointSearchFormComponent implements AfterViewInit, OnDest
   }
 
   private setInitialValue(value: string | undefined | null): void {
-    this.searchControl.setValue(value);
+    this.searchControl.setValue(value ?? '');
 
     if (!value) {
       this.searchControl.markAsUntouched();
     } else {
       this.searchControl.markAsTouched();
+      this.searchControl.markAsDirty();
     }
 
     /*
@@ -122,7 +122,7 @@ export class DhMeteringPointSearchFormComponent implements AfterViewInit, OnDest
   }
 
   private focusSearchInput(): void {
-    this.searchInput?.nativeElement.focus();
+    this.searchInput?.setFocus();
     this.changeDetectorRef.detectChanges();
   }
 }

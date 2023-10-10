@@ -14,13 +14,14 @@ type Actor {
   glnOrEicNumber: String!
   marketRole: EicFunction
   gridAreas: [GridAreaDto!]!
-  organization: OrganizationDto!
+  contact: ActorContactDto
+  organization: Organization!
   externalActorId: UUID
   status: ActorStatus!
 }
 
 type BalanceResponsibleType {
-  gridArea: GridAreaDto!
+  gridAreaWithName: GridAreaDto
   supplierWithName: ActorNameDto
   balanceResponsibleWithName: ActorNameDto
   id: String!
@@ -30,6 +31,7 @@ type BalanceResponsibleType {
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
   validToDate: DateTime
+  gridArea: String!
 }
 
 """An immutable calculation."""
@@ -67,14 +69,13 @@ enum EicFunction {
   MeteringPointAdministrator
   SystemOperator
   DanishEnergyAgency
-  ElOverblik
   DataHubAdministrator
   IndependentAggregator
   SerialEnergyTrader
 }
 
 type EsettOutgoingMessage {
-  gridArea: GridAreaDto!
+  gridArea: GridAreaDto
   documentId: String!
   created: DateTime!
   processType: ExchangeEventProcessType!
@@ -87,6 +88,17 @@ type EsettOutgoingMessage {
 enum ExchangeEventProcessType {
   BALANCE_FIXING
   AGGREGATION
+}
+
+type Organization {
+  organizationId: String
+  actors: [Actor!]
+  name: String!
+  businessRegisterIdentifier: String!
+  domain: String!
+  comment: String!
+  status: OrganizationStatus!
+  address: AddressDto!
 }
 
 type Permission {
@@ -117,8 +129,8 @@ type Query {
   permissionLogs(id: Int!): [PermissionLog!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditLog!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
-  organizationById(id: UUID!): OrganizationDto!
-  organizations: [OrganizationDto!]!
+  organizationById(id: UUID!): Organization!
+  organizations: [Organization!]!
   gridAreas: [GridAreaDto!]!
   calculationById(id: UUID!): Calculation!
   calculations(executionTime: DateRange, executionStates: [BatchState!], processTypes: [ProcessType!], gridAreaCodes: [String!], period: DateRange, first: Int): [Calculation!]!
@@ -133,8 +145,10 @@ type Query {
 
 type Mutation {
   updatePermission(input: UpdatePermissionDtoInput!): Permission!
+  updateActor(input: UpdateActorInput!): UpdateActorPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
+  updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
 }
 
 scalar UUID
@@ -148,14 +162,12 @@ type GridAreaDto {
   validTo: DateTime
 }
 
-type OrganizationDto {
-  organizationId: UUID!
+type ActorContactDto {
+  contactId: UUID!
+  category: ContactCategory!
   name: String!
-  businessRegisterIdentifier: String!
-  domain: String!
-  comment: String!
-  status: OrganizationStatus!
-  address: AddressDto!
+  email: String!
+  phone: String
 }
 
 type ActorNameDto {
@@ -205,17 +217,11 @@ enum DocumentStatus {
   REJECTED
 }
 
-type UserRoleDto {
-  id: UUID!
-  name: String!
-  description: String!
-  eicFunction: EicFunction!
-  status: UserRoleStatus!
-}
-
-enum UserRoleStatus {
+enum OrganizationStatus {
+  NEW
   ACTIVE
-  INACTIVE
+  BLOCKED
+  DELETED
 }
 
 type AddressDto {
@@ -226,16 +232,65 @@ type AddressDto {
   country: String!
 }
 
-enum OrganizationStatus {
-  NEW
+type UserRoleDto {
+  id: UUID!
+  name: String!
+  description: String!
+  eicFunction: EicFunction!
+  status: UserRoleStatus!
+}
+
+type MarketParticipantError implements Error {
+  message: String!
+  statusCode: Int!
+}
+
+type MarketParticipantBadRequestError implements Error {
+  message: String!
+  jsonError: JSON!
+  statusCode: Int!
+}
+
+interface Error {
+  message: String!
+}
+
+scalar JSON
+
+enum UserRoleStatus {
   ACTIVE
-  BLOCKED
-  DELETED
+  INACTIVE
+}
+
+enum ContactCategory {
+  DEFAULT
+  CHARGES
+  CHARGE_LINKS
+  ELECTRICAL_HEATING
+  END_OF_SUPPLY
+  ENERGINET_INQUIRY
+  ERROR_REPORT
+  INCORRECT_MOVE
+  INCORRECT_SWITCH
+  MEASUREMENT_DATA
+  METERING_POINT
+  NET_SETTLEMENT
+  NOTIFICATION
+  RECON
+  REMINDER
 }
 
 enum PriceAreaCode {
   DK1
   DK2
+}
+
+input ChangeOrganizationDtoInput {
+  name: String!
+  businessRegisterIdentifier: String!
+  address: AddressDtoInput!
+  comment: String
+  status: OrganizationStatus!
 }
 
 enum MeteringPointType {
@@ -334,6 +389,29 @@ type ExchangeEventSearchResult {
   documentStatus: DocumentStatus!
 }
 
+input AddressDtoInput {
+  streetName: String
+  number: String
+  zipCode: String
+  city: String
+  country: String!
+}
+
+input UpdateActorInput {
+  actorId: UUID!
+  actorName: String!
+  departmentName: String!
+  departmentEmail: String!
+  departmentPhone: String!
+}
+
+union UpdateActorError = MarketParticipantError
+
+type UpdateActorPayload {
+  boolean: Boolean
+  errors: [UpdateActorError!]
+}
+
 input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
@@ -356,4 +434,16 @@ input CreateAggregatedMeasureDataRequestInput {
 
 type CreateAggregatedMeasureDataRequestPayload {
   boolean: Boolean
+}
+
+input UpdateOrganizationInput {
+  orgId: UUID!
+  changes: ChangeOrganizationDtoInput!
+}
+
+union UpdateOrganizationError = MarketParticipantBadRequestError
+
+type UpdateOrganizationPayload {
+  boolean: Boolean
+  errors: [UpdateOrganizationError!]
 }

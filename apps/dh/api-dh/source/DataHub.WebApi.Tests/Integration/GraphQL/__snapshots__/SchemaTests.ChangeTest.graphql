@@ -3,15 +3,28 @@ schema {
   mutation: Mutation
 }
 
+interface Error {
+  message: String!
+}
+
 type Actor {
   id: UUID!
   name: String!
   glnOrEicNumber: String!
   marketRole: EicFunction
   gridAreas: [GridAreaDto!]!
-  organization: OrganizationDto!
+  contact: ActorContactDto
+  organization: Organization!
   externalActorId: UUID
   status: ActorStatus!
+}
+
+type ActorContactDto {
+  contactId: UUID!
+  category: ContactCategory!
+  name: String!
+  email: String!
+  phone: String
 }
 
 type ActorNameDto {
@@ -36,7 +49,7 @@ type BalanceResponsiblePageResult {
 }
 
 type BalanceResponsibleType {
-  gridArea: GridAreaDto!
+  gridAreaWithName: GridAreaDto
   supplierWithName: ActorNameDto
   balanceResponsibleWithName: ActorNameDto
   id: String!
@@ -46,6 +59,7 @@ type BalanceResponsibleType {
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
   validToDate: DateTime
+  gridArea: String!
 }
 
 "An immutable calculation."
@@ -74,7 +88,7 @@ type CreateCalculationPayload {
 }
 
 type EsettOutgoingMessage {
-  gridArea: GridAreaDto!
+  gridArea: GridAreaDto
   documentId: String!
   created: DateTime!
   processType: ExchangeEventProcessType!
@@ -107,14 +121,28 @@ type GridAreaDto {
   validTo: DateTime
 }
 
-type Mutation {
-  updatePermission(input: UpdatePermissionDtoInput!): Permission!
-  createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
-  createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
+type MarketParticipantBadRequestError implements Error {
+  message: String!
+  jsonError: JSON!
+  statusCode: Int!
 }
 
-type OrganizationDto {
-  organizationId: UUID!
+type MarketParticipantError implements Error {
+  message: String!
+  statusCode: Int!
+}
+
+type Mutation {
+  updatePermission(input: UpdatePermissionDtoInput!): Permission!
+  updateActor(input: UpdateActorInput!): UpdateActorPayload!
+  createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
+  createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
+  updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
+}
+
+type Organization {
+  organizationId: String
+  actors: [Actor!]
   name: String!
   businessRegisterIdentifier: String!
   domain: String!
@@ -145,8 +173,8 @@ type Query {
   permissionLogs(id: Int!): [PermissionLog!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditLog!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
-  organizationById(id: UUID!): OrganizationDto!
-  organizations: [OrganizationDto!]!
+  organizationById(id: UUID!): Organization!
+  organizations: [Organization!]!
   gridAreas: [GridAreaDto!]!
   calculationById(id: UUID!): Calculation!
   calculations(executionTime: DateRange executionStates: [BatchState!] processTypes: [ProcessType!] gridAreaCodes: [String!] period: DateRange first: Int): [Calculation!]!
@@ -165,6 +193,16 @@ type SettlementReport {
   gridArea: GridAreaDto!
   period: DateRange!
   executionTime: DateTime
+}
+
+type UpdateActorPayload {
+  boolean: Boolean
+  errors: [UpdateActorError!]
+}
+
+type UpdateOrganizationPayload {
+  boolean: Boolean
+  errors: [UpdateOrganizationError!]
 }
 
 type UserRoleAuditLog {
@@ -196,6 +234,26 @@ type UserRoleWithPermissionsDto {
   permissions: [Permission!]!
 }
 
+union UpdateActorError = MarketParticipantError
+
+union UpdateOrganizationError = MarketParticipantBadRequestError
+
+input AddressDtoInput {
+  streetName: String
+  number: String
+  zipCode: String
+  city: String
+  country: String!
+}
+
+input ChangeOrganizationDtoInput {
+  name: String!
+  businessRegisterIdentifier: String!
+  address: AddressDtoInput!
+  comment: String
+  status: OrganizationStatus!
+}
+
 input CreateAggregatedMeasureDataRequestInput {
   processType: EdiB2CProcessType!
   meteringPointType: MeteringPointType!
@@ -210,6 +268,19 @@ input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
   processType: ProcessType!
+}
+
+input UpdateActorInput {
+  actorId: UUID!
+  actorName: String!
+  departmentName: String!
+  departmentEmail: String!
+  departmentPhone: String!
+}
+
+input UpdateOrganizationInput {
+  orgId: UUID!
+  changes: ChangeOrganizationDtoInput!
 }
 
 input UpdatePermissionDtoInput {
@@ -235,6 +306,24 @@ enum BatchState {
   EXECUTING
   COMPLETED
   FAILED
+}
+
+enum ContactCategory {
+  DEFAULT
+  CHARGES
+  CHARGE_LINKS
+  ELECTRICAL_HEATING
+  END_OF_SUPPLY
+  ENERGINET_INQUIRY
+  ERROR_REPORT
+  INCORRECT_MOVE
+  INCORRECT_SWITCH
+  MEASUREMENT_DATA
+  METERING_POINT
+  NET_SETTLEMENT
+  NOTIFICATION
+  RECON
+  REMINDER
 }
 
 enum DocumentStatus {
@@ -263,7 +352,6 @@ enum EicFunction {
   MeteringPointAdministrator
   SystemOperator
   DanishEnergyAgency
-  ElOverblik
   DataHubAdministrator
   IndependentAggregator
   SerialEnergyTrader
@@ -352,6 +440,8 @@ scalar DateRange
 
 "The `DateTime` scalar represents an ISO-8601 compliant date time type."
 scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
+
+scalar JSON
 
 "The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
 scalar Long

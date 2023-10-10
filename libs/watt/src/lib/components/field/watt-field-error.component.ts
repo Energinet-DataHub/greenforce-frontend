@@ -14,11 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'watt-field-error',
   template: `<ng-content></ng-content>`,
+  encapsulation: ViewEncapsulation.None,
+  styles: [
+    `
+      watt-field-error {
+        color: var(--watt-color-state-danger);
+      }
+    `,
+  ],
   standalone: true,
 })
 export class WattFieldErrorComponent {}

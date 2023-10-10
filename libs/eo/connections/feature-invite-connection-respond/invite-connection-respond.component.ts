@@ -29,11 +29,9 @@ import {
 } from '@angular/core';
 import { NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault, NgTemplateOutlet } from '@angular/common';
 
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -52,11 +50,9 @@ import { EoCvrService } from '../data-access-api/cvr.service';
   encapsulation: ViewEncapsulation.None,
   imports: [
     NgIf,
-    WATT_FORM_FIELD,
     WATT_MODAL,
     WattButtonComponent,
     WattCopyToClipboardDirective,
-    WattInputDirective,
     WattEmptyStateComponent,
     VaterStackComponent,
     NgSwitch,

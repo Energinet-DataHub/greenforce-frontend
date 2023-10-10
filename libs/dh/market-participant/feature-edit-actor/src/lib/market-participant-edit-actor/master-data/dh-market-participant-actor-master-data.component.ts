@@ -19,9 +19,9 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy } from 
 import { FormsModule } from '@angular/forms';
 import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { MarketParticipantActorStatus } from '@energinet-datahub/dh/shared/domain';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { Subject, takeUntil } from 'rxjs';
@@ -39,8 +39,8 @@ import { getValidStatusTransitionOptions } from './get-valid-status-transition-o
     FormsModule,
     TranslocoModule,
     WattDropdownComponent,
-    WATT_FORM_FIELD,
-    WattInputDirective,
+    WattTextFieldTDComponent,
+    WattFieldErrorComponent,
   ],
 })
 export class DhMarketParticipantActorMasterDataComponent implements OnChanges, OnDestroy {

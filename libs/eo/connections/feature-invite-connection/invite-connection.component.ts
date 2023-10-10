@@ -24,13 +24,12 @@ import {
 } from '@angular/core';
 import { NgIf } from '@angular/common';
 
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
 
 import { EoInviteConnectionService } from '../data-access-api/invite-connection.service';
 
@@ -40,13 +39,12 @@ import { EoInviteConnectionService } from '../data-access-api/invite-connection.
   encapsulation: ViewEncapsulation.None,
   imports: [
     NgIf,
-    WATT_FORM_FIELD,
     WATT_MODAL,
     WattButtonComponent,
     WattCopyToClipboardDirective,
-    WattInputDirective,
     WattEmptyStateComponent,
     VaterStackComponent,
+    WattTextFieldTDComponent,
   ],
   template: `
     <watt-modal
@@ -69,16 +67,12 @@ import { EoInviteConnectionService } from '../data-access-api/invite-connection.
         </p>
         <br />
         <vater-stack direction="row">
-          <watt-form-field>
-            <watt-label>Invitation link</watt-label>
-            <input
-              wattInput
-              type="text"
-              data-testid="invitation-link"
-              [value]="inviteLink().link"
-              #key
-            />
-          </watt-form-field>
+          <watt-text-field
+            label="Invitation link"
+            data-testid="invitation-link"
+            [value]="inviteLink().link ?? ''"
+            #key
+          />
           <watt-button
             variant="text"
             icon="contentCopy"

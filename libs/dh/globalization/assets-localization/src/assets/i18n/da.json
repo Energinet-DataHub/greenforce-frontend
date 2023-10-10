@@ -604,13 +604,50 @@
           }
         }
       },
+      "edit": {
+        "name": "Aktørnavn",
+        "contactHeader": "Kontakt",
+        "departmentName": "Afdeling/Navn",
+        "departmentEmail": "Email",
+        "departmentPhone": "Telefonnr.",
+        "required": "Feltet er påkrævet",
+        "cancel": "Fortryd",
+        "save": "Gem ændringer",
+        "updateRequest": {
+          "success": "Ændringerne af aktøren er blevet gemt.",
+          "error": "Der opstod desværre en fejl, da vi skulle gemme aktøren."
+        }
+      },
       "emptyTitle": "Ingen aktører fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
     },
     "organizationsOverview": {
-      "organizations": "Organisationer"
+      "organizations": "Organisationer",
+      "shared": {
+        "cvrOrBusinessRegisterId": "CVR/Virksomhedsid",
+        "name": "Navn"
+      },
+      "columns": {
+        "cvrOrBusinessRegisterId": "{{ marketParticipant.organizationsOverview.shared.cvrOrBusinessRegisterId }}",
+        "name": "{{ marketParticipant.organizationsOverview.shared.name }}"
+      },
+      "emptyTitle": "Ingen organisationer fundet",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}",
+      "drawer": {
+        "edit": "Rediger organisation",
+        "tabs": {
+          "masterData": {
+            "tabLabel": "Information",
+            "businessRegisterIdentifier": "CVR",
+            "name": "Navn",
+            "domain": "Domæne"
+          }
+        }
+      }
     },
     "marketRolesOverview": {
       "marketRoles": "Markedsroller",

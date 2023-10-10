@@ -26,7 +26,6 @@ import {
   MarketParticipantEicFunction,
   MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
 
@@ -38,8 +37,16 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
     `
       :host {
         display: flex;
-        width: 50%;
         gap: var(--watt-space-m);
+        padding-bottom: var(--watt-space-m);
+
+        .marketRole {
+          width: 17rem;
+        }
+
+        .status {
+          width: 7rem;
+        }
       }
     `,
   ],
@@ -49,7 +56,6 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
     RxPush,
     TranslocoModule,
     WattDropdownComponent,
-    WATT_FORM_FIELD,
     ReactiveFormsModule,
     DhSharedUiSearchComponent,
   ],

@@ -28,6 +28,17 @@ namespace Energinet.DataHub.WebApi.GraphQL
             [Service] IMarketParticipantUserRoleClient client) =>
             client.GetAssignedToPermissionAsync(permission.Id);
 
+        public async Task<ActorContactDto?> GetContactAsync(
+            [Parent] ActorDto actor,
+            [Service] IMarketParticipantClient client)
+        {
+            var allContacts = await client
+                .GetContactsAsync(actor.ActorId)
+                .ConfigureAwait(false);
+
+            return allContacts.SingleOrDefault(c => c.Category == ContactCategory.Default);
+        }
+
         public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
             [Parent] ActorDto actor,
             GridAreaByIdBatchDataLoader dataLoader) =>
@@ -41,5 +52,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
             [Parent] ActorDto actor,
             [Service] IMarketParticipantClient client) =>
             client.GetOrganizationAsync(actor.OrganizationId);
+
+        public async Task<List<ActorDto>?> GetActorsForOrganizationAsync(
+            [Parent] OrganizationDto organization,
+            ActorByOrganizationBatchDataLoader dataLoader) =>
+            await dataLoader.LoadAsync(organization.OrganizationId.ToString());
     }
 }

@@ -174,7 +174,7 @@ export class DhBalanceResponsibleComponent implements OnInit {
       message.validToDate?.toISOString() ?? '',
       message.supplierWithName?.value ?? '',
       message.balanceResponsibleWithName?.value ?? '',
-      message.gridArea.code,
+      message.gridArea,
       translate('eSett.outgoingMessages.shared.messageType.' + message.meteringPointType),
       message.receivedDateTime.toISOString(),
     ]);

@@ -14,15 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslocoModule, translate } from '@ngneat/transloco';
+import { Apollo } from 'apollo-angular';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
   VaterFlexComponent,
+  VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+
+import { DhOrganizationsTableComponent } from './table/dh-table.component';
+import { DhOrganization } from './dh-organization';
 
 @Component({
   standalone: true,
@@ -37,6 +49,14 @@ import {
       h3 {
         margin: 0;
       }
+
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
+      }
     `,
   ],
   imports: [
@@ -46,6 +66,64 @@ import {
     VaterFlexComponent,
     VaterStackComponent,
     VaterUtilityDirective,
+    VaterSpacerComponent,
+    WattPaginatorComponent,
+    WattSearchComponent,
+    WattButtonComponent,
+
+    DhOrganizationsTableComponent,
   ],
 })
-export class DhOrganizationsOverviewComponent {}
+export class DhOrganizationsOverviewComponent implements OnInit {
+  private readonly apollo = inject(Apollo);
+  private readonly destroyRef = inject(DestroyRef);
+
+  private readonly getOrganizationsQuery$ = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetOrganizationsDocument,
+  });
+
+  tableDataSource = new WattTableDataSource<DhOrganization>([]);
+
+  isLoading = true;
+  hasError = false;
+
+  ngOnInit(): void {
+    this.getOrganizationsQuery$.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (result) => {
+        this.isLoading = result.loading;
+
+        this.tableDataSource.data = result.data?.organizations ?? [];
+      },
+      error: () => {
+        this.hasError = true;
+        this.isLoading = false;
+      },
+    });
+  }
+
+  onSearch(value: string): void {
+    this.tableDataSource.filter = value;
+  }
+
+  download(): void {
+    if (!this.tableDataSource.sort) {
+      return;
+    }
+
+    const dataToSort = structuredClone<DhOrganization[]>(this.tableDataSource.filteredData);
+    const dataSorted = this.tableDataSource.sortData(dataToSort, this.tableDataSource.sort);
+
+    const actorsOverviewPath = 'marketParticipant.organizationsOverview';
+
+    const headers = [
+      translate(actorsOverviewPath + '.columns.cvrOrBusinessRegisterId'),
+      translate(actorsOverviewPath + '.columns.name'),
+    ];
+
+    const lines = dataSorted.map((actor) => [actor.businessRegisterIdentifier, actor.name]);
+
+    exportToCSV({ headers, lines, fileName: 'organizations' });
+  }
+}
