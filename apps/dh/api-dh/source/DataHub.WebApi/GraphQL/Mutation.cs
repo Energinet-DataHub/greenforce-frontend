@@ -36,7 +36,7 @@ public class Mutation
             .UpdatePermissionAsync(input)
             .Then(() => client.GetPermissionAsync(input.Id));
 
-    public async Task<ActorDto> UpdateActorAsync(
+    public async Task<bool> UpdateActorAsync(
         Guid actorId,
         string actorName,
         string departmentName,
@@ -45,33 +45,42 @@ public class Mutation
         [Service] IMarketParticipantClient client)
     {
         var actor = await client.GetActorAsync(actorId).ConfigureAwait(false);
-        var changes = new ChangeActorDto(
-            actor.Status,
-            new ActorNameDto(actorName),
-            actor.MarketRoles);
+        if (actor.Name.Value != actorName)
+        {
+            var changes = new ChangeActorDto(
+                actor.Status,
+                new ActorNameDto(actorName),
+                actor.MarketRoles);
 
-        await client.UpdateActorAsync(actorId, changes).ConfigureAwait(false);
+            await client.UpdateActorAsync(actorId, changes).ConfigureAwait(false);
+        }
 
         var allContacts = await client.GetContactsAsync(actorId).ConfigureAwait(false);
         var defaultContact = allContacts.SingleOrDefault(c => c.Category == ContactCategory.Default);
-        if (defaultContact != null)
+        if (defaultContact == null ||
+            defaultContact.Name != departmentName ||
+            defaultContact.Email != departmentEmail ||
+            defaultContact.Phone != departmentPhone)
         {
+            if (defaultContact != null)
+            {
+                await client
+                    .DeleteContactAsync(actorId, defaultContact.ContactId)
+                    .ConfigureAwait(false);
+            }
+
+            var newDefaultContact = new CreateActorContactDto(
+                departmentName,
+                ContactCategory.Default,
+                departmentEmail,
+                departmentPhone);
+
             await client
-                .DeleteContactAsync(actorId, defaultContact.ContactId)
+                .CreateContactAsync(actorId, newDefaultContact)
                 .ConfigureAwait(false);
         }
 
-        var newDefaultContact = new CreateActorContactDto(
-            departmentName,
-            ContactCategory.Default,
-            departmentEmail,
-            departmentPhone);
-
-        await client
-            .CreateContactAsync(actorId, newDefaultContact)
-            .ConfigureAwait(false);
-
-        return await client.GetActorAsync(actorId).ConfigureAwait(false);
+        return true;
     }
 
     public Task<BatchDto> CreateCalculationAsync(
