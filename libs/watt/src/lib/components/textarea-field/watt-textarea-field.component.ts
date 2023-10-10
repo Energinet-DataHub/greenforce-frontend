@@ -40,7 +40,7 @@ import { WattFieldComponent } from '../field/watt-field.component';
   selector: 'watt-textarea-field',
   styleUrls: ['./watt-textarea-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  template: `<watt-field [label]="label">
+  template: `<watt-field [label]="label" [control]="null">
     <textarea
       [attr.placeholder]="placeholder"
       [value]="value"
