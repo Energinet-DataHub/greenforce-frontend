@@ -18,8 +18,6 @@ import { Component, Input, ViewChild, inject } from '@angular/core';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { DhActorExtended } from '../dh-actor';
 import { CommonModule } from '@angular/common';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -27,6 +25,8 @@ import { DhMarketParticipantActorsEditActorDataAccessApiStore } from '@energinet
 import { tap } from 'rxjs';
 import { RxLet } from '@rx-angular/template/let';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   standalone: true,
@@ -35,10 +35,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   providers: [DhMarketParticipantActorsEditActorDataAccessApiStore],
   styles: [
     `
-      watt-form-field {
-        padding-top: var(--watt-space-s);
-      }
-
       .actor-field {
         width: 80%;
       }
@@ -53,16 +49,15 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
       .email-suffix {
         padding-right: var(--watt-space-s);
-        color: var(--watt-color-neutral-grey-600);
       }
     `,
   ],
   imports: [
     WATT_MODAL,
-    WATT_FORM_FIELD,
     ReactiveFormsModule,
     WattButtonComponent,
-    WattInputDirective,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
     RxLet,
     CommonModule,
     TranslocoModule,

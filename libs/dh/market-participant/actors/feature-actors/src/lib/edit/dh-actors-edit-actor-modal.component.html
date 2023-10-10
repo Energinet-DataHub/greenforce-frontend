@@ -21,29 +21,43 @@ limitations under the License.
     *transloco="let t; read: 'marketParticipant.actorsOverview.edit'"
   >
     <form [formGroup]="actorForm" *rxLet="formInitialValues$">
-      <watt-form-field class="actor-field">
-        <watt-label>{{ t("name") }}</watt-label>
-        <input wattInput type="text" [formControl]="actorForm.controls.name" />
-        <watt-error>{{ t("required") }}</watt-error>
-      </watt-form-field>
+      <watt-text-field
+        class="actor-field"
+        [required]="true"
+        [label]="t('name')"
+        [formControl]="actorForm.controls.name"
+      >
+        <watt-field-error>{{ t("required") }}</watt-field-error>
+      </watt-text-field>
 
       <h4>{{ t("contactHeader") }}</h4>
-      <watt-form-field class="contact-field">
-        <watt-label>{{ t("departmentName") }}</watt-label>
-        <input wattInput type="text" [formControl]="actorForm.controls.departmentName" />
-        <watt-error>{{ t("required") }}</watt-error>
-      </watt-form-field>
-      <watt-form-field class="contact-field">
-        <watt-label>{{ t("departmentEmail") }}</watt-label>
-        <input wattInput type="email" [formControl]="actorForm.controls.departmentEmail" />
+      <watt-text-field
+        class="contact-field"
+        [required]="true"
+        [label]="t('departmentName')"
+        [formControl]="actorForm.controls.departmentName"
+      >
+        <watt-field-error>{{ t("required") }}</watt-field-error>
+      </watt-text-field>
+      <watt-text-field
+        class="contact-field"
+        type="email"
+        [required]="true"
+        [label]="t('departmentEmail')"
+        [formControl]="actorForm.controls.departmentEmail"
+      >
         <span wattSuffix class="email-suffix">@{{ emailDomain }}</span>
-        <watt-error>{{ t("required") }}</watt-error>
-      </watt-form-field>
-      <watt-form-field class="phone-field">
-        <watt-label>{{ t("departmentPhone") }}</watt-label>
-        <input wattInput type="phone" [formControl]="actorForm.controls.departmentPhone" />
-        <watt-error>{{ t("required") }}</watt-error>
-      </watt-form-field>
+        <watt-field-error>{{ t("required") }}</watt-field-error>
+      </watt-text-field>
+      <watt-text-field
+        class="phone-field"
+        type="tel"
+        [required]="true"
+        [label]="t('departmentPhone')"
+        [formControl]="actorForm.controls.departmentPhone"
+      >
+        <watt-field-error>{{ t("required") }}</watt-field-error>
+      </watt-text-field>
     </form>
 
     <watt-modal-actions>
