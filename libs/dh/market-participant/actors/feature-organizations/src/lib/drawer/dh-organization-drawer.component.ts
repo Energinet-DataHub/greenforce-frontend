@@ -16,22 +16,24 @@
  */
 import { NgIf } from '@angular/common';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
-import { TranslocoModule, translate } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { Subscription, takeUntil } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-// import { GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  GetOrganizationByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-organization-drawer',
@@ -79,13 +81,17 @@ export class DhOrganizationDrawerComponent {
   private apollo = inject(Apollo);
   private subscription?: Subscription;
 
-  // private getActorByIdQuery$ = this.apollo.watchQuery({
-  //   errorPolicy: 'all',
-  //   returnPartialData: true,
-  //   useInitialLoading: true,
-  //   notifyOnNetworkStatusChange: true,
-  //   query: GetActorByIdDocument,
-  // });
+  private getOrganizationByIdQuery$ = this.apollo.watchQuery({
+    errorPolicy: 'all',
+    returnPartialData: true,
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetOrganizationByIdDocument,
+  });
+
+  organization:
+    | { organizationId: string; name: string; businessRegisterIdentifier: string; domain: string }
+    | undefined = undefined;
 
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
@@ -102,16 +108,16 @@ export class DhOrganizationDrawerComponent {
   }
 
   private loadOrganization(id: string): void {
-    // this.subscription?.unsubscribe();
+    this.subscription?.unsubscribe();
 
-    // this.getActorByIdQuery$.setVariables({ id });
+    this.getOrganizationByIdQuery$.setVariables({ id });
 
-    // this.subscription = this.getActorByIdQuery$.valueChanges
-    //   .pipe(takeUntil(this.closed))
-    //   .subscribe({
-    //     next: (result) => {
-    //       this.actor = result.data?.actorById;
-    //     },
-    //   });
+    this.subscription = this.getOrganizationByIdQuery$.valueChanges
+      .pipe(takeUntil(this.closed))
+      .subscribe({
+        next: (result) => {
+          this.organization = { ...result.data.organizationById, organizationId: id };
+        },
+      });
   }
 }

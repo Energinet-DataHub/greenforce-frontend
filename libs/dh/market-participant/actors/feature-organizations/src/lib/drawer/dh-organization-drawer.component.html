@@ -16,19 +16,16 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'">
   <watt-drawer #drawer (closed)="onClose()">
-    <watt-drawer-topbar>
-    </watt-drawer-topbar>
+    <watt-drawer-topbar> </watt-drawer-topbar>
 
     <watt-drawer-actions>
-      <watt-button
-        *dhPermissionRequired="['organizations:manage']"
-        variant="secondary"
-        >{{ t("edit") }}</watt-button
-      >
+      <watt-button *dhPermissionRequired="['organizations:manage']" variant="secondary">{{
+        t("edit")
+      }}</watt-button>
     </watt-drawer-actions>
 
     <watt-drawer-heading>
-      <h2 class="organization-heading">organization.name</h2>
+      <h2 class="organization-heading">{{ organization?.name }}</h2>
     </watt-drawer-heading>
 
     <watt-drawer-content *ngIf="drawer.isOpen">
@@ -37,15 +34,18 @@ limitations under the License.
           <watt-card variant="solid">
             <watt-description-list variant="stack">
               <watt-description-list-item
-                [label]="t('tabs.masterData.cvr')"
+                [label]="t('tabs.masterData.businessRegisterIdentifier')"
+                [value]="organization?.businessRegisterIdentifier"
               ></watt-description-list-item>
 
               <watt-description-list-item
                 [label]="t('tabs.masterData.name')"
+                [value]="organization?.name"
               ></watt-description-list-item>
 
               <watt-description-list-item
                 [label]="t('tabs.masterData.domain')"
+                [value]="organization?.domain"
               ></watt-description-list-item>
             </watt-description-list>
           </watt-card>
