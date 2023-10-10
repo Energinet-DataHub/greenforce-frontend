@@ -112,6 +112,7 @@ type Mutation {
   updatePermission(input: UpdatePermissionDtoInput!): Permission!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
+  updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
 }
 
 type Organization {
@@ -169,6 +170,10 @@ type SettlementReport {
   executionTime: DateTime
 }
 
+type UpdateOrganizationPayload {
+  boolean: Boolean
+}
+
 type UserRoleAuditLog {
   changedByUserName: String!
   userRoleId: UUID!
@@ -198,6 +203,22 @@ type UserRoleWithPermissionsDto {
   permissions: [Permission!]!
 }
 
+input AddressDtoInput {
+  streetName: String
+  number: String
+  zipCode: String
+  city: String
+  country: String!
+}
+
+input ChangeOrganizationDtoInput {
+  name: String!
+  businessRegisterIdentifier: String!
+  address: AddressDtoInput!
+  comment: String
+  status: OrganizationStatus!
+}
+
 input CreateAggregatedMeasureDataRequestInput {
   processType: EdiB2CProcessType!
   meteringPointType: MeteringPointType!
@@ -212,6 +233,11 @@ input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
   processType: ProcessType!
+}
+
+input UpdateOrganizationInput {
+  orgId: UUID!
+  changes: ChangeOrganizationDtoInput!
 }
 
 input UpdatePermissionDtoInput {
