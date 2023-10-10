@@ -30,10 +30,7 @@ interface EoTitleState {
   providedIn: 'root',
 })
 export class EoTitleStore extends ComponentStore<EoTitleState> {
-  routeTitle$: Observable<string> = this.select((state) => state.routeTitle).pipe(
-    filter((title) => title !== null),
-    map((title) => title as string)
-  );
+  routeTitle$: Observable<string> = this.select((state) => state.routeTitle).pipe(filter(Boolean));
 
   constructor(private documentTitle: Title, private router: Router) {
     super(initialState);
