@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -24,6 +24,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhOrganization } from '../dh-organization';
+import { DhOrganizationDrawerComponent } from '../drawer/dh-organization-drawer.component';
 
 @Component({
   selector: 'dh-organizations-table',
@@ -46,9 +47,12 @@ import { DhOrganization } from '../dh-organization';
     VaterStackComponent,
 
     DhEmDashFallbackPipe,
+    DhOrganizationDrawerComponent,
   ],
 })
 export class DhOrganizationsTableComponent {
+  activeRow: DhOrganization | undefined = undefined;
+
   columns: WattTableColumnDef<DhOrganization> = {
     cvrOrBusinessRegisterId: { accessor: 'businessRegisterIdentifier' },
     name: { accessor: 'name' },
@@ -58,4 +62,18 @@ export class DhOrganizationsTableComponent {
   @Input() hasError!: boolean;
 
   @Input() tableDataSource!: WattTableDataSource<DhOrganization>;
+
+  @ViewChild(DhOrganizationDrawerComponent)
+  drawer: DhOrganizationDrawerComponent | undefined;
+
+  onRowClick(organization: DhOrganization): void {
+    this.activeRow = organization;
+
+    // todo fix nullable organizationId
+    this.drawer?.open(organization.organizationId ?? '');
+  }
+
+  onClose(): void {
+    this.activeRow = undefined;
+  }
 }
