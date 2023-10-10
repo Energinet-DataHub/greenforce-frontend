@@ -38,12 +38,14 @@ import { provideComponentStore } from '@ngrx/component-store';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
+
 import {
   MarketParticipantCreateUserRoleDto,
   MarketParticipantEicFunction,
@@ -81,9 +83,10 @@ interface UserRoleForm {
     WattIconComponent,
     CommonModule,
     ReactiveFormsModule,
-    WattInputDirective,
-    WATT_FORM_FIELD,
     WattDropdownComponent,
+    WattFieldErrorComponent,
+    WattTextFieldComponent,
+    WattTextAreaFieldComponent,
     RxPush,
     RxLet,
     WATT_STEPPER,
@@ -210,6 +213,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit, On
       .subscribe({
         next: (keys) => {
           this.eicFunctionOptions = Object.keys(MarketParticipantEicFunction)
+            .filter((entry) => entry !== MarketParticipantEicFunction.ElOverblik)
             .map((entry) => {
               return {
                 value: entry,

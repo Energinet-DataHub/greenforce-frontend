@@ -29,9 +29,8 @@ import {
 import { ActorContactChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormsModule } from '@angular/forms';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   MarketParticipantActorContactDto,
@@ -58,10 +57,9 @@ interface EditableActorContactRow {
     TranslocoModule,
     FormsModule,
     WattButtonComponent,
-    WattInputDirective,
-    WATT_FORM_FIELD,
     WATT_TABLE,
     WattDropdownComponent,
+    WattTextFieldTDComponent,
   ],
 })
 export class DhMarketParticipantActorContactDataComponent implements OnChanges {

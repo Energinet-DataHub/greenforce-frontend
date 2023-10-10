@@ -22,58 +22,46 @@ limitations under the License.
     aria-label="market roles"
   >
     <ng-container *wattTableCell="columns.marketRole; let row">
-      <watt-form-field>
-        <watt-dropdown
-          [disabled]="isReadonly(row)"
-          [attr.aria-label]="t('marketRole')"
-          required
-          [options]="marketRoles"
-          [(ngModel)]="row.marketRole"
-          (ngModelChange)="onMarketRoleDropdownChanged()"
-        >
-        </watt-dropdown>
-      </watt-form-field>
+      <watt-dropdown
+        [disabled]="isReadonly(row)"
+        [label]="t('marketRole')"
+        required
+        [options]="marketRoles"
+        [(ngModel)]="row.marketRole"
+        (ngModelChange)="onMarketRoleDropdownChanged()"
+      />
     </ng-container>
 
     <ng-container *wattTableCell="columns.gridArea; let row">
-      <watt-form-field>
-        <watt-dropdown
-          [disabled]="isReadonly(row)"
-          [attr.aria-label]="t('gridArea')"
-          required
-          [options]="gridAreaOptions"
-          [(ngModel)]="row.gridArea"
-          (ngModelChange)="onDropdownChanged()"
-        >
-        </watt-dropdown>
-      </watt-form-field>
+      <watt-dropdown
+        [disabled]="isReadonly(row)"
+        [label]="t('gridArea')"
+        required
+        [options]="gridAreaOptions"
+        [(ngModel)]="row.gridArea"
+        (ngModelChange)="onDropdownChanged()"
+      />
     </ng-container>
 
     <ng-container *wattTableCell="columns.meteringPointTypes; let row">
-      <watt-form-field>
-        <watt-dropdown
-          [disabled]="isReadonly(row)"
-          [attr.aria-label]="t('meteringPointTypes')"
-          required
-          [multiple]="true"
-          [options]="meteringPointTypes"
-          [(ngModel)]="row.meteringPointTypes"
-          (ngModelChange)="onDropdownChanged()"
-        >
-        </watt-dropdown>
-      </watt-form-field>
+      <watt-dropdown
+        [disabled]="isReadonly(row)"
+        [label]="t('meteringPointTypes')"
+        required
+        [multiple]="true"
+        [options]="meteringPointTypes"
+        [(ngModel)]="row.meteringPointTypes"
+        (ngModelChange)="onDropdownChanged()"
+      />
     </ng-container>
 
     <ng-container *wattTableCell="columns.commentLabel; let row">
-      <watt-form-field>
-        <input
-          [attr.aria-label]="t('commentLabel')"
-          [disabled]="isReadonly(row)"
-          wattInput
-          [(ngModel)]="row.comment"
-          (ngModelChange)="onCommentChanged()"
-        />
-      </watt-form-field>
+      <watt-text-field
+        [label]="t('commentLabel')"
+        [disabled]="isReadonly(row)"
+        [(ngModel)]="row.comment"
+        (ngModelChange)="onCommentChanged()"
+      />
     </ng-container>
 
     <ng-container *wattTableCell="columns.delete; let row">

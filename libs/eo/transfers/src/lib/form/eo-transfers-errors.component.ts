@@ -32,14 +32,14 @@ import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core'
         position: relative;
         width: 100%;
 
-        watt-error {
+        watt-field-error {
           @include watt.typography-watt-text-s;
           position: absolute;
           transition: opacity, transform 150ms linear;
           transform: translate3d(0, -100%, 0);
         }
 
-        &.show-error watt-error {
+        &.show-error watt-field-error {
           transform: translate3d(0, 0, 0);
         }
       }

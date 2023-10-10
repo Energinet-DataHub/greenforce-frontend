@@ -19,7 +19,6 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
@@ -32,7 +31,6 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
     TranslocoModule,
     CommonModule,
     ReactiveFormsModule,
-    WATT_FORM_FIELD,
     WattDatepickerComponent,
     WattFilterChipComponent,
     DhFeatureFlagDirective,

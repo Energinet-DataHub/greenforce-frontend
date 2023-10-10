@@ -20,6 +20,7 @@ import { isValidMeteringPointId } from '@energinet-datahub/dh/metering-point/dom
 
 export function meteringPointIdValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
+    if (control.value === '') return null;
     return !isValidMeteringPointId(control.value) ? { invalidMeteringPointId: true } : null;
   };
 }

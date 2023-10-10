@@ -24,6 +24,7 @@ watt-textarea-field {
     width: 100%;
     outline: none;
     padding: var(--watt-space-s);
+    padding-left: 0;
     background-color: transparent;
     min-height: var(--watt-textarea-min-height);
   }
