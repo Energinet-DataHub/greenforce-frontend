@@ -239,6 +239,15 @@ type UserRoleDto {
   status: UserRoleStatus!
 }
 
+type MarketParticipantError implements Error {
+  message: String!
+  statusCode: Int!
+}
+
+interface Error {
+  message: String!
+}
+
 enum UserRoleStatus {
   ACTIVE
   INACTIVE
@@ -371,8 +380,11 @@ input UpdateActorInput {
   departmentPhone: String!
 }
 
+union UpdateActorError = MarketParticipantError
+
 type UpdateActorPayload {
   boolean: Boolean
+  errors: [UpdateActorError!]
 }
 
 input CreateCalculationInput {

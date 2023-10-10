@@ -20,7 +20,12 @@ limitations under the License.
     [title]="actor.name"
     *transloco="let t; read: 'marketParticipant.actorsOverview.edit'"
   >
-    <form [formGroup]="actorForm" *rxLet="formInitialValues$">
+    <form
+      id="updateActorForm"
+      [formGroup]="actorForm"
+      *rxLet="formInitialValues$"
+      (ngSubmit)="save()"
+    >
       <watt-text-field
         class="actor-field"
         [required]="true"
@@ -64,7 +69,7 @@ limitations under the License.
       <watt-button variant="secondary" (click)="close()">
         {{ t("cancel") }}
       </watt-button>
-      <watt-button variant="secondary" type="submit" (click)="save()">
+      <watt-button variant="secondary" type="submit" formId="updateActorForm">
         {{ t("save") }}
       </watt-button>
     </watt-modal-actions>

@@ -38,6 +38,7 @@ public class Mutation
             .UpdatePermissionAsync(input)
             .Then(() => client.GetPermissionAsync(input.Id));
 
+    [Error(typeof(MarketParticipantException))]
     public async Task<bool> UpdateActorAsync(
         Guid actorId,
         string actorName,
