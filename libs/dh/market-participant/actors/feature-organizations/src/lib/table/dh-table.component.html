@@ -26,6 +26,7 @@ limitations under the License.
     [loading]="isLoading"
     sortDirection="asc"
     [sortClear]="false"
+    (rowClick)="onRowClick($event)"
   >
     <ng-container
       *wattTableCell="
@@ -54,3 +55,5 @@ limitations under the License.
     />
   </vater-stack>
 </vater-flex>
+
+<dh-organization-drawer (closed)="onClose()"></dh-organization-drawer>
