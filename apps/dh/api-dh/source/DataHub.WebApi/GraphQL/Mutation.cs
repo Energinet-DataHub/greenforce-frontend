@@ -98,4 +98,28 @@ public class Mutation
             .ConfigureAwait(false);
         return true;
     }
+
+    [Error(typeof(MarketParticipantBadRequestException))]
+    public async Task<bool> UpdateOrganizationAsync(
+        Guid orgId,
+        ChangeOrganizationDto changes,
+        [Service] IMarketParticipantClient client)
+    {
+         var organization = await client.GetOrganizationAsync(orgId).ConfigureAwait(false);
+         if (!string.Equals(organization.Name, changes.Name, StringComparison.Ordinal) ||
+             !string.Equals(organization.BusinessRegisterIdentifier, changes.BusinessRegisterIdentifier, StringComparison.Ordinal) ||
+             !string.Equals(organization.Comment, changes.Comment, StringComparison.Ordinal) ||
+             !string.Equals(organization.Address.StreetName, changes.Address.StreetName, StringComparison.Ordinal) ||
+             !string.Equals(organization.Address.City, changes.Address.City, StringComparison.Ordinal) ||
+             !string.Equals(organization.Address.Country, changes.Address.Country, StringComparison.Ordinal) ||
+             !string.Equals(organization.Address.Number, changes.Address.Number, StringComparison.Ordinal) ||
+             !string.Equals(organization.Address.City, changes.Address.City, StringComparison.Ordinal) ||
+             !string.Equals(organization.Address.ZipCode, changes.Address.ZipCode, StringComparison.Ordinal))
+         {
+            changes = changes with { Status = organization.Status }; // Status on organizations are probably going away, will be hidden in UI, so we just use the original from the organization
+            await client.UpdateOrganizationAsync(orgId, changes).ConfigureAwait(false);
+         }
+
+         return true;
+    }
 }
