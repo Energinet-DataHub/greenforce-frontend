@@ -28,7 +28,8 @@ query getBalanceResponsibleMessages(
       meteringPointType
       validFromDate
       validToDate
-      gridArea {
+      gridArea
+      gridAreaWithName {
         code
         name
       }

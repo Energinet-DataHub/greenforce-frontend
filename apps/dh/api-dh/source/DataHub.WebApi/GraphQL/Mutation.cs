@@ -23,6 +23,8 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using HotChocolate;
 using HotChocolate.Types;
 using NodaTime;
+using EdiB2CWebAppProcessType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType;
+using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
@@ -119,7 +121,7 @@ public class Mutation
     }
 
     public async Task<bool> CreateAggregatedMeasureDataRequestAsync(
-        string businessReason,
+        EdiB2CWebAppProcessType processType,
         MeteringPointType meteringPointType,
         string startDate,
         string? endDate,
@@ -131,15 +133,15 @@ public class Mutation
     {
         await client.RequestAggregatedMeasureDataAsync(
             new RequestAggregatedMeasureDataMarketRequest()
-            {
-                BusinessReason = businessReason,
-                MeteringPointType = meteringPointType,
-                StartDate = startDate,
-                EndDate = endDate,
-                GridArea = gridArea,
-                EnergySupplierId = energySupplierId,
-                BalanceResponsibleId = balanceResponsibleId,
-            },
+                {
+                    ProcessType = processType,
+                    MeteringPointType = meteringPointType,
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    GridArea = gridArea,
+                    EnergySupplierId = energySupplierId,
+                    BalanceResponsibleId = balanceResponsibleId,
+                },
             cancellationToken)
             .ConfigureAwait(false);
         return true;

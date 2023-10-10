@@ -15,13 +15,13 @@ type Actor {
   marketRole: EicFunction
   gridAreas: [GridAreaDto!]!
   contact: ActorContactDto
-  organization: OrganizationDto!
+  organization: Organization!
   externalActorId: UUID
   status: ActorStatus!
 }
 
 type BalanceResponsibleType {
-  gridArea: GridAreaDto!
+  gridAreaWithName: GridAreaDto
   supplierWithName: ActorNameDto
   balanceResponsibleWithName: ActorNameDto
   id: String!
@@ -31,6 +31,7 @@ type BalanceResponsibleType {
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
   validToDate: DateTime
+  gridArea: String!
 }
 
 """An immutable calculation."""
@@ -50,6 +51,13 @@ type Calculation {
   processType: ProcessType!
 }
 
+enum EdiB2CProcessType {
+  preliminaryaggregation
+  balancefixing
+  wholesalefixing
+  correction
+}
+
 enum EicFunction {
   BalanceResponsibleParty
   BillingAgent
@@ -67,7 +75,7 @@ enum EicFunction {
 }
 
 type EsettOutgoingMessage {
-  gridArea: GridAreaDto!
+  gridArea: GridAreaDto
   documentId: String!
   created: DateTime!
   processType: ExchangeEventProcessType!
@@ -80,6 +88,17 @@ type EsettOutgoingMessage {
 enum ExchangeEventProcessType {
   BALANCE_FIXING
   AGGREGATION
+}
+
+type Organization {
+  organizationId: String
+  actors: [Actor!]
+  name: String!
+  businessRegisterIdentifier: String!
+  domain: String!
+  comment: String!
+  status: OrganizationStatus!
+  address: AddressDto!
 }
 
 type Permission {
@@ -110,8 +129,8 @@ type Query {
   permissionLogs(id: Int!): [PermissionLog!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditLog!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
-  organizationById(id: UUID!): OrganizationDto!
-  organizations: [OrganizationDto!]!
+  organizationById(id: UUID!): Organization!
+  organizations: [Organization!]!
   gridAreas: [GridAreaDto!]!
   calculationById(id: UUID!): Calculation!
   calculations(executionTime: DateRange, executionStates: [BatchState!], processTypes: [ProcessType!], gridAreaCodes: [String!], period: DateRange, first: Int): [Calculation!]!
@@ -148,16 +167,6 @@ type ActorContactDto {
   name: String!
   email: String!
   phone: String
-}
-
-type OrganizationDto {
-  organizationId: UUID!
-  name: String!
-  businessRegisterIdentifier: String!
-  domain: String!
-  comment: String!
-  status: OrganizationStatus!
-  address: AddressDto!
 }
 
 type ActorNameDto {
@@ -207,6 +216,21 @@ enum DocumentStatus {
   REJECTED
 }
 
+enum OrganizationStatus {
+  NEW
+  ACTIVE
+  BLOCKED
+  DELETED
+}
+
+type AddressDto {
+  streetName: String
+  number: String
+  zipCode: String
+  city: String
+  country: String!
+}
+
 type UserRoleDto {
   id: UUID!
   name: String!
@@ -218,21 +242,6 @@ type UserRoleDto {
 enum UserRoleStatus {
   ACTIVE
   INACTIVE
-}
-
-type AddressDto {
-  streetName: String
-  number: String
-  zipCode: String
-  city: String
-  country: String!
-}
-
-enum OrganizationStatus {
-  NEW
-  ACTIVE
-  BLOCKED
-  DELETED
 }
 
 enum ContactCategory {
@@ -363,7 +372,7 @@ input UpdateActorInput {
 }
 
 type UpdateActorPayload {
-  actor: Actor
+  boolean: Boolean
 }
 
 input CreateCalculationInput {
@@ -377,7 +386,7 @@ type CreateCalculationPayload {
 }
 
 input CreateAggregatedMeasureDataRequestInput {
-  businessReason: String!
+  processType: EdiB2CProcessType!
   meteringPointType: MeteringPointType!
   startDate: String!
   endDate: String
