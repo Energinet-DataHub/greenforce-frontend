@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-market-participant-actors-edit-actor-data-access-api.store'
+export * from './lib/dh-market-participant-actors-edit-actor-data-access-api.store';
 export * from './lib/dh-market-participant-data-access-api.store';
 export * from './lib/dh-market-participant-edit-actor-data-access-api.store';
 export * from './lib/dh-market-participant-edit-organization-data-access-api.store';
