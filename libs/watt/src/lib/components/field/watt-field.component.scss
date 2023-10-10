@@ -16,25 +16,12 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
-[disabled="true"] watt-field .label {
+[watt-field-disabled="true"] watt-field .label {
   color: var(--watt-disabled-text-label-color);
 }
 
-[disabled="true"] .watt-field-wrapper {
+[watt-field-disabled="true"] .watt-field-wrapper {
   background-color: var(--watt-field-disabled-background-color);
-}
-
-.ng-dirty.ng-invalid .watt-field-wrapper {
-  border: 1px solid var(--watt-color-state-danger);
-}
-
-.ng-dirty.ng-invalid watt-field .label {
-  color: var(--watt-color-state-danger);
-}
-
-[required] watt-field .label::after,
-.ng-dirty.ng-invalid watt-field .label::after {
-  content: " *";
 }
 
 watt-field watt-field-hint {
@@ -46,13 +33,26 @@ watt-field watt-field-error,
   display: none;
 }
 
-.ng-dirty.ng-invalid watt-field watt-field-hint {
+.ng-invalid:not(form) watt-field watt-field-hint {
   display: none;
 }
 
-.ng-dirty.ng-invalid watt-field watt-field-error {
+watt-field.watt-field--invalid watt-field-error {
   display: block;
+}
+
+form.ng-submitted watt-field.watt-field--invalid .watt-field-wrapper,
+watt-field.watt-field--invalid .watt-field-wrapper {
+  border-color: var(--watt-color-state-danger);
+}
+
+form.ng-submitted watt-field.watt-field--invalid .label,
+watt-field.watt-field--invalid .label {
   color: var(--watt-color-state-danger);
+
+  &.required::after {
+    color: var(--watt-color-state-danger);
+  }
 }
 
 watt-field {
@@ -63,17 +63,42 @@ watt-field {
   --watt-border-color: var(--watt-on-light-low-emphasis);
   --watt-label-text-color: var(--watt-text-color);
 
+  width: 100%;
+  display: block;
+
+  &:not(.watt-field--chip) {
+    min-height: 100px;
+  }
+
+  &.watt-field--chip .watt-field-wrapper {
+    border: none;
+  }
+
+  .label {
+    min-height: 27px;
+    display: block;
+    padding-bottom: var(--watt-space-s);
+
+    &.required::after {
+      content: " *";
+      color: var(--watt-color-primary);
+    }
+  }
+
   label {
     color: var(--watt-label-text-color);
+    display: block;
+    width: 100%;
 
     .watt-field-wrapper {
       @include watt.typography-watt-text-s;
       display: flex;
       min-height: 44px;
+      padding-left: var(--watt-space-s);
       width: 100%;
       border-radius: var(--watt-input-border-radius);
-      overflow: hidden;
       border: 1px solid var(--watt-border-color);
+      overflow: hidden;
       color: var(--watt-text-color);
       align-items: center;
       gap: var(--watt-space-m);

@@ -380,7 +380,7 @@
       ],
       "@energinet-datahub/watt/date": ["libs/watt/src/lib/utils/date/index.ts"],
       "@energinet-datahub/watt/datepicker": [
-        "libs/watt/src/lib/components/input/datepicker/index.ts"
+        "libs/watt/src/lib/components/picker/datepicker/index.ts"
       ],
       "@energinet-datahub/watt/description-list": [
         "libs/watt/src/lib/components/description-list/index.ts"
@@ -400,14 +400,11 @@
       "@energinet-datahub/watt/expansion": [
         "libs/watt/src/lib/components/expansion/index.ts"
       ],
-      "@energinet-datahub/watt/form-field": [
-        "libs/watt/src/lib/components/form-field/index.ts"
+      "@energinet-datahub/watt/field": [
+        "libs/watt/src/lib/components/field/index.ts"
       ],
       "@energinet-datahub/watt/icon": [
         "libs/watt/src/lib/foundations/icon/index.ts"
-      ],
-      "@energinet-datahub/watt/input": [
-        "libs/watt/src/lib/components/input/index.ts"
       ],
       "@energinet-datahub/watt/intersection-observer": [
         "libs/watt/src/lib/utils/intersection-observer/index.ts"
@@ -455,7 +452,7 @@
         "libs/watt/src/lib/components/textarea-field/index.ts"
       ],
       "@energinet-datahub/watt/timepicker": [
-        "libs/watt/src/lib/components/input/timepicker/index.ts"
+        "libs/watt/src/lib/components/picker/timepicker/index.ts"
       ],
       "@energinet-datahub/watt/toast": [
         "libs/watt/src/lib/components/toast/index.ts"
@@ -467,7 +464,7 @@
         "libs/watt/src/lib/components/validation-message/index.ts"
       ],
       "@energinet-datahub/watt/validators": [
-        "libs/watt/src/lib/components/input/shared/validators/index.ts"
+        "libs/watt/src/lib/components/picker/shared/validators/index.ts"
       ],
       "@energinet-datahub/watt/vater": [
         "libs/watt/src/lib/components/vater/index.ts"

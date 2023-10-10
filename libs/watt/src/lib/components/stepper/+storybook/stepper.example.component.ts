@@ -17,10 +17,10 @@
 import { Component } from '@angular/core';
 import { WATT_STEPPER } from '..';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { WattInputDirective } from '../../input';
-import { WATT_FORM_FIELD } from '../../form-field';
 import { WattButtonComponent } from '../../button';
 import { WattIconComponent } from '../../../foundations/icon';
+import { WattTextFieldComponent } from '../../text-field/watt-text-field.component';
+import { WattFieldErrorComponent } from '../../field/watt-field-error.component';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 
@@ -40,11 +40,11 @@ import { CommonModule } from '@angular/common';
   ],
   imports: [
     WATT_STEPPER,
-    WattInputDirective,
     ReactiveFormsModule,
-    WATT_FORM_FIELD,
     WattButtonComponent,
     WattIconComponent,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
     MatButtonModule,
     CommonModule,
   ],

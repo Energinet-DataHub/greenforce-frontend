@@ -14,30 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-(walletDepositEndpointError$ | async) === falsee law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
-import { RxPush } from '@rx-angular/template/push';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { FormControl } from '@angular/forms';
 
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 
 import { EoTransfersStore } from './eo-transfers.store';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+
 @Component({
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-transfers-wallet-modal',
   imports: [
     NgIf,
-    RxPush,
-    WATT_FORM_FIELD,
     WATT_MODAL,
     WattButtonComponent,
     WattCopyToClipboardDirective,
-    WattInputDirective,
     WattEmptyStateComponent,
+    WattTextFieldComponent,
+    AsyncPipe,
   ],
   standalone: true,
   template: `
@@ -51,7 +64,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
       (closed)="onClosed()"
       *ngIf="opened"
     >
-      <form *ngIf="!(walletDepositEndpointError$ | push); else error">
+      <form *ngIf="(walletDepositEndpointError$ | async) === undefined; else error">
         <p>
           To receive granular certificates the sender must create a transfer agreement. They need
           this key to identify the recipient (you).
@@ -60,10 +73,12 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
           <strong>The key is one-time use only</strong>
         </p>
         <div style="display: flex; align-items: center; margin: var(--watt-space-xl) 0;">
-          <watt-form-field>
-            <watt-label>KEY</watt-label>
-            <input wattInput type="text" [value]="(walletDepositEndpoint$ | push) || ''" #key />
-          </watt-form-field>
+          <watt-text-field
+            label="KEY"
+            [formControl]="walletDepositEndpoint"
+            [value]="(walletDepositEndpoint$ | async) || ''"
+            #key
+          />
           <watt-button variant="text" icon="contentCopy" [wattCopyToClipboard]="key.value"
             >Copy key</watt-button
           >
@@ -98,6 +113,7 @@ export class EoTransfersWalletModalComponent {
   private store = inject(EoTransfersStore);
 
   protected opened = false;
+  protected walletDepositEndpoint = new FormControl('');
   protected walletDepositEndpoint$ = this.store.walletDepositEndpoint$;
   protected walletDepositEndpointError$ = this.store.walletDepositEndpointError$;
   protected walletDepositEndpointLoading$ = this.store.walletDepositEndpointLoading$;
@@ -111,6 +127,7 @@ export class EoTransfersWalletModalComponent {
 
     this.walletDepositEndpointLoading$.subscribe((loading) => {
       this.loading = loading;
+      this.cd.detectChanges();
     });
   }
 

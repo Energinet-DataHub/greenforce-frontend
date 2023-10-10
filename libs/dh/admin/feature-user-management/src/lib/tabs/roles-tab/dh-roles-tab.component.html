@@ -32,25 +32,21 @@ limitations under the License.
         <watt-card-title>
           <div class="create-role-header-container">
             <h4>{{ t("rolesHeadline") }}</h4>
-            <div class="create-role-table-buttons">
-              <watt-button
-                *transloco="let t; read: 'admin.userManagement'"
-                icon="download"
-                variant="text"
-                (click)="download(rolesTable.filteredAndSortedData)"
-                >{{ t("download") }}</watt-button
-              >
-
-              <watt-paginator #paginator [length]="roles.length" />
-
-              <watt-button
-                *dhPermissionRequired="['user-roles:manage']"
-                icon="plus"
-                variant="secondary"
-                (click)="isCreateUserRoleModalVisible = true"
-                >{{ t("createuserrole") }}
-              </watt-button>
-            </div>
+            <watt-paginator #paginator [length]="roles.length" />
+            <watt-button
+              *transloco="let t; read: 'admin.userManagement'"
+              icon="download"
+              variant="text"
+              (click)="download(rolesTable.filteredAndSortedData)"
+              >{{ t("download") }}</watt-button
+            >
+            <watt-button
+              *dhPermissionRequired="['user-roles:manage']"
+              icon="plus"
+              variant="secondary"
+              (click)="isCreateUserRoleModalVisible = true"
+              >{{ t("createuserrole") }}
+            </watt-button>
           </div>
         </watt-card-title>
         <dh-roles-tab-table
