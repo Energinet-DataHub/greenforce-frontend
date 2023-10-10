@@ -30,10 +30,13 @@ limitations under the License.
       [closeLabel]="t('editGridAreaModalCloseLabel')"
     >
       <br />
-      <watt-form-field>
-        <watt-label>{{ t("gridAreaName") }}</watt-label>
-        <input #nameChangeInput wattInput [(ngModel)]="newGridName" type="text" required />
-      </watt-form-field>
+      <watt-text-field
+        #nameChangeInput
+        [(ngModel)]="newGridName"
+        type="text"
+        [required]="true"
+        [label]="t('gridAreaName')"
+      />
       <watt-modal-actions>
         <watt-button
           variant="secondary"

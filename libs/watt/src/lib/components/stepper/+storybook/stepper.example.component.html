@@ -17,16 +17,27 @@ limitations under the License.
 <watt-stepper (completed)="complete()">
   <watt-stepper-step label="User" [stepControl]="user" nextButtonLabel="Email">
     <form [formGroup]="user">
-      <watt-form-field class="firstname">
-        <watt-label>firstname</watt-label>
-        <input [formControl]="user.controls.firstname" wattInput type="text" />
-        <watt-error *ngIf="user.controls.firstname.hasError('required')">Error</watt-error>
-      </watt-form-field>
-      <watt-form-field class="lastname">
-        <watt-label>lastname</watt-label>
-        <input [formControl]="user.controls.lastname" wattInput type="text" />
-        <watt-error *ngIf="user.controls.lastname.hasError('required')"> Error </watt-error>
-      </watt-form-field>
+      <watt-text-field
+        class="firstname"
+        [formControl]="user.controls.firstname"
+        type="text"
+        label="firstname"
+      >
+        <watt-field-error *ngIf="user.controls.firstname.hasError('required')"
+          >Error</watt-field-error
+        >
+      </watt-text-field>
+
+      <watt-text-field
+        class="lastname"
+        [formControl]="user.controls.lastname"
+        type="text"
+        label="lastname"
+      >
+        <watt-field-error *ngIf="user.controls.lastname.hasError('required')"
+          >Error</watt-field-error
+        >
+      </watt-text-field>
     </form>
   </watt-stepper-step>
   <watt-stepper-step
@@ -36,11 +47,14 @@ limitations under the License.
     previousButtonLabel="User"
   >
     <form [formGroup]="email">
-      <watt-form-field class="email">
-        <watt-label>email</watt-label>
-        <input [formControl]="email.controls.email" wattInput type="text" />
-        <watt-error *ngIf="email.controls.email.hasError('required')">Error</watt-error>
-      </watt-form-field>
+      <watt-text-field
+        class="email"
+        [formControl]="user.controls.lastname"
+        type="email"
+        label="email"
+      >
+        <watt-field-error *ngIf="email.controls.email.hasError('required')">Error</watt-field-error>
+      </watt-text-field>
     </form>
   </watt-stepper-step>
   <watt-stepper-step
@@ -50,16 +64,22 @@ limitations under the License.
     previousButtonLabel="Email"
   >
     <form [formGroup]="address">
-      <watt-form-field class="street">
-        <watt-label>street</watt-label>
-        <input [formControl]="address.controls.street" wattInput type="text" />
-        <watt-error *ngIf="address.controls.street.hasError('required')">Error</watt-error>
-      </watt-form-field>
-      <watt-form-field class="city">
-        <watt-label>city</watt-label>
-        <input [formControl]="address.controls.city" wattInput type="text" />
-        <watt-error *ngIf="address.controls.city.hasError('required')"> Error </watt-error>
-      </watt-form-field>
+      <watt-text-field
+        class="street"
+        [formControl]="address.controls.street"
+        type="text"
+        label="street"
+      >
+        <watt-field-error *ngIf="address.controls.street.hasError('required')"
+          >Error</watt-field-error
+        >
+      </watt-text-field>
+
+      <watt-text-field class="city" [formControl]="address.controls.city" type="text" label="city">
+        <watt-field-error *ngIf="address.controls.city.hasError('required')"
+          >Error</watt-field-error
+        >
+      </watt-text-field>
     </form>
   </watt-stepper-step>
 </watt-stepper>

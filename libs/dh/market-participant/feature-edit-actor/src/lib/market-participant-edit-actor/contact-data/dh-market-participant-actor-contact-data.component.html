@@ -18,70 +18,58 @@ limitations under the License.
   <watt-table [dataSource]="dataSource" [columns]="columns" aria-label="contacts">
     <!-- Contact Type -->
     <ng-container *wattTableCell="columns.category; let row">
-      <watt-form-field>
-        <watt-dropdown
-          [attr.aria-label]="
-            row.isExisting
-              ? t('ariaLabelCategoryForExistingContact')
-              : t('ariaLabelCategoryForNewContact')
-          "
-          required
-          [options]="contactCategories"
-          [(ngModel)]="row.changed.category"
-          (ngModelChange)="onDropdownChanged(row)"
-        >
-        </watt-dropdown>
-      </watt-form-field>
+      <watt-dropdown
+        [label]="
+          row.isExisting
+            ? t('ariaLabelCategoryForExistingContact')
+            : t('ariaLabelCategoryForNewContact')
+        "
+        required
+        [options]="contactCategories"
+        [(ngModel)]="row.changed.category"
+        (ngModelChange)="onDropdownChanged(row)"
+      >
+      </watt-dropdown>
     </ng-container>
 
     <!-- Name -->
     <ng-container *wattTableCell="columns.name; let row">
-      <watt-form-field
-        ><input
-          [attr.aria-label]="
-            row.isExisting ? t('ariaLabelNameForExistingContact') : t('ariaLabelNameForNewContact')
-          "
-          wattInput
-          required
-          [placeholder]="t('namePlaceholder')"
-          [(ngModel)]="row.changed.name"
-          (ngModelChange)="onModelChanged(row)"
-        />
-      </watt-form-field>
+      <watt-text-field
+        [label]="
+          row.isExisting ? t('ariaLabelNameForExistingContact') : t('ariaLabelNameForNewContact')
+        "
+        [required]="true"
+        [placeholder]="t('namePlaceholder')"
+        [(ngModel)]="row.changed.name"
+        (ngModelChange)="onModelChanged(row)"
+      />
     </ng-container>
 
     <!-- Email -->
     <ng-container *wattTableCell="columns.email; let row">
-      <watt-form-field
-        ><input
-          [attr.aria-label]="
-            row.isExisting ? t('ariaLabelMailForExistingContact') : t('ariaLabelMailForNewContact')
-          "
-          wattInput
-          required
-          type="email"
-          [placeholder]="t('emailPlaceholder')"
-          [(ngModel)]="row.changed.email"
-          (ngModelChange)="onModelChanged(row)"
-      /></watt-form-field>
+      <watt-text-field
+        [label]="
+          row.isExisting ? t('ariaLabelMailForExistingContact') : t('ariaLabelMailForNewContact')
+        "
+        [required]="true"
+        type="email"
+        [placeholder]="t('emailPlaceholder')"
+        [(ngModel)]="row.changed.email"
+        (ngModelChange)="onModelChanged(row)"
+      />
     </ng-container>
 
     <!-- Phone -->
     <ng-container *wattTableCell="columns.phone; let row">
-      <watt-form-field>
-        <input
-          [attr.aria-label]="
-            row.isExisting
-              ? t('ariaLabelPhoneForExistingContact')
-              : t('ariaLabelPhoneForNewContact')
-          "
-          wattInput
-          type="tel"
-          [placeholder]="t('phonePlaceholder')"
-          [(ngModel)]="row.changed.phone"
-          (ngModelChange)="onModelChanged(row)"
-        />
-      </watt-form-field>
+      <watt-text-field
+        [label]="
+          row.isExisting ? t('ariaLabelPhoneForExistingContact') : t('ariaLabelPhoneForNewContact')
+        "
+        type="tel"
+        [placeholder]="t('phonePlaceholder')"
+        [(ngModel)]="row.changed.phone"
+        (ngModelChange)="onModelChanged(row)"
+      />
     </ng-container>
 
     <!-- Delete -->

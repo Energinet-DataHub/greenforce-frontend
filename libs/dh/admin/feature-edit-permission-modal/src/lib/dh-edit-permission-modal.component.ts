@@ -37,10 +37,10 @@ import {
   PermissionDto,
   MarketParticipantUpdatePermissionDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
 import { DhAdminEditPermissionStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 
 @Component({
   selector: 'dh-edit-permission-modal',
@@ -49,9 +49,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   styles: [
     `
       .tab-master-data {
-        margin-bottom: var(--watt-space-m);
-        margin-top: calc(var(--watt-space-ml) * 2);
-        margin-left: var(--watt-space-ml);
         width: 25rem;
       }
     `,
@@ -66,8 +63,8 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     WattButtonComponent,
     WattTabComponent,
     WattTabsComponent,
-    WATT_FORM_FIELD,
-    WattInputDirective,
+    WattFieldErrorComponent,
+    WattTextAreaFieldComponent,
   ],
 })
 export class DhEditPermissionModalComponent implements AfterViewInit, OnChanges {

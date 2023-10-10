@@ -21,9 +21,8 @@ import {
   GridAreaChanges,
   GridAreaOverviewRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { WattInputDirective } from '@energinet-datahub/watt/input';
-import { WATT_FORM_FIELD } from '@energinet-datahub/watt/form-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { FormsModule } from '@angular/forms';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -38,10 +37,9 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     TranslocoModule,
     WattButtonComponent,
     WATT_MODAL,
-    WATT_FORM_FIELD,
-    WattInputDirective,
     FormsModule,
     DhPermissionRequiredDirective,
+    WattTextFieldTDComponent,
   ],
 })
 export class DhMarketParticipantGridAreaEditComponent {

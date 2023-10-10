@@ -30,7 +30,7 @@ import { Apollo } from 'apollo-angular';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { debounceTime, map } from 'rxjs';
 
-import { WATT_FORM_FIELD, WattFormChipDirective } from '@energinet-datahub/watt/form-field';
+import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
@@ -57,7 +57,6 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
     TranslocoModule,
     VaterSpacerComponent,
     VaterStackComponent,
-    WATT_FORM_FIELD,
     WattButtonComponent,
     WattDateRangeChipComponent,
     WattDropdownComponent,
@@ -81,36 +80,30 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
       *transloco="let t; read: 'wholesale.calculations.filters'"
     >
       <watt-date-range-chip formControlName="period">{{ t('period') }}</watt-date-range-chip>
-      <watt-form-field>
-        <watt-dropdown
-          formControlName="processTypes"
-          [chipMode]="true"
-          [multiple]="true"
-          [options]="_processTypeOptions | push"
-          [placeholder]="t('processType')"
-        />
-      </watt-form-field>
-      <watt-form-field>
-        <watt-dropdown
-          formControlName="gridAreaCodes"
-          [chipMode]="true"
-          [multiple]="true"
-          [options]="_gridAreaOptions | push"
-          [placeholder]="t('gridAreas')"
-        />
-      </watt-form-field>
+      <watt-dropdown
+        formControlName="processTypes"
+        [chipMode]="true"
+        [multiple]="true"
+        [options]="_processTypeOptions | push"
+        [placeholder]="t('processType')"
+      />
+      <watt-dropdown
+        formControlName="gridAreaCodes"
+        [chipMode]="true"
+        [multiple]="true"
+        [options]="_gridAreaOptions | push"
+        [placeholder]="t('gridAreas')"
+      />
       <watt-date-range-chip formControlName="executionTime">
         {{ t('executionTime') }}
       </watt-date-range-chip>
-      <watt-form-field>
-        <watt-dropdown
-          formControlName="executionStates"
-          [chipMode]="true"
-          [multiple]="true"
-          [options]="_executionStateOptions | push"
-          [placeholder]="t('executionStates')"
-        />
-      </watt-form-field>
+      <watt-dropdown
+        formControlName="executionStates"
+        [chipMode]="true"
+        [multiple]="true"
+        [options]="_executionStateOptions | push"
+        [placeholder]="t('executionStates')"
+      />
       <vater-spacer />
       <watt-button variant="text" icon="undo" type="reset">{{ t('reset') }}</watt-button>
     </form>
