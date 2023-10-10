@@ -127,8 +127,8 @@ export class DhActorsEditActorModalComponent {
 
     this.dataAccessStore
       .update({
-        id: this.actor.id,
-        name: this.actorForm.value.name,
+        actorId: this.actor.id,
+        actorName: this.actorForm.value.name,
         departmentName: this.actorForm.value.departmentName,
         departmentPhone: this.actorForm.value.departmentPhone,
         departmentEmail: `${this.actorForm.value.departmentEmail}@${this.emailDomain}`,

@@ -23,6 +23,14 @@ import {
 import { Apollo } from 'apollo-angular';
 import { Subject, switchMap } from 'rxjs';
 
+export interface ActorEditableFields {
+  actorId: string;
+  actorName: string;
+  departmentName: string;
+  departmentPhone: string;
+  departmentEmail: string;
+}
+
 @Injectable()
 export class DhMarketParticipantActorsEditActorDataAccessApiStore {
   private readonly apollo = inject(Apollo);
@@ -45,24 +53,12 @@ export class DhMarketParticipantActorsEditActorDataAccessApiStore {
     this.isReady$.complete();
   }
 
-  update(actor: {
-    id: string;
-    name: string;
-    departmentName: string;
-    departmentPhone: string;
-    departmentEmail: string;
-  }) {
+  update(actor: ActorEditableFields) {
     return this.apollo.mutate({
       useMutationLoading: true,
       mutation: UpdateActorDocument,
       variables: {
-        input: {
-          actorId: actor.id,
-          actorName: actor.name,
-          departmentName: actor.departmentName,
-          departmentEmail: actor.departmentEmail,
-          departmentPhone: actor.departmentPhone,
-        },
+        input: actor,
       },
       refetchQueries: [GetActorsDocument, GetActorEditableFieldsDocument],
     });

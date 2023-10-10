@@ -9,9 +9,18 @@ type Actor {
   glnOrEicNumber: String!
   marketRole: EicFunction
   gridAreas: [GridAreaDto!]!
+  contact: ActorContactDto
   organization: Organization!
   externalActorId: UUID
   status: ActorStatus!
+}
+
+type ActorContactDto {
+  contactId: UUID!
+  category: ContactCategory!
+  name: String!
+  email: String!
+  phone: String
 }
 
 type ActorNameDto {
@@ -110,6 +119,7 @@ type GridAreaDto {
 
 type Mutation {
   updatePermission(input: UpdatePermissionDtoInput!): Permission!
+  updateActor(input: UpdateActorInput!): UpdateActorPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
 }
@@ -169,6 +179,10 @@ type SettlementReport {
   executionTime: DateTime
 }
 
+type UpdateActorPayload {
+  boolean: Boolean
+}
+
 type UserRoleAuditLog {
   changedByUserName: String!
   userRoleId: UUID!
@@ -214,6 +228,14 @@ input CreateCalculationInput {
   processType: ProcessType!
 }
 
+input UpdateActorInput {
+  actorId: UUID!
+  actorName: String!
+  departmentName: String!
+  departmentEmail: String!
+  departmentPhone: String!
+}
+
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
@@ -237,6 +259,24 @@ enum BatchState {
   EXECUTING
   COMPLETED
   FAILED
+}
+
+enum ContactCategory {
+  DEFAULT
+  CHARGES
+  CHARGE_LINKS
+  ELECTRICAL_HEATING
+  END_OF_SUPPLY
+  ENERGINET_INQUIRY
+  ERROR_REPORT
+  INCORRECT_MOVE
+  INCORRECT_SWITCH
+  MEASUREMENT_DATA
+  METERING_POINT
+  NET_SETTLEMENT
+  NOTIFICATION
+  RECON
+  REMINDER
 }
 
 enum DocumentStatus {
@@ -265,7 +305,6 @@ enum EicFunction {
   MeteringPointAdministrator
   SystemOperator
   DanishEnergyAgency
-  ElOverblik
   DataHubAdministrator
   IndependentAggregator
   SerialEnergyTrader
