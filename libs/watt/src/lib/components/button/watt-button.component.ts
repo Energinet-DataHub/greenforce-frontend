@@ -53,7 +53,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
         }"
       >
         <watt-icon *ngIf="hasIcon()" [name]="icon"></watt-icon>
-        <ng-content *ngIf="variant !== 'icon'"></ng-content>
+        <ng-content *ngIf="variant !== 'icon'" />
       </div>
     </button>
   `,
