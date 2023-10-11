@@ -4,7 +4,7 @@ query getOutgoingMessages(
   $periodFrom: DateTime
   $periodTo: DateTime
   $gridAreaCode: String
-  $processType: ExchangeEventProcessType
+  $calculationType: ExchangeEventCalculationType
   $documentStatus: DocumentStatus
   $timeSeriesType: TimeSeriesType
 ) {
@@ -14,7 +14,7 @@ query getOutgoingMessages(
     periodFrom: $periodFrom
     periodTo: $periodTo
     gridAreaCode: $gridAreaCode
-    processType: $processType
+    calculationType: $calculationType
     documentStatus: $documentStatus
     timeSeriesType: $timeSeriesType
   ) {
@@ -22,7 +22,7 @@ query getOutgoingMessages(
       created
       documentId
       gridAreaCode
-      processType
+      calculationType
       documentStatus
       timeSeriesType
     }

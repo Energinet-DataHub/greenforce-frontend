@@ -1,7 +1,7 @@
 query GetOutgoingMessageById($documentId: String!) {
   esettOutgoingMessageById(documentId: $documentId) {
     documentId
-    processType
+    calculationType
     created
     periodFrom
     periodTo
