@@ -36,7 +36,7 @@ import { RouterModule } from '@angular/router';
     </ng-template>
 
     <ng-template #templateContent>
-      <ng-content></ng-content>
+      <ng-content />
     </ng-template>
   `,
 })

@@ -30,9 +30,9 @@ limitations under the License.
     [class.watt-modal-scrollable]="scrollable"
     (resize)="onResize($event)"
   >
-    <ng-content></ng-content>
+    <ng-content />
   </div>
-  <ng-content select="watt-modal-actions"></ng-content>
+  <ng-content select="watt-modal-actions" />
 
   <div *ngIf="loading" class="watt-modal__spinner">
     <div>

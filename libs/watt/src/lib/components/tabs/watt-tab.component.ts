@@ -20,7 +20,7 @@ import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '
   standalone: true,
   selector: 'watt-tab',
   template: `<ng-template>
-    <ng-content></ng-content>
+    <ng-content />
   </ng-template>`,
 })
 export class WattTabComponent {
