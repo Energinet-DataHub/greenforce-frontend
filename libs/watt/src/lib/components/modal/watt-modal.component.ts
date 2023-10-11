@@ -140,7 +140,7 @@ export class WattModalComponent {
  */
 @Component({
   selector: 'watt-modal-actions',
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
   standalone: true,
 })
 export class WattModalActionsComponent {}

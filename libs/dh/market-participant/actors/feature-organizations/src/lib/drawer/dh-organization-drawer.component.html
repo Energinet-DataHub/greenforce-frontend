@@ -16,8 +16,6 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'">
   <watt-drawer #drawer (closed)="onClose()">
-    <watt-drawer-topbar> </watt-drawer-topbar>
-
     <watt-drawer-actions>
       <watt-button *dhPermissionRequired="['organizations:manage']" variant="secondary">{{
         t("edit")

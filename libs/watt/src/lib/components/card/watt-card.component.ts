@@ -39,9 +39,9 @@ import { WattCardTitleComponent } from './watt-card-title.component';
     `,
   ],
   template: `
-    <ng-content select="watt-card-title"></ng-content>
+    <ng-content select="watt-card-title" />
 
-    <ng-content></ng-content>
+    <ng-content />
   `,
   imports: [CommonModule],
   standalone: true,

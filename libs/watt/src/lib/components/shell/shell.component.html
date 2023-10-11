@@ -33,7 +33,7 @@ limitations under the License.
         (click)="drawer.toggle()"
       >
       </watt-button>
-      <ng-content select="[watt-shell-sidenav]"></ng-content>
+      <ng-content select="[watt-shell-sidenav]" />
     </div>
   </mat-sidenav>
 
@@ -42,11 +42,11 @@ limitations under the License.
       <watt-button *ngIf="isHandset$ | async" variant="icon" icon="menu" (click)="drawer.toggle()">
       </watt-button>
 
-      <ng-content select="[watt-shell-toolbar]"></ng-content>
+      <ng-content select="[watt-shell-toolbar]" />
     </mat-toolbar>
 
     <main class="watt-main-content">
-      <ng-content></ng-content>
+      <ng-content />
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

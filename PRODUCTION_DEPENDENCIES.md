@@ -2,24 +2,24 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@angular/animations](https://github.com/angular/angular) | 16.2.0 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 16.2.0 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 16.2.0 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 16.2.0 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 16.2.0 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 16.2.0 | MIT |
-| [@angular/material-date-fns-adapter](https://github.com/angular/components) | 16.2.0 | MIT |
-| [@angular/material](https://github.com/angular/components) | 16.2.0 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 16.2.0 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 16.2.0 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 16.2.0 | MIT |
+  | [@angular/animations](https://github.com/angular/angular) | 16.2.8 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 16.2.7 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 16.2.8 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 16.2.8 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 16.2.8 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 16.2.8 | MIT |
+| [@angular/material-date-fns-adapter](https://github.com/angular/components) | 16.2.7 | MIT |
+| [@angular/material](https://github.com/angular/components) | 16.2.7 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 16.2.8 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 16.2.8 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 16.2.8 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.2 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.2 | MIT |
 | [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 3.0.2 | MIT |
 | [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.12 | MIT |
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
-| [@ngrx/component-store](https://github.com/ngrx/platform) | 16.2.0 | MIT |
+| [@ngrx/component-store](https://github.com/ngrx/platform) | 16.3.0 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.7 | MIT |
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 16.0.0 | MIT |
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 16.1.0 | MIT |
@@ -36,6 +36,6 @@
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 3.0.11 | ISC |
 | [ngx-highlightjs](https://github.com/murhafsousli/ngx-highlightjs) | 10.0.0 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 7.0.4 | MIT |
-| [rxjs](https://github.com/reactivex/rxjs) | 7.5.7 | Apache-2.0 |
+| [rxjs](https://github.com/reactivex/rxjs) | 7.8.0 | Apache-2.0 |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
 | [zone.js](https://github.com/angular/angular) | 0.13.1 | MIT |
