@@ -16,14 +16,14 @@
  */
 import {
   DocumentStatus,
-  ExchangeEventProcessType,
+  ExchangeEventCalculationType,
   InputMaybe,
   Scalars,
   TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type DhOutgoingMessagesFilters = {
-  calculationTypes?: InputMaybe<ExchangeEventProcessType>;
+  calculationTypes?: InputMaybe<ExchangeEventCalculationType>;
   messageTypes?: InputMaybe<TimeSeriesType>;
   gridAreas?: InputMaybe<string>;
   status?: InputMaybe<DocumentStatus>;
