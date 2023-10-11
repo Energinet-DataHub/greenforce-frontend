@@ -17,11 +17,11 @@ using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class ExchangeEventProcessType : EnumType<ProcessType>
+    public class ExchangeEventCalculationType : EnumType<CalculationType>
     {
-        protected override void Configure(IEnumTypeDescriptor<ProcessType> descriptor)
+        protected override void Configure(IEnumTypeDescriptor<CalculationType> descriptor)
         {
-            descriptor.Name("ExchangeEventProcessType");
+            descriptor.Name("ExchangeEventCalculationType");
         }
     }
 }
