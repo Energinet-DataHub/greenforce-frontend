@@ -40,7 +40,7 @@ function loginViaB2C(email: string, password: string) {
   );
 
   // Ensure Microsoft has redirected us back to the sample app with our logged in user.
-  cy.url().should('equals', Cypress.config('baseUrl') + '/metering-point/search');
+  cy.url().should('equals', Cypress.config('baseUrl') + '/message-archive');
 }
 
 Cypress.Commands.add('login', (email: string, password: string) => {
@@ -65,7 +65,7 @@ Cypress.Commands.add('login', (email: string, password: string) => {
     {
       validate: () => {
         cy.findByRole('heading', {
-          name: new RegExp('Søg målepunkter', 'i'),
+          name: new RegExp('Fremsøg forretningsbesked', 'i'),
           timeout: 10000,
         });
       },

@@ -18,7 +18,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'watt-drawer-actions',
-  template: `<ng-content select="watt-button"></ng-content>`,
+  template: `<ng-content select="watt-button" />`,
   styleUrls: ['./watt-drawer-actions.component.scss'],
   standalone: true,
 })

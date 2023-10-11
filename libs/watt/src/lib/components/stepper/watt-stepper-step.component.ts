@@ -20,7 +20,7 @@ import { MatStep } from '@angular/material/stepper';
 @Component({
   selector: 'watt-stepper-step',
   template: `<ng-template #templateRef>
-    <ng-content></ng-content>
+    <ng-content />
   </ng-template>`,
   standalone: true,
 })
