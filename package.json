@@ -44,6 +44,7 @@
     "ng": "nx",
     "nx": "nx",
     "start": "nx serve",
+    "dev:dh": "nx run app-dh:serve:development",
     "test": "nx run-many --target=test --parallel",
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",

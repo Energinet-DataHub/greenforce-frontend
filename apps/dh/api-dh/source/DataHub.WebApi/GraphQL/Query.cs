@@ -188,6 +188,15 @@ namespace Energinet.DataHub.WebApi.GraphQL
             });
         }
 
+        public Task<ActorDto> GetSelectedActorAsync(
+            [Service] IHttpContextAccessor httpContextAccessor,
+            [Service] IMarketParticipantClient client)
+        {
+            var user = httpContextAccessor.HttpContext?.User;
+            var associatedActor = user?.GetAssociatedActor() ?? throw new InvalidOperationException("No associated actor found.");
+            return client.GetActorAsync(associatedActor);
+        }
+
         public Task<ActorDto> GetActorByIdAsync(
             Guid id,
             [Service] IMarketParticipantClient client) =>

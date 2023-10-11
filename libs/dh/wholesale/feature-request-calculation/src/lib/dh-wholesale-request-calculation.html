@@ -10,9 +10,16 @@
           dhDropdownTranslator
         />
         <watt-dropdown
+          translate="wholesale.requestCalculation.meteringPointTypes"
           [label]="t('meteringPointType')"
           [formControl]="form.controls.meteringPointType"
-          [options]="meteringPointTypes"
+          [options]="meteringPointOptions"
+          dhDropdownTranslator
+        />
+        <watt-dropdown
+          [label]="t('gridAreas')"
+          [formControl]="form.controls.gridarea"
+          [options]="gridAreaOptions"
         />
       </vater-stack>
     </vater-flex>

@@ -1070,11 +1070,20 @@
     "requestCalculation": {
       "topBarTitle": "Request calculation",
       "processType": "{{shared.processType}}",
+      "meteringPointType": "Type of metering point",
+      "gridareas": "Grid areas",
       "processTypes": {
         "preliminaryaggregation": "Aggregation",
         "balancefixing": "Balance fixing",
         "wholesalefixing": "Wholesale fixing",
         "correction": "Correction"
+      },
+      "meteringPointTypes": {
+        "FLEX_CONSUMPTION": "Flex consumption",
+        "TOTAL_CONSUMPTION": "Total consumption",
+        "PRODUCTION": "Production",
+        "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
+        "EXCHANGE": "Exchange"
       }
     },
     "settlementReports": {

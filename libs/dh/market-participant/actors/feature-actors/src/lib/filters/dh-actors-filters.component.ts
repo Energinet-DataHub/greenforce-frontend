@@ -81,7 +81,7 @@ import { ActorsFilters } from '../actors-filters';
     >
       <watt-dropdown
         formControlName="actorStatus"
-        [options]="actorStatusOptions | push"
+        [options]="actorStatusOptions"
         [multiple]="true"
         [chipMode]="true"
         [placeholder]="t('status')"
@@ -89,7 +89,7 @@ import { ActorsFilters } from '../actors-filters';
 
       <watt-dropdown
         formControlName="marketRoles"
-        [options]="marketRolesOptions | push"
+        [options]="marketRolesOptions"
         [multiple]="true"
         [chipMode]="true"
         [placeholder]="t('marketRole')"

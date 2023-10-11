@@ -25,6 +25,15 @@ import {
 
 export const dhWholesaleShellRoutes: Route[] = [
   {
+    path: WHOLESALE_REQUEST_CALCULATION_PATH,
+    canActivate: [PermissionGuard(['settlement-reports:manage'])],
+    // TODO: What permission should this have? canActivate: [PermissionGuard(['calculations:manage'])],
+    loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-request-calculation'),
+    data: {
+      titleTranslationKey: 'wholesale.requestCalculation.topBarTitle',
+    },
+  },
+  {
     path: WHOLESALE_CALCULATIONS_PATH,
     canActivate: [PermissionGuard(['calculations:manage'])],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-calculations'),
@@ -41,14 +50,6 @@ export const dhWholesaleShellRoutes: Route[] = [
       ),
     data: {
       titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
-    },
-  },
-  {
-    path: WHOLESALE_REQUEST_CALCULATION_PATH,
-    canActivate: [PermissionGuard(['calculations:manage'])],
-    loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-request-calculation'),
-    data: {
-      titleTranslationKey: 'wholesale.requestCalculation.topBarTitle',
     },
   },
 ];

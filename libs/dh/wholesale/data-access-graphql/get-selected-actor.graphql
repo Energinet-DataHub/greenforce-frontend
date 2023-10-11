@@ -1,0 +1,9 @@
+query getSelectedActor {
+  selectedActor {
+    marketRole
+    gridAreas {
+      code
+      name
+    }
+  }
+}
