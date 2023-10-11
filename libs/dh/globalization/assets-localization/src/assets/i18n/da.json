@@ -644,7 +644,7 @@
             "name": "Navn",
             "domain": "Domæne"
           },
-          "actors":{
+          "actors": {
             "tabLabel": "Aktører"
           }
         }
