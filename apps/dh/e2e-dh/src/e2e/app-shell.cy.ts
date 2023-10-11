@@ -16,9 +16,9 @@
  */
 describe('Application shell', () => {
   it('should display welcome message', () => {
-    cy.visit('/metering-point/search');
+    cy.visit('/message-archive');
     cy.findByRole('heading', {
-      name: new RegExp('Søg målepunkter', 'i'),
+      name: new RegExp('Fremsøg forretningsbesked', 'i'),
     });
   });
 });
