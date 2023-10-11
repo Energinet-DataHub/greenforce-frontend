@@ -105,7 +105,6 @@ export class DhOrganizationDrawerComponent {
 
   private getActorsByOrganizationIdQuery$ = this.apollo.watchQuery({
     errorPolicy: 'all',
-    returnPartialData: true,
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: GetActorsByOrganizationIdDocument,
@@ -115,7 +114,7 @@ export class DhOrganizationDrawerComponent {
     | { organizationId: string; name: string; businessRegisterIdentifier: string; domain: string }
     | undefined = undefined;
 
-  actors!: WattTableDataSource<Actor>;
+  actors: WattTableDataSource<Actor> = new WattTableDataSource<Actor>([]);
 
   columns: WattTableColumnDef<Actor> = {
     actorNumberAndName: { accessor: 'actorNumberAndName' },
@@ -147,7 +146,9 @@ export class DhOrganizationDrawerComponent {
       .pipe(takeUntil(this.closed))
       .subscribe({
         next: (result) => {
-          this.organization = { ...result.data.organizationById, organizationId: id };
+          this.organization = result.data?.organizationById
+            ? { ...result.data.organizationById, organizationId: id }
+            : undefined;
         },
       });
   }
@@ -161,15 +162,16 @@ export class DhOrganizationDrawerComponent {
       .pipe(takeUntil(this.closed))
       .subscribe({
         next: (result) => {
-          this.actors = new WattTableDataSource<Actor>(
-            [...result.data.actorsByOrganizationId]
-              .sort((a, b) => a.name.localeCompare(b.name))
-              .map((x) => ({
-                actorNumberAndName: `${x.glnOrEicNumber} ${x.name}`,
-                marketRole: x.marketRole,
-                status: x.status,
-              }))
-          );
+          const data = result.data?.actorsByOrganizationId;
+          this.actors.data = data
+            ? [...data]
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((x) => ({
+                  actorNumberAndName: `${x.glnOrEicNumber} ${x.name}`,
+                  marketRole: x.marketRole,
+                  status: x.status,
+                }))
+            : [];
         },
       });
   }
