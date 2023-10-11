@@ -38,7 +38,7 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import {
   DocumentStatus,
-  ExchangeEventProcessType,
+  ExchangeEventCalculationType,
   GetGridAreasDocument,
   TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -122,7 +122,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
       .selectTranslateObject('eSett.outgoingMessages.shared.calculationType')
       .pipe(
         map((translationObject) =>
-          Object.values(ExchangeEventProcessType).map((type) => ({
+          Object.values(ExchangeEventCalculationType).map((type) => ({
             displayValue: translationObject[type],
             value: type,
           }))

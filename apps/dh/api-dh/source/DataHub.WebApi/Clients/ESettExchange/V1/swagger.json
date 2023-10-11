@@ -342,6 +342,13 @@
           "ReceivedDate"
         ]
       },
+      "CalculationType": {
+        "type": "string",
+        "enum": [
+          "BalanceFixing",
+          "Aggregation"
+        ]
+      },
       "DocumentStatus": {
         "type": "string",
         "enum": [
@@ -364,11 +371,11 @@
             "type": "integer",
             "format": "int32"
           },
-          "processType": {
+          "calculationType": {
             "nullable": true,
             "allOf": [
               {
-                "$ref": "#/components/schemas/ProcessType"
+                "$ref": "#/components/schemas/CalculationType"
               }
             ]
           },
@@ -434,10 +441,10 @@
             "type": "string",
             "format": "date-time"
           },
-          "processType": {
+          "calculationType": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ProcessType"
+                "$ref": "#/components/schemas/CalculationType"
               }
             ]
           },
@@ -471,10 +478,10 @@
           "gridAreaCode": {
             "type": "string"
           },
-          "processType": {
+          "calculationType": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ProcessType"
+                "$ref": "#/components/schemas/CalculationType"
               }
             ]
           },
@@ -501,13 +508,6 @@
             ]
           }
         }
-      },
-      "ProcessType": {
-        "type": "string",
-        "enum": [
-          "BalanceFixing",
-          "Aggregation"
-        ]
       },
       "SortDirection": {
         "type": "string",

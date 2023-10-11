@@ -63,7 +63,7 @@ export class DhOutgoingMessagesTableComponent {
   columns: WattTableColumnDef<DhOutgoingMessage> = {
     created: { accessor: 'created' },
     id: { accessor: 'documentId' },
-    calculationType: { accessor: 'processType' },
+    calculationType: { accessor: 'calculationType' },
     messageType: { accessor: 'timeSeriesType' },
     gridArea: { accessor: 'gridAreaCode' },
     status: { accessor: 'documentStatus' },
