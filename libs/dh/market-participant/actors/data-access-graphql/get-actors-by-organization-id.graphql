@@ -1,0 +1,9 @@
+query GetActorsByOrganizationId($organizationId: UUID!) {
+  actorsByOrganizationId(organizationId: $organizationId) {
+    id
+    glnOrEicNumber
+    name
+    marketRole
+    status
+  }
+}
