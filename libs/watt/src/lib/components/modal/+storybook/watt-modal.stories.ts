@@ -133,9 +133,3 @@ export const FromClass: StoryFn<WattModalComponent> = (args) => ({
     <watt-modal-from-class />
   `,
 });
-
-FromClass.args = {
-  title: 'Accept Terms',
-  size: 'small',
-  disableClose: true,
-};
