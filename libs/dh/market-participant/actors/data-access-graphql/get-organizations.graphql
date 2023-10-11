@@ -4,12 +4,5 @@ query GetOrganizations {
     businessRegisterIdentifier
     name
     domain
-    actors {
-      id
-      name
-      glnOrEicNumber
-      marketRole
-      status
-    }
   }
 }

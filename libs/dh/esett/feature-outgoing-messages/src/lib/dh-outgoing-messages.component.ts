@@ -128,6 +128,7 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
             documentStatus: filters.status,
             periodFrom: filters.period?.start,
             periodTo: filters.period?.end,
+            documentId: filters.documentId
           },
         }).valueChanges
     ),
