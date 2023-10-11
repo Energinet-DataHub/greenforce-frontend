@@ -81,7 +81,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
   /**
    * @ignore
    */
-  private parentControl?: UntypedFormControl;
+  parentControl: FormControl | null = null;
   /**
    * @ignore
    */
