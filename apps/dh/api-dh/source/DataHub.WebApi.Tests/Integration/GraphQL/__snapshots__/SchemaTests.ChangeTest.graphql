@@ -185,6 +185,7 @@ type Query {
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int! pageSize: Int! periodFrom: DateTime periodTo: DateTime gridAreaCode: String processType: ExchangeEventProcessType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
+  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
 }
 
 type SettlementReport {

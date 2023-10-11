@@ -643,6 +643,9 @@
             "businessRegisterIdentifier": "CVR",
             "name": "Navn",
             "domain": "Domæne"
+          },
+          "actors":{
+            "tabLabel": "Aktører"
           }
         }
       }

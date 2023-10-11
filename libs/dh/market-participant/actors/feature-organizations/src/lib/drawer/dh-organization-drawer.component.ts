@@ -31,7 +31,20 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { GetOrganizationByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ActorStatus,
+  EicFunction,
+  GetActorsByOrganizationIdDocument,
+  GetOrganizationByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { DhActorStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/actors/feature-actors';
+
+type Actor = {
+  actorNumberAndName: string;
+  marketRole: EicFunction | null | undefined;
+  status: ActorStatus;
+};
 
 @Component({
   selector: 'dh-organization-drawer',
@@ -65,19 +78,22 @@ import { GetOrganizationByIdDocument } from '@energinet-datahub/dh/shared/domain
     TranslocoModule,
 
     WATT_DRAWER,
+    WATT_TABLE,
     WATT_TABS,
     WATT_CARD,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattButtonComponent,
 
+    DhActorStatusBadgeComponent,
     DhEmDashFallbackPipe,
     DhPermissionRequiredDirective,
   ],
 })
 export class DhOrganizationDrawerComponent {
   private apollo = inject(Apollo);
-  private subscription?: Subscription;
+  private organizationSubscription?: Subscription;
+  private actorsSubscription?: Subscription;
 
   private getOrganizationByIdQuery$ = this.apollo.watchQuery({
     errorPolicy: 'all',
@@ -87,9 +103,25 @@ export class DhOrganizationDrawerComponent {
     query: GetOrganizationByIdDocument,
   });
 
+  private getActorsByOrganizationIdQuery$ = this.apollo.watchQuery({
+    errorPolicy: 'all',
+    returnPartialData: true,
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetActorsByOrganizationIdDocument,
+  });
+
   organization:
     | { organizationId: string; name: string; businessRegisterIdentifier: string; domain: string }
     | undefined = undefined;
+
+  actors!: WattTableDataSource<Actor>;
+
+  columns: WattTableColumnDef<Actor> = {
+    actorNumberAndName: { accessor: 'actorNumberAndName' },
+    marketRole: { accessor: 'marketRole' },
+    status: { accessor: 'status' },
+  };
 
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
@@ -99,6 +131,7 @@ export class DhOrganizationDrawerComponent {
   public open(organizationId: string): void {
     this.drawer?.open();
     this.loadOrganization(organizationId);
+    this.loadActors(organizationId);
   }
 
   onClose(): void {
@@ -106,15 +139,37 @@ export class DhOrganizationDrawerComponent {
   }
 
   private loadOrganization(id: string): void {
-    this.subscription?.unsubscribe();
+    this.organizationSubscription?.unsubscribe();
 
     this.getOrganizationByIdQuery$.setVariables({ id });
 
-    this.subscription = this.getOrganizationByIdQuery$.valueChanges
+    this.organizationSubscription = this.getOrganizationByIdQuery$.valueChanges
       .pipe(takeUntil(this.closed))
       .subscribe({
         next: (result) => {
           this.organization = { ...result.data.organizationById, organizationId: id };
+        },
+      });
+  }
+
+  private loadActors(organizationId: string): void {
+    this.actorsSubscription?.unsubscribe();
+
+    this.getActorsByOrganizationIdQuery$.setVariables({ organizationId });
+
+    this.actorsSubscription = this.getActorsByOrganizationIdQuery$.valueChanges
+      .pipe(takeUntil(this.closed))
+      .subscribe({
+        next: (result) => {
+          this.actors = new WattTableDataSource<Actor>(
+            [...result.data.actorsByOrganizationId]
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((x) => ({
+                actorNumberAndName: `${x.glnOrEicNumber} ${x.name}`,
+                marketRole: x.marketRole,
+                status: x.status,
+              }))
+          );
         },
       });
   }
