@@ -21,7 +21,17 @@ import {
   EoIdleTimerCountdownModalComponent,
   EoIdleTimerLoggedOutModalComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { Subject, debounceTime, fromEvent, map, merge, startWith, takeUntil, tap, timer } from 'rxjs';
+import {
+  Subject,
+  debounceTime,
+  fromEvent,
+  map,
+  merge,
+  startWith,
+  takeUntil,
+  tap,
+  timer,
+} from 'rxjs';
 import { EoAuthService } from '../auth/auth.service';
 
 @Injectable({
@@ -31,7 +41,14 @@ export class IdleTimerService {
   private dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent> | undefined;
   private warningTimeout = 900000; // 15 minutes in milliseconds
   private logoutTimeout = 300000; // 5 minutes in milliseconds
-  private activityEvents = ['mousemove', 'mousedown', 'keydown', 'wheel', 'touchstart', 'touchmove'];
+  private activityEvents = [
+    'mousemove',
+    'mousedown',
+    'keydown',
+    'wheel',
+    'touchstart',
+    'touchmove',
+  ];
   private destroy$ = new Subject<void>();
   private lastActivity!: number | null;
 
@@ -49,25 +66,28 @@ export class IdleTimerService {
       .pipe(
         startWith('inactive'),
         debounceTime(this.warningTimeout), // wait for inactivity
-        takeUntil(this.destroy$),
+        takeUntil(this.destroy$)
       )
       .subscribe(() => {
         this.showLogoutWarning();
       });
 
     // Check if the tab has timed out after user has been on other tabs
-    fromEvent(document, 'visibilitychange').pipe(
-      takeUntil(this.destroy$),
-      map(() => document.visibilityState === 'visible'),
-    ).subscribe((tabIsActive: boolean) => {
-      if(!tabIsActive && !this.dialogRef) {
-        this.lastActivity = new Date().getTime();
-      } else {
-        if(!this.lastActivity) this.lastActivity = new Date().getTime();
-        const shouldHaveBeenWarned = new Date().getTime() - this.lastActivity >= this.warningTimeout;
-        if (shouldHaveBeenWarned) this.showLogoutWarning(this.lastActivity);
-      };
-    });
+    fromEvent(document, 'visibilitychange')
+      .pipe(
+        takeUntil(this.destroy$),
+        map(() => document.visibilityState === 'visible')
+      )
+      .subscribe((tabIsActive: boolean) => {
+        if (!tabIsActive && !this.dialogRef) {
+          this.lastActivity = new Date().getTime();
+        } else {
+          if (!this.lastActivity) this.lastActivity = new Date().getTime();
+          const shouldHaveBeenWarned =
+            new Date().getTime() - this.lastActivity >= this.warningTimeout;
+          if (shouldHaveBeenWarned) this.showLogoutWarning(this.lastActivity);
+        }
+      });
   }
 
   stopMonitor() {
@@ -80,11 +100,11 @@ export class IdleTimerService {
       return;
     }
 
-    if(!lastActivity) lastActivity = new Date().getTime();
+    if (!lastActivity) lastActivity = new Date().getTime();
 
     const countdown = timer(0, 1000).pipe(
       takeUntil(this.destroy$),
-      map(() =>  (lastActivity as number + this.logoutTimeout) - new Date().getTime()),
+      map(() => (lastActivity as number) + this.logoutTimeout - new Date().getTime()),
       tap((tick) => {
         if (tick <= 0) {
           this.dialogRef?.close('logout');
@@ -95,30 +115,29 @@ export class IdleTimerService {
         const seconds = Math.max(0, Math.floor((remainingTime % 60000) / 1000));
 
         return `${this.padZero(minutes)}:${this.padZero(seconds)}`;
-      }),
+      })
     );
 
-    this.dialogRef = this.dialog
-      .open(EoIdleTimerCountdownModalComponent, {
-        height: '500px',
-        autoFocus: false,
-        data: { countdown },
-      });
+    this.dialogRef = this.dialog.open(EoIdleTimerCountdownModalComponent, {
+      height: '500px',
+      autoFocus: false,
+      data: { countdown },
+    });
 
-      this.dialogRef.afterClosed().subscribe((result: string) => {
-        this.dialogRef = undefined;
-        this.lastActivity = null;
+    this.dialogRef.afterClosed().subscribe((result: string) => {
+      this.dialogRef = undefined;
+      this.lastActivity = null;
 
-        if (result === 'logout') {
-          this.authService.logout();
-          this.stopMonitor();
+      if (result === 'logout') {
+        this.authService.logout();
+        this.stopMonitor();
 
-          this.dialog.open(EoIdleTimerLoggedOutModalComponent, {
-            height: '500px',
-            autoFocus: false,
-          });
-        }
-      });
+        this.dialog.open(EoIdleTimerLoggedOutModalComponent, {
+          height: '500px',
+          autoFocus: false,
+        });
+      }
+    });
   }
 
   private padZero(num: number): string {

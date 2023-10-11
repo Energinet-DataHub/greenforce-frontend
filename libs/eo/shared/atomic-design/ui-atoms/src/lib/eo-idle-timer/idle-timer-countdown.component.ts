@@ -83,7 +83,10 @@ import { map, take, tap, timer } from 'rxjs';
 export class EoIdleTimerCountdownModalComponent {
   countdown$!: Observable<string>;
 
-  constructor(private dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent>, @Inject(MAT_DIALOG_DATA) public data: {countdown: Observable<string>;}) {
+  constructor(
+    private dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { countdown: Observable<string> }
+  ) {
     this.countdown$ = data.countdown;
   }
 
