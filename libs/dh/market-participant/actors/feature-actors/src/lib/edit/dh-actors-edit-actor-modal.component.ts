@@ -36,15 +36,15 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
   styles: [
     `
       .actor-field {
-        width: 80%;
+        width: 25em;
       }
 
       .contact-field {
-        width: 60%;
+        width: 25em;
       }
 
       .phone-field {
-        width: 35%;
+        width: 15em;
       }
 
       .email-suffix {
