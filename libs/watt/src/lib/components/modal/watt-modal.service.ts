@@ -28,7 +28,6 @@ export interface WattModalConfig {
   component?: ComponentType<unknown>;
   disableClose?: boolean;
   onClosed?: EventEmitter<boolean> | ((result: boolean) => void);
-
 }
 
 const sizeConfig: Record<WattModalSize, MatDialogConfig> = {
@@ -49,13 +48,13 @@ export class WattModalService {
         this.config = config;
 
         const template = config.templateRef ?? config.component;
-        if(!template) return of(false);
+        if (!template) return of(false);
 
         const dialog = this.dialog.open(template, {
           autoFocus: 'dialog',
           panelClass: [
             'watt-modal-panel',
-            ...(config.component ? ['watt-modal-panel--component'] : [])
+            ...(config.component ? ['watt-modal-panel--component'] : []),
           ],
           disableClose: config.disableClose ?? false,
           ...sizeConfig[config.size ?? 'normal'],
@@ -71,13 +70,11 @@ export class WattModalService {
       })
     );
 
-    result$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((result) => {
-        this.config?.onClosed instanceof EventEmitter
-          ? this.config?.onClosed.emit(result)
-          : this.config?.onClosed?.(result);
-      });
+    result$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
+      this.config?.onClosed instanceof EventEmitter
+        ? this.config?.onClosed.emit(result)
+        : this.config?.onClosed?.(result);
+    });
   }
 
   /**

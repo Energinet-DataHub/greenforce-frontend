@@ -14,21 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit } from "@angular/core";
-import { WattButtonComponent } from "../../button/watt-button.component";
-import { WATT_MODAL } from "../watt-modal.component";
-import { WattModalService } from "../watt-modal.service";
-import { WattTextFieldComponent } from "../../text-field/watt-text-field.component";
-import { FormControl } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { WattButtonComponent } from '../../button/watt-button.component';
+import { WATT_MODAL } from '../watt-modal.component';
+import { WattModalService } from '../watt-modal.service';
+import { WattTextFieldComponent } from '../../text-field/watt-text-field.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   standalone: true,
   selector: 'watt-modal-from-class',
-  imports: [
-    WATT_MODAL,
-    WattTextFieldComponent,
-    WattButtonComponent,
-  ],
+  imports: [WATT_MODAL, WattTextFieldComponent, WattButtonComponent],
   template: `
     <watt-modal #modal [title]="title" closeLabel="Close modal" [loading]="isLoading">
       <watt-text-field [formControl]="exampleFormControl" label="Username" />
@@ -41,7 +37,7 @@ import { FormControl } from "@angular/forms";
   `,
 })
 export class WattModalComponent implements OnInit {
-  title = 'This is a modal opened from a class'
+  title = 'This is a modal opened from a class';
   exampleFormControl = new FormControl('');
   isLoading = false;
 
@@ -57,10 +53,7 @@ export class WattModalComponent implements OnInit {
 @Component({
   standalone: true,
   selector: 'watt-modal-from-class',
-  imports: [
-    WattButtonComponent,
-    WattModalComponent,
-  ],
+  imports: [WattButtonComponent, WattModalComponent],
   providers: [WattModalService],
   template: `<watt-button (click)="openModal()">Open modal from service</watt-button>`,
 })
@@ -72,8 +65,7 @@ export class WattModalFromClassComponent {
       component: WattModalComponent,
       onClosed: (result) => {
         alert(`Modal closed with result: ${result}`);
-      }
+      },
     });
   }
 }
-

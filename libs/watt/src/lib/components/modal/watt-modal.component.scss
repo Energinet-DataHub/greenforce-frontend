@@ -23,7 +23,9 @@
     width: 100vw !important;
   }
 
-  &:not(.watt-modal-panel--component) mat-dialog-container div.mat-mdc-dialog-surface,
+  &:not(.watt-modal-panel--component)
+    mat-dialog-container
+    div.mat-mdc-dialog-surface,
   div.mat-mdc-dialog-surface watt-modal {
     position: relative;
     display: grid;
