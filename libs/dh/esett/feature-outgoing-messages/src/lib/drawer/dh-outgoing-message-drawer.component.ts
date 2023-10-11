@@ -89,9 +89,9 @@ export class DhOutgoingMessageDrawerComponent {
   responseDocument: Observable<string> | undefined;
 
   get messageTypeValue(): string {
-    if (this.outgoingMessage?.processType) {
+    if (this.outgoingMessage?.calculationType) {
       return translate(
-        'eSett.outgoingMessages.shared.calculationType.' + this.outgoingMessage?.processType
+        'eSett.outgoingMessages.shared.calculationType.' + this.outgoingMessage?.calculationType
       );
     }
 

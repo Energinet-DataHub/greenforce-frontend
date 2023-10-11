@@ -122,7 +122,7 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
             // whereas our endpoint's `pageNumber` param starts at `1`
             pageNumber: pageMetaData.pageIndex + 1,
             pageSize: pageMetaData.pageSize,
-            processType: filters.calculationTypes,
+            calculationType: filters.calculationTypes,
             timeSeriesType: filters.messageTypes,
             gridAreaCode: filters.gridAreas,
             documentStatus: filters.status,
@@ -182,7 +182,7 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
     const lines = dataSorted.map((message) => [
       `"${message.created.toISOString()}"`,
       `"${message.documentId}"`,
-      `"${translate(outgoingMessagesPath + '.shared.calculationType.' + message.processType)}"`,
+      `"${translate(outgoingMessagesPath + '.shared.calculationType.' + message.calculationType)}"`,
       `"${translate(outgoingMessagesPath + '.shared.messageType.' + message.timeSeriesType)}"`,
       `"${message.gridAreaCode}"`,
       `"${translate(outgoingMessagesPath + '.shared.documentStatus.' + message.documentStatus)}"`,

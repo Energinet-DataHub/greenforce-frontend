@@ -26,10 +26,10 @@ limitations under the License.
     <watt-drawer-heading>
       <h2 class="message-heading">
         {{ outgoingMessage?.documentId }}
-        <ng-container *ngIf="outgoingMessage?.processType">
+        <ng-container *ngIf="outgoingMessage?.calculationType">
           -
           {{
-            "eSett.outgoingMessages.shared.calculationType." + outgoingMessage?.processType
+            "eSett.outgoingMessages.shared.calculationType." + outgoingMessage?.calculationType
               | transloco
           }}
         </ng-container>

@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using HotChocolate.Types;
+using ExchangeCalculationTypeExchange = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.CalculationType;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class ExchangeEventProcessType : EnumType<ProcessType>
+    public class ExchangeEventCalculationType : EnumType<ExchangeCalculationTypeExchange>
     {
-        protected override void Configure(IEnumTypeDescriptor<ProcessType> descriptor)
+        protected override void Configure(IEnumTypeDescriptor<ExchangeCalculationTypeExchange> descriptor)
         {
-            descriptor.Name("ExchangeEventProcessType");
+            descriptor.Name("ExchangeEventCalculationType");
         }
     }
 }
