@@ -18,8 +18,6 @@ import { MsalGuard } from '@azure/msal-angular';
 import { Routes } from '@angular/router';
 
 import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participant/routing';
-import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
-import { dhChargesPath } from '@energinet-datahub/dh/charges/routing';
 import { WHOLESALE_BASE_PATH } from '@energinet-datahub/dh/wholesale/routing';
 import { dhAdminPath } from '@energinet-datahub/dh/admin/routing';
 
@@ -32,16 +30,8 @@ export const dhCoreShellRoutes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: dhMeteringPointPath,
+        redirectTo: 'message-archive',
         pathMatch: 'full',
-      },
-      {
-        path: dhMeteringPointPath,
-        loadChildren: () =>
-          import('@energinet-datahub/dh/metering-point/shell').then(
-            (esModule) => esModule.dhMeteringPointShellRoutes
-          ),
-        canActivate: [MsalGuard],
       },
       {
         path: 'message-archive',
@@ -69,14 +59,6 @@ export const dhCoreShellRoutes: Routes = [
         loadChildren: () =>
           import('@energinet-datahub/dh/wholesale/shell').then(
             (esModule) => esModule.dhWholesaleShellRoutes
-          ),
-        canActivate: [MsalGuard],
-      },
-      {
-        path: dhChargesPath,
-        loadChildren: () =>
-          import('@energinet-datahub/dh/charges/shell').then(
-            (esModule) => esModule.dhChargesShellRoutes
           ),
         canActivate: [MsalGuard],
       },
