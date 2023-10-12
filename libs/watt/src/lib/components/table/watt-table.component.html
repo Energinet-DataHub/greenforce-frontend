@@ -66,7 +66,9 @@ limitations under the License.
     <td class="watt-table-footer-spacer" mat-footer-cell *matFooterCellDef></td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="_getColumns()"></tr>
+  <ng-container *ngIf="!hideColumnHeaders">
+    <tr mat-header-row *matHeaderRowDef="_getColumns()"></tr>
+  </ng-container>
   <tr
     mat-row
     *matRowDef="let row; columns: _getColumns()"
@@ -75,7 +77,8 @@ limitations under the License.
     [ngClass]="{
       'watt-table-highlight-row': !disabled && !suppressRowHoverHighlight,
       'watt-table-clickable-row': !disabled && rowClick.observed,
-      'watt-table-active-row': _isActiveRow(row)
+      'watt-table-active-row': _isActiveRow(row),
+      'watt-table-no-end-divider': hideColumnHeaders
     }"
   ></tr>
 
