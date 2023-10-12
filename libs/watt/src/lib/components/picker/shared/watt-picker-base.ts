@@ -22,6 +22,7 @@ import {
   ElementRef,
   Input,
   OnDestroy,
+  OnInit,
   Optional,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
@@ -33,7 +34,9 @@ import { WattDateRange } from '../../../utils/date';
 import { WattRangeInputService } from './watt-range-input.service';
 
 @Directive()
-export abstract class WattPickerBase implements AfterViewInit, OnDestroy, ControlValueAccessor {
+export abstract class WattPickerBase
+  implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor
+{
   /**
    * @ignore
    */
@@ -234,7 +237,7 @@ export abstract class WattPickerBase implements AfterViewInit, OnDestroy, Contro
    *
    * @ignore
    */
-  protected _control: FormControl | null = null;
+  control: FormControl | null = null;
 
   constructor(
     public id: string,
@@ -252,12 +255,14 @@ export abstract class WattPickerBase implements AfterViewInit, OnDestroy, Contro
     }
   }
 
+  ngOnInit(): void {
+    this.control = this.ngControl?.control as FormControl;
+  }
+
   /**
    * @ignore
    */
   ngAfterViewInit() {
-    this._control = this.ngControl?.control as FormControl;
-
     if (this.initialValue) {
       this.writeValue(this.initialValue);
     }
