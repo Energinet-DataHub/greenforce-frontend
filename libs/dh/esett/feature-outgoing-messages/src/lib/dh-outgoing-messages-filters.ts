@@ -28,5 +28,4 @@ export type DhOutgoingMessagesFilters = {
   gridAreas?: InputMaybe<string>;
   status?: InputMaybe<DocumentStatus>;
   period?: InputMaybe<Scalars['DateRange']['input']>;
-  documentId?: InputMaybe<string>;
 };

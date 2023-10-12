@@ -45,7 +45,6 @@ import {
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 import { DhOutgoingMessagesFilters } from '../dh-outgoing-messages-filters';
-import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -86,7 +85,6 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
     WattDateRangeChipComponent,
     WattFormChipDirective,
     WattDropdownComponent,
-    WattTextFieldTDComponent,
   ],
 })
 export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
@@ -111,7 +109,6 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
       gridAreas: dhMakeFormControl(this.initial?.gridAreas),
       status: dhMakeFormControl(this.initial?.status),
       period: dhMakeFormControl(this.initial?.period),
-      documentId: dhMakeFormControl(this.initial?.documentId),
     });
 
     this.subscription = this.formGroup.valueChanges
