@@ -162,7 +162,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     tap((gridAreas) => this.selectGridAreas(gridAreas))
   );
 
-  minDate?: Date;
+  minDate: Date | null = null;
   maxDate = new Date();
 
   ngOnInit(): void {

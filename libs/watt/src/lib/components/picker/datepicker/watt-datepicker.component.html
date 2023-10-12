@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *ngIf="range; else singleInputTemplate">
-  <watt-field [control]="_control" [label]="label">
+  <watt-field [control]="control" [label]="label">
     <mat-date-range-input
       [disabled]="disabled"
       [rangePicker]="rangeDatepicker"
@@ -61,13 +61,14 @@ limitations under the License.
   <mat-date-range-picker
     [panelClass]="rangeMonthOnlyMode ? 'watt-datepicker-range__panel--month-only' : ''"
     [startView]="rangeMonthOnlyMode ? 'multi-year' : 'month'"
+    [startAt]="startAt"
     (monthSelected)="onMonthSelected($event)"
     #rangeDatepicker
   ></mat-date-range-picker>
 </ng-container>
 
 <ng-template #singleInputTemplate>
-  <watt-field [control]="_control" [label]="label">
+  <watt-field [control]="control" [label]="label">
     <input
       matInput
       aria-label="date-input"
@@ -100,5 +101,6 @@ limitations under the License.
     #singleDatepicker
     panelClass="watt-datepicker-single__panel"
     [dateClass]="dateClass"
+    [startAt]="startAt"
   ></mat-datepicker>
 </ng-template>
