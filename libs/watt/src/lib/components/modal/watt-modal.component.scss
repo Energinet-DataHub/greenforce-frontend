@@ -23,21 +23,20 @@
     width: 100vw !important;
   }
 
-  // TODO: Implement sizes variants and breakpoints
-
-  mat-dialog-container {
-    div.mat-mdc-dialog-surface {
-      position: relative;
-      display: grid;
-      padding: 0;
-      align-items: center;
-      grid-template-columns: 1fr auto;
-      grid-template-rows: 60px 1fr auto;
-      grid-template-areas:
-        "title close"
-        "content content"
-        "actions actions";
-    }
+  &:not(.watt-modal-panel--component)
+    mat-dialog-container
+    div.mat-mdc-dialog-surface,
+  div.mat-mdc-dialog-surface watt-modal {
+    position: relative;
+    display: grid;
+    padding: 0;
+    align-items: center;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 60px 1fr auto;
+    grid-template-areas:
+      "title close"
+      "content content"
+      "actions actions";
   }
 
   .watt-modal-close {
