@@ -616,6 +616,7 @@
         "departmentEmail": "Email",
         "departmentPhone": "Phone Number",
         "required": "Field is required",
+        "invalidEmail": "Invalid email",
         "cancel": "Cancel",
         "save": "Save changes",
         "updateRequest": {

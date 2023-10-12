@@ -609,6 +609,7 @@
         "departmentEmail": "Email",
         "departmentPhone": "Telefonnr.",
         "required": "Feltet er påkrævet",
+        "invalidEmail": "Ugyldig email",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {
