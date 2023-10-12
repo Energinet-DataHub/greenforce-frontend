@@ -16,7 +16,15 @@
  */
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, Subject, combineLatest, debounceTime, map, switchMap, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  Subject,
+  combineLatest,
+  debounceTime,
+  map,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -112,9 +120,11 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
     filters: this.filter$,
     pageMetaData: this.pageMetaData$,
     documentIdSearch: this.documentIdSearch$.pipe(debounceTime(250)),
-  }).pipe(map(({filters, pageMetaData, documentIdSearch}) => {
-      return { filters: documentIdSearch ? {} : filters , pageMetaData, documentIdSearch}
-  }));
+  }).pipe(
+    map(({ filters, pageMetaData, documentIdSearch }) => {
+      return { filters: documentIdSearch ? {} : filters, pageMetaData, documentIdSearch };
+    })
+  );
 
   outgoingMessages$ = this.queryVariables$.pipe(
     switchMap(
@@ -135,7 +145,7 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
             documentStatus: filters.status,
             periodFrom: filters.period?.start,
             periodTo: filters.period?.end,
-            documentId: documentIdSearch
+            documentId: documentIdSearch,
           },
         }).valueChanges
     ),

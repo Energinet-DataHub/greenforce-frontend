@@ -14,9 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  GetOrganizationsQuery,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetOrganizationsQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const getOrganizationsQueryMock: GetOrganizationsQuery = {
   __typename: 'Query',
