@@ -656,6 +656,16 @@
             "tabLabel": "Actors"
           }
         }
+      },
+      "edit": {
+        "domainLable": "Domain",
+        "required": "Field is required",
+        "cancel": "Cancel",
+        "save": "Save changes",
+        "updateRequest": {
+          "success": "The organisation has been updated successfully.",
+          "error": "Unfortunately, an error occurred while updating the organisation."
+        }
       }
     },
     "marketRolesOverview": {
