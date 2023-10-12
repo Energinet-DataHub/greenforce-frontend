@@ -262,5 +262,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 pageSize,
                 sortProperty,
                 sortDirection);
+
+        public Task<IEnumerable<ActorDto>> GetActorsByOrganizationIdAsync(
+            Guid organizationId,
+            [Service] IMarketParticipantClient client) =>
+            client.GetActorsAsync(organizationId);
     }
 }

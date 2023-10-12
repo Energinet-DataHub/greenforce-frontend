@@ -85,8 +85,9 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
   ],
 })
 export class WattDatepickerComponent extends WattPickerBase {
-  @Input() max?: Date;
-  @Input() min?: Date;
+  @Input() max: Date | null = null;
+  @Input() min: Date | null = null;
+  @Input() startAt = new Date();
   @Input() rangeMonthOnlyMode = false;
   @Input() label = '';
 
@@ -210,7 +211,7 @@ export class WattDatepickerComponent extends WattPickerBase {
   }
 
   onMonthSelected(date: Date) {
-    if (this.rangeMonthOnlyMode) {
+    if (this.rangeMonthOnlyMode && date) {
       this.matDateRangePicker.select(startOfMonth(date));
       this.matDateRangePicker.select(endOfMonth(date));
       this.matDateRangePicker.close();
