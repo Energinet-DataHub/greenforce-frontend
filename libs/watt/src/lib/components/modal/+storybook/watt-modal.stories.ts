@@ -18,11 +18,12 @@ import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/ang
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { WattButtonComponent } from '../button';
-import { WATT_MODAL } from './';
-import { WattModalComponent } from './watt-modal.component';
-import { WattTextFieldComponent } from '../text-field';
-import { WattTooltipDirective } from '../tooltip';
+import { WattButtonComponent } from '../../button';
+import { WATT_MODAL } from '..';
+import { WattModalComponent } from '../watt-modal.component';
+import { WattTextFieldComponent } from '../../text-field';
+import { WattTooltipDirective } from '../../tooltip';
+import { WattModalFromClassComponent } from './watt-modal-from-class.component';
 
 const meta: Meta<WattModalComponent> = {
   title: 'Components/Modal',
@@ -38,6 +39,7 @@ const meta: Meta<WattModalComponent> = {
         WATT_MODAL,
         WattTooltipDirective,
         WattTextFieldComponent,
+        WattModalFromClassComponent,
       ],
     }),
   ],
@@ -124,3 +126,10 @@ Large.args = {
   size: 'large',
   disableClose: false,
 };
+
+export const FromClass: StoryFn<WattModalComponent> = (args) => ({
+  props: args,
+  template: `
+    <watt-modal-from-class />
+  `,
+});
