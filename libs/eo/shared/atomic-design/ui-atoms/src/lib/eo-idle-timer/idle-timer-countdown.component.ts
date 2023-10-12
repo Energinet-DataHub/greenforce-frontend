@@ -20,7 +20,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from '@apollo/client';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { map, take, tap, timer } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
