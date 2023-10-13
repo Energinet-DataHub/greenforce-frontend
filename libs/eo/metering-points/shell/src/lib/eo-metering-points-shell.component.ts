@@ -33,19 +33,15 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
   selector: 'eo-metering-points-shell',
   styles: [
     `
-      watt-card-title {
+      :host {
         display: flex;
-        gap: var(--watt-space-m);
-        align-items: center;
-      }
-
-      watt-validation-message {
-        margin-bottom: var(--watt-space-l);
+        flex-direction: column;
+        gap: var(--watt-space-l);
       }
     `,
   ],
   template: `
-    <watt-validation-message label="You have the option to switch your metering points ON and OFF." size="normal" icon="info">
+    <watt-validation-message label="You have the option to switch your metering points ON and OFF." size="normal" icon="info" [autoScrollIntoView]="false">
       <p>For Production metering points:</p>
 
       <ul>
