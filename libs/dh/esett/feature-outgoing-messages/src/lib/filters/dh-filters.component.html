@@ -23,34 +23,36 @@ limitations under the License.
   *transloco="let t; read: 'eSett.outgoingMessages.filters'"
 >
   <watt-dropdown
-    formControlName="calculationTypes"
+    [formControl]="formGroup.controls.calculationTypes!"
     [chipMode]="true"
     [options]="calculationTypeOptions$ | push"
     [placeholder]="t('calculationType')"
   />
 
   <watt-dropdown
-    formControlName="messageTypes"
+    [formControl]="formGroup.controls.messageTypes!"
     [chipMode]="true"
     [options]="messageTypeOptions$ | push"
     [placeholder]="t('messageType')"
   />
 
   <watt-dropdown
-    formControlName="gridAreas"
+    [formControl]="formGroup.controls.gridAreas!"
     [chipMode]="true"
     [options]="gridAreaOptions$ | push"
     [placeholder]="t('gridArea')"
   />
 
   <watt-dropdown
-    formControlName="status"
+    [formControl]="formGroup.controls.status!"
     [chipMode]="true"
     [options]="documentStatusOptions$ | push"
     [placeholder]="t('status')"
   />
 
-  <watt-date-range-chip formControlName="period">{{ t("period") }}</watt-date-range-chip>
+  <watt-date-range-chip [formControl]="formGroup.controls.period!">{{
+    t("period")
+  }}</watt-date-range-chip>
 
   <vater-spacer />
   <watt-button variant="text" icon="undo" type="reset">{{ t("reset") }}</watt-button>

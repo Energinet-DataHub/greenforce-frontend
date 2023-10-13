@@ -24,7 +24,11 @@ limitations under the License.
     <form [formGroup]="userInfoForm" class="user-info-form" id="user-info-form" (ngSubmit)="save()">
       <watt-tabs class="watt-modal-content--full-width">
         <watt-tab [label]="t('tab.masterData')">
-          <watt-text-field class="name-field" formControlName="firstName" type="text">
+          <watt-text-field
+            class="name-field"
+            [formControl]="userInfoForm.controls.firstName"
+            type="text"
+          >
             <watt-field-error *ngIf="firstNameControl.hasError('required')">
               {{ "shared.fieldRequiredErrorText" | transloco }}
             </watt-field-error>
@@ -33,7 +37,7 @@ limitations under the License.
           <watt-text-field
             [label]="t('masterData.lastName')"
             class="name-field"
-            formControlName="lastName"
+            [formControl]="userInfoForm.controls.lastName"
             type="text"
           >
             <watt-field-error *ngIf="lastNameControl.hasError('required')">
@@ -44,7 +48,7 @@ limitations under the License.
           <watt-text-field
             [label]="t('masterData.phone')"
             class="phone-field"
-            formControlName="phoneNumber"
+            [formControl]="userInfoForm.controls.phoneNumber"
             type="text"
           >
             <watt-field-error *ngIf="phoneNumberControl.hasError('required')">
