@@ -14,9 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export {
-  WattModalComponent,
-  WattModalActionsComponent,
-  WattModalSize,
-  WATT_MODAL,
-} from './watt-modal.component';
+export { WattModalComponent, WattModalActionsComponent, WATT_MODAL } from './watt-modal.component';
+
+export { WattModalService, WattModalConfig, WattModalSize } from './watt-modal.service';

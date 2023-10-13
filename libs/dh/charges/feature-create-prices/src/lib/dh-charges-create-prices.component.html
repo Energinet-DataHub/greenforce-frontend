@@ -25,7 +25,7 @@ limitations under the License.
           <!-- Charge Type -->
           <watt-dropdown
             label="{{ t('prices.chargeType') }}"
-            formControlName="chargeType"
+            [formControl]="charge.controls.chargeType"
             [options]="chargeTypeOptions"
             (ngModelChange)="chargeTypeChanged($event)"
             name="chargeType"
@@ -42,7 +42,7 @@ limitations under the License.
             class="price-id"
             [label]="t('createPrices.priceId')"
             type="text"
-            formControlName="senderProvidedChargeId"
+            [formControl]="charge.controls.senderProvidedChargeId"
             [required]="true"
           >
             <watt-field-error
@@ -62,7 +62,7 @@ limitations under the License.
             class="price-name"
             [label]="t('createPrices.priceName')"
             type="text"
-            formControlName="chargeName"
+            [formControl]="charge.controls.chargeName"
             [required]="true"
           >
             <watt-field-error *ngIf="charge.controls['chargeName'].hasError('required')">
@@ -77,7 +77,7 @@ limitations under the License.
           <watt-dropdown
             class="price-owner"
             label="{{ t('createPrices.priceOwner') }}"
-            formControlName="senderMarketParticipantId"
+            [formControl]="charge.controls.senderMarketParticipantId"
             name="owner"
             [options]="marketParticipantsOptions"
             [placeholder]="t('prices.search.enterOwner')"
@@ -92,7 +92,7 @@ limitations under the License.
           </watt-dropdown>
 
           <!-- Price Description -->
-          <watt-textarea-field class="description" formControlName="description">
+          <watt-textarea-field class="description" [formControl]="charge.controls.description">
             <watt-field-error *ngIf="charge.controls['description'].hasError('required')">
               {{ "shared.fieldRequiredErrorText" | transloco }}
             </watt-field-error>
@@ -105,7 +105,7 @@ limitations under the License.
           <watt-dropdown
             class="resolution"
             label="{{ t('resolution') }}"
-            formControlName="resolution"
+            [formControl]="charge.controls.resolution"
             [options]="resolutionOptions"
             name="validityOption"
             [showResetOption]="false"
@@ -120,7 +120,7 @@ limitations under the License.
           <div class="effective-date">
             <watt-datepicker
               label="{{ t('createPrices.validFromDateTime') }}"
-              formControlName="effectiveDate"
+              [formControl]="charge.controls.effectiveDate"
             >
               <watt-field-error
                 *ngIf="charge.controls['effectiveDate'].hasError('required') && hasSubmitted"
@@ -138,17 +138,17 @@ limitations under the License.
 
           <div class="col-1 checkboxes">
             <!-- Transparent invoicing -->
-            <watt-checkbox formControlName="transparentInvoicing">
+            <watt-checkbox [formControl]="charge.controls.transparentInvoicing">
               {{ t("transparentInvoicing") }}
             </watt-checkbox>
 
             <!-- Vat Classification -->
-            <watt-checkbox formControlName="vatClassification">
+            <watt-checkbox [formControl]="charge.controls.vatClassification">
               {{ t("vatClassification") }}
             </watt-checkbox>
 
             <!-- Tax Indicator -->
-            <watt-checkbox *ngIf="isTariff" formControlName="taxIndicator">
+            <watt-checkbox *ngIf="isTariff" [formControl]="charge.controls.taxIndicator">
               {{ t("taxIndicator") }}
             </watt-checkbox>
           </div>

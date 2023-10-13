@@ -24,7 +24,7 @@ import {
   Output,
   inject,
 } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Observable, Subscription, debounceTime, map } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
@@ -36,6 +36,11 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { ActorsFilters } from '../actors-filters';
+
+type Form = FormGroup<{
+  actorStatus: FormControl<ActorStatus[] | null>;
+  marketRoles: FormControl<EicFunction[] | null>;
+}>;
 
 @Component({
   standalone: true,
@@ -76,7 +81,7 @@ import { ActorsFilters } from '../actors-filters';
       *transloco="let t; read: 'marketParticipant.actorsOverview.filters'"
     >
       <watt-dropdown
-        formControlName="actorStatus"
+        [formControl]="formGroup.controls.actorStatus"
         [options]="actorStatusOptions | push"
         [multiple]="true"
         [chipMode]="true"
@@ -84,7 +89,7 @@ import { ActorsFilters } from '../actors-filters';
       />
 
       <watt-dropdown
-        formControlName="marketRoles"
+        [formControl]="formGroup.controls.marketRoles"
         [options]="marketRolesOptions | push"
         [multiple]="true"
         [chipMode]="true"
@@ -103,7 +108,7 @@ export class DhActorsFiltersComponent implements OnInit, OnDestroy {
   @Input({ required: true }) initial!: ActorsFilters;
   @Output() filter = new EventEmitter<ActorsFilters>();
 
-  formGroup!: FormGroup;
+  formGroup!: Form;
 
   actorStatusOptions = this.buildActorStatusOptions();
   marketRolesOptions = this.buildMarketRolesOptions();
@@ -116,7 +121,7 @@ export class DhActorsFiltersComponent implements OnInit, OnDestroy {
 
     this.formGroupSubscription = this.formGroup.valueChanges
       .pipe(debounceTime(250))
-      .subscribe((value) => this.filter.emit(value));
+      .subscribe((value) => this.filter.emit(value as ActorsFilters));
   }
 
   ngOnDestroy() {
