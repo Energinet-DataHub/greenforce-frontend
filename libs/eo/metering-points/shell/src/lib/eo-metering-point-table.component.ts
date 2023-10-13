@@ -145,7 +145,7 @@ class GranularCertificateHelperComponent {}
 export class EoMeteringPointsTableComponent {
   dataSource: WattTableDataSource<EoMeteringPoint> = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<EoMeteringPoint> = {
-    gsrn: { accessor: 'gsrn', header: 'Meteringpont' },
+    gsrn: { accessor: 'gsrn', header: 'Metering point' },
     address: { accessor: (meteringPoint) => meteringPoint.address.address1 },
     unit: { accessor: (meteringPoint) => meteringPoint.type },
     source: { accessor: (meteringPoint) => meteringPoint.assetType },
