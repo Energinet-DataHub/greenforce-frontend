@@ -174,7 +174,6 @@ export class EoMeteringPointsTableComponent {
   private modalService = inject(WattModalService);
 
   onToggleGranularCertificatesHelperText() {
-    console.log(this.modalService);
     this.modalService.open({
       component: GranularCertificateHelperComponent,
     });
