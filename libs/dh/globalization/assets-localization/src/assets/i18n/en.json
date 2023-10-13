@@ -652,6 +652,9 @@
             "businessRegisterIdentifier": "Business ID",
             "name": "Name",
             "domain": "Domain"
+          },
+          "actors": {
+            "tabLabel": "Actors"
           }
         }
       }

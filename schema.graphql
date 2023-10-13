@@ -78,14 +78,14 @@ type EsettOutgoingMessage {
   gridArea: GridAreaDto
   documentId: String!
   created: DateTime!
-  processType: ExchangeEventProcessType!
+  calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   periodFrom: DateTime!
   periodTo: DateTime!
   documentStatus: DocumentStatus!
 }
 
-enum ExchangeEventProcessType {
+enum ExchangeEventCalculationType {
   BALANCE_FIXING
   AGGREGATION
 }
@@ -140,8 +140,9 @@ type Query {
   actors: [Actor!]!
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, processType: ExchangeEventProcessType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
+  esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
+  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
 }
 
 type Mutation {
@@ -385,7 +386,7 @@ type ExchangeEventSearchResult {
   documentId: String!
   gridAreaCode: String!
   created: DateTime!
-  processType: ExchangeEventProcessType!
+  calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
 }

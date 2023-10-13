@@ -242,7 +242,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             DateTimeOffset? periodFrom, // TODO: Consider using Interval?
             DateTimeOffset? periodTo, // TODO: Consider using Interval?
             string? gridAreaCode,
-            Clients.ESettExchange.v1.ProcessType? processType,
+            Clients.ESettExchange.v1.CalculationType? calculationType,
             DocumentStatus? documentStatus,
             TimeSeriesType? timeSeriesType,
             [Service] IESettExchangeClient_V1 client) =>
@@ -253,7 +253,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 PeriodFrom = periodFrom,
                 PeriodTo = periodTo,
                 GridAreaCode = gridAreaCode,
-                ProcessType = processType,
+                CalculationType = calculationType,
                 DocumentStatus = documentStatus,
                 TimeSeriesType = timeSeriesType,
             });
@@ -269,5 +269,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 pageSize,
                 sortProperty,
                 sortDirection);
+
+        public Task<IEnumerable<ActorDto>> GetActorsByOrganizationIdAsync(
+            Guid organizationId,
+            [Service] IMarketParticipantClient client) =>
+            client.GetActorsAsync(organizationId);
     }
 }
