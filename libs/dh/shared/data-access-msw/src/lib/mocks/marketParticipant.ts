@@ -28,6 +28,8 @@ import {
   mockGetActorsQuery,
   mockGetOrganizationByIdQuery,
   mockGetOrganizationsQuery,
+  mockUpdateOrganizationMutation,
+  UpdateOrganizationMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import organizationsData from './data/marketParticipantOrganizations.json';
@@ -57,6 +59,7 @@ export function marketParticipantMocks(apiBase: string) {
     getOrganizations_GrahpQL(),
     getOrganizationById(),
     getActorByOrganizationId(),
+    updateOrganization(),
   ];
 }
 
@@ -224,5 +227,20 @@ function getActorByOrganizationId() {
     ];
 
     return res(ctx.delay(300), ctx.data({ __typename: 'Query', actorsByOrganizationId: actors }));
+  });
+}
+
+function updateOrganization() {
+  return mockUpdateOrganizationMutation((req, res, ctx) => {
+    const response: UpdateOrganizationMutation = {
+      __typename: 'Mutation',
+      updateOrganization: {
+        __typename: 'UpdateOrganizationPayload',
+        errors: [],
+        boolean: true,
+      },
+    };
+
+    return res(ctx.delay(300), ctx.data(response));
   });
 }
