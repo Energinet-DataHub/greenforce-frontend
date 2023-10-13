@@ -49,7 +49,7 @@ limitations under the License.
       class="watt-table-align-{{ column.value.align ?? 'left' }}"
     >
       <div class="watt-table-header-cell">
-        {{ _getColumnHeader(column) }}
+        {{ _getColumnHeader(column) }} <watt-icon name="help" *ngIf="_getColumnHelperAction(column); let action" (click)="action($event)" />
       </div>
     </th>
     <td mat-cell *matCellDef="let row" class="watt-table-align-{{ column.value.align ?? 'left' }}">

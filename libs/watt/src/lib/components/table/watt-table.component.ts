@@ -39,9 +39,11 @@ import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { map } from 'rxjs';
+
 import { WattCheckboxComponent } from '../checkbox';
 import { WattTableDataSource } from './watt-table-data-source';
 import { WattDatePipe } from '../../utils/date/watt-date.pipe';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 export interface WattTableColumn<T> {
   /**
@@ -86,6 +88,11 @@ export interface WattTableColumn<T> {
    * Horizontally align the contents of the column. Defaults to `"left"`.
    */
   align?: 'left' | 'right' | 'center';
+
+  /**
+   * Helper icon will be shown in the header cell, with an click event.
+   */
+  helperAction?: () => void;
 }
 
 /**
@@ -139,7 +146,7 @@ export class WattTableToolbarDirective<T> {
  */
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSortModule, MatTableModule, WattCheckboxComponent],
+  imports: [CommonModule, FormsModule, MatSortModule, MatTableModule, WattCheckboxComponent, WattIconComponent],
   providers: [WattDatePipe],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',
@@ -413,6 +420,22 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     if (typeof column.value.header === 'string') return column.value.header;
     const cell = this._cells.find((item) => item.column === column.value);
     return cell?.header ?? this.resolveHeader?.(column.key) ?? column.key;
+  }
+
+  /** @ignore */
+  _getColumnHelperAction(column: KeyValue<string, WattTableColumn<T>>) {
+    if(!column.value.helperAction) return null;
+    return (event: MouseEvent) => {
+      // Prevents triggering the sorting
+      event.stopPropagation();
+      const activeElement = document.activeElement as HTMLElement;
+      activeElement?.blur();
+
+      if (column.value?.helperAction) {
+        column.value.helperAction();
+      }
+    };
+
   }
 
   /** @ignore */

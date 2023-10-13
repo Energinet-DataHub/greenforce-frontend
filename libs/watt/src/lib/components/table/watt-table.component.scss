@@ -106,7 +106,9 @@ watt-table .mat-mdc-table {
   }
 
   .watt-table-header-cell {
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    gap: var(--watt-space-s);
     @include watt.space-inset-stretch-s;
   }
 
