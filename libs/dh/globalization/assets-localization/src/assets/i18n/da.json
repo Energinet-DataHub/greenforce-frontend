@@ -887,7 +887,8 @@
         "gridArea": "{{ eSett.shared.gridArea }}",
         "status": "{{ eSett.shared.status }}",
         "period": "{{ shared.form.filters.period }}",
-        "reset": "{{ shared.form.reset }}"
+        "reset": "{{ shared.form.reset }}",
+        "documentId": "Besked Id"
       },
       "columns": {
         "created": "Oprettet",

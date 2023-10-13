@@ -895,7 +895,8 @@
         "gridArea": "{{ eSett.shared.gridArea }}",
         "status": "{{ eSett.shared.status }}",
         "period": "{{ shared.form.filters.period }}",
-        "reset": "{{ shared.form.reset }}"
+        "reset": "{{ shared.form.reset }}",
+        "documentId": "Document Id"
       },
       "columns": {
         "created": "Created",
