@@ -39,10 +39,16 @@ import { EoMeteringPoint } from './eo-metering-points.store';
   standalone: true,
   imports: [WATT_MODAL, WattButtonComponent],
   template: `
-    <watt-modal #modal title="Not all metering points can be enabled" closeLabel="Close modal" size="small">
-
-
-      <p>To become eligible for activation, a metering point must fall under the category of a physical metering point that produces renewable energy.</p>
+    <watt-modal
+      #modal
+      title="Not all metering points can be enabled"
+      closeLabel="Close modal"
+      size="small"
+    >
+      <p>
+        To become eligible for activation, a metering point must fall under the category of a
+        physical metering point that produces renewable energy.
+      </p>
       <watt-modal-actions>
         <watt-button (click)="modal.close(false)">Close</watt-button>
       </watt-modal-actions>

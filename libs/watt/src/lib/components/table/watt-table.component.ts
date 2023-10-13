@@ -146,7 +146,14 @@ export class WattTableToolbarDirective<T> {
  */
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSortModule, MatTableModule, WattCheckboxComponent, WattIconComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatSortModule,
+    MatTableModule,
+    WattCheckboxComponent,
+    WattIconComponent,
+  ],
   providers: [WattDatePipe],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-table',
@@ -424,7 +431,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _getColumnHelperAction(column: KeyValue<string, WattTableColumn<T>>) {
-    if(!column.value.helperAction) return null;
+    if (!column.value.helperAction) return null;
     return (event: MouseEvent) => {
       // Prevents triggering the sorting
       event.stopPropagation();
@@ -435,7 +442,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
         column.value.helperAction();
       }
     };
-
   }
 
   /** @ignore */
