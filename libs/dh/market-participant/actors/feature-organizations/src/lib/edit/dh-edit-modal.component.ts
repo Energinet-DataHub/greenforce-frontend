@@ -14,17 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewChild, EventEmitter, Output, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChild,
+  EventEmitter,
+  Output,
+  AfterViewInit,
+  OnChanges,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { Apollo, MutationResult } from 'apollo-angular';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import {
+  ChangeOrganizationDtoInput,
+  GetOrganizationByIdDocument,
+  GetOrganizationsDocument,
+  UpdateOrganizationDocument,
+  UpdateOrganizationMutation,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhOrganizationDetails } from '../dh-organization';
+
+const validDomainRegExp = /^([A-Za-z0-9-]{1,63}\.)+[A-Za-z]{2,6}$/;
 
 @Component({
   standalone: true,
@@ -49,27 +69,93 @@ import { DhOrganizationDetails } from '../dh-organization';
     WattFieldErrorComponent,
   ],
 })
-export class DhOrganizationEditModalComponent implements AfterViewInit {
+export class DhOrganizationEditModalComponent implements AfterViewInit, OnChanges {
+  private readonly apollo = inject(Apollo);
+  private readonly transloco = inject(TranslocoService);
+  private readonly toastService = inject(WattToastService);
+
   @ViewChild(WattModalComponent)
   innerModal?: WattModalComponent;
+
+  domainControl = new FormControl('', {
+    validators: [Validators.required, Validators.pattern(validDomainRegExp)],
+    nonNullable: true,
+  });
+  isLoading = false;
 
   @Input() organization!: DhOrganizationDetails;
 
   @Output() closed = new EventEmitter<void>();
 
-  domainControl = new FormControl('', { validators: Validators.required, nonNullable: true });
-
   ngAfterViewInit() {
     this.innerModal?.open();
   }
 
+  ngOnChanges() {
+    this.domainControl.setValue(this.organization.domain);
+  }
+
   save(): void {
-    console.log('Not implemented yet');
+    if (this.domainControl.invalid || this.isLoading) {
+      return;
+    }
+
+    this.apollo
+      .mutate({
+        useMutationLoading: true,
+        mutation: UpdateOrganizationDocument,
+        variables: {
+          input: {
+            orgId: this.organization.organizationId,
+            // TODO: Send `domain` as a parameter
+            changes: {} as ChangeOrganizationDtoInput,
+          },
+        },
+        refetchQueries: (result) => {
+          if (this.isUpdateSuccessful(result.data)) {
+            return [GetOrganizationsDocument, GetOrganizationByIdDocument];
+          }
+
+          return [];
+        },
+      })
+      .subscribe((queryResult) => {
+        this.isLoading = queryResult.loading;
+
+        if (queryResult.loading) {
+          return;
+        }
+
+        this.showNotification(queryResult);
+
+        this.onCloseModal();
+      });
   }
 
   onCloseModal() {
     this.innerModal?.close(false);
 
     this.closed.emit();
+  }
+
+  private showNotification(queryResult: MutationResult<UpdateOrganizationMutation>): void {
+    const basePath = 'marketParticipant.organizationsOverview.edit.updateRequest';
+
+    if (this.isUpdateSuccessful(queryResult.data)) {
+      const message = this.transloco.translate(`${basePath}.success`);
+
+      this.toastService.open({ message, type: 'success' });
+    } else {
+      const message = this.transloco.translate(`${basePath}.error`);
+
+      this.toastService.open({ message, type: 'danger' });
+    }
+  }
+
+  private isUpdateSuccessful(
+    mutationResult: MutationResult<UpdateOrganizationMutation>['data']
+  ): boolean {
+    // Question: Can `queryResult.data?.updateOrganization.boolean` be used to determine success?
+    return !mutationResult?.updateOrganization.errors?.length;
   }
 }

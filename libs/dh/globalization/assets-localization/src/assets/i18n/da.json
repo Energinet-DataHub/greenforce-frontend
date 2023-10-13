@@ -653,6 +653,7 @@
       "edit": {
         "domainLabel": "Domæne",
         "required": "Feltet er påkrævet",
+        "invalidDomain": "Ugyldig domæne",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {
