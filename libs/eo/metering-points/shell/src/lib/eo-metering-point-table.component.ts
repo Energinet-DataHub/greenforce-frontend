@@ -45,10 +45,7 @@ import { EoMeteringPoint } from './eo-metering-points.store';
       closeLabel="Close modal"
       size="small"
     >
-      <p>
-        To become eligible for activation, a metering point must fall under the category of a
-        physical metering point that produces renewable energy.
-      </p>
+      <p>A metering point must have a wind or solar source to become eligible for activation.</p>
       <watt-modal-actions>
         <watt-button (click)="modal.close(false)">Close</watt-button>
       </watt-modal-actions>
