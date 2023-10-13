@@ -33,9 +33,7 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./watt-field.component.scss'],
   template: `
     <label [attr.for]="id ? id : null">
-      <span *ngIf="!chipMode && label" class="label" [ngClass]="{ required: _isRequired }">{{
-        label
-      }}</span>
+      <span *ngIf="!chipMode" class="label" [ngClass]="{ required: _isRequired }">{{ label }}</span>
       <div class="watt-field-wrapper">
         <ng-content />
       </div>

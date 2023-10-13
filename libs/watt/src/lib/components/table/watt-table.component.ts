@@ -245,6 +245,12 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   activeRowComparator?: (currentRow: T, activeRow: T) => boolean;
 
   /**
+   * If set to `true`, the column headers will not be shown. Default is `false`.
+   */
+  @Input()
+  hideColumnHeaders = false;
+
+  /**
    * Emits whenever the selection updates. Only works when selectable is `true`.
    */
   @Output()

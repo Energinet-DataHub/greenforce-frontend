@@ -64,7 +64,13 @@ import { EoTransfersStore } from './eo-transfers.store';
       (closed)="onClosed()"
       *ngIf="opened"
     >
-      <form *ngIf="(walletDepositEndpointError$ | async) === undefined; else error">
+      <form
+        *ngIf="
+          (walletDepositEndpointError$ | async) === undefined ||
+            (walletDepositEndpointError$ | async) === null;
+          else error
+        "
+      >
         <p>
           To receive granular certificates the sender must create a transfer agreement. They need
           this key to identify the recipient (you).

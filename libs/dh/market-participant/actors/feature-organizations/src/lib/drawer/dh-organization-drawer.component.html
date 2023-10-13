@@ -48,6 +48,23 @@ limitations under the License.
             </watt-description-list>
           </watt-card>
         </watt-tab>
+        <watt-tab [label]="t('tabs.actors.tabLabel')">
+          <watt-card variant="solid" style="padding-bottom: 0; padding-top: 8px">
+            <watt-table
+              [dataSource]="actors"
+              [columns]="columns"
+              [hideColumnHeaders]="true"
+              [suppressRowHoverHighlight]="true"
+            >
+              <ng-container *wattTableCell="columns['marketRole']; let actor">
+                {{ "marketParticipant.marketRoles." + actor.marketRole | transloco }}
+              </ng-container>
+              <ng-container *wattTableCell="columns['status']; let actor">
+                <dh-actor-status-badge [status]="actor.status" />
+              </ng-container>
+            </watt-table>
+          </watt-card>
+        </watt-tab>
       </watt-tabs>
     </watt-drawer-content>
   </watt-drawer>
