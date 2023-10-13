@@ -16,7 +16,15 @@
  */
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, Subject, combineLatest, map, switchMap, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  Subject,
+  combineLatest,
+  debounceTime,
+  map,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -39,6 +47,7 @@ import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.compone
 import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
 import { DhOutgoingMessage } from './dh-outgoing-message';
 import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 @Component({
   standalone: true,
@@ -71,6 +80,7 @@ import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
     WATT_CARD,
     WattPaginatorComponent,
     WattButtonComponent,
+    WattSearchComponent,
     VaterFlexComponent,
     VaterSpacerComponent,
     VaterStackComponent,
@@ -104,14 +114,21 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
     },
   });
 
+  documentIdSearch$ = new BehaviorSubject<string>('');
+
   private queryVariables$ = combineLatest({
     filters: this.filter$,
     pageMetaData: this.pageMetaData$,
-  });
+    documentIdSearch: this.documentIdSearch$.pipe(debounceTime(250)),
+  }).pipe(
+    map(({ filters, pageMetaData, documentIdSearch }) => {
+      return { filters: documentIdSearch ? {} : filters, pageMetaData, documentIdSearch };
+    })
+  );
 
   outgoingMessages$ = this.queryVariables$.pipe(
     switchMap(
-      ({ filters, pageMetaData }) =>
+      ({ filters, pageMetaData, documentIdSearch }) =>
         this.apollo.watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
@@ -128,6 +145,7 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
             documentStatus: filters.status,
             periodFrom: filters.period?.start,
             periodTo: filters.period?.end,
+            documentId: documentIdSearch,
           },
         }).valueChanges
     ),
