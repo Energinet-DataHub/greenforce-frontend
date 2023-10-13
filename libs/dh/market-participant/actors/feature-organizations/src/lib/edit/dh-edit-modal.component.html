@@ -17,15 +17,16 @@ limitations under the License.
 <watt-modal
   size="small"
   [title]="organization.name"
-  id="editForm"
   (closed)="onCloseModal()"
   *transloco="let t; read: 'marketParticipant.organizationsOverview.edit'"
 >
-  <watt-text-field class="domain-field" [formControl]="domainControl">
-    <watt-field-error *ngIf="domainControl.hasError('required')">
-      {{ t("required") }}
-    </watt-field-error>
-  </watt-text-field>
+  <form id="editForm" (ngSubmit)="save()">
+    <watt-text-field class="domain-field" [label]="t('domainLabel')" [formControl]="domainControl">
+      <watt-field-error *ngIf="domainControl.hasError('required')">
+        {{ t("required") }}
+      </watt-field-error>
+    </watt-text-field>
+  </form>
 
   <watt-modal-actions>
     <watt-button variant="secondary" (click)="onCloseModal()">

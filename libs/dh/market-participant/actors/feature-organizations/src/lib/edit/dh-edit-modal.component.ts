@@ -16,7 +16,7 @@
  */
 import { Component, Input, ViewChild, EventEmitter, Output, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -40,9 +40,10 @@ import { DhOrganizationDetails } from '../dh-organization';
   imports: [
     CommonModule,
     TranslocoDirective,
+    FormsModule,
+    ReactiveFormsModule,
 
     WATT_MODAL,
-    ReactiveFormsModule,
     WattButtonComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
@@ -60,6 +61,10 @@ export class DhOrganizationEditModalComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.innerModal?.open();
+  }
+
+  save(): void {
+    console.log('Not implemented yet');
   }
 
   onCloseModal() {
