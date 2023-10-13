@@ -68,10 +68,6 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
       watt-dropdown {
         width: auto;
       }
-
-      .documentId-field {
-        width: 20rem;
-      }
     `,
   ],
   imports: [
