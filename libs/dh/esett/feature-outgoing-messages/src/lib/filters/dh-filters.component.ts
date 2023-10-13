@@ -113,7 +113,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
 
     this.subscription = this.formGroup.valueChanges
       .pipe(debounceTime(500))
-      .subscribe((value) => this.filter.emit(value));
+      .subscribe((value) => this.filter.emit(value as DhOutgoingMessagesFilters));
   }
 
   ngOnDestroy(): void {

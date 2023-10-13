@@ -37,7 +37,7 @@ limitations under the License.
         <watt-dropdown
           class="eic-function"
           [label]="t('steps.masterData.selectEicFunctionStatus')"
-          formControlName="eicFunction"
+          [formControl]="userRoleForm.controls.eicFunction"
           [options]="eicFunctionOptions"
           name="eicFunction"
           [showResetOption]="false"
@@ -63,7 +63,7 @@ limitations under the License.
 
         <!-- Description -->
         <watt-textarea-field
-          formControlName="description"
+          [formControl]="userRoleForm.controls.description"
           [label]="t('steps.masterData.description')"
         >
           <watt-field-error *ngIf="userRoleForm.controls.description.hasError('required')">
