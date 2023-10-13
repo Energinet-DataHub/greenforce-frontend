@@ -28,7 +28,6 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
@@ -39,6 +38,9 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhActorStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/actors/feature-actors';
+
+import { DhOrganizationDetails } from '../dh-organization';
+import { DhOrganizationEditModalComponent } from '../edit/dh-edit-modal.component';
 
 type Actor = {
   actorNumberAndName: string;
@@ -84,10 +86,11 @@ type Actor = {
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattButtonComponent,
-
     DhActorStatusBadgeComponent,
     DhEmDashFallbackPipe,
     DhPermissionRequiredDirective,
+
+    DhOrganizationEditModalComponent,
   ],
 })
 export class DhOrganizationDrawerComponent {
@@ -110,9 +113,7 @@ export class DhOrganizationDrawerComponent {
     query: GetActorsByOrganizationIdDocument,
   });
 
-  organization:
-    | { organizationId: string; name: string; businessRegisterIdentifier: string; domain: string }
-    | undefined = undefined;
+  organization: DhOrganizationDetails | undefined = undefined;
 
   actors: WattTableDataSource<Actor> = new WattTableDataSource<Actor>([]);
 
@@ -122,6 +123,8 @@ export class DhOrganizationDrawerComponent {
     status: { accessor: 'status' },
   };
 
+  isEditModalVisible = false;
+
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
 
@@ -129,12 +132,17 @@ export class DhOrganizationDrawerComponent {
 
   public open(organizationId: string): void {
     this.drawer?.open();
+
     this.loadOrganization(organizationId);
     this.loadActors(organizationId);
   }
 
   onClose(): void {
     this.closed.emit();
+  }
+
+  modalOnClose(): void {
+    this.isEditModalVisible = false;
   }
 
   private loadOrganization(id: string): void {
