@@ -658,7 +658,7 @@
         }
       },
       "edit": {
-        "domainLable": "Domain",
+        "domainLabel": "Domain",
         "required": "Field is required",
         "cancel": "Cancel",
         "save": "Save changes",

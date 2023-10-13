@@ -651,7 +651,7 @@
         }
       },
       "edit": {
-        "domainLable": "Domæne",
+        "domainLabel": "Domæne",
         "required": "Feltet er påkrævet",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
