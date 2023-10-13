@@ -97,18 +97,11 @@ watt-table .mat-mdc-table {
     margin: 0;
   }
 
-  .mat-sort-header-position-before .mat-sort-header-arrow {
+  .mat-sort-header-arrow {
     margin-left: var(--watt-space-s);
   }
 
-  .mat-sort-header-position-after .mat-sort-header-arrow {
-    margin-right: var(--watt-space-s);
-  }
-
   .watt-table-header-cell {
-    display: flex;
-    align-items: center;
-    gap: var(--watt-space-s);
     @include watt.space-inset-stretch-s;
   }
 

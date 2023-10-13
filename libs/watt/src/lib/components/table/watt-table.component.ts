@@ -431,17 +431,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _getColumnHelperAction(column: KeyValue<string, WattTableColumn<T>>) {
-    if (!column.value.helperAction) return null;
-    return (event: MouseEvent) => {
-      // Prevents triggering the sorting
-      event.stopPropagation();
-      const activeElement = document.activeElement as HTMLElement;
-      activeElement?.blur();
-
-      if (column.value?.helperAction) {
-        column.value.helperAction();
-      }
-    };
+    return column.value.helperAction;
   }
 
   /** @ignore */
