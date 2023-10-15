@@ -39,9 +39,7 @@ limitations under the License.
             *ngIf="!isLoadingOrganization && !organization"
             [icon]="organizationFailedToLoad ? 'custom-power' : 'cancel'"
             size="small"
-            [title]="
-              organizationFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')
-            "
+            [title]="organizationFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
           ></watt-empty-state>
           <watt-card variant="solid" *ngIf="!isLoadingOrganization && organization">
             <watt-description-list variant="stack">
