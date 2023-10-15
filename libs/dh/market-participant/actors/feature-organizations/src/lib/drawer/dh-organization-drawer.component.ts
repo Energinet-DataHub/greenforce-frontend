@@ -38,6 +38,9 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhActorStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/actors/feature-actors';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { DhOrganizationDetails } from '../dh-organization';
 import { DhOrganizationEditModalComponent } from '../edit/dh-edit-modal.component';
@@ -83,9 +86,15 @@ type Actor = {
     WATT_TABLE,
     WATT_TABS,
     WATT_CARD,
+
+    VaterStackComponent,
+
+    WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    WattButtonComponent,
+    WattEmptyStateComponent,
+    WattSpinnerComponent,
+
     DhActorStatusBadgeComponent,
     DhEmDashFallbackPipe,
     DhPermissionRequiredDirective,
@@ -112,6 +121,12 @@ export class DhOrganizationDrawerComponent {
     notifyOnNetworkStatusChange: true,
     query: GetActorsByOrganizationIdDocument,
   });
+
+  isLoadingOrganization = false;
+  organizationFailedToLoad = false;
+
+  isLoadingActors = false;
+  actorsFailedToLoad = false;
 
   organization: DhOrganizationDetails | undefined = undefined;
 
@@ -154,9 +169,17 @@ export class DhOrganizationDrawerComponent {
       .pipe(takeUntil(this.closed))
       .subscribe({
         next: (result) => {
+          this.isLoadingOrganization = result.loading;
+          this.organizationFailedToLoad =
+            !result.loading && (!!result.error || !!result.errors?.length);
+
           this.organization = result.data?.organizationById
             ? { ...result.data.organizationById, organizationId: id }
             : undefined;
+        },
+        error: () => {
+          this.organizationFailedToLoad = true;
+          this.isLoadingOrganization = false;
         },
       });
   }
@@ -170,7 +193,11 @@ export class DhOrganizationDrawerComponent {
       .pipe(takeUntil(this.closed))
       .subscribe({
         next: (result) => {
+          this.isLoadingActors = result.loading;
+          this.actorsFailedToLoad = !result.loading && (!!result.error || !!result.errors?.length);
+
           const data = result.data?.actorsByOrganizationId;
+
           this.actors.data = data
             ? [...data]
                 .sort((a, b) => a.name.localeCompare(b.name))
@@ -180,6 +207,10 @@ export class DhOrganizationDrawerComponent {
                   status: x.status,
                 }))
             : [];
+        },
+        error: () => {
+          this.actorsFailedToLoad = true;
+          this.isLoadingActors = false;
         },
       });
   }

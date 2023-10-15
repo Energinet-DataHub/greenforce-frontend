@@ -639,6 +639,10 @@
       "drawer": {
         "edit": "Rediger organisation",
         "tabs": {
+          "shared": {
+            "error": "En fejl opstod",
+            "noData": "Ingen data"
+          },
           "masterData": {
             "tabLabel": "Information",
             "businessRegisterIdentifier": "CVR",
