@@ -18,10 +18,12 @@ import { rest } from 'msw';
 
 import {
   Actor,
+  GetActorEditableFieldsQuery,
   ActorStatus,
   EicFunction,
   Organization,
   mockGetActorByIdQuery,
+  mockGetActorEditableFieldsQuery,
   mockGetActorsByOrganizationIdQuery,
   mockGetActorsQuery,
   mockGetOrganizationByIdQuery,
@@ -51,6 +53,7 @@ export function marketParticipantMocks(apiBase: string) {
     getUserRoles(apiBase),
     getActors(),
     getActorById(),
+    getActorEditableFields(),
     getOrganizations_GrahpQL(),
     getOrganizationById(),
     getActorByOrganizationId(),
@@ -140,6 +143,30 @@ function getActorById() {
     const actorById = marketParticipantActors.find((a) => a.id === id) as Actor;
 
     return res(ctx.delay(300), ctx.data({ __typename: 'Query', actorById }));
+  });
+}
+
+function getActorEditableFields() {
+  return mockGetActorEditableFieldsQuery((req, res, ctx) => {
+    const query: GetActorEditableFieldsQuery = {
+      __typename: 'Query',
+      actorById: {
+        __typename: 'Actor',
+        name: 'Test Actor 1',
+        organization: {
+          __typename: 'Organization',
+          domain: 'fake-domain.dk',
+        } as Organization,
+        contact: {
+          __typename: 'ActorContactDto',
+          name: 'Test Department',
+          email: 'test-actor@fake-domain.dk',
+          phone: '11223344',
+        },
+      },
+    };
+
+    return res(ctx.delay(300), ctx.data(query));
   });
 }
 
