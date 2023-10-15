@@ -616,6 +616,7 @@
         "departmentEmail": "Email",
         "departmentPhone": "Phone Number",
         "required": "Field is required",
+        "invalidEmail": "Invalid email",
         "cancel": "Cancel",
         "save": "Save changes",
         "updateRequest": {
@@ -654,6 +655,16 @@
           "actors": {
             "tabLabel": "Actors"
           }
+        }
+      },
+      "edit": {
+        "domainLabel": "Domain",
+        "required": "Field is required",
+        "cancel": "Cancel",
+        "save": "Save changes",
+        "updateRequest": {
+          "success": "The organisation has been updated successfully.",
+          "error": "Unfortunately, an error occurred while updating the organisation."
         }
       }
     },
@@ -895,7 +906,8 @@
         "gridArea": "{{ eSett.shared.gridArea }}",
         "status": "{{ eSett.shared.status }}",
         "period": "{{ shared.form.filters.period }}",
-        "reset": "{{ shared.form.reset }}"
+        "reset": "{{ shared.form.reset }}",
+        "documentId": "Document Id"
       },
       "columns": {
         "created": "Created",

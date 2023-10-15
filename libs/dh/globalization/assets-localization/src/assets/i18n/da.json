@@ -609,6 +609,7 @@
         "departmentEmail": "Email",
         "departmentPhone": "Telefonnr.",
         "required": "Feltet er påkrævet",
+        "invalidEmail": "Ugyldig email",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {
@@ -647,6 +648,16 @@
           "actors": {
             "tabLabel": "Aktører"
           }
+        }
+      },
+      "edit": {
+        "domainLabel": "Domæne",
+        "required": "Feltet er påkrævet",
+        "cancel": "Fortryd",
+        "save": "Gem ændringer",
+        "updateRequest": {
+          "success": "Ændringerne af organisationen er blevet gemt.",
+          "error": "Der opstod desværre en fejl, da vi skulle gemme organisationen."
         }
       }
     },
@@ -887,7 +898,8 @@
         "gridArea": "{{ eSett.shared.gridArea }}",
         "status": "{{ eSett.shared.status }}",
         "period": "{{ shared.form.filters.period }}",
-        "reset": "{{ shared.form.reset }}"
+        "reset": "{{ shared.form.reset }}",
+        "documentId": "Besked Id"
       },
       "columns": {
         "created": "Oprettet",
