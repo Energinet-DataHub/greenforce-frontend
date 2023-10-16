@@ -32,11 +32,13 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
 
 import { EoInviteConnectionService } from '../data-access-api/invite-connection.service';
+import { FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'eo-invite-connection',
   standalone: true,
   encapsulation: ViewEncapsulation.None,
+  providers: [FormGroupDirective],
   imports: [
     NgIf,
     WATT_MODAL,

@@ -22,6 +22,7 @@ import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-acce
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en } from '@energinet-datahub/dh/globalization/assets-localization';
 import { DhMarketParticipantActorMasterDataComponent } from './dh-market-participant-actor-master-data.component';
+import { FormGroupDirective } from '@angular/forms';
 
 describe(DhMarketParticipantActorMasterDataComponent, () => {
   async function setup(changes: ActorChanges) {
@@ -30,6 +31,7 @@ describe(DhMarketParticipantActorMasterDataComponent, () => {
         changes: changes,
       },
       imports: [getTranslocoTestingModule()],
+      providers: [FormGroupDirective],
     });
 
     return { view };
