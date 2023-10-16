@@ -1,0 +1,40 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<watt-modal
+  size="small"
+  [title]="organization.name"
+  (closed)="onCloseModal()"
+  *transloco="let t; read: 'marketParticipant.organizationsOverview.edit'"
+>
+  <form id="editForm" (ngSubmit)="save()">
+    <watt-text-field class="domain-field" [label]="t('domainLabel')" [formControl]="domainControl">
+      <watt-field-error *ngIf="domainControl.hasError('required')">
+        {{ t("required") }}
+      </watt-field-error>
+    </watt-text-field>
+  </form>
+
+  <watt-modal-actions>
+    <watt-button variant="secondary" (click)="onCloseModal()">
+      {{ t("cancel") }}
+    </watt-button>
+
+    <watt-button variant="secondary" type="submit" formId="editForm">
+      {{ t("save") }}
+    </watt-button>
+  </watt-modal-actions>
+</watt-modal>

@@ -26,10 +26,6 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroupDirective, Validators } from '@angular/forms';
 
-export type Writable<T> = {
-  -readonly [K in keyof T]: T[K];
-};
-
 @Component({
   selector: 'watt-field',
   standalone: true,

@@ -245,6 +245,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Clients.ESettExchange.v1.CalculationType? calculationType,
             DocumentStatus? documentStatus,
             TimeSeriesType? timeSeriesType,
+            string? documentId,
             [Service] IESettExchangeClient_V1 client) =>
             client.SearchAsync(new ExchangeEventSearchFilter
             {
@@ -256,6 +257,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 CalculationType = calculationType,
                 DocumentStatus = documentStatus,
                 TimeSeriesType = timeSeriesType,
+                DocumentId = documentId,
             });
 
         public Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(
