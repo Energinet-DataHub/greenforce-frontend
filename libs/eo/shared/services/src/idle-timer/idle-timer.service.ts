@@ -16,13 +16,16 @@
  */
 /* eslint-disable @nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Subscription, fromEvent, merge, startWith, switchMap, timer } from 'rxjs';
+
+import { WattModalService } from '@energinet-datahub/watt/modal';
+
+import { EoAuthService } from '../auth/auth.service';
 import {
   EoIdleTimerCountdownModalComponent,
   EoIdleTimerLoggedOutModalComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { Subscription, fromEvent, merge, startWith, switchMap, timer } from 'rxjs';
-import { EoAuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +40,7 @@ export class IdleTimerService {
     fromEvent(document, 'keyup')
   );
 
-  constructor(private dialog: MatDialog, private authService: EoAuthService) {}
+  constructor(private authService: EoAuthService, private modalService: WattModalService) {}
 
   attachMonitorsWithTimer() {
     return this.monitoredEvents$.pipe(
@@ -57,23 +60,26 @@ export class IdleTimerService {
   private showLogoutWarning() {
     this.stopMonitor();
 
-    this.dialog
-      .open(EoIdleTimerCountdownModalComponent, {
-        height: '500px',
-        autoFocus: false,
-      })
-      .afterClosed()
-      .subscribe((result: string) => {
-        if (result === 'logout') {
+    this.modalService.open({
+      component: EoIdleTimerCountdownModalComponent,
+      onClosed: (logout: boolean) => {
+        if (logout) {
           this.authService.logout();
-          this.dialog.open(EoIdleTimerLoggedOutModalComponent, {
-            height: '500px',
-            autoFocus: false,
+          setTimeout(() => {
+            this.showLogoutConfirmation();
           });
+
           return;
         }
 
         this.startMonitor();
-      });
+      }
+    })
+  }
+
+  private showLogoutConfirmation() {
+    this.modalService.open({
+      component: EoIdleTimerLoggedOutModalComponent,
+    });
   }
 }

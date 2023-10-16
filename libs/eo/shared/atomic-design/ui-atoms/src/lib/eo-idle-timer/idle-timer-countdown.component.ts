@@ -24,59 +24,19 @@ import { map, take, tap, timer } from 'rxjs';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WattButtonComponent, WATT_MODAL, AsyncPipe, DatePipe],
-  selector: 'eo-idle-timer-modal',
   standalone: true,
-  styles: [
-    `
-      :host {
-        display: grid;
-        grid-template-columns: auto auto;
-        grid-template-rows: auto 1fr;
-        height: 100%;
-        padding: 20px;
-      }
-
-      .modal-close {
-        justify-self: flex-end;
-        color: var(--watt-color-primary);
-      }
-
-      .modal-header {
-        align-self: center;
-      }
-
-      .content {
-        grid-column: span 2;
-        margin-top: var(--watt-space-s);
-        border-top: 1px solid var(--watt-color-primary-light);
-        color: var(--watt-color-primary-dark);
-        padding-top: var(--watt-space-m);
-        align-self: start;
-      }
-
-      .actions {
-        border-top: 1px solid var(--watt-color-primary-light);
-        display: flex;
-        grid-column: span 2;
-        gap: var(--watt-space-m);
-        justify-content: flex-end;
-        padding-top: 10px;
-      }
-    `,
-  ],
   template: `
-    <span class="watt-headline-3 modal-header">Automatic logout</span>
-    <watt-button variant="icon" icon="close" class="modal-close" (click)="close()"></watt-button>
-    <div class="content">
+    <watt-modal #modal title="Automatic logout" size="small">
       <p>You will be logged out in:</p>
       <span class="watt-headline-1">{{ countDownTimer$ | async | date : 'mm:ss' }}</span>
       <br />
       <p>We are logging you out for security reasons.</p>
-    </div>
-    <div class="actions">
-      <watt-button variant="secondary" (click)="close('logout')"> Log out </watt-button>
-      <watt-button (click)="close()"> Stay logged in </watt-button>
-    </div>
+
+      <watt-modal-actions>
+        <watt-button variant="secondary" (click)="modal.close(true)">Log out</watt-button>
+        <watt-button (click)="modal.close(false)">Stay logged in</watt-button>
+      </watt-modal-actions>
+    </watt-modal>
   `,
 })
 export class EoIdleTimerCountdownModalComponent {
@@ -87,13 +47,9 @@ export class EoIdleTimerCountdownModalComponent {
     map((time) => this.logoutAfterSeconds - time - 1), // Calculate remaining time from current time
     map((time) => time * 1000), // Convert to milliseconds for the date pipe
     tap((timeLeft) => {
-      if (timeLeft === 0) this.dialogRef.close('logout');
+      if (timeLeft === 0) this.dialogRef.close(true);
     })
   );
-
-  close(action?: string) {
-    this.dialogRef.close(action);
-  }
 
   constructor(private dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent>) {}
 }

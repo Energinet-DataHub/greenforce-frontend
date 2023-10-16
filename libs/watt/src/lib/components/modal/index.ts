@@ -16,4 +16,4 @@
  */
 export { WattModalComponent, WattModalActionsComponent, WATT_MODAL } from './watt-modal.component';
 
-export { WattModalService, WattModalConfig, WattModalSize } from './watt-modal.service';
+export { WattModalService, WattModalConfig } from './watt-modal.service';
