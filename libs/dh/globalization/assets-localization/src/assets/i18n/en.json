@@ -616,6 +616,7 @@
         "departmentEmail": "Email",
         "departmentPhone": "Phone Number",
         "required": "Field is required",
+        "invalidEmail": "Invalid email",
         "cancel": "Cancel",
         "save": "Save changes",
         "updateRequest": {
@@ -645,6 +646,10 @@
       "drawer": {
         "edit": "Edit organisation",
         "tabs": {
+          "shared": {
+            "error": "An error occurred",
+            "noData": "No data"
+          },
           "masterData": {
             "tabLabel": "Information",
             "businessRegisterIdentifier": "Business ID",
@@ -654,6 +659,16 @@
           "actors": {
             "tabLabel": "Actors"
           }
+        }
+      },
+      "edit": {
+        "domainLabel": "Domain",
+        "required": "Field is required",
+        "cancel": "Cancel",
+        "save": "Save changes",
+        "updateRequest": {
+          "success": "The organisation has been updated successfully.",
+          "error": "Unfortunately, an error occurred while updating the organisation."
         }
       }
     },

@@ -17,9 +17,12 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'">
   <watt-drawer #drawer (closed)="onClose()">
     <watt-drawer-actions>
-      <watt-button *dhPermissionRequired="['organizations:manage']" variant="secondary">{{
-        t("edit")
-      }}</watt-button>
+      <watt-button
+        *dhPermissionRequired="['organizations:manage']"
+        variant="secondary"
+        (click)="isEditModalVisible = true"
+        >{{ t("edit") }}</watt-button
+      >
     </watt-drawer-actions>
 
     <watt-drawer-heading>
@@ -29,27 +32,49 @@ limitations under the License.
     <watt-drawer-content *ngIf="drawer.isOpen">
       <watt-tabs>
         <watt-tab [label]="t('tabs.masterData.tabLabel')">
-          <watt-card variant="solid">
+          <vater-stack [fill]="'horizontal'" [align]="'center'">
+            <watt-spinner *ngIf="isLoadingOrganization" />
+          </vater-stack>
+          <watt-empty-state
+            *ngIf="!isLoadingOrganization && !organization"
+            [icon]="organizationFailedToLoad ? 'custom-power' : 'cancel'"
+            size="small"
+            [title]="organizationFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
+          ></watt-empty-state>
+          <watt-card variant="solid" *ngIf="!isLoadingOrganization && organization">
             <watt-description-list variant="stack">
               <watt-description-list-item
                 [label]="t('tabs.masterData.businessRegisterIdentifier')"
-                [value]="organization?.businessRegisterIdentifier"
+                [value]="organization.businessRegisterIdentifier"
               ></watt-description-list-item>
 
               <watt-description-list-item
                 [label]="t('tabs.masterData.name')"
-                [value]="organization?.name"
+                [value]="organization.name"
               ></watt-description-list-item>
 
               <watt-description-list-item
                 [label]="t('tabs.masterData.domain')"
-                [value]="organization?.domain"
+                [value]="organization.domain"
               ></watt-description-list-item>
             </watt-description-list>
           </watt-card>
         </watt-tab>
         <watt-tab [label]="t('tabs.actors.tabLabel')">
-          <watt-card variant="solid" style="padding-bottom: 0; padding-top: 8px">
+          <vater-stack [fill]="'horizontal'" [align]="'center'">
+            <watt-spinner *ngIf="isLoadingActors" />
+          </vater-stack>
+          <watt-empty-state
+            *ngIf="!isLoadingActors && actors.data.length === 0"
+            [icon]="actorsFailedToLoad ? 'custom-power' : 'cancel'"
+            size="small"
+            [title]="actorsFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
+          ></watt-empty-state>
+          <watt-card
+            variant="solid"
+            style="padding-bottom: 0; padding-top: 8px"
+            *ngIf="actors.data.length > 0 && !isLoadingActors"
+          >
             <watt-table
               [dataSource]="actors"
               [columns]="columns"
@@ -69,3 +94,9 @@ limitations under the License.
     </watt-drawer-content>
   </watt-drawer>
 </ng-container>
+
+<dh-organization-edit-modal
+  *ngIf="isEditModalVisible"
+  [organization]="organization!"
+  (closed)="isEditModalVisible = false"
+/>
