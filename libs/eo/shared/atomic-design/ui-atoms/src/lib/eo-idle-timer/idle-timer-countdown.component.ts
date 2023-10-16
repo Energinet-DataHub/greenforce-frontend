@@ -16,10 +16,9 @@
  */
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from '@apollo/client';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WATT_DIALOG_DATA, WATT_MODAL, WattDialogRef } from '@energinet-datahub/watt/modal';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,8 +40,8 @@ import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 })
 export class EoIdleTimerCountdownModalComponent {
   constructor(
-    private dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { countdown$: Observable<string> }
+    private dialogRef: WattDialogRef<EoIdleTimerCountdownModalComponent>,
+    @Inject(WATT_DIALOG_DATA) public data: { countdown$: Observable<string> }
   ) {
     data.countdown$.subscribe((countdown) => {
       if (countdown === '00:00') {
