@@ -646,6 +646,10 @@
       "drawer": {
         "edit": "Edit organisation",
         "tabs": {
+          "shared": {
+            "error": "An error occurred",
+            "noData": "No data"
+          },
           "masterData": {
             "tabLabel": "Information",
             "businessRegisterIdentifier": "Business ID",

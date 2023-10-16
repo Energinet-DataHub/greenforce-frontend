@@ -23,6 +23,7 @@ import { Subject, exhaustMap, ignoreElements, map, mergeWith, of, take, tap } fr
 export interface WattModalConfig {
   templateRef?: TemplateRef<unknown>;
   component?: ComponentType<unknown>;
+  data?: unknown;
   disableClose?: boolean;
   onClosed?: EventEmitter<boolean> | ((result: boolean) => void);
 }
@@ -48,6 +49,7 @@ export class WattModalService {
             ...(config.component ? ['watt-modal-panel--component'] : []),
           ],
           disableClose: config.disableClose ?? false,
+          data: config.data,
           maxWidth: 'none'
         });
 

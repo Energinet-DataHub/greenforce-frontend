@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Observable } from '@apollo/client';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { map, take, tap, timer } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,7 +28,7 @@ import { map, take, tap, timer } from 'rxjs';
   template: `
     <watt-modal #modal title="Automatic logout" size="small">
       <p>You will be logged out in:</p>
-      <span class="watt-headline-1">{{ countDownTimer$ | async | date : 'mm:ss' }}</span>
+      <span class="watt-headline-1">{{ data.countdown$ | async }}</span>
       <br />
       <p>We are logging you out for security reasons.</p>
 
@@ -40,16 +40,14 @@ import { map, take, tap, timer } from 'rxjs';
   `,
 })
 export class EoIdleTimerCountdownModalComponent {
-  logoutAfterSeconds = 300; // 5 minutes
-
-  countDownTimer$ = timer(0, 1000).pipe(
-    take(this.logoutAfterSeconds), // Count from 0 to logoutAfterSeconds
-    map((time) => this.logoutAfterSeconds - time - 1), // Calculate remaining time from current time
-    map((time) => time * 1000), // Convert to milliseconds for the date pipe
-    tap((timeLeft) => {
-      if (timeLeft === 0) this.dialogRef.close(true);
-    })
-  );
-
-  constructor(private dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent>) {}
+  constructor(
+    private dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { countdown$: Observable<string> }
+  ) {
+    data.countdown$.subscribe((countdown) => {
+      if (countdown === '00:00') {
+        this.dialogRef.close(true);
+      }
+    });
+  }
 }
