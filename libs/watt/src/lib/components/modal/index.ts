@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { MAT_DIALOG_DATA as WATT_DIALOG_DATA, MatDialogRef as WattDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA as WATT_DIALOG_DATA,
+  MatDialogRef as WattDialogRef,
+} from '@angular/material/dialog';
 export { WATT_DIALOG_DATA, WattDialogRef };
 
 export { WattModalComponent, WattModalActionsComponent, WATT_MODAL } from './watt-modal.component';

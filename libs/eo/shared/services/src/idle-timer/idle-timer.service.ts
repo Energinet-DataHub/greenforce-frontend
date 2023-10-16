@@ -17,16 +17,7 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import {
-  Subject,
-  debounceTime,
-  fromEvent,
-  map,
-  merge,
-  startWith,
-  takeUntil,
-  timer,
-} from 'rxjs';
+import { Subject, debounceTime, fromEvent, map, merge, startWith, takeUntil, timer } from 'rxjs';
 
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
