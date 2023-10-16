@@ -50,7 +50,7 @@ export class WattModalService {
           ],
           disableClose: config.disableClose ?? false,
           data: config.data,
-          maxWidth: 'none'
+          maxWidth: 'none',
         });
 
         return this.closeSubject.pipe(

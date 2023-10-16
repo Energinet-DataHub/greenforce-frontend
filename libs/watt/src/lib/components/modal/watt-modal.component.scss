@@ -26,39 +26,39 @@
   max-height: 100vh;
 
   position: relative;
-    display: grid;
-    padding: 0;
-    align-items: center;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: 60px 1fr auto;
-    grid-template-areas:
-      "title close"
-      "content content"
-      "actions actions";
+  display: grid;
+  padding: 0;
+  align-items: center;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 60px 1fr auto;
+  grid-template-areas:
+    "title close"
+    "content content"
+    "actions actions";
 
   &--small {
     --watt-modal-width: 320px;
     --watt-modal-height: auto;
 
-    @include watt.media('>Small') {
+    @include watt.media(">Small") {
       --watt-modal-width: 520px;
     }
   }
 
   &--medium {
-    @include watt.media('>720px') {
+    @include watt.media(">720px") {
       --watt-modal-width: 720px;
       --watt-modal-height: auto;
     }
   }
 
   &--large {
-    @include watt.media('>786px') {
+    @include watt.media(">786px") {
       --watt-modal-width: 786px;
       --watt-modal-height: auto;
     }
 
-    @include watt.media('>Medium') {
+    @include watt.media(">Medium") {
       --watt-modal-width: 936px;
       --watt-modal-height: auto;
     }
