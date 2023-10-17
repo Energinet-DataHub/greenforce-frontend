@@ -23,6 +23,7 @@ import { MarketParticipantActorContactDto } from '@energinet-datahub/dh/shared/d
 import { ActorContactChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { EventEmitter } from '@angular/core';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { FormGroupDirective } from '@angular/forms';
 
 describe(DhMarketParticipantActorContactDataComponent, () => {
   async function setup(contacts: MarketParticipantActorContactDto[]) {
@@ -36,6 +37,7 @@ describe(DhMarketParticipantActorContactDataComponent, () => {
           remove: MarketParticipantActorContactDto[];
         }>,
       },
+      providers: [FormGroupDirective],
       imports: [getTranslocoTestingModule()],
     });
 

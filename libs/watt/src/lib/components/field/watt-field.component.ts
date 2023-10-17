@@ -22,14 +22,16 @@ import {
   OnChanges,
   SimpleChanges,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { ControlContainer, FormControl, FormGroupDirective, Validators } from '@angular/forms';
 
 @Component({
   selector: 'watt-field',
   standalone: true,
   imports: [NgIf, NgClass],
   encapsulation: ViewEncapsulation.None,
+  viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
   styleUrls: ['./watt-field.component.scss'],
   template: `
     <label [attr.for]="id ? id : null">
@@ -43,10 +45,12 @@ import { FormControl, Validators } from '@angular/forms';
   `,
 })
 export class WattFieldComponent implements OnChanges {
+  private _formGroupDirective: FormGroupDirective = inject(FormGroupDirective);
   @Input() label!: string;
   @Input({ required: true }) control!: FormControl | null;
   @Input() id!: string;
   @Input() chipMode = false;
+
   @HostBinding('class.watt-field--chip')
   get _chip() {
     return this.chipMode;
@@ -54,7 +58,10 @@ export class WattFieldComponent implements OnChanges {
 
   @HostBinding('class.watt-field--invalid')
   get _hasError() {
-    return this.control?.status === 'INVALID' && !!this.control?.touched;
+    return (
+      (this.control?.status === 'INVALID' && !!this.control?.touched) ||
+      (this._formGroupDirective.submitted && this.control?.status === 'INVALID')
+    );
   }
   protected _isRequired = false;
 

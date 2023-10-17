@@ -34,6 +34,7 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 
 import { DhMeteringPointSearchComponent } from './dh-metering-point-search.component';
+import { FormGroupDirective } from '@angular/forms';
 
 @Component({
   template: `nothing to see here`,
@@ -44,6 +45,7 @@ describe(DhMeteringPointSearchComponent, () => {
   async function setup() {
     const { fixture } = await render(DhMeteringPointSearchComponent, {
       imports: [getTranslocoTestingModule(), DhApiModule.forRoot(), HttpClientModule],
+      providers: [FormGroupDirective],
       routes: [{ path: `:${dhMeteringPointIdParam}`, component: NoopComponent }],
     });
 

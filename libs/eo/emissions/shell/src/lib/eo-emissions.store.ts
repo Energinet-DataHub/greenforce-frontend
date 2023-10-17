@@ -56,7 +56,7 @@ export class EoEmissionsStore extends ComponentStore<EoEmissionsState> {
     this.loadData();
   }
 
-  readonly total$ = this.select((state) => state.emissions.total);
+  readonly total$ = this.select((state) => state.emissions?.total);
   readonly relative$ = this.select((state) => state.emissions.relative);
   readonly loadingDone$ = this.select((state) => state.loadingDone);
   readonly emissions$ = this.select((state) => state.emissions);
