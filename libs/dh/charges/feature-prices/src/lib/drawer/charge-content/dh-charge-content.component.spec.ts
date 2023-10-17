@@ -35,6 +35,7 @@ import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 import { DhChargeContentComponent } from './dh-charge-content.component';
 import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
+import { FormGroupDirective } from '@angular/forms';
 
 const dateTimeFormat = 'dd-MM-yyyy';
 
@@ -73,6 +74,7 @@ describe(DhChargeContentComponent, () => {
         DhMarketParticipantDataAccessApiStore,
         danishLocalProviders,
         danishDatetimeProviders,
+        FormGroupDirective,
       ],
       componentProviders: [
         {

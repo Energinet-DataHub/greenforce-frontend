@@ -24,14 +24,14 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { FormControl, FormGroupDirective, Validators } from '@angular/forms';
+import { ControlContainer, FormControl, FormGroupDirective, Validators } from '@angular/forms';
 
 @Component({
   selector: 'watt-field',
   standalone: true,
   imports: [NgIf, NgClass],
-  providers: [FormGroupDirective],
   encapsulation: ViewEncapsulation.None,
+  viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
   styleUrls: ['./watt-field.component.scss'],
   template: `
     <label [attr.for]="id ? id : null">
