@@ -34,7 +34,9 @@ import {
   ActorStatus,
   EicFunction,
   GetActorsByOrganizationIdDocument,
+  GetAuditLogByOrganizationIdDocument,
   GetOrganizationByIdDocument,
+  OrganizationChangeType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhActorStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/actors/feature-actors';
@@ -44,11 +46,19 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { DhOrganizationDetails } from '../dh-organization';
 import { DhOrganizationEditModalComponent } from '../edit/dh-edit-modal.component';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 type Actor = {
   actorNumberAndName: string;
   marketRole: EicFunction | null | undefined;
   status: ActorStatus;
+};
+
+type OrganizationAuditLogEntry = {
+  changeType: OrganizationChangeType;
+  value: string;
+  identity: string;
+  timestamp: Date;
 };
 
 @Component({
@@ -90,6 +100,7 @@ type Actor = {
     VaterStackComponent,
 
     WattButtonComponent,
+    WattDatePipe,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattEmptyStateComponent,
@@ -106,6 +117,7 @@ export class DhOrganizationDrawerComponent {
   private apollo = inject(Apollo);
   private organizationSubscription?: Subscription;
   private actorsSubscription?: Subscription;
+  private organizationAuditLogSubscription?: Subscription;
 
   private getOrganizationByIdQuery$ = this.apollo.watchQuery({
     errorPolicy: 'all',
@@ -122,20 +134,37 @@ export class DhOrganizationDrawerComponent {
     query: GetActorsByOrganizationIdDocument,
   });
 
+  private getAuditLogByOrganizationIdQuery$ = this.apollo.watchQuery({
+    errorPolicy: 'all',
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetAuditLogByOrganizationIdDocument,
+  });
+
   isLoadingOrganization = false;
   organizationFailedToLoad = false;
 
   isLoadingActors = false;
   actorsFailedToLoad = false;
 
+  isLoadingAuditLog = false;
+  auditLogFailedToLoad = false;
+
   organization: DhOrganizationDetails | undefined = undefined;
 
   actors: WattTableDataSource<Actor> = new WattTableDataSource<Actor>([]);
+  auditLog: WattTableDataSource<OrganizationAuditLogEntry> =
+    new WattTableDataSource<OrganizationAuditLogEntry>([]);
 
-  columns: WattTableColumnDef<Actor> = {
+  actorColumns: WattTableColumnDef<Actor> = {
     actorNumberAndName: { accessor: 'actorNumberAndName' },
     marketRole: { accessor: 'marketRole' },
     status: { accessor: 'status' },
+  };
+
+  auditLogColumns: WattTableColumnDef<OrganizationAuditLogEntry> = {
+    timestamp: { accessor: 'timestamp' },
+    value: { accessor: 'value' },
   };
 
   isEditModalVisible = false;
@@ -150,6 +179,7 @@ export class DhOrganizationDrawerComponent {
 
     this.loadOrganization(organizationId);
     this.loadActors(organizationId);
+    this.loadAuditLog(organizationId);
   }
 
   onClose(): void {
@@ -211,6 +241,37 @@ export class DhOrganizationDrawerComponent {
         error: () => {
           this.actorsFailedToLoad = true;
           this.isLoadingActors = false;
+        },
+      });
+  }
+
+  private loadAuditLog(organizationId: string): void {
+    this.organizationAuditLogSubscription?.unsubscribe();
+
+    this.getAuditLogByOrganizationIdQuery$.setVariables({ organizationId });
+
+    this.organizationAuditLogSubscription = this.getAuditLogByOrganizationIdQuery$.valueChanges
+      .pipe(takeUntil(this.closed))
+      .subscribe({
+        next: (result) => {
+          this.isLoadingAuditLog = result.loading;
+          this.auditLogFailedToLoad =
+            !result.loading && (!!result.error || !!result.errors?.length);
+
+          const data = result.data?.organizationAuditLog;
+
+          this.auditLog.data = data
+            ? [...data].map((x) => ({
+                changeType: x.organizationChangeType,
+                value: x.value,
+                identity: x.identityWithName.displayName,
+                timestamp: x.timestamp,
+              }))
+            : [];
+        },
+        error: () => {
+          this.auditLogFailedToLoad = true;
+          this.isLoadingAuditLog = false;
         },
       });
   }
