@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, DebugElement } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
@@ -99,6 +99,7 @@ describe(WattDropdownComponent, () => {
       }
 
       const { fixture } = await render(TestComponent, {
+        providers: [FormGroupDirective],
         imports: [WattDropdownComponent, ReactiveFormsModule],
       });
 
@@ -330,6 +331,7 @@ describe(WattDropdownComponent, () => {
       }
 
       const { fixture } = await render(TestComponent, {
+        providers: [FormGroupDirective],
         imports: [WattDropdownComponent, FormsModule],
       });
 
