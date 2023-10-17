@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
@@ -28,6 +27,11 @@ namespace Energinet.DataHub.WebApi.GraphQL
             [Parent] BalanceResponsibleResult result,
             GridAreaByCodeBatchDataLoader dataLoader) =>
             await dataLoader.LoadAsync(result.GridArea).ConfigureAwait(false);
+
+        public async Task<GridAreaDto?> GetGridAreaAsync(
+            [Parent] ExchangeEventTrackingResult result,
+            GridAreaByCodeBatchDataLoader dataLoader) =>
+            await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
 
         public Task<ActorNameDto?> GetSupplierWithNameAsync(
             [Parent] BalanceResponsibleResult result,

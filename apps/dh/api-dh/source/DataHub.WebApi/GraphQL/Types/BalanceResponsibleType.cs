@@ -26,7 +26,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             descriptor
                .Field("gridAreaWithName")
-               .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default!, default!));
+               .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(BalanceResponsibleResult)!, default!));
 
             descriptor
                .Field("supplierWithName")
