@@ -16,7 +16,7 @@
  */
 import { Component } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { fireEvent, render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
@@ -47,7 +47,7 @@ describe(WattTimepickerComponent, () => {
     }
 
     const { fixture } = await render(TestComponent, {
-      providers: [danishLocalProviders, danishDatetimeProviders],
+      providers: [danishLocalProviders, danishDatetimeProviders, FormGroupDirective],
       imports: [WattTimepickerComponent, ReactiveFormsModule, FormsModule, BrowserAnimationsModule],
     });
 

@@ -35,6 +35,7 @@ import { EoTransfersStore } from './eo-transfers.store';
 import { EoTransfersTableComponent } from './eo-transfers-table.component';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoTransfersService } from './eo-transfers.service';
+import { FormGroupDirective } from '@angular/forms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,6 +50,7 @@ import { EoTransfersService } from './eo-transfers.service';
     WattIconComponent,
     VaterStackComponent,
   ],
+  providers: [FormGroupDirective],
   standalone: true,
   template: `
     <eo-popup-message *ngIf="error$ | push"></eo-popup-message>

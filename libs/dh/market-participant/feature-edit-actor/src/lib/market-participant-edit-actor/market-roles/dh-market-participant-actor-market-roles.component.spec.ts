@@ -28,6 +28,7 @@ import { EventEmitter } from '@angular/core';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhMarketParticipantActorMarketRolesComponent } from './dh-market-participant-actor-market-roles.component';
 import { en } from '@energinet-datahub/dh/globalization/assets-localization';
+import { FormGroupDirective } from '@angular/forms';
 
 describe(DhMarketParticipantActorMarketRolesComponent, () => {
   async function setup(
@@ -45,6 +46,7 @@ describe(DhMarketParticipantActorMarketRolesComponent, () => {
           emit: outputFn,
         } as unknown as EventEmitter<MarketRoleChanges>,
       },
+      providers: [FormGroupDirective],
       imports: [getTranslocoTestingModule()],
     });
 
