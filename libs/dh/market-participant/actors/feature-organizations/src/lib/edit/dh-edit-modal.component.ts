@@ -106,7 +106,7 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
         variables: {
           input: {
             orgId: this.organization.organizationId,
-            domain: this.domainControl.value
+            domain: this.domainControl.value,
           },
         },
         refetchQueries: (result) => {
