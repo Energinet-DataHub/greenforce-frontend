@@ -77,15 +77,47 @@ limitations under the License.
           >
             <watt-table
               [dataSource]="actors"
-              [columns]="columns"
+              [columns]="actorColumns"
               [hideColumnHeaders]="true"
               [suppressRowHoverHighlight]="true"
             >
-              <ng-container *wattTableCell="columns['marketRole']; let actor">
+              <ng-container *wattTableCell="actorColumns['marketRole']; let actor">
                 {{ "marketParticipant.marketRoles." + actor.marketRole | transloco }}
               </ng-container>
-              <ng-container *wattTableCell="columns['status']; let actor">
+              <ng-container *wattTableCell="actorColumns['status']; let actor">
                 <dh-actor-status-badge [status]="actor.status" />
+              </ng-container>
+            </watt-table>
+          </watt-card>
+        </watt-tab>
+        <watt-tab [label]="t('tabs.history.tabLabel')">
+          <vater-stack [fill]="'horizontal'" [align]="'center'">
+            <watt-spinner *ngIf="isLoadingAuditLog" />
+          </vater-stack>
+          <watt-empty-state
+            *ngIf="!isLoadingAuditLog && auditLog.data.length === 0"
+            [icon]="actorsFailedToLoad ? 'custom-power' : 'cancel'"
+            size="small"
+            [title]="auditLogFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
+          ></watt-empty-state>
+          <watt-card
+            variant="solid"
+            style="padding-bottom: 0; padding-top: 8px"
+            *ngIf="auditLog.data.length > 0 && !isLoadingAuditLog"
+          >
+            <watt-table
+              [dataSource]="auditLog"
+              [columns]="auditLogColumns"
+              [hideColumnHeaders]="true"
+              [suppressRowHoverHighlight]="true"
+              sortBy="timestamp"
+              sortDirection="desc"
+            >
+              <ng-container *wattTableCell="auditLogColumns['timestamp']; let element">
+                {{ element.timestamp | wattDate : "long" }}
+              </ng-container>
+              <ng-container *wattTableCell="auditLogColumns['value']; let entry">
+                <div [innerHTML]="t('tabs.history.changeTypes.' + entry.changeType, entry)"></div>
               </ng-container>
             </watt-table>
           </watt-card>
