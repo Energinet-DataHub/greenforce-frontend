@@ -933,6 +933,21 @@
         }
       }
     },
+    "meteringGridAreaImbalance": {
+      "tabHeading": "MGA Ubalancer",
+      "filters": {
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "createdPeriod": "{{ shared.form.filters.period }}",
+        "documentId": "Besked Id"
+      },
+      "columns": {
+        "documentDateTime": "Oprettet",
+        "receivedDateTime": "Modtaget",
+        "id": "Id",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "period": "Beregningsperiode"
+      }
+    },
     "balanceResponsible": {
       "tabHeading": "Balanceansvarlig",
       "shared": {

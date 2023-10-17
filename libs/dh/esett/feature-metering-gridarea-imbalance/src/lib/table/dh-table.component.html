@@ -1,0 +1,61 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<vater-flex fill="vertical" scrollable *transloco="let t; read: 'eSett.meteringGridAreaImbalance'">
+  <watt-table
+    [dataSource]="tableDataSource"
+    [columns]="columns"
+    [loading]="isLoading"
+    [sortClear]="false"
+    sortBy="receivedDateTime"
+    sortDirection="desc"
+    [activeRow]="activeRow"
+    (rowClick)="onRowClick($event)"
+  >
+    <ng-container *wattTableCell="columns['documentDateTime']; header: t('columns.documentDateTime'); let imbalance">
+      {{ imbalance.documentDateTime | wattDate : "long" }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['receivedDateTime']; header: t('columns.receivedDateTime'); let imbalance">
+      {{ imbalance.receivedDateTime | wattDate : "long" }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let imbalance">
+      {{ imbalance.id }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let imbalance">
+      {{ imbalance.gridAreaCode }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let imbalance">
+      {{ imbalance.periodStart | wattDate : "short" }} - {{ imbalance.periodEnd | wattDate : "short" }}
+    </ng-container>
+
+  </watt-table>
+
+  <vater-stack
+    fill="vertical"
+    justify="center"
+    *ngIf="!isLoading && tableDataSource.filteredData.length === 0"
+  >
+    <watt-empty-state
+      [icon]="hasError ? 'custom-power' : 'cancel'"
+      [title]="hasError ? t('errorTitle') : t('emptyTitle')"
+      [message]="hasError ? t('errorMessage') : t('emptyMessage')"
+    />
+  </vater-stack>
+</vater-flex>
