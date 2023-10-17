@@ -70,10 +70,7 @@ limitations under the License.
             size="small"
             [title]="actorsFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
           ></watt-empty-state>
-          <watt-card
-            variant="solid"
-            *ngIf="actors.data.length > 0 && !isLoadingActors"
-          >
+          <watt-card variant="solid" *ngIf="actors.data.length > 0 && !isLoadingActors">
             <watt-table
               [dataSource]="actors"
               [columns]="actorColumns"
@@ -99,10 +96,7 @@ limitations under the License.
             size="small"
             [title]="auditLogFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
           ></watt-empty-state>
-          <watt-card
-            variant="solid"
-            *ngIf="auditLog.data.length > 0 && !isLoadingAuditLog"
-          >
+          <watt-card variant="solid" *ngIf="auditLog.data.length > 0 && !isLoadingAuditLog">
             <watt-table
               [dataSource]="auditLog"
               [columns]="auditLogColumns"
