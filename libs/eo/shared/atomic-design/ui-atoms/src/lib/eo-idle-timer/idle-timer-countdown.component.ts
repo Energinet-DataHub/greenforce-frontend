@@ -16,9 +16,10 @@
  */
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { Observable } from '@apollo/client';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_DIALOG_DATA, WATT_MODAL, WattDialogRef } from '@energinet-datahub/watt/modal';
+import { Observable, filter, tap } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,7 +28,7 @@ import { WATT_DIALOG_DATA, WATT_MODAL, WattDialogRef } from '@energinet-datahub/
   template: `
     <watt-modal #modal title="Automatic logout" size="small">
       <p>You will be logged out in:</p>
-      <span class="watt-headline-1">{{ data.countdown$ | async }}</span>
+      <span class="watt-headline-1">{{ countdown$ | async | date : 'mm:ss' }}</span>
       <br />
       <p>We are logging you out for security reasons.</p>
 
@@ -39,14 +40,20 @@ import { WATT_DIALOG_DATA, WATT_MODAL, WattDialogRef } from '@energinet-datahub/
   `,
 })
 export class EoIdleTimerCountdownModalComponent {
+  protected countdown$!: Observable<number>;
+
   constructor(
     private dialogRef: WattDialogRef<EoIdleTimerCountdownModalComponent>,
-    @Inject(WATT_DIALOG_DATA) public data: { countdown$: Observable<string> }
+    @Inject(WATT_DIALOG_DATA) public data: { countdown$: Observable<number> }
   ) {
-    data.countdown$.subscribe((countdown) => {
-      if (countdown === '00:00') {
-        this.dialogRef.close(true);
-      }
-    });
+    this.countdown$ = data.countdown$.pipe(
+      takeUntilDestroyed(),
+      tap((x: number) => {
+        if (x <= 0) {
+          this.dialogRef.close(true);
+        }
+      }),
+      filter((x: number) => x >= 0),
+    );
   }
 }

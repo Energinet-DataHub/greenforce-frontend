@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /* eslint-disable @nx/enforce-module-boundaries */
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subject, debounceTime, fromEvent, map, merge, startWith, takeUntil, timer } from 'rxjs';
 
@@ -32,9 +32,11 @@ import {
   providedIn: 'root',
 })
 export class IdleTimerService {
+  private authService = inject(EoAuthService);
+  private modalService = inject(WattModalService);
   private dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent> | undefined;
-  private warningTimeout = 900000; // 15 minutes in milliseconds
-  private logoutTimeout = 300000; // 5 minutes in milliseconds
+  private warningTimeout = 4000; // 15 minutes in milliseconds
+  private logoutTimeout = 3000; // 5 minutes in milliseconds
   private activityEvents = [
     'mousemove',
     'mousedown',
@@ -43,14 +45,12 @@ export class IdleTimerService {
     'touchstart',
     'touchmove',
   ];
-  private destroy$ = new Subject<void>();
+  private stopMonitoring$ = new Subject<void>();
   private lastActivity!: number | null;
-
-  constructor(private authService: EoAuthService, private modalService: WattModalService) {}
 
   startMonitor() {
     // Reset earlier subscriptions
-    this.destroy$.next();
+    this.stopMonitoring$.next();
 
     // Create a stream of events which are considered as user activity
     const activity$ = merge(...this.activityEvents.map((event) => fromEvent(document, event)));
@@ -60,7 +60,7 @@ export class IdleTimerService {
       .pipe(
         startWith('inactive'),
         debounceTime(this.warningTimeout), // wait for inactivity
-        takeUntil(this.destroy$)
+        takeUntil(this.stopMonitoring$)
       )
       .subscribe(() => {
         this.showLogoutWarning();
@@ -69,7 +69,7 @@ export class IdleTimerService {
     // Check if the tab has timed out after user has been on other tabs
     fromEvent(document, 'visibilitychange')
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntil(this.stopMonitoring$),
         map(() => document.visibilityState === 'visible')
       )
       .subscribe((tabIsActive: boolean) => {
@@ -85,8 +85,8 @@ export class IdleTimerService {
   }
 
   stopMonitor() {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.stopMonitoring$.next();
+    this.stopMonitoring$.complete();
   }
 
   private showLogoutWarning(lastActivity?: number) {
@@ -97,14 +97,8 @@ export class IdleTimerService {
     if (!lastActivity) lastActivity = new Date().getTime();
 
     const countdown$ = timer(0, 1000).pipe(
-      takeUntil(this.destroy$),
+      takeUntil(this.stopMonitoring$),
       map(() => (lastActivity as number) + this.logoutTimeout - new Date().getTime()),
-      map((remainingTime) => {
-        const minutes = Math.max(0, Math.floor(remainingTime / 60000));
-        const seconds = Math.max(0, Math.floor((remainingTime % 60000) / 1000));
-
-        return `${this.padZero(minutes)}:${this.padZero(seconds)}`;
-      })
     );
 
     this.modalService.open({
@@ -132,9 +126,5 @@ export class IdleTimerService {
     this.modalService.open({
       component: EoIdleTimerLoggedOutModalComponent,
     });
-  }
-
-  private padZero(num: number): string {
-    return num < 10 ? `0${num}` : `${num}`;
   }
 }
