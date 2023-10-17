@@ -98,7 +98,7 @@ export class IdleTimerService {
 
     const countdown$ = timer(0, 1000).pipe(
       takeUntil(this.stopMonitoring$),
-      map(() => (lastActivity as number) + this.logoutTimeout - new Date().getTime()),
+      map(() => (lastActivity as number) + this.logoutTimeout - new Date().getTime())
     );
 
     this.modalService.open({

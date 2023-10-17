@@ -53,7 +53,7 @@ export class EoIdleTimerCountdownModalComponent {
           this.dialogRef.close(true);
         }
       }),
-      filter((x: number) => x >= 0),
+      filter((x: number) => x >= 0)
     );
   }
 }
