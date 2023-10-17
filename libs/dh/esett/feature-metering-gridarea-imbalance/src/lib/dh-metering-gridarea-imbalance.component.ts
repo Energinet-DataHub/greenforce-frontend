@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import {
   BehaviorSubject,
@@ -36,13 +36,16 @@ import {
 } from '@energinet-datahub/watt/vater';
 
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { DhOutgoingMessagesTableComponent } from "./table/dh-table.component";
+import { DhMeteringGridAreaImbalance } from './dh-metering-gridarea-imbalance';
+import { WattTableDataSource } from '@energinet-datahub/watt/table';
 
 @Component({
-  standalone: true,
-  selector: 'dh-metering-gridarea-imbalance',
-  templateUrl: './dh-metering-gridarea-imbalance.component.html',
-  styles: [
-    `
+    standalone: true,
+    selector: 'dh-metering-gridarea-imbalance',
+    templateUrl: './dh-metering-gridarea-imbalance.component.html',
+    styles: [
+        `
       :host {
         display: block;
       }
@@ -59,26 +62,27 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
           var(--watt-space-ml--negative);
       }
     `,
-  ],
-  imports: [
-    TranslocoDirective,
-    TranslocoPipe,
-    RxPush,
-
-    WATT_CARD,
-    WattPaginatorComponent,
-    WattButtonComponent,
-    WattSearchComponent,
-    VaterFlexComponent,
-    VaterSpacerComponent,
-    VaterStackComponent,
-    VaterUtilityDirective,
-  ],
+    ],
+    imports: [
+        TranslocoDirective,
+        TranslocoPipe,
+        RxPush,
+        WATT_CARD,
+        WattPaginatorComponent,
+        WattButtonComponent,
+        WattSearchComponent,
+        VaterFlexComponent,
+        VaterSpacerComponent,
+        VaterStackComponent,
+        VaterUtilityDirective,
+        DhOutgoingMessagesTableComponent
+    ]
 })
-export class DhMeteringGridAreaImbalanceComponent implements OnDestroy {
+export class DhMeteringGridAreaImbalanceComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);
   private destroy$ = new Subject<void>();
 
+  tableDataSource = new WattTableDataSource<DhMeteringGridAreaImbalance>([]);
   totalCount = 0;
 
   private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
@@ -92,6 +96,15 @@ export class DhMeteringGridAreaImbalanceComponent implements OnDestroy {
   hasError = false;
 
   documentIdSearch$ = new BehaviorSubject<string>('');
+
+  ngOnInit() {
+    const testData = [
+      { __typename: "MeteringGridAreaImbalanceSearchResult", id: '1', gridAreaCode: 'DK1', documentDateTime: new Date('2021-01-01'), receivedDateTime: new Date('2021-01-03'), periodStart: new Date('2021-01-01'), periodEnd: new Date('2021-01-02'), storageId: '1' },
+      { __typename: "MeteringGridAreaImbalanceSearchResult", id: '2', gridAreaCode: 'DK2', documentDateTime: new Date('2021-01-02'), receivedDateTime: new Date('2021-01-04'), periodStart: new Date('2021-01-02'), periodEnd: new Date('2021-01-03'), storageId: '2' }
+    ];
+
+    this.tableDataSource.data = testData as DhMeteringGridAreaImbalance[];
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();
