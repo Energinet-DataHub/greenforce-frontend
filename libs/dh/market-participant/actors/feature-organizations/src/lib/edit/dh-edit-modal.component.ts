@@ -34,7 +34,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import {
-  ChangeOrganizationDtoInput,
   GetOrganizationByIdDocument,
   GetOrganizationsDocument,
   UpdateOrganizationDocument,
@@ -107,8 +106,7 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
         variables: {
           input: {
             orgId: this.organization.organizationId,
-            // TODO: Send `domain` as a parameter
-            changes: {} as ChangeOrganizationDtoInput,
+            domain: this.domainControl.value
           },
         },
         refetchQueries: (result) => {
