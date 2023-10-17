@@ -23,6 +23,7 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { DhMarketParticipantOrganizationMasterDataComponent } from './dh-market-participant-organization-master-data.component';
 import { en } from '@energinet-datahub/dh/globalization/assets-localization';
 import { MarketParticipantOrganizationStatus } from '@energinet-datahub/dh/shared/domain';
+import { FormGroupDirective } from '@angular/forms';
 
 describe(DhMarketParticipantOrganizationMasterDataComponent, () => {
   async function setup(changes: OrganizationChanges) {
@@ -30,6 +31,7 @@ describe(DhMarketParticipantOrganizationMasterDataComponent, () => {
       componentProperties: {
         changes: changes,
       },
+      providers: [FormGroupDirective],
       imports: [getTranslocoTestingModule()],
     });
 
