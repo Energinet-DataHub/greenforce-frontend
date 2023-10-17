@@ -227,7 +227,6 @@ export class DhOrganizationDrawerComponent {
           this.actorsFailedToLoad = !result.loading && (!!result.error || !!result.errors?.length);
 
           const data = result.data?.actorsByOrganizationId;
-          console.log('data', data);
 
           this.actors.data = data
             ? [...data]
