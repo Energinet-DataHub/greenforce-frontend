@@ -880,6 +880,9 @@
       "outgoingMessages": {
         "tabLabel": "Outgoing"
       },
+      "meteringGridareaImbalance": {
+        "tabLabel": "MGA Imbalance"
+      },
       "balanceResponsible": {
         "tabLabel": "Balance responsible"
       }

@@ -872,6 +872,9 @@
       "outgoingMessages": {
         "tabLabel": "Udgående"
       },
+      "meteringGridareaImbalance": {
+        "tabLabel": "MGA Ubalancer"
+      },
       "balanceResponsible": {
         "tabLabel": "Balanceansvarlig"
       }
