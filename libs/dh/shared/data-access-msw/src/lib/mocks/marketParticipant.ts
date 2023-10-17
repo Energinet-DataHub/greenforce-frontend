@@ -28,6 +28,9 @@ import {
   mockGetActorsQuery,
   mockGetOrganizationByIdQuery,
   mockGetOrganizationsQuery,
+  mockGetAuditLogByOrganizationIdQuery,
+  OrganizationChangeType,
+  OrganizationAuditLog,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import organizationsData from './data/marketParticipantOrganizations.json';
@@ -57,6 +60,7 @@ export function marketParticipantMocks(apiBase: string) {
     getOrganizations_GrahpQL(),
     getOrganizationById(),
     getActorByOrganizationId(),
+    getAuditLogByOrganizationId(),
   ];
 }
 
@@ -224,5 +228,111 @@ function getActorByOrganizationId() {
     ];
 
     return res(ctx.delay(300), ctx.data({ __typename: 'Query', actorsByOrganizationId: actors }));
+  });
+}
+
+function getAuditLogByOrganizationId() {
+  return mockGetAuditLogByOrganizationIdQuery((req, res, ctx) => {
+    const guid = '3d6ac98a-d8b8-430e-aaad-ffde66c3e00e';
+    const auditLog: OrganizationAuditLog[] = [
+      {
+        __typename: 'OrganizationAuditLog',
+        auditIdentityId: guid,
+        value: 'Fredericia',
+        organizationChangeType: OrganizationChangeType.AddressCity,
+        timestamp: new Date('2021-08-14T12:31:00'),
+        organizationId: guid,
+        identityWithName: {
+          __typename: 'GetAuditIdentityResponseDto',
+          displayName: 'Jane Doe',
+        },
+      },
+      {
+        __typename: 'OrganizationAuditLog',
+        auditIdentityId: '3d6ac98a-d8b8-430e-aaad-aade66c3e00e',
+        value: 'DK',
+        organizationChangeType: OrganizationChangeType.AddressCountry,
+        timestamp: new Date('2021-08-15T12:31:00'),
+        organizationId: '3d6ac98a-d8b8-430e-aaad-eade66c3e00e',
+        identityWithName: {
+          __typename: 'GetAuditIdentityResponseDto',
+          displayName: 'Jane Doe',
+        },
+      },
+      {
+        __typename: 'OrganizationAuditLog',
+        auditIdentityId: guid,
+        value: '10',
+        organizationChangeType: OrganizationChangeType.AddressNumber,
+        timestamp: new Date('2021-08-15T12:31:00'),
+        organizationId: guid,
+        identityWithName: {
+          __typename: 'GetAuditIdentityResponseDto',
+          displayName: 'Jane Doe',
+        },
+      },
+      {
+        __typename: 'OrganizationAuditLog',
+        auditIdentityId: guid,
+        value: 'Vejen',
+        organizationChangeType: OrganizationChangeType.AddressStreetName,
+        timestamp: new Date('2021-09-02T10:00:00'),
+        organizationId: guid,
+        identityWithName: {
+          __typename: 'GetAuditIdentityResponseDto',
+          displayName: 'Jane Doe',
+        },
+      },
+      {
+        __typename: 'OrganizationAuditLog',
+        auditIdentityId: guid,
+        value: '7000',
+        organizationChangeType: OrganizationChangeType.AddressZipCode,
+        timestamp: new Date('2021-09-03T10:00:00'),
+        organizationId: guid,
+        identityWithName: {
+          __typename: 'GetAuditIdentityResponseDto',
+          displayName: 'Jane Doe',
+        },
+      },
+      {
+        __typename: 'OrganizationAuditLog',
+        auditIdentityId: guid,
+        value: '12345678',
+        organizationChangeType: OrganizationChangeType.BusinessRegisterIdentifier,
+        timestamp: new Date('2021-09-04T10:00:00'),
+        organizationId: guid,
+        identityWithName: {
+          __typename: 'GetAuditIdentityResponseDto',
+          displayName: 'Jane Doe',
+        },
+      },
+      {
+        __typename: 'OrganizationAuditLog',
+        auditIdentityId: guid,
+        value: 'energinet.dk',
+        organizationChangeType: OrganizationChangeType.DomainChange,
+        timestamp: new Date('2021-09-05T10:00:00'),
+        organizationId: guid,
+        identityWithName: {
+          __typename: 'GetAuditIdentityResponseDto',
+          displayName: 'Jane Doe',
+        },
+      },
+      {
+        __typename: 'OrganizationAuditLog',
+        auditIdentityId: guid,
+        value: 'Grøn Strøm',
+        organizationChangeType: OrganizationChangeType.Name,
+        timestamp: new Date('2021-09-06T10:00:00'),
+        organizationId: guid,
+        identityWithName: {
+          __typename: 'GetAuditIdentityResponseDto',
+          displayName: 'Jane Doe',
+        },
+      },
+    ];
+
+    return res(ctx.delay(300), ctx.data({ __typename: 'Query', organizationAuditLog: auditLog }));
   });
 }
