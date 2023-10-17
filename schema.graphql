@@ -26,8 +26,8 @@ type BalanceResponsibleType {
   balanceResponsibleWithName: ActorNameDto
   id: String!
   receivedDateTime: DateTime!
-  supplier: ActorNumber!
-  balanceResponsible: ActorNumber!
+  supplier: String!
+  balanceResponsible: String!
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
   validToDate: DateTime
@@ -140,6 +140,7 @@ type Query {
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String): ExchangeEventSearchResponse!
+  meteringGridAreaImbalance(pageNumber: Int!, pageSize: Int!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String): MeteringGridAreaImbalanceSearchResponse!
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
 }
@@ -177,10 +178,6 @@ type ActorNameDto {
 
 """The `DateTime` scalar represents an ISO-8601 compliant date time type."""
 scalar DateTime
-
-type ActorNumber {
-  value: String!
-}
 
 enum TimeSeriesType {
   MGA_EXCHANGE
@@ -323,6 +320,11 @@ type BalanceResponsiblePageResult {
   totalCount: Int!
 }
 
+type MeteringGridAreaImbalanceSearchResponse {
+  items: [MeteringGridAreaImbalanceSearchResult!]!
+  totalCount: Int!
+}
+
 type ExchangeEventSearchResponse {
   items: [ExchangeEventSearchResult!]!
   totalCount: Int!
@@ -388,6 +390,16 @@ type ExchangeEventSearchResult {
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
+}
+
+type MeteringGridAreaImbalanceSearchResult {
+  id: String!
+  gridAreaCode: String!
+  documentDateTime: DateTime!
+  receivedDateTime: DateTime!
+  periodStart: DateTime!
+  periodEnd: DateTime!
+  storageId: String!
 }
 
 input AddressDtoInput {

@@ -259,19 +259,71 @@
           }
         }
       }
+    },
+    "/esett/search/imbalance": {
+      "post": {
+        "tags": [
+          "ESett"
+        ],
+        "operationId": "imbalance",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchFilter"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchFilter"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchFilter"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "ActorNumber": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "value": {
-            "type": "string"
-          }
-        }
-      },
       "BalanceResponsiblePageResult": {
         "type": "object",
         "additionalProperties": false,
@@ -300,18 +352,10 @@
             "format": "date-time"
           },
           "supplier": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorNumber"
-              }
-            ]
+            "type": "string"
           },
           "balanceResponsible": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorNumber"
-              }
-            ]
+            "type": "string"
           },
           "meteringPointType": {
             "allOf": [
@@ -510,6 +554,85 @@
                 "$ref": "#/components/schemas/DocumentStatus"
               }
             ]
+          }
+        }
+      },
+      "MeteringGridAreaImbalanceSearchFilter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "gridAreaCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdTo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "documentId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "MeteringGridAreaImbalanceSearchResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchResult"
+            }
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "MeteringGridAreaImbalanceSearchResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "gridAreaCode": {
+            "type": "string"
+          },
+          "documentDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "receivedDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "storageId": {
+            "type": "string"
           }
         }
       },
