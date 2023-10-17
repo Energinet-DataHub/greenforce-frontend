@@ -28,6 +28,7 @@ import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graph
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 
 import { DhCalculationsComponent } from './calculations.component';
+import { FormGroupDirective } from '@angular/forms';
 
 const { calculations } = daTranslations.wholesale;
 
@@ -38,6 +39,7 @@ it('mounts', () => {
       graphQLProviders,
       translocoProviders,
       danishDatetimeProviders,
+      FormGroupDirective,
     ],
     imports: [
       ApolloModule,

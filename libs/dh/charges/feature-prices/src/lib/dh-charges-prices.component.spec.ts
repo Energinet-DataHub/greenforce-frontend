@@ -27,6 +27,7 @@ import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 import { DhChargesPricesComponent } from './dh-charges-prices.component';
+import { FormGroupDirective } from '@angular/forms';
 
 const wattDrawerName = 'watt-drawer';
 const dateTimeFormat = 'dd-MM-yyyy';
@@ -34,7 +35,7 @@ const dateTimeFormat = 'dd-MM-yyyy';
 describe(DhChargesPricesComponent, () => {
   async function setup() {
     const { fixture } = await render(`<dh-charges-prices></dh-charges-prices>`, {
-      providers: [danishLocalProviders, danishDatetimeProviders],
+      providers: [danishLocalProviders, danishDatetimeProviders, FormGroupDirective],
       componentProviders: [
         {
           provide: DrawerDatepickerService,
