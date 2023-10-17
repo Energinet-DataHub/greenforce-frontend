@@ -24,40 +24,14 @@ import { WATT_MODAL } from '@energinet-datahub/watt/modal';
   imports: [WattButtonComponent, WATT_MODAL],
   selector: 'eo-idle-timer-modal',
   standalone: true,
-  styles: [
-    `
-      :host {
-        display: grid;
-        align-items: center;
-        grid-template-rows: auto 1fr;
-        height: 100%;
-      }
-
-      .modal-header {
-        height: 44px;
-      }
-
-      .content {
-        color: var(--watt-color-primary-dark);
-        border-top: 1px solid var(--watt-color-primary-light);
-        padding-top: var(--watt-space-m);
-        align-self: start;
-      }
-
-      .actions {
-        padding-top: var(--watt-space-m);
-        border-top: 1px solid var(--watt-color-primary-light);
-        display: flex;
-        justify-content: flex-end;
-      }
-    `,
-  ],
   template: `
-    <span class="watt-headline-3 modal-header">Automatic logout</span>
-    <p class="content">For security reasons you have been automatically logged out.</p>
-    <div class="actions">
-      <watt-button (click)="close()">Ok</watt-button>
-    </div>
+    <watt-modal #modal title="Automatic logout" size="small">
+      <p class="content">For security reasons you have been automatically logged out.</p>
+
+      <watt-modal-actions>
+        <watt-button (click)="modal.close(false)">Ok</watt-button>
+      </watt-modal-actions>
+    </watt-modal>
   `,
 })
 export class EoIdleTimerLoggedOutModalComponent {
