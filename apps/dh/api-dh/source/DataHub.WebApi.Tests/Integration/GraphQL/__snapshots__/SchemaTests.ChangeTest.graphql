@@ -112,6 +112,10 @@ type ExchangeEventSearchResult {
   documentStatus: DocumentStatus!
 }
 
+type GetAuditIdentityResponseDto {
+  displayName: String!
+}
+
 type GridAreaDto {
   id: UUID!
   code: String!
@@ -151,6 +155,15 @@ type Organization {
   address: AddressDto!
 }
 
+type OrganizationAuditLog {
+  identityWithName: GetAuditIdentityResponseDto!
+  organizationId: UUID!
+  value: String!
+  auditIdentityId: UUID!
+  timestamp: DateTime!
+  organizationChangeType: OrganizationChangeType!
+}
+
 type Permission {
   userRoles: [UserRoleDto!]!
   id: Int!
@@ -186,6 +199,7 @@ type Query {
   esettExchangeEvents(pageNumber: Int! pageSize: Int! periodFrom: DateTime periodTo: DateTime gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String): ExchangeEventSearchResponse!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
+  organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
 }
 
 type SettlementReport {
@@ -353,6 +367,17 @@ enum MeteringPointType {
   TOTAL_CONSUMPTION
   NON_PROFILED_CONSUMPTION
   EXCHANGE
+}
+
+enum OrganizationChangeType {
+  DOMAIN_CHANGE
+  NAME
+  BUSINESS_REGISTER_IDENTIFIER
+  ADDRESS_CITY
+  ADDRESS_COUNTRY
+  ADDRESS_NUMBER
+  ADDRESS_STREET_NAME
+  ADDRESS_ZIP_CODE
 }
 
 enum OrganizationStatus {

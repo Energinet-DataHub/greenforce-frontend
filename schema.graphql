@@ -90,6 +90,15 @@ enum ExchangeEventCalculationType {
   AGGREGATION
 }
 
+type OrganizationAuditLog {
+  identityWithName: GetAuditIdentityResponseDto!
+  organizationId: UUID!
+  value: String!
+  auditIdentityId: UUID!
+  timestamp: DateTime!
+  organizationChangeType: OrganizationChangeType!
+}
+
 type Organization {
   organizationId: String
   actors: [Actor!]
@@ -142,6 +151,7 @@ type Query {
   esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String): ExchangeEventSearchResponse!
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
+  organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
 }
 
 type Mutation {
@@ -216,6 +226,21 @@ enum DocumentStatus {
   AWAITING_REPLY
   ACCEPTED
   REJECTED
+}
+
+type GetAuditIdentityResponseDto {
+  displayName: String!
+}
+
+enum OrganizationChangeType {
+  DOMAIN_CHANGE
+  NAME
+  BUSINESS_REGISTER_IDENTIFIER
+  ADDRESS_CITY
+  ADDRESS_COUNTRY
+  ADDRESS_NUMBER
+  ADDRESS_STREET_NAME
+  ADDRESS_ZIP_CODE
 }
 
 enum OrganizationStatus {
