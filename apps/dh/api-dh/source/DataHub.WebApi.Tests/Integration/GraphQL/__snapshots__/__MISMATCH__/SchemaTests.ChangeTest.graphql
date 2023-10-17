@@ -1,0 +1,452 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+interface Error {
+  message: String!
+}
+
+type Actor {
+  id: UUID!
+  name: String!
+  glnOrEicNumber: String!
+  marketRole: EicFunction
+  gridAreas: [GridAreaDto!]!
+  contact: ActorContactDto
+  organization: Organization!
+  externalActorId: UUID
+  status: ActorStatus!
+}
+
+type ActorContactDto {
+  contactId: UUID!
+  category: ContactCategory!
+  name: String!
+  email: String!
+  phone: String
+}
+
+type ActorNameDto {
+  value: String!
+}
+
+type ActorNumber {
+  value: String!
+}
+
+type AddressDto {
+  streetName: String
+  number: String
+  zipCode: String
+  city: String
+  country: String!
+}
+
+type BalanceResponsiblePageResult {
+  page: [BalanceResponsibleType!]!
+  totalCount: Int!
+}
+
+type BalanceResponsibleType {
+  gridAreaWithName: GridAreaDto
+  supplierWithName: ActorNameDto
+  balanceResponsibleWithName: ActorNameDto
+  id: String!
+  receivedDateTime: DateTime!
+  supplier: ActorNumber!
+  balanceResponsible: ActorNumber!
+  meteringPointType: TimeSeriesType!
+  validFromDate: DateTime!
+  validToDate: DateTime
+  gridArea: String!
+}
+
+"An immutable calculation."
+type Calculation {
+  id: UUID!
+  period: DateRange!
+  createdByUserName: String
+  gridAreas: [GridAreaDto!]!
+  statusType: ProcessStatus!
+  runId: Long
+  resolution: String
+  unit: String
+  executionTimeStart: DateTime
+  executionTimeEnd: DateTime
+  executionState: BatchState!
+  areSettlementReportsCreated: Boolean!
+  processType: ProcessType!
+}
+
+type CreateAggregatedMeasureDataRequestPayload {
+  boolean: Boolean
+}
+
+type CreateCalculationPayload {
+  calculation: Calculation
+}
+
+type EsettOutgoingMessage {
+  gridArea: GridAreaDto
+  documentId: String!
+  created: DateTime!
+  calculationType: ExchangeEventCalculationType!
+  timeSeriesType: TimeSeriesType!
+  periodFrom: DateTime!
+  periodTo: DateTime!
+  documentStatus: DocumentStatus!
+}
+
+type ExchangeEventSearchResponse {
+  items: [ExchangeEventSearchResult!]!
+  totalCount: Int!
+}
+
+type ExchangeEventSearchResult {
+  documentId: String!
+  gridAreaCode: String!
+  created: DateTime!
+  calculationType: ExchangeEventCalculationType!
+  timeSeriesType: TimeSeriesType!
+  documentStatus: DocumentStatus!
+}
+
+type GridAreaDto {
+  id: UUID!
+  code: String!
+  name: String!
+  priceAreaCode: PriceAreaCode!
+  validFrom: DateTime!
+  validTo: DateTime
+}
+
+type MarketParticipantBadRequestError implements Error {
+  message: String!
+  jsonError: JSON!
+  statusCode: Int!
+}
+
+type MarketParticipantError implements Error {
+  message: String!
+  statusCode: Int!
+}
+
+type Mutation {
+  updatePermission(input: UpdatePermissionDtoInput!): Permission!
+  updateActor(input: UpdateActorInput!): UpdateActorPayload!
+  createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
+  createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
+  updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
+}
+
+type Organization {
+  organizationId: String
+  actors: [Actor!]
+  name: String!
+  businessRegisterIdentifier: String!
+  domain: String!
+  comment: String!
+  status: OrganizationStatus!
+  address: AddressDto!
+}
+
+type Permission {
+  userRoles: [UserRoleDto!]!
+  id: Int!
+  name: String!
+  description: String!
+  created: DateTime!
+  assignableTo: [EicFunction!]!
+}
+
+type PermissionLog {
+  changedByUserName: String!
+  value: String
+  timestamp: DateTime!
+  type: PermissionAuditLogType!
+}
+
+type Query {
+  permissionById(id: Int!): Permission!
+  permissions(searchTerm: String!): [Permission!]!
+  permissionLogs(id: Int!): [PermissionLog!]!
+  userRoleAuditLogs(id: UUID!): [UserRoleAuditLog!]!
+  userRoleById(id: UUID!): UserRoleWithPermissionsDto!
+  organizationById(id: UUID!): Organization!
+  organizations: [Organization!]!
+  gridAreas: [GridAreaDto!]!
+  calculationById(id: UUID!): Calculation!
+  calculations(executionTime: DateRange executionStates: [BatchState!] processTypes: [ProcessType!] gridAreaCodes: [String!] period: DateRange first: Int): [Calculation!]!
+  settlementReports(gridAreaCodes: [String!] period: DateRange executionTime: DateRange): [SettlementReport!]!
+  selectedActor: Actor!
+  actorById(id: UUID!): Actor!
+  actors: [Actor!]!
+  actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
+  esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
+  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodFrom: DateTime periodTo: DateTime gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String): ExchangeEventSearchResponse!
+  balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
+  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
+}
+
+type SettlementReport {
+  batchNumber: UUID!
+  processType: ProcessType!
+  gridArea: GridAreaDto!
+  period: DateRange!
+  executionTime: DateTime
+}
+
+type UpdateActorPayload {
+  boolean: Boolean
+  errors: [UpdateActorError!]
+}
+
+type UpdateOrganizationPayload {
+  boolean: Boolean
+  errors: [UpdateOrganizationError!]
+}
+
+type UserRoleAuditLog {
+  changedByUserName: String!
+  userRoleId: UUID!
+  name: String!
+  description: String
+  permissions: [String!]!
+  eicFunction: EicFunction
+  status: UserRoleStatus!
+  changeType: UserRoleChangeType!
+  timestamp: DateTime!
+}
+
+type UserRoleDto {
+  id: UUID!
+  name: String!
+  description: String!
+  eicFunction: EicFunction!
+  status: UserRoleStatus!
+}
+
+type UserRoleWithPermissionsDto {
+  id: UUID!
+  name: String!
+  description: String!
+  eicFunction: EicFunction!
+  status: UserRoleStatus!
+  permissions: [Permission!]!
+}
+
+union UpdateActorError = MarketParticipantError
+
+union UpdateOrganizationError = MarketParticipantBadRequestError
+
+input AddressDtoInput {
+  streetName: String
+  number: String
+  zipCode: String
+  city: String
+  country: String!
+}
+
+input ChangeOrganizationDtoInput {
+  name: String!
+  businessRegisterIdentifier: String!
+  address: AddressDtoInput!
+  comment: String
+  status: OrganizationStatus!
+}
+
+input CreateAggregatedMeasureDataRequestInput {
+  processType: EdiB2CProcessType!
+  meteringPointType: MeteringPointType!
+  startDate: String!
+  endDate: String
+  gridArea: String
+  energySupplierId: String
+  balanceResponsibleId: String
+}
+
+input CreateCalculationInput {
+  period: DateRange!
+  gridAreaCodes: [String!]!
+  processType: ProcessType!
+}
+
+input UpdateActorInput {
+  actorId: UUID!
+  actorName: String!
+  departmentName: String!
+  departmentEmail: String!
+  departmentPhone: String!
+}
+
+input UpdateOrganizationInput {
+  orgId: UUID!
+  changes: ChangeOrganizationDtoInput!
+}
+
+input UpdatePermissionDtoInput {
+  id: Int!
+  description: String!
+}
+
+enum ActorStatus {
+  New
+  Active
+  Inactive
+  Passive
+}
+
+enum BalanceResponsibleSortProperty {
+  VALID_FROM
+  VALID_TO
+  RECEIVED_DATE
+}
+
+enum BatchState {
+  PENDING
+  EXECUTING
+  COMPLETED
+  FAILED
+}
+
+enum ContactCategory {
+  DEFAULT
+  CHARGES
+  CHARGE_LINKS
+  ELECTRICAL_HEATING
+  END_OF_SUPPLY
+  ENERGINET_INQUIRY
+  ERROR_REPORT
+  INCORRECT_MOVE
+  INCORRECT_SWITCH
+  MEASUREMENT_DATA
+  METERING_POINT
+  NET_SETTLEMENT
+  NOTIFICATION
+  RECON
+  REMINDER
+}
+
+enum DocumentStatus {
+  RECEIVED
+  AWAITING_DISPATCH
+  AWAITING_REPLY
+  ACCEPTED
+  REJECTED
+}
+
+enum EdiB2CProcessType {
+  preliminaryaggregation
+  balancefixing
+  wholesalefixing
+  correction
+}
+
+enum EicFunction {
+  BalanceResponsibleParty
+  BillingAgent
+  EnergySupplier
+  GridAccessProvider
+  ImbalanceSettlementResponsible
+  MeteredDataAdministrator
+  MeteredDataResponsible
+  MeteringPointAdministrator
+  SystemOperator
+  DanishEnergyAgency
+  ElOverblik
+  DataHubAdministrator
+  IndependentAggregator
+  SerialEnergyTrader
+}
+
+enum ExchangeEventCalculationType {
+  BALANCE_FIXING
+  AGGREGATION
+}
+
+enum MeteringPointType {
+  PRODUCTION
+  FLEX_CONSUMPTION
+  TOTAL_CONSUMPTION
+  NON_PROFILED_CONSUMPTION
+  EXCHANGE
+}
+
+enum OrganizationStatus {
+  NEW
+  ACTIVE
+  BLOCKED
+  DELETED
+}
+
+enum PermissionAuditLogType {
+  UNKNOWN
+  DESCRIPTION_CHANGE
+  CREATED
+}
+
+enum PriceAreaCode {
+  DK1
+  DK2
+}
+
+enum ProcessStatus {
+  warning
+  success
+  danger
+  info
+}
+
+"Defines the wholesale process type"
+enum ProcessType {
+  BALANCE_FIXING
+  AGGREGATION
+  WHOLESALE_FIXING
+  FIRST_CORRECTION_SETTLEMENT
+  SECOND_CORRECTION_SETTLEMENT
+  THIRD_CORRECTION_SETTLEMENT
+}
+
+enum SortDirection {
+  ASCENDING
+  DESCENDING
+}
+
+enum TimeSeriesType {
+  MGA_EXCHANGE
+  PRODUCTION
+  CONSUMPTION
+}
+
+enum UserRoleChangeType {
+  CREATED
+  NAME_CHANGE
+  DESCRIPTION_CHANGE
+  EIC_FUNCTION_CHANGE
+  STATUS_CHANGE
+  PERMISSIONS_CHANGE
+  PERMISSION_ADDED
+  PERMISSION_REMOVED
+}
+
+enum UserRoleStatus {
+  ACTIVE
+  INACTIVE
+}
+
+"The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
+directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
+
+"Represents a date range"
+scalar DateRange
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
+
+scalar JSON
+
+"The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
+scalar Long
+
+scalar UUID @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc4122")

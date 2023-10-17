@@ -1,7 +1,7 @@
 <watt-card vater inset="0" *transloco="let t; read: 'wholesale.requestCalculation'">
-  <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="requestCalculation()">
     <vater-flex fill="vertical" gap="m">
-      <vater-stack direction="column" gap="s">
+      <vater-stack align="flex-start" direction="column" gap="s">
         <watt-dropdown
           translate="wholesale.requestCalculation.processTypes"
           [label]="t('processType')"
@@ -16,11 +16,27 @@
           [options]="meteringPointOptions"
           dhDropdownTranslator
         />
+        <watt-datepicker
+          [range]="true"
+          [label]="t('period')"
+          [max]="maxDate"
+          [formControl]="form.controls.period"
+        >
+          <watt-field-error *ngIf="form.controls.period.errors?.maxOneMonthDateRange">
+            {{ t('maxPeriodLength')}}
+          </watt-field-error>
+        </watt-datepicker>
+
         <watt-dropdown
           [label]="t('gridAreas')"
           [formControl]="form.controls.gridarea"
           [options]="gridAreaOptions"
         />
+      </vater-stack>
+      <vater-stack direction="column" align="flex-end">
+        <watt-button [disabled]="!form.valid" variant="primary" type="submit"
+          >{{t('request')}}</watt-button
+        >
       </vater-stack>
     </vater-flex>
   </form>

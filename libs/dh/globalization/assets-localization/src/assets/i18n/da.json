@@ -1079,10 +1079,15 @@
       }
     },
     "requestCalculation": {
+      "error": "Der opstod desværre en fejl, under anmodingen om beregning",
+      "success": "Din anmoding er startet.",
       "topBarTitle": "Anmod om beregning",
       "processType": "{{shared.processType}}",
       "meteringPointType": "Målepunktstype",
+      "period": "Periode",
       "gridAreas": "Netområder",
+      "request": "Anmod",
+      "maxPeriodLength": "Perioden må max være en måned",
       "processTypes": {
         "preliminaryaggregation": "Aggregering",
         "balancefixing": "Balancefiksering",

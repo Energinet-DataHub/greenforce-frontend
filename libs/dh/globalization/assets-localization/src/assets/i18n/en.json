@@ -1087,10 +1087,15 @@
       }
     },
     "requestCalculation": {
+      "error": "Unfortunately, an error occurred requesting the calculation",
+      "success": "The calculation has been requested",
       "topBarTitle": "Request calculation",
       "processType": "{{shared.processType}}",
       "meteringPointType": "Type of metering point",
+      "period": "Period",
       "gridareas": "Grid areas",
+      "request": "Request",
+      "maxPeriodLength": "Period must be less than one month",
       "processTypes": {
         "preliminaryaggregation": "Aggregation",
         "balancefixing": "Balance fixing",

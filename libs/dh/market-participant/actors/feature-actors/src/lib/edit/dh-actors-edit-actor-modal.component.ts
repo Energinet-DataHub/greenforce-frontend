@@ -133,6 +133,8 @@ export class DhActorsEditActorModalComponent {
 
         if (queryResult.loading) return;
 
+        console.log(queryResult.data);
+
         if (queryResult.data && !queryResult.data.updateActor.errors && !queryResult.errors) {
           const message = this.transloco.translate(
             'marketParticipant.actorsOverview.edit.updateRequest.success'
