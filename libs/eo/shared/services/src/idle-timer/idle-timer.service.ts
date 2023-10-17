@@ -35,8 +35,8 @@ export class IdleTimerService {
   private authService = inject(EoAuthService);
   private modalService = inject(WattModalService);
   private dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent> | undefined;
-  private warningTimeout = 4000; // 15 minutes in milliseconds
-  private logoutTimeout = 3000; // 5 minutes in milliseconds
+  private warningTimeout = 900000; // 15 minutes in milliseconds
+  private logoutTimeout = 300000; // 5 minutes in milliseconds
   private activityEvents = [
     'mousemove',
     'mousedown',
