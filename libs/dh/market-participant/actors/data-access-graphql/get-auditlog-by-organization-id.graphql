@@ -1,0 +1,12 @@
+query GetAuditLogByOrganizationId($organizationId: UUID!) {
+  organizationAuditLog(organizationId: $organizationId) {
+    organizationId
+    value
+    auditIdentityId
+    identityWithName {
+      displayName
+    }
+    timestamp
+    organizationChangeType
+  }
+}
