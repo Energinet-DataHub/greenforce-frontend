@@ -947,7 +947,11 @@
         "id": "Id",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "period": "Beregningsperiode"
-      }
+      },
+      "emptyTitle": "Ingen ubalancer fundet i perioden",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
     },
     "balanceResponsible": {
       "tabHeading": "Balanceansvarlig",

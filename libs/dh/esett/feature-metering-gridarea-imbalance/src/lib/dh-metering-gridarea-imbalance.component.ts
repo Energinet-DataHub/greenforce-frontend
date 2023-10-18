@@ -19,7 +19,11 @@ import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import {
   BehaviorSubject,
   Subject,
+  combineLatest,
+  debounceTime,
   map,
+  switchMap,
+  takeUntil,
 } from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
@@ -42,6 +46,7 @@ import { DhMeteringGridAreaImbalance } from './dh-metering-gridarea-imbalance';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhMeteringGridAreaImbalanceFiltersComponent } from "./filters/dh-filters.component";
 import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
+import { GetMeteringGridAreaImbalanceDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
     standalone: true,
@@ -109,13 +114,54 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit, OnDestroy {
 
   documentIdSearch$ = new BehaviorSubject<string>('');
 
-  ngOnInit() {
-    const testData = [
-      { __typename: "MeteringGridAreaImbalanceSearchResult", id: '1', gridAreaCode: 'DK1', documentDateTime: new Date('2021-01-01'), receivedDateTime: new Date('2021-01-03'), periodStart: new Date('2021-01-01'), periodEnd: new Date('2021-01-02'), storageId: '1' },
-      { __typename: "MeteringGridAreaImbalanceSearchResult", id: '2', gridAreaCode: 'DK2', documentDateTime: new Date('2021-01-02'), receivedDateTime: new Date('2021-01-04'), periodStart: new Date('2021-01-02'), periodEnd: new Date('2021-01-03'), storageId: '2' }
-    ];
+  private queryVariables$ = combineLatest({
+    filters: this.filter$,
+    pageMetaData: this.pageMetaData$,
+    documentIdSearch: this.documentIdSearch$.pipe(debounceTime(250)),
+  }).pipe(
+    map(({ filters, pageMetaData, documentIdSearch }) => {
+      return { filters: documentIdSearch ? {} : filters, pageMetaData, documentIdSearch };
+    })
+  );
 
-    this.tableDataSource.data = testData as DhMeteringGridAreaImbalance[];
+  meteringGridAreaImbalance$ = this.queryVariables$.pipe(
+    switchMap(
+      ({ filters, pageMetaData, documentIdSearch }) =>
+        this.apollo.watchQuery({
+          useInitialLoading: true,
+          notifyOnNetworkStatusChange: true,
+          fetchPolicy: 'cache-and-network',
+          query: GetMeteringGridAreaImbalanceDocument,
+          variables: {
+            // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
+            // whereas our endpoint's `pageNumber` param starts at `1`
+            pageNumber: pageMetaData.pageIndex + 1,
+            pageSize: pageMetaData.pageSize,
+            gridAreaCode: filters.gridAreas,
+            periodFrom: filters.period?.start,
+            periodTo: filters.period?.end,
+            documentId: documentIdSearch,
+          },
+        }).valueChanges
+    ),
+    takeUntil(this.destroy$)
+  );
+
+  ngOnInit() {
+    this.meteringGridAreaImbalance$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (result) => {
+        this.isLoading = result.loading;
+
+        this.tableDataSource.data = result.data?.meteringGridAreaImbalance.items ?? [];
+        this.totalCount = result.data?.meteringGridAreaImbalance.totalCount ?? 0;
+
+        this.hasError = !!result.errors;
+      },
+      error: () => {
+        this.hasError = true;
+        this.isLoading = false;
+      },
+    });
   }
 
   ngOnDestroy(): void {
