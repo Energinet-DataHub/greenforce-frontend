@@ -215,11 +215,7 @@ export class DhWholesaleRequestCalculationComponent {
 
     if (queryResult.loading) return;
 
-    if (
-      queryResult.data &&
-      queryResult.data.createAggregatedMeasureDataRequest &&
-      !queryResult.errors
-    ) {
+    if (!queryResult.errors && queryResult?.data?.createAggregatedMeasureDataRequest) {
       const message = this._transloco.translate(label('success'));
       this._toastService.open({ message, type: 'success' });
     } else {
