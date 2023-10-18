@@ -53,7 +53,6 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
     <watt-modal
       #modal
       title="New transfer agreement"
-      [size]="'small'"
       closeLabel="Close modal"
       (closed)="onClosed()"
       *ngIf="opened"

@@ -39,6 +39,8 @@ export interface MeteringPoint {
     /** Country-code, ie. 'DE' */
     country: string;
   };
+  assetType: 'Wind' | 'Solar' | 'Other';
+  subMeterType: 'Virtual' | 'Physical';
 }
 
 interface MeteringPointsResponse {

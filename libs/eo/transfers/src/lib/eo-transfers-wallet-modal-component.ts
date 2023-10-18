@@ -59,7 +59,6 @@ import { EoTransfersStore } from './eo-transfers.store';
       title="Create Wallet Deposit Endpoint"
       [loading]="loading"
       loadingMessage="Please wait while we generate your key"
-      size="small"
       closeLabel="Close modal"
       (closed)="onClosed()"
       *ngIf="opened"
