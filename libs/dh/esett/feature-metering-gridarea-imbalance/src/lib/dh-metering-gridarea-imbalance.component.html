@@ -25,7 +25,10 @@ limitations under the License.
       <watt-search [label]="t('filters.documentId')" (search)="documentIdSearch$.next($event)" />
     </vater-stack>
 
-    <dh-metering-gridarea-imbalance-filters [initial]="filter$.value" (filter)="filter$.next($event)" />
+    <dh-metering-gridarea-imbalance-filters
+      [initial]="filter$.value"
+      (filter)="filter$.next($event)"
+    />
 
     <dh-metering-gridarea-imbalance-table
       [tableDataSource]="tableDataSource"

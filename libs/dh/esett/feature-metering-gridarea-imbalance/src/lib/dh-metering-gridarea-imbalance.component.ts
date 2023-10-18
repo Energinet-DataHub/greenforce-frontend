@@ -41,19 +41,19 @@ import {
 } from '@energinet-datahub/watt/vater';
 
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { DhOutgoingMessagesTableComponent } from "./table/dh-table.component";
+import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
 import { DhMeteringGridAreaImbalance } from './dh-metering-gridarea-imbalance';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { DhMeteringGridAreaImbalanceFiltersComponent } from "./filters/dh-filters.component";
+import { DhMeteringGridAreaImbalanceFiltersComponent } from './filters/dh-filters.component';
 import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
 import { GetMeteringGridAreaImbalanceDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-    standalone: true,
-    selector: 'dh-metering-gridarea-imbalance',
-    templateUrl: './dh-metering-gridarea-imbalance.component.html',
-    styles: [
-        `
+  standalone: true,
+  selector: 'dh-metering-gridarea-imbalance',
+  templateUrl: './dh-metering-gridarea-imbalance.component.html',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -70,23 +70,23 @@ import { GetMeteringGridAreaImbalanceDocument } from '@energinet-datahub/dh/shar
           var(--watt-space-ml--negative);
       }
     `,
-    ],
-    imports: [
-        TranslocoDirective,
-        TranslocoPipe,
-        RxPush,
-        WATT_CARD,
-        WattPaginatorComponent,
-        WattButtonComponent,
-        WattSearchComponent,
-        VaterFlexComponent,
-        VaterSpacerComponent,
-        VaterStackComponent,
-        VaterUtilityDirective,
+  ],
+  imports: [
+    TranslocoDirective,
+    TranslocoPipe,
+    RxPush,
+    WATT_CARD,
+    WattPaginatorComponent,
+    WattButtonComponent,
+    WattSearchComponent,
+    VaterFlexComponent,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    VaterUtilityDirective,
 
-        DhMeteringGridAreaImbalanceFiltersComponent,
-        DhOutgoingMessagesTableComponent,
-    ]
+    DhMeteringGridAreaImbalanceFiltersComponent,
+    DhOutgoingMessagesTableComponent,
+  ],
 })
 export class DhMeteringGridAreaImbalanceComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);

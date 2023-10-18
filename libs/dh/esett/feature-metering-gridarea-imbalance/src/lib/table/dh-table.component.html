@@ -25,11 +25,23 @@ limitations under the License.
     [activeRow]="activeRow"
     (rowClick)="onRowClick($event)"
   >
-    <ng-container *wattTableCell="columns['documentDateTime']; header: t('columns.documentDateTime'); let imbalance">
+    <ng-container
+      *wattTableCell="
+        columns['documentDateTime'];
+        header: t('columns.documentDateTime');
+        let imbalance
+      "
+    >
       {{ imbalance.documentDateTime | wattDate : "long" }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['receivedDateTime']; header: t('columns.receivedDateTime'); let imbalance">
+    <ng-container
+      *wattTableCell="
+        columns['receivedDateTime'];
+        header: t('columns.receivedDateTime');
+        let imbalance
+      "
+    >
       {{ imbalance.receivedDateTime | wattDate : "long" }}
     </ng-container>
 
@@ -37,14 +49,16 @@ limitations under the License.
       {{ imbalance.id }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let imbalance">
+    <ng-container
+      *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let imbalance"
+    >
       {{ imbalance.gridAreaCode }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let imbalance">
-      {{ imbalance.periodStart | wattDate : "short" }} - {{ imbalance.periodEnd | wattDate : "short" }}
+      {{ imbalance.periodStart | wattDate : "short" }} -
+      {{ imbalance.periodEnd | wattDate : "short" }}
     </ng-container>
-
   </watt-table>
 
   <vater-stack
