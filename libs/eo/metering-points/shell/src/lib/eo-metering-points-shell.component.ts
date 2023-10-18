@@ -64,7 +64,8 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
 
       <ul>
         <li>
-          'ON' indicates that the Consumption metering point actively issues consumption certificates.
+          'ON' indicates that the Consumption metering point actively issues consumption
+          certificates.
         </li>
         <li>
           'OFF' indicates that the Consumption metering point will source its electricity from
