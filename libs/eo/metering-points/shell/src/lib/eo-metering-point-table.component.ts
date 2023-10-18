@@ -111,7 +111,7 @@ class GranularCertificateHelperComponent {}
       <!-- GRANULAR CERTIFICATES Column -->
       <ng-container *wattTableCell="columns.gc; let meteringPoint">
         <div
-          *ngIf="meteringPoint.type === 'production'"
+          *ngIf="meteringPoint.type === 'production' && (meteringPoint.assetType === 'Wind' || meteringPoint.assetType === 'Solar')"
           style="display: flex; align-items: center;"
         >
           <mat-slide-toggle
