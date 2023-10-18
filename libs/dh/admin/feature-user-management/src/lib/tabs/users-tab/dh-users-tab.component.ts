@@ -45,6 +45,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { DhInviteUserModalComponent } from '@energinet-datahub/dh/admin/feature-invite-user-modal';
 import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'dh-users-tab',
@@ -91,6 +92,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
     provideComponentStore(DhAdminUserManagementDataAccessApiStore),
     provideComponentStore(DhUserActorsDataAccessApiStore),
     provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
+    FormGroupDirective
   ],
   imports: [
     CommonModule,

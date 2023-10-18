@@ -31,10 +31,6 @@ type ActorNameDto {
   value: String!
 }
 
-type ActorNumber {
-  value: String!
-}
-
 type AddressDto {
   streetName: String
   number: String
@@ -54,8 +50,8 @@ type BalanceResponsibleType {
   balanceResponsibleWithName: ActorNameDto
   id: String!
   receivedDateTime: DateTime!
-  supplier: ActorNumber!
-  balanceResponsible: ActorNumber!
+  supplier: String!
+  balanceResponsible: String!
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
   validToDate: DateTime
@@ -267,6 +263,7 @@ input ChangeOrganizationDtoInput {
   address: AddressDtoInput!
   comment: String
   status: OrganizationStatus!
+  domain: String!
 }
 
 input CreateAggregatedMeasureDataRequestInput {
