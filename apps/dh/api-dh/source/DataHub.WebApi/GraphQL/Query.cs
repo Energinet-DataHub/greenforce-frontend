@@ -23,7 +23,6 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Energinet.DataHub.WebApi.Extensions;
 using HotChocolate;
-using HotChocolate.Authorization;
 using Microsoft.AspNetCore.Http;
 using NodaTime;
 using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
