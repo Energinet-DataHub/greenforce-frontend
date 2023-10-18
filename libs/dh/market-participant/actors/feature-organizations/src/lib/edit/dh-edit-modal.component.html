@@ -25,6 +25,10 @@ limitations under the License.
       <watt-field-error *ngIf="domainControl.hasError('required')">
         {{ t("required") }}
       </watt-field-error>
+
+      <watt-field-error *ngIf="domainControl.hasError('pattern')">
+        {{ t("invalidDomain") }}
+      </watt-field-error>
     </watt-text-field>
   </form>
 

@@ -67,7 +67,7 @@ Small.args = {
   disableClose: true,
 };
 
-export const Normal: StoryFn<WattModalComponent> = (args) => ({
+export const Medium: StoryFn<WattModalComponent> = (args) => ({
   props: { ...args, exampleFormControl: new FormControl(null) },
   template: `
     <watt-button (click)="modal.open()">{{title}}</watt-button>
@@ -83,9 +83,9 @@ export const Normal: StoryFn<WattModalComponent> = (args) => ({
   `,
 });
 
-Normal.args = {
+Medium.args = {
   title: 'Create User',
-  size: 'normal',
+  size: 'medium',
   disableClose: false,
 };
 

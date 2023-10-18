@@ -262,5 +262,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Guid organizationId,
             [Service] IMarketParticipantClient client) =>
             client.GetActorsAsync(organizationId);
+
+        public Task<IEnumerable<OrganizationAuditLogDto>> GetOrganizationAuditLogAsync(
+            Guid organizationId,
+            [Service] IMarketParticipantClient client) =>
+            client.GetAuditLogEntriesAsync(organizationId);
     }
 }

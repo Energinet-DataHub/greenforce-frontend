@@ -188,11 +188,11 @@ describe(WattTableComponent.name, () => {
       sortDirection: 'asc',
     });
 
-    expect(screen.getByRole('columnheader', { name: 'position' })).toHaveAttribute(
+    expect(screen.getByRole('columnheader', { name: 'position' }).children[0]).toHaveAttribute(
       'aria-sort',
       'ascending'
     );
-    expect(screen.getByRole('columnheader', { name: 'weight' })).toHaveAttribute(
+    expect(screen.getByRole('columnheader', { name: 'weight' }).children[0]).toHaveAttribute(
       'aria-sort',
       'none'
     );
@@ -209,7 +209,7 @@ describe(WattTableComponent.name, () => {
     await setup({ dataSource, columns, sortChange });
 
     const position = screen.getByRole('columnheader', { name: 'position' });
-    userEvent.click(position);
+    userEvent.click(position.children[0]);
 
     expect(sortChange).toHaveBeenCalledWith({
       active: 'position',

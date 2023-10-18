@@ -26,8 +26,8 @@ type BalanceResponsibleType {
   balanceResponsibleWithName: ActorNameDto
   id: String!
   receivedDateTime: DateTime!
-  supplier: ActorNumber!
-  balanceResponsible: ActorNumber!
+  supplier: String!
+  balanceResponsible: String!
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
   validToDate: DateTime
@@ -91,6 +91,15 @@ enum ExchangeEventCalculationType {
   AGGREGATION
 }
 
+type OrganizationAuditLog {
+  identityWithName: GetAuditIdentityResponseDto!
+  organizationId: UUID!
+  value: String!
+  auditIdentityId: UUID!
+  timestamp: DateTime!
+  organizationChangeType: OrganizationChangeType!
+}
+
 type Organization {
   organizationId: String
   actors: [Actor!]
@@ -144,6 +153,7 @@ type Query {
   esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String): ExchangeEventSearchResponse!
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
+  organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
 }
 
 type Mutation {
@@ -180,10 +190,6 @@ type ActorNameDto {
 """The `DateTime` scalar represents an ISO-8601 compliant date time type."""
 scalar DateTime
 
-type ActorNumber {
-  value: String!
-}
-
 enum TimeSeriesType {
   MGA_EXCHANGE
   PRODUCTION
@@ -218,6 +224,21 @@ enum DocumentStatus {
   AWAITING_REPLY
   ACCEPTED
   REJECTED
+}
+
+type GetAuditIdentityResponseDto {
+  displayName: String!
+}
+
+enum OrganizationChangeType {
+  DOMAIN_CHANGE
+  NAME
+  BUSINESS_REGISTER_IDENTIFIER
+  ADDRESS_CITY
+  ADDRESS_COUNTRY
+  ADDRESS_NUMBER
+  ADDRESS_STREET_NAME
+  ADDRESS_ZIP_CODE
 }
 
 enum OrganizationStatus {
@@ -286,14 +307,6 @@ enum ContactCategory {
 enum PriceAreaCode {
   DK1
   DK2
-}
-
-input ChangeOrganizationDtoInput {
-  name: String!
-  businessRegisterIdentifier: String!
-  address: AddressDtoInput!
-  comment: String
-  status: OrganizationStatus!
 }
 
 enum MeteringPointType {
@@ -392,14 +405,6 @@ type ExchangeEventSearchResult {
   documentStatus: DocumentStatus!
 }
 
-input AddressDtoInput {
-  streetName: String
-  number: String
-  zipCode: String
-  city: String
-  country: String!
-}
-
 input UpdateActorInput {
   actorId: UUID!
   actorName: String!
@@ -441,7 +446,7 @@ type CreateAggregatedMeasureDataRequestPayload {
 
 input UpdateOrganizationInput {
   orgId: UUID!
-  changes: ChangeOrganizationDtoInput!
+  domain: String!
 }
 
 union UpdateOrganizationError = MarketParticipantBadRequestError

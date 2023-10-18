@@ -17,24 +17,17 @@ using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class BalanceResponsibleType : ObjectType<BalanceResponsibleResult>
+    public class EsettExchangeEventType : ObjectType<ExchangeEventTrackingResult>
     {
         protected override void Configure(
-            IObjectTypeDescriptor<BalanceResponsibleResult> descriptor)
+            IObjectTypeDescriptor<ExchangeEventTrackingResult> descriptor)
         {
-            descriptor.Name("BalanceResponsibleType");
+            descriptor.Name("EsettOutgoingMessage");
 
             descriptor
-               .Field("gridAreaWithName")
-               .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(BalanceResponsibleResult)!, default!));
-
-            descriptor
-               .Field("supplierWithName")
-               .ResolveWith<EsettExchangeResolvers>(c => c.GetSupplierWithNameAsync(default!, default!));
-
-            descriptor
-               .Field("balanceResponsibleWithName")
-               .ResolveWith<EsettExchangeResolvers>(c => c.GetBalanceResponsibleWithNameAsync(default!, default!));
+               .Field(f => f.GridAreaCode)
+               .Name("gridArea")
+               .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(ExchangeEventTrackingResult)!, default!));
         }
     }
 }

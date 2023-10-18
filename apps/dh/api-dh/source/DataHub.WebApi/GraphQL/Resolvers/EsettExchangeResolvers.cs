@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
@@ -29,15 +28,20 @@ namespace Energinet.DataHub.WebApi.GraphQL
             GridAreaByCodeBatchDataLoader dataLoader) =>
             await dataLoader.LoadAsync(result.GridArea).ConfigureAwait(false);
 
+        public async Task<GridAreaDto?> GetGridAreaAsync(
+            [Parent] ExchangeEventTrackingResult result,
+            GridAreaByCodeBatchDataLoader dataLoader) =>
+            await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
+
         public Task<ActorNameDto?> GetSupplierWithNameAsync(
             [Parent] BalanceResponsibleResult result,
             ActorNameByMarketRoleDataLoader dataLoader) =>
-            dataLoader.LoadAsync((result.Supplier.Value, EicFunction.EnergySupplier));
+            dataLoader.LoadAsync((result.Supplier, EicFunction.EnergySupplier));
 
         public Task<ActorNameDto?> GetBalanceResponsibleWithNameAsync(
             [Parent] BalanceResponsibleResult result,
             ActorNameByMarketRoleDataLoader dataLoader) =>
-            dataLoader.LoadAsync((result.BalanceResponsible.Value, EicFunction.BalanceResponsibleParty));
+            dataLoader.LoadAsync((result.BalanceResponsible, EicFunction.BalanceResponsibleParty));
 
         private string? GetDocumentLink(
             string action,

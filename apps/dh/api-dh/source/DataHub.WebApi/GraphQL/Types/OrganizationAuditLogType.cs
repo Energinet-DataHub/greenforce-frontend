@@ -12,22 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using Energinet.DataHub.MarketParticipant.Client.Models;
 using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class EsettExchangeEventType : ObjectType<ExchangeEventTrackingResult>
+    public class OrganizationAuditLogType : ObjectType<OrganizationAuditLogDto>
     {
         protected override void Configure(
-            IObjectTypeDescriptor<ExchangeEventTrackingResult> descriptor)
+            IObjectTypeDescriptor<OrganizationAuditLogDto> descriptor)
         {
-            descriptor.Name("EsettOutgoingMessage");
+            descriptor.Name("OrganizationAuditLog");
 
             descriptor
-               .Field(f => f.GridAreaCode)
-               .Name("gridArea")
-               .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default!, default!));
+               .Field("identityWithName")
+               .ResolveWith<MarketParticipantResolvers>(c => c.GetIdentityAsync(default!, default!));
         }
     }
 }
