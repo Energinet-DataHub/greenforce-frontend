@@ -23,9 +23,10 @@ import {
   AfterViewInit,
   OnChanges,
   inject,
+  DestroyRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { Apollo, MutationResult } from 'apollo-angular';
 
@@ -42,7 +43,7 @@ import {
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhOrganizationDetails } from '../dh-organization';
-import { catchError } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const validDomainRegExp = /^([A-Za-z0-9-]{1,63}\.)+[A-Za-z]{2,6}$/;
 
@@ -50,6 +51,7 @@ const validDomainRegExp = /^([A-Za-z0-9-]{1,63}\.)+[A-Za-z]{2,6}$/;
   standalone: true,
   selector: 'dh-organization-edit-modal',
   templateUrl: './dh-edit-modal.component.html',
+  providers: [FormGroupDirective],
   styles: [
     `
       .domain-field {
@@ -73,6 +75,7 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
   private readonly apollo = inject(Apollo);
   private readonly transloco = inject(TranslocoService);
   private readonly toastService = inject(WattToastService);
+  private readonly destroyRef = inject(DestroyRef);
 
   @ViewChild(WattModalComponent)
   innerModal?: WattModalComponent;
@@ -118,7 +121,7 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
           return [];
         },
       })
-      .subscribe((queryResult) => {
+      .pipe(takeUntilDestroyed(this.destroyRef)).subscribe((queryResult) => {
 
         this.isLoading = queryResult.loading;
 
