@@ -28,6 +28,8 @@ import {
   mockGetActorsQuery,
   mockGetOrganizationByIdQuery,
   mockGetOrganizationsQuery,
+  mockUpdateOrganizationMutation,
+  UpdateOrganizationMutation,
   mockGetAuditLogByOrganizationIdQuery,
   OrganizationChangeType,
   OrganizationAuditLog,
@@ -60,6 +62,7 @@ export function marketParticipantMocks(apiBase: string) {
     getOrganizations_GrahpQL(),
     getOrganizationById(),
     getActorByOrganizationId(),
+    updateOrganization(),
     getAuditLogByOrganizationId(),
   ];
 }
@@ -228,6 +231,21 @@ function getActorByOrganizationId() {
     ];
 
     return res(ctx.delay(300), ctx.data({ __typename: 'Query', actorsByOrganizationId: actors }));
+  });
+}
+
+function updateOrganization() {
+  return mockUpdateOrganizationMutation((req, res, ctx) => {
+    const response: UpdateOrganizationMutation = {
+      __typename: 'Mutation',
+      updateOrganization: {
+        __typename: 'UpdateOrganizationPayload',
+        errors: [],
+        boolean: true,
+      },
+    };
+
+    return res(ctx.delay(300), ctx.data(response));
   });
 }
 
