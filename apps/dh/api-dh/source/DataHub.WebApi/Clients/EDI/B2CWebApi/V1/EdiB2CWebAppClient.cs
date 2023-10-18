@@ -267,8 +267,14 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         [System.Runtime.Serialization.EnumMember(Value = @"WholesaleFixing")]
         WholesaleFixing = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Correction")]
-        Correction = 3,
+        [System.Runtime.Serialization.EnumMember(Value = @"FirstCorrection")]
+        FirstCorrection = 3,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"SecondCorrection")]
+        SecondCorrection = 4,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"ThirdCorrection")]
+        ThirdCorrection = 5,
 
     }
 
@@ -286,7 +292,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         [Newtonsoft.Json.JsonProperty("startDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string StartDate { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("endDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("endDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string EndDate { get; set; }
 
         [Newtonsoft.Json.JsonProperty("gridArea", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
