@@ -69,7 +69,6 @@ enum EicFunction {
   MeteringPointAdministrator
   SystemOperator
   DanishEnergyAgency
-  ElOverblik
   DataHubAdministrator
   IndependentAggregator
   SerialEnergyTrader
