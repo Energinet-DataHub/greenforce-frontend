@@ -119,7 +119,6 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
         },
       })
       .subscribe((queryResult) => {
-
         this.isLoading = queryResult.loading;
 
         if (queryResult.loading) {
@@ -153,6 +152,6 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
   private isUpdateSuccessful(
     mutationResult: MutationResult<UpdateOrganizationMutation>['data']
   ): boolean {
-      return !mutationResult?.updateOrganization.errors?.length;
+    return !mutationResult?.updateOrganization.errors?.length;
   }
 }
