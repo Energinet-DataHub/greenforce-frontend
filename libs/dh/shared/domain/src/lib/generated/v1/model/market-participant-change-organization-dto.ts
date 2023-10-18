@@ -19,6 +19,7 @@ export interface MarketParticipantChangeOrganizationDto {
     address: MarketParticipantAddressDto;
     comment?: string | null;
     status: MarketParticipantOrganizationStatus;
+    domain: string;
 }
 export namespace MarketParticipantChangeOrganizationDto {
 }
