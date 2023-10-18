@@ -603,9 +603,6 @@
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
             "gridArea": "Grid area"
-          },
-          "history": {
-            "tabLabel": "History"
           }
         }
       },
@@ -658,12 +655,26 @@
           },
           "actors": {
             "tabLabel": "Actors"
+          },
+          "history": {
+            "tabLabel": "History",
+            "changeTypes": {
+              "NAME": "<b>{{ identity }}</b> changed the name to <b>{{ value }}</b>",
+              "DOMAIN_CHANGE": "<b>{{ identity }}</b> changed the domain to <b>{{ value }}</b>",
+              "BUSINESS_REGISTER_IDENTIFIER": "<b>{{ identity }}</b> changed the business id to <b>{{ value }}</b>",
+              "ADDRESS_CITY": "<b>{{ identity }}</b> changed the city to <b>{{ value }}</b>",
+              "ADDRESS_COUNTRY": "<b>{{ identity }}</b> changed the country to <b>{{ value }}</b>",
+              "ADDRESS_NUMBER": "<b>{{ identity }}</b> changed the street number to <b>{{ value }}</b>",
+              "ADDRESS_STREET_NAME": "<b>{{ identity }}</b> changed the street name to <b>{{ value }}</b>",
+              "ADDRESS_ZIP_CODE": "<b>{{ identity }}</b> changed the zip code to <b>{{ value }}</b>"
+            }
           }
         }
       },
       "edit": {
         "domainLabel": "Domain",
         "required": "Field is required",
+        "invalidDomain": "Invalid domain",
         "cancel": "Cancel",
         "save": "Save changes",
         "updateRequest": {

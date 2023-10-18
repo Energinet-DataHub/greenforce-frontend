@@ -31,8 +31,10 @@ import { WattResizeObserverDirective } from '../../utils/resize-observer';
 import { WattButtonComponent } from '../button';
 import { WattSpinnerComponent } from '../spinner';
 
-import { WattModalModule, WattModalService, WattModalSize } from './watt-modal.service';
+import { WattModalModule, WattModalService } from './watt-modal.service';
 import { MatDialogRef } from '@angular/material/dialog';
+
+export type WattModalSize = 'small' | 'medium' | 'large';
 
 /**
  * Component for representing a binary decision in the form of
@@ -61,9 +63,8 @@ export class WattModalComponent {
   @Input()
   title = '';
 
-  /** Used to adjust modal size to best fit the content. */
   @Input()
-  size: WattModalSize = 'normal';
+  size: WattModalSize = 'medium';
 
   /** Whether the modal should show a loading state. */
   @Input()
@@ -110,7 +111,6 @@ export class WattModalComponent {
    */
   open() {
     this.modalService.open({
-      size: this.size,
       disableClose: this.disableClose,
       templateRef: this.modal,
       onClosed: this.closed,

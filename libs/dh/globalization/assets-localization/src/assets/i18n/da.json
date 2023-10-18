@@ -596,9 +596,6 @@
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
             "gridArea": "Netområde"
-          },
-          "history": {
-            "tabLabel": "Historik"
           }
         }
       },
@@ -651,12 +648,26 @@
           },
           "actors": {
             "tabLabel": "Aktører"
+          },
+          "history": {
+            "tabLabel": "Historik",
+            "changeTypes": {
+              "NAME": "<b>{{ identity }}</b> ændrede navnet til <b>{{ value }}</b>",
+              "DOMAIN_CHANGE": "<b>{{ identity }}</b> ændrede domænet til <b>{{ value }}</b>",
+              "BUSINESS_REGISTER_IDENTIFIER": "<b>{{ identity }}</b> ændrede CVR-nummeret til <b>{{ value }}</b>",
+              "ADDRESS_CITY": "<b>{{ identity }}</b> ændrede byen til <b>{{ value }}</b>",
+              "ADDRESS_COUNTRY": "<b>{{ identity }}</b> ændrede landet til <b>{{ value }}</b>",
+              "ADDRESS_NUMBER": "<b>{{ identity }}</b> ændrede vejnummeret til <b>{{ value }}</b>",
+              "ADDRESS_STREET_NAME": "<b>{{ identity }}</b> ændrede vejnavnet til <b>{{ value }}</b>",
+              "ADDRESS_ZIP_CODE": "<b>{{ identity }}</b> ændrede postnummeret til <b>{{ value }}</b>"
+            }
           }
         }
       },
       "edit": {
         "domainLabel": "Domæne",
         "required": "Feltet er påkrævet",
+        "invalidDomain": "Ugyldigt domæne",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {

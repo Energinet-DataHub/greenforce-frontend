@@ -90,6 +90,15 @@ enum ExchangeEventCalculationType {
   AGGREGATION
 }
 
+type OrganizationAuditLog {
+  identityWithName: GetAuditIdentityResponseDto!
+  organizationId: UUID!
+  value: String!
+  auditIdentityId: UUID!
+  timestamp: DateTime!
+  organizationChangeType: OrganizationChangeType!
+}
+
 type Organization {
   organizationId: String
   actors: [Actor!]
@@ -140,9 +149,9 @@ type Query {
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String): ExchangeEventSearchResponse!
-  meteringGridAreaImbalance(pageNumber: Int!, pageSize: Int!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String): MeteringGridAreaImbalanceSearchResponse!
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
+  organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
 }
 
 type Mutation {
@@ -215,6 +224,21 @@ enum DocumentStatus {
   REJECTED
 }
 
+type GetAuditIdentityResponseDto {
+  displayName: String!
+}
+
+enum OrganizationChangeType {
+  DOMAIN_CHANGE
+  NAME
+  BUSINESS_REGISTER_IDENTIFIER
+  ADDRESS_CITY
+  ADDRESS_COUNTRY
+  ADDRESS_NUMBER
+  ADDRESS_STREET_NAME
+  ADDRESS_ZIP_CODE
+}
+
 enum OrganizationStatus {
   NEW
   ACTIVE
@@ -283,14 +307,6 @@ enum PriceAreaCode {
   DK2
 }
 
-input ChangeOrganizationDtoInput {
-  name: String!
-  businessRegisterIdentifier: String!
-  address: AddressDtoInput!
-  comment: String
-  status: OrganizationStatus!
-}
-
 enum MeteringPointType {
   PRODUCTION
   FLEX_CONSUMPTION
@@ -317,11 +333,6 @@ enum BalanceResponsibleSortProperty {
 
 type BalanceResponsiblePageResult {
   page: [BalanceResponsibleType!]!
-  totalCount: Int!
-}
-
-type MeteringGridAreaImbalanceSearchResponse {
-  items: [MeteringGridAreaImbalanceSearchResult!]!
   totalCount: Int!
 }
 
@@ -392,24 +403,6 @@ type ExchangeEventSearchResult {
   documentStatus: DocumentStatus!
 }
 
-type MeteringGridAreaImbalanceSearchResult {
-  id: String!
-  gridAreaCode: String!
-  documentDateTime: DateTime!
-  receivedDateTime: DateTime!
-  periodStart: DateTime!
-  periodEnd: DateTime!
-  storageId: String!
-}
-
-input AddressDtoInput {
-  streetName: String
-  number: String
-  zipCode: String
-  city: String
-  country: String!
-}
-
 input UpdateActorInput {
   actorId: UUID!
   actorName: String!
@@ -451,7 +444,7 @@ type CreateAggregatedMeasureDataRequestPayload {
 
 input UpdateOrganizationInput {
   orgId: UUID!
-  changes: ChangeOrganizationDtoInput!
+  domain: String!
 }
 
 union UpdateOrganizationError = MarketParticipantBadRequestError

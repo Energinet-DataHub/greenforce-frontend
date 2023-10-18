@@ -557,6 +557,26 @@
           }
         }
       },
+      "MeteringGridAreaImbalancePerDayDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "imbalanceDay": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "incomingQuantity": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "outgoingQuantity": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        }
+      },
       "MeteringGridAreaImbalanceSearchFilter": {
         "type": "object",
         "additionalProperties": false,
@@ -630,6 +650,12 @@
           "periodEnd": {
             "type": "string",
             "format": "date-time"
+          },
+          "imbalancePerDay": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MeteringGridAreaImbalancePerDayDto"
+            }
           },
           "storageId": {
             "type": "string"

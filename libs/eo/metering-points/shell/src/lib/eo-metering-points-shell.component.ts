@@ -20,27 +20,59 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import { EoMeteringPointsTableComponent } from './eo-metering-point-table.component';
 import { EoMeteringPointsStore } from './eo-metering-points.store';
-import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [AsyncPipe, NgIf, EoMeteringPointsTableComponent, WATT_CARD, EoBetaMessageComponent],
+  imports: [
+    AsyncPipe,
+    NgIf,
+    EoMeteringPointsTableComponent,
+    WATT_CARD,
+    WattValidationMessageComponent,
+  ],
   selector: 'eo-metering-points-shell',
   styles: [
     `
-      watt-card-title {
+      :host {
         display: flex;
-        gap: var(--watt-space-m);
-        align-items: center;
+        flex-direction: column;
+        gap: var(--watt-space-l);
       }
     `,
   ],
   template: `
-    <eo-eo-beta-message></eo-eo-beta-message>
+    <watt-validation-message
+      label="You have the option to switch your metering points ON and OFF."
+      size="normal"
+      icon="info"
+      [autoScrollIntoView]="false"
+    >
+      <p>For Production metering points:</p>
+
+      <ul>
+        <li>Turning it 'ON' means the metering point is actively issuing certificates of power.</li>
+        <li>Switching it 'OFF' will stop the metering point from issuing certificates.</li>
+      </ul>
+
+      <br />
+      <p>For Consumption metering points:</p>
+
+      <ul>
+        <li>
+          'ON' indicates that the Consumption metering point actively issues consumption
+          certificates.
+        </li>
+        <li>
+          'OFF' indicates that the Consumption metering point will source its electricity from
+          elsewhere.
+        </li>
+      </ul>
+    </watt-validation-message>
     <watt-card>
       <watt-card-title>
         <h3 class="watt-on-light--high-emphasis">Results</h3>

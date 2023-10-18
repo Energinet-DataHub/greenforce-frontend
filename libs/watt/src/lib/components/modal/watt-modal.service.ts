@@ -17,24 +17,16 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { DestroyRef, EventEmitter, Injectable, NgModule, TemplateRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Subject, exhaustMap, ignoreElements, map, mergeWith, of, take, tap } from 'rxjs';
 
-export type WattModalSize = 'small' | 'normal' | 'large';
-
 export interface WattModalConfig {
-  size?: WattModalSize;
   templateRef?: TemplateRef<unknown>;
   component?: ComponentType<unknown>;
+  data?: unknown;
   disableClose?: boolean;
   onClosed?: EventEmitter<boolean> | ((result: boolean) => void);
 }
-
-const sizeConfig: Record<WattModalSize, MatDialogConfig> = {
-  small: { width: '36vw', maxHeight: '100vh' },
-  normal: { width: '50vw', maxHeight: '100vh' },
-  large: { width: '65vw', maxHeight: '100vh' },
-};
 
 @Injectable()
 export class WattModalService {
@@ -57,7 +49,8 @@ export class WattModalService {
             ...(config.component ? ['watt-modal-panel--component'] : []),
           ],
           disableClose: config.disableClose ?? false,
-          ...sizeConfig[config.size ?? 'normal'],
+          data: config.data,
+          maxWidth: 'none',
         });
 
         return this.closeSubject.pipe(

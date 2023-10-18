@@ -22,6 +22,7 @@ import { eoAuthorizationInterceptorProvider } from '@energinet-datahub/eo/shared
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
+import { WattModalService } from '@energinet-datahub/watt/modal';
 
 export const eoCoreShellProviders = [
   browserConfigurationProviders,
@@ -29,4 +30,5 @@ export const eoCoreShellProviders = [
   danishDatetimeProviders,
   importProvidersFrom(MatDialogModule, MatSnackBarModule),
   eoAuthorizationInterceptorProvider,
+  WattModalService,
 ];
