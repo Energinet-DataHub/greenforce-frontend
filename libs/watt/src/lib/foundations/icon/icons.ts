@@ -42,6 +42,7 @@ const materialIcons = {
   menu: 'menu',
   logout: 'logout',
   login: 'lock_open',
+  help: 'help',
   // Navigation
   left: 'navigate_before',
   right: 'navigate_next',
