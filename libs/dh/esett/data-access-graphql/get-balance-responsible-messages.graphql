@@ -16,15 +16,11 @@ query getBalanceResponsibleMessages(
       supplierWithName {
         value
       }
-      supplier {
-        value
-      }
+      supplier
       balanceResponsibleWithName {
         value
       }
-      balanceResponsible {
-        value
-      }
+      balanceResponsible
       meteringPointType
       validFromDate
       validToDate

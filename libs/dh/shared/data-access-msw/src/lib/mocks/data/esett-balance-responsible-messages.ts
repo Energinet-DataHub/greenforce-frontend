@@ -25,14 +25,8 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
     __typename: 'BalanceResponsibleType',
     id: '1',
     receivedDateTime: new Date('2021-02-01T00:00:00.000Z'),
-    supplier: {
-      __typename: 'ActorNumber',
-      value: '123',
-    },
-    balanceResponsible: {
-      __typename: 'ActorNumber',
-      value: '321',
-    },
+    supplier: '123',
+    balanceResponsible: '321',
     gridArea: '344',
     gridAreaWithName: {
       __typename: 'GridAreaDto',
@@ -55,14 +49,8 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
     __typename: 'BalanceResponsibleType',
     id: '2',
     receivedDateTime: new Date('2022-01-01T00:00:00.000Z'),
-    supplier: {
-      __typename: 'ActorNumber',
-      value: '111',
-    },
-    balanceResponsible: {
-      __typename: 'ActorNumber',
-      value: '222',
-    },
+    supplier: '111',
+    balanceResponsible: '222',
     gridArea: '999',
     gridAreaWithName: {
       __typename: 'GridAreaDto',
@@ -85,14 +73,8 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
     __typename: 'BalanceResponsibleType',
     id: '3',
     receivedDateTime: new Date('2022-01-01T00:00:00.000Z'),
-    supplier: {
-      __typename: 'ActorNumber',
-      value: '888',
-    },
-    balanceResponsible: {
-      __typename: 'ActorNumber',
-      value: '999',
-    },
+    supplier: '888',
+    balanceResponsible: '999',
     gridArea: '000',
     gridAreaWithName: null,
     meteringPointType: TimeSeriesType.Production,

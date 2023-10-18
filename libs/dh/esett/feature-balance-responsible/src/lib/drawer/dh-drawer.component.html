@@ -24,20 +24,20 @@ limitations under the License.
           [label]="t('electricitySupplier')"
           [value]="
             balanceResponsibleMessage.supplierWithName
-              ? balanceResponsibleMessage.supplier.value +
+              ? balanceResponsibleMessage.supplier +
                 ' - ' +
                 balanceResponsibleMessage.supplierWithName.value
-              : balanceResponsibleMessage.supplier.value
+              : balanceResponsibleMessage.supplier
           "
         />
         <watt-description-list-item
           [label]="t('balanceResponsible')"
           [value]="
             balanceResponsibleMessage.balanceResponsibleWithName
-              ? balanceResponsibleMessage.balanceResponsible.value +
+              ? balanceResponsibleMessage.balanceResponsible +
                 ' - ' +
                 balanceResponsibleMessage.balanceResponsibleWithName.value
-              : balanceResponsibleMessage.balanceResponsible.value
+              : balanceResponsibleMessage.balanceResponsible
           "
         />
         <watt-description-list-item

@@ -26,8 +26,8 @@ type BalanceResponsibleType {
   balanceResponsibleWithName: ActorNameDto
   id: String!
   receivedDateTime: DateTime!
-  supplier: ActorNumber!
-  balanceResponsible: ActorNumber!
+  supplier: String!
+  balanceResponsible: String!
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
   validToDate: DateTime
@@ -187,10 +187,6 @@ type ActorNameDto {
 
 """The `DateTime` scalar represents an ISO-8601 compliant date time type."""
 scalar DateTime
-
-type ActorNumber {
-  value: String!
-}
 
 enum TimeSeriesType {
   MGA_EXCHANGE
