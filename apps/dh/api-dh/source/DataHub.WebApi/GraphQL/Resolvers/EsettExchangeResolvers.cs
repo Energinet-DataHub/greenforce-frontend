@@ -36,12 +36,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public Task<ActorNameDto?> GetSupplierWithNameAsync(
             [Parent] BalanceResponsibleResult result,
             ActorNameByMarketRoleDataLoader dataLoader) =>
-            dataLoader.LoadAsync((result.Supplier.Value, EicFunction.EnergySupplier));
+            dataLoader.LoadAsync((result.Supplier, EicFunction.EnergySupplier));
 
         public Task<ActorNameDto?> GetBalanceResponsibleWithNameAsync(
             [Parent] BalanceResponsibleResult result,
             ActorNameByMarketRoleDataLoader dataLoader) =>
-            dataLoader.LoadAsync((result.BalanceResponsible.Value, EicFunction.BalanceResponsibleParty));
+            dataLoader.LoadAsync((result.BalanceResponsible, EicFunction.BalanceResponsibleParty));
 
         private string? GetDocumentLink(
             string action,
