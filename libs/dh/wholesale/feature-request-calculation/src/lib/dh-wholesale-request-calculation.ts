@@ -104,7 +104,6 @@ export class DhWholesaleRequestCalculationComponent {
   private _transloco = inject(TranslocoService);
   private _toastService = inject(WattToastService);
   private _destroyRef = inject(DestroyRef);
-  private _selectedGlnOrEicNumber: string | null = null;
   private _selectedEicFunction: EicFunction | null | undefined = null;
 
   maxDate = subDays(new Date(), 5);
@@ -116,8 +115,8 @@ export class DhWholesaleRequestCalculationComponent {
       WattRangeValidators.required(),
       maxOneMonthDateRangeValidator(),
     ]),
-    energySupplierId: this._fb.control(null),
-    balanceResponsibleId: this._fb.control(null),
+    energySupplierId: this._fb.control(null, Validators.required),
+    balanceResponsibleId: this._fb.control(null, Validators.required),
     gridarea: this._fb.control(null, Validators.required),
     meteringPointType: this._fb.control(null, Validators.required),
   });
@@ -150,7 +149,18 @@ export class DhWholesaleRequestCalculationComponent {
         if (result.loading === false) {
           const { glnOrEicNumber, gridAreas, marketRole } = result.data.selectedActor;
           this._selectedEicFunction = marketRole;
-          this._selectedGlnOrEicNumber = glnOrEicNumber;
+
+          if (this._selectedEicFunction === EicFunction.BalanceResponsibleParty) {
+            this.form.controls.balanceResponsibleId.setValue(glnOrEicNumber);
+          }
+
+          if (this._selectedEicFunction === EicFunction.EnergySupplier) {
+            this.form.controls.energySupplierId.setValue(glnOrEicNumber);
+          }
+
+          if (gridAreas.length === 1) {
+            this.form.controls.gridarea.setValue(gridAreas[0].code);
+          }
           this.gridAreaOptions = gridAreas.map((gridArea) => ({
             displayValue: `${gridArea.name} - ${gridArea.name}`,
             value: gridArea.code,
@@ -164,14 +174,14 @@ export class DhWholesaleRequestCalculationComponent {
         if (result.loading === false) {
           const { actorsForEicFunction } = result.data;
           this.energySupplierOptions = actorsForEicFunction
-            .filter((actor) => actor.value === EicFunction.EnergySupplier)
+            .filter((actor) => actor.marketRole === EicFunction.EnergySupplier)
             .map((actor) => ({
               displayValue: actor.displayValue,
               value: actor.value,
             }));
 
           this.balanceResponsibleOptions = actorsForEicFunction
-            .filter((actor) => actor.value === EicFunction.BalanceResponsibleParty)
+            .filter((actor) => actor.marketRole === EicFunction.BalanceResponsibleParty)
             .map((actor) => ({
               displayValue: actor.displayValue,
               value: actor.value,
@@ -220,17 +230,10 @@ export class DhWholesaleRequestCalculationComponent {
       meteringPointType,
       period,
       energySupplierId,
+      balanceResponsibleId,
       processType: processtType,
     } = this.form.getRawValue();
-    if (
-      !gridarea ||
-      !meteringPointType ||
-      !processtType ||
-      !period.start ||
-      !period.end ||
-      !energySupplierId
-    )
-      return;
+    if (!gridarea || !meteringPointType || !processtType || !period.start || !period.end) return;
 
     this._apollo
       .mutate({
@@ -241,14 +244,8 @@ export class DhWholesaleRequestCalculationComponent {
           processtType,
           startDate: period.start,
           endDate: period.end,
-          balanceResponsibleId:
-            this._selectedEicFunction === EicFunction.BalanceResponsibleParty
-              ? this._selectedGlnOrEicNumber
-              : null,
-          energySupplierId:
-            this._selectedEicFunction === EicFunction.EnergySupplier
-              ? this._selectedGlnOrEicNumber
-              : energySupplierId,
+          balanceResponsibleId,
+          energySupplierId,
           gridArea: gridarea,
         },
       })
