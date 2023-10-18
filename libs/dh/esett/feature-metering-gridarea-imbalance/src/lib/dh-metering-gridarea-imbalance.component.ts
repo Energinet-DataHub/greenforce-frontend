@@ -21,6 +21,7 @@ import {
   Subject,
   map,
 } from 'rxjs';
+import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
@@ -39,6 +40,8 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { DhOutgoingMessagesTableComponent } from "./table/dh-table.component";
 import { DhMeteringGridAreaImbalance } from './dh-metering-gridarea-imbalance';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { DhMeteringGridAreaImbalanceFiltersComponent } from "./filters/dh-filters.component";
+import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
 
 @Component({
     standalone: true,
@@ -75,7 +78,9 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
         VaterSpacerComponent,
         VaterStackComponent,
         VaterUtilityDirective,
-        DhOutgoingMessagesTableComponent
+
+        DhMeteringGridAreaImbalanceFiltersComponent,
+        DhOutgoingMessagesTableComponent,
     ]
 })
 export class DhMeteringGridAreaImbalanceComponent implements OnInit, OnDestroy {
@@ -94,6 +99,13 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit, OnDestroy {
 
   isLoading = false;
   hasError = false;
+
+  filter$ = new BehaviorSubject<DhMeteringGridAreaImbalanceFilters>({
+    period: {
+      start: sub(startOfDay(new Date()), { days: 2 }),
+      end: endOfDay(new Date()),
+    },
+  });
 
   documentIdSearch$ = new BehaviorSubject<string>('');
 

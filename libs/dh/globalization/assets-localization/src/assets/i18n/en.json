@@ -946,7 +946,8 @@
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "{{ shared.form.filters.period }}",
-        "documentId": "Besked Id"
+        "reset": "{{ shared.form.reset }}",
+        "documentId": "Message Id"
       },
       "columns": {
         "documentDateTime": "Created",

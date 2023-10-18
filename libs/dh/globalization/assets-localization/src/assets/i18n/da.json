@@ -938,6 +938,7 @@
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "{{ shared.form.filters.period }}",
+        "reset": "{{ shared.form.reset }}",
         "documentId": "Besked Id"
       },
       "columns": {
