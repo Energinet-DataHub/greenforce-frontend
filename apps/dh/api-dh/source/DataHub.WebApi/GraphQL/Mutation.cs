@@ -151,21 +151,20 @@ public class Mutation
     [Error(typeof(MarketParticipantBadRequestException))]
     public async Task<bool> UpdateOrganizationAsync(
         Guid orgId,
-        ChangeOrganizationDto changes,
+        string domain,
         [Service] IMarketParticipantClient client)
     {
          var organization = await client.GetOrganizationAsync(orgId).ConfigureAwait(false);
-         if (!string.Equals(organization.Name, changes.Name, StringComparison.Ordinal) ||
-             !string.Equals(organization.BusinessRegisterIdentifier, changes.BusinessRegisterIdentifier, StringComparison.Ordinal) ||
-             !string.Equals(organization.Comment, changes.Comment, StringComparison.Ordinal) ||
-             !string.Equals(organization.Address.StreetName, changes.Address.StreetName, StringComparison.Ordinal) ||
-             !string.Equals(organization.Address.City, changes.Address.City, StringComparison.Ordinal) ||
-             !string.Equals(organization.Address.Country, changes.Address.Country, StringComparison.Ordinal) ||
-             !string.Equals(organization.Address.Number, changes.Address.Number, StringComparison.Ordinal) ||
-             !string.Equals(organization.Address.City, changes.Address.City, StringComparison.Ordinal) ||
-             !string.Equals(organization.Address.ZipCode, changes.Address.ZipCode, StringComparison.Ordinal))
+         if (!string.Equals(organization.Domain, domain, StringComparison.Ordinal))
          {
-            changes = changes with { Status = organization.Status }; // Status on organizations are probably going away, will be hidden in UI, so we just use the original from the organization
+            var changes = new ChangeOrganizationDto(
+                organization.Name,
+                organization.BusinessRegisterIdentifier,
+                organization.Address,
+                organization.Comment,
+                organization.Status,
+                domain);
+
             await client.UpdateOrganizationAsync(orgId, changes).ConfigureAwait(false);
          }
 

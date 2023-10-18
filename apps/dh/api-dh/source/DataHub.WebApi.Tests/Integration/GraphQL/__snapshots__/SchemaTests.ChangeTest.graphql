@@ -253,22 +253,6 @@ union UpdateActorError = MarketParticipantError
 
 union UpdateOrganizationError = MarketParticipantBadRequestError
 
-input AddressDtoInput {
-  streetName: String
-  number: String
-  zipCode: String
-  city: String
-  country: String!
-}
-
-input ChangeOrganizationDtoInput {
-  name: String!
-  businessRegisterIdentifier: String!
-  address: AddressDtoInput!
-  comment: String
-  status: OrganizationStatus!
-}
-
 input CreateAggregatedMeasureDataRequestInput {
   processType: EdiB2CProcessType!
   meteringPointType: MeteringPointType!
@@ -295,7 +279,7 @@ input UpdateActorInput {
 
 input UpdateOrganizationInput {
   orgId: UUID!
-  changes: ChangeOrganizationDtoInput!
+  domain: String!
 }
 
 input UpdatePermissionDtoInput {

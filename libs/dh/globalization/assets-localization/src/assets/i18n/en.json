@@ -674,6 +674,7 @@
       "edit": {
         "domainLabel": "Domain",
         "required": "Field is required",
+        "invalidDomain": "Invalid domain",
         "cancel": "Cancel",
         "save": "Save changes",
         "updateRequest": {
