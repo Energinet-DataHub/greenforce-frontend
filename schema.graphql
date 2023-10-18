@@ -307,15 +307,6 @@ enum PriceAreaCode {
   DK2
 }
 
-input ChangeOrganizationDtoInput {
-  name: String!
-  businessRegisterIdentifier: String!
-  address: AddressDtoInput!
-  comment: String
-  status: OrganizationStatus!
-  domain: String!
-}
-
 enum MeteringPointType {
   PRODUCTION
   FLEX_CONSUMPTION
@@ -412,14 +403,6 @@ type ExchangeEventSearchResult {
   documentStatus: DocumentStatus!
 }
 
-input AddressDtoInput {
-  streetName: String
-  number: String
-  zipCode: String
-  city: String
-  country: String!
-}
-
 input UpdateActorInput {
   actorId: UUID!
   actorName: String!
@@ -461,7 +444,7 @@ type CreateAggregatedMeasureDataRequestPayload {
 
 input UpdateOrganizationInput {
   orgId: UUID!
-  changes: ChangeOrganizationDtoInput!
+  domain: String!
 }
 
 union UpdateOrganizationError = MarketParticipantBadRequestError
