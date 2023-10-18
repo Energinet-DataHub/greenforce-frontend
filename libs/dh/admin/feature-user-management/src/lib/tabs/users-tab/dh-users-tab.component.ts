@@ -92,7 +92,7 @@ import { FormGroupDirective } from '@angular/forms';
     provideComponentStore(DhAdminUserManagementDataAccessApiStore),
     provideComponentStore(DhUserActorsDataAccessApiStore),
     provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
-    FormGroupDirective
+    FormGroupDirective,
   ],
   imports: [
     CommonModule,
