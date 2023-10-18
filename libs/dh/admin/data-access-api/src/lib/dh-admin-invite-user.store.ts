@@ -118,7 +118,7 @@ export class DhAdminInviteUserStore extends ComponentStore<State> {
           this.setSaving(SavingState.SAVING);
         }),
         switchMap(({ id, onSuccess, onError }) => {
-          return this.marketParticipantUserHttp.v1MarketParticipantUserReInviteUserPost(id).pipe(
+          return this.marketParticipantUserHttp.v1MarketParticipantUserResetUser2FaPost(id).pipe(
             tapResponse(
               () => {
                 this.setSaving(SavingState.SAVED);
