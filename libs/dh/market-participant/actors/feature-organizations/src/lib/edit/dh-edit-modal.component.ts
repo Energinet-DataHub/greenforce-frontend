@@ -41,6 +41,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import {
+  GetAuditLogByOrganizationIdDocument,
   GetOrganizationByIdDocument,
   GetOrganizationsDocument,
   UpdateOrganizationDocument,
@@ -121,7 +122,11 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
         },
         refetchQueries: (result) => {
           if (this.isUpdateSuccessful(result.data)) {
-            return [GetOrganizationsDocument, GetOrganizationByIdDocument];
+            return [
+              GetOrganizationsDocument,
+              GetOrganizationByIdDocument,
+              GetAuditLogByOrganizationIdDocument,
+            ];
           }
 
           return [];
