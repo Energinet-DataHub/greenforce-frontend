@@ -22,7 +22,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
-import { map, Observable, switchMap, tap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 interface ActorsResultState {
@@ -45,22 +45,18 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
   isLoading$ = this.select((state) => state.loadingState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.loadingState === ErrorState.GENERAL_ERROR);
 
-  canChooseMultipleActors$ = this.select((state) => state.actorResult || []).pipe(
-    map((actors) => actors.length > 1)
-  );
+  canChooseMultipleActors$ = this.select((state) => (state.actorResult || []).length > 1);
 
   organizationDomain$ = this.select((state) => state.organizationResult?.domain);
 
-  actors$ = this.select((state) => state.actorResult).pipe(
-    map((actors) =>
-      (actors ?? []).map((actor: MarketParticipantFilteredActorDto) => ({
-        value: actor.actorId,
-        displayValue:
-          actor.name.value === ''
-            ? actor.actorNumber.value
-            : actor.actorNumber.value + ' - ' + actor.name.value,
-      }))
-    )
+  actors$ = this.select((state) =>
+    (state.actorResult ?? []).map((actor: MarketParticipantFilteredActorDto) => ({
+      value: actor.actorId,
+      displayValue:
+        actor.name.value === ''
+          ? actor.actorNumber.value
+          : actor.actorNumber.value + ' - ' + actor.name.value,
+    }))
   );
 
   constructor(private httpClient: MarketParticipantHttp) {
