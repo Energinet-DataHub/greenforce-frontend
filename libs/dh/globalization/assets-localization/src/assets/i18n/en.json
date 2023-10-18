@@ -1087,6 +1087,8 @@
       }
     },
     "requestCalculation": {
+      "energySupplier": "Energy supplier",
+      "balanceResponsible": "Balance responsible",
       "error": "Unfortunately, an error occurred requesting the calculation",
       "success": "The calculation has been requested",
       "topBarTitle": "Request calculation",

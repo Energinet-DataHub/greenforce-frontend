@@ -209,27 +209,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public async Task<IEnumerable<ActorDto>> GetActorsForEicFunctionAsync(
             EicFunction[]? eicFunctions,
-            [Service] IHttpContextAccessor httpContextAccessor,
             [Service] IMarketParticipantClient client)
         {
+            eicFunctions ??= Array.Empty<EicFunction>();
             var actors = await client.GetActorsAsync();
 
-            // TODO: The contents of eicFunctions is not currently used?
-            actors = eicFunctions switch
-            {
-                { Length: 0 } => actors,
-                _ => actors.Where(x =>
-                    x.MarketRoles.Any(y =>
-                        y.EicFunction is EicFunction.EnergySupplier or EicFunction.GridAccessProvider)),
-            };
-
-            // TODO: Is this the right place to filter this list?
-            var user = httpContextAccessor.HttpContext?.User;
-            return user is null
-                ? Enumerable.Empty<ActorDto>()
-                : user.IsFas()
-                    ? actors
-                    : actors.Where(actor => actor.ActorId == user.GetAssociatedActor());
+            return actors.Where(x => x.MarketRoles.Any(y => eicFunctions.Contains(y.EicFunction)));
         }
 
         public Task<ExchangeEventTrackingResult> GetEsettOutgoingMessageByIdAsync(

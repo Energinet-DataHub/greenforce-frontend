@@ -1,0 +1,6 @@
+query GetActorsForRequestCalculation($eicFunctions: [EicFunction!]) {
+  actorsForEicFunction(eicFunctions: $eicFunctions) {
+    value: glnOrEicNumber
+    displayValue: name
+  }
+}

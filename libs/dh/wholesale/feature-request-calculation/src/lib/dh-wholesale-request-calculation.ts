@@ -57,6 +57,8 @@ type FormType = {
   period: FormControl<WattRange<string | null>>;
   gridarea: FormControl<string | null>;
   meteringPointType: FormControl<MeteringPointType | null>;
+  energySupplierId: FormControl<string | null>;
+  balanceResponsibleId: FormControl<string | null>;
 };
 
 @Component({
@@ -97,35 +99,49 @@ type FormType = {
   ],
 })
 export class DhWholesaleRequestCalculationComponent {
-  private apollo = inject(Apollo);
-  private fb = inject(NonNullableFormBuilder);
-  private glnOrEicNumber: string | null = null;
-  private transloco = inject(TranslocoService);
-  private toastService = inject(WattToastService);
-  private destroyRef = inject(DestroyRef);
+  private _apollo = inject(Apollo);
+  private _fb = inject(NonNullableFormBuilder);
+  private _transloco = inject(TranslocoService);
+  private _toastService = inject(WattToastService);
+  private _destroyRef = inject(DestroyRef);
+  private _selectedGlnOrEicNumber: string | null = null;
+  private _selectedEicFunction: EicFunction | null | undefined = null;
 
   maxDate = subDays(new Date(), 5);
 
-  form = this.fb.group<FormType>({
-    processType: this.fb.control(null, Validators.required),
-    period: this.fb.control({ start: null, end: null }, [
+  form = this._fb.group<FormType>({
+    processType: this._fb.control(null, Validators.required),
+    period: this._fb.control({ start: null, end: null }, [
       Validators.required,
       WattRangeValidators.required(),
       maxOneMonthDateRangeValidator(),
     ]),
-    gridarea: this.fb.control(null, Validators.required),
-    meteringPointType: this.fb.control(null, Validators.required),
+    energySupplierId: this._fb.control(null),
+    balanceResponsibleId: this._fb.control(null),
+    gridarea: this._fb.control(null, Validators.required),
+    meteringPointType: this._fb.control(null, Validators.required),
   });
 
   gridAreaOptions: WattDropdownOptions = [];
+  energySupplierOptions: WattDropdownOptions = [];
+  balanceResponsibleOptions: WattDropdownOptions = [];
+
   meteringPointOptions = enumToDropdownOptions(MeteringPointType);
   progressTypeOptions = enumToDropdownOptions(EdiB2CProcessType);
-  eicFunction: EicFunction | null | undefined = null;
 
-  selectedActorQuery = this.apollo.watchQuery({
+  selectedActorQuery = this._apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: graphql.GetSelectedActorDocument,
+  });
+
+  energySupplierQuery = this._apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: graphql.GetActorsForRequestCalculationDocument,
+    variables: {
+      eicFunctions: [EicFunction.EnergySupplier, EicFunction.BalanceResponsibleParty],
+    },
   });
 
   constructor() {
@@ -133,12 +149,33 @@ export class DhWholesaleRequestCalculationComponent {
       next: (result) => {
         if (result.loading === false) {
           const { glnOrEicNumber, gridAreas, marketRole } = result.data.selectedActor;
-          this.eicFunction = marketRole;
-          this.glnOrEicNumber = glnOrEicNumber;
+          this._selectedEicFunction = marketRole;
+          this._selectedGlnOrEicNumber = glnOrEicNumber;
           this.gridAreaOptions = gridAreas.map((gridArea) => ({
             displayValue: `${gridArea.name} - ${gridArea.name}`,
             value: gridArea.code,
           }));
+        }
+      },
+    });
+
+    this.energySupplierQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe({
+      next: (result) => {
+        if (result.loading === false) {
+          const { actorsForEicFunction } = result.data;
+          this.energySupplierOptions = actorsForEicFunction
+            .filter((actor) => actor.value === EicFunction.EnergySupplier)
+            .map((actor) => ({
+              displayValue: actor.displayValue,
+              value: actor.value,
+            }));
+
+          this.balanceResponsibleOptions = actorsForEicFunction
+            .filter((actor) => actor.value === EicFunction.BalanceResponsibleParty)
+            .map((actor) => ({
+              displayValue: actor.displayValue,
+              value: actor.value,
+            }));
         }
       },
     });
@@ -157,16 +194,24 @@ export class DhWholesaleRequestCalculationComponent {
       queryResult.data.createAggregatedMeasureDataRequest &&
       !queryResult.errors
     ) {
-      const message = this.transloco.translate(label('success'));
-      this.toastService.open({ message, type: 'success' });
+      const message = this._transloco.translate(label('success'));
+      this._toastService.open({ message, type: 'success' });
     } else {
       this.showErrorToast();
     }
   }
 
   showErrorToast(): void {
-    const message = this.transloco.translate(label('error'));
-    this.toastService.open({ message, type: 'danger' });
+    const message = this._transloco.translate(label('error'));
+    this._toastService.open({ message, type: 'danger' });
+  }
+
+  showEnergySupplierDropdown(): boolean {
+    return this._selectedEicFunction === EicFunction.BalanceResponsibleParty;
+  }
+
+  showBalanceResponsibleDropdown(): boolean {
+    return this._selectedEicFunction === EicFunction.EnergySupplier;
   }
 
   requestCalculation(): void {
@@ -174,11 +219,20 @@ export class DhWholesaleRequestCalculationComponent {
       gridarea,
       meteringPointType,
       period,
+      energySupplierId,
       processType: processtType,
     } = this.form.getRawValue();
-    if (!gridarea || !meteringPointType || !processtType || !period.start || !period.end) return;
+    if (
+      !gridarea ||
+      !meteringPointType ||
+      !processtType ||
+      !period.start ||
+      !period.end ||
+      !energySupplierId
+    )
+      return;
 
-    this.apollo
+    this._apollo
       .mutate({
         useMutationLoading: true,
         mutation: RequestCalculationDocument,
@@ -188,14 +242,18 @@ export class DhWholesaleRequestCalculationComponent {
           startDate: period.start,
           endDate: period.end,
           balanceResponsibleId:
-            this.eicFunction === EicFunction.BalanceResponsibleParty ? this.glnOrEicNumber : null,
+            this._selectedEicFunction === EicFunction.BalanceResponsibleParty
+              ? this._selectedGlnOrEicNumber
+              : null,
           energySupplierId:
-            this.eicFunction === EicFunction.EnergySupplier ? this.glnOrEicNumber : null,
+            this._selectedEicFunction === EicFunction.EnergySupplier
+              ? this._selectedGlnOrEicNumber
+              : energySupplierId,
           gridArea: gridarea,
         },
       })
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
+        takeUntilDestroyed(this._destroyRef),
         catchError(() => of(null))
       )
       .subscribe((res) => this.handleResponse(res));

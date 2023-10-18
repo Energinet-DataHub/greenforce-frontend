@@ -9,13 +9,7 @@
           [options]="progressTypeOptions"
           dhDropdownTranslator
         />
-        <watt-dropdown
-          translate="wholesale.requestCalculation.meteringPointTypes"
-          [label]="t('meteringPointType')"
-          [formControl]="form.controls.meteringPointType"
-          [options]="meteringPointOptions"
-          dhDropdownTranslator
-        />
+
         <watt-datepicker
           [range]="true"
           [label]="t('period')"
@@ -28,9 +22,32 @@
         </watt-datepicker>
 
         <watt-dropdown
+          *ngIf="gridAreaOptions.length > 1"
           [label]="t('gridAreas')"
           [formControl]="form.controls.gridarea"
           [options]="gridAreaOptions"
+        />
+
+        <watt-dropdown
+          translate="wholesale.requestCalculation.meteringPointTypes"
+          [label]="t('meteringPointType')"
+          [formControl]="form.controls.meteringPointType"
+          [options]="meteringPointOptions"
+          dhDropdownTranslator
+        />
+
+        <watt-dropdown
+          *ngIf="showEnergySupplierDropdown()"
+          [label]="t('energySupplier')"
+          [formControl]="form.controls.energySupplierId"
+          [options]="energySupplierOptions"
+        />
+
+        <watt-dropdown
+          *ngIf="showBalanceResponsibleDropdown()"
+          [label]="t('balanceResponsible')"
+          [formControl]="form.controls.balanceResponsibleId"
+          [options]="balanceResponsibleOptions"
         />
       </vater-stack>
       <vater-stack direction="column" align="flex-end">
