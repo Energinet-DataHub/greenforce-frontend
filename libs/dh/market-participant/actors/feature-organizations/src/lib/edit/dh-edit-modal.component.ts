@@ -122,7 +122,11 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
         },
         refetchQueries: (result) => {
           if (this.isUpdateSuccessful(result.data)) {
-            return [GetOrganizationsDocument, GetOrganizationByIdDocument, GetAuditLogByOrganizationIdDocument];
+            return [
+              GetOrganizationsDocument,
+              GetOrganizationByIdDocument,
+              GetAuditLogByOrganizationIdDocument,
+            ];
           }
 
           return [];
