@@ -117,7 +117,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit, OnDestroy {
   private queryVariables$ = combineLatest({
     filters: this.filter$,
     pageMetaData: this.pageMetaData$,
-    documentIdSearch: this.documentIdSearch$.pipe(debounceTime(250)),
+    documentIdSearch: this.documentIdSearch$.pipe(debounceTime(750)),
   }).pipe(
     map(({ filters, pageMetaData, documentIdSearch }) => {
       return { filters: documentIdSearch ? {} : filters, pageMetaData, documentIdSearch };
