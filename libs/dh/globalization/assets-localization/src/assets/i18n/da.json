@@ -1224,9 +1224,9 @@
       "topBarTitle": "Brugeradministration",
       "userStatus": {
         "active": "Aktiv",
-        "inactive": "Inaktiv",
-        "invited": "Inviteret",
-        "inviteExpired": "Invitation udløbet"
+        "inactive": "Deaktiveret",
+        "invited": "Afventer aktivering",
+        "inviteExpired": "Aktivering udløbet"
       },
       "roleStatus": {
         "active": "Aktiv",

@@ -1236,9 +1236,9 @@
       "topBarTitle": "User management",
       "userStatus": {
         "active": "Active",
-        "inactive": "Inactive",
-        "invited": "Invited",
-        "inviteExpired": "Invitation expired"
+        "inactive": "Deactivated",
+        "invited": "Awaiting activation",
+        "inviteExpired": "Activation expired"
       },
       "roleStatus": {
         "active": "Active",
