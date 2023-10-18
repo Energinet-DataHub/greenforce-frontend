@@ -42,6 +42,7 @@ import {
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhOrganizationDetails } from '../dh-organization';
+import { catchError } from 'rxjs';
 
 const validDomainRegExp = /^([A-Za-z0-9-]{1,63}\.)+[A-Za-z]{2,6}$/;
 
@@ -118,6 +119,7 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
         },
       })
       .subscribe((queryResult) => {
+
         this.isLoading = queryResult.loading;
 
         if (queryResult.loading) {
@@ -141,11 +143,9 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
 
     if (this.isUpdateSuccessful(queryResult.data)) {
       const message = this.transloco.translate(`${basePath}.success`);
-
       this.toastService.open({ message, type: 'success' });
     } else {
       const message = this.transloco.translate(`${basePath}.error`);
-
       this.toastService.open({ message, type: 'danger' });
     }
   }
@@ -153,7 +153,6 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
   private isUpdateSuccessful(
     mutationResult: MutationResult<UpdateOrganizationMutation>['data']
   ): boolean {
-    // Question: Can `queryResult.data?.updateOrganization.boolean` be used to determine success?
-    return !mutationResult?.updateOrganization.errors?.length;
+      return !mutationResult?.updateOrganization.errors?.length;
   }
 }
