@@ -18,6 +18,6 @@ function readChangedFiles() {
 
 function haveDependenciesChanged(changes) {
   return changes.some((change) => {
-    return change.search(/yarn\.lock|package\.json/) !== -1;
+    return change.search((/yarn\.lock)(package\.json/)) !== -1;
   });
 }
