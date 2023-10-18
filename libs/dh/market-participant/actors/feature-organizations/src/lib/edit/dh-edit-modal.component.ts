@@ -26,7 +26,13 @@ import {
   DestroyRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroupDirective,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { Apollo, MutationResult } from 'apollo-angular';
 
@@ -121,8 +127,8 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
           return [];
         },
       })
-      .pipe(takeUntilDestroyed(this.destroyRef)).subscribe((queryResult) => {
-
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((queryResult) => {
         this.isLoading = queryResult.loading;
 
         if (queryResult.loading) {
