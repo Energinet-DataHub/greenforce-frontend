@@ -156,6 +156,6 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
   private isUpdateSuccessful(
     mutationResult: MutationResult<UpdateOrganizationMutation>['data']
   ): boolean {
-      return !mutationResult?.updateOrganization.errors?.length;
+    return !mutationResult?.updateOrganization.errors?.length;
   }
 }
