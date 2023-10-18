@@ -56,7 +56,9 @@
           "PreliminaryAggregation",
           "BalanceFixing",
           "WholesaleFixing",
-          "Correction"
+          "FirstCorrection",
+          "SecondCorrection",
+          "ThirdCorrection"
         ]
       },
       "RequestAggregatedMeasureDataMarketRequest": {
@@ -73,8 +75,7 @@
             "type": "string"
           },
           "endDate": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "gridArea": {
             "type": "string",
