@@ -85,6 +85,8 @@ type Form = FormGroup<{
       *transloco="let t; read: 'marketParticipant.actorsOverview.filters'"
     >
       <watt-dropdown
+        dhDropdownTranslator
+        translate="marketParticipant.actorsOverview.status"
         [formControl]="formGroup.controls.actorStatus"
         [options]="actorStatusOptions"
         [multiple]="true"
@@ -93,6 +95,8 @@ type Form = FormGroup<{
       />
 
       <watt-dropdown
+        dhDropdownTranslator
+        translate="marketParticipant.marketRoles"
         [formControl]="formGroup.controls.marketRoles"
         [options]="marketRolesOptions"
         [multiple]="true"
