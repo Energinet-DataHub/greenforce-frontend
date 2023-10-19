@@ -86,7 +86,10 @@ limitations under the License.
             </watt-table>
           </watt-card>
         </watt-tab>
-        <watt-tab [label]="t('tabs.history.tabLabel')">
+        <watt-tab
+          [label]="t('tabs.history.tabLabel')"
+          *dhPermissionRequired="['organizations:manage']"
+        >
           <vater-stack [fill]="'horizontal'" [align]="'center'">
             <watt-spinner *ngIf="isLoadingAuditLog" />
           </vater-stack>
