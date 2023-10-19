@@ -17,6 +17,6 @@
 import { InputMaybe, Scalars } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type DhMeteringGridAreaImbalanceFilters = {
-  gridAreas?: InputMaybe<string>;
+  gridArea?: InputMaybe<string>;
   period?: InputMaybe<Scalars['DateRange']['input']>;
 };

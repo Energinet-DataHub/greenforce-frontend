@@ -137,7 +137,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit, OnDestroy {
             // whereas our endpoint's `pageNumber` param starts at `1`
             pageNumber: pageMetaData.pageIndex + 1,
             pageSize: pageMetaData.pageSize,
-            gridAreaCode: filters.gridAreas,
+            gridAreaCode: filters.gridArea,
             periodFrom: filters.period?.start,
             periodTo: filters.period?.end,
             documentId: documentIdSearch,
