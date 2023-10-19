@@ -34,9 +34,9 @@ const initialState: ProcessesState = {
 
 @Injectable()
 export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState> {
-  processes$: Observable<DhProcess[]> = this.select(
-    (state) => state.processes as DhProcess[])
-    .pipe(filter((processes) => !!processes));
+  processes$: Observable<DhProcess[]> = this.select((state) => state.processes as DhProcess[]).pipe(
+    filter((processes) => !!processes)
+  );
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   processesNotFound$ = this.select((state) => state.requestState === ErrorState.NOT_FOUND_ERROR);
   hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
