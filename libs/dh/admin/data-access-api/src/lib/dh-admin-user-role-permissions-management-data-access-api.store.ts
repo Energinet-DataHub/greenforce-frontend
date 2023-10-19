@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { filter, Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
@@ -40,10 +40,9 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
 
-  userRole$ = this.select((state) => state.userRole).pipe(
-    filter((userRole) => userRole != null),
-    map((userRole) => userRole as MarketParticipantUserRoleWithPermissionsDto)
-  );
+  userRole$ = this.select(
+    (state) => state.userRole as MarketParticipantUserRoleWithPermissionsDto
+  ).pipe(filter((userRole) => userRole != null));
 
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
     super(initialState);
