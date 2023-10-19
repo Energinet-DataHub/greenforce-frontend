@@ -38,7 +38,8 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
   }
 
   blobContent$: Observable<Stream> = this.select((state) => state.blobContent as Stream).pipe(
-    filter((searchResult) => !!searchResult));
+    filter((searchResult) => !!searchResult)
+  );
   isDownloading$ = this.select((state) => state.loadingState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.loadingState === ErrorState.GENERAL_ERROR);
 

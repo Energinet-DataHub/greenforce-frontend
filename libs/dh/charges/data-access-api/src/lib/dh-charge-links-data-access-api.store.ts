@@ -33,7 +33,6 @@ const initialState: ChargeLinksState = {
 
 @Injectable()
 export class DhChargeLinksDataAccessApiStore extends ComponentStore<ChargeLinksState> {
-
   tariffs$: Observable<Array<ChargeLinkV1Dto>> = this.select((state) => {
     if (state.chargeLinks)
       return state.chargeLinks.filter((charge) => charge.chargeType === ChargeType.D03);

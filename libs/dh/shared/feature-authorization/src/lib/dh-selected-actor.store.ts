@@ -53,7 +53,9 @@ const initialState = {
 })
 export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
   actorGroups$ = this.select((state) => state.actorGroups);
-  selectedActor$ = this.select((state) => state.selectedActor as Actor).pipe(filter((actor) => !!actor));
+  selectedActor$ = this.select((state) => state.selectedActor as Actor).pipe(
+    filter((actor) => !!actor)
+  );
   isLoading$ = this.select((state) => state.isLoading);
 
   constructor(

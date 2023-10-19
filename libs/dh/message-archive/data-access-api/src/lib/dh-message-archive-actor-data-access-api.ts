@@ -38,13 +38,10 @@ export class DhMessageArchiveActorDataAccessApiStore extends ComponentStore<Acto
   hasGeneralError$ = this.select((state) => state.loadingState === ErrorState.GENERAL_ERROR);
 
   actors$ = this.select((state) =>
-  (state.actorResult ?? []).map((actor: Actor) => ({
-        value: actor.actorNumber.value,
-        displayValue:
-          actor.name.value === ''
-            ? actor.actorNumber.value
-            : actor.name.value,
-      }))
+    (state.actorResult ?? []).map((actor: Actor) => ({
+      value: actor.actorNumber.value,
+      displayValue: actor.name.value === '' ? actor.actorNumber.value : actor.name.value,
+    }))
   );
 
   constructor(private httpClient: MessageArchiveHttp) {
