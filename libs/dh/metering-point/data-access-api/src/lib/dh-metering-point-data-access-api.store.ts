@@ -16,7 +16,7 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { filter, Observable, switchMap, tap } from 'rxjs';
 import { MeteringPointCimDto, MeteringPointHttp } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorState, LoadingState } from './states';
@@ -34,11 +34,9 @@ const initialState: MeteringPointState = {
 @Injectable()
 export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPointState> {
   meteringPoint$: Observable<MeteringPointCimDto> = this.select(
-    (state) => state.meteringPoint
-  ).pipe(
-    filter((meteringPoint) => !!meteringPoint),
-    map((meteringPoint) => meteringPoint as MeteringPointCimDto)
-  );
+    (state) => state.meteringPoint as MeteringPointCimDto
+  ).pipe(filter((meteringPoint) => !!meteringPoint));
+
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   meteringPointNotFound$ = this.select(
     (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
