@@ -453,7 +453,6 @@ documentation.json
 !.yarn/[Rr]eleases/
 .yarn/install-state.gz
 .yarn/ci-cache/install-state.gz
-.yarn/cache
 
 #Poor man monorepo
 backend/*
