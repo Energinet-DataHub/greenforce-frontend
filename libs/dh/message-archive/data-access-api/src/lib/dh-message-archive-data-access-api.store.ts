@@ -16,7 +16,7 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { filter, map, Observable, tap, switchMap } from 'rxjs';
+import { filter, Observable, tap, switchMap } from 'rxjs';
 import {
   MessageArchiveHttp,
   ArchivedMessage,
@@ -45,11 +45,9 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
   isInit$ = this.select((state) => state.loadingState === LoadingState.INIT);
 
   searchResult$: Observable<Array<ArchivedMessage>> = this.select(
-    (state) => state.searchResult
-  ).pipe(
-    filter((searchResult) => !!searchResult),
-    map((searchResult) => searchResult as Array<ArchivedMessage>)
-  );
+    (state) => state.searchResult as Array<ArchivedMessage>
+  ).pipe(filter((searchResult) => !!searchResult));
+
   continuationToken$: Observable<string | null | undefined> = this.select(
     (state) => state.continuationToken
   );
