@@ -38,7 +38,6 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
       :host {
         display: flex;
         gap: var(--watt-space-m);
-        padding-bottom: var(--watt-space-m);
 
         .marketRole {
           width: 17rem;

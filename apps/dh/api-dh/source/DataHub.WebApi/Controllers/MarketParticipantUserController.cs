@@ -62,6 +62,14 @@ namespace Energinet.DataHub.WebApi.Controllers
                 _marketParticipantUserInvitationClient.ReInviteUserAsync(userId));
         }
 
+        [HttpPost]
+        [Route("ResetUser2Fa")]
+        public Task<ActionResult> ResetTwoFactorAuthenticationAsync(Guid userId)
+        {
+            return HandleExceptionAsync(() =>
+                _marketParticipantClient.ResetTwoFactorAuthenticationAsync(userId));
+        }
+
         /// <summary>
         ///     Retrieves actors associated with the users external actor token.
         /// </summary>
