@@ -1174,6 +1174,9 @@
         },
         "editRole": "Rediger rolle",
         "disable": "Deaktiver",
+        "reset2fa": "Nulstil tofaktorgodkendelse",
+        "reset2faError": "Noget gik galt. Twofaktorgodkendelse blev muligvis ikke nulstillet. Prøv igen.",
+        "reset2faSuccess": "Tofaktorgodkendelse blev nulstillet. Brugeren kan opsætte tofaktorgodkendelse ved næste login. Dette skal ske inden for 24 timer.",
         "disablingUserRole": "Deaktiverer bruger rollen",
         "userroleDisabled": "Bruger rollen blev deaktiveret.",
         "deactivateWarningTitle": "Deaktiver bruger rolle permanent?",
@@ -1221,9 +1224,9 @@
       "topBarTitle": "Brugeradministration",
       "userStatus": {
         "active": "Aktiv",
-        "inactive": "Inaktiv",
-        "invited": "Inviteret",
-        "inviteExpired": "Invitation udløbet"
+        "inactive": "Deaktiveret",
+        "invited": "Afventer aktivering",
+        "inviteExpired": "Aktivering udløbet"
       },
       "roleStatus": {
         "active": "Aktiv",

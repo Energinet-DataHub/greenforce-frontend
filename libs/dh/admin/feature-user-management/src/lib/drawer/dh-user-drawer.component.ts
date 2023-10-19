@@ -29,6 +29,7 @@ import { CommonModule } from '@angular/common';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhUserStatusComponent } from '../shared/dh-user-status.component';
@@ -54,6 +55,7 @@ import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
     RxPush,
     TranslocoModule,
     WATT_DRAWER,
+    MatMenuModule,
     WattButtonComponent,
     DhTabsComponent,
     DhUserStatusComponent,
@@ -109,6 +111,21 @@ export class DhUserDrawerComponent {
       onError: () =>
         this.toastService.open({
           message: this.transloco.translate('admin.userManagement.drawer.reinviteError'),
+          type: 'danger',
+        }),
+    });
+
+  resetUser2Fa = () =>
+    this.inviteUserStore.resetUser2Fa({
+      id: this.selectedUser?.id ?? '',
+      onSuccess: () =>
+        this.toastService.open({
+          message: this.transloco.translate('admin.userManagement.drawer.reset2faSuccess'),
+          type: 'success',
+        }),
+      onError: () =>
+        this.toastService.open({
+          message: this.transloco.translate('admin.userManagement.drawer.reset2faError'),
           type: 'danger',
         }),
     });
