@@ -46,8 +46,20 @@ limitations under the License.
 
           <ng-container *wattTableCell="columns['entry']; let element">
             <div
+              *ngIf="element.entry.auditLogType !== 'UserStatusChanged'"
               [innerHTML]="t('logs.auditLogType.' + element.entry.auditLogType, element.entry)"
             ></div>
+            <ng-container *ngIf="element.entry.auditLogType === 'UserStatusChanged'">
+              <div
+                *transloco="let t; read: 'admin.userManagement'"
+                [innerHTML]="
+                  t('tabs.history.logs.auditLogType.' + element.entry.auditLogType, {
+                    toValue: t('userStatus.' + element.entry.toValue),
+                    changedByUserName: element.entry.changedByUserName
+                  })
+                "
+              ></div>
+            </ng-container>
           </ng-container>
         </watt-table>
 
