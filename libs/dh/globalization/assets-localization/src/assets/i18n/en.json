@@ -891,6 +891,9 @@
       "outgoingMessages": {
         "tabLabel": "Outgoing"
       },
+      "meteringGridareaImbalance": {
+        "tabLabel": "MGA Imbalance"
+      },
       "balanceResponsible": {
         "tabLabel": "Balance responsible"
       }
@@ -948,6 +951,26 @@
           "messageType": "{{ eSett.shared.messageType }}"
         }
       }
+    },
+    "meteringGridAreaImbalance": {
+      "tabHeading": "MGA Imbalance",
+      "filters": {
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "createdPeriod": "{{ shared.form.filters.period }}",
+        "reset": "{{ shared.form.reset }}",
+        "documentId": "Message Id"
+      },
+      "columns": {
+        "documentDateTime": "Created",
+        "receivedDateTime": "Received",
+        "id": "Id",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "period": "Calculation period"
+      },
+      "emptyTitle": "No imbalances found for period",
+      "emptyMessage": "Try changing the search criteria",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
     },
     "balanceResponsible": {
       "tabHeading": "Balance responsible",

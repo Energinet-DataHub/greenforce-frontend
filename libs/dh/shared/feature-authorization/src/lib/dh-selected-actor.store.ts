@@ -18,7 +18,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { MarketParticipantActorQueryHttp } from '@energinet-datahub/dh/shared/domain';
 import { ComponentStore } from '@ngrx/component-store';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { filter, Observable, switchMap, tap } from 'rxjs';
 import { ActorStorage, actorStorageToken } from './actor-storage';
 import { windowLocationToken } from './window-location';
 
@@ -53,9 +53,8 @@ const initialState = {
 })
 export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
   actorGroups$ = this.select((state) => state.actorGroups);
-  selectedActor$ = this.select((state) => state.selectedActor).pipe(
-    filter((actor) => !!actor),
-    map((actor) => actor as Actor)
+  selectedActor$ = this.select((state) => state.selectedActor as Actor).pipe(
+    filter((actor) => !!actor)
   );
   isLoading$ = this.select((state) => state.isLoading);
 
