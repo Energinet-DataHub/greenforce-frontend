@@ -14,19 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { EoCertificateContract, EoCertificatesService } from '@energinet-datahub/eo/certificates';
 import { ComponentStore } from '@ngrx/component-store';
 import { filter, forkJoin, map, Observable, switchMap, take } from 'rxjs';
-import { EoMeteringPointsService, MeteringPoint } from './eo-metering-points.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
-export interface EoMeteringPoint extends MeteringPoint {
-  /** Granular certificate contract on metering point */
-  contract?: EoCertificateContract;
-  /** Indicates whether a contract status is loading for the meteringpoint */
-  loadingContract: boolean;
-}
+import { EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
+import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
+import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
+import { EoMeteringPointType } from '@energinet-datahub/eo/shared/domain';
+import {
+  MeteringPoint,
+  EoMeteringPointsService,
+} from '@energinet-datahub/eo/metering-points/data-access-api';
 
 interface EoMeteringPointsState {
   loading: boolean;
@@ -149,9 +149,9 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     );
   }
 
-  createCertificateContract(gsrn: string) {
+  createCertificateContract(gsrn: string, meteringPointType: EoMeteringPointType) {
     this.toggleContractLoading(gsrn);
-    this.certService.createContract(gsrn).subscribe({
+    this.certService.createContract(gsrn, meteringPointType).subscribe({
       next: (contract) => {
         this.setContract(contract);
         this.toggleContractLoading(gsrn);

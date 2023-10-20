@@ -4,5 +4,16 @@
   "projectType": "library",
   "sourceRoot": "libs/eo/connections/feature-remove-connection",
   "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/connections/feature-remove-connection/**/*.ts",
+          "libs/eo/connections/feature-remove-connection/**/*.html"
+        ]
+      }
+    }
+  },
   "tags": ["product:eo", "domain:connections", "type:feature"]
 }

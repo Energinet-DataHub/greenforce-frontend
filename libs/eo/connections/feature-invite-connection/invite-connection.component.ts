@@ -23,6 +23,7 @@ import {
   signal,
 } from '@angular/core';
 import { NgIf } from '@angular/common';
+import { FormGroupDirective } from '@angular/forms';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -31,8 +32,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
 
-import { EoInviteConnectionService } from '../data-access-api/invite-connection.service';
-import { FormGroupDirective } from '@angular/forms';
+import { EoInviteConnectionService } from '@energinet-datahub/eo/connections/data-access-api';
 
 @Component({
   selector: 'eo-invite-connection',
@@ -54,7 +54,6 @@ import { FormGroupDirective } from '@angular/forms';
       title="New invitation link"
       [loading]="inviteLink().loading"
       loadingMessage="Please wait while we generate your invitation link"
-      size="small"
       closeLabel="Close modal"
       (closed)="onClosed()"
       *ngIf="isOpen()"

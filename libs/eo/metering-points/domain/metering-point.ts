@@ -14,8 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Routes } from '@angular/router';
+import { EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
+import { MeteringPoint } from '../data-access-api';
 
-import { EoConnectionsComponent } from '@energinet-datahub/eo/connections/feature-overview';
-
-export const eoConnectionsRoutes: Routes = [{ path: '', component: EoConnectionsComponent }];
+export interface EoMeteringPoint extends MeteringPoint {
+  /** Granular certificate contract on metering point */
+  contract?: EoCertificateContract;
+  /** Indicates whether a contract status is loading for the meteringpoint */
+  loadingContract: boolean;
+}

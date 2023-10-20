@@ -17,14 +17,16 @@
 import { UpperCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { RxLet } from '@rx-angular/template/let';
 import { map, tap } from 'rxjs';
-import { EoCertificatesStore } from './eo-certificates.store';
-import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+
+import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
+import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-access-api';
+import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -34,7 +34,9 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { EoMeteringPoint } from './eo-metering-points.store';
+import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
+import { EoMeteringPointType } from '@energinet-datahub/eo/shared/domain';
+
 @Component({
   standalone: true,
   imports: [WATT_MODAL, WattButtonComponent],
@@ -112,13 +114,20 @@ class GranularCertificateHelperComponent {}
       <ng-container *wattTableCell="columns.gc; let meteringPoint">
         <div
           *ngIf="
-            meteringPoint.type === 'production' &&
-            (meteringPoint.assetType === 'Wind' || meteringPoint.assetType === 'Solar')
+            meteringPoint.type === 'consumption' ||
+            (meteringPoint.type === 'production' &&
+              (meteringPoint.assetType === 'Wind' || meteringPoint.assetType === 'Solar'))
           "
           style="display: flex; align-items: center;"
         >
           <mat-slide-toggle
-            (change)="toggleContract.emit({ checked: $event.checked, gsrn: meteringPoint.gsrn })"
+            (change)="
+              toggleContract.emit({
+                checked: $event.checked,
+                gsrn: meteringPoint.gsrn,
+                type: meteringPoint.type
+              })
+            "
             [disabled]="meteringPoint.loadingContract"
             [checked]="meteringPoint.contract && !meteringPoint.loadingContract"
           ></mat-slide-toggle>
@@ -172,7 +181,11 @@ export class EoMeteringPointsTableComponent {
   }
   @Input() loading = false;
   @Input() hasError = false;
-  @Output() toggleContract = new EventEmitter<{ checked: boolean; gsrn: string }>();
+  @Output() toggleContract = new EventEmitter<{
+    checked: boolean;
+    gsrn: string;
+    type: EoMeteringPointType;
+  }>();
 
   private modalService = inject(WattModalService);
 

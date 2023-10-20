@@ -14,5 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './eo-certificates.routes';
-export * from './lib/eo-certificates.service';
+export interface EoCertificate {
+  dateFrom: number;
+  dateTo: number;
+  quantity: number;
+  gsrn: string;
+  techCode: string;
+  fuelCode: string;
+  id: string;
+  gridArea: string;
+}
+
+export interface EoCertificateContract {
+  id: string;
+  gsrn: string;
+  startDate: number;
+  endDate: number | null;
+  created: number;
+}

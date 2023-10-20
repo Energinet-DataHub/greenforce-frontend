@@ -1,19 +1,19 @@
 {
-  "name": "eo-connections-shell",
+  "name": "eo-certificates-shell",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/eo/connections/shell",
+  "sourceRoot": "libs/eo/certificates/shell",
   "prefix": "eo",
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/eo/connections/shell/**/*.ts",
-          "libs/eo/connections/shell/**/*.html"
+          "libs/eo/certificates/shell/**/*.ts",
+          "libs/eo/certificates/shell/**/*.html"
         ]
       }
     }
   },
-  "tags": ["product:eo", "domain:connections", "type:shell"]
+  "tags": ["product:eo", "domain:certificates", "type:shell"]
 }

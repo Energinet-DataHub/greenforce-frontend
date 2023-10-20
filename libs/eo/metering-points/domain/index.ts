@@ -14,8 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Routes } from '@angular/router';
-
-import { EoConnectionsComponent } from '@energinet-datahub/eo/connections/feature-overview';
-
-export const eoConnectionsRoutes: Routes = [{ path: '', component: EoConnectionsComponent }];
+export { EoMeteringPoint } from './metering-point';
