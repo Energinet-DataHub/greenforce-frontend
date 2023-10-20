@@ -1,0 +1,28 @@
+query getMeteringGridAreaImbalance(
+  $pageNumber: Int!
+  $pageSize: Int!
+  $periodFrom: DateTime
+  $periodTo: DateTime
+  $gridAreaCode: String
+  $documentId: String
+) {
+  meteringGridAreaImbalance(
+    pageNumber: $pageNumber
+    pageSize: $pageSize
+    createdFrom: $periodFrom
+    createdTo: $periodTo
+    gridAreaCode: $gridAreaCode
+    documentId: $documentId
+  ) {
+    items {
+      id
+      gridAreaCode
+      documentDateTime
+      receivedDateTime
+      periodStart
+      periodEnd
+      storageId
+    }
+    totalCount
+  }
+}
