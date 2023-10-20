@@ -48,8 +48,8 @@ import { MsalService } from '@azure/msal-angular';
   imports: [CommonModule, RxPush, TranslocoModule, WATT_MODAL],
 })
 export class DhInactivityLogoutComponent {
-  private readonly secondsUntilWarning = 115 * 60;
-  private readonly secondsUntilLogOff = 5 * 60;
+  private readonly secondsUntilWarning = 10;
+  private readonly secondsUntilLogOff = 10;
   private isInactive = false;
 
   constructor(private readonly msal: MsalService) {}
@@ -60,7 +60,11 @@ export class DhInactivityLogoutComponent {
   private readonly inputDetection$ = merge(
     of(1),
     fromEvent(document, 'mousemove'),
-    fromEvent(document, 'keypress')
+    fromEvent(document, 'mousedown'),
+    fromEvent(document, 'keydown'),
+    fromEvent(document, 'wheel'),
+    fromEvent(document, 'touchmove'),
+    fromEvent(document, 'touchstart'),
   );
 
   readonly userActive$ = this.inputDetection$.pipe(
