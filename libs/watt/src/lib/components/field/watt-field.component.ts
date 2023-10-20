@@ -45,7 +45,7 @@ import { ControlContainer, FormControl, FormGroupDirective, Validators } from '@
   `,
 })
 export class WattFieldComponent implements OnChanges {
-  private _formGroupDirective = inject(FormGroupDirective, {optional: true});
+  private _formGroupDirective = inject(FormGroupDirective, { optional: true });
   @Input() label!: string;
   @Input({ required: true }) control!: FormControl | null;
   @Input() id!: string;
