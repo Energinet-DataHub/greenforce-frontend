@@ -22,8 +22,10 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
+import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
+import { EoMeteringPointType } from '@energinet-datahub/eo/shared/domain';
+
 import { EoMeteringPointsTableComponent } from './eo-metering-point-table.component';
-import { EoMeteringPointsStore } from './eo-metering-points.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -109,10 +111,10 @@ export class EoMeteringPointsShellComponent implements OnInit {
     });
   }
 
-  onToggleContract(event: { checked: boolean; gsrn: string }) {
-    const { checked, gsrn } = event;
+  onToggleContract(event: { checked: boolean; gsrn: string; type: EoMeteringPointType }) {
+    const { checked, gsrn, type } = event;
     if (checked) {
-      this.meteringPointStore.createCertificateContract(gsrn);
+      this.meteringPointStore.createCertificateContract(gsrn, type);
     } else {
       this.meteringPointStore.deactivateCertificateContract(gsrn);
     }

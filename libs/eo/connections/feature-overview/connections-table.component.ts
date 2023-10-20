@@ -28,8 +28,8 @@ import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-import { EoConnectionWithName } from '../data-access-api/connections.service';
-import { EoRemoveConnectionComponent } from '../feature-remove-connection';
+import { EoConnectionWithName } from '@energinet-datahub/eo/connections/data-access-api';
+import { EoRemoveConnectionComponent } from '@energinet-datahub/eo/connections/feature-remove-connection';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

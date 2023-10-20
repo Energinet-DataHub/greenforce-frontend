@@ -35,7 +35,7 @@ import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard'
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
-import { EoConnectionWithName, EoConnectionsService } from '../data-access-api/connections.service';
+import { EoConnectionWithName, EoConnectionsService } from '@energinet-datahub/eo/connections/data-access-api';
 
 @Component({
   selector: 'eo-remove-connection',

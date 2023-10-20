@@ -14,20 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export { EoMeteringPoint } from './metering-point';
 
-import { Routes } from '@angular/router';
-import { EoCertificateDetailsComponent } from './lib/eo-certificate-details.component';
-import { EoCertificatesComponent } from './lib/eo-certificates.component';
-
-export const eoCertificatesRoutes: Routes = [
-  {
-    path: '',
-    data: { title: 'Certificates' },
-    component: EoCertificatesComponent,
-  },
-  {
-    path: ':id',
-    data: { title: 'Certificate Details - Production' },
-    component: EoCertificateDetailsComponent,
-  },
-];

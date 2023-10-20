@@ -1,0 +1,8 @@
+{
+  "name": "eo-metering-points-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/metering-points/domain",
+  "prefix": "eo",
+  "tags": ["product:eo", "domain:metering-points", "type:domain"]
+}

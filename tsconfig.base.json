@@ -260,8 +260,17 @@
       "@energinet-datahub/eo/auth/routing-security": [
         "libs/eo/auth/routing-security/src/index.ts"
       ],
-      "@energinet-datahub/eo/certificates": [
-        "libs/eo/certificates/src/index.ts"
+      "@energinet-datahub/eo/certificates/shell": [
+        "libs/eo/certificates/shell/index.ts"
+      ],
+      "@energinet-datahub/eo/certificates/data-access-api": [
+        "libs/eo/certificates/data-access-api/index.ts"
+      ],
+      "@energinet-datahub/eo/certificates/feature-overview": [
+        "libs/eo/certificates/feature-overview/index.ts"
+      ],
+      "@energinet-datahub/eo/certificates/domain": [
+        "libs/eo/certificates/domain/index.ts"
       ],
       "@energinet-datahub/eo/connections/data-access-api": [
         "libs/eo/connections/data-access-api/index.ts"
@@ -298,6 +307,12 @@
       "@energinet-datahub/eo/metering-points/shell": [
         "libs/eo/metering-points/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/metering-points/data-access-api": [
+        "libs/eo/metering-points/data-access-api/index.ts"
+      ],
+      "@energinet-datahub/eo/metering-points/domain": [
+        "libs/eo/metering-points/domain/index.ts"
+      ],
       "@energinet-datahub/eo/origin-of-energy/shell": [
         "libs/eo/origin-of-energy/shell/src/index.ts"
       ],
@@ -315,6 +330,9 @@
       ],
       "@energinet-datahub/eo/shared/atomic-design/ui-atoms": [
         "libs/eo/shared/atomic-design/ui-atoms/src/index.ts"
+      ],
+      "@energinet-datahub/eo/shared/domain": [
+        "libs/eo/shared/domain/index.ts"
       ],
       "@energinet-datahub/eo/shared/atomic-design/ui-organisms": [
         "libs/eo/shared/atomic-design/ui-organisms/src/index.ts"

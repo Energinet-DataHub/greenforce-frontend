@@ -16,30 +16,15 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { Observable } from 'rxjs';
 
-export interface EoCertificate {
-  dateFrom: number;
-  dateTo: number;
-  quantity: number;
-  gsrn: string;
-  techCode: string;
-  fuelCode: string;
-  id: string;
-  gridArea: string;
-}
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { EoMeteringPointType } from '@energinet-datahub/eo/shared/domain';
+
+import { EoCertificate, EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
 
 interface EoCertificateResponse {
   result: EoCertificate[];
-}
-
-export interface EoCertificateContract {
-  id: string;
-  gsrn: string;
-  startDate: number;
-  endDate: number | null;
-  created: number;
 }
 
 interface EoContractResponse {
@@ -78,9 +63,10 @@ export class EoCertificatesService {
    * @param gsrn ID of meteringpoint
    * Sends request to create a GC contract for a specific meteringpoint
    */
-  createContract(gsrn: string) {
+  createContract(gsrn: string, meteringPointType: EoMeteringPointType) {
     return this.http.post<EoCertificateContract>(`${this.#apiBase}/certificates/contracts`, {
       gsrn,
+      meteringPointType,
       startDate: Math.floor(new Date().getTime() / 1000),
     });
   }
