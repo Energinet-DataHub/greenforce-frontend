@@ -27,6 +27,7 @@ import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar'
 
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
 import {
+  DhInactivityLogoutComponent,
   DhSelectedActorComponent,
   DhSignupMitIdComponent,
 } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -48,6 +49,7 @@ import { ApolloModule } from 'apollo-angular';
     WattButtonComponent,
     DhSelectedActorComponent,
     DhSignupMitIdComponent,
+    DhInactivityLogoutComponent
   ],
 })
 export class DhCoreShellComponent {

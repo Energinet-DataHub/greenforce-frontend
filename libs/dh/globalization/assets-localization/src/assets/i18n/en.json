@@ -1162,6 +1162,9 @@
   "admin": {
     "userManagement": {
       "connect": "Connect",
+      "sessionExpireHeader": "Session expires soon",
+      "sessionExpireContentA": "You have been inactive for 2 hours.",
+      "sessionExpireContentB": "You will be signed out due to security reasons in",
       "inviteUser": {
         "title": "Invite user",
         "informations": "Information",

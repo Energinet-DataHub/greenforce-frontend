@@ -1154,6 +1154,9 @@
   "admin": {
     "userManagement": {
       "connect": "Tilknyt",
+      "sessionExpireHeader": "Sessionen udløber snart",
+      "sessionExpireContentA": "Du har været inaktiv i 2 timer.",
+      "sessionExpireContentB": "Af sikkerhedsmæssige årsager vil du blive logget af om",
       "inviteUser": {
         "title": "Inviter bruger",
         "informations": "Information",

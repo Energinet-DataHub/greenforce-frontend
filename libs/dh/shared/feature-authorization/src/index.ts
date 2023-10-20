@@ -17,5 +17,6 @@
 export * from './lib/permission.guard';
 export * from './lib/permission-required.directive';
 export * from './lib/dh-authorization.interceptor';
+export * from './lib/dh-inactivity-logout.component';
 export * from './lib/dh-selected-actor.component';
 export * from './lib/dh-signup-mitid.component';
