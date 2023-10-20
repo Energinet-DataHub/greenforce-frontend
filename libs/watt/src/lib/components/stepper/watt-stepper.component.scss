@@ -58,15 +58,16 @@
   }
 }
 
-@include watt.media('<Small') {
+@include watt.media("<Small") {
   .watt-stepper {
-    .mat-step-label:not(.mat-step-label-selected){
+    .mat-step-label:not(.mat-step-label-selected) {
       display: none;
     }
   }
 }
 
-.watt-modal--medium, .watt-modal--large {
+.watt-modal--medium,
+.watt-modal--large {
   @include watt.media("<720px") {
     .watt-stepper .button-wrapper {
       position: absolute;
@@ -79,4 +80,3 @@
     }
   }
 }
-
