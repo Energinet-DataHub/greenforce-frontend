@@ -64,7 +64,7 @@ export class DhInactivityLogoutComponent {
     fromEvent(document, 'keydown'),
     fromEvent(document, 'wheel'),
     fromEvent(document, 'touchmove'),
-    fromEvent(document, 'touchstart'),
+    fromEvent(document, 'touchstart')
   );
 
   readonly userActive$ = this.inputDetection$.pipe(
