@@ -62,9 +62,10 @@ export class EoCertificatesService {
    * @param gsrn ID of meteringpoint
    * Sends request to create a GC contract for a specific meteringpoint
    */
-  createContract(gsrn: string) {
+  createContract(gsrn: string, meteringPointType: EoMeteringPointType) {
     return this.http.post<EoCertificateContract>(`${this.#apiBase}/certificates/contracts`, {
       gsrn,
+      meteringPointType,
       startDate: Math.floor(new Date().getTime() / 1000),
     });
   }
