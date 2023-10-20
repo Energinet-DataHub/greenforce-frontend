@@ -956,7 +956,7 @@
       "tabHeading": "MGA Imbalance",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
-        "createdPeriod": "{{ shared.form.filters.period }}",
+        "createdPeriod": "Created date",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Message Id"
       },

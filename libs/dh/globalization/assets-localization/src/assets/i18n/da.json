@@ -948,7 +948,7 @@
       "tabHeading": "MGA Ubalancer",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
-        "createdPeriod": "{{ shared.form.filters.period }}",
+        "createdPeriod": "Oprettelsesdato",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Besked Id"
       },

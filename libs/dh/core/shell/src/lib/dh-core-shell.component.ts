@@ -49,7 +49,7 @@ import { ApolloModule } from 'apollo-angular';
     WattButtonComponent,
     DhSelectedActorComponent,
     DhSignupMitIdComponent,
-    DhInactivityLogoutComponent
+    DhInactivityLogoutComponent,
   ],
 })
 export class DhCoreShellComponent {

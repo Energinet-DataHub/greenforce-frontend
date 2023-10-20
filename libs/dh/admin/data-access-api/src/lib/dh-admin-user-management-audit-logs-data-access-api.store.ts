@@ -77,7 +77,10 @@ export class DhAdminUserManagementAuditLogsDataAccessApiStore extends ComponentS
 
   private assignAuditLogs = (response: MarketParticipantUserAuditLogsDto) => {
     const auditLogs = response.userAuditLogs.map((entry) => ({
-      entry,
+      entry:
+        entry.auditLogType === 'UserStatusChanged'
+          ? { ...entry, toValue: entry.toValue[0].toLowerCase() + entry.toValue.slice(1) }
+          : entry,
       timestamp: entry.timestamp,
     }));
 
