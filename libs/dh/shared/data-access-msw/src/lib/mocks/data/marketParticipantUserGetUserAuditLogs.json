@@ -17,6 +17,30 @@
       "changedByUserName": "Test User",
       "timestamp": "2023-01-01T12:00:38.0587304+00:00",
       "auditLogType": "UserInvite"
+    },
+    {
+      "toValue": "invited",
+      "changedByUserName": "Test User",
+      "timestamp": "2023-01-01T12:00:38.0587304+00:00",
+      "auditLogType": "UserStatusChanged"
+    },
+    {
+      "toValue": "active",
+      "changedByUserName": "Test User",
+      "timestamp": "2023-01-01T12:00:38.0587304+00:00",
+      "auditLogType": "UserStatusChanged"
+    },
+    {
+      "toValue": "inactive",
+      "changedByUserName": "Test User",
+      "timestamp": "2023-01-01T12:00:38.0587304+00:00",
+      "auditLogType": "UserStatusChanged"
+    },
+    {
+      "toValue": "inviteExpired",
+      "changedByUserName": "Test User",
+      "timestamp": "2023-01-01T12:00:38.0587304+00:00",
+      "auditLogType": "UserStatusChanged"
     }
   ]
 }
