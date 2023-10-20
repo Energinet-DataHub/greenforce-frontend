@@ -57,3 +57,26 @@
     border: solid 1px var(--watt-color-state-danger);
   }
 }
+
+@include watt.media('<Small') {
+  .watt-stepper {
+    .mat-step-label:not(.mat-step-label-selected){
+      display: none;
+    }
+  }
+}
+
+.watt-modal--medium, .watt-modal--large {
+  @include watt.media("<720px") {
+    .watt-stepper .button-wrapper {
+      position: absolute;
+      bottom: var(--watt-space-ml);
+      right: calc(2 * var(--watt-space-ml));
+    }
+
+    .watt-stepper .mat-step-label:not(.mat-step-label-selected) {
+      display: none;
+    }
+  }
+}
+
