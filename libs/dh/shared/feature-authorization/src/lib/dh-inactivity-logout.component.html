@@ -17,6 +17,6 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement'">
   <watt-modal #inactivityWarningModal [size]="'small'" [title]="t('sessionExpireHeader')">
     <p>{{ t("sessionExpireContentA") }}<br />{{ t("sessionExpireContentB") }}</p>
-    <h2>{{ warningTimeout$ | push }}</h2>
+    <h2>{{ warningTimeout$ | push | date : 'mm:ss' }}</h2>
   </watt-modal>
 </ng-container>
