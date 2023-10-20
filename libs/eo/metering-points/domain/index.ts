@@ -15,4 +15,3 @@
  * limitations under the License.
  */
 export { EoMeteringPoint } from './metering-point';
-

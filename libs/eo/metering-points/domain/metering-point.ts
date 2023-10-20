@@ -1,5 +1,5 @@
-import { EoCertificateContract } from "@energinet-datahub/eo/certificates/domain";
-import { MeteringPoint } from "../data-access-api";
+import { EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
+import { MeteringPoint } from '../data-access-api';
 
 export interface EoMeteringPoint extends MeteringPoint {
   /** Granular certificate contract on metering point */

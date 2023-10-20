@@ -37,7 +37,10 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoInviteConnectionComponent } from '@energinet-datahub/eo/connections/feature-invite-connection';
 import { EoInviteConnectionRespondComponent } from '@energinet-datahub/eo/connections/feature-invite-connection-respond';
-import { EoConnectionWithName, EoConnectionsService } from '@energinet-datahub/eo/connections/data-access-api';
+import {
+  EoConnectionWithName,
+  EoConnectionsService,
+} from '@energinet-datahub/eo/connections/data-access-api';
 
 import { EoConnectionsTableComponent } from './connections-table.component';
 

@@ -23,7 +23,10 @@ import { EoCertificateContract } from '@energinet-datahub/eo/certificates/domain
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
 import { EoMeteringPointType } from '@energinet-datahub/eo/shared/domain';
-import { MeteringPoint, EoMeteringPointsService } from '@energinet-datahub/eo/metering-points/data-access-api';
+import {
+  MeteringPoint,
+  EoMeteringPointsService,
+} from '@energinet-datahub/eo/metering-points/data-access-api';
 
 interface EoMeteringPointsState {
   loading: boolean;

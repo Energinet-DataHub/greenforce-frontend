@@ -32,5 +32,3 @@ export interface EoCertificateContract {
   endDate: number | null;
   created: number;
 }
-
-

@@ -41,7 +41,7 @@ import {
   EoInviteConnectionService,
   InviteConnectionResponse,
   EoConnectionWithName,
-  EoCvrService
+  EoCvrService,
 } from '@energinet-datahub/eo/connections/data-access-api';
 
 @Component({

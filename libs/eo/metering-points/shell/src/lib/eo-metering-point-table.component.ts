@@ -114,8 +114,9 @@ class GranularCertificateHelperComponent {}
       <ng-container *wattTableCell="columns.gc; let meteringPoint">
         <div
           *ngIf="
-            meteringPoint.type === 'consumption' || (meteringPoint.type === 'production' &&
-            (meteringPoint.assetType === 'Wind' || meteringPoint.assetType === 'Solar'))
+            meteringPoint.type === 'consumption' ||
+            (meteringPoint.type === 'production' &&
+              (meteringPoint.assetType === 'Wind' || meteringPoint.assetType === 'Solar'))
           "
           style="display: flex; align-items: center;"
         >
