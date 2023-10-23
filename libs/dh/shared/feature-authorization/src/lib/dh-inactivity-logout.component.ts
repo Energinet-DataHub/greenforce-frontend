@@ -17,7 +17,7 @@
 import { Component } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
-import { interval, map, startWith, take, tap } from 'rxjs';
+import { map, take, tap, timer } from 'rxjs';
 import { WATT_MODAL, WattDialogRef } from '@energinet-datahub/watt/modal';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -47,9 +47,8 @@ import { TranslocoModule } from '@ngneat/transloco';
 export class DhInactivityLogoutComponent {
   private readonly secondsUntilLogOff = 5 * 60;
 
-  readonly warningCountdown$ = interval(1000).pipe(
-    startWith(-1),
-    take(this.secondsUntilLogOff + 2),
+  readonly warningCountdown$ = timer(0, 1000).pipe(
+    take(this.secondsUntilLogOff + 1),
     tap((elapsed) => elapsed >= this.secondsUntilLogOff && this.dialogRef.close(true)),
     map((elapsed) => Math.max(0, this.secondsUntilLogOff - elapsed - 1)),
     map((elapsed) => new Date(elapsed * 1000))
