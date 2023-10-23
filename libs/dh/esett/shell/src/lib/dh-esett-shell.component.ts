@@ -19,6 +19,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { DhOutgoingMessagesComponent } from '@energinet-datahub/dh/esett/feature-outgoing-messages';
+import { DhMeteringGridAreaImbalanceComponent } from '@energinet-datahub/dh/esett/feature-metering-gridarea-imbalance';
 import { DhBalanceResponsibleComponent } from '@energinet-datahub/dh/esett/feature-balance-responsible';
 
 @Component({
@@ -27,6 +28,10 @@ import { DhBalanceResponsibleComponent } from '@energinet-datahub/dh/esett/featu
   template: `<watt-tabs *transloco="let t; read: 'eSett.tabs'">
     <watt-tab [label]="t('outgoingMessages.tabLabel')">
       <dh-outgoing-messages />
+    </watt-tab>
+
+    <watt-tab [label]="t('meteringGridareaImbalance.tabLabel')">
+      <dh-metering-gridarea-imbalance />
     </watt-tab>
 
     <watt-tab [label]="t('balanceResponsible.tabLabel')">
@@ -39,6 +44,7 @@ import { DhBalanceResponsibleComponent } from '@energinet-datahub/dh/esett/featu
     WATT_TABS,
 
     DhOutgoingMessagesComponent,
+    DhMeteringGridAreaImbalanceComponent,
     DhBalanceResponsibleComponent,
   ],
 })

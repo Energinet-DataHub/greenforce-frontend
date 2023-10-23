@@ -17,7 +17,7 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { filter, Observable, switchMap, tap } from 'rxjs';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import { ChargeLinkV1Dto, ChargeLinksHttp, ChargeType } from '@energinet-datahub/dh/shared/domain';
 
@@ -33,25 +33,23 @@ const initialState: ChargeLinksState = {
 
 @Injectable()
 export class DhChargeLinksDataAccessApiStore extends ComponentStore<ChargeLinksState> {
-  tariffs$: Observable<Array<ChargeLinkV1Dto>> = this.select((state) => state.chargeLinks).pipe(
-    filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkV1Dto>),
-    map((charges) => charges.filter((charge) => charge.chargeType === ChargeType.D03))
-  );
+  tariffs$: Observable<Array<ChargeLinkV1Dto>> = this.select((state) => {
+    if (state.chargeLinks)
+      return state.chargeLinks.filter((charge) => charge.chargeType === ChargeType.D03);
+    return null;
+  }).pipe(filter((charges) => !!charges)) as Observable<Array<ChargeLinkV1Dto>>;
 
-  subscriptions$: Observable<Array<ChargeLinkV1Dto>> = this.select(
-    (state) => state.chargeLinks
-  ).pipe(
-    filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkV1Dto>),
-    map((charges) => charges.filter((charge) => charge.chargeType === ChargeType.D01))
-  );
+  subscriptions$: Observable<Array<ChargeLinkV1Dto>> = this.select((state) => {
+    if (state.chargeLinks)
+      return state.chargeLinks.filter((charge) => charge.chargeType === ChargeType.D01);
+    return null;
+  }).pipe(filter((charges) => !!charges)) as Observable<Array<ChargeLinkV1Dto>>;
 
-  fees$: Observable<Array<ChargeLinkV1Dto>> = this.select((state) => state.chargeLinks).pipe(
-    filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkV1Dto>),
-    map((charges) => charges.filter((charge) => charge.chargeType === ChargeType.D02))
-  );
+  fees$: Observable<Array<ChargeLinkV1Dto>> = this.select((state) => {
+    if (state.chargeLinks)
+      return state.chargeLinks.filter((charge) => charge.chargeType === ChargeType.D02);
+    return null;
+  }).pipe(filter((charges) => !!charges)) as Observable<Array<ChargeLinkV1Dto>>;
 
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   chargesNotFound$ = this.select((state) => state.requestState === ErrorState.NOT_FOUND_ERROR);
