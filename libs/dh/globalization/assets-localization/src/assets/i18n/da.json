@@ -883,6 +883,9 @@
       "outgoingMessages": {
         "tabLabel": "Udgående"
       },
+      "meteringGridareaImbalance": {
+        "tabLabel": "MGA Ubalancer"
+      },
       "balanceResponsible": {
         "tabLabel": "Balanceansvarlig"
       }
@@ -940,6 +943,26 @@
           "messageType": "{{ eSett.shared.messageType }}"
         }
       }
+    },
+    "meteringGridAreaImbalance": {
+      "tabHeading": "MGA Ubalancer",
+      "filters": {
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "createdPeriod": "Oprettelsesdato",
+        "reset": "{{ shared.form.reset }}",
+        "documentId": "Besked Id"
+      },
+      "columns": {
+        "documentDateTime": "Oprettet",
+        "receivedDateTime": "Modtaget",
+        "id": "Id",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "period": "Beregningsperiode"
+      },
+      "emptyTitle": "Ingen ubalancer fundet i perioden",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
     },
     "balanceResponsible": {
       "tabHeading": "Balanceansvarlig",
