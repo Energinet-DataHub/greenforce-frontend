@@ -132,6 +132,28 @@ type MarketParticipantError implements Error {
   statusCode: Int!
 }
 
+type MeteringGridAreaImbalancePerDayDto {
+  imbalanceDay: DateTime!
+  incomingQuantity: Float
+  outgoingQuantity: Float
+}
+
+type MeteringGridAreaImbalanceSearchResponse {
+  items: [MeteringGridAreaImbalanceSearchResult!]!
+  totalCount: Int!
+}
+
+type MeteringGridAreaImbalanceSearchResult {
+  id: String!
+  gridAreaCode: String!
+  documentDateTime: DateTime!
+  receivedDateTime: DateTime!
+  periodStart: DateTime!
+  periodEnd: DateTime!
+  imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
+  storageId: String!
+}
+
 type Mutation {
   updatePermission(input: UpdatePermissionDtoInput!): Permission!
   updateActor(input: UpdateActorInput!): UpdateActorPayload!
@@ -194,6 +216,7 @@ type Query {
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int! pageSize: Int! periodFrom: DateTime periodTo: DateTime gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String): ExchangeEventSearchResponse!
+  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime gridAreaCode: String documentId: String): MeteringGridAreaImbalanceSearchResponse!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!

@@ -245,6 +245,24 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 DocumentId = documentId,
             });
 
+        public Task<MeteringGridAreaImbalanceSearchResponse> GetMeteringGridAreaImbalanceAsync(
+            int pageNumber,
+            int pageSize,
+            DateTimeOffset? createdFrom,
+            DateTimeOffset? createdTo,
+            string? gridAreaCode,
+            string? documentId,
+            [Service] IESettExchangeClient_V1 client) =>
+            client.ImbalanceAsync(new MeteringGridAreaImbalanceSearchFilter
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                CreatedFrom = createdFrom,
+                CreatedTo = createdTo,
+                GridAreaCode = gridAreaCode,
+                DocumentId = documentId,
+            });
+
         public Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(
             int pageNumber,
             int pageSize,

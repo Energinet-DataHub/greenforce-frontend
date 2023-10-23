@@ -82,6 +82,9 @@
       "@energinet-datahub/dh/esett/feature-balance-responsible": [
         "libs/dh/esett/feature-balance-responsible/src/index.ts"
       ],
+      "@energinet-datahub/dh/esett/feature-metering-gridarea-imbalance": [
+        "libs/dh/esett/feature-metering-gridarea-imbalance/src/index.ts"
+      ],
       "@energinet-datahub/dh/esett/feature-outgoing-messages": [
         "libs/dh/esett/feature-outgoing-messages/src/index.ts"
       ],

@@ -41,6 +41,11 @@ limitations under the License.
       <watt-button variant="secondary" (click)="isEditUserModalVisible = true">{{
         t("edit")
       }}</watt-button>
+      <watt-button variant="icon" icon="menu" [mat-menu-trigger-for]="menu">
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="resetUser2Fa()">{{ t("reset2fa") }}</button>
+        </mat-menu>
+      </watt-button>
     </watt-drawer-actions>
 
     <watt-drawer-content *ngIf="drawer.isOpen">
