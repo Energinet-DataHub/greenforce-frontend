@@ -73,10 +73,7 @@ export class TransfersPo {
           'eyJFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6Nzg5MC8iLCJQdWJsaWNLZXkiOiJBVTBWVFVzQUFBQUJ5aE5KRmxENlZhVUZPajRGRzcybmVkSmxVbDRjK0xVejdpV0tRNEkzM1k0Q2J5OVBQTm5SdXRuaWUxT1NVRS9ud0RWTWV3bW14TnFFTkw5a0RZeHdMQWs9IiwiVmVyc2lvbiI6MX0=',
       },
     });
-    cy.get('button')
-      .contains('Create transfer agreement')
-      .should('be.visible')
-      .click();
+    cy.get('button').contains('Create transfer agreement').should('be.visible').click();
   }
 
   clickCloseNewAgreementModalButton() {
