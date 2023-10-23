@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { importProvidersFrom } from '@angular/core';
-import { FormGroupDirective } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -26,7 +25,6 @@ import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-tim
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
 export const eoCoreShellProviders = [
-  FormGroupDirective,
   browserConfigurationProviders,
   danishLocalProviders,
   danishDatetimeProviders,
