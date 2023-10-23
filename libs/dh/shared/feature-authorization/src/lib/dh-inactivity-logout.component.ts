@@ -14,25 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
-import {
-  concat,
-  filter,
-  fromEvent,
-  interval,
-  map,
-  merge,
-  of,
-  switchMap,
-  take,
-  tap,
-  timer,
-} from 'rxjs';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { interval, map, take, tap } from 'rxjs';
+import { WATT_MODAL, WattDialogRef } from '@energinet-datahub/watt/modal';
 import { TranslocoModule } from '@ngneat/transloco';
-import { MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'dh-inactivity-logout',
@@ -43,52 +30,29 @@ import { MsalService } from '@azure/msal-angular';
       }
     `,
   ],
-  templateUrl: './dh-inactivity-logout.component.html',
+  template: `
+    <watt-modal
+      #inactivityWarningModal
+      [size]="'small'"
+      [title]="t('sessionExpireHeader')"
+      *transloco="let t; read: 'admin.userManagement'"
+    >
+      <p>{{ t('sessionExpireContentA') }}<br />{{ t('sessionExpireContentB') }}</p>
+      <h2>{{ warningCountdown$ | push | date : 'mm:ss' }}</h2>
+    </watt-modal>
+  `,
   standalone: true,
   imports: [CommonModule, RxPush, DatePipe, TranslocoModule, WATT_MODAL],
 })
 export class DhInactivityLogoutComponent {
-  private readonly secondsUntilWarning = 115 * 60;
   private readonly secondsUntilLogOff = 5 * 60;
-  private isInactive = false;
 
-  constructor(private readonly msal: MsalService) {}
-
-  @ViewChild('inactivityWarningModal')
-  inactivityWarningModal!: WattModalComponent;
-
-  private readonly inputDetection$ = merge(
-    of(1),
-    fromEvent(document, 'mousemove'),
-    fromEvent(document, 'mousedown'),
-    fromEvent(document, 'keydown'),
-    fromEvent(document, 'wheel'),
-    fromEvent(document, 'touchmove'),
-    fromEvent(document, 'touchstart')
-  );
-
-  readonly userActive$ = this.inputDetection$.pipe(
-    switchMap(() => concat(of(1), timer(this.secondsUntilWarning * 1000))),
-    map((isActive) => !!isActive),
-    tap((isActive) => (this.isInactive = !isActive))
-  );
-
-  readonly warningTimeout$ = this.userActive$.pipe(
-    tap((isActive) => {
-      return isActive
-        ? this.inactivityWarningModal?.close(false)
-        : this.inactivityWarningModal?.open();
-    }),
-    switchMap((isActive) => {
-      if (isActive) return of(this.secondsUntilLogOff);
-
-      return interval(1000).pipe(
-        take(this.secondsUntilLogOff + 1),
-        filter(() => this.isInactive),
-        tap((elapsed) => elapsed >= this.secondsUntilLogOff && this.msal.logout()),
-        map((elapsed) => Math.max(0, this.secondsUntilLogOff - elapsed - 1))
-      );
-    }),
+  readonly warningCountdown$ = interval(1000).pipe(
+    take(this.secondsUntilLogOff + 1),
+    tap((elapsed) => elapsed >= this.secondsUntilLogOff && this.dialogRef.close(true)),
+    map((elapsed) => Math.max(0, this.secondsUntilLogOff - elapsed - 1)),
     map((elapsed) => new Date(elapsed * 1000))
   );
+
+  constructor(private dialogRef: WattDialogRef<DhInactivityLogoutComponent>) {}
 }
