@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { concat, fromEvent, map, merge, of, switchMap, timer } from 'rxjs';
+import { concat, fromEvent, map, merge, of, startWith, switchMap, timer } from 'rxjs';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhInactivityLogoutComponent } from './dh-inactivity-logout.component';
 import { MsalService } from '@azure/msal-angular';
@@ -25,7 +25,6 @@ export class DhInactivityDetectionService {
   private readonly secondsUntilWarning = 115 * 60;
 
   private readonly inputDetection$ = merge(
-    of(1),
     fromEvent(document, 'mousemove'),
     fromEvent(document, 'mousedown'),
     fromEvent(document, 'keydown'),
@@ -35,6 +34,7 @@ export class DhInactivityDetectionService {
   );
 
   private readonly userInactive$ = this.inputDetection$.pipe(
+    startWith(null),
     switchMap(() => concat(of(1), timer(this.secondsUntilWarning * 1000))),
     map((isActive) => !isActive)
   );
