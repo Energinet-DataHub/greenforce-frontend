@@ -96,9 +96,10 @@ watt-dropdown {
   --watt-input-color: var(--watt-typography-text-color);
   // Add 2px because watt-form-field has 1px border on each side
   &:not(.watt-dropdown-panel-chip-mode) {
-    min-width: calc(100% + 2px) !important;
+    min-width: 250px !important;
     margin-top: -34px;
     margin-left: -1px;
+    max-height: 80vh;
   }
 
   .mat-mdc-checkbox.mat-select-search-toggle-all-checkbox {
@@ -114,6 +115,7 @@ watt-dropdown {
   &.watt-dropdown-panel-chip-mode {
     margin-top: 0;
     width: 250px;
+    max-height: 80vh;
   }
 
   &.mat-mdc-select-search-panel {
