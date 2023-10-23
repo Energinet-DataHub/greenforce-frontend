@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { WATT_STEPPER } from '..';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { WattButtonComponent } from '../../button';
@@ -50,7 +50,8 @@ import { CommonModule } from '@angular/common';
   ],
 })
 export class StepperExampleComponent {
-  user = new FormBuilder().group({
+  formBuilder = inject(FormBuilder);
+  user = this.formBuilder.group({
     firstname: ['', Validators.required],
     lastname: [''],
   });

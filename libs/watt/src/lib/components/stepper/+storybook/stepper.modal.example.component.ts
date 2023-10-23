@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
 import { WATT_STEPPER } from '..';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { WattButtonComponent } from '../../button';
@@ -28,7 +28,8 @@ import { StepperExampleComponent } from './stepper.example.component';
   ],
 })
 export class StepperModalExampleComponent {
-  user = new FormBuilder().group({
+  formBuilder = inject(FormBuilder);
+  user = this.formBuilder.group({
     firstname: ['', Validators.required],
     lastname: [''],
   });
