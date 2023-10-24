@@ -42,9 +42,11 @@ import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 import { HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
+import { FormGroupDirective } from '@angular/forms';
 
 export const dhCoreShellProviders = [
   importProvidersFrom([MatSnackBarModule, DhApiModule.forRoot(), MsalModule, TranslocoModule]),
+  FormGroupDirective,
   environment.production ? applicationInsightsProviders : [],
   dhWattTranslationsProviders,
   danishLocalProviders,
