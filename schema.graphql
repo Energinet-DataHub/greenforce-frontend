@@ -55,7 +55,9 @@ enum EdiB2CProcessType {
   preliminaryaggregation
   balancefixing
   wholesalefixing
-  correction
+  firstcorrection
+  secondcorrection
+  thirdcorrection
 }
 
 enum EicFunction {
@@ -144,6 +146,7 @@ type Query {
   calculationById(id: UUID!): Calculation!
   calculations(executionTime: DateRange, executionStates: [BatchState!], processTypes: [ProcessType!], gridAreaCodes: [String!], period: DateRange, first: Int): [Calculation!]!
   settlementReports(gridAreaCodes: [String!], period: DateRange, executionTime: DateRange): [SettlementReport!]!
+  selectedActor: Actor!
   actorById(id: UUID!): Actor!
   actors: [Actor!]!
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!

@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-em-dash-fallback.pipe';
-export * from './lib/em-dash';
-export * from './lib/export-to-csv';
-export * from './lib/dh-make-form-control';
-export { DhDropdownTranslatorDirective } from './lib/dh-dropdown-translator.directive';
-export { enumToDropdownOptions } from './lib/dh-enum-to-dropdown-options';
+import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+
+export function enumToDropdownOptions<T extends object>(enumObj: T) {
+  return Object.keys(enumObj).map((key) => ({
+    displayValue: key,
+    value: Object.values(enumObj)[Object.keys(enumObj).indexOf(key)],
+  })) as WattDropdownOptions;
+}
