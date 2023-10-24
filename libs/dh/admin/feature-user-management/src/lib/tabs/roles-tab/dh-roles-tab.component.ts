@@ -40,7 +40,6 @@ import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
 import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.component';
 import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
-import { FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'dh-roles-tab',
@@ -48,10 +47,7 @@ import { FormGroupDirective } from '@angular/forms';
   styleUrls: ['./dh-roles-tab.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
-    FormGroupDirective,
-  ],
+  providers: [provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore)],
   imports: [
     CommonModule,
     TranslocoModule,

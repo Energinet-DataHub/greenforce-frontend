@@ -44,6 +44,7 @@ import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish
 import { HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { MatDialogModule } from '@angular/material/dialog';
+import { FormGroupDirective } from '@angular/forms';
 
 export const dhCoreShellProviders = [
   importProvidersFrom([
@@ -53,6 +54,7 @@ export const dhCoreShellProviders = [
     MsalModule,
     TranslocoModule,
   ]),
+  FormGroupDirective,
   environment.production ? applicationInsightsProviders : [],
   dhWattTranslationsProviders,
   danishLocalProviders,
