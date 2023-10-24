@@ -14,10 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { mocks, onUnhandledRequest, handlers } from '@energinet-datahub/gf/util-msw';
 import { setupServer } from 'msw/node';
 
-import { handlers } from '@energinet-datahub/dh/shared/data-access-msw';
-import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
+export function setupMSWServer(apiBase: string, mocks: mocks) {
+  const server = setupServer(...handlers(apiBase, mocks));
 
-// Setup requests interception using the given handlers.
-export const server = setupServer(...handlers(dhLocalApiEnvironment.apiBase));
+  beforeAll(() => {
+    // Enable the mocking in tests.
+    server.listen({ onUnhandledRequest });
+  });
+
+  afterEach(() => {
+    // Reset any runtime handlers tests may use.
+    server.resetHandlers();
+  });
+
+  afterAll(() => {
+    // Clean up once the tests are done.
+    server.close();
+  });
+}

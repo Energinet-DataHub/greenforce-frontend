@@ -1,15 +1,15 @@
 {
-  "name": "dh-shared-data-access-msw",
+  "name": "dh-shared-data-access-mocks",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/dh/shared/data-access-msw/src",
+  "sourceRoot": "libs/dh/shared/data-access-mocks/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/data-access-msw"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/data-access-mocks"],
       "options": {
-        "jestConfig": "libs/dh/shared/data-access-msw/jest.config.ts",
+        "jestConfig": "libs/dh/shared/data-access-mocks/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -17,8 +17,8 @@
       "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/dh/shared/data-access-msw/src/**/*.ts",
-          "libs/dh/shared/data-access-msw/src/**/*.html"
+          "libs/dh/shared/data-access-mocks/src/**/*.ts",
+          "libs/dh/shared/data-access-mocks/src/**/*.html"
         ]
       }
     }
