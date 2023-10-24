@@ -49,7 +49,7 @@ export class StepperModalExampleComponent {
     firstname: ['', Validators.required],
     lastname: [''],
   });
-  address = new FormBuilder().group({ street: [''], city: [''] });
+  address = this.formBuilder.group({ street: [''], city: [''] });
   email = new FormBuilder().group({ email: [''] });
   @ViewChild('modal')
   modal!: TemplateRef<Element>;
