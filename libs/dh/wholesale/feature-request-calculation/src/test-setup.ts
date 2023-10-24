@@ -14,9 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-em-dash-fallback.pipe';
-export * from './lib/em-dash';
-export * from './lib/export-to-csv';
-export * from './lib/dh-make-form-control';
-export { DhDropdownTranslatorDirective } from './lib/dh-dropdown-translator.directive';
-export { enumToDropdownOptions } from './lib/dh-enum-to-dropdown-options';
+import 'jest-preset-angular/setup-jest';
+
+import {
+  setUpAngularTestingLibrary,
+  setUpNgMocks,
+  setUpTestbed,
+} from '@energinet-datahub/gf/test-util-staging';
+import { setupMSW } from '@energinet-datahub/dh/shared/test-util-msw';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+
+setupMSW();
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
+setUpNgMocks();
