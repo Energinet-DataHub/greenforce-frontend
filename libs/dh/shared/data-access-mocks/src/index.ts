@@ -35,9 +35,7 @@ export const mocks = [
   marketParticipantUserMocks,
   marketParticipantUserRoleMocks,
   tokenMocks,
-  eSettMocks
+  eSettMocks,
 ];
 
 export * from './lib/metering-point';
-
-

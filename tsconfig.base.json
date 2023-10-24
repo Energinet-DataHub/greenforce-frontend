@@ -336,14 +336,11 @@
       "@energinet-datahub/gf/configuration-danish-locale": [
         "libs/gf/configuration-danish-locale/src/index.ts"
       ],
-      "@energinet-datahub/gf/util-msw": [
-        "libs/gf/msw/util-msw/src/index.ts"
+      "@energinet-datahub/gf/test-util-matchers": [
+        "libs/gf/test-util-matchers/src/index.ts"
       ],
       "@energinet-datahub/gf/test-util-msw": [
         "libs/gf/msw/test-util-msw/src/index.ts"
-      ],
-      "@energinet-datahub/gf/test-util-matchers": [
-        "libs/gf/test-util-matchers/src/index.ts"
       ],
       "@energinet-datahub/gf/test-util-staging": [
         "libs/gf/test-util-staging/src/index.ts"
@@ -351,6 +348,7 @@
       "@energinet-datahub/gf/util-browser": [
         "libs/gf/util-browser/src/index.ts"
       ],
+      "@energinet-datahub/gf/util-msw": ["libs/gf/msw/util-msw/src/index.ts"],
       "@energinet-datahub/watt/badge": [
         "libs/watt/src/lib/components/badge/index.ts"
       ],

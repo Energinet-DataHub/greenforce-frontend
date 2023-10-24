@@ -14,9 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DefaultBodyType, GraphQLHandler, GraphQLRequest, MockedRequest, RequestHandler, RestHandler } from 'msw';
+import {
+  DefaultBodyType,
+  GraphQLHandler,
+  GraphQLRequest,
+  MockedRequest,
+  RequestHandler,
+  RestHandler,
+} from 'msw';
 
-export type mocks = ((apiBase: string) => (RestHandler<MockedRequest<DefaultBodyType>> | GraphQLHandler<GraphQLRequest<never>>)[])[];
+export type mocks = ((
+  apiBase: string
+) => (RestHandler<MockedRequest<DefaultBodyType>> | GraphQLHandler<GraphQLRequest<never>>)[])[];
 
 export function handlers(apiBase: string, mocks: mocks): RequestHandler[] {
   return mocks.map((mock) => mock(apiBase)).flat();
