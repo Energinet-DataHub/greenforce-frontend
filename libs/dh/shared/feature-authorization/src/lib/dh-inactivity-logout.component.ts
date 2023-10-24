@@ -31,13 +31,8 @@ import { TranslocoModule } from '@ngneat/transloco';
     `,
   ],
   template: `
-    <watt-modal
-      #inactivityWarningModal
-      [size]="'small'"
-      [title]="t('sessionExpireHeader')"
-      *transloco="let t; read: 'admin.userManagement'"
-    >
-      <p>{{ t('sessionExpireContentA') }}<br />{{ t('sessionExpireContentB') }}</p>
+    <watt-modal *transloco="let t" [size]="'small'" [title]="t('sessionExpirationTitle')">
+      <p>{{ t('sessionExpirationContentPartA') }}<br />{{ t('sessionExpirationContentPartB') }}</p>
       <h2>{{ warningCountdown$ | push | date : 'mm:ss' }}</h2>
     </watt-modal>
   `,
