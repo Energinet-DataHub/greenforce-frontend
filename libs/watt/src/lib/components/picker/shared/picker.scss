@@ -29,10 +29,10 @@
     }
   }
 
-  input {
+  input.mat-date-range-input-inner,
+  input.mat-mdc-input-element,
+  .mat-date-range-input-mirror {
     font-family: watt.$typography-monospace-font-family;
-    border: none;
-    outline: none;
   }
 
   input.mat-date-range-input-inner,

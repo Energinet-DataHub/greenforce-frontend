@@ -3,6 +3,9 @@
   "yes": "Ja",
   "no": "Nej",
   "selectedLanguageIso": "da-dk",
+  "sessionExpirationTitle": "Sessionen udløber snart",
+  "sessionExpirationContentPartA": "Du har været inaktiv i 2 timer.",
+  "sessionExpirationContentPartB": "Af sikkerhedsmæssige årsager vil du blive logget af om",
   "shell": {
     "logout": "Log ud"
   },
@@ -38,7 +41,8 @@
     },
     "download": "Download",
     "search": "Søg",
-    "selectedValues": "{{count}} valgt(e)"
+    "selectedValues": "{{count}} valgt(e)",
+    "processType": "Beregningstype"
   },
   "clipboard": {
     "success": "Kopieret til udklipsholder",
@@ -61,7 +65,8 @@
         "menuGroupLabel": "Afregninger",
         "calculations": "Beregninger",
         "overview": "Oversigt",
-        "settlementReports": "Afregningsrapporter"
+        "settlementReports": "Afregningsrapporter",
+        "requestCalculation": "Anmod om beregning"
       },
       "admin": {
         "menuGroupLabel": "Opsætning",
@@ -991,9 +996,17 @@
     }
   },
   "wholesale": {
-    "BALANCE_FIXING": "Balancefiksering",
-    "WHOLESALE_FIXING": "Engrosfiksering",
-    "AGGREGATION": "Aggregering",
+    "shared": {
+      "BALANCE_FIXING": "Balancefiksering",
+      "AGGREGATION": "Aggregering",
+      "WHOLESALE_FIXING": "Engrosfiksering",
+      "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
+      "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
+      "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
+    },
+    "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+    "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
+    "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
     "calculations": {
       "topBarTitle": "Beregninger",
       "headline": "Resultater",
@@ -1011,7 +1024,7 @@
         "executionType": "Afviklingstype",
         "scheduling": "Kørsel",
         "processType": {
-          "label": "Procestype",
+          "label": "{{shared.processType}}",
           "error": "Procestype påkrævet"
         },
         "summation": "Månedlige summer",
@@ -1047,12 +1060,12 @@
         }
       },
       "processTypes": {
-        "BALANCE_FIXING": "Balancefiksering",
-        "AGGREGATION": "Aggregering",
-        "WHOLESALE_FIXING": "Engrosfiksering",
-        "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
-        "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
-        "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
+        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
+        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}"
       },
       "executionStates": {
         "PENDING": "Afventer",
@@ -1076,7 +1089,7 @@
         "executionStates": "Status",
         "executionTime": "Eksekveringstid",
         "gridAreas": "Netområder",
-        "processType": "Beregningstype",
+        "processType": "{{shared.processType}}",
         "reset": "{{shared.form.reset}}",
         "period": "{{shared.form.filters.period}}"
       },
@@ -1085,7 +1098,7 @@
         "periodFrom": "Periode fra",
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
-        "processType": "Procestype",
+        "processType": "{{shared.processType}}",
         "status": "Status"
       },
       "details": {
@@ -1100,6 +1113,34 @@
         "gridAreaCode": "ID",
         "name": "navn",
         "emptyTitle": "Ingen netområder fundet"
+      }
+    },
+    "requestCalculation": {
+      "energySupplier": "Elleverandør",
+      "balanceResponsible": "Balanceansvarlig",
+      "error": "Der opstod desværre en fejl, under anmodingen om beregning",
+      "success": "Din anmoding er startet.",
+      "topBarTitle": "Anmod om beregning",
+      "processType": "{{shared.processType}}",
+      "meteringPointType": "Målepunktstype",
+      "period": "Periode",
+      "gridAreas": "Netområder",
+      "request": "Anmod",
+      "maxPeriodLength": "Perioden må max være en måned",
+      "processTypes": {
+        "preliminaryaggregation": "Aggregering",
+        "balancefixing": "Balancefiksering",
+        "wholesalefixing": "Engrosfiksering",
+        "firstcorrection": "Første korrektion",
+        "secondcorrection": "Anden korrektion",
+        "thirdcorrection": "Tredje korrektion"
+      },
+      "meteringPointTypes": {
+        "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
+        "TOTAL_CONSUMPTION": "Forbrug (time- og flexafregning)",
+        "PRODUCTION": "Produktion",
+        "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
+        "EXCHANGE": "Udveksling"
       }
     },
     "settlementReports": {
@@ -1117,12 +1158,12 @@
       "noEntries": "Ingen resultater",
       "results": "Søgeresultater",
       "tabs": {
-        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
-        "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
+        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}"
       },
       "table": {
         "title": "Processer",
-        "processType": "Procestype",
+        "processType": "{{shared.processType}}",
         "gridAreaName": "Netområde",
         "gridAreaCode": "Netområde ID",
         "periodStart": "Periode fra",
@@ -1133,11 +1174,11 @@
         "download": "—"
       },
       "processTypes": {
-        "BALANCE_FIXING": "Balancefiksering",
-        "AGGREGATION": "Aggregering"
+        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}"
       },
       "filters": {
-        "processType": "Procestype",
+        "processType": "{{shared.processType}}",
         "gridArea": "Netområde",
         "period": "Periode",
         "executionTime": "Kørsel tid",
@@ -1146,7 +1187,7 @@
         "loadingActors": "Henter elleverandører...",
         "loadingGridAreas": "Henter netområder...",
         "actorPlaceholder": "Vælg elleverandør",
-        "processTypePlaceholder": "Vælg procestype",
+        "processTypePlaceholder": "Vælg {{shared.processType}}",
         "gridAreasPlaceholder": "Vælg netområde(r)"
       }
     }

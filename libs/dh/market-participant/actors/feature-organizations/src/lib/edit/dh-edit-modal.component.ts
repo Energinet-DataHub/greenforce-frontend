@@ -26,13 +26,7 @@ import {
   DestroyRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormControl,
-  FormGroupDirective,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { Apollo, MutationResult } from 'apollo-angular';
 
@@ -58,7 +52,6 @@ const validDomainRegExp = /^([A-Za-z0-9-]{1,63}\.)+[A-Za-z]{2,6}$/;
   standalone: true,
   selector: 'dh-organization-edit-modal',
   templateUrl: './dh-edit-modal.component.html',
-  providers: [FormGroupDirective],
   styles: [
     `
       .domain-field {

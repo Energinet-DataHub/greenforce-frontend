@@ -27,6 +27,7 @@ import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar'
 
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
 import {
+  DhInactivityDetectionService,
   DhSelectedActorComponent,
   DhSignupMitIdComponent,
 } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -53,7 +54,13 @@ import { ApolloModule } from 'apollo-angular';
 export class DhCoreShellComponent {
   titleTranslationKey$ = this.dhTopBarStore.titleTranslationKey$;
 
-  constructor(private authService: MsalService, private dhTopBarStore: DhTopBarStore) {}
+  constructor(
+    private readonly authService: MsalService,
+    private readonly dhTopBarStore: DhTopBarStore,
+    inactivityDetection: DhInactivityDetectionService
+  ) {
+    inactivityDetection.trackInactivity();
+  }
 
   logout() {
     this.authService.logout();
