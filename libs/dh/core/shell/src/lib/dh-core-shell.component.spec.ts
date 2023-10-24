@@ -24,12 +24,20 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+import { MatDialogModule } from '@angular/material/dialog';
+import { importProvidersFrom } from '@angular/core';
 
 describe(DhCoreShellComponent, () => {
   beforeEach(async () => {
     view = await render(DhCoreShellComponent, {
       imports: [getTranslocoTestingModule(), HttpClientTestingModule],
-      providers: [MsalServiceFake, danishDatetimeProviders],
+      providers: [
+        MsalServiceFake,
+        danishDatetimeProviders,
+        WattModalService,
+        importProvidersFrom([MatDialogModule]),
+      ],
     });
   });
 

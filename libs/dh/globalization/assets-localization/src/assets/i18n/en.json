@@ -3,6 +3,9 @@
   "yes": "Yes",
   "no": "No",
   "selectedLanguageIso": "en-gb",
+  "sessionExpirationTitle": "Session expires soon",
+  "sessionExpirationContentPartA": "You have been inactive for 2 hours.",
+  "sessionExpirationContentPartB": "You will be signed out for to security reasons in",
   "shell": {
     "logout": "Sign out"
   },
