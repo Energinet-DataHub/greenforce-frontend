@@ -18,6 +18,7 @@ import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 import { rest } from 'msw';
 import parseISO from 'date-fns/parseISO';
+import { GetActorsForRequestCalculation } from './data/wholesale-get-actorsForRequestCalculation';
 
 export function wholesaleMocks(apiBase: string) {
   return [
@@ -30,6 +31,8 @@ export function wholesaleMocks(apiBase: string) {
     getGridAreas(),
     getLatestBalanceFixing(),
     getActorsForSettlementReportQuery(),
+    getActorsForRequestCalculationQuery(),
+    getSelectedActorQuery(),
   ];
 }
 
@@ -354,6 +357,34 @@ function getActorsForSettlementReportQuery() {
     return res(
       ctx.status(200),
       ctx.data({ __typename: 'Query', actorsForEicFunction: mockedActorsForSettlementReport }),
+      ctx.delay(300)
+    );
+  });
+}
+
+function getActorsForRequestCalculationQuery() {
+  return graphql.mockGetActorsForRequestCalculationQuery((req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.data({ __typename: 'Query', actorsForEicFunction: GetActorsForRequestCalculation }),
+      ctx.delay(300)
+    );
+  });
+}
+
+function getSelectedActorQuery() {
+  return graphql.mockGetSelectedActorQuery((req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.data({
+        __typename: 'Query',
+        selectedActor: {
+          __typename: 'Actor',
+          glnOrEicNumber: '123',
+          gridAreas: [{ __typename: 'GridAreaDto', code: '805', name: 'hello' }],
+          marketRole: graphql.EicFunction.EnergySupplier,
+        },
+      }),
       ctx.delay(300)
     );
   });

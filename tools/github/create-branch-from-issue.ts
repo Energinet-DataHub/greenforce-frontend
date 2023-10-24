@@ -46,6 +46,10 @@ const teams = [
     repo: 'Energinet-DataHub/opengeh-wholesale',
   },
   {
+    team: 'Mosaic',
+    repo: 'Energinet-DataHub/team-phoenix',
+  },
+  {
     team: 'Bounty hunters',
     repo: 'Energinet-DataHub/greenforce-frontend',
   },
