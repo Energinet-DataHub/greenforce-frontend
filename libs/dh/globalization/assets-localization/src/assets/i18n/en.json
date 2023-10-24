@@ -1136,7 +1136,9 @@
         "preliminaryaggregation": "Aggregation",
         "balancefixing": "Balance fixing",
         "wholesalefixing": "Wholesale fixing",
-        "correction": "Correction"
+        "firstcorrection": "First correction",
+        "secondcorrection": "Second correction",
+        "thirdcorrection": "Third correction"
       },
       "meteringPointTypes": {
         "FLEX_CONSUMPTION": "Flex consumption",

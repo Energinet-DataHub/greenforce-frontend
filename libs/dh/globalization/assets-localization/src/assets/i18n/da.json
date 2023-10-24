@@ -1128,7 +1128,9 @@
         "preliminaryaggregation": "Aggregering",
         "balancefixing": "Balancefiksering",
         "wholesalefixing": "Engrosfiksering",
-        "correction": "Korrektion"
+        "firstcorrection": "Første korrektion",
+        "secondcorrection": "Anden korrektion",
+        "thirdcorrection": "Tredje korrektion"
       },
       "meteringPointTypes": {
         "FLEX_CONSUMPTION": "Forbrug (flexafregning)",

@@ -26,8 +26,7 @@ import {
 export const dhWholesaleShellRoutes: Route[] = [
   {
     path: WHOLESALE_REQUEST_CALCULATION_PATH,
-    canActivate: [PermissionGuard(['settlement-reports:manage'])],
-    // What permission should this have? canActivate: [PermissionGuard(['calculations:manage'])],
+    canActivate: [PermissionGuard(['request-aggregated-measured-data:view'])],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-request-calculation'),
     data: {
       titleTranslationKey: 'wholesale.requestCalculation.topBarTitle',
