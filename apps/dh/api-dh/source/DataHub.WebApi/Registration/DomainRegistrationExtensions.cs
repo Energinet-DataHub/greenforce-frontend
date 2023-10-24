@@ -19,6 +19,7 @@ using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.MarketParticipant.Client.Extensions;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,6 +42,8 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddMeteringPointClient(
                     GetBaseUri(apiClientSettings.MeteringPointBaseUrl))
                 .AddMarketParticipantClient(
+                    GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
+                .AddMarketParticipantGeneratedClient(
                     GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
                 .AddWholesaleClient(
                     GetBaseUri(apiClientSettings.WholesaleBaseUrl))
@@ -78,6 +81,14 @@ namespace Energinet.DataHub.WebApi.Registration
         {
             return serviceCollection.AddScoped<IESettExchangeClient_V1, ESettExchangeClient_V1>(
                 provider => new ESettExchangeClient_V1(
+                    baseUri.ToString(),
+                    provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
+        }
+
+        private static IServiceCollection AddMarketParticipantGeneratedClient(this IServiceCollection serviceCollection, Uri baseUri)
+        {
+            return serviceCollection.AddScoped<IMarketParticipantClient_V1, MarketParticipantClient_V1>(
+                provider => new MarketParticipantClient_V1(
                     baseUri.ToString(),
                     provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
         }
