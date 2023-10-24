@@ -191,8 +191,8 @@
       "@energinet-datahub/dh/shared/data-access-graphql": [
         "libs/dh/shared/data-access-graphql/src/index.ts"
       ],
-      "@energinet-datahub/dh/shared/data-access-msw": [
-        "libs/dh/shared/data-access-msw/src/index.ts"
+      "@energinet-datahub/dh/shared/data-access-mocks": [
+        "libs/dh/shared/data-access-mocks/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/domain": [
         "libs/dh/shared/domain/src/index.ts"
@@ -223,9 +223,6 @@
       ],
       "@energinet-datahub/dh/shared/test-util-metering-point": [
         "libs/dh/shared/test-util-metering-point/src/index.ts"
-      ],
-      "@energinet-datahub/dh/shared/test-util-msw": [
-        "libs/dh/shared/test-util-msw/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/ui-search": [
         "libs/dh/shared/ui-search/src/index.ts"
@@ -342,12 +339,16 @@
       "@energinet-datahub/gf/test-util-matchers": [
         "libs/gf/test-util-matchers/src/index.ts"
       ],
+      "@energinet-datahub/gf/test-util-msw": [
+        "libs/gf/msw/test-util-msw/src/index.ts"
+      ],
       "@energinet-datahub/gf/test-util-staging": [
         "libs/gf/test-util-staging/src/index.ts"
       ],
       "@energinet-datahub/gf/util-browser": [
         "libs/gf/util-browser/src/index.ts"
       ],
+      "@energinet-datahub/gf/util-msw": ["libs/gf/msw/util-msw/src/index.ts"],
       "@energinet-datahub/watt/badge": [
         "libs/watt/src/lib/components/badge/index.ts"
       ],

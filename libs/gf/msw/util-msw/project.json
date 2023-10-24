@@ -1,0 +1,19 @@
+{
+  "name": "gf-util-msw",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/gf/msw/util-msw/src",
+  "prefix": "gf",
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/gf/msw/util-msw/src/**/*.ts",
+          "libs/gf/msw/util-msw/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:gf", "domain:shared", "type:util"]
+}

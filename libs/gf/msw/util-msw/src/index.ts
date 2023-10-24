@@ -14,5 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/server';
-export * from './lib/setup-msw';
+export { setupServiceWorker } from './lib/setup-service-worker';
+export { handlers, onUnhandledRequest, mocks } from './lib/handlers';

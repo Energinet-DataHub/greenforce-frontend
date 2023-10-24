@@ -14,32 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { MockedRequest, RequestHandler } from 'msw';
+import {
+  DefaultBodyType,
+  GraphQLHandler,
+  GraphQLRequest,
+  MockedRequest,
+  RequestHandler,
+  RestHandler,
+} from 'msw';
 
-import { chargesMocks } from './mocks/charges';
-import { meteringPointMocks } from './mocks/metering-point';
-import { wholesaleMocks } from './mocks/wholesale';
-import { marketParticipantMocks } from './mocks/marketParticipant';
-import { messageArchiveMocks } from './mocks/messageArchive';
-import { adminMocks } from './mocks/admin';
-import { marketParticipantUserMocks } from './mocks/marketParticipantUser';
-import { marketParticipantUserRoleMocks } from './mocks/marketParticipantUserRole';
-import { tokenMocks } from './mocks/token';
-import { eSettMocks } from './mocks/esett-mocks';
+export type mocks = ((
+  apiBase: string
+) => (RestHandler<MockedRequest<DefaultBodyType>> | GraphQLHandler<GraphQLRequest<never>>)[])[];
 
-export function handlers(apiBase: string) {
-  return [
-    ...chargesMocks(apiBase),
-    ...meteringPointMocks(apiBase),
-    ...wholesaleMocks(apiBase),
-    ...marketParticipantMocks(apiBase),
-    ...messageArchiveMocks(apiBase),
-    ...adminMocks(apiBase),
-    ...marketParticipantUserMocks(apiBase),
-    ...marketParticipantUserRoleMocks(apiBase),
-    ...tokenMocks(apiBase),
-    ...eSettMocks(apiBase),
-  ] as RequestHandler[];
+export function handlers(apiBase: string, mocks: mocks): RequestHandler[] {
+  return mocks.map((mock) => mock(apiBase)).flat();
 }
 
 export function onUnhandledRequest(req: MockedRequest) {

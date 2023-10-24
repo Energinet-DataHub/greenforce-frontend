@@ -21,10 +21,13 @@ import {
   setUpNgMocks,
   setUpTestbed,
 } from '@energinet-datahub/gf/test-util-staging';
-import { setupMSW } from '@energinet-datahub/dh/shared/test-util-msw';
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 
-setupMSW();
+import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
+import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
+
+setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
 addDomMatchers();
 setUpTestbed();
 setUpAngularTestingLibrary();
