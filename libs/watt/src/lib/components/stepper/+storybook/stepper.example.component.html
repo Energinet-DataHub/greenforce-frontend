@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-stepper (completed)="complete()">
-  <watt-stepper-step label="User" [stepControl]="user" nextButtonLabel="Email">
+  <watt-stepper-step label="Basic information" [stepControl]="user" nextButtonLabel="Email">
     <form [formGroup]="user">
       <watt-text-field
         class="firstname"
