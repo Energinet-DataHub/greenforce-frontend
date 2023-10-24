@@ -50,7 +50,6 @@ describe(DhUserAuditLogsComponent.name, () => {
       createdDate: '2023-01-10T10:12:06+00:00',
       firstName: 'fake value',
       lastName: 'fake value',
-      assignedActors: [],
     };
 
     return { fixture };
