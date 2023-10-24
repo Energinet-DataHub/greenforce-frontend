@@ -19,7 +19,7 @@ import { render, screen } from '@testing-library/angular';
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
-import { getByGsrnResponse as identityData } from '@energinet-datahub/dh/shared/data-access-msw';
+import { getByGsrnResponse as identityData } from '@energinet-datahub/dh/shared/data-access-mocks';
 
 import { DhMeteringPointIdentityComponent } from './dh-metering-point-identity.component';
 
