@@ -15,7 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-card vater inset="0" *transloco="let t; read: 'wholesale.requestCalculation'">
-  <form [formGroup]="form" (ngSubmit)="requestCalculation()">
+  <form
+    [formGroup]="form"
+    #formDirective="ngForm"
+    (ngSubmit)="requestCalculation(form, formDirective)"
+  >
     <vater-flex fill="vertical" gap="m">
       <vater-stack align="flex-start" direction="column" gap="s">
         <watt-dropdown

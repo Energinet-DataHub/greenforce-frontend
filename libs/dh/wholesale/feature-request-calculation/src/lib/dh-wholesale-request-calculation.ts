@@ -18,6 +18,8 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
+  FormGroup,
+  FormGroupDirective,
   FormsModule,
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -120,6 +122,7 @@ export class DhWholesaleRequestCalculationComponent {
   private _transloco = inject(TranslocoService);
   private _toastService = inject(WattToastService);
   private _destroyRef = inject(DestroyRef);
+  private _formGroupDirective = inject(FormGroupDirective);
   private _selectedEicFunction: EicFunction | null | undefined = null;
 
   maxDate = subDays(new Date(), 5);
@@ -236,7 +239,7 @@ export class DhWholesaleRequestCalculationComponent {
     return this._selectedEicFunction === EicFunction.EnergySupplier;
   }
 
-  requestCalculation(): void {
+  requestCalculation(form: FormGroup, formGroupDirective: FormGroupDirective): void {
     const {
       gridarea,
       meteringPointType,
@@ -246,6 +249,9 @@ export class DhWholesaleRequestCalculationComponent {
       processType: processtType,
     } = this.form.getRawValue();
     if (!gridarea || !meteringPointType || !processtType || !period.start || !period.end) return;
+
+    form.reset();
+    formGroupDirective.resetForm();
 
     this._apollo
       .mutate({
