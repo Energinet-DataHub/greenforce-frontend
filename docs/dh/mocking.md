@@ -13,7 +13,7 @@ Mocks are enabled by default but can be bypassed by running the `development` ta
 
 ## Add new mocks
 
-Mocks should be added here `libs/dh/shared/data-access-msw/src/lib` and you can find information about how to mock here.
+Mocks should be added here `libs/dh/shared/data-access-mocks/src/lib` and you can find information about how to mock here.
 After your mocks has been created you need to import your mocks here `libs/dh/shared/data-access-mocks/src/index.ts`
 
 You can find more information of how to define mocks [here](https://mswjs.io/docs/getting-started/mocks/rest-api).
