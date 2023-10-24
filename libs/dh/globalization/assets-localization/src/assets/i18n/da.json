@@ -3,6 +3,9 @@
   "yes": "Ja",
   "no": "Nej",
   "selectedLanguageIso": "da-dk",
+  "sessionExpirationTitle": "Sessionen udløber snart",
+  "sessionExpirationContentPartA": "Du har været inaktiv i 2 timer.",
+  "sessionExpirationContentPartB": "Af sikkerhedsmæssige årsager vil du blive logget af om",
   "shell": {
     "logout": "Log ud"
   },
