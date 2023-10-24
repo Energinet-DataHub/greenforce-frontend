@@ -23,7 +23,6 @@ import {
   signal,
 } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { FormGroupDirective } from '@angular/forms';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
