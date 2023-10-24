@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
 import { WATT_STEPPER } from '..';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { WattButtonComponent } from '../../button';
@@ -23,21 +23,13 @@ import { WattTextFieldComponent } from '../../text-field/watt-text-field.compone
 import { WattFieldErrorComponent } from '../../field/watt-field-error.component';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { WattModalComponent } from '../../modal/watt-modal.component';
+import { StepperExampleComponent } from './stepper.example.component';
 
 @Component({
-  selector: 'watt-stepper-example',
+  selector: 'watt-stepper-modal-example',
   standalone: true,
-  templateUrl: './stepper.example.component.html',
-  styles: [
-    `
-      form {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--watt-space-m);
-      }
-    `,
-  ],
+  templateUrl: './stepper.modal.example.component.html',
   imports: [
     WATT_STEPPER,
     ReactiveFormsModule,
@@ -45,18 +37,22 @@ import { CommonModule } from '@angular/common';
     WattIconComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
+    WattModalComponent,
+    StepperExampleComponent,
     MatButtonModule,
     CommonModule,
   ],
 })
-export class StepperExampleComponent {
+export class StepperModalExampleComponent {
   formBuilder = inject(FormBuilder);
   user = this.formBuilder.group({
     firstname: ['', Validators.required],
     lastname: [''],
   });
-  address = new FormBuilder().group({ street: [''], city: [''] });
-  email = new FormBuilder().group({ email: [''] });
+  address = this.formBuilder.group({ street: [''], city: [''] });
+  email = this.formBuilder.group({ email: [''] });
+  @ViewChild('modal')
+  modal!: TemplateRef<Element>;
 
   complete(): void {
     console.log('completed');
