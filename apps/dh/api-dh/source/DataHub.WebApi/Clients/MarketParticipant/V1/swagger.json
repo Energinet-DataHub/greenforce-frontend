@@ -2262,21 +2262,6 @@
           }
         }
       },
-      "ActorDisplayNameDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "actorNumber": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "organizationName": {
-            "type": "string"
-          }
-        }
-      },
       "ActorDto": {
         "type": "object",
         "additionalProperties": false,
@@ -2393,25 +2378,6 @@
           },
           "country": {
             "type": "string"
-          }
-        }
-      },
-      "AssignedActorDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "actorDisplayName": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorDisplayNameDto"
-              }
-            ]
-          },
-          "userRoleNames": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
           }
         }
       },
@@ -3243,12 +3209,6 @@
           "createdDate": {
             "type": "string",
             "format": "date-time"
-          },
-          "assignedActors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AssignedActorDto"
-            }
           }
         }
       },

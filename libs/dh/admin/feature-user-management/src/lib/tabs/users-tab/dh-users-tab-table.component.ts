@@ -51,10 +51,6 @@ import { Subject, takeUntil } from 'rxjs';
       :host {
         display: block;
       }
-
-      .assigned-actor-item {
-        margin: 0;
-      }
     `,
   ],
   // Using `OnPush` causes issues with table's header row translations
@@ -76,7 +72,6 @@ export class DhUsersTabTableComponent implements AfterViewInit, OnDestroy {
     lastName: { accessor: 'lastName' },
     email: { accessor: 'email' },
     phoneNumber: { accessor: 'phoneNumber' },
-    assignedActors: { accessor: 'assignedActors', sort: false },
     status: { accessor: 'status' },
   };
 

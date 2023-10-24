@@ -9,7 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { MarketParticipantAssignedActorDto } from './market-participant-assigned-actor-dto';
 import { MarketParticipantUserStatus } from './market-participant-user-status';
 
 
@@ -21,7 +20,6 @@ export interface MarketParticipantUserOverviewItemDto {
     email: string;
     phoneNumber?: string | null;
     createdDate: string;
-    assignedActors: Array<MarketParticipantAssignedActorDto>;
 }
 export namespace MarketParticipantUserOverviewItemDto {
 }

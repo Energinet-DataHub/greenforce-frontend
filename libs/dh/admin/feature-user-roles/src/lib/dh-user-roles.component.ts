@@ -81,6 +81,7 @@ export class DhUserRolesComponent implements OnChanges {
   private readonly store = inject(DhAdminUserRolesStore);
   @Input() user: MarketParticipantUserOverviewItemDto | null = null;
   @Input() selectMode = false;
+  @Input() expanded = true;
   @Output() updateUserRoles = new EventEmitter<UpdateUserRoles>();
 
   isLoading$ = this.store.isLoading$;
