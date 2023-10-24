@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { setupWorker } from 'msw';
-import { handlers, onUnhandledRequest } from './handlers';
+import { mocks, handlers, onUnhandledRequest } from './handlers';
 
-export function setupServiceWorker(apiBase: string) {
+export function setupServiceWorker(apiBase: string, mocks: mocks) {
   try {
-    const worker = setupWorker(...handlers(apiBase));
+    const worker = setupWorker(...handlers(apiBase, mocks));
     worker.start({ onUnhandledRequest });
     // eslint-disable-next-line no-empty
   } catch (error) {}
