@@ -1,0 +1,10 @@
+query getSelectedActor {
+  selectedActor {
+    glnOrEicNumber
+    marketRole
+    gridAreas {
+      code
+      name
+    }
+  }
+}

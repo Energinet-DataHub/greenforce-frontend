@@ -17,3 +17,4 @@
 export const WHOLESALE_BASE_PATH = 'wholesale';
 export const WHOLESALE_CALCULATIONS_PATH = 'calculations';
 export const WHOLESALE_SETTLEMENT_REPORTS_PATH = `settlement-reports`;
+export const WHOLESALE_REQUEST_CALCULATION_PATH = `request-calculation`;
