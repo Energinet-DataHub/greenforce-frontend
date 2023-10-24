@@ -23,7 +23,6 @@ import {
   signal,
 } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { FormGroupDirective } from '@angular/forms';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -38,7 +37,6 @@ import { EoInviteConnectionService } from '@energinet-datahub/eo/connections/dat
   selector: 'eo-invite-connection',
   standalone: true,
   encapsulation: ViewEncapsulation.None,
-  providers: [FormGroupDirective],
   imports: [
     NgIf,
     WATT_MODAL,
