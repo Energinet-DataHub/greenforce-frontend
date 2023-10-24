@@ -37,7 +37,13 @@ limitations under the License.
     }}</watt-nav-list-item>
   </watt-nav-list>
 
-  <ng-container *dhPermissionRequired="['calculations:manage', 'settlement-reports:manage']">
+  <ng-container
+    *dhPermissionRequired="[
+      'calculations:manage',
+      'settlement-reports:manage',
+      'request-aggregated-measured-data:view'
+    ]"
+  >
     <watt-nav-list [expandable]="true" [title]="transloco('wholesale.menuGroupLabel')">
       <watt-nav-list-item
         *dhPermissionRequired="['request-aggregated-measured-data:view']"
