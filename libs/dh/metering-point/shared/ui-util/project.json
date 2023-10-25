@@ -16,7 +16,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
           "libs/dh/metering-point/shared/ui-util/src/**/*.ts",

@@ -24,6 +24,7 @@ PRODUCTION_DEPENDENCIES.md
 # Nx config
 
 .nxignore
+/.nx/cache
 
 # Ignore README.md as formatting conflicts with markdown lint
 

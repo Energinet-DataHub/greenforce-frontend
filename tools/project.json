@@ -8,7 +8,7 @@
       "executor": "./tools/executors/license:add"
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": ["tools/**/*.ts"]
       },
