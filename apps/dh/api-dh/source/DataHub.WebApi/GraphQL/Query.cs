@@ -293,61 +293,82 @@ namespace Energinet.DataHub.WebApi.GraphQL
             [Service] IMarketParticipantClient client) =>
             client.GetAuditLogEntriesAsync(organizationId);
 
+        public Task<bool> EmailExistsAsync(
+        string emailAddress,
+        [Service] IMarketParticipantClient_V1 client) =>
+        client.ExistsAsync(emailAddress);
+
         public async Task<IEnumerable<ActorAuditLog>> GetActorAuditLogsAsync(
             Guid actorId,
-            [Service] IMarketParticipantClient client)
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            var logs = await client.AuditlogsAsync(actorId);
+            var actorAuditLogs = new List<ActorAuditLog>();
+
+            foreach (var auditLog in logs.ActorAuditLogs)
             {
-                var logs = await client.GetActorAuditLogsAsync(actorId);
-                var actorAuditLogs = new List<ActorAuditLog>();
-
-                foreach (var auditLog in logs.ActorAuditLogs)
+                var auditLogType = auditLog.ActorChangeType switch
                 {
-                    var auditLogType = auditLog.ActorChangeType switch
-                    {
-                        ActorChangeType.Name => ActorAuditLogType.Name,
-                        ActorChangeType.Created => ActorAuditLogType.Created,
-                        ActorChangeType.Status => ActorAuditLogType.Status,
-                        _ => ActorAuditLogType.Created,
-                    };
-                    actorAuditLogs.Add(new ActorAuditLog()
-                    {
-                        ChangedByUserId = auditLog.AuditIdentityId,
-                        CurrentValue = auditLog.CurrentValue,
-                        PreviousValue = auditLog.PreviousValue,
-                        Timestamp = auditLog.Timestamp,
-                        Type = auditLogType,
-                        ContactCategory = ContactCategory.Default,
-                    });
-                }
-
-                foreach (var auditLog in logs.ActorContactAuditLogs)
+                    ActorChangeType.Name => ActorAuditLogType.Name,
+                    ActorChangeType.Created => ActorAuditLogType.Created,
+                    ActorChangeType.Status => ActorAuditLogType.Status,
+                    _ => ActorAuditLogType.Created,
+                };
+                actorAuditLogs.Add(new ActorAuditLog()
                 {
-                    var auditLogType = auditLog.ActorContactChangeType switch
-                    {
-                        ActorContactChangeType.Name => ActorAuditLogType.ContactName,
-                        ActorContactChangeType.Email => ActorAuditLogType.ContactEmail,
-                        ActorContactChangeType.Phone => ActorAuditLogType.ContactPhone,
-                        ActorContactChangeType.Created => ActorAuditLogType.ContactCreated,
-                        ActorContactChangeType.Deleted => ActorAuditLogType.ContactDeleted,
-                        _ => ActorAuditLogType.Created,
-                    };
-                    actorAuditLogs.Add(new ActorAuditLog()
-                    {
-                        ChangedByUserId = auditLog.AuditIdentityId,
-                        CurrentValue = auditLog.CurrentValue,
-                        PreviousValue = auditLog.PreviousValue,
-                        Timestamp = auditLog.Timestamp,
-                        Type = auditLogType,
-                        ContactCategory = ContactCategory.Default,
-                    });
-                }
-
-                return actorAuditLogs.OrderBy(x => x.Timestamp);
+                    ChangedByUserId = auditLog.AuditIdentityId,
+                    CurrentValue = auditLog.CurrentValue,
+                    PreviousValue = auditLog.PreviousValue,
+                    Timestamp = auditLog.Timestamp,
+                    Type = auditLogType,
+                    ContactCategory = MarketParticipant.Client.Models.ContactCategory.Default,
+                });
             }
-    }
 
-     public Task<bool> EmailExistsAsync(
-            string emailAddress,
-            [Service] IMarketParticipantClient_V1 client) =>
-            client.ExistsAsync(emailAddress);
+            foreach (var auditLog in logs.ActorContactAuditLogs)
+            {
+                var auditLogType = auditLog.ActorContactChangeType switch
+                {
+                    ActorContactChangeType.Name => ActorAuditLogType.ContactName,
+                    ActorContactChangeType.Email => ActorAuditLogType.ContactEmail,
+                    ActorContactChangeType.Phone => ActorAuditLogType.ContactPhone,
+                    ActorContactChangeType.Created => ActorAuditLogType.ContactCreated,
+                    ActorContactChangeType.Deleted => ActorAuditLogType.ContactDeleted,
+                    _ => ActorAuditLogType.Created,
+                };
+
+                // TODO: This is needed as long as we include the original client from the nuget package, since both have a type called ContactCategory
+                var contactCategory = auditLog.ContactCategory switch
+                {
+                    ContactCategory.Default => MarketParticipant.Client.Models.ContactCategory.Default,
+                    ContactCategory.Charges => MarketParticipant.Client.Models.ContactCategory.Charges,
+                    ContactCategory.ChargeLinks => MarketParticipant.Client.Models.ContactCategory.ChargeLinks,
+                    ContactCategory.ElectricalHeating => MarketParticipant.Client.Models.ContactCategory.ElectricalHeating,
+                    ContactCategory.EndOfSupply => MarketParticipant.Client.Models.ContactCategory.EndOfSupply,
+                    ContactCategory.EnerginetInquiry => MarketParticipant.Client.Models.ContactCategory.EnerginetInquiry,
+                    ContactCategory.ErrorReport => MarketParticipant.Client.Models.ContactCategory.ErrorReport,
+                    ContactCategory.IncorrectMove => MarketParticipant.Client.Models.ContactCategory.IncorrectMove,
+                    ContactCategory.IncorrectSwitch => MarketParticipant.Client.Models.ContactCategory.IncorrectSwitch,
+                    ContactCategory.MeasurementData => MarketParticipant.Client.Models.ContactCategory.MeasurementData,
+                    ContactCategory.MeteringPoint => MarketParticipant.Client.Models.ContactCategory.MeteringPoint,
+                    ContactCategory.NetSettlement => MarketParticipant.Client.Models.ContactCategory.NetSettlement,
+                    ContactCategory.Notification => MarketParticipant.Client.Models.ContactCategory.Notification,
+                    ContactCategory.Recon => MarketParticipant.Client.Models.ContactCategory.Recon,
+                    ContactCategory.Reminder => MarketParticipant.Client.Models.ContactCategory.Reminder,
+                    _ => MarketParticipant.Client.Models.ContactCategory.Default,
+                };
+                actorAuditLogs.Add(new ActorAuditLog()
+                {
+                    ChangedByUserId = auditLog.AuditIdentityId,
+                    CurrentValue = auditLog.CurrentValue,
+                    PreviousValue = auditLog.PreviousValue,
+                    Timestamp = auditLog.Timestamp,
+                    Type = auditLogType,
+                    ContactCategory = contactCategory,
+                });
+            }
+
+            return actorAuditLogs.OrderBy(x => x.Timestamp);
+        }
+    }
 }
