@@ -14,17 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
-import {
-  DhMarketParticipantGridAreaOverviewDataAccessApiStore,
-  DhMarketParticipantGridAreaDataAccessApiStore,
-  GridAreaChanges,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { DhMarketParticipantGridAreaOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -33,43 +29,35 @@ import { DhMarketParticipantGridAreaOverviewComponent } from './overview/dh-mark
 
 @Component({
   selector: 'dh-grid-areas-shell',
-  styleUrls: ['./dh-grid-areas-shell.component.scss'],
-  templateUrl: './dh-grid-areas-shell.component.html',
-  providers: [
-    DhMarketParticipantGridAreaOverviewDataAccessApiStore,
-    DhMarketParticipantGridAreaDataAccessApiStore,
+  styles: [
+    `
+      .spinner-container {
+        display: flex;
+        justify-content: center;
+      }
+    `,
   ],
+  templateUrl: './dh-grid-areas-shell.component.html',
+  providers: [DhMarketParticipantGridAreaOverviewDataAccessApiStore],
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
     RxLet,
-    TranslocoModule,
+    RxPush,
+    TranslocoDirective,
+
     WattEmptyStateComponent,
     WattSpinnerComponent,
     WattValidationMessageComponent,
     DhMarketParticipantGridAreaOverviewComponent,
-    RxPush,
   ],
 })
 export class DhGridAreasShellComponent {
-  constructor(
-    private store: DhMarketParticipantGridAreaOverviewDataAccessApiStore,
-    private gridAreaEditStore: DhMarketParticipantGridAreaDataAccessApiStore
-  ) {
+  constructor(private store: DhMarketParticipantGridAreaOverviewDataAccessApiStore) {
     this.store.init();
   }
 
   isLoading$ = this.store.isLoading$;
   validationError$ = this.store.validationError$;
   rows$ = this.store.rows$;
-  isLoadingAuditLog$ = this.gridAreaEditStore.isLoadingAuditLog$;
-  auditLog$ = this.gridAreaEditStore.auditLog$;
-
-  gridAreaChangesIsLoading$ = this.gridAreaEditStore.isLoading$;
-
-  onGridAreaChanged = (changes: { gridAreaChanges: GridAreaChanges; onCompleted: () => void }) => {
-    this.gridAreaEditStore.saveGridAreaChanges(changes);
-  };
-
-  getGridAreaData = (gridAreaId: string) => this.gridAreaEditStore.getAuditLog(gridAreaId);
 }

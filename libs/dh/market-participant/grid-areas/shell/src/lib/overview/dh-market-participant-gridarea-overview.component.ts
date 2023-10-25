@@ -14,57 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { RxLet } from '@rx-angular/template/let';
-import { TranslocoModule } from '@ngneat/transloco';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { TranslocoDirective } from '@ngneat/transloco';
+
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import {
-  GridAreaChanges,
-  GridAreaOverviewRow,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { DhMarketParticipantGridAreaDetailsHeaderComponent } from '../details-header/dh-market-participant-gridarea-details-header.component';
-import { DhMarketParticipantGridAreaEditComponent } from '../details-edit/dh-market-participant-gridarea-edit.component';
-import { DhMarketParticipantGridAreaDetailsAuditLogComponent } from '../details-auditlog/dh-market-participant-gridarea-details-auditlog.component';
-import { MarketParticipantGridAreaAuditLogEntryWithNameDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-gridarea-overview',
-  styleUrls: ['./dh-market-participant-gridarea-overview.component.scss'],
+  styles: [
+    `
+      .card-container {
+        padding: var(--watt-space-m);
+        box-shadow: 0px 1px 6px rgba(11, 60, 93, 0.12), 0px 4px 18px 3px rgba(46, 50, 52, 0.08);
+        border-radius: 4px;
+      }
+    `,
+  ],
   templateUrl: './dh-market-participant-gridarea-overview.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    RxLet,
-    TranslocoModule,
-    WattBadgeComponent,
-    WattButtonComponent,
-    WattIconComponent,
-    WattEmptyStateComponent,
-    WattSpinnerComponent,
-    WattValidationMessageComponent,
-    DhEmDashFallbackPipe,
-    WattDatePipe,
-    WATT_DRAWER,
-    WATT_TABLE,
-    DhMarketParticipantGridAreaDetailsHeaderComponent,
-    DhMarketParticipantGridAreaEditComponent,
-    DhMarketParticipantGridAreaDetailsAuditLogComponent,
-  ],
+  imports: [RxLet, TranslocoDirective, DhEmDashFallbackPipe, WattDatePipe, WATT_TABLE],
 })
 export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
-  @ViewChild('drawer') drawer!: WattDrawerComponent;
-
-  columns = {
+  columns: WattTableColumnDef<GridAreaOverviewRow> = {
     code: { accessor: 'code' },
     name: { accessor: 'name' },
     actorName: { accessor: 'actorName' },
@@ -72,38 +47,13 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
     priceAreaCode: { accessor: 'priceAreaCode' },
     validFrom: { accessor: 'validFrom' },
     validTo: { accessor: 'validTo' },
-  } satisfies WattTableColumnDef<GridAreaOverviewRow>;
+  };
 
   @Input() gridAreas: GridAreaOverviewRow[] = [];
-  @Input() gridChanges!: (changes: {
-    gridAreaChanges: GridAreaChanges;
-    onCompleted: () => void;
-  }) => void;
-  @Input() gridChangesLoading = false;
-
-  @Input() isLoadingAuditLog = false;
-  @Input() activeGridAreaAuditLog: MarketParticipantGridAreaAuditLogEntryWithNameDto[] = [];
-  @Input() getGridAreaData!: (gridAreaId: string) => void;
 
   readonly dataSource = new WattTableDataSource<GridAreaOverviewRow>();
 
-  activeRow?: GridAreaOverviewRow;
-
   ngOnChanges() {
     this.dataSource.data = this.gridAreas;
-  }
-
-  readonly drawerClosed = () => {
-    this.activeRow = undefined;
-  };
-
-  readonly open = (row: GridAreaOverviewRow) => {
-    this.activeRow = row;
-    this.getGridAreaData(row.id);
-    this.drawer.open();
-  };
-
-  isSelected(row: GridAreaOverviewRow): boolean {
-    return this.activeRow?.id === row.id;
   }
 }
