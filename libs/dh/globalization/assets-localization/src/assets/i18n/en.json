@@ -837,9 +837,7 @@
     },
     "gridAreas": {
       "topBarTitle": "Grid areas",
-      "createGridArea": "Create",
-      "editGridArea": "Edit",
-      "noGridAreas": "No gridareas found",
+      "noGridAreas": "No grid areas found",
       "columns": {
         "name": "Grid area",
         "code": "Grid area number",
@@ -848,35 +846,6 @@
         "priceAreaCode": "Price area",
         "validFrom": "Valid from",
         "validTo": "Valid to"
-      },
-      "detailsHeader": {
-        "code": "Grid area number",
-        "actorId": "Market party id",
-        "fullFlexDate": "Full flex date",
-        "priceAreaCode": "Price area",
-        "lossMeteringPoint": "Grid loss metering point",
-        "correctionMeteringPoint": "Correction metering point",
-        "validFrom": "Valid from",
-        "validTo": "Valid to"
-      },
-      "detailsAuditLog": {
-        "time": "Time",
-        "change": "Change",
-        "changes": "Changes",
-        "noResultsFound": "No results",
-        "fields": {
-          "name": "Grid area name"
-        },
-        "unknown": "Unknown",
-        "messageKey": "<strong>{{ userDisplayName }}</strong> changed <strong>{{ field }}</strong> to <strong>{{ newValue }}</strong>"
-      },
-      "changeGridArea": {
-        "gridAreaName": "Grid area name",
-        "cancel": "Cancel",
-        "saveChanges": "Save changes",
-        "editGridArea": "Edit",
-        "editGridAreaModalTitle": "Edit grid area",
-        "editGridAreaModalCloseLabel": "Close"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",

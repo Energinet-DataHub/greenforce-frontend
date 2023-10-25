@@ -28,14 +28,7 @@ limitations under the License.
     </ng-container>
 
     <!-- Table -->
-    <dh-market-participant-gridarea-overview
-      [gridAreas]="rows$ | push"
-      [gridChanges]="onGridAreaChanged"
-      [gridChangesLoading]="gridAreaChangesIsLoading$ | push"
-      [activeGridAreaAuditLog]="auditLog$ | push"
-      [getGridAreaData]="getGridAreaData"
-      [isLoadingAuditLog]="isLoadingAuditLog$ | push"
-    ></dh-market-participant-gridarea-overview>
+    <dh-market-participant-gridarea-overview [gridAreas]="rows$ | push" />
 
     <!-- Spinner -->
     <div *ngIf="isLoading" class="overview__spinner spinner-container">
