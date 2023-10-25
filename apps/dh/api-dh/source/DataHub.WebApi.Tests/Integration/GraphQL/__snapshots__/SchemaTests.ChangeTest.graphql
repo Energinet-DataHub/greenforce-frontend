@@ -127,11 +127,6 @@ type MarketParticipantBadRequestError implements Error {
   statusCode: Int!
 }
 
-type MarketParticipantError implements Error {
-  message: String!
-  statusCode: Int!
-}
-
 type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!
   incomingQuantity: Float
@@ -220,6 +215,7 @@ type Query {
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
+  emailExists(emailAddress: String!): Boolean!
 }
 
 type SettlementReport {
@@ -269,7 +265,7 @@ type UserRoleWithPermissionsDto {
   permissions: [Permission!]!
 }
 
-union UpdateActorError = MarketParticipantError
+union UpdateActorError = MarketParticipantBadRequestError
 
 union UpdateOrganizationError = MarketParticipantBadRequestError
 

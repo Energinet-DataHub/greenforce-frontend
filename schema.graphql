@@ -156,6 +156,7 @@ type Query {
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
+  emailExists(emailAddress: String!): Boolean!
 }
 
 type Mutation {
