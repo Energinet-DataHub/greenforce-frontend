@@ -160,7 +160,7 @@
       "defaultConfiguration": "mocked"
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
           "apps/dh/app-dh/src/**/*.ts",
