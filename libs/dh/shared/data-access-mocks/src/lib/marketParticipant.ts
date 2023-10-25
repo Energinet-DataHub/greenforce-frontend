@@ -33,6 +33,7 @@ import {
   mockGetAuditLogByOrganizationIdQuery,
   OrganizationChangeType,
   OrganizationAuditLog,
+  mockGetAuditLogByActorIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import organizationsData from './data/marketParticipantOrganizations.json';
@@ -45,6 +46,7 @@ import organizationData from './data/marketPaticipantOrganization.json';
 import userRoleData from './data/marketParticipantUserRoleTemplates.json';
 import { marketParticipantActors } from './data/market-participant-actors';
 import { getOrganizationsQueryMock } from './data/market-participant-organizations';
+import { getActorAuditLogsMock } from './data/get-actor-audit-logs';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
@@ -64,6 +66,7 @@ export function marketParticipantMocks(apiBase: string) {
     getActorByOrganizationId(),
     updateOrganization(),
     getAuditLogByOrganizationId(),
+    getAuditLogByActorId(),
   ];
 }
 
@@ -352,5 +355,11 @@ function getAuditLogByOrganizationId() {
     ];
 
     return res(ctx.delay(300), ctx.data({ __typename: 'Query', organizationAuditLog: auditLog }));
+  });
+}
+
+function getAuditLogByActorId() {
+  return mockGetAuditLogByActorIdQuery((req, res, ctx) => {
+    return res(ctx.data(getActorAuditLogsMock));
   });
 }

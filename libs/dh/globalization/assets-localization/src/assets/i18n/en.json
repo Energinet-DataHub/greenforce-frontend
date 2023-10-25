@@ -608,6 +608,27 @@
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
             "gridArea": "Grid area"
+          },
+          "history": {
+            "tabLabel": "History",
+            "changeTypes": {
+              "NAME": "<b>{{ identity }}</b> changed the name of the actor to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b>",
+              "NAME_NO_PREVIOUS": "<b>{{ identity }}</b> changed the name of the actor to <b>{{ currentValue }}</b> from <b>\"\"</b>",
+              "STATUS": "<b>{{ identity }}</b> changed the status of the actor to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b>",
+              "STATUS_NO_PREVIOUS": "<b>{{ identity }}</b> changed the status of the actor to <b>{{ currentValue }}</b> from <b>\"\"</b>",
+              "CREATED": "<b>{{ identity }}</b> Created the actor",
+              "CREATED_NO_PREVIOUS": "<b>{{ identity }}</b> Created the actor",
+              "CONTACT_NAME": "<b>{{ identity }}</b> changed the name of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ category }}</b>",
+              "CONTACT_EMAIL": "<b>{{ identity }}</b> changed the email of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ category }}</b>",
+              "CONTACT_PHONE": "<b>{{ identity }}</b> changed the phone of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ category }}</b>",
+              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ identity }}</b> changed the name of the contact to <b>{{ currentValue }}</b> from <b>\"\"</b> on the contact category <b>{{ category }}</b>",
+              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ identity }}</b> changed the email of the contact to <b>{{ currentValue }}</b> from <b>\"\"</b> on the contact category <b>{{ category }}</b>",
+              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ identity }}</b> changed the phone of the contact to <b>{{ currentValue }}</b> from <b>\"\"</b> on the contact category <b>{{ category }}</b>",
+              "CONTACT_CREATED": "<b>{{ identity }}</b> created a contact of the <b>{{ category }}</b> category",
+              "CONTACT_CREATED_NO_PREVIOUS": "<b>{{ identity }}</b> created a contact of the <b>{{ category }}</b> category",
+              "CONTACT_DELETED": "<b>{{ identity }}</b> deleted a contact of the <b>{{ category }}</b> category",
+              "CONTACT_DELETED_NO_PREVIOUS": "<b>{{ identity }}</b> deleted a contact of the <b>{{ category }}</b> category"
+            }
           }
         }
       },

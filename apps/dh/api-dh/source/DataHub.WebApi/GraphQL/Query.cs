@@ -284,5 +284,57 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Guid organizationId,
             [Service] IMarketParticipantClient client) =>
             client.GetAuditLogEntriesAsync(organizationId);
+
+        public async Task<IEnumerable<ActorAuditLog>> GetActorAuditLogsAsync(
+            Guid actorId,
+            [Service] IMarketParticipantClient client)
+            {
+                var logs = await client.GetActorAuditLogsAsync(actorId);
+                var actorAuditLogs = new List<ActorAuditLog>();
+
+                foreach (var auditLog in logs.ActorAuditLogs)
+                {
+                    var auditLogType = auditLog.ActorChangeType switch
+                    {
+                        ActorChangeType.Name => ActorAuditLogType.Name,
+                        ActorChangeType.Created => ActorAuditLogType.Created,
+                        ActorChangeType.Status => ActorAuditLogType.Status,
+                        _ => ActorAuditLogType.Created,
+                    };
+                    actorAuditLogs.Add(new ActorAuditLog()
+                    {
+                        ChangedByUserId = auditLog.AuditIdentityId,
+                        CurrentValue = auditLog.CurrentValue,
+                        PreviousValue = auditLog.PreviousValue,
+                        Timestamp = auditLog.Timestamp,
+                        Type = auditLogType,
+                        ContactCategory = ContactCategory.Default,
+                    });
+                }
+
+                foreach (var auditLog in logs.ActorContactAuditLogs)
+                {
+                    var auditLogType = auditLog.ActorContactChangeType switch
+                    {
+                        ActorContactChangeType.Name => ActorAuditLogType.ContactName,
+                        ActorContactChangeType.Email => ActorAuditLogType.ContactEmail,
+                        ActorContactChangeType.Phone => ActorAuditLogType.ContactPhone,
+                        ActorContactChangeType.Created => ActorAuditLogType.ContactCreated,
+                        ActorContactChangeType.Deleted => ActorAuditLogType.ContactDeleted,
+                        _ => ActorAuditLogType.Created,
+                    };
+                    actorAuditLogs.Add(new ActorAuditLog()
+                    {
+                        ChangedByUserId = auditLog.AuditIdentityId,
+                        CurrentValue = auditLog.CurrentValue,
+                        PreviousValue = auditLog.PreviousValue,
+                        Timestamp = auditLog.Timestamp,
+                        Type = auditLogType,
+                        ContactCategory = ContactCategory.Default,
+                    });
+                }
+
+                return actorAuditLogs.OrderBy(x => x.Timestamp);
+            }
     }
 }

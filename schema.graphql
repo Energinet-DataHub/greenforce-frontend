@@ -156,6 +156,7 @@ type Query {
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
+  actorAuditLogs(actorId: UUID!): [ActorAuditLog!]!
 }
 
 type Mutation {
@@ -324,6 +325,15 @@ input UpdatePermissionDtoInput {
   description: String!
 }
 
+type ActorAuditLog {
+  changedByUserName: String!
+  currentValue: String
+  previousValue: String
+  timestamp: DateTime!
+  type: ActorAuditLogType!
+  contactCategory: ContactCategory!
+}
+
 enum SortDirection {
   ASCENDING
   DESCENDING
@@ -421,6 +431,17 @@ type MeteringGridAreaImbalanceSearchResult {
   periodEnd: DateTime!
   imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
   storageId: String!
+}
+
+enum ActorAuditLogType {
+  NAME
+  CREATED
+  STATUS
+  CONTACT_NAME
+  CONTACT_EMAIL
+  CONTACT_PHONE
+  CONTACT_CREATED
+  CONTACT_DELETED
 }
 
 type MeteringGridAreaImbalancePerDayDto {
