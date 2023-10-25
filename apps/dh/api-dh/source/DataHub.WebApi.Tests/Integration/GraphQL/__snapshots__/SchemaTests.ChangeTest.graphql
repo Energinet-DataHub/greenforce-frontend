@@ -127,11 +127,6 @@ type MarketParticipantBadRequestError implements Error {
   statusCode: Int!
 }
 
-type MarketParticipantError implements Error {
-  message: String!
-  statusCode: Int!
-}
-
 type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!
   incomingQuantity: Float
@@ -270,7 +265,7 @@ type UserRoleWithPermissionsDto {
   permissions: [Permission!]!
 }
 
-union UpdateActorError = MarketParticipantError
+union UpdateActorError = MarketParticipantBadRequestError
 
 union UpdateOrganizationError = MarketParticipantBadRequestError
 
