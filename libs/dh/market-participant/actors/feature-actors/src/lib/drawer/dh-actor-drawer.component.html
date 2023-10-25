@@ -80,10 +80,7 @@ limitations under the License.
             </watt-description-list>
           </watt-card>
         </watt-tab>
-        <watt-tab
-          [label]="t('tabs.history.tabLabel')"
-          *dhPermissionRequired="['actors:manage']"
-        >
+        <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
           <vater-stack [fill]="'horizontal'" [align]="'center'">
             <watt-spinner *ngIf="isLoadingAuditLog" />
           </vater-stack>
@@ -106,7 +103,16 @@ limitations under the License.
                 {{ element.timestamp | wattDate : "long" }}
               </ng-container>
               <ng-container *wattTableCell="auditLogColumns['currentValue']; let entry">
-                <div [innerHTML]="t('tabs.history.changeTypes.' + entry.changeType + (entry.previousValue ? '' : '_NO_PREVIOUS'), entry)"></div>
+                <div
+                  [innerHTML]="
+                    t(
+                      'tabs.history.changeTypes.' +
+                        entry.changeType +
+                        (entry.previousValue ? '' : '_NO_PREVIOUS'),
+                      entry
+                    )
+                  "
+                ></div>
               </ng-container>
             </watt-table>
           </watt-card>

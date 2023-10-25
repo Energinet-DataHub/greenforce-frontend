@@ -22,7 +22,7 @@ export const getActorAuditLogsMock: graphql.GetAuditLogByActorIdQuery = {
   actorAuditLogs: [
     {
       __typename: 'ActorAuditLog',
-      changedByUserName: "John Doe",
+      changedByUserName: 'John Doe',
       currentValue: '',
       previousValue: '',
       type: ActorAuditLogType.Created,
@@ -31,7 +31,7 @@ export const getActorAuditLogsMock: graphql.GetAuditLogByActorIdQuery = {
     },
     {
       __typename: 'ActorAuditLog',
-      changedByUserName: "John Doe",
+      changedByUserName: 'John Doe',
       currentValue: 'Aktørnavn2',
       previousValue: 'Aktørnavn',
       type: ActorAuditLogType.Name,
@@ -40,7 +40,7 @@ export const getActorAuditLogsMock: graphql.GetAuditLogByActorIdQuery = {
     },
     {
       __typename: 'ActorAuditLog',
-      changedByUserName: "John Doe",
+      changedByUserName: 'John Doe',
       currentValue: 'Active',
       previousValue: 'InActive',
       type: ActorAuditLogType.Status,
@@ -49,7 +49,7 @@ export const getActorAuditLogsMock: graphql.GetAuditLogByActorIdQuery = {
     },
     {
       __typename: 'ActorAuditLog',
-      changedByUserName: "John Doe",
+      changedByUserName: 'John Doe',
       currentValue: '',
       previousValue: '',
       type: ActorAuditLogType.ContactCreated,
@@ -58,7 +58,7 @@ export const getActorAuditLogsMock: graphql.GetAuditLogByActorIdQuery = {
     },
     {
       __typename: 'ActorAuditLog',
-      changedByUserName: "John Doe",
+      changedByUserName: 'John Doe',
       currentValue: '',
       previousValue: '',
       type: ActorAuditLogType.ContactCreated,
@@ -67,7 +67,7 @@ export const getActorAuditLogsMock: graphql.GetAuditLogByActorIdQuery = {
     },
     {
       __typename: 'ActorAuditLog',
-      changedByUserName: "John Doe",
+      changedByUserName: 'John Doe',
       currentValue: 'MyAndMe',
       previousValue: 'MeAndMy',
       type: ActorAuditLogType.ContactName,
@@ -76,7 +76,7 @@ export const getActorAuditLogsMock: graphql.GetAuditLogByActorIdQuery = {
     },
     {
       __typename: 'ActorAuditLog',
-      changedByUserName: "John Doe",
+      changedByUserName: 'John Doe',
       currentValue: '',
       previousValue: '',
       type: ActorAuditLogType.ContactDeleted,
@@ -85,7 +85,7 @@ export const getActorAuditLogsMock: graphql.GetAuditLogByActorIdQuery = {
     },
     {
       __typename: 'ActorAuditLog',
-      changedByUserName: "John Doe",
+      changedByUserName: 'John Doe',
       currentValue: 'Aktør kontakt 2',
       previousValue: 'Aktør kontakt 1',
       type: ActorAuditLogType.ContactName,

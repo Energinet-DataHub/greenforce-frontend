@@ -28,7 +28,12 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { ActorAuditLogType, ContactCategory, GetActorByIdDocument, GetAuditLogByActorIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ActorAuditLogType,
+  ContactCategory,
+  GetActorByIdDocument,
+  GetAuditLogByActorIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhActorExtended } from '../dh-actor';
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
@@ -96,7 +101,7 @@ type ActorAuditLogEntry = {
     DhPermissionRequiredDirective,
     DhActorsEditActorModalComponent,
     DhActorStatusBadgeComponent,
-    VaterStackComponent
+    VaterStackComponent,
   ],
 })
 export class DhActorDrawerComponent {
@@ -120,12 +125,13 @@ export class DhActorDrawerComponent {
     query: GetAuditLogByActorIdDocument,
   });
 
-
   actor: DhActorExtended | undefined = undefined;
   isLoadingAuditLog = false;
   auditLogFailedToLoad = false;
 
-  auditLog: WattTableDataSource<ActorAuditLogEntry> = new WattTableDataSource<ActorAuditLogEntry>([]);
+  auditLog: WattTableDataSource<ActorAuditLogEntry> = new WattTableDataSource<ActorAuditLogEntry>(
+    []
+  );
   auditLogColumns: WattTableColumnDef<ActorAuditLogEntry> = {
     timestamp: { accessor: 'timestamp' },
     currentValue: { accessor: 'currentValue' },
@@ -194,7 +200,7 @@ export class DhActorDrawerComponent {
                 currentValue: x.currentValue ?? '',
                 previousValue: x.previousValue ?? '',
                 category: x.contactCategory,
-                identity : x.changedByUserName,
+                identity: x.changedByUserName,
                 timestamp: x.timestamp,
               }))
             : [];

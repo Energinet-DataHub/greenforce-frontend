@@ -61,7 +61,11 @@ export class DhMarketParticipantActorsEditActorDataAccessApiStore {
       variables: {
         input: actor,
       },
-      refetchQueries: [GetActorsDocument, GetActorEditableFieldsDocument, GetAuditLogByActorIdDocument],
+      refetchQueries: [
+        GetActorsDocument,
+        GetActorEditableFieldsDocument,
+        GetAuditLogByActorIdDocument,
+      ],
     });
   }
 }
