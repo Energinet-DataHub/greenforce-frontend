@@ -850,8 +850,6 @@
     },
     "gridAreas": {
       "topBarTitle": "Netområder",
-      "createGridArea": "Opret",
-      "editGridArea": "Rediger",
       "noGridAreas": "Ingen netområder fundet",
       "columns": {
         "name": "Netområde",
@@ -861,35 +859,6 @@
         "priceAreaCode": "Prisområde",
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til"
-      },
-      "detailsHeader": {
-        "code": "Netområde nr.",
-        "actorId": "Aktør id",
-        "fullFlexDate": "Overgang til fuld flex",
-        "priceAreaCode": "Prisområde",
-        "lossMeteringPoint": "Nettabsmålepunkt",
-        "correctionMeteringPoint": "Systemkorrektionsmålepunkt",
-        "validFrom": "Gyldig fra",
-        "validTo": "Gyldig til"
-      },
-      "detailsAuditLog": {
-        "time": "Tid",
-        "change": "Ændring",
-        "changes": "Ændringer",
-        "noResultsFound": "Ingen resultater",
-        "fields": {
-          "name": "Netområde navn"
-        },
-        "unknown": "Ukendt",
-        "messageKey": "<strong>{{ userDisplayName }}</strong> ændrede <strong>{{ field }}</strong> til <strong>{{ newValue }}</strong>"
-      },
-      "changeGridArea": {
-        "gridAreaName": "Netområde navn",
-        "cancel": "Fortryd",
-        "saveChanges": "Gem ændringer",
-        "editGridArea": "Rediger",
-        "editGridAreaModalTitle": "Rediger netområde",
-        "editGridAreaModalCloseLabel": "Luk"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",

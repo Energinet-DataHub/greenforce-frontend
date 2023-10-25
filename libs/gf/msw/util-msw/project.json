@@ -6,7 +6,7 @@
   "prefix": "gf",
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
           "libs/gf/msw/util-msw/src/**/*.ts",

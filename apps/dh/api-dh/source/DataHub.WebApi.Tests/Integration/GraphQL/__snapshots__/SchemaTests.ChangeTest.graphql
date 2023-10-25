@@ -19,15 +19,6 @@ type Actor {
   status: ActorStatus!
 }
 
-type ActorAuditLog {
-  changedByUserName: String!
-  currentValue: String
-  previousValue: String
-  timestamp: DateTime!
-  type: ActorAuditLogType!
-  contactCategory: ContactCategory!
-}
-
 type ActorContactDto {
   contactId: UUID!
   category: ContactCategory!
@@ -136,11 +127,6 @@ type MarketParticipantBadRequestError implements Error {
   statusCode: Int!
 }
 
-type MarketParticipantError implements Error {
-  message: String!
-  statusCode: Int!
-}
-
 type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!
   incomingQuantity: Float
@@ -229,7 +215,7 @@ type Query {
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
-  actorAuditLogs(actorId: UUID!): [ActorAuditLog!]!
+  emailExists(emailAddress: String!): Boolean!
 }
 
 type SettlementReport {
@@ -279,7 +265,7 @@ type UserRoleWithPermissionsDto {
   permissions: [Permission!]!
 }
 
-union UpdateActorError = MarketParticipantError
+union UpdateActorError = MarketParticipantBadRequestError
 
 union UpdateOrganizationError = MarketParticipantBadRequestError
 
@@ -315,17 +301,6 @@ input UpdateOrganizationInput {
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
-}
-
-enum ActorAuditLogType {
-  NAME
-  CREATED
-  STATUS
-  CONTACT_NAME
-  CONTACT_EMAIL
-  CONTACT_PHONE
-  CONTACT_CREATED
-  CONTACT_DELETED
 }
 
 enum ActorStatus {
