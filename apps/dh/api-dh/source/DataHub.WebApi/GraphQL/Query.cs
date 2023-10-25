@@ -17,16 +17,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Energinet.DataHub.WebApi.Extensions;
 using HotChocolate;
 using Microsoft.AspNetCore.Http;
 using NodaTime;
+using ActorDto = Energinet.DataHub.MarketParticipant.Client.Models.ActorDto;
+using EicFunction = Energinet.DataHub.MarketParticipant.Client.Models.EicFunction;
+using GridAreaDto = Energinet.DataHub.MarketParticipant.Client.Models.GridAreaDto;
+using OrganizationAuditLogDto = Energinet.DataHub.MarketParticipant.Client.Models.OrganizationAuditLogDto;
+using OrganizationDto = Energinet.DataHub.MarketParticipant.Client.Models.OrganizationDto;
+using PermissionChangeType = Energinet.DataHub.MarketParticipant.Client.Models.PermissionChangeType;
+using PermissionDetailsDto = Energinet.DataHub.MarketParticipant.Client.Models.PermissionDetailsDto;
 using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
 using SortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
+using UserRoleWithPermissionsDto = Energinet.DataHub.MarketParticipant.Client.Models.UserRoleWithPermissionsDto;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -284,5 +292,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Guid organizationId,
             [Service] IMarketParticipantClient client) =>
             client.GetAuditLogEntriesAsync(organizationId);
+
+        public Task<bool> EmailExistsAsync(
+            string emailAddress,
+            [Service] IMarketParticipantClient_V1 client) =>
+            client.ExistsAsync(emailAddress);
     }
 }
