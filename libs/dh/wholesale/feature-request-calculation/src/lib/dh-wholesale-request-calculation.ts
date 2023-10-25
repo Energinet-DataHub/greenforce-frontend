@@ -134,8 +134,8 @@ export class DhWholesaleRequestCalculationComponent {
       WattRangeValidators.required(),
       maxOneMonthDateRangeValidator(),
     ]),
-    energySupplierId: this._fb.control(null, Validators.required),
-    balanceResponsibleId: this._fb.control(null, Validators.required),
+    energySupplierId: this._fb.control(null),
+    balanceResponsibleId: this._fb.control(null),
     gridarea: this._fb.control(null, Validators.required),
     meteringPointType: this._fb.control(null, Validators.required),
   });
