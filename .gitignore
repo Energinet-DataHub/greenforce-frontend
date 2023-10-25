@@ -472,3 +472,5 @@ cypress.env.json
 # Azurite
 __azurite*
 __blobstorage*
+
+.nx/cache
