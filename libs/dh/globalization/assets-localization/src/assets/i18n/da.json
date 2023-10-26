@@ -605,22 +605,22 @@
           "history": {
             "tabLabel": "History",
             "changeTypes": {
-              "NAME": "<b>{{ identity }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
-              "NAME_NO_PREVIOUS": "<b>{{ identity }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
-              "STATUS": "<b>{{ identity }}</b> ændrede status på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
-              "STATUS_NO_PREVIOUS": "<b>{{ identity }}</b> ændrede status på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
-              "CREATED": "<b>{{ identity }}</b> oprettede aktøren",
-              "CREATED_NO_PREVIOUS": "<b>{{ identity }}</b> oprettede aktøren",
-              "CONTACT_NAME": "<b>{{ identity }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b> i kategorien <b>{{ category }}</b>",
-              "CONTACT_EMAIL": "<b>{{ identity }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b> i kategorien <b>{{ category }}</b>",
-              "CONTACT_PHONE": "<b>{{ identity }}</b> ændrede telefonnummer på kontakten fra <b>{{ currentValue }}</b> til <b>{{ previousValue }}</b> i kategorien <b>{{ category }}</b>",
-              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ identity }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b> fra <b>\"\"</b> i kategorien <b>{{ category }}</b>",
-              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ identity }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b> fra <b>\"\"</b> i kategorien <b>{{ category }}</b>",
-              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ identity }}</b> ændrede telefonnummer på kontakten fra <b>{{ currentValue }}</b> til <b>\"\"</b> i kategorien <b>{{ category }}</b>",
-              "CONTACT_CREATED": "<b>{{ identity }}</b> oprettede en kontakt i kategorien <b>{{ category }}</b>",
-              "CONTACT_DELETED": "<b>{{ identity }}</b> slettede en kontakt i kategorien <b>{{ category }}</b> category",
-              "CONTACT_CREATED_NO_PREVIOUS": "<b>{{ identity }}</b> oprettede en kontakt i kategorien <b>{{ category }}</b>",
-              "CONTACT_DELETED_NO_PREVIOUS": "<b>{{ identity }}</b> slettede en kontakt i kategorien <b>{{ category }}</b> category"
+              "NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
+              "NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
+              "STATUS": "<b>{{ changedByUserName }}</b> ændrede status på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
+              "STATUS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede status på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
+              "CREATED": "<b>{{ changedByUserName }}</b> oprettede aktøren",
+              "CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> oprettede aktøren",
+              "CONTACT_NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_EMAIL": "<b>{{ changedByUserName }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_PHONE": "<b>{{ changedByUserName }}</b> ændrede telefonnummer på kontakten fra <b>{{ currentValue }}</b> til <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b> fra <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b> fra <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede telefonnummer på kontakten fra <b>{{ currentValue }}</b> til <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_CREATED": "<b>{{ changedByUserName }}</b> oprettede en kontakt i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_DELETED": "<b>{{ changedByUserName }}</b> slettede en kontakt i kategorien <b>{{ contactCategory }}</b> category",
+              "CONTACT_CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> oprettede en kontakt i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_DELETED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> slettede en kontakt i kategorien <b>{{ contactCategory }}</b> category"
             }
           }
         }

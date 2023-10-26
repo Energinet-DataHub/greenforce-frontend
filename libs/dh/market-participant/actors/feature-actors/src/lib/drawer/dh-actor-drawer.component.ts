@@ -35,7 +35,7 @@ import {
   GetAuditLogByActorIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhActorExtended } from '../dh-actor';
+import { DhActorExtended, dhActorAuditLogEntry } from '../dh-actor';
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -128,8 +128,8 @@ export class DhActorDrawerComponent {
   isLoadingAuditLog = false;
   auditLogFailedToLoad = false;
 
-  auditLog = new WattTableDataSource<ActorAuditLogEntry>([]);
-  auditLogColumns: WattTableColumnDef<ActorAuditLogEntry> = {
+  auditLog = new WattTableDataSource<dhActorAuditLogEntry>([]);
+  auditLogColumns: WattTableColumnDef<dhActorAuditLogEntry> = {
     timestamp: { accessor: 'timestamp' },
     currentValue: { accessor: 'currentValue' },
   };
@@ -189,18 +189,7 @@ export class DhActorDrawerComponent {
           this.auditLogFailedToLoad =
             !result.loading && (!!result.error || !!result.errors?.length);
 
-          const data = result.data?.actorAuditLogs;
-
-          this.auditLog.data = data
-            ? [...data].map((x) => ({
-                changeType: x.type,
-                currentValue: x.currentValue ?? '',
-                previousValue: x.previousValue ?? '',
-                category: x.contactCategory,
-                identity: x.changedByUserName,
-                timestamp: x.timestamp,
-              }))
-            : [];
+          this.auditLog.data = result.data?.actorAuditLogs;
         },
         error: () => {
           this.auditLogFailedToLoad = true;
