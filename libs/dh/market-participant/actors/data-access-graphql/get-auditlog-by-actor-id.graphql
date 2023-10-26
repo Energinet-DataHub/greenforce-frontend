@@ -4,7 +4,6 @@ query GetAuditLogByActorId($actorId: UUID!) {
     currentValue
     previousValue
     timestamp
-    timestamp
     type
     contactCategory
   }
