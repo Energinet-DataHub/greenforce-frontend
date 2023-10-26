@@ -1,0 +1,19 @@
+{
+  "name": "eo-certificates-feature-overview",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/certificates/feature-overview",
+  "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/certificates/feature-overview/**/*.ts",
+          "libs/eo/certificates/feature-overview/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:certificates", "type:feature"]
+}

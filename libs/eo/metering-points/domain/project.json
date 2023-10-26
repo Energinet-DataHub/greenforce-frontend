@@ -1,19 +1,19 @@
 {
-  "name": "eo-connections-shell",
+  "name": "eo-metering-points-domain",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/eo/connections/shell",
+  "sourceRoot": "libs/eo/metering-points/domain",
   "prefix": "eo",
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
-          "libs/eo/connections/shell/**/*.ts",
-          "libs/eo/connections/shell/**/*.html"
+          "libs/eo/metering-points/domain/**/*.ts",
+          "libs/eo/metering-points/domain/**/*.html"
         ]
       }
     }
   },
-  "tags": ["product:eo", "domain:connections", "type:shell"]
+  "tags": ["product:eo", "domain:metering-points", "type:domain"]
 }

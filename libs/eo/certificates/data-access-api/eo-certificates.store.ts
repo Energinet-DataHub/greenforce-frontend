@@ -17,7 +17,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { EoCertificate, EoCertificatesService } from './eo-certificates.service';
+
+import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
+import { EoCertificatesService } from './eo-certificates.service';
 
 interface EoCertificatesState {
   hasLoaded: boolean;

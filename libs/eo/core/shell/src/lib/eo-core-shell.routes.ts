@@ -54,7 +54,7 @@ export const eoShellRoutes: Routes = [
         path: eoCertificatesRoutePath,
         canActivate: [EoScopeGuard],
         loadChildren: () =>
-          import('@energinet-datahub/eo/certificates').then(
+          import('@energinet-datahub/eo/certificates/shell').then(
             (esModule) => esModule.eoCertificatesRoutes
           ),
       },
