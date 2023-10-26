@@ -24,5 +24,6 @@ import {
 
 export type DhActor = ResultOf<typeof GetActorsDocument>['actors'][0];
 export type DhActorExtended = ResultOf<typeof GetActorByIdDocument>['actorById'];
-export type dhActorAuditLogEntry = ResultOf<typeof GetAuditLogByActorIdDocument>['actorAuditLogs'][0];
-
+export type dhActorAuditLogEntry = ResultOf<
+  typeof GetAuditLogByActorIdDocument
+>['actorAuditLogs'][0];
