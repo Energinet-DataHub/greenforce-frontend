@@ -19,6 +19,15 @@ type Actor {
   status: ActorStatus!
 }
 
+type ActorAuditLog {
+  changedByUserName: String!
+  currentValue: String
+  previousValue: String
+  timestamp: DateTime!
+  type: ActorAuditLogType!
+  contactCategory: ContactCategory!
+}
+
 type ActorContactDto {
   contactId: UUID!
   category: ContactCategory!
@@ -216,6 +225,7 @@ type Query {
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
   emailExists(emailAddress: String!): Boolean!
+  actorAuditLogs(actorId: UUID!): [ActorAuditLog!]!
 }
 
 type SettlementReport {
@@ -301,6 +311,17 @@ input UpdateOrganizationInput {
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
+}
+
+enum ActorAuditLogType {
+  NAME
+  CREATED
+  STATUS
+  CONTACT_NAME
+  CONTACT_EMAIL
+  CONTACT_PHONE
+  CONTACT_CREATED
+  CONTACT_DELETED
 }
 
 enum ActorStatus {

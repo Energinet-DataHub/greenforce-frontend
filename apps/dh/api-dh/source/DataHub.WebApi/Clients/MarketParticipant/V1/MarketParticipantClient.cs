@@ -48,6 +48,11 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<GetActorAuditLogsResponse> AuditlogsAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorContactDto>> ContactAllAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -138,7 +143,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationAuditLogDto>> AuditlogsAsync(System.Guid organizationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationAuditLogDto>> AuditlogsAllAsync(System.Guid organizationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
@@ -158,7 +163,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionAuditLogDto>> Auditlogs2Async(int permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionAuditLogDto>> AuditlogsAll2Async(int permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
@@ -574,6 +579,77 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         if (status_ == 200)
                         {
                             return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<GetActorAuditLogsResponse> AuditlogsAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            if (actorId == null)
+                throw new System.ArgumentNullException("actorId");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/actor/{actorId}/auditlogs");
+            urlBuilder_.Replace("{actorId}", System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<GetActorAuditLogsResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -1843,7 +1919,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationAuditLogDto>> AuditlogsAsync(System.Guid organizationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationAuditLogDto>> AuditlogsAllAsync(System.Guid organizationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (organizationId == null)
                 throw new System.ArgumentNullException("organizationId");
@@ -2117,7 +2193,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionAuditLogDto>> Auditlogs2Async(int permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionAuditLogDto>> AuditlogsAll2Async(int permissionId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (permissionId == null)
                 throw new System.ArgumentNullException("permissionId");
@@ -3967,6 +4043,94 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ActorAuditLogDto
+    {
+        [Newtonsoft.Json.JsonProperty("actorId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid ActorId { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("currentValue", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string CurrentValue { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("previousValue", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string PreviousValue { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("auditIdentityId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid AuditIdentityId { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("timestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset Timestamp { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("actorChangeType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public ActorChangeType ActorChangeType { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum ActorChangeType
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Name")]
+        Name = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Created")]
+        Created = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Status")]
+        Status = 2,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ActorContactAuditLogDto
+    {
+        [Newtonsoft.Json.JsonProperty("actorId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid ActorId { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("currentValue", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string CurrentValue { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("previousValue", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string PreviousValue { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("auditIdentityId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid AuditIdentityId { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("timestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset Timestamp { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("contactCategory", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public ContactCategory ContactCategory { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("actorContactChangeType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public ActorContactChangeType ActorContactChangeType { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum ActorContactChangeType
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Name")]
+        Name = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Email")]
+        Email = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Phone")]
+        Phone = 2,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Created")]
+        Created = 3,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Deleted")]
+        Deleted = 4,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ActorContactDto
     {
         [Newtonsoft.Json.JsonProperty("contactId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -4122,6 +4286,57 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum ContactCategory
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Default")]
+        Default = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Charges")]
+        Charges = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"ChargeLinks")]
+        ChargeLinks = 2,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"ElectricalHeating")]
+        ElectricalHeating = 3,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"EndOfSupply")]
+        EndOfSupply = 4,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"EnerginetInquiry")]
+        EnerginetInquiry = 5,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"ErrorReport")]
+        ErrorReport = 6,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"IncorrectMove")]
+        IncorrectMove = 7,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"IncorrectSwitch")]
+        IncorrectSwitch = 8,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"MeasurementData")]
+        MeasurementData = 9,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"MeteringPoint")]
+        MeteringPoint = 10,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"NetSettlement")]
+        NetSettlement = 11,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Notification")]
+        Notification = 12,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Recon")]
+        Recon = 13,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Reminder")]
+        Reminder = 14,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class CreateActorContactDto
     {
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -4253,6 +4468,17 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         [System.Runtime.Serialization.EnumMember(Value = @"SerialEnergyTrader")]
         SerialEnergyTrader = 12,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetActorAuditLogsResponse
+    {
+        [Newtonsoft.Json.JsonProperty("actorAuditLogs", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<ActorAuditLogDto> ActorAuditLogs { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("actorContactAuditLogs", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<ActorContactAuditLogDto> ActorContactAuditLogs { get; set; } = default!;
 
     }
 
