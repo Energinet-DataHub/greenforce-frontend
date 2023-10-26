@@ -110,7 +110,7 @@ export class EoMeteringPointsShellComponent implements OnInit {
     });
   }
 
-  onToggleContract(event: { checked: boolean; gsrn: string; }) {
+  onToggleContract(event: { checked: boolean; gsrn: string }) {
     const { checked, gsrn } = event;
     if (checked) {
       this.meteringPointStore.createCertificateContract(gsrn);
