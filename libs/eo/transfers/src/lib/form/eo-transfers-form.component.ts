@@ -113,6 +113,10 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
       eo-transfers-form watt-field:not(.watt-field--chip) {
         min-height: 0px;
       }
+
+      eo-transfers-form form {
+        height: 100%;
+      }
     `,
   ],
 
@@ -120,7 +124,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
     <ng-container *ngIf="mode === 'create'; then create; else edit"></ng-container>
 
     <ng-template #create>
-      <form [formGroup]="form" class="watt-modal-content--full-width">
+      <form [formGroup]="form">
         <watt-stepper (completed)="onSubmit()">
           <watt-stepper-step
             label="Recipient"
