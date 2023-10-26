@@ -197,6 +197,47 @@
         }
       }
     },
+    "/actor/{actorId}/auditlogs": {
+      "get": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "auditlogs",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorAuditLogsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorAuditLogsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorAuditLogsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/actor/{actorId}/contact": {
       "get": {
         "tags": [
@@ -1015,7 +1056,7 @@
         "tags": [
           "Organization"
         ],
-        "operationId": "auditlogs",
+        "operationId": "auditlogsAll",
         "parameters": [
           {
             "name": "organizationId",
@@ -1187,7 +1228,7 @@
         "tags": [
           "Permission"
         ],
-        "operationId": "auditlogs2",
+        "operationId": "auditlogsAll2",
         "parameters": [
           {
             "name": "permissionId",
@@ -2279,6 +2320,93 @@
   },
   "components": {
     "schemas": {
+      "ActorAuditLogDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentValue": {
+            "type": "string"
+          },
+          "previousValue": {
+            "type": "string"
+          },
+          "auditIdentityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "actorChangeType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorChangeType"
+              }
+            ]
+          }
+        }
+      },
+      "ActorChangeType": {
+        "type": "string",
+        "enum": [
+          "Name",
+          "Created",
+          "Status"
+        ]
+      },
+      "ActorContactAuditLogDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentValue": {
+            "type": "string"
+          },
+          "previousValue": {
+            "type": "string"
+          },
+          "auditIdentityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contactCategory": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContactCategory"
+              }
+            ]
+          },
+          "actorContactChangeType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorContactChangeType"
+              }
+            ]
+          }
+        }
+      },
+      "ActorContactChangeType": {
+        "type": "string",
+        "enum": [
+          "Name",
+          "Email",
+          "Phone",
+          "Created",
+          "Deleted"
+        ]
+      },
       "ActorContactDto": {
         "type": "object",
         "additionalProperties": false,
@@ -2485,6 +2613,26 @@
           }
         }
       },
+      "ContactCategory": {
+        "type": "string",
+        "enum": [
+          "Default",
+          "Charges",
+          "ChargeLinks",
+          "ElectricalHeating",
+          "EndOfSupply",
+          "EnerginetInquiry",
+          "ErrorReport",
+          "IncorrectMove",
+          "IncorrectSwitch",
+          "MeasurementData",
+          "MeteringPoint",
+          "NetSettlement",
+          "Notification",
+          "Recon",
+          "Reminder"
+        ]
+      },
       "CreateActorContactDto": {
         "type": "object",
         "additionalProperties": false,
@@ -2625,6 +2773,24 @@
           "IndependentAggregator",
           "SerialEnergyTrader"
         ]
+      },
+      "GetActorAuditLogsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "actorAuditLogs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActorAuditLogDto"
+            }
+          },
+          "actorContactAuditLogs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActorContactAuditLogDto"
+            }
+          }
+        }
       },
       "GetActorsAssociatedWithExternalUserIdResponse": {
         "type": "object",
