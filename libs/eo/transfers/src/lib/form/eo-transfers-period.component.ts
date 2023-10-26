@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, inject, ViewEncapsulation } from '@angular/core';
 import { FormControl, ReactiveFormsModule, FormGroup, FormGroupDirective } from '@angular/forms';
 import { add, isAfter } from 'date-fns';
 import { CommonModule, NgClass, NgIf, NgSwitch } from '@angular/common';
@@ -48,23 +48,25 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
     WattFieldErrorComponent,
     EoTransferErrorsComponent,
   ],
+  encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      .start-date {
+      eo-transfers-form-period .start-date {
         position: relative;
       }
 
-      .watt-label {
+      eo-transfers-form-period .watt-label {
         width: 100%;
       }
 
-      .end-date {
+      eo-transfers-form-period .end-date {
         position: relative;
 
         .radio-buttons-container {
           display: flex;
           flex-direction: column;
           width: 100%;
+          gap: var(--watt-space-m);
         }
 
         watt-form-field .mat-placeholder-required.mat-form-field-required-marker {
@@ -79,7 +81,10 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
           position: relative;
           watt-radio {
             margin-right: var(--watt-space-m);
-            height: 80px;
+          }
+
+          watt-datepicker label > span {
+            display: none;
           }
         }
 
@@ -91,11 +96,11 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
         }
       }
 
-      .asterisk {
+      eo-transfers-form-period .asterisk {
         color: var(--watt-color-primary);
       }
 
-      .has-error {
+      eo-transfers-form-period .has-error {
         --watt-radio-color: var(--watt-color-state-danger);
 
         p,

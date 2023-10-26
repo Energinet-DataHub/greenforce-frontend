@@ -4,5 +4,16 @@
   "projectType": "library",
   "sourceRoot": "libs/eo/connections/data-access-api",
   "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/connections/data-access-api/**/*.ts",
+          "libs/eo/connections/data-access-api/**/*.html"
+        ]
+      }
+    }
+  },
   "tags": ["product:eo", "domain:connections", "type:data-access"]
 }
