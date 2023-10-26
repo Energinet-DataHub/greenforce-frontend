@@ -23,7 +23,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
-import { EoMeteringPointType } from '@energinet-datahub/eo/shared/domain';
 
 import { EoMeteringPointsTableComponent } from './eo-metering-point-table.component';
 
@@ -111,10 +110,10 @@ export class EoMeteringPointsShellComponent implements OnInit {
     });
   }
 
-  onToggleContract(event: { checked: boolean; gsrn: string; type: EoMeteringPointType }) {
-    const { checked, gsrn, type } = event;
+  onToggleContract(event: { checked: boolean; gsrn: string; }) {
+    const { checked, gsrn } = event;
     if (checked) {
-      this.meteringPointStore.createCertificateContract(gsrn, type);
+      this.meteringPointStore.createCertificateContract(gsrn);
     } else {
       this.meteringPointStore.deactivateCertificateContract(gsrn);
     }

@@ -149,9 +149,9 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     );
   }
 
-  createCertificateContract(gsrn: string, meteringPointType: EoMeteringPointType) {
+  createCertificateContract(gsrn: string) {
     this.toggleContractLoading(gsrn);
-    this.certService.createContract(gsrn, meteringPointType).subscribe({
+    this.certService.createContract(gsrn).subscribe({
       next: (contract) => {
         this.setContract(contract);
         this.toggleContractLoading(gsrn);
