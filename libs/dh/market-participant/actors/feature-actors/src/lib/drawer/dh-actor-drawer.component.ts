@@ -29,8 +29,6 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
-  ActorAuditLogType,
-  ContactCategory,
   GetActorByIdDocument,
   GetAuditLogByActorIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
