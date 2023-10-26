@@ -360,6 +360,6 @@ function getAuditLogByOrganizationId() {
 
 function getAuditLogByActorId() {
   return mockGetAuditLogByActorIdQuery((req, res, ctx) => {
-    return res(ctx.data(getActorAuditLogsMock));
+    return res(ctx.delay(300), ctx.data(getActorAuditLogsMock));
   });
 }
