@@ -128,9 +128,7 @@ export class DhActorDrawerComponent {
   isLoadingAuditLog = false;
   auditLogFailedToLoad = false;
 
-  auditLog: WattTableDataSource<ActorAuditLogEntry> = new WattTableDataSource<ActorAuditLogEntry>(
-    []
-  );
+  auditLog = new WattTableDataSource<ActorAuditLogEntry>([]);
   auditLogColumns: WattTableColumnDef<ActorAuditLogEntry> = {
     timestamp: { accessor: 'timestamp' },
     currentValue: { accessor: 'currentValue' },
