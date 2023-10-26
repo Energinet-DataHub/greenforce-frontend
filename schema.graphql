@@ -157,6 +157,7 @@ type Query {
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
   emailExists(emailAddress: String!): Boolean!
+  actorAuditLogs(actorId: UUID!): [ActorAuditLog!]!
 }
 
 type Mutation {
@@ -267,11 +268,6 @@ type UserRoleDto {
   status: UserRoleStatus!
 }
 
-type MarketParticipantError implements Error {
-  message: String!
-  statusCode: Int!
-}
-
 type MarketParticipantBadRequestError implements Error {
   message: String!
   jsonError: JSON!
@@ -323,6 +319,15 @@ enum MeteringPointType {
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
+}
+
+type ActorAuditLog {
+  changedByUserName: String!
+  currentValue: String
+  previousValue: String
+  timestamp: DateTime!
+  type: ActorAuditLogType!
+  contactCategory: ContactCategory!
 }
 
 enum SortDirection {
@@ -424,6 +429,17 @@ type MeteringGridAreaImbalanceSearchResult {
   storageId: String!
 }
 
+enum ActorAuditLogType {
+  NAME
+  CREATED
+  STATUS
+  CONTACT_NAME
+  CONTACT_EMAIL
+  CONTACT_PHONE
+  CONTACT_CREATED
+  CONTACT_DELETED
+}
+
 type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!
   incomingQuantity: Float
@@ -438,7 +454,7 @@ input UpdateActorInput {
   departmentPhone: String!
 }
 
-union UpdateActorError = MarketParticipantError
+union UpdateActorError = MarketParticipantBadRequestError
 
 type UpdateActorPayload {
   boolean: Boolean
