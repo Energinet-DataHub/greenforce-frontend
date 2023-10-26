@@ -46,15 +46,6 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
-type ActorAuditLogEntry = {
-  changeType: ActorAuditLogType;
-  currentValue: string;
-  previousValue: string;
-  category: ContactCategory;
-  identity: string;
-  timestamp: Date;
-};
-
 @Component({
   selector: 'dh-actor-drawer',
   standalone: true,
