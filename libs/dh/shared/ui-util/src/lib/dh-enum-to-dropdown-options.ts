@@ -16,9 +16,24 @@
  */
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
-export function enumToDropdownOptions<T extends object>(enumObj: T) {
-  return Object.keys(enumObj).map((key) => ({
-    displayValue: key,
-    value: Object.values(enumObj)[Object.keys(enumObj).indexOf(key)],
-  })) as WattDropdownOptions;
+type Sort = 'asc' | 'desc';
+
+export function DhEnumToWattDropdownOptions<T extends object>(
+  enumObj: T,
+  exclude?: string[],
+  sort: Sort = 'asc'
+) {
+  return Object.keys(enumObj)
+    .map((key) => ({
+      displayValue: key,
+      value: Object.values(enumObj)[Object.keys(enumObj).indexOf(key)],
+    }))
+    .sort((a, b) => {
+      if (sort === 'asc') {
+        return a.displayValue.localeCompare(b.displayValue);
+      } else {
+        return b.displayValue.localeCompare(a.displayValue);
+      }
+    })
+    .filter(({ value }) => !exclude?.includes(value)) as WattDropdownOptions;
 }

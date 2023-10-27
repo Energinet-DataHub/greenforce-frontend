@@ -38,13 +38,13 @@ import { VaterStackComponent, VaterFlexComponent } from '@energinet-datahub/watt
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import {
   DhDropdownTranslatorDirective,
-  enumToDropdownOptions,
+  DhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { differenceInDays, parseISO, subDays } from 'date-fns';
+import { differenceInDays, parseISO, subDays, subYears } from 'date-fns';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange } from '@energinet-datahub/watt/date';
@@ -70,11 +70,14 @@ const maxOneMonthDateRangeValidator =
 
 const label = (key: string) => `wholesale.requestCalculation.${key}`;
 
+const ExtendMeteringPoint = { ...MeteringPointType, All: 'All' } as const;
+type ExtendMeteringPointType = (typeof ExtendMeteringPoint)[keyof typeof ExtendMeteringPoint];
+
 type FormType = {
   processType: FormControl<EdiB2CProcessType | null>;
   period: FormControl<WattRange<string | null>>;
   gridarea: FormControl<string | null>;
-  meteringPointType: FormControl<MeteringPointType | null>;
+  meteringPointType: FormControl<ExtendMeteringPointType | null>;
   energySupplierId: FormControl<string | null>;
   balanceResponsibleId: FormControl<string | null>;
 };
@@ -122,10 +125,10 @@ export class DhWholesaleRequestCalculationComponent {
   private _transloco = inject(TranslocoService);
   private _toastService = inject(WattToastService);
   private _destroyRef = inject(DestroyRef);
-  private _formGroupDirective = inject(FormGroupDirective);
-  private _selectedEicFunction: EicFunction | null | undefined = null;
+  private _selectedEicFunction!: EicFunction;
 
   maxDate = subDays(new Date(), 5);
+  minDate = subYears(new Date(), 3);
 
   form = this._fb.group<FormType>({
     processType: this._fb.control(null, Validators.required),
@@ -144,8 +147,8 @@ export class DhWholesaleRequestCalculationComponent {
   energySupplierOptions: WattDropdownOptions = [];
   balanceResponsibleOptions: WattDropdownOptions = [];
 
-  meteringPointOptions = enumToDropdownOptions(MeteringPointType);
-  progressTypeOptions = enumToDropdownOptions(EdiB2CProcessType);
+  meteringPointOptions: WattDropdownOptions = [];
+  progressTypeOptions = DhEnumToWattDropdownOptions(EdiB2CProcessType);
 
   selectedActorQuery = this._apollo.watchQuery({
     useInitialLoading: true,
@@ -165,26 +168,40 @@ export class DhWholesaleRequestCalculationComponent {
   constructor() {
     this.selectedActorQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe({
       next: (result) => {
-        if (result.loading === false) {
-          const { glnOrEicNumber, gridAreas, marketRole } = result.data.selectedActor;
-          this._selectedEicFunction = marketRole;
+        if (result.loading || result.error) return;
 
-          if (this._selectedEicFunction === EicFunction.BalanceResponsibleParty) {
-            this.form.controls.balanceResponsibleId.setValue(glnOrEicNumber);
-          }
+        const { glnOrEicNumber, gridAreas, marketRole } = result.data.selectedActor;
 
-          if (this._selectedEicFunction === EicFunction.EnergySupplier) {
-            this.form.controls.energySupplierId.setValue(glnOrEicNumber);
-          }
+        if (!glnOrEicNumber || !marketRole) return;
 
-          if (gridAreas.length === 1) {
-            this.form.controls.gridarea.setValue(gridAreas[0].code);
-          }
-          this.gridAreaOptions = gridAreas.map((gridArea) => ({
-            displayValue: `${gridArea.name} - ${gridArea.name}`,
-            value: gridArea.code,
-          }));
+        this._selectedEicFunction = marketRole;
+
+        if (this._selectedEicFunction === EicFunction.BalanceResponsibleParty) {
+          this.form.controls.balanceResponsibleId.setValue(glnOrEicNumber);
         }
+
+        if (this._selectedEicFunction === EicFunction.EnergySupplier) {
+          this.form.controls.energySupplierId.setValue(glnOrEicNumber);
+        }
+
+        if (gridAreas.length === 1) {
+          this.form.controls.gridarea.setValue(gridAreas[0].code);
+        }
+
+        this.form.controls.meteringPointType.setValue(ExtendMeteringPoint.All);
+
+        const exclude = this.getExcludedMeterpointTypes(this._selectedEicFunction);
+
+        this.meteringPointOptions = DhEnumToWattDropdownOptions(
+          ExtendMeteringPoint,
+          exclude,
+          'asc'
+        );
+
+        this.gridAreaOptions = gridAreas.map((gridArea) => ({
+          displayValue: `${gridArea.name} - ${gridArea.name}`,
+          value: gridArea.code,
+        }));
       },
     });
 
@@ -210,6 +227,13 @@ export class DhWholesaleRequestCalculationComponent {
     });
   }
 
+  private getExcludedMeterpointTypes(selectedEicFunction: EicFunction | null | undefined) {
+    return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
+      selectedEicFunction === EicFunction.EnergySupplier
+      ? [MeteringPointType.Exchange, MeteringPointType.TotalConsumption]
+      : [];
+  }
+
   handleResponse(queryResult: MutationResult<graphql.RequestCalculationMutation> | null): void {
     if (queryResult === null) {
       this.showErrorToast();
@@ -232,7 +256,7 @@ export class DhWholesaleRequestCalculationComponent {
   }
 
   showEnergySupplierDropdown(): boolean {
-    return this._selectedEicFunction === EicFunction.BalanceResponsibleParty;
+    return false; //Not support yet this._selectedEicFunction === EicFunction.BalanceResponsibleParty;
   }
 
   showBalanceResponsibleDropdown(): boolean {
@@ -250,6 +274,8 @@ export class DhWholesaleRequestCalculationComponent {
     } = this.form.getRawValue();
     if (!gridarea || !meteringPointType || !processtType || !period.start || !period.end) return;
 
+    const meteringPoint = meteringPointType as MeteringPointType;
+
     form.reset();
     formGroupDirective.resetForm();
 
@@ -258,7 +284,8 @@ export class DhWholesaleRequestCalculationComponent {
         useMutationLoading: true,
         mutation: RequestCalculationDocument,
         variables: {
-          meteringPointType,
+          // @ts-ignore
+          meteringPointType: meteringPointType === ExtendMeteringPoint.All ? null : meteringPoint,
           processtType,
           startDate: period.start,
           endDate: period.end,
