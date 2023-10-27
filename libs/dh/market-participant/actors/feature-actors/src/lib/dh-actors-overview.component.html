@@ -27,6 +27,7 @@ limitations under the License.
       <watt-button icon="download" variant="text" (click)="download()">{{
         "shared.download" | transloco
       }}</watt-button>
+      <watt-button variant="secondary" (click)="createModal.open()">{{ t("create") }}</watt-button>
     </vater-stack>
 
     <dh-actors-filters [initial]="filters$.value" (filter)="filters$.next($event)" />
@@ -40,3 +41,5 @@ limitations under the License.
     <watt-paginator [for]="tableDataSource" [pageSize]="100" />
   </vater-flex>
 </watt-card>
+
+<dh-actors-create-actor-modal #createModal />

@@ -572,6 +572,7 @@
         "marketRole": "Markedsrolle",
         "status": "Status"
       },
+      "create": "Ny aktør",
       "actors": "Aktører",
       "columns": {
         "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",

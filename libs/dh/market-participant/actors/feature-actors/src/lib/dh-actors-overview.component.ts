@@ -39,6 +39,7 @@ import { DhActor } from './dh-actor';
 import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
 import { dhToJSON } from './dh-json-util';
 import { DhActorsTableComponent } from './table/dh-actors-table.component';
+import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-actor-modal.component';
 
 @Component({
   standalone: true,
@@ -77,6 +78,7 @@ import { DhActorsTableComponent } from './table/dh-actors-table.component';
 
     DhActorsFiltersComponent,
     DhActorsTableComponent,
+    DhActorsCreateActorModalComponent,
   ],
 })
 export class DhActorsOverviewComponent implements OnInit, OnDestroy {
@@ -133,6 +135,10 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
     this.subscription = null;
+  }
+
+  create(): void {
+    console.log('create');
   }
 
   download(): void {
