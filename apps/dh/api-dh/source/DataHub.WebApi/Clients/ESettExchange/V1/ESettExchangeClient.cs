@@ -24,41 +24,68 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IESettExchangeClient_V1
     {
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(int? pageNumber, int? pageSize, BalanceResponsibleSortProperty? sortProperty, SortDirection? sortDirection);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(int? pageNumber = null, int? pageSize = null, BalanceResponsibleSortProperty? sortProperty = null, SortDirection? sortDirection = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(int? pageNumber, int? pageSize, BalanceResponsibleSortProperty? sortProperty, SortDirection? sortDirection, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<FileResponse> StorageDocumentAsync(string documentId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> StorageDocumentAsync(string documentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<FileResponse> StorageDocumentAsync(string documentId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ExchangeEventTrackingResult> EsettAsync(string documentId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ExchangeEventTrackingResult> EsettAsync(string documentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ExchangeEventTrackingResult> EsettAsync(string documentId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<FileResponse> DispatchDocumentAsync(string documentId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> DispatchDocumentAsync(string documentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<FileResponse> DispatchDocumentAsync(string documentId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<FileResponse> ResponseDocumentAsync(string documentId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> ResponseDocumentAsync(string documentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<FileResponse> ResponseDocumentAsync(string documentId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ExchangeEventSearchResponse> SearchAsync(ExchangeEventSearchFilter? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ExchangeEventSearchResponse> SearchAsync(ExchangeEventSearchFilter? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ExchangeEventSearchResponse> SearchAsync(ExchangeEventSearchFilter? body, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<MeteringGridAreaImbalanceSearchResponse> ImbalanceAsync(MeteringGridAreaImbalanceSearchFilter? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<MeteringGridAreaImbalanceSearchResponse> ImbalanceAsync(MeteringGridAreaImbalanceSearchFilter? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<MeteringGridAreaImbalanceSearchResponse> ImbalanceAsync(MeteringGridAreaImbalanceSearchFilter? body, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -97,10 +124,17 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(int? pageNumber, int? pageSize, BalanceResponsibleSortProperty? sortProperty, SortDirection? sortDirection)
+        {
+            return BalanceResponsibleAsync(pageNumber, pageSize, sortProperty, sortDirection, System.Threading.CancellationToken.None);
+        }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(int? pageNumber = null, int? pageSize = null, BalanceResponsibleSortProperty? sortProperty = null, SortDirection? sortDirection = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(int? pageNumber, int? pageSize, BalanceResponsibleSortProperty? sortProperty, SortDirection? sortDirection, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/esett/balance-responsible?");
@@ -181,10 +215,17 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
             }
         }
 
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<FileResponse> StorageDocumentAsync(string documentId)
+        {
+            return StorageDocumentAsync(documentId, System.Threading.CancellationToken.None);
+        }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FileResponse> StorageDocumentAsync(string documentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<FileResponse> StorageDocumentAsync(string documentId, System.Threading.CancellationToken cancellationToken)
         {
             if (documentId == null)
                 throw new System.ArgumentNullException("documentId");
@@ -250,10 +291,17 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
             }
         }
 
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<ExchangeEventTrackingResult> EsettAsync(string documentId)
+        {
+            return EsettAsync(documentId, System.Threading.CancellationToken.None);
+        }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ExchangeEventTrackingResult> EsettAsync(string documentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ExchangeEventTrackingResult> EsettAsync(string documentId, System.Threading.CancellationToken cancellationToken)
         {
             if (documentId == null)
                 throw new System.ArgumentNullException("documentId");
@@ -321,10 +369,17 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
             }
         }
 
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<FileResponse> DispatchDocumentAsync(string documentId)
+        {
+            return DispatchDocumentAsync(documentId, System.Threading.CancellationToken.None);
+        }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FileResponse> DispatchDocumentAsync(string documentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<FileResponse> DispatchDocumentAsync(string documentId, System.Threading.CancellationToken cancellationToken)
         {
             if (documentId == null)
                 throw new System.ArgumentNullException("documentId");
@@ -390,10 +445,17 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
             }
         }
 
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<FileResponse> ResponseDocumentAsync(string documentId)
+        {
+            return ResponseDocumentAsync(documentId, System.Threading.CancellationToken.None);
+        }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FileResponse> ResponseDocumentAsync(string documentId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<FileResponse> ResponseDocumentAsync(string documentId, System.Threading.CancellationToken cancellationToken)
         {
             if (documentId == null)
                 throw new System.ArgumentNullException("documentId");
@@ -459,10 +521,17 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
             }
         }
 
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<ExchangeEventSearchResponse> SearchAsync(ExchangeEventSearchFilter? body)
+        {
+            return SearchAsync(body, System.Threading.CancellationToken.None);
+        }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ExchangeEventSearchResponse> SearchAsync(ExchangeEventSearchFilter? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ExchangeEventSearchResponse> SearchAsync(ExchangeEventSearchFilter? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/esett/search");
@@ -530,10 +599,17 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
             }
         }
 
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<MeteringGridAreaImbalanceSearchResponse> ImbalanceAsync(MeteringGridAreaImbalanceSearchFilter? body)
+        {
+            return ImbalanceAsync(body, System.Threading.CancellationToken.None);
+        }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<MeteringGridAreaImbalanceSearchResponse> ImbalanceAsync(MeteringGridAreaImbalanceSearchFilter? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<MeteringGridAreaImbalanceSearchResponse> ImbalanceAsync(MeteringGridAreaImbalanceSearchFilter? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/esett/search/imbalance");
