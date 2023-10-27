@@ -32,17 +32,18 @@ import {
   GetActorByIdDocument,
   GetAuditLogByActorIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { DhActorExtended, dhActorAuditLogEntry } from '../dh-actor';
-import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
-import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+
+import { DhActorExtended, dhActorAuditLogEntry } from '../dh-actor';
+import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
+import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
+import { DhCertificateComponent } from './tabs/dh-certificate.component';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -85,12 +86,13 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
     WattSpinnerComponent,
     WattEmptyStateComponent,
     WattDatePipe,
+    VaterStackComponent,
 
     DhEmDashFallbackPipe,
     DhPermissionRequiredDirective,
     DhActorsEditActorModalComponent,
     DhActorStatusBadgeComponent,
-    VaterStackComponent,
+    DhCertificateComponent,
   ],
 })
 export class DhActorDrawerComponent {
