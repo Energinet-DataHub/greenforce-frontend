@@ -206,6 +206,14 @@
       "extends": ["plugin:@ngrx/component-store-strict"]
     },
     {
+      "files": ["*.html"],
+      "parser": "@angular-eslint/template-parser",
+      "extends": ["plugin:@nx/angular-template"],
+      "rules": {
+        "@angular-eslint/template/prefer-self-closing-tags": ["error"]
+      }
+    },
+    {
       "files": ["*.js", "*.ts"],
       "extends": ["plugin:sonarjs/recommended"],
       "rules": {
