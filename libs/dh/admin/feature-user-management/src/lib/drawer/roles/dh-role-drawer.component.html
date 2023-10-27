@@ -18,7 +18,7 @@ limitations under the License.
   <watt-drawer #drawer size="large" (closed)="onClose()" [loading]="isLoading$ | push">
     <watt-drawer-topbar *ngIf="drawer.isOpen">
       <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
-        <dh-role-status [status]="userRoleWithPermissions.status"></dh-role-status>
+        <dh-role-status [status]="userRoleWithPermissions.status" />
       </ng-container>
     </watt-drawer-topbar>
     <watt-drawer-heading *ngIf="drawer.isOpen">
@@ -47,14 +47,14 @@ limitations under the License.
           <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
             <ng-container *ngIf="!hasGeneralError">
               <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
-                <dh-drawer-role-tabs [role]="userRoleWithPermissions"></dh-drawer-role-tabs>
+                <dh-drawer-role-tabs [role]="userRoleWithPermissions" />
               </ng-container>
             </ng-container>
 
             <div *ngIf="hasGeneralError" class="user-role__error">
               <dh-tab-data-general-error
                 (reload)="loadUserRoleWithPermissions()"
-              ></dh-tab-data-general-error>
+              />
             </div>
           </ng-container>
         </ng-container>
@@ -86,6 +86,6 @@ limitations under the License.
     <dh-edit-user-role-modal
       *ngIf="isEditUserRoleModalVisible && userRoleWithPermissions.status === 'Active'"
       (closed)="modalOnClose($event)"
-    ></dh-edit-user-role-modal>
+    />
   </ng-container>
 </ng-container>

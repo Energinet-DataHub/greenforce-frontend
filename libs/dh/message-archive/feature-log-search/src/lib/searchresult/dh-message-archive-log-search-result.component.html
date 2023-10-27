@@ -70,7 +70,7 @@ limitations under the License.
 
     <!-- Spinner -->
     <div *ngIf="isSearching" class="overview__spinner spinner-container">
-      <watt-spinner></watt-spinner>
+      <watt-spinner />
     </div>
 
     <!-- Empty -->
@@ -85,8 +85,7 @@ limitations under the License.
         size="large"
         [title]="t('noResultsFound')"
         [message]="t('noResultsHelperText')"
-      >
-      </watt-empty-state>
+      />
     </ng-container>
 
     <!-- Init -->
@@ -97,8 +96,7 @@ limitations under the License.
         size="large"
         [title]="t('startSearchResultView')"
         [message]="t('startSearchText')"
-      >
-      </watt-empty-state>
+      />
     </ng-container>
 
     <!-- Error -->
@@ -108,9 +106,9 @@ limitations under the License.
         icon="power"
         [title]="'shared.error.title' | transloco"
         [message]="'shared.error.message' | transloco"
-      ></watt-empty-state>
+      />
     </ng-container>
   </watt-card>
 
-  <dh-message-archive-drawer [actors]="actors"></dh-message-archive-drawer>
+  <dh-message-archive-drawer [actors]="actors" />
 </ng-container>

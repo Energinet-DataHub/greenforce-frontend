@@ -21,11 +21,11 @@ limitations under the License.
         <img src="/assets/logo-light.svg" alt="DataHub logo" class="logo--sidenav" />
       </div>
 
-      <dh-primary-navigation></dh-primary-navigation>
+      <dh-primary-navigation />
 
       <div class="selected-actor-container">
-        <dh-signup-mitid></dh-signup-mitid>
-        <dh-selected-actor></dh-selected-actor>
+        <dh-signup-mitid />
+        <dh-selected-actor />
       </div>
     </div>
   </ng-container>
@@ -36,7 +36,7 @@ limitations under the License.
     </h2>
 
     <div class="toolbar__actions">
-      <dh-language-picker></dh-language-picker>
+      <dh-language-picker />
     </div>
 
     <ng-container *transloco="let transloco; read: 'shell'">
@@ -46,5 +46,5 @@ limitations under the License.
     </ng-container>
   </ng-container>
 
-  <router-outlet></router-outlet>
+  <router-outlet />
 </watt-shell>

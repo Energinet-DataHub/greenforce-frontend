@@ -16,22 +16,22 @@ limitations under the License.
 -->
 <ng-container *rxLet="isLoading$ as isLoading">
   <div *ngIf="isLoading" class="overview__spinner">
-    <watt-spinner></watt-spinner>
+    <watt-spinner />
   </div>
   <ng-container *ngIf="!isLoading">
     <ng-container *rxLet="meteringPoint$ as meteringPoint">
-      <dh-breadcrumb [meteringPoint]="meteringPoint"></dh-breadcrumb>
+      <dh-breadcrumb [meteringPoint]="meteringPoint" />
 
-      <dh-identity-and-master-data></dh-identity-and-master-data>
+      <dh-identity-and-master-data />
 
-      <dh-metering-point-tabs></dh-metering-point-tabs>
+      <dh-metering-point-tabs />
     </ng-container>
   </ng-container>
 </ng-container>
 
 <ng-container *rxLet="meteringPointNotFound$ as meteringPointNotFound">
   <div *ngIf="meteringPointNotFound" class="overview__error">
-    <dh-metering-point-not-found></dh-metering-point-not-found>
+    <dh-metering-point-not-found />
   </div>
 </ng-container>
 
@@ -39,6 +39,6 @@ limitations under the License.
   <div *ngIf="hasGeneralError" class="overview__error">
     <dh-metering-point-general-error
       (reload)="loadMeteringPointData()"
-    ></dh-metering-point-general-error>
+    />
   </div>
 </ng-container>

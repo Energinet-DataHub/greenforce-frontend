@@ -22,7 +22,7 @@ limitations under the License.
       *ngIf="validation$ | push as validation"
       [label]="t('marketParticipant.actor.create.errorToastLabel')"
       [message]="t(validation.error)"
-    ></watt-validation-message>
+    />
   </ng-container>
 
   <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
@@ -33,7 +33,7 @@ limitations under the License.
 
     <!-- Spinner -->
     <div class="spinner-container" *ngIf="isLoading">
-      <watt-spinner></watt-spinner>
+      <watt-spinner />
     </div>
 
     <div class="tabs-container" [hidden]="isLoading">
@@ -41,16 +41,14 @@ limitations under the License.
       <watt-tabs class="tabs">
         <watt-tab [label]="t('masterDataTabHeader')">
           <ng-container *rxLet="changes$ as changes">
-            <dh-market-participant-actor-master-data [changes]="changes">
-            </dh-market-participant-actor-master-data>
+            <dh-market-participant-actor-master-data [changes]="changes" />
           </ng-container>
         </watt-tab>
         <watt-tab [label]="t('contactsHeader')">
           <dh-market-participant-actor-contact-data
             [contacts]="contacts$ | push"
             (contactsChanged)="onContactsChanged($event.isValid, $event.add, $event.remove)"
-          >
-          </dh-market-participant-actor-contact-data>
+          />
         </watt-tab>
         <watt-tab [label]="t('marketRolesHeader')">
           <dh-market-participant-actor-market-roles
@@ -58,8 +56,7 @@ limitations under the License.
             [gridAreas]="gridAreas$ | push"
             [actorMarketRoles]="marketRoles$ | push"
             (changed)="onMarketRolesChange($event)"
-          >
-          </dh-market-participant-actor-market-roles>
+          />
         </watt-tab>
       </watt-tabs>
     </div>

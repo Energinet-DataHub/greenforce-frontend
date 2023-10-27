@@ -17,7 +17,7 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
   <ng-container *rxLet="isLoading$ as isLoading">
     <div *ngIf="isLoading" class="user-roles__spinner">
-      <watt-spinner></watt-spinner>
+      <watt-spinner />
     </div>
 
     <ng-container *ngIf="!isLoading">
@@ -25,8 +25,7 @@ limitations under the License.
         (statusChanged)="updateFilterStatus($event)"
         (eicFunctionChanged)="updateFilterEicFunction($event)"
         (searchTermChanged)="updateSearchTerm($event)"
-      >
-      </dh-roles-tab-list-filter>
+      />
 
       <watt-card *rxLet="roles$ as roles">
         <watt-card-title>
@@ -54,14 +53,14 @@ limitations under the License.
           [roles]="roles"
           [paginator]="paginator"
           (userRoleDeactivated)="reloadRoles()"
-        ></dh-roles-tab-table>
+        />
       </watt-card>
     </ng-container>
   </ng-container>
 
   <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
     <div *ngIf="hasGeneralError" class="user-roles__error">
-      <dh-tab-data-general-error (reload)="reloadRoles()"></dh-tab-data-general-error>
+      <dh-tab-data-general-error (reload)="reloadRoles()" />
     </div>
   </ng-container>
 </ng-container>
@@ -69,4 +68,4 @@ limitations under the License.
 <dh-create-user-role-modal
   *ngIf="isCreateUserRoleModalVisible"
   (closed)="modalOnClose($event)"
-></dh-create-user-role-modal>
+/>

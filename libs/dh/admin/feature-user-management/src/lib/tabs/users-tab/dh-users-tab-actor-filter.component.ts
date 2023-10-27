@@ -32,7 +32,7 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
         [formControl]="actorControl"
         [options]="actorOptions"
         [multiple]="false"
-      ></watt-dropdown>
+      />
     </ng-container>
   `,
   styles: [

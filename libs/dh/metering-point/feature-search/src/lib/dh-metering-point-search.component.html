@@ -20,19 +20,19 @@ limitations under the License.
   <dh-metering-point-search-form
     [loading]="isLoading$ | push"
     (search)="onSubmit($event)"
-  ></dh-metering-point-search-form>
+  />
 
   <watt-empty-state
     *ngIf="notFound$ | push"
     icon="custom-explore"
     [title]="transloco('noMeteringPointFoundTitle')"
     [message]="transloco('noMeteringPointFoundMessage')"
-  ></watt-empty-state>
+  />
 
   <watt-empty-state
     *ngIf="hasGeneralError$ | push"
     icon="custom-power"
     [title]="'shared.error.title' | transloco"
     [message]="'shared.error.message' | transloco"
-  ></watt-empty-state>
+  />
 </ng-container>

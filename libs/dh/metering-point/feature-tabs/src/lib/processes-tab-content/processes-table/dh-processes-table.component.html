@@ -24,9 +24,9 @@ limitations under the License.
   >
     <!-- Expand Definition -->
     <ng-container matColumnDef="rowExpandControl">
-      <mat-header-cell *matHeaderCellDef class="control-cell-header"> </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef class="control-cell-header" />
       <mat-cell *matCellDef="let row" class="control-cell">
-        <watt-icon name="right" size="l"></watt-icon>
+        <watt-icon name="right" size="l" />
       </mat-cell>
     </ng-container>
 
@@ -58,7 +58,7 @@ limitations under the License.
         {{ transloco("headers.createdDate") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <watt-icon name="date" size="xs" class="date-icon"></watt-icon>
+        <watt-icon name="date" size="xs" class="date-icon" />
         <span class="watt-text-s">{{ row.data.createdDate | wattDate : "long" }} </span>
       </mat-cell>
     </ng-container>
@@ -73,7 +73,7 @@ limitations under the License.
         {{ transloco("headers.effectiveDate") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <watt-icon name="date" size="xs" class="date-icon"></watt-icon>
+        <watt-icon name="date" size="xs" class="date-icon" />
         <span class="watt-text-s">{{ row.data.effectiveDate | wattDate }} </span>
       </mat-cell>
     </ng-container>
@@ -97,42 +97,42 @@ limitations under the License.
 
     <!-- Has Details Errors Definition -->
     <ng-container matColumnDef="hasDetailsErrors">
-      <mat-header-cell *matHeaderCellDef class="has-details-errors-cell-header"></mat-header-cell>
+      <mat-header-cell *matHeaderCellDef class="has-details-errors-cell-header" />
       <mat-cell *matCellDef="let row" class="has-details-errors-cell">
         <watt-icon
           [name]="row.data.hasDetailsErrors ? 'danger' : 'success'"
           size="m"
           data-testId="processHasDetailsErrors"
-        ></watt-icon>
+        />
       </mat-cell>
     </ng-container>
 
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
     <ng-container matColumnDef="expandedDetail">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-header-cell *matHeaderCellDef />
       <mat-cell mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
         <dh-processes-detail-item
           *ngFor="let detail of row.data.details"
           [detail]="detail"
-        ></dh-processes-detail-item>
+        />
       </mat-cell>
     </ng-container>
 
     <!-- Header and Row Declarations -->
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-header-row *matHeaderRowDef="displayedColumns" />
     <mat-row
       *matRowDef="let row; columns: displayedColumns"
       (click)="toggleRow($event, row)"
       [ngClass]="{ expanded: row.expanded }"
       class="clickable"
       [attr.data-testid]="'processRow-' + row.data.id"
-    ></mat-row>
+    />
     <mat-row
       *matRowDef="let row; columns: ['expandedDetail']"
       class="expandable"
       [ngClass]="{ collapsed: !row.expanded }"
       [ngStyle]="{ 'max-height': row.expanded ? row.maxHeight + 'px' : null }"
       [attr.data-testid]="'detailsRow-' + row.data.id"
-    ></mat-row>
+    />
   </mat-table>
 </ng-container>

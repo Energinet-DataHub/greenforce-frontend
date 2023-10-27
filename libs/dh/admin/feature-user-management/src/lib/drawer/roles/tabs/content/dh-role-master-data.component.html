@@ -20,15 +20,15 @@ limitations under the License.
       <watt-description-list-item
         [label]="t('name')"
         [value]="role?.name"
-      ></watt-description-list-item>
+      />
       <watt-description-list-item
         [label]="t('description')"
         [value]="role?.description"
-      ></watt-description-list-item>
+      />
       <watt-description-list-item
         [label]="t('marketRole')"
         [value]="'marketParticipant.marketRoles.' + this.role?.eicFunction | transloco"
-      ></watt-description-list-item>
+      />
     </watt-description-list>
   </watt-card>
 </ng-container>

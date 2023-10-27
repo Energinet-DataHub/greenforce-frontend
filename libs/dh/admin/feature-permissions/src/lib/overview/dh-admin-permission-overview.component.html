@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<dh-shared-ui-search (search)="search($event)"></dh-shared-ui-search>
+<dh-shared-ui-search (search)="search($event)" />
 <watt-card *transloco="let t; read: 'admin.userManagement.permissionsTab'">
   <watt-card-title>
     <div class="card-title-container">
@@ -47,17 +47,17 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  <watt-spinner class="permissions-overview__spinner" *ngIf="loading && !error"></watt-spinner>
+  <watt-spinner class="permissions-overview__spinner" *ngIf="loading && !error" />
   <watt-empty-state
     *ngIf="error"
     class="permissions-overview_error"
     icon="custom-power"
     [title]="'shared.error.title' | transloco"
     [message]="'shared.error.message' | transloco"
-  ></watt-empty-state>
+  />
 </watt-card>
 
 <dh-admin-permission-detail
   (closed)="onClosed()"
   (updated)="refresh()"
-></dh-admin-permission-detail>
+/>
