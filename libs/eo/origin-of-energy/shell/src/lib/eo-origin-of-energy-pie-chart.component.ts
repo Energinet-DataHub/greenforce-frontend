@@ -41,8 +41,8 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
         <div *ngIf="loadingDone && share.length === 0" class="noDataText onTop">
           No data available, try a different date
         </div>
-        <eo-pie-chart [data]="share" [labels]="['Renewable', 'Other']"
-      /></ng-container>
+        <eo-pie-chart [data]="share" [labels]="['Renewable', 'Other']" />
+      </ng-container>
     </ng-container>
   `,
   styles: [
