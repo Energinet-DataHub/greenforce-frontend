@@ -69,66 +69,64 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
     `,
   ],
   template: `
-    <eo-eo-beta-message>
-      />
-      <div class="certificate">
-        <eo-stack size="M" *rxLet="certificate$; let cert">
-          <watt-card>
-            <watt-card-title
-              ><h4><b>Static Data</b></h4></watt-card-title
-            >
+    <eo-eo-beta-message />
+    <div class="certificate">
+      <eo-stack size="M" *rxLet="certificate$; let cert">
+        <watt-card>
+          <watt-card-title
+            ><h4><b>Static Data</b></h4></watt-card-title
+          >
+          <eo-stack size="M">
+            <div class="grid-table">
+              <b>Energy</b>
+              <div>{{ cert?.quantity?.toLocaleString() }} Wh</div>
+              <b>Start time</b>
+              <div>{{ cert?.dateFrom | wattDate : 'longAbbr' }}</div>
+              <b>Start time</b>
+              <div>{{ cert?.dateTo | wattDate : 'longAbbr' }}</div>
+              <b>GSRN</b>
+              <div>{{ cert?.gsrn }}</div>
+              <b>Certificate ID</b>
+              <div>{{ cert?.id }}</div>
+            </div>
+          </eo-stack>
+        </watt-card>
+        <watt-card>
+          <div class="space-between">
             <eo-stack size="M">
+              <h4><b>Technology</b></h4>
               <div class="grid-table">
-                <b>Energy</b>
-                <div>{{ cert?.quantity?.toLocaleString() }} Wh</div>
-                <b>Start time</b>
-                <div>{{ cert?.dateFrom | wattDate : 'longAbbr' }}</div>
-                <b>Start time</b>
-                <div>{{ cert?.dateTo | wattDate : 'longAbbr' }}</div>
-                <b>GSRN</b>
-                <div>{{ cert?.gsrn }}</div>
-                <b>Certificate ID</b>
-                <div>{{ cert?.id }}</div>
+                <b>Technology Code</b>
+                <div>{{ cert?.techCode }}</div>
+                <b>Fuel Code</b>
+                <div>{{ cert?.fuelCode }}</div>
               </div>
             </eo-stack>
-          </watt-card>
-          <watt-card>
-            <div class="space-between">
-              <eo-stack size="M">
-                <h4><b>Technology</b></h4>
-                <div class="grid-table">
-                  <b>Technology Code</b>
-                  <div>{{ cert?.techCode }}</div>
-                  <b>Fuel Code</b>
-                  <div>{{ cert?.fuelCode }}</div>
-                </div>
-              </eo-stack>
-              <img
-                alt="Windmill"
-                src="/assets/images/certificates/windmill.png"
-                style="height: 79px;"
-              />
-            </div>
-          </watt-card>
-          <h4>
-            <a class="link" routerLink="/${eoCertificatesRoutePath}"> << Back to Certificates </a>
-          </h4>
-        </eo-stack>
-        <eo-stack size="M">
-          <watt-card>
-            <eo-stack size="M">
-              <h4><b>Bidding Zone</b></h4>
-              <p><b>DK1</b></p>
-              <img
-                alt="Grid Area DK1"
-                src="/assets/images/certificates/dk1grid.png"
-                style="height: 204px; display: block"
-              />
-            </eo-stack>
-          </watt-card>
-        </eo-stack>
-      </div>
-    </eo-eo-beta-message>
+            <img
+              alt="Windmill"
+              src="/assets/images/certificates/windmill.png"
+              style="height: 79px;"
+            />
+          </div>
+        </watt-card>
+        <h4>
+          <a class="link" routerLink="/${eoCertificatesRoutePath}"> << Back to Certificates </a>
+        </h4>
+      </eo-stack>
+      <eo-stack size="M">
+        <watt-card>
+          <eo-stack size="M">
+            <h4><b>Bidding Zone</b></h4>
+            <p><b>DK1</b></p>
+            <img
+              alt="Grid Area DK1"
+              src="/assets/images/certificates/dk1grid.png"
+              style="height: 204px; display: block"
+            />
+          </eo-stack>
+        </watt-card>
+      </eo-stack>
+    </div>
   `,
 })
 export class EoCertificateDetailsComponent {
