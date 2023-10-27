@@ -40,10 +40,7 @@ limitations under the License.
 
     <watt-drawer-content *ngIf="drawer.isOpen">
       <div class="container">
-        <dh-charge-content
-          [charge]="charge"
-          [hidden]="showChargeMessage === true"
-        />
+        <dh-charge-content [charge]="charge" [hidden]="showChargeMessage === true" />
         <dh-charge-price-message [hidden]="showChargeMessage === false" />
       </div>
     </watt-drawer-content>

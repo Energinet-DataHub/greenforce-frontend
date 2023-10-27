@@ -37,8 +37,6 @@ limitations under the License.
 
 <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
   <div *ngIf="hasGeneralError" class="overview__error">
-    <dh-metering-point-general-error
-      (reload)="loadMeteringPointData()"
-    />
+    <dh-metering-point-general-error (reload)="loadMeteringPointData()" />
   </div>
 </ng-container>

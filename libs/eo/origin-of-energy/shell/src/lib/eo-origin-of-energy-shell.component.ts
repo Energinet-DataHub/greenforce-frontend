@@ -68,18 +68,14 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
       <div class="chart-row">
         <eo-origin-of-energy-chart-card />
         <div>
-          <eo-origin-of-energy-global-goals-media
-            class="watt-space-stack-l"
-          />
+          <eo-origin-of-energy-global-goals-media class="watt-space-stack-l" />
           <eo-origin-of-energy-chart-tips />
         </div>
       </div>
       <div class="description-row">
         <eo-origin-of-energy-renewable-energy />
         <div>
-          <eo-origin-of-energy-what-is-it
-            class="watt-space-stack-l"
-          />
+          <eo-origin-of-energy-what-is-it class="watt-space-stack-l" />
           <eo-origin-of-energy-hourly-declaration />
         </div>
       </div>

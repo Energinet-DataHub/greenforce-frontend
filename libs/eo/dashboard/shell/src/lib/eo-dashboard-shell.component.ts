@@ -57,9 +57,7 @@ import { EoDashboardLinksComponent } from './eo-dashboard-links.component';
       </div>
       <div>
         <eo-dashboard-emissions-card class="watt-space-stack-l" />
-        <eo-dashboard-hourly-declaration
-          class="watt-space-stack-l"
-        />
+        <eo-dashboard-hourly-declaration class="watt-space-stack-l" />
         <eo-dashboard-get-data />
       </div>
     </div>

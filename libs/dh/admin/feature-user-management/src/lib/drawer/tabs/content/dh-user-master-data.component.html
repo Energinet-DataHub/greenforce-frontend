@@ -21,10 +21,7 @@ limitations under the License.
         [label]="t('name')"
         [value]="user?.firstName + ' ' + user?.lastName"
       />
-      <watt-description-list-item
-        [label]="t('email')"
-        [value]="user?.email"
-      />
+      <watt-description-list-item [label]="t('email')" [value]="user?.email" />
       <watt-description-list-item
         [label]="t('phone')"
         [value]="user?.phoneNumber | dhEmDashFallback"

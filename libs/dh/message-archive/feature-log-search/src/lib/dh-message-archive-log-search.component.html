@@ -75,11 +75,7 @@ limitations under the License.
             </watt-field-error>
           </watt-datepicker>
 
-          <watt-timepicker
-            [label]="transloco('time')"
-            formControlName="timeRange"
-            [range]="true"
-          />
+          <watt-timepicker [label]="transloco('time')" formControlName="timeRange" [range]="true" />
 
           <!-- Reference id -->
           <watt-checkbox formControlName="includeRelated" wattInput name="reference-id">{{

@@ -16,10 +16,7 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
   <div class="filter-container">
-    <dh-shared-ui-search
-      (search)="onSearch($event)"
-      [placeholder]="t('searchPlaceholder')"
-    />
+    <dh-shared-ui-search (search)="onSearch($event)" [placeholder]="t('searchPlaceholder')" />
     <dh-users-tab-status-filter
       [initialValue]="initialStatusFilter$ | push"
       (changed)="onStatusChanged($event)"
@@ -93,8 +90,4 @@ limitations under the License.
   </ng-container>
 </ng-template>
 
-<dh-invite-user-modal
-  *ngIf="isInviteUserModalVisible"
-  (closed)="modalOnClose()"
-  #inviteUserModal
-/>
+<dh-invite-user-modal *ngIf="isInviteUserModalVisible" (closed)="modalOnClose()" #inviteUserModal />

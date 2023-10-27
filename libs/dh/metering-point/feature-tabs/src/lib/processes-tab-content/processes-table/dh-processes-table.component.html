@@ -111,10 +111,7 @@ limitations under the License.
     <ng-container matColumnDef="expandedDetail">
       <mat-header-cell *matHeaderCellDef />
       <mat-cell mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
-        <dh-processes-detail-item
-          *ngFor="let detail of row.data.details"
-          [detail]="detail"
-        />
+        <dh-processes-detail-item *ngFor="let detail of row.data.details" [detail]="detail" />
       </mat-cell>
     </ng-container>
 

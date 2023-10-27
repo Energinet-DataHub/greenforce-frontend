@@ -65,7 +65,4 @@ limitations under the License.
   </ng-container>
 </ng-container>
 
-<dh-create-user-role-modal
-  *ngIf="isCreateUserRoleModalVisible"
-  (closed)="modalOnClose($event)"
-/>
+<dh-create-user-role-modal *ngIf="isCreateUserRoleModalVisible" (closed)="modalOnClose($event)" />

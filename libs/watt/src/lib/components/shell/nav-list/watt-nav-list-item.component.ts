@@ -26,11 +26,13 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, RouterModule],
   template: `
     <a *ngIf="isExternalLink; else internalLink" [href]="link" [attr.target]="target"
-      ><ng-container *ngTemplateOutlet="templateContent" /></a>
+      ><ng-container *ngTemplateOutlet="templateContent"
+    /></a>
 
     <ng-template #internalLink>
       <a [routerLink]="link" routerLinkActive="active" (isActiveChange)="onRouterLinkActive($event)"
-        ><ng-container *ngTemplateOutlet="templateContent" /></a>
+        ><ng-container *ngTemplateOutlet="templateContent"
+      /></a>
     </ng-template>
 
     <ng-template #templateContent>

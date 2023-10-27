@@ -72,19 +72,10 @@ import {
     >
       <ng-container [ngSwitch]="contentTemplate()">
         <ng-container *ngSwitchDefault [ngTemplateOutlet]="default" />
-        <ng-container
-          *ngSwitchCase="'ownConnection'"
-          [ngTemplateOutlet]="ownConnection"
-        />
+        <ng-container *ngSwitchCase="'ownConnection'" [ngTemplateOutlet]="ownConnection" />
         <ng-container *ngSwitchCase="'notFound'" [ngTemplateOutlet]="notFound" />
-        <ng-container
-          *ngSwitchCase="'alreadyConnected'"
-          [ngTemplateOutlet]="alreadyConnected"
-        />
-        <ng-container
-          *ngSwitchCase="'unknownError'"
-          [ngTemplateOutlet]="unknownError"
-        />
+        <ng-container *ngSwitchCase="'alreadyConnected'" [ngTemplateOutlet]="alreadyConnected" />
+        <ng-container *ngSwitchCase="'unknownError'" [ngTemplateOutlet]="unknownError" />
       </ng-container>
     </watt-modal>
 

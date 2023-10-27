@@ -24,10 +24,7 @@ limitations under the License.
         <dh-charge-item [charges]="tariffs" [title]="t('tariffsTitle')" />
       </ng-container>
       <ng-container *rxLet="subscriptions$ as subscriptions">
-        <dh-charge-item
-          [charges]="subscriptions"
-          [title]="t('subscriptionsTitle')"
-        />
+        <dh-charge-item [charges]="subscriptions" [title]="t('subscriptionsTitle')" />
       </ng-container>
       <ng-container *rxLet="fees$ as fees">
         <dh-charge-item [charges]="fees" [title]="t('feesTitle')" />

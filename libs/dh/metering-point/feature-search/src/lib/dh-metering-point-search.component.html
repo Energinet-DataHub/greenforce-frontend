@@ -17,10 +17,7 @@ limitations under the License.
 <ng-container *transloco="let transloco; read: 'meteringPoint.search'">
   <h1>{{ transloco("title") }}</h1>
 
-  <dh-metering-point-search-form
-    [loading]="isLoading$ | push"
-    (search)="onSubmit($event)"
-  />
+  <dh-metering-point-search-form [loading]="isLoading$ | push" (search)="onSubmit($event)" />
 
   <watt-empty-state
     *ngIf="notFound$ | push"
