@@ -31,7 +31,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
 
-import { EoInviteConnectionService } from '../data-access-api/invite-connection.service';
+import { EoInviteConnectionService } from '@energinet-datahub/eo/connections/data-access-api';
 
 @Component({
   selector: 'eo-invite-connection',
@@ -52,7 +52,6 @@ import { EoInviteConnectionService } from '../data-access-api/invite-connection.
       title="New invitation link"
       [loading]="inviteLink().loading"
       loadingMessage="Please wait while we generate your invitation link"
-      size="small"
       closeLabel="Close modal"
       (closed)="onClosed()"
       *ngIf="isOpen()"

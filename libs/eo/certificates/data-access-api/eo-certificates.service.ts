@@ -16,30 +16,14 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { Observable } from 'rxjs';
 
-export interface EoCertificate {
-  dateFrom: number;
-  dateTo: number;
-  quantity: number;
-  gsrn: string;
-  techCode: string;
-  fuelCode: string;
-  id: string;
-  gridArea: string;
-}
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+
+import { EoCertificate, EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
 
 interface EoCertificateResponse {
   result: EoCertificate[];
-}
-
-export interface EoCertificateContract {
-  id: string;
-  gsrn: string;
-  startDate: number;
-  endDate: number | null;
-  created: number;
 }
 
 interface EoContractResponse {

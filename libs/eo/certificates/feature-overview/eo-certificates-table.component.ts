@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
 import {
   MatLegacyPaginator as MatPaginator,
   MatLegacyPaginatorModule as MatPaginatorModule,
@@ -24,11 +26,11 @@ import {
   MatLegacyTableModule as MatTableModule,
 } from '@angular/material/legacy-table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { RouterModule } from '@angular/router';
-import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { EoCertificate } from './eo-certificates.service';
-import { EoCertificatesStore } from './eo-certificates.store';
+
+import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
+import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
+import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-access-api';
 
 @Component({
   selector: 'eo-certificates-table',

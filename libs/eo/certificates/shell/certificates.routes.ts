@@ -14,8 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import { Routes } from '@angular/router';
+import { EoCertificateDetailsComponent } from './eo-certificate-details.component';
+import { EoCertificatesComponent } from './eo-certificates.component';
 
-import { EoConnectionsComponent } from '@energinet-datahub/eo/connections/feature-overview';
-
-export const eoConnectionsRoutes: Routes = [{ path: '', component: EoConnectionsComponent }];
+export const eoCertificatesRoutes: Routes = [
+  {
+    path: '',
+    data: { title: 'Certificates' },
+    component: EoCertificatesComponent,
+  },
+  {
+    path: ':id',
+    data: { title: 'Certificate Details - Production' },
+    component: EoCertificateDetailsComponent,
+  },
+];
