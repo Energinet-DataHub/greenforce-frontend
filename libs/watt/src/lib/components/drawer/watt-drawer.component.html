@@ -27,7 +27,7 @@ limitations under the License.
     <div class="watt-drawer__grid-container">
       <header>
         <ng-content select="watt-drawer-topbar" />
-        <watt-button class="close-btn" variant="icon" icon="close" (click)="close()"></watt-button>
+        <watt-button class="close-btn" variant="icon" icon="close" (click)="close()" />
       </header>
 
       <article class="watt-drawer__content">
@@ -40,7 +40,7 @@ limitations under the License.
     </div>
 
     <div *ngIf="loading" class="watt-drawer__spinner">
-      <watt-spinner></watt-spinner>
+      <watt-spinner />
     </div>
   </mat-drawer>
 </mat-drawer-container>
