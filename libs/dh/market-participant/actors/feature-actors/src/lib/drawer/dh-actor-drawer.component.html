@@ -80,6 +80,11 @@ limitations under the License.
             </watt-description-list>
           </watt-card>
         </watt-tab>
+
+        <watt-tab [label]="t('tabs.certificate.tabLabel')">
+          <dh-certificate />
+        </watt-tab>
+
         <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
           <vater-stack [fill]="'horizontal'" [align]="'center'">
             <watt-spinner *ngIf="isLoadingAuditLog" />
