@@ -208,7 +208,6 @@
     {
       "files": ["*.html"],
       "parser": "@angular-eslint/template-parser",
-      "extends": ["plugin:@nx/angular-template"],
       "rules": {
         "@angular-eslint/template/prefer-self-closing-tags": ["error"]
       }
