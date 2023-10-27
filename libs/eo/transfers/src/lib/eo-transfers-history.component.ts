@@ -116,15 +116,14 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
     </watt-table>
 
     <div class="spinner-container" *ngIf="isLoading$ | push">
-      <watt-spinner></watt-spinner>
+      <watt-spinner />
     </div>
 
     <watt-empty-state
       *ngIf="dataSource.data.length === 0 && !(hasError$ | push) && !(isLoading$ | push)"
       icon="power"
       title="No history was found"
-    >
-    </watt-empty-state>
+    />
 
     <watt-empty-state
       *ngIf="hasError$ | push"
@@ -140,8 +139,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
       [pageSize]="10"
       [pageSizeOptions]="[10, 25, 50, 100, 250]"
       [for]="dataSource"
-    >
-    </watt-paginator>
+    />
   `,
 })
 export class EoTransfersHistoryComponent implements OnInit {

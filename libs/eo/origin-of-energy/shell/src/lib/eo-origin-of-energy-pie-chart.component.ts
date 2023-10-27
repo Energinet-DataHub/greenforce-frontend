@@ -29,7 +29,7 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
   template: `
     <ng-container *rxLet="loadingDone$ as loadingDone">
       <div *ngIf="!loadingDone" class="loadingObfuscator onTop">
-        <watt-spinner [diameter]="100"></watt-spinner>
+        <watt-spinner [diameter]="100" />
         <div class="loadingText">
           <strong>
             Phew, loading is taking a while, but don't worry. It usually takes 3 minutes, but soon
@@ -41,8 +41,7 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
         <div *ngIf="loadingDone && share.length === 0" class="noDataText onTop">
           No data available, try a different date
         </div>
-        <eo-pie-chart [data]="share" [labels]="['Renewable', 'Other']"></eo-pie-chart
-      ></ng-container>
+        <eo-pie-chart [data]="share" [labels]="['Renewable', 'Other']" /></ng-container>
     </ng-container>
   `,
   styles: [

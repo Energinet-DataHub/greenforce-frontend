@@ -71,20 +71,20 @@ import {
       *ngIf="isOpen()"
     >
       <ng-container [ngSwitch]="contentTemplate()">
-        <ng-container *ngSwitchDefault [ngTemplateOutlet]="default"></ng-container>
+        <ng-container *ngSwitchDefault [ngTemplateOutlet]="default" />
         <ng-container
           *ngSwitchCase="'ownConnection'"
           [ngTemplateOutlet]="ownConnection"
-        ></ng-container>
-        <ng-container *ngSwitchCase="'notFound'" [ngTemplateOutlet]="notFound"></ng-container>
+        />
+        <ng-container *ngSwitchCase="'notFound'" [ngTemplateOutlet]="notFound" />
         <ng-container
           *ngSwitchCase="'alreadyConnected'"
           [ngTemplateOutlet]="alreadyConnected"
-        ></ng-container>
+        />
         <ng-container
           *ngSwitchCase="'unknownError'"
           [ngTemplateOutlet]="unknownError"
-        ></ng-container>
+        />
       </ng-container>
     </watt-modal>
 
@@ -112,8 +112,7 @@ import {
         icon="warning"
         title="Invalid invitation"
         message="You cannot Accept/Deny invitations from your own organization."
-      >
-      </watt-empty-state>
+      />
 
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">Close</watt-button>
@@ -125,8 +124,7 @@ import {
         icon="warning"
         title="Not found"
         message="The invitation has expired, declined, or is already accepted."
-      >
-      </watt-empty-state>
+      />
 
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">Close</watt-button>
@@ -138,8 +136,7 @@ import {
         icon="success"
         title="Already connected"
         message="You're already connected with {{ connectionInvitation()?.senderCompanyTin }}."
-      >
-      </watt-empty-state>
+      />
 
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">Close</watt-button>
@@ -151,8 +148,7 @@ import {
         icon="power"
         title="An unexpected error occured"
         message="We are sorry, we could not load your invitation link. Please try again later."
-      >
-      </watt-empty-state>
+      />
     </ng-template>
   `,
 })

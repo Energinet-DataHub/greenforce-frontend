@@ -36,9 +36,9 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
   standalone: true,
   styles: [],
   template: `
-    <eo-eo-beta-message></eo-eo-beta-message>
+    <eo-eo-beta-message />
     <watt-card class="watt-space-stack-m">
-      <eo-certificates-table></eo-certificates-table>
+      <eo-certificates-table />
     </watt-card>
   `,
 })

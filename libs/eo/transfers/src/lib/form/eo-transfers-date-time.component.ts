@@ -140,7 +140,7 @@ import { isToday } from 'date-fns';
       <eo-transfers-timepicker
         formControlName="time"
         [disabledHours]="disabledHours"
-      ></eo-transfers-timepicker>
+      />
     </ng-container>
   `,
   providers: [

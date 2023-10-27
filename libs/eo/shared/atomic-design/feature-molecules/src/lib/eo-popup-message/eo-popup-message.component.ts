@@ -82,7 +82,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
         <p>{{ message }}</p>
       </div>
 
-      <a class="close" (click)="hidden = true"><watt-icon name="close"></watt-icon></a>
+      <a class="close" (click)="hidden = true"><watt-icon name="close" /></a>
     </div>
   `,
 })

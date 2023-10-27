@@ -69,7 +69,7 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
     `,
   ],
   template: `
-    <eo-eo-beta-message></eo-eo-beta-message>
+    <eo-eo-beta-message> />
     <div class="certificate">
       <eo-stack size="M" *rxLet="certificate$; let cert">
         <watt-card>
