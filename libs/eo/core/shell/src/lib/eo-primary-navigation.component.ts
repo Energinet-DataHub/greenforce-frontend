@@ -61,6 +61,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
       <watt-nav-list-item link="{{ routes.meteringpoints }}" onFeatureFlag="meters">
         Metering Points
       </watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.claims }}"> Claims </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.certificates }}" onFeatureFlag="certificates">
         Certificates
         <span class="beta">BETA</span>

@@ -275,6 +275,13 @@
       "@energinet-datahub/eo/certificates/shell": [
         "libs/eo/certificates/shell/index.ts"
       ],
+      "@energinet-datahub/eo/claims/data-access-api": [
+        "libs/eo/claims/data-access-api/index.ts"
+      ],
+      "@energinet-datahub/eo/claims/feature-overview": [
+        "libs/eo/claims/feature-overview/index.ts"
+      ],
+      "@energinet-datahub/eo/claims/shell": ["libs/eo/claims/shell/index.ts"],
       "@energinet-datahub/eo/connections/data-access-api": [
         "libs/eo/connections/data-access-api/index.ts"
       ],
@@ -336,6 +343,9 @@
       ],
       "@energinet-datahub/eo/shared/atomic-design/ui-organisms": [
         "libs/eo/shared/atomic-design/ui-organisms/src/index.ts"
+      ],
+      "@energinet-datahub/eo/shared/data-access-mocks": [
+        "libs/eo/shared/data-access-mocks/src/index.ts"
       ],
       "@energinet-datahub/eo/shared/domain": ["libs/eo/shared/domain/index.ts"],
       "@energinet-datahub/eo/shared/environments": [

@@ -16,13 +16,15 @@
  */
 import { EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
 
+export type MeteringPointType = 'consumption' | 'production';
+
 export interface MeteringPoint {
   /** Unique ID of the metering point - Global Service Relation Number */
   gsrn: string;
   /** Name of the area the metering point is registered in */
   gridArea: string;
   /** Type of metering point, ie. consumption or production */
-  type: string;
+  type: MeteringPointType;
   address: {
     /** Address line, ie. 'Dieselstraße 28' */
     address1: string;
