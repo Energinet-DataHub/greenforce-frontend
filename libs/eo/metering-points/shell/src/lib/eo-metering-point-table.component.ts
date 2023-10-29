@@ -34,7 +34,8 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
+import { EoMeteringPoint, MeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
+import { MeteringPointType } from 'libs/eo/metering-points/domain/metering-point';
 
 @Component({
   standalone: true,
@@ -123,7 +124,8 @@ class GranularCertificateHelperComponent {}
             (change)="
               toggleContract.emit({
                 checked: $event.checked,
-                gsrn: meteringPoint.gsrn
+                gsrn: meteringPoint.gsrn,
+                type: meteringPoint.type,
               })
             "
             [disabled]="meteringPoint.loadingContract"
@@ -182,6 +184,7 @@ export class EoMeteringPointsTableComponent {
   @Output() toggleContract = new EventEmitter<{
     checked: boolean;
     gsrn: string;
+    type: MeteringPointType;
   }>();
 
   private modalService = inject(WattModalService);

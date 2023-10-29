@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ComponentStore } from '@ngrx/component-store';
-import { filter, forkJoin, map, Observable, switchMap, take } from 'rxjs';
+import { catchError, EMPTY, filter, first, forkJoin, map, Observable, switchMap, take } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -26,6 +26,7 @@ import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
 import { MeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
 
 import { EoMeteringPointsService } from './eo-metering-points.service';
+import { MeteringPointType } from '../domain/metering-point';
 
 interface EoMeteringPointsState {
   loading: boolean;
@@ -56,6 +57,8 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   );
 
   readonly meteringPoints$ = this.select((state) => state.meteringPoints);
+  readonly consumptionMeteringPointsWithContract = this.select((state) => state.meteringPoints.filter((mp) => mp.type === 'consumption' && !!mp.contract));
+
   private readonly setMeteringPoints = this.updater(
     (state, meteringPoints: EoMeteringPoint[]): EoMeteringPointsState => ({
       ...state,
@@ -148,33 +151,47 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     );
   }
 
-  createCertificateContract(gsrn: string) {
+  createCertificateContract(gsrn: string, meteringPointType: MeteringPointType) {
     this.toggleContractLoading(gsrn);
-    this.certService.createContract(gsrn).subscribe({
-      next: (contract) => {
+    this.certService.createContract(gsrn).pipe(
+      catchError((error) => {
+        this.patchState({ contractError: error });
+        this.toggleContractLoading(gsrn);
+        return EMPTY;
+      }),
+      switchMap((contract) => {
         this.setContract(contract);
         this.toggleContractLoading(gsrn);
         this.patchState({ contractError: null });
-      },
+
+        return meteringPointType === 'consumption' ? this.service.startClaim() : EMPTY;
+      })
+    ).subscribe({
       error: (error) => {
-        this.patchState({ contractError: error });
-        this.toggleContractLoading(gsrn);
-      },
+        // TODO: WHAT SHOULD HAPPEN IF START CLAIM FAILS?
+        console.log('ERROR!!!', error);
+      }
     });
   }
 
-  deactivateCertificateContract(gsrn: string): void {
+  deactivateCertificateContract(gsrn: string, meteringPointType: MeteringPointType): void {
     this.toggleContractLoading(gsrn);
     this.getContractIdForGsrn(gsrn)
       .pipe(
         filter((id): id is string => !!id),
-        switchMap((id) => this.certService.patchContract(id))
+        switchMap((id) => this.certService.patchContract(id)),
+        switchMap(() => this.consumptionMeteringPointsWithContract),
+        take(1)
       )
       .subscribe({
-        next: () => {
+        next: (consumptionMeteringPointsWithContract) => {
           this.updateMeteringPointContract({ gsrn, active: false });
           this.toggleContractLoading(gsrn);
           this.patchState({ contractError: null });
+
+          if(meteringPointType === 'consumption' && consumptionMeteringPointsWithContract.length <= 1) {
+            this.service.stopClaim().subscribe(); // TODO: WHAT SHOULD HAPPEN IF STOP CLAIM FAILS?
+          }
         },
         error: (error) => {
           this.toggleContractLoading(gsrn);

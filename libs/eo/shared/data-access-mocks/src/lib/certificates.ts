@@ -109,8 +109,17 @@ function getCertificatesContracts(apiBase: string) {
 }
 
 function postCertificatesContracts(apiBase: string) {
-  return rest.post(`${apiBase}/certificates/contracts`, (req, res, ctx) => {
-    const data = {"id":"ef38c770-a8c0-48ea-8f25-d9a38e84b01c","gsrn":"571313130083535430","startDate":1698311588,"endDate":null,"created":1698311589,"meteringPointType":"Production"};
+  return rest.post(`${apiBase}/certificates/contracts`, async (req, res, ctx) => {
+    const requestBody = await req.json();
+
+    const data = {
+      id: 'ef38c770-a8c0-48ea-8f25-d9a38e84b01c',
+      gsrn: requestBody.gsrn,
+      startDate: 1698311588,
+      endDate: null,
+      created: 1698311589,
+      meteringPointType: null,
+    };
     return res(ctx.status(200), ctx.json(data));
   });
 }

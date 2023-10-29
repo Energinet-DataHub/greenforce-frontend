@@ -16,6 +16,7 @@
  */
 import { authMocks } from "./lib/auth";
 import { certificatesMocks } from "./lib/certificates";
+import { claimsMocks } from "./lib/claims";
 import { meteringPointsMocks } from "./lib/metering-points";
 import { transferMocks } from "./lib/transfer";
 
@@ -23,5 +24,6 @@ export const mocks = [
   authMocks,
   meteringPointsMocks,
   certificatesMocks,
+  claimsMocks,
   transferMocks,
 ];

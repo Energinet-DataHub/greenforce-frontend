@@ -25,6 +25,8 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
 
 import { EoMeteringPointsTableComponent } from './eo-metering-point-table.component';
+import { MeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
+import { MeteringPointType } from 'libs/eo/metering-points/domain/metering-point';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -100,7 +102,7 @@ export class EoMeteringPointsShellComponent implements OnInit {
   ngOnInit(): void {
     this.meteringPointStore.loadMeteringPoints();
 
-    this.contractError$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((error) => {
+    this.contractError$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((error: unknown) => {
       if (error) {
         this.toastService.open({
           message: 'Issue encountered. Please try again or reload the page.',
@@ -110,12 +112,12 @@ export class EoMeteringPointsShellComponent implements OnInit {
     });
   }
 
-  onToggleContract(event: { checked: boolean; gsrn: string }) {
-    const { checked, gsrn } = event;
+  onToggleContract(event: { checked: boolean; gsrn: string, type: MeteringPointType }) {
+    const { checked, gsrn, type } = event;
     if (checked) {
-      this.meteringPointStore.createCertificateContract(gsrn);
+      this.meteringPointStore.createCertificateContract(gsrn, type);
     } else {
-      this.meteringPointStore.deactivateCertificateContract(gsrn);
+      this.meteringPointStore.deactivateCertificateContract(gsrn, type);
     }
   }
 }

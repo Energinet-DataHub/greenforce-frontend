@@ -22,6 +22,10 @@ interface MeteringPointsResponse {
   meteringPoints: [];
 }
 
+interface StartClaimResponse {
+  "subjectId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -30,6 +34,16 @@ export class EoMeteringPointsService {
 
   getMeteringPoints() {
     return this.http.get<MeteringPointsResponse>(`${this.#apiBase}/meteringpoints`);
+  }
+
+  // TODO: MOVE CLAIM PROCESS TO OWN SERVICE
+  startClaim() {
+    return this.http.post<StartClaimResponse>(`${this.#apiBase}/claims/start-claim-process`, {});
+  }
+
+  // TODO: MOVE CLAIM PROCESS TO OWN SERVICE
+  stopClaim() {
+    return this.http.delete(`${this.#apiBase}/claims/stop-claim-process`);
   }
 
   constructor(
