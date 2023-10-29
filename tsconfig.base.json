@@ -275,6 +275,15 @@
       "@energinet-datahub/eo/certificates/shell": [
         "libs/eo/certificates/shell/index.ts"
       ],
+      "@energinet-datahub/eo/claims/data-access-api": [
+        "libs/eo/claims/data-access-api/index.ts"
+      ],
+      "@energinet-datahub/eo/claims/feature-overview": [
+        "libs/eo/claims/feature-overview/index.ts"
+      ],
+      "@energinet-datahub/eo/claims/shell": [
+        "libs/eo/claims/shell/index.ts"
+      ],
       "@energinet-datahub/eo/connections/data-access-api": [
         "libs/eo/connections/data-access-api/index.ts"
       ],
