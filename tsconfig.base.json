@@ -322,6 +322,9 @@
       "@energinet-datahub/eo/shared/atomic-design/ui-organisms": [
         "libs/eo/shared/atomic-design/ui-organisms/src/index.ts"
       ],
+      "@energinet-datahub/eo/shared/data-access-mocks": [
+        "libs/eo/shared/data-access-mocks/src/index.ts"
+      ],
       "@energinet-datahub/eo/shared/environments": [
         "libs/eo/shared/environments/src/index.ts"
       ],

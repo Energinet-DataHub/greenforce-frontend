@@ -31,3 +31,16 @@ import 'zone.js/plugins/zone-error';
 export const environment: EoEnvironment = {
   production: false,
 };
+
+/**
+ * Mock Service Worker
+ */
+import { setupServiceWorker } from '@energinet-datahub/gf/util-msw';
+import { loadEoApiEnvironment } from './api-environment/load-eo-api-environment';
+
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { mocks } from '@energinet-datahub/eo/shared/data-access-mocks';
+
+loadEoApiEnvironment('eo-api-environment.local.json').then((env) => {
+  setupServiceWorker(env.apiBase, mocks);
+});
