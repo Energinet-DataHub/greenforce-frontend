@@ -164,7 +164,6 @@ export class EoMeteringPointsTableComponent {
     address: { accessor: (meteringPoint) => meteringPoint.address.address1 },
     unit: { accessor: (meteringPoint) => meteringPoint.type },
     source: { accessor: (meteringPoint) => meteringPoint.assetType },
-    type: { accessor: (meteringPoint) => meteringPoint.subMeterType },
     gc: {
       accessor: (meteringPoint) => {
         const itemHasActiveContract = meteringPoint.contract ? 'active' : 'enable';
