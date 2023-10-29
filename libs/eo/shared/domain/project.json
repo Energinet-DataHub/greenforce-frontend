@@ -1,0 +1,8 @@
+{
+  "name": "eo-shared-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/shared/domain",
+  "prefix": "eo",
+  "tags": ["product:eo", "domain:shared", "type:domain"]
+}

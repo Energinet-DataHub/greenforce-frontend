@@ -1,0 +1,19 @@
+{
+  "name": "eo-certificates-data-access-api",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/certificates/data-access-api",
+  "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/certificates/data-access-api/**/*.ts",
+          "libs/eo/certificates/data-access-api/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:certificates", "type:data-access"]
+}

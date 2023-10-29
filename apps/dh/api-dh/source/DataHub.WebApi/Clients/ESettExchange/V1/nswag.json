@@ -13,7 +13,7 @@
       "namespace": "Energinet.DataHub.WebApi.Clients.ESettExchange.v1",
       "className": "{controller}ESettExchangeClient_V1",
       "output": "ESettExchangeClient.cs",
-      "generateOptionalParameters": true,
+      "generateOptionalParameters": false,
       "classStyle": "Poco",
       "excludedTypeNames": [ "Stream" ],
       "additionalNamespaceUsages": [ "System.IO" ],

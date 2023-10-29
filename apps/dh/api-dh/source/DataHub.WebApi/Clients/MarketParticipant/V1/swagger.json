@@ -197,6 +197,154 @@
         }
       }
     },
+    "/actor/{actorId}/credentials": {
+      "get": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "credentialsGET",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActorCredentialsDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActorCredentialsDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActorCredentialsDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "credentialsDELETE",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/actor/{actorId}/credentials/certificate": {
+      "post": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "certificate",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "certificate": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "certificate": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/actor/{actorId}/auditlogs": {
+      "get": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "auditlogs",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorAuditLogsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorAuditLogsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorAuditLogsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/actor/{actorId}/contact": {
       "get": {
         "tags": [
@@ -1015,7 +1163,7 @@
         "tags": [
           "Organization"
         ],
-        "operationId": "auditlogs",
+        "operationId": "auditlogsAll",
         "parameters": [
           {
             "name": "organizationId",
@@ -1187,7 +1335,7 @@
         "tags": [
           "Permission"
         ],
-        "operationId": "auditlogs2",
+        "operationId": "auditlogsAll2",
         "parameters": [
           {
             "name": "permissionId",
@@ -2279,6 +2427,106 @@
   },
   "components": {
     "schemas": {
+      "ActorAuditLogDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentValue": {
+            "type": "string"
+          },
+          "previousValue": {
+            "type": "string"
+          },
+          "auditIdentityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "actorChangeType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorChangeType"
+              }
+            ]
+          }
+        }
+      },
+      "ActorCertificateCredentialsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "thumbprint": {
+            "type": "string"
+          }
+        }
+      },
+      "ActorChangeType": {
+        "type": "string",
+        "enum": [
+          "Name",
+          "Created",
+          "Status"
+        ]
+      },
+      "ActorClientSecretCredentialsDto": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "ActorContactAuditLogDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentValue": {
+            "type": "string"
+          },
+          "previousValue": {
+            "type": "string"
+          },
+          "auditIdentityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contactCategory": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContactCategory"
+              }
+            ]
+          },
+          "actorContactChangeType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorContactChangeType"
+              }
+            ]
+          }
+        }
+      },
+      "ActorContactChangeType": {
+        "type": "string",
+        "enum": [
+          "Name",
+          "Email",
+          "Phone",
+          "Created",
+          "Deleted"
+        ]
+      },
       "ActorContactDto": {
         "type": "object",
         "additionalProperties": false,
@@ -2302,6 +2550,28 @@
           }
         }
       },
+      "ActorCredentialsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "certificateCredentials": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorCertificateCredentialsDto"
+              }
+            ]
+          },
+          "clientSecretCredentials": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorClientSecretCredentialsDto"
+              }
+            ]
+          }
+        }
+      },
       "ActorDto": {
         "type": "object",
         "additionalProperties": false,
@@ -2314,9 +2584,8 @@
             "type": "string",
             "format": "uuid"
           },
-          "externalActorId": {
-            "type": "string",
-            "nullable": true
+          "status": {
+            "type": "string"
           },
           "actorNumber": {
             "allOf": [
@@ -2324,9 +2593,6 @@
                 "$ref": "#/components/schemas/ActorNumberDto"
               }
             ]
-          },
-          "status": {
-            "type": "string"
           },
           "name": {
             "allOf": [
@@ -2485,6 +2751,26 @@
           }
         }
       },
+      "ContactCategory": {
+        "type": "string",
+        "enum": [
+          "Default",
+          "Charges",
+          "ChargeLinks",
+          "ElectricalHeating",
+          "EndOfSupply",
+          "EnerginetInquiry",
+          "ErrorReport",
+          "IncorrectMove",
+          "IncorrectSwitch",
+          "MeasurementData",
+          "MeteringPoint",
+          "NetSettlement",
+          "Notification",
+          "Recon",
+          "Reminder"
+        ]
+      },
       "CreateActorContactDto": {
         "type": "object",
         "additionalProperties": false,
@@ -2625,6 +2911,24 @@
           "IndependentAggregator",
           "SerialEnergyTrader"
         ]
+      },
+      "GetActorAuditLogsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "actorAuditLogs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActorAuditLogDto"
+            }
+          },
+          "actorContactAuditLogs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActorContactAuditLogDto"
+            }
+          }
+        }
       },
       "GetActorsAssociatedWithExternalUserIdResponse": {
         "type": "object",

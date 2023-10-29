@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { EoCertificatesTableComponent } from './eo-certificates-table.component';
-import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { EoCertificatesTableComponent } from '@energinet-datahub/eo/certificates/feature-overview';
+
+import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
