@@ -17,10 +17,7 @@
 import { rest } from 'msw';
 
 export function transferMocks(apiBase: string) {
-  return [
-    getTransferAgreements(apiBase),
-    getTransferAutomationStatus(apiBase),
-  ];
+  return [getTransferAgreements(apiBase), getTransferAutomationStatus(apiBase)];
 }
 
 function getTransferAgreements(apiBase: string) {
@@ -61,7 +58,7 @@ function getTransferAgreements(apiBase: string) {
 
 function getTransferAutomationStatus(apiBase: string) {
   return rest.get(`${apiBase}/transfer-automation/status`, (req, res, ctx) => {
-    const data = {"healthy": false};
+    const data = { healthy: false };
 
     return res(ctx.status(200), ctx.json(data));
   });

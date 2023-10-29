@@ -57,7 +57,9 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   );
 
   readonly meteringPoints$ = this.select((state) => state.meteringPoints);
-  readonly consumptionMeteringPointsWithContract = this.select((state) => state.meteringPoints.filter((mp) => mp.type === 'consumption' && !!mp.contract));
+  readonly consumptionMeteringPointsWithContract = this.select((state) =>
+    state.meteringPoints.filter((mp) => mp.type === 'consumption' && !!mp.contract)
+  );
 
   private readonly setMeteringPoints = this.updater(
     (state, meteringPoints: EoMeteringPoint[]): EoMeteringPointsState => ({
@@ -153,25 +155,28 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
 
   createCertificateContract(gsrn: string, meteringPointType: MeteringPointType) {
     this.toggleContractLoading(gsrn);
-    this.certService.createContract(gsrn).pipe(
-      catchError((error) => {
-        this.patchState({ contractError: error });
-        this.toggleContractLoading(gsrn);
-        return EMPTY;
-      }),
-      switchMap((contract) => {
-        this.setContract(contract);
-        this.toggleContractLoading(gsrn);
-        this.patchState({ contractError: null });
+    this.certService
+      .createContract(gsrn)
+      .pipe(
+        catchError((error) => {
+          this.patchState({ contractError: error });
+          this.toggleContractLoading(gsrn);
+          return EMPTY;
+        }),
+        switchMap((contract) => {
+          this.setContract(contract);
+          this.toggleContractLoading(gsrn);
+          this.patchState({ contractError: null });
 
-        return meteringPointType === 'consumption' ? this.service.startClaim() : EMPTY;
-      })
-    ).subscribe({
-      error: (error) => {
-        // TODO: WHAT SHOULD HAPPEN IF START CLAIM FAILS?
-        console.log('ERROR!!!', error);
-      }
-    });
+          return meteringPointType === 'consumption' ? this.service.startClaim() : EMPTY;
+        })
+      )
+      .subscribe({
+        error: (error) => {
+          // TODO: WHAT SHOULD HAPPEN IF START CLAIM FAILS?
+          console.log('ERROR!!!', error);
+        },
+      });
   }
 
   deactivateCertificateContract(gsrn: string, meteringPointType: MeteringPointType): void {
@@ -189,7 +194,10 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
           this.toggleContractLoading(gsrn);
           this.patchState({ contractError: null });
 
-          if(meteringPointType === 'consumption' && consumptionMeteringPointsWithContract.length <= 1) {
+          if (
+            meteringPointType === 'consumption' &&
+            consumptionMeteringPointsWithContract.length <= 1
+          ) {
             this.service.stopClaim().subscribe(); // TODO: WHAT SHOULD HAPPEN IF STOP CLAIM FAILS?
           }
         },

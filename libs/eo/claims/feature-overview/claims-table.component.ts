@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { NgIf } from '@angular/common';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
@@ -30,12 +25,7 @@ import { Claim } from '../data-access-api/claims.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    WATT_TABLE,
-    WattPaginatorComponent,
-    WattEmptyStateComponent,
-    NgIf,
-  ],
+  imports: [WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent, NgIf],
   standalone: true,
   selector: 'eo-claims-table',
   styles: [

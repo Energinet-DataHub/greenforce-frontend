@@ -14,14 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  OnInit,
-  Signal,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, OnInit, Signal, computed, inject, signal } from '@angular/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -102,9 +95,7 @@ export class EoClaimsComponent implements OnInit {
     hasError: false,
     data: null,
   });
-  protected amountOfclaims: Signal<number> = computed(
-    () => this.claims().data?.length || 0
-  );
+  protected amountOfclaims: Signal<number> = computed(() => this.claims().data?.length || 0);
 
   ngOnInit(): void {
     this.loadclaims();
