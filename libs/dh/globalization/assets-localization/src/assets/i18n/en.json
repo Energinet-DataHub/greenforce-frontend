@@ -609,6 +609,11 @@
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
             "gridArea": "Grid area"
           },
+          "certificate": {
+            "tabLabel": "Certificate",
+            "thumbprint": "Thumbprint",
+            "expiryDate": "Expiry date"
+          },
           "history": {
             "tabLabel": "History",
             "changeTypes": {
