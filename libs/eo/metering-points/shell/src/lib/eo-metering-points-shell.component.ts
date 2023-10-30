@@ -23,10 +23,9 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
+import { MeteringPointType } from '@energinet-datahub/eo/metering-points/domain';
 
 import { EoMeteringPointsTableComponent } from './eo-metering-point-table.component';
-import { MeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
-import { MeteringPointType } from 'libs/eo/metering-points/domain/metering-point';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

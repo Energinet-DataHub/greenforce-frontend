@@ -34,8 +34,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { EoMeteringPoint, MeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
-import { MeteringPointType } from 'libs/eo/metering-points/domain/metering-point';
+import { EoMeteringPoint, MeteringPointType } from '@energinet-datahub/eo/metering-points/domain';
 
 @Component({
   standalone: true,

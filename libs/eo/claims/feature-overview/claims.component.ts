@@ -25,10 +25,9 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EoClaimsService } from '@energinet-datahub/eo/claims/data-access-api';
+import { EoClaimsService, Claim } from '@energinet-datahub/eo/claims/data-access-api';
 
 import { EoClaimsTableComponent } from './claims-table.component';
-import { Claim } from '../data-access-api/claims.service';
 
 @Component({
   standalone: true,
