@@ -16,6 +16,6 @@
  */
 import { Routes } from '@angular/router';
 
-import { EoConnectionsComponent } from '../feature-overview/connections.component';
+import { EoConnectionsComponent } from '@energinet-datahub/eo/connections/feature-overview';
 
 export const eoConnectionsRoutes: Routes = [{ path: '', component: EoConnectionsComponent }];

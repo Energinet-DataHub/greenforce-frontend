@@ -603,6 +603,11 @@
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
             "gridArea": "Netområde"
           },
+          "certificate": {
+            "tabLabel": "Certifikat",
+            "thumbprint": "Thumbprint",
+            "expiryDate": "Udløbsdato"
+          },
           "history": {
             "tabLabel": "History",
             "changeTypes": {
