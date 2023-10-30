@@ -206,7 +206,7 @@
       "extends": ["plugin:@ngrx/component-store-strict"]
     },
     {
-      "files": ["*.html"],
+      "files": ["apps/**/app/**/*.html", "libs/**/*.html"],
       "parser": "@angular-eslint/template-parser",
       "rules": {
         "@angular-eslint/template/prefer-self-closing-tags": ["error"]
