@@ -38,7 +38,7 @@ import { VaterStackComponent, VaterFlexComponent } from '@energinet-datahub/watt
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import {
   DhDropdownTranslatorDirective,
-  DhEnumToWattDropdownOptions,
+  dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
@@ -125,7 +125,7 @@ export class DhWholesaleRequestCalculationComponent {
   private _transloco = inject(TranslocoService);
   private _toastService = inject(WattToastService);
   private _destroyRef = inject(DestroyRef);
-  private _selectedEicFunction!: EicFunction;
+  private _selectedEicFunction: EicFunction | null | undefined;
 
   maxDate = subDays(new Date(), 5);
   minDate = subYears(new Date(), 3);
@@ -148,7 +148,7 @@ export class DhWholesaleRequestCalculationComponent {
   balanceResponsibleOptions: WattDropdownOptions = [];
 
   meteringPointOptions: WattDropdownOptions = [];
-  progressTypeOptions = DhEnumToWattDropdownOptions(EdiB2CProcessType);
+  progressTypeOptions = dhEnumToWattDropdownOptions(EdiB2CProcessType);
 
   selectedActorQuery = this._apollo.watchQuery({
     useInitialLoading: true,
@@ -192,7 +192,7 @@ export class DhWholesaleRequestCalculationComponent {
 
         const exclude = this.getExcludedMeterpointTypes(this._selectedEicFunction);
 
-        this.meteringPointOptions = DhEnumToWattDropdownOptions(
+        this.meteringPointOptions = dhEnumToWattDropdownOptions(
           ExtendMeteringPoint,
           exclude,
           'asc'
@@ -225,13 +225,6 @@ export class DhWholesaleRequestCalculationComponent {
         }
       },
     });
-  }
-
-  private getExcludedMeterpointTypes(selectedEicFunction: EicFunction | null | undefined) {
-    return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
-      selectedEicFunction === EicFunction.EnergySupplier
-      ? [MeteringPointType.Exchange, MeteringPointType.TotalConsumption]
-      : [];
   }
 
   handleResponse(queryResult: MutationResult<graphql.RequestCalculationMutation> | null): void {
@@ -299,5 +292,12 @@ export class DhWholesaleRequestCalculationComponent {
         catchError(() => of(null))
       )
       .subscribe((res) => this.handleResponse(res));
+  }
+
+  private getExcludedMeterpointTypes(selectedEicFunction: EicFunction | null | undefined) {
+    return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
+      selectedEicFunction === EicFunction.EnergySupplier
+      ? [MeteringPointType.Exchange, MeteringPointType.TotalConsumption]
+      : [];
   }
 }

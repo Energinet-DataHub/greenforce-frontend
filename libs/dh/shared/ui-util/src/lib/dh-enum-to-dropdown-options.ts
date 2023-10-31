@@ -16,12 +16,10 @@
  */
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
-type Sort = 'asc' | 'desc';
-
-export function DhEnumToWattDropdownOptions<T extends object>(
+export function dhEnumToWattDropdownOptions<T extends object>(
   enumObj: T,
   exclude?: string[],
-  sort: Sort = 'asc'
+  sort: 'asc' | 'desc' = 'asc'
 ) {
   return Object.keys(enumObj)
     .map((key) => ({

@@ -32,7 +32,10 @@ export class DhDropdownTranslatorDirective implements OnInit {
 
   ngOnInit(): void {
     this.host.filteredOptions$
-      .pipe(withLatestFrom(this.trans.selectTranslateObject<object>(this.translate)))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        withLatestFrom(this.trans.selectTranslateObject<object>(this.translate))
+      )
       .subscribe(([, keys]) => {
         this.setTranslation(keys);
       });
