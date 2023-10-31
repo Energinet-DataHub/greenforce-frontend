@@ -1,3 +1,15 @@
-<ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.create'">
-  <watt-modal [size]="'small'" [title]="t('create')"></watt-modal>
+<ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
+  <watt-modal [size]="'small'" [title]="t('createHeader')">
+    <watt-stepper class="watt-modal-content--full-width" [linear]="true">
+      <watt-stepper-step [stepControl]="organizationForm" [title]="t('organization')">
+        <watt-dropdown
+          [options]="organizationOptions"
+          [label]="'organization'"
+          [formControl]="organizationForm.controls.orgId"
+        />
+      </watt-stepper-step>
+      <watt-stepper-step [title]="t('marketParty')"> marketParty </watt-stepper-step>
+      <watt-stepper-step [title]="t('useradmin')"> userAdmin </watt-stepper-step>
+    </watt-stepper>
+  </watt-modal>
 </ng-container>

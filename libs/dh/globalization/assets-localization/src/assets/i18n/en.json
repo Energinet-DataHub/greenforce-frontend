@@ -536,8 +536,9 @@
     },
     "actor": {
       "create": {
-        "editHeader": "Edit market party",
-        "createHeader": "Create market party",
+        "marketParty": "Market party",
+        "createHeader": "New market party",
+        "organization": "Organization",
         "errorToastLabel": "Error",
         "masterDataTabHeader": "Master data",
         "meteringPointTypesHeader": "Type of metering points",

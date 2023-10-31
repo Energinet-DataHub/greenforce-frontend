@@ -529,9 +529,10 @@
     },
     "actor": {
       "create": {
-        "editHeader": "Redigér aktør",
-        "createHeader": "Opret aktør",
-        "errorToastLabel": "Fejl",
+        "marketParty": "Aktør",
+        "createHeader": "Ny aktør",
+        "organization": "Organisation",
+        "useradmin": "Brugeradministrator",
         "masterDataTabHeader": "Stamdata",
         "meteringPointTypesHeader": "Målepunktstyper",
         "gridAreasHeader": "Netområder",
