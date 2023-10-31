@@ -145,7 +145,6 @@ export class DhWholesaleRequestCalculationComponent {
 
   gridAreaOptions: WattDropdownOptions = [];
   energySupplierOptions: WattDropdownOptions = [];
-  balanceResponsibleOptions: WattDropdownOptions = [];
 
   meteringPointOptions: WattDropdownOptions = [];
   progressTypeOptions = dhEnumToWattDropdownOptions(EdiB2CProcessType);
@@ -211,13 +210,6 @@ export class DhWholesaleRequestCalculationComponent {
           const { actorsForEicFunction } = result.data;
           this.energySupplierOptions = actorsForEicFunction
             .filter((actor) => actor.marketRole === EicFunction.EnergySupplier)
-            .map((actor) => ({
-              displayValue: actor.displayValue,
-              value: actor.value,
-            }));
-
-          this.balanceResponsibleOptions = actorsForEicFunction
-            .filter((actor) => actor.marketRole === EicFunction.BalanceResponsibleParty)
             .map((actor) => ({
               displayValue: actor.displayValue,
               value: actor.value,
