@@ -20,7 +20,7 @@ limitations under the License.
     *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.userRoles'"
   >
     <div *ngIf="isLoading" class="spinner">
-      <watt-spinner></watt-spinner>
+      <watt-spinner />
     </div>
 
     <ng-container *ngIf="!isLoading">
@@ -51,7 +51,7 @@ limitations under the License.
         icon="custom-power"
         [title]="'shared.error.title' | transloco"
         [message]="'shared.error.message' | transloco"
-      ></watt-empty-state>
+      />
 
       <ng-container *rxLet="userRoles.length as userRoleCount">
         <h4 *ngIf="userRoleCount === 0" class="no-results-text">

@@ -17,7 +17,7 @@ limitations under the License.
 <ng-container *rxLet="loading as isLoading">
   <watt-card variant="solid" *transloco="let t; read: 'admin.userManagement.tabs.history'">
     <div *ngIf="isLoading" class="spinner">
-      <watt-spinner></watt-spinner>
+      <watt-spinner />
     </div>
 
     <ng-container *ngIf="!isLoading">
@@ -55,7 +55,7 @@ limitations under the License.
         icon="custom-power"
         [title]="'shared.error.title' | transloco"
         [message]="'shared.error.message' | transloco"
-      ></watt-empty-state>
+      />
 
       <h4 *ngIf="permissionLogs.length === 0" class="no-results-text">
         {{ t("noEntries") }}

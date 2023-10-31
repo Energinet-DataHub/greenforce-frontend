@@ -52,19 +52,17 @@ import { EoDashboardLinksComponent } from './eo-dashboard-links.component';
   template: `
     <div class="shell-container">
       <div>
-        <eo-dashboard-chart-card class="watt-space-stack-l"></eo-dashboard-chart-card>
-        <eo-dashboard-links class="watt-space-stack-l"></eo-dashboard-links>
+        <eo-dashboard-chart-card class="watt-space-stack-l" />
+        <eo-dashboard-links class="watt-space-stack-l" />
       </div>
       <div>
-        <eo-dashboard-emissions-card class="watt-space-stack-l"></eo-dashboard-emissions-card>
-        <eo-dashboard-hourly-declaration
-          class="watt-space-stack-l"
-        ></eo-dashboard-hourly-declaration>
-        <eo-dashboard-get-data></eo-dashboard-get-data>
+        <eo-dashboard-emissions-card class="watt-space-stack-l" />
+        <eo-dashboard-hourly-declaration class="watt-space-stack-l" />
+        <eo-dashboard-get-data />
       </div>
     </div>
     <eo-inline-message type="warning">
-      <watt-icon name="custom-primary-info" size="l"></watt-icon>
+      <watt-icon name="custom-primary-info" size="l" />
       <p>
         The Energy Origin Platform is <strong>under development</strong> and new functionalities
         will be released continuously. The first release of the platform only offers

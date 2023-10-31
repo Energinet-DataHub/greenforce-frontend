@@ -33,7 +33,7 @@ limitations under the License.
               $implicit: assignableUserRoles.length
             }
           "
-        ></ng-container>
+        />
       </watt-card-title>
 
       <div class="user-roles-table-container">
@@ -67,7 +67,7 @@ limitations under the License.
   </ng-container>
 
   <ng-template #suspense>
-    <watt-spinner></watt-spinner>
+    <watt-spinner />
   </ng-template>
 
   <ng-template #error>
@@ -75,7 +75,7 @@ limitations under the License.
       icon="custom-power"
       [title]="'shared.error.title' | transloco"
       [message]="'shared.error.message' | transloco"
-    ></watt-empty-state>
+    />
   </ng-template>
 
   <ng-template #userRolesHeadline let-userRolesCount>

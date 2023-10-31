@@ -40,23 +40,23 @@ limitations under the License.
             [icon]="organizationFailedToLoad ? 'custom-power' : 'cancel'"
             size="small"
             [title]="organizationFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
-          ></watt-empty-state>
+          />
           <watt-card variant="solid" *ngIf="!isLoadingOrganization && organization">
             <watt-description-list variant="stack">
               <watt-description-list-item
                 [label]="t('tabs.masterData.businessRegisterIdentifier')"
                 [value]="organization.businessRegisterIdentifier"
-              ></watt-description-list-item>
+              />
 
               <watt-description-list-item
                 [label]="t('tabs.masterData.name')"
                 [value]="organization.name"
-              ></watt-description-list-item>
+              />
 
               <watt-description-list-item
                 [label]="t('tabs.masterData.domain')"
                 [value]="organization.domain"
-              ></watt-description-list-item>
+              />
             </watt-description-list>
           </watt-card>
         </watt-tab>
@@ -69,7 +69,7 @@ limitations under the License.
             [icon]="actorsFailedToLoad ? 'custom-power' : 'cancel'"
             size="small"
             [title]="actorsFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
-          ></watt-empty-state>
+          />
           <watt-card variant="solid" *ngIf="actors.data.length > 0 && !isLoadingActors">
             <watt-table
               [dataSource]="actors"
@@ -98,7 +98,7 @@ limitations under the License.
             [icon]="actorsFailedToLoad ? 'custom-power' : 'cancel'"
             size="small"
             [title]="auditLogFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
-          ></watt-empty-state>
+          />
           <watt-card variant="solid" *ngIf="auditLog.data.length > 0 && !isLoadingAuditLog">
             <watt-table
               [dataSource]="auditLog"

@@ -41,9 +41,9 @@ limitations under the License.
     </ng-container>
 
     <ng-container *wattTableCell="columns.status; header: t('status'); let element">
-      <dh-user-status [status]="element.status"></dh-user-status>
+      <dh-user-status [status]="element.status" />
     </ng-container>
   </watt-table>
 </ng-container>
 
-<dh-user-drawer (closed)="onClosed()"></dh-user-drawer>
+<dh-user-drawer (closed)="onClosed()" />

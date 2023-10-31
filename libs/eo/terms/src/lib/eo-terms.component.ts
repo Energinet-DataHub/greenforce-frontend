@@ -73,7 +73,7 @@ interface VersionResponse {
     `,
   ],
   template: `
-    <eo-header></eo-header>
+    <eo-header />
 
     <div class="content-box watt-space-inset-l">
       <div class="eo-layout-centered-content">
@@ -83,7 +83,7 @@ interface VersionResponse {
               class="watt-space-stack-l"
               [policy]="privacyPolicy$ | async"
               [hasError]="loadingPrivacyPolicyFailed"
-            ></eo-privacy-policy>
+            />
           </eo-scroll-view>
           <div class="watt-space-stack-m">
             <watt-checkbox
@@ -110,7 +110,7 @@ interface VersionResponse {
       </div>
     </div>
 
-    <eo-footer></eo-footer>
+    <eo-footer />
   `,
 })
 export class EoTermsComponent {

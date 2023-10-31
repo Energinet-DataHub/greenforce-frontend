@@ -91,8 +91,7 @@ import { EoInviteConnectionService } from '@energinet-datahub/eo/connections/dat
         icon="power"
         title="An unexpected error occured"
         message="We are sorry, we could not generate your invitation link. Please try again later."
-      >
-      </watt-empty-state>
+      />
     </ng-template>
   `,
 })
