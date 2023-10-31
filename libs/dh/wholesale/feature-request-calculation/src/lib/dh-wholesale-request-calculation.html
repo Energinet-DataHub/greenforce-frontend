@@ -64,13 +64,6 @@ limitations under the License.
           [formControl]="form.controls.energySupplierId"
           [options]="energySupplierOptions"
         />
-
-        <watt-dropdown
-          *ngIf="showBalanceResponsibleDropdown()"
-          [label]="t('balanceResponsible')"
-          [formControl]="form.controls.balanceResponsibleId"
-          [options]="balanceResponsibleOptions"
-        />
       </vater-stack>
       <vater-stack direction="column" align="flex-end">
         <watt-button variant="primary" type="submit">{{t('request')}}</watt-button>
