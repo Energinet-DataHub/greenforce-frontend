@@ -206,8 +206,8 @@
       "extends": ["plugin:@ngrx/component-store-strict"]
     },
     {
-      "files": ["apps/**/app/**/*.html", "libs/**/*.html"],
-      "parser": "@angular-eslint/template-parser",
+      "files": ["*.component.html"],
+      "extends": ["plugin:@nx/angular-template"],
       "rules": {
         "@angular-eslint/template/prefer-self-closing-tags": ["error"]
       }
