@@ -1133,8 +1133,9 @@
         "thirdcorrection": "Tredje korrektion"
       },
       "meteringPointTypes": {
+        "All": "Alle",
         "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
-        "TOTAL_CONSUMPTION": "Forbrug (time- og flexafregning)",
+        "TOTAL_CONSUMPTION": "Total forbrug",
         "PRODUCTION": "Produktion",
         "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
         "EXCHANGE": "Udveksling"

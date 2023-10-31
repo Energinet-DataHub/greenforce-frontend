@@ -34,6 +34,7 @@ limitations under the License.
           [range]="true"
           [label]="t('period')"
           [max]="maxDate"
+          [min]="minDate"
           [formControl]="form.controls.period"
         >
           <watt-field-error *ngIf="form.controls.period.errors?.maxOneMonthDateRange">
@@ -53,6 +54,7 @@ limitations under the License.
           [label]="t('meteringPointType')"
           [formControl]="form.controls.meteringPointType"
           [options]="meteringPointOptions"
+          [showResetOption]="false"
           dhDropdownTranslator
         />
 

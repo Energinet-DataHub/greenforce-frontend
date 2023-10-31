@@ -18,6 +18,7 @@ import { DestroyRef, Directive, Input, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { TranslocoService } from '@ngneat/transloco';
+import { withLatestFrom } from 'rxjs';
 
 @Directive({
   standalone: true,
@@ -26,18 +27,32 @@ import { TranslocoService } from '@ngneat/transloco';
 export class DhDropdownTranslatorDirective implements OnInit {
   @Input({ required: true }) translate = '';
   destroyRef = inject(DestroyRef);
+
   constructor(private trans: TranslocoService, private host: WattDropdownComponent) {}
+
   ngOnInit(): void {
+    this.host.filteredOptions$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        withLatestFrom(this.trans.selectTranslateObject<object>(this.translate))
+      )
+      .subscribe(([, keys]) => {
+        this.setTranslation(keys);
+      });
+
     this.trans
-      .selectTranslateObject(this.translate)
+      .selectTranslateObject<object>(this.translate)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (keys) => {
-          this.host.options = this.host.options.map((option) => ({
-            ...option,
-            displayValue: keys[option.value],
-          }));
+          this.setTranslation(keys);
         },
       });
+  }
+
+  private setTranslation(keys: object): void {
+    this.host.options.forEach((option) => {
+      option.displayValue = keys[option.value as keyof typeof keys];
+    });
   }
 }
