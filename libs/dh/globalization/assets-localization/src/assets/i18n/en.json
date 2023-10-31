@@ -1139,6 +1139,7 @@
         "thirdcorrection": "Third correction"
       },
       "meteringPointTypes": {
+        "All": "All",
         "FLEX_CONSUMPTION": "Flex consumption",
         "TOTAL_CONSUMPTION": "Total consumption",
         "PRODUCTION": "Production",
