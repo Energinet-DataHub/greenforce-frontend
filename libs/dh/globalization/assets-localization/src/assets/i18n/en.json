@@ -608,6 +608,32 @@
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
             "gridArea": "Grid area"
+          },
+          "certificate": {
+            "tabLabel": "Certificate",
+            "thumbprint": "Thumbprint",
+            "expiryDate": "Expiry date"
+          },
+          "history": {
+            "tabLabel": "History",
+            "changeTypes": {
+              "NAME": "<b>{{ changedByUserName }}</b> changed the name of the actor to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b>",
+              "NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the name of the actor to <b>{{ currentValue }}</b> from <b>\"\"</b>",
+              "STATUS": "<b>{{ changedByUserName }}</b> changed the status of the actor to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b>",
+              "STATUS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the status of the actor to <b>{{ currentValue }}</b> from <b>\"\"</b>",
+              "CREATED": "<b>{{ changedByUserName }}</b> Created the actor",
+              "CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> Created the actor",
+              "CONTACT_NAME": "<b>{{ changedByUserName }}</b> changed the name of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ contactCategory }}</b>",
+              "CONTACT_EMAIL": "<b>{{ changedByUserName }}</b> changed the email of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ contactCategory }}</b>",
+              "CONTACT_PHONE": "<b>{{ changedByUserName }}</b> changed the phone of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ contactCategory }}</b>",
+              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the name of the contact to <b>{{ currentValue }}</b> from <b>\"\"</b> on the contact category <b>{{ contactCategory }}</b>",
+              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the email of the contact to <b>{{ currentValue }}</b> from <b>\"\"</b> on the contact category <b>{{ contactCategory }}</b>",
+              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the phone of the contact to <b>{{ currentValue }}</b> from <b>\"\"</b> on the contact category <b>{{ contactCategory }}</b>",
+              "CONTACT_CREATED": "<b>{{ changedByUserName }}</b> created a contact of the <b>{{ contactCategory }}</b> category",
+              "CONTACT_CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> created a contact of the <b>{{ contactCategory }}</b> category",
+              "CONTACT_DELETED": "<b>{{ changedByUserName }}</b> deleted a contact of the <b>{{ category }}</b> contactCategory",
+              "CONTACT_DELETED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> deleted a contact of the <b>{{ contactCategory }}</b> category"
+            }
           }
         }
       },
@@ -837,9 +863,7 @@
     },
     "gridAreas": {
       "topBarTitle": "Grid areas",
-      "createGridArea": "Create",
-      "editGridArea": "Edit",
-      "noGridAreas": "No gridareas found",
+      "noGridAreas": "No grid areas found",
       "columns": {
         "name": "Grid area",
         "code": "Grid area number",
@@ -848,35 +872,6 @@
         "priceAreaCode": "Price area",
         "validFrom": "Valid from",
         "validTo": "Valid to"
-      },
-      "detailsHeader": {
-        "code": "Grid area number",
-        "actorId": "Market party id",
-        "fullFlexDate": "Full flex date",
-        "priceAreaCode": "Price area",
-        "lossMeteringPoint": "Grid loss metering point",
-        "correctionMeteringPoint": "Correction metering point",
-        "validFrom": "Valid from",
-        "validTo": "Valid to"
-      },
-      "detailsAuditLog": {
-        "time": "Time",
-        "change": "Change",
-        "changes": "Changes",
-        "noResultsFound": "No results",
-        "fields": {
-          "name": "Grid area name"
-        },
-        "unknown": "Unknown",
-        "messageKey": "<strong>{{ userDisplayName }}</strong> changed <strong>{{ field }}</strong> to <strong>{{ newValue }}</strong>"
-      },
-      "changeGridArea": {
-        "gridAreaName": "Grid area name",
-        "cancel": "Cancel",
-        "saveChanges": "Save changes",
-        "editGridArea": "Edit",
-        "editGridAreaModalTitle": "Edit grid area",
-        "editGridAreaModalCloseLabel": "Close"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
@@ -1144,6 +1139,7 @@
         "thirdcorrection": "Third correction"
       },
       "meteringPointTypes": {
+        "All": "All",
         "FLEX_CONSUMPTION": "Flex consumption",
         "TOTAL_CONSUMPTION": "Total consumption",
         "PRODUCTION": "Production",

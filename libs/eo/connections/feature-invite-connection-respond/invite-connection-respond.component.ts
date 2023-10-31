@@ -28,6 +28,7 @@ import {
   signal,
 } from '@angular/core';
 import { NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault, NgTemplateOutlet } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -39,10 +40,9 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import {
   EoInviteConnectionService,
   InviteConnectionResponse,
-} from '../data-access-api/invite-connection.service';
-import { Router } from '@angular/router';
-import { EoConnectionWithName } from '../data-access-api/connections.service';
-import { EoCvrService } from '../data-access-api/cvr.service';
+  EoConnectionWithName,
+  EoCvrService,
+} from '@energinet-datahub/eo/connections/data-access-api';
 
 @Component({
   selector: 'eo-invite-connection-repsond',
@@ -66,7 +66,6 @@ import { EoCvrService } from '../data-access-api/cvr.service';
       title=""
       [loading]="isLoading()"
       loadingMessage="Please wait while we load the invitation"
-      size="small"
       closeLabel="Close modal"
       (closed)="onClosed()"
       *ngIf="isOpen()"

@@ -601,6 +601,32 @@
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
             "gridArea": "Netområde"
+          },
+          "certificate": {
+            "tabLabel": "Certifikat",
+            "thumbprint": "Thumbprint",
+            "expiryDate": "Udløbsdato"
+          },
+          "history": {
+            "tabLabel": "History",
+            "changeTypes": {
+              "NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
+              "NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
+              "STATUS": "<b>{{ changedByUserName }}</b> ændrede status på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
+              "STATUS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede status på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
+              "CREATED": "<b>{{ changedByUserName }}</b> oprettede aktøren",
+              "CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> oprettede aktøren",
+              "CONTACT_NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_EMAIL": "<b>{{ changedByUserName }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_PHONE": "<b>{{ changedByUserName }}</b> ændrede telefonnummer på kontakten fra <b>{{ currentValue }}</b> til <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b> fra <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b> fra <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede telefonnummer på kontakten fra <b>{{ currentValue }}</b> til <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_CREATED": "<b>{{ changedByUserName }}</b> oprettede en kontakt i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_DELETED": "<b>{{ changedByUserName }}</b> slettede en kontakt i kategorien <b>{{ contactCategory }}</b> category",
+              "CONTACT_CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> oprettede en kontakt i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_DELETED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> slettede en kontakt i kategorien <b>{{ contactCategory }}</b> category"
+            }
           }
         }
       },
@@ -829,8 +855,6 @@
     },
     "gridAreas": {
       "topBarTitle": "Netområder",
-      "createGridArea": "Opret",
-      "editGridArea": "Rediger",
       "noGridAreas": "Ingen netområder fundet",
       "columns": {
         "name": "Netområde",
@@ -840,35 +864,6 @@
         "priceAreaCode": "Prisområde",
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til"
-      },
-      "detailsHeader": {
-        "code": "Netområde nr.",
-        "actorId": "Aktør id",
-        "fullFlexDate": "Overgang til fuld flex",
-        "priceAreaCode": "Prisområde",
-        "lossMeteringPoint": "Nettabsmålepunkt",
-        "correctionMeteringPoint": "Systemkorrektionsmålepunkt",
-        "validFrom": "Gyldig fra",
-        "validTo": "Gyldig til"
-      },
-      "detailsAuditLog": {
-        "time": "Tid",
-        "change": "Ændring",
-        "changes": "Ændringer",
-        "noResultsFound": "Ingen resultater",
-        "fields": {
-          "name": "Netområde navn"
-        },
-        "unknown": "Ukendt",
-        "messageKey": "<strong>{{ userDisplayName }}</strong> ændrede <strong>{{ field }}</strong> til <strong>{{ newValue }}</strong>"
-      },
-      "changeGridArea": {
-        "gridAreaName": "Netområde navn",
-        "cancel": "Fortryd",
-        "saveChanges": "Gem ændringer",
-        "editGridArea": "Rediger",
-        "editGridAreaModalTitle": "Rediger netområde",
-        "editGridAreaModalCloseLabel": "Luk"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
@@ -1136,8 +1131,9 @@
         "thirdcorrection": "Tredje korrektion"
       },
       "meteringPointTypes": {
+        "All": "Alle",
         "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
-        "TOTAL_CONSUMPTION": "Forbrug (time- og flexafregning)",
+        "TOTAL_CONSUMPTION": "Total forbrug",
         "PRODUCTION": "Produktion",
         "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
         "EXCHANGE": "Udveksling"
