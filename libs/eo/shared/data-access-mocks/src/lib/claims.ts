@@ -23,7 +23,7 @@ export function claimsMocks(apiBase: string) {
 const id = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
 
 function postStartClaimProcess(apiBase: string) {
-  return rest.post(`${apiBase}/claims/start-claim-process`, (req, res, ctx) => {
+  return rest.post(`${apiBase}/claim-automation/start`, (req, res, ctx) => {
     const data = {
       subjectId: id,
     };
@@ -33,7 +33,7 @@ function postStartClaimProcess(apiBase: string) {
 }
 
 function delteStopClaimProcess(apiBase: string) {
-  return rest.delete(`${apiBase}/claims/stop-claim-process`, (req, res, ctx) => {
+  return rest.delete(`${apiBase}/claim-automation/stop`, (req, res, ctx) => {
     return res(ctx.status(204));
   });
 }

@@ -37,11 +37,11 @@ export class EoMeteringPointsService {
   }
 
   startClaim() {
-    return this.http.post<StartClaimResponse>(`${this.#apiBase}/claims/start-claim-process`, {});
+    return this.http.post<StartClaimResponse>(`${this.#apiBase}/claim-automation/start`, {});
   }
 
   stopClaim() {
-    return this.http.delete(`${this.#apiBase}/claims/stop-claim-process`);
+    return this.http.delete(`${this.#apiBase}/claim-automation/start`);
   }
 
   constructor(
