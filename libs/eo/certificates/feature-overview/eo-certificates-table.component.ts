@@ -50,49 +50,48 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
       [pageSizeOptions]="[10, 25, 50, 100, 250]"
       [showFirstLastButtons]="true"
       aria-label="Select page"
-    >
-      <mat-table matSort [dataSource]="dataSource">
-        <!-- Time Column -->
-        <ng-container matColumnDef="dateFrom">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Time </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{ element.dateFrom | wattDate : 'longAbbr' }}-{{ element.dateTo | wattDate : 'time' }}
-          </mat-cell>
-        </ng-container>
+    />
+    <mat-table matSort [dataSource]="dataSource">
+      <!-- Time Column -->
+      <ng-container matColumnDef="dateFrom">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Time </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.dateFrom | wattDate : 'longAbbr' }}-{{ element.dateTo | wattDate : 'time' }}
+        </mat-cell>
+      </ng-container>
 
-        <!-- GSRN Column -->
-        <ng-container matColumnDef="gsrn">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Metering Point </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.gsrn }}</mat-cell>
-        </ng-container>
+      <!-- GSRN Column -->
+      <ng-container matColumnDef="gsrn">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Metering Point </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.gsrn }}</mat-cell>
+      </ng-container>
 
-        <!-- Quantity Column -->
-        <ng-container matColumnDef="quantity">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Amount </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.quantity.toLocaleString() }} Wh </mat-cell>
-        </ng-container>
+      <!-- Quantity Column -->
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Amount </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.quantity.toLocaleString() }} Wh </mat-cell>
+      </ng-container>
 
-        <!-- Action column -->
-        <ng-container matColumnDef="action">
-          <mat-header-cell *matHeaderCellDef />
-          <mat-cell *matCellDef="let element"
-            ><h4>
-              <a class="link" routerLink="/${eoCertificatesRoutePath}/{{ element.id }}">
-                View certificate
-              </a>
-            </h4>
-          </mat-cell>
-        </ng-container>
+      <!-- Action column -->
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef />
+        <mat-cell *matCellDef="let element"
+          ><h4>
+            <a class="link" routerLink="/${eoCertificatesRoutePath}/{{ element.id }}">
+              View certificate
+            </a>
+          </h4>
+        </mat-cell>
+      </ng-container>
 
-        <!-- No data to show -->
-        <ng-container *matNoDataRow>
-          You do not have any certificates to show right now.
-        </ng-container>
+      <!-- No data to show -->
+      <ng-container *matNoDataRow>
+        You do not have any certificates to show right now.
+      </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns" />
-        <mat-row *matRowDef="let row; columns: displayedColumns" />
-      </mat-table>
-    </mat-paginator>
+      <mat-header-row *matHeaderRowDef="displayedColumns" />
+      <mat-row *matRowDef="let row; columns: displayedColumns" />
+    </mat-table>
   `,
 })
 export class EoCertificatesTableComponent implements AfterViewInit {
