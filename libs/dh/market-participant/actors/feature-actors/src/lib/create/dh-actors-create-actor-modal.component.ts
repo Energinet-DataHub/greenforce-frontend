@@ -1,4 +1,4 @@
-import { Component, DestroyRef, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -40,7 +40,6 @@ export class DhActorsCreateActorModalComponent {
   constructor() {
     this._getOrganizationsQuery$.valueChanges.pipe(takeUntilDestroyed()).subscribe((result) => {
       if (result.data?.organizations) {
-        console.log(result.data.organizations);
         this.organizationOptions = result.data.organizations.map((org) => ({
           value: org.organizationId ?? '',
           displayValue: org.name,
