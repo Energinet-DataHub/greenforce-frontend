@@ -277,7 +277,6 @@ export class DhWholesaleRequestCalculationComponent {
         useMutationLoading: true,
         mutation: RequestCalculationDocument,
         variables: {
-          // @ts-ignore - Waiting for backend to fix
           meteringPointType: meteringPointType === ExtendMeteringPoint.All ? null : meteringPoint,
           processtType,
           startDate: period.start,
