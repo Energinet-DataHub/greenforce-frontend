@@ -281,7 +281,7 @@ union UpdateOrganizationError = MarketParticipantBadRequestError
 
 input CreateAggregatedMeasureDataRequestInput {
   processType: EdiB2CProcessType!
-  meteringPointType: MeteringPointType!
+  meteringPointType: MeteringPointType
   startDate: String!
   endDate: String
   gridArea: String
