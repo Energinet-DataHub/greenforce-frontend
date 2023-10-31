@@ -53,4 +53,23 @@
     display: block;
     margin-bottom: var(--watt-space-ml);
   }
+
+  .info-section {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    margin-bottom: var(--watt-space-m);
+  }
+
+  .info-icon {
+    margin-right: var(--watt-space-s);
+  }
+
+  .info-icon .mat-icon {
+    color: var(--watt-color-neutral-grey-600) !important;
+  }
+
+  .info-text {
+    color: var(--watt-on-light-medium-emphasis);
+  }
 }

@@ -1219,6 +1219,7 @@
         "wrongEmailPattern": "Type a valid email",
         "noUserRolesError": "At least one user role must be selected.",
         "successMessage": "{{ email }} has been invited",
+        "next": "Next",
         "columns": {
           "eicFunction": "Market role",
           "name": "Name",
@@ -1226,7 +1227,8 @@
         },
         "serverErrors": {
           "invalidPhoneNumber": "The provided phone number is formatted properly, but is an invalid phone number."
-        }
+        },
+        "unknowEmailInfoMessage": "In order to accept the invitation, the user must already have access to DataHub through another organisation."
       },
       "download": "Download",
       "drawer": {

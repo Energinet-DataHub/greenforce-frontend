@@ -156,7 +156,7 @@ type Query {
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
-  emailExists(emailAddress: String!): Boolean!
+  knownEmails: [String!]!
 }
 
 type Mutation {
@@ -265,11 +265,6 @@ type UserRoleDto {
   description: String!
   eicFunction: EicFunction!
   status: UserRoleStatus!
-}
-
-type MarketParticipantError implements Error {
-  message: String!
-  statusCode: Int!
 }
 
 type MarketParticipantBadRequestError implements Error {
@@ -438,7 +433,7 @@ input UpdateActorInput {
   departmentPhone: String!
 }
 
-union UpdateActorError = MarketParticipantError
+union UpdateActorError = MarketParticipantBadRequestError
 
 type UpdateActorPayload {
   boolean: Boolean

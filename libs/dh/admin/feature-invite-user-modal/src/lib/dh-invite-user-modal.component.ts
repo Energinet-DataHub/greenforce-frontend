@@ -18,6 +18,7 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   inject,
@@ -30,17 +31,17 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { Subscription, tap } from 'rxjs';
-
+import { Subscription } from 'rxjs';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WATT_STEPPER, WattStepperComponent } from '@energinet-datahub/watt/stepper';
+import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import {
   DhAdminAssignableUserRolesStore,
   DhUserActorsDataAccessApiStore,
   DhAdminInviteUserStore,
+  ErrorDescriptor,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
@@ -48,10 +49,12 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
+import { Apollo } from 'apollo-angular';
+import { GetKnownEmailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   providers: [DhAdminAssignableUserRolesStore, DhAdminInviteUserStore],
   selector: 'dh-invite-user-modal',
   templateUrl: './dh-invite-user-modal.component.html',
@@ -79,28 +82,46 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   private readonly formBuilder = inject(FormBuilder);
   private readonly toastService = inject(WattToastService);
   private readonly translocoService = inject(TranslocoService);
+  private readonly apollo = inject(Apollo);
+  private readonly changeDectorRef = inject(ChangeDetectorRef);
+
+  private readonly userEmailExistsQuery = this.apollo.watchQuery({
+    returnPartialData: false,
+    useInitialLoading: false,
+    notifyOnNetworkStatusChange: true,
+    query: GetKnownEmailsDocument,
+  });
 
   @ViewChild('inviteUserModal') inviteUserModal!: WattModalComponent;
-  @ViewChild('stepper') stepper!: WattStepperComponent;
   @Output() closed = new EventEmitter<void>();
 
-  readonly actorOptions$ = this.actorStore.actors$;
-  domain: string | undefined = undefined;
-  readonly organizationDomain$ = this.actorStore.organizationDomain$.pipe(
-    tap((domain) => (this.domain = domain))
-  );
+  readonly actors$ = this.actorStore.actors$;
 
   isInvitingUser$ = this.inviteUserStore.isSaving$;
-  actorIdSubscription: Subscription | null = null;
 
-  userInfo = this.formBuilder.group({
+  domain: string | undefined = undefined;
+  inOrganizationMailDomain = false;
+  emailExists = false;
+  knownEmails: string[] = [];
+  isLoadingEmails = true;
+
+  emailExistsSubscription: Subscription | null = null;
+  actorIdSubscription: Subscription | null = null;
+  actorDomainSubscription: Subscription | null = null;
+  actorEmailSubscription: Subscription | null = null;
+  actorsSubscription: Subscription | null = null;
+
+  baseInfo = this.formBuilder.group({
     actorId: ['', Validators.required],
-    firstname: ['', Validators.required],
-    lastname: ['', Validators.required],
     email: [
       { value: '', disabled: true },
-      [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+')],
+      [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}')],
     ],
+  });
+
+  userInfo = this.formBuilder.group({
+    firstname: ['', Validators.required],
+    lastname: ['', Validators.required],
     phoneNumber: [
       '',
       [
@@ -117,65 +138,82 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.inviteUserModal.open();
-    this.actorIdSubscription = this.userInfo.controls.actorId.valueChanges.subscribe((actorId) => {
+
+    this.emailExistsSubscription = this.userEmailExistsQuery.valueChanges.subscribe((x) => {
+      this.knownEmails = x.data?.knownEmails?.map((x) => x.toUpperCase()) ?? [];
+      this.isLoadingEmails = false;
+      this.changeDectorRef.detectChanges();
+    });
+
+    this.actorIdSubscription = this.baseInfo.controls.actorId.valueChanges.subscribe((actorId) => {
       actorId !== null
-        ? this.userInfo.controls.email.enable()
-        : this.userInfo.controls.email.disable();
+        ? this.baseInfo.controls.email.enable()
+        : this.baseInfo.controls.email.disable();
 
       if (actorId === null) {
         this.actorStore.resetOrganizationState();
         return;
       }
+
       this.assignableUserRolesStore.getAssignableUserRoles(actorId);
       this.actorStore.getActorOrganization(actorId);
+    });
+
+    this.actorDomainSubscription = this.actorStore.organizationDomain$.subscribe((domain) => {
+      this.domain = domain;
+    });
+
+    this.actorEmailSubscription = this.baseInfo.controls.email.valueChanges.subscribe(
+      async (email) => {
+        this.inOrganizationMailDomain =
+          !!email &&
+          !!this.domain &&
+          this.baseInfo.controls.email.valid &&
+          email.toUpperCase().endsWith(this.domain.toUpperCase());
+
+        this.emailExists =
+          !!email &&
+          this.baseInfo.controls.email.valid &&
+          this.knownEmails.includes(email.toUpperCase());
+
+        this.changeDectorRef.detectChanges();
+      }
+    );
+
+    this.actorsSubscription = this.actors$.subscribe((actors) => {
+      if (actors.length === 1) {
+        this.baseInfo.controls.actorId.setValue(actors[0].value);
+      }
     });
   }
 
   ngOnDestroy(): void {
+    this.emailExistsSubscription?.unsubscribe();
     this.actorIdSubscription?.unsubscribe();
+    this.actorDomainSubscription?.unsubscribe();
+    this.actorEmailSubscription?.unsubscribe();
+    this.actorsSubscription?.unsubscribe();
   }
 
   inviteUser() {
-    if (this.userInfo.valid === false || this.userRoles.valid === false) {
+    if (!this.isBaseInfoValid() || !this.isNewUserInfoValid() || !this.isRolesInfoValid()) {
       return;
     }
 
-    const { firstname, lastname, email, phoneNumber, actorId } = this.userInfo.controls;
-
-    const emailWithDomain = `${email.value}@${this.domain}`;
+    const { firstname, lastname, phoneNumber } = this.userInfo.controls;
+    const { email, actorId } = this.baseInfo.controls;
 
     this.inviteUserStore.inviteUser({
       invitation: {
-        firstName: firstname.value ?? '',
-        lastName: lastname.value ?? '',
-        email: emailWithDomain,
-        phoneNumber: phoneNumber.value ?? '',
+        firstName: firstname.value ? firstname.value : 'J',
+        lastName: lastname.value ? lastname.value : 'D',
+        email: email.value ?? '',
+        phoneNumber: phoneNumber.value ? phoneNumber.value : '+45 12345678',
         assignedActor: actorId.value ?? '',
         assignedRoles: this.userRoles.controls.selectedUserRoles.value ?? [],
       },
-      onSuccess: () => {
-        this.toastService.open({
-          type: 'success',
-          message: `${this.translocoService.translate(
-            'admin.userManagement.inviteUser.successMessage',
-            { email: emailWithDomain }
-          )}`,
-        });
-        this.closeModal(true);
-      },
-      onError: (e) => {
-        this.toastService.open({
-          type: 'danger',
-          message: e
-            .map((x) =>
-              this.translocoService.translate(
-                `admin.userManagement.inviteUser.serverErrors.${x.code}`
-              )
-            )
-            .join('\n'),
-          duration: 600000,
-        });
-      },
+      onSuccess: () => this.onInviteSuccess(email.value),
+      onError: (e) => this.onInviteError(e),
     });
   }
 
@@ -188,5 +226,44 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
     this.closed.emit();
     this.actorStore.resetOrganizationState();
     this.inviteUserModal.close(status);
+  }
+
+  private onInviteSuccess(email: string | null) {
+    this.toastService.open({
+      type: 'success',
+      message: `${this.translocoService.translate(
+        'admin.userManagement.inviteUser.successMessage',
+        { email: email }
+      )}`,
+    });
+    this.closeModal(true);
+  }
+
+  private onInviteError(e: ErrorDescriptor) {
+    this.toastService.open({
+      type: 'danger',
+      message: e.details
+        ? e.details
+            .map((x) =>
+              this.translocoService.translate(
+                `admin.userManagement.inviteUser.serverErrors.${x.code}`
+              )
+            )
+            .join('\n')
+        : this.translocoService.translate(`admin.userManagement.inviteUser.serverErrors.${e.code}`),
+      duration: 600000,
+    });
+  }
+
+  private isBaseInfoValid() {
+    return this.baseInfo.valid;
+  }
+
+  private isNewUserInfoValid() {
+    return this.userInfo.valid || this.emailExists || !this.inOrganizationMailDomain;
+  }
+
+  private isRolesInfoValid() {
+    return this.userRoles.valid;
   }
 }

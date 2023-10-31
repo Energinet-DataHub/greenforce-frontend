@@ -17,7 +17,7 @@ limitations under the License.
 <watt-modal
   #inviteUserModal
   size="large"
-  [loading]="isInvitingUser$ | push"
+  [loading]="(isInvitingUser$ | push) || isLoadingEmails"
   [title]="t('title')"
   (closed)="closeModal($event)"
   *transloco="let t; read: 'admin.userManagement.inviteUser'"
@@ -28,24 +28,39 @@ limitations under the License.
     #stepper
     (completed)="inviteUser()"
   >
-    <watt-stepper-step
-      [label]="t('informations')"
-      [stepControl]="userInfo"
-      [nextButtonLabel]="t('addUserRole')"
-    >
+    <watt-stepper-step [label]="t('email')" [stepControl]="baseInfo" [nextButtonLabel]="t('next')">
       <form [formGroup]="userInfo" class="userInfoForm">
         <watt-dropdown
+          *ngIf="(actors$ | push).length > 1"
           class="actor"
           [label]="t('actor')"
-          [formControl]="userInfo.controls.actorId"
-          [options]="(actorOptions$ | push) ?? []"
+          [formControl]="baseInfo.controls.actorId"
+          [options]="(actors$ | push) ?? []"
           name="actorId"
         >
-          <watt-field-error *ngIf="userInfo.controls.actorId.hasError('required')">
+          <watt-field-error *ngIf="baseInfo.controls.actorId.hasError('required')">
             {{ "shared.fieldRequiredErrorText" | transloco }}
           </watt-field-error>
         </watt-dropdown>
-
+        <watt-text-field [label]="t('email')" class="email" [formControl]="baseInfo.controls.email">
+          <watt-field-error *ngIf="baseInfo.controls.email.hasError('required')">
+            {{ "shared.fieldRequiredErrorText" | transloco }}
+          </watt-field-error>
+          <watt-field-error *ngIf="baseInfo.controls.email.hasError('pattern')">
+            {{ t("wrongEmailPattern") }}
+          </watt-field-error>
+        </watt-text-field>
+      </form>
+    </watt-stepper-step>
+    <watt-stepper-step
+      #informationStep
+      [label]="t('informations')"
+      [stepControl]="userInfo"
+      [previousButtonLabel]="t('email')"
+      [nextButtonLabel]="t('addUserRole')"
+      [enabled]="!emailExists && inOrganizationMailDomain"
+    >
+      <form [formGroup]="userInfo" class="userInfoForm">
         <watt-text-field
           [label]="t('firstname')"
           class="firstname"
@@ -65,16 +80,6 @@ limitations under the License.
         >
           <watt-field-error *ngIf="userInfo.controls.lastname.hasError('required')">
             {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
-        </watt-text-field>
-
-        <watt-text-field [label]="t('email')" class="email" [formControl]="userInfo.controls.email">
-          <span class="domain">@{{ organizationDomain$ | push }}</span>
-          <watt-field-error *ngIf="userInfo.controls.email.hasError('required')">
-            {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
-          <watt-field-error *ngIf="userInfo.controls.email.hasError('pattern')">
-            {{ t("wrongEmailPattern") }}
           </watt-field-error>
         </watt-text-field>
 
@@ -103,9 +108,13 @@ limitations under the License.
     <watt-stepper-step
       [stepControl]="userRoles"
       [label]="t('addUserRole')"
-      [previousButtonLabel]="t('informations')"
+      [previousButtonLabel]="informationStep.enabled ? t('informations') : t('email')"
       [nextButtonLabel]="t('inviteUser')"
     >
+      <div class="info-section" *ngIf="!inOrganizationMailDomain">
+        <watt-icon class="info-icon" name="info"></watt-icon>
+        <span class="info-text">{{ t("unknowEmailInfoMessage") }}</span>
+      </div>
       <form [formGroup]="userRoles">
         <watt-field-error
           class="user-role-error"

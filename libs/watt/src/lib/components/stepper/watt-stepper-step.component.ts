@@ -28,4 +28,5 @@ export class WattStepperStepComponent extends MatStep {
   @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null = null;
   @Input() public nextButtonLabel?: string;
   @Input() public previousButtonLabel?: string;
+  @Input() public enabled = true;
 }
