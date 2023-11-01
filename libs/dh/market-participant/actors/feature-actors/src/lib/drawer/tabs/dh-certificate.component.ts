@@ -18,6 +18,7 @@ import { Component, Input, inject, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
@@ -30,6 +31,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { DhMarketParticipantCertificateStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   selector: 'dh-certificate',
@@ -113,6 +115,8 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 })
 export class DhCertificateComponent {
   private readonly httpClient = inject(DhMarketParticipantCertificateStore);
+  private readonly toastService = inject(WattToastService);
+  private readonly transloco = inject(TranslocoService);
 
   certificateExt = '.pfx';
 
@@ -147,10 +151,31 @@ export class DhCertificateComponent {
   }
 
   private startUpload(actorId: string, file: File): void {
-    this.httpClient.uploadCertificate({ actorId, file });
+    this.httpClient.uploadCertificate({
+      actorId,
+      file,
+      onSuccess: this.onUploadSuccessFn,
+      onError: this.onUploadErrorFn,
+    });
   }
 
   private isValidFileType(file: File): boolean {
     return file.type === 'application/x-pkcs12';
   }
+
+  private readonly onUploadSuccessFn = () => {
+    const message = this.transloco.translate(
+      'marketParticipant.actorsOverview.drawer.tabs.certificate.uploadSuccess'
+    );
+
+    this.toastService.open({ type: 'success', message });
+  };
+
+  private readonly onUploadErrorFn = () => {
+    const message = this.transloco.translate(
+      'marketParticipant.actorsOverview.drawer.tabs.certificate.uploadError'
+    );
+
+    this.toastService.open({ type: 'danger', message });
+  };
 }

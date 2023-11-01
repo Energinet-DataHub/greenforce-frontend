@@ -16,7 +16,7 @@
  */
 import { Injectable, inject } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable, switchMap, exhaustMap, tap, finalize } from 'rxjs';
 
 import {
   MarketParticipantActorCredentialsDto,
@@ -48,36 +48,39 @@ export class DhMarketParticipantCertificateStore extends ComponentStore<Certific
   readonly getCredentials = this.effect((trigger$) =>
     trigger$.pipe(
       tap(() => this.patchState({ loadingCredentials: true })),
-      switchMap(() => this.httpClient.v1MarketParticipantActorGetActorCredentialsGet()),
-      tapResponse(
-        (response) => {
-          this.patchState({ credentials: response });
-
-          this.patchState({ loadingCredentials: false });
-        },
-        () => {
-          this.patchState({ credentials: null });
-
-          this.patchState({ loadingCredentials: false });
-        }
+      switchMap(() =>
+        this.httpClient.v1MarketParticipantActorGetActorCredentialsGet().pipe(
+          tapResponse(
+            (response) => this.patchState({ credentials: response }),
+            () => this.patchState({ credentials: null })
+          ),
+          finalize(() => this.patchState({ loadingCredentials: false }))
+        )
       )
     )
   );
 
   readonly uploadCertificate = this.effect(
-    (trigger$: Observable<{ actorId: string; file: File }>) =>
+    (
+      trigger$: Observable<{
+        actorId: string;
+        file: File;
+        onSuccess: () => void;
+        onError: () => void;
+      }>
+    ) =>
       trigger$.pipe(
         tap(() => this.patchState({ uploadInProgress: true })),
-        switchMap(({ actorId, file }) =>
-          this.httpClient.v1MarketParticipantActorAssignCertificateCredentialsPost(actorId, file)
-        ),
-        tapResponse(
-          () => {
-            this.patchState({ uploadInProgress: false });
-          },
-          () => {
-            this.patchState({ uploadInProgress: false });
-          }
+        exhaustMap(({ actorId, file, onSuccess, onError }) =>
+          this.httpClient
+            .v1MarketParticipantActorAssignCertificateCredentialsPost(actorId, file)
+            .pipe(
+              tapResponse(
+                () => onSuccess(),
+                () => onError()
+              ),
+              finalize(() => this.patchState({ uploadInProgress: false }))
+            )
         )
       )
   );
