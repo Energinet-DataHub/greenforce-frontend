@@ -39,7 +39,7 @@ limitations under the License.
         <ng-container *ngTemplateOutlet="step.templateRef" />
       </div>
       <div class="watt-stepper-button-wrapper">
-        <watt-button *ngIf="onFirstStep$ | push" variant="secondary" (click)="previousStep()">
+        <watt-button *ngIf="!(onFirstStep$ | push)" variant="secondary" (click)="previousStep()">
           <watt-icon name="left" />
           {{ step.previousButtonLabel }}
         </watt-button>

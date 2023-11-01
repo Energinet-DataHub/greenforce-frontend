@@ -31,7 +31,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -85,6 +85,8 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   private readonly apollo = inject(Apollo);
   private readonly changeDectorRef = inject(ChangeDetectorRef);
 
+  private destroy$ = new Subject<void>();
+
   private readonly userEmailExistsQuery = this.apollo.watchQuery({
     returnPartialData: false,
     useInitialLoading: false,
@@ -104,12 +106,6 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   emailExists = false;
   knownEmails: string[] = [];
   isLoadingEmails = true;
-
-  emailExistsSubscription: Subscription | null = null;
-  actorIdSubscription: Subscription | null = null;
-  actorDomainSubscription: Subscription | null = null;
-  actorEmailSubscription: Subscription | null = null;
-  actorsSubscription: Subscription | null = null;
 
   baseInfo = this.formBuilder.group({
     actorId: ['', Validators.required],
@@ -139,32 +135,35 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.inviteUserModal.open();
 
-    this.emailExistsSubscription = this.userEmailExistsQuery.valueChanges.subscribe((x) => {
+    this.userEmailExistsQuery.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((x) => {
       this.knownEmails = x.data?.knownEmails?.map((x) => x.toUpperCase()) ?? [];
       this.isLoadingEmails = false;
       this.changeDectorRef.detectChanges();
     });
 
-    this.actorIdSubscription = this.baseInfo.controls.actorId.valueChanges.subscribe((actorId) => {
-      actorId !== null
-        ? this.baseInfo.controls.email.enable()
-        : this.baseInfo.controls.email.disable();
+    this.baseInfo.controls.actorId.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((actorId) => {
+        actorId !== null
+          ? this.baseInfo.controls.email.enable()
+          : this.baseInfo.controls.email.disable();
 
-      if (actorId === null) {
-        this.actorStore.resetOrganizationState();
-        return;
-      }
+        if (actorId === null) {
+          this.actorStore.resetOrganizationState();
+          return;
+        }
 
-      this.assignableUserRolesStore.getAssignableUserRoles(actorId);
-      this.actorStore.getActorOrganization(actorId);
-    });
+        this.assignableUserRolesStore.getAssignableUserRoles(actorId);
+        this.actorStore.getActorOrganization(actorId);
+      });
 
-    this.actorDomainSubscription = this.actorStore.organizationDomain$.subscribe((domain) => {
+    this.actorStore.organizationDomain$.pipe(takeUntil(this.destroy$)).subscribe((domain) => {
       this.domain = domain;
     });
 
-    this.actorEmailSubscription = this.baseInfo.controls.email.valueChanges.subscribe(
-      async (email) => {
+    this.baseInfo.controls.email.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(async (email) => {
         this.inOrganizationMailDomain =
           !!email &&
           !!this.domain &&
@@ -177,10 +176,9 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
           this.knownEmails.includes(email.toUpperCase());
 
         this.changeDectorRef.detectChanges();
-      }
-    );
+      });
 
-    this.actorsSubscription = this.actors$.subscribe((actors) => {
+    this.actors$.pipe(takeUntil(this.destroy$)).subscribe((actors) => {
       if (actors.length === 1) {
         this.baseInfo.controls.actorId.setValue(actors[0].value);
       }
@@ -188,11 +186,8 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.emailExistsSubscription?.unsubscribe();
-    this.actorIdSubscription?.unsubscribe();
-    this.actorDomainSubscription?.unsubscribe();
-    this.actorEmailSubscription?.unsubscribe();
-    this.actorsSubscription?.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   inviteUser() {
