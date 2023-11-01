@@ -233,11 +233,11 @@
       "@energinet-datahub/dh/shared/util-operators": [
         "libs/dh/shared/util-operators/src/index.ts"
       ],
-      "@energinet-datahub/dh/shared/validators": [
-        "libs/dh/shared/validators/src/index.ts"
-      ],
       "@energinet-datahub/dh/shared/util-table": [
         "libs/dh/shared/util-table/src/index.ts"
+      ],
+      "@energinet-datahub/dh/shared/validators": [
+        "libs/dh/shared/validators/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/data-access-api": [
         "libs/dh/wholesale/data-access-api/src/index.ts"
