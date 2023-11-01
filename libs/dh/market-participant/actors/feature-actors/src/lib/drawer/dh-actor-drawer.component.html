@@ -82,7 +82,7 @@ limitations under the License.
         </watt-tab>
 
         <watt-tab [label]="t('tabs.certificate.tabLabel')">
-          <dh-certificate />
+          <dh-certificate [actorId]="actor?.id" />
         </watt-tab>
 
         <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
