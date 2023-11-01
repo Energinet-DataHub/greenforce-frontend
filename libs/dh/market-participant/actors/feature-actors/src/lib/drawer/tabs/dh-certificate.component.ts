@@ -114,7 +114,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   viewProviders: [DhMarketParticipantCertificateStore],
 })
 export class DhCertificateComponent {
-  private readonly httpClient = inject(DhMarketParticipantCertificateStore);
+  private readonly store = inject(DhMarketParticipantCertificateStore);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
 
@@ -122,16 +122,16 @@ export class DhCertificateComponent {
 
   isInvalidFileType = signal(false);
 
-  doCredentialsExist = toSignal(this.httpClient.doCredentialsExist$);
-  certificateMetaData = toSignal(this.httpClient.certificateMetaData$);
+  doCredentialsExist = toSignal(this.store.doCredentialsExist$);
+  certificateMetaData = toSignal(this.store.certificateMetaData$);
 
-  loadingCredentials = toSignal(this.httpClient.loadingCredentials$);
-  isUploadInProgress = toSignal(this.httpClient.uploadInProgress$);
+  loadingCredentials = toSignal(this.store.loadingCredentials$);
+  isUploadInProgress = toSignal(this.store.uploadInProgress$);
 
   @Input({ required: true }) actorId = '';
 
   constructor() {
-    this.httpClient.getCredentials();
+    this.store.getCredentials();
   }
 
   onFileSelected(files: FileList | null): void {
@@ -151,7 +151,7 @@ export class DhCertificateComponent {
   }
 
   private startUpload(actorId: string, file: File): void {
-    this.httpClient.uploadCertificate({
+    this.store.uploadCertificate({
       actorId,
       file,
       onSuccess: this.onUploadSuccessFn,
