@@ -1,3 +1,5 @@
+import { from } from 'rxjs';
+
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,4 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const danishPhoneNumberPattern = /^\+45 \d{8}$/;
+export { dhCvrValidator } from './lib/dh-cvr.validator';
+export { dhDomainValidator } from './lib/dh-domain.validator';
+export { dhPhoneNumberValidator } from './lib/dh-phone-number.validator';

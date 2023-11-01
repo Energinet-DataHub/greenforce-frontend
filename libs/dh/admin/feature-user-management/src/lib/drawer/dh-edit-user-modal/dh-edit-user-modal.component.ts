@@ -33,7 +33,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { UpdateUserRoles, DhAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
@@ -41,6 +40,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { HttpStatusCode } from '@angular/common/http';
+import { dhPhoneNumberValidator } from '@energinet-datahub/dh/shared/validators';
 
 @Component({
   selector: 'dh-edit-user-modal',
@@ -90,7 +90,7 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   userInfoForm = this.formBuilder.nonNullable.group({
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
-    phoneNumber: ['', [Validators.required, Validators.pattern(danishPhoneNumberPattern)]],
+    phoneNumber: ['', [Validators.required, dhPhoneNumberValidator]],
   });
 
   @ViewChild('editUserModal') editUserModal!: WattModalComponent;
