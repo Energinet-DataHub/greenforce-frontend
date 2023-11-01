@@ -176,7 +176,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
       });
 
     this.actors$.pipe(takeUntil(this.destroy$)).subscribe((actors) => {
-      if (actors.length === 1) {
+      if (actors.length === 1 && !this.baseInfo.controls.actorId.value) {
         this.baseInfo.controls.actorId.setValue(actors[0].value);
       }
     });
