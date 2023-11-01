@@ -605,7 +605,10 @@
           "certificate": {
             "tabLabel": "Certifikat",
             "thumbprint": "Thumbprint",
-            "expiryDate": "Udløbsdato"
+            "expiryDate": "Udløbsdato",
+            "removeCertificate": "Fjern certifikat",
+            "uploadCertificate": "Upload certifikat",
+            "invalidFileType": "Vælg en certifikatfil"
           },
           "history": {
             "tabLabel": "History",

@@ -612,7 +612,10 @@
           "certificate": {
             "tabLabel": "Certificate",
             "thumbprint": "Thumbprint",
-            "expiryDate": "Expiry date"
+            "expiryDate": "Expiry date",
+            "removeCertificate": "Remove certificate",
+            "uploadCertificate": "Upload certificate",
+            "invalidFileType": "Please select a certificate file"
           },
           "history": {
             "tabLabel": "History",
