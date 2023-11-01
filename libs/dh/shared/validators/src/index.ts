@@ -1,5 +1,3 @@
-import { from } from 'rxjs';
-
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
