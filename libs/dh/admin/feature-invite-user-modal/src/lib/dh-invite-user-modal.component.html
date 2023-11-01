@@ -112,7 +112,7 @@ limitations under the License.
       [nextButtonLabel]="t('inviteUser')"
     >
       <div class="info-section" *ngIf="!inOrganizationMailDomain">
-        <watt-icon class="info-icon" name="info"></watt-icon>
+        <watt-icon class="info-icon" name="info" />
         <span class="info-text">{{ t("unknowEmailInfoMessage") }}</span>
       </div>
       <form [formGroup]="userRoles">
