@@ -78,7 +78,7 @@ import { EoConnectionsTableComponent } from './connections-table.component';
     `,
   ],
   template: `
-    <eo-eo-beta-message></eo-eo-beta-message>
+    <eo-eo-beta-message />
 
     <watt-card>
       <watt-card-title>
@@ -104,7 +104,7 @@ import { EoConnectionsTableComponent } from './connections-table.component';
         [hasError]="connections().hasError"
         [filter]="search"
         (connectionRemoved)="onConnectionRemoved($event)"
-      ></eo-connections-table>
+      />
     </watt-card>
 
     <eo-invite-connection #inviteConnection />

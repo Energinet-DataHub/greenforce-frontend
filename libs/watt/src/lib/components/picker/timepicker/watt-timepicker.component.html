@@ -67,7 +67,7 @@ limitations under the License.
       (click)="toggleSlider()"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
-    ></watt-button>
+    />
 
     <ng-template
       cdkConnectedOverlay
@@ -90,7 +90,7 @@ limitations under the License.
           [step]="1"
           [value]="sliderValue"
           (valueChange)="sliderChange$.next($event)"
-        ></watt-slider>
+        />
       </div>
     </ng-template>
     <ng-content />

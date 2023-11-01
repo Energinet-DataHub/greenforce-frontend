@@ -21,7 +21,7 @@ import { DhAdminPermissionOverviewComponent } from '@energinet-datahub/dh/admin/
 @Component({
   standalone: true,
   selector: 'dh-permissions-tab',
-  template: `<dh-admin-permission-overview></dh-admin-permission-overview>`,
+  template: `<dh-admin-permission-overview />`,
   styles: [
     `
       :host {

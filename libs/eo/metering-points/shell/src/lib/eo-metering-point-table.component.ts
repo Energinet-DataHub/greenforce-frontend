@@ -128,12 +128,12 @@ class GranularCertificateHelperComponent {}
             "
             [disabled]="meteringPoint.loadingContract"
             [checked]="meteringPoint.contract && !meteringPoint.loadingContract"
-          ></mat-slide-toggle>
+          />
           <watt-spinner
             [diameter]="24"
             style="margin-left: var(--watt-space-m);"
             [style.opacity]="meteringPoint.loadingContract ? 1 : 0"
-          ></watt-spinner>
+          />
         </div>
       </ng-container>
     </watt-table>
@@ -143,14 +143,14 @@ class GranularCertificateHelperComponent {}
       icon="custom-power"
       title="No metering points found"
       message="You do not have any metering points."
-    ></watt-empty-state>
+    />
 
     <watt-empty-state
       *ngIf="loading === false && hasError"
       icon="custom-power"
       title="Oops! Something went wrong."
       message="Please try reloading the page.."
-    ></watt-empty-state>
+    />
 
     <watt-paginator [for]="dataSource" />
   `,

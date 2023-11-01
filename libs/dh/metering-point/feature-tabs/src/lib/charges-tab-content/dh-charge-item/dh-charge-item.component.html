@@ -43,7 +43,7 @@ limitations under the License.
 
     <ng-container *wattTableCell="columns.startDate; let row; header: t('startDate')">
       <div class="watt-text-s">
-        <watt-icon name="date" size="xs" class="primary-color"></watt-icon>
+        <watt-icon name="date" size="xs" class="primary-color" />
       </div>
       <div class="watt-text-s" data-testid="date-cell-from">
         {{ row.startDate | wattDate }}
@@ -51,7 +51,7 @@ limitations under the License.
       <ng-container *ngIf="row.endDate">
         <div class="watt-text-s secondary-text" *transloco="let transloco">-</div>
         <div class="watt-text-s">
-          <watt-icon name="date" size="xs" class="primary-color"></watt-icon>
+          <watt-icon name="date" size="xs" class="primary-color" />
         </div>
         <div class="watt-text-s" data-testid="date-cell-to">
           {{ row.endDate | wattDate }}
@@ -71,7 +71,7 @@ limitations under the License.
       </div>
       <ng-container *ngIf="row.taxIndicator">
         <div class="watt-text-s" *transloco="let transloco">
-          <watt-icon name="success" size="xs" class="primary-color"></watt-icon>
+          <watt-icon name="success" size="xs" class="primary-color" />
         </div>
         <div class="watt-text-s" *transloco="let transloco" data-testid="tax-cell">
           {{ transloco("charges.taxIndicator") }}
@@ -84,7 +84,7 @@ limitations under the License.
     >
       <ng-container *ngIf="row.transparentInvoicing">
         <div class="watt-text-s">
-          <watt-icon name="success" size="xs" class="primary-color"></watt-icon>
+          <watt-icon name="success" size="xs" class="primary-color" />
         </div>
         <div class="watt-text-s" *transloco="let transloco" data-testid="invoicing-cell">
           {{ transloco("charges.transparentInvoicing") }}
@@ -100,5 +100,5 @@ limitations under the License.
     size="small"
     [title]="transloco('charges.noActive', { title: title })"
     [message]="transloco('charges.noActiveMessage', { title: title })"
-  ></watt-empty-state>
+  />
 </ng-template>

@@ -17,7 +17,7 @@ limitations under the License.
 <div class="overview-header" *transloco="let t; read: 'meteringPoint.overview'">
   <div class="watt-text-s overview-header__row">
     <span [title]="t('connectionState')" class="watt-space-inline-xs">
-      <dh-status-badge [connectionState]="identityDetails.connectionState"></dh-status-badge>
+      <dh-status-badge [connectionState]="identityDetails.connectionState" />
     </span>
 
     <span [title]="t('meteringMethod')">
@@ -55,8 +55,7 @@ limitations under the License.
       [title]="t('primaryMasterData.address')"
       iconName="location"
       text="{{ address | dhEmDashFallback }}"
-    >
-    </dh-metering-point-identity-text-field-with-icon>
+    />
 
     <dh-metering-point-identity-text-field-with-icon
       *ngIf="identityDetails?.supplyStart"
@@ -66,15 +65,13 @@ limitations under the License.
         translationKeys?.electricitySupplierSince
           | transloco : { date: identityDetails.supplyStart | wattDate }
       }}"
-    >
-    </dh-metering-point-identity-text-field-with-icon>
+    />
 
     <dh-metering-point-identity-text-field-with-icon
       *ngIf="identityDetails?.isActualAddress === false"
       [title]="t('primaryMasterData.actualAddress')"
       iconName="warning"
       [text]="t('primaryMasterData.notActualAddress')"
-    >
-    </dh-metering-point-identity-text-field-with-icon>
+    />
   </div>
 </div>
