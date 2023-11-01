@@ -34,7 +34,7 @@ import { combineLatest, take } from 'rxjs';
       }
     `,
   ],
-  template: `<div class="spinner"><watt-spinner></watt-spinner></div>`,
+  template: `<div class="spinner"><watt-spinner /></div>`,
 })
 export class EoLoginComponent {
   constructor(

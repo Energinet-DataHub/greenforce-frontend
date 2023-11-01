@@ -121,7 +121,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
   ],
 
   template: `
-    <ng-container *ngIf="mode === 'create'; then create; else edit"></ng-container>
+    <ng-container *ngIf="mode === 'create'; then create; else edit" />
 
     <ng-template #create>
       <form [formGroup]="form">
@@ -131,7 +131,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
             nextButtonLabel="Agreement details"
             [stepControl]="form.controls.receiver"
           >
-            <ng-container *ngTemplateOutlet="receiver"></ng-container>
+            <ng-container *ngTemplateOutlet="receiver" />
           </watt-stepper-step>
           <watt-stepper-step
             label="Agreement details"
@@ -142,7 +142,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
             <eo-transfers-form-period
               formGroupName="period"
               [existingTransferAgreements]="existingTransferAgreements"
-            ></eo-transfers-form-period>
+            />
           </watt-stepper-step>
         </watt-stepper>
       </form>
@@ -150,11 +150,11 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
 
     <ng-template #edit>
       <form [formGroup]="form">
-        <ng-container *ngTemplateOutlet="receiver"></ng-container>
+        <ng-container *ngTemplateOutlet="receiver" />
         <eo-transfers-form-period
           formGroupName="period"
           [existingTransferAgreements]="existingTransferAgreements"
-        ></eo-transfers-form-period>
+        />
 
         <watt-modal-actions>
           <watt-button

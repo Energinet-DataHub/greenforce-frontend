@@ -50,17 +50,17 @@ import { EoEmissionsStore } from './eo-emissions.store';
     `,
   ],
   template: `
-    <eo-popup-message *ngIf="error$ | async"></eo-popup-message>
+    <eo-popup-message *ngIf="error$ | async" />
 
     <div class="content">
       <eo-stack size="L">
-        <eo-emissions-page-info></eo-emissions-page-info>
-        <eo-emissions-page-co2-reduction></eo-emissions-page-co2-reduction>
-        <eo-emissions-page-tip></eo-emissions-page-tip>
+        <eo-emissions-page-info />
+        <eo-emissions-page-co2-reduction />
+        <eo-emissions-page-tip />
       </eo-stack>
       <eo-stack size="L">
-        <eo-emissions-page-greenhouse-gasses></eo-emissions-page-greenhouse-gasses>
-        <eo-emissions-page-lead-by-example></eo-emissions-page-lead-by-example>
+        <eo-emissions-page-greenhouse-gasses />
+        <eo-emissions-page-lead-by-example />
       </eo-stack>
     </div>
   `,

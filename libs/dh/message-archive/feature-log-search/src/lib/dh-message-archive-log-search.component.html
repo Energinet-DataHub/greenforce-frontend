@@ -62,8 +62,7 @@ limitations under the License.
           [options]="(getActorOptions$ | async) ?? []"
           name="receiverNumber"
           [placeholder]="transloco('typeOrChoose')"
-        >
-        </watt-dropdown>
+        />
 
         <div class="rowContainer">
           <watt-datepicker
@@ -76,11 +75,7 @@ limitations under the License.
             </watt-field-error>
           </watt-datepicker>
 
-          <watt-timepicker
-            [label]="transloco('time')"
-            formControlName="timeRange"
-            [range]="true"
-          ></watt-timepicker>
+          <watt-timepicker [label]="transloco('time')" formControlName="timeRange" [range]="true" />
 
           <!-- Reference id -->
           <watt-checkbox formControlName="includeRelated" wattInput name="reference-id">{{
@@ -109,8 +104,7 @@ limitations under the License.
         [isInit]="isInit$ | push"
         [isSearching]="searching"
         [actors]="getActorOptions$ | push"
-      >
-      </dh-message-archive-log-search-result>
+      />
     </ng-container>
   </ng-container>
 </ng-container>

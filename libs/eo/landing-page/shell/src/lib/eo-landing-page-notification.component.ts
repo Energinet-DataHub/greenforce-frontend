@@ -40,7 +40,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
   ],
   template: `
     <eo-inline-message>
-      <watt-icon name="custom-primary-info"></watt-icon>
+      <watt-icon name="custom-primary-info" />
       <p>
         The Energy Origin Platform is <strong>under development</strong> and new functionalities
         will be released continuously. The first release of the platform only offers

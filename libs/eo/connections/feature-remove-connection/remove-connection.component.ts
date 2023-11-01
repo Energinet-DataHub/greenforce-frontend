@@ -59,7 +59,7 @@ import {
       [loading]="isRemovingConnection()"
       (click)="onRemoveConnection()"
       data-testid="remove-connection-button"
-    ></watt-button>
+    />
 
     <!-- Confirmation dialog -->
     <watt-modal

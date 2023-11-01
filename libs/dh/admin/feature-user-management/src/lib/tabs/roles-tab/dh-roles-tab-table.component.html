@@ -32,9 +32,9 @@ limitations under the License.
       {{ t(mr.eicFunction) }}
     </ng-container>
     <ng-container *wattTableCell="columns['status']; let role">
-      <dh-role-status [status]="role.status"></dh-role-status>
+      <dh-role-status [status]="role.status" />
     </ng-container>
   </watt-table>
 </ng-container>
 
-<dh-role-drawer (closed)="onClosed()" (userRoleDeactivated)="onDeActivated()"></dh-role-drawer>
+<dh-role-drawer (closed)="onClosed()" (userRoleDeactivated)="onDeActivated()" />

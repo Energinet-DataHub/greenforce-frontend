@@ -34,7 +34,7 @@ export const searchDebounceTimeMs = 250;
         [formControl]="searchControl"
         [placeholder]="placeholder ?? t('search')"
       >
-        <watt-button wattSuffix variant="icon" icon="search"></watt-button>
+        <watt-button wattSuffix variant="icon" icon="search" />
       </watt-text-field>
     </ng-container>
   `,
