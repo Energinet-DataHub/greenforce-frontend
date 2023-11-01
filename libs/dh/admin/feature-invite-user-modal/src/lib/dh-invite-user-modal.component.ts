@@ -31,7 +31,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -175,8 +175,8 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
         this.changeDectorRef.detectChanges();
       });
 
-    this.actors$.pipe(takeUntil(this.destroy$)).subscribe((actors) => {
-      if (actors.length === 1 && !this.baseInfo.controls.actorId.value) {
+    this.actors$.pipe(take(1)).subscribe((actors) => {
+      if (actors.length === 1) {
         this.baseInfo.controls.actorId.setValue(actors[0].value);
       }
     });
