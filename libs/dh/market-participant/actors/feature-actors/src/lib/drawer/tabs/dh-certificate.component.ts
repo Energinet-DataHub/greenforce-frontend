@@ -64,27 +64,33 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
           [message]="t('invalidFileType')"
         />
 
-        <vater-flex direction="row" justify="center" *ngIf="isUploadInProgress()">
+        <vater-flex
+          direction="row"
+          justify="center"
+          *ngIf="loadingCredentials() || isUploadInProgress(); else componentContent"
+        >
           <watt-spinner />
         </vater-flex>
 
-        <watt-card variant="solid" *ngIf="certificateExists()">
-          <watt-description-list variant="stack">
-            <watt-description-list-item
-              [label]="t('thumbprint')"
-              [value]="undefined | dhEmDashFallback"
-            />
-            <watt-description-list-item
-              [label]="t('expiryDate')"
-              [value]="undefined | dhEmDashFallback"
-            />
-          </watt-description-list>
-        </watt-card>
+        <ng-template #componentContent>
+          <watt-card variant="solid" *ngIf="doCredentialsExist()">
+            <watt-description-list variant="stack">
+              <watt-description-list-item
+                [label]="t('thumbprint')"
+                [value]="certificateMetaData()?.thumbprint | dhEmDashFallback"
+              />
+              <watt-description-list-item
+                [label]="t('expiryDate')"
+                [value]="undefined | dhEmDashFallback"
+              />
+            </watt-description-list>
+          </watt-card>
 
-        <vater-stack direction="row" justify="flex-end" gap="m">
-          <watt-button *ngIf="certificateExists()">{{ t('removeCertificate') }}</watt-button>
-          <watt-button (click)="fileUpload.click()">{{ t('uploadCertificate') }}</watt-button>
-        </vater-stack>
+          <vater-stack direction="row" justify="flex-end" gap="m">
+            <watt-button *ngIf="doCredentialsExist()">{{ t('removeCertificate') }}</watt-button>
+            <watt-button (click)="fileUpload.click()">{{ t('uploadCertificate') }}</watt-button>
+          </vater-stack>
+        </ng-template>
       </vater-flex>
     </ng-container>
   `,
@@ -110,12 +116,19 @@ export class DhCertificateComponent {
 
   certificateExt = '.pfx';
 
-  certificateExists = signal(false);
   isInvalidFileType = signal(false);
 
-  isUploadInProgress = toSignal(this.httpClient.uploadInProgress$, { initialValue: false });
+  doCredentialsExist = toSignal(this.httpClient.doCredentialsExist$);
+  certificateMetaData = toSignal(this.httpClient.certificateMetaData$);
+
+  loadingCredentials = toSignal(this.httpClient.loadingCredentials$);
+  isUploadInProgress = toSignal(this.httpClient.uploadInProgress$);
 
   @Input({ required: true }) actorId = '';
+
+  constructor() {
+    this.httpClient.getCredentials();
+  }
 
   onFileSelected(files: FileList | null): void {
     if (files == null) {

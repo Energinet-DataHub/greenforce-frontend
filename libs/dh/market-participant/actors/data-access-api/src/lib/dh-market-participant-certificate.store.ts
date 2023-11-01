@@ -16,14 +16,22 @@
  */
 import { Injectable, inject } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { MarketParticipantActorHttp } from '@energinet-datahub/dh/shared/domain';
-import { Observable, finalize, switchMap, tap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
+
+import {
+  MarketParticipantActorCredentialsDto,
+  MarketParticipantActorHttp,
+} from '@energinet-datahub/dh/shared/domain';
 
 interface CertificateState {
+  credentials: MarketParticipantActorCredentialsDto | null;
+  loadingCredentials: boolean;
   uploadInProgress: boolean;
 }
 
 const initialState: CertificateState = {
+  credentials: null,
+  loadingCredentials: true,
   uploadInProgress: false,
 };
 
@@ -31,11 +39,30 @@ const initialState: CertificateState = {
 export class DhMarketParticipantCertificateStore extends ComponentStore<CertificateState> {
   private readonly httpClient = inject(MarketParticipantActorHttp);
 
+  readonly doCredentialsExist$ = this.select((state) => !!state.credentials);
+  readonly certificateMetaData$ = this.select((state) => state.credentials?.certificateCredentials);
+
+  readonly loadingCredentials$ = this.select((state) => state.loadingCredentials);
   readonly uploadInProgress$ = this.select((state) => state.uploadInProgress);
 
-  constructor() {
-    super(initialState);
-  }
+  readonly getCredentials = this.effect((trigger$) =>
+    trigger$.pipe(
+      tap(() => this.patchState({ loadingCredentials: true })),
+      switchMap(() => this.httpClient.v1MarketParticipantActorGetActorCredentialsGet()),
+      tapResponse(
+        (response) => {
+          this.patchState({ credentials: response });
+
+          this.patchState({ loadingCredentials: false });
+        },
+        () => {
+          this.patchState({ credentials: null });
+
+          this.patchState({ loadingCredentials: false });
+        }
+      )
+    )
+  );
 
   readonly uploadCertificate = this.effect(
     (trigger$: Observable<{ actorId: string; file: File }>) =>
@@ -46,13 +73,16 @@ export class DhMarketParticipantCertificateStore extends ComponentStore<Certific
         ),
         tapResponse(
           () => {
-            console.log('done');
+            this.patchState({ uploadInProgress: false });
           },
           () => {
-            console.log('error');
+            this.patchState({ uploadInProgress: false });
           }
-        ),
-        finalize(() => this.patchState({ uploadInProgress: false }))
+        )
       )
   );
+
+  constructor() {
+    super(initialState);
+  }
 }
