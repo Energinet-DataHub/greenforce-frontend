@@ -21,6 +21,6 @@ limitations under the License.
   (selectedIndexChange)="emitSelectedTabChange($event)"
 >
   <mat-tab [label]="tab.label" *ngFor="let tab of tabElements">
-    <ng-container *ngTemplateOutlet="tab.templateRef"></ng-container>
+    <ng-container *ngTemplateOutlet="tab.templateRef" />
   </mat-tab>
 </mat-tab-group>

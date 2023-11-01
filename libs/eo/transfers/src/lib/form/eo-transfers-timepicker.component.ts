@@ -64,7 +64,7 @@ import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/wa
       [options]="options"
       [showResetOption]="false"
       placeholder="HH:MM"
-    ></watt-dropdown>
+    />
   `,
   providers: [
     {

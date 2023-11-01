@@ -31,16 +31,19 @@ limitations under the License.
         icon="close"
         class="watt-sidenav-close-button"
         (click)="drawer.toggle()"
-      >
-      </watt-button>
+      />
       <ng-content select="[watt-shell-sidenav]" />
     </div>
   </mat-sidenav>
 
   <mat-sidenav-content class="watt-sidenav-content">
     <mat-toolbar class="watt-toolbar">
-      <watt-button *ngIf="isHandset$ | async" variant="icon" icon="menu" (click)="drawer.toggle()">
-      </watt-button>
+      <watt-button
+        *ngIf="isHandset$ | async"
+        variant="icon"
+        icon="menu"
+        (click)="drawer.toggle()"
+      />
 
       <ng-content select="[watt-shell-toolbar]" />
     </mat-toolbar>

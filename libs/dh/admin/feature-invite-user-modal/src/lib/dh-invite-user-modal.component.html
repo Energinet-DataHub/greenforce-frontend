@@ -116,9 +116,7 @@ limitations under the License.
         >
           {{ t("noUserRolesError") }}
         </watt-field-error>
-        <dh-assignable-user-roles
-          (selectedUserRoles)="onSelectedUserRoles($event)"
-        ></dh-assignable-user-roles>
+        <dh-assignable-user-roles (selectedUserRoles)="onSelectedUserRoles($event)" />
       </form>
     </watt-stepper-step>
   </watt-stepper>

@@ -67,7 +67,7 @@ import { EoRemoveConnectionComponent } from '@energinet-datahub/eo/connections/f
         *wattTableCell="table.columns['actions']; let element"
         [connection]="element"
         (connectionRemoved)="connectionRemoved.emit($event)"
-      ></eo-remove-connection>
+      />
     </watt-table>
 
     <watt-empty-state
@@ -75,14 +75,14 @@ import { EoRemoveConnectionComponent } from '@energinet-datahub/eo/connections/f
       icon="custom-power"
       title="No connections found"
       message="You do not have any connections."
-    ></watt-empty-state>
+    />
 
     <watt-empty-state
       *ngIf="loading === false && hasError"
       icon="custom-power"
       title="Oops! Something went wrong."
       message="Please try reloading the page.."
-    ></watt-empty-state>
+    />
 
     <watt-paginator [for]="dataSource" />
   `,

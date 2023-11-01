@@ -19,11 +19,11 @@ limitations under the License.
     {{ index + 1 }}
   </ng-template>
   <ng-template matStepperIcon="done">
-    <watt-icon name="checkmark"></watt-icon>
+    <watt-icon name="checkmark" />
   </ng-template>
   <ng-template matStepperIcon="number" let-index="index">
     <ng-container *ngIf="this.stepper.steps.get(0)?.completed; else notCompleted">
-      <watt-icon name="checkmark"></watt-icon>
+      <watt-icon name="checkmark" />
     </ng-container>
     <ng-template #notCompleted>
       {{ index + 1 }}
@@ -35,15 +35,15 @@ limitations under the License.
   <mat-step *ngFor="let step of steps" [stepControl]="step.stepControl">
     <ng-template matStepLabel>{{ step.label }}</ng-template>
     <div class="watt-stepper-content-wrapper">
-      <ng-container *ngTemplateOutlet="step.templateRef"></ng-container>
+      <ng-container *ngTemplateOutlet="step.templateRef" />
     </div>
     <div class="watt-stepper-button-wrapper">
       <watt-button *ngIf="onFirstStep$ | push" variant="secondary" (click)="previousStep()">
-        <watt-icon name="left"></watt-icon>
+        <watt-icon name="left" />
         {{ step.previousButtonLabel }}
       </watt-button>
       <watt-button *ngIf="!(onLastStep$ | push)" variant="secondary" (click)="nextStep()">
-        {{ step.nextButtonLabel }}<watt-icon name="right"></watt-icon>
+        {{ step.nextButtonLabel }}<watt-icon name="right" />
       </watt-button>
       <watt-button *ngIf="onLastStep$ | push" variant="primary" (click)="complete()">{{
         step.nextButtonLabel

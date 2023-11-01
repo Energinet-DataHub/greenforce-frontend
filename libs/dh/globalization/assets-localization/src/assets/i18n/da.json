@@ -623,7 +623,12 @@
           "certificate": {
             "tabLabel": "Certifikat",
             "thumbprint": "Thumbprint",
-            "expiryDate": "Udløbsdato"
+            "expiryDate": "Udløbsdato",
+            "removeCertificate": "Fjern certifikat",
+            "uploadCertificate": "Upload certifikat",
+            "invalidFileType": "Vælg en certifikatfil",
+            "uploadSuccess": "Certifikatet er blevet uploadet",
+            "uploadError": "Noget gik galt. Certifikatet blev ikke uploadet. Prøv igen"
           },
           "history": {
             "tabLabel": "History",

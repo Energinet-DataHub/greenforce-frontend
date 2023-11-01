@@ -166,7 +166,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
               *ngIf="form.value.hasEndDate"
               [min]="minEndDate"
               [existingTransferAgreements]="existingTransferAgreements"
-            ></eo-transfers-datetime>
+            />
 
             <eo-transfers-errors
               [showError]="!!form.controls.endDate.errors || !!form.controls.hasEndDate.errors"

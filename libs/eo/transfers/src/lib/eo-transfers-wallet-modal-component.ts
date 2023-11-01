@@ -106,8 +106,7 @@ import { EoTransfersStore } from './eo-transfers.store';
         title="An unexpected error occured"
         message="We are sorry, we could not generate your key. Please try again later."
         style="margin: var(--watt-space-xl) 0;"
-      >
-      </watt-empty-state>
+      />
     </ng-template>
   `,
 })

@@ -118,22 +118,22 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
     `,
   ],
   template: `
-    <eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getBannerStatus()"></eo-cookie-banner>
+    <eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getBannerStatus()" />
     <watt-shell>
       <ng-container watt-shell-sidenav>
         <div class="logo-container">
           <img class="logo" src="/assets/images/energy-origin-logo-secondary.svg" />
         </div>
-        <eo-primary-navigation></eo-primary-navigation>
+        <eo-primary-navigation />
       </ng-container>
 
       <ng-container watt-shell-toolbar>
         <h2>{{ title$ | push }}</h2>
       </ng-container>
 
-      <router-outlet></router-outlet>
+      <router-outlet />
 
-      <eo-footer></eo-footer>
+      <eo-footer />
     </watt-shell>
   `,
 })

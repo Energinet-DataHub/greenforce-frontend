@@ -52,7 +52,7 @@ limitations under the License.
       (click)="rangeDatepicker.open()"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
-    ></watt-button>
+    />
 
     <ng-content />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
@@ -64,7 +64,7 @@ limitations under the License.
     [startAt]="startAt"
     (monthSelected)="onMonthSelected($event)"
     #rangeDatepicker
-  ></mat-date-range-picker>
+  />
 </ng-container>
 
 <ng-template #singleInputTemplate>
@@ -91,7 +91,7 @@ limitations under the License.
       (click)="singleDatepicker.open()"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
-    ></watt-button>
+    />
 
     <ng-content />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
@@ -102,5 +102,5 @@ limitations under the License.
     panelClass="watt-datepicker-single__panel"
     [dateClass]="dateClass"
     [startAt]="startAt"
-  ></mat-datepicker>
+  />
 </ng-template>

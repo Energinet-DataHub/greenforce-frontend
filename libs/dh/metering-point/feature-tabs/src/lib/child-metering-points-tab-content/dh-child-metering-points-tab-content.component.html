@@ -41,7 +41,7 @@ limitations under the License.
 
     <!-- Status Definition -->
     <ng-container *wattTableCell="columns.status; let row">
-      <dh-status-badge [connectionState]="row.connectionState"></dh-status-badge>
+      <dh-status-badge [connectionState]="row.connectionState" />
     </ng-container>
   </watt-table>
 </ng-container>
@@ -53,5 +53,5 @@ limitations under the License.
     [message]="
       'meteringPoint.overview.childMeteringPointsTab.noChildMeteringPointsText' | transloco
     "
-  ></watt-empty-state>
+  />
 </ng-template>
