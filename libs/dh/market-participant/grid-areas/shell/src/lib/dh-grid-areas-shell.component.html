@@ -23,8 +23,7 @@ limitations under the License.
         type="danger"
         *ngIf="validationError"
         [message]="validationError.errorMessage"
-      >
-      </watt-validation-message>
+      />
     </ng-container>
 
     <!-- Table -->
@@ -32,7 +31,7 @@ limitations under the License.
 
     <!-- Spinner -->
     <div *ngIf="isLoading" class="overview__spinner spinner-container">
-      <watt-spinner></watt-spinner>
+      <watt-spinner />
     </div>
 
     <!-- Empty -->
@@ -42,7 +41,7 @@ limitations under the License.
         icon="power"
         size="small"
         [title]="t('noGridAreas')"
-      ></watt-empty-state>
+      />
     </ng-container>
   </ng-container>
 </ng-container>

@@ -61,28 +61,28 @@ limitations under the License.
               <watt-description-list-item
                 [label]="t('tabs.masterData.glnOrEic')"
                 [value]="actor?.glnOrEicNumber"
-              ></watt-description-list-item>
+              />
 
               <watt-description-list-item
                 [label]="t('tabs.masterData.name')"
                 [value]="actor?.name"
-              ></watt-description-list-item>
+              />
 
               <watt-description-list-item
                 [label]="t('tabs.masterData.gridArea')"
                 [value]="gridAreaOrFallback"
-              ></watt-description-list-item>
+              />
 
               <watt-description-list-item
                 [label]="t('tabs.masterData.marketRole')"
                 [value]="marketRoleOrFallback"
-              ></watt-description-list-item>
+              />
             </watt-description-list>
           </watt-card>
         </watt-tab>
 
         <watt-tab [label]="t('tabs.certificate.tabLabel')">
-          <dh-certificate />
+          <dh-certificate [actorId]="actor?.id" />
         </watt-tab>
 
         <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
@@ -94,7 +94,7 @@ limitations under the License.
             [icon]="auditLogFailedToLoad ? 'custom-power' : 'cancel'"
             size="small"
             [title]="auditLogFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
-          ></watt-empty-state>
+          />
           <watt-card variant="solid" *ngIf="auditLog.data.length > 0 && !isLoadingAuditLog">
             <watt-table
               [dataSource]="auditLog"
@@ -127,4 +127,4 @@ limitations under the License.
   </watt-drawer>
 </ng-container>
 
-<dh-actors-edit-actor-modal #editActorModal [actor]="actor"> </dh-actors-edit-actor-modal>
+<dh-actors-edit-actor-modal #editActorModal [actor]="actor" />

@@ -60,7 +60,7 @@ import { Observable, of } from 'rxjs';
         icon="danger"
         type="danger"
         size="compact"
-      ></watt-validation-message>
+      />
 
       <eo-transfers-form
         submitButtonText="Save"
@@ -70,7 +70,7 @@ import { Observable, of } from 'rxjs';
         [initialValues]="initialValues"
         (submitted)="saveTransferAgreement($event)"
         (canceled)="modal.close(false)"
-      ></eo-transfers-form>
+      />
     </watt-modal>
   `,
 })

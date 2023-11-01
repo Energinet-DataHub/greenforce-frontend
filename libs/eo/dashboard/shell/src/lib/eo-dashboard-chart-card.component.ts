@@ -27,7 +27,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
     <h3 class="watt-space-stack-s">Renewable Share</h3>
     <p class="watt-space-stack-m">Your share of renewable energy in 2021</p>
     <div class="chart-box">
-      <eo-origin-of-energy-pie-chart></eo-origin-of-energy-pie-chart>
+      <eo-origin-of-energy-pie-chart />
     </div>
   </watt-card>`,
   styles: [

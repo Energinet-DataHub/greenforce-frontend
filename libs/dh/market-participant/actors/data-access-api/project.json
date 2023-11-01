@@ -1,0 +1,29 @@
+{
+  "name": "dh-market-participant-actors-data-access-api",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/market-participant/actors/data-access-api/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/market-participant/actors/data-access-api"
+      ],
+      "options": {
+        "jestConfig": "libs/dh/market-participant/actors/data-access-api/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/market-participant/actors/data-access-api/src/**/*.ts",
+          "libs/dh/market-participant/actors/data-access-api/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:market-participant", "type:data-access"]
+}
