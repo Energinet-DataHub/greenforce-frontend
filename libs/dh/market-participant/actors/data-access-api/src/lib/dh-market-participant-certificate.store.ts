@@ -45,11 +45,11 @@ export class DhMarketParticipantCertificateStore extends ComponentStore<Certific
   readonly loadingCredentials$ = this.select((state) => state.loadingCredentials);
   readonly uploadInProgress$ = this.select((state) => state.uploadInProgress);
 
-  readonly getCredentials = this.effect((trigger$) =>
+  readonly getCredentials = this.effect((trigger$: Observable<string>) =>
     trigger$.pipe(
       tap(() => this.patchState({ loadingCredentials: true })),
-      switchMap(() =>
-        this.httpClient.v1MarketParticipantActorGetActorCredentialsGet().pipe(
+      switchMap((actorId) =>
+        this.httpClient.v1MarketParticipantActorGetActorCredentialsGet(actorId).pipe(
           tapResponse(
             (response) => this.patchState({ credentials: response }),
             () => this.patchState({ credentials: null })
