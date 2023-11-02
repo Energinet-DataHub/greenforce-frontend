@@ -27,12 +27,14 @@ interface CertificateState {
   credentials: MarketParticipantActorCredentialsDto | null;
   loadingCredentials: boolean;
   uploadInProgress: boolean;
+  removeInProgress: boolean;
 }
 
 const initialState: CertificateState = {
   credentials: null,
   loadingCredentials: true,
   uploadInProgress: false,
+  removeInProgress: false,
 };
 
 @Injectable()
@@ -45,8 +47,10 @@ export class DhMarketParticipantCertificateStore extends ComponentStore<Certific
   readonly loadingCredentials$ = this.select((state) => state.loadingCredentials);
   readonly uploadInProgress$ = this.select((state) => state.uploadInProgress);
 
-  readonly getCredentials = this.effect((trigger$: Observable<string>) =>
-    trigger$.pipe(
+  readonly removeInProgress$ = this.select((state) => state.removeInProgress);
+
+  readonly getCredentials = this.effect((actorId$: Observable<string>) =>
+    actorId$.pipe(
       tap(() => this.patchState({ loadingCredentials: true })),
       switchMap((actorId) =>
         this.httpClient.v1MarketParticipantActorGetActorCredentialsGet(actorId).pipe(
@@ -81,6 +85,28 @@ export class DhMarketParticipantCertificateStore extends ComponentStore<Certific
               ),
               finalize(() => this.patchState({ uploadInProgress: false }))
             )
+        )
+      )
+  );
+
+  readonly removeCertificate = this.effect(
+    (
+      trigger$: Observable<{
+        actorId: string;
+        onSuccess: () => void;
+        onError: () => void;
+      }>
+    ) =>
+      trigger$.pipe(
+        tap(() => this.patchState({ removeInProgress: true })),
+        exhaustMap(({ actorId, onSuccess, onError }) =>
+          this.httpClient.v1MarketParticipantActorRemoveActorCredentialsDelete(actorId).pipe(
+            tapResponse(
+              () => onSuccess(),
+              () => onError()
+            ),
+            finalize(() => this.patchState({ removeInProgress: false }))
+          )
         )
       )
   );

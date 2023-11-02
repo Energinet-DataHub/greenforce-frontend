@@ -69,7 +69,8 @@ export function marketParticipantMocks(apiBase: string) {
     getAuditLogByOrganizationId(),
     getAuditLogByActorId(),
     getMarketParticipantActorActorCredentials(apiBase),
-    getMarketParticipantActorAssignCertificateCredentials(apiBase),
+    marketParticipantActorAssignCertificateCredentials(apiBase),
+    marketParticipantActorRemoveActorCredentials(apiBase),
   ];
 }
 
@@ -380,9 +381,18 @@ function getMarketParticipantActorActorCredentials(apiBase: string) {
   });
 }
 
-function getMarketParticipantActorAssignCertificateCredentials(apiBase: string) {
+function marketParticipantActorAssignCertificateCredentials(apiBase: string) {
   return rest.post(
     `${apiBase}/v1/MarketParticipantActor/AssignCertificateCredentials`,
+    (req, res, ctx) => {
+      return res(ctx.delay(1000), ctx.status(200));
+    }
+  );
+}
+
+function marketParticipantActorRemoveActorCredentials(apiBase: string) {
+  return rest.delete(
+    `${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`,
     (req, res, ctx) => {
       return res(ctx.delay(1000), ctx.status(200));
     }
