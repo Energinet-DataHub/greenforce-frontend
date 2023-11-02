@@ -158,22 +158,20 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
       this.domain = domain;
     });
 
-    this.baseInfo.controls.email.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((email) => {
-        this.inOrganizationMailDomain =
-          !!email &&
-          !!this.domain &&
-          this.baseInfo.controls.email.valid &&
-          email.toUpperCase().endsWith(this.domain.toUpperCase());
+    this.baseInfo.controls.email.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((email) => {
+      this.inOrganizationMailDomain =
+        !!email &&
+        !!this.domain &&
+        this.baseInfo.controls.email.valid &&
+        email.toUpperCase().endsWith(this.domain.toUpperCase());
 
-        this.emailExists =
-          !!email &&
-          this.baseInfo.controls.email.valid &&
-          this.knownEmails.includes(email.toUpperCase());
+      this.emailExists =
+        !!email &&
+        this.baseInfo.controls.email.valid &&
+        this.knownEmails.includes(email.toUpperCase());
 
-        this.changeDectorRef.detectChanges();
-      });
+      this.changeDectorRef.detectChanges();
+    });
 
     this.actors$.pipe(take(1)).subscribe((actors) => {
       if (actors.length === 1) {
