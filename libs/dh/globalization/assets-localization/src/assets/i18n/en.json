@@ -617,7 +617,15 @@
             "uploadCertificate": "Upload certificate",
             "invalidFileType": "Please select a certificate file",
             "uploadSuccess": "Certificate uploaded successfully",
-            "uploadError": "An error occurred while uploading the certificate. Please try again"
+            "uploadError": "An error occurred while uploading the certificate. Please try again",
+            "removeSuccess": "Certificate removed successfully",
+            "removeError": "An error occurred while removing the certificate. Please try again",
+            "removeCertificateModal": {
+              "title": "Remove certificate?",
+              "message": "Are you sure you want to remove the certificate?",
+              "cancel": "Cancel",
+              "remove": "Remove certificate"
+            }
           },
           "history": {
             "tabLabel": "History",
