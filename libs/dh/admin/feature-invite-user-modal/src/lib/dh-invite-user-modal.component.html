@@ -46,7 +46,7 @@ limitations under the License.
           <watt-field-error *ngIf="baseInfo.controls.email.hasError('required')">
             {{ "shared.fieldRequiredErrorText" | transloco }}
           </watt-field-error>
-          <watt-field-error *ngIf="baseInfo.controls.email.hasError('pattern')">
+          <watt-field-error *ngIf="baseInfo.controls.email.hasError('email')">
             {{ t("wrongEmailPattern") }}
           </watt-field-error>
         </watt-text-field>
