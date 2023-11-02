@@ -41,8 +41,8 @@ const initialState: CertificateState = {
 export class DhMarketParticipantCertificateStore extends ComponentStore<CertificateState> {
   private readonly httpClient = inject(MarketParticipantActorHttp);
 
-  readonly doCredentialsExist$ = this.select((state) => !!state.credentials);
-  readonly certificateMetaData$ = this.select((state) => state.credentials?.certificateCredentials);
+  readonly certificateMetadata$ = this.select((state) => state.credentials?.certificateCredentials);
+  readonly doesCertificateExist$ = this.select(this.certificateMetadata$, (metadata) => !!metadata);
 
   readonly loadingCredentials$ = this.select((state) => state.loadingCredentials);
   readonly uploadInProgress$ = this.select((state) => state.uploadInProgress);
@@ -102,7 +102,11 @@ export class DhMarketParticipantCertificateStore extends ComponentStore<Certific
         exhaustMap(({ actorId, onSuccess, onError }) =>
           this.httpClient.v1MarketParticipantActorRemoveActorCredentialsDelete(actorId).pipe(
             tapResponse(
-              () => onSuccess(),
+              () => {
+                this.patchState({ credentials: null });
+
+                onSuccess();
+              },
               () => onError()
             ),
             finalize(() => this.patchState({ removeInProgress: false }))
