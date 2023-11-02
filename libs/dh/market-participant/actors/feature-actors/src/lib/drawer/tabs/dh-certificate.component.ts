@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, inject, signal } from '@angular/core';
+import { Component, Input, OnChanges, inject, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -112,7 +112,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   ],
   viewProviders: [DhMarketParticipantCertificateStore],
 })
-export class DhCertificateComponent {
+export class DhCertificateComponent implements OnChanges {
   private readonly store = inject(DhMarketParticipantCertificateStore);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
@@ -129,8 +129,8 @@ export class DhCertificateComponent {
 
   @Input({ required: true }) actorId = '';
 
-  constructor() {
-    this.store.getCredentials();
+  ngOnChanges(): void {
+    this.store.getCredentials(this.actorId);
   }
 
   onFileSelected(files: FileList | null): void {
