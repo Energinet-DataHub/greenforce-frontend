@@ -615,6 +615,7 @@
             "expiryDate": "Expiry date",
             "removeCertificate": "Remove certificate",
             "uploadCertificate": "Upload certificate",
+            "uploadNewCertificate": "Upload new certificate",
             "invalidFileType": "Please select a certificate file",
             "uploadSuccess": "Certificate uploaded successfully",
             "uploadError": "An error occurred while uploading the certificate. Please try again",

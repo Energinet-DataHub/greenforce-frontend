@@ -608,6 +608,7 @@
             "expiryDate": "Udløbsdato",
             "removeCertificate": "Fjern certifikat",
             "uploadCertificate": "Upload certifikat",
+            "uploadNewCertificate": "Upload nyt certifikat",
             "invalidFileType": "Vælg en certifikatfil",
             "uploadSuccess": "Certifikatet er blevet uploadet",
             "uploadError": "Noget gik galt. Certifikatet blev ikke uploadet. Prøv igen",

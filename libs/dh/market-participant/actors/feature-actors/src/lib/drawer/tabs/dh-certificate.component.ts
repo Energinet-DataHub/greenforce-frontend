@@ -76,11 +76,11 @@ const certificateMimeType = 'application/x-x509-ca-cert';
         </vater-flex>
 
         <ng-template #componentContent>
-          <watt-card variant="solid" *ngIf="doCredentialsExist()">
+          <watt-card variant="solid" *ngIf="doesCertificateExist()">
             <watt-description-list variant="stack">
               <watt-description-list-item
                 [label]="t('thumbprint')"
-                [value]="certificateMetaData()?.thumbprint | dhEmDashFallback"
+                [value]="certificateMetadata()?.thumbprint | dhEmDashFallback"
               />
               <watt-description-list-item
                 [label]="t('expiryDate')"
@@ -91,15 +91,16 @@ const certificateMimeType = 'application/x-x509-ca-cert';
 
           <vater-stack direction="row" justify="flex-end" gap="m">
             <watt-button
-              *ngIf="doCredentialsExist()"
+              *ngIf="doesCertificateExist()"
               variant="secondary"
               (click)="removeCertificate()"
             >
               {{ t('removeCertificate') }}
             </watt-button>
-            <watt-button variant="secondary" (click)="fileUpload.click()">{{
-              t('uploadCertificate')
-            }}</watt-button>
+
+            <watt-button variant="secondary" (click)="fileUpload.click()">
+              {{ doesCertificateExist() ? t('uploadNewCertificate') : t('uploadCertificate') }}
+            </watt-button>
           </vater-stack>
         </ng-template>
       </vater-flex>
@@ -132,8 +133,8 @@ export class DhCertificateComponent implements OnChanges {
 
   isInvalidFileType = signal(false);
 
-  doCredentialsExist = toSignal(this.store.doCredentialsExist$);
-  certificateMetaData = toSignal(this.store.certificateMetaData$);
+  doesCertificateExist = toSignal(this.store.doesCertificateExist$);
+  certificateMetadata = toSignal(this.store.certificateMetadata$);
 
   loadingCredentials = toSignal(this.store.loadingCredentials$);
   isUploadInProgress = toSignal(this.store.uploadInProgress$);
