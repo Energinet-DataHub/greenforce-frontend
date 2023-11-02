@@ -32,6 +32,9 @@ import { DhMarketParticipantCertificateStore } from '@energinet-datahub/dh/marke
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
+const certificateExt = '.cer';
+const certificateMimeType = 'application/x-x509-ca-cert';
+
 @Component({
   selector: 'dh-certificate',
   standalone: true,
@@ -117,7 +120,7 @@ export class DhCertificateComponent implements OnChanges {
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
 
-  certificateExt = '.pfx';
+  certificateExt = certificateExt;
 
   isInvalidFileType = signal(false);
 
@@ -159,7 +162,7 @@ export class DhCertificateComponent implements OnChanges {
   }
 
   private isValidFileType(file: File): boolean {
-    return file.type === 'application/x-pkcs12';
+    return file.type === certificateMimeType;
   }
 
   private readonly onUploadSuccessFn = () => {
