@@ -160,7 +160,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
 
     this.baseInfo.controls.email.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe(async (email) => {
+      .subscribe((email) => {
         this.inOrganizationMailDomain =
           !!email &&
           !!this.domain &&
