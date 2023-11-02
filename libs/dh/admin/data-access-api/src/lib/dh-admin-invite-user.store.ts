@@ -54,7 +54,7 @@ export class DhAdminInviteUserStore extends ComponentStore<State> {
       trigger$: Observable<{
         invitation: MarketParticipantUserInvitationDto;
         onSuccess: () => void;
-        onError: (error: ErrorDescriptor[]) => void;
+        onError: (error: ErrorDescriptor) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -74,11 +74,8 @@ export class DhAdminInviteUserStore extends ComponentStore<State> {
                 (e: HttpErrorResponse) => {
                   this.setSaving(ErrorState.GENERAL_ERROR);
 
-                  const serverErrors = e.error?.error?.details as ErrorDescriptor[] | undefined;
-
-                  if (serverErrors) {
-                    onError(serverErrors);
-                  }
+                  const error = (e.error?.error as ErrorDescriptor) ?? undefined;
+                  if (error) onError(error);
                 }
               )
             );

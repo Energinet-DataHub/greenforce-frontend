@@ -30,6 +30,7 @@ import { marketParticipantUserRoles } from './data/admin-get-marketParticipantUs
 import { marketParticipantOrganization } from './data/admin-get-actorOrganization';
 import { marketParticipantUserSearchUsers } from './data/marketParticipantUserSearchUsers';
 import { marketParticipantOrganizationGetFilteredActors } from './data/marketParticipantOrganizationGetFilteredActors';
+import { mockGetKnownEmailsQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export function adminMocks(apiBase: string) {
   return [
@@ -49,6 +50,7 @@ export function adminMocks(apiBase: string) {
     putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase),
     getMarketParticipantUserRoleGetAssignable(apiBase),
     getActorOrganization(apiBase),
+    getKnownEmailsQuery(),
   ];
 }
 
@@ -169,4 +171,16 @@ function putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase: string
       return res(ctx.delay(300), ctx.status(200));
     }
   );
+}
+
+function getKnownEmailsQuery() {
+  return mockGetKnownEmailsQuery((req, res, ctx) => {
+    return res(
+      ctx.delay(300),
+      ctx.data({
+        __typename: 'Query',
+        knownEmails: marketParticipantUserSearchUsers.users.map((x) => x.email),
+      })
+    );
+  });
 }
