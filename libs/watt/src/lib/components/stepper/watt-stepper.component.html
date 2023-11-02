@@ -32,22 +32,24 @@ limitations under the License.
   <ng-template matStepperIcon="error" let-index="index">
     {{ index + 1 }}
   </ng-template>
-  <mat-step *ngFor="let step of steps" [stepControl]="step.stepControl">
-    <ng-template matStepLabel>{{ step.label }}</ng-template>
-    <div class="watt-stepper-content-wrapper">
-      <ng-container *ngTemplateOutlet="step.templateRef" />
-    </div>
-    <div class="watt-stepper-button-wrapper">
-      <watt-button *ngIf="onFirstStep$ | push" variant="secondary" (click)="previousStep()">
-        <watt-icon name="left" />
-        {{ step.previousButtonLabel }}
-      </watt-button>
-      <watt-button *ngIf="!(onLastStep$ | push)" variant="secondary" (click)="nextStep()">
-        {{ step.nextButtonLabel }}<watt-icon name="right" />
-      </watt-button>
-      <watt-button *ngIf="onLastStep$ | push" variant="primary" (click)="complete()">{{
-        step.nextButtonLabel
-      }}</watt-button>
-    </div>
-  </mat-step>
+  <ng-container *ngFor="let step of steps">
+    <mat-step *ngIf="step.enabled" [stepControl]="step.stepControl">
+      <ng-template matStepLabel>{{ step.label }}</ng-template>
+      <div class="watt-stepper-content-wrapper">
+        <ng-container *ngTemplateOutlet="step.templateRef" />
+      </div>
+      <div class="watt-stepper-button-wrapper">
+        <watt-button *ngIf="!(onFirstStep$ | push)" variant="secondary" (click)="previousStep()">
+          <watt-icon name="left" />
+          {{ step.previousButtonLabel }}
+        </watt-button>
+        <watt-button *ngIf="!(onLastStep$ | push)" variant="secondary" (click)="nextStep()">
+          {{ step.nextButtonLabel }}<watt-icon name="right" />
+        </watt-button>
+        <watt-button *ngIf="onLastStep$ | push" variant="primary" (click)="complete()">{{
+          step.nextButtonLabel
+        }}</watt-button>
+      </div>
+    </mat-step>
+  </ng-container>
 </mat-stepper>

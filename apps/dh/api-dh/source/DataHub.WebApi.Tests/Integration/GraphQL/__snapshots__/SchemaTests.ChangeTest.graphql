@@ -226,6 +226,7 @@ type Query {
   organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
   emailExists(emailAddress: String!): Boolean!
   actorAuditLogs(actorId: UUID!): [ActorAuditLog!]!
+  knownEmails: [String!]!
 }
 
 type SettlementReport {
