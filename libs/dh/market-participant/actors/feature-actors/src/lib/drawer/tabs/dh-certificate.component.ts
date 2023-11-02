@@ -171,6 +171,8 @@ export class DhCertificateComponent implements OnChanges {
     );
 
     this.toastService.open({ type: 'success', message });
+
+    this.store.getCredentials(this.actorId);
   };
 
   private readonly onUploadErrorFn = () => {
