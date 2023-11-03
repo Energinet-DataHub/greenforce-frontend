@@ -35,7 +35,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       #modal
       *transloco="
         let t;
-        read: 'marketParticipant.actorsOverview.drawer.tabs.certificate.removeCertificateModal'
+        read: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.removeCertificateModal'
       "
       [title]="t('title')"
     >

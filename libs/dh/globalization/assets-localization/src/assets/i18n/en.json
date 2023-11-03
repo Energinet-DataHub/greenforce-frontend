@@ -628,8 +628,9 @@
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
             "gridArea": "Grid area"
           },
-          "certificate": {
-            "tabLabel": "Certificate",
+          "b2bAccess": {
+            "tabLabel": "B2B access",
+            "certificateHeadline": "Certificate",
             "thumbprint": "Thumbprint",
             "expiryDate": "Expiry date",
             "removeCertificate": "Remove certificate",

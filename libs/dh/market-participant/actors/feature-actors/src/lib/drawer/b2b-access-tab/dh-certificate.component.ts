@@ -14,16 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnChanges, computed, inject, signal } from '@angular/core';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { Component, Input, OnChanges, computed, effect, inject, signal } from '@angular/core';
+import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import {
-  WattDescriptionListComponent,
-  WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -32,11 +28,20 @@ import { DhMarketParticipantCertificateStore } from '@energinet-datahub/dh/marke
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalService } from '@energinet-datahub/watt/modal';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { DhRemoveCertificateModalComponent } from './dh-remove-certificate-modal.component';
 
 const certificateExt = '.cer';
 const certificateMimeType = 'application/x-x509-ca-cert';
+
+type DhCertificateTableRow = {
+  translationKey: string;
+  value?: string;
+  valueIsDate?: boolean;
+  showActionButton?: boolean;
+};
 
 @Component({
   selector: 'dh-certificate',
@@ -47,77 +52,29 @@ const certificateMimeType = 'application/x-x509-ca-cert';
         display: block;
       }
 
+      h4 {
+        margin-top: 0;
+      }
+
       .certificate-input {
         display: none;
       }
     `,
   ],
-  template: `
-    <ng-container
-      *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.certificate'"
-    >
-      <input
-        type="file"
-        class="certificate-input"
-        [accept]="certificateExt"
-        (change)="onFileSelected(fileUpload.files)"
-        #fileUpload
-      />
-
-      <vater-flex gap="m">
-        <watt-validation-message
-          *ngIf="isInvalidFileType()"
-          type="warning"
-          [message]="t('invalidFileType')"
-        />
-
-        <vater-flex direction="row" justify="center" *ngIf="showSpinner(); else componentContent">
-          <watt-spinner />
-        </vater-flex>
-
-        <ng-template #componentContent>
-          <watt-card variant="solid" *ngIf="doesCertificateExist()">
-            <watt-description-list variant="stack">
-              <watt-description-list-item
-                [label]="t('thumbprint')"
-                [value]="certificateMetadata()?.thumbprint | dhEmDashFallback"
-              />
-              <watt-description-list-item
-                [label]="t('expiryDate')"
-                [value]="undefined | dhEmDashFallback"
-              />
-            </watt-description-list>
-          </watt-card>
-
-          <vater-stack direction="row" justify="flex-end" gap="m">
-            <watt-button
-              *ngIf="doesCertificateExist()"
-              variant="secondary"
-              (click)="removeCertificate()"
-            >
-              {{ t('removeCertificate') }}
-            </watt-button>
-
-            <watt-button variant="secondary" (click)="fileUpload.click()">
-              {{ doesCertificateExist() ? t('uploadNewCertificate') : t('uploadCertificate') }}
-            </watt-button>
-          </vater-stack>
-        </ng-template>
-      </vater-flex>
-    </ng-container>
-  `,
+  templateUrl: './dh-certificate.component.html',
   imports: [
     NgIf,
     TranslocoDirective,
+    TranslocoPipe,
 
     WattButtonComponent,
     WATT_CARD,
-    WattDescriptionListComponent,
-    WattDescriptionListItemComponent,
     VaterFlexComponent,
     VaterStackComponent,
     WattValidationMessageComponent,
     WattSpinnerComponent,
+    WattDatePipe,
+    WATT_TABLE,
 
     DhEmDashFallbackPipe,
   ],
@@ -128,6 +85,13 @@ export class DhCertificateComponent implements OnChanges {
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
   private readonly modalService = inject(WattModalService);
+
+  dataSource = new WattTableDataSource<DhCertificateTableRow>([]);
+  columns: WattTableColumnDef<DhCertificateTableRow> = {
+    translationKey: { accessor: 'translationKey' },
+    value: { accessor: 'value' },
+    showActionButton: { accessor: 'showActionButton', align: 'right' },
+  };
 
   certificateExt = certificateExt;
 
@@ -145,6 +109,25 @@ export class DhCertificateComponent implements OnChanges {
   });
 
   @Input({ required: true }) actorId = '';
+
+  constructor() {
+    effect(() => {
+      const tableData: DhCertificateTableRow[] = [
+        {
+          translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.thumbprint',
+          value: this.certificateMetadata()?.thumbprint,
+          showActionButton: true,
+        },
+        {
+          translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.expiryDate',
+          value: this.certificateMetadata()?.expirationDate,
+          valueIsDate: true,
+        },
+      ];
+
+      this.dataSource.data = tableData;
+    });
+  }
 
   ngOnChanges(): void {
     this.store.getCredentials(this.actorId);
