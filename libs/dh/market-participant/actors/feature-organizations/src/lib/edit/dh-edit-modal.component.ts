@@ -45,8 +45,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhOrganizationDetails } from '../dh-organization';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-const validDomainRegExp = /^([A-Za-z0-9-]{1,63}\.)+[A-Za-z]{2,6}$/;
+import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 @Component({
   standalone: true,
@@ -81,7 +80,7 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
   innerModal?: WattModalComponent;
 
   domainControl = new FormControl('', {
-    validators: [Validators.required, Validators.pattern(validDomainRegExp)],
+    validators: [Validators.required, dhDomainValidator],
     nonNullable: true,
   });
   isLoading = false;

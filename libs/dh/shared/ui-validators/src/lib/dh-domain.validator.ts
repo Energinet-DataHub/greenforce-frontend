@@ -14,4 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { danishPhoneNumberPattern } from './dh-danish-phone-number-pattern';
+import { Validators } from '@angular/forms';
+
+export const dhDomainValidator = Validators.pattern(/^([A-Za-z0-9-]{1,63}\.)+[A-Za-z]{2,6}$/);
