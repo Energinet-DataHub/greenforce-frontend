@@ -47,6 +47,7 @@ import userRoleData from './data/marketParticipantUserRoleTemplates.json';
 import { marketParticipantActors } from './data/market-participant-actors';
 import { getOrganizationsQueryMock } from './data/market-participant-organizations';
 import { getActorAuditLogsMock } from './data/get-actor-audit-logs';
+import { MarketParticipantActorCredentialsDto } from '@energinet-datahub/dh/shared/domain';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
@@ -67,6 +68,9 @@ export function marketParticipantMocks(apiBase: string) {
     updateOrganization(),
     getAuditLogByOrganizationId(),
     getAuditLogByActorId(),
+    getMarketParticipantActorActorCredentials(apiBase),
+    marketParticipantActorAssignCertificateCredentials(apiBase),
+    marketParticipantActorRemoveActorCredentials(apiBase),
   ];
 }
 
@@ -362,4 +366,35 @@ function getAuditLogByActorId() {
   return mockGetAuditLogByActorIdQuery((req, res, ctx) => {
     return res(ctx.delay(300), ctx.data(getActorAuditLogsMock));
   });
+}
+
+function getMarketParticipantActorActorCredentials(apiBase: string) {
+  const response: MarketParticipantActorCredentialsDto = {
+    certificateCredentials: {
+      thumbprint: 'thumbprint-value',
+    },
+    clientSecretCredentials: undefined,
+  };
+
+  return rest.get(`${apiBase}/v1/MarketParticipantActor/GetActorCredentials`, (req, res, ctx) => {
+    return res(ctx.delay(300), ctx.json(response));
+  });
+}
+
+function marketParticipantActorAssignCertificateCredentials(apiBase: string) {
+  return rest.post(
+    `${apiBase}/v1/MarketParticipantActor/AssignCertificateCredentials`,
+    (req, res, ctx) => {
+      return res(ctx.delay(1000), ctx.status(200));
+    }
+  );
+}
+
+function marketParticipantActorRemoveActorCredentials(apiBase: string) {
+  return rest.delete(
+    `${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`,
+    (req, res, ctx) => {
+      return res(ctx.delay(1000), ctx.status(200));
+    }
+  );
 }

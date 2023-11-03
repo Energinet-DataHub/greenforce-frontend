@@ -16,12 +16,12 @@ limitations under the License.
 -->
 <ng-container *rxLet="isLoading$ as isLoading">
   <div *ngIf="isLoading" class="spinner">
-    <watt-spinner></watt-spinner>
+    <watt-spinner />
   </div>
   <ng-container *ngIf="!isLoading">
     <ng-container *rxLet="processes$ as processes">
       <ng-container *ngIf="processes && processes.length > 0; else emptyTab">
-        <dh-processes-table [processes]="processes"></dh-processes-table>
+        <dh-processes-table [processes]="processes" />
       </ng-container>
     </ng-container>
   </ng-container>
@@ -33,6 +33,6 @@ limitations under the License.
       size="small"
       [title]="transloco('noProcessesFound')"
       [message]="transloco('noProcessesText')"
-    ></watt-empty-state>
+    />
   </ng-container>
 </ng-template>

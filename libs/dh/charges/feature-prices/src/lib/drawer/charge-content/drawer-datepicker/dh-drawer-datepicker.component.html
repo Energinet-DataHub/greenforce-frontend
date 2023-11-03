@@ -17,7 +17,7 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'charges.prices.drawer.dateChips'">
   <!-- date-range picker -->
   <div class="date-range">
-    <watt-datepicker [formControl]="formControlDateRange" [range]="true"></watt-datepicker>
+    <watt-datepicker [formControl]="formControlDateRange" [range]="true" />
   </div>
   <div class="date-chips" *dhFeatureFlag="'charges_price_date_chips_feature_flag'">
     <watt-filter-chip

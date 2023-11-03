@@ -370,5 +370,21 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             return actorAuditLogs.OrderBy(x => x.Timestamp);
         }
+
+        public async Task<IEnumerable<string>> GetKnownEmailsAsync(
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            var users = await client.SearchAsync(
+                1,
+                int.MaxValue,
+                UserOverviewSortProperty.Email,
+                Clients.MarketParticipant.v1.SortDirection.Asc,
+                new UserOverviewFilterDto()
+                {
+                    UserStatus = new List<UserStatus>(),
+                    UserRoleIds = new List<Guid>(),
+                });
+            return users.Users.Select(x => x.Email).ToList();
+        }
     }
 }

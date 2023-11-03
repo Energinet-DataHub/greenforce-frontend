@@ -17,7 +17,7 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.drawer'">
   <watt-drawer #drawer size="large" (closed)="onClose()">
     <watt-drawer-topbar>
-      <dh-user-status *ngIf="selectedUser" [status]="selectedUser.status"></dh-user-status>
+      <dh-user-status *ngIf="selectedUser" [status]="selectedUser.status" />
     </watt-drawer-topbar>
     <watt-drawer-heading>
       <h2>{{ selectedUser?.firstName + " " + selectedUser?.lastName }}</h2>
@@ -49,7 +49,7 @@ limitations under the License.
     </watt-drawer-actions>
 
     <watt-drawer-content *ngIf="drawer.isOpen">
-      <dh-drawer-tabs [user]="selectedUser"></dh-drawer-tabs>
+      <dh-drawer-tabs [user]="selectedUser" />
     </watt-drawer-content>
   </watt-drawer>
 
@@ -57,7 +57,7 @@ limitations under the License.
     *ngIf="isEditUserModalVisible"
     [user]="selectedUser"
     (closed)="modalOnClose()"
-  ></dh-edit-user-modal>
+  />
 
   <watt-modal
     #deactivateConfirmationModal

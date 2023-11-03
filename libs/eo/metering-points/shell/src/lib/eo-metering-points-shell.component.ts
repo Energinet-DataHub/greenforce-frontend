@@ -84,7 +84,7 @@ import { EoMeteringPointsTableComponent } from './eo-metering-point-table.compon
         [loading]="!!(isLoading$ | async)"
         [hasError]="!!(meteringPointError$ | async)"
         (toggleContract)="onToggleContract($event)"
-      ></eo-metering-points-table>
+      />
     </watt-card>
   `,
 })

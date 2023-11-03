@@ -612,7 +612,21 @@
           "certificate": {
             "tabLabel": "Certificate",
             "thumbprint": "Thumbprint",
-            "expiryDate": "Expiry date"
+            "expiryDate": "Expiry date",
+            "removeCertificate": "Remove certificate",
+            "uploadCertificate": "Upload certificate",
+            "uploadNewCertificate": "Upload new certificate",
+            "invalidFileType": "Please select a certificate file",
+            "uploadSuccess": "Certificate uploaded successfully",
+            "uploadError": "An error occurred while uploading the certificate. Please try again",
+            "removeSuccess": "Certificate removed successfully",
+            "removeError": "An error occurred while removing the certificate. Please try again",
+            "removeCertificateModal": {
+              "title": "Remove certificate?",
+              "message": "Are you sure you want to remove the certificate?",
+              "cancel": "Cancel",
+              "remove": "Remove certificate"
+            }
           },
           "history": {
             "tabLabel": "History",
@@ -1139,6 +1153,7 @@
         "thirdcorrection": "Third correction"
       },
       "meteringPointTypes": {
+        "All": "All",
         "FLEX_CONSUMPTION": "Flex consumption",
         "TOTAL_CONSUMPTION": "Total consumption",
         "PRODUCTION": "Production",
@@ -1214,6 +1229,7 @@
         "wrongEmailPattern": "Type a valid email",
         "noUserRolesError": "At least one user role must be selected.",
         "successMessage": "{{ email }} has been invited",
+        "next": "Next",
         "columns": {
           "eicFunction": "Market role",
           "name": "Name",
@@ -1221,7 +1237,8 @@
         },
         "serverErrors": {
           "invalidPhoneNumber": "The provided phone number is formatted properly, but is an invalid phone number."
-        }
+        },
+        "unknowEmailInfoMessage": "In order to accept the invitation, the user must already have access to DataHub through another organisation."
       },
       "download": "Download",
       "drawer": {

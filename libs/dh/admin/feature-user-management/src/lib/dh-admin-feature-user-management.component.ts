@@ -20,7 +20,7 @@ import { DhTabsComponent } from './tabs/dh-tabs.component';
 
 @Component({
   selector: 'dh-admin-feature-user-management',
-  template: `<dh-tabs></dh-tabs>`,
+  template: `<dh-tabs />`,
   styles: [
     `
       :host {

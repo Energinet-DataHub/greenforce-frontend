@@ -226,6 +226,7 @@ type Query {
   organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
   emailExists(emailAddress: String!): Boolean!
   actorAuditLogs(actorId: UUID!): [ActorAuditLog!]!
+  knownEmails: [String!]!
 }
 
 type SettlementReport {
@@ -281,7 +282,7 @@ union UpdateOrganizationError = MarketParticipantBadRequestError
 
 input CreateAggregatedMeasureDataRequestInput {
   processType: EdiB2CProcessType!
-  meteringPointType: MeteringPointType!
+  meteringPointType: MeteringPointType
   startDate: String!
   endDate: String
   gridArea: String

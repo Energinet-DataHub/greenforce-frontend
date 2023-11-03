@@ -605,7 +605,21 @@
           "certificate": {
             "tabLabel": "Certifikat",
             "thumbprint": "Thumbprint",
-            "expiryDate": "Udløbsdato"
+            "expiryDate": "Udløbsdato",
+            "removeCertificate": "Fjern certifikat",
+            "uploadCertificate": "Upload certifikat",
+            "uploadNewCertificate": "Upload nyt certifikat",
+            "invalidFileType": "Vælg en certifikatfil",
+            "uploadSuccess": "Certifikatet er blevet uploadet",
+            "uploadError": "Noget gik galt. Certifikatet blev ikke uploadet. Prøv igen",
+            "removeSuccess": "Certifikatet er blevet fjernet",
+            "removeError": "Noget gik galt. Certifikatet blev ikke fjernet. Prøv igen",
+            "removeCertificateModal": {
+              "title": "Fjern certifikat?",
+              "message": "Er du sikker på, at du vil fjerne certifikatet?",
+              "cancel": "Fortryd",
+              "confirm": "Fjern certifikat"
+            }
           },
           "history": {
             "tabLabel": "History",
@@ -1131,8 +1145,9 @@
         "thirdcorrection": "Tredje korrektion"
       },
       "meteringPointTypes": {
+        "All": "Alle",
         "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
-        "TOTAL_CONSUMPTION": "Forbrug (time- og flexafregning)",
+        "TOTAL_CONSUMPTION": "Total forbrug",
         "PRODUCTION": "Produktion",
         "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
         "EXCHANGE": "Udveksling"
@@ -1206,6 +1221,7 @@
         "wrongEmailPattern": "Indtast en valid email",
         "noUserRolesError": "Mindst én brugerrolle skal vælges.",
         "successMessage": "{{ email }} blev inviteret",
+        "next": "Næste",
         "columns": {
           "eicFunction": "Markedsrolle",
           "name": "Navn",
@@ -1213,7 +1229,8 @@
         },
         "serverErrors": {
           "invalidPhoneNumber": "Telefonnummeret er formatteret korrekt, men er ikke gyldigt."
-        }
+        },
+        "unknowEmailInfoMessage": "For at acceptere invitationen skal brugeren allerede have adgang til DataHub, fordi brugeren ikke er en del af din organisation."
       },
       "download": "Download",
       "drawer": {

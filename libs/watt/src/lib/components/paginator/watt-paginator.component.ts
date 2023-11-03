@@ -58,7 +58,7 @@ import { WattPaginatorIntlService } from './watt-paginator-intl.service';
       [pageIndex]="pageIndex"
       [showFirstLastButtons]="true"
       [attr.aria-label]="description"
-    ></mat-paginator>
+    />
   `,
 })
 export class WattPaginatorComponent<T> implements OnInit, OnDestroy {

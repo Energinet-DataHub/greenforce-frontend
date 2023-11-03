@@ -22,7 +22,7 @@ limitations under the License.
       *ngIf="validation"
       [label]="t('errorToastLabel')"
       [message]="validation.error"
-    ></watt-validation-message>
+    />
   </ng-container>
 
   <ng-container *rxLet="isEditing$ as isEditing">
@@ -33,16 +33,14 @@ limitations under the License.
   <!-- Spinner -->
   <ng-container *rxLet="isLoading$ as isLoading">
     <div class="spinner-container" *ngIf="isLoading">
-      <watt-spinner></watt-spinner>
+      <watt-spinner />
     </div>
     <ng-container *rxLet="changes$ as changes">
       <div [hidden]="isLoading">
         <!-- Tabs -->
         <watt-tabs class="tabs">
           <watt-tab [label]="t('masterDataTabHeader')">
-            <dh-market-participant-organization-master-data
-              [changes]="changes"
-            ></dh-market-participant-organization-master-data>
+            <dh-market-participant-organization-master-data [changes]="changes" />
           </watt-tab>
         </watt-tabs>
 
