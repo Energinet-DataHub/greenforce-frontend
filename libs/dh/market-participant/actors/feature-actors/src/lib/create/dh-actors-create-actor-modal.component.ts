@@ -99,7 +99,7 @@ export class DhActorsCreateActorModalComponent {
     { value: 'FI', displayValue: 'FI' },
   ];
 
-  chooseOrganizationForm = this._fb.group({ orgId: [''] });
+  chooseOrganizationForm = this._fb.group({ orgId: ['', Validators.required] });
   newOrganizationForm = this._fb.group({
     country: ['', Validators.required],
     cvrNumber: ['', [Validators.required, dhCvrValidator()]],
