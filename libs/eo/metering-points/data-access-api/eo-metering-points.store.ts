@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ComponentStore } from '@ngrx/component-store';
-import { catchError, EMPTY, filter, forkJoin, map, Observable, switchMap, take } from 'rxjs';
+import { catchError, EMPTY, filter, forkJoin, map, NEVER, Observable, of, switchMap, take, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -56,7 +56,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   );
 
   readonly meteringPoints$ = this.select((state) => state.meteringPoints);
-  readonly consumptionMeteringPointsWithContract = this.select((state) =>
+  readonly consumptionMeteringPointsWithContract$ = this.select((state) =>
     state.meteringPoints.filter((mp) => mp.type === 'consumption' && !!mp.contract)
   );
 
@@ -154,56 +154,48 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
 
   createCertificateContract(gsrn: string, meteringPointType: MeteringPointType) {
     this.toggleContractLoading(gsrn);
-    this.certService
-      .createContract(gsrn)
-      .pipe(
-        catchError((error) => {
-          this.patchState({ contractError: error });
-          this.toggleContractLoading(gsrn);
-          return EMPTY;
-        }),
-        switchMap((contract) => {
-          this.setContract(contract);
-          this.toggleContractLoading(gsrn);
-          this.patchState({ contractError: null });
 
-          return meteringPointType === 'consumption' ? this.service.startClaim() : EMPTY;
-        })
-      )
-      .subscribe({
-        error: (error) => {
-          // TODO: WHAT SHOULD HAPPEN IF START CLAIM FAILS?
-          console.log('ERROR!!!', error);
-        },
-      });
+    const createContract$ = meteringPointType === 'consumption' ? this.service.startClaim() : of(EMPTY);
+    (createContract$ as Observable<unknown>).pipe(
+      switchMap(() => this.certService.createContract(gsrn)),
+    ).subscribe({
+      next: (contract) => {
+        this.setContract(contract);
+        this.toggleContractLoading(gsrn);
+        this.patchState({ contractError: null });
+      },
+      error: (error) => {
+        this.patchState({ contractError: error });
+        this.toggleContractLoading(gsrn);
+      },
+    });
   }
 
   deactivateCertificateContract(gsrn: string, meteringPointType: MeteringPointType): void {
     this.toggleContractLoading(gsrn);
-    this.getContractIdForGsrn(gsrn)
-      .pipe(
-        filter((id): id is string => !!id),
-        switchMap((id) => this.certService.patchContract(id)),
-        switchMap(() => this.consumptionMeteringPointsWithContract),
-        take(1)
-      )
-      .subscribe({
-        next: (consumptionMeteringPointsWithContract) => {
-          this.updateMeteringPointContract({ gsrn, active: false });
-          this.toggleContractLoading(gsrn);
-          this.patchState({ contractError: null });
 
-          if (
-            meteringPointType === 'consumption' &&
-            consumptionMeteringPointsWithContract.length <= 1
-          ) {
-            this.service.stopClaim().subscribe(); // TODO: WHAT SHOULD HAPPEN IF STOP CLAIM FAILS?
-          }
-        },
-        error: (error) => {
-          this.toggleContractLoading(gsrn);
-          this.patchState({ contractError: error });
-        },
-      });
+    const deactivateConsumptionContract$ = this.consumptionMeteringPointsWithContract$.pipe(
+      take(1),
+      switchMap((consumptionMeteringPointsWithContract) => {
+        return consumptionMeteringPointsWithContract.length <= 1 ? this.service.stopClaim() : EMPTY;
+      })
+    )
+
+    const deactivateContract$ = meteringPointType === 'consumption' ? deactivateConsumptionContract$ : of(EMPTY);
+    deactivateContract$.pipe(
+      switchMap(() => this.getContractIdForGsrn(gsrn)),
+      filter((id): id is string => !!id),
+      switchMap((id) => this.certService.patchContract(id)),
+    ).subscribe({
+      next: () => {
+        this.updateMeteringPointContract({ gsrn, active: false });
+        this.toggleContractLoading(gsrn);
+        this.patchState({ contractError: null });
+      },
+      error: (error) => {
+        this.patchState({ contractError: error });
+        this.toggleContractLoading(gsrn);
+      }
+    });
   }
 }
