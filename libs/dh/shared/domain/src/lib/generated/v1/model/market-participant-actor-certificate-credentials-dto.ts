@@ -13,6 +13,7 @@
 
 export interface MarketParticipantActorCertificateCredentialsDto { 
     thumbprint: string;
+    expirationDate: string;
 }
 
 
