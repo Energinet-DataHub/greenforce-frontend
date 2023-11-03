@@ -14,16 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { authMocks } from './lib/auth';
-import { certificatesMocks } from './lib/certificates';
-import { claimsMocks } from './lib/claims';
-import { meteringPointsMocks } from './lib/metering-points';
-import { transferMocks } from './lib/transfer';
+import { Routes } from '@angular/router';
 
-export const mocks = [
-  authMocks,
-  meteringPointsMocks,
-  certificatesMocks,
-  claimsMocks,
-  transferMocks,
-];
+import { EoClaimsComponent } from '@energinet-datahub/eo/claims/feature-overview';
+
+export const eoClaimsRoutes: Routes = [{ path: '', component: EoClaimsComponent }];
