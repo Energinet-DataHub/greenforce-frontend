@@ -48,7 +48,7 @@ import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domai
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { danishPhoneNumberPattern } from '@energinet-datahub/dh/admin/domain';
+import { dhDkPhoneNumberValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { Apollo } from 'apollo-angular';
 import { GetKnownEmailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -121,7 +121,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
         Validators.required,
         Validators.maxLength(12),
         Validators.minLength(12),
-        Validators.pattern(danishPhoneNumberPattern),
+        dhDkPhoneNumberValidator,
       ],
     ],
   });
