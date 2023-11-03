@@ -602,8 +602,9 @@
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
             "gridArea": "Netområde"
           },
-          "certificate": {
-            "tabLabel": "Certifikat",
+          "b2bAccess": {
+            "tabLabel": "B2B adgang",
+            "certificateHeadline": "Certifikat",
             "thumbprint": "Thumbprint",
             "expiryDate": "Udløbsdato",
             "removeCertificate": "Fjern certifikat",
