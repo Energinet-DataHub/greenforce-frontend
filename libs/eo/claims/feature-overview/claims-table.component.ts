@@ -58,14 +58,14 @@ import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
       icon="custom-power"
       title="No claims found"
       message="You do not have any claims."
-    ></watt-empty-state>
+    />
 
     <watt-empty-state
       *ngIf="loading === false && hasError"
       icon="custom-power"
       title="Oops! Something went wrong."
       message="Please try reloading the page.."
-    ></watt-empty-state>
+    />
 
     <watt-paginator [for]="dataSource" />
   `,

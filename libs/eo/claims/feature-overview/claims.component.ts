@@ -77,7 +77,7 @@ import { EoClaimsTableComponent } from './claims-table.component';
         [loading]="claims().loading"
         [hasError]="claims().hasError"
         [filter]="search"
-      ></eo-claims-table>
+      />
     </watt-card>
   `,
 })
