@@ -69,7 +69,8 @@ export function marketParticipantMocks(apiBase: string) {
     getAuditLogByOrganizationId(),
     getAuditLogByActorId(),
     getMarketParticipantActorActorCredentials(apiBase),
-    getMarketParticipantActorAssignCertificateCredentials(apiBase),
+    marketParticipantActorAssignCertificateCredentials(apiBase),
+    marketParticipantActorRemoveActorCredentials(apiBase),
   ];
 }
 
@@ -371,6 +372,7 @@ function getMarketParticipantActorActorCredentials(apiBase: string) {
   const response: MarketParticipantActorCredentialsDto = {
     certificateCredentials: {
       thumbprint: 'thumbprint-value',
+      expirationDate: '2020-09-30T12:00:00',
     },
     clientSecretCredentials: undefined,
   };
@@ -380,9 +382,18 @@ function getMarketParticipantActorActorCredentials(apiBase: string) {
   });
 }
 
-function getMarketParticipantActorAssignCertificateCredentials(apiBase: string) {
+function marketParticipantActorAssignCertificateCredentials(apiBase: string) {
   return rest.post(
     `${apiBase}/v1/MarketParticipantActor/AssignCertificateCredentials`,
+    (req, res, ctx) => {
+      return res(ctx.delay(1000), ctx.status(200));
+    }
+  );
+}
+
+function marketParticipantActorRemoveActorCredentials(apiBase: string) {
+  return rest.delete(
+    `${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`,
     (req, res, ctx) => {
       return res(ctx.delay(1000), ctx.status(200));
     }

@@ -27,29 +27,33 @@ interface CertificateState {
   credentials: MarketParticipantActorCredentialsDto | null;
   loadingCredentials: boolean;
   uploadInProgress: boolean;
+  removeInProgress: boolean;
 }
 
 const initialState: CertificateState = {
   credentials: null,
   loadingCredentials: true,
   uploadInProgress: false,
+  removeInProgress: false,
 };
 
 @Injectable()
 export class DhMarketParticipantCertificateStore extends ComponentStore<CertificateState> {
   private readonly httpClient = inject(MarketParticipantActorHttp);
 
-  readonly doCredentialsExist$ = this.select((state) => !!state.credentials);
-  readonly certificateMetaData$ = this.select((state) => state.credentials?.certificateCredentials);
+  readonly certificateMetadata$ = this.select((state) => state.credentials?.certificateCredentials);
+  readonly doesCertificateExist$ = this.select(this.certificateMetadata$, (metadata) => !!metadata);
 
   readonly loadingCredentials$ = this.select((state) => state.loadingCredentials);
   readonly uploadInProgress$ = this.select((state) => state.uploadInProgress);
 
-  readonly getCredentials = this.effect((trigger$) =>
-    trigger$.pipe(
+  readonly removeInProgress$ = this.select((state) => state.removeInProgress);
+
+  readonly getCredentials = this.effect((actorId$: Observable<string>) =>
+    actorId$.pipe(
       tap(() => this.patchState({ loadingCredentials: true })),
-      switchMap(() =>
-        this.httpClient.v1MarketParticipantActorGetActorCredentialsGet().pipe(
+      switchMap((actorId) =>
+        this.httpClient.v1MarketParticipantActorGetActorCredentialsGet(actorId).pipe(
           tapResponse(
             (response) => this.patchState({ credentials: response }),
             () => this.patchState({ credentials: null })
@@ -81,6 +85,32 @@ export class DhMarketParticipantCertificateStore extends ComponentStore<Certific
               ),
               finalize(() => this.patchState({ uploadInProgress: false }))
             )
+        )
+      )
+  );
+
+  readonly removeCertificate = this.effect(
+    (
+      trigger$: Observable<{
+        actorId: string;
+        onSuccess: () => void;
+        onError: () => void;
+      }>
+    ) =>
+      trigger$.pipe(
+        tap(() => this.patchState({ removeInProgress: true })),
+        exhaustMap(({ actorId, onSuccess, onError }) =>
+          this.httpClient.v1MarketParticipantActorRemoveActorCredentialsDelete(actorId).pipe(
+            tapResponse(
+              () => {
+                this.patchState({ credentials: null });
+
+                onSuccess();
+              },
+              () => onError()
+            ),
+            finalize(() => this.patchState({ removeInProgress: false }))
+          )
         )
       )
   );

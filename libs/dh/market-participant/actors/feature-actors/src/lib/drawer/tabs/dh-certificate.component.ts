@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, inject, signal } from '@angular/core';
+import { Component, Input, OnChanges, computed, inject, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -31,6 +31,12 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
 import { DhMarketParticipantCertificateStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+
+import { DhRemoveCertificateModalComponent } from './dh-remove-certificate-modal.component';
+
+const certificateExt = '.cer';
+const certificateMimeType = 'application/x-x509-ca-cert';
 
 @Component({
   selector: 'dh-certificate',
@@ -65,20 +71,16 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
           [message]="t('invalidFileType')"
         />
 
-        <vater-flex
-          direction="row"
-          justify="center"
-          *ngIf="loadingCredentials() || isUploadInProgress(); else componentContent"
-        >
+        <vater-flex direction="row" justify="center" *ngIf="showSpinner(); else componentContent">
           <watt-spinner />
         </vater-flex>
 
         <ng-template #componentContent>
-          <watt-card variant="solid" *ngIf="doCredentialsExist()">
+          <watt-card variant="solid" *ngIf="doesCertificateExist()">
             <watt-description-list variant="stack">
               <watt-description-list-item
                 [label]="t('thumbprint')"
-                [value]="certificateMetaData()?.thumbprint | dhEmDashFallback"
+                [value]="certificateMetadata()?.thumbprint | dhEmDashFallback"
               />
               <watt-description-list-item
                 [label]="t('expiryDate')"
@@ -88,8 +90,17 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
           </watt-card>
 
           <vater-stack direction="row" justify="flex-end" gap="m">
-            <watt-button *ngIf="doCredentialsExist()">{{ t('removeCertificate') }}</watt-button>
-            <watt-button (click)="fileUpload.click()">{{ t('uploadCertificate') }}</watt-button>
+            <watt-button
+              *ngIf="doesCertificateExist()"
+              variant="secondary"
+              (click)="removeCertificate()"
+            >
+              {{ t('removeCertificate') }}
+            </watt-button>
+
+            <watt-button variant="secondary" (click)="fileUpload.click()">
+              {{ doesCertificateExist() ? t('uploadNewCertificate') : t('uploadCertificate') }}
+            </watt-button>
           </vater-stack>
         </ng-template>
       </vater-flex>
@@ -112,25 +123,31 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   ],
   viewProviders: [DhMarketParticipantCertificateStore],
 })
-export class DhCertificateComponent {
+export class DhCertificateComponent implements OnChanges {
   private readonly store = inject(DhMarketParticipantCertificateStore);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
+  private readonly modalService = inject(WattModalService);
 
-  certificateExt = '.pfx';
+  certificateExt = certificateExt;
 
   isInvalidFileType = signal(false);
 
-  doCredentialsExist = toSignal(this.store.doCredentialsExist$);
-  certificateMetaData = toSignal(this.store.certificateMetaData$);
+  doesCertificateExist = toSignal(this.store.doesCertificateExist$);
+  certificateMetadata = toSignal(this.store.certificateMetadata$);
 
   loadingCredentials = toSignal(this.store.loadingCredentials$);
   isUploadInProgress = toSignal(this.store.uploadInProgress$);
+  isRemoveInProgress = toSignal(this.store.removeInProgress$);
+
+  showSpinner = computed(() => {
+    return this.loadingCredentials() || this.isUploadInProgress() || this.isRemoveInProgress();
+  });
 
   @Input({ required: true }) actorId = '';
 
-  constructor() {
-    this.store.getCredentials();
+  ngOnChanges(): void {
+    this.store.getCredentials(this.actorId);
   }
 
   onFileSelected(files: FileList | null): void {
@@ -149,6 +166,21 @@ export class DhCertificateComponent {
     }
   }
 
+  removeCertificate(): void {
+    this.modalService.open({
+      component: DhRemoveCertificateModalComponent,
+      onClosed: (result) => {
+        if (result) {
+          this.store.removeCertificate({
+            actorId: this.actorId,
+            onSuccess: this.onRemoveSuccessFn,
+            onError: this.onRemoveErrorFn,
+          });
+        }
+      },
+    });
+  }
+
   private startUpload(actorId: string, file: File): void {
     this.store.uploadCertificate({
       actorId,
@@ -159,7 +191,7 @@ export class DhCertificateComponent {
   }
 
   private isValidFileType(file: File): boolean {
-    return file.type === 'application/x-pkcs12';
+    return file.type === certificateMimeType;
   }
 
   private readonly onUploadSuccessFn = () => {
@@ -168,11 +200,29 @@ export class DhCertificateComponent {
     );
 
     this.toastService.open({ type: 'success', message });
+
+    this.store.getCredentials(this.actorId);
   };
 
   private readonly onUploadErrorFn = () => {
     const message = this.transloco.translate(
       'marketParticipant.actorsOverview.drawer.tabs.certificate.uploadError'
+    );
+
+    this.toastService.open({ type: 'danger', message });
+  };
+
+  private readonly onRemoveSuccessFn = () => {
+    const message = this.transloco.translate(
+      'marketParticipant.actorsOverview.drawer.tabs.certificate.removeSuccess'
+    );
+
+    this.toastService.open({ type: 'success', message });
+  };
+
+  private readonly onRemoveErrorFn = () => {
+    const message = this.transloco.translate(
+      'marketParticipant.actorsOverview.drawer.tabs.certificate.removeError'
     );
 
     this.toastService.open({ type: 'danger', message });
