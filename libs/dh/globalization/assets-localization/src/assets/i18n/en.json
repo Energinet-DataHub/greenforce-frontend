@@ -551,6 +551,7 @@
           "NO": "Norway",
           "FI": "Finland"
         },
+        "searchDatahub": "Search DataHub",
         "newOrganization": "New organization",
         "marketParty": "Market party",
         "createHeader": "New market party",

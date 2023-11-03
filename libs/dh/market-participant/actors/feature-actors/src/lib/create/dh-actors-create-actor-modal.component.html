@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
-  <watt-modal [size]="'large'" [title]="t('createHeader')">
+  <watt-modal size="large" [title]="t('createHeader')">
     <watt-stepper
       class="dh-actors-create-actor-modal__form watt-modal-content--full-width"
       [linear]="true"
@@ -26,14 +26,14 @@ limitations under the License.
         [stepControl]="chooseOrganizationForm"
         [label]="t('organization')"
       >
-        <vater-stack [align]="'flex-start'" [fill]="'horizontal'">
+        <vater-stack align="flex-start" fill="horizontal">
           <watt-dropdown
             [showResetOption]="false"
             [options]="organizationOptions"
             [label]="t('organization')"
             [formControl]="chooseOrganizationForm.controls.orgId"
           />
-          <watt-button variant="text" [icon]="'plus'" (click)="toggleShowCreateNewOrganization()">{{
+          <watt-button variant="text" icon="plus" (click)="toggleShowCreateNewOrganization()">{{
             t("newOrganization")
           }}</watt-button>
         </vater-stack>
@@ -45,14 +45,14 @@ limitations under the License.
         [label]="t('organization')"
       >
         <div class="dh-actors-create-actor-organization">
-          <vater-stack direction="row" [justify]="'space-between'" [fill]="'horizontal'">
-            <h4>Ny organisation</h4>
-            <watt-button variant="text" (click)="toggleShowCreateNewOrganization()"
-              >Søg datahub</watt-button
-            >
+          <vater-stack direction="row" justify="space-between" fill="horizontal">
+            <h4>{{ t("newOrganization") }}</h4>
+            <watt-button variant="text" (click)="toggleShowCreateNewOrganization()">{{
+              t("searchDatahub")
+            }}</watt-button>
           </vater-stack>
 
-          <vater-stack gap="m" [align]="'flex-start'" direction="row">
+          <vater-stack gap="m" align="flex-start" direction="row">
             <watt-dropdown
               [label]="t('country')"
               translate="marketParticipant.actor.create.counties"
@@ -71,7 +71,7 @@ limitations under the License.
               </watt-field-error>
             </watt-text-field>
           </vater-stack>
-          <vater-stack gap="m" [align]="'flex-start'">
+          <vater-stack gap="m" align="flex-start">
             <watt-text-field
               [formControl]="newOrganizationForm.controls.companyName"
               [label]="t('companyName')"

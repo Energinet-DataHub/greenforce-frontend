@@ -16,4 +16,4 @@
  */
 export { dhCvrValidator } from './lib/dh-cvr.validator';
 export { dhDomainValidator } from './lib/dh-domain.validator';
-export { dhPhoneNumberValidator } from './lib/dh-phone-number.validator';
+export { dhDkPhoneNumberValidator } from './lib/dh-dk-phone-number.validator';

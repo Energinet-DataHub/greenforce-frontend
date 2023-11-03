@@ -45,7 +45,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhOrganizationDetails } from '../dh-organization';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { dhDomainValidator } from '@energinet-datahub/dh/shared/validators';
+import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 @Component({
   standalone: true,

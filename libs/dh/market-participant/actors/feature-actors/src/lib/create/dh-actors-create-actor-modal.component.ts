@@ -31,7 +31,7 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { dhCvrValidator, dhDomainValidator } from '@energinet-datahub/dh/shared/validators';
+import { dhCvrValidator, dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 @Component({
   standalone: true,
@@ -122,6 +122,7 @@ export class DhActorsCreateActorModalComponent {
 
   toggleShowCreateNewOrganization(): void {
     this.showCreateNewOrganization = !this.showCreateNewOrganization;
+    this.newOrganizationForm.reset();
   }
 
   open() {

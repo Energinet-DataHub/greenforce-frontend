@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoModule, translate } from '@ngneat/transloco';
-import { BehaviorSubject, Observable, Subscription, combineLatest, debounceTime, map } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, debounceTime, map } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -40,6 +40,8 @@ import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predica
 import { dhToJSON } from './dh-json-util';
 import { DhActorsTableComponent } from './table/dh-actors-table.component';
 import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-actor-modal.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { WattModalService } from '@energinet-datahub/watt/modal';
 
 @Component({
   standalone: true,
@@ -81,11 +83,12 @@ import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-act
     DhActorsCreateActorModalComponent,
   ],
 })
-export class DhActorsOverviewComponent implements OnInit, OnDestroy {
-  private apollo = inject(Apollo);
-  private subscription: Subscription | null = null;
+export class DhActorsOverviewComponent implements OnInit {
+  private _apollo = inject(Apollo);
+  private _destroyRef = inject(DestroyRef);
+  private _modalService = inject(WattModalService);
 
-  getActorsQuery$ = this.apollo.watchQuery({
+  getActorsQuery$ = this._apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: GetActorsDocument,
@@ -104,17 +107,19 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
   hasError = false;
 
   ngOnInit(): void {
-    this.subscription = this.getActorsQuery$.valueChanges.subscribe({
-      next: (result) => {
-        this.isLoading = result.loading;
+    const subscription = this.getActorsQuery$.valueChanges
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe({
+        next: (result) => {
+          this.isLoading = result.loading;
 
-        this.tableDataSource.data = result.data?.actors;
-      },
-      error: () => {
-        this.hasError = true;
-        this.isLoading = false;
-      },
-    });
+          this.tableDataSource.data = result.data?.actors;
+        },
+        error: () => {
+          this.hasError = true;
+          this.isLoading = false;
+        },
+      });
 
     this.tableDataSource.filterPredicate = dhActorsCustomFilterPredicate;
 
@@ -123,7 +128,7 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
       this.searchInput$.pipe(debounceTime(250)),
     ]).pipe(map(([filters, searchInput]) => ({ ...filters, searchInput })));
 
-    this.subscription?.add(
+    subscription?.add(
       filtersCombined$.subscribe({
         next: (filters) => {
           this.tableDataSource.filter = dhToJSON(filters);
@@ -132,13 +137,15 @@ export class DhActorsOverviewComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-    this.subscription = null;
-  }
-
   create(): void {
     console.log('create');
+  }
+
+  openCreateNewActorModal(): void {
+    this._modalService.open({
+      component: DhActorsCreateActorModalComponent,
+      onClosed: (result) => console.log(result),
+    });
   }
 
   download(): void {

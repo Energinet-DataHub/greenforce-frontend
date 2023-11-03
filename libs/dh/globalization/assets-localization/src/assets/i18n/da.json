@@ -544,6 +544,7 @@
           "NO": "Norge",
           "FI": "Finland"
         },
+        "searchDatahub": "Søg datahub",
         "newOrganization": "Ny organisation",
         "marketParty": "Aktør",
         "createHeader": "Ny aktør",

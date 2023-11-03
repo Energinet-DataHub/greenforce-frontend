@@ -40,7 +40,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { HttpStatusCode } from '@angular/common/http';
-import { dhPhoneNumberValidator } from '@energinet-datahub/dh/shared/validators';
+import { dhDkPhoneNumberValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 @Component({
   selector: 'dh-edit-user-modal',
@@ -90,7 +90,7 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   userInfoForm = this.formBuilder.nonNullable.group({
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
-    phoneNumber: ['', [Validators.required, dhPhoneNumberValidator]],
+    phoneNumber: ['', [Validators.required, dhDkPhoneNumberValidator]],
   });
 
   @ViewChild('editUserModal') editUserModal!: WattModalComponent;
