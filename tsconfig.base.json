@@ -230,6 +230,9 @@
       "@energinet-datahub/dh/shared/ui-util": [
         "libs/dh/shared/ui-util/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/ui-validators": [
+        "libs/dh/shared/ui-validators/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/util-application-insights": [
         "libs/dh/shared/util-application-insights/src/index.ts"
       ],
@@ -238,9 +241,6 @@
       ],
       "@energinet-datahub/dh/shared/util-table": [
         "libs/dh/shared/util-table/src/index.ts"
-      ],
-      "@energinet-datahub/dh/shared/ui-validators": [
-        "libs/dh/shared/ui-validators/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/data-access-api": [
         "libs/dh/wholesale/data-access-api/src/index.ts"
