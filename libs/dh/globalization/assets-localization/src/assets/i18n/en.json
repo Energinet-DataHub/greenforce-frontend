@@ -536,8 +536,26 @@
     },
     "actor": {
       "create": {
-        "editHeader": "Edit market party",
-        "createHeader": "Create market party",
+        "steps": {
+          "orgNext": "Market party"
+        },
+        "domainInvalid": "Invalid domain",
+        "companyName": "Companyname",
+        "domain": "Domain",
+        "cvrInvalid": "Invalid CVR number",
+        "cvrNumber": "CVR-Nr.",
+        "country": "Country",
+        "counties": {
+          "DK": "Denmark",
+          "SE": "Sweden",
+          "NO": "Norway",
+          "FI": "Finland"
+        },
+        "searchDatahub": "Search DataHub",
+        "newOrganization": "New organization",
+        "marketParty": "Market party",
+        "createHeader": "New market party",
+        "organization": "Organization",
         "errorToastLabel": "Error",
         "masterDataTabHeader": "Master data",
         "meteringPointTypesHeader": "Type of metering points",
@@ -579,6 +597,7 @@
         "marketRole": "Market role",
         "status": "Status"
       },
+      "create": "New actor",
       "actors": "Market Parties",
       "columns": {
         "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",

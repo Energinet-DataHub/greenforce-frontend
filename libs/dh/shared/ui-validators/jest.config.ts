@@ -16,10 +16,11 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-admin-domain',
+  displayName: 'dh-validators',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/dh/admin/domain',
+  globals: {},
+  coverageDirectory: '../../../../coverage/libs/dh/shared/dh-validators',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

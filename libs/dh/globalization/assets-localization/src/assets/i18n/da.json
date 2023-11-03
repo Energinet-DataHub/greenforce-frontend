@@ -529,9 +529,27 @@
     },
     "actor": {
       "create": {
-        "editHeader": "Redigér aktør",
-        "createHeader": "Opret aktør",
-        "errorToastLabel": "Fejl",
+        "steps": {
+          "orgNext": "Aktør"
+        },
+        "domainInvalid": "Ugyldigt domæne",
+        "companyName": "Virksomhedsnavn",
+        "domain": "Domæne",
+        "cvrInvalid": "Ugyldigt CVR nummer",
+        "cvrNumber": "CVR-Nr.",
+        "country": "Land",
+        "counties": {
+          "DK": "Danmark",
+          "SE": "Sverige",
+          "NO": "Norge",
+          "FI": "Finland"
+        },
+        "searchDatahub": "Søg datahub",
+        "newOrganization": "Ny organisation",
+        "marketParty": "Aktør",
+        "createHeader": "Ny aktør",
+        "organization": "Organisation",
+        "useradmin": "Brugeradministrator",
         "masterDataTabHeader": "Stamdata",
         "meteringPointTypesHeader": "Målepunktstyper",
         "gridAreasHeader": "Netområder",
@@ -572,6 +590,7 @@
         "marketRole": "Markedsrolle",
         "status": "Status"
       },
+      "create": "Ny aktør",
       "actors": "Aktører",
       "columns": {
         "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
