@@ -61,72 +61,7 @@ type DhCertificateTableRow = {
       }
     `,
   ],
-  template: `
-    <ng-container
-      *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess'"
-    >
-      <input
-        type="file"
-        class="certificate-input"
-        [accept]="certificateExt"
-        (change)="onFileSelected(fileUpload.files)"
-        #fileUpload
-      />
-
-      <vater-flex gap="m">
-        <watt-validation-message
-          *ngIf="isInvalidFileType()"
-          type="warning"
-          [message]="t('invalidFileType')"
-        />
-
-        <vater-flex direction="row" justify="center" *ngIf="showSpinner(); else componentContent">
-          <watt-spinner />
-        </vater-flex>
-
-        <ng-template #componentContent>
-          <watt-card variant="solid" *ngIf="doesCertificateExist()">
-            <h4>{{ t('certificateHeadline') }}</h4>
-
-            <watt-table
-              [dataSource]="dataSource"
-              [columns]="columns"
-              [hideColumnHeaders]="true"
-              [suppressRowHoverHighlight]="true"
-            >
-              <ng-container *wattTableCell="columns['translationKey']; let entry">
-                <span class="watt-label">{{ entry.translationKey | transloco }}</span>
-              </ng-container>
-
-              <ng-container *wattTableCell="columns['value']; let entry">
-                <ng-container *ngIf="entry.valueIsDate; else cellTemplate">
-                  {{ entry.value | wattDate | dhEmDashFallback }}
-                </ng-container>
-
-                <ng-template #cellTemplate>
-                  {{ entry.value | dhEmDashFallback }}
-                </ng-template>
-              </ng-container>
-
-              <ng-container *wattTableCell="columns['showActionButton']; let entry">
-                <ng-container *ngIf="entry.showActionButton">
-                  <watt-button variant="text" icon="close" (click)="removeCertificate()">
-                    {{ t('removeCertificate') }}
-                  </watt-button>
-                </ng-container>
-              </ng-container>
-            </watt-table>
-          </watt-card>
-
-          <vater-stack direction="row" justify="flex-end" gap="m">
-            <watt-button variant="secondary" (click)="fileUpload.click()">
-              {{ doesCertificateExist() ? t('uploadNewCertificate') : t('uploadCertificate') }}
-            </watt-button>
-          </vater-stack>
-        </ng-template>
-      </vater-flex>
-    </ng-container>
-  `,
+  templateUrl: './dh-certificate.component.html',
   imports: [
     NgIf,
     TranslocoDirective,
