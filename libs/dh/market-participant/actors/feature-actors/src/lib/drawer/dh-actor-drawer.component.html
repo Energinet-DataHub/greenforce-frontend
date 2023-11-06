@@ -81,7 +81,10 @@ limitations under the License.
           </watt-card>
         </watt-tab>
 
-        <watt-tab [label]="t('tabs.b2bAccess.tabLabel')" *dhPermissionRequired="['actor-credentials:manage']">
+        <watt-tab
+          [label]="t('tabs.b2bAccess.tabLabel')"
+          *dhPermissionRequired="['actor-credentials:manage']"
+        >
           <dh-certificate [actorId]="actor?.id" />
         </watt-tab>
 
