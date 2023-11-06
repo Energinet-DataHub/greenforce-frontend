@@ -15,5 +15,29 @@
  * limitations under the License.
  */
 
-export * from './lib/eo-emissions-data.component';
-export * from './lib/eo-emissions-shell.routes';
+import { Component } from '@angular/core';
+
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+
+@Component({
+  standalone: true,
+  imports: [WATT_CARD],
+  selector: 'eo-dashboard-consumption',
+  template: `<watt-card>
+    <watt-card-title>
+      <h3>Title</h3>
+    </watt-card-title>
+  </watt-card>`,
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      .link {
+        text-decoration: none;
+      }
+    `,
+  ],
+})
+export class EoDashboardConsumptionComponent {}
