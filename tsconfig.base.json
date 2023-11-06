@@ -310,9 +310,6 @@
       "@energinet-datahub/eo/dashboard/shell": [
         "libs/eo/dashboard/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/emissions/shell": [
-        "libs/eo/emissions/shell/src/index.ts"
-      ],
       "@energinet-datahub/eo/help/shell": ["libs/eo/help/shell/src/index.ts"],
       "@energinet-datahub/eo/landing-page/shell": [
         "libs/eo/landing-page/shell/src/index.ts"
@@ -325,9 +322,6 @@
       ],
       "@energinet-datahub/eo/metering-points/shell": [
         "libs/eo/metering-points/shell/src/index.ts"
-      ],
-      "@energinet-datahub/eo/origin-of-energy/shell": [
-        "libs/eo/origin-of-energy/shell/src/index.ts"
       ],
       "@energinet-datahub/eo/privacy-policy/shell": [
         "libs/eo/privacy-policy/shell/src/index.ts"
