@@ -6135,6 +6135,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kurkle/color@npm:^0.3.0":
+  version: 0.3.2
+  resolution: "@kurkle/color@npm:0.3.2"
+  checksum: 79e97b31f8f6efb28c69d373f94b0c7480226fe8ec95221f518ac998e156444a496727ce47de6d728eb5c3369288e794cba82cae34253deb0d472d3bfe080e49
+  languageName: node
+  linkType: hard
+
 "@leichtgewicht/ip-codec@npm:^2.0.1":
   version: 2.0.4
   resolution: "@leichtgewicht/ip-codec@npm:2.0.4"
@@ -15693,19 +15700,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chart.js@npm:3.8.0":
-  version: 3.8.0
-  resolution: "chart.js@npm:3.8.0"
-  checksum: 0360212bf5d534effc8475a1aa705ba7257a315af368b5e8eecf476f0bd57a6bb80ad740e870d552f2d11e134dd1497ccef02950d7e626c21a400ff00ecf59af
-  languageName: node
-  linkType: hard
-
-"chartjs-plugin-datalabels@npm:2.0.0":
-  version: 2.0.0
-  resolution: "chartjs-plugin-datalabels@npm:2.0.0"
-  peerDependencies:
-    chart.js: ^3.0.0
-  checksum: aa59cabc57feca686281033f6160c4f7e84f973e5ad27e794daa7a6bc8dbf7a14055fee4c05df6a9d8c7be66ec0a59203244e8f528fce3dfd13847bf92d7aa7c
+"chart.js@npm:4.4.0":
+  version: 4.4.0
+  resolution: "chart.js@npm:4.4.0"
+  dependencies:
+    "@kurkle/color": ^0.3.0
+  checksum: 5ee2d99b78608025525b5790af17178fdaa5adc3294e082deba2718029b0496109ba124f1b08dd1e4c8a04d6e842be7f384f2cfe9a11df8d1c6fe884acece52b
   languageName: node
   linkType: hard
 
@@ -18335,8 +18335,7 @@ cors@latest:
     "@typescript-eslint/parser": 5.62.0
     "@vimeo/player": 2.17.0
     apollo-angular: 5.0.2
-    chart.js: 3.8.0
-    chartjs-plugin-datalabels: 2.0.0
+    chart.js: 4.4.0
     cross-env: ^7.0.3
     crypto-js: 4.1.1
     cypress: 13.1.0
@@ -18365,7 +18364,7 @@ cors@latest:
     kill-port-process: 3.1.0
     msw: 1.3.1
     ng-mocks: 14.0.1
-    ng2-charts: 3.0.11
+    ng2-charts: 5.0.3
     ngx-highlightjs: 10.0.0
     ngx-mat-select-search: 7.0.4
     nx: 17.0.1
@@ -27239,18 +27238,20 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"ng2-charts@npm:3.0.11":
-  version: 3.0.11
-  resolution: "ng2-charts@npm:3.0.11"
+"ng2-charts@npm:5.0.3":
+  version: 5.0.3
+  resolution: "ng2-charts@npm:5.0.3"
   dependencies:
     lodash-es: ^4.17.15
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/common": ">=11.0.0"
-    "@angular/core": ">=11.0.0"
-    chart.js: ^3.4.0
+    "@angular/cdk": ">=16.0.0"
+    "@angular/common": ">=16.0.0"
+    "@angular/core": ">=16.0.0"
+    "@angular/platform-browser": ">=16.0.0"
+    chart.js: ^3.4.0 || ^4.0.0
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: 4c3735f7bc1d6e940e68bbe43ac6cbb5f4f7b60338b9cd8d7670c74dd5cec828118748326be42195256cb81977a7d530fab83b7d41e16fd1482023d19be64114
+  checksum: f2c597627f66a75e36b9aa26c0a5c47e1f3b110e97e358988f33748b9771f78a686389d97b75707d7e99d2b0b41adf0ad5e9cfc15c22f11c6f93afd60ab47058
   languageName: node
   linkType: hard
 
