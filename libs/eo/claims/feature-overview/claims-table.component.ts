@@ -19,9 +19,8 @@ import {
   Component,
   Input,
   ViewEncapsulation,
-  inject,
 } from '@angular/core';
-import { DecimalPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -32,7 +31,6 @@ import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent, NgIf],
-  providers: [DecimalPipe],
   standalone: true,
   selector: 'eo-claims-table',
   styles: [
@@ -71,12 +69,10 @@ import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
   `,
 })
 export class EoClaimsTableComponent {
-  private decimalPipe = inject(DecimalPipe);
-
   dataSource: WattTableDataSource<Claim> = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Claim> = {
     claimId: { accessor: (x) => x.claimId, header: 'Claim Id' },
-    quantity: { accessor: (x) => `${this.decimalPipe.transform(x.quantity, '1.0-0')} Wh` },
+    quantity: { accessor: (x) => `${x.quantity.toLocaleString()} Wh`, header: 'Amount' },
   };
 
   @Input() loading = false;
