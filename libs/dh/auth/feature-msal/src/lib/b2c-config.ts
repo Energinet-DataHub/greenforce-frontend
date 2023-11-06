@@ -36,7 +36,7 @@ export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientAppl
       knownAuthorities: config.knownAuthorities,
     },
     cache: {
-      cacheLocation: BrowserCacheLocation.LocalStorage,
+      cacheLocation: BrowserCacheLocation.SessionStorage,
       storeAuthStateInCookie: false,
     },
     system: {
