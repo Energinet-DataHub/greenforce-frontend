@@ -34,10 +34,6 @@ When('I am on the dashboard page', () => {
   dashboard.headerIsVisible();
 });
 
-Then('I can see the a pie-chart component', () => dashboard.pieChartIsVisible());
-
-Then('I can see an emissions data component', () => dashboard.emissionCardIsVisible());
-
 Then('I can see an hourly declaration component', () => dashboard.hourlyDeclarationIsVisible());
 
 Then('I can see a component for exporting data for CSR', () => dashboard.exportDataCardIsVisible());
