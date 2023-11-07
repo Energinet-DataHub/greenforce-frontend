@@ -544,6 +544,13 @@
           "NO": "Norge",
           "FI": "Finland"
         },
+        "glnOrEicNumber": "Aktør ID",
+        "name": "Aktørnavn",
+        "contact": "Kontakt",
+        "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
+        "departmentOrName": "Afdeling/Navn",
+        "email": "E-mail",
+        "phone": "Telefonnr.",
         "searchDatahub": "Søg datahub",
         "newOrganization": "Ny organisation",
         "marketParty": "Aktør",

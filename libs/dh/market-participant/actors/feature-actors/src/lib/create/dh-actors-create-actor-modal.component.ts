@@ -18,7 +18,7 @@ import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { NgIf } from '@angular/common';
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -28,10 +28,17 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
-import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
+import { EicFunction, GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { dhCvrValidator, dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import {
+  dhCvrValidator,
+  dhDkPhoneNumberValidator,
+  dhDomainValidator,
+} from '@energinet-datahub/dh/shared/ui-validators';
 
 @Component({
   standalone: true,
@@ -43,22 +50,28 @@ import { dhCvrValidator, dhDomainValidator } from '@energinet-datahub/dh/shared/
         display: block;
       }
 
-      .dh-actors-create-actor-organization {
-        vater-stack {
-          width: 50%;
-        }
-
-        vater-stack[direction='row'] {
-          watt-dropdown,
-          watt-text-field {
-            width: 50%;
-          }
-        }
-      }
-
       .dh-actors-create-actor-modal__form {
         watt-dropdown {
           width: 50%;
+        }
+
+        .dh-actors-create-actor {
+          watt-dropdown {
+            width: 100%;
+          }
+        }
+
+        .dh-actors-create-actor-organization {
+          vater-stack {
+            width: 50%;
+          }
+
+          vater-stack[direction='row'] {
+            watt-dropdown,
+            watt-text-field {
+              width: 50%;
+            }
+          }
         }
       }
     `,
@@ -92,6 +105,7 @@ export class DhActorsCreateActorModalComponent {
   innerModal: WattModalComponent | undefined;
 
   organizationOptions: WattDropdownOptions = [];
+  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction);
   countryOptions: WattDropdownOptions = [
     { value: 'DK', displayValue: 'DK' },
     { value: 'SE', displayValue: 'SE' },
@@ -107,7 +121,18 @@ export class DhActorsCreateActorModalComponent {
     domain: ['', [Validators.required, dhDomainValidator]],
   });
 
-  showCreateNewOrganization = false;
+  newActorForm = this._fb.group({
+    glnOrEicNumber: ['', Validators.required],
+    name: [''],
+    marketrole: ['', Validators.required],
+    contact: this._fb.group({
+      departmentOrName: ['', Validators.required],
+      email: ['', Validators.required, Validators.email],
+      phone: ['', Validators.required, dhDkPhoneNumberValidator],
+    }),
+  });
+
+  showCreateNewOrganization = signal(false);
 
   constructor() {
     this._getOrganizationsQuery$.valueChanges.pipe(takeUntilDestroyed()).subscribe((result) => {
@@ -121,7 +146,7 @@ export class DhActorsCreateActorModalComponent {
   }
 
   toggleShowCreateNewOrganization(): void {
-    this.showCreateNewOrganization = !this.showCreateNewOrganization;
+    this.showCreateNewOrganization.set(!this.showCreateNewOrganization());
     this.newOrganizationForm.reset();
   }
 

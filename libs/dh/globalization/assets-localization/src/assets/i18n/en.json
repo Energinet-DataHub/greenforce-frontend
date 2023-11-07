@@ -551,6 +551,13 @@
           "NO": "Norway",
           "FI": "Finland"
         },
+        "glnOrEicNumber": "Market party id",
+        "name": "Market Party Name",
+        "contact": "Contact",
+        "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
+        "departmentOrName": "Department/Name",
+        "email": "E-mail",
+        "phone": "Phone number",
         "searchDatahub": "Search DataHub",
         "newOrganization": "New organization",
         "marketParty": "Market party",
