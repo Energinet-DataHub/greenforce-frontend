@@ -33,7 +33,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { WattButtonComponent } from '../../button';
 import { WattSliderComponent } from '../../slider';
 

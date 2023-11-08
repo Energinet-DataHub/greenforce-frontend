@@ -21,8 +21,10 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   Output,
+  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
   inject,
@@ -31,6 +33,7 @@ import { CommonModule } from '@angular/common';
 import { Subscription, fromEvent } from 'rxjs';
 import { WattColorHelperService } from '../../foundations/color/color-helper.service';
 import { WattColor } from '../../foundations/color/colors';
+import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 
 export interface WattSliderValue {
   min: number;
@@ -49,7 +52,7 @@ export interface WattSliderValue {
   standalone: true,
   imports: [CommonModule],
 })
-export class WattSliderComponent implements AfterViewInit, OnDestroy {
+export class WattSliderComponent implements AfterViewInit, OnDestroy, OnChanges {
   private _colorService = inject(WattColorHelperService);
   /** The lowest permitted value. */
   @Input() min = 0;
@@ -108,6 +111,16 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy {
 
       this.onChange({ min: minValue, max: maxValue });
     });
+  }
+
+  isElementRefsPopulated(): boolean {
+    return !!this.maxRange && !!this.minRange;
+  }
+
+  ngOnChanges(): void {
+      if (this.isElementRefsPopulated()) {
+      this.updateRange(this.value.min, this.value.max);
+    }
   }
 
   ngOnDestroy(): void {

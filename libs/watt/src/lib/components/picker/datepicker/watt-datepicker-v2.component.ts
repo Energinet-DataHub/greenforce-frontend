@@ -43,7 +43,6 @@ import { MatInputModule } from '@angular/material/input';
 import { WattFieldComponent } from '@energinet-datahub/watt/field';
 import { endOfDay, endOfMonth, isValid, parse, parseISO, startOfMonth } from 'date-fns';
 import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
-import { Observable, combineLatest, fromEvent, map, merge, startWith, takeUntil, tap } from 'rxjs';
 
 import { MaskitoModule } from '@maskito/angular';
 import { MaskitoOptions } from '@maskito/core';

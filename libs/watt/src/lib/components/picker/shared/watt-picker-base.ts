@@ -30,7 +30,6 @@ import { Subject } from 'rxjs';
 
 import { WattDateRange } from '../../../utils/date';
 import { WattPickerValue } from './watt-picker-value';
-import { WattRangeInputService } from './watt-range-input.service';
 
 @Directive()
 export abstract class WattPickerBase
