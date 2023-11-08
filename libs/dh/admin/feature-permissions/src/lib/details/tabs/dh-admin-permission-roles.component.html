@@ -44,6 +44,13 @@ limitations under the License.
         <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
           {{ element.name }}
         </ng-container>
+        <ng-container
+          *wattTableCell="columns.eicFunction; header: t('columns.eicFunction'); let element"
+        >
+          <ng-container *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'">
+            {{ translateMarketRole(element.eicFunction) }}
+          </ng-container>
+        </ng-container>
       </watt-table>
 
       <watt-empty-state
