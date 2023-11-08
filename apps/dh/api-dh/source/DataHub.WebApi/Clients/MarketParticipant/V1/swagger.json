@@ -304,6 +304,47 @@
         }
       }
     },
+    "/actor/{actorId}/credentials/secret": {
+      "post": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "secret",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/actor/{actorId}/auditlogs": {
       "get": {
         "tags": [
@@ -2481,7 +2522,17 @@
       },
       "ActorClientSecretCredentialsDto": {
         "type": "object",
-        "additionalProperties": false
+        "additionalProperties": false,
+        "properties": {
+          "clientSecretIdentifier": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expirationDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
       },
       "ActorContactAuditLogDto": {
         "type": "object",
@@ -3118,6 +3169,10 @@
             "nullable": true
           },
           "actorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "organizationName": {
             "type": "string",
             "nullable": true
           },
