@@ -20,12 +20,8 @@ import { EoDashboardConsumptionComponent } from './eo-dashboard-consumption.comp
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    EoDashboardConsumptionComponent,
-  ],
+  imports: [EoDashboardConsumptionComponent],
   selector: 'eo-dashboard-shell',
-  template: `
-    <eo-dashboard-consumption />
-  `,
+  template: ` <eo-dashboard-consumption /> `,
 })
 export class EoDashboardShellComponent {}
