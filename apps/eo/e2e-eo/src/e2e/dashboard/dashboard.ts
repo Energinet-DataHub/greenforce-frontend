@@ -35,4 +35,3 @@ When('I am on the dashboard page', () => {
 });
 
 Then('I can see my green consumption', () => dashboard.greenConsumptionIsVisible());
-
