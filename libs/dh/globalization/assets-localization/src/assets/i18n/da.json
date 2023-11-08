@@ -1526,7 +1526,8 @@
             "tabLabel": "Brugerroller",
             "noEntries": "Ingen resultater",
             "columns": {
-              "name": "Navn"
+              "name": "Navn",
+              "eicFunction": "Markedsrolle"
             }
           },
           "history": {
