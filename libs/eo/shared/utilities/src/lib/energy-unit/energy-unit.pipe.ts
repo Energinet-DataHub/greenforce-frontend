@@ -19,7 +19,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'energyUnit',
   pure: true,
-  standalone: true
+  standalone: true,
 })
 export class EnergyUnitPipe implements PipeTransform {
   transform(value: number | null | undefined, maxDecimals = 2): unknown {
