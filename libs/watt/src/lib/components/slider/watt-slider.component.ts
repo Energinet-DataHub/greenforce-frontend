@@ -116,7 +116,7 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy, OnChanges 
   }
 
   ngOnChanges(): void {
-      if (this.isElementRefsPopulated()) {
+    if (this.isElementRefsPopulated()) {
       this.updateRange(this.value.min, this.value.max);
     }
   }
