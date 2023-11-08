@@ -22,7 +22,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnChanges,
   OnDestroy,
   Output,
   ViewChild,
@@ -50,7 +49,7 @@ export interface WattSliderValue {
   standalone: true,
   imports: [CommonModule],
 })
-export class WattSliderComponent implements AfterViewInit, OnDestroy, OnChanges {
+export class WattSliderComponent implements AfterViewInit, OnDestroy {
   private _colorService = inject(WattColorHelperService);
   /** The lowest permitted value. */
   @Input() min = 0;
@@ -109,16 +108,6 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy, OnChanges 
 
       this.onChange({ min: minValue, max: maxValue });
     });
-  }
-
-  isElementRefsPopulated(): boolean {
-    return !!this.maxRange && !!this.minRange;
-  }
-
-  ngOnChanges(): void {
-    if (this.isElementRefsPopulated()) {
-      this.updateRange(this.value.min, this.value.max);
-    }
   }
 
   ngOnDestroy(): void {
