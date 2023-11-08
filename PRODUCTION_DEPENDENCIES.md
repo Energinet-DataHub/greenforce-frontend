@@ -16,6 +16,9 @@
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.2 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.2 | MIT |
+| [@maskito/angular](https://github.com/taiga-family/maskito) | 1.8.1 | Apache-2.0 |
+| [@maskito/core](https://github.com/taiga-family/maskito) | 1.8.1 | Apache-2.0 |
+| [@maskito/kit](https://github.com/taiga-family/maskito) | 1.8.1 | Apache-2.0 |
 | [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 3.0.2 | MIT |
 | [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.12 | MIT |
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
