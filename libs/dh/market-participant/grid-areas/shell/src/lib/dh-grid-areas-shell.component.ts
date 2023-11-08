@@ -44,17 +44,19 @@ export class DhGridAreasShellComponent implements OnInit {
   rows: GridAreaOverviewRow[] = [];
 
   ngOnInit(): void {
-    this.getActorsQuery$.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
-      this.isLoading = result.loading;
-      this.rows =
-        result.data?.gridAreaOverview?.map((x) => ({
-          id: x.id,
-          code: x.code,
-          actor: x.actorNumber
-            ? `${x.actorName} - ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
-            : '',
-          organization: x.organizationName ?? '',
-        })) ?? [];
-    });
+    this.getActorsQuery$.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((result) => {
+        this.isLoading = result.loading;
+        this.rows =
+          result.data?.gridAreaOverview?.map((x) => ({
+            id: x.id,
+            code: x.code,
+            actor: x.actorNumber
+              ? `${x.actorName} - ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
+              : '',
+            organization: x.organizationName ?? '',
+          })) ?? [];
+      });
   }
 }
