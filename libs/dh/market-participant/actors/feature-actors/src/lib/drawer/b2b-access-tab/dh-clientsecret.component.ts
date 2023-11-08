@@ -24,14 +24,14 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
-import { DhMarketParticipantCertificateStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { DhMarketParticipantCredentialsStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { DhRemoveCertificateModalComponent } from './dh-remove-certificate-modal.component';
+import { DhRemoveClientSecretModalComponent } from './dh-remove-clientSecret-modal.component';
 
 type DhClientSecretTableRow = {
   translationKey: string;
@@ -75,10 +75,10 @@ type DhClientSecretTableRow = {
 
     DhEmDashFallbackPipe,
   ],
-  viewProviders: [DhMarketParticipantCertificateStore],
+  viewProviders: [DhMarketParticipantCredentialsStore],
 })
 export class DhCertificateComponent implements OnChanges {
-  private readonly store = inject(DhMarketParticipantCertificateStore);
+  private readonly store = inject(DhMarketParticipantCredentialsStore);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
   private readonly modalService = inject(WattModalService);
@@ -90,11 +90,11 @@ export class DhCertificateComponent implements OnChanges {
     showActionButton: { accessor: 'showActionButton', align: 'right' },
   };
 
-  doesClientSecretExist = toSignal(this.store.doesCertificateExist$);
-  clientSecretMetadata = toSignal(this.store.certificateMetadata$);
+  doesClientSecretExist = toSignal(this.store.doesClientSecretExist$);
+  clientSecretMetadata = toSignal(this.store.clientSecretMetadata$);
 
   loadingCredentials = toSignal(this.store.loadingCredentials$);
-  isGeneratingInProgress = toSignal(this.store.uploadInProgress$);
+  isGeneratingInProgress = toSignal(this.store.AddCredentialsInProgress$);
   isRemoveInProgress = toSignal(this.store.removeInProgress$);
 
   showSpinner = computed(() => {
@@ -107,8 +107,13 @@ export class DhCertificateComponent implements OnChanges {
     effect(() => {
       const tableData: DhClientSecretTableRow[] = [
         {
-          translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.thumbprint',
-          value: this.clientSecretMetadata()?.thumbprint,
+          translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.secretIdentifier',
+          value: this.clientSecretMetadata()?.clientSecretIdentifier,
+          showActionButton: true,
+        },
+        {
+          translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.secret',
+          value: this.clientSecretMetadata()?.clientSecretIdentifier, //TODO: add secret (when it is returned)
           showActionButton: true,
         },
         {
@@ -126,9 +131,9 @@ export class DhCertificateComponent implements OnChanges {
     this.store.getCredentials(this.actorId);
   }
 
-  removeCertificate(): void {
+  removeSecret(): void {
     this.modalService.open({
-      component: DhRemoveCertificateModalComponent,
+      component: DhRemoveClientSecretModalComponent,
       onClosed: (result) => {
         if (result) {
           this.store.removeCertificate({

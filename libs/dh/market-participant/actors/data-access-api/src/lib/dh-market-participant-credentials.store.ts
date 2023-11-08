@@ -23,29 +23,31 @@ import {
   MarketParticipantActorHttp,
 } from '@energinet-datahub/dh/shared/domain';
 
-interface CertificateState {
+interface CredentialsState {
   credentials: MarketParticipantActorCredentialsDto | null;
   loadingCredentials: boolean;
-  uploadInProgress: boolean;
+  AddCredentialsInProgress: boolean;
   removeInProgress: boolean;
 }
 
-const initialState: CertificateState = {
+const initialState: CredentialsState = {
   credentials: null,
   loadingCredentials: true,
-  uploadInProgress: false,
+  AddCredentialsInProgress: false,
   removeInProgress: false,
 };
 
 @Injectable()
-export class DhMarketParticipantCertificateStore extends ComponentStore<CertificateState> {
+export class DhMarketParticipantCredentialsStore extends ComponentStore<CredentialsState> {
   private readonly httpClient = inject(MarketParticipantActorHttp);
 
   readonly certificateMetadata$ = this.select((state) => state.credentials?.certificateCredentials);
+  readonly clientSecretMetadata$ = this.select((state) => state.credentials?.clientSecretCredentials);
   readonly doesCertificateExist$ = this.select(this.certificateMetadata$, (metadata) => !!metadata);
+  readonly doesClientSecretExist$ = this.select(this.clientSecretMetadata$, (metadata) => !!metadata);
 
   readonly loadingCredentials$ = this.select((state) => state.loadingCredentials);
-  readonly uploadInProgress$ = this.select((state) => state.uploadInProgress);
+  readonly AddCredentialsInProgress$ = this.select((state) => state.AddCredentialsInProgress);
 
   readonly removeInProgress$ = this.select((state) => state.removeInProgress);
 
@@ -74,7 +76,7 @@ export class DhMarketParticipantCertificateStore extends ComponentStore<Certific
       }>
     ) =>
       trigger$.pipe(
-        tap(() => this.patchState({ uploadInProgress: true })),
+        tap(() => this.patchState({ AddCredentialsInProgress: true })),
         exhaustMap(({ actorId, file, onSuccess, onError }) =>
           this.httpClient
             .v1MarketParticipantActorAssignCertificateCredentialsPost(actorId, file)
@@ -83,7 +85,31 @@ export class DhMarketParticipantCertificateStore extends ComponentStore<Certific
                 () => onSuccess(),
                 () => onError()
               ),
-              finalize(() => this.patchState({ uploadInProgress: false }))
+              finalize(() => this.patchState({ AddCredentialsInProgress: false }))
+            )
+        )
+      )
+  );
+
+  readonly requestSecret = this.effect(
+    (
+      trigger$: Observable<{
+        actorId: string;
+        onSuccess: () => void;
+        onError: () => void;
+      }>
+    ) =>
+      trigger$.pipe(
+        tap(() => this.patchState({ AddCredentialsInProgress: true })),
+        exhaustMap(({ actorId, onSuccess, onError }) =>
+          this.httpClient
+            .v1MarketParticipantActorAssignCertificateCredentialsPost(actorId, file)
+            .pipe(
+              tapResponse(
+                () => onSuccess(),
+                () => onError()
+              ),
+              finalize(() => this.patchState({ AddCredentialsInProgress: false }))
             )
         )
       )

@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhMarketParticipantCertificateStore } from './lib/dh-market-participant-certificate.store';
+export { DhMarketParticipantCredentialsStore } from './lib/dh-market-participant-credentials.store';
