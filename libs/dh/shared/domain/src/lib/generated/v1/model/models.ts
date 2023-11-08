@@ -21,6 +21,7 @@ export * from './charge-v1-dto';
 export * from './charge-vat-classification';
 export * from './create-charge-v1-dto';
 export * from './market-participant-actor-certificate-credentials-dto';
+export * from './market-participant-actor-client-secret-credentials-dto';
 export * from './market-participant-actor-contact-dto';
 export * from './market-participant-actor-credentials-dto';
 export * from './market-participant-actor-dto';
