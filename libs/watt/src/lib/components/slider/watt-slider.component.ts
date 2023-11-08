@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -24,16 +25,13 @@ import {
   OnChanges,
   OnDestroy,
   Output,
-  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
-  inject,
+  inject
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Subscription, fromEvent } from 'rxjs';
 import { WattColorHelperService } from '../../foundations/color/color-helper.service';
 import { WattColor } from '../../foundations/color/colors';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 
 export interface WattSliderValue {
   min: number;
