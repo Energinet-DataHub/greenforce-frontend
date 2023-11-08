@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
 import { NgIf } from '@angular/common';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
@@ -22,10 +28,12 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
+import { EnergyUnitPipe } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent, NgIf],
+  providers: [EnergyUnitPipe],
   standalone: true,
   selector: 'eo-claims-table',
   styles: [
@@ -64,10 +72,11 @@ import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
   `,
 })
 export class EoClaimsTableComponent {
-  dataSource: WattTableDataSource<Claim> = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<Claim> = {
+  protected energyUnitPipe = inject(EnergyUnitPipe);
+  protected dataSource: WattTableDataSource<Claim> = new WattTableDataSource(undefined);
+  protected columns: WattTableColumnDef<Claim> = {
     claimId: { accessor: (x) => x.claimId, header: 'Claim Id' },
-    quantity: { accessor: (x) => `${x.quantity.toLocaleString()} Wh`, header: 'Amount' },
+    quantity: { accessor: (x) => this.energyUnitPipe.transform(x.quantity), header: 'Amount' },
   };
 
   @Input() loading = false;

@@ -18,3 +18,4 @@ export * from './lib/absolute-url-generator.service';
 export * from './lib/eo-routes';
 export * from './lib/shared-utilities';
 export * from './lib/title/eo-title.store';
+export * from './lib/energy-unit/energy-unit.pipe';

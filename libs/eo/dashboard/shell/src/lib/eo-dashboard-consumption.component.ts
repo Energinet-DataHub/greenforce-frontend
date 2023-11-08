@@ -84,12 +84,12 @@ import { DatePipe, NgIf } from '@angular/common';
       <h4>Green consumption</h4>
     </watt-card-title>
 
-    <h5>0 Wh</h5>
-    <small>Out of 0 Wh total consumption</small>
-
     <div class="loader-container" *ngIf="isLoading">
       <ng-lottie height="64px" width="64px" [options]="options" />
     </div>
+
+    <h5>0 Wh</h5>
+    <small>Out of 0 Wh total consumption</small>
 
     <div class="chart-container">
       <canvas
