@@ -42,9 +42,14 @@ export class DhMarketParticipantCredentialsStore extends ComponentStore<Credenti
   private readonly httpClient = inject(MarketParticipantActorHttp);
 
   readonly certificateMetadata$ = this.select((state) => state.credentials?.certificateCredentials);
-  readonly clientSecretMetadata$ = this.select((state) => state.credentials?.clientSecretCredentials);
+  readonly clientSecretMetadata$ = this.select(
+    (state) => state.credentials?.clientSecretCredentials
+  );
   readonly doesCertificateExist$ = this.select(this.certificateMetadata$, (metadata) => !!metadata);
-  readonly doesClientSecretExist$ = this.select(this.clientSecretMetadata$, (metadata) => !!metadata);
+  readonly doesClientSecretExist$ = this.select(
+    this.clientSecretMetadata$,
+    (metadata) => !!metadata
+  );
 
   readonly loadingCredentials$ = this.select((state) => state.loadingCredentials);
   readonly AddCredentialsInProgress$ = this.select((state) => state.AddCredentialsInProgress);
