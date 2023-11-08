@@ -50,7 +50,7 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
       [pageSizeOptions]="[10, 25, 50, 100, 250]"
       [showFirstLastButtons]="true"
       aria-label="Select page"
-    ></mat-paginator>
+    />
     <mat-table matSort [dataSource]="dataSource">
       <!-- Time Column -->
       <ng-container matColumnDef="dateFrom">
@@ -74,7 +74,7 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
 
       <!-- Action column -->
       <ng-container matColumnDef="action">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-header-cell *matHeaderCellDef />
         <mat-cell *matCellDef="let element"
           ><h4>
             <a class="link" routerLink="/${eoCertificatesRoutePath}/{{ element.id }}">
@@ -89,8 +89,8 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
         You do not have any certificates to show right now.
       </ng-container>
 
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      <mat-header-row *matHeaderRowDef="displayedColumns" />
+      <mat-row *matRowDef="let row; columns: displayedColumns" />
     </mat-table>
   `,
 })

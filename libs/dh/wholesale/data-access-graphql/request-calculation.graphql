@@ -1,6 +1,6 @@
 mutation requestCalculation(
   $processtType: EdiB2CProcessType!
-  $meteringPointType: MeteringPointType!
+  $meteringPointType: MeteringPointType
   $startDate: String!
   $endDate: String
   $energySupplierId: String

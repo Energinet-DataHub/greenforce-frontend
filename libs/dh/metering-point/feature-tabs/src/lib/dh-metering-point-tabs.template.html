@@ -16,10 +16,10 @@ limitations under the License.
 -->
 <watt-tabs *transloco="let t; read: 'meteringPoint.overview.tabs'">
   <watt-tab [label]="t('processes')">
-    <dh-processes-tab-content></dh-processes-tab-content>
+    <dh-processes-tab-content />
   </watt-tab>
   <watt-tab [label]="t('prices')">
-    <dh-charges-tab-content></dh-charges-tab-content>
+    <dh-charges-tab-content />
   </watt-tab>
 
   <ng-container *rxLet="meteringPoint$ as meteringPoint">
@@ -33,7 +33,7 @@ limitations under the License.
       >
         <dh-child-metering-points-tab-content
           [childMeteringPoints]="meteringPoint.childMeteringPoints"
-        ></dh-child-metering-points-tab-content>
+        />
       </watt-tab>
     </ng-container>
   </ng-container>

@@ -23,6 +23,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
+import { MeteringPointType } from '@energinet-datahub/eo/metering-points/domain';
 
 import { EoMeteringPointsTableComponent } from './eo-metering-point-table.component';
 
@@ -83,7 +84,7 @@ import { EoMeteringPointsTableComponent } from './eo-metering-point-table.compon
         [loading]="!!(isLoading$ | async)"
         [hasError]="!!(meteringPointError$ | async)"
         (toggleContract)="onToggleContract($event)"
-      ></eo-metering-points-table>
+      />
     </watt-card>
   `,
 })
@@ -100,7 +101,7 @@ export class EoMeteringPointsShellComponent implements OnInit {
   ngOnInit(): void {
     this.meteringPointStore.loadMeteringPoints();
 
-    this.contractError$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((error) => {
+    this.contractError$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((error: unknown) => {
       if (error) {
         this.toastService.open({
           message: 'Issue encountered. Please try again or reload the page.',
@@ -110,12 +111,12 @@ export class EoMeteringPointsShellComponent implements OnInit {
     });
   }
 
-  onToggleContract(event: { checked: boolean; gsrn: string }) {
-    const { checked, gsrn } = event;
+  onToggleContract(event: { checked: boolean; gsrn: string; type: MeteringPointType }) {
+    const { checked, gsrn, type } = event;
     if (checked) {
-      this.meteringPointStore.createCertificateContract(gsrn);
+      this.meteringPointStore.createCertificateContract(gsrn, type);
     } else {
-      this.meteringPointStore.deactivateCertificateContract(gsrn);
+      this.meteringPointStore.deactivateCertificateContract(gsrn, type);
     }
   }
 }

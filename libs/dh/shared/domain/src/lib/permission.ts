@@ -25,5 +25,6 @@ export const permissions = [
   'settlement-reports:manage',
   'esett-exchange:manage',
   'request-aggregated-measured-data:view',
+  'actor-credentials:manage',
 ] as const;
 export type Permission = (typeof permissions)[number];

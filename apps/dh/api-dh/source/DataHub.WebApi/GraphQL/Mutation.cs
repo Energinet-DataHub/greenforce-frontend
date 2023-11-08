@@ -123,7 +123,7 @@ public class Mutation
 
     public async Task<bool> CreateAggregatedMeasureDataRequestAsync(
         EdiB2CWebAppProcessType processType,
-        MeteringPointType meteringPointType,
+        MeteringPointType? meteringPointType,
         string startDate,
         string? endDate,
         string? gridArea,

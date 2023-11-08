@@ -51,15 +51,15 @@ import { EoTransfersService } from './eo-transfers.service';
   ],
   standalone: true,
   template: `
-    <eo-popup-message *ngIf="error$ | push"></eo-popup-message>
-    <eo-eo-beta-message></eo-eo-beta-message>
+    <eo-popup-message *ngIf="error$ | push" />
+    <eo-eo-beta-message />
     <watt-card class="watt-space-stack-m">
       <eo-transfers-table
         [transfers]="transfers$ | push"
         [loading]="loading$ | push"
         [selectedTransfer]="selectedTransfer$ | push"
         (transferSelected)="store.setSelectedTransfer($event)"
-      ></eo-transfers-table>
+      />
     </watt-card>
 
     <vater-stack *ngIf="showAutomationError() && (transfers$ | push).length > 0">

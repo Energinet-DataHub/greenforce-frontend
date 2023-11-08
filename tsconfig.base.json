@@ -26,9 +26,6 @@
       "@energinet-datahub/dh/admin/data-access-graphql": [
         "libs/dh/admin/data-access-graphql/src/index.ts"
       ],
-      "@energinet-datahub/dh/admin/domain": [
-        "libs/dh/admin/domain/src/index.ts"
-      ],
       "@energinet-datahub/dh/admin/feature-create-user-role": [
         "libs/dh/admin/feature-create-user-role/src/index.ts"
       ],
@@ -106,6 +103,9 @@
       ],
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/actors/data-access-api": [
+        "libs/dh/market-participant/actors/data-access-api/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/actors/feature-actors": [
         "libs/dh/market-participant/actors/feature-actors/src/index.ts"
@@ -230,6 +230,9 @@
       "@energinet-datahub/dh/shared/ui-util": [
         "libs/dh/shared/ui-util/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/ui-validators": [
+        "libs/dh/shared/ui-validators/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/util-application-insights": [
         "libs/dh/shared/util-application-insights/src/index.ts"
       ],
@@ -275,6 +278,13 @@
       "@energinet-datahub/eo/certificates/shell": [
         "libs/eo/certificates/shell/index.ts"
       ],
+      "@energinet-datahub/eo/claims/data-access-api": [
+        "libs/eo/claims/data-access-api/index.ts"
+      ],
+      "@energinet-datahub/eo/claims/feature-overview": [
+        "libs/eo/claims/feature-overview/index.ts"
+      ],
+      "@energinet-datahub/eo/claims/shell": ["libs/eo/claims/shell/index.ts"],
       "@energinet-datahub/eo/connections/data-access-api": [
         "libs/eo/connections/data-access-api/index.ts"
       ],

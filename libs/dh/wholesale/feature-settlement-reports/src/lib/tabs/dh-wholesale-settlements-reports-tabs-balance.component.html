@@ -38,7 +38,7 @@ limitations under the License.
             ? t('filters.loadingGridAreas')
             : t('filters.gridAreasPlaceholder')
         "
-      ></watt-dropdown>
+      />
 
       <watt-dropdown
         formControlName="actor"
@@ -49,7 +49,7 @@ limitations under the License.
             ? t('filters.loadingActors')
             : t('filters.actorPlaceholder')
         "
-      ></watt-dropdown>
+      />
 
       <watt-button variant="text" icon="undo" type="reset">
         {{ "shared.form.reset" | transloco }}
@@ -85,8 +85,7 @@ limitations under the License.
           icon="download"
           [disabled]="!searchForm.valid"
           (click)="downloadClicked([gridArea])"
-        >
-        </watt-button>
+        />
       </ng-container>
       <ng-container *wattTableToolbar="let selection">
         <ng-container *ngIf="selection.length === 1">
@@ -110,7 +109,7 @@ limitations under the License.
       icon="custom-power"
       [title]="'shared.error.title' | transloco"
       [message]="'shared.error.message' | transloco"
-    ></watt-empty-state>
+    />
 
     <ng-container>
       <h4 *ngIf="gridAreas.length === 0" class="no-results-text">

@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const danishPhoneNumberPattern = /^\+45 \d{8}$/;
+import 'jest-preset-angular/setup-jest';

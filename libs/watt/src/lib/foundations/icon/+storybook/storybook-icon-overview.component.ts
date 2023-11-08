@@ -50,6 +50,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Plus', icon: 'plus' },
         { name: 'Minus', icon: 'minus' },
         { name: 'Help', icon: 'help' },
+        { name: '@', icon: 'alternateEmail' },
       ],
     },
     {

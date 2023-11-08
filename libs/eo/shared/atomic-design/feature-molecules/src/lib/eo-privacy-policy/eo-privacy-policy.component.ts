@@ -93,7 +93,7 @@ import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-desig
         icon="danger"
         title="Oops, we could not load the privacy policy!"
         message="Please ensure that you have no browser extensions blocking the privacy policy enabled. Try turning off possible ad blockers and reloading the page."
-      ></watt-empty-state>
+      />
     </ng-template>
   `,
 })

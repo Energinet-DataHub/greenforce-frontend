@@ -16,10 +16,11 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-admin-domain',
-  preset: '../../../../jest.preset.js',
+  displayName: 'dh-market-participant-actors-data-access-api',
+  preset: '../../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/dh/admin/domain',
+  globals: {},
+  coverageDirectory: '../../../../../coverage/libs/dh/market-participant/actors/data-access-api',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

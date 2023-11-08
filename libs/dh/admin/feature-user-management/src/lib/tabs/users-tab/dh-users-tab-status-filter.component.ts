@@ -32,7 +32,7 @@ import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain
         [formControl]="statusControl"
         [options]="userStatusOptions"
         [multiple]="true"
-      ></watt-dropdown>
+      />
     </ng-container>
   `,
   styles: [

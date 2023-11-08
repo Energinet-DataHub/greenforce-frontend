@@ -16,34 +16,31 @@ limitations under the License.
 -->
 <ng-container *rxLet="isLoading$ as isLoading">
   <div *ngIf="isLoading" class="spinner">
-    <watt-spinner></watt-spinner>
+    <watt-spinner />
   </div>
   <ng-container *ngIf="!isLoading">
     <ng-container *transloco="let t; read: 'charges'">
       <ng-container *rxLet="tariffs$ as tariffs">
-        <dh-charge-item [charges]="tariffs" [title]="t('tariffsTitle')"></dh-charge-item>
+        <dh-charge-item [charges]="tariffs" [title]="t('tariffsTitle')" />
       </ng-container>
       <ng-container *rxLet="subscriptions$ as subscriptions">
-        <dh-charge-item
-          [charges]="subscriptions"
-          [title]="t('subscriptionsTitle')"
-        ></dh-charge-item>
+        <dh-charge-item [charges]="subscriptions" [title]="t('subscriptionsTitle')" />
       </ng-container>
       <ng-container *rxLet="fees$ as fees">
-        <dh-charge-item [charges]="fees" [title]="t('feesTitle')"></dh-charge-item>
+        <dh-charge-item [charges]="fees" [title]="t('feesTitle')" />
       </ng-container>
     </ng-container>
   </ng-container>
 
   <ng-container *rxLet="chargesNotFound$ as chargesNotFound">
     <div *ngIf="chargesNotFound">
-      <dh-charges-not-found></dh-charges-not-found>
+      <dh-charges-not-found />
     </div>
   </ng-container>
 
   <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
     <div *ngIf="hasGeneralError">
-      <dh-charges-general-error></dh-charges-general-error>
+      <dh-charges-general-error />
     </div>
   </ng-container>
 </ng-container>

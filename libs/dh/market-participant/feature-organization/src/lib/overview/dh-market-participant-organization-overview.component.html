@@ -54,8 +54,7 @@ limitations under the License.
           <dh-market-participant-organization-overview-grid-areas-list
             [gridAreas]="gridAreas"
             [marketRoleGridAreas]="marketRole.gridAreas"
-          >
-          </dh-market-participant-organization-overview-grid-areas-list>
+          />
         </div>
         <div class="list-cell-container" *ngIf="row.actor === undefined">
           {{ null | dhEmDashFallback }}
@@ -70,8 +69,7 @@ limitations under the License.
         variant="icon"
         icon="edit"
         [mat-menu-trigger-for]="menu"
-      >
-      </watt-button>
+      />
       <mat-menu #menu="matMenu">
         <button
           *dhPermissionRequired="['organizations:manage']"

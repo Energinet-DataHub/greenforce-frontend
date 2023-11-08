@@ -46,7 +46,7 @@ import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directiv
       [wattTooltip]="tooltip"
     >
       <ng-content />
-      <watt-icon size="xs" name="contentCopy"></watt-icon>
+      <watt-icon size="xs" name="contentCopy" />
     </span>
   `,
 })

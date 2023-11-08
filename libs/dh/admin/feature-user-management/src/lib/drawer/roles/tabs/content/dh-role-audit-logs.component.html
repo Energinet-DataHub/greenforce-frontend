@@ -19,7 +19,7 @@ limitations under the License.
   *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.history'"
 >
   <div *ngIf="isLoading" class="spinner">
-    <watt-spinner></watt-spinner>
+    <watt-spinner />
   </div>
 
   <ng-container *ngIf="!isLoading">
@@ -32,7 +32,7 @@ limitations under the License.
               $implicit: dataSource.data.length
             }
           "
-        ></ng-container>
+        />
       </watt-card-title>
 
       <watt-table
@@ -49,7 +49,7 @@ limitations under the License.
         </ng-container>
 
         <ng-container *wattTableCell="columns.entry; header: t('table.columns.entry'); let element">
-          <dh-audit-change-cell [entry]="element"></dh-audit-change-cell>
+          <dh-audit-change-cell [entry]="element" />
         </ng-container>
       </watt-table>
 
@@ -63,7 +63,7 @@ limitations under the License.
         icon="custom-power"
         [title]="'shared.error.title' | transloco"
         [message]="'shared.error.message' | transloco"
-      ></watt-empty-state>
+      />
     </ng-container>
   </ng-container>
 </watt-card>
