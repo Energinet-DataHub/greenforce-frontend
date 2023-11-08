@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnChanges, computed, effect, inject, signal } from '@angular/core';
+import { Component, Input, OnChanges, computed, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -31,12 +31,9 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { DhRemoveCertificateModalComponent } from './dh-remove-certificate-modal.component';
+import { DhRemoveClientSecretModalComponent } from './dh-remove-clientSecret-modal.component';
 
-const certificateExt = '.cer';
-const certificateMimeType = 'application/x-x509-ca-cert';
-
-type DhCertificateTableRow = {
+type DhClientSecretTableRow = {
   translationKey: string;
   value?: string;
   valueIsDate?: boolean;
@@ -86,41 +83,42 @@ export class DhCertificateComponent implements OnChanges {
   private readonly transloco = inject(TranslocoService);
   private readonly modalService = inject(WattModalService);
 
-  dataSource = new WattTableDataSource<DhCertificateTableRow>([]);
-  columns: WattTableColumnDef<DhCertificateTableRow> = {
+  dataSource = new WattTableDataSource<DhClientSecretTableRow>([]);
+  columns: WattTableColumnDef<DhClientSecretTableRow> = {
     translationKey: { accessor: 'translationKey' },
     value: { accessor: 'value' },
     showActionButton: { accessor: 'showActionButton', align: 'right' },
   };
 
-  certificateExt = certificateExt;
-
-  isInvalidFileType = signal(false);
-
-  doesCertificateExist = toSignal(this.store.doesCertificateExist$);
-  certificateMetadata = toSignal(this.store.certificateMetadata$);
+  doesClientSecretExist = toSignal(this.store.doesClientSecretExist$);
+  clientSecretMetadata = toSignal(this.store.clientSecretMetadata$);
 
   loadingCredentials = toSignal(this.store.loadingCredentials$);
-  isUploadInProgress = toSignal(this.store.AddCredentialsInProgress$);
+  isGeneratingInProgress = toSignal(this.store.AddCredentialsInProgress$);
   isRemoveInProgress = toSignal(this.store.removeInProgress$);
 
   showSpinner = computed(() => {
-    return this.loadingCredentials() || this.isUploadInProgress() || this.isRemoveInProgress();
+    return this.loadingCredentials() || this.isGeneratingInProgress() || this.isRemoveInProgress();
   });
 
   @Input({ required: true }) actorId = '';
 
   constructor() {
     effect(() => {
-      const tableData: DhCertificateTableRow[] = [
+      const tableData: DhClientSecretTableRow[] = [
         {
-          translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.thumbprint',
-          value: this.certificateMetadata()?.thumbprint,
+          translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.secretIdentifier',
+          value: this.clientSecretMetadata()?.clientSecretIdentifier,
+          showActionButton: true,
+        },
+        {
+          translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.secret',
+          value: this.clientSecretMetadata()?.clientSecretIdentifier, //TODO: add secret (when it is returned)
           showActionButton: true,
         },
         {
           translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.expiryDate',
-          value: this.certificateMetadata()?.expirationDate,
+          value: this.clientSecretMetadata()?.expirationDate,
           valueIsDate: true,
         },
       ];
@@ -133,25 +131,9 @@ export class DhCertificateComponent implements OnChanges {
     this.store.getCredentials(this.actorId);
   }
 
-  onFileSelected(files: FileList | null): void {
-    if (files == null) {
-      return;
-    }
-
-    const file = files[0];
-
-    if (this.isValidFileType(file)) {
-      this.isInvalidFileType.set(false);
-
-      return this.startUpload(this.actorId, file);
-    } else {
-      this.isInvalidFileType.set(true);
-    }
-  }
-
-  removeCertificate(): void {
+  removeSecret(): void {
     this.modalService.open({
-      component: DhRemoveCertificateModalComponent,
+      component: DhRemoveClientSecretModalComponent,
       onClosed: (result) => {
         if (result) {
           this.store.removeCredentials({
@@ -164,22 +146,9 @@ export class DhCertificateComponent implements OnChanges {
     });
   }
 
-  private startUpload(actorId: string, file: File): void {
-    this.store.uploadCertificate({
-      actorId,
-      file,
-      onSuccess: this.onUploadSuccessFn,
-      onError: this.onUploadErrorFn,
-    });
-  }
-
-  private isValidFileType(file: File): boolean {
-    return file.type === certificateMimeType;
-  }
-
   private readonly onUploadSuccessFn = () => {
     const message = this.transloco.translate(
-      'marketParticipant.actorsOverview.drawer.tabs.certificate.uploadSuccess'
+      'marketParticipant.actorsOverview.drawer.tabs.clientSecret.uploadSuccess'
     );
 
     this.toastService.open({ type: 'success', message });
@@ -189,7 +158,7 @@ export class DhCertificateComponent implements OnChanges {
 
   private readonly onUploadErrorFn = () => {
     const message = this.transloco.translate(
-      'marketParticipant.actorsOverview.drawer.tabs.certificate.uploadError'
+      'marketParticipant.actorsOverview.drawer.tabs.clientSecret.uploadError'
     );
 
     this.toastService.open({ type: 'danger', message });
@@ -197,7 +166,7 @@ export class DhCertificateComponent implements OnChanges {
 
   private readonly onRemoveSuccessFn = () => {
     const message = this.transloco.translate(
-      'marketParticipant.actorsOverview.drawer.tabs.certificate.removeSuccess'
+      'marketParticipant.actorsOverview.drawer.tabs.clientSecret.removeSuccess'
     );
 
     this.toastService.open({ type: 'success', message });
@@ -205,7 +174,7 @@ export class DhCertificateComponent implements OnChanges {
 
   private readonly onRemoveErrorFn = () => {
     const message = this.transloco.translate(
-      'marketParticipant.actorsOverview.drawer.tabs.certificate.removeError'
+      'marketParticipant.actorsOverview.drawer.tabs.clientSecret.removeError'
     );
 
     this.toastService.open({ type: 'danger', message });

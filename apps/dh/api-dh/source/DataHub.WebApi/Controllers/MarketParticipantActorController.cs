@@ -60,6 +60,16 @@ namespace Energinet.DataHub.WebApi.Controllers
             await _client.CertificateAsync(actorId, new FileParameter(openReadStream)).ConfigureAwait(false);
         }
 
+         /// <summary>
+        /// Assigns the given certificate credentials to the actor.
+        /// </summary>
+        [HttpPost]
+        [Route("RequestClientSecretCredentials")]
+        public async Task<ActionResult<string>> AssignCertificateCredentialsAsync(Guid actorId)
+        {
+            return await _client.SecretAsync(actorId).ConfigureAwait(false);
+        }
+
         /// <summary>
         /// Removes the current credentials from the actor.
         /// </summary>
