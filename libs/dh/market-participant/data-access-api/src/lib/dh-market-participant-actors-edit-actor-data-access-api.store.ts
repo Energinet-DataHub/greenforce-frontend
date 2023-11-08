@@ -18,6 +18,7 @@ import { Injectable, inject } from '@angular/core';
 import {
   GetActorEditableFieldsDocument,
   GetActorsDocument,
+  GetAuditLogByActorIdDocument,
   UpdateActorDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Apollo } from 'apollo-angular';
@@ -60,7 +61,11 @@ export class DhMarketParticipantActorsEditActorDataAccessApiStore {
       variables: {
         input: actor,
       },
-      refetchQueries: [GetActorsDocument, GetActorEditableFieldsDocument],
+      refetchQueries: [
+        GetActorsDocument,
+        GetActorEditableFieldsDocument,
+        GetAuditLogByActorIdDocument,
+      ],
     });
   }
 }

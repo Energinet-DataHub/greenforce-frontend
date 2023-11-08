@@ -60,25 +60,29 @@ import { isToday } from 'date-fns';
         align-items: flex-end;
       }
 
-      eo-transfers-datetime watt-form-field {
+      eo-transfers-datetime watt-field {
         max-width: 160px;
-        margin-top: 0;
+        margin: 0;
+
+        input {
+          width: 90px;
+        }
       }
 
       eo-transfers-datetime .mat-form-field-appearance-legacy .mat-form-field-wrapper {
         padding-bottom: 0;
       }
 
-      eo-transfers-datetime .mat-calendar-body-cell {
+      .mat-calendar-body-cell {
         pointer-events: none;
       }
 
-      eo-transfers-datetime .mat-calendar-body-cell-content {
+      .mat-calendar-body-cell-content {
         pointer-events: all;
         border: none !important;
       }
 
-      eo-transfers-datetime .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
+      .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
         &:hover .mat-calendar-body-cell-content {
           color: var(--watt-color-neutral-black) !important;
           box-shadow: none;
@@ -133,10 +137,7 @@ import { isToday } from 'date-fns';
         [min]="min"
         [dateClass]="dateClass"
       />
-      <eo-transfers-timepicker
-        formControlName="time"
-        [disabledHours]="disabledHours"
-      ></eo-transfers-timepicker>
+      <eo-transfers-timepicker formControlName="time" [disabledHours]="disabledHours" />
     </ng-container>
   `,
   providers: [

@@ -31,14 +31,12 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
 
-import { EoInviteConnectionService } from '../data-access-api/invite-connection.service';
-import { FormGroupDirective } from '@angular/forms';
+import { EoInviteConnectionService } from '@energinet-datahub/eo/connections/data-access-api';
 
 @Component({
   selector: 'eo-invite-connection',
   standalone: true,
   encapsulation: ViewEncapsulation.None,
-  providers: [FormGroupDirective],
   imports: [
     NgIf,
     WATT_MODAL,
@@ -54,7 +52,6 @@ import { FormGroupDirective } from '@angular/forms';
       title="New invitation link"
       [loading]="inviteLink().loading"
       loadingMessage="Please wait while we generate your invitation link"
-      size="small"
       closeLabel="Close modal"
       (closed)="onClosed()"
       *ngIf="isOpen()"
@@ -94,8 +91,7 @@ import { FormGroupDirective } from '@angular/forms';
         icon="power"
         title="An unexpected error occured"
         message="We are sorry, we could not generate your invitation link. Please try again later."
-      >
-      </watt-empty-state>
+      />
     </ng-template>
   `,
 })

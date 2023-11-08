@@ -28,13 +28,22 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { DhActorExtended } from '../dh-actor';
-import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
-import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
+import {
+  GetActorByIdDocument,
+  GetAuditLogByActorIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+
+import { DhActorExtended, dhActorAuditLogEntry } from '../dh-actor';
+import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
+import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
+import { DhCertificateComponent } from './b2b-access-tab/dh-certificate.component';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -70,19 +79,26 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     WATT_DRAWER,
     WATT_TABS,
     WATT_CARD,
+    WATT_TABLE,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattButtonComponent,
+    WattSpinnerComponent,
+    WattEmptyStateComponent,
+    WattDatePipe,
+    VaterStackComponent,
 
     DhEmDashFallbackPipe,
     DhPermissionRequiredDirective,
     DhActorsEditActorModalComponent,
     DhActorStatusBadgeComponent,
+    DhCertificateComponent,
   ],
 })
 export class DhActorDrawerComponent {
   private apollo = inject(Apollo);
   private subscription?: Subscription;
+  private actorAuditLogSubscription?: Subscription;
 
   private getActorByIdQuery$ = this.apollo.watchQuery({
     errorPolicy: 'all',
@@ -92,7 +108,22 @@ export class DhActorDrawerComponent {
     query: GetActorByIdDocument,
   });
 
+  private getActorAuditLogByIdQuery$ = this.apollo.watchQuery({
+    errorPolicy: 'all',
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetAuditLogByActorIdDocument,
+  });
+
   actor: DhActorExtended | undefined = undefined;
+  isLoadingAuditLog = false;
+  auditLogFailedToLoad = false;
+
+  auditLog = new WattTableDataSource<dhActorAuditLogEntry>([]);
+  auditLogColumns: WattTableColumnDef<dhActorAuditLogEntry> = {
+    timestamp: { accessor: 'timestamp' },
+    currentValue: { accessor: 'currentValue' },
+  };
 
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
@@ -103,6 +134,7 @@ export class DhActorDrawerComponent {
     this.drawer?.open();
 
     this.loadActor(actorId);
+    this.loadAuditLog(actorId);
   }
 
   onClose(): void {
@@ -131,6 +163,28 @@ export class DhActorDrawerComponent {
       .subscribe({
         next: (result) => {
           this.actor = result.data?.actorById;
+        },
+      });
+  }
+
+  private loadAuditLog(actorId: string): void {
+    this.actorAuditLogSubscription?.unsubscribe();
+
+    this.getActorAuditLogByIdQuery$.setVariables({ actorId });
+
+    this.actorAuditLogSubscription = this.getActorAuditLogByIdQuery$.valueChanges
+      .pipe(takeUntil(this.closed))
+      .subscribe({
+        next: (result) => {
+          this.isLoadingAuditLog = result.loading;
+          this.auditLogFailedToLoad =
+            !result.loading && (!!result.error || !!result.errors?.length);
+
+          this.auditLog.data = result.data?.actorAuditLogs;
+        },
+        error: () => {
+          this.auditLogFailedToLoad = true;
+          this.isLoadingAuditLog = false;
         },
       });
   }

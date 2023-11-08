@@ -83,6 +83,7 @@ export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDes
 
   columns: WattTableColumnDef<UserRole> = {
     name: { accessor: 'name' },
+    eicFunction: { accessor: 'eicFunction' },
   };
 
   private getPermissionQuery?: QueryRef<

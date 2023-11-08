@@ -34,7 +34,8 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { EoMeteringPoint } from './eo-metering-points.store';
+import { EoMeteringPoint, MeteringPointType } from '@energinet-datahub/eo/metering-points/domain';
+
 @Component({
   standalone: true,
   imports: [WATT_MODAL, WattButtonComponent],
@@ -112,21 +113,28 @@ class GranularCertificateHelperComponent {}
       <ng-container *wattTableCell="columns.gc; let meteringPoint">
         <div
           *ngIf="
-            meteringPoint.type === 'production' &&
-            (meteringPoint.assetType === 'Wind' || meteringPoint.assetType === 'Solar')
+            meteringPoint.type === 'consumption' ||
+            (meteringPoint.type === 'production' &&
+              (meteringPoint.assetType === 'Wind' || meteringPoint.assetType === 'Solar'))
           "
           style="display: flex; align-items: center;"
         >
           <mat-slide-toggle
-            (change)="toggleContract.emit({ checked: $event.checked, gsrn: meteringPoint.gsrn })"
+            (change)="
+              toggleContract.emit({
+                checked: $event.checked,
+                gsrn: meteringPoint.gsrn,
+                type: meteringPoint.type,
+              })
+            "
             [disabled]="meteringPoint.loadingContract"
             [checked]="meteringPoint.contract && !meteringPoint.loadingContract"
-          ></mat-slide-toggle>
+          />
           <watt-spinner
             [diameter]="24"
             style="margin-left: var(--watt-space-m);"
             [style.opacity]="meteringPoint.loadingContract ? 1 : 0"
-          ></watt-spinner>
+          />
         </div>
       </ng-container>
     </watt-table>
@@ -136,14 +144,14 @@ class GranularCertificateHelperComponent {}
       icon="custom-power"
       title="No metering points found"
       message="You do not have any metering points."
-    ></watt-empty-state>
+    />
 
     <watt-empty-state
       *ngIf="loading === false && hasError"
       icon="custom-power"
       title="Oops! Something went wrong."
       message="Please try reloading the page.."
-    ></watt-empty-state>
+    />
 
     <watt-paginator [for]="dataSource" />
   `,
@@ -155,7 +163,6 @@ export class EoMeteringPointsTableComponent {
     address: { accessor: (meteringPoint) => meteringPoint.address.address1 },
     unit: { accessor: (meteringPoint) => meteringPoint.type },
     source: { accessor: (meteringPoint) => meteringPoint.assetType },
-    type: { accessor: (meteringPoint) => meteringPoint.subMeterType },
     gc: {
       accessor: (meteringPoint) => {
         const itemHasActiveContract = meteringPoint.contract ? 'active' : 'enable';
@@ -172,7 +179,11 @@ export class EoMeteringPointsTableComponent {
   }
   @Input() loading = false;
   @Input() hasError = false;
-  @Output() toggleContract = new EventEmitter<{ checked: boolean; gsrn: string }>();
+  @Output() toggleContract = new EventEmitter<{
+    checked: boolean;
+    gsrn: string;
+    type: MeteringPointType;
+  }>();
 
   private modalService = inject(WattModalService);
 

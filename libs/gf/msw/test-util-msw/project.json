@@ -1,0 +1,19 @@
+{
+  "name": "gf-test-util-msw",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/gf/msw/test-util-msw/src",
+  "prefix": "gf-test",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/gf/msw/test-util-msw/src/**/*.ts",
+          "libs/gf/msw/test-util-msw/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:gf", "domain:shared", "type:test-util"]
+}

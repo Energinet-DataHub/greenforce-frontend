@@ -26,13 +26,7 @@ import {
   DestroyRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormControl,
-  FormGroupDirective,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { Apollo, MutationResult } from 'apollo-angular';
 
@@ -51,14 +45,12 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhOrganizationDetails } from '../dh-organization';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-const validDomainRegExp = /^([A-Za-z0-9-]{1,63}\.)+[A-Za-z]{2,6}$/;
+import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 @Component({
   standalone: true,
   selector: 'dh-organization-edit-modal',
   templateUrl: './dh-edit-modal.component.html',
-  providers: [FormGroupDirective],
   styles: [
     `
       .domain-field {
@@ -88,7 +80,7 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
   innerModal?: WattModalComponent;
 
   domainControl = new FormControl('', {
-    validators: [Validators.required, Validators.pattern(validDomainRegExp)],
+    validators: [Validators.required, dhDomainValidator],
     nonNullable: true,
   });
   isLoading = false;

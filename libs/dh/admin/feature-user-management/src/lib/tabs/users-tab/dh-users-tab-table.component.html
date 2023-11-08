@@ -40,19 +40,10 @@ limitations under the License.
       {{ element.phoneNumber | dhEmDashFallback }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns.assignedActors; header: t('assignedActors'); let element">
-      <p class="assigned-actor-item" *ngFor="let assignedActor of element.assignedActors">
-        {{ assignedActor.actor.actorNumber }}
-        <ng-container *ngIf="assignedActor.actor.name">
-          - {{ assignedActor.actor.name }}
-        </ng-container>
-      </p>
-    </ng-container>
-
     <ng-container *wattTableCell="columns.status; header: t('status'); let element">
-      <dh-user-status [status]="element.status"></dh-user-status>
+      <dh-user-status [status]="element.status" />
     </ng-container>
   </watt-table>
 </ng-container>
 
-<dh-user-drawer (closed)="onClosed()"></dh-user-drawer>
+<dh-user-drawer (closed)="onClosed()" />

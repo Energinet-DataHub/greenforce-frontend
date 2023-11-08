@@ -100,7 +100,7 @@ jobs:
             -Dsonar.projectKey=geh-frontend-app
             -Dsonar.organization=energinet-datahub
             -Dsonar.sources=apps/dh/app-dh,libs/dh,libs/watt,libs/gf
-            -Dsonar.exclusions=libs/dh/shared/assets/src/assets/b2c-custom-layouts/**/*,**/*.spec.ts,libs/dh/shared/domain/src/lib/generated/**/*,libs/dh/shared/data-access-msw/src/assets/mockServiceWorker.js,libs/dh/shared/data-access-msw/src/lib/mocks/**/*
+            -Dsonar.exclusions=libs/dh/shared/assets/src/assets/b2c-custom-layouts/**/*,**/*.spec.ts,libs/dh/shared/domain/src/lib/generated/**/*,libs/gf/msw/util-msw/src/assets/mockServiceWorker.js,libs/dh/shared/data-access-mocks/src/lib/**/*
             -Dsonar.cpd.exclusions=libs/dh/globalization/assets-localization/src/assets/i18n/*.json
             -Dsonar.coverage.exclusions=libs/watt/**/+storybook/*,libs/watt/**/*.stories.ts,
         env:
@@ -164,7 +164,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.internal_github_pat }}
 
       # needed for Nx affected command
       - name: Fetch base branch Git history
@@ -207,7 +207,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.internal_github_pat }}
 
       # needed for Nx affected command
       - name: "PR: Fetch base branch Git history"

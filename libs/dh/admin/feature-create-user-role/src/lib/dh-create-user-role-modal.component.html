@@ -92,7 +92,7 @@ limitations under the License.
         <dh-permissions-table
           [permissions]="permissions"
           (selectionChanged)="onSelectionChange($event)"
-        ></dh-permissions-table>
+        />
 
         <!-- Empty -->
         <div *ngIf="permissions.length === 0" class="no-permissions-container">
@@ -100,7 +100,7 @@ limitations under the License.
             icon="custom-power"
             size="small"
             [title]="t('steps.permissions.noPermissions')"
-          ></watt-empty-state>
+          />
         </div>
       </ng-container>
     </watt-stepper-step>

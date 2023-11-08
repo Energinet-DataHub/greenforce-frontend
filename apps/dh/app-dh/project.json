@@ -43,7 +43,7 @@
             "output": "assets/watt"
           },
           {
-            "input": "libs/dh/shared/data-access-msw/src/assets",
+            "input": "libs/gf/msw/util-msw/src/assets",
             "glob": "mockServiceWorker.js",
             "output": "/"
           }
@@ -60,7 +60,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1.90mb"
+              "maximumError": "2.00mb"
             },
             {
               "type": "anyComponentStyle",
@@ -160,7 +160,7 @@
       "defaultConfiguration": "mocked"
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
           "apps/dh/app-dh/src/**/*.ts",

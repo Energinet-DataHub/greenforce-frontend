@@ -24,7 +24,6 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import {} from '@angular/router';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -35,11 +34,15 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
-import { EoBetaMessageComponent } from '../../shared/atomic-design/ui-atoms/src/lib/eo-beta-message/eo-beta-message.component';
+import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoInviteConnectionComponent } from '@energinet-datahub/eo/connections/feature-invite-connection';
+import { EoInviteConnectionRespondComponent } from '@energinet-datahub/eo/connections/feature-invite-connection-respond';
+import {
+  EoConnectionWithName,
+  EoConnectionsService,
+} from '@energinet-datahub/eo/connections/data-access-api';
+
 import { EoConnectionsTableComponent } from './connections-table.component';
-import { EoInviteConnectionComponent } from '../feature-invite-connection/invite-connection.component';
-import { EoInviteConnectionRespondComponent } from '../feature-invite-connection-respond/invite-connection-respond.component';
-import { EoConnectionWithName, EoConnectionsService } from '../data-access-api/connections.service';
 
 @Component({
   standalone: true,
@@ -75,7 +78,7 @@ import { EoConnectionWithName, EoConnectionsService } from '../data-access-api/c
     `,
   ],
   template: `
-    <eo-eo-beta-message></eo-eo-beta-message>
+    <eo-eo-beta-message />
 
     <watt-card>
       <watt-card-title>
@@ -101,7 +104,7 @@ import { EoConnectionWithName, EoConnectionsService } from '../data-access-api/c
         [hasError]="connections().hasError"
         [filter]="search"
         (connectionRemoved)="onConnectionRemoved($event)"
-      ></eo-connections-table>
+      />
     </watt-card>
 
     <eo-invite-connection #inviteConnection />
@@ -114,6 +117,7 @@ import { EoConnectionWithName, EoConnectionsService } from '../data-access-api/c
   `,
 })
 export class EoConnectionsComponent implements OnInit {
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('respond-invite') connectionInvitationId!: string;
   @ViewChild('inviteConnectionRespond', { static: true })
   inviteConnectionRespond!: EoInviteConnectionRespondComponent;

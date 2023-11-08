@@ -38,7 +38,7 @@ public class Mutation
             .UpdatePermissionAsync(input)
             .Then(() => client.GetPermissionAsync(input.Id));
 
-    [Error(typeof(MarketParticipantException))]
+    [Error(typeof(MarketParticipantBadRequestException))]
     public async Task<bool> UpdateActorAsync(
         Guid actorId,
         string actorName,
@@ -123,7 +123,7 @@ public class Mutation
 
     public async Task<bool> CreateAggregatedMeasureDataRequestAsync(
         EdiB2CWebAppProcessType processType,
-        MeteringPointType meteringPointType,
+        MeteringPointType? meteringPointType,
         string startDate,
         string? endDate,
         string? gridArea,

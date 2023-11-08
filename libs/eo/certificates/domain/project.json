@@ -1,0 +1,19 @@
+{
+  "name": "eo-certificates-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/certificates/domain",
+  "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/certificates/domain/**/*.ts",
+          "libs/eo/certificates/domain/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:certificates", "type:domain"]
+}

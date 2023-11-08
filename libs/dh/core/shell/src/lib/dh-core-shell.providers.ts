@@ -42,15 +42,26 @@ import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 import { HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormGroupDirective } from '@angular/forms';
 
 export const dhCoreShellProviders = [
-  importProvidersFrom([MatSnackBarModule, DhApiModule.forRoot(), MsalModule, TranslocoModule]),
+  importProvidersFrom([
+    MatDialogModule,
+    MatSnackBarModule,
+    DhApiModule.forRoot(),
+    MsalModule,
+    TranslocoModule,
+  ]),
+  FormGroupDirective,
   environment.production ? applicationInsightsProviders : [],
   dhWattTranslationsProviders,
   danishLocalProviders,
   translocoProviders,
   graphQLProviders,
   danishDatetimeProviders,
+  WattModalService,
   MsalService,
   {
     provide: HTTP_INTERCEPTORS,

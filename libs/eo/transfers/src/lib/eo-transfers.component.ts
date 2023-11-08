@@ -35,7 +35,6 @@ import { EoTransfersStore } from './eo-transfers.store';
 import { EoTransfersTableComponent } from './eo-transfers-table.component';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoTransfersService } from './eo-transfers.service';
-import { FormGroupDirective } from '@angular/forms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -50,18 +49,17 @@ import { FormGroupDirective } from '@angular/forms';
     WattIconComponent,
     VaterStackComponent,
   ],
-  providers: [FormGroupDirective],
   standalone: true,
   template: `
-    <eo-popup-message *ngIf="error$ | push"></eo-popup-message>
-    <eo-eo-beta-message></eo-eo-beta-message>
+    <eo-popup-message *ngIf="error$ | push" />
+    <eo-eo-beta-message />
     <watt-card class="watt-space-stack-m">
       <eo-transfers-table
         [transfers]="transfers$ | push"
         [loading]="loading$ | push"
         [selectedTransfer]="selectedTransfer$ | push"
         (transferSelected)="store.setSelectedTransfer($event)"
-      ></eo-transfers-table>
+      />
     </watt-card>
 
     <vater-stack *ngIf="showAutomationError() && (transfers$ | push).length > 0">

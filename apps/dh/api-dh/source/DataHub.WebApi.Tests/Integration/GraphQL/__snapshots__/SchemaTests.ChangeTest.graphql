@@ -19,6 +19,15 @@ type Actor {
   status: ActorStatus!
 }
 
+type ActorAuditLog {
+  changedByUserName: String!
+  currentValue: String
+  previousValue: String
+  timestamp: DateTime!
+  type: ActorAuditLogType!
+  contactCategory: ContactCategory!
+}
+
 type ActorContactDto {
   contactId: UUID!
   category: ContactCategory!
@@ -121,14 +130,22 @@ type GridAreaDto {
   validTo: DateTime
 }
 
+type GridAreaOverviewItemDto {
+  id: UUID!
+  code: String!
+  name: String!
+  priceAreaCode: String!
+  validFrom: DateTime!
+  validTo: DateTime
+  actorNumber: String
+  actorName: String
+  organizationName: String
+  fullFlexDate: DateTime
+}
+
 type MarketParticipantBadRequestError implements Error {
   message: String!
   jsonError: JSON!
-  statusCode: Int!
-}
-
-type MarketParticipantError implements Error {
-  message: String!
   statusCode: Int!
 }
 
@@ -210,6 +227,7 @@ type Query {
   calculationById(id: UUID!): Calculation!
   calculations(executionTime: DateRange executionStates: [BatchState!] processTypes: [ProcessType!] gridAreaCodes: [String!] period: DateRange first: Int): [Calculation!]!
   settlementReports(gridAreaCodes: [String!] period: DateRange executionTime: DateRange): [SettlementReport!]!
+  selectedActor: Actor!
   actorById(id: UUID!): Actor!
   actors: [Actor!]!
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
@@ -219,6 +237,10 @@ type Query {
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
+  emailExists(emailAddress: String!): Boolean!
+  actorAuditLogs(actorId: UUID!): [ActorAuditLog!]!
+  knownEmails: [String!]!
+  gridAreaOverview: [GridAreaOverviewItemDto!]!
 }
 
 type SettlementReport {
@@ -268,13 +290,13 @@ type UserRoleWithPermissionsDto {
   permissions: [Permission!]!
 }
 
-union UpdateActorError = MarketParticipantError
+union UpdateActorError = MarketParticipantBadRequestError
 
 union UpdateOrganizationError = MarketParticipantBadRequestError
 
 input CreateAggregatedMeasureDataRequestInput {
   processType: EdiB2CProcessType!
-  meteringPointType: MeteringPointType!
+  meteringPointType: MeteringPointType
   startDate: String!
   endDate: String
   gridArea: String
@@ -304,6 +326,17 @@ input UpdateOrganizationInput {
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
+}
+
+enum ActorAuditLogType {
+  NAME
+  CREATED
+  STATUS
+  CONTACT_NAME
+  CONTACT_EMAIL
+  CONTACT_PHONE
+  CONTACT_CREATED
+  CONTACT_DELETED
 }
 
 enum ActorStatus {

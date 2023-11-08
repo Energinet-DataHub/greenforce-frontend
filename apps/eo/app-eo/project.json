@@ -24,6 +24,11 @@
             "input": "libs/watt/src/assets",
             "glob": "**/*",
             "output": "assets/watt"
+          },
+          {
+            "input": "libs/gf/msw/util-msw/src/assets",
+            "glob": "mockServiceWorker.js",
+            "output": "/"
           }
         ],
         "baseHref": "/",
@@ -51,6 +56,20 @@
           "optimization": false,
           "sourceMap": true,
           "vendorChunk": true
+        },
+        "mocked": {
+          "buildOptimizer": false,
+          "extractLicenses": false,
+          "namedChunks": true,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true,
+          "fileReplacements": [
+            {
+              "replace": "libs/eo/shared/environments/src/lib/environment.ts",
+              "with": "libs/eo/shared/environments/src/lib/environment.mocked.ts"
+            }
+          ]
         },
         "production": {
           "budgets": [
@@ -100,12 +119,15 @@
         "e2e-development": {},
         "production": {
           "browserTarget": "app-eo:build:production"
+        },
+        "mocked": {
+          "browserTarget": "app-eo:build:mocked"
         }
       },
       "defaultConfiguration": "development"
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
           "apps/eo/app-eo/src/**/*.ts",

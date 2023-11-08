@@ -61,12 +61,12 @@ limitations under the License.
               name="payments"
               [ngClass]="{ active: element.taxIndicator }"
               [wattTooltip]="t('taxIndicator')"
-            ></watt-icon>
+            />
             <watt-icon
               name="redo"
               [ngClass]="{ active: element.transparentInvoicing }"
               [wattTooltip]="t('transparentInvoicing')"
-            ></watt-icon>
+            />
           </div>
         </ng-container>
 
@@ -83,7 +83,7 @@ limitations under the License.
 
       <!-- Spinner -->
       <div *ngIf="isLoading" class="overview__spinner spinner-container">
-        <watt-spinner></watt-spinner>
+        <watt-spinner />
       </div>
 
       <!-- Empty -->
@@ -94,8 +94,7 @@ limitations under the License.
           size="large"
           title="{{ t('noResultsFound') }}"
           message="{{ t('noResultsHelperText') }}"
-        >
-        </watt-empty-state>
+        />
       </ng-container>
 
       <!-- Init -->
@@ -106,8 +105,7 @@ limitations under the License.
           size="large"
           title="{{ t('startSearch') }}"
           message="{{ t('startSearchText') }}"
-        >
-        </watt-empty-state>
+        />
       </ng-container>
 
       <!-- Error -->
@@ -117,10 +115,10 @@ limitations under the License.
           icon="custom-power"
           title="{{ 'shared.error.title' | transloco }}"
           message="{{ 'shared.error.message' | transloco }}"
-        ></watt-empty-state>
+        />
       </ng-container>
     </watt-card>
   </div>
 
-  <dh-charges-prices-drawer (closed)="drawerClosed()"></dh-charges-prices-drawer>
+  <dh-charges-prices-drawer (closed)="drawerClosed()" />
 </ng-container>

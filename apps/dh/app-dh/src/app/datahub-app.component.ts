@@ -26,7 +26,7 @@ import { RouterOutlet } from '@angular/router';
       }
     `,
   ],
-  template: `<router-outlet></router-outlet>`,
+  template: `<router-outlet />`,
   standalone: true,
   imports: [RouterOutlet],
 })

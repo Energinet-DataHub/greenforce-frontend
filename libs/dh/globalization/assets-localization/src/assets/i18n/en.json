@@ -3,6 +3,9 @@
   "yes": "Yes",
   "no": "No",
   "selectedLanguageIso": "en-gb",
+  "sessionExpirationTitle": "Session expires soon",
+  "sessionExpirationContentPartA": "You have been inactive for 2 hours.",
+  "sessionExpirationContentPartB": "You will be signed out for to security reasons in",
   "shell": {
     "logout": "Sign out"
   },
@@ -38,7 +41,8 @@
     },
     "download": "Download",
     "search": "Search",
-    "selectedValues": "{{count}} selected"
+    "selectedValues": "{{count}} selected",
+    "processType": "Calculation type"
   },
   "clipboard": {
     "success": "Copied to clipboard",
@@ -61,7 +65,8 @@
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
         "overview": "Overview",
-        "settlementReports": "Settlement Reports"
+        "settlementReports": "Settlement Reports",
+        "requestCalculation": "Request calculation"
       },
       "admin": {
         "menuGroupLabel": "Settings",
@@ -531,8 +536,26 @@
     },
     "actor": {
       "create": {
-        "editHeader": "Edit market party",
-        "createHeader": "Create market party",
+        "steps": {
+          "orgNext": "Market party"
+        },
+        "domainInvalid": "Invalid domain",
+        "companyName": "Companyname",
+        "domain": "Domain",
+        "cvrInvalid": "Invalid CVR number",
+        "cvrNumber": "CVR-Nr.",
+        "country": "Country",
+        "counties": {
+          "DK": "Denmark",
+          "SE": "Sweden",
+          "NO": "Norway",
+          "FI": "Finland"
+        },
+        "searchDatahub": "Search DataHub",
+        "newOrganization": "New organization",
+        "marketParty": "Market party",
+        "createHeader": "New market party",
+        "organization": "Organization",
         "errorToastLabel": "Error",
         "masterDataTabHeader": "Master data",
         "meteringPointTypesHeader": "Type of metering points",
@@ -574,6 +597,7 @@
         "marketRole": "Market role",
         "status": "Status"
       },
+      "create": "New actor",
       "actors": "Market Parties",
       "columns": {
         "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
@@ -603,6 +627,47 @@
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
             "gridArea": "Grid area"
+          },
+          "b2bAccess": {
+            "tabLabel": "B2B access",
+            "certificateHeadline": "Certificate",
+            "thumbprint": "Thumbprint",
+            "expiryDate": "Expiry date",
+            "removeCertificate": "Remove certificate",
+            "uploadCertificate": "Upload certificate",
+            "uploadNewCertificate": "Upload new certificate",
+            "invalidFileType": "Please select a certificate file",
+            "uploadSuccess": "Certificate uploaded successfully",
+            "uploadError": "An error occurred while uploading the certificate. Please try again",
+            "removeSuccess": "Certificate removed successfully",
+            "removeError": "An error occurred while removing the certificate. Please try again",
+            "removeCertificateModal": {
+              "title": "Remove certificate?",
+              "message": "Are you sure you want to remove the certificate?",
+              "cancel": "Cancel",
+              "remove": "Remove certificate"
+            }
+          },
+          "history": {
+            "tabLabel": "History",
+            "changeTypes": {
+              "NAME": "<b>{{ changedByUserName }}</b> changed the name of the actor to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b>",
+              "NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the name of the actor to <b>{{ currentValue }}</b> from <b>\"\"</b>",
+              "STATUS": "<b>{{ changedByUserName }}</b> changed the status of the actor to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b>",
+              "STATUS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the status of the actor to <b>{{ currentValue }}</b> from <b>\"\"</b>",
+              "CREATED": "<b>{{ changedByUserName }}</b> Created the actor",
+              "CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> Created the actor",
+              "CONTACT_NAME": "<b>{{ changedByUserName }}</b> changed the name of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ contactCategory }}</b>",
+              "CONTACT_EMAIL": "<b>{{ changedByUserName }}</b> changed the email of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ contactCategory }}</b>",
+              "CONTACT_PHONE": "<b>{{ changedByUserName }}</b> changed the phone of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ contactCategory }}</b>",
+              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the name of the contact to <b>{{ currentValue }}</b> from <b>\"\"</b> on the contact category <b>{{ contactCategory }}</b>",
+              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the email of the contact to <b>{{ currentValue }}</b> from <b>\"\"</b> on the contact category <b>{{ contactCategory }}</b>",
+              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the phone of the contact to <b>{{ currentValue }}</b> from <b>\"\"</b> on the contact category <b>{{ contactCategory }}</b>",
+              "CONTACT_CREATED": "<b>{{ changedByUserName }}</b> created a contact of the <b>{{ contactCategory }}</b> category",
+              "CONTACT_CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> created a contact of the <b>{{ contactCategory }}</b> category",
+              "CONTACT_DELETED": "<b>{{ changedByUserName }}</b> deleted a contact of the <b>{{ category }}</b> contactCategory",
+              "CONTACT_DELETED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> deleted a contact of the <b>{{ contactCategory }}</b> category"
+            }
           }
         }
       },
@@ -832,46 +897,11 @@
     },
     "gridAreas": {
       "topBarTitle": "Grid areas",
-      "createGridArea": "Create",
-      "editGridArea": "Edit",
-      "noGridAreas": "No gridareas found",
+      "noGridAreas": "No grid areas found",
       "columns": {
-        "name": "Grid area",
         "code": "Grid area number",
-        "actorName": "Market party",
-        "actorNumber": "Market party id",
-        "priceAreaCode": "Price area",
-        "validFrom": "Valid from",
-        "validTo": "Valid to"
-      },
-      "detailsHeader": {
-        "code": "Grid area number",
-        "actorId": "Market party id",
-        "fullFlexDate": "Full flex date",
-        "priceAreaCode": "Price area",
-        "lossMeteringPoint": "Grid loss metering point",
-        "correctionMeteringPoint": "Correction metering point",
-        "validFrom": "Valid from",
-        "validTo": "Valid to"
-      },
-      "detailsAuditLog": {
-        "time": "Time",
-        "change": "Change",
-        "changes": "Changes",
-        "noResultsFound": "No results",
-        "fields": {
-          "name": "Grid area name"
-        },
-        "unknown": "Unknown",
-        "messageKey": "<strong>{{ userDisplayName }}</strong> changed <strong>{{ field }}</strong> to <strong>{{ newValue }}</strong>"
-      },
-      "changeGridArea": {
-        "gridAreaName": "Grid area name",
-        "cancel": "Cancel",
-        "saveChanges": "Save changes",
-        "editGridArea": "Edit",
-        "editGridAreaModalTitle": "Edit grid area",
-        "editGridAreaModalCloseLabel": "Close"
+        "actor": "Grid area responsible",
+        "organization": "Organisation"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
@@ -956,7 +986,7 @@
       "tabHeading": "MGA Imbalance",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
-        "createdPeriod": "{{ shared.form.filters.period }}",
+        "createdPeriod": "Created date",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Message Id"
       },
@@ -999,9 +1029,17 @@
     }
   },
   "wholesale": {
-    "BALANCE_FIXING": "Balance Fixing",
-    "WHOLESALE_FIXING": "Wholesale Fixing",
-    "AGGREGATION": "Aggregation",
+    "shared": {
+      "BALANCE_FIXING": "Balance fixing",
+      "AGGREGATION": "Aggregation",
+      "WHOLESALE_FIXING": "Wholesale fixing",
+      "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
+      "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
+      "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement"
+    },
+    "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+    "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
+    "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
     "calculations": {
       "topBarTitle": "Calculations",
       "headline": "Results",
@@ -1019,7 +1057,7 @@
         "executionType": "Execution Type",
         "scheduling": "Execution",
         "processType": {
-          "label": "Process Type",
+          "label": "{{shared.processType}}",
           "error": "Process type is required"
         },
         "summation": "Monthly summation",
@@ -1055,12 +1093,12 @@
         }
       },
       "processTypes": {
-        "BALANCE_FIXING": "Balance fixing",
-        "AGGREGATION": "Aggregation",
-        "WHOLESALE_FIXING": "Wholesale fixing",
-        "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
-        "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
-        "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement"
+        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
+        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}"
       },
       "executionStates": {
         "PENDING": "Pending",
@@ -1084,7 +1122,7 @@
         "executionStates": "Status",
         "executionTime": "Execution time",
         "gridAreas": "Grid areas",
-        "processType": "Calculation type",
+        "processType": "{{shared.processType}}",
         "reset": "{{shared.form.reset}}",
         "period": "{{shared.form.filters.period}}"
       },
@@ -1093,7 +1131,7 @@
         "periodFrom": "Period from",
         "periodTo": "Period to",
         "executionTime": "Execution time",
-        "processType": "Process type",
+        "processType": "{{shared.processType}}",
         "status": "Status"
       },
       "details": {
@@ -1108,6 +1146,35 @@
         "gridAreaCode": "ID",
         "name": "name",
         "emptyTitle": "No grid areas found"
+      }
+    },
+    "requestCalculation": {
+      "energySupplier": "Energy supplier",
+      "balanceResponsible": "Balance responsible",
+      "error": "Unfortunately, an error occurred requesting the calculation",
+      "success": "The calculation has been requested",
+      "topBarTitle": "Request calculation",
+      "processType": "{{shared.processType}}",
+      "meteringPointType": "Type of metering point",
+      "period": "Period",
+      "gridareas": "Grid areas",
+      "request": "Request",
+      "maxPeriodLength": "Period must be less than one month",
+      "processTypes": {
+        "preliminaryaggregation": "Aggregation",
+        "balancefixing": "Balance fixing",
+        "wholesalefixing": "Wholesale fixing",
+        "firstcorrection": "First correction",
+        "secondcorrection": "Second correction",
+        "thirdcorrection": "Third correction"
+      },
+      "meteringPointTypes": {
+        "All": "All",
+        "FLEX_CONSUMPTION": "Flex consumption",
+        "TOTAL_CONSUMPTION": "Total consumption",
+        "PRODUCTION": "Production",
+        "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
+        "EXCHANGE": "Exchange"
       }
     },
     "settlementReports": {
@@ -1125,12 +1192,12 @@
       "noEntries": "No results",
       "results": "Search results",
       "tabs": {
-        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
-        "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
+        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}"
       },
       "table": {
         "title": "Processes",
-        "processType": "Process type",
+        "processType": "{{shared.processType}}",
         "gridAreaName": "Grid area",
         "gridAreaCode": "Grid Area Code",
         "periodStart": "Period from",
@@ -1141,11 +1208,11 @@
         "download": "—"
       },
       "processTypes": {
-        "BALANCE_FIXING": "Balance Fixing",
-        "AGGREGATION": "Aggregation"
+        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}"
       },
       "filters": {
-        "processType": "Process type",
+        "processType": "{{shared.processType}}",
         "gridArea": "Grid area",
         "period": "Period",
         "executionTime": "Execution time",
@@ -1154,7 +1221,7 @@
         "loadingActors": "Loading energy suppliers...",
         "loadingGridAreas": "Loading grid areas...",
         "actorPlaceholder": "Select energy supplier",
-        "processTypePlaceholder": "Select process type",
+        "processTypePlaceholder": "Select {{shared.processType}}",
         "gridAreasPlaceholder": "Select grid area(s)"
       }
     }
@@ -1178,6 +1245,7 @@
         "wrongEmailPattern": "Type a valid email",
         "noUserRolesError": "At least one user role must be selected.",
         "successMessage": "{{ email }} has been invited",
+        "next": "Next",
         "columns": {
           "eicFunction": "Market role",
           "name": "Name",
@@ -1185,7 +1253,8 @@
         },
         "serverErrors": {
           "invalidPhoneNumber": "The provided phone number is formatted properly, but is an invalid phone number."
-        }
+        },
+        "unknowEmailInfoMessage": "In order to accept the invitation, the user must already have access to DataHub through another organisation."
       },
       "download": "Download",
       "drawer": {
@@ -1329,7 +1398,6 @@
               "lastName": "Last name",
               "email": "Email",
               "phone": "Phone",
-              "assignedActors": "Assigned market parties",
               "status": "Status"
             }
           },
@@ -1484,7 +1552,8 @@
             "tabLabel": "User Roles",
             "noEntries": "No results",
             "columns": {
-              "name": "Name"
+              "name": "Name",
+              "eicFunction": "Market role"
             }
           },
           "history": {
