@@ -33,7 +33,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { WattButtonComponent } from '../../button';
 import { WattSliderComponent } from '../../slider';
 
@@ -62,6 +62,13 @@ const initialSliderValue: WattSliderValue = { min: 0, max: minutesInADay - 1 };
 function timeToMinutes(value: string): number {
   const [hours, minutes] = value.split(':');
   return Number(hours) * 60 + Number(minutes);
+}
+
+/** Converts number of minutes to string time format (HH:MM). */
+function minutesToTime(value: number): string {
+  const hours = `${Math.floor(value / 60)}`;
+  const minutes = `${value % 60}`;
+  return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
 }
 /**
  * Usage:
@@ -153,7 +160,7 @@ export class WattTimepickerV2Component extends WattPickerBase {
   /**
    * @ignore
    */
-  sliderChange$ = new BehaviorSubject(initialSliderValue);
+  sliderChange$ = new Subject<WattSliderValue>();
 
   /**
    * @ignore
@@ -167,7 +174,7 @@ export class WattTimepickerV2Component extends WattPickerBase {
     }
 
     // Retain last slider value if input value is incomplete
-    return this.sliderChange$.value;
+    return initialSliderValue;
   }
 
   /**
@@ -187,7 +194,13 @@ export class WattTimepickerV2Component extends WattPickerBase {
     if (!this.focused) this.sliderOpen = false;
   }
 
-  inputMask = maskitoTimeOptionsGenerator({mode: hoursMinutesPlaceholder });
+  /**
+   * @ignore
+   */
+  inputMask = maskitoTimeOptionsGenerator({ mode: hoursMinutesPlaceholder });
+  /**
+   * @ignore
+   */
   rangeInputMask = maskitoTimeRangeOptionsGenerator();
 
   constructor(
@@ -210,6 +223,9 @@ export class WattTimepickerV2Component extends WattPickerBase {
     return;
   }
 
+  /**
+   * @ignore
+   */
   inputChanged(value: string) {
     const time = value.slice(0, hoursMinutesPlaceholder.length);
     if (time.length !== hoursMinutesPlaceholder.length) {
@@ -218,24 +234,48 @@ export class WattTimepickerV2Component extends WattPickerBase {
     this.control?.setValue(time);
   }
 
+  /**
+   * @ignore
+   */
   rangeInputChanged(value: string) {
-    const start = value.slice(0, hoursMinutesPlaceholder.length);
-    if (start.length !== hoursMinutesPlaceholder.length) {
-      return;
+      const start = value.slice(0, hoursMinutesPlaceholder.length);
+      if (start.length !== hoursMinutesPlaceholder.length) {
+        return;
+      }
+      if (value.length < rangePlaceholder.length) {
+        this.control?.setValue({ start, end: start });
+        return;
+      }
+      let end = value.slice(hoursMinutesPlaceholder.length + rangeSeparator.length);
+      if (timeToMinutes(end) > timeToMinutes(start)) {
+        this.control?.setValue({ start, end });
+      } else {
+        end = minutesToTime(timeToMinutes(start) + 1);
+        this.setRangeValueAndNotify(start,end);
     }
-    if (value.length < (rangePlaceholder.length)) {
-      this.control?.setValue({ start, end: start });
-      return;
-    }
-    const end = value.slice(hoursMinutesPlaceholder.length + rangeSeparator.length);
-    this.control?.setValue({ start, end });
   }
 
   /**
    * @ignore
    */
   protected initRangeInput() {
-    this.control?.setValue({ start: '', end: ''});
+    this.control?.setValue({ start: '', end: '' });
+    this.sliderChange$.pipe(takeUntil(this.destroy$)).subscribe((sliderValue) => {
+      const start = minutesToTime(sliderValue.min);
+      const end = minutesToTime(sliderValue.max);
+      if (end > start) {
+        this.setRangeValueAndNotify(start, end);
+      }
+    });
+  }
+
+  /**
+   * @ignore
+   */
+  setRangeValueAndNotify(start: string, end: string) {
+    this.control?.setValue({ start, end });
+    (this.input.nativeElement as HTMLInputElement).value = start + rangeSeparator + end;
+    this.input.nativeElement.dispatchEvent(new InputEvent('input'));
   }
 
   /**
@@ -267,4 +307,3 @@ export class WattTimepickerV2Component extends WattPickerBase {
     }
   }
 }
-

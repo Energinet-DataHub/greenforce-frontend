@@ -123,6 +123,8 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy {
     const sliderColor = this._colorService.getColor(WattColor.secondaryLight);
     const rangeColor = this._colorService.getColor(WattColor.primary);
 
+    this.maxRange.nativeElement.valueAsNumber = this.value.max;
+    this.minRange.nativeElement.valueAsNumber = this.value.min;
     this.maxRange.nativeElement.style.background = `linear-gradient(
       to right,
       ${sliderColor} 0%,
