@@ -1556,7 +1556,8 @@
             "tabLabel": "User Roles",
             "noEntries": "No results",
             "columns": {
-              "name": "Name"
+              "name": "Name",
+              "eicFunction": "Market role"
             }
           },
           "history": {
