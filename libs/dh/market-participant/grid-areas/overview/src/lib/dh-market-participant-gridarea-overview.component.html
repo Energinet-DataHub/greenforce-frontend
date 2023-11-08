@@ -22,9 +22,11 @@ limitations under the License.
 
       <vater-spacer />
 
-      <watt-search [label]="'shared.search' | transloco" (search)="search($event)"/>
+      <watt-search [label]="'shared.search' | transloco" (search)="search($event)" />
 
-      <watt-button icon="download" variant="text" (click)="download()">{{ "shared.download" | transloco }}</watt-button>
+      <watt-button icon="download" variant="text" (click)="download()">{{
+        "shared.download" | transloco
+      }}</watt-button>
     </vater-stack>
 
     <vater-flex fill="vertical" scrollable>
