@@ -107,15 +107,13 @@ export class DhMarketParticipantCredentialsStore extends ComponentStore<Credenti
       trigger$.pipe(
         tap(() => this.patchState({ AddCredentialsInProgress: true })),
         exhaustMap(({ actorId, onSuccess, onError }) =>
-          this.httpClient
-            .v1MarketParticipantActorAssignCertificateCredentialsPost(actorId)
-            .pipe(
-              tapResponse(
-                () => onSuccess(),
-                () => onError()
-              ),
-              finalize(() => this.patchState({ AddCredentialsInProgress: false }))
-            )
+          this.httpClient.v1MarketParticipantActorAssignCertificateCredentialsPost(actorId).pipe(
+            tapResponse(
+              () => onSuccess(),
+              () => onError()
+            ),
+            finalize(() => this.patchState({ AddCredentialsInProgress: false }))
+          )
         )
       )
   );
