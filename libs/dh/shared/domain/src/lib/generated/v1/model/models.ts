@@ -94,4 +94,3 @@ export * from './metering-point-type';
 export * from './metering-point-unit';
 export * from './search-result';
 export * from './stream';
-export * from './wholesale-process-type';

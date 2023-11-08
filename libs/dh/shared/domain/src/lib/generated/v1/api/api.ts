@@ -30,6 +30,4 @@ export * from './metering-point-http.service';
 import { MeteringPointHttp } from './metering-point-http.service';
 export * from './token-http.service';
 import { TokenHttp } from './token-http.service';
-export * from './wholesale-settlement-report-http.service';
-import { WholesaleSettlementReportHttp } from './wholesale-settlement-report-http.service';
-export const APIS = [ChargeLinksHttp, ChargesHttp, EsettExchangeHttp, MarketParticipantHttp, MarketParticipantActorHttp, MarketParticipantActorQueryHttp, MarketParticipantGridAreaHttp, MarketParticipantGridAreaOverviewHttp, MarketParticipantPermissionsHttp, MarketParticipantUserHttp, MarketParticipantUserOverviewHttp, MarketParticipantUserRoleHttp, MarketParticipantUserRoleAssignmentHttp, MessageArchiveHttp, MeteringPointHttp, TokenHttp, WholesaleSettlementReportHttp];
+export const APIS = [ChargeLinksHttp, ChargesHttp, EsettExchangeHttp, MarketParticipantHttp, MarketParticipantActorHttp, MarketParticipantActorQueryHttp, MarketParticipantGridAreaHttp, MarketParticipantGridAreaOverviewHttp, MarketParticipantPermissionsHttp, MarketParticipantUserHttp, MarketParticipantUserOverviewHttp, MarketParticipantUserRoleHttp, MarketParticipantUserRoleAssignmentHttp, MessageArchiveHttp, MeteringPointHttp, TokenHttp];
