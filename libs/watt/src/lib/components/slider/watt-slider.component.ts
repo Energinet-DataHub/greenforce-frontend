@@ -27,7 +27,7 @@ import {
   Output,
   ViewChild,
   ViewEncapsulation,
-  inject
+  inject,
 } from '@angular/core';
 import { Subscription, fromEvent } from 'rxjs';
 import { WattColorHelperService } from '../../foundations/color/color-helper.service';
