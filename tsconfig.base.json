@@ -131,6 +131,9 @@
       "@energinet-datahub/dh/market-participant/feature-organization": [
         "libs/dh/market-participant/feature-organization/src/index.ts"
       ],
+      "@energinet-datahub/dh/market-participant/grid-areas/overview": [
+        "libs/dh/market-participant/grid-areas/overview/src/index.ts"
+      ],
       "@energinet-datahub/dh/market-participant/grid-areas/shell": [
         "libs/dh/market-participant/grid-areas/shell/src/index.ts"
       ],

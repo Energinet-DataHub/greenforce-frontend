@@ -15,33 +15,4 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<ng-container *transloco="let t; read: 'marketParticipant.gridAreas'">
-  <ng-container *rxLet="isLoading$ as isLoading">
-    <!-- Validation -->
-    <ng-container *rxLet="validationError$ as validationError">
-      <watt-validation-message
-        type="danger"
-        *ngIf="validationError"
-        [message]="validationError.errorMessage"
-      />
-    </ng-container>
-
-    <!-- Table -->
-    <dh-market-participant-gridarea-overview [gridAreas]="rows$ | push" />
-
-    <!-- Spinner -->
-    <div *ngIf="isLoading" class="overview__spinner spinner-container">
-      <watt-spinner />
-    </div>
-
-    <!-- Empty -->
-    <ng-container *rxLet="rows$ as rows">
-      <watt-empty-state
-        *ngIf="!isLoading && rows.length === 0"
-        icon="power"
-        size="small"
-        [title]="t('noGridAreas')"
-      />
-    </ng-container>
-  </ng-container>
-</ng-container>
+<dh-market-participant-gridarea-overview [gridAreas]="rows" [isLoading]="isLoading" />
