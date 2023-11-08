@@ -34,6 +34,7 @@ import {
   OrganizationChangeType,
   OrganizationAuditLog,
   mockGetAuditLogByActorIdQuery,
+  mockGetGridAreaOverviewQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import organizationsData from './data/marketParticipantOrganizations.json';
@@ -47,6 +48,7 @@ import userRoleData from './data/marketParticipantUserRoleTemplates.json';
 import { marketParticipantActors } from './data/market-participant-actors';
 import { getOrganizationsQueryMock } from './data/market-participant-organizations';
 import { getActorAuditLogsMock } from './data/get-actor-audit-logs';
+import { getGridAreaOverviewMock } from './data/get-grid-area-overview';
 import { MarketParticipantActorCredentialsDto } from '@energinet-datahub/dh/shared/domain';
 
 export function marketParticipantMocks(apiBase: string) {
@@ -71,6 +73,7 @@ export function marketParticipantMocks(apiBase: string) {
     getMarketParticipantActorActorCredentials(apiBase),
     marketParticipantActorAssignCertificateCredentials(apiBase),
     marketParticipantActorRemoveActorCredentials(apiBase),
+    getGridAreaOverview(),
   ];
 }
 
@@ -398,4 +401,10 @@ function marketParticipantActorRemoveActorCredentials(apiBase: string) {
       return res(ctx.delay(1000), ctx.status(200));
     }
   );
+}
+
+function getGridAreaOverview() {
+  return mockGetGridAreaOverviewQuery((req, res, ctx) => {
+    return res(ctx.delay(300), ctx.data(getGridAreaOverviewMock));
+  });
 }
