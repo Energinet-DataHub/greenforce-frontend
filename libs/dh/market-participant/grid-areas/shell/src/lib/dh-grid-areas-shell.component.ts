@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import {
   DhMarketParticipantGridAreaOverviewComponent,
   GridAreaOverviewRow,
 } from '@energinet-datahub/dh/market-participant/grid-areas/overview';
 import { Apollo } from 'apollo-angular';
 import { GetGridAreaOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { Subject, takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-grid-areas-shell',
@@ -29,10 +29,10 @@ import { Subject, takeUntil } from 'rxjs';
   standalone: true,
   imports: [DhMarketParticipantGridAreaOverviewComponent],
 })
-export class DhGridAreasShellComponent implements OnInit, OnDestroy {
+export class DhGridAreasShellComponent implements OnInit {
   private readonly gln = new RegExp('^[0-9]+$');
-  private apollo = inject(Apollo);
-  private destroy = new Subject<void>();
+  private readonly apollo = inject(Apollo);
+  private readonly destroyRef = inject(DestroyRef);
 
   getActorsQuery$ = this.apollo.watchQuery({
     useInitialLoading: true,
@@ -44,7 +44,7 @@ export class DhGridAreasShellComponent implements OnInit, OnDestroy {
   rows: GridAreaOverviewRow[] = [];
 
   ngOnInit(): void {
-    this.getActorsQuery$.valueChanges.pipe(takeUntil(this.destroy)).subscribe((result) => {
+    this.getActorsQuery$.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
       this.isLoading = result.loading;
       this.rows =
         result.data?.gridAreaOverview?.map((x) => ({
@@ -56,10 +56,5 @@ export class DhGridAreasShellComponent implements OnInit, OnDestroy {
           organization: x.organizationName ?? '',
         })) ?? [];
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy.next();
-    this.destroy.complete();
   }
 }
