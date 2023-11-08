@@ -16,7 +16,7 @@
  */
 @use "../shared/picker" as *;
 
-watt-datepicker {
+watt-datepicker, watt-datepicker-v2 {
   @extend %datepicker;
 
   watt-button .mat-button {

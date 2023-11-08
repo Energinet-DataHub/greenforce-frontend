@@ -31,12 +31,14 @@
 
   input.mat-date-range-input-inner,
   input.mat-mdc-input-element,
-  .mat-date-range-input-mirror {
+  .mat-date-range-input-mirror,
+  input.mask-input {
     font-family: watt.$typography-monospace-font-family;
   }
 
   input.mat-date-range-input-inner,
-  input.mat-mdc-input-element {
+  input.mat-mdc-input-element,
+  input.mask-input {
     border: none;
     caret-color: var(--watt-color-neutral-black);
     letter-spacing: -0.03em;
@@ -48,6 +50,20 @@
     &:disabled {
       background-image: none !important;
     }
+  }
+
+  input.mask-input {
+    color: black;
+  }
+
+  input.mask-input {
+    position: absolute;
+    min-width: 80%;
+    padding: 2px 1px;
+  }
+
+  input.mask-input:focus-visible {
+    outline: none;
   }
 
   // The following style fixes alignment on smaller devices / iOS / Safari
@@ -67,8 +83,8 @@
     align-items: center;
   }
 
-  .mat-date-range-input-separator-hidden {
-    opacity: 1 !important;
+  .mat-date-range-input-separator-hidden, .mat-date-range-input-separator {
+    opacity: 0 !important;
   }
 
   .mat-date-range-input-inner::-webkit-input-placeholder,

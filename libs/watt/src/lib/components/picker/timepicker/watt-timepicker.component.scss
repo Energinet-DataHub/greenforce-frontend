@@ -16,7 +16,7 @@
  */
 @use "../shared/picker" as *;
 
-watt-timepicker {
+watt-timepicker, watt-timepicker-v2 {
   @extend %datepicker;
 }
 

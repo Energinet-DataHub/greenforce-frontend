@@ -1,0 +1,28 @@
+@use "@energinet-datahub/watt/utils" as watt;
+
+watt-placeholder-mask {
+  position: absolute;
+  font-family: watt.$typography-monospace-font-family;
+  box-sizing: content-box;
+  width: 100%;
+  line-height: 20px;
+  padding: 1px 2px;
+  letter-spacing: -0.03em;
+  pointer-events: none;
+  display: block;
+}
+
+.ghost {
+  color: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.filler {
+  color: var(--watt-color-neutral-grey-300);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}

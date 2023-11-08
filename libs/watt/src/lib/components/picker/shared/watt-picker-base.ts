@@ -28,9 +28,8 @@ import {
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 
-import { WattInputMaskService } from './watt-input-mask.service';
-import { WattPickerValue } from './watt-picker-value';
 import { WattDateRange } from '../../../utils/date';
+import { WattPickerValue } from './watt-picker-value';
 import { WattRangeInputService } from './watt-range-input.service';
 
 @Directive()
@@ -241,8 +240,6 @@ export abstract class WattPickerBase
 
   constructor(
     public id: string,
-    protected inputMaskService: WattInputMaskService,
-    protected rangeInputService: WattRangeInputService,
     protected elementRef: ElementRef<HTMLElement>,
     protected changeDetectionRef: ChangeDetectorRef,
     @Optional() ngControl: NgControl

@@ -1,0 +1,97 @@
+<ng-container *ngIf="range; else singleInputTemplate">
+  <watt-field [control]="control" [label]="label">
+    <mat-date-range-input
+      [disabled]="disabled"
+      [rangePicker]="rangeDatepicker"
+      [min]="min"
+      [max]="max"
+      (focusin)="onFocusIn()"
+      (focusout)="onFocusOut($event)"
+    >
+      <input
+        aria-label="start-date-input"
+        matStartDate
+        #startDateInput
+        [readOnly]="rangeMonthOnlyMode"
+        autocomplete="off"
+        spellcheck="false"
+        [hidden]="true"
+      />
+
+      <input
+        aria-label="end-date-input"
+        matEndDate
+        #endDateInput
+        [readOnly]="rangeMonthOnlyMode"
+        autocomplete="off"
+        spellcheck="false"
+        [hidden]="true"
+      />
+    </mat-date-range-input>
+    <input #actualInput class="mask-input"/>
+    <watt-placeholder-mask [primaryInputElement]="actualInput" [mask]="rangeInputMask" placeholder="dd-mm-åååå - dd-mm-åååå" (maskApplied)="rangeInputChanged($event)"></watt-placeholder-mask>
+
+    <watt-button
+      variant="icon"
+      icon="date"
+      [disabled]="disabled"
+      [attr.aria-pressed]="false"
+      (click)="rangeDatepicker.open()"
+      (focusin)="onFocusIn()"
+      (focusout)="onFocusOut($event)"
+    ></watt-button>
+
+    <ng-content />
+    <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
+    <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
+  </watt-field>
+  <mat-date-range-picker
+    [panelClass]="rangeMonthOnlyMode ? 'watt-datepicker-range__panel--month-only' : ''"
+    [startView]="rangeMonthOnlyMode ? 'multi-year' : 'month'"
+    [startAt]="startAt"
+    (monthSelected)="onMonthSelected($event)"
+    (closed)="rangePickerClosed()"
+    #rangeDatepicker
+  ></mat-date-range-picker>
+</ng-container>
+
+<ng-template #singleInputTemplate>
+  <watt-field [control]="control" [label]="label">
+    <input
+    matInput
+    aria-label="date-input"
+    #dateInput
+    autocomplete="off"
+    spellcheck="false"
+    [disabled]="disabled"
+    [min]="min"
+    [max]="max"
+    [matDatepicker]="singleDatepicker"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut($event)"
+    class="mask-input"
+    />
+    <watt-placeholder-mask [primaryInputElement]="dateInput" [mask]="inputMask" placeholder="dd-mm-åååå" (maskApplied)="inputChanged($event)"></watt-placeholder-mask>
+
+    <watt-button
+      wattSuffix
+      variant="icon"
+      icon="date"
+      [disabled]="disabled"
+      (click)="singleDatepicker.open()"
+      (focusin)="onFocusIn()"
+      (focusout)="onFocusOut($event)"
+    ></watt-button>
+
+    <ng-content />
+    <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
+    <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
+  </watt-field>
+  <mat-datepicker
+    #singleDatepicker
+    panelClass="watt-datepicker-single__panel"
+    [dateClass]="dateClass"
+    [startAt]="startAt"
+    (closed)="datepickerClosed()"
+  ></mat-datepicker>
+</ng-template>
