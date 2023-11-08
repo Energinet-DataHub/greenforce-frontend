@@ -404,7 +404,7 @@ function marketParticipantActorRemoveActorCredentials(apiBase: string) {
 }
 
 function getGridAreaOverview() {
-  return mockGetGridAreaOverviewQuery ((req, res, ctx) => {
+  return mockGetGridAreaOverviewQuery((req, res, ctx) => {
     return res(ctx.delay(300), ctx.data(getGridAreaOverviewMock));
   });
 }

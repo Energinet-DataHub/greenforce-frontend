@@ -14,4 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhMarketParticipantGridAreaOverviewComponent, GridAreaOverviewRow } from './lib/dh-market-participant-gridarea-overview.component';
+export {
+  DhMarketParticipantGridAreaOverviewComponent,
+  GridAreaOverviewRow,
+} from './lib/dh-market-participant-gridarea-overview.component';
