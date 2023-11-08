@@ -24,7 +24,7 @@ watt-slider {
     min-height: 50px;
   }
 
-  input[type=range]::-webkit-slider-thumb {
+  input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     pointer-events: all;
     width: var(--watt-space-ml);
@@ -35,7 +35,7 @@ watt-slider {
     cursor: pointer;
   }
 
-  input[type=range]::-moz-range-thumb {
+  input[type="range"]::-moz-range-thumb {
     pointer-events: all;
     width: 24px;
     height: 24px;
@@ -45,9 +45,11 @@ watt-slider {
     cursor: pointer;
   }
 
-  input[type=range]::-webkit-slider-thumb:active {
-    box-shadow: inset 0 0 3px var(--watt-color-primary-dark), 0 0 9px var(--watt-color-primary-dark);
-    -webkit-box-shadow: inset 0 0 3px var(--watt-color-primary-dark), 0 0 9px var(--watt-color-primary-dark);
+  input[type="range"]::-webkit-slider-thumb:active {
+    box-shadow: inset 0 0 3px var(--watt-color-primary-dark),
+      0 0 9px var(--watt-color-primary-dark);
+    -webkit-box-shadow: inset 0 0 3px var(--watt-color-primary-dark),
+      0 0 9px var(--watt-color-primary-dark);
     cursor: ew-resize;
   }
 

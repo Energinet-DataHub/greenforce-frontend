@@ -36,7 +36,7 @@ export default {
         ReactiveFormsModule,
         WattTimepickerV2Component,
         WattTimepickerComponent,
-        WattFieldErrorComponent
+        WattFieldErrorComponent,
       ],
     }),
   ],

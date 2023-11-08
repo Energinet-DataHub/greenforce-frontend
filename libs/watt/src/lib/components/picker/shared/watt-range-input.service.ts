@@ -82,17 +82,16 @@ export class WattRangeInputService {
     const onStartInputChange$ = fromEvent<InputEvent>(startInput.element, 'input').pipe(
       map((event) => (event?.target as HTMLInputElement).value),
       tap((value: string) => {
-        this.jumpToEndInputV2(
-          value,
-          startInput.element,
-          endInput.element,
-          config.placeholder,
-        );
+        this.jumpToEndInputV2(value, startInput.element, endInput.element, config.placeholder);
       })
     );
 
-    this.onInputChanges$ = combineLatest([onStartInputChange$, fromEvent<InputEvent>(endInput.element, 'input').pipe(
-      map((event) => (event?.target as HTMLInputElement).value))]);
+    this.onInputChanges$ = combineLatest([
+      onStartInputChange$,
+      fromEvent<InputEvent>(endInput.element, 'input').pipe(
+        map((event) => (event?.target as HTMLInputElement).value)
+      ),
+    ]);
   }
 
   private jumpToEndInputV2(

@@ -27,7 +27,12 @@ limitations under the License.
       (focusout)="onFocusOut($event)"
       class="mask-input"
     />
-    <watt-placeholder-mask [primaryInputElement]="timeInput" [mask]="inputMask" placeholder="HH:MM" (maskApplied)="inputChanged($event)"/>
+    <watt-placeholder-mask
+      [primaryInputElement]="timeInput"
+      [mask]="inputMask"
+      placeholder="HH:MM"
+      (maskApplied)="inputChanged($event)"
+    />
     <ng-content />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
@@ -60,8 +65,13 @@ limitations under the License.
         [hidden]="true"
       />
     </mat-date-range-input>
-    <input #actualInput class="mask-input"/>
-    <watt-placeholder-mask [primaryInputElement]="actualInput" [mask]="rangeInputMask" placeholder="HH:MM - HH:MM" (maskApplied)="rangeInputChanged($event)"/>
+    <input #actualInput class="mask-input" />
+    <watt-placeholder-mask
+      [primaryInputElement]="actualInput"
+      [mask]="rangeInputMask"
+      placeholder="HH:MM - HH:MM"
+      (maskApplied)="rangeInputChanged($event)"
+    />
 
     <watt-button
       variant="icon"

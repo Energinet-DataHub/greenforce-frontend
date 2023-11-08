@@ -14,9 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from "@angular/common";
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation, inject } from "@angular/core";
-import { Maskito, MaskitoOptions } from "@maskito/core";
+import { CommonModule } from '@angular/common';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
+import { Maskito, MaskitoOptions } from '@maskito/core';
 
 @Component({
   selector: 'watt-placeholder-mask',
@@ -24,21 +33,19 @@ import { Maskito, MaskitoOptions } from "@maskito/core";
   styleUrls: ['./watt-placeholder-mask.component.scss'],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
 })
 export class WattPlaceholderMaskComponent implements AfterViewInit {
-  @Input({required: true})
+  @Input({ required: true })
   primaryInputElement!: HTMLInputElement;
 
   @Input()
   secondaryInputElement?: HTMLInputElement;
 
-  @Input({required: true})
+  @Input({ required: true })
   mask!: MaskitoOptions;
 
-  @Input({required: true})
+  @Input({ required: true })
   placeholder!: string;
 
   @Output()
@@ -48,7 +55,6 @@ export class WattPlaceholderMaskComponent implements AfterViewInit {
   primaryGhost = '';
   primaryFiller = this.placeholder;
   cdr = inject(ChangeDetectorRef);
-
 
   ngAfterViewInit(): void {
     const primaryMask: MaskitoOptions = {
@@ -60,16 +66,16 @@ export class WattPlaceholderMaskComponent implements AfterViewInit {
           this.primaryFiller = this.placeholder.slice(state.elementState.value.length);
           this.cdr.detectChanges();
           return state;
-        }
+        },
       ],
       postprocessors: [
         ...(this.mask.postprocessors || []),
         (elementState) => {
           this.maskApplied.emit(elementState.value);
           return elementState;
-        }
-      ]
-    }
+        },
+      ],
+    };
     this.maskedInput = new Maskito(this.primaryInputElement, primaryMask);
     //TODO onDestroy/release for maskedInput
   }

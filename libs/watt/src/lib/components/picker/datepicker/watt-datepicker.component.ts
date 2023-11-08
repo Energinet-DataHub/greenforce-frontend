@@ -146,12 +146,7 @@ export class WattDatepickerComponent extends WattPickerBase {
     @Inject(LOCALE_ID) private locale: string,
     private cdr: ChangeDetectorRef
   ) {
-    super(
-      `watt-datepicker-${WattDatepickerComponent.nextId++}`,
-      elementRef,
-      cdr,
-      ngControl
-    );
+    super(`watt-datepicker-${WattDatepickerComponent.nextId++}`, elementRef, cdr, ngControl);
   }
 
   /**

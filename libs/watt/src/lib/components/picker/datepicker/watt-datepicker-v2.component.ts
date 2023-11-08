@@ -50,7 +50,7 @@ import { MaskitoOptions } from '@maskito/core';
 import { maskitoDateOptionsGenerator, maskitoDateRangeOptionsGenerator } from '@maskito/kit';
 import { WattDateRange } from '../../../utils/date';
 import { WattButtonComponent } from '../../button';
-import { WattPlaceholderMaskComponent } from "../shared/placeholder-mask/watt-placeholder-mask.component";
+import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-placeholder-mask.component';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
@@ -70,25 +70,25 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
  * The styling is calculated based on our monospaced font.
  */
 @Component({
-    selector: 'watt-datepicker-v2',
-    templateUrl: './watt-datepicker-v2.component.html',
-    styleUrls: ['./watt-datepicker.component.scss'],
-    providers: [
-        WattRangeInputService,
-        { provide: MatFormFieldControl, useExisting: WattDatepickerV2Component },
-        MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
-    ],
-    encapsulation: ViewEncapsulation.None,
-    standalone: true,
-    imports: [
-        MatDatepickerModule,
-        MatInputModule,
-        WattButtonComponent,
-        CommonModule,
-        WattFieldComponent,
-        MaskitoModule,
-        WattPlaceholderMaskComponent,
-    ]
+  selector: 'watt-datepicker-v2',
+  templateUrl: './watt-datepicker-v2.component.html',
+  styleUrls: ['./watt-datepicker.component.scss'],
+  providers: [
+    WattRangeInputService,
+    { provide: MatFormFieldControl, useExisting: WattDatepickerV2Component },
+    MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
+  ],
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [
+    MatDatepickerModule,
+    MatInputModule,
+    WattButtonComponent,
+    CommonModule,
+    WattFieldComponent,
+    MaskitoModule,
+    WattPlaceholderMaskComponent,
+  ],
 })
 export class WattDatepickerV2Component extends WattPickerBase {
   @Input() max: Date | null = null;
@@ -151,8 +151,11 @@ export class WattDatepickerV2Component extends WattPickerBase {
 
   @Input() dateClass: MatCalendarCellClassFunction<Date> = () => '';
 
-  inputMask: MaskitoOptions =  maskitoDateOptionsGenerator({mode: 'dd/mm/yyyy', separator: '-'});
-  rangeInputMask: MaskitoOptions = maskitoDateRangeOptionsGenerator({mode: 'dd/mm/yyyy', dateSeparator:'-'});
+  inputMask: MaskitoOptions = maskitoDateOptionsGenerator({ mode: 'dd/mm/yyyy', separator: '-' });
+  rangeInputMask: MaskitoOptions = maskitoDateRangeOptionsGenerator({
+    mode: 'dd/mm/yyyy',
+    dateSeparator: '-',
+  });
   /**
    * @ignore
    */
@@ -162,12 +165,7 @@ export class WattDatepickerV2Component extends WattPickerBase {
     @Inject(LOCALE_ID) private locale: string,
     private cdr: ChangeDetectorRef
   ) {
-    super(
-      `watt-datepicker-v2-${WattDatepickerV2Component.nextId++}`,
-      elementRef,
-      cdr,
-      ngControl
-    );
+    super(`watt-datepicker-v2-${WattDatepickerV2Component.nextId++}`, elementRef, cdr, ngControl);
   }
 
   protected initSingleInput() {
@@ -208,7 +206,7 @@ export class WattDatepickerV2Component extends WattPickerBase {
       return;
     }
     const start = this.parseDateShortFormat(startDateString);
-    if (value.length < (rangePlaceholder.length)) {
+    if (value.length < rangePlaceholder.length) {
       this.control?.setValue({ start, end: start });
       return;
     }
@@ -216,14 +214,24 @@ export class WattDatepickerV2Component extends WattPickerBase {
     let end = this.setEndDateToDanishTimeZone(endDateString);
     if (end !== null) {
       end = this.setToEndOfDay(end);
-      this.control?.setValue({ start, end});
+      this.control?.setValue({ start, end });
     }
   }
 
   rangePickerClosed() {
     if (this.matDateRangeInput.value?.start && this.matDateRangeInput.value.end) {
-      (this.actualInput.nativeElement as HTMLInputElement).value = this.formatDateTimeFromModelToView(this.formatDateFromViewToModel(this.matDateRangeInput.value?.start)) + '-' + this.formatDateTimeFromModelToView(this.formatDateFromViewToModel(this.matDateRangeInput.value.end));
-      this.control?.setValue({ start: this.formatDateFromViewToModel(this.matDateRangeInput.value.start), end: this.formatDateFromViewToModel(this.matDateRangeInput.value.end)});
+      (this.actualInput.nativeElement as HTMLInputElement).value =
+        this.formatDateTimeFromModelToView(
+          this.formatDateFromViewToModel(this.matDateRangeInput.value?.start)
+        ) +
+        '-' +
+        this.formatDateTimeFromModelToView(
+          this.formatDateFromViewToModel(this.matDateRangeInput.value.end)
+        );
+      this.control?.setValue({
+        start: this.formatDateFromViewToModel(this.matDateRangeInput.value.start),
+        end: this.formatDateFromViewToModel(this.matDateRangeInput.value.end),
+      });
     } else {
       (this.actualInput.nativeElement as HTMLInputElement).value = '';
       this.control?.setValue(null);
@@ -283,7 +291,7 @@ export class WattDatepickerV2Component extends WattPickerBase {
     return parse(value, dateShortFormat, new Date());
   }
 
-    /**
+  /**
    * @ignore
    */
   private parseISO8601Format(value: string): Date {
@@ -317,13 +325,12 @@ export class WattDatepickerV2Component extends WattPickerBase {
     return formatInTimeZone(value, danishTimeZoneIdentifier, dateShortFormat);
   }
 
-    /**
+  /**
    * @ignore
    */
-    private toDanishTimeZone(value: Date): Date {
-      return utcToZonedTime(value.toISOString(), danishTimeZoneIdentifier);
-    }
-
+  private toDanishTimeZone(value: Date): Date {
+    return utcToZonedTime(value.toISOString(), danishTimeZoneIdentifier);
+  }
 
   /**
    * @ignore
@@ -332,21 +339,21 @@ export class WattDatepickerV2Component extends WattPickerBase {
     return endOfDay(value);
   }
 
-    /**
+  /**
    * @ignore
    */
-    private setEndDateToDanishTimeZone(value: string): Date | null {
-      const dateBasedOnShortFormat = this.parseDateShortFormat(value);
-      const dateBasedOnISO8601Format = this.parseISO8601Format(value);
+  private setEndDateToDanishTimeZone(value: string): Date | null {
+    const dateBasedOnShortFormat = this.parseDateShortFormat(value);
+    const dateBasedOnISO8601Format = this.parseISO8601Format(value);
 
-      let maybeDateInDanishTimeZone: Date | null = null;
+    let maybeDateInDanishTimeZone: Date | null = null;
 
-      if (isValid(dateBasedOnShortFormat)) {
-        maybeDateInDanishTimeZone = this.toDanishTimeZone(dateBasedOnShortFormat);
-      } else if (isValid(dateBasedOnISO8601Format)) {
-        maybeDateInDanishTimeZone = this.toDanishTimeZone(dateBasedOnISO8601Format);
-      }
-
-      return maybeDateInDanishTimeZone;
+    if (isValid(dateBasedOnShortFormat)) {
+      maybeDateInDanishTimeZone = this.toDanishTimeZone(dateBasedOnShortFormat);
+    } else if (isValid(dateBasedOnISO8601Format)) {
+      maybeDateInDanishTimeZone = this.toDanishTimeZone(dateBasedOnISO8601Format);
     }
+
+    return maybeDateInDanishTimeZone;
+  }
 }

@@ -14,53 +14,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { MASKITO_DEFAULT_OPTIONS, MaskitoOptions } from "@maskito/core";
-import { ElementState } from "@maskito/core/lib/types";
+import { MASKITO_DEFAULT_OPTIONS, MaskitoOptions } from '@maskito/core';
+import { ElementState } from '@maskito/core/lib/types';
 
 const TIME_FIXED_CHARACTERS = [':', '.'];
 
 const SEPARATOR = ' - ';
 
-export function maskitoTimeRangeOptionsGenerator() : Required<MaskitoOptions> {
+export function maskitoTimeRangeOptionsGenerator(): Required<MaskitoOptions> {
   return {
     ...MASKITO_DEFAULT_OPTIONS,
     mask: [
-      ...Array.from('HH:MM').map(char => TIME_FIXED_CHARACTERS.includes(char) ? char : /\d/),
+      ...Array.from('HH:MM').map((char) => (TIME_FIXED_CHARACTERS.includes(char) ? char : /\d/)),
       ...Array.from(SEPARATOR),
-      ...Array.from('HH:MM').map(char => TIME_FIXED_CHARACTERS.includes(char) ? char : /\d/),
+      ...Array.from('HH:MM').map((char) => (TIME_FIXED_CHARACTERS.includes(char) ? char : /\d/)),
     ],
     preprocessors: [
-      ({elementState, data}, actionType) => {
+      ({ elementState, data }, actionType) => {
         if (actionType !== 'insert' || data.length > 1) {
           return {
-            elementState, data
-          }
+            elementState,
+            data,
+          };
         }
         if (Number.parseInt(data) > 2 && isFirstHourSegment(elementState)) {
           return {
             elementState: {
               selection: elementState.selection,
-              value: elementState.value + '0' + data
+              value: elementState.value + '0' + data,
             },
-            data: '0' + data
-          }
+            data: '0' + data,
+          };
         }
-        if (Number.parseInt(data) > 5 && (elementState.value.length === 3 || elementState.value.length === 10)) {
+        if (
+          Number.parseInt(data) > 5 &&
+          (elementState.value.length === 3 || elementState.value.length === 10)
+        ) {
           return {
             elementState: {
               selection: elementState.selection,
-              value: elementState.value + '0' + data
+              value: elementState.value + '0' + data,
             },
-            data: '0' + data
-          }
+            data: '0' + data,
+          };
         }
         return {
-          elementState, data
-        }
-      }
+          elementState,
+          data,
+        };
+      },
     ],
     overwriteMode: 'replace',
-  }
+  };
 }
 function isFirstHourSegment(elementState: ElementState) {
   if (elementState.value.length === 0) {
@@ -77,4 +82,3 @@ function isFirstHourSegment(elementState: ElementState) {
   }
   return elementState.value.length === 5;
 }
-

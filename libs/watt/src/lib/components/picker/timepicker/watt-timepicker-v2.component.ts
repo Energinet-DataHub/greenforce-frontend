@@ -238,20 +238,20 @@ export class WattTimepickerV2Component extends WattPickerBase {
    * @ignore
    */
   rangeInputChanged(value: string) {
-      const start = value.slice(0, hoursMinutesPlaceholder.length);
-      if (start.length !== hoursMinutesPlaceholder.length) {
-        return;
-      }
-      if (value.length < rangePlaceholder.length) {
-        this.control?.setValue({ start, end: start });
-        return;
-      }
-      let end = value.slice(hoursMinutesPlaceholder.length + rangeSeparator.length);
-      if (timeToMinutes(end) > timeToMinutes(start)) {
-        this.control?.setValue({ start, end });
-      } else {
-        end = minutesToTime(timeToMinutes(start) + 1);
-        this.setRangeValueAndNotify(start,end);
+    const start = value.slice(0, hoursMinutesPlaceholder.length);
+    if (start.length !== hoursMinutesPlaceholder.length) {
+      return;
+    }
+    if (value.length < rangePlaceholder.length) {
+      this.control?.setValue({ start, end: start });
+      return;
+    }
+    let end = value.slice(hoursMinutesPlaceholder.length + rangeSeparator.length);
+    if (timeToMinutes(end) > timeToMinutes(start)) {
+      this.control?.setValue({ start, end });
+    } else {
+      end = minutesToTime(timeToMinutes(start) + 1);
+      this.setRangeValueAndNotify(start, end);
     }
   }
 

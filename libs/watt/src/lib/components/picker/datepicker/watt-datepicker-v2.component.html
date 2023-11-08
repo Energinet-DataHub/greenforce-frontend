@@ -44,8 +44,13 @@ limitations under the License.
         [hidden]="true"
       />
     </mat-date-range-input>
-    <input #actualInput class="mask-input"/>
-    <watt-placeholder-mask [primaryInputElement]="actualInput" [mask]="rangeInputMask" placeholder="dd-mm-åååå - dd-mm-åååå" (maskApplied)="rangeInputChanged($event)"/>
+    <input #actualInput class="mask-input" />
+    <watt-placeholder-mask
+      [primaryInputElement]="actualInput"
+      [mask]="rangeInputMask"
+      placeholder="dd-mm-åååå - dd-mm-åååå"
+      (maskApplied)="rangeInputChanged($event)"
+    />
 
     <watt-button
       variant="icon"
@@ -74,20 +79,25 @@ limitations under the License.
 <ng-template #singleInputTemplate>
   <watt-field [control]="control" [label]="label">
     <input
-    matInput
-    aria-label="date-input"
-    #dateInput
-    autocomplete="off"
-    spellcheck="false"
-    [disabled]="disabled"
-    [min]="min"
-    [max]="max"
-    [matDatepicker]="singleDatepicker"
-    (focusin)="onFocusIn()"
-    (focusout)="onFocusOut($event)"
-    class="mask-input"
+      matInput
+      aria-label="date-input"
+      #dateInput
+      autocomplete="off"
+      spellcheck="false"
+      [disabled]="disabled"
+      [min]="min"
+      [max]="max"
+      [matDatepicker]="singleDatepicker"
+      (focusin)="onFocusIn()"
+      (focusout)="onFocusOut($event)"
+      class="mask-input"
     />
-    <watt-placeholder-mask [primaryInputElement]="dateInput" [mask]="inputMask" placeholder="dd-mm-åååå" (maskApplied)="inputChanged($event)"/>
+    <watt-placeholder-mask
+      [primaryInputElement]="dateInput"
+      [mask]="inputMask"
+      placeholder="dd-mm-åååå"
+      (maskApplied)="inputChanged($event)"
+    />
 
     <watt-button
       wattSuffix
