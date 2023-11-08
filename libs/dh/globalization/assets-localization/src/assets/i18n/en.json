@@ -899,13 +899,9 @@
       "topBarTitle": "Grid areas",
       "noGridAreas": "No grid areas found",
       "columns": {
-        "name": "Grid area",
         "code": "Grid area number",
-        "actorName": "Market party",
-        "actorNumber": "Market party id",
-        "priceAreaCode": "Price area",
-        "validFrom": "Valid from",
-        "validTo": "Valid to"
+        "actor": "Grid area responsible",
+        "organization": "Organisation"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
