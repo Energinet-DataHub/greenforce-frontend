@@ -164,7 +164,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.internal_github_pat }}
 
       # needed for Nx affected command
       - name: Fetch base branch Git history
@@ -207,7 +207,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.internal_github_pat }}
 
       # needed for Nx affected command
       - name: "PR: Fetch base branch Git history"
