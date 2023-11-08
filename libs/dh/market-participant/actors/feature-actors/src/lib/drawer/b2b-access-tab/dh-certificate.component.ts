@@ -154,7 +154,7 @@ export class DhCertificateComponent implements OnChanges {
       component: DhRemoveCertificateModalComponent,
       onClosed: (result) => {
         if (result) {
-          this.store.removeCertificate({
+          this.store.removeCredentials({
             actorId: this.actorId,
             onSuccess: this.onRemoveSuccessFn,
             onError: this.onRemoveErrorFn,

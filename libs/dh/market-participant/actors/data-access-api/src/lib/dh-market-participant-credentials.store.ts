@@ -103,7 +103,7 @@ export class DhMarketParticipantCredentialsStore extends ComponentStore<Credenti
         tap(() => this.patchState({ AddCredentialsInProgress: true })),
         exhaustMap(({ actorId, onSuccess, onError }) =>
           this.httpClient
-            .v1MarketParticipantActorAssignCertificateCredentialsPost(actorId, file)
+            .v1MarketParticipantActorAssignCertificateCredentialsPost(actorId)
             .pipe(
               tapResponse(
                 () => onSuccess(),
@@ -115,7 +115,7 @@ export class DhMarketParticipantCredentialsStore extends ComponentStore<Credenti
       )
   );
 
-  readonly removeCertificate = this.effect(
+  readonly removeCredentials = this.effect(
     (
       trigger$: Observable<{
         actorId: string;
