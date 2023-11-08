@@ -15,16 +15,17 @@
  * limitations under the License.
  */
 
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
-import { BaseChartDirective, NgChartsModule, ThemeService } from 'ng2-charts';
+import { NgChartsModule, ThemeService } from 'ng2-charts';
+import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgIf } from '@angular/common';
 
 @Component({
   standalone: true,
-  imports: [WATT_CARD, NgChartsModule],
+  imports: [WATT_CARD, NgChartsModule, LottieComponent, NgIf],
   providers: [ThemeService],
   selector: 'eo-dashboard-consumption',
   styles: [
@@ -58,6 +59,23 @@ import { DatePipe } from '@angular/common';
             width: calc(100vw - 372px);
           }
         }
+
+        .loader-container {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(255, 255, 255, 0.8);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1;
+        }
+
+        watt-card {
+          position: relative;
+        }
       }
     `,
   ],
@@ -68,6 +86,10 @@ import { DatePipe } from '@angular/common';
 
     <h5>0 Wh</h5>
     <small>Out of 0 Wh total consumption</small>
+
+    <div class="loader-container" *ngIf="isLoading">
+      <ng-lottie height="64px" width="64px" [options]="options" />
+    </div>
 
     <div class="chart-container">
       <canvas
@@ -81,30 +103,16 @@ import { DatePipe } from '@angular/common';
     </div>
   </watt-card>`,
 })
-export class EoDashboardConsumptionComponent {
-  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
-
+export class EoDashboardConsumptionComponent implements OnInit {
+  private cd = inject(ChangeDetectorRef);
+  protected options: AnimationOptions = {
+    path: '/assets/graph-loader.json',
+  };
   protected isLoading = true;
   protected barChartData: ChartConfiguration<'bar'>['data'] = {
     labels: this.generateLabels(),
-    datasets: [
-      {
-        data: [80, 30, 40, 20, 0, 0, 100],
-        label: 'Claimed',
-        borderRadius: Number.MAX_VALUE,
-        maxBarThickness: 8,
-        backgroundColor: '#00C898',
-      },
-      {
-        data: [20, 40, 50, 80, 80, 30, 0],
-        label: 'Consumption',
-        borderRadius: Number.MAX_VALUE,
-        maxBarThickness: 8,
-        backgroundColor: '#02525E',
-      },
-    ],
+    datasets: [],
   };
-
   protected barChartOptions: ChartConfiguration<'bar'>['options'] = {
     maintainAspectRatio: false,
     scales: {
@@ -114,7 +122,7 @@ export class EoDashboardConsumptionComponent {
         ticks: {
           maxRotation: 0,
           autoSkipPadding: 12,
-        }
+        },
       },
       y: {
         stacked: true,
@@ -122,6 +130,34 @@ export class EoDashboardConsumptionComponent {
       },
     },
   };
+
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.isLoading = false;
+
+      this.barChartData = {
+        ...this.barChartData,
+        datasets: [
+          {
+            data: [80, 30, 40, 20, 0, 0, 100],
+            label: 'Claimed',
+            borderRadius: Number.MAX_VALUE,
+            maxBarThickness: 8,
+            backgroundColor: '#00C898',
+          },
+          {
+            data: [20, 40, 50, 80, 80, 30, 0],
+            label: 'Consumption',
+            borderRadius: Number.MAX_VALUE,
+            maxBarThickness: 8,
+            backgroundColor: '#02525E',
+          },
+        ],
+      };
+
+      this.cd.detectChanges();
+    }, 2000);
+  }
 
   private generateLabels() {
     // TODO: Should be localized when translations are available
