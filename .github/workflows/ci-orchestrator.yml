@@ -33,7 +33,7 @@ jobs:
       skip_license_check: true # Handled by another workflow
       skip_markdown_links_check: true # Handled by another workflow
     secrets:
-      pat_token: ${{ secrets.PAT_TOKEN_REPO_WORKFLOW }}
+      pat_token: ${{ secrets.internal_github_pat }}
 
   #
   # CodeQL Check
@@ -82,7 +82,7 @@ jobs:
       structurizr_workspace_filename: views
       included_model_filename: model
     secrets:
-      pat_token_retrigger_workflow: ${{ secrets.pat_token_repo_workflow }}
+      pat_token_retrigger_workflow: ${{ secrets.internal_github_pat }}
 
   #
   # Branch policy status check
