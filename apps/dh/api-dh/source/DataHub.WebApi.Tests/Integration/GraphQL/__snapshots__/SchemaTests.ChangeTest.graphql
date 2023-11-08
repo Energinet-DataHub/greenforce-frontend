@@ -130,6 +130,19 @@ type GridAreaDto {
   validTo: DateTime
 }
 
+type GridAreaOverviewItemDto {
+  id: UUID!
+  code: String!
+  name: String!
+  priceAreaCode: String!
+  validFrom: DateTime!
+  validTo: DateTime
+  actorNumber: String
+  actorName: String
+  organizationName: String
+  fullFlexDate: DateTime
+}
+
 type MarketParticipantBadRequestError implements Error {
   message: String!
   jsonError: JSON!
@@ -227,6 +240,7 @@ type Query {
   emailExists(emailAddress: String!): Boolean!
   actorAuditLogs(actorId: UUID!): [ActorAuditLog!]!
   knownEmails: [String!]!
+  gridAreaOverview: [GridAreaOverviewItemDto!]!
 }
 
 type SettlementReport {

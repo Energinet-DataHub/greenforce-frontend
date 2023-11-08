@@ -47,7 +47,6 @@ export * from './market-participant-get-token-response-dto';
 export * from './market-participant-grid-area-audit-log-entry-field';
 export * from './market-participant-grid-area-audit-log-entry-with-name-dto';
 export * from './market-participant-grid-area-dto';
-export * from './market-participant-grid-area-overview-item-dto';
 export * from './market-participant-metering-point-type';
 export * from './market-participant-organization-dto';
 export * from './market-participant-organization-status';
