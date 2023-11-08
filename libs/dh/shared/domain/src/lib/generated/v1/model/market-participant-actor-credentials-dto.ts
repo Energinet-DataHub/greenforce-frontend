@@ -10,11 +10,12 @@
  * Do not edit the class manually.
  */
 import { MarketParticipantActorCertificateCredentialsDto } from './market-participant-actor-certificate-credentials-dto';
+import { MarketParticipantActorClientSecretCredentialsDto } from './market-participant-actor-client-secret-credentials-dto';
 
 
 export interface MarketParticipantActorCredentialsDto { 
     certificateCredentials?: MarketParticipantActorCertificateCredentialsDto;
-    clientSecretCredentials?: object;
+    clientSecretCredentials?: MarketParticipantActorClientSecretCredentialsDto;
 }
 
 
