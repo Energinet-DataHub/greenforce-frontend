@@ -41,17 +41,18 @@ const initialState: CertificateState = {
 export class DhMarketParticipantCertificateStore extends ComponentStore<CertificateState> {
   private readonly httpClient = inject(MarketParticipantActorHttp);
 
+  readonly doCredentialsExist$ = this.select((state) => !!state.credentials);
+
   readonly certificateMetadata$ = this.select((state) => state.credentials?.certificateCredentials);
   readonly doesCertificateExist$ = this.select(this.certificateMetadata$, (metadata) => !!metadata);
 
   readonly loadingCredentials$ = this.select((state) => state.loadingCredentials);
   readonly uploadInProgress$ = this.select((state) => state.uploadInProgress);
-
   readonly removeInProgress$ = this.select((state) => state.removeInProgress);
 
   readonly getCredentials = this.effect((actorId$: Observable<string>) =>
     actorId$.pipe(
-      tap(() => this.patchState({ loadingCredentials: true })),
+      tap(() => this.patchState({ loadingCredentials: true, credentials: null })),
       switchMap((actorId) =>
         this.httpClient.v1MarketParticipantActorGetActorCredentialsGet(actorId).pipe(
           tapResponse(
@@ -89,7 +90,36 @@ export class DhMarketParticipantCertificateStore extends ComponentStore<Certific
       )
   );
 
-  readonly removeCertificate = this.effect(
+  readonly replaceCertificate = this.effect(
+    (
+      trigger$: Observable<{
+        actorId: string;
+        file: File;
+        onSuccess: () => void;
+        onError: () => void;
+      }>
+    ) =>
+      trigger$.pipe(
+        tap(() => this.patchState({ uploadInProgress: true })),
+        exhaustMap(({ actorId, file, onSuccess, onError }) =>
+          this.httpClient.v1MarketParticipantActorRemoveActorCredentialsDelete(actorId).pipe(
+            switchMap(() =>
+              this.httpClient
+                .v1MarketParticipantActorAssignCertificateCredentialsPost(actorId, file)
+                .pipe(
+                  tapResponse(
+                    () => onSuccess(),
+                    () => onError()
+                  ),
+                  finalize(() => this.patchState({ uploadInProgress: false }))
+                )
+            )
+          )
+        )
+      )
+  );
+
+  readonly removeActorCredentials = this.effect(
     (
       trigger$: Observable<{
         actorId: string;
