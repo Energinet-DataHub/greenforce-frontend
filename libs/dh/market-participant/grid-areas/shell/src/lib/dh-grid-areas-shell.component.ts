@@ -41,12 +41,14 @@ export class DhGridAreasShellComponent implements OnInit {
   });
 
   isLoading = false;
+  hasError = false;
   rows: GridAreaOverviewRow[] = [];
 
   ngOnInit(): void {
     this.getActorsQuery$.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((result) => {
+        this.hasError = !!result.error || !!result.errors?.length;
         this.isLoading = result.loading;
         this.rows =
           result.data?.gridAreaOverview?.map((x) => ({
