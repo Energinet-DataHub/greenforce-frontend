@@ -14,17 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import {
-  BehaviorSubject,
-  Subject,
-  combineLatest,
-  debounceTime,
-  map,
-  switchMap,
-  takeUntil,
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, map, switchMap } from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -47,6 +39,7 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhMeteringGridAreaImbalanceFiltersComponent } from './filters/dh-filters.component';
 import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
 import { GetMeteringGridAreaImbalanceDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -88,9 +81,9 @@ import { GetMeteringGridAreaImbalanceDocument } from '@energinet-datahub/dh/shar
     DhOutgoingMessagesTableComponent,
   ],
 })
-export class DhMeteringGridAreaImbalanceComponent implements OnInit, OnDestroy {
-  private apollo = inject(Apollo);
-  private destroy$ = new Subject<void>();
+export class DhMeteringGridAreaImbalanceComponent implements OnInit {
+  private _apollo = inject(Apollo);
+  private _destroyRef = inject(DestroyRef);
 
   tableDataSource = new WattTableDataSource<DhMeteringGridAreaImbalance>([]);
   totalCount = 0;
@@ -127,7 +120,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit, OnDestroy {
   meteringGridAreaImbalance$ = this.queryVariables$.pipe(
     switchMap(
       ({ filters, pageMetaData, documentIdSearch }) =>
-        this.apollo.watchQuery({
+        this._apollo.watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
@@ -144,11 +137,11 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit, OnDestroy {
           },
         }).valueChanges
     ),
-    takeUntil(this.destroy$)
+    takeUntilDestroyed()
   );
 
   ngOnInit() {
-    this.meteringGridAreaImbalance$.pipe(takeUntil(this.destroy$)).subscribe({
+    this.meteringGridAreaImbalance$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
       next: (result) => {
         this.isLoading = result.loading;
 
@@ -162,11 +155,6 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       },
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   handlePageEvent({ pageIndex, pageSize }: PageEvent): void {

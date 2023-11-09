@@ -18,9 +18,10 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   Input,
-  OnDestroy,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -40,7 +41,7 @@ import {
 import { DhUserStatusComponent } from '../../shared/dh-user-status.component';
 import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
 import { CommonModule } from '@angular/common';
-import { Subject, takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-users-tab-table',
@@ -64,8 +65,8 @@ import { Subject, takeUntil } from 'rxjs';
     DhUserDrawerComponent,
   ],
 })
-export class DhUsersTabTableComponent implements AfterViewInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+export class DhUsersTabTableComponent implements AfterViewInit {
+  private _destroyRef = inject(DestroyRef);
 
   columns: WattTableColumnDef<MarketParticipantUserOverviewItemDto> = {
     firstName: { accessor: 'firstName' },
@@ -94,18 +95,13 @@ export class DhUsersTabTableComponent implements AfterViewInit, OnDestroy {
   usersTable!: WattTableComponent<MarketParticipantUserOverviewItemDto>;
 
   ngAfterViewInit(): void {
-    this.usersTable.sortChange.pipe(takeUntil(this.destroy$)).subscribe((x) => {
+    this.usersTable.sortChange.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((x) => {
       const property = (x.active[0].toUpperCase() +
         x.active.slice(1)) as MarketParticipantUserOverviewSortProperty;
       const direction = (x.direction[0].toUpperCase() +
         x.direction.slice(1)) as MarketParticipantSortDirection;
       this.sortChanged(property, direction);
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
   }
 
   onRowClick(row: MarketParticipantUserOverviewItemDto): void {
