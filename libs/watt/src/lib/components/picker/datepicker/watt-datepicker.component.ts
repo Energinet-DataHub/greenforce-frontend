@@ -39,7 +39,7 @@ import {
 } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { combineLatest, map, merge, startWith, takeUntil, tap } from 'rxjs';
+import { combineLatest, map, merge, startWith, tap } from 'rxjs';
 import { parse, isValid, parseISO, endOfDay, startOfMonth, endOfMonth } from 'date-fns';
 import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 import { WattFieldComponent } from '@energinet-datahub/watt/field';
@@ -50,6 +50,7 @@ import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattDateRange } from '../../../utils/date';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const dateShortFormat = 'dd-MM-yyyy';
 const danishLocaleCode = 'da';
@@ -202,7 +203,7 @@ export class WattDatepickerComponent extends WattPickerBase {
     );
 
     merge(onInputOnChange$, matDatepickerChange$)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((value: string) => {
         this.changeParentValue(value);
       });
@@ -300,7 +301,7 @@ export class WattDatepickerComponent extends WattPickerBase {
 
     // Subscribe for changes from date-range picker
     combineLatest([matStartDateChange$, matEndDateChange$])
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe(([start, end]) => {
         if (initialDateChange) {
           initialDateChange = false;
@@ -317,7 +318,7 @@ export class WattDatepickerComponent extends WattPickerBase {
 
     // Subscribe for input changes
     this.rangeInputService.onInputChanges$
-      ?.pipe(takeUntil(this.destroy$))
+      ?.pipe(takeUntilDestroyed(this._destroyRef))
       // `start` and `end` can have one of three values:
       // 1. An empty string (usually when no initial value is set or input value is manually deleted)
       // 2. A `dd-MM-yyyy` format (keep in sync with `dateShortFormat`) (usually when date is manually typed)

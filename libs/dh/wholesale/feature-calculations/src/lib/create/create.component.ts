@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -23,17 +23,7 @@ import parseISO from 'date-fns/parseISO';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import {
-  combineLatest,
-  first,
-  map,
-  Observable,
-  of,
-  startWith,
-  Subject,
-  takeUntil,
-  tap,
-} from 'rxjs';
+import { combineLatest, first, map, Observable, of, startWith, Subject, tap } from 'rxjs';
 
 import {
   WattFieldErrorComponent,
@@ -63,6 +53,7 @@ import {
   GridArea,
   processTypes,
 } from '@energinet-datahub/dh/wholesale/domain';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface FormValues {
   processType: FormControl<ProcessType>;
@@ -96,13 +87,13 @@ interface FormValues {
   ],
 })
 export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
-  private toast = inject(WattToastService);
-  private transloco = inject(TranslocoService);
-  private router = inject(Router);
-  private apollo = inject(Apollo);
+  private _toast = inject(WattToastService);
+  private _transloco = inject(TranslocoService);
+  private _router = inject(Router);
+  private _apollo = inject(Apollo);
+  private _destroyRef = inject(DestroyRef);
 
-  private executionTypeChanged$ = new Subject<void>();
-  private destroy$ = new Subject<void>();
+  private executionTypeChanged_$ = new Subject<void>();
 
   @ViewChild('modal') modal?: WattModalComponent;
 
@@ -132,7 +123,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     }),
   });
 
-  gridAreasQuery = this.apollo.watchQuery({
+  gridAreasQuery = this._apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: GetGridAreasDocument,
@@ -140,7 +131,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
   onDateRangeChange$ = this.formGroup.controls.dateRange.valueChanges.pipe(startWith(null));
 
-  processTypes: Observable<WattDropdownOption[]> = this.transloco
+  processTypes: Observable<WattDropdownOption[]> = this._transloco
     .selectTranslateObject('wholesale.calculations.processTypes')
     .pipe(map((t) => processTypes.map((value) => ({ displayValue: t[value], value }))));
 
@@ -151,7 +142,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   gridAreas$: Observable<WattDropdownOption[]> = combineLatest([
     this.gridAreasQuery.valueChanges.pipe(map((result) => result.data?.gridAreas ?? [])),
     this.onDateRangeChange$,
-    this.executionTypeChanged$.pipe(startWith('')),
+    this.executionTypeChanged_$.pipe(startWith('')),
   ]).pipe(
     map(([gridAreas, dateRange]) => filterValidGridAreas(gridAreas, dateRange)),
     map((gridAreas) => {
@@ -169,20 +160,18 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     this.toggleGridAreasControl();
 
     // Close toast on navigation
-    this.router.events.pipe(first((event) => event instanceof NavigationEnd)).subscribe(() => {
-      this.toast.dismiss();
+    this._router.events.pipe(first((event) => event instanceof NavigationEnd)).subscribe(() => {
+      this._toast.dismiss();
     });
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-    this.executionTypeChanged$.complete();
+    this.executionTypeChanged_$.complete();
   }
 
   onExecutionTypeSelected(selection: HTMLInputElement) {
     this.selectedExecutionType = selection.value;
-    this.executionTypeChanged$.next();
+    this.executionTypeChanged_$.next();
   }
 
   open() {
@@ -195,7 +184,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     if (this.formGroup.invalid || gridAreas === null || dateRange === null || processType === null)
       return;
 
-    this.apollo
+    this._apollo
       .mutate({
         useMutationLoading: true,
         mutation: CreateCalculationDocument,
@@ -213,26 +202,26 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
           this.loading = result.loading;
 
           if (result.loading) {
-            this.toast.open({
+            this._toast.open({
               type: 'loading',
-              message: this.transloco.translate('wholesale.calculations.create.toast.loading'),
+              message: this._transloco.translate('wholesale.calculations.create.toast.loading'),
             });
           } else if (result.errors) {
-            this.toast.update({
+            this._toast.update({
               type: 'danger',
-              message: this.transloco.translate('wholesale.calculations.create.toast.error'),
+              message: this._transloco.translate('wholesale.calculations.create.toast.error'),
             });
           } else {
-            this.toast.update({
+            this._toast.update({
               type: 'success',
-              message: this.transloco.translate('wholesale.calculations.create.toast.success'),
+              message: this._transloco.translate('wholesale.calculations.create.toast.success'),
             });
           }
         },
         error: () => {
-          this.toast.update({
+          this._toast.update({
             type: 'danger',
-            message: this.transloco.translate('wholesale.calculations.create.toast.error'),
+            message: this._transloco.translate('wholesale.calculations.create.toast.error'),
           });
         },
       });
@@ -285,7 +274,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
   private toggleGridAreasControl() {
     // Disable grid areas when date range is invalid
-    this.onDateRangeChange$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    this.onDateRangeChange$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => {
       const gridAreasControl = this.formGroup.controls.gridAreas;
       const disableGridAreas = this.formGroup.controls.dateRange.invalid;
       if (disableGridAreas == gridAreasControl.disabled) return; // prevent ng0100
@@ -312,7 +301,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     if (!dateRange.value?.end || !dateRange.value?.start) return of(null);
 
     // This observable always returns null (no error)
-    return this.apollo
+    return this._apollo
       .query({
         query: GetLatestBalanceFixingDocument,
         fetchPolicy: 'network-only',

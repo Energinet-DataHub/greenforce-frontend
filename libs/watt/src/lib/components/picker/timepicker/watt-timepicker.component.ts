@@ -35,7 +35,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 
 import { WattButtonComponent } from '../../button';
 import { WattSliderComponent } from '../../slider';
-import { BehaviorSubject, distinctUntilChanged, EMPTY, map, takeUntil } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, EMPTY, map } from 'rxjs';
 
 import { WattInputMaskService, WattMaskedInput } from '../shared/watt-input-mask.service';
 import { WattPickerBase } from '../shared/watt-picker-base';
@@ -44,6 +44,7 @@ import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattSliderValue } from '../../slider/watt-slider.component';
 import { WattPickerValue } from '../shared/watt-picker-value';
 import { WattFieldComponent } from '../../field/watt-field.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /**
  * Note: `Inputmask` package uses upper case `MM` for "minutes" and
@@ -254,11 +255,11 @@ export class WattTimepickerComponent extends WattPickerBase {
 
     // Silence the compiler since `onInputChanges$` is always assigned in `init`
     const { onInputChanges$ = EMPTY } = this.rangeInputService;
-    const timeRange$ = onInputChanges$.pipe(takeUntil(this.destroy$));
+    const timeRange$ = onInputChanges$.pipe(takeUntilDestroyed(this._destroyRef));
 
     // Synchronize the slider value with the input fields. Calling `update`
     // here automatically triggers an emit on the `timeRange$` observable.
-    this.sliderChange$.pipe(takeUntil(this.destroy$)).subscribe((sliderValue) => {
+    this.sliderChange$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((sliderValue) => {
       startInput.maskedInput.update(minutesToTime(sliderValue.min));
       endInput.maskedInput.update(minutesToTime(sliderValue.max));
     });

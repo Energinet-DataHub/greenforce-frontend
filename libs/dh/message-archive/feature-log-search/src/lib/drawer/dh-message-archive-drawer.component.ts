@@ -15,13 +15,12 @@
  * limitations under the License.
  */
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { provideComponentStore } from '@ngrx/component-store';
 import { MatDividerModule } from '@angular/material/divider';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { Subject, takeUntil } from 'rxjs';
 
 import { ArchivedMessage, Stream } from '@energinet-datahub/dh/shared/domain';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -43,6 +42,7 @@ import {
 import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
 import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -70,14 +70,13 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
   ],
   providers: [provideComponentStore(DhMessageArchiveDocumentStore)],
 })
-export class DhMessageArchiveDrawerComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
-
-  private document = inject(DOCUMENT);
-  private transloco = inject(TranslocoService);
-  private toastService = inject(WattToastService);
-  private apiStore = inject(DhMessageArchiveDocumentStore);
-  private breakpointsObserver = inject(WattBreakpointsObserver);
+export class DhMessageArchiveDrawerComponent implements OnInit {
+  private _destroyRef = inject(DestroyRef);
+  private _document = inject(DOCUMENT);
+  private _transloco = inject(TranslocoService);
+  private _toastService = inject(WattToastService);
+  private _apiStore = inject(DhMessageArchiveDocumentStore);
+  private _breakpointsObserver = inject(WattBreakpointsObserver);
 
   @ViewChild('drawer') drawer!: WattDrawerComponent;
   drawerSize: WattDrawerSize = 'normal';
@@ -87,15 +86,10 @@ export class DhMessageArchiveDrawerComponent implements OnInit, OnDestroy {
   message: ArchivedMessage | null = null;
   documentContent: string | null = null;
 
-  isLoading$ = this.apiStore.isLoading$;
+  isLoading$ = this._apiStore.isLoading$;
 
   ngOnInit(): void {
     this.setDrawerSize();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   open(message: ArchivedMessage) {
@@ -114,7 +108,7 @@ export class DhMessageArchiveDrawerComponent implements OnInit, OnDestroy {
   }
 
   getDocument(id: string) {
-    this.apiStore.getDocument({
+    this._apiStore.getDocument({
       id,
       onSuccessFn: this.onSuccesFn,
       onErrorFn: this.onErrorFn,
@@ -125,7 +119,7 @@ export class DhMessageArchiveDrawerComponent implements OnInit, OnDestroy {
     const blobPart = this.documentContent as unknown as BlobPart;
     const blob = new Blob([blobPart]);
     const url = window.URL.createObjectURL(blob);
-    const link = this.document.createElement('a');
+    const link = this._document.createElement('a');
     link.href = url;
     link.download = `${this.message?.messageId}.txt`;
     link.click();
@@ -139,14 +133,14 @@ export class DhMessageArchiveDrawerComponent implements OnInit, OnDestroy {
   };
 
   private readonly onErrorFn = () => {
-    const errorText = this.transloco.translate('messageArchive.document.loadFailed');
-    this.toastService.open({ message: errorText, type: 'danger' });
+    const errorText = this._transloco.translate('messageArchive.document.loadFailed');
+    this._toastService.open({ message: errorText, type: 'danger' });
   };
 
   private setDrawerSize(): void {
-    this.breakpointsObserver
+    this._breakpointsObserver
       .observe([WattBreakpoint.XLarge])
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((result) => {
         this.drawerSize = result.matches ? 'large' : 'normal';
       });
