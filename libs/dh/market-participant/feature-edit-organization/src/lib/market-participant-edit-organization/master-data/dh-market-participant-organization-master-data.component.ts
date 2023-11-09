@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OrganizationChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { Subject, takeUntil } from 'rxjs';
 import { RxLet } from '@rx-angular/template/let';
 import { MarketParticipantOrganizationStatus } from '@energinet-datahub/dh/shared/domain';
 import { getValidOrganizationStatusTransitionOptions } from './get-valid-organization-status-transition-options';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-market-participant-organization-master-data',
@@ -43,10 +43,9 @@ import { getValidOrganizationStatusTransitionOptions } from './get-valid-organiz
     WattFieldErrorComponent,
   ],
 })
-export class DhMarketParticipantOrganizationMasterDataComponent implements OnChanges, OnDestroy {
+export class DhMarketParticipantOrganizationMasterDataComponent implements OnChanges {
   @Input() changes!: OrganizationChanges;
 
-  private destroy$ = new Subject<void>();
   countries: WattDropdownOption[] = [];
 
   initialOrganizationStatus?: MarketParticipantOrganizationStatus;
@@ -56,7 +55,7 @@ export class DhMarketParticipantOrganizationMasterDataComponent implements OnCha
   constructor(private translocoService: TranslocoService) {
     this.translocoService
       .selectTranslateObject('marketParticipant.organization.create.masterData.countries')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed())
       .subscribe((countryTranslations) => {
         this.countries = Object.keys(countryTranslations)
           .map((key) => ({
@@ -68,7 +67,7 @@ export class DhMarketParticipantOrganizationMasterDataComponent implements OnCha
 
     this.translocoService
       .selectTranslateObject('marketParticipant.organization.create.masterData.statuses')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed())
       .subscribe((statusKeys) => {
         this.allStatuses = Object.keys(MarketParticipantOrganizationStatus).map((key) => ({
           value: key,
@@ -87,10 +86,5 @@ export class DhMarketParticipantOrganizationMasterDataComponent implements OnCha
       this.initialOrganizationStatus ?? MarketParticipantOrganizationStatus.New,
       this.allStatuses
     );
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
   }
 }

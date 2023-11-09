@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { ChargeTypes, ValidityOptions } from '@energinet-datahub/dh/charges/domain';
@@ -37,6 +36,7 @@ import {
   DhMarketParticipantDataAccessApiStore,
 } from '@energinet-datahub/dh/charges/data-access-api';
 import { ChargeSearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -64,7 +64,9 @@ import { ChargeSearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
   styleUrls: ['./dh-charges-prices.component.scss'],
   providers: [DhChargesDataAccessApiStore, DhMarketParticipantDataAccessApiStore],
 })
-export class DhChargesPricesComponent implements OnInit, OnDestroy {
+export class DhChargesPricesComponent implements OnInit {
+  private _destroyRef = inject(DestroyRef);
+
   chargeTypeOptions: WattDropdownOptions = [];
   validityOptions: WattDropdownOptions = [];
   validityOption: string | undefined;
@@ -76,8 +78,6 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
   isInit$ = this.chargesStore.isInit$;
   hasLoadingError$ = this.chargesStore.hasGeneralError$;
   marketParticipants = this.marketParticipantStore.all$;
-
-  private destroy$ = new Subject<void>();
 
   constructor(
     private translocoService: TranslocoService,
@@ -93,13 +93,8 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
     this.buildValidityOptions();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
-
   private buildMarketParticipantOptions() {
-    this.marketParticipants.pipe(takeUntil(this.destroy$)).subscribe({
+    this.marketParticipants.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
       next: (marketParticipants) => {
         if (marketParticipants == null) return;
         this.marketParticipantsOptions = marketParticipants.map((mp) => {
@@ -115,7 +110,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
   private buildValidityOptions() {
     this.translocoService
       .selectTranslateObject('charges.prices.validityOptions')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (keys) => {
           this.validityOptions = Object.keys(ValidityOptions).map((entry) => {
@@ -131,7 +126,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
   private buildChargeTypeOptions() {
     this.translocoService
       .selectTranslateObject('charges.prices.chargeTypes')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (translationKeys) => {
           this.chargeTypeOptions = Object.keys(ChargeTypes)

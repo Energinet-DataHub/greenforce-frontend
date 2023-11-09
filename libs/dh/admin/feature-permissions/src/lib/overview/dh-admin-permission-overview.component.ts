@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApolloError } from '@apollo/client';
 import { translate, TranslocoModule } from '@ngneat/transloco';
-import { Subject, takeUntil } from 'rxjs';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -32,6 +31,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
 import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-admin-permission-overview',
@@ -52,9 +52,8 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
     DhSharedUiSearchComponent,
   ],
 })
-export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
-
+export class DhAdminPermissionOverviewComponent implements OnInit {
+  private _destroyRef = inject(DestroyRef);
   query = getPermissionsWatchQuery();
   permissions: PermissionDto[] = [];
   loading = false;
@@ -73,7 +72,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
   permissionDetail!: DhAdminPermissionDetailComponent;
 
   ngOnInit(): void {
-    this.query.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+    this.query.valueChanges.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
       next: (result) => {
         this.permissions = result.data?.permissions ?? [];
         this.loading = result.loading;
@@ -84,11 +83,6 @@ export class DhAdminPermissionOverviewComponent implements OnInit, OnDestroy {
         this.error = error;
       },
     });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   onRowClick(row: PermissionDto): void {

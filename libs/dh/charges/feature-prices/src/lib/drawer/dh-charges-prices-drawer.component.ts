@@ -15,7 +15,15 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { RxPush } from '@rx-angular/template/push';
 
@@ -27,9 +35,9 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhChargeDetailsHeaderComponent } from './charge-content/details-header/dh-charge-details-header.component';
 import { DhChargesPricesDrawerService } from './dh-charges-prices-drawer.service';
-import { Subject, takeUntil } from 'rxjs';
 import { DhChargeContentComponent } from './charge-content/dh-charge-content.component';
 import { DhChargePriceMessageComponent } from './charge-message/dh-charge-price-message.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -50,7 +58,9 @@ import { DhChargePriceMessageComponent } from './charge-message/dh-charge-price-
   templateUrl: './dh-charges-prices-drawer.component.html',
   styleUrls: ['./dh-charges-prices-drawer.component.scss'],
 })
-export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
+export class DhChargesPricesDrawerComponent implements OnInit {
+  private _destroyRef = inject(DestroyRef);
+
   @ViewChild('drawer') drawer!: WattDrawerComponent;
   @ViewChild(DhChargeContentComponent)
   chargeContent!: DhChargeContentComponent;
@@ -61,20 +71,15 @@ export class DhChargesPricesDrawerComponent implements OnInit, OnDestroy {
   charge?: ChargeV1Dto;
   showChargeMessage = false;
 
-  private destroy$ = new Subject<void>();
   constructor(private dhChargesPricesDrawerService: DhChargesPricesDrawerService) {}
 
   ngOnInit(): void {
     this.dhChargesPricesDrawerService.message
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((message) => {
         if (message === undefined) this.showChargeMessage = false;
         else this.showChargeMessage = true;
       });
-  }
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   openDrawer(charge: ChargeV1Dto) {
