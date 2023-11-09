@@ -117,27 +117,15 @@ export class WattTimepickerComponent extends WattPickerBase {
   @Input()
   sliderLabel = '';
 
-  /**
-   * @ignore
-   */
   @ViewChild('timeInput')
   input!: ElementRef;
 
-  /**
-   * @ignore
-   */
   @ViewChild('startTimeInput')
   startInput!: ElementRef;
 
-  /**
-   * @ignore
-   */
   @ViewChild('endTimeInput')
   endInput!: ElementRef;
 
-  /**
-   * @ignore
-   */
   sliderId = `${this.id}-slider`;
 
   /**
@@ -151,9 +139,6 @@ export class WattTimepickerComponent extends WattPickerBase {
     return this.range && this.sliderOpen ? this.sliderId : undefined;
   }
 
-  /**
-   * @ignore
-   */
   protected _placeholder = hoursMinutesPlaceholder;
 
   /**
@@ -162,19 +147,10 @@ export class WattTimepickerComponent extends WattPickerBase {
    */
   sliderOpen = false;
 
-  /**
-   * @ignore
-   */
   sliderSteps = [...Array(quartersInADay).keys()].map((x) => x * 15).concat(minutesInADay - 1);
 
-  /**
-   * @ignore
-   */
   sliderChange$ = new BehaviorSubject(initialSliderValue);
 
-  /**
-   * @ignore
-   */
   get sliderValue(): WattSliderValue {
     if (this.value?.start && this.value?.end) {
       return {
@@ -221,9 +197,6 @@ export class WattTimepickerComponent extends WattPickerBase {
     );
   }
 
-  /**
-   * @ignore
-   */
   protected initSingleInput() {
     const { maskedInput } = this.maskInput(
       this.input.nativeElement,
@@ -236,9 +209,6 @@ export class WattTimepickerComponent extends WattPickerBase {
     });
   }
 
-  /**
-   * @ignore
-   */
   protected initRangeInput() {
     // Setup and subscribe for input changes
     const startInput = this.maskInput(
@@ -282,9 +252,6 @@ export class WattTimepickerComponent extends WattPickerBase {
     });
   }
 
-  /**
-   * @ignore
-   */
   protected setSingleValue(
     value: Exclude<WattPickerValue, WattDateRange>,
     input: HTMLInputElement
@@ -292,9 +259,6 @@ export class WattTimepickerComponent extends WattPickerBase {
     input.value = value ? value : '';
   }
 
-  /**
-   * @ignore
-   */
   protected setRangeValue(
     value: WattDateRange,
     startInput: HTMLInputElement,
@@ -311,9 +275,6 @@ export class WattTimepickerComponent extends WattPickerBase {
     }
   }
 
-  /**
-   * @ignore
-   */
   private maskInput(
     input: HTMLInputElement,
     initialValue: string | null = ''

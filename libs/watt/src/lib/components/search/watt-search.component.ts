@@ -46,8 +46,5 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
 export class WattSearchComponent {
   @Input() label = '';
 
-  /**
-   * @ignore
-   */
   @Output() search = new EventEmitter<string>();
 }

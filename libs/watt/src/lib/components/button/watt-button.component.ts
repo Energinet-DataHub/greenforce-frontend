@@ -70,17 +70,11 @@ export class WattButtonComponent {
   @Input() disabled = false;
   @Input() loading = false;
 
-  /**
-   * @ignore
-   */
   @HostBinding('class.watt-button--disabled')
   get buttonDisabledState() {
     return this.disabled;
   }
 
-  /**
-   * @ignore
-   */
   @HostBinding('style.pointer-events')
   get pointerEvents() {
     if (this.disabled) {
@@ -94,9 +88,6 @@ export class WattButtonComponent {
     return 'auto';
   }
 
-  /**
-   * @ignore
-   */
   hasIcon(): boolean {
     return !!this.icon;
   }

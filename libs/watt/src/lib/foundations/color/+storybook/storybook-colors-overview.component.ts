@@ -44,9 +44,6 @@ interface Color {
   imports: [CommonModule, MatCardModule],
 })
 export class StorybookColorsOverviewComponent {
-  /**
-   * @ignore
-   */
   colorTypes: ColorType[] = [
     {
       name: 'primary',
@@ -118,16 +115,10 @@ export class StorybookColorsOverviewComponent {
 
   constructor(private colorHelperService: WattColorHelperService) {}
 
-  /**
-   * @ignore
-   */
   copyToClipboard(color: string) {
     navigator.clipboard.writeText(color);
   }
 
-  /**
-   * @ignore
-   */
   private getColor(name: string, color: WattColor) {
     return {
       name,

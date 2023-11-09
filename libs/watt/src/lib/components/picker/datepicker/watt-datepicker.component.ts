@@ -90,55 +90,31 @@ export class WattDatepickerComponent extends WattPickerBase {
   @Input() rangeMonthOnlyMode = false;
   @Input() label = '';
 
-  /**
-   * @ignore
-   */
   @ViewChild(MatDatepickerInput)
   matDatepickerInput!: MatDatepickerInput<Date | null>;
 
   @ViewChild(MatDateRangePicker)
   matDateRangePicker!: MatDateRangePicker<Date | null>;
 
-  /**
-   * @ignore
-   */
   @ViewChild(MatStartDate)
   matStartDate!: MatStartDate<Date | null>;
 
-  /**
-   * @ignore
-   */
   @ViewChild(MatEndDate)
   matEndDate!: MatEndDate<Date | null>;
 
-  /**
-   * @ignore
-   */
   @ViewChild('dateInput')
   input!: ElementRef;
 
-  /**
-   * @ignore
-   */
   @ViewChild('startDateInput')
   startInput!: ElementRef;
 
-  /**
-   * @ignore
-   */
   @ViewChild('endDateInput')
   endInput!: ElementRef;
 
-  /**
-   * @ignore
-   */
   protected _placeholder = this.getPlaceholder(this.getInputFormat());
 
   @Input() dateClass: MatCalendarCellClassFunction<Date> = () => '';
 
-  /**
-   * @ignore
-   */
   constructor(
     protected override inputMaskService: WattInputMaskService,
     protected override rangeInputService: WattRangeInputService,
@@ -157,9 +133,6 @@ export class WattDatepickerComponent extends WattPickerBase {
     );
   }
 
-  /**
-   * @ignore
-   */
   protected initSingleInput() {
     const pickerInputElement = this.input.nativeElement;
     const { onChange$, inputMask } = this.inputMaskService.mask(
@@ -217,9 +190,6 @@ export class WattDatepickerComponent extends WattPickerBase {
     }
   }
 
-  /**
-   * @ignore
-   */
   protected initRangeInput() {
     const startDateInputElement = this.startInput.nativeElement;
     const maskedStartDate = this.inputMaskService.mask(
@@ -351,9 +321,6 @@ export class WattDatepickerComponent extends WattPickerBase {
       });
   }
 
-  /**
-   * @ignore
-   */
   protected setSingleValue(
     value: Exclude<WattPickerValue, WattDateRange>,
     input: HTMLInputElement
@@ -361,9 +328,6 @@ export class WattDatepickerComponent extends WattPickerBase {
     this.setValueToInput(value, input, this.matDatepickerInput);
   }
 
-  /**
-   * @ignore
-   */
   protected setRangeValue(
     value: WattDateRange | null,
     startInput: HTMLInputElement,
@@ -375,9 +339,6 @@ export class WattDatepickerComponent extends WattPickerBase {
     this.setValueToInput(end, endInput, this.matEndDate);
   }
 
-  /**
-   * @ignore
-   */
   private onBeforePaste(pastedValue: string): string {
     if (this.locale !== danishLocaleCode) return pastedValue;
 
@@ -390,9 +351,6 @@ export class WattDatepickerComponent extends WattPickerBase {
     return pastedValue;
   }
 
-  /**
-   * @ignore
-   */
   private getInputFormat(): string {
     const localeDateFormat = getLocaleDateFormat(this.locale, FormatWidth.Short);
 
@@ -404,30 +362,18 @@ export class WattDatepickerComponent extends WattPickerBase {
       .replace(/\./g, '-'); // seperator
   }
 
-  /**
-   * @ignore
-   */
   private getPlaceholder(inputFormat: string): string {
     return this.locale === danishLocaleCode ? inputFormat.split('y').join('å') : inputFormat;
   }
 
-  /**
-   * @ignore
-   */
   private parseDateShortFormat(value: string): Date {
     return parse(value, dateShortFormat, new Date());
   }
 
-  /**
-   * @ignore
-   */
   private parseISO8601Format(value: string): Date {
     return parseISO(value);
   }
 
-  /**
-   * @ignore
-   */
   private setValueToInput<D extends { value: Date | null }>(
     value: string | null | undefined,
     nativeInput: HTMLInputElement,
@@ -445,30 +391,18 @@ export class WattDatepickerComponent extends WattPickerBase {
     return zonedTimeToUtc(value, danishTimeZoneIdentifier).toISOString();
   }
 
-  /**
-   * @ignore
-   */
   private formatDateTimeFromModelToView(value: string): string {
     return formatInTimeZone(value, danishTimeZoneIdentifier, dateShortFormat);
   }
 
-  /**
-   * @ignore
-   */
   private toDanishTimeZone(value: Date): Date {
     return utcToZonedTime(value.toISOString(), danishTimeZoneIdentifier);
   }
 
-  /**
-   * @ignore
-   */
   private setToEndOfDay(value: Date): Date {
     return endOfDay(value);
   }
 
-  /**
-   * @ignore
-   */
   private setEndDateToDanishTimeZone(value: string): Date | null {
     const dateBasedOnShortFormat = this.parseDateShortFormat(value);
     const dateBasedOnISO8601Format = this.parseISO8601Format(value);

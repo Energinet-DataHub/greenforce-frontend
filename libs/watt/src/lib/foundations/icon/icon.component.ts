@@ -56,13 +56,8 @@ export class WattIconComponent {
     return [`icon-size-${this.size}`, `icon-state-${this.state}`];
   }
 
-  /**
-   * @ignore
-   */
   icon: string | null = null;
-  /**
-   * @ignore
-   */
+
   customIcon = '';
 
   constructor(private iconService: WattIconService) {}

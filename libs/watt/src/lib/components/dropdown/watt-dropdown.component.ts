@@ -67,22 +67,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class WattDropdownComponent implements ControlValueAccessor, OnInit {
-  /**
-   * @ignore
-   */
   private _destroyRef = inject(DestroyRef);
-  /**
-   * @ignore
-   */
-  parentControl: FormControl | null = null;
-  /**
-   * @ignore
-   */
   private validateParent?: ValidatorFn;
-  /**
-   * @ignore
-   */
   private validateParentAsync?: AsyncValidatorFn;
+
+  parentControl: FormControl | null = null;
 
   /**
    * @ignore
@@ -91,9 +80,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
   @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
 
-  /**
-   * @ignore
-   */
   matSelectControl = new FormControl<string | string[] | undefined | null>(null);
 
   /**
@@ -110,26 +96,14 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    */
   filteredOptions$ = new ReplaySubject<WattDropdownOptions>(1);
 
-  /**
-   * @ignore
-   */
   emDash = '—';
 
-  /**
-   * @ignore
-   */
   isToggleAllChecked = false;
 
-  /**
-   * @ignore
-   */
   isToggleAllIndeterminate = false;
 
   _options: WattDropdownOptions = [];
 
-  /**
-   * @ignore
-   */
   get showTriggerValue(): boolean {
     return (this.multiple &&
       this.matSelectControl.value?.length === 1 &&
@@ -139,18 +113,12 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
       : false;
   }
 
-  /**
-   * @ignore
-   */
   get showChipLabel() {
     return this.multiple && this.matSelectControl.value && this.matSelectControl.value.length > 1
       ? true
       : false;
   }
 
-  /**
-   * @ignore
-   */
   @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
 
   /**
@@ -205,9 +173,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
     this.parentControlDirective.valueAccessor = this;
   }
 
-  /**
-   * @ignore
-   */
   ngOnInit(): void {
     this.listenForFilterFieldValueChanges();
     this.initializePropertiesFromParent();
@@ -215,30 +180,18 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
     this.bindControlToParent();
   }
 
-  /**
-   * @ignore
-   */
   writeValue(value: WattDropdownValue): void {
     this.matSelectControl.setValue(value);
   }
 
-  /**
-   * @ignore
-   */
   registerOnChange(onChangeFn: (value: WattDropdownValue) => void): void {
     this.changeParentValue = onChangeFn;
   }
 
-  /**
-   * @ignore
-   */
   registerOnTouched(onTouchFn: () => void) {
     this.markParentControlAsTouched = onTouchFn;
   }
 
-  /**
-   * @ignore
-   */
   setDisabledState(shouldDisable: boolean): void {
     this.isDisabled = shouldDisable;
     if (shouldDisable) {
@@ -248,9 +201,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  /**
-   * @ignore
-   */
   onToggleAll(toggleAllState: boolean): void {
     this.filteredOptions$
       .pipe(
@@ -263,9 +213,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
       });
   }
 
-  /**
-   * @ignore
-   */
   private listenForFilterFieldValueChanges() {
     this.filterControl.valueChanges.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => {
       this.filterOptions();
@@ -276,17 +223,11 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
     });
   }
 
-  /**
-   * @ignore
-   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private changeParentValue = (value: WattDropdownValue): void => {
     // Intentionally left empty
   };
 
-  /**
-   * @ignore
-   */
   private markParentControlAsTouched = (): void => {
     // Intentionally left empty
   };
@@ -380,9 +321,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
       });
   }
 
-  /**
-   * @ignore
-   */
   private filterOptions() {
     if (!this._options) {
       return;
@@ -403,9 +341,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
     );
   }
 
-  /**
-   * @ignore
-   */
   private determineToggleAllCheckboxState(): void {
     this.filteredOptions$
       .pipe(

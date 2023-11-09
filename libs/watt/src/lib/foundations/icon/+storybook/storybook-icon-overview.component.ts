@@ -39,9 +39,6 @@ interface IconGroup {
   imports: [CommonModule, WattIconComponent],
 })
 export class StorybookIconOverviewComponent {
-  /**
-   * @ignore
-   */
   icons: IconGroup[] = [
     {
       icons: [
