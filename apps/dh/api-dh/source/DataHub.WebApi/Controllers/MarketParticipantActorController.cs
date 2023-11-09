@@ -61,6 +61,16 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
+        /// Request ClientSecret credentials to the actor.
+        /// </summary>
+        [HttpPost]
+        [Route("RequestClientSecretCredentials")]
+        public async Task<ActionResult<string>> RequestClientSecretCredentialsAsync(Guid actorId)
+        {
+            return await _client.SecretAsync(actorId).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Removes the current credentials from the actor.
         /// </summary>
         [HttpDelete("RemoveActorCredentials")]
