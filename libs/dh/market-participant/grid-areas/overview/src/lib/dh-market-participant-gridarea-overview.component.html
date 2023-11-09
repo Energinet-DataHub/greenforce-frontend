@@ -1,0 +1,46 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<watt-card vater inset="l" *transloco="let t; read: 'marketParticipant.gridAreas'">
+  <vater-flex fill="vertical" gap="ml">
+    <vater-stack direction="row">
+      <h3>{{ t("topBarTitle") }}</h3>
+      <span class="watt-chip-label">{{ dataSource.data.length }}</span>
+
+      <vater-spacer />
+
+      <watt-search [label]="'shared.search' | transloco" (search)="search($event)" />
+
+      <watt-button icon="download" variant="text" (click)="download()">{{
+        "shared.download" | transloco
+      }}</watt-button>
+    </vater-stack>
+
+    <vater-flex fill="vertical" scrollable>
+      <watt-table
+        *transloco="let translateColumns; read: 'marketParticipant.gridAreas.columns'"
+        [columns]="columns"
+        [dataSource]="dataSource"
+        [resolveHeader]="translateColumns"
+        aria-label="gridAreas"
+        sortBy="actor"
+        sortDirection="asc"
+        [loading]="isLoading"
+      />
+    </vater-flex>
+    <watt-paginator [for]="dataSource" [pageSize]="100" />
+  </vater-flex>
+</watt-card>

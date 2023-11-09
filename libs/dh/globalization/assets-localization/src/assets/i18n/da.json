@@ -891,13 +891,9 @@
       "topBarTitle": "Netområder",
       "noGridAreas": "Ingen netområder fundet",
       "columns": {
-        "name": "Netområde",
-        "code": "Netområde nr.",
-        "actorName": "Netvirksomhed",
-        "actorNumber": "Aktør id",
-        "priceAreaCode": "Prisområde",
-        "validFrom": "Gyldig fra",
-        "validTo": "Gyldig til"
+        "code": "Netområde",
+        "actor": "Netvirksomhed",
+        "organization": "Organisation"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
@@ -1530,7 +1526,8 @@
             "tabLabel": "Brugerroller",
             "noEntries": "Ingen resultater",
             "columns": {
-              "name": "Navn"
+              "name": "Navn",
+              "eicFunction": "Markedsrolle"
             }
           },
           "history": {
