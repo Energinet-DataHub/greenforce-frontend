@@ -90,7 +90,7 @@ export class DhMarketParticipantCertificateStore extends ComponentStore<Certific
       )
   );
 
-  readonly removeCertificate = this.effect(
+  readonly removeActorCredentials = this.effect(
     (
       trigger$: Observable<{
         actorId: string;

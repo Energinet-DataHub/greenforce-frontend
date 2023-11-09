@@ -120,7 +120,7 @@ export class DhCertificateComponent {
       component: DhRemoveCertificateModalComponent,
       onClosed: (result) => {
         if (result) {
-          this.store.removeCertificate({
+          this.store.removeActorCredentials({
             actorId: this.actorId,
             onSuccess: this.onRemoveSuccessFn,
             onError: this.onRemoveErrorFn,
