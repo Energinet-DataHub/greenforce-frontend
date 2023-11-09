@@ -9,8 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/eo/origin-of-energy/shell"],
       "options": {
-        "jestConfig": "libs/eo/origin-of-energy/shell/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/eo/origin-of-energy/shell/jest.config.ts"
       }
     },
     "lint": {

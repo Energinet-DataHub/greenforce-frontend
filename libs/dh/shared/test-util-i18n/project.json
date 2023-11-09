@@ -9,8 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/test-util-i18n"],
       "options": {
-        "jestConfig": "libs/dh/shared/test-util-i18n/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/shared/test-util-i18n/jest.config.ts"
       }
     },
     "lint": {

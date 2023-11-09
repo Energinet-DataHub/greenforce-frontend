@@ -11,8 +11,7 @@
         "{workspaceRoot}/coverage/libs/dh/metering-point/data-access-api"
       ],
       "options": {
-        "jestConfig": "libs/dh/metering-point/data-access-api/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/metering-point/data-access-api/jest.config.ts"
       }
     },
     "lint": {

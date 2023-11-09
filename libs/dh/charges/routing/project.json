@@ -9,8 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/charges/routing"],
       "options": {
-        "jestConfig": "libs/dh/charges/routing/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/charges/routing/jest.config.ts"
       }
     },
     "lint": {

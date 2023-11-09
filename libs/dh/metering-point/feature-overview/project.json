@@ -11,8 +11,7 @@
         "{workspaceRoot}/coverage/libs/dh/metering-point/feature-overview"
       ],
       "options": {
-        "jestConfig": "libs/dh/metering-point/feature-overview/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/metering-point/feature-overview/jest.config.ts"
       }
     },
     "lint": {

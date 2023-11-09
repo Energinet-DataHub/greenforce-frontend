@@ -110,7 +110,7 @@
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
-        "browserTarget": "app-eo:build:development"
+        "buildTarget": "app-eo:build:development"
       },
       "configurations": {
         "development": {
@@ -118,10 +118,10 @@
         },
         "e2e-development": {},
         "production": {
-          "browserTarget": "app-eo:build:production"
+          "buildTarget": "app-eo:build:production"
         },
         "mocked": {
-          "browserTarget": "app-eo:build:mocked"
+          "buildTarget": "app-eo:build:mocked"
         }
       },
       "defaultConfiguration": "development"
@@ -140,8 +140,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/eo/app-eo"],
       "options": {
-        "jestConfig": "apps/eo/app-eo/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/eo/app-eo/jest.config.ts"
       }
     }
   },

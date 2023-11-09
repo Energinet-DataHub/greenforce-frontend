@@ -9,8 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/market-participant/shell"],
       "options": {
-        "jestConfig": "libs/dh/market-participant/shell/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/market-participant/shell/jest.config.ts"
       }
     },
     "lint": {

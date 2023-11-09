@@ -11,8 +11,7 @@
         "{workspaceRoot}/coverage/libs/dh/charges/feature-create-prices"
       ],
       "options": {
-        "jestConfig": "libs/dh/charges/feature-create-prices/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/charges/feature-create-prices/jest.config.ts"
       }
     },
     "lint": {
