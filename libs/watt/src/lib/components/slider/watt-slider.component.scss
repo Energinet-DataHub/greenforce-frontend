@@ -65,5 +65,6 @@ watt-slider {
     transform: translate(0, -50%);
     background-color: var(--watt-color-secondary-light);
     pointer-events: none;
+    border-radius: var(--watt-space-s);
   }
 }
