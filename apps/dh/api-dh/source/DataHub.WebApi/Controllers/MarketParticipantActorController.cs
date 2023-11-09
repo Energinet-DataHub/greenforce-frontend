@@ -64,7 +64,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Request ClientSecret credentials to the actor.
         /// </summary>
         [HttpPost]
-        [Route("AssignCertificateCredentials")]
+        [Route("RequestClientSecretCredentials")]
         public async Task<ActionResult<string>> RequestClientSecretCredentialsAsync(Guid actorId)
         {
             return await _client.SecretAsync(actorId).ConfigureAwait(false);
