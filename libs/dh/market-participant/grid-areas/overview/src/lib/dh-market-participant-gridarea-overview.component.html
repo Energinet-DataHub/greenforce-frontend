@@ -40,6 +40,11 @@ limitations under the License.
         sortDirection="asc"
         [loading]="isLoading"
       />
+      <watt-empty-state
+        *ngIf="!isLoading && (hasError || dataSource.data.length === 0)"
+        [icon]="hasError ? 'custom-power' : 'cancel'"
+        [title]="hasError ? t('error') : t('noGridAreas')"
+      />
     </vater-flex>
     <watt-paginator [for]="dataSource" [pageSize]="100" />
   </vater-flex>
