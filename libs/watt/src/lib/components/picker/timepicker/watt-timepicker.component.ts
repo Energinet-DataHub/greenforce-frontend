@@ -80,6 +80,7 @@ const getTruthyAt =
     array[index] || undefined;
 
 /**
+ * @deprecated Use WattTimepickerV2Component instead
  * Usage:
  * `import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';`
  *
