@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { MarketParticipantActorStatus } from '@energinet-datahub/dh/shared/domain';
@@ -24,8 +24,8 @@ import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
-import { Subject, takeUntil } from 'rxjs';
 import { getValidStatusTransitionOptions } from './get-valid-status-transition-options';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-market-participant-actor-master-data',
@@ -43,10 +43,9 @@ import { getValidStatusTransitionOptions } from './get-valid-status-transition-o
     WattFieldErrorComponent,
   ],
 })
-export class DhMarketParticipantActorMasterDataComponent implements OnChanges, OnDestroy {
+export class DhMarketParticipantActorMasterDataComponent implements OnChanges {
   @Input() changes?: ActorChanges;
 
-  private destroy$ = new Subject<void>();
   initialActorStatus?: MarketParticipantActorStatus;
   allStatuses: WattDropdownOption[] = [];
   statuses: WattDropdownOption[] = [];
@@ -54,7 +53,7 @@ export class DhMarketParticipantActorMasterDataComponent implements OnChanges, O
   constructor(private translocoService: TranslocoService) {
     this.translocoService
       .selectTranslateObject('marketParticipant.actor.create.masterData.statuses')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed())
       .subscribe((statusKeys) => {
         this.allStatuses = Object.keys(MarketParticipantActorStatus)
           .map((key) => ({
@@ -75,10 +74,5 @@ export class DhMarketParticipantActorMasterDataComponent implements OnChanges, O
       this.initialActorStatus ?? MarketParticipantActorStatus.New,
       this.allStatuses
     );
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
   }
 }

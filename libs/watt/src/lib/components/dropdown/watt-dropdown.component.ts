@@ -16,13 +16,14 @@
  */
 import {
   Component,
+  DestroyRef,
   Host,
   HostBinding,
   Input,
-  OnDestroy,
   OnInit,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import {
   AsyncValidatorFn,
@@ -38,16 +39,7 @@ import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { MatSelectModule, MatSelect } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import {
-  of,
-  ReplaySubject,
-  Subject,
-  distinctUntilChanged,
-  map,
-  takeUntil,
-  take,
-  filter,
-} from 'rxjs';
+import { of, ReplaySubject, distinctUntilChanged, map, take, filter } from 'rxjs';
 import { WattFieldComponent } from '../field';
 
 import type { WattDropdownOptions } from './watt-dropdown-option';
@@ -55,6 +47,7 @@ import type { WattDropdownValue } from './watt-dropdown-value';
 
 import { WattMenuChipComponent } from '../chip';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'watt-dropdown',
@@ -73,14 +66,12 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
     WattIconComponent,
   ],
 })
-export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+export class WattDropdownComponent implements ControlValueAccessor, OnInit {
+  private _destroyRef = inject(DestroyRef);
+  private validateParent?: ValidatorFn;
+  private validateParentAsync?: AsyncValidatorFn;
 
   parentControl: FormControl | null = null;
-
-  private validateParent?: ValidatorFn;
-
-  private validateParentAsync?: AsyncValidatorFn;
 
   /**
    * @ignore
@@ -189,11 +180,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
     this.bindControlToParent();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   writeValue(value: WattDropdownValue): void {
     this.matSelectControl.setValue(value);
   }
@@ -228,7 +214,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   private listenForFilterFieldValueChanges() {
-    this.filterControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    this.filterControl.valueChanges.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => {
       this.filterOptions();
 
       if (this.multiple) {
@@ -308,7 +294,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
           return value;
         }),
         distinctUntilChanged(),
-        takeUntil(this.destroy$)
+        takeUntilDestroyed(this._destroyRef)
       )
       .subscribe((value: WattDropdownValue) => {
         if (this.multiple) {
@@ -328,7 +314,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
             } as ValidationErrors)
         ),
         map((errors) => (Object.keys(errors).length > 0 ? errors : null)),
-        takeUntil(this.destroy$)
+        takeUntilDestroyed(this._destroyRef)
       )
       .subscribe((errors) => {
         this.matSelectControl.setErrors(errors);

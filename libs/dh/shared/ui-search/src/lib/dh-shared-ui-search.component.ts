@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export const searchDebounceTimeMs = 250;
 
@@ -51,8 +52,8 @@ export const searchDebounceTimeMs = 250;
   ],
   imports: [TranslocoModule, ReactiveFormsModule, WattButtonComponent, WattTextFieldComponent],
 })
-export class DhSharedUiSearchComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+export class DhSharedUiSearchComponent implements OnInit {
+  private _destroyRef = inject(DestroyRef);
 
   searchControl = new FormControl('', { nonNullable: true });
   @Input() placeholder?: string;
@@ -61,12 +62,11 @@ export class DhSharedUiSearchComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.searchControl.valueChanges
-      .pipe(debounceTime(searchDebounceTimeMs), distinctUntilChanged(), takeUntil(this.destroy$))
+      .pipe(
+        debounceTime(searchDebounceTimeMs),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this._destroyRef)
+      )
       .subscribe((value) => this.search.emit(value));
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
 
 import {
   MarketParticipantEicFunction,
@@ -28,6 +27,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-roles-tab-list-filter',
@@ -59,8 +59,9 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
     DhSharedUiSearchComponent,
   ],
 })
-export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+export class DhRolesTabListFilterComponent implements OnInit {
+  private _destroyRef = inject(DestroyRef);
+  private _translocoService = inject(TranslocoService);
 
   @Output() statusChanged = new EventEmitter<MarketParticipantUserRoleStatus | null>();
   @Output() eicFunctionChanged = new EventEmitter<MarketParticipantEicFunction[] | null>();
@@ -68,8 +69,6 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
 
   statusFormControl = new FormControl<MarketParticipantUserRoleStatus | null>(null);
   eicFunctionFormControl = new FormControl<MarketParticipantEicFunction[] | null>(null);
-
-  constructor(private trans: TranslocoService) {}
 
   statusListOptions: WattDropdownOption[] = [];
   eicFunctionListListOptions: WattDropdownOption[] = [];
@@ -79,11 +78,11 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
     this.buildMarketRoleListOptions();
 
     this.statusFormControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((e) => this.statusChanged.emit(e));
 
     this.eicFunctionFormControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((e) => this.eicFunctionChanged.emit(e));
 
     this.statusFormControl.setValue(
@@ -95,15 +94,10 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
     this.searchTermChanged.emit(searchTerm);
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   private buildStatusListOptions() {
-    this.trans
+    this._translocoService
       .selectTranslateObject('admin.userManagement.roleStatus')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (keys) => {
           this.statusListOptions = Object.keys(MarketParticipantUserRoleStatus).map((entry) => {
@@ -117,9 +111,9 @@ export class DhRolesTabListFilterComponent implements OnInit, OnDestroy {
   }
 
   private buildMarketRoleListOptions() {
-    this.trans
+    this._translocoService
       .selectTranslateObject('marketParticipant.marketRoles')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (keys) => {
           this.eicFunctionListListOptions = Object.keys(MarketParticipantEicFunction).map(

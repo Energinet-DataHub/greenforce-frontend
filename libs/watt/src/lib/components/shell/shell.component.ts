@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, NavigationEnd } from '@angular/router';
-import { filter, map, Subject, switchMap, takeUntil, first } from 'rxjs';
+import { filter, map, switchMap, first } from 'rxjs';
 
 import { WattBreakpoint, WattBreakpointsObserver } from '../../foundations/breakpoints';
 import { WattButtonComponent } from '../button';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'watt-shell',
@@ -31,8 +32,8 @@ import { WattButtonComponent } from '../button';
   standalone: true,
   imports: [CommonModule, MatSidenavModule, MatToolbarModule, WattButtonComponent],
 })
-export class WattShellComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+export class WattShellComponent implements OnInit {
+  private _destroyRef = inject(DestroyRef);
 
   shouldAutoFocus = false;
 
@@ -52,16 +53,11 @@ export class WattShellComponent implements OnInit, OnDestroy {
     this.closeSidenavOnNavigation();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   private closeSidenavOnNavigation(): void {
     this.onNavigationEnd$
       .pipe(
         switchMap(() => this.isHandset$.pipe(first())),
-        takeUntil(this.destroy$)
+        takeUntilDestroyed(this._destroyRef)
       )
       .subscribe((isHandset) => {
         if (isHandset && this.sidenav && this.sidenav.opened) {
