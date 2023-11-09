@@ -73,12 +73,21 @@ export class DhCertificateUploaderComponent {
   }
 
   private startUpload(actorId: string, file: File): void {
-    this.store.uploadCertificate({
-      actorId,
-      file,
-      onSuccess: this.onUploadSuccessFn,
-      onError: this.onUploadErrorFn,
-    });
+    if (this.doesCertificateExist()) {
+      this.store.replaceCertificate({
+        actorId,
+        file,
+        onSuccess: this.onUploadSuccessFn,
+        onError: this.onUploadErrorFn,
+      });
+    } else {
+      this.store.uploadCertificate({
+        actorId,
+        file,
+        onSuccess: this.onUploadSuccessFn,
+        onError: this.onUploadErrorFn,
+      });
+    }
   }
 
   private readonly onUploadSuccessFn = () => {

@@ -90,6 +90,35 @@ export class DhMarketParticipantCertificateStore extends ComponentStore<Certific
       )
   );
 
+  readonly replaceCertificate = this.effect(
+    (
+      trigger$: Observable<{
+        actorId: string;
+        file: File;
+        onSuccess: () => void;
+        onError: () => void;
+      }>
+    ) =>
+      trigger$.pipe(
+        tap(() => this.patchState({ uploadInProgress: true })),
+        exhaustMap(({ actorId, file, onSuccess, onError }) =>
+          this.httpClient.v1MarketParticipantActorRemoveActorCredentialsDelete(actorId).pipe(
+            switchMap(() =>
+              this.httpClient
+                .v1MarketParticipantActorAssignCertificateCredentialsPost(actorId, file)
+                .pipe(
+                  tapResponse(
+                    () => onSuccess(),
+                    () => onError()
+                  ),
+                  finalize(() => this.patchState({ uploadInProgress: false }))
+                )
+            )
+          )
+        )
+      )
+  );
+
   readonly removeActorCredentials = this.effect(
     (
       trigger$: Observable<{
