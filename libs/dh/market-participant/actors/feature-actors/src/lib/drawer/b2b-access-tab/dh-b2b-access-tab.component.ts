@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, Input, OnChanges, inject } from '@angular/core';
+import { Component, Input, OnChanges, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { DhMarketParticipantCertificateStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
@@ -21,7 +21,7 @@ import { DhCertificateUploaderComponent } from './dh-certificate-uploader.compon
     `,
   ],
   template: `
-    <vater-flex direction="row" justify="center" *ngIf="loadingCredentials(); else elseCase">
+    <vater-flex direction="row" justify="center" *ngIf="showSpinner(); else elseCase">
       <watt-spinner />
     </vater-flex>
 
@@ -63,6 +63,12 @@ export class DhB2bAccessTabComponent implements OnChanges {
   doesCertificateExist = toSignal(this.store.doesCertificateExist$);
 
   loadingCredentials = toSignal(this.store.loadingCredentials$);
+  isUploadInProgress = toSignal(this.store.uploadInProgress$);
+  isRemoveInProgress = toSignal(this.store.removeInProgress$);
+
+  showSpinner = computed(() => {
+    return this.loadingCredentials() || this.isUploadInProgress() || this.isRemoveInProgress();
+  });
 
   @Input({ required: true }) actorId = '';
 
