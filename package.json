@@ -5,7 +5,7 @@
   "private": true,
   "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file.",
   "engines": {
-    "node": "18.12.0",
+    "node": "18.18.2",
     "npm": "Please use Yarn v3 instead of npm to install dependencies.",
     "yarn": "3.5.0"
   },
@@ -198,7 +198,7 @@
   },
   "volta": {
     "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",
-    "node": "18.12.0",
+    "node": "18.18.2",
     "//yarn-comment": "Keep this in sync with GitHub actions pipelines",
     "yarn": "3.5.0"
   },
