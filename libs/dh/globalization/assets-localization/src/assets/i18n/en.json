@@ -898,6 +898,7 @@
     "gridAreas": {
       "topBarTitle": "Grid areas",
       "noGridAreas": "No grid areas found",
+      "error": "An error occurred",
       "columns": {
         "code": "Grid area number",
         "actor": "Grid area responsible",

@@ -30,6 +30,8 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { CommonModule } from '@angular/common';
 
 export interface GridAreaOverviewRow {
   id: string;
@@ -58,6 +60,7 @@ export interface GridAreaOverviewRow {
     `,
   ],
   imports: [
+    CommonModule,
     TranslocoModule,
 
     WATT_CARD,
@@ -68,12 +71,12 @@ export interface GridAreaOverviewRow {
     VaterSpacerComponent,
     VaterStackComponent,
     VaterUtilityDirective,
+    WattEmptyStateComponent,
     WattSearchComponent,
     WattButtonComponent,
 
     DhEmDashFallbackPipe,
 
-    WattSearchComponent,
     WattButtonComponent,
     WattDatePipe,
   ],
@@ -87,6 +90,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
 
   @Input() gridAreas: GridAreaOverviewRow[] = [];
   @Input() isLoading = false;
+  @Input() hasError = false;
 
   readonly dataSource = new WattTableDataSource<GridAreaOverviewRow>();
 
