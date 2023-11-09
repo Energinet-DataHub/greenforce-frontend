@@ -32,26 +32,14 @@ import { WattButtonComponent } from '../button';
   imports: [CommonModule, MatSidenavModule, MatToolbarModule, WattButtonComponent],
 })
 export class WattShellComponent implements OnInit, OnDestroy {
-  /**
-   * @ignore
-   */
   private destroy$ = new Subject<void>();
 
-  /**
-   * @ignore
-   */
   shouldAutoFocus = false;
 
-  /**
-   * @ignore
-   */
   private onNavigationEnd$ = this.router.events.pipe(
     filter((event) => event instanceof NavigationEnd)
   );
 
-  /**
-   * @ignore
-   */
   isHandset$ = this.breakpointObserver
     .observe([WattBreakpoint.XSmall, WattBreakpoint.Small, WattBreakpoint.Medium])
     .pipe(map((result) => result.matches));

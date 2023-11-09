@@ -62,13 +62,7 @@ const spacingScales: Scale[] = [
   imports: [CommonModule, MatCardModule, MatTableModule],
 })
 export class StorybookSpacingOverviewComponent {
-  /**
-   * @ignore
-   */
   displayedColumns: string[] = ['name', 'sizePx', 'sizeRem', 'visualExample'];
 
-  /**
-   * @ignore
-   */
   dataSource = spacingScales;
 }

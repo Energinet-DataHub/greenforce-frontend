@@ -43,9 +43,6 @@ export { WattTabComponent } from './watt-tab.component';
   imports: [CommonModule, MatTabsModule],
 })
 export class WattTabsComponent implements AfterViewInit {
-  /**
-   * @ignore
-   */
   @ContentChildren(WattTabComponent)
   public readonly tabElements: QueryList<WattTabComponent> = new QueryList<WattTabComponent>();
   activeTabIndex = 0;

@@ -69,19 +69,10 @@ export class WattToastComponent {
     return this.config.type ? `watt-toast watt-toast--${this.config.type}` : 'watt-toast';
   }
 
-  /**
-   * @ignore
-   */
   config: WattToastConfig;
 
-  /**
-   * @ignore
-   */
   matSnackBarRef: WattToastRef;
 
-  /**
-   * @ignore
-   */
   private dissmissToastSubscription?: Subscription;
 
   constructor(
@@ -95,9 +86,6 @@ export class WattToastComponent {
     this.initDuration(this.config.duration);
   }
 
-  /**
-   * @ignore
-   */
   onClose(): void {
     if (!this.matSnackBarRef) return;
     this.matSnackBarRef.dismiss();

@@ -170,16 +170,9 @@ const typeScaleLarge: Typography[] = [
   imports: [MatCardModule, MatTableModule],
 })
 export class StorybookTypographyOverviewComponent {
-  /**
-   * @ignore
-   */
   displayedColumns: string[] = ['name', 'size', 'weight', 'letterCase', 'letterSpacing'];
-  /**
-   * @ignore
-   */
+
   dataSourceLarge = typeScaleLarge;
-  /**
-   * @ignore
-   */
+
   dataSourceSmall = typeScaleSmall;
 }

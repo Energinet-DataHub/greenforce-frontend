@@ -74,21 +74,12 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   ],
 })
 export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDestroy {
-  /**
-   * @ignore
-   */
   private destroy$ = new Subject<void>();
-  /**
-   * @ignore
-   */
+
   parentControl: FormControl | null = null;
-  /**
-   * @ignore
-   */
+
   private validateParent?: ValidatorFn;
-  /**
-   * @ignore
-   */
+
   private validateParentAsync?: AsyncValidatorFn;
 
   /**
@@ -98,9 +89,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
   @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
 
-  /**
-   * @ignore
-   */
   matSelectControl = new FormControl<string | string[] | undefined | null>(null);
 
   /**
@@ -117,26 +105,14 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
    */
   filteredOptions$ = new ReplaySubject<WattDropdownOptions>(1);
 
-  /**
-   * @ignore
-   */
   emDash = '—';
 
-  /**
-   * @ignore
-   */
   isToggleAllChecked = false;
 
-  /**
-   * @ignore
-   */
   isToggleAllIndeterminate = false;
 
   _options: WattDropdownOptions = [];
 
-  /**
-   * @ignore
-   */
   get showTriggerValue(): boolean {
     return (this.multiple &&
       this.matSelectControl.value?.length === 1 &&
@@ -146,18 +122,12 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
       : false;
   }
 
-  /**
-   * @ignore
-   */
   get showChipLabel() {
     return this.multiple && this.matSelectControl.value && this.matSelectControl.value.length > 1
       ? true
       : false;
   }
 
-  /**
-   * @ignore
-   */
   @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
 
   /**
@@ -212,9 +182,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
     this.parentControlDirective.valueAccessor = this;
   }
 
-  /**
-   * @ignore
-   */
   ngOnInit(): void {
     this.listenForFilterFieldValueChanges();
     this.initializePropertiesFromParent();
@@ -222,38 +189,23 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
     this.bindControlToParent();
   }
 
-  /**
-   * @ignore
-   */
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
-  /**
-   * @ignore
-   */
   writeValue(value: WattDropdownValue): void {
     this.matSelectControl.setValue(value);
   }
 
-  /**
-   * @ignore
-   */
   registerOnChange(onChangeFn: (value: WattDropdownValue) => void): void {
     this.changeParentValue = onChangeFn;
   }
 
-  /**
-   * @ignore
-   */
   registerOnTouched(onTouchFn: () => void) {
     this.markParentControlAsTouched = onTouchFn;
   }
 
-  /**
-   * @ignore
-   */
   setDisabledState(shouldDisable: boolean): void {
     this.isDisabled = shouldDisable;
     if (shouldDisable) {
@@ -263,9 +215,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
     }
   }
 
-  /**
-   * @ignore
-   */
   onToggleAll(toggleAllState: boolean): void {
     this.filteredOptions$
       .pipe(
@@ -278,9 +227,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
       });
   }
 
-  /**
-   * @ignore
-   */
   private listenForFilterFieldValueChanges() {
     this.filterControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.filterOptions();
@@ -291,17 +237,11 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
     });
   }
 
-  /**
-   * @ignore
-   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private changeParentValue = (value: WattDropdownValue): void => {
     // Intentionally left empty
   };
 
-  /**
-   * @ignore
-   */
   private markParentControlAsTouched = (): void => {
     // Intentionally left empty
   };
@@ -395,9 +335,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
       });
   }
 
-  /**
-   * @ignore
-   */
   private filterOptions() {
     if (!this._options) {
       return;
@@ -418,9 +355,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit, OnDe
     );
   }
 
-  /**
-   * @ignore
-   */
   private determineToggleAllCheckboxState(): void {
     this.filteredOptions$
       .pipe(

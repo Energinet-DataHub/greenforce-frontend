@@ -69,9 +69,6 @@ export class WattBreadcrumbComponent {
   `,
 })
 export class WattBreadcrumbsComponent {
-  /**
-   * @ignore
-   */
   @ContentChildren(WattBreadcrumbComponent)
   breadcrumbs!: QueryList<WattBreadcrumbComponent>;
 }

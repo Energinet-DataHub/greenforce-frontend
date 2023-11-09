@@ -49,9 +49,6 @@ export class WattValidationMessageComponent implements AfterViewInit {
   @Input() size: WattValidationMessageSize = 'compact';
   @Input() autoScrollIntoView = true;
 
-  /**
-   * @ignore
-   */
   @HostBinding('class') get cssClass() {
     return `watt-validation-message-type--${this.type} watt-validation-message-size--${this.size}`;
   }
