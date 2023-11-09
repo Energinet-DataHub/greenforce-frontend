@@ -2,17 +2,17 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@angular/animations](https://github.com/angular/angular) | 16.2.8 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 16.2.7 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 16.2.8 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 16.2.8 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 16.2.8 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 16.2.8 | MIT |
-| [@angular/material-date-fns-adapter](https://github.com/angular/components) | 16.2.7 | MIT |
-| [@angular/material](https://github.com/angular/components) | 16.2.7 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 16.2.8 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 16.2.8 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 16.2.8 | MIT |
+  | [@angular/animations](https://github.com/angular/angular) | 17.0.2 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 17.0.0 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 17.0.2 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 17.0.2 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 17.0.2 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 17.0.2 | MIT |
+| [@angular/material-date-fns-adapter](https://github.com/angular/components) | 17.0.0 | MIT |
+| [@angular/material](https://github.com/angular/components) | 16.2.12 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.0.2 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 17.0.2 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 17.0.2 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.2 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.2 | MIT |
@@ -38,4 +38,4 @@
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 7.0.4 | MIT |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.0 | Apache-2.0 |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
-| [zone.js](https://github.com/angular/angular) | 0.13.1 | MIT |
+| [zone.js](https://github.com/angular/angular) | 0.14.2 | MIT |
