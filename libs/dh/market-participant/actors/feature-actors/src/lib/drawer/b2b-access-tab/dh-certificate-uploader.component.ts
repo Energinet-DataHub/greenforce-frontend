@@ -106,7 +106,7 @@ export class DhCertificateUploaderComponent {
     }
   }
 
-  private readonly onUploadSuccessFn = () => {
+  private onUploadSuccessFn = () => {
     const message = this.transloco.translate(
       'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.uploadSuccess'
     );
@@ -116,7 +116,7 @@ export class DhCertificateUploaderComponent {
     this.store.getCredentials(this.actorId);
   };
 
-  private readonly onUploadErrorFn = () => {
+  private onUploadErrorFn = () => {
     const message = this.transloco.translate(
       'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.uploadError'
     );
