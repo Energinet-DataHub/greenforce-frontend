@@ -20,6 +20,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   HostBinding,
   Input,
@@ -27,6 +28,7 @@ import {
   Self,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -46,6 +48,7 @@ import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-pl
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const hoursMinutesPlaceholder = 'HH:MM';
 const rangeSeparator = ' - ';
@@ -202,6 +205,10 @@ export class WattTimepickerV2Component extends WattPickerBase {
    * @ignore
    */
   rangeInputMask = maskitoTimeRangeOptionsGenerator();
+  /**
+   * @ignore
+   */
+  destroyRef = inject(DestroyRef);
 
   constructor(
     protected override elementRef: ElementRef<HTMLElement>,
@@ -260,7 +267,7 @@ export class WattTimepickerV2Component extends WattPickerBase {
    */
   protected initRangeInput() {
     this.control?.setValue({ start: '', end: '' });
-    this.sliderChange$.pipe(takeUntil(this.destroy$)).subscribe((sliderValue) => {
+    this.sliderChange$.pipe(takeUntilDestroyed()).subscribe((sliderValue) => {
       const start = minutesToTime(sliderValue.min);
       const end = minutesToTime(sliderValue.max);
       if (end > start) {

@@ -18,6 +18,7 @@ import { CommonModule, FormatWidth, getLocaleDateFormat } from '@angular/common'
 import {
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   Inject,
   Input,
@@ -53,12 +54,13 @@ import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-pl
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
+import { TranslocoService } from '@ngneat/transloco';
+import { WattLocaleService } from '@energinet-datahub/watt/locale';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { WattSupportedLocales } from '../../../configuration/watt-date-adapter';
 
 const dateShortFormat = 'dd-MM-yyyy';
 const danishLocaleCode = 'da';
-const datePlaceholder = 'dd-mm-åååå';
-const rangeSeparator = ' - ';
-const rangePlaceholder = datePlaceholder + rangeSeparator + datePlaceholder;
 export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 /**
@@ -150,7 +152,25 @@ export class WattDatepickerV2Component extends WattPickerBase {
 
   @Input() dateClass: MatCalendarCellClassFunction<Date> = () => '';
 
+  /**
+   * @ignore
+   */
+  datePlaceholder = this.getPlaceholderByLocale(this.locale);
+  /**
+   * @ignore
+   */
+  rangeSeparator = ' - ';
+  /**
+   * @ignore
+   */
+  rangePlaceholder = this.datePlaceholder + this.rangeSeparator + this.datePlaceholder;
+  /**
+   * @ignore
+   */
   inputMask: MaskitoOptions = maskitoDateOptionsGenerator({ mode: 'dd/mm/yyyy', separator: '-' });
+  /**
+   * @ignore
+   */
   rangeInputMask: MaskitoOptions = maskitoDateRangeOptionsGenerator({
     mode: 'dd/mm/yyyy',
     dateSeparator: '-',
@@ -158,13 +178,25 @@ export class WattDatepickerV2Component extends WattPickerBase {
   /**
    * @ignore
    */
+  getPlaceholderByLocale(locale: WattSupportedLocales): string {
+    return locale === 'da' ? 'dd-mm-åååå' : 'dd-mm-yyyy'
+  }
+  getRangePlaceholder(): string {
+    return this.datePlaceholder + this.rangeSeparator + this.datePlaceholder
+  }
   constructor(
-    protected override elementRef: ElementRef<HTMLElement>,
-    @Optional() @Self() ngControl: NgControl,
-    @Inject(LOCALE_ID) private locale: string,
-    private cdr: ChangeDetectorRef
-  ) {
-    super(`watt-datepicker-v2-${WattDatepickerV2Component.nextId++}`, elementRef, cdr, ngControl);
+        protected override elementRef: ElementRef<HTMLElement>,
+        @Optional() @Self() ngControl: NgControl,
+        @Inject(LOCALE_ID) private locale: WattSupportedLocales,
+        private cdr: ChangeDetectorRef,
+        private localeService: WattLocaleService,
+        destroyRef: DestroyRef,
+      ) {
+        super(`watt-datepicker-v2-${WattDatepickerV2Component.nextId++}`, elementRef, cdr, ngControl);
+        localeService.onLocaleChange$.pipe(takeUntilDestroyed(destroyRef)).subscribe((locale) => {
+          this.datePlaceholder = this.getPlaceholderByLocale(locale);
+          this.rangePlaceholder = this.getRangePlaceholder();
+    });
   }
 
   protected initSingleInput() {
@@ -172,8 +204,8 @@ export class WattDatepickerV2Component extends WattPickerBase {
   }
 
   inputChanged(value: string) {
-    const dateString = value.slice(0, datePlaceholder.length);
-    if (dateString.length !== datePlaceholder.length) {
+    const dateString = value.slice(0, this.datePlaceholder.length);
+    if (dateString.length !== this.datePlaceholder.length) {
       return;
     }
     const date = this.parseDateShortFormat(dateString);
@@ -199,22 +231,28 @@ export class WattDatepickerV2Component extends WattPickerBase {
     return;
   }
 
+  clearRangePicker() {
+    this.control?.setValue(null);
+    this.actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
+  }
+
   rangeInputChanged(value: string) {
-    const startDateString = value.slice(0, datePlaceholder.length);
-    if (startDateString.length !== datePlaceholder.length) {
+    const startDateString = value.slice(0, this.datePlaceholder.length);
+    if (startDateString.length !== this.datePlaceholder.length) {
       return;
     }
     const start = this.parseDateShortFormat(startDateString);
-    if (value.length < rangePlaceholder.length) {
+    if (value.length < this.rangePlaceholder.length) {
       this.control?.setValue({ start, end: start });
       return;
     }
-    const endDateString = value.slice(datePlaceholder.length + rangeSeparator.length);
+    const endDateString = value.slice(this.datePlaceholder.length + this.rangeSeparator.length);
     let end = this.setEndDateToDanishTimeZone(endDateString);
     if (end !== null) {
       end = this.setToEndOfDay(end);
       this.control?.setValue({ start, end });
     }
+    this.localeService.setActiveLocale('en');
   }
 
   rangePickerClosed() {

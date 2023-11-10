@@ -48,7 +48,7 @@ limitations under the License.
     <watt-placeholder-mask
       [primaryInputElement]="actualInput"
       [mask]="rangeInputMask"
-      placeholder="dd-mm-åååå - dd-mm-åååå"
+      [placeholder]="rangePlaceholder"
       (maskApplied)="rangeInputChanged($event)"
     />
 
@@ -95,7 +95,7 @@ limitations under the License.
     <watt-placeholder-mask
       [primaryInputElement]="dateInput"
       [mask]="inputMask"
-      placeholder="dd-mm-åååå"
+      [placeholder]="datePlaceholder"
       (maskApplied)="inputChanged($event)"
     />
 
