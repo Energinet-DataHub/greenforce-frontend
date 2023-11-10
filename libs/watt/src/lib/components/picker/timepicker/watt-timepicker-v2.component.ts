@@ -35,10 +35,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import { WattButtonComponent } from '../../button';
 import { WattSliderComponent } from '../../slider';
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { maskitoTimeOptionsGenerator } from '@maskito/kit';
 import { WattDateRange } from '../../../utils/date';
 import { WattFieldComponent } from '../../field/watt-field.component';
@@ -48,7 +49,6 @@ import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-pl
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const hoursMinutesPlaceholder = 'HH:MM';
 const rangeSeparator = ' - ';

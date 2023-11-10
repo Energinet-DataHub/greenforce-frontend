@@ -45,19 +45,18 @@ import { WattFieldComponent } from '@energinet-datahub/watt/field';
 import { endOfDay, endOfMonth, isValid, parse, parseISO, startOfMonth } from 'date-fns';
 import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { WattLocaleService } from '@energinet-datahub/watt/locale';
 import { MaskitoModule } from '@maskito/angular';
 import { MaskitoOptions } from '@maskito/core';
 import { maskitoDateOptionsGenerator, maskitoDateRangeOptionsGenerator } from '@maskito/kit';
+import { WattSupportedLocales } from '../../../configuration/watt-date-adapter';
 import { WattDateRange } from '../../../utils/date';
 import { WattButtonComponent } from '../../button';
 import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-placeholder-mask.component';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
-import { TranslocoService } from '@ngneat/transloco';
-import { WattLocaleService } from '@energinet-datahub/watt/locale';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { WattSupportedLocales } from '../../../configuration/watt-date-adapter';
 
 const dateShortFormat = 'dd-MM-yyyy';
 const danishLocaleCode = 'da';
