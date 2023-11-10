@@ -22,9 +22,11 @@ limitations under the License.
 
       <vater-spacer />
 
-      <watt-search [label]="'shared.search' | transloco" />
+      <watt-search [label]="'shared.search' | transloco" (search)="search($event)" />
 
-      <watt-button icon="download" variant="text">{{ "shared.download" | transloco }}</watt-button>
+      <watt-button icon="download" variant="text" (click)="download()">{{
+        "shared.download" | transloco
+      }}</watt-button>
     </vater-stack>
 
     <vater-flex fill="vertical" scrollable>
@@ -37,6 +39,11 @@ limitations under the License.
         sortBy="actor"
         sortDirection="asc"
         [loading]="isLoading"
+      />
+      <watt-empty-state
+        *ngIf="!isLoading && (hasError || dataSource.data.length === 0)"
+        [icon]="hasError ? 'custom-power' : 'cancel'"
+        [title]="hasError ? t('error') : t('noGridAreas')"
       />
     </vater-flex>
     <watt-paginator [for]="dataSource" [pageSize]="100" />

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, Input, OnChanges } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, translate } from '@ngneat/transloco';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -27,9 +27,11 @@ import {
 } from '@energinet-datahub/watt/vater';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { CommonModule } from '@angular/common';
 
 export interface GridAreaOverviewRow {
   id: string;
@@ -45,7 +47,7 @@ export interface GridAreaOverviewRow {
   styles: [
     `
       h3 {
-        margin: 0;
+        margin: 0 var(--watt-space-s) 0 0;
       }
 
       watt-paginator {
@@ -58,6 +60,7 @@ export interface GridAreaOverviewRow {
     `,
   ],
   imports: [
+    CommonModule,
     TranslocoModule,
 
     WATT_CARD,
@@ -68,12 +71,12 @@ export interface GridAreaOverviewRow {
     VaterSpacerComponent,
     VaterStackComponent,
     VaterUtilityDirective,
+    WattEmptyStateComponent,
     WattSearchComponent,
     WattButtonComponent,
 
     DhEmDashFallbackPipe,
 
-    WattSearchComponent,
     WattButtonComponent,
     WattDatePipe,
   ],
@@ -87,10 +90,39 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
 
   @Input() gridAreas: GridAreaOverviewRow[] = [];
   @Input() isLoading = false;
+  @Input() hasError = false;
 
   readonly dataSource = new WattTableDataSource<GridAreaOverviewRow>();
 
   ngOnChanges() {
     this.dataSource.data = this.gridAreas;
+  }
+
+  search(value: string) {
+    this.dataSource.filter = value;
+  }
+
+  download() {
+    if (!this.dataSource.sort) {
+      return;
+    }
+
+    const dataSorted = this.dataSource.sortData(this.dataSource.filteredData, this.dataSource.sort);
+
+    const columnsPath = 'marketParticipant.gridAreas.columns';
+
+    const headers = [
+      `"${translate(columnsPath + '.code')}"`,
+      `"${translate(columnsPath + '.actor')}"`,
+      `"${translate(columnsPath + '.organization')}"`,
+    ];
+
+    const lines = dataSorted.map((gridArea) => [
+      `"${gridArea.code}"`,
+      `"${gridArea.actor}"`,
+      `"${gridArea.organization}"`,
+    ]);
+
+    exportToCSV({ headers, lines, fileName: 'grid-areas' });
   }
 }

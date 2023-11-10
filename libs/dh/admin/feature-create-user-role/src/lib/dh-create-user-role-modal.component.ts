@@ -19,9 +19,9 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   EventEmitter,
   inject,
-  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -32,7 +32,6 @@ import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { Subject, takeUntil } from 'rxjs';
 import { provideComponentStore } from '@ngrx/component-store';
 
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
@@ -57,6 +56,7 @@ import {
   DhAdminCreateUserRoleManagementDataAccessApiStore,
   DhAdminMarketRolePermissionsStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface UserRoleForm {
   eicFunction: FormControl<MarketParticipantEicFunction>;
@@ -94,15 +94,14 @@ interface UserRoleForm {
     DhPermissionsTableComponent,
   ],
 })
-export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
   private formBuilder = inject(FormBuilder);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
+  private destroyRef = inject(DestroyRef);
 
   private readonly marketRolePermissionsStore = inject(DhAdminMarketRolePermissionsStore);
   private readonly createUserRoleStore = inject(DhAdminCreateUserRoleManagementDataAccessApiStore);
-
-  private destroy$ = new Subject<void>();
 
   @ViewChild('createUserRoleModal') createUserRoleModal!: WattModalComponent;
 
@@ -136,7 +135,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit, On
     this.buildEicFunctionOptions();
 
     this.userRoleForm.controls.eicFunction.valueChanges
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
         this.marketRolePermissionsStore.getPermissions(value);
       });
@@ -146,11 +145,6 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit, On
 
   ngAfterViewInit(): void {
     this.createUserRoleModal.open();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   onSelectionChange(event: MarketParticipantPermissionDetailsDto[]): void {
@@ -209,7 +203,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit, On
   private buildEicFunctionOptions() {
     this.transloco
       .selectTranslateObject('marketParticipant.marketRoles')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (keys) => {
           this.eicFunctionOptions = Object.keys(MarketParticipantEicFunction)

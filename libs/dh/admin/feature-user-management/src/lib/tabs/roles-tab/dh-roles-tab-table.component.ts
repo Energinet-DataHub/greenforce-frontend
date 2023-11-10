@@ -18,15 +18,15 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   EventEmitter,
   Input,
   OnChanges,
-  OnDestroy,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { translate, TranslocoModule } from '@ngneat/transloco';
-import { Subject, takeUntil } from 'rxjs';
 
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import {
@@ -39,6 +39,7 @@ import {
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-roles-tab-table',
@@ -61,8 +62,8 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
     TranslocoModule,
   ],
 })
-export class DhRolesTabTableComponent implements OnChanges, AfterViewInit, OnDestroy {
-  private readonly destroy$ = new Subject<void>();
+export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
+  private _destroyRef = inject(DestroyRef);
 
   activeRow: MarketParticipantUserRoleDto | undefined = undefined;
 
@@ -103,7 +104,7 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit, OnDes
   }
 
   ngAfterViewInit() {
-    this.table.sortChange.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    this.table.sortChange.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => {
       this.updateFilteredAndSortedData();
     });
 
@@ -137,10 +138,5 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit, OnDes
   onDeActivated(): void {
     this.activeRow = undefined;
     this.userRoleDeactivated.emit();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }
