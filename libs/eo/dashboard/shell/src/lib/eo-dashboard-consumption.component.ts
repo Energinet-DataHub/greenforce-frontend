@@ -159,7 +159,7 @@ export class EoDashboardConsumptionComponent implements OnInit {
       },
       y: {
         stacked: true,
-        title: { display: true, text: 'Wh', align: 'end' }
+        title: { display: true, text: 'Wh', align: 'end' },
       },
     },
   };
@@ -206,11 +206,13 @@ export class EoDashboardConsumptionComponent implements OnInit {
               ...this.barChartOptions?.scales?.y,
               title: {
                 ...this.barChartOptions?.scales?.y?.title,
-                display: true, text: findNearestUnit(this.claimedTotal + this.consumptionTotal / 60)[1], align: 'end'
+                display: true,
+                text: findNearestUnit(this.claimedTotal + this.consumptionTotal / 60)[1],
+                align: 'end',
               },
             },
           },
-        }
+        };
 
         this.barChartData = {
           ...this.barChartData,

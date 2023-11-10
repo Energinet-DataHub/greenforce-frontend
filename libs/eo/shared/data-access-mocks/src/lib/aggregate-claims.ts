@@ -21,43 +21,45 @@ export function aggregateClaimsMocks(apiBase: string) {
 }
 
 function getAggregateClaims(apiBase: string) {
-  return rest.get(`${apiBase}/v1/aggregate-claims`.replace('/api', '/wallet-api'), (req, res, ctx) => {
+  return rest.get(
+    `${apiBase}/v1/aggregate-claims`.replace('/api', '/wallet-api'),
+    (req, res, ctx) => {
+      const data = {
+        result: [
+          { start: 1, end: 1, quantity: 0 },
+          { start: 1, end: 1, quantity: 0 },
+          { start: 1, end: 1, quantity: 0 },
+          { start: 1, end: 1, quantity: 0 },
+          { start: 1, end: 1, quantity: 0 },
+          { start: 1, end: 1, quantity: 0 },
+          { start: 1, end: 1, quantity: 0 },
+          { start: 1, end: 1, quantity: 0 },
+          { start: 1, end: 1, quantity: 0 },
+          { start: 1, end: 1, quantity: 10000 },
+          { start: 1, end: 1, quantity: 20000 },
+          { start: 1, end: 1, quantity: 30000 },
+          { start: 1, end: 1, quantity: 40000 },
+          { start: 1, end: 1, quantity: 50000 },
+          { start: 1, end: 1, quantity: 60000 },
+          { start: 1, end: 1, quantity: 70000 },
+          { start: 1, end: 1, quantity: 80000 },
+          { start: 1, end: 1, quantity: 90000 },
+          { start: 1, end: 1, quantity: 10000 / 2 },
+          { start: 1, end: 1, quantity: 20000 / 2 },
+          { start: 1, end: 1, quantity: 30000 / 2 },
+          { start: 1, end: 1, quantity: 40000 / 2 },
+          { start: 1, end: 1, quantity: 50000 / 2 },
+          { start: 1, end: 1, quantity: 60000 / 2 },
+          { start: 1, end: 1, quantity: 70000 / 2 },
+          { start: 1, end: 1, quantity: 80000 / 2 },
+          { start: 1, end: 1, quantity: 90000 / 2 },
+          { start: 1, end: 1, quantity: 10000 / 2 },
+          { start: 1, end: 1, quantity: 0 },
+          { start: 1, end: 1, quantity: 0 },
+        ],
+      };
 
-    const data = {
-      result: [
-        {start: 1, end: 1, quantity: 0},
-        {start: 1, end: 1, quantity: 0},
-        {start: 1, end: 1, quantity: 0},
-        {start: 1, end: 1, quantity: 0},
-        {start: 1, end: 1, quantity: 0},
-        {start: 1, end: 1, quantity: 0},
-        {start: 1, end: 1, quantity: 0},
-        {start: 1, end: 1, quantity: 0},
-        {start: 1, end: 1, quantity: 0},
-        {start: 1, end: 1, quantity: 10000},
-        {start: 1, end: 1, quantity: 20000},
-        {start: 1, end: 1, quantity: 30000},
-        {start: 1, end: 1, quantity: 40000},
-        {start: 1, end: 1, quantity: 50000},
-        {start: 1, end: 1, quantity: 60000},
-        {start: 1, end: 1, quantity: 70000},
-        {start: 1, end: 1, quantity: 80000},
-        {start: 1, end: 1, quantity: 90000},
-        {start: 1, end: 1, quantity: 10000 / 2},
-        {start: 1, end: 1, quantity: 20000 / 2},
-        {start: 1, end: 1, quantity: 30000 / 2},
-        {start: 1, end: 1, quantity: 40000 / 2},
-        {start: 1, end: 1, quantity: 50000 / 2},
-        {start: 1, end: 1, quantity: 60000 / 2},
-        {start: 1, end: 1, quantity: 70000 / 2},
-        {start: 1, end: 1, quantity: 80000 / 2},
-        {start: 1, end: 1, quantity: 90000 / 2},
-        {start: 1, end: 1, quantity: 10000 / 2},
-        {start: 1, end: 1, quantity: 0},
-        {start: 1, end: 1, quantity: 0},
-      ],
-    };
-
-    return res(ctx.status(200), ctx.json(data), ctx.delay(1000));
-  });
+      return res(ctx.status(200), ctx.json(data), ctx.delay(1000));
+    }
+  );
 }
