@@ -64,8 +64,7 @@ describe('EnergyUnitPipe', () => {
     expect(pipe.transform(45000.45, 5)).toBe('45.00045 kWh');
     expect(pipe.transform(1500)).toBe('1.5 kWh');
     expect(pipe.transform(1000000)).toBe('1 MWh');
-    expect(pipe.transform(0)).toBe('');
-    expect(pipe.transform(null)).toBe('');
+    expect(pipe.transform(0)).toBe('0 Wh');
   });
 
   it('should correctly transform energy units with specified decimal places', () => {

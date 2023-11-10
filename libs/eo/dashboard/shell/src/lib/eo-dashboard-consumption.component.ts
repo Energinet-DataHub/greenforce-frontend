@@ -17,16 +17,31 @@
 
 import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
-import { NgChartsModule, ThemeService } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts';
 import { AnimationOptions, LottieComponent } from 'ngx-lottie';
-
-import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { EMPTY, catchError, forkJoin } from 'rxjs';
 import { DatePipe, NgIf } from '@angular/common';
 
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+
+import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
+import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
+import { EoClaimsService } from '@energinet-datahub/eo/claims/data-access-api';
+import { EnergyUnitPipe, findNearestUnit } from '@energinet-datahub/eo/shared/utilities';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { getUnixTime, startOfDay, startOfToday, startOfTomorrow, subDays } from 'date-fns';
 @Component({
   standalone: true,
-  imports: [WATT_CARD, NgChartsModule, LottieComponent, NgIf],
-  providers: [ThemeService],
+  imports: [
+    WATT_CARD,
+    NgChartsModule,
+    LottieComponent,
+    NgIf,
+    EnergyUnitPipe,
+    WattEmptyStateComponent,
+    WattButtonComponent,
+  ],
   selector: 'eo-dashboard-consumption',
   styles: [
     `
@@ -84,12 +99,22 @@ import { DatePipe, NgIf } from '@angular/common';
       <h4>Green consumption</h4>
     </watt-card-title>
 
-    <div class="loader-container" *ngIf="isLoading">
-      <ng-lottie height="64px" width="64px" [options]="options" />
+    <div class="loader-container" *ngIf="isLoading || hasError">
+      <ng-lottie height="64px" width="64px" [options]="options" *ngIf="isLoading" />
+      <watt-empty-state
+        *ngIf="hasError"
+        icon="custom-power"
+        title="An unexpected error occured"
+        message="Try again or contact your system administrator if you keep getting this error."
+      >
+        <watt-button variant="primary" size="normal" (click)="getData()">Reload</watt-button>
+      </watt-empty-state>
     </div>
 
-    <h5>0 Wh</h5>
-    <small>Out of 0 Wh total consumption</small>
+    <ng-container>
+      <h5>{{ claimedTotal | energyUnit }}</h5>
+      <small>Out of {{ consumptionTotal | energyUnit }} total consumption</small>
+    </ng-container>
 
     <div class="chart-container">
       <canvas
@@ -105,10 +130,18 @@ import { DatePipe, NgIf } from '@angular/common';
 })
 export class EoDashboardConsumptionComponent implements OnInit {
   private cd = inject(ChangeDetectorRef);
+  private certificatesService = inject(EoCertificatesService);
+  private claimsService = inject(EoClaimsService);
+
+  protected claimedTotal = 0;
+  protected consumptionTotal = 0;
+
   protected options: AnimationOptions = {
     path: '/assets/graph-loader.json',
   };
-  protected isLoading = true;
+  protected isLoading = false;
+  protected hasError = false;
+
   protected barChartData: ChartConfiguration<'bar'>['data'] = {
     labels: this.generateLabels(),
     datasets: [],
@@ -126,37 +159,82 @@ export class EoDashboardConsumptionComponent implements OnInit {
       },
       y: {
         stacked: true,
-        title: { display: true, text: 'Wh', align: 'end' },
+        title: { display: true, text: 'Wh', align: 'end' }
       },
     },
   };
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.isLoading = false;
+    this.getData();
+  }
 
-      this.barChartData = {
-        ...this.barChartData,
-        datasets: [
-          {
-            data: [80, 30, 40, 20, 0, 0, 100],
-            label: 'Claimed',
-            borderRadius: Number.MAX_VALUE,
-            maxBarThickness: 8,
-            backgroundColor: '#00C898',
-          },
-          {
-            data: [20, 40, 50, 80, 80, 30, 0],
-            label: 'Consumption',
-            borderRadius: Number.MAX_VALUE,
-            maxBarThickness: 8,
-            backgroundColor: '#02525E',
-          },
-        ],
-      };
+  protected getData() {
+    this.isLoading = true;
+    this.hasError = false;
 
-      this.cd.detectChanges();
-    }, 2000);
+    const startDate = getUnixTime(startOfDay(subDays(startOfToday(), 30))); // 30 days ago at 00:00
+    const endDate = getUnixTime(startOfTomorrow()); // Tomorrow at 00:00
+
+    const claims$ = this.claimsService.getAggregatedClaims(EoTimeAggregate.Day, startDate, endDate);
+    const certificates$ = this.certificatesService.getAggregatedCertificates(
+      EoTimeAggregate.Day,
+      startDate,
+      endDate
+    );
+
+    forkJoin([claims$, certificates$])
+      .pipe(
+        catchError(() => {
+          this.isLoading = false;
+          this.hasError = true;
+          this.cd.detectChanges();
+          return EMPTY;
+        })
+      )
+      .subscribe((data) => {
+        const [claims, certificates] = data;
+        const consumptions = certificates.map((certificate, index) => certificate - claims[index]);
+
+        this.claimedTotal = claims.reduce((a, b) => a + b, 0);
+        this.consumptionTotal = consumptions.reduce((a, b) => a + b, 0);
+
+        this.barChartOptions = {
+          ...this.barChartOptions,
+          scales: {
+            ...this.barChartOptions?.scales,
+            y: {
+              ...this.barChartOptions?.scales?.y,
+              title: {
+                ...this.barChartOptions?.scales?.y?.title,
+                display: true, text: findNearestUnit(this.claimedTotal + this.consumptionTotal / 60)[1], align: 'end'
+              },
+            },
+          },
+        }
+
+        this.barChartData = {
+          ...this.barChartData,
+          datasets: [
+            {
+              data: claims,
+              label: 'Claimed',
+              borderRadius: Number.MAX_VALUE,
+              maxBarThickness: 8,
+              backgroundColor: '#00C898',
+            },
+            {
+              data: consumptions,
+              label: 'Consumption',
+              borderRadius: Number.MAX_VALUE,
+              maxBarThickness: 8,
+              backgroundColor: '#02525E',
+            },
+          ],
+        };
+
+        this.isLoading = false;
+        this.cd.detectChanges();
+      });
   }
 
   private generateLabels() {

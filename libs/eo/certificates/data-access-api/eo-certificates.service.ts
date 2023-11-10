@@ -16,11 +16,12 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-
+import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 import { EoCertificate, EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
+import { toKWh } from '@energinet-datahub/eo/shared/utilities';
 
 interface EoCertificateResponse {
   result: EoCertificate[];
@@ -28,6 +29,16 @@ interface EoCertificateResponse {
 
 interface EoContractResponse {
   result: EoCertificateContract[];
+}
+
+interface EoAggregateCertificateResponse {
+  result: [
+    {
+      start: number;
+      end: number;
+      quantity: number;
+    }
+  ];
 }
 
 @Injectable({
@@ -67,6 +78,25 @@ export class EoCertificatesService {
       gsrn,
       startDate: Math.floor(new Date().getTime() / 1000),
     });
+  }
+
+  getAggregatedCertificates(
+    timeAggregate: EoTimeAggregate,
+    start: number,
+    end: number,
+    state: 'available' | 'total' = 'total',
+    type: 'consumption' | 'production' = 'consumption'
+  ) {
+    const apiBase = `${this.#apiBase}/v1`.replace('/api', '/wallet-api');
+    return this.http
+      .get<EoAggregateCertificateResponse>(
+        `${apiBase}/aggregate-certificates?timeAggregate=${timeAggregate}&start=${start}&end=${end}&type=${type}&state=${state}`
+      )
+      .pipe(
+        map((response) => response.result),
+        map((result) => result.map((x) => x.quantity)),
+        map((x) => x.map((quantity) => toKWh(quantity, 'Wh')))
+      );
   }
 
   patchContract(id: string) {
