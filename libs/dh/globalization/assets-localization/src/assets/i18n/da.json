@@ -890,6 +890,7 @@
     "gridAreas": {
       "topBarTitle": "Netområder",
       "noGridAreas": "Ingen netområder fundet",
+      "error": "En fejl opstod",
       "columns": {
         "code": "Netområde",
         "actor": "Netvirksomhed",

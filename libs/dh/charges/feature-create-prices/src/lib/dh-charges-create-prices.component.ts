@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -27,7 +27,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { Subject, take, takeUntil } from 'rxjs';
+import { take } from 'rxjs';
 import { ChargeTypes, ResolutionOptions } from '@energinet-datahub/dh/charges/domain';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
@@ -51,6 +51,7 @@ import { RxPush } from '@rx-angular/template/push';
 import { Router } from '@angular/router';
 import { dhChargesPath, dhChargesPricesPath } from '@energinet-datahub/dh/charges/routing';
 import { add } from 'date-fns';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-charges-create-prices',
@@ -76,7 +77,9 @@ import { add } from 'date-fns';
     WattTextAreaFieldComponent,
   ],
 })
-export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
+export class DhChargesCreatePricesComponent implements OnInit {
+  private _destroy = inject(DestroyRef);
+
   chargeTypeOptions: WattDropdownOptions = [];
   resolutionOptions: WattDropdownOptions = [];
   marketParticipantsOptions: WattDropdownOptions = [];
@@ -105,8 +108,6 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
 
   isLoading = this.chargesStore.isCreateRequestLoading$;
 
-  private destroy$ = new Subject<void>();
-
   constructor(
     private chargesStore: DhChargesDataAccessApiStore,
     private marketParticipantStore: DhMarketParticipantDataAccessApiStore,
@@ -123,7 +124,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
     this.buildValidityOptions();
 
     this.chargesStore.createRequestHasError$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroy))
       .subscribe((hasError) => {
         if (hasError) {
           this.toastService.open({
@@ -136,7 +137,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
       });
 
     this.chargesStore.createRequestHasSucceeded$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroy))
       .subscribe((hasSucceded) => {
         if (hasSucceded) {
           this.toastService.open({
@@ -149,11 +150,6 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
           }, 1000);
         }
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
   }
 
   ownerChanged(marketParticipantId: string) {
@@ -269,7 +265,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   }
 
   private buildMarketParticipantOptions() {
-    this.marketParticipants.pipe(takeUntil(this.destroy$)).subscribe({
+    this.marketParticipants.pipe(takeUntilDestroyed(this._destroy)).subscribe({
       next: (marketParticipants) => {
         if (marketParticipants == null) return;
         this.marketParticipantsOptions = marketParticipants.map((mp) => {
@@ -285,7 +281,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   private buildChargeTypeOptions() {
     this.translocoService
       .selectTranslateObject('charges.prices.chargeTypes')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroy))
       .subscribe({
         next: (translationKeys) => {
           this.chargeTypeOptions = Object.keys(ChargeTypes)
@@ -303,7 +299,7 @@ export class DhChargesCreatePricesComponent implements OnInit, OnDestroy {
   private buildValidityOptions() {
     this.translocoService
       .selectTranslateObject('charges.resolutionType')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroy))
       .subscribe({
         next: (translationKeys) => {
           this.resolutionOptions = Object.keys(ResolutionOptions)

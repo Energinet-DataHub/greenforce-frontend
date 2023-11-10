@@ -18,10 +18,10 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   Input,
   OnChanges,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -39,7 +39,6 @@ import {
   ChargeResolution,
   ChargePriceSortColumnName,
 } from '@energinet-datahub/dh/shared/domain';
-import { Subject, takeUntil } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
@@ -51,6 +50,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -75,7 +75,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
   providers: [DhChargePricesDataAccessApiStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhChargesChargePricesTabComponent implements OnInit, OnChanges, OnDestroy {
+export class DhChargesChargePricesTabComponent implements OnInit, OnChanges {
   @ViewChild(WattPaginatorComponent)
   paginator!: WattPaginatorComponent<unknown>;
 
@@ -84,8 +84,9 @@ export class DhChargesChargePricesTabComponent implements OnInit, OnChanges, OnD
 
   @Input() charge: ChargeV1Dto | undefined;
 
-  private transloco = inject(TranslocoService);
-  private chargePricesStore = inject(DhChargePricesDataAccessApiStore);
+  private _destroyRef = inject(DestroyRef);
+  private _transloco = inject(TranslocoService);
+  private _chargePricesStore = inject(DhChargePricesDataAccessApiStore);
 
   localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -106,10 +107,10 @@ export class DhChargesChargePricesTabComponent implements OnInit, OnChanges, OnD
   };
 
   result: ChargePriceV1Dto[] | undefined;
-  totalAmount = this.chargePricesStore.totalAmount$;
-  isLoading = this.chargePricesStore.isLoading$;
-  hasLoadingError = this.chargePricesStore.hasGeneralError$;
-  chargePricesNotFound = this.chargePricesStore.chargePricesNotFound$;
+  totalAmount = this._chargePricesStore.totalAmount$;
+  isLoading = this._chargePricesStore.isLoading$;
+  hasLoadingError = this._chargePricesStore.hasGeneralError$;
+  chargePricesNotFound = this._chargePricesStore.chargePricesNotFound$;
   showDateTime = false;
 
   displayedColumns = ['fromDateTime', 'time', 'price'];
@@ -120,25 +121,27 @@ export class DhChargesChargePricesTabComponent implements OnInit, OnChanges, OnD
     price: { accessor: 'price', align: 'right', size: 'max-content' },
   };
 
-  private destroy$ = new Subject<void>();
-
   readonly dataSource: WattTableDataSource<ChargePriceV1Dto> =
     new WattTableDataSource<ChargePriceV1Dto>();
 
   translateHeader = (key: string) =>
     key === 'price'
-      ? this.transloco.translate('charges.prices.price')
-      : this.transloco.translate(`charges.prices.priceTab.${key}`);
+      ? this._transloco.translate('charges.prices.price')
+      : this._transloco.translate(`charges.prices.priceTab.${key}`);
 
   ngOnInit() {
-    this.chargePricesStore.all$.pipe(takeUntil(this.destroy$)).subscribe((chargePrices) => {
-      this.dataSource.data = chargePrices ?? new Array<ChargePriceV1Dto>();
-      this.result = chargePrices;
-    });
+    this._chargePricesStore.all$
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((chargePrices) => {
+        this.dataSource.data = chargePrices ?? new Array<ChargePriceV1Dto>();
+        this.result = chargePrices;
+      });
 
-    this.chargePricesStore.totalAmount$.pipe(takeUntil(this.destroy$)).subscribe((totalAmount) => {
-      if (this.paginator) this.paginator.length = totalAmount;
-    });
+    this._chargePricesStore.totalAmount$
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((totalAmount) => {
+        if (this.paginator) this.paginator.length = totalAmount;
+      });
   }
 
   ngOnChanges() {
@@ -158,11 +161,6 @@ export class DhChargesChargePricesTabComponent implements OnInit, OnChanges, OnD
         this.paginator.instance.pageIndex = 0;
       }
     }
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
   }
 
   dateRangeChanged(dateRange: DatePickerData) {
@@ -195,7 +193,7 @@ export class DhChargesChargePricesTabComponent implements OnInit, OnChanges, OnD
             endDate: dateTimeRange.end,
           });
         }
-        this.chargePricesStore.searchChargePrices(this.searchCriteria);
+        this._chargePricesStore.searchChargePrices(this.searchCriteria);
       }
     }, 0);
   }
@@ -227,13 +225,13 @@ export class DhChargesChargePricesTabComponent implements OnInit, OnChanges, OnD
   sortData(event: any) {
     this.searchCriteria.sortColumnName = event.active;
     this.searchCriteria.isDescending = event.direction === 'desc';
-    this.chargePricesStore.searchChargePrices(this.searchCriteria);
+    this._chargePricesStore.searchChargePrices(this.searchCriteria);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handlePageEvent(event: any) {
     this.searchCriteria.skip = event.pageIndex * event.pageSize;
     this.searchCriteria.take = event.pageSize;
-    this.chargePricesStore.searchChargePrices(this.searchCriteria);
+    this._chargePricesStore.searchChargePrices(this.searchCriteria);
   }
 }

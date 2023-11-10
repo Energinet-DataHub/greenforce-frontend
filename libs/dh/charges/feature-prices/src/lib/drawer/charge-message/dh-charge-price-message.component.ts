@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import {
   DhChargeMessageArchiveDataAccessStore,
@@ -32,8 +32,8 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import { Subject, takeUntil } from 'rxjs';
 import { DhChargesPricesDrawerService } from '../dh-charges-prices-drawer.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -55,7 +55,15 @@ import { DhChargesPricesDrawerService } from '../dh-charges-prices-drawer.servic
   styleUrls: ['./dh-charge-price-message.component.scss'],
   providers: [DhChargeMessageArchiveDataAccessStore, DhMessageArchiveDataAccessBlobApiStore],
 })
-export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
+export class DhChargePriceMessageComponent implements OnInit {
+  private _destroyRef = inject(DestroyRef);
+  private _regexLogNameWithDateFolder = new RegExp(
+    /\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])\/.*/
+  );
+  private _regexLogNameIsSingleGuid = new RegExp(
+    /[\da-zA-Z]{8}-([\da-zA-Z]{4}-){3}[\da-zA-Z]{12}$/
+  );
+
   constructor(
     private dhChargesPricesDrawerService: DhChargesPricesDrawerService,
     private chargeMessageArchiveStore: DhChargeMessageArchiveDataAccessStore,
@@ -63,12 +71,6 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
     private blobStore: DhMessageArchiveDataAccessBlobApiStore
   ) {}
 
-  private regexLogNameWithDateFolder = new RegExp(
-    /\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])\/.*/
-  );
-  private regexLogNameIsSingleGuid = new RegExp(/[\da-zA-Z]{8}-([\da-zA-Z]{4}-){3}[\da-zA-Z]{12}$/);
-
-  private destroy$ = new Subject<void>();
   message?: ArchivedMessage;
   senderMarketParticipant?: ChargeMarketParticipantV1Dto;
 
@@ -84,7 +86,7 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.chargeMessageArchiveStore.searchResult$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((result) => {
         setTimeout(() => {
           if (result) {
@@ -92,11 +94,6 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
           }
         }, 0);
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   backToCharge() {
@@ -108,12 +105,12 @@ export class DhChargePriceMessageComponent implements OnInit, OnDestroy {
   }
 
   findLogName(logUrl: string): string {
-    if (this.regexLogNameWithDateFolder.test(logUrl)) {
-      const match = this.regexLogNameWithDateFolder.exec(logUrl);
+    if (this._regexLogNameWithDateFolder.test(logUrl)) {
+      const match = this._regexLogNameWithDateFolder.exec(logUrl);
       return match != null ? match[0] : '';
     }
-    if (this.regexLogNameIsSingleGuid.test(logUrl)) {
-      const match = this.regexLogNameIsSingleGuid.exec(logUrl);
+    if (this._regexLogNameIsSingleGuid.test(logUrl)) {
+      const match = this._regexLogNameIsSingleGuid.exec(logUrl);
       return match != null ? match[0] : '';
     }
 
