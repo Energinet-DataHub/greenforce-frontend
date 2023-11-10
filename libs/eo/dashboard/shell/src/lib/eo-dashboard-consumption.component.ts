@@ -198,6 +198,8 @@ export class EoDashboardConsumptionComponent implements OnInit {
         this.claimedTotal = claims.reduce((a, b) => a + b, 0);
         this.consumptionTotal = consumptions.reduce((a, b) => a + b, 0);
 
+        const unit = findNearestUnit(this.claimedTotal + this.consumptionTotal / 60)[1];
+
         this.barChartOptions = {
           ...this.barChartOptions,
           scales: {
@@ -207,8 +209,18 @@ export class EoDashboardConsumptionComponent implements OnInit {
               title: {
                 ...this.barChartOptions?.scales?.y?.title,
                 display: true,
-                text: findNearestUnit(this.claimedTotal + this.consumptionTotal / 60)[1],
+                text: unit,
                 align: 'end',
+              },
+            },
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: (context) => {
+                  const text = context.dataset.label === 'Consumption' ? 'consumed' : 'claimed';
+                  return `${context.parsed.y} ${unit} ${text}`;
+                },
               },
             },
           },
