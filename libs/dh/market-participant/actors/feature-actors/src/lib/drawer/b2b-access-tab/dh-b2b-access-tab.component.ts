@@ -18,7 +18,7 @@ import { NgIf } from '@angular/common';
 import { Component, Input, OnChanges, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { DhMarketParticipantCertificateStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -59,7 +59,7 @@ import { DhCertificateComponent } from './dh-certificate.component';
       </ng-template>
     </ng-template>
   `,
-  viewProviders: [DhMarketParticipantCertificateStore],
+  viewProviders: [DhMarketPartyCredentialsStore],
   imports: [
     NgIf,
     VaterStackComponent,
@@ -72,7 +72,7 @@ import { DhCertificateComponent } from './dh-certificate.component';
   ],
 })
 export class DhB2bAccessTabComponent implements OnChanges {
-  private readonly store = inject(DhMarketParticipantCertificateStore);
+  private readonly store = inject(DhMarketPartyCredentialsStore);
 
   doCredentialsExist = toSignal(this.store.doCredentialsExist$);
   doesCertificateExist = toSignal(this.store.doesCertificateExist$);

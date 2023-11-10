@@ -38,7 +38,7 @@ const initialState: CertificateState = {
 };
 
 @Injectable()
-export class DhMarketParticipantCertificateStore extends ComponentStore<CertificateState> {
+export class DhMarketPartyCredentialsStore extends ComponentStore<CertificateState> {
   private readonly httpClient = inject(MarketParticipantActorHttp);
 
   readonly doCredentialsExist$ = this.select((state) => !!state.credentials);
