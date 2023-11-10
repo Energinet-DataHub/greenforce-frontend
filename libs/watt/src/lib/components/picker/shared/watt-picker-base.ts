@@ -18,12 +18,14 @@ import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterViewInit,
   ChangeDetectorRef,
+  DestroyRef,
   Directive,
   ElementRef,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  inject,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -78,7 +80,7 @@ export abstract class WattPickerBase
   /**
    * @ignore
    */
-  protected destroy$: Subject<void> = new Subject();
+  protected _destroyRef = inject(DestroyRef);
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('aria-describedby') userAriaDescribedBy?: string;
@@ -270,8 +272,6 @@ export abstract class WattPickerBase
    * @ignore
    */
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
     this.stateChanges.complete();
   }
 
