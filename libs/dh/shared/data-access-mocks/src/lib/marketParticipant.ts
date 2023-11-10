@@ -73,6 +73,7 @@ export function marketParticipantMocks(apiBase: string) {
     getMarketParticipantActorActorCredentials(apiBase),
     marketParticipantActorAssignCertificateCredentials(apiBase),
     marketParticipantActorRemoveActorCredentials(apiBase),
+    marketParticipantActorRequestClientSecretCredentials(apiBase),
     getGridAreaOverview(),
   ];
 }
@@ -377,10 +378,14 @@ function getMarketParticipantActorActorCredentials(apiBase: string) {
       thumbprint: 'thumbprint-value',
       expirationDate: '2020-09-30T12:00:00',
     },
-    clientSecretCredentials: undefined,
+    clientSecretCredentials: {
+      clientSecretIdentifier: 'client-secret-identifier-value',
+      expirationDate: '2020-09-30T12:00:00',
+    },
   };
 
   return rest.get(`${apiBase}/v1/MarketParticipantActor/GetActorCredentials`, (req, res, ctx) => {
+    // return res(ctx.delay(300), ctx.status(404));
     return res(ctx.delay(300), ctx.json(response));
   });
 }
@@ -398,7 +403,18 @@ function marketParticipantActorRemoveActorCredentials(apiBase: string) {
   return rest.delete(
     `${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`,
     (req, res, ctx) => {
-      return res(ctx.delay(1000), ctx.status(200));
+      return res(ctx.delay(300), ctx.status(200));
+    }
+  );
+}
+
+function marketParticipantActorRequestClientSecretCredentials(apiBase: string) {
+  return rest.post(
+    `${apiBase}/v1/MarketParticipantActor/RequestClientSecretCredentials`,
+    (req, res, ctx) => {
+      const clientSecret = 'XEi33WhFi8qwnCzrnlf1e7Mjg0thkYCU';
+
+      return res(ctx.delay(300), ctx.json(clientSecret));
     }
   );
 }

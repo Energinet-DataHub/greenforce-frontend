@@ -624,8 +624,12 @@
           "b2bAccess": {
             "tabLabel": "B2B adgang",
             "certificateHeadline": "Certifikat",
+            "clientSecretHeadline": "Client Secret",
             "thumbprint": "Thumbprint",
             "expiryDate": "Udløbsdato",
+            "clientId": "Client ID",
+            "clientSecretLabel": "Client Secret",
+            "removeClientSecret": "Slet Client Secret",
             "removeCertificate": "Fjern certifikat",
             "uploadCertificate": "Upload certifikat",
             "uploadNewCertificate": "Upload nyt certifikat",
@@ -639,6 +643,20 @@
               "message": "Er du sikker på, at du vil fjerne certifikatet?",
               "cancel": "Fortryd",
               "confirm": "Fjern certifikat"
+            },
+            "generateClientSecret": "Generer Client Secret",
+            "generateSecretSuccess": "Client Secret er blevet genereret",
+            "generateSecretError": "Noget gik galt. Client Secret blev ikke genereret. Prøv igen",
+            "copy": "Kopier",
+            "clientSecret": {
+              "removeSecretModal": {
+                "title": "Slet Client Secret?",
+                "message": "Er du sikker på, at du vil slette Client Secret?",
+                "cancel": "Fortryd",
+                "confirm": "Slet Client Secret",
+                "removeSuccess": "Client Secret er blevet slettet",
+                "removeError": "Noget gik galt. Client Secret blev ikke slettet. Prøv igen"
+              }
             }
           },
           "history": {

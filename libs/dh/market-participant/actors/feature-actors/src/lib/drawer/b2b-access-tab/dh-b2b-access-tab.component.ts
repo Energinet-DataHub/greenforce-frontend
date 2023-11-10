@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
-import { Component, Input, OnChanges, computed, inject } from '@angular/core';
+import { JsonPipe, NgIf } from '@angular/common';
+import { Component, Input, OnChanges, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
@@ -24,7 +24,9 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { DhCertificateUploaderComponent } from './dh-certificate-uploader.component';
+import { DhCreateSecretComponent } from './dh-create-secret.component';
 import { DhCertificateComponent } from './dh-certificate.component';
+import { DhClientSecretViewComponent } from './dh-client-secret-view.component';
 
 @Component({
   selector: 'dh-b2b-access-tab',
@@ -47,14 +49,15 @@ import { DhCertificateComponent } from './dh-certificate.component';
           <dh-certificate [actorId]="actorId" />
         </ng-container>
 
-        <!-- If client secret exists -->
-        <!-- Show client secret component -->
-        <!-- Else show empty state -->
+        <ng-container *ngIf="doesClientSecretMetadataExist()">
+          <dh-client-secret-view [actorId]="actorId" />
+        </ng-container>
       </ng-container>
 
       <ng-template #emptyState>
-        <vater-stack direction="row" justify="center">
+        <vater-stack direction="row" justify="center" gap="m">
           <dh-certificate-uploader [actorId]="actorId" />
+          <dh-create-secret [actorId]="actorId" />
         </vater-stack>
       </ng-template>
     </ng-template>
@@ -62,6 +65,7 @@ import { DhCertificateComponent } from './dh-certificate.component';
   viewProviders: [DhMarketPartyCredentialsStore],
   imports: [
     NgIf,
+    JsonPipe,
     VaterStackComponent,
     VaterFlexComponent,
     WattButtonComponent,
@@ -69,6 +73,8 @@ import { DhCertificateComponent } from './dh-certificate.component';
 
     DhCertificateComponent,
     DhCertificateUploaderComponent,
+    DhCreateSecretComponent,
+    DhClientSecretViewComponent,
   ],
 })
 export class DhB2bAccessTabComponent implements OnChanges {
@@ -76,14 +82,9 @@ export class DhB2bAccessTabComponent implements OnChanges {
 
   doCredentialsExist = toSignal(this.store.doCredentialsExist$);
   doesCertificateExist = toSignal(this.store.doesCertificateExist$);
+  doesClientSecretMetadataExist = toSignal(this.store.doesClientSecretMetadataExist$);
 
-  loadingCredentials = toSignal(this.store.loadingCredentials$);
-  isUploadInProgress = toSignal(this.store.uploadInProgress$);
-  isRemoveInProgress = toSignal(this.store.removeInProgress$);
-
-  showSpinner = computed(() => {
-    return this.loadingCredentials() || this.isUploadInProgress() || this.isRemoveInProgress();
-  });
+  showSpinner = toSignal(this.store.showSpinner$);
 
   @Input({ required: true }) actorId = '';
 
