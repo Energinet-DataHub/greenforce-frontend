@@ -179,23 +179,23 @@ export class WattDatepickerV2Component extends WattPickerBase {
    * @ignore
    */
   getPlaceholderByLocale(locale: WattSupportedLocales): string {
-    return locale === 'da' ? 'dd-mm-åååå' : 'dd-mm-yyyy'
+    return locale === 'da' ? 'dd-mm-åååå' : 'dd-mm-yyyy';
   }
   getRangePlaceholder(): string {
-    return this.datePlaceholder + this.rangeSeparator + this.datePlaceholder
+    return this.datePlaceholder + this.rangeSeparator + this.datePlaceholder;
   }
   constructor(
-        protected override elementRef: ElementRef<HTMLElement>,
-        @Optional() @Self() ngControl: NgControl,
-        @Inject(LOCALE_ID) private locale: WattSupportedLocales,
-        private cdr: ChangeDetectorRef,
-        private localeService: WattLocaleService,
-        destroyRef: DestroyRef,
-      ) {
-        super(`watt-datepicker-v2-${WattDatepickerV2Component.nextId++}`, elementRef, cdr, ngControl);
-        localeService.onLocaleChange$.pipe(takeUntilDestroyed(destroyRef)).subscribe((locale) => {
-          this.datePlaceholder = this.getPlaceholderByLocale(locale);
-          this.rangePlaceholder = this.getRangePlaceholder();
+    protected override elementRef: ElementRef<HTMLElement>,
+    @Optional() @Self() ngControl: NgControl,
+    @Inject(LOCALE_ID) private locale: WattSupportedLocales,
+    private cdr: ChangeDetectorRef,
+    private localeService: WattLocaleService,
+    destroyRef: DestroyRef
+  ) {
+    super(`watt-datepicker-v2-${WattDatepickerV2Component.nextId++}`, elementRef, cdr, ngControl);
+    localeService.onLocaleChange$.pipe(takeUntilDestroyed(destroyRef)).subscribe((locale) => {
+      this.datePlaceholder = this.getPlaceholderByLocale(locale);
+      this.rangePlaceholder = this.getRangePlaceholder();
     });
   }
 

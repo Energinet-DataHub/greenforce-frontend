@@ -89,6 +89,6 @@ export class WattPlaceholderMaskComponent implements AfterViewInit, OnChanges, O
   }
 
   ngOnDestroy(): void {
-      this.maskedInput?.destroy();
+    this.maskedInput?.destroy();
   }
 }
