@@ -408,7 +408,7 @@ function marketParticipantActorRequestClientSecretCredentials(apiBase: string) {
   return rest.post(
     `${apiBase}/v1/MarketParticipantActor/RequestClientSecretCredentials`,
     (req, res, ctx) => {
-      const clientSecret = 'XEi33WhFi8qwnCzrnlf1e7Mjg0thkYCU';
+      const clientSecret = 'random-secret-XEi33WhFi8qwnCzrnlf';
 
       return res(ctx.delay(300), ctx.json(clientSecret));
     }
