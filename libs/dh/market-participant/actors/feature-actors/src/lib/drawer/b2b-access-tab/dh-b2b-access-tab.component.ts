@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { JsonPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, Input, OnChanges, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -65,7 +65,6 @@ import { DhClientSecretViewComponent } from './dh-client-secret-view.component';
   viewProviders: [DhMarketPartyCredentialsStore],
   imports: [
     NgIf,
-    JsonPipe,
     VaterStackComponent,
     VaterFlexComponent,
     WattButtonComponent,
