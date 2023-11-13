@@ -14,10 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Validators } from '@angular/forms';
 
-.card-container {
-  padding: var(--watt-space-m);
-  box-shadow: 0px 1px 6px rgba(11, 60, 93, 0.12),
-    0px 4px 18px 3px rgba(46, 50, 52, 0.08);
-  border-radius: 4px;
-}
+export const dhDkPhoneNumberValidator = Validators.pattern(/^\+45 \d{8}$/);
