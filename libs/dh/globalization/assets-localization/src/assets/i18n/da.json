@@ -645,6 +645,7 @@
               "confirm": "Fjern certifikat"
             },
             "generateClientSecret": "Generer Client Secret",
+            "generateNewClientSecret": "Generer ny Client Secret",
             "generateSecretSuccess": "Client Secret er blevet genereret",
             "generateSecretError": "Noget gik galt. Client Secret blev ikke genereret. Prøv igen",
             "copy": "Kopier",

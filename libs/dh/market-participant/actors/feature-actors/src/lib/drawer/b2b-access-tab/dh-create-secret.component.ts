@@ -37,7 +37,9 @@ import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-part
     (click)="generateSecret()"
     [loading]="generateSecretInProgress()"
     variant="secondary"
-    >{{ t('generateClientSecret') }}</watt-button
+    >{{
+      doesClientSecretMetadataExist() ? t('generateNewClientSecret') : t('generateClientSecret')
+    }}</watt-button
   >`,
   imports: [TranslocoDirective, WattButtonComponent],
 })
@@ -49,6 +51,7 @@ export class DhCreateSecretComponent {
   generateSecretInProgress = toSignal(this.store.generateSecretInProgress$, {
     requireSync: true,
   });
+  doesClientSecretMetadataExist = toSignal(this.store.doesClientSecretMetadataExist$);
 
   @Input({ required: true }) actorId = '';
 

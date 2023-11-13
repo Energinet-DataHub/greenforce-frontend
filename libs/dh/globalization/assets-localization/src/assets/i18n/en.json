@@ -652,6 +652,7 @@
               "remove": "Remove certificate"
             },
             "generateClientSecret": "Generate Client Secret",
+            "generateNewClientSecret": "Generate new Client Secret",
             "generateSecretSuccess": "Client Secret generated successfully",
             "generateSecretError": "An error occurred while generating the Client Secret. Please try again",
             "copy": "Copy",
