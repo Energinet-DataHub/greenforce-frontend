@@ -374,10 +374,7 @@ function getAuditLogByActorId() {
 
 function getMarketParticipantActorActorCredentials(apiBase: string) {
   const response: MarketParticipantActorCredentialsDto = {
-    certificateCredentials: {
-      thumbprint: 'thumbprint-value',
-      expirationDate: '2020-09-30T12:00:00',
-    },
+    certificateCredentials: undefined,
     clientSecretCredentials: {
       clientSecretIdentifier: 'client-secret-identifier-value',
       expirationDate: '2020-09-30T12:00:00',
