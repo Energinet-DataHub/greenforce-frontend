@@ -54,5 +54,5 @@ export const Overview: StoryFn<WattExpandableCardComponent> = (args) => ({
 
 Overview.args = {
   expanded: false,
-  variant: 'elevation'
+  variant: 'elevation',
 };
