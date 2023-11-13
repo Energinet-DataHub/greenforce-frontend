@@ -19,7 +19,14 @@ import { TranslocoDirective } from '@ngneat/transloco';
 
 import { NgIf } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Component, DestroyRef, ViewChild, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ViewChild,
+  inject,
+  signal,
+} from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
@@ -51,6 +58,7 @@ import {
   standalone: true,
   selector: 'dh-actors-create-actor-modal',
   templateUrl: './dh-actors-create-actor-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       :host {
