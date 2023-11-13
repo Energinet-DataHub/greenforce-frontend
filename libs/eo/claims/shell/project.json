@@ -1,0 +1,19 @@
+{
+  "name": "eo-claims-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/claims/shell",
+  "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/claims/shell/**/*.ts",
+          "libs/eo/claims/shell/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:claims", "type:shell"]
+}

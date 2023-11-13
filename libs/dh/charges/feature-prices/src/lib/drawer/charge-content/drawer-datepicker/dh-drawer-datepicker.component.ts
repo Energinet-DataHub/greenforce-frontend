@@ -14,16 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, OnDestroy, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  AfterViewInit,
+  inject,
+  DestroyRef,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 import { DatePickerData, DrawerDatepickerService } from './drawer-datepicker.service';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -39,10 +47,11 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
   templateUrl: './dh-drawer-datepicker.component.html',
   styleUrls: ['./dh-drawer-datepicker.component.scss'],
 })
-export class DhDrawerDatepickerComponent implements OnInit, OnDestroy, AfterViewInit {
+export class DhDrawerDatepickerComponent implements OnInit, AfterViewInit {
   @Output() changed = new EventEmitter();
 
-  private readonly chipOptions = [
+  private _destroyRef = inject(DestroyRef);
+  private readonly _chipOptions = [
     { label: 'day', value: 'd', selected: true },
     { label: 'week', value: 'w' },
     { label: 'month', value: 'm' },
@@ -50,7 +59,7 @@ export class DhDrawerDatepickerComponent implements OnInit, OnDestroy, AfterView
     { label: 'year', value: 'y' },
   ];
 
-  options = this.chipOptions;
+  options = this._chipOptions;
   optionSelected = '';
   data: DatePickerData = this.datepickerService.getData();
   startDate = this.data.startDate;
@@ -67,50 +76,47 @@ export class DhDrawerDatepickerComponent implements OnInit, OnDestroy, AfterView
     private datepickerService: DrawerDatepickerService
   ) {}
 
-  private destroy$ = new Subject<void>();
-
   ngAfterViewInit() {
-    this.formControlDateRange.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((dateRange) => {
-      this.updateDateRange({
-        startDate: dateRange?.start ?? '',
-        endDate: dateRange?.end ?? '',
+    this.formControlDateRange.valueChanges
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((dateRange) => {
+        this.updateDateRange({
+          startDate: dateRange?.start ?? '',
+          endDate: dateRange?.end ?? '',
+        });
       });
-    });
   }
 
   ngOnInit(): void {
     this.setupDateChipTranslation();
 
-    this.datepickerService.dateRange$.pipe(takeUntil(this.destroy$)).subscribe((dateRange) => {
-      const value = this.formControlDateRange.value;
-      if (dateRange.endDate == null) return;
-      if (value?.start == dateRange.startDate && value?.end == dateRange.endDate) return;
+    this.datepickerService.dateRange$
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((dateRange) => {
+        const value = this.formControlDateRange.value;
+        if (dateRange.endDate == null) return;
+        if (value?.start == dateRange.startDate && value?.end == dateRange.endDate) return;
 
-      this.formControlDateRange.patchValue(
-        {
-          start: value?.start == dateRange.startDate ? value.start : dateRange.startDate,
-          end: value?.end == dateRange.endDate ? value.end : dateRange.endDate,
-        },
-        {
-          emitEvent: false,
-        }
-      );
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
+        this.formControlDateRange.patchValue(
+          {
+            start: value?.start == dateRange.startDate ? value.start : dateRange.startDate,
+            end: value?.end == dateRange.endDate ? value.end : dateRange.endDate,
+          },
+          {
+            emitEvent: false,
+          }
+        );
+      });
   }
 
   private setupDateChipTranslation() {
     this.translocoService
       .selectTranslateObject('charges.prices.drawer.dateChips')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (translationKeys) => {
           this.options = Object.values(
-            this.chipOptions.map((option) => {
+            this._chipOptions.map((option) => {
               return {
                 label: translationKeys[option.label],
                 value: option.value,

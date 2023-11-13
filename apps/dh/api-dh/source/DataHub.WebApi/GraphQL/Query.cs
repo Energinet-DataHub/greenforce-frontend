@@ -294,9 +294,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
             client.GetAuditLogEntriesAsync(organizationId);
 
         public Task<bool> EmailExistsAsync(
-        string emailAddress,
-        [Service] IMarketParticipantClient_V1 client) =>
-        client.ExistsAsync(emailAddress);
+            string emailAddress,
+            [Service] IMarketParticipantClient_V1 client) =>
+            client.ExistsAsync(emailAddress);
 
         public async Task<IEnumerable<ActorAuditLog>> GetActorAuditLogsAsync(
             Guid actorId,
@@ -386,5 +386,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 });
             return users.Users.Select(x => x.Email).ToList();
         }
+
+        public async Task<IEnumerable<GridAreaOverviewItemDto>> GetGridAreaOverviewAsync([Service] IMarketParticipantClient_V1 client) =>
+            await client.GridAreaOverviewAsync();
     }
 }

@@ -89,6 +89,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<string> SecretAsync(System.Guid actorId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<string> SecretAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetActorAuditLogsResponse> AuditlogsAsync(System.Guid actorId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1078,6 +1087,85 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         if (status_ == 200)
                         {
                             return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<string> SecretAsync(System.Guid actorId)
+        {
+            return SecretAsync(actorId, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<string> SecretAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (actorId == null)
+                throw new System.ArgumentNullException("actorId");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/actor/{actorId}/credentials/secret");
+            urlBuilder_.Replace("{actorId}", System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "text/plain");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -4930,6 +5018,11 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ActorClientSecretCredentialsDto
     {
+        [Newtonsoft.Json.JsonProperty("clientSecretIdentifier", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid ClientSecretIdentifier { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("expirationDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset ExpirationDate { get; set; } = default!;
 
     }
 
@@ -5484,6 +5577,9 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         [Newtonsoft.Json.JsonProperty("actorName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? ActorName { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("organizationName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? OrganizationName { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("fullFlexDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset? FullFlexDate { get; set; } = default!;

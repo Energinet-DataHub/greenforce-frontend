@@ -20,9 +20,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   EventEmitter,
   inject,
-  OnDestroy,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -31,7 +31,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { Subject, take, takeUntil } from 'rxjs';
+import { take } from 'rxjs';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -51,6 +51,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { dhDkPhoneNumberValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { Apollo } from 'apollo-angular';
 import { GetKnownEmailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -75,7 +76,7 @@ import { GetKnownEmailsDocument } from '@energinet-datahub/dh/shared/domain/grap
     WattFieldErrorComponent,
   ],
 })
-export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
+export class DhInviteUserModalComponent implements AfterViewInit {
   private readonly actorStore = inject(DhUserActorsDataAccessApiStore);
   private readonly assignableUserRolesStore = inject(DhAdminAssignableUserRolesStore);
   private readonly inviteUserStore = inject(DhAdminInviteUserStore);
@@ -84,8 +85,7 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   private readonly translocoService = inject(TranslocoService);
   private readonly apollo = inject(Apollo);
   private readonly changeDectorRef = inject(ChangeDetectorRef);
-
-  private destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
 
   private readonly userEmailExistsQuery = this.apollo.watchQuery({
     returnPartialData: false,
@@ -132,14 +132,16 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.inviteUserModal.open();
 
-    this.userEmailExistsQuery.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((x) => {
-      this.knownEmails = x.data?.knownEmails?.map((x) => x.toUpperCase()) ?? [];
-      this.isLoadingEmails = false;
-      this.changeDectorRef.detectChanges();
-    });
+    this.userEmailExistsQuery.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((x) => {
+        this.knownEmails = x.data?.knownEmails?.map((x) => x.toUpperCase()) ?? [];
+        this.isLoadingEmails = false;
+        this.changeDectorRef.detectChanges();
+      });
 
     this.baseInfo.controls.actorId.valueChanges
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((actorId) => {
         actorId !== null
           ? this.baseInfo.controls.email.enable()
@@ -154,35 +156,34 @@ export class DhInviteUserModalComponent implements AfterViewInit, OnDestroy {
         this.actorStore.getActorOrganization(actorId);
       });
 
-    this.actorStore.organizationDomain$.pipe(takeUntil(this.destroy$)).subscribe((domain) => {
-      this.domain = domain;
-    });
+    this.actorStore.organizationDomain$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((domain) => {
+        this.domain = domain;
+      });
 
-    this.baseInfo.controls.email.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((email) => {
-      this.inOrganizationMailDomain =
-        !!email &&
-        !!this.domain &&
-        this.baseInfo.controls.email.valid &&
-        email.toUpperCase().endsWith(this.domain.toUpperCase());
+    this.baseInfo.controls.email.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((email) => {
+        this.inOrganizationMailDomain =
+          !!email &&
+          !!this.domain &&
+          this.baseInfo.controls.email.valid &&
+          email.toUpperCase().endsWith(this.domain.toUpperCase());
 
-      this.emailExists =
-        !!email &&
-        this.baseInfo.controls.email.valid &&
-        this.knownEmails.includes(email.toUpperCase());
+        this.emailExists =
+          !!email &&
+          this.baseInfo.controls.email.valid &&
+          this.knownEmails.includes(email.toUpperCase());
 
-      this.changeDectorRef.detectChanges();
-    });
+        this.changeDectorRef.detectChanges();
+      });
 
     this.actors$.pipe(take(1)).subscribe((actors) => {
       if (actors.length === 1) {
         this.baseInfo.controls.actorId.setValue(actors[0].value);
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   inviteUser() {

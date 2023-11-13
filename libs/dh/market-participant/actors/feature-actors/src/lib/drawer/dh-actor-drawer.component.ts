@@ -43,7 +43,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { DhActorExtended, dhActorAuditLogEntry } from '../dh-actor';
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
-import { DhCertificateComponent } from './tabs/dh-certificate.component';
+import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -92,7 +92,7 @@ import { DhCertificateComponent } from './tabs/dh-certificate.component';
     DhPermissionRequiredDirective,
     DhActorsEditActorModalComponent,
     DhActorStatusBadgeComponent,
-    DhCertificateComponent,
+    DhB2bAccessTabComponent,
   ],
 })
 export class DhActorDrawerComponent {

@@ -1,0 +1,14 @@
+query GetGridAreaOverview {
+  gridAreaOverview {
+    id
+    code
+    name
+    priceAreaCode
+    validFrom
+    validTo
+    actorNumber
+    actorName
+    organizationName
+    fullFlexDate
+  }
+}

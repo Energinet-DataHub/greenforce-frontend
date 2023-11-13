@@ -180,4 +180,4 @@ jobs:
         with:
           yaml-file: build/infrastructure/eo/configuration.yaml
           yaml-path: version
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.internal_github_pat }}

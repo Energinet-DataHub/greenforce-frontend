@@ -14,26 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import 'jest-preset-angular/setup-jest';
 
-import { Component } from '@angular/core';
-import { EoEmissionsDataComponent } from '@energinet-datahub/eo/emissions/shell';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-@Component({
-  standalone: true,
-  imports: [WATT_CARD, EoEmissionsDataComponent],
-  selector: 'eo-dashboard-emissions-card',
-  template: ` <watt-card>
-    <h3 class="watt-space-stack-s">Emissions</h3>
-    <p class="watt-space-stack-s">Your emissions in 2021</p>
-    <eo-emissions-data />
-  </watt-card>`,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-})
-export class EoDashboardEmissionsCardComponent {}
+setUpTestbed();
