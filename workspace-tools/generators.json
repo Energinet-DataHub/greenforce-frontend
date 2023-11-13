@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "watt-component": {
+      "factory": "./src/generators/watt-component/generator",
+      "schema": "./src/generators/watt-component/schema.json",
+      "description": "watt-component generator"
+    }
+  }
+}
