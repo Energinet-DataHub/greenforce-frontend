@@ -96,7 +96,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     >
       <!-- Period - Custom column -->
       <ng-container *wattTableCell="table.columns['createdAt']; let element">
-        {{ element.createdAt | wattDate : 'long' }}
+        {{ element.createdAt | wattDate: 'long' }}
       </ng-container>
 
       <!-- Status - Custom column -->
@@ -105,7 +105,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         <span *ngIf="element.action === 'Updated'">
           <span *ngIf="element.transferAgreement.endDate">
             the end date to
-            <strong>{{ element.transferAgreement.endDate | wattDate : 'long' }}</strong>
+            <strong>{{ element.transferAgreement.endDate | wattDate: 'long' }}</strong>
           </span>
           <span *ngIf="!element.transferAgreement.endDate">
             the transfer agreement to have <strong>no end date</strong>

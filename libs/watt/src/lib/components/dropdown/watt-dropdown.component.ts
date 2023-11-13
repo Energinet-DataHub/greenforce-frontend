@@ -319,15 +319,15 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
     const validators = !this.matSelectControl.validator
       ? [this.validateParent]
       : Array.isArray(this.matSelectControl.validator)
-      ? [...this.matSelectControl.validator, this.validateParent]
-      : [this.matSelectControl.validator, this.validateParent];
+        ? [...this.matSelectControl.validator, this.validateParent]
+        : [this.matSelectControl.validator, this.validateParent];
     this.matSelectControl.setValidators(validators);
 
     const asyncValidators = !this.matSelectControl.asyncValidator
       ? [this.validateParentAsync]
       : Array.isArray(this.matSelectControl.asyncValidator)
-      ? [...this.matSelectControl.asyncValidator, this.validateParentAsync]
-      : [this.matSelectControl.asyncValidator, this.validateParentAsync];
+        ? [...this.matSelectControl.asyncValidator, this.validateParentAsync]
+        : [this.matSelectControl.asyncValidator, this.validateParentAsync];
     this.matSelectControl.setAsyncValidators(asyncValidators);
 
     this.matSelectControl.updateValueAndValidity();
@@ -370,7 +370,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
           () =>
             ({
               ...this.parentControl?.errors,
-            } as ValidationErrors)
+            }) as ValidationErrors
         ),
         map((errors) => (Object.keys(errors).length > 0 ? errors : null)),
         takeUntilDestroyed(this._destroyRef)

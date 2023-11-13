@@ -35,7 +35,10 @@ import {
   standalone: true,
 })
 export class DhShowForMeteringPointTypeDirective implements OnChanges {
-  constructor(private templateRef: TemplateRef<unknown>, private viewContainer: ViewContainerRef) {}
+  constructor(
+    private templateRef: TemplateRef<unknown>,
+    private viewContainer: ViewContainerRef
+  ) {}
 
   @Input() dhShowForMeteringPointType: MeteringPointType | undefined;
 

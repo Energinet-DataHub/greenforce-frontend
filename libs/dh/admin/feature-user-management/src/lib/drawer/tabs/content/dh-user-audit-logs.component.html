@@ -24,10 +24,10 @@ limitations under the License.
       <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
         <watt-card-title *rxLet="auditLogCount$ as auditLogCount">
           <h4 *ngIf="auditLogCount === 1 && !hasGeneralError">
-            {{t("changesSingular", {auditLogCount})}}
+            {{ t("changesSingular", { auditLogCount }) }}
           </h4>
           <h4 *ngIf="auditLogCount !== 1 && !hasGeneralError">
-            {{t("changesPlural", {auditLogCount})}}
+            {{ t("changesPlural", { auditLogCount }) }}
           </h4>
         </watt-card-title>
 
@@ -41,7 +41,7 @@ limitations under the License.
           *ngIf="!hasGeneralError"
         >
           <ng-container *wattTableCell="columns['timestamp']; let element">
-            {{ element.timestamp | wattDate : "long" }}
+            {{ element.timestamp | wattDate: "long" }}
           </ng-container>
 
           <ng-container *wattTableCell="columns['entry']; let element">
