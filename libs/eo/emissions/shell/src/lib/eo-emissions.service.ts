@@ -50,9 +50,7 @@ export class EoEmissionsService {
     const encodedTimeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
     return this.http.get<EoEmissionsResponse>(
-      `${this.#apiBase}/emissions?dateFrom=${dateRange.start}&dateTo=${
-        dateRange.end
-      }&timeZone=${encodedTimeZone}&aggregation=Total`
+      `${this.#apiBase}/emissions?dateFrom=${dateRange.start}&dateTo=${dateRange.end}&timeZone=${encodedTimeZone}&aggregation=Total`
     );
   }
 

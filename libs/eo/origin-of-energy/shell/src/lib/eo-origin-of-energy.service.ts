@@ -55,9 +55,7 @@ export class EoOriginOfEnergyService {
     const encodedTimeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
     return this.http.get<EoOriginOfEnergyResponse>(
-      `${this.#apiBase}/sources?dateFrom=${dateRange.start}&dateTo=${
-        dateRange.end
-      }&timeZone=${encodedTimeZone}&aggregation=Total`
+      `${this.#apiBase}/sources?dateFrom=${dateRange.start}&dateTo=${dateRange.end}&timeZone=${encodedTimeZone}&aggregation=Total`
     );
   }
 
