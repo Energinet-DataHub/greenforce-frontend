@@ -1,5 +1,5 @@
 {
-  "name": "@energinet-datahub/workspace-plugin",
+  "name": "@energinet-datahub/legacy-workspace-plugin",
   "version": "0.0.1",
   "type": "commonjs",
   "generators": "./generators.json"
