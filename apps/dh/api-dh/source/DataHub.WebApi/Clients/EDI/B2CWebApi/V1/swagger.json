@@ -15,17 +15,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
               }
             }
           }
@@ -56,7 +68,9 @@
           "PreliminaryAggregation",
           "BalanceFixing",
           "WholesaleFixing",
-          "Correction"
+          "FirstCorrection",
+          "SecondCorrection",
+          "ThirdCorrection"
         ]
       },
       "RequestAggregatedMeasureDataMarketRequest": {
@@ -64,17 +78,25 @@
         "additionalProperties": false,
         "properties": {
           "processType": {
-            "$ref": "#/components/schemas/ProcessType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProcessType"
+              }
+            ]
           },
           "meteringPointType": {
-            "$ref": "#/components/schemas/MeteringPointType"
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringPointType"
+              }
+            ]
           },
           "startDate": {
             "type": "string"
           },
           "endDate": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "gridArea": {
             "type": "string",

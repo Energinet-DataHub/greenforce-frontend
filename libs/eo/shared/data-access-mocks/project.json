@@ -1,0 +1,27 @@
+{
+  "name": "eo-shared-data-access-mocks",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/shared/data-access-mocks/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/shared/data-access-mocks"],
+      "options": {
+        "jestConfig": "libs/eo/shared/data-access-mocks/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/shared/data-access-mocks/src/**/*.ts",
+          "libs/eo/shared/data-access-mocks/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "scope:shared", "type:data-access"]
+}

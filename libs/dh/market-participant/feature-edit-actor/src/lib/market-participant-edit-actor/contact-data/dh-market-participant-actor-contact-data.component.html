@@ -28,8 +28,7 @@ limitations under the License.
         [options]="contactCategories"
         [(ngModel)]="row.changed.category"
         (ngModelChange)="onDropdownChanged(row)"
-      >
-      </watt-dropdown>
+      />
     </ng-container>
 
     <!-- Name -->
@@ -85,8 +84,7 @@ limitations under the License.
           variant="icon"
           icon="remove"
           (click)="onRowDelete(row)"
-        >
-        </watt-button>
+        />
       </ng-container>
     </ng-container>
   </watt-table>

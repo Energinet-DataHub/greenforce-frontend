@@ -20,7 +20,7 @@ limitations under the License.
     *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.userRoles'"
   >
     <div *ngIf="isLoading" class="spinner">
-      <watt-spinner></watt-spinner>
+      <watt-spinner />
     </div>
 
     <ng-container *ngIf="!isLoading">
@@ -44,6 +44,13 @@ limitations under the License.
         <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
           {{ element.name }}
         </ng-container>
+        <ng-container
+          *wattTableCell="columns.eicFunction; header: t('columns.eicFunction'); let element"
+        >
+          <ng-container *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'">
+            {{ translateMarketRole(element.eicFunction) }}
+          </ng-container>
+        </ng-container>
       </watt-table>
 
       <watt-empty-state
@@ -51,7 +58,7 @@ limitations under the License.
         icon="custom-power"
         [title]="'shared.error.title' | transloco"
         [message]="'shared.error.message' | transloco"
-      ></watt-empty-state>
+      />
 
       <ng-container *rxLet="userRoles.length as userRoleCount">
         <h4 *ngIf="userRoleCount === 0" class="no-results-text">

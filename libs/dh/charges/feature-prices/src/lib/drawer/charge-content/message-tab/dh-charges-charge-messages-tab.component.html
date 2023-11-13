@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'charges.prices'">
   <div class="datepicker-container">
-    <dh-drawer-datepicker (changed)="dateRangeChanged($event)"></dh-drawer-datepicker>
+    <dh-drawer-datepicker (changed)="dateRangeChanged($event)" />
   </div>
 
   <div class="card-container">
@@ -63,7 +63,7 @@ limitations under the License.
 
     <!-- Spinner -->
     <div *ngIf="isLoading | push" class="overview__spinner spinner-container">
-      <watt-spinner></watt-spinner>
+      <watt-spinner />
     </div>
 
     <!-- Empty -->
@@ -74,8 +74,7 @@ limitations under the License.
         size="large"
         title="{{ t('noResultsFound') }}"
         message="{{ t('noResultsHelperText') }}"
-      >
-      </watt-empty-state>
+      />
     </ng-container>
 
     <!-- Error -->
@@ -85,7 +84,7 @@ limitations under the License.
         icon="custom-power"
         title="{{ 'shared.error.title' | transloco }}"
         message="{{ 'shared.error.message' | transloco }}"
-      ></watt-empty-state>
+      />
     </ng-container>
   </div>
 </ng-container>

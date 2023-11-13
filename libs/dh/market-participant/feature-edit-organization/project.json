@@ -16,7 +16,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
           "libs/dh/market-participant/feature-edit-organization/src/**/*.ts",

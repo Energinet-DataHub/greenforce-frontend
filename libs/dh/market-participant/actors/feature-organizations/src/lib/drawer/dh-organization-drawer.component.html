@@ -16,12 +16,13 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'">
   <watt-drawer #drawer (closed)="onClose()">
-    <watt-drawer-topbar> </watt-drawer-topbar>
-
     <watt-drawer-actions>
-      <watt-button *dhPermissionRequired="['organizations:manage']" variant="secondary">{{
-        t("edit")
-      }}</watt-button>
+      <watt-button
+        *dhPermissionRequired="['organizations:manage']"
+        variant="secondary"
+        (click)="isEditModalVisible = true"
+        >{{ t("edit") }}</watt-button
+      >
     </watt-drawer-actions>
 
     <watt-drawer-heading>
@@ -31,26 +32,98 @@ limitations under the License.
     <watt-drawer-content *ngIf="drawer.isOpen">
       <watt-tabs>
         <watt-tab [label]="t('tabs.masterData.tabLabel')">
-          <watt-card variant="solid">
+          <vater-stack [fill]="'horizontal'" [align]="'center'">
+            <watt-spinner *ngIf="isLoadingOrganization" />
+          </vater-stack>
+          <watt-empty-state
+            *ngIf="!isLoadingOrganization && !organization"
+            [icon]="organizationFailedToLoad ? 'custom-power' : 'cancel'"
+            size="small"
+            [title]="organizationFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
+          />
+          <watt-card variant="solid" *ngIf="!isLoadingOrganization && organization">
             <watt-description-list variant="stack">
               <watt-description-list-item
                 [label]="t('tabs.masterData.businessRegisterIdentifier')"
-                [value]="organization?.businessRegisterIdentifier"
-              ></watt-description-list-item>
+                [value]="organization.businessRegisterIdentifier"
+              />
 
               <watt-description-list-item
                 [label]="t('tabs.masterData.name')"
-                [value]="organization?.name"
-              ></watt-description-list-item>
+                [value]="organization.name"
+              />
 
               <watt-description-list-item
                 [label]="t('tabs.masterData.domain')"
-                [value]="organization?.domain"
-              ></watt-description-list-item>
+                [value]="organization.domain"
+              />
             </watt-description-list>
+          </watt-card>
+        </watt-tab>
+        <watt-tab [label]="t('tabs.actors.tabLabel')">
+          <vater-stack [fill]="'horizontal'" [align]="'center'">
+            <watt-spinner *ngIf="isLoadingActors" />
+          </vater-stack>
+          <watt-empty-state
+            *ngIf="!isLoadingActors && actors.data.length === 0"
+            [icon]="actorsFailedToLoad ? 'custom-power' : 'cancel'"
+            size="small"
+            [title]="actorsFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
+          />
+          <watt-card variant="solid" *ngIf="actors.data.length > 0 && !isLoadingActors">
+            <watt-table
+              [dataSource]="actors"
+              [columns]="actorColumns"
+              [hideColumnHeaders]="true"
+              [suppressRowHoverHighlight]="true"
+            >
+              <ng-container *wattTableCell="actorColumns['marketRole']; let actor">
+                {{ "marketParticipant.marketRoles." + actor.marketRole | transloco }}
+              </ng-container>
+              <ng-container *wattTableCell="actorColumns['status']; let actor">
+                <dh-actor-status-badge [status]="actor.status" />
+              </ng-container>
+            </watt-table>
+          </watt-card>
+        </watt-tab>
+        <watt-tab
+          [label]="t('tabs.history.tabLabel')"
+          *dhPermissionRequired="['organizations:manage']"
+        >
+          <vater-stack [fill]="'horizontal'" [align]="'center'">
+            <watt-spinner *ngIf="isLoadingAuditLog" />
+          </vater-stack>
+          <watt-empty-state
+            *ngIf="!isLoadingAuditLog && auditLog.data.length === 0"
+            [icon]="actorsFailedToLoad ? 'custom-power' : 'cancel'"
+            size="small"
+            [title]="auditLogFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
+          />
+          <watt-card variant="solid" *ngIf="auditLog.data.length > 0 && !isLoadingAuditLog">
+            <watt-table
+              [dataSource]="auditLog"
+              [columns]="auditLogColumns"
+              [hideColumnHeaders]="true"
+              [suppressRowHoverHighlight]="true"
+              sortBy="timestamp"
+              sortDirection="desc"
+            >
+              <ng-container *wattTableCell="auditLogColumns['timestamp']; let element">
+                {{ element.timestamp | wattDate : "long" }}
+              </ng-container>
+              <ng-container *wattTableCell="auditLogColumns['value']; let entry">
+                <div [innerHTML]="t('tabs.history.changeTypes.' + entry.changeType, entry)"></div>
+              </ng-container>
+            </watt-table>
           </watt-card>
         </watt-tab>
       </watt-tabs>
     </watt-drawer-content>
   </watt-drawer>
 </ng-container>
+
+<dh-organization-edit-modal
+  *ngIf="isEditModalVisible"
+  [organization]="organization!"
+  (closed)="isEditModalVisible = false"
+/>

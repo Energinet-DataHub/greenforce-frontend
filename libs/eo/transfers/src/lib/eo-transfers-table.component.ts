@@ -133,7 +133,7 @@ interface EoTransferTableElement extends EoListedTransfer {
             { value: 'true', displayValue: 'Active' },
             { value: 'false', displayValue: 'Inactive' }
           ]"
-        ></watt-dropdown>
+        />
       </form>
     </div>
     <watt-table
@@ -178,16 +178,15 @@ interface EoTransferTableElement extends EoListedTransfer {
       [pageSize]="10"
       [pageSizeOptions]="[10, 25, 50, 100, 250]"
       [for]="dataSource"
-    >
-    </watt-paginator>
+    />
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
 
-    <eo-transfers-create-modal></eo-transfers-create-modal>
-    <eo-transfers-wallet-modal></eo-transfers-wallet-modal>
+    <eo-transfers-create-modal />
+    <eo-transfers-wallet-modal />
     <eo-transfers-drawer
       [transfer]="selectedTransfer"
       (closed)="transferSelected.emit(undefined)"
-    ></eo-transfers-drawer>
+    />
   `,
 })
 export class EoTransfersTableComponent implements OnChanges {

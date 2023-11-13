@@ -43,19 +43,19 @@ limitations under the License.
           <watt-description-list-item
             [label]="t('documentType')"
             [value]="message?.documentType | dhEmDashFallback"
-          ></watt-description-list-item>
+          />
           <watt-description-list-item
             [label]="t('sender')"
             value="{{ message?.senderGln | actorName: actors | dhEmDashFallback }} ({{
               message?.senderGln | dhEmDashFallback
             }})"
-          ></watt-description-list-item>
+          />
           <watt-description-list-item
             [label]="t('receiver')"
             value="{{ message?.receiverGln | actorName: actors | dhEmDashFallback }} ({{
               message?.receiverGln | dhEmDashFallback
             }})"
-          ></watt-description-list-item>
+          />
         </watt-description-list>
       </div>
 

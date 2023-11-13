@@ -57,7 +57,7 @@ export class WattExpandableCardComponent {
 @Component({
   standalone: true,
   selector: 'watt-expandable-card-title',
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
 })
 export class WattExpandableCardTitleComponent {}
 

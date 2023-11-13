@@ -35,7 +35,10 @@ import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard'
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
-import { EoConnectionWithName, EoConnectionsService } from '../data-access-api/connections.service';
+import {
+  EoConnectionWithName,
+  EoConnectionsService,
+} from '@energinet-datahub/eo/connections/data-access-api';
 
 @Component({
   selector: 'eo-remove-connection',
@@ -56,7 +59,7 @@ import { EoConnectionWithName, EoConnectionsService } from '../data-access-api/c
       [loading]="isRemovingConnection()"
       (click)="onRemoveConnection()"
       data-testid="remove-connection-button"
-    ></watt-button>
+    />
 
     <!-- Confirmation dialog -->
     <watt-modal

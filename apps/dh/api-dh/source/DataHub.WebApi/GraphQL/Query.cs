@@ -17,16 +17,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Energinet.DataHub.WebApi.Extensions;
 using HotChocolate;
 using Microsoft.AspNetCore.Http;
 using NodaTime;
+using ActorDto = Energinet.DataHub.MarketParticipant.Client.Models.ActorDto;
+using EicFunction = Energinet.DataHub.MarketParticipant.Client.Models.EicFunction;
+using GridAreaDto = Energinet.DataHub.MarketParticipant.Client.Models.GridAreaDto;
+using OrganizationAuditLogDto = Energinet.DataHub.MarketParticipant.Client.Models.OrganizationAuditLogDto;
+using OrganizationDto = Energinet.DataHub.MarketParticipant.Client.Models.OrganizationDto;
+using PermissionChangeType = Energinet.DataHub.MarketParticipant.Client.Models.PermissionChangeType;
+using PermissionDetailsDto = Energinet.DataHub.MarketParticipant.Client.Models.PermissionDetailsDto;
 using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
 using SortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
+using UserRoleWithPermissionsDto = Energinet.DataHub.MarketParticipant.Client.Models.UserRoleWithPermissionsDto;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -188,6 +196,15 @@ namespace Energinet.DataHub.WebApi.GraphQL
             });
         }
 
+        public Task<ActorDto> GetSelectedActorAsync(
+            [Service] IHttpContextAccessor httpContextAccessor,
+            [Service] IMarketParticipantClient client)
+        {
+            var user = httpContextAccessor.HttpContext?.User;
+            var associatedActor = user?.GetAssociatedActor() ?? throw new InvalidOperationException("No associated actor found.");
+            return client.GetActorAsync(associatedActor);
+        }
+
         public Task<ActorDto> GetActorByIdAsync(
             Guid id,
             [Service] IMarketParticipantClient client) =>
@@ -199,27 +216,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public async Task<IEnumerable<ActorDto>> GetActorsForEicFunctionAsync(
             EicFunction[]? eicFunctions,
-            [Service] IHttpContextAccessor httpContextAccessor,
             [Service] IMarketParticipantClient client)
         {
+            eicFunctions ??= Array.Empty<EicFunction>();
             var actors = await client.GetActorsAsync();
 
-            // TODO: The contents of eicFunctions is not currently used?
-            actors = eicFunctions switch
-            {
-                { Length: 0 } => actors,
-                _ => actors.Where(x =>
-                    x.MarketRoles.Any(y =>
-                        y.EicFunction is EicFunction.EnergySupplier or EicFunction.GridAccessProvider)),
-            };
-
-            // TODO: Is this the right place to filter this list?
-            var user = httpContextAccessor.HttpContext?.User;
-            return user is null
-                ? Enumerable.Empty<ActorDto>()
-                : user.IsFas()
-                    ? actors
-                    : actors.Where(actor => actor.ActorId == user.GetAssociatedActor());
+            return actors.Where(x => x.MarketRoles.Any(y => eicFunctions.Contains(y.EicFunction)));
         }
 
         public Task<ExchangeEventTrackingResult> GetEsettOutgoingMessageByIdAsync(
@@ -233,9 +235,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
             DateTimeOffset? periodFrom, // TODO: Consider using Interval?
             DateTimeOffset? periodTo, // TODO: Consider using Interval?
             string? gridAreaCode,
-            Clients.ESettExchange.v1.ProcessType? processType,
+            Clients.ESettExchange.v1.CalculationType? calculationType,
             DocumentStatus? documentStatus,
             TimeSeriesType? timeSeriesType,
+            string? documentId,
             [Service] IESettExchangeClient_V1 client) =>
             client.SearchAsync(new ExchangeEventSearchFilter
             {
@@ -244,9 +247,28 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 PeriodFrom = periodFrom,
                 PeriodTo = periodTo,
                 GridAreaCode = gridAreaCode,
-                ProcessType = processType,
+                CalculationType = calculationType,
                 DocumentStatus = documentStatus,
                 TimeSeriesType = timeSeriesType,
+                DocumentId = documentId,
+            });
+
+        public Task<MeteringGridAreaImbalanceSearchResponse> GetMeteringGridAreaImbalanceAsync(
+            int pageNumber,
+            int pageSize,
+            DateTimeOffset? createdFrom,
+            DateTimeOffset? createdTo,
+            string? gridAreaCode,
+            string? documentId,
+            [Service] IESettExchangeClient_V1 client) =>
+            client.ImbalanceAsync(new MeteringGridAreaImbalanceSearchFilter
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                CreatedFrom = createdFrom,
+                CreatedTo = createdTo,
+                GridAreaCode = gridAreaCode,
+                DocumentId = documentId,
             });
 
         public Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(
@@ -260,5 +282,112 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 pageSize,
                 sortProperty,
                 sortDirection);
+
+        public Task<IEnumerable<ActorDto>> GetActorsByOrganizationIdAsync(
+            Guid organizationId,
+            [Service] IMarketParticipantClient client) =>
+            client.GetActorsAsync(organizationId);
+
+        public Task<IEnumerable<OrganizationAuditLogDto>> GetOrganizationAuditLogAsync(
+            Guid organizationId,
+            [Service] IMarketParticipantClient client) =>
+            client.GetAuditLogEntriesAsync(organizationId);
+
+        public Task<bool> EmailExistsAsync(
+            string emailAddress,
+            [Service] IMarketParticipantClient_V1 client) =>
+            client.ExistsAsync(emailAddress);
+
+        public async Task<IEnumerable<ActorAuditLog>> GetActorAuditLogsAsync(
+            Guid actorId,
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            var logs = await client.AuditlogsAsync(actorId);
+            var actorAuditLogs = new List<ActorAuditLog>();
+
+            foreach (var auditLog in logs.ActorAuditLogs)
+            {
+                var auditLogType = auditLog.ActorChangeType switch
+                {
+                    ActorChangeType.Name => ActorAuditLogType.Name,
+                    ActorChangeType.Created => ActorAuditLogType.Created,
+                    ActorChangeType.Status => ActorAuditLogType.Status,
+                    _ => ActorAuditLogType.Created,
+                };
+                actorAuditLogs.Add(new ActorAuditLog()
+                {
+                    ChangedByUserId = auditLog.AuditIdentityId,
+                    CurrentValue = auditLog.CurrentValue,
+                    PreviousValue = auditLog.PreviousValue,
+                    Timestamp = auditLog.Timestamp,
+                    Type = auditLogType,
+                    ContactCategory = MarketParticipant.Client.Models.ContactCategory.Default,
+                });
+            }
+
+            foreach (var auditLog in logs.ActorContactAuditLogs)
+            {
+                var auditLogType = auditLog.ActorContactChangeType switch
+                {
+                    ActorContactChangeType.Name => ActorAuditLogType.ContactName,
+                    ActorContactChangeType.Email => ActorAuditLogType.ContactEmail,
+                    ActorContactChangeType.Phone => ActorAuditLogType.ContactPhone,
+                    ActorContactChangeType.Created => ActorAuditLogType.ContactCreated,
+                    ActorContactChangeType.Deleted => ActorAuditLogType.ContactDeleted,
+                    _ => ActorAuditLogType.Created,
+                };
+
+                // TODO: This is needed as long as we include the original client from the nuget package, since both have a type called ContactCategory
+                var contactCategory = auditLog.ContactCategory switch
+                {
+                    ContactCategory.Default => MarketParticipant.Client.Models.ContactCategory.Default,
+                    ContactCategory.Charges => MarketParticipant.Client.Models.ContactCategory.Charges,
+                    ContactCategory.ChargeLinks => MarketParticipant.Client.Models.ContactCategory.ChargeLinks,
+                    ContactCategory.ElectricalHeating => MarketParticipant.Client.Models.ContactCategory.ElectricalHeating,
+                    ContactCategory.EndOfSupply => MarketParticipant.Client.Models.ContactCategory.EndOfSupply,
+                    ContactCategory.EnerginetInquiry => MarketParticipant.Client.Models.ContactCategory.EnerginetInquiry,
+                    ContactCategory.ErrorReport => MarketParticipant.Client.Models.ContactCategory.ErrorReport,
+                    ContactCategory.IncorrectMove => MarketParticipant.Client.Models.ContactCategory.IncorrectMove,
+                    ContactCategory.IncorrectSwitch => MarketParticipant.Client.Models.ContactCategory.IncorrectSwitch,
+                    ContactCategory.MeasurementData => MarketParticipant.Client.Models.ContactCategory.MeasurementData,
+                    ContactCategory.MeteringPoint => MarketParticipant.Client.Models.ContactCategory.MeteringPoint,
+                    ContactCategory.NetSettlement => MarketParticipant.Client.Models.ContactCategory.NetSettlement,
+                    ContactCategory.Notification => MarketParticipant.Client.Models.ContactCategory.Notification,
+                    ContactCategory.Recon => MarketParticipant.Client.Models.ContactCategory.Recon,
+                    ContactCategory.Reminder => MarketParticipant.Client.Models.ContactCategory.Reminder,
+                    _ => MarketParticipant.Client.Models.ContactCategory.Default,
+                };
+                actorAuditLogs.Add(new ActorAuditLog()
+                {
+                    ChangedByUserId = auditLog.AuditIdentityId,
+                    CurrentValue = auditLog.CurrentValue,
+                    PreviousValue = auditLog.PreviousValue,
+                    Timestamp = auditLog.Timestamp,
+                    Type = auditLogType,
+                    ContactCategory = contactCategory,
+                });
+            }
+
+            return actorAuditLogs.OrderBy(x => x.Timestamp);
+        }
+
+        public async Task<IEnumerable<string>> GetKnownEmailsAsync(
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            var users = await client.SearchAsync(
+                1,
+                int.MaxValue,
+                UserOverviewSortProperty.Email,
+                Clients.MarketParticipant.v1.SortDirection.Asc,
+                new UserOverviewFilterDto()
+                {
+                    UserStatus = new List<UserStatus>(),
+                    UserRoleIds = new List<Guid>(),
+                });
+            return users.Users.Select(x => x.Email).ToList();
+        }
+
+        public async Task<IEnumerable<GridAreaOverviewItemDto>> GetGridAreaOverviewAsync([Service] IMarketParticipantClient_V1 client) =>
+            await client.GridAreaOverviewAsync();
     }
 }

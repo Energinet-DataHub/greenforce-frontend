@@ -19,6 +19,15 @@ type Actor {
   status: ActorStatus!
 }
 
+type ActorAuditLog {
+  changedByUserName: String!
+  currentValue: String
+  previousValue: String
+  timestamp: DateTime!
+  type: ActorAuditLogType!
+  contactCategory: ContactCategory!
+}
+
 type ActorContactDto {
   contactId: UUID!
   category: ContactCategory!
@@ -28,10 +37,6 @@ type ActorContactDto {
 }
 
 type ActorNameDto {
-  value: String!
-}
-
-type ActorNumber {
   value: String!
 }
 
@@ -54,8 +59,8 @@ type BalanceResponsibleType {
   balanceResponsibleWithName: ActorNameDto
   id: String!
   receivedDateTime: DateTime!
-  supplier: ActorNumber!
-  balanceResponsible: ActorNumber!
+  supplier: String!
+  balanceResponsible: String!
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
   validToDate: DateTime
@@ -91,7 +96,7 @@ type EsettOutgoingMessage {
   gridArea: GridAreaDto
   documentId: String!
   created: DateTime!
-  processType: ExchangeEventProcessType!
+  calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   periodFrom: DateTime!
   periodTo: DateTime!
@@ -107,9 +112,13 @@ type ExchangeEventSearchResult {
   documentId: String!
   gridAreaCode: String!
   created: DateTime!
-  processType: ExchangeEventProcessType!
+  calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
+}
+
+type GetAuditIdentityResponseDto {
+  displayName: String!
 }
 
 type GridAreaDto {
@@ -121,15 +130,45 @@ type GridAreaDto {
   validTo: DateTime
 }
 
+type GridAreaOverviewItemDto {
+  id: UUID!
+  code: String!
+  name: String!
+  priceAreaCode: String!
+  validFrom: DateTime!
+  validTo: DateTime
+  actorNumber: String
+  actorName: String
+  organizationName: String
+  fullFlexDate: DateTime
+}
+
 type MarketParticipantBadRequestError implements Error {
   message: String!
   jsonError: JSON!
   statusCode: Int!
 }
 
-type MarketParticipantError implements Error {
-  message: String!
-  statusCode: Int!
+type MeteringGridAreaImbalancePerDayDto {
+  imbalanceDay: DateTime!
+  incomingQuantity: Float
+  outgoingQuantity: Float
+}
+
+type MeteringGridAreaImbalanceSearchResponse {
+  items: [MeteringGridAreaImbalanceSearchResult!]!
+  totalCount: Int!
+}
+
+type MeteringGridAreaImbalanceSearchResult {
+  id: String!
+  gridAreaCode: String!
+  documentDateTime: DateTime!
+  receivedDateTime: DateTime!
+  periodStart: DateTime!
+  periodEnd: DateTime!
+  imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
+  storageId: String!
 }
 
 type Mutation {
@@ -149,6 +188,15 @@ type Organization {
   comment: String!
   status: OrganizationStatus!
   address: AddressDto!
+}
+
+type OrganizationAuditLog {
+  identityWithName: GetAuditIdentityResponseDto!
+  organizationId: UUID!
+  value: String!
+  auditIdentityId: UUID!
+  timestamp: DateTime!
+  organizationChangeType: OrganizationChangeType!
 }
 
 type Permission {
@@ -179,12 +227,20 @@ type Query {
   calculationById(id: UUID!): Calculation!
   calculations(executionTime: DateRange executionStates: [BatchState!] processTypes: [ProcessType!] gridAreaCodes: [String!] period: DateRange first: Int): [Calculation!]!
   settlementReports(gridAreaCodes: [String!] period: DateRange executionTime: DateRange): [SettlementReport!]!
+  selectedActor: Actor!
   actorById(id: UUID!): Actor!
   actors: [Actor!]!
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodFrom: DateTime periodTo: DateTime gridAreaCode: String processType: ExchangeEventProcessType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
+  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodFrom: DateTime periodTo: DateTime gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String): ExchangeEventSearchResponse!
+  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime gridAreaCode: String documentId: String): MeteringGridAreaImbalanceSearchResponse!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
+  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
+  organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
+  emailExists(emailAddress: String!): Boolean!
+  actorAuditLogs(actorId: UUID!): [ActorAuditLog!]!
+  knownEmails: [String!]!
+  gridAreaOverview: [GridAreaOverviewItemDto!]!
 }
 
 type SettlementReport {
@@ -234,29 +290,13 @@ type UserRoleWithPermissionsDto {
   permissions: [Permission!]!
 }
 
-union UpdateActorError = MarketParticipantError
+union UpdateActorError = MarketParticipantBadRequestError
 
 union UpdateOrganizationError = MarketParticipantBadRequestError
 
-input AddressDtoInput {
-  streetName: String
-  number: String
-  zipCode: String
-  city: String
-  country: String!
-}
-
-input ChangeOrganizationDtoInput {
-  name: String!
-  businessRegisterIdentifier: String!
-  address: AddressDtoInput!
-  comment: String
-  status: OrganizationStatus!
-}
-
 input CreateAggregatedMeasureDataRequestInput {
   processType: EdiB2CProcessType!
-  meteringPointType: MeteringPointType!
+  meteringPointType: MeteringPointType
   startDate: String!
   endDate: String
   gridArea: String
@@ -280,12 +320,23 @@ input UpdateActorInput {
 
 input UpdateOrganizationInput {
   orgId: UUID!
-  changes: ChangeOrganizationDtoInput!
+  domain: String!
 }
 
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
+}
+
+enum ActorAuditLogType {
+  NAME
+  CREATED
+  STATUS
+  CONTACT_NAME
+  CONTACT_EMAIL
+  CONTACT_PHONE
+  CONTACT_CREATED
+  CONTACT_DELETED
 }
 
 enum ActorStatus {
@@ -338,7 +389,9 @@ enum EdiB2CProcessType {
   preliminaryaggregation
   balancefixing
   wholesalefixing
-  correction
+  firstcorrection
+  secondcorrection
+  thirdcorrection
 }
 
 enum EicFunction {
@@ -357,7 +410,7 @@ enum EicFunction {
   SerialEnergyTrader
 }
 
-enum ExchangeEventProcessType {
+enum ExchangeEventCalculationType {
   BALANCE_FIXING
   AGGREGATION
 }
@@ -368,6 +421,17 @@ enum MeteringPointType {
   TOTAL_CONSUMPTION
   NON_PROFILED_CONSUMPTION
   EXCHANGE
+}
+
+enum OrganizationChangeType {
+  DOMAIN_CHANGE
+  NAME
+  BUSINESS_REGISTER_IDENTIFIER
+  ADDRESS_CITY
+  ADDRESS_COUNTRY
+  ADDRESS_NUMBER
+  ADDRESS_STREET_NAME
+  ADDRESS_ZIP_CODE
 }
 
 enum OrganizationStatus {

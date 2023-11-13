@@ -18,6 +18,7 @@ limitations under the License.
   <watt-modal
     [loading]="isLoading"
     [title]="actor.name"
+    [size]="'small'"
     *transloco="let t; read: 'marketParticipant.actorsOverview.edit'"
   >
     <form
@@ -44,6 +45,7 @@ limitations under the License.
       >
         <watt-field-error>{{ t("required") }}</watt-field-error>
       </watt-text-field>
+
       <watt-text-field
         class="contact-field"
         type="email"
@@ -52,8 +54,16 @@ limitations under the License.
         [formControl]="actorForm.controls.departmentEmail"
       >
         <span wattSuffix class="email-suffix">@{{ emailDomain }}</span>
-        <watt-field-error>{{ t("required") }}</watt-field-error>
+
+        <watt-field-error *ngIf="actorForm.controls.departmentEmail.hasError('required')">
+          {{ t("required") }}
+        </watt-field-error>
+
+        <watt-field-error *ngIf="actorForm.controls.departmentEmail.hasError('pattern')">
+          {{ t("invalidEmail") }}
+        </watt-field-error>
       </watt-text-field>
+
       <watt-text-field
         class="phone-field"
         type="tel"

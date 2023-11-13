@@ -18,7 +18,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'watt-field-error',
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   encapsulation: ViewEncapsulation.None,
   styles: [
     `

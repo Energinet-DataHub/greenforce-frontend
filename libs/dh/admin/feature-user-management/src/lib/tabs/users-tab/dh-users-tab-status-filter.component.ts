@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-users-tab-status-filter',
@@ -32,7 +32,7 @@ import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain
         [formControl]="statusControl"
         [options]="userStatusOptions"
         [multiple]="true"
-      ></watt-dropdown>
+      />
     </ng-container>
   `,
   styles: [
@@ -47,8 +47,8 @@ import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain
   ],
   imports: [TranslocoModule, ReactiveFormsModule, WattDropdownComponent],
 })
-export class DhUsersTabStatusFilterComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+export class DhUsersTabStatusFilterComponent implements OnInit {
+  private _destroyRef = inject(DestroyRef);
 
   statusControl = new FormControl<MarketParticipantUserStatus[]>([], { nonNullable: true });
 
@@ -65,19 +65,14 @@ export class DhUsersTabStatusFilterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.buildUserStatusOptions();
     this.statusControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((value) => this.changed.emit(value));
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   private buildUserStatusOptions() {
     this.trans
       .selectTranslateObject('admin.userManagement.userStatus')
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (keys) => {
           this.userStatusOptions = Object.keys(MarketParticipantUserStatus).map((entry) => {

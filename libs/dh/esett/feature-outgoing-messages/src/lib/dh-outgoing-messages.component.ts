@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, Subject, combineLatest, map, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, map, switchMap } from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -39,6 +39,8 @@ import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.compone
 import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
 import { DhOutgoingMessage } from './dh-outgoing-message';
 import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -71,6 +73,7 @@ import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
     WATT_CARD,
     WattPaginatorComponent,
     WattButtonComponent,
+    WattSearchComponent,
     VaterFlexComponent,
     VaterSpacerComponent,
     VaterStackComponent,
@@ -80,9 +83,9 @@ import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
     DhOutgoingMessagesTableComponent,
   ],
 })
-export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
-  private apollo = inject(Apollo);
-  private destroy$ = new Subject<void>();
+export class DhOutgoingMessagesComponent implements OnInit {
+  private _apollo = inject(Apollo);
+  private _destroyRef = inject(DestroyRef);
 
   tableDataSource = new WattTableDataSource<DhOutgoingMessage>([]);
   totalCount = 0;
@@ -104,15 +107,22 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
     },
   });
 
+  documentIdSearch$ = new BehaviorSubject<string>('');
+
   private queryVariables$ = combineLatest({
     filters: this.filter$,
     pageMetaData: this.pageMetaData$,
-  });
+    documentIdSearch: this.documentIdSearch$.pipe(debounceTime(250)),
+  }).pipe(
+    map(({ filters, pageMetaData, documentIdSearch }) => {
+      return { filters: documentIdSearch ? {} : filters, pageMetaData, documentIdSearch };
+    })
+  );
 
   outgoingMessages$ = this.queryVariables$.pipe(
     switchMap(
-      ({ filters, pageMetaData }) =>
-        this.apollo.watchQuery({
+      ({ filters, pageMetaData, documentIdSearch }) =>
+        this._apollo.watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
@@ -122,20 +132,21 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
             // whereas our endpoint's `pageNumber` param starts at `1`
             pageNumber: pageMetaData.pageIndex + 1,
             pageSize: pageMetaData.pageSize,
-            processType: filters.calculationTypes,
+            calculationType: filters.calculationTypes,
             timeSeriesType: filters.messageTypes,
             gridAreaCode: filters.gridAreas,
             documentStatus: filters.status,
             periodFrom: filters.period?.start,
             periodTo: filters.period?.end,
+            documentId: documentIdSearch,
           },
         }).valueChanges
     ),
-    takeUntil(this.destroy$)
+    takeUntilDestroyed()
   );
 
   ngOnInit() {
-    this.outgoingMessages$.pipe(takeUntil(this.destroy$)).subscribe({
+    this.outgoingMessages$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
       next: (result) => {
         this.isLoading = result.loading;
 
@@ -149,11 +160,6 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       },
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
@@ -182,7 +188,7 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
     const lines = dataSorted.map((message) => [
       `"${message.created.toISOString()}"`,
       `"${message.documentId}"`,
-      `"${translate(outgoingMessagesPath + '.shared.calculationType.' + message.processType)}"`,
+      `"${translate(outgoingMessagesPath + '.shared.calculationType.' + message.calculationType)}"`,
       `"${translate(outgoingMessagesPath + '.shared.messageType.' + message.timeSeriesType)}"`,
       `"${message.gridAreaCode}"`,
       `"${translate(outgoingMessagesPath + '.shared.documentStatus.' + message.documentStatus)}"`,

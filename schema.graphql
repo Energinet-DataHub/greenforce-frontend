@@ -26,8 +26,8 @@ type BalanceResponsibleType {
   balanceResponsibleWithName: ActorNameDto
   id: String!
   receivedDateTime: DateTime!
-  supplier: ActorNumber!
-  balanceResponsible: ActorNumber!
+  supplier: String!
+  balanceResponsible: String!
   meteringPointType: TimeSeriesType!
   validFromDate: DateTime!
   validToDate: DateTime
@@ -55,7 +55,9 @@ enum EdiB2CProcessType {
   preliminaryaggregation
   balancefixing
   wholesalefixing
-  correction
+  firstcorrection
+  secondcorrection
+  thirdcorrection
 }
 
 enum EicFunction {
@@ -78,16 +80,25 @@ type EsettOutgoingMessage {
   gridArea: GridAreaDto
   documentId: String!
   created: DateTime!
-  processType: ExchangeEventProcessType!
+  calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   periodFrom: DateTime!
   periodTo: DateTime!
   documentStatus: DocumentStatus!
 }
 
-enum ExchangeEventProcessType {
+enum ExchangeEventCalculationType {
   BALANCE_FIXING
   AGGREGATION
+}
+
+type OrganizationAuditLog {
+  identityWithName: GetAuditIdentityResponseDto!
+  organizationId: UUID!
+  value: String!
+  auditIdentityId: UUID!
+  timestamp: DateTime!
+  organizationChangeType: OrganizationChangeType!
 }
 
 type Organization {
@@ -135,12 +146,20 @@ type Query {
   calculationById(id: UUID!): Calculation!
   calculations(executionTime: DateRange, executionStates: [BatchState!], processTypes: [ProcessType!], gridAreaCodes: [String!], period: DateRange, first: Int): [Calculation!]!
   settlementReports(gridAreaCodes: [String!], period: DateRange, executionTime: DateRange): [SettlementReport!]!
+  selectedActor: Actor!
   actorById(id: UUID!): Actor!
   actors: [Actor!]!
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, processType: ExchangeEventProcessType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType): ExchangeEventSearchResponse!
+  esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String): ExchangeEventSearchResponse!
+  meteringGridAreaImbalance(pageNumber: Int!, pageSize: Int!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String): MeteringGridAreaImbalanceSearchResponse!
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
+  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
+  organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
+  emailExists(emailAddress: String!): Boolean!
+  actorAuditLogs(actorId: UUID!): [ActorAuditLog!]!
+  knownEmails: [String!]!
+  gridAreaOverview: [GridAreaOverviewItemDto!]!
 }
 
 type Mutation {
@@ -176,10 +195,6 @@ type ActorNameDto {
 
 """The `DateTime` scalar represents an ISO-8601 compliant date time type."""
 scalar DateTime
-
-type ActorNumber {
-  value: String!
-}
 
 enum TimeSeriesType {
   MGA_EXCHANGE
@@ -217,6 +232,21 @@ enum DocumentStatus {
   REJECTED
 }
 
+type GetAuditIdentityResponseDto {
+  displayName: String!
+}
+
+enum OrganizationChangeType {
+  DOMAIN_CHANGE
+  NAME
+  BUSINESS_REGISTER_IDENTIFIER
+  ADDRESS_CITY
+  ADDRESS_COUNTRY
+  ADDRESS_NUMBER
+  ADDRESS_STREET_NAME
+  ADDRESS_ZIP_CODE
+}
+
 enum OrganizationStatus {
   NEW
   ACTIVE
@@ -238,11 +268,6 @@ type UserRoleDto {
   description: String!
   eicFunction: EicFunction!
   status: UserRoleStatus!
-}
-
-type MarketParticipantError implements Error {
-  message: String!
-  statusCode: Int!
 }
 
 type MarketParticipantBadRequestError implements Error {
@@ -285,14 +310,6 @@ enum PriceAreaCode {
   DK2
 }
 
-input ChangeOrganizationDtoInput {
-  name: String!
-  businessRegisterIdentifier: String!
-  address: AddressDtoInput!
-  comment: String
-  status: OrganizationStatus!
-}
-
 enum MeteringPointType {
   PRODUCTION
   FLEX_CONSUMPTION
@@ -304,6 +321,28 @@ enum MeteringPointType {
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
+}
+
+type GridAreaOverviewItemDto {
+  id: UUID!
+  code: String!
+  name: String!
+  priceAreaCode: String!
+  validFrom: DateTime!
+  validTo: DateTime
+  actorNumber: String
+  actorName: String
+  organizationName: String
+  fullFlexDate: DateTime
+}
+
+type ActorAuditLog {
+  changedByUserName: String!
+  currentValue: String
+  previousValue: String
+  timestamp: DateTime!
+  type: ActorAuditLogType!
+  contactCategory: ContactCategory!
 }
 
 enum SortDirection {
@@ -319,6 +358,11 @@ enum BalanceResponsibleSortProperty {
 
 type BalanceResponsiblePageResult {
   page: [BalanceResponsibleType!]!
+  totalCount: Int!
+}
+
+type MeteringGridAreaImbalanceSearchResponse {
+  items: [MeteringGridAreaImbalanceSearchResult!]!
   totalCount: Int!
 }
 
@@ -384,17 +428,37 @@ type ExchangeEventSearchResult {
   documentId: String!
   gridAreaCode: String!
   created: DateTime!
-  processType: ExchangeEventProcessType!
+  calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
 }
 
-input AddressDtoInput {
-  streetName: String
-  number: String
-  zipCode: String
-  city: String
-  country: String!
+type MeteringGridAreaImbalanceSearchResult {
+  id: String!
+  gridAreaCode: String!
+  documentDateTime: DateTime!
+  receivedDateTime: DateTime!
+  periodStart: DateTime!
+  periodEnd: DateTime!
+  imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
+  storageId: String!
+}
+
+enum ActorAuditLogType {
+  NAME
+  CREATED
+  STATUS
+  CONTACT_NAME
+  CONTACT_EMAIL
+  CONTACT_PHONE
+  CONTACT_CREATED
+  CONTACT_DELETED
+}
+
+type MeteringGridAreaImbalancePerDayDto {
+  imbalanceDay: DateTime!
+  incomingQuantity: Float
+  outgoingQuantity: Float
 }
 
 input UpdateActorInput {
@@ -405,7 +469,7 @@ input UpdateActorInput {
   departmentPhone: String!
 }
 
-union UpdateActorError = MarketParticipantError
+union UpdateActorError = MarketParticipantBadRequestError
 
 type UpdateActorPayload {
   boolean: Boolean
@@ -424,7 +488,7 @@ type CreateCalculationPayload {
 
 input CreateAggregatedMeasureDataRequestInput {
   processType: EdiB2CProcessType!
-  meteringPointType: MeteringPointType!
+  meteringPointType: MeteringPointType
   startDate: String!
   endDate: String
   gridArea: String
@@ -438,7 +502,7 @@ type CreateAggregatedMeasureDataRequestPayload {
 
 input UpdateOrganizationInput {
   orgId: UUID!
-  changes: ChangeOrganizationDtoInput!
+  domain: String!
 }
 
 union UpdateOrganizationError = MarketParticipantBadRequestError

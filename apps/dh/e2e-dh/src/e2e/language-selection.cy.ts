@@ -18,16 +18,16 @@ describe('Language selection', () => {
   it(`toggle languages`, () => {
     // Given no language is selected
     // Then Danish translations are displayed
-    cy.visit('/metering-point/search');
+    cy.visit('/message-archive');
     cy.findByRole('heading', {
-      name: new RegExp('Søg målepunkter', 'i'),
+      name: new RegExp('Fremsøg forretningsbesked', 'i'),
     });
 
     // When English is selected
     // Then English translations are displayed
     cy.findByText('EN').click();
     cy.findByRole('heading', {
-      name: new RegExp('Search metering points', 'i'),
+      name: new RegExp('Search in request and response messages', 'i'),
     });
 
     // Given English is selected
@@ -35,7 +35,7 @@ describe('Language selection', () => {
     // Then Danish translations are displayed
     cy.findByText('DA').click();
     cy.findByRole('heading', {
-      name: new RegExp('Søg målepunkter', 'i'),
+      name: new RegExp('Fremsøg forretningsbesked', 'i'),
     });
   });
 });

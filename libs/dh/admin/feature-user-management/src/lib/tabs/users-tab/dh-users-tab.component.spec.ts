@@ -35,6 +35,7 @@ import {
 import { DhUsersTabComponent } from './dh-users-tab.component';
 import { searchDebounceTimeMs } from '@energinet-datahub/dh/shared/ui-search';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { FormGroupDirective } from '@angular/forms';
 
 const users: MarketParticipantUserOverviewItemDto[] = [
   {
@@ -45,7 +46,6 @@ const users: MarketParticipantUserOverviewItemDto[] = [
     phoneNumber: '11111111',
     createdDate: '2022-01-01T23:00:00Z',
     status: 'Active',
-    assignedActors: [],
   },
 ];
 
@@ -72,6 +72,7 @@ describe(DhUsersTabComponent, () => {
 
     const { fixture } = await render(DhUsersTabComponent, {
       imports: [getTranslocoTestingModule(), HttpClientModule, DhApiModule.forRoot()],
+      providers: [FormGroupDirective],
       componentProviders: [storeMock, toastServiceMock],
     });
 

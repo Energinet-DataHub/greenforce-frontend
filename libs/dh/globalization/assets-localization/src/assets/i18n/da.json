@@ -3,6 +3,9 @@
   "yes": "Ja",
   "no": "Nej",
   "selectedLanguageIso": "da-dk",
+  "sessionExpirationTitle": "Sessionen udløber snart",
+  "sessionExpirationContentPartA": "Du har været inaktiv i 2 timer.",
+  "sessionExpirationContentPartB": "Af sikkerhedsmæssige årsager vil du blive logget af om",
   "shell": {
     "logout": "Log ud"
   },
@@ -38,7 +41,8 @@
     },
     "download": "Download",
     "search": "Søg",
-    "selectedValues": "{{count}} valgt(e)"
+    "selectedValues": "{{count}} valgt(e)",
+    "processType": "Beregningstype"
   },
   "clipboard": {
     "success": "Kopieret til udklipsholder",
@@ -61,7 +65,8 @@
         "menuGroupLabel": "Afregninger",
         "calculations": "Beregninger",
         "overview": "Oversigt",
-        "settlementReports": "Afregningsrapporter"
+        "settlementReports": "Afregningsrapporter",
+        "requestCalculation": "Anmod om beregning"
       },
       "admin": {
         "menuGroupLabel": "Opsætning",
@@ -524,9 +529,27 @@
     },
     "actor": {
       "create": {
-        "editHeader": "Redigér aktør",
-        "createHeader": "Opret aktør",
-        "errorToastLabel": "Fejl",
+        "steps": {
+          "orgNext": "Aktør"
+        },
+        "domainInvalid": "Ugyldigt domæne",
+        "companyName": "Virksomhedsnavn",
+        "domain": "Domæne",
+        "cvrInvalid": "Ugyldigt CVR nummer",
+        "cvrNumber": "CVR-Nr.",
+        "country": "Land",
+        "counties": {
+          "DK": "Danmark",
+          "SE": "Sverige",
+          "NO": "Norge",
+          "FI": "Finland"
+        },
+        "searchDatahub": "Søg datahub",
+        "newOrganization": "Ny organisation",
+        "marketParty": "Aktør",
+        "createHeader": "Ny aktør",
+        "organization": "Organisation",
+        "useradmin": "Brugeradministrator",
         "masterDataTabHeader": "Stamdata",
         "meteringPointTypesHeader": "Målepunktstyper",
         "gridAreasHeader": "Netområder",
@@ -567,6 +590,7 @@
         "marketRole": "Markedsrolle",
         "status": "Status"
       },
+      "create": "Ny aktør",
       "actors": "Aktører",
       "columns": {
         "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
@@ -597,8 +621,46 @@
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
             "gridArea": "Netområde"
           },
+          "b2bAccess": {
+            "tabLabel": "B2B adgang",
+            "certificateHeadline": "Certifikat",
+            "thumbprint": "Thumbprint",
+            "expiryDate": "Udløbsdato",
+            "removeCertificate": "Fjern certifikat",
+            "uploadCertificate": "Upload certifikat",
+            "uploadNewCertificate": "Upload nyt certifikat",
+            "invalidFileType": "Vælg en certifikatfil",
+            "uploadSuccess": "Certifikatet er blevet uploadet",
+            "uploadError": "Noget gik galt. Certifikatet blev ikke uploadet. Prøv igen",
+            "removeSuccess": "Certifikatet er blevet fjernet",
+            "removeError": "Noget gik galt. Certifikatet blev ikke fjernet. Prøv igen",
+            "removeCertificateModal": {
+              "title": "Fjern certifikat?",
+              "message": "Er du sikker på, at du vil fjerne certifikatet?",
+              "cancel": "Fortryd",
+              "confirm": "Fjern certifikat"
+            }
+          },
           "history": {
-            "tabLabel": "Historik"
+            "tabLabel": "History",
+            "changeTypes": {
+              "NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
+              "NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
+              "STATUS": "<b>{{ changedByUserName }}</b> ændrede status på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
+              "STATUS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede status på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
+              "CREATED": "<b>{{ changedByUserName }}</b> oprettede aktøren",
+              "CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> oprettede aktøren",
+              "CONTACT_NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_EMAIL": "<b>{{ changedByUserName }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_PHONE": "<b>{{ changedByUserName }}</b> ændrede telefonnummer på kontakten fra <b>{{ currentValue }}</b> til <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b> fra <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b> fra <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede telefonnummer på kontakten fra <b>{{ currentValue }}</b> til <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_CREATED": "<b>{{ changedByUserName }}</b> oprettede en kontakt i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_DELETED": "<b>{{ changedByUserName }}</b> slettede en kontakt i kategorien <b>{{ contactCategory }}</b> category",
+              "CONTACT_CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> oprettede en kontakt i kategorien <b>{{ contactCategory }}</b>",
+              "CONTACT_DELETED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> slettede en kontakt i kategorien <b>{{ contactCategory }}</b> category"
+            }
           }
         }
       },
@@ -609,6 +671,7 @@
         "departmentEmail": "Email",
         "departmentPhone": "Telefonnr.",
         "required": "Feltet er påkrævet",
+        "invalidEmail": "Ugyldig email",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {
@@ -638,12 +701,43 @@
       "drawer": {
         "edit": "Rediger organisation",
         "tabs": {
+          "shared": {
+            "error": "En fejl opstod",
+            "noData": "Ingen data"
+          },
           "masterData": {
             "tabLabel": "Information",
             "businessRegisterIdentifier": "CVR",
             "name": "Navn",
             "domain": "Domæne"
+          },
+          "actors": {
+            "tabLabel": "Aktører"
+          },
+          "history": {
+            "tabLabel": "Historik",
+            "changeTypes": {
+              "NAME": "<b>{{ identity }}</b> ændrede navnet til <b>{{ value }}</b>",
+              "DOMAIN_CHANGE": "<b>{{ identity }}</b> ændrede domænet til <b>{{ value }}</b>",
+              "BUSINESS_REGISTER_IDENTIFIER": "<b>{{ identity }}</b> ændrede CVR-nummeret til <b>{{ value }}</b>",
+              "ADDRESS_CITY": "<b>{{ identity }}</b> ændrede byen til <b>{{ value }}</b>",
+              "ADDRESS_COUNTRY": "<b>{{ identity }}</b> ændrede landet til <b>{{ value }}</b>",
+              "ADDRESS_NUMBER": "<b>{{ identity }}</b> ændrede vejnummeret til <b>{{ value }}</b>",
+              "ADDRESS_STREET_NAME": "<b>{{ identity }}</b> ændrede vejnavnet til <b>{{ value }}</b>",
+              "ADDRESS_ZIP_CODE": "<b>{{ identity }}</b> ændrede postnummeret til <b>{{ value }}</b>"
+            }
           }
+        }
+      },
+      "edit": {
+        "domainLabel": "Domæne",
+        "required": "Feltet er påkrævet",
+        "invalidDomain": "Ugyldigt domæne",
+        "cancel": "Fortryd",
+        "save": "Gem ændringer",
+        "updateRequest": {
+          "success": "Ændringerne af organisationen er blevet gemt.",
+          "error": "Der opstod desværre en fejl, da vi skulle gemme organisationen."
         }
       }
     },
@@ -795,46 +889,12 @@
     },
     "gridAreas": {
       "topBarTitle": "Netområder",
-      "createGridArea": "Opret",
-      "editGridArea": "Rediger",
       "noGridAreas": "Ingen netområder fundet",
+      "error": "En fejl opstod",
       "columns": {
-        "name": "Netområde",
-        "code": "Netområde nr.",
-        "actorName": "Netvirksomhed",
-        "actorNumber": "Aktør id",
-        "priceAreaCode": "Prisområde",
-        "validFrom": "Gyldig fra",
-        "validTo": "Gyldig til"
-      },
-      "detailsHeader": {
-        "code": "Netområde nr.",
-        "actorId": "Aktør id",
-        "fullFlexDate": "Overgang til fuld flex",
-        "priceAreaCode": "Prisområde",
-        "lossMeteringPoint": "Nettabsmålepunkt",
-        "correctionMeteringPoint": "Systemkorrektionsmålepunkt",
-        "validFrom": "Gyldig fra",
-        "validTo": "Gyldig til"
-      },
-      "detailsAuditLog": {
-        "time": "Tid",
-        "change": "Ændring",
-        "changes": "Ændringer",
-        "noResultsFound": "Ingen resultater",
-        "fields": {
-          "name": "Netområde navn"
-        },
-        "unknown": "Ukendt",
-        "messageKey": "<strong>{{ userDisplayName }}</strong> ændrede <strong>{{ field }}</strong> til <strong>{{ newValue }}</strong>"
-      },
-      "changeGridArea": {
-        "gridAreaName": "Netområde navn",
-        "cancel": "Fortryd",
-        "saveChanges": "Gem ændringer",
-        "editGridArea": "Rediger",
-        "editGridAreaModalTitle": "Rediger netområde",
-        "editGridAreaModalCloseLabel": "Luk"
+        "code": "Netområde",
+        "actor": "Netvirksomhed",
+        "organization": "Organisation"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
@@ -853,6 +913,9 @@
     "tabs": {
       "outgoingMessages": {
         "tabLabel": "Udgående"
+      },
+      "meteringGridareaImbalance": {
+        "tabLabel": "MGA Ubalancer"
       },
       "balanceResponsible": {
         "tabLabel": "Balanceansvarlig"
@@ -884,7 +947,8 @@
         "gridArea": "{{ eSett.shared.gridArea }}",
         "status": "{{ eSett.shared.status }}",
         "period": "{{ shared.form.filters.period }}",
-        "reset": "{{ shared.form.reset }}"
+        "reset": "{{ shared.form.reset }}",
+        "documentId": "Besked Id"
       },
       "columns": {
         "created": "Oprettet",
@@ -910,6 +974,26 @@
           "messageType": "{{ eSett.shared.messageType }}"
         }
       }
+    },
+    "meteringGridAreaImbalance": {
+      "tabHeading": "MGA Ubalancer",
+      "filters": {
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "createdPeriod": "Oprettelsesdato",
+        "reset": "{{ shared.form.reset }}",
+        "documentId": "Besked Id"
+      },
+      "columns": {
+        "documentDateTime": "Oprettet",
+        "receivedDateTime": "Modtaget",
+        "id": "Id",
+        "gridArea": "{{ eSett.shared.gridArea }}",
+        "period": "Beregningsperiode"
+      },
+      "emptyTitle": "Ingen ubalancer fundet i perioden",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
     },
     "balanceResponsible": {
       "tabHeading": "Balanceansvarlig",
@@ -938,9 +1022,17 @@
     }
   },
   "wholesale": {
-    "BALANCE_FIXING": "Balancefiksering",
-    "WHOLESALE_FIXING": "Engrosfiksering",
-    "AGGREGATION": "Aggregering",
+    "shared": {
+      "BALANCE_FIXING": "Balancefiksering",
+      "AGGREGATION": "Aggregering",
+      "WHOLESALE_FIXING": "Engrosfiksering",
+      "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
+      "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
+      "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
+    },
+    "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+    "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
+    "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
     "calculations": {
       "topBarTitle": "Beregninger",
       "headline": "Resultater",
@@ -958,7 +1050,7 @@
         "executionType": "Afviklingstype",
         "scheduling": "Kørsel",
         "processType": {
-          "label": "Procestype",
+          "label": "{{shared.processType}}",
           "error": "Procestype påkrævet"
         },
         "summation": "Månedlige summer",
@@ -994,12 +1086,12 @@
         }
       },
       "processTypes": {
-        "BALANCE_FIXING": "Balancefiksering",
-        "AGGREGATION": "Aggregering",
-        "WHOLESALE_FIXING": "Engrosfiksering",
-        "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
-        "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
-        "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
+        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
+        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}"
       },
       "executionStates": {
         "PENDING": "Afventer",
@@ -1023,7 +1115,7 @@
         "executionStates": "Status",
         "executionTime": "Eksekveringstid",
         "gridAreas": "Netområder",
-        "processType": "Beregningstype",
+        "processType": "{{shared.processType}}",
         "reset": "{{shared.form.reset}}",
         "period": "{{shared.form.filters.period}}"
       },
@@ -1032,7 +1124,7 @@
         "periodFrom": "Periode fra",
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
-        "processType": "Procestype",
+        "processType": "{{shared.processType}}",
         "status": "Status"
       },
       "details": {
@@ -1047,6 +1139,35 @@
         "gridAreaCode": "ID",
         "name": "navn",
         "emptyTitle": "Ingen netområder fundet"
+      }
+    },
+    "requestCalculation": {
+      "energySupplier": "Elleverandør",
+      "balanceResponsible": "Balanceansvarlig",
+      "error": "Der opstod desværre en fejl, under anmodingen om beregning",
+      "success": "Din anmoding er startet.",
+      "topBarTitle": "Anmod om beregning",
+      "processType": "{{shared.processType}}",
+      "meteringPointType": "Målepunktstype",
+      "period": "Periode",
+      "gridAreas": "Netområder",
+      "request": "Anmod",
+      "maxPeriodLength": "Perioden må max være en måned",
+      "processTypes": {
+        "preliminaryaggregation": "Aggregering",
+        "balancefixing": "Balancefiksering",
+        "wholesalefixing": "Engrosfiksering",
+        "firstcorrection": "Første korrektion",
+        "secondcorrection": "Anden korrektion",
+        "thirdcorrection": "Tredje korrektion"
+      },
+      "meteringPointTypes": {
+        "All": "Alle",
+        "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
+        "TOTAL_CONSUMPTION": "Total forbrug",
+        "PRODUCTION": "Produktion",
+        "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
+        "EXCHANGE": "Udveksling"
       }
     },
     "settlementReports": {
@@ -1064,12 +1185,12 @@
       "noEntries": "Ingen resultater",
       "results": "Søgeresultater",
       "tabs": {
-        "BALANCE_FIXING": "{{wholesale.BALANCE_FIXING}}",
-        "WHOLESALE_FIXING": "{{wholesale.WHOLESALE_FIXING}}"
+        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}"
       },
       "table": {
         "title": "Processer",
-        "processType": "Procestype",
+        "processType": "{{shared.processType}}",
         "gridAreaName": "Netområde",
         "gridAreaCode": "Netområde ID",
         "periodStart": "Periode fra",
@@ -1080,11 +1201,11 @@
         "download": "—"
       },
       "processTypes": {
-        "BALANCE_FIXING": "Balancefiksering",
-        "AGGREGATION": "Aggregering"
+        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}"
       },
       "filters": {
-        "processType": "Procestype",
+        "processType": "{{shared.processType}}",
         "gridArea": "Netområde",
         "period": "Periode",
         "executionTime": "Kørsel tid",
@@ -1093,7 +1214,7 @@
         "loadingActors": "Henter elleverandører...",
         "loadingGridAreas": "Henter netområder...",
         "actorPlaceholder": "Vælg elleverandør",
-        "processTypePlaceholder": "Vælg procestype",
+        "processTypePlaceholder": "Vælg {{shared.processType}}",
         "gridAreasPlaceholder": "Vælg netområde(r)"
       }
     }
@@ -1117,6 +1238,7 @@
         "wrongEmailPattern": "Indtast en valid email",
         "noUserRolesError": "Mindst én brugerrolle skal vælges.",
         "successMessage": "{{ email }} blev inviteret",
+        "next": "Næste",
         "columns": {
           "eicFunction": "Markedsrolle",
           "name": "Navn",
@@ -1124,7 +1246,8 @@
         },
         "serverErrors": {
           "invalidPhoneNumber": "Telefonnummeret er formatteret korrekt, men er ikke gyldigt."
-        }
+        },
+        "unknowEmailInfoMessage": "For at acceptere invitationen skal brugeren allerede have adgang til DataHub, fordi brugeren ikke er en del af din organisation."
       },
       "download": "Download",
       "drawer": {
@@ -1144,6 +1267,9 @@
         },
         "editRole": "Rediger rolle",
         "disable": "Deaktiver",
+        "reset2fa": "Nulstil tofaktorgodkendelse",
+        "reset2faError": "Noget gik galt. Twofaktorgodkendelse blev muligvis ikke nulstillet. Prøv igen.",
+        "reset2faSuccess": "Tofaktorgodkendelse blev nulstillet. Brugeren kan opsætte tofaktorgodkendelse ved næste login. Dette skal ske inden for 24 timer.",
         "disablingUserRole": "Deaktiverer bruger rollen",
         "userroleDisabled": "Bruger rollen blev deaktiveret.",
         "deactivateWarningTitle": "Deaktiver bruger rolle permanent?",
@@ -1191,9 +1317,9 @@
       "topBarTitle": "Brugeradministration",
       "userStatus": {
         "active": "Aktiv",
-        "inactive": "Inaktiv",
-        "invited": "Inviteret",
-        "inviteExpired": "Invitation udløbet"
+        "inactive": "Deaktiveret",
+        "invited": "Afventer aktivering",
+        "inviteExpired": "Aktivering udløbet"
       },
       "roleStatus": {
         "active": "Aktiv",
@@ -1261,7 +1387,6 @@
               "lastName": "Efternavn",
               "email": "Email",
               "phone": "Telefon",
-              "assignedActors": "Tildelte aktører",
               "status": "Status"
             }
           }
@@ -1402,7 +1527,8 @@
             "tabLabel": "Brugerroller",
             "noEntries": "Ingen resultater",
             "columns": {
-              "name": "Navn"
+              "name": "Navn",
+              "eicFunction": "Markedsrolle"
             }
           },
           "history": {

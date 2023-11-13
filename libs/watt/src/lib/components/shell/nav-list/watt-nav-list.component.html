@@ -23,10 +23,10 @@ limitations under the License.
     <mat-expansion-panel-header>
       <mat-panel-title class="watt-text-m">{{ title }}</mat-panel-title>
     </mat-expansion-panel-header>
-    <ng-container *ngTemplateOutlet="navListTemplate"></ng-container>
+    <ng-container *ngTemplateOutlet="navListTemplate" />
   </mat-expansion-panel>
 </ng-container>
 
 <ng-template #navListTemplate>
-  <ng-content></ng-content>
+  <ng-content />
 </ng-template>

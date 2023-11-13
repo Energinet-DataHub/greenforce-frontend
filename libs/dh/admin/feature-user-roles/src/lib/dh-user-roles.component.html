@@ -26,9 +26,9 @@ limitations under the License.
   >
     <mat-accordion multi class="container">
       <ng-container *ngFor="let actor of userRolesPrActor">
-        <watt-expandable-card [expanded]="true">
+        <watt-expandable-card [expanded]="expanded">
           <watt-badge *ngIf="!selectMode">{{
-            t("assigned.count", { count: (actor.userRoles | filterUserRoles: false).length })
+            t("assigned.count", { count: (actor.userRoles | filterUserRoles : false).length })
           }}</watt-badge>
           <watt-expandable-card-title *ngIf="actor.name"
             >{{ actor.actorNumber }} – {{ actor.organizationName }} – {{ actor.name }}
@@ -38,8 +38,8 @@ limitations under the License.
           </watt-expandable-card-title>
 
           <watt-table
-            [dataSource]="actor.userRoles | filterUserRoles: selectMode | userRolesIntoTable"
-            [initialSelection]="actor.userRoles | filterUserRoles: false"
+            [dataSource]="actor.userRoles | filterUserRoles : selectMode | userRolesIntoTable"
+            [initialSelection]="actor.userRoles | filterUserRoles : false"
             [columns]="columns"
             sortBy="marketRole"
             sortDirection="asc"
@@ -77,15 +77,14 @@ limitations under the License.
   </ng-container>
 
   <ng-template #suspense>
-    <watt-spinner></watt-spinner>
+    <watt-spinner />
   </ng-template>
   <ng-template #error>
     <watt-empty-state
       icon="custom-power"
       [title]="'shared.error.title' | transloco"
       [message]="'shared.error.message' | transloco"
-    >
-    </watt-empty-state>
+    />
   </ng-template>
 </ng-container>
 

@@ -53,14 +53,13 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
     <watt-modal
       #modal
       title="New transfer agreement"
-      [size]="'small'"
       closeLabel="Close modal"
       (closed)="onClosed()"
       *ngIf="opened"
     >
       <!-- We don't use the build-in loading state for the modal, since it wont update properly -->
       <div class="watt-modal__spinner" style="z-index: 1;" *ngIf="creatingTransferAgreement">
-        <watt-spinner></watt-spinner>
+        <watt-spinner />
       </div>
 
       <watt-validation-message
@@ -70,7 +69,7 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
         icon="danger"
         type="danger"
         size="compact"
-      ></watt-validation-message>
+      />
 
       <eo-transfers-form
         [senderTin]="authStore.getTin$ | push"
@@ -78,7 +77,7 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
         (receiverTinChanged)="onReceiverTinChange($event)"
         (submitted)="createAgreement($event)"
         (canceled)="modal.close(false)"
-      ></eo-transfers-form>
+      />
     </watt-modal>
   `,
 })

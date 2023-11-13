@@ -6,8 +6,6 @@ Feature: Dashboard Page
   Scenario: Charlotte CSR can see components on the dashboard page
     Given I am logged in as Charlotte CSR
     When I am on the dashboard page
-    Then I can see the a pie-chart component
-    And I can see an emissions data component
-    And I can see an hourly declaration component
+    Then I can see an hourly declaration component
     And I can see a link collection component
     And I can see a component for exporting data for CSR

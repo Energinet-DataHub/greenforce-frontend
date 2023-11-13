@@ -14,62 +14,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RxPush } from '@rx-angular/template/push';
-import { RxLet } from '@rx-angular/template/let';
-import { TranslocoModule } from '@ngneat/transloco';
-
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import {
-  DhMarketParticipantGridAreaOverviewDataAccessApiStore,
-  DhMarketParticipantGridAreaDataAccessApiStore,
-  GridAreaChanges,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
-import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-
-import { DhMarketParticipantGridAreaOverviewComponent } from './overview/dh-market-participant-gridarea-overview.component';
+  DhMarketParticipantGridAreaOverviewComponent,
+  GridAreaOverviewRow,
+} from '@energinet-datahub/dh/market-participant/grid-areas/overview';
+import { Apollo } from 'apollo-angular';
+import { GetGridAreaOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-grid-areas-shell',
-  styleUrls: ['./dh-grid-areas-shell.component.scss'],
   templateUrl: './dh-grid-areas-shell.component.html',
-  providers: [
-    DhMarketParticipantGridAreaOverviewDataAccessApiStore,
-    DhMarketParticipantGridAreaDataAccessApiStore,
-  ],
   standalone: true,
-  imports: [
-    CommonModule,
-    RxLet,
-    TranslocoModule,
-    WattEmptyStateComponent,
-    WattSpinnerComponent,
-    WattValidationMessageComponent,
-    DhMarketParticipantGridAreaOverviewComponent,
-    RxPush,
-  ],
+  imports: [DhMarketParticipantGridAreaOverviewComponent],
 })
-export class DhGridAreasShellComponent {
-  constructor(
-    private store: DhMarketParticipantGridAreaOverviewDataAccessApiStore,
-    private gridAreaEditStore: DhMarketParticipantGridAreaDataAccessApiStore
-  ) {
-    this.store.init();
+export class DhGridAreasShellComponent implements OnInit {
+  private readonly gln = new RegExp('^[0-9]+$');
+  private readonly apollo = inject(Apollo);
+  private readonly destroyRef = inject(DestroyRef);
+
+  getActorsQuery$ = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetGridAreaOverviewDocument,
+  });
+
+  isLoading = false;
+  hasError = false;
+  rows: GridAreaOverviewRow[] = [];
+
+  ngOnInit(): void {
+    this.getActorsQuery$.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((result) => {
+        this.hasError = !!result.error || !!result.errors?.length;
+        this.isLoading = result.loading;
+        this.rows =
+          result.data?.gridAreaOverview?.map((x) => ({
+            id: x.id,
+            code: x.code,
+            actor: x.actorNumber
+              ? `${x.actorName} - ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
+              : '',
+            organization: x.organizationName ?? '',
+          })) ?? [];
+      });
   }
-
-  isLoading$ = this.store.isLoading$;
-  validationError$ = this.store.validationError$;
-  rows$ = this.store.rows$;
-  isLoadingAuditLog$ = this.gridAreaEditStore.isLoadingAuditLog$;
-  auditLog$ = this.gridAreaEditStore.auditLog$;
-
-  gridAreaChangesIsLoading$ = this.gridAreaEditStore.isLoading$;
-
-  onGridAreaChanged = (changes: { gridAreaChanges: GridAreaChanges; onCompleted: () => void }) => {
-    this.gridAreaEditStore.saveGridAreaChanges(changes);
-  };
-
-  getGridAreaData = (gridAreaId: string) => this.gridAreaEditStore.getAuditLog(gridAreaId);
 }

@@ -36,7 +36,7 @@ import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-de
   ],
   template: `
     <div class="content-wrapper">
-      <eo-privacy-policy></eo-privacy-policy>
+      <eo-privacy-policy />
     </div>
   `,
 })

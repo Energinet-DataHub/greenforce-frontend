@@ -82,31 +82,31 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
     `,
   ],
   template: `
-    <eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getCookieStatus()"></eo-cookie-banner>
-    <eo-landing-page-header></eo-landing-page-header>
+    <eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getCookieStatus()" />
+    <eo-landing-page-header />
 
     <div class="u-positioning-context">
-      <eo-landing-page-notification class="u-collapse-bottom"></eo-landing-page-notification>
+      <eo-landing-page-notification class="u-collapse-bottom" />
 
       <eo-popup-message
         *ngIf="error"
         class="centered"
         title="{{ error.title }}"
         message="{{ error.message }}"
-      ></eo-popup-message>
+      />
 
-      <eo-landing-page-hero></eo-landing-page-hero>
+      <eo-landing-page-hero />
 
-      <eo-landing-page-introduction></eo-landing-page-introduction>
+      <eo-landing-page-introduction />
 
-      <eo-landing-page-origin-of-energy></eo-landing-page-origin-of-energy>
+      <eo-landing-page-origin-of-energy />
 
-      <eo-landing-page-audience></eo-landing-page-audience>
+      <eo-landing-page-audience />
 
-      <eo-landing-page-company></eo-landing-page-company>
+      <eo-landing-page-company />
     </div>
 
-    <eo-footer></eo-footer>
+    <eo-footer />
   `,
   viewProviders: [EoLandingPagePresenter],
 })

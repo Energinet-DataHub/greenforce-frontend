@@ -54,14 +54,11 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
     `
       :host {
         display: block;
-        /* TODO: Add spacing variable for 24px */
-        margin: 24px var(--watt-space-s);
       }
 
       .filter-container {
         display: inline-flex;
         gap: var(--watt-space-m);
-        padding-bottom: var(--watt-space-m);
       }
 
       .users-overview {

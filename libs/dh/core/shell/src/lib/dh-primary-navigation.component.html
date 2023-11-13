@@ -16,10 +16,6 @@ limitations under the License.
 -->
 <ng-container *transloco="let transloco; read: 'sidebar.navigation'">
   <watt-nav-list>
-    <watt-nav-list-item link="/metering-point">{{
-      transloco("meteringPoints")
-    }}</watt-nav-list-item>
-
     <watt-nav-list-item link="/message-archive">{{
       transloco("messageArchive")
     }}</watt-nav-list-item>
@@ -41,20 +37,19 @@ limitations under the License.
     }}</watt-nav-list-item>
   </watt-nav-list>
 
-  <watt-nav-list [expandable]="true" [title]="transloco('chargePrices.menuGroupLabel')">
-    <watt-nav-list-item link="/charges/prices">{{
-      transloco("chargePrices.search")
-    }}</watt-nav-list-item>
-
-    <ng-container *dhFeatureFlag="'create_charge_prices_page_feature_flag'">
-      <watt-nav-list-item link="/charges/create-prices">{{
-        transloco("chargePrices.create")
-      }}</watt-nav-list-item>
-    </ng-container>
-  </watt-nav-list>
-
-  <ng-container *dhPermissionRequired="['calculations:manage', 'settlement-reports:manage']">
+  <ng-container
+    *dhPermissionRequired="[
+      'calculations:manage',
+      'settlement-reports:manage',
+      'request-aggregated-measured-data:view'
+    ]"
+  >
     <watt-nav-list [expandable]="true" [title]="transloco('wholesale.menuGroupLabel')">
+      <watt-nav-list-item
+        *dhPermissionRequired="['request-aggregated-measured-data:view']"
+        link="/wholesale/request-calculation"
+        >{{ transloco("wholesale.requestCalculation") }}</watt-nav-list-item
+      >
       <watt-nav-list-item
         *dhPermissionRequired="['calculations:manage']"
         link="/wholesale/calculations"

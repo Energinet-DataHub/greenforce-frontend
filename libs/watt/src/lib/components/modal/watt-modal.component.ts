@@ -15,31 +15,26 @@
  * limitations under the License.
  */
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
+  Optional,
   Output,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
 import { WattButtonComponent } from '../button';
 import { WattSpinnerComponent } from '../spinner';
-import { exhaustMap, ignoreElements, map, mergeWith, Subject, take, tap } from 'rxjs';
 
-export type WattModalSize = 'small' | 'normal' | 'large';
+import { WattModalModule, WattModalService } from './watt-modal.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
-const sizeConfig: Record<WattModalSize, MatDialogConfig> = {
-  small: { width: '36vw', maxHeight: '100vh' },
-  normal: { width: '50vw', maxHeight: '100vh' },
-  large: { width: '65vw', maxHeight: '100vh' },
-};
+export type WattModalSize = 'small' | 'medium' | 'large';
 
 /**
  * Component for representing a binary decision in the form of
@@ -57,20 +52,19 @@ const sizeConfig: Record<WattModalSize, MatDialogConfig> = {
   standalone: true,
   imports: [
     CommonModule,
-    MatDialogModule,
     WattResizeObserverDirective,
     WattButtonComponent,
     WattSpinnerComponent,
+    WattModalModule,
   ],
 })
-export class WattModalComponent implements AfterViewInit {
+export class WattModalComponent {
   /** Title to stay fixed to top of modal. */
   @Input()
   title = '';
 
-  /** Used to adjust modal size to best fit the content. */
   @Input()
-  size: WattModalSize = 'normal';
+  size: WattModalSize = 'medium';
 
   /** Whether the modal should show a loading state. */
   @Input()
@@ -106,50 +100,21 @@ export class WattModalComponent implements AfterViewInit {
   /** @ignore */
   scrollable = false;
 
-  /** @ignore */
-  private openSubject = new Subject<void>();
-
-  /** @ignore */
-  private closeSubject = new Subject<boolean>();
-
-  /** @ignore */
-  private get options(): MatDialogConfig {
-    return {
-      autoFocus: 'dialog',
-      panelClass: 'watt-modal-panel',
-      disableClose: this.disableClose,
-      ...sizeConfig[this.size],
-    };
-  }
-
-  constructor(private dialog: MatDialog) {}
-
-  /** @ignore */
-  ngAfterViewInit() {
-    const result$ = this.openSubject.pipe(
-      exhaustMap(() => {
-        const dialog = this.dialog.open(this.modal, this.options);
-        return this.closeSubject.pipe(
-          tap((result) => dialog.close(result)),
-          ignoreElements(),
-          mergeWith(dialog.afterClosed()),
-          map(Boolean), // backdrop click emits `undefined`
-          take(1)
-        );
-      })
-    );
-
-    // Subjects are garbage collected and `afterClosed()` automatically
-    // completes when component is destroyed, so no need for unsubscribe.
-    result$.subscribe((result) => this.closed.emit(result));
-  }
+  constructor(
+    private modalService: WattModalService,
+    @Optional() protected dialogRef: MatDialogRef<unknown>
+  ) {}
 
   /**
    * Opens the modal. Subsequent calls are ignored while the modal is opened.
    * @ignore
    */
   open() {
-    this.openSubject.next();
+    this.modalService.open({
+      disableClose: this.disableClose,
+      templateRef: this.modal,
+      onClosed: this.closed,
+    });
   }
 
   /**
@@ -157,7 +122,8 @@ export class WattModalComponent implements AfterViewInit {
    * @ignore
    */
   close(result: boolean) {
-    this.closeSubject.next(result);
+    this.modalService.close(result); // inline modal
+    this.dialogRef?.close(result); // injected modal
   }
 
   /**
@@ -174,7 +140,7 @@ export class WattModalComponent implements AfterViewInit {
  */
 @Component({
   selector: 'watt-modal-actions',
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
   standalone: true,
 })
 export class WattModalActionsComponent {}

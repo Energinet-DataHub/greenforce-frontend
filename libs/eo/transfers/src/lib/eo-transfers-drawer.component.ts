@@ -98,23 +98,21 @@ import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
                 <watt-description-list-item
                   label="Receiver TIN/CVR"
                   [value]="transfer?.receiverTin"
-                >
-                </watt-description-list-item>
-                <watt-description-list-item label="ID" value="{{ transfer?.id }}">
-                </watt-description-list-item>
+                />
+                <watt-description-list-item label="ID" value="{{ transfer?.id }}" />
               </watt-description-list>
             </watt-card>
           </watt-tab>
           <watt-tab label="History">
             <watt-card variant="solid">
-              <eo-transfers-history *ngIf="tabs.activeTabIndex === 1"></eo-transfers-history>
+              <eo-transfers-history *ngIf="tabs.activeTabIndex === 1" />
             </watt-card>
           </watt-tab>
         </watt-tabs>
       </watt-drawer-content>
     </watt-drawer>
 
-    <eo-transfers-edit-modal [transfer]="transfer"></eo-transfers-edit-modal>
+    <eo-transfers-edit-modal [transfer]="transfer" />
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
   `,
 })

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, switchMap, tap, withLatestFrom, map } from 'rxjs';
+import { Observable, switchMap, tap, withLatestFrom } from 'rxjs';
 import { ComponentStore, OnStoreInit, tapResponse } from '@ngrx/component-store';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
@@ -65,13 +65,11 @@ export class DhAdminUserRolesManagementDataAccessApiStore
     )
   );
 
-  rolesOptions$ = this.select((state) => state.roles).pipe(
-    map((roles) =>
-      roles.map((role: MarketParticipantUserRoleDto) => ({
-        value: role.id,
-        displayValue: role.name,
-      }))
-    )
+  rolesOptions$ = this.select((state) =>
+    state.roles.map((role: MarketParticipantUserRoleDto) => ({
+      value: role.id,
+      displayValue: role.name,
+    }))
   );
 
   validation$ = this.select((state) => state.validation);

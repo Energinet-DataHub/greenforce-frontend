@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-users-tab-actor-filter',
@@ -32,7 +32,7 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
         [formControl]="actorControl"
         [options]="actorOptions"
         [multiple]="false"
-      ></watt-dropdown>
+      />
     </ng-container>
   `,
   styles: [
@@ -47,8 +47,8 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
   ],
   imports: [TranslocoModule, ReactiveFormsModule, WattDropdownComponent],
 })
-export class DhUsersTabActorFilterComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+export class DhUsersTabActorFilterComponent implements OnInit {
+  private _destroyRef = inject(DestroyRef);
 
   actorControl = new FormControl<string | undefined>(undefined, {
     nonNullable: true,
@@ -63,12 +63,7 @@ export class DhUsersTabActorFilterComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.actorControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((value) => this.changed.emit(value));
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

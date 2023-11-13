@@ -22,13 +22,13 @@ import {
   inject,
   OnInit,
   Output,
-  OnDestroy,
   ViewChild,
+  DestroyRef,
 } from '@angular/core';
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { combineLatest, map, Subject, takeUntil, tap } from 'rxjs';
+import { combineLatest, map, tap } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 
@@ -52,6 +52,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-edit-user-role-modal',
@@ -89,8 +90,9 @@ import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-fie
     DhPermissionsTableComponent,
   ],
 })
-export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
   private readonly userRoleEditStore = inject(DhAdminUserRoleEditDataAccessApiStore);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly userRoleWithPermissionsStore = inject(
     DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
   );
@@ -101,7 +103,6 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   private readonly transloco = inject(TranslocoService);
 
   private skipFirstPermissionSelectionEvent = true;
-  private destroy$ = new Subject<void>();
 
   readonly userRole$ = this.userRoleWithPermissionsStore.userRole$;
   readonly roleName$ = this.userRole$.pipe(map((role) => role.name));
@@ -138,7 +139,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
   @Output() closed = new EventEmitter<{ saveSuccess: boolean }>();
 
   ngOnInit(): void {
-    this.userRole$.pipe(takeUntil(this.destroy$)).subscribe((userRole) => {
+    this.userRole$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((userRole) => {
       const permissionIds = userRole.permissions.map(({ id }) => id);
 
       this.userRoleEditForm.patchValue({
@@ -150,7 +151,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
       this.marketRolePermissionsStore.getPermissions(userRole.eicFunction);
     });
 
-    this.hasValidationError$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    this.hasValidationError$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.userRoleEditForm.controls.name.setErrors({
         nameAlreadyExists: true,
       });
@@ -159,11 +160,6 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit, OnDe
 
   ngAfterViewInit(): void {
     this.editUserRoleModal.open();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   closeModal(saveSuccess: boolean): void {

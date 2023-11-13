@@ -59,12 +59,17 @@ import { EoTransfersStore } from './eo-transfers.store';
       title="Create Wallet Deposit Endpoint"
       [loading]="loading"
       loadingMessage="Please wait while we generate your key"
-      size="small"
       closeLabel="Close modal"
       (closed)="onClosed()"
       *ngIf="opened"
     >
-      <form *ngIf="(walletDepositEndpointError$ | async) === undefined; else error">
+      <form
+        *ngIf="
+          (walletDepositEndpointError$ | async) === undefined ||
+            (walletDepositEndpointError$ | async) === null;
+          else error
+        "
+      >
         <p>
           To receive granular certificates the sender must create a transfer agreement. They need
           this key to identify the recipient (you).
@@ -101,8 +106,7 @@ import { EoTransfersStore } from './eo-transfers.store';
         title="An unexpected error occured"
         message="We are sorry, we could not generate your key. Please try again later."
         style="margin: var(--watt-space-xl) 0;"
-      >
-      </watt-empty-state>
+      />
     </ng-template>
   `,
 })

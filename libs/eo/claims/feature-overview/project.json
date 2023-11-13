@@ -1,0 +1,19 @@
+{
+  "name": "eo-claims-feature-overview",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/claims/feature-overview",
+  "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/claims/feature-overview/**/*.ts",
+          "libs/eo/claims/feature-overview/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:claims", "type:feature"]
+}

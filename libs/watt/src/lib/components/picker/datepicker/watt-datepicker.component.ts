@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -40,7 +39,7 @@ import {
 } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { combineLatest, map, merge, startWith, takeUntil, tap } from 'rxjs';
+import { combineLatest, map, merge, startWith, tap } from 'rxjs';
 import { parse, isValid, parseISO, endOfDay, startOfMonth, endOfMonth } from 'date-fns';
 import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 import { WattFieldComponent } from '@energinet-datahub/watt/field';
@@ -51,6 +50,7 @@ import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattDateRange } from '../../../utils/date';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const dateShortFormat = 'dd-MM-yyyy';
 const danishLocaleCode = 'da';
@@ -74,7 +74,6 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
     MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
   ],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     MatDatepickerModule,
@@ -85,8 +84,9 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
   ],
 })
 export class WattDatepickerComponent extends WattPickerBase {
-  @Input() max?: Date;
-  @Input() min?: Date;
+  @Input() max: Date | null = null;
+  @Input() min: Date | null = null;
+  @Input() startAt = new Date();
   @Input() rangeMonthOnlyMode = false;
   @Input() label = '';
 
@@ -203,14 +203,14 @@ export class WattDatepickerComponent extends WattPickerBase {
     );
 
     merge(onInputOnChange$, matDatepickerChange$)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((value: string) => {
         this.changeParentValue(value);
       });
   }
 
   onMonthSelected(date: Date) {
-    if (this.rangeMonthOnlyMode) {
+    if (this.rangeMonthOnlyMode && date) {
       this.matDateRangePicker.select(startOfMonth(date));
       this.matDateRangePicker.select(endOfMonth(date));
       this.matDateRangePicker.close();
@@ -301,7 +301,7 @@ export class WattDatepickerComponent extends WattPickerBase {
 
     // Subscribe for changes from date-range picker
     combineLatest([matStartDateChange$, matEndDateChange$])
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe(([start, end]) => {
         if (initialDateChange) {
           initialDateChange = false;
@@ -318,7 +318,7 @@ export class WattDatepickerComponent extends WattPickerBase {
 
     // Subscribe for input changes
     this.rangeInputService.onInputChanges$
-      ?.pipe(takeUntil(this.destroy$))
+      ?.pipe(takeUntilDestroyed(this._destroyRef))
       // `start` and `end` can have one of three values:
       // 1. An empty string (usually when no initial value is set or input value is manually deleted)
       // 2. A `dd-MM-yyyy` format (keep in sync with `dateShortFormat`) (usually when date is manually typed)

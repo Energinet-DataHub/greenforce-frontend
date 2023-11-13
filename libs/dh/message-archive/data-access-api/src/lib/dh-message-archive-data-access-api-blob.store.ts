@@ -19,7 +19,7 @@ import { ComponentStore } from '@ngrx/component-store';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { MessageArchiveHttp, Stream } from '@energinet-datahub/dh/shared/domain';
 import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
-import { filter, map, Observable, tap } from 'rxjs';
+import { filter, Observable, tap } from 'rxjs';
 
 interface DownloadBlobResultState {
   readonly blobContent?: Stream | null;
@@ -37,9 +37,8 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
     super(initialState);
   }
 
-  blobContent$: Observable<Stream> = this.select((state) => state.blobContent).pipe(
-    filter((searchResult) => !!searchResult),
-    map((blobContent) => blobContent as Stream)
+  blobContent$: Observable<Stream> = this.select((state) => state.blobContent as Stream).pipe(
+    filter((searchResult) => !!searchResult)
   );
   isDownloading$ = this.select((state) => state.loadingState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.loadingState === ErrorState.GENERAL_ERROR);

@@ -43,7 +43,7 @@ limitations under the License.
 
             <watt-textarea-field
               [label]="t('tab.masterData.descriptionInputLabel')"
-              formControlName="description"
+              [formControl]="userRoleEditForm.controls.description"
             >
               <watt-field-error *ngIf="userRoleEditForm.controls.description?.errors?.['required']">
                 {{ t("tab.validationErrors.required") }}
@@ -77,10 +77,10 @@ limitations under the License.
                 [permissions]="marketRolePermissions$ | push: { strategy: 'native' }"
                 [initialSelection]="initiallySelectedPermissions$ | push"
                 (selectionChanged)="onSelectionChanged($event)"
-              ></dh-permissions-table>
+              />
 
               <div class="spinner-container" *ngIf="marketRolePermissionsIsLoading$ | push">
-                <watt-spinner></watt-spinner>
+                <watt-spinner />
               </div>
             </watt-card>
           </div>

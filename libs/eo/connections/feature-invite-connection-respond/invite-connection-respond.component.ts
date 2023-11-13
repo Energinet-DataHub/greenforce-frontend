@@ -28,6 +28,7 @@ import {
   signal,
 } from '@angular/core';
 import { NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault, NgTemplateOutlet } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -39,10 +40,9 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import {
   EoInviteConnectionService,
   InviteConnectionResponse,
-} from '../data-access-api/invite-connection.service';
-import { Router } from '@angular/router';
-import { EoConnectionWithName } from '../data-access-api/connections.service';
-import { EoCvrService } from '../data-access-api/cvr.service';
+  EoConnectionWithName,
+  EoCvrService,
+} from '@energinet-datahub/eo/connections/data-access-api';
 
 @Component({
   selector: 'eo-invite-connection-repsond',
@@ -66,26 +66,16 @@ import { EoCvrService } from '../data-access-api/cvr.service';
       title=""
       [loading]="isLoading()"
       loadingMessage="Please wait while we load the invitation"
-      size="small"
       closeLabel="Close modal"
       (closed)="onClosed()"
       *ngIf="isOpen()"
     >
       <ng-container [ngSwitch]="contentTemplate()">
-        <ng-container *ngSwitchDefault [ngTemplateOutlet]="default"></ng-container>
-        <ng-container
-          *ngSwitchCase="'ownConnection'"
-          [ngTemplateOutlet]="ownConnection"
-        ></ng-container>
-        <ng-container *ngSwitchCase="'notFound'" [ngTemplateOutlet]="notFound"></ng-container>
-        <ng-container
-          *ngSwitchCase="'alreadyConnected'"
-          [ngTemplateOutlet]="alreadyConnected"
-        ></ng-container>
-        <ng-container
-          *ngSwitchCase="'unknownError'"
-          [ngTemplateOutlet]="unknownError"
-        ></ng-container>
+        <ng-container *ngSwitchDefault [ngTemplateOutlet]="default" />
+        <ng-container *ngSwitchCase="'ownConnection'" [ngTemplateOutlet]="ownConnection" />
+        <ng-container *ngSwitchCase="'notFound'" [ngTemplateOutlet]="notFound" />
+        <ng-container *ngSwitchCase="'alreadyConnected'" [ngTemplateOutlet]="alreadyConnected" />
+        <ng-container *ngSwitchCase="'unknownError'" [ngTemplateOutlet]="unknownError" />
       </ng-container>
     </watt-modal>
 
@@ -113,8 +103,7 @@ import { EoCvrService } from '../data-access-api/cvr.service';
         icon="warning"
         title="Invalid invitation"
         message="You cannot Accept/Deny invitations from your own organization."
-      >
-      </watt-empty-state>
+      />
 
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">Close</watt-button>
@@ -126,8 +115,7 @@ import { EoCvrService } from '../data-access-api/cvr.service';
         icon="warning"
         title="Not found"
         message="The invitation has expired, declined, or is already accepted."
-      >
-      </watt-empty-state>
+      />
 
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">Close</watt-button>
@@ -139,8 +127,7 @@ import { EoCvrService } from '../data-access-api/cvr.service';
         icon="success"
         title="Already connected"
         message="You're already connected with {{ connectionInvitation()?.senderCompanyTin }}."
-      >
-      </watt-empty-state>
+      />
 
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">Close</watt-button>
@@ -152,8 +139,7 @@ import { EoCvrService } from '../data-access-api/cvr.service';
         icon="power"
         title="An unexpected error occured"
         message="We are sorry, we could not load your invitation link. Please try again later."
-      >
-      </watt-empty-state>
+      />
     </ng-template>
   `,
 })

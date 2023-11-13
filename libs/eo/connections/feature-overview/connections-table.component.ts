@@ -28,8 +28,8 @@ import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-import { EoConnectionWithName } from '../data-access-api/connections.service';
-import { EoRemoveConnectionComponent } from '../feature-remove-connection';
+import { EoConnectionWithName } from '@energinet-datahub/eo/connections/data-access-api';
+import { EoRemoveConnectionComponent } from '@energinet-datahub/eo/connections/feature-remove-connection';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -67,7 +67,7 @@ import { EoRemoveConnectionComponent } from '../feature-remove-connection';
         *wattTableCell="table.columns['actions']; let element"
         [connection]="element"
         (connectionRemoved)="connectionRemoved.emit($event)"
-      ></eo-remove-connection>
+      />
     </watt-table>
 
     <watt-empty-state
@@ -75,14 +75,14 @@ import { EoRemoveConnectionComponent } from '../feature-remove-connection';
       icon="custom-power"
       title="No connections found"
       message="You do not have any connections."
-    ></watt-empty-state>
+    />
 
     <watt-empty-state
       *ngIf="loading === false && hasError"
       icon="custom-power"
       title="Oops! Something went wrong."
       message="Please try reloading the page.."
-    ></watt-empty-state>
+    />
 
     <watt-paginator [for]="dataSource" />
   `,

@@ -35,10 +35,10 @@ limitations under the License.
       "
     >
       <ng-container *ngIf="message.supplierWithName">
-        {{ message.supplier.value }} - {{ message.supplierWithName.value }}
+        {{ message.supplier }} - {{ message.supplierWithName.value }}
       </ng-container>
       <watt-badge *ngIf="!message.supplierWithName" type="danger">{{
-        message.supplier.value
+        message.supplier
       }}</watt-badge>
     </ng-container>
 
@@ -50,10 +50,10 @@ limitations under the License.
       "
     >
       <ng-container *ngIf="message.balanceResponsibleWithName">
-        {{ message.balanceResponsible.value }} - {{ message.balanceResponsibleWithName.value }}
+        {{ message.balanceResponsible }} - {{ message.balanceResponsibleWithName.value }}
       </ng-container>
       <watt-badge *ngIf="!message.balanceResponsibleWithName" type="danger">{{
-        message.balanceResponsible.value
+        message.balanceResponsible
       }}</watt-badge>
     </ng-container>
 

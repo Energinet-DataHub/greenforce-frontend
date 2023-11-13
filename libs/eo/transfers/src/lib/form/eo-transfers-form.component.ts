@@ -17,17 +17,18 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   Input,
   Output,
   EventEmitter,
   ViewEncapsulation,
   OnChanges,
   SimpleChanges,
+  inject,
+  DestroyRef,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, NgClass, NgIf } from '@angular/common';
-import { Subject, distinctUntilChanged, of, switchMap, takeUntil } from 'rxjs';
+import { distinctUntilChanged, of, switchMap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
@@ -50,6 +51,7 @@ import { EoExistingTransferAgreement } from '../eo-transfers.store';
 import { EoTransfersPeriodComponent } from './eo-transfers-period.component';
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export interface EoTransfersFormInitialValues {
   receiverTin: string;
@@ -113,21 +115,25 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
       eo-transfers-form watt-field:not(.watt-field--chip) {
         min-height: 0px;
       }
+
+      eo-transfers-form form {
+        height: 100%;
+      }
     `,
   ],
 
   template: `
-    <ng-container *ngIf="mode === 'create'; then create; else edit"></ng-container>
+    <ng-container *ngIf="mode === 'create'; then create; else edit" />
 
     <ng-template #create>
-      <form [formGroup]="form" class="watt-modal-content--full-width">
+      <form [formGroup]="form">
         <watt-stepper (completed)="onSubmit()">
           <watt-stepper-step
             label="Recipient"
             nextButtonLabel="Agreement details"
             [stepControl]="form.controls.receiver"
           >
-            <ng-container *ngTemplateOutlet="receiver"></ng-container>
+            <ng-container *ngTemplateOutlet="receiver" />
           </watt-stepper-step>
           <watt-stepper-step
             label="Agreement details"
@@ -138,7 +144,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
             <eo-transfers-form-period
               formGroupName="period"
               [existingTransferAgreements]="existingTransferAgreements"
-            ></eo-transfers-form-period>
+            />
           </watt-stepper-step>
         </watt-stepper>
       </form>
@@ -146,11 +152,11 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
 
     <ng-template #edit>
       <form [formGroup]="form">
-        <ng-container *ngTemplateOutlet="receiver"></ng-container>
+        <ng-container *ngTemplateOutlet="receiver" />
         <eo-transfers-form-period
           formGroupName="period"
           [existingTransferAgreements]="existingTransferAgreements"
-        ></eo-transfers-form-period>
+        />
 
         <watt-modal-actions>
           <watt-button
@@ -214,7 +220,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
     </ng-template>
   `,
 })
-export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
+export class EoTransfersFormComponent implements OnInit, OnChanges {
   @Input() senderTin?: string;
   @Input() mode: 'create' | 'edit' = 'create';
   @Input() submitButtonText = 'Create transfer agreement';
@@ -237,7 +243,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
   @Output() receiverTinChanged = new EventEmitter<string | null>();
 
   protected form!: FormGroup<EoTransfersForm>;
-  private destroy$ = new Subject<void>();
+  private _destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.initForm();
@@ -245,7 +251,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
     const tin = this.form.controls.receiver.controls['tin'];
     tin.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this._destroyRef),
         switchMap(() => {
           return of(tin.valid);
         }),
@@ -262,11 +268,6 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
       this.form.controls.period.setValidators(this.getPeriodValidators());
       this.form.controls.period.updateValueAndValidity();
     }
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   protected onCancel() {

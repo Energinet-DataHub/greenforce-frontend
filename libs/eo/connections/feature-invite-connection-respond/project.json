@@ -4,5 +4,16 @@
   "projectType": "library",
   "sourceRoot": "libs/eo/connections/feature-invite-connection-respond",
   "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/connections/feature-invite-connection-respond/**/*.ts",
+          "libs/eo/connections/feature-invite-connection-respond/**/*.html"
+        ]
+      }
+    }
+  },
   "tags": ["product:eo", "domain:connections", "type:feature"]
 }

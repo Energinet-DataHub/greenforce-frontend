@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, Input, OnInit, inject, ViewEncapsulation, DestroyRef } from '@angular/core';
 import { FormControl, ReactiveFormsModule, FormGroup, FormGroupDirective } from '@angular/forms';
 import { add, isAfter } from 'date-fns';
 import { CommonModule, NgClass, NgIf, NgSwitch } from '@angular/common';
-import { Subject, takeUntil } from 'rxjs';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
@@ -28,6 +27,7 @@ import { EoExistingTransferAgreement } from '../eo-transfers.store';
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
 import { EoTransferFormPeriod } from './eo-transfers-form.component';
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface EoTransfersPeriodForm extends EoTransferFormPeriod {
   hasEndDate: FormControl<boolean>;
@@ -48,23 +48,25 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
     WattFieldErrorComponent,
     EoTransferErrorsComponent,
   ],
+  encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      .start-date {
+      eo-transfers-form-period .start-date {
         position: relative;
       }
 
-      .watt-label {
+      eo-transfers-form-period .watt-label {
         width: 100%;
       }
 
-      .end-date {
+      eo-transfers-form-period .end-date {
         position: relative;
 
         .radio-buttons-container {
           display: flex;
           flex-direction: column;
           width: 100%;
+          gap: var(--watt-space-m);
         }
 
         watt-form-field .mat-placeholder-required.mat-form-field-required-marker {
@@ -79,7 +81,10 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
           position: relative;
           watt-radio {
             margin-right: var(--watt-space-m);
-            height: 80px;
+          }
+
+          watt-datepicker label > span {
+            display: none;
           }
         }
 
@@ -91,11 +96,11 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
         }
       }
 
-      .asterisk {
+      eo-transfers-form-period .asterisk {
         color: var(--watt-color-primary);
       }
 
-      .has-error {
+      eo-transfers-form-period .has-error {
         --watt-radio-color: var(--watt-color-state-danger);
 
         p,
@@ -161,7 +166,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
               *ngIf="form.value.hasEndDate"
               [min]="minEndDate"
               [existingTransferAgreements]="existingTransferAgreements"
-            ></eo-transfers-datetime>
+            />
 
             <eo-transfers-errors
               [showError]="!!form.controls.endDate.errors || !!form.controls.hasEndDate.errors"
@@ -206,7 +211,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
     </ng-container>
   `,
 })
-export class EoTransfersPeriodComponent implements OnInit, OnDestroy {
+export class EoTransfersPeriodComponent implements OnInit {
   @Input() formGroupName!: string;
   @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
 
@@ -214,8 +219,8 @@ export class EoTransfersPeriodComponent implements OnInit, OnDestroy {
   protected minStartDate: Date = new Date();
   protected minEndDate: Date = new Date();
 
-  private destroy$: Subject<void> = new Subject();
-  private rootFormGroup = inject(FormGroupDirective);
+  private _destroyRef = inject(DestroyRef);
+  private _rootFormGroup = inject(FormGroupDirective);
 
   ngOnInit() {
     this.initForm();
@@ -223,17 +228,12 @@ export class EoTransfersPeriodComponent implements OnInit, OnDestroy {
     this.subscribeHasEndDateChanges();
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   resetHours(date: number): number {
     return new Date(date).setHours(0, 0, 0, 0);
   }
 
   private initForm() {
-    this.form = this.rootFormGroup.control.get(this.formGroupName) as FormGroup;
+    this.form = this._rootFormGroup.control.get(this.formGroupName) as FormGroup;
     this.form.addControl(
       'hasEndDate',
       new FormControl(
@@ -249,7 +249,7 @@ export class EoTransfersPeriodComponent implements OnInit, OnDestroy {
   private subscribeStartDateChanges() {
     if (this.form.controls.startDate.enabled) {
       this.form.controls['startDate'].valueChanges
-        .pipe(takeUntil(this.destroy$))
+        .pipe(takeUntilDestroyed(this._destroyRef))
         .subscribe((startDate) => {
           const today = new Date();
 
@@ -261,7 +261,7 @@ export class EoTransfersPeriodComponent implements OnInit, OnDestroy {
 
   private subscribeHasEndDateChanges() {
     this.form.controls['hasEndDate'].valueChanges
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((hasEndDate) => {
         this.setEndDateAndTimeBasedOnStartDateAndTime(hasEndDate);
       });

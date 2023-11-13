@@ -1,0 +1,73 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<watt-card vater inset="0" *transloco="let t; read: 'wholesale.requestCalculation'">
+  <form
+    [formGroup]="form"
+    #formDirective="ngForm"
+    (ngSubmit)="requestCalculation(form, formDirective)"
+  >
+    <vater-flex fill="vertical" gap="m">
+      <vater-stack align="flex-start" direction="column" gap="s">
+        <watt-dropdown
+          translate="wholesale.requestCalculation.processTypes"
+          [label]="t('processType')"
+          [formControl]="form.controls.processType"
+          [options]="progressTypeOptions"
+          dhDropdownTranslator
+        />
+
+        <watt-datepicker
+          [range]="true"
+          [label]="t('period')"
+          [max]="maxDate"
+          [min]="minDate"
+          [formControl]="form.controls.period"
+        >
+          <watt-field-error *ngIf="form.controls.period.errors?.maxOneMonthDateRange">
+            {{ t('maxPeriodLength')}}
+          </watt-field-error>
+        </watt-datepicker>
+
+        <watt-dropdown
+          *ngIf="gridAreaOptions.length > 1"
+          [label]="t('gridAreas')"
+          [formControl]="form.controls.gridarea"
+          [options]="gridAreaOptions"
+        />
+
+        <watt-dropdown
+          translate="wholesale.requestCalculation.meteringPointTypes"
+          [label]="t('meteringPointType')"
+          [formControl]="form.controls.meteringPointType"
+          [options]="meteringPointOptions"
+          [showResetOption]="false"
+          dhDropdownTranslator
+        />
+
+        <watt-dropdown
+          *ngIf="showEnergySupplierDropdown()"
+          [label]="t('energySupplier')"
+          [formControl]="form.controls.energySupplierId"
+          [options]="energySupplierOptions"
+        />
+      </vater-stack>
+      <vater-stack direction="column" align="flex-end">
+        <watt-button variant="primary" type="submit">{{t('request')}}</watt-button>
+      </vater-stack>
+    </vater-flex>
+  </form>
+</watt-card>

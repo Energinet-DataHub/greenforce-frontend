@@ -31,8 +31,7 @@ interface EoTitleState {
 })
 export class EoTitleStore extends ComponentStore<EoTitleState> {
   routeTitle$: Observable<string> = this.select((state) => state.routeTitle).pipe(
-    filter((title) => title !== null),
-    map((title) => title as string)
+    filter((title): title is string => title !== null)
   );
 
   constructor(

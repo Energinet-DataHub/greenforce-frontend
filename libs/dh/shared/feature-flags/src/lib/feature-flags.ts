@@ -32,7 +32,7 @@ export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
  * },
  */
 
-const created = '31-08-2023';
+const created = '02-11-2023';
 
 export const dhFeatureFlagsConfig = {
   start_wholesale_process_feature_flag: {

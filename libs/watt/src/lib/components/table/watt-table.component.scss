@@ -76,6 +76,10 @@ watt-table .mat-mdc-table {
     border-bottom: 1px solid var(--watt-color-neutral-grey-300);
   }
 
+  .watt-table-no-end-divider:last-child .mat-mdc-cell {
+    border-bottom: 0px solid var(--watt-color-neutral-grey-300) !important;
+  }
+
   .watt-table-clickable-row td {
     cursor: pointer;
     user-select: none;
@@ -93,16 +97,11 @@ watt-table .mat-mdc-table {
     margin: 0;
   }
 
-  .mat-sort-header-position-before .mat-sort-header-arrow {
+  .mat-sort-header-arrow {
     margin-left: var(--watt-space-s);
   }
 
-  .mat-sort-header-position-after .mat-sort-header-arrow {
-    margin-right: var(--watt-space-s);
-  }
-
   .watt-table-header-cell {
-    display: inline-block;
     @include watt.space-inset-stretch-s;
   }
 

@@ -20,7 +20,7 @@ limitations under the License.
     *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.marketRoles'"
   >
     <div *ngIf="isLoading" class="spinner">
-      <watt-spinner></watt-spinner>
+      <watt-spinner />
     </div>
 
     <ng-container *ngIf="!isLoading">
@@ -53,7 +53,7 @@ limitations under the License.
         icon="custom-power"
         [title]="'shared.error.title' | transloco"
         [message]="'shared.error.message' | transloco"
-      ></watt-empty-state>
+      />
 
       <ng-container *rxLet="marketRoles.length as marketRoleCount">
         <h4 *ngIf="marketRoleCount === 0" class="no-results-text">

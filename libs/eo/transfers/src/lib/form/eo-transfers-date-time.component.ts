@@ -17,13 +17,14 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   forwardRef,
   Input,
   ViewEncapsulation,
   ViewChild,
   OnChanges,
   SimpleChanges,
+  inject,
+  DestroyRef,
 } from '@angular/core';
 import {
   FormControl,
@@ -36,12 +37,13 @@ import {
   Validator,
 } from '@angular/forms';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { Subject, takeUntil, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
 import { EoExistingTransferAgreement } from '../eo-transfers.store';
 import { isToday } from 'date-fns';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'eo-transfers-datetime',
@@ -60,25 +62,29 @@ import { isToday } from 'date-fns';
         align-items: flex-end;
       }
 
-      eo-transfers-datetime watt-form-field {
+      eo-transfers-datetime watt-field {
         max-width: 160px;
-        margin-top: 0;
+        margin: 0;
+
+        input {
+          width: 90px;
+        }
       }
 
       eo-transfers-datetime .mat-form-field-appearance-legacy .mat-form-field-wrapper {
         padding-bottom: 0;
       }
 
-      eo-transfers-datetime .mat-calendar-body-cell {
+      .mat-calendar-body-cell {
         pointer-events: none;
       }
 
-      eo-transfers-datetime .mat-calendar-body-cell-content {
+      .mat-calendar-body-cell-content {
         pointer-events: all;
         border: none !important;
       }
 
-      eo-transfers-datetime .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
+      .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
         &:hover .mat-calendar-body-cell-content {
           color: var(--watt-color-neutral-black) !important;
           box-shadow: none;
@@ -133,10 +139,7 @@ import { isToday } from 'date-fns';
         [min]="min"
         [dateClass]="dateClass"
       />
-      <eo-transfers-timepicker
-        formControlName="time"
-        [disabledHours]="disabledHours"
-      ></eo-transfers-timepicker>
+      <eo-transfers-timepicker formControlName="time" [disabledHours]="disabledHours" />
     </ng-container>
   `,
   providers: [
@@ -154,7 +157,7 @@ import { isToday } from 'date-fns';
   encapsulation: ViewEncapsulation.None,
 })
 export class EoTransfersDateTimeComponent
-  implements ControlValueAccessor, Validator, OnInit, OnChanges, OnDestroy
+  implements ControlValueAccessor, Validator, OnInit, OnChanges
 {
   @Input() min!: Date;
   @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
@@ -162,7 +165,7 @@ export class EoTransfersDateTimeComponent
 
   @ViewChild(EoTransfersTimepickerComponent) timepicker!: EoTransfersTimepickerComponent;
 
-  private destroy$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
   private statusChangesSubscription!: Subscription;
   protected form = new FormGroup({
     date: new FormControl(),
@@ -171,7 +174,7 @@ export class EoTransfersDateTimeComponent
   protected disabledHours: string[] = [];
 
   ngOnInit() {
-    this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((values) => {
+    this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((values) => {
       const { date, time } = values;
       let newValue = null;
 
@@ -186,9 +189,13 @@ export class EoTransfersDateTimeComponent
       this.onTouched();
     });
 
-    this.form.controls.date.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((date) => {
-      this.disabledHours = this.getDisabledHours(date ? new Date(date).setHours(0, 0, 0, 0) : null);
-    });
+    this.form.controls.date.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((date) => {
+        this.disabledHours = this.getDisabledHours(
+          date ? new Date(date).setHours(0, 0, 0, 0) : null
+        );
+      });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -196,11 +203,6 @@ export class EoTransfersDateTimeComponent
       const date = this.form.controls.date.value;
       this.disabledHours = this.getDisabledHours(date ? new Date(date).getTime() : null);
     }
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   onChange: (value: number | null) => void = () => {
@@ -242,7 +244,7 @@ export class EoTransfersDateTimeComponent
       const { date, time } = this.form.controls;
 
       this.statusChangesSubscription = control.statusChanges
-        .pipe(takeUntil(this.destroy$))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(() => {
           date.setErrors(control.errors);
           time.setErrors(control.errors);

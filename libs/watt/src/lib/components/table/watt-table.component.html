@@ -43,12 +43,20 @@ limitations under the License.
     <th
       mat-header-cell
       *matHeaderCellDef
-      mat-sort-header
-      [arrowPosition]="column.value.align === 'right' ? 'before' : 'after'"
-      [disabled]="!column.value.accessor || column.value.sort === false"
       class="watt-table-align-{{ column.value.align ?? 'left' }}"
     >
-      <div class="watt-table-header-cell">
+      <watt-icon
+        name="help"
+        *ngIf="_getColumnHelperAction(column); let action"
+        (click)="action()"
+      />
+
+      <div
+        class="watt-table-header-cell"
+        mat-sort-header
+        [arrowPosition]="column.value.align === 'right' ? 'before' : 'after'"
+        [disabled]="!column.value.accessor || column.value.sort === false"
+      >
         {{ _getColumnHeader(column) }}
       </div>
     </th>
@@ -66,7 +74,9 @@ limitations under the License.
     <td class="watt-table-footer-spacer" mat-footer-cell *matFooterCellDef></td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="_getColumns()"></tr>
+  <ng-container *ngIf="!hideColumnHeaders">
+    <tr mat-header-row *matHeaderRowDef="_getColumns()"></tr>
+  </ng-container>
   <tr
     mat-row
     *matRowDef="let row; columns: _getColumns()"
@@ -75,7 +85,8 @@ limitations under the License.
     [ngClass]="{
       'watt-table-highlight-row': !disabled && !suppressRowHoverHighlight,
       'watt-table-clickable-row': !disabled && rowClick.observed,
-      'watt-table-active-row': _isActiveRow(row)
+      'watt-table-active-row': _isActiveRow(row),
+      'watt-table-no-end-divider': hideColumnHeaders
     }"
   ></tr>
 

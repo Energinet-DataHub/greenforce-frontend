@@ -16,28 +16,60 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
-.watt-modal-panel {
-  @include watt.media("<Small") {
-    height: 100vh;
-    max-width: 100vw !important;
-    width: 100vw !important;
+.watt-modal {
+  --watt-modal-width: 100vw;
+  --watt-modal-height: calc(100vh - var(--watt-topbar-height, 0px));
+
+  width: var(--watt-modal-width);
+  max-width: 100vw;
+  height: var(--watt-modal-height);
+  max-height: 100vh;
+
+  position: relative;
+  display: grid;
+  padding: 0;
+  align-items: center;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 60px 1fr auto;
+  grid-template-areas:
+    "title close"
+    "content content"
+    "actions actions";
+
+  &--small {
+    --watt-modal-width: 320px;
+    --watt-modal-height: auto;
+
+    @include watt.media(">Small") {
+      --watt-modal-width: 520px;
+    }
   }
 
-  // TODO: Implement sizes variants and breakpoints
-
-  mat-dialog-container {
-    div.mat-mdc-dialog-surface {
-      position: relative;
-      display: grid;
-      padding: 0;
-      align-items: center;
-      grid-template-columns: 1fr auto;
-      grid-template-rows: 60px 1fr auto;
-      grid-template-areas:
-        "title close"
-        "content content"
-        "actions actions";
+  &--medium {
+    @include watt.media(">720px") {
+      --watt-modal-width: 720px;
+      --watt-modal-height: auto;
     }
+  }
+
+  &--large {
+    @include watt.media(">786px") {
+      --watt-modal-width: 786px;
+      --watt-modal-height: auto;
+    }
+
+    @include watt.media(">Medium") {
+      --watt-modal-width: 936px;
+      --watt-modal-height: auto;
+    }
+  }
+}
+
+.watt-modal-panel {
+  margin-top: var(--watt-topbar-height);
+
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    width: auto;
   }
 
   .watt-modal-close {

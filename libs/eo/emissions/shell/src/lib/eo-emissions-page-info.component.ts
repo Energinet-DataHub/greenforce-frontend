@@ -46,7 +46,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
   template: `
     <watt-card>
       <h4>Your emissions in 2021</h4>
-      <eo-emissions-data class="output watt-space-stack-m"></eo-emissions-data>
+      <eo-emissions-data class="output watt-space-stack-m" />
       <watt-button variant="text" icon="save" (click)="openSurvey()"> Export details </watt-button>
     </watt-card>
   `,

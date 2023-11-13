@@ -33,7 +33,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   standalone: true,
   imports: [CommonModule, WattIconComponent],
   encapsulation: ViewEncapsulation.None,
-  template: `<ng-template #templateRef><ng-content></ng-content></ng-template>`,
+  template: `<ng-template #templateRef><ng-content /></ng-template>`,
 })
 export class WattBreadcrumbComponent {
   @ViewChild('templateRef', { static: true }) public templateRef!: TemplateRef<unknown>;
@@ -61,8 +61,8 @@ export class WattBreadcrumbComponent {
           [class.interactive]="breadcrumb.click.observed"
           [attr.role]="breadcrumb.click.observed ? 'link' : null"
         >
-          <ng-container *ngTemplateOutlet="breadcrumb.templateRef"></ng-container>
-          <watt-icon *ngIf="!isLast" name="right"></watt-icon>
+          <ng-container *ngTemplateOutlet="breadcrumb.templateRef" />
+          <watt-icon *ngIf="!isLast" name="right" />
         </span>
       </ng-container>
     </nav>

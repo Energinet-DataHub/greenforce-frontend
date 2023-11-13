@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { LowerCasePipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -26,9 +26,9 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EoTransfersStore } from './eo-transfers.store';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { EoTransferAgreementsHistory } from './eo-transfers.service';
-import { Subject, takeUntil } from 'rxjs';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -116,15 +116,14 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
     </watt-table>
 
     <div class="spinner-container" *ngIf="isLoading$ | push">
-      <watt-spinner></watt-spinner>
+      <watt-spinner />
     </div>
 
     <watt-empty-state
       *ngIf="dataSource.data.length === 0 && !(hasError$ | push) && !(isLoading$ | push)"
       icon="power"
       title="No history was found"
-    >
-    </watt-empty-state>
+    />
 
     <watt-empty-state
       *ngIf="hasError$ | push"
@@ -140,11 +139,13 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
       [pageSize]="10"
       [pageSizeOptions]="[10, 25, 50, 100, 250]"
       [for]="dataSource"
-    >
-    </watt-paginator>
+    />
   `,
 })
 export class EoTransfersHistoryComponent implements OnInit {
+  private _store = inject(EoTransfersStore);
+  private _destroyRef = inject(DestroyRef);
+
   transferAgreementId?: string;
   dataSource = new WattTableDataSource<EoTransferAgreementsHistory>();
   columns = {
@@ -152,28 +153,29 @@ export class EoTransfersHistoryComponent implements OnInit {
     action: { accessor: 'action', header: 'Change' },
   } as WattTableColumnDef<EoTransferAgreementsHistory>;
 
-  private store = inject(EoTransfersStore);
-  hasError$ = this.store.historyOfSelectedTransferError$;
-  isLoading$ = this.store.historyOfSelectedTransferLoading$;
-
-  private destroy$ = new Subject<void>();
+  hasError$ = this._store.historyOfSelectedTransferError$;
+  isLoading$ = this._store.historyOfSelectedTransferLoading$;
 
   ngOnInit(): void {
-    this.store.selectedTransfer$.pipe(takeUntil(this.destroy$)).subscribe((transfer) => {
-      if (transfer) {
-        this.transferAgreementId = transfer.id;
-        this.getHistory(this.transferAgreementId);
-      }
-    });
+    this._store.selectedTransfer$
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((transfer) => {
+        if (transfer) {
+          this.transferAgreementId = transfer.id;
+          this.getHistory(this.transferAgreementId);
+        }
+      });
 
-    this.store.historyOfSelectedTransfer$.pipe(takeUntil(this.destroy$)).subscribe((history) => {
-      this.dataSource.data = history;
-    });
+    this._store.historyOfSelectedTransfer$
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((history) => {
+        this.dataSource.data = history;
+      });
   }
 
   getHistory(transferAgreementId?: string): void {
     if (transferAgreementId) {
-      this.store.getHistory(transferAgreementId);
+      this._store.getHistory(transferAgreementId);
     }
   }
 }

@@ -16,7 +16,14 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  inject,
+} from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
@@ -24,8 +31,29 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { EoMeteringPoint } from './eo-metering-points.store';
+import { EoMeteringPoint, MeteringPointType } from '@energinet-datahub/eo/metering-points/domain';
+
+@Component({
+  standalone: true,
+  imports: [WATT_MODAL, WattButtonComponent],
+  template: `
+    <watt-modal
+      #modal
+      title="Not all metering points can be enabled"
+      closeLabel="Close modal"
+      size="small"
+    >
+      <p>A metering point must have a wind or solar source to become eligible for activation.</p>
+      <watt-modal-actions>
+        <watt-button (click)="modal.close(false)">Close</watt-button>
+      </watt-modal-actions>
+    </watt-modal>
+  `,
+})
+class GranularCertificateHelperComponent {}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,6 +67,7 @@ import { EoMeteringPoint } from './eo-metering-points.store';
     WattEmptyStateComponent,
     MatSlideToggleModule,
   ],
+  providers: [WattModalService],
   standalone: true,
   selector: 'eo-metering-points-table',
   styles: [
@@ -76,26 +105,36 @@ import { EoMeteringPoint } from './eo-metering-points.store';
         {{ meteringPoint?.address?.city }}
       </ng-container>
 
-      <ng-container *wattTableCell="columns.type; let meteringPoint">
+      <ng-container *wattTableCell="columns.unit; let meteringPoint">
         <watt-badge type="neutral">{{ meteringPoint.type }}</watt-badge>
       </ng-container>
 
       <!-- GRANULAR CERTIFICATES Column -->
       <ng-container *wattTableCell="columns.gc; let meteringPoint">
         <div
-          *ngIf="meteringPoint.type === 'production'"
+          *ngIf="
+            meteringPoint.type === 'consumption' ||
+            (meteringPoint.type === 'production' &&
+              (meteringPoint.assetType === 'Wind' || meteringPoint.assetType === 'Solar'))
+          "
           style="display: flex; align-items: center;"
         >
           <mat-slide-toggle
-            (change)="toggleContract.emit({ checked: $event.checked, gsrn: meteringPoint.gsrn })"
+            (change)="
+              toggleContract.emit({
+                checked: $event.checked,
+                gsrn: meteringPoint.gsrn,
+                type: meteringPoint.type,
+              })
+            "
             [disabled]="meteringPoint.loadingContract"
             [checked]="meteringPoint.contract && !meteringPoint.loadingContract"
-          ></mat-slide-toggle>
+          />
           <watt-spinner
             [diameter]="24"
             style="margin-left: var(--watt-space-m);"
             [style.opacity]="meteringPoint.loadingContract ? 1 : 0"
-          ></watt-spinner>
+          />
         </div>
       </ng-container>
     </watt-table>
@@ -105,14 +144,14 @@ import { EoMeteringPoint } from './eo-metering-points.store';
       icon="custom-power"
       title="No metering points found"
       message="You do not have any metering points."
-    ></watt-empty-state>
+    />
 
     <watt-empty-state
       *ngIf="loading === false && hasError"
       icon="custom-power"
       title="Oops! Something went wrong."
       message="Please try reloading the page.."
-    ></watt-empty-state>
+    />
 
     <watt-paginator [for]="dataSource" />
   `,
@@ -120,16 +159,18 @@ import { EoMeteringPoint } from './eo-metering-points.store';
 export class EoMeteringPointsTableComponent {
   dataSource: WattTableDataSource<EoMeteringPoint> = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<EoMeteringPoint> = {
-    gsrn: { accessor: 'gsrn', header: 'ID' },
+    gsrn: { accessor: 'gsrn', header: 'Metering point' },
     address: { accessor: (meteringPoint) => meteringPoint.address.address1 },
-    type: { accessor: (meteringPoint) => meteringPoint.type },
+    unit: { accessor: (meteringPoint) => meteringPoint.type },
+    source: { accessor: (meteringPoint) => meteringPoint.assetType },
     gc: {
       accessor: (meteringPoint) => {
         const itemHasActiveContract = meteringPoint.contract ? 'active' : 'enable';
         return meteringPoint.type === 'production' ? itemHasActiveContract : '';
       },
-      header: 'Granular Certificates',
+      header: 'On/Off',
       align: 'center',
+      helperAction: () => this.onToggleGranularCertificatesHelperText(),
     },
   };
 
@@ -138,5 +179,17 @@ export class EoMeteringPointsTableComponent {
   }
   @Input() loading = false;
   @Input() hasError = false;
-  @Output() toggleContract = new EventEmitter<{ checked: boolean; gsrn: string }>();
+  @Output() toggleContract = new EventEmitter<{
+    checked: boolean;
+    gsrn: string;
+    type: MeteringPointType;
+  }>();
+
+  private modalService = inject(WattModalService);
+
+  onToggleGranularCertificatesHelperText() {
+    this.modalService.open({
+      component: GranularCertificateHelperComponent,
+    });
+  }
 }
