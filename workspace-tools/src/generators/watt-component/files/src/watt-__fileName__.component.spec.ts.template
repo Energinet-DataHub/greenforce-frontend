@@ -14,14 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
 
 import { Watt<%= className %>Component } from './watt-<%= fileName %>.component';
 
 describe(Watt<%= className %>Component.name, () => {
-  it('renders', async () => {
-    await render(Watt<%= className %>Component, {
-      imports: [Watt<%= className %>Component],
-    });
+  it('should render', async () => {
+    await render(Watt<%= className %>Component);
+    expect(screen.getByText('Watt<%= className %>Component works!')).toBeInTheDocument();
   });
 });

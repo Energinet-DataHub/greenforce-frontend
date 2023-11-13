@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { moduleMetadata, Meta, StoryFn } from '@storybook/angular';
 
 import { Watt<%= className %>Component } from './watt-<%= fileName %>.component';
 
@@ -23,14 +23,14 @@ const meta: Meta<Watt<%= className %>Component> = {
   component: Watt<%= className %>Component,
   decorators: [
     moduleMetadata({
-      imports: [Watt<%= className %>Module],
+      imports: [],
     }),
   ],
 };
 
 export default meta;
 
-export const Overview: Story<Watt<%= className %>Component> = (args) => ({
+export const Overview: StoryFn<Watt<%= className %>Component> = (args) => ({
   props: args,
 });
 

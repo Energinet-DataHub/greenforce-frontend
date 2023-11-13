@@ -30,8 +30,8 @@ import {
       display: block;
     }
   `],
-  templateUrl: `
-    <p><%= className %>Component works</p>
+  template: `
+    <p>Watt<%= className %>Component works!</p>
   `,
 })
 export class Watt<%= className %>Component {}
