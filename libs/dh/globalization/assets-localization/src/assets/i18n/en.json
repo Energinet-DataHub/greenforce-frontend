@@ -537,8 +537,14 @@
     "actor": {
       "create": {
         "steps": {
-          "orgNext": "Market party"
+          "actor": "Market party",
+          "organization": "Organization",
+          "invite": "Invite user"
         },
+        "tooltip": "The actor gets the organization name if you do not specify an actor name.",
+        "glnOrEicInvalid": "Invalid GLN/EIC",
+        "wrongEmailPattern": "Type a valid email",
+        "phoneInvalid": "Invalid phone number",
         "domainInvalid": "Invalid domain",
         "companyName": "Companyname",
         "domain": "Domain",

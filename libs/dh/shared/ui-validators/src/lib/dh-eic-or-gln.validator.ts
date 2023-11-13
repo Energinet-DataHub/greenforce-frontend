@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { dhCvrValidator } from './lib/dh-cvr.validator';
-export { dhDomainValidator } from './lib/dh-domain.validator';
-export { dhDkPhoneNumberValidator } from './lib/dh-dk-phone-number.validator';
-export { dhEicOrGlnValidator } from './lib/dh-eic-or-gln.validator';
+import { Validators } from '@angular/forms';
+
+export const dhEicOrGlnValidator = Validators.pattern(/(^\d{13}$)|(^[a-zA-Z0-9]{16}$)/);

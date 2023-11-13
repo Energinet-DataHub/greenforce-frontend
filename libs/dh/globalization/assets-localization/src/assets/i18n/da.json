@@ -530,8 +530,14 @@
     "actor": {
       "create": {
         "steps": {
-          "orgNext": "Aktør"
+          "actor": "Aktør",
+          "organization": "Organisation",
+          "invite": "Inviter bruger"
         },
+        "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktør navn.",
+        "glnOrEicInvalid": "Ugyldigt GLN/EIC nummer",
+        "wrongEmailPattern": "Indtast en valid email",
+        "phoneInvalid": "Ugyldigt telefonnummer",
         "domainInvalid": "Ugyldigt domæne",
         "companyName": "Virksomhedsnavn",
         "domain": "Domæne",

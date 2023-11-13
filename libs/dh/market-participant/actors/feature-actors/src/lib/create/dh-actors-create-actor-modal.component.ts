@@ -18,8 +18,8 @@ import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { NgIf } from '@angular/common';
-import { Component, ViewChild, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, DestroyRef, ViewChild, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
@@ -28,16 +28,23 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { EicFunction, GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import {
+  EicFunction,
+  GetOrganizationByIdDocument,
+  GetOrganizationsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
 import {
   dhCvrValidator,
   dhDkPhoneNumberValidator,
   dhDomainValidator,
+  dhEicOrGlnValidator,
 } from '@energinet-datahub/dh/shared/ui-validators';
 
 @Component({
@@ -58,6 +65,10 @@ import {
         .dh-actors-create-actor {
           watt-dropdown {
             width: 100%;
+          }
+
+          .domain {
+            padding-right: var(--watt-space-s);
           }
         }
 
@@ -94,11 +105,18 @@ import {
 export class DhActorsCreateActorModalComponent {
   private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
   private _apollo = inject(Apollo);
+  private _destroyRef = inject(DestroyRef);
 
   private _getOrganizationsQuery$ = this._apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: GetOrganizationsDocument,
+  });
+
+  private _getOrginationByIdQuery$ = this._apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetOrganizationByIdDocument,
   });
 
   @ViewChild(WattModalComponent)
@@ -122,17 +140,18 @@ export class DhActorsCreateActorModalComponent {
   });
 
   newActorForm = this._fb.group({
-    glnOrEicNumber: ['', Validators.required],
+    glnOrEicNumber: ['', [Validators.required, dhEicOrGlnValidator]],
     name: [''],
     marketrole: ['', Validators.required],
     contact: this._fb.group({
       departmentOrName: ['', Validators.required],
-      email: ['', Validators.required, Validators.email],
-      phone: ['', Validators.required, dhDkPhoneNumberValidator],
+      email: ['', [Validators.required, Validators.pattern(/^[A-Za-z0-9]+$/)]],
+      phone: ['', [Validators.required, dhDkPhoneNumberValidator]],
     }),
   });
 
   showCreateNewOrganization = signal(false);
+  choosenOrganizationDomain = signal('');
 
   constructor() {
     this._getOrganizationsQuery$.valueChanges.pipe(takeUntilDestroyed()).subscribe((result) => {
@@ -143,6 +162,17 @@ export class DhActorsCreateActorModalComponent {
         }));
       }
     });
+  }
+
+  onOrganizationChange(id: string): void {
+    this._getOrginationByIdQuery$.setVariables({ id });
+    this._getOrginationByIdQuery$.valueChanges
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((result) => {
+        if (result.data?.organizationById.domain) {
+          this.choosenOrganizationDomain.set(result.data.organizationById.domain);
+        }
+      });
   }
 
   toggleShowCreateNewOrganization(): void {
