@@ -60,12 +60,10 @@ export class DhMarketPartyCredentialsStore extends ComponentStore<CertificateSta
   readonly clientSecret$ = this.select((state) => state.clientSecret);
   readonly clientSecretExists$ = this.select(this.clientSecret$, (value) => !!value);
 
+  readonly uploadInProgress$ = this.select((state) => state.uploadInProgress);
+  readonly generateSecretInProgress$ = this.select((state) => state.generateSecretInProgress);
   readonly showSpinner$ = this.select(
-    (state) =>
-      state.loadingCredentials ||
-      state.uploadInProgress ||
-      state.removeInProgress ||
-      state.generateSecretInProgress
+    (state) => state.loadingCredentials || state.removeInProgress
   );
 
   readonly getCredentials = this.effect((actorId$: Observable<string>) =>

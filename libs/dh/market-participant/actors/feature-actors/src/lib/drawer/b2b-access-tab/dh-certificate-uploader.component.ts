@@ -50,6 +50,7 @@ const certificateMimeType = 'application/x-x509-ca-cert';
     <watt-button
       *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess'"
       variant="secondary"
+      [loading]="uploadInProgress()"
       (click)="fileUpload.click()"
     >
       {{ doesCertificateExist() ? t('uploadNewCertificate') : t('uploadCertificate') }}
@@ -65,6 +66,7 @@ export class DhCertificateUploaderComponent {
 
   isInvalidFileType = signal(false);
   doesCertificateExist = toSignal(this.store.doesCertificateExist$);
+  uploadInProgress = toSignal(this.store.uploadInProgress$, { requireSync: true });
 
   @Input({ required: true }) actorId = '';
 
