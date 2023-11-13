@@ -385,7 +385,6 @@ function getMarketParticipantActorActorCredentials(apiBase: string) {
   };
 
   return rest.get(`${apiBase}/v1/MarketParticipantActor/GetActorCredentials`, (req, res, ctx) => {
-    // return res(ctx.delay(300), ctx.status(404));
     return res(ctx.delay(300), ctx.json(response));
   });
 }
