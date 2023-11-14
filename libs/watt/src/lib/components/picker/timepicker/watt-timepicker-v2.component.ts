@@ -150,7 +150,8 @@ export class WattTimepickerV2Component extends WattPickerBase {
   /**
    * @ignore
    */
-  rangePlaceholder = this.hoursMinutesPlaceholder + this.rangeSeparator + this.hoursMinutesPlaceholder;
+  rangePlaceholder =
+    this.hoursMinutesPlaceholder + this.rangeSeparator + this.hoursMinutesPlaceholder;
   /**
    * @ignore
    */
