@@ -238,6 +238,10 @@ export class WattTimepickerV2Component extends WattPickerBase {
    */
   inputChanged(value: string) {
     const time = value.slice(0, hoursMinutesPlaceholder.length);
+    if (time.length === 0) {
+      this.control?.setValue(null);
+      return;
+    }
     if (time.length !== hoursMinutesPlaceholder.length) {
       return;
     }
@@ -250,6 +254,7 @@ export class WattTimepickerV2Component extends WattPickerBase {
   rangeInputChanged(value: string) {
     const start = value.slice(0, hoursMinutesPlaceholder.length);
     if (start.length !== hoursMinutesPlaceholder.length) {
+      this.control?.setValue({ start: '', end: '' });
       return;
     }
     if (value.length < rangePlaceholder.length) {

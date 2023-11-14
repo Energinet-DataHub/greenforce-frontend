@@ -207,6 +207,10 @@ export class WattDatepickerV2Component extends WattPickerBase {
 
   inputChanged(value: string) {
     const dateString = value.slice(0, this.datePlaceholder.length);
+    if (dateString.length === 0) {
+      this.control?.setValue(null);
+      return;
+    }
     if (dateString.length !== this.datePlaceholder.length) {
       return;
     }
@@ -254,6 +258,10 @@ export class WattDatepickerV2Component extends WattPickerBase {
 
   rangeInputChanged(value: string) {
     const startDateString = value.slice(0, this.datePlaceholder.length);
+    if (startDateString.length === 0) {
+      this.control?.setValue(null);
+      return;
+    }
     if (startDateString.length !== this.datePlaceholder.length) {
       return;
     }
