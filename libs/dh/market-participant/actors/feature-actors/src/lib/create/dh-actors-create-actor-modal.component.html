@@ -95,7 +95,7 @@ limitations under the License.
         [nextButtonLabel]="t('steps.invite')"
         [label]="t('marketParty')"
       >
-        <vater-stack gap="xl" class="dh-actors-create-actor" direction="row">
+        <vater-stack gap="xl" class="dh-actors-create-actor" align="flex-start" direction="row">
           <vater-stack fill="horizontal" align="flex-start" direction="column">
             <h4>{{ t("marketParty") }}</h4>
             <watt-text-field
@@ -115,8 +115,15 @@ limitations under the License.
               translate="marketParticipant.marketRoles"
               dhDropdownTranslator
               [options]="marketRoleOptions"
+              (ngModelChange)="onMarketRoleChange($event)"
               [formControl]="newActorForm.controls.marketrole"
               [label]="t('marketRole')"
+            />
+            <watt-dropdown
+              *ngIf="showGridAreaOptions()"
+              [options]="gridAreaOptions"
+              [formControl]="newActorForm.controls.gridArea"
+              [label]="t('gridArea')"
             />
           </vater-stack>
           <vater-stack fill="horizontal" align="flex-start" direction="column">
@@ -129,7 +136,7 @@ limitations under the License.
               [formControl]="newActorForm.controls.contact.controls.email"
               [label]="t('email')"
             >
-              <span class="domain">{{ `@${choosenOrganizationDomain()} }}</span>
+              <span class="domain">&#64;{{ getChoosenOrganizationDomain() }}</span>
               <watt-field-error
                 *ngIf="newActorForm.controls.contact.controls.email.hasError('pattern')"
               >
