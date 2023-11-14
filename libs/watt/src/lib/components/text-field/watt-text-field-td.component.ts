@@ -39,7 +39,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
   selector: 'watt-text-field',
   styleUrls: ['./watt-text-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  template: `<watt-field [control]="formControl" [label]="label">
+  template: `<watt-field [control]="formControl" [label]="label" [tooltip]="tooltip">
     <watt-icon *ngIf="prefix" [name]="prefix" />
     <input
       [attr.aria-label]="label"
@@ -64,6 +64,7 @@ export class WattTextFieldTDComponent implements ControlValueAccessor, AfterView
   @Input() placeholder?: string;
   @Input() required = false;
   @Input() label = '';
+  @Input() tooltip?: string;
   @Input() prefix?: WattIcon;
   @Input() maxLength: string | number | null = null;
   @HostBinding('attr.aria-invalid')
