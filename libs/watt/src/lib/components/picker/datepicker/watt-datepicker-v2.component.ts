@@ -218,9 +218,9 @@ export class WattDatepickerV2Component extends WattPickerBase {
     if (this.matDatepickerInput.value) {
       this.control?.setValue(this.matDatepickerInput.value);
       (this.actualInput.nativeElement as HTMLInputElement).value =
-          this.formatDateTimeFromModelToView(
-            this.formatDateFromViewToModel(this.matDatepickerInput.value)
-          )
+        this.formatDateTimeFromModelToView(
+          this.formatDateFromViewToModel(this.matDatepickerInput.value)
+        );
     } else {
       (this.actualInput.nativeElement as HTMLInputElement).value = '';
       this.control?.setValue(null);

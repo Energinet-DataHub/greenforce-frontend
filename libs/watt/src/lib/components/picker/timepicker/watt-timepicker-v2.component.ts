@@ -270,7 +270,10 @@ export class WattTimepickerV2Component extends WattPickerBase {
    */
   protected initRangeInput() {
     if (this.initialValue) {
-      this.setRangeValueAndNotify((this.initialValue as WattDateRange).start, (this.initialValue as WattDateRange).end);
+      this.setRangeValueAndNotify(
+        (this.initialValue as WattDateRange).start,
+        (this.initialValue as WattDateRange).end
+      );
     } else {
       this.control?.setValue({ start: '', end: '' });
     }

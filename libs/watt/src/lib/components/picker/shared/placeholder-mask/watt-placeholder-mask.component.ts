@@ -60,7 +60,7 @@ export class WattPlaceholderMaskComponent implements AfterViewInit, OnChanges, O
   cdr = inject(ChangeDetectorRef);
 
   ngAfterViewInit(): void {
-    this.setMask()
+    this.setMask();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
