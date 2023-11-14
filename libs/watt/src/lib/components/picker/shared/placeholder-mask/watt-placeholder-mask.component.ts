@@ -86,11 +86,11 @@ export class WattPlaceholderMaskComponent implements AfterViewInit, OnChanges, O
         },
       ],
       postprocessors: [
-        ...(this.mask.postprocessors || []),
         (elementState) => {
           this.maskApplied.emit(elementState.value);
           return elementState;
         },
+        ...(this.mask.postprocessors || []),
       ],
     };
     this.maskedInput = new Maskito(this.primaryInputElement, primaryMask);

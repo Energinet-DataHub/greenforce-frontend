@@ -266,10 +266,6 @@ export class WattDatepickerV2Component extends WattPickerBase {
       return;
     }
     const start = this.parseDateShortFormat(startDateString);
-    if (value.length < this.rangePlaceholder.length) {
-      this.control?.setValue({ start, end: start });
-      return;
-    }
     const endDateString = value.slice(this.datePlaceholder.length + this.rangeSeparator.length);
     let end = this.setEndDateToDanishTimeZone(endDateString);
     if (end !== null) {
