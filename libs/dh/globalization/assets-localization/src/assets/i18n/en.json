@@ -541,7 +541,7 @@
           "organization": "Organization",
           "invite": "Invite user"
         },
-        "tooltip": "The actor gets the organization name if you do not specify an actor name.",
+        "tooltip": "The market party gets the organization name if you do not specify a value.",
         "glnOrEicInvalid": "Invalid GLN/EIC",
         "wrongEmailPattern": "Type a valid email",
         "phoneInvalid": "Invalid phone number",
