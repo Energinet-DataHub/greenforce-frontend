@@ -111,13 +111,27 @@ limitations under the License.
                 {{ element.timestamp | wattDate : "long" }}
               </ng-container>
               <ng-container *wattTableCell="auditLogColumns['currentValue']; let entry">
-                <div
+                <div *ngIf="entry.type !== 'CLIENT_SECRET_CREDENTIALS'"
                   [innerHTML]="
                     t(
                       'tabs.history.changeTypes.' +
                         entry.type +
                         (entry.previousValue ? '' : '_NO_PREVIOUS'),
                       entry
+                    )
+                  "
+                ></div>
+                <div *ngIf="entry.type === 'CLIENT_SECRET_CREDENTIALS'"
+                  [innerHTML]="
+                    t(
+                      'tabs.history.changeTypes.' +
+                        entry.type +
+                        (entry.previousValue ? '' : '_NO_PREVIOUS'),
+                      {
+                        changedByUserName: entry.changedByUserName,
+                        currentValue: entry.currentValue | wattDate,
+                        previousValue: entry.previousValue | wattDate
+                      }
                     )
                   "
                 ></div>
