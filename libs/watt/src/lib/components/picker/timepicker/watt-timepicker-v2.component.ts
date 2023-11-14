@@ -50,10 +50,6 @@ import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
 
-const hoursMinutesPlaceholder = 'HH:MM';
-const rangeSeparator = ' - ';
-const rangePlaceholder = hoursMinutesPlaceholder + rangeSeparator + hoursMinutesPlaceholder;
-
 // Constants for working with time intervals
 const minutesInADay = 24 * 60;
 const quartersInADay = minutesInADay / 15;
@@ -143,11 +139,22 @@ export class WattTimepickerV2Component extends WattPickerBase {
     // Only range input has slider
     return this.range && this.sliderOpen ? this.sliderId : undefined;
   }
-
   /**
    * @ignore
    */
-  protected _placeholder = hoursMinutesPlaceholder;
+  hoursMinutesPlaceholder = 'HH:MM';
+  /**
+   * @ignore
+   */
+  rangeSeparator = ' - ';
+  /**
+   * @ignore
+   */
+  rangePlaceholder = this.hoursMinutesPlaceholder + this.rangeSeparator + this.hoursMinutesPlaceholder;
+  /**
+   * @ignore
+   */
+  protected _placeholder = this.hoursMinutesPlaceholder;
 
   /**
    * Whether the slider is open.
@@ -200,7 +207,7 @@ export class WattTimepickerV2Component extends WattPickerBase {
   /**
    * @ignore
    */
-  inputMask = maskitoTimeOptionsGenerator({ mode: hoursMinutesPlaceholder });
+  inputMask = maskitoTimeOptionsGenerator({ mode: 'HH:MM' });
   /**
    * @ignore
    */
@@ -237,12 +244,12 @@ export class WattTimepickerV2Component extends WattPickerBase {
    * @ignore
    */
   inputChanged(value: string) {
-    const time = value.slice(0, hoursMinutesPlaceholder.length);
+    const time = value.slice(0, this.hoursMinutesPlaceholder.length);
     if (time.length === 0) {
       this.control?.setValue(null);
       return;
     }
-    if (time.length !== hoursMinutesPlaceholder.length) {
+    if (time.length !== this.hoursMinutesPlaceholder.length) {
       return;
     }
     this.control?.setValue(time);
@@ -252,12 +259,12 @@ export class WattTimepickerV2Component extends WattPickerBase {
    * @ignore
    */
   rangeInputChanged(value: string) {
-    const start = value.slice(0, hoursMinutesPlaceholder.length);
-    if (start.length !== hoursMinutesPlaceholder.length) {
+    const start = value.slice(0, this.hoursMinutesPlaceholder.length);
+    if (start.length !== this.hoursMinutesPlaceholder.length) {
       this.control?.setValue({ start: '', end: '' });
       return;
     }
-    let end = value.slice(hoursMinutesPlaceholder.length + rangeSeparator.length);
+    let end = value.slice(this.hoursMinutesPlaceholder.length + this.rangeSeparator.length);
     if (timeToMinutes(end) > timeToMinutes(start)) {
       this.control?.setValue({ start, end });
     } else {
@@ -292,7 +299,7 @@ export class WattTimepickerV2Component extends WattPickerBase {
    */
   setRangeValueAndNotify(start: string, end: string) {
     this.control?.setValue({ start, end });
-    (this.input.nativeElement as HTMLInputElement).value = start + rangeSeparator + end;
+    (this.input.nativeElement as HTMLInputElement).value = start + this.rangeSeparator + end;
     this.input.nativeElement.dispatchEvent(new InputEvent('input'));
   }
 
