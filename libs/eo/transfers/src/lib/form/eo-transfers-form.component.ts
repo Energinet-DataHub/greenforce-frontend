@@ -189,8 +189,9 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
         </watt-field-error>
         <watt-field-error
           *ngIf="
-    form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin'] || form.controls.receiver.controls.tin.errors
-  "
+            form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin'] ||
+            form.controls.receiver.controls.tin.errors
+          "
         >
           An 8-digit TIN/CVR number is required
         </watt-field-error>
@@ -202,12 +203,16 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
         data-testid="new-agreement-base64-input"
       >
         <watt-field-error
-          *ngIf="form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.errors?.['required']"
+          *ngIf="
+            form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.errors?.['required']
+          "
         >
           A Wallet Deposit Endpoint is required
         </watt-field-error>
         <watt-field-error
-          *ngIf="form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.errors?.['pattern']"
+          *ngIf="
+            form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.errors?.['pattern']
+          "
         >
           Not a valid Wallet Deposit Endpoint
         </watt-field-error>

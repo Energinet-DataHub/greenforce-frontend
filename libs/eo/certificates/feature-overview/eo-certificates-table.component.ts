@@ -56,7 +56,7 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
       <ng-container matColumnDef="dateFrom">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Time </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.dateFrom | wattDate : 'longAbbr' }}-{{ element.dateTo | wattDate : 'time' }}
+          {{ element.dateFrom | wattDate: 'longAbbr' }}-{{ element.dateTo | wattDate: 'time' }}
         </mat-cell>
       </ng-container>
 

@@ -118,7 +118,10 @@ export class EoLandingPageShellComponent {
   cookiesSet: string | null = null;
   error: { title: string; message: string } | null = null;
 
-  constructor(private presenter: EoLandingPagePresenter, private router: Router) {
+  constructor(
+    private presenter: EoLandingPagePresenter,
+    private router: Router
+  ) {
     this.getCookieStatus();
     this.checkForError();
   }

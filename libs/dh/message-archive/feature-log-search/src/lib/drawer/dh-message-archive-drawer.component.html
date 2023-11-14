@@ -23,7 +23,7 @@ limitations under the License.
       <div class="message-created">
         <span class="watt-label message-created__label">{{ t("created") }}</span>
         <span class="message-created__value">{{
-          message?.createdDate | wattDate : "long" | dhEmDashFallback
+          message?.createdDate | wattDate: "long" | dhEmDashFallback
         }}</span>
       </div>
     </watt-drawer-heading>
@@ -46,13 +46,13 @@ limitations under the License.
           />
           <watt-description-list-item
             [label]="t('sender')"
-            value="{{ message?.senderGln | actorName : actors | dhEmDashFallback }} ({{
+            value="{{ message?.senderGln | actorName: actors | dhEmDashFallback }} ({{
               message?.senderGln | dhEmDashFallback
             }})"
           />
           <watt-description-list-item
             [label]="t('receiver')"
-            value="{{ message?.receiverGln | actorName : actors | dhEmDashFallback }} ({{
+            value="{{ message?.receiverGln | actorName: actors | dhEmDashFallback }} ({{
               message?.receiverGln | dhEmDashFallback
             }})"
           />
