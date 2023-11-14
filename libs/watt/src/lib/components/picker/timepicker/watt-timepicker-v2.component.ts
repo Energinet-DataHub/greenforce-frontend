@@ -264,6 +264,10 @@ export class WattTimepickerV2Component extends WattPickerBase {
       this.control?.setValue({ start: '', end: '' });
       return;
     }
+    if (value.length < this.rangePlaceholder.length) {
+      this.control?.setValue({ start, end: '' });
+      return;
+    }
     let end = value.slice(this.hoursMinutesPlaceholder.length + this.rangeSeparator.length);
     if (timeToMinutes(end) > timeToMinutes(start)) {
       this.control?.setValue({ start, end });
