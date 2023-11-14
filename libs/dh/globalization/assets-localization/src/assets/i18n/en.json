@@ -537,8 +537,14 @@
     "actor": {
       "create": {
         "steps": {
-          "orgNext": "Market party"
+          "actor": "Market party",
+          "organization": "Organization",
+          "invite": "Invite user"
         },
+        "tooltip": "The market party gets the organization name if you do not specify a value.",
+        "glnOrEicInvalid": "Invalid GLN/EIC",
+        "wrongEmailPattern": "Type a valid email",
+        "phoneInvalid": "Invalid phone number",
         "domainInvalid": "Invalid domain",
         "companyName": "Companyname",
         "domain": "Domain",
@@ -551,6 +557,13 @@
           "NO": "Norway",
           "FI": "Finland"
         },
+        "glnOrEicNumber": "Market party id",
+        "name": "Market Party Name",
+        "contact": "Contact",
+        "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
+        "departmentOrName": "Department/Name",
+        "email": "E-mail",
+        "phone": "Phone number",
         "searchDatahub": "Search DataHub",
         "newOrganization": "New organization",
         "marketParty": "Market party",
