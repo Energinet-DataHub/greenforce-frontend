@@ -41,7 +41,10 @@ export class StorybookToastComponent implements AfterViewInit {
 
   @Input() config!: WattToastConfig;
 
-  constructor(private toast: WattToastService, private cd: ChangeDetectorRef) {}
+  constructor(
+    private toast: WattToastService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   open() {
     this.toast.open(this.config);

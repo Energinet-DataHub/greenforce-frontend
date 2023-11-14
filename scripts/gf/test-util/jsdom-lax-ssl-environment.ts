@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type {
-  EnvironmentContext,
-  JestEnvironmentConfig,
-} from '@jest/environment';
+import type { EnvironmentContext, JestEnvironmentConfig } from '@jest/environment';
 
 import JSDOMEnvironment from 'jest-environment-jsdom';
 const { ResourceLoader } = require('jsdom');
@@ -37,9 +34,9 @@ class JsdomLaxSslEnvironment extends JSDOMEnvironment {
               // this is all we want to change
               // allow self-signed certificates
               strictSSL: false,
-              userAgent: config.projectConfig.testEnvironmentOptions?.[
-                'userAgent'
-              ] as string | undefined,
+              userAgent: config.projectConfig.testEnvironmentOptions?.['userAgent'] as
+                | string
+                | undefined,
             }),
           },
         },

@@ -18,7 +18,7 @@
     "**/.angular/cache/**": true,
     "**/node_modules/*/**": true
   },
-  "prettier.prettierPath": "./node_modules/prettier",
+  "prettier.prettierPath": "./node_modules/prettier/index.cjs",
   "eslint.validate": ["json"],
   "dotnet.defaultSolution": "apps/dh/api-dh/DataHub.WebApi.sln"
 }
