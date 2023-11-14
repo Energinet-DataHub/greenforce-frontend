@@ -1,5 +1,5 @@
 name: eo-frontend-app
-version: 0.3.403
+version: 0.3.404
 repo: ghcr.io/energinet-datahub
 references:
   - file: k8s/energy-origin-apps/frontend/base/deployment.yaml

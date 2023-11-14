@@ -85,7 +85,7 @@ watt-field {
     }
 
     watt-tooltip {
-      width: 250px;
+      max-width: 250px;
     }
 
     &.required::after {
