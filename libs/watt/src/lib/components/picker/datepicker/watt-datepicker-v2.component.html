@@ -90,10 +90,10 @@ limitations under the License.
       [matDatepicker]="singleDatepicker"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
-      class="mask-input"
     />
+    <input #actualInput class="mask-input" />
     <watt-placeholder-mask
-      [primaryInputElement]="dateInput"
+      [primaryInputElement]="actualInput"
       [mask]="inputMask"
       [placeholder]="datePlaceholder"
       (maskApplied)="inputChanged($event)"

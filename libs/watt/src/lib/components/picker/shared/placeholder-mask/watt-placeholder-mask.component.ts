@@ -60,6 +60,20 @@ export class WattPlaceholderMaskComponent implements AfterViewInit, OnChanges, O
   cdr = inject(ChangeDetectorRef);
 
   ngAfterViewInit(): void {
+    this.setMask()
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['placeholder']) {
+      this.primaryInputElement.dispatchEvent(new InputEvent('input'));
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.maskedInput?.destroy();
+  }
+
+  private setMask() {
     const primaryMask: MaskitoOptions = {
       ...this.mask,
       preprocessors: [
@@ -80,15 +94,5 @@ export class WattPlaceholderMaskComponent implements AfterViewInit, OnChanges, O
       ],
     };
     this.maskedInput = new Maskito(this.primaryInputElement, primaryMask);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['placeholder']) {
-      this.primaryInputElement.dispatchEvent(new InputEvent('input'));
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.maskedInput?.destroy();
   }
 }

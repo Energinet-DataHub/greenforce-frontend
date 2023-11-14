@@ -199,7 +199,10 @@ export class WattDatepickerV2Component extends WattPickerBase {
   }
 
   protected initSingleInput() {
-    return;
+    if (this.initialValue) {
+      this.matDatepickerInput.value = this.initialValue;
+      this.datepickerClosed();
+    }
   }
 
   inputChanged(value: string) {
@@ -212,7 +215,17 @@ export class WattDatepickerV2Component extends WattPickerBase {
   }
 
   datepickerClosed() {
-    this.input.nativeElement.dispatchEvent(new InputEvent('input'));
+    if (this.matDatepickerInput.value) {
+      this.control?.setValue(this.matDatepickerInput.value);
+      (this.actualInput.nativeElement as HTMLInputElement).value =
+          this.formatDateTimeFromModelToView(
+            this.formatDateFromViewToModel(this.matDatepickerInput.value)
+          )
+    } else {
+      (this.actualInput.nativeElement as HTMLInputElement).value = '';
+      this.control?.setValue(null);
+    }
+    this.actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
   }
 
   onMonthSelected(date: Date) {
@@ -227,7 +240,11 @@ export class WattDatepickerV2Component extends WattPickerBase {
    * @ignore
    */
   protected initRangeInput() {
-    return;
+    if (this.initialValue) {
+      this.matStartDate.value = (this.initialValue as WattDateRange).start;
+      this.matEndDate.value = (this.initialValue as WattDateRange).end;
+      this.rangePickerClosed();
+    }
   }
 
   clearRangePicker() {
@@ -251,7 +268,6 @@ export class WattDatepickerV2Component extends WattPickerBase {
       end = this.setToEndOfDay(end);
       this.control?.setValue({ start, end });
     }
-    this.localeService.setActiveLocale('en');
   }
 
   rangePickerClosed() {

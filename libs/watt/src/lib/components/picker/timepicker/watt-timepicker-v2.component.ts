@@ -113,7 +113,7 @@ export class WattTimepickerV2Component extends WattPickerBase {
   /**
    * @ignore
    */
-  @ViewChild('actualInput')
+  @ViewChild('timeInput')
   input!: ElementRef;
 
   /**
@@ -227,7 +227,10 @@ export class WattTimepickerV2Component extends WattPickerBase {
    * @ignore
    */
   protected initSingleInput() {
-    return;
+    if (this.initialValue) {
+      (this.input.nativeElement as HTMLInputElement).value = this.initialValue as string;
+      this.input.nativeElement.dispatchEvent(new InputEvent('input'));
+    }
   }
 
   /**
@@ -266,8 +269,12 @@ export class WattTimepickerV2Component extends WattPickerBase {
    * @ignore
    */
   protected initRangeInput() {
-    this.control?.setValue({ start: '', end: '' });
-    this.sliderChange$.pipe(takeUntilDestroyed()).subscribe((sliderValue) => {
+    if (this.initialValue) {
+      this.setRangeValueAndNotify((this.initialValue as WattDateRange).start, (this.initialValue as WattDateRange).end);
+    } else {
+      this.control?.setValue({ start: '', end: '' });
+    }
+    this.sliderChange$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((sliderValue) => {
       const start = minutesToTime(sliderValue.min);
       const end = minutesToTime(sliderValue.max);
       if (end > start) {

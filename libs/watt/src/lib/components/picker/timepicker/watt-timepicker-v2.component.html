@@ -65,9 +65,9 @@ limitations under the License.
         [hidden]="true"
       />
     </mat-date-range-input>
-    <input #actualInput class="mask-input" />
+    <input #timeInput class="mask-input" />
     <watt-placeholder-mask
-      [primaryInputElement]="actualInput"
+      [primaryInputElement]="timeInput"
       [mask]="rangeInputMask"
       placeholder="HH:MM - HH:MM"
       (maskApplied)="rangeInputChanged($event)"
