@@ -23,7 +23,10 @@ import { map } from 'rxjs';
   providedIn: 'root',
 })
 export class EoScopeGuard implements CanActivate {
-  constructor(private router: Router, private authStore: EoAuthStore) {}
+  constructor(
+    private router: Router,
+    private authStore: EoAuthStore
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot) {
     // Skip authentication for specific routes

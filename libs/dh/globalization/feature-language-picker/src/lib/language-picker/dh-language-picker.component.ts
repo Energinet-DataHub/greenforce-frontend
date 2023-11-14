@@ -46,7 +46,10 @@ export class DhLanguagePickerComponent {
   );
   displayLanguages = displayLanguages;
 
-  constructor(private transloco: TranslocoService, private localeService: WattLocaleService) {}
+  constructor(
+    private transloco: TranslocoService,
+    private localeService: WattLocaleService
+  ) {}
 
   onLanguageSelect(language: DisplayLanguage): void {
     this.transloco.setActiveLang(language);

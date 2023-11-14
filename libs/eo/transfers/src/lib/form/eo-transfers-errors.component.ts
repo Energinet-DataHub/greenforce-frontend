@@ -35,7 +35,9 @@ import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core'
         watt-field-error {
           @include watt.typography-watt-text-s;
           position: absolute;
-          transition: opacity, transform 150ms linear;
+          transition:
+            opacity,
+            transform 150ms linear;
           transform: translate3d(0, -100%, 0);
         }
 
