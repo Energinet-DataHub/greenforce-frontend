@@ -644,8 +644,12 @@
           "b2bAccess": {
             "tabLabel": "B2B access",
             "certificateHeadline": "Certificate",
+            "clientSecretHeadline": "Client Secret",
             "thumbprint": "Thumbprint",
             "expiryDate": "Expiry date",
+            "clientId": "Client ID",
+            "clientSecretLabel": "Client Secret",
+            "removeClientSecret": "Remove Client Secret",
             "removeCertificate": "Remove certificate",
             "uploadCertificate": "Upload certificate",
             "uploadNewCertificate": "Upload new certificate",
@@ -659,6 +663,21 @@
               "message": "Are you sure you want to remove the certificate?",
               "cancel": "Cancel",
               "remove": "Remove certificate"
+            },
+            "generateClientSecret": "Generate Client Secret",
+            "generateNewClientSecret": "Generate new Client Secret",
+            "generateSecretSuccess": "Client Secret generated successfully",
+            "generateSecretError": "An error occurred while generating the Client Secret. Please try again",
+            "copy": "Copy",
+            "clientSecret": {
+              "removeSecretModal": {
+                "title": "Delete Client Secret?",
+                "message": "Are you sure you want to delete the Client Secret?",
+                "cancel": "Cancel",
+                "confirm": "Delete Client Secret",
+                "removeSuccess": "The Client Secret Certificate removed successfully",
+                "removeError": "An error occurred while removing the Client Secret. Please try again"
+              }
             }
           },
           "history": {
