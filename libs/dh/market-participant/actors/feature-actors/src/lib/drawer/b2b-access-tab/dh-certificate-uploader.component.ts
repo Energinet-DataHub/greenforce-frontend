@@ -20,7 +20,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { DhMarketParticipantCertificateStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 
 const certificateExt = '.cer';
 const certificateMimeType = 'application/x-x509-ca-cert';
@@ -50,6 +50,7 @@ const certificateMimeType = 'application/x-x509-ca-cert';
     <watt-button
       *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess'"
       variant="secondary"
+      [loading]="uploadInProgress()"
       (click)="fileUpload.click()"
     >
       {{ doesCertificateExist() ? t('uploadNewCertificate') : t('uploadCertificate') }}
@@ -57,7 +58,7 @@ const certificateMimeType = 'application/x-x509-ca-cert';
   imports: [TranslocoDirective, WattButtonComponent],
 })
 export class DhCertificateUploaderComponent {
-  private readonly store = inject(DhMarketParticipantCertificateStore);
+  private readonly store = inject(DhMarketPartyCredentialsStore);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
 
@@ -65,6 +66,7 @@ export class DhCertificateUploaderComponent {
 
   isInvalidFileType = signal(false);
   doesCertificateExist = toSignal(this.store.doesCertificateExist$);
+  uploadInProgress = toSignal(this.store.uploadInProgress$, { requireSync: true });
 
   @Input({ required: true }) actorId = '';
 
@@ -106,7 +108,7 @@ export class DhCertificateUploaderComponent {
     }
   }
 
-  private readonly onUploadSuccessFn = () => {
+  private onUploadSuccessFn = () => {
     const message = this.transloco.translate(
       'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.uploadSuccess'
     );
@@ -116,7 +118,7 @@ export class DhCertificateUploaderComponent {
     this.store.getCredentials(this.actorId);
   };
 
-  private readonly onUploadErrorFn = () => {
+  private onUploadErrorFn = () => {
     const message = this.transloco.translate(
       'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.uploadError'
     );
