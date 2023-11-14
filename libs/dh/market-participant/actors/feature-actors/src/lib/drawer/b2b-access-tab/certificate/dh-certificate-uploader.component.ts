@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, inject, signal } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -64,7 +64,6 @@ export class DhCertificateUploaderComponent {
 
   certificateExt = certificateExt;
 
-  isInvalidFileType = signal(false);
   doesCertificateExist = toSignal(this.store.doesCertificateExist$);
   uploadInProgress = toSignal(this.store.uploadInProgress$, { requireSync: true });
 
@@ -78,11 +77,7 @@ export class DhCertificateUploaderComponent {
     const file = files[0];
 
     if (this.isValidFileType(file)) {
-      this.isInvalidFileType.set(false);
-
       return this.startUpload(this.actorId, file);
-    } else {
-      this.isInvalidFileType.set(true);
     }
   }
 
