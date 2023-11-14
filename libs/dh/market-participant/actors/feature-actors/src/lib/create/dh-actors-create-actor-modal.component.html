@@ -21,8 +21,8 @@ limitations under the License.
       [linear]="true"
     >
       <watt-stepper-step
-        *ngIf="showCreateNewOrganization === false"
-        [nextButtonLabel]="t('steps.orgNext')"
+        *ngIf="showCreateNewOrganization() === false"
+        [nextButtonLabel]="t('steps.actor')"
         [stepControl]="chooseOrganizationForm"
         [label]="t('organization')"
       >
@@ -31,6 +31,7 @@ limitations under the License.
             [showResetOption]="false"
             [options]="organizationOptions"
             [label]="t('organization')"
+            (ngModelChange)="onOrganizationChange($event)"
             [formControl]="chooseOrganizationForm.controls.orgId"
           />
           <watt-button variant="text" icon="plus" (click)="toggleShowCreateNewOrganization()">{{
@@ -39,9 +40,9 @@ limitations under the License.
         </vater-stack>
       </watt-stepper-step>
       <watt-stepper-step
-        *ngIf="showCreateNewOrganization"
-        [nextButtonLabel]="t('steps.orgNext')"
-        [stepControl]="chooseOrganizationForm"
+        *ngIf="showCreateNewOrganization()"
+        [nextButtonLabel]="t('steps.actor')"
+        [stepControl]="newOrganizationForm"
         [label]="t('organization')"
       >
         <div class="dh-actors-create-actor-organization">
@@ -88,7 +89,66 @@ limitations under the License.
           </vater-stack>
         </div>
       </watt-stepper-step>
-      <watt-stepper-step [label]="t('marketParty')"> marketParty </watt-stepper-step>
+      <watt-stepper-step
+        [stepControl]="newActorForm"
+        [previousButtonLabel]="t('steps.organization')"
+        [nextButtonLabel]="t('steps.invite')"
+        [label]="t('marketParty')"
+      >
+        <vater-stack gap="xl" class="dh-actors-create-actor" direction="row">
+          <vater-stack fill="horizontal" align="flex-start" direction="column">
+            <h4>{{ t("marketParty") }}</h4>
+            <watt-text-field
+              [formControl]="newActorForm.controls.glnOrEicNumber"
+              [label]="t('glnOrEicNumber')"
+            >
+              <watt-field-error *ngIf="newActorForm.controls.glnOrEicNumber.hasError('pattern')">
+                {{ t("glnOrEicInvalid") }}
+              </watt-field-error>
+            </watt-text-field>
+            <watt-text-field
+              [formControl]="newActorForm.controls.name"
+              [label]="t('name')"
+              [tooltip]="t('tooltip')"
+            />
+            <watt-dropdown
+              translate="marketParticipant.marketRoles"
+              dhDropdownTranslator
+              [options]="marketRoleOptions"
+              [formControl]="newActorForm.controls.marketrole"
+              [label]="t('marketRole')"
+            />
+          </vater-stack>
+          <vater-stack fill="horizontal" align="flex-start" direction="column">
+            <h4>{{ t("contact") }}</h4>
+            <watt-text-field
+              [formControl]="newActorForm.controls.contact.controls.departmentOrName"
+              [label]="t('departmentOrName')"
+            />
+            <watt-text-field
+              [formControl]="newActorForm.controls.contact.controls.email"
+              [label]="t('email')"
+            >
+              <span class="domain">{{ `@${choosenOrganizationDomain()} }}</span>
+              <watt-field-error
+                *ngIf="newActorForm.controls.contact.controls.email.hasError('pattern')"
+              >
+                {{ t("wrongEmailPattern") }}
+              </watt-field-error>
+            </watt-text-field>
+            <watt-text-field
+              [formControl]="newActorForm.controls.contact.controls.phone"
+              [label]="t('phone')"
+            >
+              <watt-field-error
+                *ngIf="newActorForm.controls.contact.controls.phone.hasError('pattern')"
+              >
+                {{ t("phoneInvalid") }}
+              </watt-field-error>
+            </watt-text-field>
+          </vater-stack>
+        </vater-stack>
+      </watt-stepper-step>
       <watt-stepper-step [label]="t('useradmin')"> userAdmin </watt-stepper-step>
     </watt-stepper>
   </watt-modal>
