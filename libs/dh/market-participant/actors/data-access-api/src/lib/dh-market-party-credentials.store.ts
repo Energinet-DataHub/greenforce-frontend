@@ -149,7 +149,7 @@ export class DhMarketPartyCredentialsStore extends ComponentStore<CertificateSta
           this.httpClient.v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId).pipe(
             tapResponse(
               (clientSecret) => {
-                this.patchState({ clientSecret });
+                this.patchState({ clientSecret: clientSecret.secretText });
 
                 onSuccess();
               },
