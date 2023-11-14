@@ -32,7 +32,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
 
 import { DhRemoveClientSecretModalComponent } from './dh-remove-client-secret-modal.component';
-import { DhCreateSecretComponent } from './dh-create-secret.component';
+import { DhGenerateClientSecretComponent } from './dh-generate-client-secret.component';
 
 type DhClientSecretTableRow = {
   translationKey: string;
@@ -71,7 +71,7 @@ type DhClientSecretTableRow = {
     WattCopyToClipboardDirective,
 
     DhEmDashFallbackPipe,
-    DhCreateSecretComponent,
+    DhGenerateClientSecretComponent,
   ],
 })
 export class DhClientSecretViewComponent {
