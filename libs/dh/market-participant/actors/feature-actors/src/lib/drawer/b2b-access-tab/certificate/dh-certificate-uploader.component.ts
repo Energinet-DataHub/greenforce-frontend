@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -69,6 +69,8 @@ export class DhCertificateUploaderComponent {
 
   @Input({ required: true }) actorId = '';
 
+  @Output() uploadSuccess = new EventEmitter<void>();
+
   onFileSelected(files: FileList | null): void {
     if (files == null) {
       return;
@@ -110,6 +112,7 @@ export class DhCertificateUploaderComponent {
 
     this.toastService.open({ type: 'success', message });
 
+    this.uploadSuccess.emit();
     this.store.getCredentials(this.actorId);
   };
 
