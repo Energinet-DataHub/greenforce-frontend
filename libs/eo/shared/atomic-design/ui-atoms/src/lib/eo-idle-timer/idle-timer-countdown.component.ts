@@ -41,7 +41,7 @@ import { Observable, filter, tap } from 'rxjs';
 })
 export class EoIdleTimerCountdownModalComponent {
   private dialogRef = inject<WattDialogRef<EoIdleTimerCountdownModalComponent>>(WattDialogRef);
-  data = inject(WATT_DIALOG_DATA);
+  data: { countdown$: Observable<number> } = inject(WATT_DIALOG_DATA);
   protected countdown$!: Observable<number>;
 
   constructor() {
