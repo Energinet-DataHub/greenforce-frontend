@@ -675,7 +675,7 @@
               },
               "replaceSecretModal": {
                 "title": "Erstat Client Secret med certifikat?",
-                "message": "Hvis certifikat bliver uploadet, erstatter den Client Secret. Det er ikke muligt at fortryde handlingen.",
+                "message": "Hvis et certifikat bliver uploadet, erstatter det Client Secret. Det er ikke muligt at fortryde handlingen.",
                 "cancel": "Fortryd"
               }
             }
