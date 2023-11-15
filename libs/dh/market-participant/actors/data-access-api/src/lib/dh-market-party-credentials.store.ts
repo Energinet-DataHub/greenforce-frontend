@@ -16,7 +16,7 @@
  */
 import { Injectable, inject } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, switchMap, exhaustMap, tap, finalize } from 'rxjs';
+import { Observable, switchMap, exhaustMap, tap, finalize, withLatestFrom, of } from 'rxjs';
 
 import {
   MarketParticipantActorCredentialsDto,
@@ -144,20 +144,34 @@ export class DhMarketPartyCredentialsStore extends ComponentStore<CertificateSta
       }>
     ) =>
       trigger$.pipe(
+        withLatestFrom(this.doesClientSecretMetadataExist$),
         tap(() => this.patchState({ generateSecretInProgress: true })),
-        exhaustMap(({ actorId, onSuccess, onError }) =>
-          this.httpClient.v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId).pipe(
-            tapResponse(
-              (clientSecret) => {
-                this.patchState({ clientSecret: clientSecret.secretText });
+        exhaustMap(([{ actorId, onSuccess, onError }, doesClientSecretMetadataExist]) => {
+          let kickOff$ = of('noop');
 
-                onSuccess();
-              },
-              () => onError()
-            ),
-            finalize(() => this.patchState({ generateSecretInProgress: false }))
-          )
-        )
+          if (doesClientSecretMetadataExist) {
+            kickOff$ =
+              this.httpClient.v1MarketParticipantActorRemoveActorCredentialsDelete(actorId);
+          }
+
+          return kickOff$.pipe(
+            switchMap(() =>
+              this.httpClient
+                .v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId)
+                .pipe(
+                  tapResponse(
+                    (clientSecret) => {
+                      this.patchState({ clientSecret: clientSecret.secretText });
+
+                      onSuccess();
+                    },
+                    () => onError()
+                  ),
+                  finalize(() => this.patchState({ generateSecretInProgress: false }))
+                )
+            )
+          );
+        })
       )
   );
 
