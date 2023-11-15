@@ -49,7 +49,10 @@ import { marketParticipantActors } from './data/market-participant-actors';
 import { getOrganizationsQueryMock } from './data/market-participant-organizations';
 import { getActorAuditLogsMock } from './data/get-actor-audit-logs';
 import { getGridAreaOverviewMock } from './data/get-grid-area-overview';
-import { MarketParticipantActorClientSecretDto, MarketParticipantActorCredentialsDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantActorClientSecretDto,
+  MarketParticipantActorCredentialsDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
