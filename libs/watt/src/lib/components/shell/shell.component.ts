@@ -59,8 +59,7 @@ export class WattShellComponent implements OnInit {
     .observe([WattBreakpoint.XSmall, WattBreakpoint.Small, WattBreakpoint.Medium])
     .pipe(map((result) => result.matches));
 
-  @ViewChild('drawer')
-  sidenav!: MatSidenav;
+  @ViewChild('drawer') sidenav!: MatSidenav;
 
   ngOnInit(): void {
     this.closeSidenavOnNavigation();

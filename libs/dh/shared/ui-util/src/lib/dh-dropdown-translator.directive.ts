@@ -27,8 +27,7 @@ import { withLatestFrom } from 'rxjs';
 export class DhDropdownTranslatorDirective implements OnInit {
   private trans = inject(TranslocoService);
   private host = inject(WattDropdownComponent);
-  @Input({ required: true })
-  translate = '';
+  @Input({ required: true }) translate = '';
   destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {

@@ -90,8 +90,7 @@ export abstract class WattPickerBase
   protected _destroyRef = inject(DestroyRef);
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('aria-describedby')
-  userAriaDescribedBy?: string;
+  @Input('aria-describedby') userAriaDescribedBy?: string;
 
   /**
    * @ignore

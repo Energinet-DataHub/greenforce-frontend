@@ -63,14 +63,10 @@ export class DhChargesPricesResultComponent implements OnChanges {
   @ViewChild(DhChargesPricesDrawerComponent)
   chargePriceDrawer!: DhChargesPricesDrawerComponent;
 
-  @Input()
-  result?: Array<ChargeV1Dto>;
-  @Input()
-  isLoading = false;
-  @Input()
-  isInit = false;
-  @Input()
-  hasLoadingError = false;
+  @Input() result?: Array<ChargeV1Dto>;
+  @Input() isLoading = false;
+  @Input() isInit = false;
+  @Input() hasLoadingError = false;
 
   activeCharge?: ChargeV1Dto;
 

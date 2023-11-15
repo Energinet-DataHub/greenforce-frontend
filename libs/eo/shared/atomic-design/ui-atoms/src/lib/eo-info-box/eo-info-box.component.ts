@@ -60,8 +60,7 @@ type Variant = 'normal' | 'dark' | 'light';
 })
 export class EoInfoBoxComponent implements OnInit {
   private _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  @Input()
-  variant: Variant = 'normal';
+  @Input() variant: Variant = 'normal';
 
   ngOnInit() {
     this._elementRef.nativeElement.className = this.variant;

@@ -119,10 +119,8 @@ import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
 })
 export class EoTransfersDrawerComponent {
   utils = inject(SharedUtilities);
-  @ViewChild(WattDrawerComponent)
-  drawer!: WattDrawerComponent;
-  @ViewChild(EoTransfersEditModalComponent)
-  transfersEditModal!: EoTransfersEditModalComponent;
+  @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
+  @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
 
   isActive!: boolean;
   isEditable = false;

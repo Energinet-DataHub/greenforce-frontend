@@ -35,8 +35,7 @@ export class DhPermissionRequiredDirective implements OnInit {
   private permissionService = inject(PermissionService);
   private changeDetectorRef = inject(ChangeDetectorRef);
 
-  @Input()
-  dhPermissionRequired: Permission[] = [];
+  @Input() dhPermissionRequired: Permission[] = [];
 
   ngOnInit(): void {
     from(this.dhPermissionRequired)

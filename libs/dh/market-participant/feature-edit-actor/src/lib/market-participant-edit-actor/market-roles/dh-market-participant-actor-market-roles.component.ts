@@ -73,17 +73,13 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   private translocoService = inject(TranslocoService);
   private marketRoleService = inject(MarketRoleService);
   private marketRoleGroupService = inject(MarketRoleGroupService);
-  @Input()
-  actorStatus?: MarketParticipantActorStatus;
-  @Input()
-  gridAreas: MarketParticipantGridAreaDto[] = [];
-  @Input()
-  actorMarketRoles?: MarketParticipantActorMarketRoleDto[] = [];
-  @Input()
-  comment?: string;
 
-  @Output()
-  changed = new EventEmitter<MarketRoleChanges>();
+  @Input() actorStatus?: MarketParticipantActorStatus;
+  @Input() gridAreas: MarketParticipantGridAreaDto[] = [];
+  @Input() actorMarketRoles?: MarketParticipantActorMarketRoleDto[] = [];
+  @Input() comment?: string;
+
+  @Output() changed = new EventEmitter<MarketRoleChanges>();
 
   columns: WattTableColumnDef<EditableMarketRoleRow> = {
     marketRole: { accessor: 'marketRole' },

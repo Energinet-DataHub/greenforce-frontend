@@ -39,11 +39,8 @@ export class DhShowForMeteringPointTypeDirective implements OnChanges {
   private templateRef = inject<TemplateRef<unknown>>(TemplateRef);
   private viewContainer = inject(ViewContainerRef);
 
-  @Input()
-  dhShowForMeteringPointType: MeteringPointType | undefined;
-
-  @Input()
-  dhShowForMeteringPointTypeProperty: MeteringPointTypeMapProperty | undefined;
+  @Input() dhShowForMeteringPointType: MeteringPointType | undefined;
+  @Input() dhShowForMeteringPointTypeProperty: MeteringPointTypeMapProperty | undefined;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.dhShowForMeteringPointType) {

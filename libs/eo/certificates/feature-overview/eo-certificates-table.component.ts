@@ -106,10 +106,8 @@ export class EoCertificatesTableComponent implements AfterViewInit {
   dataSource: MatTableDataSource<EoCertificate> = new MatTableDataSource();
   displayedColumns: string[] = ['dateFrom', 'gsrn', 'quantity', 'action'];
 
-  @ViewChild(MatSort)
-  matSort!: MatSort;
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
+  @ViewChild(MatSort) matSort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

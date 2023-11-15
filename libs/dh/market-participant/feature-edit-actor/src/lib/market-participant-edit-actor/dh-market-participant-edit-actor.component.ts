@@ -90,8 +90,7 @@ export class DhMarketParticipantEditActorComponent {
   marketRoles$ = this.store.marketRoles$;
   contacts$ = this.store.contacts$;
 
-  @ViewChild('confirmationModal')
-  confirmationModal!: WattModalComponent;
+  @ViewChild('confirmationModal') confirmationModal!: WattModalComponent;
 
   constructor() {
     this.store.loadInitialData(this.routeParams$);

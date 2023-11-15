@@ -88,16 +88,12 @@ export class WattDatepickerComponent extends WattPickerBase {
   protected override ngControl = inject(NgControl, { optional: true, self: true });
   private locale = inject(LOCALE_ID);
   private cdr = inject(ChangeDetectorRef);
-  @Input()
-  max: Date | null = null;
-  @Input()
-  min: Date | null = null;
-  @Input()
-  startAt = new Date();
-  @Input()
-  rangeMonthOnlyMode = false;
-  @Input()
-  label = '';
+
+  @Input() max: Date | null = null;
+  @Input() min: Date | null = null;
+  @Input() startAt = new Date();
+  @Input() rangeMonthOnlyMode = false;
+  @Input() label = '';
 
   /**
    * @ignore

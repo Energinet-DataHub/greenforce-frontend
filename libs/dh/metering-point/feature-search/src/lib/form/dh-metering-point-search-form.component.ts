@@ -60,12 +60,10 @@ export class DhMeteringPointSearchFormComponent implements AfterViewInit, OnDest
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private changeDetectorRef = inject(ChangeDetectorRef);
-  @Input()
-  loading = false;
-  @Output()
-  search = new EventEmitter<string>();
-  @ViewChild('searchInput')
-  searchInput?: WattTextFieldComponent;
+
+  @Input() loading = false;
+  @Output() search = new EventEmitter<string>();
+  @ViewChild('searchInput') searchInput?: WattTextFieldComponent;
 
   queryParamsSubscription?: Subscription;
 

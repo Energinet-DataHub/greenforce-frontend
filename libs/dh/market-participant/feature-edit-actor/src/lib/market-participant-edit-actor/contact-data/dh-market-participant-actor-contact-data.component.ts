@@ -65,10 +65,8 @@ interface EditableActorContactRow {
 })
 export class DhMarketParticipantActorContactDataComponent implements OnChanges {
   private cd = inject(ChangeDetectorRef);
-  @Input()
-  contacts: MarketParticipantActorContactDto[] = [];
-  @Output()
-  contactsChanged = new EventEmitter<{
+  @Input() contacts: MarketParticipantActorContactDto[] = [];
+  @Output() contactsChanged = new EventEmitter<{
     isValid: boolean;
     add: ActorContactChanges[];
     remove: MarketParticipantActorContactDto[];

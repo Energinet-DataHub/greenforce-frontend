@@ -60,30 +60,24 @@ export class WattDrawerComponent implements OnDestroy {
   private static currentDrawer?: WattDrawerComponent;
 
   /** Used to adjust drawer size to best fit the content. */
-  @Input()
-  size: WattDrawerSize = 'normal';
+  @Input() size: WattDrawerSize = 'normal';
 
   /** Whether the drawer is open.  */
-  @Input()
-  isOpen = false;
+  @Input() isOpen = false;
 
   /** Whether the drawer should show a loading state.  */
-  @Input()
-  loading = false;
+  @Input() loading = false;
 
   /** Emits whenever the drawer is closed. */
-  @Output()
-  closed = new EventEmitter<void>();
+  @Output() closed = new EventEmitter<void>();
 
-  @ViewChild(CdkTrapFocus)
-  cdkTrapFocus!: CdkTrapFocus;
+  @ViewChild(CdkTrapFocus) cdkTrapFocus!: CdkTrapFocus;
 
   /** @ignore */
   bypassClickCheck = false;
 
   /** @ignore */
-  @ContentChild(WattDrawerTopbarComponent)
-  topbar?: WattDrawerTopbarComponent;
+  @ContentChild(WattDrawerTopbarComponent) topbar?: WattDrawerTopbarComponent;
 
   /** @ignore */
   @HostListener('document:click', ['$event'])

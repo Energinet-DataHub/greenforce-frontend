@@ -60,8 +60,8 @@ export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDest
   private trans = inject(TranslocoService);
   dataSource = new WattTableDataSource<PermissionAuditLog>();
 
-  @Input({ required: true })
-  selectedPermission!: PermissionDto;
+  @Input({ required: true }) selectedPermission!: PermissionDto;
+
   auditLogs: PermissionAuditLog | null = null;
 
   private apollo = inject(Apollo);

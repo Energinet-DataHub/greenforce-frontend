@@ -45,8 +45,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class DhMarketParticipantOrganizationMasterDataComponent implements OnChanges {
   private translocoService = inject(TranslocoService);
-  @Input()
-  changes!: OrganizationChanges;
+  @Input() changes!: OrganizationChanges;
 
   countries: WattDropdownOption[] = [];
 

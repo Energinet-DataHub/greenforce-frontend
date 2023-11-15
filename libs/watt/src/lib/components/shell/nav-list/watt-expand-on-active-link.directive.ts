@@ -27,8 +27,7 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
 })
 export class WattExpandOnActiveLinkDirective implements AfterViewInit {
   private panel = inject(MatExpansionPanel);
-  @Input()
-  wattNavListItemComponents: QueryList<WattNavListItemComponent> | null = null;
+  @Input() wattNavListItemComponents: QueryList<WattNavListItemComponent> | null = null;
 
   ngAfterViewInit(): void {
     const navListItems = this.wattNavListItemComponents?.toArray();

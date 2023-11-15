@@ -50,8 +50,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class DhDrawerDatepickerComponent implements OnInit, AfterViewInit {
   private translocoService = inject(TranslocoService);
   private datepickerService = inject(DrawerDatepickerService);
-  @Output()
-  changed = new EventEmitter();
+  @Output() changed = new EventEmitter();
 
   private _destroyRef = inject(DestroyRef);
   private readonly _chipOptions = [

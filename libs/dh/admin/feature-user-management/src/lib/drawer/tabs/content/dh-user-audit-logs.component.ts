@@ -55,8 +55,7 @@ export class DhUserAuditLogsComponent implements OnChanges {
   private trans = inject(TranslocoService);
   private dataSource = new WattTableDataSource<DhUserAuditLogEntry>();
 
-  @Input()
-  user: MarketParticipantUserOverviewItemDto | null = null;
+  @Input() user: MarketParticipantUserOverviewItemDto | null = null;
 
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;

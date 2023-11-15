@@ -53,13 +53,11 @@ export class DhUsersTabStatusFilterComponent implements OnInit {
 
   statusControl = new FormControl<MarketParticipantUserStatus[]>([], { nonNullable: true });
 
-  @Input()
-  set initialValue(value: MarketParticipantUserStatus[]) {
+  @Input() set initialValue(value: MarketParticipantUserStatus[]) {
     this.statusControl.setValue(value);
   }
 
-  @Output()
-  changed = new EventEmitter<MarketParticipantUserStatus[]>();
+  @Output() changed = new EventEmitter<MarketParticipantUserStatus[]>();
 
   userStatusOptions: WattDropdownOption[] = [];
 

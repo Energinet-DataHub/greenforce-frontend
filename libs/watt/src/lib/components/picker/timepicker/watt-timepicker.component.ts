@@ -114,13 +114,12 @@ export class WattTimepickerComponent extends WattPickerBase {
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected override changeDetectionRef = inject(ChangeDetectorRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });
-  @Input()
-  label = '';
+
+  @Input() label = '';
   /**
    * Text to display on label for time range slider.
    */
-  @Input()
-  sliderLabel = '';
+  @Input() sliderLabel = '';
 
   /**
    * @ignore
