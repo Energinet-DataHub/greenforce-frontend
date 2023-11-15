@@ -51,7 +51,8 @@
     "workspace-generator": "nx workspace-generator",
     "take": "ts-node --esm --project ./tools/github/tsconfig.json ./tools/github/create-branch-from-issue.ts",
     "branch": "ts-node --esm --project ./tools/github/tsconfig.json ./tools/github/create-branch.ts",
-    "pr": "ts-node --esm --project ./tools/github/tsconfig.json ./tools/github/create-pr.ts"
+    "pr": "ts-node --esm --project ./tools/github/tsconfig.json ./tools/github/create-pr.ts",
+    "task": "yarn run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)"
   },
   "dependencies": {
     "@angular/animations": "16.2.8",
