@@ -662,6 +662,7 @@
             "generateSecretSuccess": "Client Secret er blevet genereret",
             "generateSecretError": "Noget gik galt. Client Secret blev ikke genereret. Prøv igen",
             "copy": "Kopier",
+            "replaceClientSecretWithCertificate": "Erstat Client Secret med certifikat",
             "clientSecret": {
               "removeSecretModal": {
                 "title": "Slet Client Secret?",
@@ -670,6 +671,11 @@
                 "confirm": "Slet Client Secret",
                 "removeSuccess": "Client Secret er blevet slettet",
                 "removeError": "Noget gik galt. Client Secret blev ikke slettet. Prøv igen"
+              },
+              "replaceSecretModal": {
+                "title": "Erstat Client Secret med certifikat?",
+                "message": "Hvis certifikat bliver uploadet, erstatter den Client Secret. Det er ikke muligt at fortryde handlingen.",
+                "cancel": "Fortryd"
               }
             }
           },

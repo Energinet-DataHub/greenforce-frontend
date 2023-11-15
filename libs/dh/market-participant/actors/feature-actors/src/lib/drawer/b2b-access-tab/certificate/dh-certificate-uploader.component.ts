@@ -65,6 +65,7 @@ export class DhCertificateUploaderComponent {
   certificateExt = certificateExt;
 
   doesCertificateExist = toSignal(this.store.doesCertificateExist$);
+  doesClientSecretMetadataExist = toSignal(this.store.doesClientSecretMetadataExist$);
   uploadInProgress = toSignal(this.store.uploadInProgress$, { requireSync: true });
 
   @Input({ required: true }) actorId = '';
@@ -88,7 +89,7 @@ export class DhCertificateUploaderComponent {
   }
 
   private startUpload(actorId: string, file: File): void {
-    if (this.doesCertificateExist()) {
+    if (this.doesCertificateExist() || this.doesClientSecretMetadataExist()) {
       this.store.replaceCertificate({
         actorId,
         file,

@@ -669,6 +669,7 @@
             "generateSecretSuccess": "Client Secret generated successfully",
             "generateSecretError": "An error occurred while generating the Client Secret. Please try again",
             "copy": "Copy",
+            "replaceClientSecretWithCertificate": "Replcae Client Secret with certificate",
             "clientSecret": {
               "removeSecretModal": {
                 "title": "Delete Client Secret?",
@@ -677,6 +678,11 @@
                 "confirm": "Delete Client Secret",
                 "removeSuccess": "The Client Secret Certificate removed successfully",
                 "removeError": "An error occurred while removing the Client Secret. Please try again"
+              },
+              "replaceSecretModal": {
+                "title": "Replace Client Secret with a certificate?",
+                "message": "If a certificate is uploaded, the Client Secret will be replaced. It's not possible to undo this action.",
+                "cancel": "Cancel"
               }
             }
           },
