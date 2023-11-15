@@ -120,7 +120,14 @@ export class DhCalculationsFiltersComponent implements OnInit {
 
   _processTypeOptions = this.transloco
     .selectTranslateObject('wholesale.calculations.processTypes')
-    .pipe(map((t) => processTypes.map((k) => ({ displayValue: t[k], value: k }))));
+    .pipe(
+      map((t) =>
+        processTypes.map((k) => ({
+          displayValue: this.transloco.translate(t[k].replace('{{', '').replace('}}', '')),
+          value: k,
+        }))
+      )
+    );
 
   _executionStateOptions = this.transloco
     .selectTranslateObject('wholesale.calculations.executionStates')

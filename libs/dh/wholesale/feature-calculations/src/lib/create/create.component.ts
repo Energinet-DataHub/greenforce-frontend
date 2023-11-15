@@ -133,7 +133,14 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
   processTypes: Observable<WattDropdownOption[]> = this._transloco
     .selectTranslateObject('wholesale.calculations.processTypes')
-    .pipe(map((t) => processTypes.map((value) => ({ displayValue: t[value], value }))));
+    .pipe(
+      map((t) =>
+        processTypes.map((value) => ({
+          displayValue: this._transloco.translate(t[value].replace('{{', '').replace('}}', '')),
+          value,
+        }))
+      )
+    );
 
   selectedExecutionType = 'ACTUAL';
   latestPeriodEnd?: Date | null;
