@@ -156,7 +156,39 @@ limitations under the License.
           </vater-stack>
         </vater-stack>
       </watt-stepper-step>
-      <watt-stepper-step [label]="t('useradmin')"> userAdmin </watt-stepper-step>
+      <watt-stepper-step
+        [label]="t('useradmin')"
+        [previousButtonLabel]="t('steps.actor')"
+        [nextButtonLabel]="t('steps.create')"
+      >
+        <div class="dh-actors-create-actor-invite-user">
+          <vater-stack gap="m" align="flex-start" direction="row">
+            <watt-text-field
+              [formControl]="newUserForm.controls.firstName"
+              [label]="t('firstname')"
+            />
+            <watt-text-field
+              [formControl]="newUserForm.controls.lastName"
+              [label]="t('lastname')"
+            />
+          </vater-stack>
+          <vater-stack gap="m" align="flex-start">
+            <watt-text-field [formControl]="newUserForm.controls.email" [label]="t('email')">
+              <span class="domain">&#64;{{ getChoosenOrganizationDomain() }}</span>
+              <watt-field-error
+                *ngIf="newActorForm.controls.contact.controls.email.hasError('pattern')"
+              >
+                {{ t("wrongEmailPattern") }}
+              </watt-field-error>
+            </watt-text-field>
+            <watt-text-field [formControl]="newUserForm.controls.phone" [label]="t('phone')">
+              <watt-field-error *ngIf="newUserForm.controls.phone.hasError('pattern')">
+                {{ t("phoneInvalid") }}
+              </watt-field-error>
+            </watt-text-field>
+          </vater-stack>
+        </div>
+      </watt-stepper-step>
     </watt-stepper>
   </watt-modal>
 </ng-container>

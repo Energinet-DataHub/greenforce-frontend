@@ -22,18 +22,20 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChangeDetectionStrategy, Component, ViewChild, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+
 import {
   EicFunction,
   GetGridAreasDocument,
@@ -65,17 +67,18 @@ import {
           width: 50%;
         }
 
+        .domain {
+          padding-right: var(--watt-space-s);
+        }
+
         .dh-actors-create-actor {
           watt-dropdown {
             width: 100%;
           }
-
-          .domain {
-            padding-right: var(--watt-space-s);
-          }
         }
 
-        .dh-actors-create-actor-organization {
+        .dh-actors-create-actor-organization,
+        .dh-actors-create-actor-invite-user {
           vater-stack {
             width: 50%;
           }
@@ -95,6 +98,7 @@ import {
     ReactiveFormsModule,
     NgIf,
 
+    WATT_CARD,
     WATT_MODAL,
     WATT_STEPPER,
     WattDropdownComponent,
@@ -114,6 +118,10 @@ export class DhActorsCreateActorModalComponent {
     notifyOnNetworkStatusChange: true,
     query: GetOrganizationsDocument,
   });
+
+  showCreateNewOrganization = signal(false);
+  choosenOrganizationDomain = signal('');
+  showGridAreaOptions = signal(false);
 
   @ViewChild(WattModalComponent)
   innerModal: WattModalComponent | undefined;
@@ -140,7 +148,7 @@ export class DhActorsCreateActorModalComponent {
     glnOrEicNumber: ['', [Validators.required, dhEicOrGlnValidator]],
     name: [''],
     marketrole: ['', Validators.required],
-    gridArea: ['', Validators.required],
+    gridArea: [{ value: '', disabled: !this.showGridAreaOptions() }, Validators.required],
     contact: this._fb.group({
       departmentOrName: ['', Validators.required],
       email: ['', [Validators.required, dhFirstPartEmailValidator]],
@@ -148,9 +156,12 @@ export class DhActorsCreateActorModalComponent {
     }),
   });
 
-  showCreateNewOrganization = signal(false);
-  choosenOrganizationDomain = signal('');
-  showGridAreaOptions = signal(false);
+  newUserForm = this._fb.group({
+    email: ['', [Validators.required, dhFirstPartEmailValidator]],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    phone: ['', [Validators.required, dhDkPhoneNumberValidator]],
+  });
 
   constructor() {
     this._getOrganizationsQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe((result) => {
