@@ -49,7 +49,10 @@ import { marketParticipantActors } from './data/market-participant-actors';
 import { getOrganizationsQueryMock } from './data/market-participant-organizations';
 import { getActorAuditLogsMock } from './data/get-actor-audit-logs';
 import { getGridAreaOverviewMock } from './data/get-grid-area-overview';
-import { MarketParticipantActorCredentialsDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantActorClientSecretDto,
+  MarketParticipantActorCredentialsDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
@@ -410,7 +413,11 @@ function marketParticipantActorRequestClientSecretCredentials(apiBase: string) {
     (req, res, ctx) => {
       const clientSecret = 'random-secret-XEi33WhFi8qwnCzrnlf';
 
-      return res(ctx.delay(300), ctx.json(clientSecret));
+      const response: MarketParticipantActorClientSecretDto = {
+        secretText: clientSecret,
+      };
+
+      return res(ctx.delay(300), ctx.json(response));
     }
   );
 }
