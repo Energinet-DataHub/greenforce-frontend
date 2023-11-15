@@ -16,7 +16,7 @@
  */
 import { Injectable, inject } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, switchMap, exhaustMap, tap, finalize } from 'rxjs';
+import { Observable, switchMap, exhaustMap, tap, finalize, withLatestFrom, of } from 'rxjs';
 
 import {
   MarketParticipantActorCredentialsDto,
@@ -120,16 +120,16 @@ export class DhMarketPartyCredentialsStore extends ComponentStore<CertificateSta
         exhaustMap(({ actorId, file, onSuccess, onError }) =>
           this.httpClient.v1MarketParticipantActorRemoveActorCredentialsDelete(actorId).pipe(
             switchMap(() =>
-              this.httpClient
-                .v1MarketParticipantActorAssignCertificateCredentialsPost(actorId, file)
-                .pipe(
-                  tapResponse(
-                    () => onSuccess(),
-                    () => onError()
-                  ),
-                  finalize(() => this.patchState({ uploadInProgress: false }))
-                )
-            )
+              this.httpClient.v1MarketParticipantActorAssignCertificateCredentialsPost(
+                actorId,
+                file
+              )
+            ),
+            tapResponse(
+              () => onSuccess(),
+              () => onError()
+            ),
+            finalize(() => this.patchState({ uploadInProgress: false }))
           )
         )
       )
@@ -144,9 +144,20 @@ export class DhMarketPartyCredentialsStore extends ComponentStore<CertificateSta
       }>
     ) =>
       trigger$.pipe(
+        withLatestFrom(this.doesClientSecretMetadataExist$),
         tap(() => this.patchState({ generateSecretInProgress: true })),
-        exhaustMap(({ actorId, onSuccess, onError }) =>
-          this.httpClient.v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId).pipe(
+        exhaustMap(([{ actorId, onSuccess, onError }, doesClientSecretMetadataExist]) => {
+          let kickOff$ = of('noop');
+
+          if (doesClientSecretMetadataExist) {
+            kickOff$ =
+              this.httpClient.v1MarketParticipantActorRemoveActorCredentialsDelete(actorId);
+          }
+
+          return kickOff$.pipe(
+            switchMap(() =>
+              this.httpClient.v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId)
+            ),
             tapResponse(
               (clientSecret) => {
                 this.patchState({ clientSecret: clientSecret.secretText });
@@ -156,8 +167,8 @@ export class DhMarketPartyCredentialsStore extends ComponentStore<CertificateSta
               () => onError()
             ),
             finalize(() => this.patchState({ generateSecretInProgress: false }))
-          )
-        )
+          );
+        })
       )
   );
 
