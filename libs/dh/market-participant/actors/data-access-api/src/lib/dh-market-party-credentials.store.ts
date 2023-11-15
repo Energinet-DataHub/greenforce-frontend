@@ -144,31 +144,37 @@ export class DhMarketPartyCredentialsStore extends ComponentStore<CertificateSta
       }>
     ) =>
       trigger$.pipe(
-        withLatestFrom(this.doesClientSecretMetadataExist$),
+        withLatestFrom(this.doesClientSecretMetadataExist$, this.doesCertificateExist$),
         tap(() => this.patchState({ generateSecretInProgress: true })),
-        exhaustMap(([{ actorId, onSuccess, onError }, doesClientSecretMetadataExist]) => {
-          let kickOff$ = of('noop');
+        exhaustMap(
+          ([
+            { actorId, onSuccess, onError },
+            doesClientSecretMetadataExist,
+            doesCertificateExist,
+          ]) => {
+            let kickOff$ = of('noop');
 
-          if (doesClientSecretMetadataExist) {
-            kickOff$ =
-              this.httpClient.v1MarketParticipantActorRemoveActorCredentialsDelete(actorId);
+            if (doesClientSecretMetadataExist || doesCertificateExist) {
+              kickOff$ =
+                this.httpClient.v1MarketParticipantActorRemoveActorCredentialsDelete(actorId);
+            }
+
+            return kickOff$.pipe(
+              switchMap(() =>
+                this.httpClient.v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId)
+              ),
+              tapResponse(
+                (clientSecret) => {
+                  this.patchState({ clientSecret: clientSecret.secretText });
+
+                  onSuccess();
+                },
+                () => onError()
+              ),
+              finalize(() => this.patchState({ generateSecretInProgress: false }))
+            );
           }
-
-          return kickOff$.pipe(
-            switchMap(() =>
-              this.httpClient.v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId)
-            ),
-            tapResponse(
-              (clientSecret) => {
-                this.patchState({ clientSecret: clientSecret.secretText });
-
-                onSuccess();
-              },
-              () => onError()
-            ),
-            finalize(() => this.patchState({ generateSecretInProgress: false }))
-          );
-        })
+        )
       )
   );
 
