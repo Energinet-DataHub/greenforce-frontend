@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Inject, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
-import { DhB2CEnvironment, dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
