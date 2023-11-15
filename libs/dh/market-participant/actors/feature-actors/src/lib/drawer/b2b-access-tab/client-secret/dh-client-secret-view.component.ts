@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, effect, inject, signal } from '@angular/core';
+import { Component, Injector, Input, effect, inject, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -23,18 +23,19 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
-import { DhMarketParticipantCertificateStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
 
-import { DhRemoveCertificateModalComponent } from './dh-remove-certificate-modal.component';
-import { DhCertificateUploaderComponent } from './dh-certificate-uploader.component';
+import { DhRemoveClientSecretModalComponent } from './dh-remove-client-secret-modal.component';
+import { DhGenerateClientSecretComponent } from './dh-generate-client-secret.component';
+import { DhReplaceClientSecretModalComponent } from './dh-replace-client-secret-modal.component';
 
-type DhCertificateTableRow = {
+type DhClientSecretTableRow = {
   translationKey: string;
   value?: string;
   valueIsDate?: boolean;
@@ -42,7 +43,7 @@ type DhCertificateTableRow = {
 };
 
 @Component({
-  selector: 'dh-certificate',
+  selector: 'dh-client-secret-view',
   standalone: true,
   styles: [
     `
@@ -55,7 +56,7 @@ type DhCertificateTableRow = {
       }
     `,
   ],
-  templateUrl: './dh-certificate.component.html',
+  templateUrl: './dh-client-secret-view.component.html',
   imports: [
     NgIf,
     TranslocoDirective,
@@ -65,48 +66,53 @@ type DhCertificateTableRow = {
     WATT_CARD,
     VaterFlexComponent,
     VaterStackComponent,
-    WattValidationMessageComponent,
     WattSpinnerComponent,
     WattDatePipe,
     WATT_TABLE,
+    WattCopyToClipboardDirective,
 
     DhEmDashFallbackPipe,
-    DhCertificateUploaderComponent,
+    DhGenerateClientSecretComponent,
   ],
 })
-export class DhCertificateComponent {
-  private readonly store = inject(DhMarketParticipantCertificateStore);
+export class DhClientSecretViewComponent {
+  private readonly injector = inject(Injector);
+  private readonly store = inject(DhMarketPartyCredentialsStore);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
   private readonly modalService = inject(WattModalService);
 
-  dataSource = new WattTableDataSource<DhCertificateTableRow>([]);
-  columns: WattTableColumnDef<DhCertificateTableRow> = {
+  dataSource = new WattTableDataSource<DhClientSecretTableRow>([]);
+  columns: WattTableColumnDef<DhClientSecretTableRow> = {
     translationKey: { accessor: 'translationKey' },
     value: { accessor: 'value' },
     showActionButton: { accessor: 'showActionButton', align: 'right' },
   };
 
-  isInvalidFileType = signal(false);
+  wasClientSecretCopied = signal(false);
 
-  certificateMetadata = toSignal(this.store.certificateMetadata$);
-
-  isUploadInProgress = toSignal(this.store.uploadInProgress$);
-  isRemoveInProgress = toSignal(this.store.removeInProgress$);
+  clientSecret = toSignal(this.store.clientSecret$);
+  clientSecretExists = toSignal(this.store.clientSecretExists$);
+  clientSecretMetadata = toSignal(this.store.clientSecretMetadata$);
 
   @Input({ required: true }) actorId = '';
 
   constructor() {
     effect(() => {
-      const tableData: DhCertificateTableRow[] = [
+      const tableData: DhClientSecretTableRow[] = [
         {
-          translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.thumbprint',
-          value: this.certificateMetadata()?.thumbprint,
+          translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.clientId',
+          value: this.clientSecretMetadata()?.clientSecretIdentifier,
+        },
+        {
+          translationKey:
+            'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.clientSecretLabel',
+          value: this.clientSecret() ?? '**********',
           showActionButton: true,
         },
         {
           translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.expiryDate',
-          value: this.certificateMetadata()?.expirationDate,
+          value: this.clientSecretMetadata()?.expirationDate,
           valueIsDate: true,
         },
       ];
@@ -115,9 +121,17 @@ export class DhCertificateComponent {
     });
   }
 
-  removeCertificate(): void {
+  onCopySuccess(isSuccess: boolean): void {
+    this.wasClientSecretCopied.set(isSuccess);
+
+    if (isSuccess) {
+      this.store.resetClientSecret();
+    }
+  }
+
+  removeClientSecret(): void {
     this.modalService.open({
-      component: DhRemoveCertificateModalComponent,
+      component: DhRemoveClientSecretModalComponent,
       onClosed: (result) => {
         if (result) {
           this.store.removeActorCredentials({
@@ -127,6 +141,14 @@ export class DhCertificateComponent {
           });
         }
       },
+    });
+  }
+
+  replaceClientSecret(): void {
+    this.modalService.open({
+      component: DhReplaceClientSecretModalComponent,
+      injector: this.injector,
+      data: { actorId: this.actorId },
     });
   }
 

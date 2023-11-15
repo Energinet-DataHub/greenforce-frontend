@@ -80,7 +80,7 @@ import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
         <h2>{{ transfer?.receiverTin }}</h2>
         <p class="sub-header">
           <span class="watt-label">Period of agreement</span>
-          {{ transfer?.startDate | wattDate : 'long' }}－{{ transfer?.endDate | wattDate : 'long' }}
+          {{ transfer?.startDate | wattDate: 'long' }}－{{ transfer?.endDate | wattDate: 'long' }}
         </p>
       </watt-drawer-heading>
 

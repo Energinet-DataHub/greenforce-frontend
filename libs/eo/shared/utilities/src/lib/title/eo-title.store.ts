@@ -34,7 +34,10 @@ export class EoTitleStore extends ComponentStore<EoTitleState> {
     filter((title): title is string => title !== null)
   );
 
-  constructor(private documentTitle: Title, private router: Router) {
+  constructor(
+    private documentTitle: Title,
+    private router: Router
+  ) {
     super(initialState);
 
     this.#updateRouteTitle(this.router.events.pipe(mapToRouteTitle));

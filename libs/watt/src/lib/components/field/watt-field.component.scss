@@ -76,11 +76,21 @@ watt-field {
 
   .label {
     min-height: 27px;
-    display: block;
+    display: flex;
+    align-items: center;
     padding-bottom: var(--watt-space-s);
 
+    watt-icon {
+      margin-left: var(--watt-space-s);
+    }
+
+    watt-tooltip {
+      max-width: 250px;
+    }
+
     &.required::after {
-      content: " *";
+      content: "*";
+      margin-left: var(--watt-space-s);
       color: var(--watt-color-primary);
     }
   }

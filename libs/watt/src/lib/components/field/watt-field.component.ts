@@ -25,17 +25,22 @@ import {
   inject,
 } from '@angular/core';
 import { ControlContainer, FormControl, FormGroupDirective, Validators } from '@angular/forms';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
+import { WattTooltipDirective } from '../tooltip';
 
 @Component({
   selector: 'watt-field',
   standalone: true,
-  imports: [NgIf, NgClass],
+  imports: [NgIf, NgClass, WattIconComponent, WattTooltipDirective],
   encapsulation: ViewEncapsulation.None,
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
   styleUrls: ['./watt-field.component.scss'],
   template: `
     <label [attr.for]="id ? id : null">
-      <span *ngIf="!chipMode" class="label" [ngClass]="{ required: _isRequired }">{{ label }}</span>
+      <span *ngIf="!chipMode" class="label" [ngClass]="{ required: _isRequired }">
+        {{ label }}
+        <watt-icon name="info" *ngIf="tooltip" wattTooltipPosition="top" [wattTooltip]="tooltip" />
+      </span>
       <div class="watt-field-wrapper">
         <ng-content />
       </div>
@@ -50,6 +55,7 @@ export class WattFieldComponent implements OnChanges {
   @Input({ required: true }) control!: FormControl | null;
   @Input() id!: string;
   @Input() chipMode = false;
+  @Input() tooltip?: string;
 
   @HostBinding('class.watt-field--chip')
   get _chip() {

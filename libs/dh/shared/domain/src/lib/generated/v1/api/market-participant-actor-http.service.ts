@@ -19,6 +19,8 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { MarketParticipantActorClientSecretDto } from '../model/market-participant-actor-client-secret-dto';
+// @ts-ignore
 import { MarketParticipantActorCredentialsDto } from '../model/market-participant-actor-credentials-dto';
 
 // @ts-ignore
@@ -341,9 +343,9 @@ export class MarketParticipantActorHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
-    public v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
-    public v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
+    public v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MarketParticipantActorClientSecretDto>;
+    public v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MarketParticipantActorClientSecretDto>>;
+    public v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MarketParticipantActorClientSecretDto>>;
     public v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -393,7 +395,7 @@ export class MarketParticipantActorHttp {
         }
 
         let localVarPath = `/v1/MarketParticipantActor/RequestClientSecretCredentials`;
-        return this.httpClient.request<string>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<MarketParticipantActorClientSecretDto>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
