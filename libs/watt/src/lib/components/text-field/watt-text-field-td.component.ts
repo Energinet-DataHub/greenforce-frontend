@@ -59,18 +59,28 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
   </watt-field> `,
 })
 export class WattTextFieldTDComponent implements ControlValueAccessor, AfterViewInit {
-  @Input() value!: string;
-  @Input() type: WattInputTypes = 'text';
-  @Input() placeholder?: string;
-  @Input() required = false;
-  @Input() label = '';
-  @Input() tooltip?: string;
-  @Input() prefix?: WattIcon;
-  @Input() maxLength: string | number | null = null;
+  protected control = inject(NgControl, { self: true, optional: true });
+  @Input()
+  value!: string;
+  @Input()
+  type: WattInputTypes = 'text';
+  @Input()
+  placeholder?: string;
+  @Input()
+  required = false;
+  @Input()
+  label = '';
+  @Input()
+  tooltip?: string;
+  @Input()
+  prefix?: WattIcon;
+  @Input()
+  maxLength: string | number | null = null;
   @HostBinding('attr.aria-invalid')
   invalid = false;
 
-  @ViewChild('inputField') inputField!: ElementRef<HTMLInputElement>;
+  @ViewChild('inputField')
+  inputField!: ElementRef<HTMLInputElement>;
   model!: string;
 
   private element = inject(ElementRef);
@@ -80,7 +90,7 @@ export class WattTextFieldTDComponent implements ControlValueAccessor, AfterView
 
   formControl!: FormControl;
 
-  constructor(@Self() @Optional() protected control: NgControl) {
+  constructor() {
     if (!this.control) return;
     this.control.valueAccessor = this;
     this.formControl = this.control.control as FormControl;

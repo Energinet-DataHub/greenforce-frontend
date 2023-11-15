@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { MarketParticipantActorStatus } from '@energinet-datahub/dh/shared/domain';
@@ -44,13 +44,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class DhMarketParticipantActorMasterDataComponent implements OnChanges {
-  @Input() changes?: ActorChanges;
+  private translocoService = inject(TranslocoService);
+  @Input()
+  changes?: ActorChanges;
 
   initialActorStatus?: MarketParticipantActorStatus;
   allStatuses: WattDropdownOption[] = [];
   statuses: WattDropdownOption[] = [];
 
-  constructor(private translocoService: TranslocoService) {
+  constructor() {
     this.translocoService
       .selectTranslateObject('marketParticipant.actor.create.masterData.statuses')
       .pipe(takeUntilDestroyed())

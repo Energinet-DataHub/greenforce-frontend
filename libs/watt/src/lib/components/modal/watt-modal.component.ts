@@ -24,6 +24,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -59,6 +60,8 @@ export type WattModalSize = 'small' | 'medium' | 'large';
   ],
 })
 export class WattModalComponent {
+  private modalService = inject(WattModalService);
+  protected dialogRef = inject<MatDialogRef<unknown>>(MatDialogRef, { optional: true });
   /** Title to stay fixed to top of modal. */
   @Input()
   title = '';
@@ -99,11 +102,6 @@ export class WattModalComponent {
 
   /** @ignore */
   scrollable = false;
-
-  constructor(
-    private modalService: WattModalService,
-    @Optional() protected dialogRef: MatDialogRef<unknown>
-  ) {}
 
   /**
    * Opens the modal. Subsequent calls are ignored while the modal is opened.

@@ -25,6 +25,7 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { ActorContactChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -63,14 +64,15 @@ interface EditableActorContactRow {
   ],
 })
 export class DhMarketParticipantActorContactDataComponent implements OnChanges {
-  @Input() contacts: MarketParticipantActorContactDto[] = [];
-  @Output() contactsChanged = new EventEmitter<{
+  private cd = inject(ChangeDetectorRef);
+  @Input()
+  contacts: MarketParticipantActorContactDto[] = [];
+  @Output()
+  contactsChanged = new EventEmitter<{
     isValid: boolean;
     add: ActorContactChanges[];
     remove: MarketParticipantActorContactDto[];
   }>();
-
-  constructor(private cd: ChangeDetectorRef) {}
 
   columns: WattTableColumnDef<EditableActorContactRow> = {
     category: { accessor: (row) => row.changed.category },

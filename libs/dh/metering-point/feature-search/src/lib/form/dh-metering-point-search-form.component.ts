@@ -24,6 +24,7 @@ import {
   OnDestroy,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -56,19 +57,19 @@ import { meteringPointIdValidator } from './dh-metering-point.validator';
   ],
 })
 export class DhMeteringPointSearchFormComponent implements AfterViewInit, OnDestroy {
-  @Input() loading = false;
-  @Output() search = new EventEmitter<string>();
-  @ViewChild('searchInput') searchInput?: WattTextFieldComponent;
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  @Input()
+  loading = false;
+  @Output()
+  search = new EventEmitter<string>();
+  @ViewChild('searchInput')
+  searchInput?: WattTextFieldComponent;
 
   queryParamsSubscription?: Subscription;
 
   searchControl = new FormControl('', [meteringPointIdValidator()]);
-
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
 
   ngAfterViewInit() {
     this.queryParamsSubscription = this.route.queryParams.subscribe((params) => {

@@ -33,6 +33,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [CommonModule, MatSidenavModule, MatToolbarModule, WattButtonComponent],
 })
 export class WattShellComponent implements OnInit {
+  private breakpointObserver = inject(WattBreakpointsObserver);
+  private router = inject(Router);
   /**
    * @ignore
    */
@@ -57,12 +59,8 @@ export class WattShellComponent implements OnInit {
     .observe([WattBreakpoint.XSmall, WattBreakpoint.Small, WattBreakpoint.Medium])
     .pipe(map((result) => result.matches));
 
-  @ViewChild('drawer') sidenav!: MatSidenav;
-
-  constructor(
-    private breakpointObserver: WattBreakpointsObserver,
-    private router: Router
-  ) {}
+  @ViewChild('drawer')
+  sidenav!: MatSidenav;
 
   ngOnInit(): void {
     this.closeSidenavOnNavigation();

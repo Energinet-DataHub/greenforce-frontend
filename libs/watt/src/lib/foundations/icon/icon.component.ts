@@ -21,6 +21,7 @@ import {
   HostBinding,
   Input,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 
 import { WattIcon } from './icons';
@@ -39,7 +40,9 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [MatIconModule],
 })
 export class WattIconComponent {
-  @Input() set name(value: WattIcon | undefined) {
+  private iconService = inject(WattIconService);
+  @Input()
+  set name(value: WattIcon | undefined) {
     this.setIcon(value);
 
     this.state = this.getDefaultStateForIcon(value);
@@ -48,11 +51,15 @@ export class WattIconComponent {
   /**
    * @description used for `aria-label`
    */
-  @Input() label: string | null = null;
-  @Input() size: WattIconSize = 'm';
-  @Input() state: WattIconState = 'default';
+  @Input()
+  label: string | null = null;
+  @Input()
+  size: WattIconSize = 'm';
+  @Input()
+  state: WattIconState = 'default';
 
-  @HostBinding('class') get _cssClass(): string[] {
+  @HostBinding('class')
+  get _cssClass(): string[] {
     return [`icon-size-${this.size}`, `icon-state-${this.state}`];
   }
 
@@ -64,8 +71,6 @@ export class WattIconComponent {
    * @ignore
    */
   customIcon = '';
-
-  constructor(private iconService: WattIconService) {}
 
   /**
    * @ignore

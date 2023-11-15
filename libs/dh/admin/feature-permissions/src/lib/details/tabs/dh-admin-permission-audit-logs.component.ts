@@ -57,9 +57,11 @@ import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
   ],
 })
 export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDestroy {
+  private trans = inject(TranslocoService);
   dataSource = new WattTableDataSource<PermissionAuditLog>();
 
-  @Input({ required: true }) selectedPermission!: PermissionDto;
+  @Input({ required: true })
+  selectedPermission!: PermissionDto;
   auditLogs: PermissionAuditLog | null = null;
 
   private apollo = inject(Apollo);
@@ -79,8 +81,6 @@ export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDest
     timestamp: { accessor: 'timestamp' },
     entry: { accessor: null },
   };
-
-  constructor(private trans: TranslocoService) {}
 
   ngOnInit(): void {
     this.getPermissionLogsQuery = this.apollo.watchQuery({

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Directive, ElementRef, EventEmitter, OnDestroy, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, OnDestroy, Output, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WattResizeObserverService } from './watt-resize-observer.service';
 
@@ -27,16 +27,16 @@ import { WattResizeObserverService } from './watt-resize-observer.service';
  */
 @Directive({ standalone: true, selector: '[wattResizeObserver]' })
 export class WattResizeObserverDirective implements OnDestroy {
+  private el = inject(ElementRef);
+  private resizeObserverService = inject(WattResizeObserverService);
   // The `resize` event only natively exists on `window`.
   // eslint-disable-next-line @angular-eslint/no-output-native
-  @Output() resize: EventEmitter<ResizeObserverEntry> = new EventEmitter();
+  @Output()
+  resize: EventEmitter<ResizeObserverEntry> = new EventEmitter();
 
   private subscription: Subscription;
 
-  constructor(
-    private el: ElementRef,
-    private resizeObserverService: WattResizeObserverService
-  ) {
+  constructor() {
     this.subscription = this.resizeObserverService
       .observe(this.el.nativeElement)
       .subscribe((entry) => this.resize.emit(entry));

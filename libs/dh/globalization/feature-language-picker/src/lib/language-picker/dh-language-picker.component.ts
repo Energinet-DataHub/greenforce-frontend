@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { CommonModule } from '@angular/common';
@@ -38,6 +38,8 @@ import { DhLanguageButtonComponent } from '../language-button/dh-language-button
   imports: [CommonModule, RxLet, DhLanguageButtonComponent],
 })
 export class DhLanguagePickerComponent {
+  private transloco = inject(TranslocoService);
+  private localeService = inject(WattLocaleService);
   activeLanguage$: Observable<DisplayLanguage> = this.transloco.langChanges$.pipe(
     map(toDisplayLanguage),
     tap((language) => {
@@ -45,11 +47,6 @@ export class DhLanguagePickerComponent {
     })
   );
   displayLanguages = displayLanguages;
-
-  constructor(
-    private transloco: TranslocoService,
-    private localeService: WattLocaleService
-  ) {}
 
   onLanguageSelect(language: DisplayLanguage): void {
     this.transloco.setActiveLang(language);

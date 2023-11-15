@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { UpperCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { RxLet } from '@rx-angular/template/let';
 import { map, tap } from 'rxjs';
@@ -130,16 +130,13 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
   `,
 })
 export class EoCertificateDetailsComponent {
+  private store = inject(EoCertificatesStore);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
   certificate$ = this.store.certificates$.pipe(
     map((certs) => certs?.find((item) => item.id === this.route.snapshot.paramMap.get('id'))),
     tap((certFound) => {
       if (!certFound) this.router.navigate([`/${eoCertificatesRoutePath}`]);
     })
   );
-
-  constructor(
-    private store: EoCertificatesStore,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
 }

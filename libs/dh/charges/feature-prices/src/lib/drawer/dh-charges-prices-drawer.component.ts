@@ -59,19 +59,20 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrls: ['./dh-charges-prices-drawer.component.scss'],
 })
 export class DhChargesPricesDrawerComponent implements OnInit {
+  private dhChargesPricesDrawerService = inject(DhChargesPricesDrawerService);
   private _destroyRef = inject(DestroyRef);
 
-  @ViewChild('drawer') drawer!: WattDrawerComponent;
+  @ViewChild('drawer')
+  drawer!: WattDrawerComponent;
   @ViewChild(DhChargeContentComponent)
   chargeContent!: DhChargeContentComponent;
 
-  @Output() closed = new EventEmitter<void>();
+  @Output()
+  closed = new EventEmitter<void>();
 
   message$ = this.dhChargesPricesDrawerService.message;
   charge?: ChargeV1Dto;
   showChargeMessage = false;
-
-  constructor(private dhChargesPricesDrawerService: DhChargesPricesDrawerService) {}
 
   ngOnInit(): void {
     this.dhChargesPricesDrawerService.message

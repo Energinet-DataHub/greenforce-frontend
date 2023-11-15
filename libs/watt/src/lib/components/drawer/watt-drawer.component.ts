@@ -53,20 +53,27 @@ export type WattDrawerSize = 'small' | 'normal' | 'large';
   imports: [A11yModule, MatSidenavModule, WattButtonComponent, WattSpinnerComponent, CommonModule],
 })
 export class WattDrawerComponent implements OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+  private elementRef = inject(ElementRef);
+  private overlayContainer = inject(OverlayContainer);
   private cssCustomPropertiesService = inject(WattCssCustomPropertiesService);
   private static currentDrawer?: WattDrawerComponent;
 
   /** Used to adjust drawer size to best fit the content. */
-  @Input() size: WattDrawerSize = 'normal';
+  @Input()
+  size: WattDrawerSize = 'normal';
 
   /** Whether the drawer is open.  */
-  @Input() isOpen = false;
+  @Input()
+  isOpen = false;
 
   /** Whether the drawer should show a loading state.  */
-  @Input() loading = false;
+  @Input()
+  loading = false;
 
   /** Emits whenever the drawer is closed. */
-  @Output() closed = new EventEmitter<void>();
+  @Output()
+  closed = new EventEmitter<void>();
 
   @ViewChild(CdkTrapFocus)
   cdkTrapFocus!: CdkTrapFocus;
@@ -75,7 +82,8 @@ export class WattDrawerComponent implements OnDestroy {
   bypassClickCheck = false;
 
   /** @ignore */
-  @ContentChild(WattDrawerTopbarComponent) topbar?: WattDrawerTopbarComponent;
+  @ContentChild(WattDrawerTopbarComponent)
+  topbar?: WattDrawerTopbarComponent;
 
   /** @ignore */
   @HostListener('document:click', ['$event'])
@@ -101,12 +109,6 @@ export class WattDrawerComponent implements OnDestroy {
   onEscKeyPressed() {
     this.close();
   }
-
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private elementRef: ElementRef,
-    private overlayContainer: OverlayContainer
-  ) {}
 
   /** @ignore */
   ngOnDestroy(): void {

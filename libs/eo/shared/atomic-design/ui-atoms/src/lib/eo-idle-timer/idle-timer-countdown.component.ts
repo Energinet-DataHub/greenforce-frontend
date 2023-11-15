@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_DIALOG_DATA, WATT_MODAL, WattDialogRef } from '@energinet-datahub/watt/modal';
@@ -28,7 +28,7 @@ import { Observable, filter, tap } from 'rxjs';
   template: `
     <watt-modal #modal title="Automatic logout" size="small">
       <p>You will be logged out in:</p>
-      <span class="watt-headline-1">{{ countdown$ | async | date : 'mm:ss' }}</span>
+      <span class="watt-headline-1">{{ countdown$ | async | date: 'mm:ss' }}</span>
       <br />
       <p>We are logging you out for security reasons.</p>
 
@@ -40,13 +40,12 @@ import { Observable, filter, tap } from 'rxjs';
   `,
 })
 export class EoIdleTimerCountdownModalComponent {
+  private dialogRef = inject<WattDialogRef<EoIdleTimerCountdownModalComponent>>(WattDialogRef);
+  data = inject(WATT_DIALOG_DATA);
   protected countdown$!: Observable<number>;
 
-  constructor(
-    private dialogRef: WattDialogRef<EoIdleTimerCountdownModalComponent>,
-    @Inject(WATT_DIALOG_DATA) public data: { countdown$: Observable<number> }
-  ) {
-    this.countdown$ = data.countdown$.pipe(
+  constructor() {
+    this.countdown$ = this.data.countdown$.pipe(
       takeUntilDestroyed(),
       tap((x: number) => {
         if (x <= 0) {

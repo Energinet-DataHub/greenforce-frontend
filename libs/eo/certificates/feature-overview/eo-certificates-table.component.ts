@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import {
@@ -95,14 +101,15 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
   `,
 })
 export class EoCertificatesTableComponent implements AfterViewInit {
+  private store = inject(EoCertificatesStore);
   certificates: EoCertificate[] = [];
   dataSource: MatTableDataSource<EoCertificate> = new MatTableDataSource();
   displayedColumns: string[] = ['dateFrom', 'gsrn', 'quantity', 'action'];
 
-  @ViewChild(MatSort) matSort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  constructor(private store: EoCertificatesStore) {}
+  @ViewChild(MatSort)
+  matSort!: MatSort;
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

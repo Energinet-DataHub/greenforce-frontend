@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { EoEmissionsStore } from './eo-emissions.store';
@@ -51,13 +51,10 @@ import { EoEmissionsStore } from './eo-emissions.store';
   `,
 })
 export class EoEmissionsDataComponent {
+  private store = inject(EoEmissionsStore);
+  private router = inject(Router);
   loadingDone$ = this.store.loadingDone$;
   totalCO2$ = this.store.total$;
-
-  constructor(
-    private store: EoEmissionsStore,
-    private router: Router
-  ) {}
 
   convertToKg(num: number): number {
     if (!num || Number.isNaN(num)) return 0;

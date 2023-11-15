@@ -22,6 +22,7 @@ import {
   Input,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -117,15 +118,19 @@ import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
   `,
 })
 export class EoTransfersDrawerComponent {
-  @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
-  @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
+  utils = inject(SharedUtilities);
+  @ViewChild(WattDrawerComponent)
+  drawer!: WattDrawerComponent;
+  @ViewChild(EoTransfersEditModalComponent)
+  transfersEditModal!: EoTransfersEditModalComponent;
 
   isActive!: boolean;
   isEditable = false;
 
   private _transfer?: EoListedTransfer;
 
-  @Input() set transfer(transfer: EoListedTransfer | undefined) {
+  @Input()
+  set transfer(transfer: EoListedTransfer | undefined) {
     this._transfer = transfer;
 
     if (!this._transfer) return;
@@ -136,9 +141,8 @@ export class EoTransfersDrawerComponent {
     return this._transfer;
   }
 
-  @Output() closed = new EventEmitter<void>();
-
-  constructor(public utils: SharedUtilities) {}
+  @Output()
+  closed = new EventEmitter<void>();
 
   open() {
     this.drawer.open();

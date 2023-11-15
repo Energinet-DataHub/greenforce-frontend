@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
@@ -105,5 +105,5 @@ import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
   `,
 })
 export class EoFaqPageComponent {
-  constructor(public utils: SharedUtilities) {}
+  utils = inject(SharedUtilities);
 }

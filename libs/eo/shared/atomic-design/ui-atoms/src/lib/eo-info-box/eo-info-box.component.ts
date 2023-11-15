@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  inject,
+} from '@angular/core';
 
 type Variant = 'normal' | 'dark' | 'light';
 
@@ -52,9 +59,9 @@ type Variant = 'normal' | 'dark' | 'light';
   template: `<ng-content></ng-content>`,
 })
 export class EoInfoBoxComponent implements OnInit {
-  @Input() variant: Variant = 'normal';
-
-  constructor(private _elementRef: ElementRef<HTMLElement>) {}
+  private _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  @Input()
+  variant: Variant = 'normal';
 
   ngOnInit() {
     this._elementRef.nativeElement.className = this.variant;

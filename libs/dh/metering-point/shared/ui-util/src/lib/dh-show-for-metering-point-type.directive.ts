@@ -21,6 +21,7 @@ import {
   SimpleChanges,
   TemplateRef,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { MeteringPointType } from '@energinet-datahub/dh/shared/domain';
 
@@ -35,14 +36,14 @@ import {
   standalone: true,
 })
 export class DhShowForMeteringPointTypeDirective implements OnChanges {
-  constructor(
-    private templateRef: TemplateRef<unknown>,
-    private viewContainer: ViewContainerRef
-  ) {}
+  private templateRef = inject<TemplateRef<unknown>>(TemplateRef);
+  private viewContainer = inject(ViewContainerRef);
 
-  @Input() dhShowForMeteringPointType: MeteringPointType | undefined;
+  @Input()
+  dhShowForMeteringPointType: MeteringPointType | undefined;
 
-  @Input() dhShowForMeteringPointTypeProperty: MeteringPointTypeMapProperty | undefined;
+  @Input()
+  dhShowForMeteringPointTypeProperty: MeteringPointTypeMapProperty | undefined;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.dhShowForMeteringPointType) {

@@ -67,6 +67,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class WattDropdownComponent implements ControlValueAccessor, OnInit {
+  private parentControlDirective = inject(NgControl, { host: true });
   /**
    * @ignore
    */
@@ -151,13 +152,16 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
   /**
    * @ignore
    */
-  @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
+  @ViewChild('matSelect', { static: true })
+  matSelect?: MatSelect;
 
   /**
    * Set the mode of the dropdown.
    */
-  @Input() chipMode = false;
-  @HostBinding('class.watt-chip-mode') get chipModeClass() {
+  @Input()
+  chipMode = false;
+  @HostBinding('class.watt-chip-mode')
+  get chipModeClass() {
     return this.chipMode;
   }
 
@@ -177,31 +181,36 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
   /**
    * Sets support for selecting multiple dropdown options.
    */
-  @Input() multiple = false;
+  @Input()
+  multiple = false;
 
   /**
    * Sets support for hiding the reset option in "single" select mode.
    */
-  @Input() showResetOption = true;
+  @Input()
+  showResetOption = true;
 
   /**
    * Sets the placeholder for the dropdown.
    */
-  @Input() placeholder = '';
+  @Input()
+  placeholder = '';
 
   /**
    * Sets the label for the dropdown.
    */
-  @Input() label = '';
+  @Input()
+  label = '';
 
   /**
    * Label to be shown when no options are found after filtering.
    *
    * Note: The label is visible in "multiple" mode only.
    */
-  @Input() noOptionsFoundLabel = '';
+  @Input()
+  noOptionsFoundLabel = '';
 
-  constructor(@Host() private parentControlDirective: NgControl) {
+  constructor() {
     this.parentControlDirective.valueAccessor = this;
   }
 

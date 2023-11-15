@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RxLet } from '@rx-angular/template/let';
 
@@ -37,7 +37,6 @@ import { DhSecondaryMasterDataComponent } from './secondary-master-data/dh-secon
   ],
 })
 export class DhMeteringPointIdentityAndMasterDataComponent {
+  private store = inject(DhMeteringPointDataAccessApiStore);
   meteringPoint$ = this.store.meteringPoint$;
-
-  constructor(private store: DhMeteringPointDataAccessApiStore) {}
 }

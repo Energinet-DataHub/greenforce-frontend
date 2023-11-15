@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
@@ -72,6 +72,9 @@ import { DhMarketParticipantActorMarketRolesComponent } from './market-roles/dh-
   ],
 })
 export class DhMarketParticipantEditActorComponent {
+  private store = inject(DhMarketParticipantEditActorDataAccessApiStore);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
   routeParams$ = this.route.params.pipe(
     map((params) => ({
       organizationId: params[dhMarketParticipantOrganizationIdParam] as string,
@@ -87,13 +90,10 @@ export class DhMarketParticipantEditActorComponent {
   marketRoles$ = this.store.marketRoles$;
   contacts$ = this.store.contacts$;
 
-  @ViewChild('confirmationModal') confirmationModal!: WattModalComponent;
+  @ViewChild('confirmationModal')
+  confirmationModal!: WattModalComponent;
 
-  constructor(
-    private store: DhMarketParticipantEditActorDataAccessApiStore,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
+  constructor() {
     this.store.loadInitialData(this.routeParams$);
   }
 

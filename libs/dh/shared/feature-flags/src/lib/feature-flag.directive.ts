@@ -14,20 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, Input, OnInit, TemplateRef, ViewContainerRef, inject } from '@angular/core';
 
 import { DhFeatureFlags } from './feature-flags';
 import { DhFeatureFlagsService } from './feature-flags.service';
 
 @Directive({ selector: '[dhFeatureFlag]', standalone: true })
 export class DhFeatureFlagDirective implements OnInit {
-  constructor(
-    private templateRef: TemplateRef<unknown>,
-    private viewContainer: ViewContainerRef,
-    private featureFlagsService: DhFeatureFlagsService
-  ) {}
+  private templateRef = inject<TemplateRef<unknown>>(TemplateRef);
+  private viewContainer = inject(ViewContainerRef);
+  private featureFlagsService = inject(DhFeatureFlagsService);
 
-  @Input() dhFeatureFlag?: DhFeatureFlags;
+  @Input()
+  dhFeatureFlag?: DhFeatureFlags;
 
   ngOnInit(): void {
     const isEnabled = this.featureFlagsService.isEnabled(this.dhFeatureFlag);
