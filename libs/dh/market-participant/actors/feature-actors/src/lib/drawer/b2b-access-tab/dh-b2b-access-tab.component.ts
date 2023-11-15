@@ -88,6 +88,8 @@ export class DhB2bAccessTabComponent implements OnChanges {
   @Input({ required: true }) actorId = '';
 
   ngOnChanges(): void {
+    this.store.resetClientSecret();
+
     this.store.getCredentials(this.actorId);
   }
 }
