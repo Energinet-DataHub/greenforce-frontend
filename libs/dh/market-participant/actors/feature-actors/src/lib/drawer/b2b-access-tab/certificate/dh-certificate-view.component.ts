@@ -42,7 +42,7 @@ type DhCertificateTableRow = {
 };
 
 @Component({
-  selector: 'dh-certificate',
+  selector: 'dh-certificate-view',
   standalone: true,
   styles: [
     `
@@ -55,7 +55,7 @@ type DhCertificateTableRow = {
       }
     `,
   ],
-  templateUrl: './dh-certificate.component.html',
+  templateUrl: './dh-certificate-view.component.html',
   imports: [
     NgIf,
     TranslocoDirective,

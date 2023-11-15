@@ -24,5 +24,7 @@ namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
         ContactPhone = 6,
         ContactCreated = 7,
         ContactDeleted = 8,
+        CertificateCredentials = 9,
+        ClientSecretCredentials = 10,
     }
 }
