@@ -35,6 +35,7 @@ export interface WattModalConfig {
   data?: unknown;
   disableClose?: boolean;
   onClosed?: EventEmitter<boolean> | ((result: boolean) => void);
+  injector?: Injector;
 }
 
 @Injectable()
