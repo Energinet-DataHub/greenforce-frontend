@@ -120,16 +120,16 @@ export class DhMarketPartyCredentialsStore extends ComponentStore<CertificateSta
         exhaustMap(({ actorId, file, onSuccess, onError }) =>
           this.httpClient.v1MarketParticipantActorRemoveActorCredentialsDelete(actorId).pipe(
             switchMap(() =>
-              this.httpClient
-                .v1MarketParticipantActorAssignCertificateCredentialsPost(actorId, file)
-                .pipe(
-                  tapResponse(
-                    () => onSuccess(),
-                    () => onError()
-                  ),
-                  finalize(() => this.patchState({ uploadInProgress: false }))
-                )
-            )
+              this.httpClient.v1MarketParticipantActorAssignCertificateCredentialsPost(
+                actorId,
+                file
+              )
+            ),
+            tapResponse(
+              () => onSuccess(),
+              () => onError()
+            ),
+            finalize(() => this.patchState({ uploadInProgress: false }))
           )
         )
       )
@@ -156,20 +156,17 @@ export class DhMarketPartyCredentialsStore extends ComponentStore<CertificateSta
 
           return kickOff$.pipe(
             switchMap(() =>
-              this.httpClient
-                .v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId)
-                .pipe(
-                  tapResponse(
-                    (clientSecret) => {
-                      this.patchState({ clientSecret: clientSecret.secretText });
+              this.httpClient.v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId)
+            ),
+            tapResponse(
+              (clientSecret) => {
+                this.patchState({ clientSecret: clientSecret.secretText });
 
-                      onSuccess();
-                    },
-                    () => onError()
-                  ),
-                  finalize(() => this.patchState({ generateSecretInProgress: false }))
-                )
-            )
+                onSuccess();
+              },
+              () => onError()
+            ),
+            finalize(() => this.patchState({ generateSecretInProgress: false }))
           );
         })
       )
