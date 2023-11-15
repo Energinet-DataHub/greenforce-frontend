@@ -56,6 +56,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   providers: [DhChargeMessageArchiveDataAccessStore, DhMessageArchiveDataAccessBlobApiStore],
 })
 export class DhChargePriceMessageComponent implements OnInit {
+  private dhChargesPricesDrawerService = inject(DhChargesPricesDrawerService);
+  private chargeMessageArchiveStore = inject(DhChargeMessageArchiveDataAccessStore);
+  private marketParticipantStore = inject(DhMarketParticipantDataAccessApiStore);
+  private blobStore = inject(DhMessageArchiveDataAccessBlobApiStore);
   private _destroyRef = inject(DestroyRef);
   private _regexLogNameWithDateFolder = new RegExp(
     /\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])\/.*/
@@ -63,13 +67,6 @@ export class DhChargePriceMessageComponent implements OnInit {
   private _regexLogNameIsSingleGuid = new RegExp(
     /[\da-zA-Z]{8}-([\da-zA-Z]{4}-){3}[\da-zA-Z]{12}$/
   );
-
-  constructor(
-    private dhChargesPricesDrawerService: DhChargesPricesDrawerService,
-    private chargeMessageArchiveStore: DhChargeMessageArchiveDataAccessStore,
-    private marketParticipantStore: DhMarketParticipantDataAccessApiStore,
-    private blobStore: DhMessageArchiveDataAccessBlobApiStore
-  ) {}
 
   message?: ArchivedMessage;
   senderMarketParticipant?: ChargeMarketParticipantV1Dto;

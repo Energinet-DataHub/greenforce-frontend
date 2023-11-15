@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { EoHeaderComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService } from '@energinet-datahub/eo/shared/services';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -49,7 +49,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
   `,
 })
 export class EoLandingPageHeaderComponent {
-  constructor(private authService: EoAuthService) {}
+  private authService = inject(EoAuthService);
 
   login() {
     this.authService.startLogin();

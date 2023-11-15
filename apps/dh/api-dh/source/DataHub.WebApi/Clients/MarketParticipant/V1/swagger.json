@@ -327,17 +327,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ActorClientSecretDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ActorClientSecretDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ActorClientSecretDto"
                 }
               }
             }
@@ -2517,7 +2517,9 @@
         "enum": [
           "Name",
           "Created",
-          "Status"
+          "Status",
+          "CertificateCredentials",
+          "SecretCredentials"
         ]
       },
       "ActorClientSecretCredentialsDto": {
@@ -2531,6 +2533,15 @@
           "expirationDate": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "ActorClientSecretDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "secretText": {
+            "type": "string"
           }
         }
       },

@@ -48,6 +48,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [TranslocoModule, ReactiveFormsModule, WattDropdownComponent],
 })
 export class DhUsersTabStatusFilterComponent implements OnInit {
+  private trans = inject(TranslocoService);
   private _destroyRef = inject(DestroyRef);
 
   statusControl = new FormControl<MarketParticipantUserStatus[]>([], { nonNullable: true });
@@ -59,8 +60,6 @@ export class DhUsersTabStatusFilterComponent implements OnInit {
   @Output() changed = new EventEmitter<MarketParticipantUserStatus[]>();
 
   userStatusOptions: WattDropdownOption[] = [];
-
-  constructor(private trans: TranslocoService) {}
 
   ngOnInit(): void {
     this.buildUserStatusOptions();

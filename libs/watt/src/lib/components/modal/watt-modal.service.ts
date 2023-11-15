@@ -15,7 +15,15 @@
  * limitations under the License.
  */
 import { ComponentType } from '@angular/cdk/portal';
-import { DestroyRef, EventEmitter, Injectable, NgModule, TemplateRef } from '@angular/core';
+import {
+  DestroyRef,
+  EventEmitter,
+  Injectable,
+  Injector,
+  NgModule,
+  TemplateRef,
+  inject,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Subject, exhaustMap, ignoreElements, map, mergeWith, of, take, tap } from 'rxjs';
@@ -26,15 +34,19 @@ export interface WattModalConfig {
   data?: unknown;
   disableClose?: boolean;
   onClosed?: EventEmitter<boolean> | ((result: boolean) => void);
+  injector?: Injector;
 }
 
 @Injectable()
 export class WattModalService {
+  private readonly dialog = inject(MatDialog);
+  private readonly destroyRef = inject(DestroyRef);
+
   private config?: WattModalConfig;
   private openSubject = new Subject<WattModalConfig>();
   private closeSubject = new Subject<boolean>();
 
-  constructor(private dialog: MatDialog, private destroyRef: DestroyRef) {
+  constructor() {
     const result$ = this.openSubject.pipe(
       exhaustMap((config) => {
         this.config = config;
@@ -51,6 +63,7 @@ export class WattModalService {
           disableClose: config.disableClose ?? false,
           data: config.data,
           maxWidth: 'none',
+          injector: config.injector,
         });
 
         return this.closeSubject.pipe(

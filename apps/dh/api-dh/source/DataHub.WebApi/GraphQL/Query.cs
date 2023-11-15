@@ -321,6 +321,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     ActorChangeType.Name => ActorAuditLogType.Name,
                     ActorChangeType.Created => ActorAuditLogType.Created,
                     ActorChangeType.Status => ActorAuditLogType.Status,
+                    ActorChangeType.CertificateCredentials => ActorAuditLogType.CertificateCredentials,
+                    ActorChangeType.SecretCredentials => ActorAuditLogType.ClientSecretCredentials,
                     _ => ActorAuditLogType.Created,
                 };
                 actorAuditLogs.Add(new ActorAuditLog()

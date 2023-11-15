@@ -17,7 +17,6 @@
 import {
   Component,
   DestroyRef,
-  Host,
   HostBinding,
   Input,
   OnInit,
@@ -67,6 +66,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class WattDropdownComponent implements ControlValueAccessor, OnInit {
+  private parentControlDirective = inject(NgControl, { host: true });
   /**
    * @ignore
    */
@@ -88,8 +88,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    * @ignore
    *
    */
-  @HostBinding('attr.watt-field-disabled')
-  isDisabled = false;
+  @HostBinding('attr.watt-field-disabled') isDisabled = false;
 
   /**
    * @ignore
@@ -157,7 +156,8 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    * Set the mode of the dropdown.
    */
   @Input() chipMode = false;
-  @HostBinding('class.watt-chip-mode') get chipModeClass() {
+  @HostBinding('class.watt-chip-mode')
+  get chipModeClass() {
     return this.chipMode;
   }
 
@@ -201,7 +201,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    */
   @Input() noOptionsFoundLabel = '';
 
-  constructor(@Host() private parentControlDirective: NgControl) {
+  constructor() {
     this.parentControlDirective.valueAccessor = this;
   }
 

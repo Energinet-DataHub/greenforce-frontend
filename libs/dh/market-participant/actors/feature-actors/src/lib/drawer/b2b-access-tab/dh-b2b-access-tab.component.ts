@@ -23,10 +23,10 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { DhCertificateUploaderComponent } from './dh-certificate-uploader.component';
-import { DhCreateSecretComponent } from './dh-create-secret.component';
-import { DhCertificateComponent } from './dh-certificate.component';
-import { DhClientSecretViewComponent } from './dh-client-secret-view.component';
+import { DhCertificateUploaderComponent } from './certificate/dh-certificate-uploader.component';
+import { DhCertificateComponent } from './certificate/dh-certificate-view.component';
+import { DhGenerateClientSecretComponent } from './client-secret/dh-generate-client-secret.component';
+import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-view.component';
 
 @Component({
   selector: 'dh-b2b-access-tab',
@@ -46,7 +46,7 @@ import { DhClientSecretViewComponent } from './dh-client-secret-view.component';
     <ng-template #elseCase>
       <ng-container *ngIf="doCredentialsExist(); else emptyState">
         <ng-container *ngIf="doesCertificateExist()">
-          <dh-certificate [actorId]="actorId" />
+          <dh-certificate-view [actorId]="actorId" />
         </ng-container>
 
         <ng-container *ngIf="doesClientSecretMetadataExist()">
@@ -57,7 +57,7 @@ import { DhClientSecretViewComponent } from './dh-client-secret-view.component';
       <ng-template #emptyState>
         <vater-stack direction="row" justify="center" gap="m">
           <dh-certificate-uploader [actorId]="actorId" />
-          <dh-create-secret [actorId]="actorId" />
+          <dh-generate-client-secret [actorId]="actorId" />
         </vater-stack>
       </ng-template>
     </ng-template>
@@ -72,7 +72,7 @@ import { DhClientSecretViewComponent } from './dh-client-secret-view.component';
 
     DhCertificateComponent,
     DhCertificateUploaderComponent,
-    DhCreateSecretComponent,
+    DhGenerateClientSecretComponent,
     DhClientSecretViewComponent,
   ],
 })
