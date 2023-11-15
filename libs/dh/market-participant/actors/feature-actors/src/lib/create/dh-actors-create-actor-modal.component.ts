@@ -36,6 +36,7 @@ import {
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import {
   EicFunction,
+  GetGridAreasDocument,
   GetOrganizationByIdDocument,
   GetOrganizationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -118,6 +119,7 @@ export class DhActorsCreateActorModalComponent {
   innerModal: WattModalComponent | undefined;
 
   organizationOptions: WattDropdownOptions = [];
+  gridAreaOptions: WattDropdownOptions = [];
   marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction);
   countryOptions: WattDropdownOptions = [
     { value: 'DK', displayValue: 'DK' },
@@ -138,6 +140,7 @@ export class DhActorsCreateActorModalComponent {
     glnOrEicNumber: ['', [Validators.required, dhEicOrGlnValidator]],
     name: [''],
     marketrole: ['', Validators.required],
+    gridArea: ['', Validators.required],
     contact: this._fb.group({
       departmentOrName: ['', Validators.required],
       email: ['', [Validators.required, dhFirstPartEmailValidator]],
@@ -147,6 +150,7 @@ export class DhActorsCreateActorModalComponent {
 
   showCreateNewOrganization = signal(false);
   choosenOrganizationDomain = signal('');
+  showGridAreaOptions = signal(false);
 
   constructor() {
     this._getOrganizationsQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe((result) => {
@@ -157,6 +161,20 @@ export class DhActorsCreateActorModalComponent {
         }));
       }
     });
+
+    this._apollo
+      .query({
+        notifyOnNetworkStatusChange: true,
+        query: GetGridAreasDocument,
+      })
+      .subscribe((result) => {
+        if (result.data?.gridAreas) {
+          this.gridAreaOptions = result.data.gridAreas.map((gridArea) => ({
+            value: gridArea.code,
+            displayValue: gridArea.name,
+          }));
+        }
+      });
   }
 
   onOrganizationChange(id: string): void {
@@ -171,6 +189,16 @@ export class DhActorsCreateActorModalComponent {
           this.choosenOrganizationDomain.set(result.data.organizationById.domain);
         }
       });
+  }
+
+  getChoosenOrganizationDomain(): string {
+    return this.newOrganizationForm.controls.domain.value
+      ? this.newOrganizationForm.controls.domain.value
+      : this.choosenOrganizationDomain();
+  }
+
+  onMarketRoleChange(marketRole: EicFunction): void {
+    this.showGridAreaOptions.set(marketRole === EicFunction.GridAccessProvider);
   }
 
   toggleShowCreateNewOrganization(): void {
