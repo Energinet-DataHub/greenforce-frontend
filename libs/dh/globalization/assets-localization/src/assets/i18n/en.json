@@ -677,7 +677,7 @@
                 "message": "Are you sure you want to delete the Client Secret?",
                 "cancel": "Cancel",
                 "confirm": "Delete Client Secret",
-                "removeSuccess": "The Client Secret Certificate removed successfully",
+                "removeSuccess": "The Client Secret Certificate was removed successfully",
                 "removeError": "An error occurred while removing the Client Secret. Please try again"
               },
               "replaceSecretModal": {
