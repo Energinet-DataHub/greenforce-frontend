@@ -534,6 +534,7 @@
           "organization": "Organisation",
           "invite": "Inviter bruger"
         },
+        "gridArea": "Netområde",
         "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktør navn.",
         "glnOrEicInvalid": "Ugyldigt GLN/EIC nummer",
         "wrongEmailPattern": "Indtast en valid email",

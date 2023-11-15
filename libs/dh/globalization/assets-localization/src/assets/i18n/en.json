@@ -541,6 +541,7 @@
           "organization": "Organization",
           "invite": "Invite user"
         },
+        "gridArea": "Grid area",
         "tooltip": "The market party gets the organization name if you do not specify a value.",
         "glnOrEicInvalid": "Invalid GLN/EIC",
         "wrongEmailPattern": "Type a valid email",
