@@ -17,7 +17,6 @@
 import {
   Component,
   DestroyRef,
-  Host,
   HostBinding,
   Input,
   OnInit,

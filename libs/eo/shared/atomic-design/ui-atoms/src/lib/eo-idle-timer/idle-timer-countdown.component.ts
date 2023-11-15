@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_DIALOG_DATA, WATT_MODAL, WattDialogRef } from '@energinet-datahub/watt/modal';

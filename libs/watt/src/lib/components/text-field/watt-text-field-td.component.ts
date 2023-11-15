@@ -23,8 +23,6 @@ import {
   inject,
   ElementRef,
   ViewChild,
-  Self,
-  Optional,
   AfterViewInit,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NgControl } from '@angular/forms';

@@ -21,8 +21,6 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  Inject,
-  Optional,
   ViewEncapsulation,
   inject,
 } from '@angular/core';

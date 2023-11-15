@@ -31,8 +31,7 @@ export class WattResizeObserverDirective implements OnDestroy {
   private resizeObserverService = inject(WattResizeObserverService);
   // The `resize` event only natively exists on `window`.
   // eslint-disable-next-line @angular-eslint/no-output-native
-  @Output()
-  resize: EventEmitter<ResizeObserverEntry> = new EventEmitter();
+  @Output() resize: EventEmitter<ResizeObserverEntry> = new EventEmitter();
 
   private subscription: Subscription;
 

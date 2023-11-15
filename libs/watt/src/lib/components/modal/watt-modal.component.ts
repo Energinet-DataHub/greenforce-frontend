@@ -19,7 +19,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  Optional,
   Output,
   TemplateRef,
   ViewChild,
