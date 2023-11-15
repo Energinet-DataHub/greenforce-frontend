@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoEmissionsPageCo2ReductionComponent } from './eo-emissions-page-co2-reduction';
@@ -66,7 +66,6 @@ import { EoEmissionsStore } from './eo-emissions.store';
   `,
 })
 export class EoEmissionsPageShellComponent {
+  private emissionsStore = inject(EoEmissionsStore);
   error$ = this.emissionsStore.error$;
-
-  constructor(private emissionsStore: EoEmissionsStore) {}
 }

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
@@ -49,6 +49,8 @@ import { DhMeteringPointGeneralErrorComponent } from './general-error/dh-meterin
   ],
 })
 export class DhMeteringPointOverviewComponent {
+  private route = inject(ActivatedRoute);
+  private store = inject(DhMeteringPointDataAccessApiStore);
   meteringPointId$ = this.route.params.pipe(
     map((params) => params[dhMeteringPointIdParam] as string)
   );
@@ -57,10 +59,7 @@ export class DhMeteringPointOverviewComponent {
   meteringPointNotFound$ = this.store.meteringPointNotFound$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: DhMeteringPointDataAccessApiStore
-  ) {
+  constructor() {
     this.loadMeteringPointData();
   }
 

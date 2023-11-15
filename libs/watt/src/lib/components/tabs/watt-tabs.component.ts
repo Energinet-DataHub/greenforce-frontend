@@ -22,6 +22,7 @@ import {
   QueryList,
   AfterViewInit,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
@@ -43,14 +44,13 @@ export { WattTabComponent } from './watt-tab.component';
   imports: [CommonModule, MatTabsModule],
 })
 export class WattTabsComponent implements AfterViewInit {
+  private readonly cdr = inject(ChangeDetectorRef);
   /**
    * @ignore
    */
   @ContentChildren(WattTabComponent)
   public readonly tabElements: QueryList<WattTabComponent> = new QueryList<WattTabComponent>();
   activeTabIndex = 0;
-
-  constructor(private readonly cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     this.cdr.detectChanges();

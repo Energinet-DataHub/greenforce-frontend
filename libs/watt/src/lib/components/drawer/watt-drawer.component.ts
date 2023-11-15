@@ -53,6 +53,9 @@ export type WattDrawerSize = 'small' | 'normal' | 'large';
   imports: [A11yModule, MatSidenavModule, WattButtonComponent, WattSpinnerComponent, CommonModule],
 })
 export class WattDrawerComponent implements OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+  private elementRef = inject(ElementRef);
+  private overlayContainer = inject(OverlayContainer);
   private cssCustomPropertiesService = inject(WattCssCustomPropertiesService);
   private static currentDrawer?: WattDrawerComponent;
 
@@ -68,8 +71,7 @@ export class WattDrawerComponent implements OnDestroy {
   /** Emits whenever the drawer is closed. */
   @Output() closed = new EventEmitter<void>();
 
-  @ViewChild(CdkTrapFocus)
-  cdkTrapFocus!: CdkTrapFocus;
+  @ViewChild(CdkTrapFocus) cdkTrapFocus!: CdkTrapFocus;
 
   /** @ignore */
   bypassClickCheck = false;
@@ -101,12 +103,6 @@ export class WattDrawerComponent implements OnDestroy {
   onEscKeyPressed() {
     this.close();
   }
-
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private elementRef: ElementRef,
-    private overlayContainer: OverlayContainer
-  ) {}
 
   /** @ignore */
   ngOnDestroy(): void {

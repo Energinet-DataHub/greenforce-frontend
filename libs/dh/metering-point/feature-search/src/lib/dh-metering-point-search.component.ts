@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { take } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
@@ -42,16 +42,13 @@ import { DhMeteringPointSearchFormComponent } from './form/dh-metering-point-sea
   ],
 })
 export class DhMeteringPointSearchComponent {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private store = inject(DhMeteringPointDataAccessApiStore);
   isLoading$ = this.store.isLoading$;
   notFound$ = this.store.meteringPointNotFound$;
   hasGeneralError$ = this.store.hasGeneralError$;
   meteringPointLoaded$ = this.store.meteringPoint$.pipe(take(1));
-
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private store: DhMeteringPointDataAccessApiStore
-  ) {}
 
   onSubmit(id: string) {
     this.store.loadMeteringPointData(id);

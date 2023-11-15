@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   DhMessageArchiveActorDataAccessApiStore,
@@ -74,6 +74,8 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
   ],
 })
 export class DhMessageArchiveLogSearchComponent {
+  private store = inject(DhMessageArchiveDataAccessApiStore);
+  private actorStore = inject(DhMessageArchiveActorDataAccessApiStore);
   searchForm = new FormGroup({
     messageId: new FormControl('', { nonNullable: true }),
     documentTypes: new FormControl([], { nonNullable: true }),
@@ -116,10 +118,7 @@ export class DhMessageArchiveLogSearchComponent {
 
   searchCriteria: ArchivedMessageSearchCriteria = {};
 
-  constructor(
-    private store: DhMessageArchiveDataAccessApiStore,
-    private actorStore: DhMessageArchiveActorDataAccessApiStore
-  ) {
+  constructor() {
     this.actorStore.getActors();
     this.searchForm.valueChanges.subscribe((value) => this.handleState(value));
   }

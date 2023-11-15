@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
-import { DhB2CEnvironment, dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
@@ -33,10 +33,8 @@ import { RxPush } from '@rx-angular/template/push';
   imports: [CommonModule, RxPush, WattSpinnerComponent, TranslocoModule],
 })
 export class DhSignupMitIdComponent {
-  constructor(
-    private marketParticipantUserHttp: MarketParticipantUserHttp,
-    @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment
-  ) {}
+  private marketParticipantUserHttp = inject(MarketParticipantUserHttp);
+  private config = inject(dhB2CEnvironmentToken);
 
   isLoading$ = new Subject<boolean>();
 

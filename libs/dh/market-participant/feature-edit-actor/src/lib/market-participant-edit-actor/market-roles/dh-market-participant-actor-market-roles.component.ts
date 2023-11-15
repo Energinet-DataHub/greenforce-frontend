@@ -24,6 +24,7 @@ import {
   ChangeDetectionStrategy,
   OnChanges,
   ChangeDetectorRef,
+  inject,
 } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormsModule } from '@angular/forms';
@@ -68,6 +69,11 @@ export interface EditableMarketRoleRow {
   ],
 })
 export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
+  private cd = inject(ChangeDetectorRef);
+  private translocoService = inject(TranslocoService);
+  private marketRoleService = inject(MarketRoleService);
+  private marketRoleGroupService = inject(MarketRoleGroupService);
+
   @Input() actorStatus?: MarketParticipantActorStatus;
   @Input() gridAreas: MarketParticipantGridAreaDto[] = [];
   @Input() actorMarketRoles?: MarketParticipantActorMarketRoleDto[] = [];
@@ -84,20 +90,15 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   };
 
   dataSource = new WattTableDataSource<EditableMarketRoleRow>();
-  deleted: { marketRole?: MarketParticipantEicFunction }[] = [];
+  deleted: {
+    marketRole?: MarketParticipantEicFunction;
+  }[] = [];
 
   availableMeteringPointTypes = Object.values(MarketParticipantMeteringPointType);
 
   marketRoles: WattDropdownOption[] = [];
   gridAreaOptions: WattDropdownOption[] = [];
   meteringPointTypes: WattDropdownOption[] = [];
-
-  constructor(
-    private cd: ChangeDetectorRef,
-    private translocoService: TranslocoService,
-    private marketRoleService: MarketRoleService,
-    private marketRoleGroupService: MarketRoleGroupService
-  ) {}
 
   ngOnChanges() {
     this.gridAreaOptions = this.gridAreas.map((ga) => ({

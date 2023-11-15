@@ -78,6 +78,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class DhChargesCreatePricesComponent implements OnInit {
+  private chargesStore = inject(DhChargesDataAccessApiStore);
+  private marketParticipantStore = inject(DhMarketParticipantDataAccessApiStore);
+  private toastService = inject(WattToastService);
+  private translocoService = inject(TranslocoService);
+  private router = inject(Router);
   private _destroy = inject(DestroyRef);
 
   chargeTypeOptions: WattDropdownOptions = [];
@@ -107,14 +112,6 @@ export class DhChargesCreatePricesComponent implements OnInit {
   hasSubmitted = false;
 
   isLoading = this.chargesStore.isCreateRequestLoading$;
-
-  constructor(
-    private chargesStore: DhChargesDataAccessApiStore,
-    private marketParticipantStore: DhMarketParticipantDataAccessApiStore,
-    private toastService: WattToastService,
-    private translocoService: TranslocoService,
-    private router: Router
-  ) {}
 
   ngOnInit() {
     this.marketParticipantStore.loadMarketParticipants();
