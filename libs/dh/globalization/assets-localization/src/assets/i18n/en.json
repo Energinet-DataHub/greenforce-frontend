@@ -670,7 +670,7 @@
             "generateSecretSuccess": "Client Secret generated successfully",
             "generateSecretError": "An error occurred while generating the Client Secret. Please try again",
             "copy": "Copy",
-            "replaceClientSecretWithCertificate": "Replcae Client Secret with certificate",
+            "replaceClientSecretWithCertificate": "Replace Client Secret with certificate",
             "clientSecret": {
               "removeSecretModal": {
                 "title": "Delete Client Secret?",
