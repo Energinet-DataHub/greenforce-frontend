@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
@@ -51,6 +51,8 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
   ],
 })
 export class DhUserAuditLogsComponent implements OnChanges {
+  private store = inject(DhAdminUserManagementAuditLogsDataAccessApiStore);
+  private trans = inject(TranslocoService);
   private dataSource = new WattTableDataSource<DhUserAuditLogEntry>();
 
   @Input() user: MarketParticipantUserOverviewItemDto | null = null;
@@ -70,11 +72,6 @@ export class DhUserAuditLogsComponent implements OnChanges {
     timestamp: { accessor: 'timestamp' },
     entry: { accessor: 'entry', sort: false },
   };
-
-  constructor(
-    private store: DhAdminUserManagementAuditLogsDataAccessApiStore,
-    private trans: TranslocoService
-  ) {}
 
   ngOnChanges(): void {
     this.reloadAuditLogs();

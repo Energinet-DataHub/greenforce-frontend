@@ -21,6 +21,7 @@ import {
   Input,
   QueryList,
   ViewChildren,
+  inject,
 } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { WattButtonComponent } from '../../button';
@@ -37,14 +38,13 @@ import { WattToastComponent, WattToastConfig, WattToastType } from '../watt-toas
   providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: {} }],
 })
 export class StorybookToastComponent implements AfterViewInit {
-  @ViewChildren(WattToastComponent) toasts!: QueryList<WattToastComponent>;
+  private toast = inject(WattToastService);
+  private cd = inject(ChangeDetectorRef);
+  @ViewChildren(WattToastComponent)
+  toasts!: QueryList<WattToastComponent>;
 
-  @Input() config!: WattToastConfig;
-
-  constructor(
-    private toast: WattToastService,
-    private cd: ChangeDetectorRef
-  ) {}
+  @Input()
+  config!: WattToastConfig;
 
   open() {
     this.toast.open(this.config);

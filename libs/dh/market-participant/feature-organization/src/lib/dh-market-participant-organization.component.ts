@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -60,10 +60,9 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
   ],
 })
 export class DhMarketParticipantOrganizationComponent {
-  constructor(
-    private store: DhMarketParticipantOverviewDataAccessApiStore,
-    private router: Router
-  ) {
+  private store = inject(DhMarketParticipantOverviewDataAccessApiStore);
+  private router = inject(Router);
+  constructor() {
     this.store.loadOverviewRows();
   }
 

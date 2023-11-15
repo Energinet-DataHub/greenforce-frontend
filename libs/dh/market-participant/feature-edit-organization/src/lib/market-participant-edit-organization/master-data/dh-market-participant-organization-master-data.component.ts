@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OrganizationChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
@@ -44,6 +44,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class DhMarketParticipantOrganizationMasterDataComponent implements OnChanges {
+  private translocoService = inject(TranslocoService);
   @Input() changes!: OrganizationChanges;
 
   countries: WattDropdownOption[] = [];
@@ -52,7 +53,7 @@ export class DhMarketParticipantOrganizationMasterDataComponent implements OnCha
   allStatuses: WattDropdownOption[] = [];
   statuses: WattDropdownOption[] = [];
 
-  constructor(private translocoService: TranslocoService) {
+  constructor() {
     this.translocoService
       .selectTranslateObject('marketParticipant.organization.create.masterData.countries')
       .pipe(takeUntilDestroyed())

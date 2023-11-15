@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { RxLet } from '@rx-angular/template/let';
@@ -47,14 +47,13 @@ import { DhChargesGeneralErrorComponent } from './dh-charges-general-error/dh-ch
   ],
 })
 export class DhChargesTabContentComponent {
+  private route = inject(ActivatedRoute);
+  private store = inject(DhChargeLinksDataAccessApiStore);
   meteringPointId$ = this.route.params.pipe(
     map((params) => params[dhMeteringPointIdParam] as string)
   );
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: DhChargeLinksDataAccessApiStore
-  ) {
+  constructor() {
     this.loadChargesData();
   }
 
