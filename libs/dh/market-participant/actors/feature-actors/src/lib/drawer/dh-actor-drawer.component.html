@@ -85,7 +85,7 @@ limitations under the License.
           [label]="t('tabs.b2bAccess.tabLabel')"
           *dhPermissionRequired="['actor-credentials:manage']"
         >
-          <dh-certificate [actorId]="actor?.id" />
+          <dh-b2b-access-tab [actorId]="actor?.id" />
         </watt-tab>
 
         <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
@@ -108,16 +108,32 @@ limitations under the License.
               sortDirection="desc"
             >
               <ng-container *wattTableCell="auditLogColumns['timestamp']; let element">
-                {{ element.timestamp | wattDate : "long" }}
+                {{ element.timestamp | wattDate: "long" }}
               </ng-container>
               <ng-container *wattTableCell="auditLogColumns['currentValue']; let entry">
                 <div
+                  *ngIf="entry.type !== 'CLIENT_SECRET_CREDENTIALS'"
                   [innerHTML]="
                     t(
                       'tabs.history.changeTypes.' +
                         entry.type +
                         (entry.previousValue ? '' : '_NO_PREVIOUS'),
                       entry
+                    )
+                  "
+                ></div>
+                <div
+                  *ngIf="entry.type === 'CLIENT_SECRET_CREDENTIALS'"
+                  [innerHTML]="
+                    t(
+                      'tabs.history.changeTypes.' +
+                        entry.type +
+                        (entry.previousValue ? '' : '_NO_PREVIOUS'),
+                      {
+                        changedByUserName: entry.changedByUserName,
+                        currentValue: entry.currentValue | wattDate,
+                        previousValue: entry.previousValue | wattDate
+                      }
                     )
                   "
                 ></div>

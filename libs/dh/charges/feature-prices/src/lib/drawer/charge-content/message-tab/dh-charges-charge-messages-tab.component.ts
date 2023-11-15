@@ -19,16 +19,15 @@ import {
   Component,
   Input,
   OnInit,
-  OnDestroy,
   OnChanges,
   ViewChild,
   inject,
+  DestroyRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
-import { Subject, takeUntil } from 'rxjs';
 import { DhChargeMessagesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 import {
   ChargeMessagesSearchCriteriaV1Dto,
@@ -48,6 +47,7 @@ import { DhDrawerDatepickerComponent } from '../drawer-datepicker/dh-drawer-date
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { DhChargesPricesDrawerService } from '../../dh-charges-prices-drawer.service';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -71,7 +71,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
   providers: [DhChargeMessagesDataAccessApiStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhChargesChargeMessagesTabComponent implements OnInit, OnChanges, OnDestroy {
+export class DhChargesChargeMessagesTabComponent implements OnInit, OnChanges {
   @ViewChild(WattPaginatorComponent)
   paginator!: WattPaginatorComponent<unknown>;
 
@@ -80,9 +80,10 @@ export class DhChargesChargeMessagesTabComponent implements OnInit, OnChanges, O
 
   @Input() charge: ChargeV1Dto | undefined;
 
-  private transloco = inject(TranslocoService);
-  private chargeMessagesStore = inject(DhChargeMessagesDataAccessApiStore);
-  private dhChargesPricesDrawerService = inject(DhChargesPricesDrawerService);
+  private _transloco = inject(TranslocoService);
+  private _destroyRef = inject(DestroyRef);
+  private _chargeMessagesStore = inject(DhChargeMessagesDataAccessApiStore);
+  private _dhChargesPricesDrawerService = inject(DhChargesPricesDrawerService);
 
   localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -103,10 +104,10 @@ export class DhChargesChargeMessagesTabComponent implements OnInit, OnChanges, O
   };
 
   result: ChargeMessageV1Dto[] | undefined;
-  isLoading = this.chargeMessagesStore.isLoading$;
-  hasLoadingError = this.chargeMessagesStore.hasGeneralError$;
-  chargeMessagesNotFound = this.chargeMessagesStore.chargeMessagesNotFound$;
-  totalCount = this.chargeMessagesStore.totalCount$;
+  isLoading = this._chargeMessagesStore.isLoading$;
+  hasLoadingError = this._chargeMessagesStore.hasGeneralError$;
+  chargeMessagesNotFound = this._chargeMessagesStore.chargeMessagesNotFound$;
+  totalCount = this._chargeMessagesStore.totalCount$;
 
   columns: WattTableColumnDef<ChargeMessageV1Dto> = {
     messageId: { accessor: 'messageId' },
@@ -114,31 +115,28 @@ export class DhChargesChargeMessagesTabComponent implements OnInit, OnChanges, O
     messageType: { accessor: 'messageType', size: 'max-content' },
   };
 
-  private destroy$ = new Subject<void>();
-
   readonly dataSource: WattTableDataSource<ChargeMessageV1Dto> =
     new WattTableDataSource<ChargeMessageV1Dto>();
 
-  translateHeader = (key: string) => this.transloco.translate(`charges.prices.drawer.${key}`);
+  translateHeader = (key: string) => this._transloco.translate(`charges.prices.drawer.${key}`);
 
   ngOnInit() {
-    this.chargeMessagesStore.all$.pipe(takeUntil(this.destroy$)).subscribe((chargeMessages) => {
-      this.dataSource.data = chargeMessages ?? new Array<ChargeMessageV1Dto>();
-      this.result = chargeMessages;
-    });
+    this._chargeMessagesStore.all$
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((chargeMessages) => {
+        this.dataSource.data = chargeMessages ?? new Array<ChargeMessageV1Dto>();
+        this.result = chargeMessages;
+      });
 
-    this.chargeMessagesStore.totalCount$.pipe(takeUntil(this.destroy$)).subscribe((totalCount) => {
-      if (this.paginator) this.paginator.length = totalCount;
-    });
+    this._chargeMessagesStore.totalCount$
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((totalCount) => {
+        if (this.paginator) this.paginator.length = totalCount;
+      });
   }
 
   ngOnChanges() {
     if (this.result) this.dataSource.data = this.result;
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   dateRangeChanged(dateRange: DatePickerData) {
@@ -164,7 +162,7 @@ export class DhChargesChargeMessagesTabComponent implements OnInit, OnChanges, O
         endDate: dateTimeRange.end,
       });
     }
-    this.chargeMessagesStore.searchChargeMessages(this.chargeMessagesSearchCriteria);
+    this._chargeMessagesStore.searchChargeMessages(this.chargeMessagesSearchCriteria);
 
     this.dataSource.sortingDataAccessor = ToLowerSort();
   }
@@ -183,20 +181,20 @@ export class DhChargesChargeMessagesTabComponent implements OnInit, OnChanges, O
   openMessage(message: ChargeMessageV1Dto) {
     if (message.messageId == undefined) return;
 
-    this.dhChargesPricesDrawerService.setMessage(message);
+    this._dhChargesPricesDrawerService.setMessage(message);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sortData(event: any) {
     this.chargeMessagesSearchCriteria.chargeMessageSortColumnName = event.active;
     this.chargeMessagesSearchCriteria.isDescending = event.direction === 'desc';
-    this.chargeMessagesStore.searchChargeMessages(this.chargeMessagesSearchCriteria);
+    this._chargeMessagesStore.searchChargeMessages(this.chargeMessagesSearchCriteria);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handlePageEvent(event: any) {
     this.chargeMessagesSearchCriteria.skip = event.pageIndex * event.pageSize;
     this.chargeMessagesSearchCriteria.take = event.pageSize;
-    this.chargeMessagesStore.searchChargeMessages(this.chargeMessagesSearchCriteria);
+    this._chargeMessagesStore.searchChargeMessages(this.chargeMessagesSearchCriteria);
   }
 }

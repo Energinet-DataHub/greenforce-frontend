@@ -90,7 +90,10 @@ export class EoPrimaryNavigationComponent {
     return 'Menu';
   }
 
-  constructor(private authService: EoAuthService, private authStore: EoAuthStore) {}
+  constructor(
+    private authService: EoAuthService,
+    private authStore: EoAuthStore
+  ) {}
 
   onLogOut(): void {
     this.authService.logout();

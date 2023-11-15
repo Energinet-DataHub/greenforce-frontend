@@ -81,9 +81,9 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
               <b>Energy</b>
               <div>{{ cert?.quantity?.toLocaleString() }} Wh</div>
               <b>Start time</b>
-              <div>{{ cert?.dateFrom | wattDate : 'longAbbr' }}</div>
+              <div>{{ cert?.dateFrom | wattDate: 'longAbbr' }}</div>
               <b>Start time</b>
-              <div>{{ cert?.dateTo | wattDate : 'longAbbr' }}</div>
+              <div>{{ cert?.dateTo | wattDate: 'longAbbr' }}</div>
               <b>GSRN</b>
               <div>{{ cert?.gsrn }}</div>
               <b>Certificate ID</b>

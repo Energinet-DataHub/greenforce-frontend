@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnInit, OnDestroy, inject, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, inject, ViewEncapsulation, DestroyRef } from '@angular/core';
 import { FormControl, ReactiveFormsModule, FormGroup, FormGroupDirective } from '@angular/forms';
 import { add, isAfter } from 'date-fns';
 import { CommonModule, NgClass, NgIf, NgSwitch } from '@angular/common';
-import { Subject, takeUntil } from 'rxjs';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
@@ -28,6 +27,7 @@ import { EoExistingTransferAgreement } from '../eo-transfers.store';
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
 import { EoTransferFormPeriod } from './eo-transfers-form.component';
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface EoTransfersPeriodForm extends EoTransferFormPeriod {
   hasEndDate: FormControl<boolean>;
@@ -139,9 +139,9 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
           >
             <ng-container *ngIf="form.controls.startDate.errors?.['overlapping']?.start; let error">
               Chosen period overlaps with an existing agreement: <br />{{
-                error.startDate | wattDate : 'long'
+                error.startDate | wattDate: 'long'
               }}
-              - {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
+              - {{ (error.endDate | wattDate: 'long') || 'no end of period' }}
             </ng-container>
           </watt-field-error>
         </eo-transfers-errors>
@@ -177,7 +177,9 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
                 The end of the period must be today or later
               </watt-field-error>
               <watt-field-error
-                [style.opacity]="form.controls.endDate.errors?.['endDateMustBeLaterThanStartDate'] ? 1 : 0"
+                [style.opacity]="
+                  form.controls.endDate.errors?.['endDateMustBeLaterThanStartDate'] ? 1 : 0
+                "
               >
                 The end of the period must be later than the start of the period
               </watt-field-error>
@@ -189,8 +191,8 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
                 >
                   Because you haven't chosen an end date, the period overlaps with an existing
                   agreement:
-                  {{ error.startDate | wattDate : 'long' }} -
-                  {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
+                  {{ error.startDate | wattDate: 'long' }} -
+                  {{ (error.endDate | wattDate: 'long') || 'no end of period' }}
                 </ng-container>
               </watt-field-error>
               <watt-field-error
@@ -198,8 +200,8 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
               >
                 <ng-container *ngIf="form.controls.endDate.errors?.['overlapping']?.end; let error">
                   End by overlaps with an existing agreement:<br />
-                  {{ error.startDate | wattDate : 'long' }} -
-                  {{ (error.endDate | wattDate : 'long') || 'no end of period' }}
+                  {{ error.startDate | wattDate: 'long' }} -
+                  {{ (error.endDate | wattDate: 'long') || 'no end of period' }}
                 </ng-container>
               </watt-field-error>
             </eo-transfers-errors>
@@ -209,7 +211,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
     </ng-container>
   `,
 })
-export class EoTransfersPeriodComponent implements OnInit, OnDestroy {
+export class EoTransfersPeriodComponent implements OnInit {
   @Input() formGroupName!: string;
   @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
 
@@ -217,8 +219,8 @@ export class EoTransfersPeriodComponent implements OnInit, OnDestroy {
   protected minStartDate: Date = new Date();
   protected minEndDate: Date = new Date();
 
-  private destroy$: Subject<void> = new Subject();
-  private rootFormGroup = inject(FormGroupDirective);
+  private _destroyRef = inject(DestroyRef);
+  private _rootFormGroup = inject(FormGroupDirective);
 
   ngOnInit() {
     this.initForm();
@@ -226,17 +228,12 @@ export class EoTransfersPeriodComponent implements OnInit, OnDestroy {
     this.subscribeHasEndDateChanges();
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   resetHours(date: number): number {
     return new Date(date).setHours(0, 0, 0, 0);
   }
 
   private initForm() {
-    this.form = this.rootFormGroup.control.get(this.formGroupName) as FormGroup;
+    this.form = this._rootFormGroup.control.get(this.formGroupName) as FormGroup;
     this.form.addControl(
       'hasEndDate',
       new FormControl(
@@ -252,7 +249,7 @@ export class EoTransfersPeriodComponent implements OnInit, OnDestroy {
   private subscribeStartDateChanges() {
     if (this.form.controls.startDate.enabled) {
       this.form.controls['startDate'].valueChanges
-        .pipe(takeUntil(this.destroy$))
+        .pipe(takeUntilDestroyed(this._destroyRef))
         .subscribe((startDate) => {
           const today = new Date();
 
@@ -264,7 +261,7 @@ export class EoTransfersPeriodComponent implements OnInit, OnDestroy {
 
   private subscribeHasEndDateChanges() {
     this.form.controls['hasEndDate'].valueChanges
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((hasEndDate) => {
         this.setEndDateAndTimeBasedOnStartDateAndTime(hasEndDate);
       });

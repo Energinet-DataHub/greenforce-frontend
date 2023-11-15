@@ -17,17 +17,18 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   Input,
   Output,
   EventEmitter,
   ViewEncapsulation,
   OnChanges,
   SimpleChanges,
+  inject,
+  DestroyRef,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, NgClass, NgIf } from '@angular/common';
-import { Subject, distinctUntilChanged, of, switchMap, takeUntil } from 'rxjs';
+import { distinctUntilChanged, of, switchMap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
@@ -50,6 +51,7 @@ import { EoExistingTransferAgreement } from '../eo-transfers.store';
 import { EoTransfersPeriodComponent } from './eo-transfers-period.component';
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export interface EoTransfersFormInitialValues {
   receiverTin: string;
@@ -187,8 +189,9 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
         </watt-field-error>
         <watt-field-error
           *ngIf="
-    form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin'] || form.controls.receiver.controls.tin.errors
-  "
+            form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin'] ||
+            form.controls.receiver.controls.tin.errors
+          "
         >
           An 8-digit TIN/CVR number is required
         </watt-field-error>
@@ -200,12 +203,16 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
         data-testid="new-agreement-base64-input"
       >
         <watt-field-error
-          *ngIf="form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.errors?.['required']"
+          *ngIf="
+            form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.errors?.['required']
+          "
         >
           A Wallet Deposit Endpoint is required
         </watt-field-error>
         <watt-field-error
-          *ngIf="form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.errors?.['pattern']"
+          *ngIf="
+            form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.errors?.['pattern']
+          "
         >
           Not a valid Wallet Deposit Endpoint
         </watt-field-error>
@@ -213,7 +220,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
     </ng-template>
   `,
 })
-export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
+export class EoTransfersFormComponent implements OnInit, OnChanges {
   @Input() senderTin?: string;
   @Input() mode: 'create' | 'edit' = 'create';
   @Input() submitButtonText = 'Create transfer agreement';
@@ -236,7 +243,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
   @Output() receiverTinChanged = new EventEmitter<string | null>();
 
   protected form!: FormGroup<EoTransfersForm>;
-  private destroy$ = new Subject<void>();
+  private _destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.initForm();
@@ -244,7 +251,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
     const tin = this.form.controls.receiver.controls['tin'];
     tin.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this._destroyRef),
         switchMap(() => {
           return of(tin.valid);
         }),
@@ -261,11 +268,6 @@ export class EoTransfersFormComponent implements OnInit, OnChanges, OnDestroy {
       this.form.controls.period.setValidators(this.getPeriodValidators());
       this.form.controls.period.updateValueAndValidity();
     }
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   protected onCancel() {

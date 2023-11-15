@@ -51,7 +51,10 @@ export class DhChargesTabContentComponent {
     map((params) => params[dhMeteringPointIdParam] as string)
   );
 
-  constructor(private route: ActivatedRoute, private store: DhChargeLinksDataAccessApiStore) {
+  constructor(
+    private route: ActivatedRoute,
+    private store: DhChargeLinksDataAccessApiStore
+  ) {
     this.loadChargesData();
   }
 

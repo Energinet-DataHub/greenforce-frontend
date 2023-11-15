@@ -22,7 +22,7 @@ namespace Energinet.DataHub.WebApi.Controllers
 {
     [ApiController]
     [Route("v1/[controller]")]
-    public class MarketParticipantActorController : ControllerBase
+    public class MarketParticipantActorController : MarketParticipantControllerBase
     {
         private readonly IMarketParticipantClient_V1 _client;
 
@@ -54,10 +54,23 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpPost]
         [Route("AssignCertificateCredentials")]
         [RequestSizeLimit(10485760)]
-        public async Task AssignCertificateCredentialsAsync(Guid actorId, IFormFile certificate)
+        public Task AssignCertificateCredentialsAsync(Guid actorId, IFormFile certificate)
         {
-            await using var openReadStream = certificate.OpenReadStream();
-            await _client.CertificateAsync(actorId, new FileParameter(openReadStream)).ConfigureAwait(false);
+            return HandleExceptionAsync(async () =>
+            {
+                await using var openReadStream = certificate.OpenReadStream();
+                await _client.CertificateAsync(actorId, new FileParameter(openReadStream)).ConfigureAwait(false);
+            });
+        }
+
+        /// <summary>
+        /// Request ClientSecret credentials to the actor.
+        /// </summary>
+        [HttpPost]
+        [Route("RequestClientSecretCredentials")]
+        public Task<ActionResult<ActorClientSecretDto>> RequestClientSecretCredentialsAsync(Guid actorId)
+        {
+            return HandleExceptionAsync(() => _client.SecretAsync(actorId));
         }
 
         /// <summary>
@@ -66,7 +79,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpDelete("RemoveActorCredentials")]
         public Task RemoveActorCredentialsAsync(Guid actorId)
         {
-            return _client.CredentialsDELETEAsync(actorId);
+            return HandleExceptionAsync(() => _client.CredentialsDELETEAsync(actorId));
         }
     }
 }

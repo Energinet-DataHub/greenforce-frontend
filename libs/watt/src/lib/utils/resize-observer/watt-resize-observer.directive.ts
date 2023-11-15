@@ -33,7 +33,10 @@ export class WattResizeObserverDirective implements OnDestroy {
 
   private subscription: Subscription;
 
-  constructor(private el: ElementRef, private resizeObserverService: WattResizeObserverService) {
+  constructor(
+    private el: ElementRef,
+    private resizeObserverService: WattResizeObserverService
+  ) {
     this.subscription = this.resizeObserverService
       .observe(this.el.nativeElement)
       .subscribe((entry) => this.resize.emit(entry));

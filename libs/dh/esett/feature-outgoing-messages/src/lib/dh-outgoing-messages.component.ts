@@ -14,17 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import {
-  BehaviorSubject,
-  Subject,
-  combineLatest,
-  debounceTime,
-  map,
-  switchMap,
-  takeUntil,
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, map, switchMap } from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -48,6 +40,7 @@ import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
 import { DhOutgoingMessage } from './dh-outgoing-message';
 import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -90,9 +83,9 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
     DhOutgoingMessagesTableComponent,
   ],
 })
-export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
-  private apollo = inject(Apollo);
-  private destroy$ = new Subject<void>();
+export class DhOutgoingMessagesComponent implements OnInit {
+  private _apollo = inject(Apollo);
+  private _destroyRef = inject(DestroyRef);
 
   tableDataSource = new WattTableDataSource<DhOutgoingMessage>([]);
   totalCount = 0;
@@ -129,7 +122,7 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
   outgoingMessages$ = this.queryVariables$.pipe(
     switchMap(
       ({ filters, pageMetaData, documentIdSearch }) =>
-        this.apollo.watchQuery({
+        this._apollo.watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
@@ -149,11 +142,11 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
           },
         }).valueChanges
     ),
-    takeUntil(this.destroy$)
+    takeUntilDestroyed()
   );
 
   ngOnInit() {
-    this.outgoingMessages$.pipe(takeUntil(this.destroy$)).subscribe({
+    this.outgoingMessages$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
       next: (result) => {
         this.isLoading = result.loading;
 
@@ -167,11 +160,6 @@ export class DhOutgoingMessagesComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       },
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
