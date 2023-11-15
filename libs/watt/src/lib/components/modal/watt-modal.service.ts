@@ -22,6 +22,7 @@ import {
   Injector,
   NgModule,
   TemplateRef,
+  inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -38,11 +39,14 @@ export interface WattModalConfig {
 
 @Injectable()
 export class WattModalService {
+  private readonly dialog = inject(MatDialog);
+  private readonly destroyRef = inject(DestroyRef);
+
   private config?: WattModalConfig;
   private openSubject = new Subject<WattModalConfig>();
   private closeSubject = new Subject<boolean>();
 
-  constructor(private dialog: MatDialog, private destroyRef: DestroyRef) {
+  constructor() {
     const result$ = this.openSubject.pipe(
       exhaustMap((config) => {
         this.config = config;
