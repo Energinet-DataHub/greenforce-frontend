@@ -23,7 +23,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 
 @Component({
-  selector: 'dh-create-secret',
+  selector: 'dh-generate-client-secret',
   standalone: true,
   styles: [
     `
@@ -43,7 +43,7 @@ import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-part
   >`,
   imports: [TranslocoDirective, WattButtonComponent],
 })
-export class DhCreateSecretComponent {
+export class DhGenerateClientSecretComponent {
   private readonly transloco = inject(TranslocoService);
   private readonly toastService = inject(WattToastService);
   private readonly store = inject(DhMarketPartyCredentialsStore);

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, effect, inject, signal } from '@angular/core';
+import { Component, Injector, Input, effect, inject, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -32,7 +32,8 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
 
 import { DhRemoveClientSecretModalComponent } from './dh-remove-client-secret-modal.component';
-import { DhCreateSecretComponent } from './dh-create-secret.component';
+import { DhGenerateClientSecretComponent } from './dh-generate-client-secret.component';
+import { DhReplaceClientSecretModalComponent } from './dh-replace-client-secret-modal.component';
 
 type DhClientSecretTableRow = {
   translationKey: string;
@@ -71,10 +72,11 @@ type DhClientSecretTableRow = {
     WattCopyToClipboardDirective,
 
     DhEmDashFallbackPipe,
-    DhCreateSecretComponent,
+    DhGenerateClientSecretComponent,
   ],
 })
 export class DhClientSecretViewComponent {
+  private readonly injector = inject(Injector);
   private readonly store = inject(DhMarketPartyCredentialsStore);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
@@ -139,6 +141,14 @@ export class DhClientSecretViewComponent {
           });
         }
       },
+    });
+  }
+
+  replaceClientSecret(): void {
+    this.modalService.open({
+      component: DhReplaceClientSecretModalComponent,
+      injector: this.injector,
+      data: { actorId: this.actorId },
     });
   }
 
