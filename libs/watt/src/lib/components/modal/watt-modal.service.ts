@@ -30,7 +30,6 @@ import { Subject, exhaustMap, ignoreElements, map, mergeWith, of, take, tap } fr
 
 export interface WattModalConfig {
   templateRef?: TemplateRef<unknown>;
-  injector?: Injector;
   component?: ComponentType<unknown>;
   data?: unknown;
   disableClose?: boolean;
