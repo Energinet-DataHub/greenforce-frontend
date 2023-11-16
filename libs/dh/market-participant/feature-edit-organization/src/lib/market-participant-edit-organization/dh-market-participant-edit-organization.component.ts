@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DhMarketParticipantEditOrganizationDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { RxLet } from '@rx-angular/template/let';
 import { DhMarketParticipantOrganizationMasterDataComponent } from './master-data/dh-market-participant-organization-master-data.component';
@@ -51,6 +51,9 @@ import {
   ],
 })
 export class DhMarketParticipantEditOrganizationComponent {
+  private store = inject(DhMarketParticipantEditOrganizationDataAccessApiStore);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
   organizationId$ = this.route.params.pipe(
     map((params) => params[dhMarketParticipantOrganizationIdParam] as string)
   );
@@ -60,11 +63,7 @@ export class DhMarketParticipantEditOrganizationComponent {
   changes$ = this.store.changes$;
   validation$ = this.store.validation$;
 
-  constructor(
-    private store: DhMarketParticipantEditOrganizationDataAccessApiStore,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
+  constructor() {
     this.store.getOrganizationAndContacts(this.organizationId$);
   }
 

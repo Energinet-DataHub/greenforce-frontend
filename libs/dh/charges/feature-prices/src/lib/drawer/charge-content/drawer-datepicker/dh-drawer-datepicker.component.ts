@@ -48,6 +48,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrls: ['./dh-drawer-datepicker.component.scss'],
 })
 export class DhDrawerDatepickerComponent implements OnInit, AfterViewInit {
+  private translocoService = inject(TranslocoService);
+  private datepickerService = inject(DrawerDatepickerService);
   @Output() changed = new EventEmitter();
 
   private _destroyRef = inject(DestroyRef);
@@ -66,15 +68,10 @@ export class DhDrawerDatepickerComponent implements OnInit, AfterViewInit {
   endDate = this.data.endDate;
   timer: NodeJS.Timeout | undefined;
 
-  formControlDateRange = new FormControl<{ start: string; end: string }>(
-    { start: this.startDate, end: this.endDate },
-    [WattRangeValidators.required()]
-  );
-
-  constructor(
-    private translocoService: TranslocoService,
-    private datepickerService: DrawerDatepickerService
-  ) {}
+  formControlDateRange = new FormControl<{
+    start: string;
+    end: string;
+  }>({ start: this.startDate, end: this.endDate }, [WattRangeValidators.required()]);
 
   ngAfterViewInit() {
     this.formControlDateRange.valueChanges

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   EoCookieBannerComponent,
@@ -111,17 +111,19 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
   viewProviders: [EoLandingPagePresenter],
 })
 export class EoLandingPageShellComponent {
+  private presenter = inject(EoLandingPagePresenter);
+  private router = inject(Router);
   @HostBinding('style.--eo-landing-page-content-max-width')
   get cssPropertyContentMaxWidth(): string {
     return `${this.presenter.contentMaxWidthPixels}px`;
   }
   cookiesSet: string | null = null;
-  error: { title: string; message: string } | null = null;
+  error: {
+    title: string;
+    message: string;
+  } | null = null;
 
-  constructor(
-    private presenter: EoLandingPagePresenter,
-    private router: Router
-  ) {
+  constructor() {
     this.getCookieStatus();
     this.checkForError();
   }

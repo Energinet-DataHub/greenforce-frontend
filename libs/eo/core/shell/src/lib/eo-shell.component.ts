@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import { RouterModule } from '@angular/router';
 import { EoCookieBannerComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
@@ -138,13 +138,12 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
   `,
 })
 export class EoShellComponent implements OnDestroy {
+  private titleStore = inject(EoTitleStore);
+  private idleTimerService = inject(IdleTimerService);
   title$: Observable<string> = this.titleStore.routeTitle$;
   cookiesSet: string | null = null;
 
-  constructor(
-    private titleStore: EoTitleStore,
-    private idleTimerService: IdleTimerService
-  ) {
+  constructor() {
     this.idleTimerService.startMonitor();
     this.getBannerStatus();
   }

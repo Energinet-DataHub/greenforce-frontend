@@ -21,10 +21,9 @@ import {
   ElementRef,
   HostBinding,
   Input,
-  Optional,
-  Self,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
@@ -110,12 +109,17 @@ const getTruthyAt =
   ],
 })
 export class WattTimepickerComponent extends WattPickerBase {
+  protected override inputMaskService = inject(WattInputMaskService);
+  protected override rangeInputService = inject(WattRangeInputService);
+  protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected override changeDetectionRef = inject(ChangeDetectorRef);
+  protected override ngControl = inject(NgControl, { optional: true, self: true });
+
   @Input() label = '';
   /**
    * Text to display on label for time range slider.
    */
-  @Input()
-  sliderLabel = '';
+  @Input() sliderLabel = '';
 
   /**
    * @ignore
@@ -204,21 +208,8 @@ export class WattTimepickerComponent extends WattPickerBase {
     if (!this.focused) this.sliderOpen = false;
   }
 
-  constructor(
-    protected override inputMaskService: WattInputMaskService,
-    protected override rangeInputService: WattRangeInputService,
-    protected override elementRef: ElementRef<HTMLElement>,
-    protected override changeDetectionRef: ChangeDetectorRef,
-    @Optional() @Self() ngControl: NgControl
-  ) {
-    super(
-      `watt-timepicker-${WattTimepickerComponent.nextId++}`,
-      inputMaskService,
-      rangeInputService,
-      elementRef,
-      changeDetectionRef,
-      ngControl
-    );
+  constructor() {
+    super(`watt-timepicker-${WattTimepickerComponent.nextId++}`);
   }
 
   /**
@@ -317,7 +308,10 @@ export class WattTimepickerComponent extends WattPickerBase {
   private maskInput(
     input: HTMLInputElement,
     initialValue: string | null = ''
-  ): { element: HTMLInputElement; maskedInput: WattMaskedInput } {
+  ): {
+    element: HTMLInputElement;
+    maskedInput: WattMaskedInput;
+  } {
     const maskedInput = this.inputMaskService.mask(
       initialValue,
       hoursMinutesFormat,

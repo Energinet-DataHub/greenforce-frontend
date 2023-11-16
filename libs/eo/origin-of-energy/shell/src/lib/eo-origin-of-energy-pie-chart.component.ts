@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { EoPieChartComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { RxLet } from '@rx-angular/template/let';
@@ -86,11 +86,10 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
   ],
 })
 export class EoOriginOfEnergyPieChartComponent {
+  private store = inject(EoOriginOfEnergyStore);
   loadingDone$ = this.store.loadingDone$;
   renewableShare$ = this.store.renewableTotal$.pipe(
     map((res) => Number((res * 100).toFixed(0))),
     map((share) => (share ? [share, 100 - share] : []))
   );
-
-  constructor(private store: EoOriginOfEnergyStore) {}
 }
