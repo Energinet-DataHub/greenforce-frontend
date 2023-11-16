@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Injector, Input, effect, inject, signal } from '@angular/core';
+import { Component, Injector, Input, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -89,8 +89,6 @@ export class DhClientSecretViewComponent {
     showActionButton: { accessor: 'showActionButton', align: 'right' },
   };
 
-  wasClientSecretCopied = signal(false);
-
   clientSecret = toSignal(this.store.clientSecret$);
   clientSecretExists = toSignal(this.store.clientSecretExists$);
   clientSecretMetadata = toSignal(this.store.clientSecretMetadata$);
@@ -122,8 +120,6 @@ export class DhClientSecretViewComponent {
   }
 
   onCopySuccess(isSuccess: boolean): void {
-    this.wasClientSecretCopied.set(isSuccess);
-
     if (isSuccess) {
       this.store.resetClientSecret();
     }
