@@ -654,7 +654,7 @@
             "removeError": "Noget gik galt. Certifikatet blev ikke fjernet. Prøv igen",
             "removeCertificateModal": {
               "title": "Fjern certifikat?",
-              "message": "Er du sikker på, at du vil fjerne certifikatet?",
+              "message": "Der vil ikke længere være B2B adgang, hvis certifikatet bliver fjernet. For at få adgang igen, skal der uploades et nyt certifikat eller genereres en Client Secret.",
               "cancel": "Fortryd",
               "confirm": "Fjern certifikat"
             },
@@ -675,7 +675,7 @@
             "clientSecret": {
               "removeSecretModal": {
                 "title": "Slet Client Secret?",
-                "message": "Er du sikker på, at du vil slette Client Secret?",
+                "message": "Der vil ikke længere være B2B adgang, hvis Client Secret bliver slettet. For at få adgang igen, skal der genereres en ny Client Secret eller uploades et certifikat.",
                 "cancel": "Fortryd",
                 "confirm": "Slet Client Secret",
                 "removeSuccess": "Client Secret er blevet slettet",
