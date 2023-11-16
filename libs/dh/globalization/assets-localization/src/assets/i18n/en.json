@@ -661,7 +661,7 @@
             "removeError": "An error occurred while removing the certificate. Please try again",
             "removeCertificateModal": {
               "title": "Remove certificate?",
-              "message": "Are you sure you want to remove the certificate?",
+              "message": "There will no longer be B2B access if the certificate is removed. To regain access, a new certificate must be uploaded or a Client Secret generated.",
               "cancel": "Cancel",
               "remove": "Remove certificate"
             },
@@ -682,7 +682,7 @@
             "clientSecret": {
               "removeSecretModal": {
                 "title": "Delete Client Secret?",
-                "message": "Are you sure you want to delete the Client Secret?",
+                "message": "There will no longer be B2B access if the Client Secret is removed. To regain access, a new Client Secret must be generated or a certificate uploaded.",
                 "cancel": "Cancel",
                 "confirm": "Delete Client Secret",
                 "removeSuccess": "The Client Secret Certificate was removed successfully",
