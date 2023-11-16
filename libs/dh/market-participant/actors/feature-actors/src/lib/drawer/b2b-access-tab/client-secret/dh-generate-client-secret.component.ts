@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, Output, EventEmitter } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -55,6 +55,8 @@ export class DhGenerateClientSecretComponent {
 
   @Input({ required: true }) actorId = '';
 
+  @Output() uploadSuccess = new EventEmitter<void>();
+
   generateSecret(): void {
     this.store.generateClientSecret({
       actorId: this.actorId,
@@ -70,6 +72,7 @@ export class DhGenerateClientSecretComponent {
 
     this.toastService.open({ type: 'success', message });
 
+    this.uploadSuccess.emit();
     this.store.getCredentials(this.actorId);
   };
 

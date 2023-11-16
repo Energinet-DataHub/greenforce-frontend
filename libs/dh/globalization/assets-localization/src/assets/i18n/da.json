@@ -664,6 +664,14 @@
             "generateSecretError": "Noget gik galt. Client Secret blev ikke genereret. Prøv igen",
             "copy": "Kopier",
             "replaceClientSecretWithCertificate": "Erstat Client Secret med certifikat",
+            "replaceCertificateWithClientSecret": "Erstat certifikat med Client Secret",
+            "certificate": {
+              "replaceCertificateModal": {
+                "title": "Generer Client Secret og erstat certifikat?",
+                "message": "Hvis Client Secret bliver genereret, erstatter den det uploadede certifikat.",
+                "cancel": "Fortryd"
+              }
+            },
             "clientSecret": {
               "removeSecretModal": {
                 "title": "Slet Client Secret?",

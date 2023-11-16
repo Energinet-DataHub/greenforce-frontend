@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, effect, inject, signal } from '@angular/core';
+import { Component, Input, effect, inject, Injector, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -33,6 +33,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 
 import { DhRemoveCertificateModalComponent } from './dh-remove-certificate-modal.component';
 import { DhCertificateUploaderComponent } from './dh-certificate-uploader.component';
+import { DhReplaceCertificateModalComponent } from './dh-replace-certificate-modal.component';
 
 type DhCertificateTableRow = {
   translationKey: string;
@@ -75,6 +76,7 @@ type DhCertificateTableRow = {
   ],
 })
 export class DhCertificateComponent {
+  private readonly injector = inject(Injector);
   private readonly store = inject(DhMarketPartyCredentialsStore);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
@@ -124,6 +126,14 @@ export class DhCertificateComponent {
           });
         }
       },
+    });
+  }
+
+  replaceCertificate(): void {
+    this.modalService.open({
+      component: DhReplaceCertificateModalComponent,
+      injector: this.injector,
+      data: { actorId: this.actorId },
     });
   }
 
