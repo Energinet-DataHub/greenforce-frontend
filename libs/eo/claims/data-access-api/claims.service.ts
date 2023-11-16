@@ -83,12 +83,13 @@ export class EoClaimsService {
         };
       }
     );
+    const timeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
     return this.#http
       .get<AggregateClaimResponse>(
         `${
           this.#apiBase
-        }/aggregate-claims?timeAggregate=${timeAggregate}&timeZone=Europe%2FCopenhagen&start=${start}&end=${end}`
+        }/aggregate-claims?timeAggregate=${timeAggregate}&timeZone=${timeZone}&start=${start}&end=${end}`
       )
       .pipe(
         map((response) => response.result),

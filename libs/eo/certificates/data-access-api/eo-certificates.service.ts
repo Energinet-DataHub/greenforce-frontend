@@ -97,9 +97,11 @@ export class EoCertificatesService {
     );
 
     const apiBase = `${this.#apiBase}/v1`.replace('/api', '/wallet-api');
+    const timeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
+
     return this.http
       .get<EoAggregateCertificateResponse>(
-        `${apiBase}/aggregate-certificates?timeAggregate=${timeAggregate}&timeZone=Europe%2FCopenhagen&start=${start}&end=${end}&type=${type}`
+        `${apiBase}/aggregate-certificates?timeAggregate=${timeAggregate}&timeZone=${timeZone}&start=${start}&end=${end}&type=${type}`
       )
       .pipe(
         map((response) => response.result),
