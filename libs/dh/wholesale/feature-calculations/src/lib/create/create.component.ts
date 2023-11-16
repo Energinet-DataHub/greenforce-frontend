@@ -136,7 +136,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     .pipe(
       map((t) =>
         processTypes.map((value) => ({
-          displayValue: this._transloco.translate(t[value].replace('{{', '').replace('}}', '')),
+          displayValue: this._transloco.translate(t[value].replace(/{{|}}/g, '')),
           value,
         }))
       )
