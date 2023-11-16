@@ -535,6 +535,10 @@
           "invite": "Inviter bruger",
           "create": "Opret aktør"
         },
+        "columns": {
+          "name": "Navn",
+          "description": "Beskrivelse"
+        },
         "gridArea": "Netområde",
         "firstname": "Fornavn",
         "lastname": "Efternavn",

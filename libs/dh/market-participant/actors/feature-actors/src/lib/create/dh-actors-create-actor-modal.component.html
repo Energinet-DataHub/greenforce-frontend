@@ -187,6 +187,60 @@ limitations under the License.
               </watt-field-error>
             </watt-text-field>
           </vater-stack>
+          <watt-card variant="solid">
+            <watt-card-title>
+              <ng-container
+                *ngTemplateOutlet="
+                  userRolesHeadline;
+                  context: {
+                    $implicit: dataSource.data.length
+                  }
+                "
+              />
+            </watt-card-title>
+
+            <vater-flex fill="vertical" scrollable>
+              <watt-table
+                [dataSource]="dataSource"
+                [columns]="columns"
+                sortBy="name"
+                sortDirection="asc"
+                [selectable]="true"
+                (selectionChange)="selectedUserRoles($event)"
+                [sortClear]="false"
+              >
+                <ng-container
+                  *wattTableCell="columns['name']; header: t('columns.name'); let userRole"
+                >
+                  {{ userRole.name }}
+                </ng-container>
+
+                <ng-container
+                  *wattTableCell="
+                    columns['description'];
+                    header: t('columns.description');
+                    let userRole
+                  "
+                >
+                  {{ userRole.description }}
+                </ng-container>
+              </watt-table>
+            </vater-flex>
+          </watt-card>
+
+          <ng-template #userRolesHeadline let-userRolesCount>
+            <ng-container
+              *transloco="let t; read: 'admin.userManagement.tabs.roles.userRolesHeadline'"
+            >
+              <h4 *ngIf="userRolesCount === 1">
+                {{ t("singular", { userRolesCount }) }}
+              </h4>
+
+              <h4 *ngIf="userRolesCount !== 1">
+                {{ t("plural", { userRolesCount }) }}
+              </h4>
+            </ng-container>
+          </ng-template>
         </div>
       </watt-stepper-step>
     </watt-stepper>

@@ -542,6 +542,10 @@
           "invite": "Invite user",
           "create": "Create market party"
         },
+        "columns": {
+          "name": "Navn",
+          "description": "Description"
+        },
         "gridArea": "Grid area",
         "firstname": "First name",
         "lastname": "Last name",

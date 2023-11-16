@@ -15,21 +15,23 @@
  * limitations under the License.
  */
 import { Apollo } from 'apollo-angular';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
-import { NgIf } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ChangeDetectionStrategy, Component, ViewChild, inject, signal } from '@angular/core';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, ViewChild, inject, signal } from '@angular/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import {
   DhDropdownTranslatorDirective,
@@ -41,6 +43,7 @@ import {
   GetGridAreasDocument,
   GetOrganizationByIdDocument,
   GetOrganizationsDocument,
+  GetUserRolesByEicfunctionDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -50,6 +53,10 @@ import {
   dhEicOrGlnValidator,
   dhFirstPartEmailValidator,
 } from '@energinet-datahub/dh/shared/ui-validators';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+
+type UserRoles = ResultOf<typeof GetUserRolesByEicfunctionDocument>['userRolesByEicFunction'];
+type UserRole = UserRoles[number];
 
 @Component({
   standalone: true,
@@ -83,6 +90,10 @@ import {
             width: 50%;
           }
 
+          watt-table {
+            max-height: 400px;
+          }
+
           vater-stack[direction='row'] {
             watt-dropdown,
             watt-text-field {
@@ -95,14 +106,20 @@ import {
   ],
   imports: [
     TranslocoDirective,
+    TranslocoPipe,
     ReactiveFormsModule,
     NgIf,
 
     WATT_CARD,
+    NgTemplateOutlet,
     WATT_MODAL,
     WATT_STEPPER,
     WattDropdownComponent,
     WattButtonComponent,
+    WattEmptyStateComponent,
+    VaterFlexComponent,
+    WATT_TABLE,
+    WATT_CARD,
     WattTextFieldComponent,
     WattFieldErrorComponent,
     DhDropdownTranslatorDirective,
@@ -113,15 +130,26 @@ export class DhActorsCreateActorModalComponent {
   private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
   private _apollo = inject(Apollo);
 
-  private _getOrganizationsQuery = this._apollo.watchQuery({
-    useInitialLoading: true,
+  private _getOrganizationsQuery$ = this._apollo.query({
     notifyOnNetworkStatusChange: true,
     query: GetOrganizationsDocument,
+  });
+
+  private _getGridAreasQuery = this._apollo.query({
+    notifyOnNetworkStatusChange: true,
+    query: GetGridAreasDocument,
   });
 
   showCreateNewOrganization = signal(false);
   choosenOrganizationDomain = signal('');
   showGridAreaOptions = signal(false);
+
+  readonly dataSource: WattTableDataSource<UserRole> = new WattTableDataSource<UserRole>();
+
+  columns: WattTableColumnDef<UserRole> = {
+    name: { accessor: 'name' },
+    description: { accessor: 'description' },
+  };
 
   @ViewChild(WattModalComponent)
   innerModal: WattModalComponent | undefined;
@@ -139,7 +167,7 @@ export class DhActorsCreateActorModalComponent {
   chooseOrganizationForm = this._fb.group({ orgId: ['', Validators.required] });
   newOrganizationForm = this._fb.group({
     country: ['', Validators.required],
-    cvrNumber: ['', [Validators.required, dhCvrValidator()]],
+    cvrNumber: ['', { validators: [Validators.required, dhCvrValidator()] }],
     companyName: ['', Validators.required],
     domain: ['', [Validators.required, dhDomainValidator]],
   });
@@ -164,7 +192,7 @@ export class DhActorsCreateActorModalComponent {
   });
 
   constructor() {
-    this._getOrganizationsQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe((result) => {
+    this._getOrganizationsQuery$.subscribe((result) => {
       if (result.data?.organizations) {
         this.organizationOptions = result.data.organizations.map((org) => ({
           value: org.organizationId ?? '',
@@ -173,19 +201,14 @@ export class DhActorsCreateActorModalComponent {
       }
     });
 
-    this._apollo
-      .query({
-        notifyOnNetworkStatusChange: true,
-        query: GetGridAreasDocument,
-      })
-      .subscribe((result) => {
-        if (result.data?.gridAreas) {
-          this.gridAreaOptions = result.data.gridAreas.map((gridArea) => ({
-            value: gridArea.code,
-            displayValue: gridArea.name,
-          }));
-        }
-      });
+    this._getGridAreasQuery.subscribe((result) => {
+      if (result.data?.gridAreas) {
+        this.gridAreaOptions = result.data.gridAreas.map((gridArea) => ({
+          value: gridArea.code,
+          displayValue: gridArea.name,
+        }));
+      }
+    });
   }
 
   onOrganizationChange(id: string): void {
@@ -208,13 +231,27 @@ export class DhActorsCreateActorModalComponent {
       : this.choosenOrganizationDomain();
   }
 
-  onMarketRoleChange(marketRole: EicFunction): void {
-    this.showGridAreaOptions.set(marketRole === EicFunction.GridAccessProvider);
+  onMarketRoleChange(eicfunction: EicFunction): void {
+    this._apollo
+      .query({
+        notifyOnNetworkStatusChange: true,
+        query: GetUserRolesByEicfunctionDocument,
+        variables: { eicfunction },
+      })
+      .subscribe((result) => {
+        this.dataSource.data = result.data?.userRolesByEicFunction ?? [];
+      });
+
+    this.showGridAreaOptions.set(eicfunction === EicFunction.GridAccessProvider);
   }
 
   toggleShowCreateNewOrganization(): void {
     this.showCreateNewOrganization.set(!this.showCreateNewOrganization());
     this.newOrganizationForm.reset();
+  }
+
+  selectedUserRoles(userRoles: UserRole[]): void {
+    console.log(userRoles);
   }
 
   open() {

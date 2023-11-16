@@ -115,12 +115,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
             [Service] IMarketParticipantUserRoleClient client) =>
             client.GetAsync(id);
 
-        public async Task<UserRoleDto?> GetUserRoleByEicFunctionAsync(
+        public async Task<IEnumerable<UserRoleDto>> GetUserRolesByEicFunctionAsync(
             EicFunction eicFunction,
             [Service] IMarketParticipantUserRoleClient client)
         {
             var userRoles = await client.GetAllAsync().ConfigureAwait(false);
-            return userRoles.FirstOrDefault(y => y.EicFunction == eicFunction);
+            return userRoles.Where(y => y.EicFunction == eicFunction);
         }
 
         public Task<OrganizationDto> GetOrganizationByIdAsync(
