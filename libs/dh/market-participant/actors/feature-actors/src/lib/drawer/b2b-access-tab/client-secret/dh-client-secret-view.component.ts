@@ -121,7 +121,8 @@ export class DhClientSecretViewComponent {
 
   onCopySuccess(isSuccess: boolean): void {
     if (isSuccess) {
-      this.store.resetClientSecret();
+      // Workaround so the drawer doesn't close when the client secret is copied
+      setTimeout(() => this.store.resetClientSecret());
     }
   }
 
