@@ -134,10 +134,10 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   processTypes: Observable<WattDropdownOption[]> = this._transloco
     .selectTranslateObject('wholesale.calculations.processTypes')
     .pipe(
-      map((t) =>
-        processTypes.map((value) => ({
-          displayValue: this._transloco.translate(t[value].replace(/{{|}}/g, '')),
-          value,
+      map((translations) =>
+        processTypes.map((processType) => ({
+          displayValue: this._transloco.translate(translations[processType].replace(/{{|}}/g, '')),
+          value: processType,
         }))
       )
     );
