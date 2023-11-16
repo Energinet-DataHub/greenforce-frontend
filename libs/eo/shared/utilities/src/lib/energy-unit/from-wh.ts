@@ -14,19 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import { energyUnit } from "./energy-unit.type";
-
-export function findNearestUnit(value: number): [number, energyUnit] {
-  const units: energyUnit[] = ['Wh', 'kWh', 'MWh', 'GWh', 'TWh'];
-  let unitIndex = 0;
-  let originalValue = value;
-
-  while (value >= 1000 && unitIndex < units.length - 1) {
-    value /= 1000;
-    originalValue /= 1000;
-    unitIndex++;
+export function fromWh(value: number, unit: 'Wh' | 'kWh' | 'MWh' | 'GWh' | 'TWh'): number {
+  switch (unit) {
+    case 'Wh':
+      return value;
+    case 'kWh':
+      return value / 1000;
+    case 'MWh':
+      return value / 1000000;
+    case 'GWh':
+      return value / 1000000000;
+    case 'TWh':
+      return value / 1000000000000;
+    default:
+      throw new Error(`Invalid unit: ${unit}`);
   }
-
-  return [originalValue, units[unitIndex]];
 }

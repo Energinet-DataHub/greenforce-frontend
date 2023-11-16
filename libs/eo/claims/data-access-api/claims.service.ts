@@ -20,7 +20,7 @@ import { map } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
-import { toKWh } from '@energinet-datahub/eo/shared/utilities';
+import { eachDayOfInterval, fromUnixTime, isSameDay } from 'date-fns';
 
 export interface Claim {
   claimId: string;
@@ -75,14 +75,33 @@ export class EoClaimsService {
   }
 
   getAggregatedClaims(timeAggregate: EoTimeAggregate, start: number, end: number) {
+    const dates = eachDayOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
+      (date) => {
+        return {
+          date,
+          quantity: 0,
+        };
+      }
+    );
+
     return this.#http
       .get<AggregateClaimResponse>(
-        `${this.#apiBase}/aggregate-claims?timeAggregate=${timeAggregate}&start=${start}&end=${end}`
+        `${
+          this.#apiBase
+        }/aggregate-claims?timeAggregate=${timeAggregate}&timeZone=Europe%2FCopenhagen&start=${start}&end=${end}`
       )
       .pipe(
         map((response) => response.result),
+        map((claims) =>
+          dates.map((date) => {
+            const claim = claims.find(
+              (c) =>
+                isSameDay(fromUnixTime(c.start), date.date)
+            );
+            return claim ? { ...date, quantity: claim.quantity } : date;
+          })
+        ),
         map((result) => result.map((x) => x.quantity)),
-        map((x) => x.map((quantity) => toKWh(quantity, 'Wh')))
       );
   }
 }

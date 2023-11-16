@@ -21,7 +21,7 @@ import { Observable, map } from 'rxjs';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 import { EoCertificate, EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
-import { toKWh } from '@energinet-datahub/eo/shared/utilities';
+import { eachDayOfInterval, fromUnixTime } from 'date-fns';
 
 interface EoCertificateResponse {
   result: EoCertificate[];
@@ -84,18 +84,37 @@ export class EoCertificatesService {
     timeAggregate: EoTimeAggregate,
     start: number,
     end: number,
-    state: 'available' | 'total' = 'total',
     type: 'consumption' | 'production' = 'consumption'
   ) {
+    const dates = eachDayOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
+      (date) => {
+        return {
+          day: date.getDate(),
+          month: date.getMonth() + 1,
+          quantity: 0,
+        };
+      }
+    );
+
     const apiBase = `${this.#apiBase}/v1`.replace('/api', '/wallet-api');
     return this.http
       .get<EoAggregateCertificateResponse>(
-        `${apiBase}/aggregate-certificates?timeAggregate=${timeAggregate}&start=${start}&end=${end}&type=${type}&state=${state}`
+        `${apiBase}/aggregate-certificates?timeAggregate=${timeAggregate}&timeZone=Europe%2FCopenhagen&start=${start}&end=${end}&type=${type}`
       )
       .pipe(
         map((response) => response.result),
+        map((certificates) =>
+          dates.map((date) => {
+            const certificate = certificates.find(
+              (c) => {
+                return fromUnixTime(c.start).getDate() === date.day &&
+                fromUnixTime(c.start).getMonth() + 1 === date.month
+              }
+            );
+            return certificate ? { ...date, quantity: certificate.quantity } : date;
+          })
+        ),
         map((result) => result.map((x) => x.quantity)),
-        map((x) => x.map((quantity) => toKWh(quantity, 'Wh')))
       );
   }
 

@@ -27,10 +27,10 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 import { EoClaimsService } from '@energinet-datahub/eo/claims/data-access-api';
-import { EnergyUnitPipe, findNearestUnit } from '@energinet-datahub/eo/shared/utilities';
+import { EnergyUnitPipe, energyUnit, findNearestUnit, fromWh } from '@energinet-datahub/eo/shared/utilities';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { getUnixTime, startOfDay, startOfToday, startOfTomorrow, subDays } from 'date-fns';
+import { eachDayOfInterval, endOfToday, fromUnixTime, getUnixTime, startOfDay, startOfToday, startOfTomorrow, subDays } from 'date-fns';
 @Component({
   standalone: true,
   imports: [
@@ -42,6 +42,7 @@ import { getUnixTime, startOfDay, startOfToday, startOfTomorrow, subDays } from 
     WattEmptyStateComponent,
     WattButtonComponent,
   ],
+  providers: [EnergyUnitPipe],
   selector: 'eo-dashboard-consumption',
   styles: [
     `
@@ -132,6 +133,11 @@ export class EoDashboardConsumptionComponent implements OnInit {
   private cd = inject(ChangeDetectorRef);
   private certificatesService = inject(EoCertificatesService);
   private claimsService = inject(EoClaimsService);
+  private energyUnitPipe = inject(EnergyUnitPipe);
+
+  private startDate = getUnixTime(subDays(startOfToday(), 30)); // 30 days ago at 00:00
+  private endDate = getUnixTime(endOfToday()); // Today at 23:59
+  private labels = this.generateLabels();
 
   protected claimedTotal = 0;
   protected consumptionTotal = 0;
@@ -143,7 +149,7 @@ export class EoDashboardConsumptionComponent implements OnInit {
   protected hasError = false;
 
   protected barChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: this.generateLabels(),
+    labels: this.labels,
     datasets: [],
   };
   protected barChartOptions: ChartConfiguration<'bar'>['options'] = {
@@ -172,14 +178,11 @@ export class EoDashboardConsumptionComponent implements OnInit {
     this.isLoading = true;
     this.hasError = false;
 
-    const startDate = getUnixTime(startOfDay(subDays(startOfToday(), 30))); // 30 days ago at 00:00
-    const endDate = getUnixTime(startOfTomorrow()); // Tomorrow at 00:00
-
-    const claims$ = this.claimsService.getAggregatedClaims(EoTimeAggregate.Day, startDate, endDate);
+    const claims$ = this.claimsService.getAggregatedClaims(EoTimeAggregate.Day, this.startDate, this.endDate);
     const certificates$ = this.certificatesService.getAggregatedCertificates(
       EoTimeAggregate.Day,
-      startDate,
-      endDate
+      this.startDate,
+      this.endDate
     );
 
     forkJoin([claims$, certificates$])
@@ -193,12 +196,14 @@ export class EoDashboardConsumptionComponent implements OnInit {
       )
       .subscribe((data) => {
         const [claims, certificates] = data;
-        const consumptions = certificates.map((certificate, index) => certificate - claims[index]);
 
         this.claimedTotal = claims.reduce((a, b) => a + b, 0);
-        this.consumptionTotal = consumptions.reduce((a, b) => a + b, 0);
+        this.consumptionTotal = certificates.reduce((a, b) => a + b, 0);
+        const unit: energyUnit = findNearestUnit(Math.max(this.claimedTotal, this.consumptionTotal) / this.labels.length)[1];
 
-        const unit = findNearestUnit(this.claimedTotal + this.consumptionTotal / 60)[1];
+        const consumptions = certificates.map((certificate, index) => {
+          return Math.max(certificate - claims[index], 0);
+        });
 
         this.barChartOptions = {
           ...this.barChartOptions,
@@ -230,14 +235,14 @@ export class EoDashboardConsumptionComponent implements OnInit {
           ...this.barChartData,
           datasets: [
             {
-              data: claims,
+              data: claims.map((x) => fromWh(x, unit)),
               label: 'Claimed',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
               backgroundColor: '#00C898',
             },
             {
-              data: consumptions,
+              data: consumptions.map((x) => fromWh(x, unit)),
               label: 'Consumption',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
@@ -252,13 +257,11 @@ export class EoDashboardConsumptionComponent implements OnInit {
   }
 
   private generateLabels() {
-    // TODO: Should be localized when translations are available
-    const datePipe = new DatePipe('en-US');
-    const dates = Array.from({ length: 30 }, (_, i) => {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      return datePipe.transform(d, 'd MMM');
-    });
-    return dates.reverse();
+    return eachDayOfInterval({ start: fromUnixTime(this.startDate), end: fromUnixTime(this.endDate) }).map(
+      (date) => {
+        const datePipe = new DatePipe('en-US');
+        return datePipe.transform(date, 'd MMM');
+      }
+    );
   }
 }
