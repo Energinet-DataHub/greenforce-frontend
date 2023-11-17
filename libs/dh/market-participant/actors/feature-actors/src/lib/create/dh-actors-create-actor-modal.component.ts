@@ -39,6 +39,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
+  CreateMarketParticipantDocument,
   EicFunction,
   GetGridAreasDocument,
   GetUserRolesByEicfunctionDocument,
@@ -136,6 +137,8 @@ export class DhActorsCreateActorModalComponent {
     query: GetGridAreasDocument,
   });
 
+  private _userSelectedUserRoles: UserRole[] = [];
+
   showCreateNewOrganization = signal(false);
   choosenOrganizationDomain = signal('');
   showGridAreaOptions = signal(false);
@@ -228,7 +231,7 @@ export class DhActorsCreateActorModalComponent {
   }
 
   selectedUserRoles(userRoles: UserRole[]): void {
-    console.log(userRoles);
+    this._userSelectedUserRoles = userRoles;
   }
 
   open() {
@@ -237,5 +240,53 @@ export class DhActorsCreateActorModalComponent {
 
   close() {
     this.innerModal?.close(false);
+  }
+
+  createMarketParticipent(): void {
+    this._apollo
+      .mutate({
+        mutation: CreateMarketParticipantDocument,
+        variables: {
+          input: {
+            userInvite: {
+              email: this.newUserForm.controls.email.value,
+              firstName: this.newUserForm.controls.firstName.value,
+              lastName: this.newUserForm.controls.lastName.value,
+              phoneNumber: this.newUserForm.controls.phone.value,
+              assignedRoles: this._userSelectedUserRoles.map((userRole) => userRole.id),
+              assignedActor: null,
+            },
+            organizationId: this.chooseOrganizationForm.controls.orgId.value,
+            organization: this.chooseOrganizationForm.controls.orgId.value
+              ? null
+              : {
+                  address: {
+                    country: this.newOrganizationForm.controls.country.value,
+                  },
+                  domain: this.newOrganizationForm.controls.domain.value,
+                  businessRegisterIdentifier: this.newOrganizationForm.controls.cvrNumber.value,
+                  name: this.newOrganizationForm.controls.companyName.value,
+                },
+            actor: {
+              name: { value: this.newActorForm.controls.name.value },
+              organizationId: this.chooseOrganizationForm.controls.orgId.value,
+              marketRoles: [
+                {
+                  eicFunction: this.newActorForm.controls.marketrole.value,
+                  gridAreas: this.newActorForm.controls.gridArea.value
+                    ? [{ id: this.newActorForm.controls.gridArea.value, meteringPointTypes: [] }]
+                    : [],
+                },
+              ],
+              actorNumber: {
+                value: this.newActorForm.controls.glnOrEicNumber.value,
+              },
+            },
+          },
+        },
+      })
+      .subscribe((result) => {
+        console.log(result);
+      });
   }
 }

@@ -1,0 +1,5 @@
+mutation CreateMarketParticipant($input: CreateMarketParticipantInput!) {
+  createMarketParticipant(input: $input) {
+    boolean
+  }
+}

@@ -19,9 +19,10 @@ limitations under the License.
     <watt-stepper
       class="dh-actors-create-actor-modal__form watt-modal-content--full-width"
       [linear]="true"
+      (completed)="createMarketParticipent()"
     >
       <watt-stepper-step
-        *ngIf="showCreateNewOrganization() === false"
+        [enabled]="showCreateNewOrganization() === false"
         [nextButtonLabel]="t('steps.actor')"
         [stepControl]="chooseOrganizationForm"
         [label]="t('organization')"
@@ -33,7 +34,7 @@ limitations under the License.
         />
       </watt-stepper-step>
       <watt-stepper-step
-        *ngIf="showCreateNewOrganization()"
+        [enabled]="showCreateNewOrganization()"
         [nextButtonLabel]="t('steps.actor')"
         [stepControl]="newOrganizationForm"
         [label]="t('organization')"
@@ -151,6 +152,7 @@ limitations under the License.
       </watt-stepper-step>
       <watt-stepper-step
         [label]="t('useradmin')"
+        [stepControl]="newUserForm"
         [previousButtonLabel]="t('steps.actor')"
         [nextButtonLabel]="t('steps.create')"
       >
