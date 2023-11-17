@@ -40,9 +40,7 @@ import {
   endOfToday,
   fromUnixTime,
   getUnixTime,
-  startOfDay,
   startOfToday,
-  startOfTomorrow,
   subDays,
 } from 'date-fns';
 @Component({
