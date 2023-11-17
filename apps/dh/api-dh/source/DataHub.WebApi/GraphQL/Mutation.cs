@@ -19,12 +19,20 @@ using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using HotChocolate;
 using HotChocolate.Types;
 using NodaTime;
+using ActorNameDto = Energinet.DataHub.MarketParticipant.Client.Models.ActorNameDto;
+using ChangeActorDto = Energinet.DataHub.MarketParticipant.Client.Models.ChangeActorDto;
+using ChangeOrganizationDto = Energinet.DataHub.MarketParticipant.Client.Models.ChangeOrganizationDto;
+using ContactCategory = Energinet.DataHub.MarketParticipant.Client.Models.ContactCategory;
+using CreateActorContactDto = Energinet.DataHub.MarketParticipant.Client.Models.CreateActorContactDto;
 using EdiB2CWebAppProcessType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType;
+using PermissionDetailsDto = Energinet.DataHub.MarketParticipant.Client.Models.PermissionDetailsDto;
 using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
+using UpdatePermissionDto = Energinet.DataHub.MarketParticipant.Client.Models.UpdatePermissionDto;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
@@ -174,9 +182,24 @@ public class Mutation
     [Error(typeof(MarketParticipantBadRequestException))]
     public async Task<bool> CreateMarketParticipantAsync(
             CreateMarketParticipantInput input,
-            [Service] IMarketParticipantClient client)
+            [Service] IMarketParticipantClient_V1 client)
     {
-        var returnValue = await Task.FromResult(true);
-        return returnValue;
+        var organizationId =
+            input.OrganizationId ??
+            await client.OrganizationPOSTAsync(input.Organization!).ConfigureAwait(false);
+
+        input.Actor.OrganizationId = Guid.Parse(organizationId);
+
+        var actorId = await client
+            .ActorPOSTAsync(input.Actor)
+            .ConfigureAwait(false);
+
+        input.UserInvite.AssignedActor = Guid.Parse(actorId);
+
+        await client
+            .InviteAsync(input.UserInvite)
+            .ConfigureAwait(false);
+
+        return true;
     }
 }
