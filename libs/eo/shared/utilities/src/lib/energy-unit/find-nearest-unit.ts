@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { energyUnit } from "./energy-unit.type";
+import { energyUnit } from './energy-unit.type';
 
 export function findNearestUnit(value: number): [number, energyUnit] {
   const units: energyUnit[] = ['Wh', 'kWh', 'MWh', 'GWh', 'TWh'];

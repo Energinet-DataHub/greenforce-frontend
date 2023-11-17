@@ -37,7 +37,7 @@ interface EoAggregateCertificateResponse {
       start: number;
       end: number;
       quantity: number;
-    }
+    },
   ];
 }
 
@@ -107,16 +107,16 @@ export class EoCertificatesService {
         map((response) => response.result),
         map((certificates) =>
           dates.map((date) => {
-            const certificate = certificates.find(
-              (c) => {
-                return fromUnixTime(c.start).getDate() === date.day &&
+            const certificate = certificates.find((c) => {
+              return (
+                fromUnixTime(c.start).getDate() === date.day &&
                 fromUnixTime(c.start).getMonth() + 1 === date.month
-              }
-            );
+              );
+            });
             return certificate ? { ...date, quantity: certificate.quantity } : date;
           })
         ),
-        map((result) => result.map((x) => x.quantity)),
+        map((result) => result.map((x) => x.quantity))
       );
   }
 

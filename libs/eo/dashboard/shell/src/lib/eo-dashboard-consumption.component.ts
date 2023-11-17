@@ -27,10 +27,24 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 import { EoClaimsService } from '@energinet-datahub/eo/claims/data-access-api';
-import { EnergyUnitPipe, energyUnit, findNearestUnit, fromWh } from '@energinet-datahub/eo/shared/utilities';
+import {
+  EnergyUnitPipe,
+  energyUnit,
+  findNearestUnit,
+  fromWh,
+} from '@energinet-datahub/eo/shared/utilities';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { eachDayOfInterval, endOfToday, fromUnixTime, getUnixTime, startOfDay, startOfToday, startOfTomorrow, subDays } from 'date-fns';
+import {
+  eachDayOfInterval,
+  endOfToday,
+  fromUnixTime,
+  getUnixTime,
+  startOfDay,
+  startOfToday,
+  startOfTomorrow,
+  subDays,
+} from 'date-fns';
 @Component({
   standalone: true,
   imports: [
@@ -178,7 +192,11 @@ export class EoDashboardConsumptionComponent implements OnInit {
     this.isLoading = true;
     this.hasError = false;
 
-    const claims$ = this.claimsService.getAggregatedClaims(EoTimeAggregate.Day, this.startDate, this.endDate);
+    const claims$ = this.claimsService.getAggregatedClaims(
+      EoTimeAggregate.Day,
+      this.startDate,
+      this.endDate
+    );
     const certificates$ = this.certificatesService.getAggregatedCertificates(
       EoTimeAggregate.Day,
       this.startDate,
@@ -199,7 +217,9 @@ export class EoDashboardConsumptionComponent implements OnInit {
 
         this.claimedTotal = claims.reduce((a, b) => a + b, 0);
         this.consumptionTotal = certificates.reduce((a, b) => a + b, 0);
-        const unit: energyUnit = findNearestUnit(Math.max(this.claimedTotal, this.consumptionTotal) / this.labels.length)[1];
+        const unit: energyUnit = findNearestUnit(
+          Math.max(this.claimedTotal, this.consumptionTotal) / this.labels.length
+        )[1];
 
         const consumptions = certificates.map((certificate, index) => {
           return Math.max(certificate - claims[index], 0);
@@ -257,11 +277,12 @@ export class EoDashboardConsumptionComponent implements OnInit {
   }
 
   private generateLabels() {
-    return eachDayOfInterval({ start: fromUnixTime(this.startDate), end: fromUnixTime(this.endDate) }).map(
-      (date) => {
-        const datePipe = new DatePipe('en-US');
-        return datePipe.transform(date, 'd MMM');
-      }
-    );
+    return eachDayOfInterval({
+      start: fromUnixTime(this.startDate),
+      end: fromUnixTime(this.endDate),
+    }).map((date) => {
+      const datePipe = new DatePipe('en-US');
+      return datePipe.transform(date, 'd MMM');
+    });
   }
 }

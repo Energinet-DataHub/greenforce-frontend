@@ -55,7 +55,7 @@ interface AggregateClaimResponse {
       start: number;
       end: number;
       quantity: number;
-    }
+    },
   ];
 }
 
@@ -87,22 +87,17 @@ export class EoClaimsService {
 
     return this.#http
       .get<AggregateClaimResponse>(
-        `${
-          this.#apiBase
-        }/aggregate-claims?timeAggregate=${timeAggregate}&timeZone=${timeZone}&start=${start}&end=${end}`
+        `${this.#apiBase}/aggregate-claims?timeAggregate=${timeAggregate}&timeZone=${timeZone}&start=${start}&end=${end}`
       )
       .pipe(
         map((response) => response.result),
         map((claims) =>
           dates.map((date) => {
-            const claim = claims.find(
-              (c) =>
-                isSameDay(fromUnixTime(c.start), date.date)
-            );
+            const claim = claims.find((c) => isSameDay(fromUnixTime(c.start), date.date));
             return claim ? { ...date, quantity: claim.quantity } : date;
           })
         ),
-        map((result) => result.map((x) => x.quantity)),
+        map((result) => result.map((x) => x.quantity))
       );
   }
 }
