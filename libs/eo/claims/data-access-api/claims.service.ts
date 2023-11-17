@@ -19,6 +19,8 @@ import { Injectable, inject } from '@angular/core';
 import { map } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
+import { eachDayOfInterval, fromUnixTime, isSameDay } from 'date-fns';
 
 export interface Claim {
   claimId: string;
@@ -47,6 +49,16 @@ interface ClaimsResponse {
   result: Claim[];
 }
 
+interface AggregateClaimResponse {
+  result: [
+    {
+      start: number;
+      end: number;
+      quantity: number;
+    },
+  ];
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -60,5 +72,32 @@ export class EoClaimsService {
     return this.#http
       .get<ClaimsResponse>(`${this.#apiBase}/claims`)
       .pipe(map((response) => response.result));
+  }
+
+  getAggregatedClaims(timeAggregate: EoTimeAggregate, start: number, end: number) {
+    const dates = eachDayOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
+      (date) => {
+        return {
+          date,
+          quantity: 0,
+        };
+      }
+    );
+    const timeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
+
+    return this.#http
+      .get<AggregateClaimResponse>(
+        `${this.#apiBase}/aggregate-claims?timeAggregate=${timeAggregate}&timeZone=${timeZone}&start=${start}&end=${end}`
+      )
+      .pipe(
+        map((response) => response.result),
+        map((claims) =>
+          dates.map((date) => {
+            const claim = claims.find((c) => isSameDay(fromUnixTime(c.start), date.date));
+            return claim ? { ...date, quantity: claim.quantity } : date;
+          })
+        ),
+        map((result) => result.map((x) => x.quantity))
+      );
   }
 }
