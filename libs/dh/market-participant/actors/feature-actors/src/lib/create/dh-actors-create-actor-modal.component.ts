@@ -41,8 +41,6 @@ import {
 import {
   EicFunction,
   GetGridAreasDocument,
-  GetOrganizationByIdDocument,
-  GetOrganizationsDocument,
   GetUserRolesByEicfunctionDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -54,6 +52,7 @@ import {
   dhFirstPartEmailValidator,
 } from '@energinet-datahub/dh/shared/ui-validators';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
 
 type UserRoles = ResultOf<typeof GetUserRolesByEicfunctionDocument>['userRolesByEicFunction'];
 type UserRole = UserRoles[number];
@@ -124,16 +123,13 @@ type UserRole = UserRoles[number];
     WattFieldErrorComponent,
     DhDropdownTranslatorDirective,
     VaterStackComponent,
+
+    DhChooseOrganizationStepComponent,
   ],
 })
 export class DhActorsCreateActorModalComponent {
   private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
   private _apollo = inject(Apollo);
-
-  private _getOrganizationsQuery$ = this._apollo.query({
-    notifyOnNetworkStatusChange: true,
-    query: GetOrganizationsDocument,
-  });
 
   private _getGridAreasQuery = this._apollo.query({
     notifyOnNetworkStatusChange: true,
@@ -154,7 +150,6 @@ export class DhActorsCreateActorModalComponent {
   @ViewChild(WattModalComponent)
   innerModal: WattModalComponent | undefined;
 
-  organizationOptions: WattDropdownOptions = [];
   gridAreaOptions: WattDropdownOptions = [];
   marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction);
   countryOptions: WattDropdownOptions = [
@@ -165,6 +160,7 @@ export class DhActorsCreateActorModalComponent {
   ];
 
   chooseOrganizationForm = this._fb.group({ orgId: ['', Validators.required] });
+
   newOrganizationForm = this._fb.group({
     country: ['', Validators.required],
     cvrNumber: ['', { validators: [Validators.required, dhCvrValidator()] }],
@@ -192,15 +188,6 @@ export class DhActorsCreateActorModalComponent {
   });
 
   constructor() {
-    this._getOrganizationsQuery$.subscribe((result) => {
-      if (result.data?.organizations) {
-        this.organizationOptions = result.data.organizations.map((org) => ({
-          value: org.organizationId ?? '',
-          displayValue: org.name,
-        }));
-      }
-    });
-
     this._getGridAreasQuery.subscribe((result) => {
       if (result.data?.gridAreas) {
         this.gridAreaOptions = result.data.gridAreas.map((gridArea) => ({
@@ -211,24 +198,14 @@ export class DhActorsCreateActorModalComponent {
     });
   }
 
-  onOrganizationChange(id: string): void {
-    this._apollo
-      .query({
-        variables: { id },
-        notifyOnNetworkStatusChange: true,
-        query: GetOrganizationByIdDocument,
-      })
-      .subscribe((result) => {
-        if (result.data?.organizationById.domain) {
-          this.choosenOrganizationDomain.set(result.data.organizationById.domain);
-        }
-      });
-  }
-
   getChoosenOrganizationDomain(): string {
     return this.newOrganizationForm.controls.domain.value
       ? this.newOrganizationForm.controls.domain.value
       : this.choosenOrganizationDomain();
+  }
+
+  setChoosenOrganizationDomain(domain: string): void {
+    this.choosenOrganizationDomain.set(domain);
   }
 
   onMarketRoleChange(eicfunction: EicFunction): void {

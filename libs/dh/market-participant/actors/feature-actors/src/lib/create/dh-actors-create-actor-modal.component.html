@@ -26,18 +26,11 @@ limitations under the License.
         [stepControl]="chooseOrganizationForm"
         [label]="t('organization')"
       >
-        <vater-stack align="flex-start" fill="horizontal">
-          <watt-dropdown
-            [showResetOption]="false"
-            [options]="organizationOptions"
-            [label]="t('organization')"
-            (ngModelChange)="onOrganizationChange($event)"
-            [formControl]="chooseOrganizationForm.controls.orgId"
-          />
-          <watt-button variant="text" icon="plus" (click)="toggleShowCreateNewOrganization()">{{
-            t("newOrganization")
-          }}</watt-button>
-        </vater-stack>
+        <dh-choose-organization-step
+          [chooseOrganizationForm]="chooseOrganizationForm"
+          (choosenOrganizationDomain)="setChoosenOrganizationDomain($event)"
+          (toggleShowCreateNewOrganization)="toggleShowCreateNewOrganization()"
+        />
       </watt-stepper-step>
       <watt-stepper-step
         *ngIf="showCreateNewOrganization()"
