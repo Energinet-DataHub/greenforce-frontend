@@ -21,18 +21,19 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { DecimalPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
+import { EnergyUnitPipe } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent, NgIf],
-  providers: [DecimalPipe],
+  providers: [EnergyUnitPipe],
   standalone: true,
   selector: 'eo-claims-table',
   styles: [
@@ -71,12 +72,11 @@ import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
   `,
 })
 export class EoClaimsTableComponent {
-  private decimalPipe = inject(DecimalPipe);
-
-  dataSource: WattTableDataSource<Claim> = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<Claim> = {
+  protected energyUnitPipe = inject(EnergyUnitPipe);
+  protected dataSource: WattTableDataSource<Claim> = new WattTableDataSource(undefined);
+  protected columns: WattTableColumnDef<Claim> = {
     claimId: { accessor: (x) => x.claimId, header: 'Claim Id' },
-    quantity: { accessor: (x) => `${this.decimalPipe.transform(x.quantity, '1.0-0')} Wh` },
+    quantity: { accessor: (x) => this.energyUnitPipe.transform(x.quantity), header: 'Amount' },
   };
 
   @Input() loading = false;

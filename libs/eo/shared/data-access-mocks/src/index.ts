@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { aggregateCertificatesMocks } from './lib/aggregate-certificates';
+import { aggregateClaimsMocks } from './lib/aggregate-claims';
 import { authMocks } from './lib/auth';
 import { certificatesMocks } from './lib/certificates';
 import { claimsMocks } from './lib/claims';
@@ -24,6 +26,8 @@ export const mocks = [
   authMocks,
   meteringPointsMocks,
   certificatesMocks,
+  aggregateCertificatesMocks,
   claimsMocks,
+  aggregateClaimsMocks,
   transferMocks,
 ];
