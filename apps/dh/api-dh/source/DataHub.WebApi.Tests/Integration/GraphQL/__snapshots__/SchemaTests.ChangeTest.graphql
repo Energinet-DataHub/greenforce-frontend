@@ -365,7 +365,6 @@ input CreateOrganizationDtoInput {
   businessRegisterIdentifier: String!
   address: AddressDtoInput!
   domain: String!
-  comment: String
 }
 
 input UpdateActorInput {
