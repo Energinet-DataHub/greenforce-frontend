@@ -537,8 +537,15 @@
     "actor": {
       "create": {
         "steps": {
-          "orgNext": "Market party"
+          "actor": "Market party",
+          "organization": "Organization",
+          "invite": "Invite user"
         },
+        "gridArea": "Grid area",
+        "tooltip": "The market party gets the organization name if you do not specify a value.",
+        "glnOrEicInvalid": "Invalid GLN/EIC",
+        "wrongEmailPattern": "Type a valid email",
+        "phoneInvalid": "Invalid phone number",
         "domainInvalid": "Invalid domain",
         "companyName": "Companyname",
         "domain": "Domain",
@@ -551,6 +558,13 @@
           "NO": "Norway",
           "FI": "Finland"
         },
+        "glnOrEicNumber": "Market party id",
+        "name": "Market Party Name",
+        "contact": "Contact",
+        "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
+        "departmentOrName": "Department/Name",
+        "email": "E-mail",
+        "phone": "Phone number",
         "searchDatahub": "Search DataHub",
         "newOrganization": "New organization",
         "marketParty": "Market party",
@@ -631,8 +645,12 @@
           "b2bAccess": {
             "tabLabel": "B2B access",
             "certificateHeadline": "Certificate",
+            "clientSecretHeadline": "Client Secret",
             "thumbprint": "Thumbprint",
             "expiryDate": "Expiry date",
+            "clientId": "Client ID",
+            "clientSecretLabel": "Client Secret",
+            "removeClientSecret": "Remove Client Secret",
             "removeCertificate": "Remove certificate",
             "uploadCertificate": "Upload certificate",
             "uploadNewCertificate": "Upload new certificate",
@@ -643,9 +661,38 @@
             "removeError": "An error occurred while removing the certificate. Please try again",
             "removeCertificateModal": {
               "title": "Remove certificate?",
-              "message": "Are you sure you want to remove the certificate?",
+              "message": "There will no longer be B2B access if the certificate is removed. To regain access, a new certificate must be uploaded or a Client Secret generated.",
               "cancel": "Cancel",
               "remove": "Remove certificate"
+            },
+            "generateClientSecret": "Generate Client Secret",
+            "generateNewClientSecret": "Generate new Client Secret",
+            "generateSecretSuccess": "Client Secret generated successfully",
+            "generateSecretError": "An error occurred while generating the Client Secret. Please try again",
+            "copy": "Copy",
+            "replaceClientSecretWithCertificate": "Replace Client Secret with certificate",
+            "replaceCertificateWithClientSecret": "Replace certificate with Client Secret",
+            "certificate": {
+              "replaceCertificateModal": {
+                "title": "Generate Client Secret and replace certificate?",
+                "message": "If a Client Secret is generated, this will replace the existing certificate.",
+                "cancel": "Cancel"
+              }
+            },
+            "clientSecret": {
+              "removeSecretModal": {
+                "title": "Delete Client Secret?",
+                "message": "There will no longer be B2B access if the Client Secret is removed. To regain access, a new Client Secret must be generated or a certificate uploaded.",
+                "cancel": "Cancel",
+                "confirm": "Delete Client Secret",
+                "removeSuccess": "The Client Secret Certificate was removed successfully",
+                "removeError": "An error occurred while removing the Client Secret. Please try again"
+              },
+              "replaceSecretModal": {
+                "title": "Replace Client Secret with a certificate?",
+                "message": "If a certificate is uploaded, the Client Secret will be replaced. It's not possible to undo this action.",
+                "cancel": "Cancel"
+              }
             }
           },
           "history": {
@@ -655,8 +702,12 @@
               "NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the name of the actor to <b>{{ currentValue }}</b> from <b>\"\"</b>",
               "STATUS": "<b>{{ changedByUserName }}</b> changed the status of the actor to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b>",
               "STATUS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the status of the actor to <b>{{ currentValue }}</b> from <b>\"\"</b>",
-              "CREATED": "<b>{{ changedByUserName }}</b> Created the actor",
-              "CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> Created the actor",
+              "CREATED": "<b>{{ changedByUserName }}</b> created the actor",
+              "CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> created the actor",
+              "CERTIFICATE_CREDENTIALS": "<b>{{ changedByUserName }}</b> removed the certificate with thumbprint <b>{{ previousValue }}</b>",
+              "CERTIFICATE_CREDENTIALS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> added a certificate with thumbprint <b>{{ currentValue }}</b>",
+              "CLIENT_SECRET_CREDENTIALS": "<b>{{ changedByUserName }}</b> removed the client secret with expiration at <b>{{ previousValue }}</b>",
+              "CLIENT_SECRET_CREDENTIALS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> added a client secret that will expire at <b>{{ currentValue }}</b>",
               "CONTACT_NAME": "<b>{{ changedByUserName }}</b> changed the name of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ contactCategory }}</b>",
               "CONTACT_EMAIL": "<b>{{ changedByUserName }}</b> changed the email of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ contactCategory }}</b>",
               "CONTACT_PHONE": "<b>{{ changedByUserName }}</b> changed the phone of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ contactCategory }}</b>",

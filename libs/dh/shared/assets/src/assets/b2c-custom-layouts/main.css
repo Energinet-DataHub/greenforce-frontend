@@ -1,5 +1,5 @@
 :root {
-  // Text Color Emphasis
+  /* Text Color Emphasis */
   --on-light-high-emphasis: rgba(0, 0, 0, 0.87);
   --on-light-medium-emphasis: rgba(0, 0, 0, 0.62);
   --on-light-low-emphasis: rgba(0, 0, 0, 0.38);
@@ -58,7 +58,8 @@ main {
   min-height: 800px;
   background-color: var(--color-neutral-white);
   border-radius: 4px;
-  box-shadow: 0px 4px 18px 3px rgba(46, 50, 52, 0.08),
+  box-shadow:
+    0px 4px 18px 3px rgba(46, 50, 52, 0.08),
     0px 1px 6px rgba(11, 60, 93, 0.12);
   padding: 5rem 10rem;
 }
@@ -302,7 +303,8 @@ form > .verifying-modal {
 #verifying_blurb {
   background-color: var(--color-neutral-white);
   border-radius: 4px;
-  box-shadow: 0px 4px 18px 3px rgba(46, 50, 52, 0.08),
+  box-shadow:
+    0px 4px 18px 3px rgba(46, 50, 52, 0.08),
     0px 1px 6px rgba(11, 60, 93, 0.12);
   padding: 2rem 5rem;
 }

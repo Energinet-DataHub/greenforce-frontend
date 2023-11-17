@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
@@ -32,6 +32,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
   imports: [CommonModule, RxLet, RxPush, WattIconComponent, WattSpinnerComponent, OverlayModule],
 })
 export class DhSelectedActorComponent {
+  private store = inject(DhSelectedActorStore);
   actorGroups$ = this.store.actorGroups$;
   selectedActor$ = this.store.selectedActor$;
   isLoading$ = this.store.isLoading$;
@@ -47,7 +48,7 @@ export class DhSelectedActorComponent {
     },
   ];
 
-  constructor(private store: DhSelectedActorStore) {
+  constructor() {
     this.store.init();
   }
 

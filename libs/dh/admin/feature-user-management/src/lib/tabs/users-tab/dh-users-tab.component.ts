@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { RxLet } from '@rx-angular/template/let';
@@ -109,6 +109,9 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
   ],
 })
 export class DhUsersTabComponent {
+  private store = inject(DhAdminUserManagementDataAccessApiStore);
+  private actorStore = inject(DhUserActorsDataAccessApiStore);
+  private userRolesStore = inject(DhAdminUserRolesManagementDataAccessApiStore);
   readonly users$ = this.store.users$;
   readonly totalUserCount$ = this.store.totalUserCount$;
 
@@ -125,11 +128,7 @@ export class DhUsersTabComponent {
   readonly userRolesOptions$ = this.userRolesStore.rolesOptions$;
   readonly canChooseMultipleActors$ = this.actorStore.canChooseMultipleActors$;
 
-  constructor(
-    private store: DhAdminUserManagementDataAccessApiStore,
-    private actorStore: DhUserActorsDataAccessApiStore,
-    private userRolesStore: DhAdminUserRolesManagementDataAccessApiStore
-  ) {
+  constructor() {
     this.actorStore.getActors();
     this.userRolesStore.getRoles();
   }

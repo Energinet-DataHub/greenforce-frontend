@@ -25,10 +25,10 @@ import { withLatestFrom } from 'rxjs';
   selector: '[dhDropdownTranslator]',
 })
 export class DhDropdownTranslatorDirective implements OnInit {
+  private trans = inject(TranslocoService);
+  private host = inject(WattDropdownComponent);
   @Input({ required: true }) translate = '';
   destroyRef = inject(DestroyRef);
-
-  constructor(private trans: TranslocoService, private host: WattDropdownComponent) {}
 
   ngOnInit(): void {
     this.host.filteredOptions$

@@ -42,6 +42,7 @@ import { DhActorsTableComponent } from './table/dh-actors-table.component';
 import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-actor-modal.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattModalService } from '@energinet-datahub/watt/modal';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   standalone: true,
@@ -80,6 +81,7 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
 
     DhActorsFiltersComponent,
     DhActorsTableComponent,
+    DhPermissionRequiredDirective,
     DhActorsCreateActorModalComponent,
   ],
 })

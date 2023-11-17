@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EoAuthService, EoAuthStore } from '@energinet-datahub/eo/shared/services';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -37,12 +37,11 @@ import { combineLatest, take } from 'rxjs';
   template: `<div class="spinner"><watt-spinner /></div>`,
 })
 export class EoLoginComponent {
-  constructor(
-    private service: EoAuthService,
-    private store: EoAuthStore,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
+  private service = inject(EoAuthService);
+  private store = inject(EoAuthStore);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  constructor() {
     this.service.handleLogin();
     combineLatest([this.store.getScope$, this.store.isTokenExpired$])
       .pipe(take(1))
