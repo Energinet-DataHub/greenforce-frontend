@@ -22,6 +22,7 @@ import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-part
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { DhCertificateUploaderComponent } from './certificate/dh-certificate-uploader.component';
 import { DhCertificateComponent } from './certificate/dh-certificate-view.component';
@@ -35,6 +36,10 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
     `
       :host {
         display: block;
+      }
+
+      watt-icon {
+        color: var(--watt-color-primary-dark);
       }
     `,
   ],
@@ -55,9 +60,13 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
       </ng-container>
 
       <ng-template #emptyState>
-        <vater-stack direction="row" justify="center" gap="m">
-          <dh-certificate-uploader [actorId]="actorId" />
-          <dh-generate-client-secret [actorId]="actorId" />
+        <vater-stack justify="center" gap="l">
+          <watt-icon name="custom-no-results" size="xxl" />
+
+          <vater-stack direction="row" justify="center" gap="m">
+            <dh-certificate-uploader [actorId]="actorId" />
+            <dh-generate-client-secret [actorId]="actorId" />
+          </vater-stack>
         </vater-stack>
       </ng-template>
     </ng-template>
@@ -69,6 +78,7 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
     VaterFlexComponent,
     WattButtonComponent,
     WattSpinnerComponent,
+    WattIconComponent,
 
     DhCertificateComponent,
     DhCertificateUploaderComponent,
