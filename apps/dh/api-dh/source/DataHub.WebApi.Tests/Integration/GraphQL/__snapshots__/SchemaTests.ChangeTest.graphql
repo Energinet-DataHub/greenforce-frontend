@@ -92,6 +92,11 @@ type CreateCalculationPayload {
   calculation: Calculation
 }
 
+type CreateMarketParticipantPayload {
+  boolean: Boolean
+  errors: [CreateMarketParticipantError!]
+}
+
 type EsettOutgoingMessage {
   gridArea: GridAreaDto
   documentId: String!
@@ -177,6 +182,7 @@ type Mutation {
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
+  createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
 }
 
 type Organization {
@@ -221,6 +227,7 @@ type Query {
   permissionLogs(id: Int!): [PermissionLog!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditLog!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
+  userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   organizationById(id: UUID!): Organization!
   organizations: [Organization!]!
   gridAreas: [GridAreaDto!]!
@@ -290,9 +297,45 @@ type UserRoleWithPermissionsDto {
   permissions: [Permission!]!
 }
 
+union CreateMarketParticipantError = MarketParticipantBadRequestError
+
 union UpdateActorError = MarketParticipantBadRequestError
 
 union UpdateOrganizationError = MarketParticipantBadRequestError
+
+input ActorGridAreaDtoInput {
+  id: UUID!
+  meteringPointTypes: [String!]!
+}
+
+input ActorMarketRoleDtoInput {
+  eicFunction: String!
+  gridAreas: [ActorGridAreaDtoInput!]!
+  comment: String
+}
+
+input ActorNameDtoInput {
+  value: String!
+}
+
+input ActorNumberDtoInput {
+  value: String!
+}
+
+input AddressDtoInput {
+  streetName: String
+  number: String
+  zipCode: String
+  city: String
+  country: String!
+}
+
+input CreateActorDtoInput {
+  organizationId: UUID!
+  name: ActorNameDtoInput!
+  actorNumber: ActorNumberDtoInput!
+  marketRoles: [ActorMarketRoleDtoInput!]!
+}
 
 input CreateAggregatedMeasureDataRequestInput {
   processType: EdiB2CProcessType!
@@ -308,6 +351,21 @@ input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
   processType: ProcessType!
+}
+
+input CreateMarketParticipantInput {
+  organizationId: String
+  organization: CreateOrganizationDtoInput
+  actor: CreateActorDtoInput!
+  userInvite: UserInvitationDtoInput!
+}
+
+input CreateOrganizationDtoInput {
+  name: String!
+  businessRegisterIdentifier: String!
+  address: AddressDtoInput!
+  domain: String!
+  comment: String
 }
 
 input UpdateActorInput {
@@ -326,6 +384,15 @@ input UpdateOrganizationInput {
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
+}
+
+input UserInvitationDtoInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+  assignedActor: UUID!
+  assignedRoles: [UUID!]!
 }
 
 enum ActorAuditLogType {

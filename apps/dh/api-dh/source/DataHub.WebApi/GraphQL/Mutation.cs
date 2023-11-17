@@ -154,9 +154,9 @@ public class Mutation
         string domain,
         [Service] IMarketParticipantClient client)
     {
-         var organization = await client.GetOrganizationAsync(orgId).ConfigureAwait(false);
-         if (!string.Equals(organization.Domain, domain, StringComparison.Ordinal))
-         {
+        var organization = await client.GetOrganizationAsync(orgId).ConfigureAwait(false);
+        if (!string.Equals(organization.Domain, domain, StringComparison.Ordinal))
+        {
             var changes = new ChangeOrganizationDto(
                 organization.Name,
                 organization.BusinessRegisterIdentifier,
@@ -166,8 +166,17 @@ public class Mutation
                 domain);
 
             await client.UpdateOrganizationAsync(orgId, changes).ConfigureAwait(false);
-         }
+        }
 
-         return true;
+        return true;
+    }
+
+    [Error(typeof(MarketParticipantBadRequestException))]
+    public async Task<bool> CreateMarketParticipantAsync(
+            CreateMarketParticipantInput input,
+            [Service] IMarketParticipantClient client)
+    {
+        var returnValue = await Task.FromResult(true);
+        return returnValue;
     }
 }

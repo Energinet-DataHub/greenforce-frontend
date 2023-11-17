@@ -140,6 +140,7 @@ type Query {
   permissionLogs(id: Int!): [PermissionLog!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditLog!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
+  userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   organizationById(id: UUID!): Organization!
   organizations: [Organization!]!
   gridAreas: [GridAreaDto!]!
