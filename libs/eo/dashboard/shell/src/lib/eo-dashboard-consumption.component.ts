@@ -214,14 +214,10 @@ export class EoDashboardConsumptionComponent implements OnInit {
         const [claims, certificates] = data;
 
         this.claimedTotal = claims.reduce((a, b) => a + b, 0);
-        this.consumptionTotal = certificates.reduce((a, b) => a + b, 0);
+        this.consumptionTotal = certificates.reduce((a, b) => a + b, 0) + this.claimedTotal;
         const unit: energyUnit = findNearestUnit(
           Math.max(this.claimedTotal, this.consumptionTotal) / this.labels.length
         )[1];
-
-        const consumptions = certificates.map((certificate, index) => {
-          return Math.max(certificate - claims[index], 0);
-        });
 
         this.barChartOptions = {
           ...this.barChartOptions,
@@ -260,7 +256,7 @@ export class EoDashboardConsumptionComponent implements OnInit {
               backgroundColor: '#00C898',
             },
             {
-              data: consumptions.map((x) => fromWh(x, unit)),
+              data: certificates.map((x) => fromWh(x, unit)),
               label: 'Consumption',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
