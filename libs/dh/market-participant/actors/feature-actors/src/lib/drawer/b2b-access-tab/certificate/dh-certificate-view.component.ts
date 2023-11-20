@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, effect, inject, Injector, signal } from '@angular/core';
+import { Component, Input, effect, inject, Injector } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -23,7 +23,6 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -66,7 +65,6 @@ type DhCertificateTableRow = {
     WATT_CARD,
     VaterFlexComponent,
     VaterStackComponent,
-    WattValidationMessageComponent,
     WattSpinnerComponent,
     WattDatePipe,
     WATT_TABLE,
@@ -88,8 +86,6 @@ export class DhCertificateComponent {
     value: { accessor: 'value' },
     showActionButton: { accessor: 'showActionButton', align: 'right' },
   };
-
-  isInvalidFileType = signal(false);
 
   certificateMetadata = toSignal(this.store.certificateMetadata$);
 
