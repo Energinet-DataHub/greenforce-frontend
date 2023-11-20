@@ -55,7 +55,7 @@ export class DhGenerateClientSecretComponent {
 
   @Input({ required: true }) actorId = '';
 
-  @Output() uploadSuccess = new EventEmitter<void>();
+  @Output() generateSuccess = new EventEmitter<void>();
 
   generateSecret(): void {
     this.store.generateClientSecret({
@@ -72,7 +72,7 @@ export class DhGenerateClientSecretComponent {
 
     this.toastService.open({ type: 'success', message });
 
-    this.uploadSuccess.emit();
+    this.generateSuccess.emit();
     this.store.getCredentials(this.actorId);
   };
 
