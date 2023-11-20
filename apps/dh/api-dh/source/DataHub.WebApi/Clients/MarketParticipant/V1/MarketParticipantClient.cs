@@ -35,12 +35,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ActorPOSTAsync(CreateActorDto? body);
+        System.Threading.Tasks.Task<System.Guid> ActorPOSTAsync(CreateActorDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ActorPOSTAsync(CreateActorDto? body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Guid> ActorPOSTAsync(CreateActorDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -116,12 +116,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ContactPOSTAsync(System.Guid actorId, CreateActorContactDto? body);
+        System.Threading.Tasks.Task<System.Guid> ContactPOSTAsync(System.Guid actorId, CreateActorContactDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ContactPOSTAsync(System.Guid actorId, CreateActorContactDto? body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Guid> ContactPOSTAsync(System.Guid actorId, CreateActorContactDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -152,12 +152,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> GridAreaPOSTAsync(CreateGridAreaDto? body);
+        System.Threading.Tasks.Task<System.Guid> GridAreaPOSTAsync(CreateGridAreaDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> GridAreaPOSTAsync(CreateGridAreaDto? body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Guid> GridAreaPOSTAsync(CreateGridAreaDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -233,12 +233,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> OrganizationPOSTAsync(CreateOrganizationDto? body);
+        System.Threading.Tasks.Task<System.Guid> OrganizationPOSTAsync(CreateOrganizationDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> OrganizationPOSTAsync(CreateOrganizationDto? body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Guid> OrganizationPOSTAsync(CreateOrganizationDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -440,12 +440,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> UserRolesPOSTAsync(CreateUserRoleDto? body);
+        System.Threading.Tasks.Task<System.Guid> UserRolesPOSTAsync(CreateUserRoleDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> UserRolesPOSTAsync(CreateUserRoleDto? body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Guid> UserRolesPOSTAsync(CreateUserRoleDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -641,7 +641,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> ActorPOSTAsync(CreateActorDto? body)
+        public virtual System.Threading.Tasks.Task<System.Guid> ActorPOSTAsync(CreateActorDto? body)
         {
             return ActorPOSTAsync(body, System.Threading.CancellationToken.None);
         }
@@ -649,7 +649,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> ActorPOSTAsync(CreateActorDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid> ActorPOSTAsync(CreateActorDto? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/actor");
@@ -690,7 +690,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Guid>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1345,7 +1345,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> ContactPOSTAsync(System.Guid actorId, CreateActorContactDto? body)
+        public virtual System.Threading.Tasks.Task<System.Guid> ContactPOSTAsync(System.Guid actorId, CreateActorContactDto? body)
         {
             return ContactPOSTAsync(actorId, body, System.Threading.CancellationToken.None);
         }
@@ -1353,7 +1353,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> ContactPOSTAsync(System.Guid actorId, CreateActorContactDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid> ContactPOSTAsync(System.Guid actorId, CreateActorContactDto? body, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -1398,7 +1398,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Guid>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1655,7 +1655,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> GridAreaPOSTAsync(CreateGridAreaDto? body)
+        public virtual System.Threading.Tasks.Task<System.Guid> GridAreaPOSTAsync(CreateGridAreaDto? body)
         {
             return GridAreaPOSTAsync(body, System.Threading.CancellationToken.None);
         }
@@ -1663,7 +1663,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> GridAreaPOSTAsync(CreateGridAreaDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid> GridAreaPOSTAsync(CreateGridAreaDto? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/GridArea");
@@ -1704,7 +1704,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Guid>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2328,7 +2328,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> OrganizationPOSTAsync(CreateOrganizationDto? body)
+        public virtual System.Threading.Tasks.Task<System.Guid> OrganizationPOSTAsync(CreateOrganizationDto? body)
         {
             return OrganizationPOSTAsync(body, System.Threading.CancellationToken.None);
         }
@@ -2336,7 +2336,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> OrganizationPOSTAsync(CreateOrganizationDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid> OrganizationPOSTAsync(CreateOrganizationDto? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/Organization");
@@ -2377,7 +2377,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Guid>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -4083,7 +4083,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> UserRolesPOSTAsync(CreateUserRoleDto? body)
+        public virtual System.Threading.Tasks.Task<System.Guid> UserRolesPOSTAsync(CreateUserRoleDto? body)
         {
             return UserRolesPOSTAsync(body, System.Threading.CancellationToken.None);
         }
@@ -4091,7 +4091,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> UserRolesPOSTAsync(CreateUserRoleDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid> UserRolesPOSTAsync(CreateUserRoleDto? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/user-roles");
@@ -4132,7 +4132,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Guid>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
