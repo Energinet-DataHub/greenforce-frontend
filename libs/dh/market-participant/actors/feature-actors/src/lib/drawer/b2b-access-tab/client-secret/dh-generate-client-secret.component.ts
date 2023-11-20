@@ -21,6 +21,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
 
 @Component({
   selector: 'dh-generate-client-secret',
@@ -47,6 +48,7 @@ export class DhGenerateClientSecretComponent {
   private readonly transloco = inject(TranslocoService);
   private readonly toastService = inject(WattToastService);
   private readonly store = inject(DhMarketPartyB2BAccessStore);
+  private readonly auditLogService = inject(DhActorAuditLogService);
 
   generateSecretInProgress = toSignal(this.store.generateSecretInProgress$, {
     requireSync: true,
@@ -74,6 +76,7 @@ export class DhGenerateClientSecretComponent {
 
     this.generateSuccess.emit();
     this.store.getCredentials(this.actorId);
+    this.auditLogService.refreshAuditLog(this.actorId);
   };
 
   private onGenerateSecretErrorFn = () => {

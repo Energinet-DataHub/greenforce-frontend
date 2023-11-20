@@ -33,6 +33,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { DhRemoveCertificateModalComponent } from './dh-remove-certificate-modal.component';
 import { DhCertificateUploaderComponent } from './dh-certificate-uploader.component';
 import { DhReplaceCertificateModalComponent } from './dh-replace-certificate-modal.component';
+import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
 
 type DhCertificateTableRow = {
   translationKey: string;
@@ -79,6 +80,7 @@ export class DhCertificateComponent {
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
   private readonly modalService = inject(WattModalService);
+  private readonly auditLogService = inject(DhActorAuditLogService);
 
   dataSource = new WattTableDataSource<DhCertificateTableRow>([]);
   columns: WattTableColumnDef<DhCertificateTableRow> = {
@@ -139,6 +141,8 @@ export class DhCertificateComponent {
     );
 
     this.toastService.open({ type: 'success', message });
+
+    this.auditLogService.refreshAuditLog(this.actorId);
   };
 
   private readonly onRemoveErrorFn = () => {

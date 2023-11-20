@@ -34,6 +34,7 @@ import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard'
 import { DhRemoveClientSecretModalComponent } from './dh-remove-client-secret-modal.component';
 import { DhGenerateClientSecretComponent } from './dh-generate-client-secret.component';
 import { DhReplaceClientSecretModalComponent } from './dh-replace-client-secret-modal.component';
+import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
 
 type DhClientSecretTableRow = {
   translationKey: string;
@@ -81,6 +82,7 @@ export class DhClientSecretViewComponent {
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
   private readonly modalService = inject(WattModalService);
+  private readonly auditLogService = inject(DhActorAuditLogService);
 
   dataSource = new WattTableDataSource<DhClientSecretTableRow>([]);
   columns: WattTableColumnDef<DhClientSecretTableRow> = {
@@ -155,6 +157,8 @@ export class DhClientSecretViewComponent {
     );
 
     this.toastService.open({ type: 'success', message });
+
+    this.auditLogService.refreshAuditLog(this.actorId);
   };
 
   private readonly onRemoveErrorFn = () => {

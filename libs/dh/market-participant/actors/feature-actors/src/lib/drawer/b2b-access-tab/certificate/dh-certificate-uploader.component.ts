@@ -22,6 +22,8 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 
+import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
+
 const certificateExt = '.cer';
 const certificateMimeType = 'application/x-x509-ca-cert';
 
@@ -61,6 +63,7 @@ export class DhCertificateUploaderComponent {
   private readonly store = inject(DhMarketPartyB2BAccessStore);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
+  private readonly auditLogService = inject(DhActorAuditLogService);
 
   certificateExt = certificateExt;
 
@@ -115,6 +118,7 @@ export class DhCertificateUploaderComponent {
 
     this.uploadSuccess.emit();
     this.store.getCredentials(this.actorId);
+    this.auditLogService.refreshAuditLog(this.actorId);
   };
 
   private onUploadErrorFn = () => {
