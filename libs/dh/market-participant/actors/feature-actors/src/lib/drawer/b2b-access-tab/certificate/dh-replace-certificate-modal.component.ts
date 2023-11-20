@@ -48,7 +48,7 @@ import { DhGenerateClientSecretComponent } from '../client-secret/dh-generate-cl
           {{ t('cancel') }}
         </watt-button>
 
-        <dh-generate-client-secret [actorId]="actorId" (uploadSuccess)="modal.close(true)" />
+        <dh-generate-client-secret [actorId]="actorId" (generateSuccess)="modal.close(true)" />
       </watt-modal-actions>
     </watt-modal>
   `,
