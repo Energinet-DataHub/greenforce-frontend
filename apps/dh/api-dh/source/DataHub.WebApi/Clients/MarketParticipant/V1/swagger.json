@@ -85,17 +85,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -488,17 +491,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -662,17 +668,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -1037,17 +1046,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -2007,17 +2019,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }

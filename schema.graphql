@@ -313,9 +313,10 @@ enum PriceAreaCode {
 }
 
 input CreateMarketParticipantInput {
-  organizationId: String
+  organizationId: UUID
   organization: CreateOrganizationDtoInput
   actor: CreateActorDtoInput!
+  actorContact: CreateActorContactDtoInput!
   userInvite: UserInvitationDtoInput!
 }
 
@@ -473,6 +474,13 @@ input UserInvitationDtoInput {
   phoneNumber: String!
   assignedActor: UUID!
   assignedRoles: [UUID!]!
+}
+
+input CreateActorContactDtoInput {
+  name: String!
+  category: String!
+  email: String!
+  phone: String
 }
 
 input CreateActorDtoInput {
