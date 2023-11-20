@@ -22,6 +22,7 @@ import {
   OnInit,
   TemplateRef,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { PermissionService } from './permission.service';
 import { Permission } from '@energinet-datahub/dh/shared/domain';
@@ -29,12 +30,10 @@ import { concatAll, from, map, reduce, take } from 'rxjs';
 
 @Directive({ standalone: true, selector: '[dhPermissionRequired]' })
 export class DhPermissionRequiredDirective implements OnInit {
-  constructor(
-    private templateRef: TemplateRef<unknown>,
-    private viewContainerRef: ViewContainerRef,
-    private permissionService: PermissionService,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  private templateRef = inject<TemplateRef<unknown>>(TemplateRef);
+  private viewContainerRef = inject(ViewContainerRef);
+  private permissionService = inject(PermissionService);
+  private changeDetectorRef = inject(ChangeDetectorRef);
 
   @Input() dhPermissionRequired: Permission[] = [];
 

@@ -20,7 +20,8 @@
   align-items: center;
   background: var(--watt-color-neutral-white);
   border-left: 6px solid transparent;
-  box-shadow: 0px var(--watt-space-m) var(--watt-space-m) rgba(0, 0, 0, 0.2),
+  box-shadow:
+    0px var(--watt-space-m) var(--watt-space-m) rgba(0, 0, 0, 0.2),
     0px 32px 64px 3px rgba(46, 50, 52, 0.2);
   border-radius: 4px;
   padding: var(--watt-space-s) var(--watt-space-m);

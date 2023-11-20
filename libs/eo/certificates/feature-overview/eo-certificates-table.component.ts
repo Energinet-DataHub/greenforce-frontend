@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import {
@@ -56,7 +62,7 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
       <ng-container matColumnDef="dateFrom">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Time </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.dateFrom | wattDate : 'longAbbr' }}-{{ element.dateTo | wattDate : 'time' }}
+          {{ element.dateFrom | wattDate: 'longAbbr' }}-{{ element.dateTo | wattDate: 'time' }}
         </mat-cell>
       </ng-container>
 
@@ -95,14 +101,13 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
   `,
 })
 export class EoCertificatesTableComponent implements AfterViewInit {
+  private store = inject(EoCertificatesStore);
   certificates: EoCertificate[] = [];
   dataSource: MatTableDataSource<EoCertificate> = new MatTableDataSource();
   displayedColumns: string[] = ['dateFrom', 'gsrn', 'quantity', 'action'];
 
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  constructor(private store: EoCertificatesStore) {}
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 
 @Component({
@@ -83,5 +83,5 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
   `,
 })
 export class EoLandingPageCompanyComponent {
-  constructor(public landingPage: EoLandingPagePresenter) {}
+  landingPage = inject(EoLandingPagePresenter);
 }

@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, inject, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { DhMarketParticipantCertificateStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 
 const certificateExt = '.cer';
 const certificateMimeType = 'application/x-x509-ca-cert';
@@ -50,6 +50,7 @@ const certificateMimeType = 'application/x-x509-ca-cert';
     <watt-button
       *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess'"
       variant="secondary"
+      [loading]="uploadInProgress()"
       (click)="fileUpload.click()"
     >
       {{ doesCertificateExist() ? t('uploadNewCertificate') : t('uploadCertificate') }}
@@ -57,16 +58,19 @@ const certificateMimeType = 'application/x-x509-ca-cert';
   imports: [TranslocoDirective, WattButtonComponent],
 })
 export class DhCertificateUploaderComponent {
-  private readonly store = inject(DhMarketParticipantCertificateStore);
+  private readonly store = inject(DhMarketPartyCredentialsStore);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
 
   certificateExt = certificateExt;
 
-  isInvalidFileType = signal(false);
   doesCertificateExist = toSignal(this.store.doesCertificateExist$);
+  doesClientSecretMetadataExist = toSignal(this.store.doesClientSecretMetadataExist$);
+  uploadInProgress = toSignal(this.store.uploadInProgress$, { requireSync: true });
 
   @Input({ required: true }) actorId = '';
+
+  @Output() uploadSuccess = new EventEmitter<void>();
 
   onFileSelected(files: FileList | null): void {
     if (files == null) {
@@ -76,11 +80,7 @@ export class DhCertificateUploaderComponent {
     const file = files[0];
 
     if (this.isValidFileType(file)) {
-      this.isInvalidFileType.set(false);
-
       return this.startUpload(this.actorId, file);
-    } else {
-      this.isInvalidFileType.set(true);
     }
   }
 
@@ -89,7 +89,7 @@ export class DhCertificateUploaderComponent {
   }
 
   private startUpload(actorId: string, file: File): void {
-    if (this.doesCertificateExist()) {
+    if (this.doesCertificateExist() || this.doesClientSecretMetadataExist()) {
       this.store.replaceCertificate({
         actorId,
         file,
@@ -106,17 +106,18 @@ export class DhCertificateUploaderComponent {
     }
   }
 
-  private readonly onUploadSuccessFn = () => {
+  private onUploadSuccessFn = () => {
     const message = this.transloco.translate(
       'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.uploadSuccess'
     );
 
     this.toastService.open({ type: 'success', message });
 
+    this.uploadSuccess.emit();
     this.store.getCredentials(this.actorId);
   };
 
-  private readonly onUploadErrorFn = () => {
+  private onUploadErrorFn = () => {
     const message = this.transloco.translate(
       'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.uploadError'
     );

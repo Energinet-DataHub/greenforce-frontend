@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import {
   EoAuthService,
   EoAuthStore,
@@ -83,14 +83,14 @@ import { AsyncPipe, NgIf } from '@angular/common';
   `,
 })
 export class EoPrimaryNavigationComponent {
+  private authService = inject(EoAuthService);
+  private authStore = inject(EoAuthStore);
   routes = eoRoutes;
   isLoggedIn$ = this.authStore.getScope$.pipe(map((scope) => scope.length > 0));
   @HostBinding('attr.aria-label')
   get ariaLabelAttribute(): string {
     return 'Menu';
   }
-
-  constructor(private authService: EoAuthService, private authStore: EoAuthStore) {}
 
   onLogOut(): void {
     this.authService.logout();

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EoEmissionsDataComponent } from './eo-emissions-data.component';
@@ -52,10 +52,10 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
   `,
 })
 export class EoEmissionsPageInfoComponent {
+  private store = inject(EoEmissionsStore);
+  private router = inject(Router);
   loadingDone$ = this.store.loadingDone$;
   totalCO2$ = this.store.total$;
-
-  constructor(private store: EoEmissionsStore, private router: Router) {}
 
   openSurvey() {
     this.router.navigate(['/emissions'], {

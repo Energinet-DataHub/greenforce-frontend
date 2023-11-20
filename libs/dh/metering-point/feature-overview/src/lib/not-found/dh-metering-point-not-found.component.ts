@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -33,7 +33,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
   imports: [TranslocoModule, WattButtonComponent, WattEmptyStateComponent],
 })
 export class DhMeteringPointNotFoundComponent {
-  constructor(private router: Router) {}
+  private router = inject(Router);
 
   goToSearch(): void {
     const url = this.router.createUrlTree([dhMeteringPointPath, dhMeteringPointSearchPath]);

@@ -89,12 +89,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> SecretAsync(System.Guid actorId);
+        System.Threading.Tasks.Task<ActorClientSecretDto> SecretAsync(System.Guid actorId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> SecretAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ActorClientSecretDto> SecretAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -368,12 +368,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetUserAuditLogResponse> AuditlogentryAsync(System.Guid userId);
+        System.Threading.Tasks.Task<GetUserAuditLogsResponse> AuditlogentryAsync(System.Guid userId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetUserAuditLogResponse> AuditlogentryAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<GetUserAuditLogsResponse> AuditlogentryAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -1110,7 +1110,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> SecretAsync(System.Guid actorId)
+        public virtual System.Threading.Tasks.Task<ActorClientSecretDto> SecretAsync(System.Guid actorId)
         {
             return SecretAsync(actorId, System.Threading.CancellationToken.None);
         }
@@ -1118,7 +1118,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> SecretAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ActorClientSecretDto> SecretAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -1160,7 +1160,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ActorClientSecretDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -3467,7 +3467,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetUserAuditLogResponse> AuditlogentryAsync(System.Guid userId)
+        public virtual System.Threading.Tasks.Task<GetUserAuditLogsResponse> AuditlogentryAsync(System.Guid userId)
         {
             return AuditlogentryAsync(userId, System.Threading.CancellationToken.None);
         }
@@ -3475,7 +3475,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetUserAuditLogResponse> AuditlogentryAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetUserAuditLogsResponse> AuditlogentryAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken)
         {
             if (userId == null)
                 throw new System.ArgumentNullException("userId");
@@ -3516,7 +3516,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<GetUserAuditLogResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<GetUserAuditLogsResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -5013,6 +5013,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [System.Runtime.Serialization.EnumMember(Value = @"Status")]
         Status = 2,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"CertificateCredentials")]
+        CertificateCredentials = 3,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"SecretCredentials")]
+        SecretCredentials = 4,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -5023,6 +5029,14 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         [Newtonsoft.Json.JsonProperty("expirationDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset ExpirationDate { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ActorClientSecretDto
+    {
+        [Newtonsoft.Json.JsonProperty("secretText", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string SecretText { get; set; } = default!;
 
     }
 
@@ -5221,15 +5235,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Name { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("businessRegisterIdentifier", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string BusinessRegisterIdentifier { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("address", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public AddressDto Address { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("comment", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? Comment { get; set; } = default!;
-
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Status { get; set; } = default!;
 
@@ -5352,9 +5357,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [Newtonsoft.Json.JsonProperty("domain", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Domain { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("comment", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? Comment { get; set; } = default!;
-
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -5463,7 +5465,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class GetUserAuditLogResponse
+    public partial class GetUserAuditLogsResponse
     {
         [Newtonsoft.Json.JsonProperty("userRoleAssignmentAuditLogs", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<UserRoleAssignmentAuditLogEntryDto> UserRoleAssignmentAuditLogs { get; set; } = default!;
@@ -5617,24 +5619,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [System.Runtime.Serialization.EnumMember(Value = @"Name")]
         Name = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"BusinessRegisterIdentifier")]
-        BusinessRegisterIdentifier = 2,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"AddressCity")]
-        AddressCity = 3,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"AddressCountry")]
-        AddressCountry = 4,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"AddressNumber")]
-        AddressNumber = 5,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"AddressStreetName")]
-        AddressStreetName = 6,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"AddressZipCode")]
-        AddressZipCode = 7,
-
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -5651,9 +5635,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         [Newtonsoft.Json.JsonProperty("domain", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Domain { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("comment", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? Comment { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Status { get; set; } = default!;
@@ -6072,20 +6053,14 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [System.Runtime.Serialization.EnumMember(Value = @"DescriptionChange")]
         DescriptionChange = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"EicFunctionChange")]
-        EicFunctionChange = 3,
-
         [System.Runtime.Serialization.EnumMember(Value = @"StatusChange")]
-        StatusChange = 4,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"PermissionsChange")]
-        PermissionsChange = 5,
+        StatusChange = 3,
 
         [System.Runtime.Serialization.EnumMember(Value = @"PermissionAdded")]
-        PermissionAdded = 6,
+        PermissionAdded = 4,
 
         [System.Runtime.Serialization.EnumMember(Value = @"PermissionRemoved")]
-        PermissionRemoved = 7,
+        PermissionRemoved = 5,
 
     }
 

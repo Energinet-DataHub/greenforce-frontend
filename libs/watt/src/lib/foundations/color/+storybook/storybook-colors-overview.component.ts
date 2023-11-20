@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { WattColorHelperService } from '../color-helper.service';
 import { WattColor } from '../colors';
@@ -44,6 +44,7 @@ interface Color {
   imports: [CommonModule, MatCardModule],
 })
 export class StorybookColorsOverviewComponent {
+  private colorHelperService = inject(WattColorHelperService);
   /**
    * @ignore
    */
@@ -115,8 +116,6 @@ export class StorybookColorsOverviewComponent {
       ],
     },
   ];
-
-  constructor(private colorHelperService: WattColorHelperService) {}
 
   /**
    * @ignore

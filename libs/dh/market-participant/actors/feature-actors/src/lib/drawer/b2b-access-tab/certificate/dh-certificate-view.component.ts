@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, effect, inject, signal } from '@angular/core';
+import { Component, Input, effect, inject, Injector, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -24,7 +24,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
-import { DhMarketParticipantCertificateStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalService } from '@energinet-datahub/watt/modal';
@@ -33,6 +33,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 
 import { DhRemoveCertificateModalComponent } from './dh-remove-certificate-modal.component';
 import { DhCertificateUploaderComponent } from './dh-certificate-uploader.component';
+import { DhReplaceCertificateModalComponent } from './dh-replace-certificate-modal.component';
 
 type DhCertificateTableRow = {
   translationKey: string;
@@ -42,7 +43,7 @@ type DhCertificateTableRow = {
 };
 
 @Component({
-  selector: 'dh-certificate',
+  selector: 'dh-certificate-view',
   standalone: true,
   styles: [
     `
@@ -55,7 +56,7 @@ type DhCertificateTableRow = {
       }
     `,
   ],
-  templateUrl: './dh-certificate.component.html',
+  templateUrl: './dh-certificate-view.component.html',
   imports: [
     NgIf,
     TranslocoDirective,
@@ -75,7 +76,8 @@ type DhCertificateTableRow = {
   ],
 })
 export class DhCertificateComponent {
-  private readonly store = inject(DhMarketParticipantCertificateStore);
+  private readonly injector = inject(Injector);
+  private readonly store = inject(DhMarketPartyCredentialsStore);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
   private readonly modalService = inject(WattModalService);
@@ -90,9 +92,6 @@ export class DhCertificateComponent {
   isInvalidFileType = signal(false);
 
   certificateMetadata = toSignal(this.store.certificateMetadata$);
-
-  isUploadInProgress = toSignal(this.store.uploadInProgress$);
-  isRemoveInProgress = toSignal(this.store.removeInProgress$);
 
   @Input({ required: true }) actorId = '';
 
@@ -127,6 +126,14 @@ export class DhCertificateComponent {
           });
         }
       },
+    });
+  }
+
+  replaceCertificate(): void {
+    this.modalService.open({
+      component: DhReplaceCertificateModalComponent,
+      injector: this.injector,
+      data: { actorId: this.actorId },
     });
   }
 

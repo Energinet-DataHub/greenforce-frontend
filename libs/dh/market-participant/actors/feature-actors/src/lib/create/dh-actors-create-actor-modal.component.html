@@ -21,27 +21,21 @@ limitations under the License.
       [linear]="true"
     >
       <watt-stepper-step
-        *ngIf="showCreateNewOrganization === false"
-        [nextButtonLabel]="t('steps.orgNext')"
+        *ngIf="showCreateNewOrganization() === false"
+        [nextButtonLabel]="t('steps.actor')"
         [stepControl]="chooseOrganizationForm"
         [label]="t('organization')"
       >
-        <vater-stack align="flex-start" fill="horizontal">
-          <watt-dropdown
-            [showResetOption]="false"
-            [options]="organizationOptions"
-            [label]="t('organization')"
-            [formControl]="chooseOrganizationForm.controls.orgId"
-          />
-          <watt-button variant="text" icon="plus" (click)="toggleShowCreateNewOrganization()">{{
-            t("newOrganization")
-          }}</watt-button>
-        </vater-stack>
+        <dh-choose-organization-step
+          [chooseOrganizationForm]="chooseOrganizationForm"
+          (choosenOrganizationDomain)="setChoosenOrganizationDomain($event)"
+          (toggleShowCreateNewOrganization)="toggleShowCreateNewOrganization()"
+        />
       </watt-stepper-step>
       <watt-stepper-step
-        *ngIf="showCreateNewOrganization"
-        [nextButtonLabel]="t('steps.orgNext')"
-        [stepControl]="chooseOrganizationForm"
+        *ngIf="showCreateNewOrganization()"
+        [nextButtonLabel]="t('steps.actor')"
+        [stepControl]="newOrganizationForm"
         [label]="t('organization')"
       >
         <div class="dh-actors-create-actor-organization">
@@ -88,8 +82,160 @@ limitations under the License.
           </vater-stack>
         </div>
       </watt-stepper-step>
-      <watt-stepper-step [label]="t('marketParty')"> marketParty </watt-stepper-step>
-      <watt-stepper-step [label]="t('useradmin')"> userAdmin </watt-stepper-step>
+      <watt-stepper-step
+        [stepControl]="newActorForm"
+        [previousButtonLabel]="t('steps.organization')"
+        [nextButtonLabel]="t('steps.invite')"
+        [label]="t('marketParty')"
+      >
+        <vater-stack gap="xl" class="dh-actors-create-actor" align="flex-start" direction="row">
+          <vater-stack fill="horizontal" align="flex-start" direction="column">
+            <h4>{{ t("marketParty") }}</h4>
+            <watt-text-field
+              [formControl]="newActorForm.controls.glnOrEicNumber"
+              [label]="t('glnOrEicNumber')"
+            >
+              <watt-field-error *ngIf="newActorForm.controls.glnOrEicNumber.hasError('pattern')">
+                {{ t("glnOrEicInvalid") }}
+              </watt-field-error>
+            </watt-text-field>
+            <watt-text-field
+              [formControl]="newActorForm.controls.name"
+              [label]="t('name')"
+              [tooltip]="t('tooltip')"
+            />
+            <watt-dropdown
+              translate="marketParticipant.marketRoles"
+              dhDropdownTranslator
+              [options]="marketRoleOptions"
+              (ngModelChange)="onMarketRoleChange($event)"
+              [formControl]="newActorForm.controls.marketrole"
+              [label]="t('marketRole')"
+            />
+            <watt-dropdown
+              *ngIf="showGridAreaOptions()"
+              [options]="gridAreaOptions"
+              [formControl]="newActorForm.controls.gridArea"
+              [label]="t('gridArea')"
+            />
+          </vater-stack>
+          <vater-stack fill="horizontal" align="flex-start" direction="column">
+            <h4>{{ t("contact") }}</h4>
+            <watt-text-field
+              [formControl]="newActorForm.controls.contact.controls.departmentOrName"
+              [label]="t('departmentOrName')"
+            />
+            <watt-text-field
+              [formControl]="newActorForm.controls.contact.controls.email"
+              [label]="t('email')"
+            >
+              <span class="domain">&#64;{{ getChoosenOrganizationDomain() }}</span>
+              <watt-field-error
+                *ngIf="newActorForm.controls.contact.controls.email.hasError('pattern')"
+              >
+                {{ t("wrongEmailPattern") }}
+              </watt-field-error>
+            </watt-text-field>
+            <watt-text-field
+              [formControl]="newActorForm.controls.contact.controls.phone"
+              [label]="t('phone')"
+            >
+              <watt-field-error
+                *ngIf="newActorForm.controls.contact.controls.phone.hasError('pattern')"
+              >
+                {{ t("phoneInvalid") }}
+              </watt-field-error>
+            </watt-text-field>
+          </vater-stack>
+        </vater-stack>
+      </watt-stepper-step>
+      <watt-stepper-step
+        [label]="t('useradmin')"
+        [previousButtonLabel]="t('steps.actor')"
+        [nextButtonLabel]="t('steps.create')"
+      >
+        <div class="dh-actors-create-actor-invite-user">
+          <vater-stack gap="m" align="flex-start" direction="row">
+            <watt-text-field
+              [formControl]="newUserForm.controls.firstName"
+              [label]="t('firstname')"
+            />
+            <watt-text-field
+              [formControl]="newUserForm.controls.lastName"
+              [label]="t('lastname')"
+            />
+          </vater-stack>
+          <vater-stack gap="m" align="flex-start">
+            <watt-text-field [formControl]="newUserForm.controls.email" [label]="t('email')">
+              <span class="domain">&#64;{{ getChoosenOrganizationDomain() }}</span>
+              <watt-field-error
+                *ngIf="newActorForm.controls.contact.controls.email.hasError('pattern')"
+              >
+                {{ t("wrongEmailPattern") }}
+              </watt-field-error>
+            </watt-text-field>
+            <watt-text-field [formControl]="newUserForm.controls.phone" [label]="t('phone')">
+              <watt-field-error *ngIf="newUserForm.controls.phone.hasError('pattern')">
+                {{ t("phoneInvalid") }}
+              </watt-field-error>
+            </watt-text-field>
+          </vater-stack>
+          <watt-card variant="solid">
+            <watt-card-title>
+              <ng-container
+                *ngTemplateOutlet="
+                  userRolesHeadline;
+                  context: {
+                    $implicit: dataSource.data.length
+                  }
+                "
+              />
+            </watt-card-title>
+
+            <vater-flex fill="vertical" scrollable>
+              <watt-table
+                [dataSource]="dataSource"
+                [columns]="columns"
+                sortBy="name"
+                sortDirection="asc"
+                [selectable]="true"
+                (selectionChange)="selectedUserRoles($event)"
+                [sortClear]="false"
+              >
+                <ng-container
+                  *wattTableCell="columns['name']; header: t('columns.name'); let userRole"
+                >
+                  {{ userRole.name }}
+                </ng-container>
+
+                <ng-container
+                  *wattTableCell="
+                    columns['description'];
+                    header: t('columns.description');
+                    let userRole
+                  "
+                >
+                  {{ userRole.description }}
+                </ng-container>
+              </watt-table>
+            </vater-flex>
+          </watt-card>
+
+          <ng-template #userRolesHeadline let-userRolesCount>
+            <ng-container
+              *transloco="let t; read: 'admin.userManagement.tabs.roles.userRolesHeadline'"
+            >
+              <h4 *ngIf="userRolesCount === 1">
+                {{ t("singular", { userRolesCount }) }}
+              </h4>
+
+              <h4 *ngIf="userRolesCount !== 1">
+                {{ t("plural", { userRolesCount }) }}
+              </h4>
+            </ng-container>
+          </ng-template>
+        </div>
+      </watt-stepper-step>
     </watt-stepper>
   </watt-modal>
 </ng-container>

@@ -58,7 +58,10 @@ limitations under the License.
 
             <div
               class="watt-space-stack-m"
-              *ngIf="(form.submitted || userRoleEditForm.dirty) && userRoleEditForm.controls.permissionIds.errors?.['required']"
+              *ngIf="
+                (form.submitted || userRoleEditForm.dirty) &&
+                userRoleEditForm.controls.permissionIds.errors?.['required']
+              "
             >
               <watt-field-error>{{
                 t("tab.validationErrors.permissionRequired")
@@ -71,7 +74,7 @@ limitations under the License.
               </watt-card-title>
 
               <dh-permissions-table
-                [permissions]="marketRolePermissions$ | push : { strategy: 'native' }"
+                [permissions]="marketRolePermissions$ | push: { strategy: 'native' }"
                 [initialSelection]="initiallySelectedPermissions$ | push"
                 (selectionChanged)="onSelectionChanged($event)"
               />

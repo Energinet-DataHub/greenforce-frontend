@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Directive, Input } from '@angular/core';
+import { Directive, Input, inject } from '@angular/core';
 
 import { EoMediaAlign } from './eo-media-align';
 import { EoMediaPresenter } from './eo-media.presenter';
@@ -25,6 +25,7 @@ import { EoMediaPresenter } from './eo-media.presenter';
   selector: '[eoMediaImage]',
 })
 export class EoMediaImageDirective {
+  private presenter = inject(EoMediaPresenter);
   /**
    * Set the alignment of the media image in the media box.
    *
@@ -41,6 +42,4 @@ export class EoMediaImageDirective {
   set maxWidthPixels(value: number | null) {
     this.presenter.updateMediaImageMaxWidthPixels(value);
   }
-
-  constructor(private presenter: EoMediaPresenter) {}
 }
