@@ -696,7 +696,7 @@
             }
           },
           "history": {
-            "tabLabel": "History",
+            "tabLabel": "Historik",
             "changeTypes": {
               "NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
               "NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
