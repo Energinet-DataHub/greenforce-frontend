@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhMarketPartyCredentialsStore } from './lib/dh-market-party-credentials.store';
+export { DhMarketPartyB2BAccessStore } from './lib/dh-market-party-b2b-access.store';

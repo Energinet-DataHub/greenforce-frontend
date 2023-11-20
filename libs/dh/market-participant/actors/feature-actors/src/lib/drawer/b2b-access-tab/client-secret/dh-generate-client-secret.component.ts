@@ -20,7 +20,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 
 @Component({
   selector: 'dh-generate-client-secret',
@@ -46,7 +46,7 @@ import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-part
 export class DhGenerateClientSecretComponent {
   private readonly transloco = inject(TranslocoService);
   private readonly toastService = inject(WattToastService);
-  private readonly store = inject(DhMarketPartyCredentialsStore);
+  private readonly store = inject(DhMarketPartyB2BAccessStore);
 
   generateSecretInProgress = toSignal(this.store.generateSecretInProgress$, {
     requireSync: true,
