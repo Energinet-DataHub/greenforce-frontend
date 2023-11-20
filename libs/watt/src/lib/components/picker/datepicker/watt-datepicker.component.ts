@@ -91,7 +91,7 @@ export class WattDatepickerComponent extends WattPickerBase {
 
   @Input() max: Date | null = null;
   @Input() min: Date | null = null;
-  @Input() startAt = new Date();
+  @Input() startAt: Date | null = null;
   @Input() rangeMonthOnlyMode = false;
   @Input() label = '';
 
