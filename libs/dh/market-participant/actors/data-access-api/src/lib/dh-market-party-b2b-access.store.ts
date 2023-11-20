@@ -23,7 +23,7 @@ import {
   MarketParticipantActorHttp,
 } from '@energinet-datahub/dh/shared/domain';
 
-interface CertificateState {
+interface DhB2BAccessState {
   credentials: MarketParticipantActorCredentialsDto | null;
   clientSecret: string | undefined;
   loadingCredentials: boolean;
@@ -32,7 +32,7 @@ interface CertificateState {
   removeInProgress: boolean;
 }
 
-const initialState: CertificateState = {
+const initialState: DhB2BAccessState = {
   credentials: null,
   clientSecret: undefined,
   loadingCredentials: true,
@@ -42,7 +42,7 @@ const initialState: CertificateState = {
 };
 
 @Injectable()
-export class DhMarketPartyB2BAccessStore extends ComponentStore<CertificateState> {
+export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState> {
   private readonly httpClient = inject(MarketParticipantActorHttp);
 
   readonly doCredentialsExist$ = this.select((state) => !!state.credentials);
@@ -179,7 +179,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<CertificateState
   );
 
   readonly resetClientSecret = this.updater(
-    (state): CertificateState => ({
+    (state): DhB2BAccessState => ({
       ...state,
       clientSecret: undefined,
     })
