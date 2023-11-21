@@ -24,10 +24,7 @@ import {
   PublicClientApplication,
 } from '@azure/msal-browser';
 
-import {
-  DhApiEnvironment,
-  DhB2CEnvironment,
-} from '@energinet-datahub/dh/shared/environments';
+import { DhApiEnvironment, DhB2CEnvironment } from '@energinet-datahub/dh/shared/environments';
 
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
