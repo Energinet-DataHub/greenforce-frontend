@@ -62,7 +62,7 @@ export function MSALInstanceFactory(
 function reloadOnLoginFailed(error: string) {
   const loginFailed = error.includes('Error - Guard - error while logging in, unable to activate');
   if (loginFailed) {
-    window.location.reload();
+    setTimeout(() => window.location.reload(), 5000);
   }
 }
 
