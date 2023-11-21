@@ -237,7 +237,7 @@ export class EoDashboardConsumptionComponent implements OnInit {
             tooltip: {
               callbacks: {
                 label: (context) => {
-                  const text = context.dataset.label === 'Consumption' ? 'unclaimed' : 'claimed';
+                  const text = context.dataset.label === 'Consumption' ? 'Other' : 'Green';
                   return `${context.parsed.y} ${unit} ${text}`;
                 },
               },
