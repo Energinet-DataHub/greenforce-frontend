@@ -330,6 +330,13 @@ input AddressDtoInput {
   country: String!
 }
 
+input CreateActorContactDtoInput {
+  name: String!
+  category: String!
+  email: String!
+  phone: String
+}
+
 input CreateActorDtoInput {
   organizationId: UUID!
   name: ActorNameDtoInput!
@@ -354,9 +361,10 @@ input CreateCalculationInput {
 }
 
 input CreateMarketParticipantInput {
-  organizationId: String
+  organizationId: UUID
   organization: CreateOrganizationDtoInput
   actor: CreateActorDtoInput!
+  actorContact: CreateActorContactDtoInput!
   userInvite: UserInvitationDtoInput!
 }
 

@@ -20,7 +20,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
 
 @Component({
   selector: 'dh-generate-client-secret',
@@ -46,7 +47,8 @@ import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-part
 export class DhGenerateClientSecretComponent {
   private readonly transloco = inject(TranslocoService);
   private readonly toastService = inject(WattToastService);
-  private readonly store = inject(DhMarketPartyCredentialsStore);
+  private readonly store = inject(DhMarketPartyB2BAccessStore);
+  private readonly auditLogService = inject(DhActorAuditLogService);
 
   generateSecretInProgress = toSignal(this.store.generateSecretInProgress$, {
     requireSync: true,
@@ -55,7 +57,7 @@ export class DhGenerateClientSecretComponent {
 
   @Input({ required: true }) actorId = '';
 
-  @Output() uploadSuccess = new EventEmitter<void>();
+  @Output() generateSuccess = new EventEmitter<void>();
 
   generateSecret(): void {
     this.store.generateClientSecret({
@@ -72,8 +74,9 @@ export class DhGenerateClientSecretComponent {
 
     this.toastService.open({ type: 'success', message });
 
-    this.uploadSuccess.emit();
+    this.generateSuccess.emit();
     this.store.getCredentials(this.actorId);
+    this.auditLogService.refreshAuditLog(this.actorId);
   };
 
   private onGenerateSecretErrorFn = () => {
