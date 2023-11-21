@@ -188,13 +188,17 @@ public class Mutation
             input.OrganizationId ??
             await client.OrganizationPOSTAsync(input.Organization!).ConfigureAwait(false);
 
-        input.Actor.OrganizationId = Guid.Parse(organizationId);
+        input.Actor.OrganizationId = organizationId;
 
         var actorId = await client
             .ActorPOSTAsync(input.Actor)
             .ConfigureAwait(false);
 
-        input.UserInvite.AssignedActor = Guid.Parse(actorId);
+        input.UserInvite.AssignedActor = actorId;
+
+        await client
+            .ContactPOSTAsync(actorId, input.ActorContact)
+            .ConfigureAwait(false);
 
         await client
             .InviteAsync(input.UserInvite)
