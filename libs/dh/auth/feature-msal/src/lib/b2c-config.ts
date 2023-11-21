@@ -24,9 +24,17 @@ import {
   PublicClientApplication,
 } from '@azure/msal-browser';
 
-import { DhApiEnvironment, DhAppEnvironment, DhAppEnvironmentConfig, DhB2CEnvironment } from '@energinet-datahub/dh/shared/environments';
+import {
+  DhApiEnvironment,
+  DhAppEnvironment,
+  DhAppEnvironmentConfig,
+  DhB2CEnvironment,
+} from '@energinet-datahub/dh/shared/environments';
 
-export function MSALInstanceFactory(config: DhB2CEnvironment, app: DhAppEnvironmentConfig): IPublicClientApplication {
+export function MSALInstanceFactory(
+  config: DhB2CEnvironment,
+  app: DhAppEnvironmentConfig
+): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
       clientId: config.clientId,
@@ -53,10 +61,12 @@ export function MSALInstanceFactory(config: DhB2CEnvironment, app: DhAppEnvironm
 }
 
 function reloadOnLoginFailed(message: string, environment: DhAppEnvironment) {
-  if(environment == DhAppEnvironment.test) {
-    console.log("MSAL log: " + message);
+  if (environment == DhAppEnvironment.test) {
+    console.log('MSAL log: ' + message);
   } else {
-    const loginFailed = message.includes('Error - Guard - error while logging in, unable to activate');
+    const loginFailed = message.includes(
+      'Error - Guard - error while logging in, unable to activate'
+    );
     if (loginFailed) {
       window.location.reload();
     }
