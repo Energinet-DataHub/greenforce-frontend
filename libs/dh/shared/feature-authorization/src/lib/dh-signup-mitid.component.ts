@@ -27,6 +27,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 @Component({
   selector: 'dh-signup-mitid',
@@ -39,6 +40,7 @@ export class DhSignupMitIdComponent {
   private marketParticipantUserHttp = inject(MarketParticipantUserHttp);
   private config = inject(dhB2CEnvironmentToken);
   private app = inject(dhAppEnvironmentToken);
+  private appInsights = inject(DhApplicationInsights);
 
   isLoading$ = new Subject<boolean>();
 
@@ -52,7 +54,8 @@ export class DhSignupMitIdComponent {
             ...this.config,
             authority: this.config.mitIdInviteFlowUri,
           },
-          this.app
+          this.app,
+          this.appInsights
         ).loginRedirect();
       });
   };

@@ -31,9 +31,12 @@ import {
   DhB2CEnvironment,
 } from '@energinet-datahub/dh/shared/environments';
 
+import { DhApplicationInsights } from  '@energinet-datahub/dh/shared/util-application-insights';
+
 export function MSALInstanceFactory(
   config: DhB2CEnvironment,
-  app: DhAppEnvironmentConfig
+  appEnvironment: DhAppEnvironmentConfig,
+  appInsights: DhApplicationInsights
 ): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
@@ -50,7 +53,11 @@ export function MSALInstanceFactory(
     system: {
       loggerOptions: {
         loggerCallback: (logLevel: LogLevel, message: string) => {
-          reloadOnLoginFailed(message, app.current);
+          if(appEnvironment.current == DhAppEnvironment.test) {
+            appInsights.trackTrace("MSAL Issue Log: " + message);
+          } else {
+            reloadOnLoginFailed(message);
+          }
         },
         logLevel: LogLevel.Warning,
         piiLoggingEnabled: false,
@@ -60,16 +67,10 @@ export function MSALInstanceFactory(
   });
 }
 
-function reloadOnLoginFailed(message: string, environment: DhAppEnvironment) {
-  if (environment == DhAppEnvironment.test) {
-    console.log('MSAL log: ' + message);
-  } else {
-    const loginFailed = message.includes(
-      'Error - Guard - error while logging in, unable to activate'
-    );
-    if (loginFailed) {
-      window.location.reload();
-    }
+function reloadOnLoginFailed(error: string) {
+  const loginFailed = error.includes('Error - Guard - error while logging in, unable to activate');
+  if (loginFailed) {
+    window.location.reload();
   }
 }
 
