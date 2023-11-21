@@ -26,7 +26,6 @@ import {
 
 import {
   DhApiEnvironment,
-  DhAppEnvironment,
   DhB2CEnvironment,
 } from '@energinet-datahub/dh/shared/environments';
 
