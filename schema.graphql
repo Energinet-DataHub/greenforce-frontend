@@ -278,6 +278,13 @@ type MarketParticipantBadRequestError implements Error {
   statusCode: Int!
 }
 
+type ApiError implements Error {
+  message: String!
+  statusCode: Int!
+  response: String
+  headers: [KeyValuePairOfStringAndIEnumerableOfString!]!
+}
+
 interface Error {
   message: String!
 }
@@ -414,6 +421,11 @@ type PermissionLog {
   value: String
   timestamp: DateTime!
   type: PermissionAuditLogType!
+}
+
+type KeyValuePairOfStringAndIEnumerableOfString {
+  key: String!
+  value: [String!]!
 }
 
 enum PermissionAuditLogType {
@@ -573,7 +585,7 @@ type UpdateOrganizationPayload {
   errors: [UpdateOrganizationError!]
 }
 
-union CreateMarketParticipantError = MarketParticipantBadRequestError
+union CreateMarketParticipantError = ApiError
 
 type CreateMarketParticipantPayload {
   boolean: Boolean

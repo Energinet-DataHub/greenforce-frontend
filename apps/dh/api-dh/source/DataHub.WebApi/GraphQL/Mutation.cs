@@ -179,7 +179,7 @@ public class Mutation
         return true;
     }
 
-    [Error(typeof(MarketParticipantBadRequestException))]
+    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
     public async Task<bool> CreateMarketParticipantAsync(
             CreateMarketParticipantInput input,
             [Service] IMarketParticipantClient_V1 client)
