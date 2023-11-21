@@ -2617,7 +2617,11 @@
             "format": "uuid"
           },
           "category": {
-            "type": "string"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContactCategory"
+              }
+            ]
           },
           "name": {
             "type": "string"
@@ -2846,7 +2850,11 @@
             "type": "string"
           },
           "category": {
-            "type": "string"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContactCategory"
+              }
+            ]
           },
           "email": {
             "type": "string"

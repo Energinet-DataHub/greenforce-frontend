@@ -39,6 +39,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
+  ContactCategory,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
   EicFunction,
@@ -56,13 +57,12 @@ import {
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { GraphQLError } from 'graphql';
+
+import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { parseApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 type UserRoles = ResultOf<typeof GetUserRolesByEicfunctionDocument>['userRolesByEicFunction'];
 type UserRole = UserRoles[number];
-type ApiError = ResultOf<
-  typeof CreateMarketParticipantDocument
->['createMarketParticipant']['errors'];
 
 @Component({
   standalone: true,
@@ -274,6 +274,12 @@ export class DhActorsCreateActorModalComponent {
                   businessRegisterIdentifier: this.newOrganizationForm.controls.cvrNumber.value,
                   name: this.newOrganizationForm.controls.companyName.value,
                 },
+            actorContact: {
+              email: this.newActorForm.controls.contact.controls.email.value,
+              name: this.newActorForm.controls.contact.controls.departmentOrName.value,
+              phone: this.newActorForm.controls.contact.controls.phone.value,
+              category: ContactCategory.Default,
+            },
             actor: {
               name: { value: this.newActorForm.controls.name.value },
               organizationId:
@@ -303,7 +309,7 @@ export class DhActorsCreateActorModalComponent {
     if (response.errors && response.errors.length > 0) {
       this._toastService.open({
         type: 'danger',
-        message: response.errors.map((error) => error.message).join('/n'),
+        message: parseGraphQLErrorResponse(response.errors),
       });
     }
 
@@ -313,14 +319,7 @@ export class DhActorsCreateActorModalComponent {
     ) {
       this._toastService.open({
         type: 'danger',
-        message: response.data?.createMarketParticipant?.errors
-          .map(
-            (error) =>
-              JSON.parse(error.response ?? '')
-                ?.error.details?.map((detail: { message: string }) => detail.message ?? '')
-                .join('/n')
-          )
-          .join('/n'),
+        message: parseApiErrorResponse(response.data?.createMarketParticipant?.errors),
       });
     }
 
