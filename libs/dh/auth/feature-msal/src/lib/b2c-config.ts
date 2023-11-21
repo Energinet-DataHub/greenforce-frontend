@@ -24,9 +24,9 @@ import {
   PublicClientApplication,
 } from '@azure/msal-browser';
 
-import { DhB2CEnvironment } from '@energinet-datahub/dh/shared/environments';
+import { DhApiEnvironment, DhAppEnvironment, DhAppEnvironmentConfig, DhB2CEnvironment } from '@energinet-datahub/dh/shared/environments';
 
-export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientApplication {
+export function MSALInstanceFactory(config: DhB2CEnvironment, app: DhAppEnvironmentConfig): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
       clientId: config.clientId,
@@ -42,9 +42,9 @@ export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientAppl
     system: {
       loggerOptions: {
         loggerCallback: (logLevel: LogLevel, message: string) => {
-          reloadOnLoginFailed(message);
+          reloadOnLoginFailed(message, app.current);
         },
-        logLevel: LogLevel.Error,
+        logLevel: LogLevel.Warning,
         piiLoggingEnabled: false,
       },
       allowNativeBroker: false,
@@ -52,22 +52,23 @@ export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientAppl
   });
 }
 
-function reloadOnLoginFailed(error: string) {
-  const loginFailed = error.includes('Error - Guard - error while logging in, unable to activate');
-  if (loginFailed) {
-    window.location.reload();
+function reloadOnLoginFailed(message: string, environment: DhAppEnvironment) {
+  if(environment == DhAppEnvironment.test) {
+    console.log("MSAL log: " + message);
+  } else {
+    const loginFailed = message.includes('Error - Guard - error while logging in, unable to activate');
+    if (loginFailed) {
+      window.location.reload();
+    }
   }
 }
 
 export function MSALInterceptorConfigFactory(
-  config: DhB2CEnvironment
+  config: DhB2CEnvironment,
+  api: DhApiEnvironment
 ): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string> | null>();
-
-  // Note: A scope value of `null` indicates that a resource is to be unprotected and will not get tokens.
-  // The order here matters. Resources with `null` scope must be first.
-  protectedResourceMap.set('/assets/*', null);
-  protectedResourceMap.set('*', [config.scopeUri]);
+  protectedResourceMap.set(`${api.apiBase}/*`, [config.scopeUri]);
 
   return {
     interactionType: InteractionType.Redirect,

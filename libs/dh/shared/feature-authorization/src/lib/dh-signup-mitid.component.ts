@@ -16,7 +16,7 @@
  */
 import { Component, inject } from '@angular/core';
 
-import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { dhAppEnvironmentToken, dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
@@ -35,6 +35,7 @@ import { RxPush } from '@rx-angular/template/push';
 export class DhSignupMitIdComponent {
   private marketParticipantUserHttp = inject(MarketParticipantUserHttp);
   private config = inject(dhB2CEnvironmentToken);
+  private app = inject(dhAppEnvironmentToken);
 
   isLoading$ = new Subject<boolean>();
 
@@ -46,7 +47,7 @@ export class DhSignupMitIdComponent {
         MSALInstanceFactory({
           ...this.config,
           authority: this.config.mitIdInviteFlowUri,
-        }).loginRedirect();
+        }, this.app).loginRedirect();
       });
   };
 }
