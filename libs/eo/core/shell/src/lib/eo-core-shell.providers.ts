@@ -18,7 +18,10 @@ import { importProvidersFrom } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { eoApiVersioningInterceptorProvider, eoAuthorizationInterceptorProvider } from '@energinet-datahub/eo/shared/services';
+import {
+  eoApiVersioningInterceptorProvider,
+  eoAuthorizationInterceptorProvider,
+} from '@energinet-datahub/eo/shared/services';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
