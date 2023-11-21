@@ -31,7 +31,7 @@ import {
   DhB2CEnvironment,
 } from '@energinet-datahub/dh/shared/environments';
 
-import { DhApplicationInsights } from  '@energinet-datahub/dh/shared/util-application-insights';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 export function MSALInstanceFactory(
   config: DhB2CEnvironment,
@@ -53,8 +53,8 @@ export function MSALInstanceFactory(
     system: {
       loggerOptions: {
         loggerCallback: (logLevel: LogLevel, message: string) => {
-          if(appEnvironment.current == DhAppEnvironment.test) {
-            appInsights.trackTrace("MSAL Issue Log: " + message);
+          if (appEnvironment.current == DhAppEnvironment.test) {
+            appInsights.trackTrace('MSAL Issue Log: ' + message);
           } else {
             reloadOnLoginFailed(message);
           }
