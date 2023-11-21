@@ -51,7 +51,7 @@ export function MSALInstanceFactory(
     system: {
       loggerOptions: {
         loggerCallback: (logLevel: LogLevel, message: string) => {
-          appInsights.trackTrace("MSAL Issue Log: " + message);
+          appInsights.trackTrace('MSAL Issue Log: ' + message);
           appInsights.flush();
           reloadOnLoginFailed(message);
         },

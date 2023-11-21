@@ -16,9 +16,7 @@
  */
 import { Component, inject } from '@angular/core';
 
-import {
-  dhB2CEnvironmentToken,
-} from '@energinet-datahub/dh/shared/environments';
+import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
