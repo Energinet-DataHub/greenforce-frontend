@@ -60,7 +60,7 @@ export class DhInactivityDetectionService {
       if (isInactive) {
         this.modalService.open({
           component: DhInactivityLogoutComponent,
-          onClosed: (result) => result && this.msal.logout(),
+          onClosed: (result) => result && this.msal.logoutRedirect(),
         });
       } else {
         this.modalService.close(false);
