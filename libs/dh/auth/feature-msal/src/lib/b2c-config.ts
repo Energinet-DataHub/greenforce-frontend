@@ -30,7 +30,7 @@ import {
   DhB2CEnvironment,
 } from '@energinet-datahub/dh/shared/environments';
 
-import { DhApplicationInsights } from  '@energinet-datahub/dh/shared/util-application-insights';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 export function MSALInstanceFactory(
   config: DhB2CEnvironment,
