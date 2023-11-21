@@ -52,7 +52,7 @@ export function MSALInstanceFactory(
           reloadOnLoginFailed(message);
         },
         logLevel: LogLevel.Warning,
-        piiLoggingEnabled: false,
+        piiLoggingEnabled: true,
       },
       allowNativeBroker: false,
     },
