@@ -17,7 +17,6 @@
 import { Component, inject } from '@angular/core';
 
 import {
-  dhAppEnvironmentToken,
   dhB2CEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
@@ -39,7 +38,6 @@ import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-applica
 export class DhSignupMitIdComponent {
   private marketParticipantUserHttp = inject(MarketParticipantUserHttp);
   private config = inject(dhB2CEnvironmentToken);
-  private app = inject(dhAppEnvironmentToken);
   private appInsights = inject(DhApplicationInsights);
 
   isLoading$ = new Subject<boolean>();
@@ -54,7 +52,6 @@ export class DhSignupMitIdComponent {
             ...this.config,
             authority: this.config.mitIdInviteFlowUri,
           },
-          this.app,
           this.appInsights
         ).loginRedirect();
       });
