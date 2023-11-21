@@ -5,6 +5,7 @@
     "connection-invitations": "20230101",
     "connections": "20230101",
     "cvr": "20230101",
-    "transfer-agreements": "20230101"
+    "transfer-agreements": "20230101",
+    "transfer-automation": "20230101"
   }
 }
