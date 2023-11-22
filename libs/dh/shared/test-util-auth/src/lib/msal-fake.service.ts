@@ -17,7 +17,7 @@
 import { AuthenticationResult, IPublicClientApplication, Logger } from '@azure/msal-browser';
 import { MockProvider } from 'ng-mocks';
 import { Observable, from, of } from 'rxjs';
-import { MsalService } from '@azure/msal-angular';
+import { MsalGuard, MsalService } from '@azure/msal-angular';
 
 const accountMock = {
   environment: '',
@@ -72,7 +72,7 @@ function getLoggerMock(): Logger {
   } as unknown as Logger;
 }
 
-export const MsalServiceFake = MockProvider(MsalService, {
+export const MsalServiceMock = MockProvider(MsalService, {
   handleRedirectObservable: handleRedirectObservableMock,
   getLogger: getLoggerMock,
   instance: {
@@ -80,4 +80,8 @@ export const MsalServiceFake = MockProvider(MsalService, {
     getActiveAccount: () => accountMock,
   } as IPublicClientApplication,
   initialize: () => from(Promise.resolve()),
+});
+
+export const MsalGuardMock = MockProvider(MsalGuard, {
+  canActivate: () => of(true),
 });
