@@ -35,13 +35,20 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
-import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
+import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-access-api';
 
 @Component({
   selector: 'eo-certificates-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatPaginatorModule, MatTableModule, MatSortModule, RouterModule, WattDatePipe],
+  imports: [
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
+    RouterModule,
+    WattDatePipe,
+    EnergyUnitPipe,
+  ],
   standalone: true,
   styles: [
     `
@@ -75,7 +82,7 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
       <!-- Quantity Column -->
       <ng-container matColumnDef="quantity">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Amount </mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.quantity.toLocaleString() }} Wh </mat-cell>
+        <mat-cell *matCellDef="let element">{{ element.quantity | energyUnit }}</mat-cell>
       </ng-container>
 
       <!-- Action column -->
