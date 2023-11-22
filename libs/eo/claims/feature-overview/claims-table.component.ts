@@ -18,6 +18,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnInit,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
@@ -52,7 +53,14 @@ import { EnergyUnitPipe } from '@energinet-datahub/eo/shared/utilities';
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
-    <watt-table #table [loading]="loading" [columns]="columns" [dataSource]="dataSource" />
+    <watt-table
+      #table
+      [loading]="loading"
+      [columns]="columns"
+      [dataSource]="dataSource"
+      sortBy="start"
+      sortDirection="desc"
+    />
 
     <watt-empty-state
       *ngIf="loading === false && dataSource.data.length === 0 && !hasError"
@@ -71,14 +79,7 @@ import { EnergyUnitPipe } from '@energinet-datahub/eo/shared/utilities';
     <watt-paginator [for]="dataSource" />
   `,
 })
-export class EoClaimsTableComponent {
-  protected energyUnitPipe = inject(EnergyUnitPipe);
-  protected dataSource: WattTableDataSource<Claim> = new WattTableDataSource(undefined);
-  protected columns: WattTableColumnDef<Claim> = {
-    claimId: { accessor: (x) => x.claimId, header: 'Claim Id' },
-    quantity: { accessor: (x) => this.energyUnitPipe.transform(x.quantity), header: 'Amount' },
-  };
-
+export class EoClaimsTableComponent implements OnInit {
   @Input() loading = false;
   @Input() hasError = false;
 
@@ -90,5 +91,56 @@ export class EoClaimsTableComponent {
   @Input()
   set filter(value: string) {
     this.dataSource.filter = value;
+  }
+
+  dataSource: WattTableDataSource<Claim> = new WattTableDataSource(undefined);
+
+  protected energyUnitPipe: EnergyUnitPipe = inject(EnergyUnitPipe);
+  protected columns: WattTableColumnDef<Claim> = {
+    claimId: { accessor: (x) => x.claimId, header: 'Claim Id' },
+    quantity: { accessor: (x) => this.energyUnitPipe.transform(x.quantity), header: 'Amount' },
+    start: {
+      accessor: (x) => x.start,
+      header: 'Start',
+    },
+    end: {
+      accessor: (x) => x.end,
+      header: 'End',
+    },
+  };
+
+  ngOnInit(): void {
+      this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string) => {
+        console.log('data', data, sortHeaderId);
+        switch (sortHeaderId) {
+          case 'start': return data.consumptionCertificate.start;
+          case 'end': return data.consumptionCertificate.end;
+          default: return data[sortHeaderId];
+        }
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.dataSource.sortData = (data: any[], sort: any) => {
+        if(!sort.active || sort.direction === '') {
+          return data;
+        } else if(sort.active === 'start' || sort.active === 'end') {
+          return data.sort((a, b) => {
+            const isAsc = sort.direction === 'asc';
+            return this.compare(a.consumptionCertificate[sort.active], b.consumptionCertificate[sort.active], isAsc);
+          });
+        }
+
+        return [data];
+      }
+  }
+
+  compare(a: number, b: number, isAsc: boolean): number {
+    if (a < b) {
+      return isAsc ? -1 : 1;
+    } else if (a > b) {
+      return isAsc ? 1 : -1;
+    } else {
+      return 0;
+    }
   }
 }
