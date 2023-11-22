@@ -681,31 +681,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-angular@npm:3.0.2":
-  version: 3.0.2
-  resolution: "@azure/msal-angular@npm:3.0.2"
+"@azure/msal-angular@npm:3.0.8":
+  version: 3.0.8
+  resolution: "@azure/msal-angular@npm:3.0.8"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
-    "@azure/msal-browser": ^3.0.2
+    "@azure/msal-browser": ^3.5.0
     rxjs: ^7.0.0
-  checksum: 335aa0e876294b102fd64bbafa23f3a38f8166e5fd17da00c68d6627c30051afa77b7c3001e53120fb3818f8a4c867215b86a79f5076adfb5910576e95e5bf84
+  checksum: 50b90110deafc614b4f49565fb4e50c2c0698e6ac321364ea1a99b46d76abccdd167d420aed6e2fd900f2e25b3fb4ad3339b07ef0eb9af40721fdfba05d2b9dc
   languageName: node
   linkType: hard
 
-"@azure/msal-browser@npm:3.0.2":
-  version: 3.0.2
-  resolution: "@azure/msal-browser@npm:3.0.2"
+"@azure/msal-browser@npm:3.5.0":
+  version: 3.5.0
+  resolution: "@azure/msal-browser@npm:3.5.0"
   dependencies:
-    "@azure/msal-common": 14.0.2
-  checksum: 3036e8ee50d967887697591b6547866f6d60697b7aedf239f997a5a6ff28032383c6fc5a03010dc432470458c28061081ac035bfa388e9a6244df27187b41399
+    "@azure/msal-common": 14.4.0
+  checksum: 876e5d5ac4fc638acc18faa2cea269b595963df5806482b858f3ec72b2cff3e2b4cb47fa1e0f7ace04dd66b0544e4471f04de299a551975bdb74f111fc65af34
   languageName: node
   linkType: hard
 
-"@azure/msal-common@npm:14.0.2":
-  version: 14.0.2
-  resolution: "@azure/msal-common@npm:14.0.2"
-  checksum: 19515bfd2358d7cd07a2f083c98cf7eb0de68caf6f32f2bdd86a28839352f62830ba37b6dda938531f8924e27f28b877ee385055414ada41aeb024207763cea0
+"@azure/msal-common@npm:14.4.0":
+  version: 14.4.0
+  resolution: "@azure/msal-common@npm:14.4.0"
+  checksum: 63c63fac0915b4dbd026add260e2527138a02ba6f9ccd8d92d2641fc3e2b5d59c6943415d470e40af2f34c55e77ccfc2d3f90e8a2befc1eeae3a9896ec65ade8
   languageName: node
   linkType: hard
 
@@ -18250,8 +18250,8 @@ cors@latest:
     "@angular/platform-browser-dynamic": 16.2.8
     "@angular/router": 16.2.8
     "@apollo/client": 3.8.1
-    "@azure/msal-angular": 3.0.2
-    "@azure/msal-browser": 3.0.2
+    "@azure/msal-angular": 3.0.8
+    "@azure/msal-browser": 3.5.0
     "@babel/core": ^7.22.9
     "@babel/runtime": ^7.22.6
     "@badeball/cypress-cucumber-preprocessor": 13.1.0
