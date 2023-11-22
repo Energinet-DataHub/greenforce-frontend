@@ -39,7 +39,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
-  ContactCategory,
+  ContactCategoryType,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
   EicFunction,
@@ -278,7 +278,7 @@ export class DhActorsCreateActorModalComponent {
               email: this.newActorForm.controls.contact.controls.email.value,
               name: this.newActorForm.controls.contact.controls.departmentOrName.value,
               phone: this.newActorForm.controls.contact.controls.phone.value,
-              category: ContactCategory.Default,
+              category: ContactCategoryType.Default,
             },
             actor: {
               name: { value: this.newActorForm.controls.name.value },

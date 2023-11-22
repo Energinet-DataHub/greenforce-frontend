@@ -51,6 +51,24 @@ type Calculation {
   processType: ProcessType!
 }
 
+enum ContactCategoryType {
+  default
+  charges
+  chargelinks
+  electricalheating
+  endofsupply
+  energinetinquiry
+  errorreport
+  incorrectmove
+  incorrectswitch
+  measurementdata
+  meteringpoint
+  netsettlement
+  notification
+  recon
+  reminder
+}
+
 enum EdiB2CProcessType {
   preliminaryaggregation
   balancefixing
@@ -490,7 +508,7 @@ input UserInvitationDtoInput {
 
 input CreateActorContactDtoInput {
   name: String!
-  category: String!
+  category: ContactCategoryType!
   email: String!
   phone: String
 }
