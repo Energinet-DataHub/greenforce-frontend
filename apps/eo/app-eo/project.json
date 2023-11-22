@@ -116,9 +116,6 @@
         "development": {
           "hmr": true
         },
-        "e2e-development": {
-          "browserTarget": "app-eo:build:mocked"
-        },
         "production": {
           "browserTarget": "app-eo:build:production"
         },
