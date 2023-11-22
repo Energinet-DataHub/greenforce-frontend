@@ -48,6 +48,13 @@ type AddressDto {
   country: String!
 }
 
+type ApiError implements Error {
+  message: String!
+  statusCode: Int!
+  response: String
+  headers: [KeyValuePairOfStringAndIEnumerableOfString!]!
+}
+
 type BalanceResponsiblePageResult {
   page: [BalanceResponsibleType!]!
   totalCount: Int!
@@ -146,6 +153,11 @@ type GridAreaOverviewItemDto {
   actorName: String
   organizationName: String
   fullFlexDate: DateTime
+}
+
+type KeyValuePairOfStringAndIEnumerableOfString {
+  key: String!
+  value: [String!]!
 }
 
 type MarketParticipantBadRequestError implements Error {
@@ -297,7 +309,7 @@ type UserRoleWithPermissionsDto {
   permissions: [Permission!]!
 }
 
-union CreateMarketParticipantError = MarketParticipantBadRequestError
+union CreateMarketParticipantError = ApiError
 
 union UpdateActorError = MarketParticipantBadRequestError
 
@@ -332,7 +344,7 @@ input AddressDtoInput {
 
 input CreateActorContactDtoInput {
   name: String!
-  category: String!
+  category: ContactCategoryType!
   email: String!
   phone: String
 }
@@ -451,6 +463,24 @@ enum ContactCategory {
   NOTIFICATION
   RECON
   REMINDER
+}
+
+enum ContactCategoryType {
+  default
+  charges
+  chargelinks
+  electricalheating
+  endofsupply
+  energinetinquiry
+  errorreport
+  incorrectmove
+  incorrectswitch
+  measurementdata
+  meteringpoint
+  netsettlement
+  notification
+  recon
+  reminder
 }
 
 enum DocumentStatus {

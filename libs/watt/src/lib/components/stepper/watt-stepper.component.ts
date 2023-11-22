@@ -19,6 +19,7 @@ import {
   Component,
   ContentChildren,
   EventEmitter,
+  Input,
   Output,
   QueryList,
   ViewChild,
@@ -58,6 +59,7 @@ import { WattButtonComponent } from '../button';
 })
 export class WattStepperComponent extends MatStepper implements AfterViewInit {
   @Output() completed = new EventEmitter<void>();
+  @Input() isCompleting = false;
 
   @ContentChildren(WattStepperStepComponent, { descendants: true })
   override _steps!: QueryList<WattStepperStepComponent>;

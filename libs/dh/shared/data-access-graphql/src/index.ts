@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export { graphQLProviders } from './lib/dh-graphql.providers';
+export { parseGraphQLErrorResponse } from './lib/error-handler';

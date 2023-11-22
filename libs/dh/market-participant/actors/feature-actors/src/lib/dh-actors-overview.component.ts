@@ -139,14 +139,12 @@ export class DhActorsOverviewComponent implements OnInit {
     );
   }
 
-  create(): void {
-    console.log('create');
-  }
-
   openCreateNewActorModal(): void {
     this._modalService.open({
       component: DhActorsCreateActorModalComponent,
-      onClosed: (result) => console.log(result),
+      onClosed: () => {
+        this.getActorsQuery$.refetch();
+      },
     });
   }
 
