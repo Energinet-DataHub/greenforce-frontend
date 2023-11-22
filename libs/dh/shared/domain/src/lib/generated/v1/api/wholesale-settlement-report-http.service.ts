@@ -77,7 +77,7 @@ export class WholesaleSettlementReportHttp {
                 (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             } else if (value instanceof Date) {
                 if (key != null) {
-                  // An end period in the Wholesale API is exclusive, so we need to add one day to the date
+                  // An end period in the Wholesale API is exclusive, so we need to add one day to the date.
                   var datePlusOneDay = addDays((value as Date), 1);
                   httpParams = httpParams.append(key, datePlusOneDay.toISOString().substr(0, 10));
                 } else {
