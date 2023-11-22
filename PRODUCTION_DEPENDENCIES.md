@@ -14,8 +14,8 @@
 | [@angular/platform-browser](https://github.com/angular/angular) | 16.2.8 | MIT |
 | [@angular/router](https://github.com/angular/angular) | 16.2.8 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
-| [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.2 | MIT |
-| [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.2 | MIT |
+| [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.8 | MIT |
+| [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.5.0 | MIT |
 | [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 3.0.2 | MIT |
 | [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.12 | MIT |
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
