@@ -421,10 +421,13 @@ function downloadSettlementReportData(apiBase: string) {
 
 function getCalculations() {
   return graphql.mockGetCalculationsQuery((req, res, ctx) => {
-    if(!req.variables.executionTime) {
+    if (!req.variables.executionTime) {
       return res(ctx.status(500), ctx.delay(300));
     } else {
-      return res(ctx.delay(300), ctx.data({ __typename: 'Query', calculations: mockedCalculations }));
+      return res(
+        ctx.delay(300),
+        ctx.data({ __typename: 'Query', calculations: mockedCalculations })
+      );
       //return res(ctx.status(404), ctx.delay(300));
     }
   });
