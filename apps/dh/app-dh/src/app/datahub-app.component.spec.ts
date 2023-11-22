@@ -20,7 +20,7 @@ import { render } from '@testing-library/angular';
 
 import { DataHubAppComponent } from './datahub-app.component';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
+import { MsalGuardMock, MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import { dhCoreShellProviders, dhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
@@ -45,7 +45,8 @@ describe(DataHubAppComponent, () => {
         provideNoopAnimations(),
         provideHttpClient(),
         ...dhCoreShellProviders,
-        MsalServiceFake,
+        MsalServiceMock,
+        MsalGuardMock,
         importProvidersFrom(getTranslocoTestingModule()),
       ],
     });
