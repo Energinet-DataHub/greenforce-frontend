@@ -46,9 +46,13 @@ limitations under the License.
         <watt-button *ngIf="!(onLastStep$ | push)" variant="secondary" (click)="nextStep()">
           {{ step.nextButtonLabel }}<watt-icon name="right" />
         </watt-button>
-        <watt-button *ngIf="onLastStep$ | push" variant="primary" (click)="complete()">{{
-          step.nextButtonLabel
-        }}</watt-button>
+        <watt-button
+          *ngIf="onLastStep$ | push"
+          variant="primary"
+          [loading]="isCompleting"
+          (click)="complete()"
+          >{{ step.nextButtonLabel }}</watt-button
+        >
       </div>
     </mat-step>
   </ng-container>

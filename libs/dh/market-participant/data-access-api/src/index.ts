@@ -18,3 +18,7 @@ export * from './lib/dh-market-participant-actors-edit-actor-data-access-api.sto
 export * from './lib/dh-market-participant-data-access-api.store';
 export * from './lib/dh-market-participant-edit-actor-data-access-api.store';
 export * from './lib/dh-market-participant-edit-organization-data-access-api.store';
+export {
+  parseErrorResponse,
+  parseApiErrorResponse,
+} from './lib/dh-market-participant-error-handling';
