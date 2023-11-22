@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { GetUserRolesByEicfunctionQuery } from '@energinet-datahub/dh/shared/domain';
 
-export const getUserRolesByEicfunction: graphql.GetUserRolesByEicfunctionQuery = {
+export const getUserRolesByEicfunction: GetUserRolesByEicfunctionQuery = {
   __typename: 'Query',
   userRolesByEicFunction: [
     {
