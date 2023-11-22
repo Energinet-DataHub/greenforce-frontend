@@ -149,6 +149,7 @@ export class DhActorsCreateActorModalComponent {
   showCreateNewOrganization = signal(false);
   choosenOrganizationDomain = signal('');
   showGridAreaOptions = signal(false);
+  isCompleting = signal(false);
 
   readonly dataSource: WattTableDataSource<UserRole> = new WattTableDataSource<UserRole>();
 
@@ -250,6 +251,7 @@ export class DhActorsCreateActorModalComponent {
   }
 
   createMarketParticipent(): void {
+    this.isCompleting.set(true);
     this._apollo
       .mutate({
         mutation: CreateMarketParticipantDocument,
@@ -326,7 +328,7 @@ export class DhActorsCreateActorModalComponent {
     if (response.data?.createMarketParticipant?.success) {
       this._toastService.open({ type: 'success', message: 'Market participant created' });
     }
-
+    this.isCompleting.set(false);
     this.close();
   }
 }

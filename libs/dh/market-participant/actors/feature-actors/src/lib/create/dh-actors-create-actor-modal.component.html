@@ -19,6 +19,7 @@ limitations under the License.
     <watt-stepper
       class="dh-actors-create-actor-modal__form watt-modal-content--full-width"
       [linear]="true"
+      [isCompleting]="isCompleting()"
       (completed)="createMarketParticipent()"
     >
       <watt-stepper-step
@@ -37,7 +38,7 @@ limitations under the License.
         [enabled]="showCreateNewOrganization()"
         [nextButtonLabel]="t('steps.actor')"
         [stepControl]="newOrganizationForm"
-        [label]="t('organization')"
+        [label]="t('newOrganization')"
       >
         <div class="dh-actors-create-actor-organization">
           <vater-stack direction="row" justify="space-between" fill="horizontal">
