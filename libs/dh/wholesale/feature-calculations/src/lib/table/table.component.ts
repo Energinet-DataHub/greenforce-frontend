@@ -41,7 +41,7 @@ import {
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
-import { BehaviorSubject, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, switchMap } from 'rxjs';
 import sub from 'date-fns/sub';
 import startOfDay from 'date-fns/startOfDay';
 import endOfDay from 'date-fns/endOfDay';
@@ -94,6 +94,7 @@ export class DhCalculationsTableComponent implements OnInit {
   });
 
   calculations$ = this.filter$.pipe(
+    filter((variables) => !!variables.executionTime?.start && !!variables.executionTime?.end),
     switchMap(
       (variables) =>
         this.apollo.watchQuery({
