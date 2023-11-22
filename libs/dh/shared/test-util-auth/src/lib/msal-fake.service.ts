@@ -72,7 +72,7 @@ function getLoggerMock(): Logger {
   } as unknown as Logger;
 }
 
-export const MsalServiceFake = MockProvider(MsalService, {
+export const MsalServiceMock = MockProvider(MsalService, {
   handleRedirectObservable: handleRedirectObservableMock,
   getLogger: getLoggerMock,
   instance: {
