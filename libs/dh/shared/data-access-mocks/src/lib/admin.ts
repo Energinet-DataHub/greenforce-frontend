@@ -177,7 +177,7 @@ function putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase: string
 
 function getUserRolesByEicfunctionQuery() {
   return graphql.mockGetUserRolesByEicfunctionQuery((req, res, ctx) => {
-    return res(ctx.data(getUserRolesByEicfunction));
+    return res(ctx.delay(300), ctx.data(getUserRolesByEicfunction));
   });
 }
 
