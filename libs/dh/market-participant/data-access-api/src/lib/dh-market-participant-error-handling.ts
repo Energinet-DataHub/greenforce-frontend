@@ -16,6 +16,7 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
+import { ApiError } from '@energinet-datahub/dh/shared/domain/graphql';
 import { translate } from '@ngneat/transloco';
 
 interface ServerErrorDescriptor {
@@ -29,15 +30,32 @@ interface ErrorDescriptor {
   details?: ErrorDescriptor[];
 }
 
+type ApiErrorWithoutHeaders = Omit<ApiError, 'headers'>;
+
 interface ClientErrorDescriptor {
   errors: {
     [s: string]: string;
   };
 }
 
+export const parseApiErrorResponse = (errorResponse: ApiErrorWithoutHeaders[]) => {
+  return errorResponse
+    .map((x) => {
+      if (x.response) {
+        const errorDescriptor = JSON.parse(x.response) as ServerErrorDescriptor;
+        return getTranslatedError(errorDescriptor);
+      }
+      return x.message;
+    })
+    .join(' ');
+};
+
 export const parseErrorResponse = (errorResponse: HttpErrorResponse) => {
   const errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor = errorResponse.error;
+  return getTranslatedError(errorDescriptor);
+};
 
+const getTranslatedError = (errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor) => {
   if (isServerErrorDescriptor(errorDescriptor)) {
     if (errorDescriptor.error.details) {
       return errorDescriptor.error.details
