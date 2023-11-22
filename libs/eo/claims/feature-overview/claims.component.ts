@@ -85,7 +85,7 @@ import { fromUnixTime } from 'date-fns';
   `,
 })
 export class EoClaimsComponent implements OnInit {
-  @ViewChild(EoClaimsTableComponent) claimsTable!: EoClaimsTableComponent;
+  @ViewChild(EoClaimsTableComponent) claimsTable?: EoClaimsTableComponent;
 
   private claimsService: EoClaimsService = inject(EoClaimsService);
   protected wattDatePipe: WattDatePipe = inject(WattDatePipe);
