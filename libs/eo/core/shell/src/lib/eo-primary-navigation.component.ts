@@ -64,15 +64,12 @@ import { AsyncPipe, NgIf } from '@angular/common';
       <watt-nav-list-item link="{{ routes.claims }}"> Claims </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.certificates }}" onFeatureFlag="certificates">
         Certificates
-        <span class="beta">BETA</span>
       </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.transfer }}" onFeatureFlag="certificates">
         Transfers
-        <span class="beta">BETA</span>
       </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.connections }}" onFeatureFlag="certificates">
         Connections
-        <span class="beta">BETA</span>
       </watt-nav-list-item>
       <div class="menu-spacer"></div>
       <watt-nav-list-item link="{{ routes.help }}">Help</watt-nav-list-item>
