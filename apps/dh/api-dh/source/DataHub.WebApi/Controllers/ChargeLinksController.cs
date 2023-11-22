@@ -25,6 +25,7 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class ChargeLinksController : ControllerBase
     {
+        // Trigger a build
         private readonly IChargesClient _chargesClient;
 
         public ChargeLinksController(IChargesClient chargesClient)
