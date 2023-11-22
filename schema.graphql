@@ -51,6 +51,24 @@ type Calculation {
   processType: ProcessType!
 }
 
+enum ContactCategoryType {
+  default
+  charges
+  chargelinks
+  electricalheating
+  endofsupply
+  energinetinquiry
+  errorreport
+  incorrectmove
+  incorrectswitch
+  measurementdata
+  meteringpoint
+  netsettlement
+  notification
+  recon
+  reminder
+}
+
 enum EdiB2CProcessType {
   preliminaryaggregation
   balancefixing
@@ -278,6 +296,13 @@ type MarketParticipantBadRequestError implements Error {
   statusCode: Int!
 }
 
+type ApiError implements Error {
+  message: String!
+  statusCode: Int!
+  response: String
+  headers: [KeyValuePairOfStringAndIEnumerableOfString!]!
+}
+
 interface Error {
   message: String!
 }
@@ -417,6 +442,11 @@ type PermissionLog {
   type: PermissionAuditLogType!
 }
 
+type KeyValuePairOfStringAndIEnumerableOfString {
+  key: String!
+  value: [String!]!
+}
+
 enum PermissionAuditLogType {
   UNKNOWN
   DESCRIPTION_CHANGE
@@ -478,7 +508,7 @@ input UserInvitationDtoInput {
 
 input CreateActorContactDtoInput {
   name: String!
-  category: String!
+  category: ContactCategoryType!
   email: String!
   phone: String
 }
@@ -581,7 +611,7 @@ type UpdateOrganizationPayload {
   errors: [UpdateOrganizationError!]
 }
 
-union CreateMarketParticipantError = MarketParticipantBadRequestError
+union CreateMarketParticipantError = ApiError
 
 type CreateMarketParticipantPayload {
   boolean: Boolean

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Apollo } from 'apollo-angular';
+import { Apollo, MutationResult } from 'apollo-angular';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { NgIf, NgTemplateOutlet } from '@angular/common';
@@ -39,6 +39,9 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
+  ContactCategoryType,
+  CreateMarketParticipantDocument,
+  CreateMarketParticipantMutation,
   EicFunction,
   GetGridAreasDocument,
   GetUserRolesByEicfunctionDocument,
@@ -53,6 +56,10 @@ import {
 } from '@energinet-datahub/dh/shared/ui-validators';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+
+import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { parseApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 type UserRoles = ResultOf<typeof GetUserRolesByEicfunctionDocument>['userRolesByEicFunction'];
 type UserRole = UserRoles[number];
@@ -129,6 +136,7 @@ type UserRole = UserRoles[number];
 })
 export class DhActorsCreateActorModalComponent {
   private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+  private _toastService = inject(WattToastService);
   private _apollo = inject(Apollo);
 
   private _getGridAreasQuery = this._apollo.query({
@@ -136,9 +144,12 @@ export class DhActorsCreateActorModalComponent {
     query: GetGridAreasDocument,
   });
 
+  private _userSelectedUserRoles: UserRole[] = [];
+
   showCreateNewOrganization = signal(false);
   choosenOrganizationDomain = signal('');
   showGridAreaOptions = signal(false);
+  isCompleting = signal(false);
 
   readonly dataSource: WattTableDataSource<UserRole> = new WattTableDataSource<UserRole>();
 
@@ -175,7 +186,7 @@ export class DhActorsCreateActorModalComponent {
     gridArea: [{ value: '', disabled: !this.showGridAreaOptions() }, Validators.required],
     contact: this._fb.group({
       departmentOrName: ['', Validators.required],
-      email: ['', [Validators.required, dhFirstPartEmailValidator]],
+      email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, dhDkPhoneNumberValidator]],
     }),
   });
@@ -228,7 +239,7 @@ export class DhActorsCreateActorModalComponent {
   }
 
   selectedUserRoles(userRoles: UserRole[]): void {
-    console.log(userRoles);
+    this._userSelectedUserRoles = userRoles;
   }
 
   open() {
@@ -237,5 +248,87 @@ export class DhActorsCreateActorModalComponent {
 
   close() {
     this.innerModal?.close(false);
+  }
+
+  createMarketParticipent(): void {
+    this.isCompleting.set(true);
+    this._apollo
+      .mutate({
+        mutation: CreateMarketParticipantDocument,
+        variables: {
+          input: {
+            userInvite: {
+              email: this.newUserForm.controls.email.value,
+              firstName: this.newUserForm.controls.firstName.value,
+              lastName: this.newUserForm.controls.lastName.value,
+              phoneNumber: this.newUserForm.controls.phone.value,
+              assignedRoles: this._userSelectedUserRoles.map((userRole) => userRole.id),
+              assignedActor: 'f3df856f-bd11-4174-97cb-fb6bc54c300a',
+            },
+            organizationId: this.chooseOrganizationForm.controls.orgId.value,
+            organization: this.chooseOrganizationForm.controls.orgId.value
+              ? null
+              : {
+                  address: {
+                    country: this.newOrganizationForm.controls.country.value,
+                  },
+                  domain: this.newOrganizationForm.controls.domain.value,
+                  businessRegisterIdentifier: this.newOrganizationForm.controls.cvrNumber.value,
+                  name: this.newOrganizationForm.controls.companyName.value,
+                },
+            actorContact: {
+              email: this.newActorForm.controls.contact.controls.email.value,
+              name: this.newActorForm.controls.contact.controls.departmentOrName.value,
+              phone: this.newActorForm.controls.contact.controls.phone.value,
+              category: ContactCategoryType.Default,
+            },
+            actor: {
+              name: { value: this.newActorForm.controls.name.value },
+              organizationId:
+                this.chooseOrganizationForm.controls.orgId.value ??
+                'c3df856f-bd11-4174-97cb-fb6bc54c300b',
+              marketRoles: [
+                {
+                  eicFunction: this.newActorForm.controls.marketrole.value,
+                  gridAreas: this.newActorForm.controls.gridArea.value
+                    ? [{ id: this.newActorForm.controls.gridArea.value, meteringPointTypes: [] }]
+                    : [],
+                },
+              ],
+              actorNumber: {
+                value: this.newActorForm.controls.glnOrEicNumber.value,
+              },
+            },
+          },
+        },
+      })
+      .subscribe((result) => this.handleCreateMarketParticipentResponse(result));
+  }
+
+  private handleCreateMarketParticipentResponse(
+    response: MutationResult<CreateMarketParticipantMutation>
+  ): void {
+    if (response.errors && response.errors.length > 0) {
+      this._toastService.open({
+        type: 'danger',
+        message: parseGraphQLErrorResponse(response.errors),
+      });
+    }
+
+    if (
+      response.data?.createMarketParticipant?.errors &&
+      response.data?.createMarketParticipant?.errors.length > 0
+    ) {
+      this._toastService.open({
+        type: 'danger',
+        message: parseApiErrorResponse(response.data?.createMarketParticipant?.errors),
+      });
+    }
+
+    if (response.data?.createMarketParticipant?.success) {
+      this._toastService.open({ type: 'success', message: 'Market participant created' });
+    }
+    this.isCompleting.set(false);
+    this.close();
   }
 }
