@@ -29,6 +29,7 @@ import { adminPermissionDetailsMock } from './data/admin-get-permission-details'
 import { marketParticipantUserRoles } from './data/admin-get-marketParticipantUserRoles';
 import { marketParticipantOrganization } from './data/admin-get-actorOrganization';
 import { marketParticipantUserSearchUsers } from './data/marketParticipantUserSearchUsers';
+import { getUserRolesByEicfunction } from './data/get-user-roles-by-eicfunction';
 import { marketParticipantOrganizationGetFilteredActors } from './data/marketParticipantOrganizationGetFilteredActors';
 import { mockGetKnownEmailsQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -45,6 +46,7 @@ export function adminMocks(apiBase: string) {
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
     getUserRoleAuditLogs(),
+    getUserRolesByEicfunctionQuery(),
     putMarketParticipantPermissionsUpdate(apiBase),
     putMarketParticipantUserUpdateUserIdentity(apiBase),
     putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase),
@@ -171,6 +173,12 @@ function putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase: string
       return res(ctx.delay(300), ctx.status(200));
     }
   );
+}
+
+function getUserRolesByEicfunctionQuery() {
+  return graphql.mockGetUserRolesByEicfunctionQuery((req, res, ctx) => {
+    return res(ctx.data(getUserRolesByEicfunction));
+  });
 }
 
 function getKnownEmailsQuery() {
