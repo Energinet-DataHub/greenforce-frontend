@@ -258,7 +258,7 @@ export class DhActorsCreateActorModalComponent {
         variables: {
           input: {
             userInvite: {
-              email: this.newUserForm.controls.email.value,
+              email: `${this.newUserForm.controls.email.value}@${this.choosenOrganizationDomain()}`,
               firstName: this.newUserForm.controls.firstName.value,
               lastName: this.newUserForm.controls.lastName.value,
               phoneNumber: this.newUserForm.controls.phone.value,
