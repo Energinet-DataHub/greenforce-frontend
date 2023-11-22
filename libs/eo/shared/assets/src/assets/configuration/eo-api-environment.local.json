@@ -1,5 +1,5 @@
 {
-  "apiBase": "https://eo-u-fe1930consumpt.westeurope.cloudapp.azure.com/api",
+  "apiBase": "https://demo.energioprindelse.dk/api",
   "apiVersions": {
     "claim-automation": "20230101",
     "connection-invitations": "20230101",
