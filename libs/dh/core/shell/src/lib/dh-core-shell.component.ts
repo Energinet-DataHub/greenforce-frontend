@@ -61,6 +61,6 @@ export class DhCoreShellComponent {
   }
 
   logout() {
-    this.authService.logout();
+    this.authService.logoutRedirect();
   }
 }

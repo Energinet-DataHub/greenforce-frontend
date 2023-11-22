@@ -36,9 +36,16 @@ import {
 } from '@energinet-datahub/dh/auth/msal';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { dhB2CEnvironmentToken, environment } from '@energinet-datahub/dh/shared/environments';
+import {
+  dhApiEnvironmentToken,
+  dhB2CEnvironmentToken,
+  environment,
+} from '@energinet-datahub/dh/shared/environments';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
-import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
+import {
+  DhApplicationInsights,
+  applicationInsightsProviders,
+} from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 import { HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
@@ -73,7 +80,7 @@ export const dhCoreShellProviders = [
   {
     provide: MSAL_INSTANCE,
     useFactory: MSALInstanceFactory,
-    deps: [dhB2CEnvironmentToken],
+    deps: [dhB2CEnvironmentToken, DhApplicationInsights],
   },
   {
     provide: MSAL_GUARD_CONFIG,
@@ -83,7 +90,7 @@ export const dhCoreShellProviders = [
   {
     provide: MSAL_INTERCEPTOR_CONFIG,
     useFactory: MSALInterceptorConfigFactory,
-    deps: [dhB2CEnvironmentToken],
+    deps: [dhB2CEnvironmentToken, dhApiEnvironmentToken],
   },
   {
     provide: HIGHLIGHT_OPTIONS,
