@@ -216,7 +216,7 @@ export class EoDashboardProductionTransferredComponent implements OnInit {
     forkJoin({
       transfers: transfers$,
       claims: claims$,
-      certificates: certificates$
+      certificates: certificates$,
     })
       .pipe(
         catchError(() => {
@@ -232,7 +232,8 @@ export class EoDashboardProductionTransferredComponent implements OnInit {
         this.transferredTotal = transfers.reduce((a: number, b: number) => a + b, 0);
 
         const claimedTotal = claims.reduce((a: number, b: number) => a + b, 0);
-        this.productionTotal = certificates.reduce((a: number, b: number) => a + b, 0) + claimedTotal;
+        this.productionTotal =
+          certificates.reduce((a: number, b: number) => a + b, 0) + claimedTotal;
 
         const unit = findNearestUnit(
           this.productionTotal /
