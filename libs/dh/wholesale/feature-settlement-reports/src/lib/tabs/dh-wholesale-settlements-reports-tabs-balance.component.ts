@@ -52,6 +52,8 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { addDays } from 'date-fns';
+import { DateRange } from '@angular/material/datepicker';
 
 export type settlementReportsTableColumns = graphql.GridAreaDto & { download: boolean };
 
@@ -218,12 +220,15 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
       message: this.transloco.translate('wholesale.settlementReports.downloadStart'),
     });
 
+    const startPeriod = this.tryAddingOneDay(this.searchForm.controls.period.value?.start);
+    const endPeriod = this.tryAddingOneDay(this.searchForm.controls.period.value?.end);
+
     this.httpClient
       .v1WholesaleSettlementReportDownloadGet(
         gridAreas.map((g) => g.id),
         WholesaleProcessType.BalanceFixing,
-        this.searchForm.controls.period.value?.start ?? '',
-        this.searchForm.controls.period.value?.end ?? '',
+        startPeriod as any,
+        endPeriod as any,
         this.searchForm.controls.actor.value ?? undefined,
         this.transloco.translate('selectedLanguageIso')
       )
@@ -236,5 +241,14 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
             message: this.transloco.translate('wholesale.settlementReports.downloadFailed'),
           }),
       });
+  }
+
+  private tryAddingOneDay(value: unknown): unknown {
+    if (value instanceof Date) {
+      return addDays((value as Date), 1);
+    }
+    else {
+      return '';
+    }
   }
 }
