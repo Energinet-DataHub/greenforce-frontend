@@ -112,7 +112,7 @@ export class EoClaimsComponent implements OnInit {
         this.claims.set({
           loading: false,
           hasError: false,
-          data: claims.map((claim) => {
+          data: claims?.map((claim) => {
             return {
               ...claim,
               start: this.wattDatePipe.transform(

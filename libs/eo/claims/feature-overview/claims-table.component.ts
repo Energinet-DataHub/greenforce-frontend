@@ -63,7 +63,7 @@ import { EnergyUnitPipe } from '@energinet-datahub/eo/shared/utilities';
     />
 
     <watt-empty-state
-      *ngIf="loading === false && dataSource.data.length === 0 && !hasError"
+      *ngIf="loading === false && dataSource.filteredData.length === 0 && !hasError"
       icon="custom-power"
       title="No claims found"
       message="You do not have any claims."
