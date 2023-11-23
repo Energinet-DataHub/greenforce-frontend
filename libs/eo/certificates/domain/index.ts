@@ -23,6 +23,7 @@ export interface EoCertificate {
   fuelCode: string;
   id: string;
   gridArea: string;
+  certificateType: 'Production' | 'Consumption';
 }
 
 export interface EoCertificateContract {
