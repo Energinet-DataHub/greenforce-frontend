@@ -245,9 +245,8 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
 
   private tryAddingOneDay(value: unknown): unknown {
     if (value instanceof Date) {
-      return addDays((value as Date), 1);
-    }
-    else {
+      return addDays(value as Date, 1);
+    } else {
       return '';
     }
   }
