@@ -539,16 +539,9 @@
         "steps": {
           "actor": "Market party",
           "organization": "Organization",
-          "invite": "Invite user",
           "create": "Create market party"
         },
-        "columns": {
-          "name": "Navn",
-          "description": "Description"
-        },
         "gridArea": "Grid area",
-        "firstname": "First name",
-        "lastname": "Last name",
         "tooltip": "The market party gets the organization name if you do not specify a value.",
         "glnOrEicInvalid": "Invalid GLN/EIC",
         "wrongEmailPattern": "Type a valid email",
