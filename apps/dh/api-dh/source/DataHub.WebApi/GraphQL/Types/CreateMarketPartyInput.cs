@@ -21,6 +21,5 @@ namespace Energinet.DataHub.WebApi.GraphQL
         Guid? OrganizationId,
         CreateOrganizationDto? Organization,
         CreateActorDto Actor,
-        CreateActorContactDto ActorContact,
-        UserInvitationDto UserInvite);
+        CreateActorContactDto ActorContact);
 }

@@ -342,7 +342,6 @@ input CreateMarketParticipantInput {
   organization: CreateOrganizationDtoInput
   actor: CreateActorDtoInput!
   actorContact: CreateActorContactDtoInput!
-  userInvite: UserInvitationDtoInput!
 }
 
 enum MeteringPointType {
@@ -495,15 +494,6 @@ enum ActorAuditLogType {
   CONTACT_DELETED
   CERTIFICATE_CREDENTIALS
   CLIENT_SECRET_CREDENTIALS
-}
-
-input UserInvitationDtoInput {
-  email: String!
-  firstName: String!
-  lastName: String!
-  phoneNumber: String!
-  assignedActor: UUID!
-  assignedRoles: [UUID!]!
 }
 
 input CreateActorContactDtoInput {
