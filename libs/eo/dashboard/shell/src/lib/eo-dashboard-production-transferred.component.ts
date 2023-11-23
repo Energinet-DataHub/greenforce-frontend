@@ -58,7 +58,7 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
     PercentageOfPipe,
   ],
   providers: [EnergyUnitPipe],
-  selector: 'eo-dashboard-consumption',
+  selector: 'eo-dashboard-production-transferred',
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
@@ -113,7 +113,7 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
   ],
   template: `<watt-card>
     <watt-card-title>
-      <h4>Consumption (Activated Metering Points)</h4>
+      <h4>Production (Activated Metering Points)</h4>
     </watt-card-title>
 
     <div class="loader-container" *ngIf="isLoading || hasError">
@@ -129,8 +129,8 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
     </div>
 
     <ng-container>
-      <h5>{{ claimedTotal | percentageOf: consumptionTotal }} green energy</h5>
-      <small>{{ claimedTotal | energyUnit }} of {{ consumptionTotal | energyUnit }} is certified green energy</small>
+      <h5>{{ transferredTotal | percentageOf: productionTotal }} transferred</h5>
+      <small>{{ transferredTotal | energyUnit }} of {{ productionTotal | energyUnit }} certified green production was transferred</small>
     </ng-container>
 
     <div class="chart-container">
@@ -145,7 +145,7 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
     </div>
   </watt-card>`,
 })
-export class EoDashboardConsumptionComponent implements OnInit {
+export class EoDashboardProductionTransferredComponent implements OnInit {
   private cd = inject(ChangeDetectorRef);
   private certificatesService = inject(EoCertificatesService);
   private aggregateService = inject(EoAggregateService);
@@ -154,8 +154,8 @@ export class EoDashboardConsumptionComponent implements OnInit {
   private endDate = getUnixTime(endOfToday()); // Today at 23:59
   private labels = this.generateLabels();
 
-  protected claimedTotal = 0;
-  protected consumptionTotal = 0;
+  protected transferredTotal = 0;
+  protected productionTotal = 0;
 
   protected options: AnimationOptions = {
     path: '/assets/graph-loader.json',
@@ -193,6 +193,11 @@ export class EoDashboardConsumptionComponent implements OnInit {
     this.isLoading = true;
     this.hasError = false;
 
+    const transfers$ = this.aggregateService.getAggregatedTransfers(
+      EoTimeAggregate.Day,
+      this.startDate,
+      this.endDate
+    );
     const claims$ = this.aggregateService.getAggregatedClaims(
       EoTimeAggregate.Day,
       this.startDate,
@@ -201,10 +206,11 @@ export class EoDashboardConsumptionComponent implements OnInit {
     const certificates$ = this.certificatesService.getAggregatedCertificates(
       EoTimeAggregate.Day,
       this.startDate,
-      this.endDate
+      this.endDate,
+      'production'
     );
 
-    forkJoin([claims$, certificates$])
+    forkJoin([transfers$, claims$, certificates$])
       .pipe(
         catchError(() => {
           this.isLoading = false;
@@ -214,12 +220,15 @@ export class EoDashboardConsumptionComponent implements OnInit {
         })
       )
       .subscribe((data) => {
-        const [claims, certificates] = data;
+        const [transfers, claims, certificates] = data;
 
-        this.claimedTotal = claims.reduce((a, b) => a + b, 0);
-        this.consumptionTotal = certificates.reduce((a, b) => a + b, 0) + this.claimedTotal;
+        this.transferredTotal = transfers.reduce((a, b) => a + b, 0);
+
+        const claimedTotal = claims.reduce((a, b) => a + b, 0);
+        this.productionTotal = certificates.reduce((a, b) => a + b, 0) + claimedTotal;
+
         const unit: energyUnit = findNearestUnit(
-          Math.max(this.claimedTotal, this.consumptionTotal) / this.labels.length
+          this.productionTotal / this.labels.length
         )[1];
 
         this.barChartOptions = {
@@ -240,8 +249,8 @@ export class EoDashboardConsumptionComponent implements OnInit {
             tooltip: {
               callbacks: {
                 label: (context) => {
-                  const text = context.dataset.label === 'Consumption' ? 'Other' : 'Green';
-                  return `${context.parsed.y} ${unit} ${text}`;
+                  const text = context.dataset.label;
+                  return `${Number(context.parsed.y).toFixed(2)} ${unit} ${text?.toLowerCase()}`;
                 },
               },
             },
@@ -252,15 +261,15 @@ export class EoDashboardConsumptionComponent implements OnInit {
           ...this.barChartData,
           datasets: [
             {
-              data: claims.map((x) => fromWh(x, unit)),
-              label: 'Claimed',
+              data: transfers.map((x) => fromWh(x, unit)),
+              label: 'Transferred',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
               backgroundColor: '#00C898',
             },
             {
               data: certificates.map((x) => fromWh(x, unit)),
-              label: 'Consumption',
+              label: 'Produced',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
               backgroundColor: '#02525E',

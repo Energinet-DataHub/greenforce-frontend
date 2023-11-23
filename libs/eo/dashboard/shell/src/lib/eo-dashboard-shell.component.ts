@@ -15,13 +15,26 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+
 import { EoDashboardConsumptionComponent } from './eo-dashboard-consumption.component';
+import { EoDashboardProductionTransferredComponent } from './eo-dashboard-production-transferred.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [EoDashboardConsumptionComponent],
+  styles: [`
+    :host {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      gap: var(--watt-space-l);
+    }
+  `],
+  imports: [EoDashboardConsumptionComponent, EoDashboardProductionTransferredComponent],
   selector: 'eo-dashboard-shell',
-  template: ` <eo-dashboard-consumption /> `,
+  template: `
+    <eo-dashboard-production-transferred />
+    <eo-dashboard-consumption />
+  `,
 })
 export class EoDashboardShellComponent {}
