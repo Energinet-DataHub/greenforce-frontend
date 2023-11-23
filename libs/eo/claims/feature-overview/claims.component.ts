@@ -15,21 +15,22 @@
  * limitations under the License.
  */
 import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
+import { fromUnixTime } from 'date-fns';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
   VaterStackComponent,
 } from '@energinet-datahub/watt/vater';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
+
+import { EnergyUnitPipe } from '@energinet-datahub/eo/shared/utilities';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoClaimsService, Claim } from '@energinet-datahub/eo/claims/data-access-api';
-
 import { EoClaimsTableComponent } from './claims-table.component';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { fromUnixTime } from 'date-fns';
 
 @Component({
   standalone: true,
@@ -43,7 +44,7 @@ import { fromUnixTime } from 'date-fns';
     WattButtonComponent,
     WattSearchComponent,
   ],
-  providers: [WattDatePipe],
+  providers: [WattDatePipe, EnergyUnitPipe],
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
@@ -89,6 +90,7 @@ export class EoClaimsComponent implements OnInit {
 
   private claimsService: EoClaimsService = inject(EoClaimsService);
   protected wattDatePipe: WattDatePipe = inject(WattDatePipe);
+  protected energyUnitPipe: EnergyUnitPipe = inject(EnergyUnitPipe);
 
   protected search = '';
   protected claims = signal<{
@@ -115,7 +117,9 @@ export class EoClaimsComponent implements OnInit {
           data: claims?.map((claim) => {
             return {
               ...claim,
-              start: this.wattDatePipe.transform(
+              amount: this.energyUnitPipe.transform(claim.quantity) as string,
+              start:
+                this.wattDatePipe.transform(
                   fromUnixTime(claim.consumptionCertificate.start),
                   'long'
                 ) ?? '',

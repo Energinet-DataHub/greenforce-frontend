@@ -38,6 +38,7 @@ export interface Claim {
     start: number;
     end: number;
   }
+  amount?: string | null;
   start?: string;
   end?: string;
 }

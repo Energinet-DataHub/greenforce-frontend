@@ -20,7 +20,6 @@ import {
   Input,
   OnInit,
   ViewEncapsulation,
-  inject,
 } from '@angular/core';
 import { NgIf } from '@angular/common';
 
@@ -29,12 +28,10 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
-import { EnergyUnitPipe } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent, NgIf],
-  providers: [EnergyUnitPipe],
   standalone: true,
   selector: 'eo-claims-table',
   styles: [
@@ -95,10 +92,9 @@ export class EoClaimsTableComponent implements OnInit {
 
   dataSource: WattTableDataSource<Claim> = new WattTableDataSource(undefined);
 
-  protected energyUnitPipe: EnergyUnitPipe = inject(EnergyUnitPipe);
   protected columns: WattTableColumnDef<Claim> = {
     claimId: { accessor: (x) => x.claimId, header: 'Claim Id' },
-    quantity: { accessor: (x) => this.energyUnitPipe.transform(x.quantity), header: 'Amount' },
+    amount: { accessor: (x) => x.amount },
     start: {
       accessor: (x) => x.start,
       header: 'Start',
@@ -110,31 +106,26 @@ export class EoClaimsTableComponent implements OnInit {
   };
 
   ngOnInit(): void {
-      this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string) => {
-        console.log('data', data, sortHeaderId);
-        switch (sortHeaderId) {
-          case 'start': return data.consumptionCertificate.start;
-          case 'end': return data.consumptionCertificate.end;
-          default: return data[sortHeaderId];
-        }
-      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.dataSource.sortData = (data: any[], sort: any) => {
+      const isAsc = sort.direction === 'asc';
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      this.dataSource.sortData = (data: any[], sort: any) => {
-        const isAsc = sort.direction === 'asc';
-
-        if(!sort.active || sort.direction === '') {
-          return data;
-        } else if(sort.active === 'start' || sort.active === 'end') {
-          return data.sort((a, b) => {
-            return this.compare(a.consumptionCertificate[sort.active], b.consumptionCertificate[sort.active], isAsc);
-          });
-        } else {
-          return data.sort((a, b) => {
-            return this.compare(a[sort.active], b[sort.active], isAsc);
-          });
-        }
+      if (!sort.active || sort.direction === '') {
+        return data;
+      } else if (sort.active === 'start' || sort.active === 'end') {
+        return data.sort((a, b) => {
+          return this.compare(
+            a.consumptionCertificate[sort.active],
+            b.consumptionCertificate[sort.active],
+            isAsc
+          );
+        });
+      } else {
+        return data.sort((a, b) => {
+          return this.compare(a[sort.active], b[sort.active], isAsc);
+        });
       }
+    };
   }
 
   compare(a: number, b: number, isAsc: boolean): number {
