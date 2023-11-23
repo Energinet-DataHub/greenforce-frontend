@@ -93,14 +93,18 @@ limitations under the License.
         <vater-stack gap="xl" class="dh-actors-create-actor" align="flex-start" direction="row">
           <vater-stack fill="horizontal" align="flex-start" direction="column">
             <h4>{{ t("marketParty") }}</h4>
+
             <watt-text-field
               [formControl]="newActorForm.controls.glnOrEicNumber"
               [label]="t('glnOrEicNumber')"
             >
-              <watt-field-error *ngIf="newActorForm.controls.glnOrEicNumber.hasError('pattern')">
+              <watt-field-error
+                *ngIf="newActorForm.controls.glnOrEicNumber.hasError('invalidGlnOrEic')"
+              >
                 {{ t("glnOrEicInvalid") }}
               </watt-field-error>
             </watt-text-field>
+
             <watt-text-field
               [formControl]="newActorForm.controls.name"
               [label]="t('name')"

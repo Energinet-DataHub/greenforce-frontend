@@ -51,7 +51,7 @@ import {
   dhCvrValidator,
   dhDkPhoneNumberValidator,
   dhDomainValidator,
-  dhEicOrGlnValidator,
+  dhGlnOrEicValidator,
   dhFirstPartEmailValidator,
 } from '@energinet-datahub/dh/shared/ui-validators';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -180,7 +180,7 @@ export class DhActorsCreateActorModalComponent {
   });
 
   newActorForm = this._fb.group({
-    glnOrEicNumber: ['', [Validators.required, dhEicOrGlnValidator]],
+    glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
     name: [''],
     marketrole: ['', Validators.required],
     gridArea: [{ value: '', disabled: !this.showGridAreaOptions() }, Validators.required],
