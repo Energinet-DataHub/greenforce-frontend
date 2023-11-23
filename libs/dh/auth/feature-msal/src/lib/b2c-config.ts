@@ -47,11 +47,14 @@ export function MSALInstanceFactory(
     system: {
       loggerOptions: {
         loggerCallback: (logLevel: LogLevel, message: string) => {
-          appInsights.trackTrace('MSAL Issue Log: ' + message);
-          appInsights.flush();
+          if (logLevel === LogLevel.Error) {
+            appInsights.trackTrace('MSAL Issue Log: ' + message);
+            appInsights.flush();
+          }
+          console.log('MSAL Issue Log: ' + message);
           reloadOnLoginFailed(message);
         },
-        logLevel: LogLevel.Warning,
+        logLevel: LogLevel.Trace,
         piiLoggingEnabled: true,
       },
       allowNativeBroker: false,
