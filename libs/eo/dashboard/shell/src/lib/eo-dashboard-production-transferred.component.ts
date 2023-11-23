@@ -213,7 +213,11 @@ export class EoDashboardProductionTransferredComponent implements OnInit {
       'production'
     );
 
-    forkJoin([transfers$, claims$, certificates$])
+    forkJoin({
+      transfers: transfers$,
+      claims: claims$,
+      certificates: certificates$
+    })
       .pipe(
         catchError(() => {
           this.isLoading = false;
@@ -223,14 +227,20 @@ export class EoDashboardProductionTransferredComponent implements OnInit {
         })
       )
       .subscribe((data) => {
-        const [transfers, claims, certificates] = data;
+        const { transfers, claims, certificates } = data;
 
-        this.transferredTotal = transfers.reduce((a, b) => a + b, 0);
+        this.transferredTotal = transfers.reduce((a: number, b: number) => a + b, 0);
 
-        const claimedTotal = claims.reduce((a, b) => a + b, 0);
-        this.productionTotal = certificates.reduce((a, b) => a + b, 0) + claimedTotal;
+        const claimedTotal = claims.reduce((a: number, b: number) => a + b, 0);
+        this.productionTotal = certificates.reduce((a: number, b: number) => a + b, 0) + claimedTotal;
 
-        const unit: energyUnit = findNearestUnit(this.productionTotal / this.labels.length)[1];
+        const unit = findNearestUnit(
+          this.productionTotal /
+            Math.max(
+              claims.filter((x: number) => x > 0).length,
+              certificates.filter((x: number) => x > 0).length
+            )
+        )[1];
 
         this.barChartOptions = {
           ...this.barChartOptions,
@@ -262,7 +272,7 @@ export class EoDashboardProductionTransferredComponent implements OnInit {
           ...this.barChartData,
           datasets: [
             {
-              data: transfers.map((x) => fromWh(x, unit)),
+              data: transfers.map((x: number) => fromWh(x, unit)),
               label: 'Transferred',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,

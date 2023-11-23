@@ -15,29 +15,17 @@
  * limitations under the License.
  */
 import { rest } from 'msw';
-import {
-  aggregateConsumptionCertificatesResponse,
-  aggregateProductionCertificatesResponse,
-} from './data/aggregate-certificates';
+import { aggregateTransfersResponse } from './data/aggregate-transfers';
 
-export function aggregateCertificatesMocks(apiBase: string) {
-  return [getAggregateCertificates(apiBase)];
+export function aggregateTransfersMocks(apiBase: string) {
+  return [getAggregateTransfers(apiBase)];
 }
 
-function getAggregateCertificates(apiBase: string) {
+function getAggregateTransfers(apiBase: string) {
   return rest.get(
-    `${apiBase}/v1/aggregate-certificates`.replace('/api', '/wallet-api'),
+    `${apiBase}/v1/aggregate-transfers`.replace('/api', '/wallet-api'),
     (req, res, ctx) => {
-      const type = req.url.searchParams.get('type');
-      return res(
-        ctx.status(200),
-        ctx.json(
-          type === 'consumption'
-            ? aggregateConsumptionCertificatesResponse
-            : aggregateProductionCertificatesResponse
-        ),
-        ctx.delay(1000)
-      );
+      return res(ctx.status(200), ctx.json(aggregateTransfersResponse), ctx.delay(1000));
     }
   );
 }

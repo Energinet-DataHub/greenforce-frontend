@@ -150,8 +150,8 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
 })
 export class EoDashboardConsumptionComponent implements OnInit {
   private cd = inject(ChangeDetectorRef);
-  private certificatesService = inject(EoCertificatesService);
-  private aggregateService = inject(EoAggregateService);
+  private certificatesService: EoCertificatesService = inject(EoCertificatesService);
+  private aggregateService: EoAggregateService = inject(EoAggregateService);
 
   private startDate = getUnixTime(subDays(startOfToday(), 30)); // 30 days ago at 00:00
   private endDate = getUnixTime(endOfToday()); // Today at 23:59
@@ -207,7 +207,10 @@ export class EoDashboardConsumptionComponent implements OnInit {
       this.endDate
     );
 
-    forkJoin([claims$, certificates$])
+    forkJoin({
+      claims: claims$,
+      certificates: certificates$,
+    })
       .pipe(
         catchError(() => {
           this.isLoading = false;
@@ -217,12 +220,18 @@ export class EoDashboardConsumptionComponent implements OnInit {
         })
       )
       .subscribe((data) => {
-        const [claims, certificates] = data;
+        const { claims, certificates } = data;
 
-        this.claimedTotal = claims.reduce((a, b) => a + b, 0);
-        this.consumptionTotal = certificates.reduce((a, b) => a + b, 0) + this.claimedTotal;
-        const unit: energyUnit = findNearestUnit(
-          Math.max(this.claimedTotal, this.consumptionTotal) / this.labels.length
+        this.claimedTotal = claims.reduce((a: number, b: number) => a + b, 0);
+        this.consumptionTotal =
+          certificates.reduce((a: number, b: number) => a + b, 0) + this.claimedTotal;
+
+        const unit = findNearestUnit(
+          this.consumptionTotal /
+            Math.max(
+              claims.filter((x: number) => x > 0).length,
+              certificates.filter((x: number) => x > 0).length
+            )
         )[1];
 
         this.barChartOptions = {
@@ -255,14 +264,14 @@ export class EoDashboardConsumptionComponent implements OnInit {
           ...this.barChartData,
           datasets: [
             {
-              data: claims.map((x) => fromWh(x, unit)),
+              data: claims.map((x: number) => fromWh(x, unit)),
               label: 'Claimed',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
               backgroundColor: '#00C898',
             },
             {
-              data: certificates.map((x) => fromWh(x, unit)),
+              data: certificates.map((x: number) => fromWh(x, unit)),
               label: 'Consumption',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
