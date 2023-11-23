@@ -51,7 +51,7 @@ export function MSALInstanceFactory(
           appInsights.flush();
           reloadOnLoginFailed(message);
         },
-        logLevel: LogLevel.Warning,
+        logLevel: LogLevel.Trace,
         piiLoggingEnabled: true,
       },
       allowNativeBroker: false,
