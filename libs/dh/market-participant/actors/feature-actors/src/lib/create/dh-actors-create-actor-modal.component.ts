@@ -17,7 +17,12 @@
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { Apollo, MutationResult } from 'apollo-angular';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ChangeDetectionStrategy, Component, inject, signal, ViewChild } from '@angular/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -74,7 +79,9 @@ export class DhActorsCreateActorModalComponent {
   @ViewChild(WattModalComponent)
   modal: WattModalComponent | undefined;
 
-  chooseOrganizationForm = this._fb.group({ orgId: ['', Validators.required] });
+  chooseOrganizationForm = this._fb.group({
+    orgId: new FormControl<string | null>(null, Validators.required),
+  });
 
   newOrganizationForm = this._fb.group({
     country: ['', Validators.required],
@@ -119,11 +126,10 @@ export class DhActorsCreateActorModalComponent {
   }
 
   createMarketParticipent(): void {
-    if (this.chooseOrganizationForm.controls.orgId.value !== '' && this.newActorForm.invalid)
-      return;
+    if (this.chooseOrganizationForm.controls.orgId.value && this.newActorForm.invalid) return;
 
     if (
-      (this.chooseOrganizationForm.controls.orgId.value === '' &&
+      (this.chooseOrganizationForm.controls.orgId.value === null &&
         this.newOrganizationForm.invalid) ||
       this.newActorForm.invalid
     )
@@ -156,8 +162,9 @@ export class DhActorsCreateActorModalComponent {
               name: { value: this.newActorForm.controls.name.value },
               // The hardcoded value is a placeholder for the organizationId what be replaced in the BFF with the created organizationId
               organizationId:
-                this.chooseOrganizationForm.controls.orgId.value ??
-                '3f2504e0-4f89-41d3-9a0c-0305e82c3301',
+                this.chooseOrganizationForm.controls.orgId.value === null
+                  ? '3f2504e0-4f89-41d3-9a0c-0305e82c3301'
+                  : this.chooseOrganizationForm.controls.orgId.value,
               marketRoles: [
                 {
                   eicFunction: this.newActorForm.controls.marketrole.value,
