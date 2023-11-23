@@ -19,7 +19,7 @@ import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, ViewChild, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, ViewChild } from '@angular/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
@@ -43,7 +43,7 @@ import {
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
   EicFunction,
-  GetGridAreasDocument,
+  GetGridAreasForCreateActorDocument,
   GetUserRolesByEicfunctionDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -52,7 +52,6 @@ import {
   dhDkPhoneNumberValidator,
   dhDomainValidator,
   dhEicOrGlnValidator,
-  dhFirstPartEmailValidator,
 } from '@energinet-datahub/dh/shared/ui-validators';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
@@ -141,10 +140,8 @@ export class DhActorsCreateActorModalComponent {
 
   private _getGridAreasQuery = this._apollo.query({
     notifyOnNetworkStatusChange: true,
-    query: GetGridAreasDocument,
+    query: GetGridAreasForCreateActorDocument,
   });
-
-  private _userSelectedUserRoles: UserRole[] = [];
 
   showCreateNewOrganization = signal(false);
   choosenOrganizationDomain = signal('');
@@ -183,7 +180,7 @@ export class DhActorsCreateActorModalComponent {
     glnOrEicNumber: ['', [Validators.required, dhEicOrGlnValidator]],
     name: [''],
     marketrole: ['', Validators.required],
-    gridArea: [{ value: '', disabled: !this.showGridAreaOptions() }, Validators.required],
+    gridArea: [{ value: '', disabled: true }, Validators.required],
     contact: this._fb.group({
       departmentOrName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -191,18 +188,12 @@ export class DhActorsCreateActorModalComponent {
     }),
   });
 
-  newUserForm = this._fb.group({
-    email: ['', [Validators.required, dhFirstPartEmailValidator]],
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    phone: ['', [Validators.required, dhDkPhoneNumberValidator]],
-  });
-
   constructor() {
     this._getGridAreasQuery.subscribe((result) => {
+      console.log(result);
       if (result.data?.gridAreas) {
         this.gridAreaOptions = result.data.gridAreas.map((gridArea) => ({
-          value: gridArea.code,
+          value: gridArea.id,
           displayValue: gridArea.name,
         }));
       }
@@ -231,15 +222,14 @@ export class DhActorsCreateActorModalComponent {
       });
 
     this.showGridAreaOptions.set(eicfunction === EicFunction.GridAccessProvider);
+    if (eicfunction === EicFunction.GridAccessProvider) {
+      this.newActorForm.controls.gridArea.enable();
+    }
   }
 
   toggleShowCreateNewOrganization(): void {
     this.showCreateNewOrganization.set(!this.showCreateNewOrganization());
     this.newOrganizationForm.reset();
-  }
-
-  selectedUserRoles(userRoles: UserRole[]): void {
-    this._userSelectedUserRoles = userRoles;
   }
 
   open() {
@@ -251,20 +241,22 @@ export class DhActorsCreateActorModalComponent {
   }
 
   createMarketParticipent(): void {
+    if (this.chooseOrganizationForm.controls.orgId.value !== '' && this.newActorForm.invalid)
+      return;
+
+    if (
+      (this.chooseOrganizationForm.controls.orgId.value === '' &&
+        this.newOrganizationForm.invalid) ||
+      this.newActorForm.invalid
+    )
+      return;
+
     this.isCompleting.set(true);
     this._apollo
       .mutate({
         mutation: CreateMarketParticipantDocument,
         variables: {
           input: {
-            userInvite: {
-              email: `${this.newUserForm.controls.email.value}@${this.choosenOrganizationDomain()}`,
-              firstName: this.newUserForm.controls.firstName.value,
-              lastName: this.newUserForm.controls.lastName.value,
-              phoneNumber: this.newUserForm.controls.phone.value,
-              assignedRoles: this._userSelectedUserRoles.map((userRole) => userRole.id),
-              assignedActor: 'f3df856f-bd11-4174-97cb-fb6bc54c300a',
-            },
             organizationId: this.chooseOrganizationForm.controls.orgId.value,
             organization: this.chooseOrganizationForm.controls.orgId.value
               ? null
@@ -284,9 +276,7 @@ export class DhActorsCreateActorModalComponent {
             },
             actor: {
               name: { value: this.newActorForm.controls.name.value },
-              organizationId:
-                this.chooseOrganizationForm.controls.orgId.value ??
-                'c3df856f-bd11-4174-97cb-fb6bc54c300b',
+              organizationId: this.chooseOrganizationForm.controls.orgId.value,
               marketRoles: [
                 {
                   eicFunction: this.newActorForm.controls.marketrole.value,
