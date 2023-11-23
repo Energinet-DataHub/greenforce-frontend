@@ -24,11 +24,16 @@ import { EoDashboardProductionTransferredComponent } from './eo-dashboard-produc
   standalone: true,
   styles: [
     `
+      @use '@energinet-datahub/watt/utils' as watt;
+
       :host {
         display: flex;
         flex-direction: column;
         height: 100%;
-        gap: var(--watt-space-l);
+        gap: var(--watt-space-m);
+        @include watt.media('>=Large') {
+          gap: var(--watt-space-l);
+        }
       }
     `,
   ],
