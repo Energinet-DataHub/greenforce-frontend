@@ -121,16 +121,19 @@ export class EoClaimsTableComponent implements OnInit {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.dataSource.sortData = (data: any[], sort: any) => {
+        const isAsc = sort.direction === 'asc';
+
         if(!sort.active || sort.direction === '') {
           return data;
         } else if(sort.active === 'start' || sort.active === 'end') {
           return data.sort((a, b) => {
-            const isAsc = sort.direction === 'asc';
             return this.compare(a.consumptionCertificate[sort.active], b.consumptionCertificate[sort.active], isAsc);
           });
+        } else {
+          return data.sort((a, b) => {
+            return this.compare(a[sort.active], b[sort.active], isAsc);
+          });
         }
-
-        return [data];
       }
   }
 
