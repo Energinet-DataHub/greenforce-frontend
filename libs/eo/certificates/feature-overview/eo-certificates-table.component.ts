@@ -75,14 +75,20 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
 
       <!-- GSRN Column -->
       <ng-container matColumnDef="gsrn">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Metering Point </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Metering Point</mat-header-cell>
         <mat-cell *matCellDef="let element">{{ element.gsrn }}</mat-cell>
       </ng-container>
 
       <!-- Quantity Column -->
       <ng-container matColumnDef="quantity">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Amount </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Amount</mat-header-cell>
         <mat-cell *matCellDef="let element">{{ element.quantity | energyUnit }}</mat-cell>
+      </ng-container>
+
+      <!-- Product Type Column -->
+      <ng-container matColumnDef="certificateType">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.certificateType }}</mat-cell>
       </ng-container>
 
       <!-- Action column -->
@@ -111,7 +117,7 @@ export class EoCertificatesTableComponent implements AfterViewInit {
   private store = inject(EoCertificatesStore);
   certificates: EoCertificate[] = [];
   dataSource: MatTableDataSource<EoCertificate> = new MatTableDataSource();
-  displayedColumns: string[] = ['dateFrom', 'gsrn', 'quantity', 'action'];
+  displayedColumns: string[] = ['dateFrom', 'gsrn', 'quantity', 'certificateType', 'action'];
 
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
