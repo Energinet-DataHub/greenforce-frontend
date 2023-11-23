@@ -37,7 +37,7 @@ export interface Claim {
   consumptionCertificate: {
     start: number;
     end: number;
-  }
+  };
   amount?: string | null;
   start?: string;
   end?: string;
