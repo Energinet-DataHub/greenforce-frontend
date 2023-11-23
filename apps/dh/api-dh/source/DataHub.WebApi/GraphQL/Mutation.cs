@@ -194,14 +194,8 @@ public class Mutation
             .ActorPOSTAsync(input.Actor)
             .ConfigureAwait(false);
 
-        input.UserInvite.AssignedActor = actorId;
-
         await client
             .ContactPOSTAsync(actorId, input.ActorContact)
-            .ConfigureAwait(false);
-
-        await client
-            .InviteAsync(input.UserInvite)
             .ConfigureAwait(false);
 
         return true;

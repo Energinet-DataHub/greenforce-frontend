@@ -532,16 +532,9 @@
         "steps": {
           "actor": "Aktør",
           "organization": "Organisation",
-          "invite": "Inviter bruger",
           "create": "Opret aktør"
         },
-        "columns": {
-          "name": "Navn",
-          "description": "Beskrivelse"
-        },
         "gridArea": "Netområde",
-        "firstname": "Fornavn",
-        "lastname": "Efternavn",
         "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktør navn.",
         "glnOrEicInvalid": "Ugyldigt GLN/EIC nummer",
         "wrongEmailPattern": "Indtast en valid email",
