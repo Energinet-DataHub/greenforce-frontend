@@ -33,16 +33,14 @@ export interface Claim {
     start: number;
     end: number;
     gridArea: string;
-    consumptionCertificate: {
-      federatedStreamId: {
-        registry: string;
-        streamId: string;
-      };
-      start: number;
-      end: number;
-      gridArea: string;
-    };
   };
+  consumptionCertificate: {
+    start: number;
+    end: number;
+  };
+  amount?: string | null;
+  start?: string;
+  end?: string;
 }
 
 interface ClaimsResponse {
