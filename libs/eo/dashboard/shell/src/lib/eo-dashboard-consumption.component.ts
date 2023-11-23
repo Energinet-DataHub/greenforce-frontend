@@ -37,7 +37,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   EnergyUnitPipe,
   PercentageOfPipe,
-  energyUnit,
   findNearestUnit,
   fromWh,
 } from '@energinet-datahub/eo/shared/utilities';

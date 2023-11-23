@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+
+import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
 
 import { EoDashboardConsumptionComponent } from './eo-dashboard-consumption.component';
 import { EoDashboardProductionTransferredComponent } from './eo-dashboard-production-transferred.component';
@@ -44,4 +46,10 @@ import { EoDashboardProductionTransferredComponent } from './eo-dashboard-produc
     <eo-dashboard-consumption />
   `,
 })
-export class EoDashboardShellComponent {}
+export class EoDashboardShellComponent implements OnInit {
+  private aggregateService: EoAggregateService = inject(EoAggregateService);
+
+  ngOnInit(): void {
+    this.aggregateService.clearCache();
+  }
+}

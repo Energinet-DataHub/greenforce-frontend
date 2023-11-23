@@ -16,7 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { map } from 'rxjs';
+import { EMPTY, ReplaySubject, catchError, map, shareReplay, tap } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
@@ -42,30 +42,57 @@ export class EoAggregateService {
   #apiBase = `${this.#apiEnvironment.apiBase}/v1`.replace('/api', '/wallet-api');
   #timeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
-  getAggregatedClaims(timeAggregate: EoTimeAggregate, start: number, end: number) {
-    const dates = eachDayOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
-      (date) => {
-        return {
-          date,
-          quantity: 0,
-        };
-      }
-    );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  #cache = new Map<string, ReplaySubject<any>>();
 
-    return this.#http
-      .get<AggregatedResponse>(
-        `${this.#apiBase}/aggregate-claims?timeAggregate=${timeAggregate}&timeZone=${this.#timeZone}&start=${start}&end=${end}`
-      )
-      .pipe(
-        map((response) => response.result),
-        map((claims) =>
-          dates.map((date) => {
-            const claim = claims.find((c) => isSameDay(fromUnixTime(c.start), date.date));
-            return claim ? { ...date, quantity: claim.quantity } : date;
-          })
-        ),
-        map((result) => result.map((x) => x.quantity))
+  getAggregatedClaims(timeAggregate: EoTimeAggregate, start: number, end: number) {
+    const cacheKey = `claims-${timeAggregate}-${start}-${end}`;
+
+    if (!this.#cache.has(cacheKey)) {
+      const subject = new ReplaySubject(1);
+      this.#cache.set(cacheKey, subject);
+
+      const dates = eachDayOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
+        (date) => {
+          return {
+            date,
+            quantity: 0,
+          };
+        }
       );
+
+      this.#http
+        .get<AggregatedResponse>(
+          `${this.#apiBase}/aggregate-claims?timeAggregate=${timeAggregate}&timeZone=${this.#timeZone}&start=${start}&end=${end}`
+        )
+        .pipe(
+          map((response) => response.result),
+          map((claims) =>
+            dates.map((date) => {
+              const claim = claims.find((c) => isSameDay(fromUnixTime(c.start), date.date));
+              return claim ? { ...date, quantity: claim.quantity } : date;
+            })
+          ),
+          map((result) => result.map((x) => x.quantity)),
+          tap((result) => {
+            subject.next(result);
+            subject.complete();
+          }),
+          catchError((error) => {
+            this.#cache.delete(cacheKey);
+            subject.error(error);
+            return error;
+          }),
+          shareReplay(1)
+        )
+        .subscribe();
+    }
+
+    return this.#cache.get(cacheKey)?.asObservable() ?? EMPTY;
+  }
+
+  clearCache() {
+    this.#cache.clear();
   }
 
   getAggregatedTransfers(timeAggregate: EoTimeAggregate, start: number, end: number) {
