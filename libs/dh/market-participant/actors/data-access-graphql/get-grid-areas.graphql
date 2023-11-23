@@ -1,0 +1,6 @@
+query GetGridAreasForCreateActor {
+  gridAreas {
+    id
+    name
+  }
+}
