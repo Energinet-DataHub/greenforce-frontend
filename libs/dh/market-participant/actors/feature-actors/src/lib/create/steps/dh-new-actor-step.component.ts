@@ -1,0 +1,147 @@
+import { NgIf } from '@angular/common';
+import { Component, Input, inject, signal } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  EicFunction,
+  GetGridAreasForCreateActorDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { Apollo } from 'apollo-angular';
+
+@Component({
+  standalone: true,
+  selector: 'dh-new-actor-step',
+  imports: [
+    VaterStackComponent,
+    TranslocoDirective,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
+    WattDropdownComponent,
+    ReactiveFormsModule,
+    NgIf,
+    DhDropdownTranslatorDirective,
+  ],
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      watt-dropdown {
+        width: 100%;
+      }
+    `,
+  ],
+  template: `<vater-stack
+    gap="xl"
+    align="flex-start"
+    direction="row"
+    *transloco="let t; read: 'marketParticipant.actor.create'"
+  >
+    <vater-stack fill="horizontal" align="flex-start" direction="column">
+      <h4>{{ t('marketParty') }}</h4>
+
+      <watt-text-field
+        [formControl]="newActorForm.controls.glnOrEicNumber"
+        [label]="t('glnOrEicNumber')"
+      >
+        <watt-field-error *ngIf="newActorForm.controls.glnOrEicNumber.hasError('invalidGlnOrEic')">
+          {{ t('glnOrEicInvalid') }}
+        </watt-field-error>
+      </watt-text-field>
+
+      <watt-text-field
+        [formControl]="newActorForm.controls.name"
+        [label]="t('name')"
+        [tooltip]="t('tooltip')"
+      />
+      <watt-dropdown
+        translate="marketParticipant.marketRoles"
+        dhDropdownTranslator
+        [options]="marketRoleOptions"
+        (ngModelChange)="onMarketRoleChange($event)"
+        [formControl]="newActorForm.controls.marketrole"
+        [label]="t('marketRole')"
+      />
+      <watt-dropdown
+        *ngIf="showGridAreaOptions()"
+        [options]="gridAreaOptions"
+        [formControl]="newActorForm.controls.gridArea"
+        [label]="t('gridArea')"
+      />
+    </vater-stack>
+    <vater-stack fill="horizontal" align="flex-start" direction="column">
+      <h4>{{ t('contact') }}</h4>
+      <watt-text-field
+        [formControl]="newActorForm.controls.contact.controls.departmentOrName"
+        [label]="t('departmentOrName')"
+      />
+      <watt-text-field
+        [formControl]="newActorForm.controls.contact.controls.email"
+        [label]="t('email')"
+      >
+        <watt-field-error *ngIf="newActorForm.controls.contact.controls.email.hasError('pattern')">
+          {{ t('wrongEmailPattern') }}
+        </watt-field-error>
+      </watt-text-field>
+      <watt-text-field
+        [formControl]="newActorForm.controls.contact.controls.phone"
+        [label]="t('phone')"
+      >
+        <watt-field-error *ngIf="newActorForm.controls.contact.controls.phone.hasError('pattern')">
+          {{ t('phoneInvalid') }}
+        </watt-field-error>
+      </watt-text-field>
+    </vater-stack>
+  </vater-stack>`,
+})
+export class DhNewActorStepComponent {
+  private _apollo = inject(Apollo);
+  private _getGridAreasQuery = this._apollo.query({
+    notifyOnNetworkStatusChange: true,
+    query: GetGridAreasForCreateActorDocument,
+  });
+
+  @Input({ required: true }) newActorForm!: FormGroup<{
+    glnOrEicNumber: FormControl<string>;
+    name: FormControl<string>;
+    marketrole: FormControl<string>;
+    gridArea: FormControl<string>;
+    contact: FormGroup<{
+      departmentOrName: FormControl<string>;
+      email: FormControl<string>;
+      phone: FormControl<string>;
+    }>;
+  }>;
+
+  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction);
+  gridAreaOptions: WattDropdownOptions = [];
+
+  showGridAreaOptions = signal(false);
+
+  constructor() {
+    this._getGridAreasQuery.subscribe((result) => {
+      if (result.data?.gridAreas) {
+        this.gridAreaOptions = result.data.gridAreas.map((gridArea) => ({
+          value: gridArea.id,
+          displayValue: gridArea.name,
+        }));
+      }
+    });
+  }
+
+  onMarketRoleChange(eicfunction: EicFunction): void {
+    this.showGridAreaOptions.set(eicfunction === EicFunction.GridAccessProvider);
+    if (eicfunction === EicFunction.GridAccessProvider) {
+      this.newActorForm.controls.gridArea.enable();
+    }
+  }
+}
