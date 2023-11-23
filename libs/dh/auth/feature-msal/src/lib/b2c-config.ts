@@ -47,7 +47,7 @@ export function MSALInstanceFactory(
     system: {
       loggerOptions: {
         loggerCallback: (logLevel: LogLevel, message: string) => {
-          if (logLevel == LogLevel.Error) {
+          if (logLevel === LogLevel.Error) {
             appInsights.trackTrace('MSAL Issue Log: ' + message);
             appInsights.flush();
           }
