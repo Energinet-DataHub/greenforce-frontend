@@ -30,6 +30,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { ApolloError } from '@apollo/client/errors';
 import { Subscription, switchMap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
+import { addDays } from 'date-fns';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -52,7 +53,6 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { addDays } from 'date-fns';
 
 export type settlementReportsTableColumns = graphql.GridAreaDto & { download: boolean };
 
@@ -219,15 +219,16 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
       message: this.transloco.translate('wholesale.settlementReports.downloadStart'),
     });
 
-    const startPeriod = this.tryAddOneDay(this.searchForm.controls.period.value?.start);
-    const endPeriod = this.tryAddOneDay(this.searchForm.controls.period.value?.end);
+    const { start, end } = this.searchForm.controls.period.value as { start: string; end: string };
+    const startDate = addDays(new Date(start), 1);
+    const endDate = addDays(new Date(end), 1);
 
     this.httpClient
       .v1WholesaleSettlementReportDownloadGet(
         gridAreas.map((g) => g.id),
         WholesaleProcessType.BalanceFixing,
-        startPeriod as undefined,
-        endPeriod as undefined,
+        startDate.toISOString(),
+        endDate.toISOString(),
         this.searchForm.controls.actor.value ?? undefined,
         this.transloco.translate('selectedLanguageIso')
       )
@@ -240,13 +241,5 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
             message: this.transloco.translate('wholesale.settlementReports.downloadFailed'),
           }),
       });
-  }
-
-  private tryAddOneDay(value: unknown): unknown {
-    if (value instanceof Date) {
-      return addDays(value as Date, 1);
-    } else {
-      return '';
-    }
   }
 }
