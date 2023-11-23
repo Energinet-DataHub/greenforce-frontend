@@ -130,7 +130,10 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
 
     <ng-container>
       <h5>{{ transferredTotal | percentageOf: productionTotal }} transferred</h5>
-      <small>{{ transferredTotal | energyUnit }} of {{ productionTotal | energyUnit }} certified green production was transferred</small>
+      <small
+        >{{ transferredTotal | energyUnit }} of {{ productionTotal | energyUnit }} certified green
+        production was transferred</small
+      >
     </ng-container>
 
     <div class="chart-container">
@@ -227,9 +230,7 @@ export class EoDashboardProductionTransferredComponent implements OnInit {
         const claimedTotal = claims.reduce((a, b) => a + b, 0);
         this.productionTotal = certificates.reduce((a, b) => a + b, 0) + claimedTotal;
 
-        const unit: energyUnit = findNearestUnit(
-          this.productionTotal / this.labels.length
-        )[1];
+        const unit: energyUnit = findNearestUnit(this.productionTotal / this.labels.length)[1];
 
         this.barChartOptions = {
           ...this.barChartOptions,

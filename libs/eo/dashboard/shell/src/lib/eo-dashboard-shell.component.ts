@@ -22,14 +22,16 @@ import { EoDashboardProductionTransferredComponent } from './eo-dashboard-produc
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  styles: [`
-    :host {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      gap: var(--watt-space-l);
-    }
-  `],
+  styles: [
+    `
+      :host {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        gap: var(--watt-space-l);
+      }
+    `,
+  ],
   imports: [EoDashboardConsumptionComponent, EoDashboardProductionTransferredComponent],
   selector: 'eo-dashboard-shell',
   template: `

@@ -130,7 +130,10 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
 
     <ng-container>
       <h5>{{ claimedTotal | percentageOf: consumptionTotal }} green energy</h5>
-      <small>{{ claimedTotal | energyUnit }} of {{ consumptionTotal | energyUnit }} is certified green energy</small>
+      <small
+        >{{ claimedTotal | energyUnit }} of {{ consumptionTotal | energyUnit }} is certified green
+        energy</small
+      >
     </ng-container>
 
     <div class="chart-container">
