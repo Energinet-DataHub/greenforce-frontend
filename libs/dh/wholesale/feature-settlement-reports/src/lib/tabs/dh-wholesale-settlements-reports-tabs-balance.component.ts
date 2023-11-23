@@ -226,8 +226,8 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
       .v1WholesaleSettlementReportDownloadGet(
         gridAreas.map((g) => g.id),
         WholesaleProcessType.BalanceFixing,
-        startPeriod as any,
-        endPeriod as any,
+        startPeriod as undefined,
+        endPeriod as undefined,
         this.searchForm.controls.actor.value ?? undefined,
         this.transloco.translate('selectedLanguageIso')
       )
