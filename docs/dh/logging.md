@@ -1,8 +1,8 @@
 # Logging with Application Insights
 
-- Page views will be tracked by default when router changes occur. Note that this doesn't include **overlays** (see [trackPageView](#trackPageView)).
+- Page views will be tracked by default when router changes occur. Note that this doesn't include **overlays** (see [trackPageView](#trackpageview)).
 
-- Uncaught browser exceptions will also be tracked by default. For manually logging exceptions (see [trackException](#trackException)).
+- Uncaught browser exceptions will also be tracked by default. For manually logging exceptions (see [trackException](#trackexception)).
 
 - HTTP requests will also be tracked by default, so no manually tracking is nesecary.
 
@@ -14,15 +14,16 @@ yarn nx run app-dh:serve:development
 
 ## Getting started
 
-Sending Telemetry to the Azure Portal, you must import the `DhApplicationInsights` service from `@energinet-datahub/dh/shared/util-application-insights`.
+To send telemetry to Application Insights, you must import the `DhApplicationInsights` service from `@energinet-datahub/dh/shared/util-application-insights`.
 
 ```ts
 import { DhApplicationInsights } from  '@energinet-datahub/dh/shared/util-application-insights';
-...
-constructor(private insights: DhApplicationInsights) {}
+
+// ...
+private readonly appInsights = inject(DhApplicationInsights);
 ```
 
-### trackEvent
+### `trackEvent`
 
 Log a user action or other occurrence.
 
@@ -30,7 +31,7 @@ Log a user action or other occurrence.
 DhApplicationInsights.trackEvent('some event');
 ```
 
-### trackTrace
+### `trackTrace`
 
 Log a diagnostic scenario such as entering or leaving a function.
 
@@ -38,7 +39,7 @@ Log a diagnostic scenario such as entering or leaving a function.
 DhApplicationInsights.trackTrace('some message');
 ```
 
-### trackPageView
+### `trackPageView`
 
 Logs that a page or similar container was displayed to the user. **Use this for tracking overlays**.
 
@@ -46,7 +47,7 @@ Logs that a page or similar container was displayed to the user. **Use this for 
 DhApplicationInsights.trackPageView('name of overlay');
 ```
 
-### trackException
+### `trackException`
 
 Log an exception that you have caught.
 
@@ -59,7 +60,7 @@ DhApplicationInsights.trackException({
 
 ## Common queries for Application Insights in Azure Portal
 
-The best way to get started learning to write log queries using KQL is leveraging [available tutorials and samples](https://docs.microsoft.com/en-us/azure/azure-monitor/logs/log-query-overview#getting-started).
+The best way to get started learning to write log queries using KQL is leveraging [available tutorials and samples](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-query-overview#getting-started).
 
 ### Page views
 
