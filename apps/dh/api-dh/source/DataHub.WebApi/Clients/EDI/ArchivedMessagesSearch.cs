@@ -15,21 +15,19 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 
 namespace Energinet.DataHub.WebApi.Clients.EDI
 {
     public class ArchivedMessagesSearch
     {
-        private readonly HttpClient _httpClient;
+        private readonly IEdiB2CWebAppClient_V1 _b2CWebAppClient;
 
-        public ArchivedMessagesSearch(HttpClient httpClient)
+        public ArchivedMessagesSearch(IEdiB2CWebAppClient_V1 b2CWebAppClient)
         {
-            _httpClient = httpClient;
+            _b2CWebAppClient = b2CWebAppClient;
         }
 
         public async Task<SearchResult> SearchAsync(
@@ -49,41 +47,33 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
 
         public async Task<Stream> GetDocumentAsync(string id, CancellationToken cancellationToken)
         {
-            var url = $"api/v1/archived-messages/{id}/document";
-            var response = await _httpClient.GetAsync(url, cancellationToken);
-
-            response.EnsureSuccessStatusCode();
-
-            return await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+            return await _b2CWebAppClient.ArchivedMessageGetDocumentAsync(id, cancellationToken).ConfigureAwait(false);
         }
 
-        private async Task<IReadOnlyList<ArchivedMessageDto>?> GetSearchResultResponseMessagesAsync(
+        private async Task<ICollection<ArchivedMessageResult>?> GetSearchResultResponseMessagesAsync(
             ArchivedMessageSearchCriteria archivedMessageSearch,
             CancellationToken cancellationToken)
         {
-            var url = "api/v1/archived-messages/search";
-            var content = new StringContent(JsonSerializer.Serialize(
-                new ArchivedMessageSearchCriteriaDto(
-                    new CreatedDuringPeriod(
-                archivedMessageSearch.DateTimeFrom,
-                archivedMessageSearch.DateTimeTo),
-                    archivedMessageSearch.MessageId,
-                    archivedMessageSearch.SenderNumber,
-                    archivedMessageSearch.ReceiverNumber,
-                    archivedMessageSearch.DocumentTypes,
-                    archivedMessageSearch.BusinessReasons)));
+            var period = new MessageCreationPeriod()
+            {
+                Start = DateTimeOffset.Parse(archivedMessageSearch.DateTimeFrom),
+                End = DateTimeOffset.Parse(archivedMessageSearch.DateTimeTo),
+            };
 
-            var response = await _httpClient.PostAsync(url, content, cancellationToken);
+            var criteria = new SearchArchivedMessagesCriteria()
+            {
+                CreatedDuringPeriod = period,
+                MessageId = archivedMessageSearch.MessageId,
+                SenderNumber = archivedMessageSearch.SenderNumber,
+                ReceiverNumber = archivedMessageSearch.ReceiverNumber,
+                DocumentTypes = archivedMessageSearch.DocumentTypes,
+                BusinessReasons = archivedMessageSearch.BusinessReasons,
+            };
 
-            response.EnsureSuccessStatusCode();
-
-            var searchResultResponseMessages =
-                await response.Content.ReadFromJsonAsync<IReadOnlyList<ArchivedMessageDto>>().ConfigureAwait(false);
-
-            return searchResultResponseMessages;
+            return await _b2CWebAppClient.ArchivedMessageSearchAsync(criteria, cancellationToken);
         }
 
-        private static SearchResult MapResult(IReadOnlyList<ArchivedMessageDto> searchResultResponseMessages)
+        private static SearchResult MapResult(ICollection<ArchivedMessageResult> searchResultResponseMessages)
         {
             var result = new List<ArchivedMessage>();
 
@@ -93,7 +83,7 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
                     archivedMessageDto.Id,
                     archivedMessageDto.MessageId,
                     archivedMessageDto.DocumentType,
-                    DateTimeOffset.Parse(archivedMessageDto.CreatedAt),
+                    archivedMessageDto.CreatedAt,
                     archivedMessageDto.SenderNumber,
                     archivedMessageDto.ReceiverNumber));
             }
