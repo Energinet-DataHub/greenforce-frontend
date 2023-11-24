@@ -21,7 +21,7 @@ namespace Energinet.DataHub.WebApi.Registration
     {
         internal static IServiceCollection RegisterEDIServices(this IServiceCollection services, string messageArchiveBaseUrl)
         {
-            services.AddScoped(provider => new ArchivedMessagesSearch(provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(new System.Uri(messageArchiveBaseUrl))));
+            services.AddScoped<ArchivedMessagesSearch>();
             services.AddScoped<ActorService>();
             return services;
         }

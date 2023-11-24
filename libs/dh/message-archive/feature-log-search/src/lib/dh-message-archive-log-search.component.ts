@@ -116,7 +116,10 @@ export class DhMessageArchiveLogSearchComponent {
   searching = false;
   maxItemCount = 100;
 
-  searchCriteria: ArchivedMessageSearchCriteria = {};
+  searchCriteria: ArchivedMessageSearchCriteria = {
+    dateTimeFrom: '',
+    dateTimeTo: '',
+  };
 
   constructor() {
     this.actorStore.getActors();
