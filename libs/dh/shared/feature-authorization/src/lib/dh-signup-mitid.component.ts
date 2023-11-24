@@ -41,11 +41,14 @@ export class DhSignupMitIdComponent {
 
     this.marketParticipantUserHttp
       .v1MarketParticipantUserInitiateMitIdSignupPost()
-      .subscribe(() => {
-        MSALInstanceFactory({
+      .subscribe(async () => {
+        const instance = MSALInstanceFactory({
           ...this.config,
           authority: this.config.mitIdInviteFlowUri,
-        }).loginRedirect();
+        });
+
+        await instance.initialize();
+        await instance.loginRedirect();
       });
   };
 }
