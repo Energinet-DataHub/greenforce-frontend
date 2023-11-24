@@ -14,37 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Apollo, MutationResult } from 'apollo-angular';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Apollo, MutationResult } from 'apollo-angular';
+import {
+  FormControl,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ChangeDetectionStrategy, Component, inject, signal, ViewChild } from '@angular/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-
-import type { ResultOf } from '@graphql-typed-document-node/core';
-
-import {
-  DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions,
-} from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   ContactCategoryType,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
-  EicFunction,
-  GetGridAreasForCreateActorDocument,
-  GetUserRolesByEicfunctionDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -53,84 +42,29 @@ import {
   dhDomainValidator,
   dhGlnOrEicValidator,
 } from '@energinet-datahub/dh/shared/ui-validators';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { parseApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
-type UserRoles = ResultOf<typeof GetUserRolesByEicfunctionDocument>['userRolesByEicFunction'];
-type UserRole = UserRoles[number];
-
+import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
+import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
+import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
 @Component({
   standalone: true,
   selector: 'dh-actors-create-actor-modal',
   templateUrl: './dh-actors-create-actor-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-
-      .dh-actors-create-actor-modal__form {
-        watt-dropdown {
-          width: 50%;
-        }
-
-        .domain {
-          padding-right: var(--watt-space-s);
-        }
-
-        .dh-actors-create-actor {
-          watt-dropdown {
-            width: 100%;
-          }
-        }
-
-        .dh-actors-create-actor-organization,
-        .dh-actors-create-actor-invite-user {
-          vater-stack {
-            width: 50%;
-          }
-
-          watt-table {
-            max-height: 400px;
-          }
-
-          vater-stack[direction='row'] {
-            watt-dropdown,
-            watt-text-field {
-              width: 50%;
-            }
-          }
-        }
-      }
-    `,
-  ],
   imports: [
     TranslocoDirective,
-    TranslocoPipe,
     ReactiveFormsModule,
-    NgIf,
 
     WATT_CARD,
-    NgTemplateOutlet,
     WATT_MODAL,
     WATT_STEPPER,
-    WattDropdownComponent,
-    WattButtonComponent,
-    WattEmptyStateComponent,
-    VaterFlexComponent,
-    WATT_TABLE,
-    WATT_CARD,
-    WattTextFieldComponent,
-    WattFieldErrorComponent,
-    DhDropdownTranslatorDirective,
-    VaterStackComponent,
 
     DhChooseOrganizationStepComponent,
+    DhNewOrganizationStepComponent,
+    DhNewActorStepComponent,
   ],
 })
 export class DhActorsCreateActorModalComponent {
@@ -138,36 +72,16 @@ export class DhActorsCreateActorModalComponent {
   private _toastService = inject(WattToastService);
   private _apollo = inject(Apollo);
 
-  private _getGridAreasQuery = this._apollo.query({
-    notifyOnNetworkStatusChange: true,
-    query: GetGridAreasForCreateActorDocument,
-  });
-
   showCreateNewOrganization = signal(false);
   choosenOrganizationDomain = signal('');
-  showGridAreaOptions = signal(false);
   isCompleting = signal(false);
 
-  readonly dataSource: WattTableDataSource<UserRole> = new WattTableDataSource<UserRole>();
-
-  columns: WattTableColumnDef<UserRole> = {
-    name: { accessor: 'name' },
-    description: { accessor: 'description' },
-  };
-
   @ViewChild(WattModalComponent)
-  innerModal: WattModalComponent | undefined;
+  modal: WattModalComponent | undefined;
 
-  gridAreaOptions: WattDropdownOptions = [];
-  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction);
-  countryOptions: WattDropdownOptions = [
-    { value: 'DK', displayValue: 'DK' },
-    { value: 'SE', displayValue: 'SE' },
-    { value: 'NO', displayValue: 'NO' },
-    { value: 'FI', displayValue: 'FI' },
-  ];
-
-  chooseOrganizationForm = this._fb.group({ orgId: ['', Validators.required] });
+  chooseOrganizationForm = this._fb.group({
+    orgId: new FormControl<string | null>(null, Validators.required),
+  });
 
   newOrganizationForm = this._fb.group({
     country: ['', Validators.required],
@@ -188,18 +102,6 @@ export class DhActorsCreateActorModalComponent {
     }),
   });
 
-  constructor() {
-    this._getGridAreasQuery.subscribe((result) => {
-      console.log(result);
-      if (result.data?.gridAreas) {
-        this.gridAreaOptions = result.data.gridAreas.map((gridArea) => ({
-          value: gridArea.id,
-          displayValue: gridArea.name,
-        }));
-      }
-    });
-  }
-
   getChoosenOrganizationDomain(): string {
     return this.newOrganizationForm.controls.domain.value
       ? this.newOrganizationForm.controls.domain.value
@@ -210,42 +112,24 @@ export class DhActorsCreateActorModalComponent {
     this.choosenOrganizationDomain.set(domain);
   }
 
-  onMarketRoleChange(eicfunction: EicFunction): void {
-    this._apollo
-      .query({
-        notifyOnNetworkStatusChange: true,
-        query: GetUserRolesByEicfunctionDocument,
-        variables: { eicfunction },
-      })
-      .subscribe((result) => {
-        this.dataSource.data = result.data?.userRolesByEicFunction ?? [];
-      });
-
-    this.showGridAreaOptions.set(eicfunction === EicFunction.GridAccessProvider);
-    if (eicfunction === EicFunction.GridAccessProvider) {
-      this.newActorForm.controls.gridArea.enable();
-    }
-  }
-
   toggleShowCreateNewOrganization(): void {
     this.showCreateNewOrganization.set(!this.showCreateNewOrganization());
     this.newOrganizationForm.reset();
   }
 
   open() {
-    this.innerModal?.open();
+    this.modal?.open();
   }
 
   close() {
-    this.innerModal?.close(false);
+    this.modal?.close(false);
   }
 
   createMarketParticipent(): void {
-    if (this.chooseOrganizationForm.controls.orgId.value !== '' && this.newActorForm.invalid)
-      return;
+    if (this.chooseOrganizationForm.controls.orgId.value && this.newActorForm.invalid) return;
 
     if (
-      (this.chooseOrganizationForm.controls.orgId.value === '' &&
+      (this.chooseOrganizationForm.controls.orgId.value === null &&
         this.newOrganizationForm.invalid) ||
       this.newActorForm.invalid
     )
@@ -276,7 +160,11 @@ export class DhActorsCreateActorModalComponent {
             },
             actor: {
               name: { value: this.newActorForm.controls.name.value },
-              organizationId: this.chooseOrganizationForm.controls.orgId.value,
+              // The hardcoded value is a placeholder for the organizationId what be replaced in the BFF with the created organizationId
+              organizationId:
+                this.chooseOrganizationForm.controls.orgId.value === null
+                  ? '3f2504e0-4f89-41d3-9a0c-0305e82c3301'
+                  : this.chooseOrganizationForm.controls.orgId.value,
               marketRoles: [
                 {
                   eicFunction: this.newActorForm.controls.marketrole.value,

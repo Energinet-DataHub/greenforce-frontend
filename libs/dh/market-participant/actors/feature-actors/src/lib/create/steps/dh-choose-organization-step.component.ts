@@ -68,7 +68,9 @@ import { Apollo } from 'apollo-angular';
 export class DhChooseOrganizationStepComponent {
   private _apollo = inject(Apollo);
 
-  @Input({ required: true }) chooseOrganizationForm!: FormGroup<{ orgId: FormControl<string> }>;
+  @Input({ required: true }) chooseOrganizationForm!: FormGroup<{
+    orgId: FormControl<string | null>;
+  }>;
   @Output() toggleShowCreateNewOrganization = new EventEmitter<void>();
   @Output() choosenOrganizationDomain = new EventEmitter<string>();
 
