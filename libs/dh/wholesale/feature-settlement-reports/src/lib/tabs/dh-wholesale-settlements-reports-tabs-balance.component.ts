@@ -219,15 +219,16 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
       message: this.transloco.translate('wholesale.settlementReports.downloadStart'),
     });
 
-    const startPeriod = this.tryAddOneDay(this.searchForm.controls.period.value?.start);
-    const endPeriod = this.tryAddOneDay(this.searchForm.controls.period.value?.end);
+    const { start, end } = this.searchForm.controls.period.value as { start: string; end: string };
+    const startDate = addDays(new Date(start), 1);
+    const endDate = addDays(new Date(end), 1);
 
     this.httpClient
       .v1WholesaleSettlementReportDownloadGet(
         gridAreas.map((g) => g.id),
         WholesaleProcessType.BalanceFixing,
-        startPeriod as undefined,
-        endPeriod as undefined,
+        startDate.toISOString().slice(0, 10),
+        endDate.toISOString().slice(0, 10),
         this.searchForm.controls.actor.value ?? undefined,
         this.transloco.translate('selectedLanguageIso')
       )
@@ -240,13 +241,5 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
             message: this.transloco.translate('wholesale.settlementReports.downloadFailed'),
           }),
       });
-  }
-
-  private tryAddOneDay(value: unknown): unknown {
-    if (value instanceof Date) {
-      return addDays(value as Date, 1);
-    } else {
-      return '';
-    }
   }
 }
