@@ -118,7 +118,7 @@ export class DhMessageArchiveLogSearchComponent {
 
   searchCriteria: ArchivedMessageSearchCriteria = {
     dateTimeFrom: '',
-    dateTimeTo: ''
+    dateTimeTo: '',
   };
 
   constructor() {
