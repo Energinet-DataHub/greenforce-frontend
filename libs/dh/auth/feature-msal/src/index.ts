@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/b2c-config';
+export * from './lib/dh-b2c-config';
