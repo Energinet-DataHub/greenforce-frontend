@@ -32,6 +32,7 @@ import { marketParticipantUserSearchUsers } from './data/marketParticipantUserSe
 import { getUserRolesByEicfunction } from './data/get-user-roles-by-eicfunction';
 import { marketParticipantOrganizationGetFilteredActors } from './data/marketParticipantOrganizationGetFilteredActors';
 import { mockGetKnownEmailsQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import { getGridAreasForCreateActorMock } from './data/get-grid-areas-for-actor-create';
 
 export function adminMocks(apiBase: string) {
   return [
@@ -53,6 +54,7 @@ export function adminMocks(apiBase: string) {
     getMarketParticipantUserRoleGetAssignable(apiBase),
     getActorOrganization(apiBase),
     getKnownEmailsQuery(),
+    getGridAreasForCreateActor(),
   ];
 }
 
@@ -190,5 +192,11 @@ function getKnownEmailsQuery() {
         knownEmails: marketParticipantUserSearchUsers.users.map((x) => x.email),
       })
     );
+  });
+}
+
+function getGridAreasForCreateActor() {
+  return graphql.mockGetGridAreasForCreateActorQuery((req, res, ctx) => {
+    return res(ctx.data(getGridAreasForCreateActorMock));
   });
 }

@@ -121,10 +121,6 @@ import { Apollo } from 'apollo-angular';
 })
 export class DhNewActorStepComponent {
   private _apollo = inject(Apollo);
-  private _getGridAreasQuery = this._apollo.query({
-    notifyOnNetworkStatusChange: true,
-    query: GetGridAreasForCreateActorDocument,
-  });
 
   @Input({ required: true }) newActorForm!: FormGroup<{
     glnOrEicNumber: FormControl<string>;
@@ -144,14 +140,19 @@ export class DhNewActorStepComponent {
   showGridAreaOptions = signal(false);
 
   constructor() {
-    this._getGridAreasQuery.subscribe((result) => {
-      if (result.data?.gridAreas) {
-        this.gridAreaOptions = result.data.gridAreas.map((gridArea) => ({
-          value: gridArea.id,
-          displayValue: gridArea.name,
-        }));
-      }
-    });
+    this._apollo
+      .query({
+        notifyOnNetworkStatusChange: true,
+        query: GetGridAreasForCreateActorDocument,
+      })
+      .subscribe((result) => {
+        if (result.data?.gridAreas) {
+          this.gridAreaOptions = result.data.gridAreas.map((gridArea) => ({
+            value: gridArea.id,
+            displayValue: gridArea.name,
+          }));
+        }
+      });
   }
 
   onMarketRoleChange(eicfunction: EicFunction): void {
