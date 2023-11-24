@@ -138,8 +138,23 @@ export const aggregateClaimsResponse = {
     },
     {
       start: 1700434800,
-      end: 1700463600,
-      quantity: 44820,
+      end: 1700521200,
+      quantity: 89880,
+    },
+    {
+      start: 1700521200,
+      end: 1700607600,
+      quantity: 141000,
+    },
+    {
+      start: 1700607600,
+      end: 1700694000,
+      quantity: 125210,
+    },
+    {
+      start: 1700694000,
+      end: 1700769600,
+      quantity: 99180,
     },
   ],
 };
