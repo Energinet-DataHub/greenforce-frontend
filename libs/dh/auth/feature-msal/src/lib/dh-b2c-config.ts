@@ -26,12 +26,7 @@ import {
 
 import { DhApiEnvironment, DhB2CEnvironment } from '@energinet-datahub/dh/shared/environments';
 
-import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
-
-export function MSALInstanceFactory(
-  config: DhB2CEnvironment,
-  appInsights: DhApplicationInsights
-): IPublicClientApplication {
+export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
       clientId: config.clientId,
@@ -47,15 +42,10 @@ export function MSALInstanceFactory(
     system: {
       loggerOptions: {
         loggerCallback: (logLevel: LogLevel, message: string) => {
-          if (logLevel === LogLevel.Error) {
-            appInsights.trackTrace('MSAL Issue Log: ' + message);
-            appInsights.flush();
-          }
-          console.log('MSAL Issue Log: ' + message);
           reloadOnLoginFailed(message);
         },
-        logLevel: LogLevel.Trace,
-        piiLoggingEnabled: true,
+        logLevel: LogLevel.Error,
+        piiLoggingEnabled: false,
       },
       allowNativeBroker: false,
     },
@@ -64,8 +54,9 @@ export function MSALInstanceFactory(
 
 function reloadOnLoginFailed(error: string) {
   const loginFailed = error.includes('Error - Guard - error while logging in, unable to activate');
+
   if (loginFailed) {
-    setTimeout(() => window.location.reload(), 5000);
+    window.location.reload();
   }
 }
 
