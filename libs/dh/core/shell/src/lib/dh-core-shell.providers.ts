@@ -20,12 +20,16 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   MsalInterceptor,
-  MsalModule,
   MsalService,
   MSAL_GUARD_CONFIG,
   MSAL_INSTANCE,
   MSAL_INTERCEPTOR_CONFIG,
+  MsalGuard,
+  MsalBroadcastService,
 } from '@azure/msal-angular';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormGroupDirective } from '@angular/forms';
+import { HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
 
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhWattTranslationsProviders } from '@energinet-datahub/dh/globalization/configuration-watt-translation';
@@ -45,35 +49,22 @@ import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-tim
 import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
-import { HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
 import { WattModalService } from '@energinet-datahub/watt/modal';
-import { MatDialogModule } from '@angular/material/dialog';
-import { FormGroupDirective } from '@angular/forms';
 
-export const dhCoreShellProviders = [
-  importProvidersFrom([
-    MatDialogModule,
-    MatSnackBarModule,
-    DhApiModule.forRoot(),
-    MsalModule,
-    TranslocoModule,
-  ]),
-  FormGroupDirective,
-  environment.production ? applicationInsightsProviders : [],
-  dhWattTranslationsProviders,
-  danishLocalProviders,
-  translocoProviders,
-  graphQLProviders,
-  danishDatetimeProviders,
-  WattModalService,
-  MsalService,
+const interceptors = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: MsalInterceptor,
     multi: true,
   },
-  // dhAuthorizationInterceptor must be registered after Msal
+  // dhAuthorizationInterceptor must be registered after MsalInterceptor
   dhAuthorizationInterceptor,
+];
+
+const msalProviders = [
+  MsalService,
+  MsalGuard,
+  MsalBroadcastService,
   {
     provide: MSAL_INSTANCE,
     useFactory: MSALInstanceFactory,
@@ -89,6 +80,20 @@ export const dhCoreShellProviders = [
     useFactory: MSALInterceptorConfigFactory,
     deps: [dhB2CEnvironmentToken, dhApiEnvironmentToken],
   },
+];
+
+export const dhCoreShellProviders = [
+  importProvidersFrom([MatDialogModule, MatSnackBarModule, DhApiModule.forRoot(), TranslocoModule]),
+  FormGroupDirective,
+  environment.production ? applicationInsightsProviders : [],
+  dhWattTranslationsProviders,
+  danishLocalProviders,
+  translocoProviders,
+  graphQLProviders,
+  danishDatetimeProviders,
+  WattModalService,
+  interceptors,
+  msalProviders,
   {
     provide: HIGHLIGHT_OPTIONS,
     useValue: <HighlightOptions>{
