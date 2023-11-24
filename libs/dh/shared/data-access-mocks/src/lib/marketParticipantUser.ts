@@ -19,11 +19,17 @@ import { rest } from 'msw';
 import marketParticipantUserActors from './data/marketParticipantUserActors.json';
 
 export function marketParticipantUserMocks(apiBase: string) {
-  return [getActors(apiBase)];
+  return [getActors(apiBase), postInitiateMitIdSignup(apiBase)];
 }
 
 function getActors(apiBase: string) {
   return rest.get(`${apiBase}/v1/MarketParticipantUser/GetUserActors`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(marketParticipantUserActors));
+  });
+}
+
+function postInitiateMitIdSignup(apiBase: string) {
+  return rest.post(`${apiBase}/v1/MarketParticipantUser/InitiateMitIdSignup`, (req, res, ctx) => {
+    return res(ctx.delay(300), ctx.status(200));
   });
 }
