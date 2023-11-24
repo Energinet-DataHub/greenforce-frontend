@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export { DhMarketPartyB2BAccessStore } from './lib/dh-market-party-b2b-access.store';
+export { DhMarketParticipantActorsEditActorDataAccessApiStore } from './lib/dh-market-participant-actors-edit-actor-data-access-api.store';
