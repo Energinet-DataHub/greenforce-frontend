@@ -232,7 +232,9 @@ export class EoDashboardProductionTransferredComponent implements OnInit {
 
         const claimedTotal = claims.reduce((a: number, b: number) => a + b, 0);
         this.productionTotal =
-          certificates.reduce((a: number, b: number) => a + b, 0) + claimedTotal + this.transferredTotal;
+          certificates.reduce((a: number, b: number) => a + b, 0) +
+          claimedTotal +
+          this.transferredTotal;
 
         const unit = findNearestUnit(
           this.productionTotal /
@@ -269,7 +271,7 @@ export class EoDashboardProductionTransferredComponent implements OnInit {
         };
 
         const produced = certificates.map((x, index) => {
-          return fromWh(x + claims[index], unit)
+          return fromWh(x + claims[index], unit);
         });
 
         this.barChartData = {
