@@ -16,6 +16,7 @@
  */
 import { aggregateCertificatesMocks } from './lib/aggregate-certificates';
 import { aggregateClaimsMocks } from './lib/aggregate-claims';
+import { aggregateTransfersMocks } from './lib/aggregate-transfers';
 import { authMocks } from './lib/auth';
 import { certificatesMocks } from './lib/certificates';
 import { claimsMocks } from './lib/claims';
@@ -23,11 +24,12 @@ import { meteringPointsMocks } from './lib/metering-points';
 import { transferMocks } from './lib/transfer';
 
 export const mocks = [
-  authMocks,
-  meteringPointsMocks,
-  certificatesMocks,
   aggregateCertificatesMocks,
-  claimsMocks,
   aggregateClaimsMocks,
+  aggregateTransfersMocks,
+  authMocks,
+  certificatesMocks,
+  claimsMocks,
+  meteringPointsMocks,
   transferMocks,
 ];
