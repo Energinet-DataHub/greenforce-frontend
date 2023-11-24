@@ -14,13 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/absolute-url-generator.service';
-export * from './lib/energy-unit/energy-unit.pipe';
-export * from './lib/energy-unit/energy-unit.type';
-export * from './lib/energy-unit/find-nearest-unit';
-export * from './lib/energy-unit/from-wh';
-export * from './lib/energy-unit/to-kwh';
-export * from './lib/eo-routes';
-export * from './lib/shared-utilities';
-export * from './lib/title/eo-title.store';
-export * from './lib/percentage/percentage-of.pipe';
+export * from './aggregate.service';
