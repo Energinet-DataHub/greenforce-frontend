@@ -13,8 +13,5 @@
     "**/*.test.ts",
     "jest.config.ts"
   ],
-  "include": [
-    "**/*.ts",
-    "../actors/data-access-api/src/lib/dh-market-participant-actors-edit-actor-data-access-api.store.ts"
-  ]
+  "include": ["**/*.ts"]
 }
