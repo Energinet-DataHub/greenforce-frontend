@@ -17,7 +17,7 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
   <watt-modal size="large" [title]="t('createHeader')">
     <watt-stepper
-      class="dh-actors-create-actor-modal__form watt-modal-content--full-width"
+      class="watt-modal-content--full-width"
       [linear]="true"
       [isCompleting]="isCompleting()"
       (completed)="createMarketParticipent()"
@@ -40,49 +40,10 @@ limitations under the License.
         [stepControl]="newOrganizationForm"
         [label]="t('newOrganization')"
       >
-        <div class="dh-actors-create-actor-organization">
-          <vater-stack direction="row" justify="space-between" fill="horizontal">
-            <h4>{{ t("newOrganization") }}</h4>
-            <watt-button variant="text" (click)="toggleShowCreateNewOrganization()">{{
-              t("searchDatahub")
-            }}</watt-button>
-          </vater-stack>
-
-          <vater-stack gap="m" align="flex-start" direction="row">
-            <watt-dropdown
-              [label]="t('country')"
-              translate="marketParticipant.actor.create.counties"
-              [options]="countryOptions"
-              [formControl]="newOrganizationForm.controls.country"
-              dhDropdownTranslator
-            />
-            <watt-text-field
-              [formControl]="newOrganizationForm.controls.cvrNumber"
-              [label]="t('cvrNumber')"
-            >
-              <watt-field-error
-                *ngIf="newOrganizationForm.controls.cvrNumber.hasError('invalidCvrNumber')"
-              >
-                {{ t("cvrInvalid") }}
-              </watt-field-error>
-            </watt-text-field>
-          </vater-stack>
-          <vater-stack gap="m" align="flex-start">
-            <watt-text-field
-              [formControl]="newOrganizationForm.controls.companyName"
-              [label]="t('companyName')"
-            />
-            <watt-text-field
-              [prefix]="'alternateEmail'"
-              [formControl]="newOrganizationForm.controls.domain"
-              [label]="t('domain')"
-            >
-              <watt-field-error *ngIf="newOrganizationForm.controls.domain.hasError('pattern')">
-                {{ t("domainInvalid") }}
-              </watt-field-error>
-            </watt-text-field>
-          </vater-stack>
-        </div>
+        <dh-new-organization-step
+          [newOrganizationForm]="newOrganizationForm"
+          (toggleShowCreateNewOrganization)="toggleShowCreateNewOrganization()"
+        />
       </watt-stepper-step>
       <watt-stepper-step
         [stepControl]="newActorForm"
@@ -90,69 +51,7 @@ limitations under the License.
         [nextButtonLabel]="t('steps.create')"
         [label]="t('marketParty')"
       >
-        <vater-stack gap="xl" class="dh-actors-create-actor" align="flex-start" direction="row">
-          <vater-stack fill="horizontal" align="flex-start" direction="column">
-            <h4>{{ t("marketParty") }}</h4>
-
-            <watt-text-field
-              [formControl]="newActorForm.controls.glnOrEicNumber"
-              [label]="t('glnOrEicNumber')"
-            >
-              <watt-field-error
-                *ngIf="newActorForm.controls.glnOrEicNumber.hasError('invalidGlnOrEic')"
-              >
-                {{ t("glnOrEicInvalid") }}
-              </watt-field-error>
-            </watt-text-field>
-
-            <watt-text-field
-              [formControl]="newActorForm.controls.name"
-              [label]="t('name')"
-              [tooltip]="t('tooltip')"
-            />
-            <watt-dropdown
-              translate="marketParticipant.marketRoles"
-              dhDropdownTranslator
-              [options]="marketRoleOptions"
-              (ngModelChange)="onMarketRoleChange($event)"
-              [formControl]="newActorForm.controls.marketrole"
-              [label]="t('marketRole')"
-            />
-            <watt-dropdown
-              *ngIf="showGridAreaOptions()"
-              [options]="gridAreaOptions"
-              [formControl]="newActorForm.controls.gridArea"
-              [label]="t('gridArea')"
-            />
-          </vater-stack>
-          <vater-stack fill="horizontal" align="flex-start" direction="column">
-            <h4>{{ t("contact") }}</h4>
-            <watt-text-field
-              [formControl]="newActorForm.controls.contact.controls.departmentOrName"
-              [label]="t('departmentOrName')"
-            />
-            <watt-text-field
-              [formControl]="newActorForm.controls.contact.controls.email"
-              [label]="t('email')"
-            >
-              <watt-field-error
-                *ngIf="newActorForm.controls.contact.controls.email.hasError('pattern')"
-              >
-                {{ t("wrongEmailPattern") }}
-              </watt-field-error>
-            </watt-text-field>
-            <watt-text-field
-              [formControl]="newActorForm.controls.contact.controls.phone"
-              [label]="t('phone')"
-            >
-              <watt-field-error
-                *ngIf="newActorForm.controls.contact.controls.phone.hasError('pattern')"
-              >
-                {{ t("phoneInvalid") }}
-              </watt-field-error>
-            </watt-text-field>
-          </vater-stack>
-        </vater-stack>
+        <dh-new-actor-step [newActorForm]="newActorForm" />
       </watt-stepper-step>
     </watt-stepper>
   </watt-modal>
