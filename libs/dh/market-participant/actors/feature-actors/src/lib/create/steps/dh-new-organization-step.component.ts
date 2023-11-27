@@ -44,7 +44,8 @@ import { TranslocoDirective } from '@ngneat/transloco';
       :host {
         display: block;
       }
-
+      h4 {
+      }
       watt-dropdown,
       vater-stack {
         width: 50%;
@@ -55,17 +56,18 @@ import { TranslocoDirective } from '@ngneat/transloco';
     <vater-stack direction="row" justify="space-between" fill="horizontal">
       <h4>{{ t('newOrganization') }}</h4>
       <watt-button variant="text" (click)="toggleShowCreateNewOrganization.emit()">{{
-        t('searchDatahub')
+        t('chooseOrganization')
       }}</watt-button>
     </vater-stack>
 
     <vater-stack gap="m" align="flex-start" direction="row">
       <watt-dropdown
-        [label]="t('country')"
         translate="marketParticipant.actor.create.counties"
+        dhDropdownTranslator
+        [label]="t('country')"
+        [showResetOption]="false"
         [options]="countryOptions"
         [formControl]="newOrganizationForm.controls.country"
-        dhDropdownTranslator
       />
       <watt-text-field
         [formControl]="newOrganizationForm.controls.cvrNumber"

@@ -54,6 +54,10 @@ import { Apollo } from 'apollo-angular';
       watt-dropdown {
         width: 100%;
       }
+
+      h4 {
+        margin-top: 0;
+      }
     `,
   ],
   template: `<vater-stack
@@ -87,6 +91,7 @@ import { Apollo } from 'apollo-angular';
         [formControl]="newActorForm.controls.marketrole"
         [label]="t('marketRole')"
       />
+
       <watt-dropdown
         *ngIf="showGridAreaOptions()"
         [options]="gridAreaOptions"
