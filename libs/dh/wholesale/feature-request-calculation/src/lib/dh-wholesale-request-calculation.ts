@@ -15,17 +15,22 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, inject } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormControl,
-  FormGroup,
-  FormGroupDirective,
   FormsModule,
   NonNullableFormBuilder,
   ReactiveFormsModule,
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { Apollo, MutationResult } from 'apollo-angular';
+import { differenceInDays, parseISO, subDays, subYears } from 'date-fns';
+import { catchError, of } from 'rxjs';
+
 import {
   MeteringPointType,
   EdiB2CProcessType,
@@ -35,23 +40,17 @@ import {
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { VaterStackComponent, VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { Apollo, MutationResult } from 'apollo-angular';
 import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { differenceInDays, parseISO, subDays, subYears } from 'date-fns';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange } from '@energinet-datahub/watt/date';
-import { JsonPipe, NgIf } from '@angular/common';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { catchError, of } from 'rxjs';
 
 const maxOneMonthDateRangeValidator =
   () =>
@@ -115,7 +114,6 @@ type FormType = {
     TranslocoDirective,
     WattDatepickerComponent,
     WattFieldErrorComponent,
-    JsonPipe,
     NgIf,
   ],
 })
@@ -248,7 +246,7 @@ export class DhWholesaleRequestCalculationComponent {
     return this._selectedEicFunction === EicFunction.EnergySupplier;
   }
 
-  requestCalculation(form: FormGroup, formGroupDirective: FormGroupDirective): void {
+  requestCalculation(): void {
     const {
       gridarea,
       meteringPointType,
@@ -260,9 +258,6 @@ export class DhWholesaleRequestCalculationComponent {
     if (!gridarea || !meteringPointType || !processtType || !period.start || !period.end) return;
 
     const meteringPoint = meteringPointType as MeteringPointType;
-
-    form.reset();
-    formGroupDirective.resetForm();
 
     this._apollo
       .mutate({
