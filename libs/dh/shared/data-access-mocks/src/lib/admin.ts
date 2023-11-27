@@ -16,7 +16,15 @@
  */
 import { rest } from 'msw';
 
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import {
+  mockGetGridAreasForCreateActorQuery,
+  mockGetKnownEmailsQuery,
+  mockGetPermissionDetailsQuery,
+  mockGetPermissionLogsQuery,
+  mockGetPermissionsQuery,
+  mockGetUserRoleAuditLogsQuery,
+  mockGetUserRolesByEicfunctionQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import marketParticipantActorQuerySelectionActors from './data/marketParticipantActorQuerySelectionActors.json';
 import marketParticipantUserRoleGetAll from './data/marketParticipantUserRoleGetAll.json';
@@ -31,7 +39,6 @@ import { marketParticipantOrganization } from './data/admin-get-actorOrganizatio
 import { marketParticipantUserSearchUsers } from './data/marketParticipantUserSearchUsers';
 import { getUserRolesByEicfunction } from './data/get-user-roles-by-eicfunction';
 import { marketParticipantOrganizationGetFilteredActors } from './data/marketParticipantOrganizationGetFilteredActors';
-import { mockGetKnownEmailsQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 import { getGridAreasForCreateActorMock } from './data/get-grid-areas-for-actor-create';
 
 export function adminMocks(apiBase: string) {
@@ -116,7 +123,7 @@ function getMarketParticipantUserRoleGetUserRoleWithPermissions(apiBase: string)
 }
 
 function getUserRoleAuditLogs() {
-  return graphql.mockGetUserRoleAuditLogsQuery((req, res, ctx) => {
+  return mockGetUserRoleAuditLogsQuery((req, res, ctx) => {
     return res(ctx.data(getUserRoleAuditLogsMock));
   });
 }
@@ -137,19 +144,19 @@ function getMarketParticipantOrganizationGetFilteredActors(apiBase: string) {
 }
 
 function getAdminPermissions() {
-  return graphql.mockGetPermissionsQuery((req, res, ctx) => {
+  return mockGetPermissionsQuery((req, res, ctx) => {
     return res(ctx.data(adminPermissionsMock));
   });
 }
 
 function getAdminPermissionDetails() {
-  return graphql.mockGetPermissionDetailsQuery((req, res, ctx) => {
+  return mockGetPermissionDetailsQuery((req, res, ctx) => {
     return res(ctx.data(adminPermissionDetailsMock));
   });
 }
 
 function getAdminPermissionLogs() {
-  return graphql.mockGetPermissionLogsQuery((req, res, ctx) => {
+  return mockGetPermissionLogsQuery((req, res, ctx) => {
     const permId = req.variables.id;
     const permissionLogs = [adminPermissionPermissionLogsMock[permId]];
     return res(ctx.delay(300), ctx.data({ __typename: 'Query', permissionLogs }));
@@ -178,7 +185,7 @@ function putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase: string
 }
 
 function getUserRolesByEicfunctionQuery() {
-  return graphql.mockGetUserRolesByEicfunctionQuery((req, res, ctx) => {
+  return mockGetUserRolesByEicfunctionQuery((req, res, ctx) => {
     return res(ctx.delay(300), ctx.data(getUserRolesByEicfunction));
   });
 }
@@ -196,7 +203,7 @@ function getKnownEmailsQuery() {
 }
 
 function getGridAreasForCreateActor() {
-  return graphql.mockGetGridAreasForCreateActorQuery((req, res, ctx) => {
+  return mockGetGridAreasForCreateActorQuery((req, res, ctx) => {
     return res(ctx.data(getGridAreasForCreateActorMock));
   });
 }
