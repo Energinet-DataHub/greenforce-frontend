@@ -565,7 +565,7 @@
         "departmentOrName": "Department/Name",
         "email": "E-mail",
         "phone": "Phone number",
-        "searchDatahub": "Search DataHub",
+        "chooseOrganization": "Choose organization",
         "newOrganization": "New organization",
         "marketParty": "Market party",
         "createHeader": "New market party",

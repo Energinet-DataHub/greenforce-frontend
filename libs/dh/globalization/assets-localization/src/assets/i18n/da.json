@@ -558,7 +558,7 @@
         "departmentOrName": "Afdeling/Navn",
         "email": "E-mail",
         "phone": "Telefonnr.",
-        "searchDatahub": "Søg datahub",
+        "chooseOrganization": "Vælg organisation",
         "newOrganization": "Ny organisation",
         "marketParty": "Aktør",
         "createHeader": "Ny aktør",
