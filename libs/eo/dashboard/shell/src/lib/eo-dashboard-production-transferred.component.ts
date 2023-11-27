@@ -48,8 +48,6 @@ import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-a
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
 
-
-
 @Component({
   standalone: true,
   imports: [

@@ -70,7 +70,12 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
         <eo-dashboard-consumption *ngIf="consumptionMeteringPoints.length > 0" />
       </ng-container>
       <ng-container *ngIf="productionAndConsumptionMeteringPoints$ | async as meteringPoints">
-        <watt-empty-state *ngIf="meteringPoints.length === 0" icon="custom-power" title="No data to visualize" message="We have no data to visualize because you have no production or consumption metering point(s). " />
+        <watt-empty-state
+          *ngIf="meteringPoints.length === 0"
+          icon="custom-power"
+          title="No data to visualize"
+          message="We have no data to visualize because you have no production or consumption metering point(s). "
+        />
       </ng-container>
     </ng-container>
 
@@ -84,7 +89,8 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
       *ngIf="(meteringPointError$ | async) !== null"
       icon="custom-power"
       title="An unexpected error occured"
-      message="Try again by reloading the page or contacting your system administrator if you keep getting this error." />
+      message="Try again by reloading the page or contacting your system administrator if you keep getting this error."
+    />
   `,
 })
 export class EoDashboardShellComponent implements OnInit {
@@ -94,7 +100,8 @@ export class EoDashboardShellComponent implements OnInit {
   isLoadingMeteringPoints$ = this.meteringPointStore.loading$;
   productionMeteringPoints$ = this.meteringPointStore.productionMeteringPoints$;
   consumptionMeteringPoints$ = this.meteringPointStore.consumptionMeteringPoints$;
-  productionAndConsumptionMeteringPoints$ = this.meteringPointStore.productionAndConsumptionMeteringPoints$;
+  productionAndConsumptionMeteringPoints$ =
+    this.meteringPointStore.productionAndConsumptionMeteringPoints$;
   meteringPointError$ = this.meteringPointStore.meteringPointError$;
 
   ngOnInit(): void {
