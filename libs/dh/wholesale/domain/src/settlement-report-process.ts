@@ -15,12 +15,16 @@
  * limitations under the License.
  */
 import type { ResultOf, VariablesOf } from '@graphql-typed-document-node/core';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+
+import {
+  GetActorFilterDocument,
+  GetSettlementReportsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type SettlementReport = ResultOf<
-  typeof graphql.GetSettlementReportsDocument
+  typeof GetSettlementReportsDocument
 >['settlementReports'][0];
 
-export type SettlementReportFilters = VariablesOf<typeof graphql.GetSettlementReportsDocument>;
+export type SettlementReportFilters = VariablesOf<typeof GetSettlementReportsDocument>;
 
-export type ActorFilter = ResultOf<typeof graphql.GetActorFilterDocument>['actors'];
+export type ActorFilter = ResultOf<typeof GetActorFilterDocument>['actors'];
