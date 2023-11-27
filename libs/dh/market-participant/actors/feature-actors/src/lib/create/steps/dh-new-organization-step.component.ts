@@ -45,6 +45,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
         display: block;
       }
       h4 {
+        margin-top: 0;
       }
       watt-dropdown,
       vater-stack {
