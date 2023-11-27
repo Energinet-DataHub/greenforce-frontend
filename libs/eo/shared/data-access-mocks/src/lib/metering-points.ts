@@ -72,5 +72,6 @@ function getMeteringPoints(apiBase: string) {
     };
 
     return res(ctx.status(200), ctx.json(data));
+    //return res(ctx.status(500), ctx.delay(2000));
   });
 }
