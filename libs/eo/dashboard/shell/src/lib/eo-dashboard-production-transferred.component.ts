@@ -88,6 +88,11 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
           color: var(--watt-on-light-low-emphasis);
         }
 
+        a {
+          display: flex;
+          align-items: center;
+        }
+
         .chart-container {
           position: relative;
           width: calc(100vw - 80px);
