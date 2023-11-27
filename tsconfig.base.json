@@ -122,15 +122,6 @@
       "@energinet-datahub/dh/market-participant/data-access-api": [
         "libs/dh/market-participant/data-access-api/src/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/edit-actor": [
-        "libs/dh/market-participant/feature-edit-actor/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/feature-edit-organization": [
-        "libs/dh/market-participant/feature-edit-organization/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/feature-organization": [
-        "libs/dh/market-participant/feature-organization/src/index.ts"
-      ],
       "@energinet-datahub/dh/market-participant/grid-areas/overview": [
         "libs/dh/market-participant/grid-areas/overview/src/index.ts"
       ],
