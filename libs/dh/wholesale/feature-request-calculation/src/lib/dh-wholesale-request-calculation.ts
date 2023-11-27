@@ -18,8 +18,6 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
-  FormGroup,
-  FormGroupDirective,
   FormsModule,
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -248,7 +246,7 @@ export class DhWholesaleRequestCalculationComponent {
     return this._selectedEicFunction === EicFunction.EnergySupplier;
   }
 
-  requestCalculation(form: FormGroup, formGroupDirective: FormGroupDirective): void {
+  requestCalculation(): void {
     const {
       gridarea,
       meteringPointType,
@@ -260,9 +258,6 @@ export class DhWholesaleRequestCalculationComponent {
     if (!gridarea || !meteringPointType || !processtType || !period.start || !period.end) return;
 
     const meteringPoint = meteringPointType as MeteringPointType;
-
-    form.reset();
-    formGroupDirective.resetForm();
 
     this._apollo
       .mutate({
