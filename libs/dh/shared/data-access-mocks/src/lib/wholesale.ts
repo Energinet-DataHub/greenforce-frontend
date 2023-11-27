@@ -19,6 +19,7 @@ import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 import { rest } from 'msw';
 import parseISO from 'date-fns/parseISO';
 import { GetActorsForRequestCalculation } from './data/wholesale-get-actorsForRequestCalculation';
+import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export function wholesaleMocks(apiBase: string) {
   return [
@@ -33,6 +34,7 @@ export function wholesaleMocks(apiBase: string) {
     getActorsForSettlementReportQuery(),
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
+    requestCalculationMutation(),
   ];
 }
 
@@ -457,6 +459,21 @@ function getLatestBalanceFixing() {
         calculations: [
           { __typename: 'Calculation', period: { start: periodStart, end: periodEnd } },
         ],
+      })
+    );
+  });
+}
+
+function requestCalculationMutation() {
+  return mockRequestCalculationMutation((req, res, ctx) => {
+    return res(
+      ctx.delay(300),
+      ctx.data({
+        __typename: 'Mutation',
+        createAggregatedMeasureDataRequest: {
+          __typename: 'CreateAggregatedMeasureDataRequestPayload',
+          success: true,
+        },
       })
     );
   });
