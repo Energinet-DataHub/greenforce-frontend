@@ -20,7 +20,7 @@ import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
-import { DatePipe, NgIf } from '@angular/common';
+import { DatePipe, NgFor, NgIf } from '@angular/common';
 import {
   eachDayOfInterval,
   endOfToday,
@@ -33,6 +33,7 @@ import {
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import {
   EnergyUnitPipe,
@@ -51,10 +52,13 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
     NgChartsModule,
     LottieComponent,
     NgIf,
+    NgFor,
     EnergyUnitPipe,
     WattEmptyStateComponent,
     WattButtonComponent,
     PercentageOfPipe,
+    VaterSpacerComponent,
+    VaterStackComponent,
   ],
   providers: [EnergyUnitPipe],
   selector: 'eo-dashboard-consumption',
@@ -107,6 +111,25 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
         watt-card {
           position: relative;
         }
+
+        .legend-item {
+          display: flex;
+          align-items: center;
+          font-size: 12px;
+          line-height: 22px;
+
+          &::before {
+            display: none;
+          }
+
+          .legend-color {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: var(--watt-space-s);
+          }
+        }
       }
     `,
   ],
@@ -127,13 +150,23 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
       </watt-empty-state>
     </div>
 
-    <ng-container>
-      <h5>{{ claimedTotal | percentageOf: consumptionTotal }} green energy</h5>
-      <small
-        >{{ claimedTotal | energyUnit }} of {{ consumptionTotal | energyUnit }} is certified green
-        energy</small
-      >
-    </ng-container>
+    <vater-stack direction="row" gap="s">
+      <div>
+        <h5>{{ claimedTotal | percentageOf: consumptionTotal }} green energy</h5>
+        <small
+          >{{ claimedTotal | energyUnit }} of {{ consumptionTotal | energyUnit }} is certified green
+          energy</small
+        >
+      </div>
+      <vater-spacer />
+
+      <ul class="legends">
+        <li *ngFor="let item of barChartData.datasets" class="legend-item">
+          <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
+          <span class="legend-label">{{ item.label }}</span>
+        </li>
+      </ul>
+    </vater-stack>
 
     <div class="chart-container">
       <canvas
@@ -251,8 +284,8 @@ export class EoDashboardConsumptionComponent implements OnInit {
             tooltip: {
               callbacks: {
                 label: (context) => {
-                  const text = context.dataset.label === 'Consumption' ? 'Other' : 'Green';
-                  return `${context.parsed.y} ${unit} ${text}`;
+                  const text = context.dataset.label;
+                  return `${Number(context.parsed.y).toFixed(2)} ${unit} ${text?.toLowerCase()}`;
                 },
               },
             },
@@ -263,17 +296,23 @@ export class EoDashboardConsumptionComponent implements OnInit {
           ...this.barChartData,
           datasets: [
             {
-              data: claims.map((x: number) => fromWh(x, unit)),
-              label: 'Claimed',
+              data: claims.map((x: number) => {
+                return x > 0 ? fromWh(x, unit) : null;
+              }),
+              label: 'Green',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
+              minBarLength: 8,
               backgroundColor: '#00C898',
             },
             {
-              data: certificates.map((x: number) => fromWh(x, unit)),
-              label: 'Consumption',
+              data: certificates.map((x: number) => {
+                return x > 0 ? fromWh(x, unit) : null;
+              }),
+              label: 'Other',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
+              minBarLength: 8,
               backgroundColor: '#02525E',
             },
           ],
