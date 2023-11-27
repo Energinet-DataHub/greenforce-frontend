@@ -18,10 +18,11 @@ import { NgIf } from '@angular/common';
 import { Component, Input, OnChanges, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { DhCertificateUploaderComponent } from './certificate/dh-certificate-uploader.component';
 import { DhCertificateComponent } from './certificate/dh-certificate-view.component';
@@ -35,6 +36,10 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
     `
       :host {
         display: block;
+      }
+
+      watt-icon {
+        color: var(--watt-color-primary-dark);
       }
     `,
   ],
@@ -55,20 +60,25 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
       </ng-container>
 
       <ng-template #emptyState>
-        <vater-stack direction="row" justify="center" gap="m">
-          <dh-certificate-uploader [actorId]="actorId" />
-          <dh-generate-client-secret [actorId]="actorId" />
+        <vater-stack justify="center" gap="l">
+          <watt-icon name="custom-no-results" size="xxl" />
+
+          <vater-stack direction="row" justify="center" gap="m">
+            <dh-certificate-uploader [actorId]="actorId" />
+            <dh-generate-client-secret [actorId]="actorId" />
+          </vater-stack>
         </vater-stack>
       </ng-template>
     </ng-template>
   `,
-  viewProviders: [DhMarketPartyCredentialsStore],
+  viewProviders: [DhMarketPartyB2BAccessStore],
   imports: [
     NgIf,
     VaterStackComponent,
     VaterFlexComponent,
     WattButtonComponent,
     WattSpinnerComponent,
+    WattIconComponent,
 
     DhCertificateComponent,
     DhCertificateUploaderComponent,
@@ -77,7 +87,7 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
   ],
 })
 export class DhB2bAccessTabComponent implements OnChanges {
-  private readonly store = inject(DhMarketPartyCredentialsStore);
+  private readonly store = inject(DhMarketPartyB2BAccessStore);
 
   doCredentialsExist = toSignal(this.store.doCredentialsExist$);
   doesCertificateExist = toSignal(this.store.doesCertificateExist$);
@@ -88,6 +98,8 @@ export class DhB2bAccessTabComponent implements OnChanges {
   @Input({ required: true }) actorId = '';
 
   ngOnChanges(): void {
+    this.store.resetClientSecret();
+
     this.store.getCredentials(this.actorId);
   }
 }

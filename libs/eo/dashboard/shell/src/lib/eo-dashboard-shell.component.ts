@@ -14,62 +14,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EoInlineMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { EoDashboardGetDataComponent } from './eo-dashboard-get-data.component';
-import { EoDashboardHourlyDeclarationComponent } from './eo-dashboard-hourly-declaration.component';
-import { EoDashboardLinksComponent } from './eo-dashboard-links.component';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+
+import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
+
+import { EoDashboardConsumptionComponent } from './eo-dashboard-consumption.component';
+import { EoDashboardProductionTransferredComponent } from './eo-dashboard-production-transferred.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    WattIconComponent,
-    EoInlineMessageComponent,
-    EoDashboardLinksComponent,
-    EoDashboardGetDataComponent,
-    EoDashboardHourlyDeclarationComponent,
-  ],
-  selector: 'eo-dashboard-shell',
   styles: [
     `
-      :host {
-        display: block;
-      }
+      @use '@energinet-datahub/watt/utils' as watt;
 
-      .shell-container {
-        display: grid;
-        grid-template-columns: 375px 375px;
-        gap: var(--watt-space-l);
+      :host {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        gap: var(--watt-space-m);
+        @include watt.media('>=Large') {
+          gap: var(--watt-space-l);
+        }
       }
     `,
   ],
+  imports: [EoDashboardConsumptionComponent, EoDashboardProductionTransferredComponent],
+  selector: 'eo-dashboard-shell',
   template: `
-    <div class="shell-container">
-      <div>
-        <eo-dashboard-links class="watt-space-stack-l" />
-      </div>
-      <div>
-        <eo-dashboard-hourly-declaration class="watt-space-stack-l" />
-        <eo-dashboard-get-data />
-      </div>
-    </div>
-    <eo-inline-message type="warning">
-      <watt-icon name="custom-primary-info" size="l" />
-      <p>
-        The Energy Origin Platform is <strong>under development</strong> and new functionalities
-        will be released continuously. The first release of the platform only offers
-        <strong>data for companies</strong>. Data for private users is intended to form part of one
-        of the next releases. If you want to influence the new functionality, join us at our
-        <a
-          href="https://www.linkedin.com/groups/12643238/"
-          target="_blank"
-          rel="noopener noreferrer"
-          >LinkedIn group</a
-        >.
-      </p>
-    </eo-inline-message>
+    <eo-dashboard-production-transferred />
+    <eo-dashboard-consumption />
   `,
 })
-export class EoDashboardShellComponent {}
+export class EoDashboardShellComponent implements OnInit {
+  private aggregateService: EoAggregateService = inject(EoAggregateService);
+
+  ngOnInit(): void {
+    this.aggregateService.clearCache();
+  }
+}

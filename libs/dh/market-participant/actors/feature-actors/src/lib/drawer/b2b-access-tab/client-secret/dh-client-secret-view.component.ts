@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Injector, Input, effect, inject, signal } from '@angular/core';
+import { Component, Injector, Input, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -23,7 +23,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalService } from '@energinet-datahub/watt/modal';
@@ -34,6 +34,7 @@ import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard'
 import { DhRemoveClientSecretModalComponent } from './dh-remove-client-secret-modal.component';
 import { DhGenerateClientSecretComponent } from './dh-generate-client-secret.component';
 import { DhReplaceClientSecretModalComponent } from './dh-replace-client-secret-modal.component';
+import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
 
 type DhClientSecretTableRow = {
   translationKey: string;
@@ -77,10 +78,11 @@ type DhClientSecretTableRow = {
 })
 export class DhClientSecretViewComponent {
   private readonly injector = inject(Injector);
-  private readonly store = inject(DhMarketPartyCredentialsStore);
+  private readonly store = inject(DhMarketPartyB2BAccessStore);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
   private readonly modalService = inject(WattModalService);
+  private readonly auditLogService = inject(DhActorAuditLogService);
 
   dataSource = new WattTableDataSource<DhClientSecretTableRow>([]);
   columns: WattTableColumnDef<DhClientSecretTableRow> = {
@@ -88,8 +90,6 @@ export class DhClientSecretViewComponent {
     value: { accessor: 'value' },
     showActionButton: { accessor: 'showActionButton', align: 'right' },
   };
-
-  wasClientSecretCopied = signal(false);
 
   clientSecret = toSignal(this.store.clientSecret$);
   clientSecretExists = toSignal(this.store.clientSecretExists$);
@@ -122,10 +122,9 @@ export class DhClientSecretViewComponent {
   }
 
   onCopySuccess(isSuccess: boolean): void {
-    this.wasClientSecretCopied.set(isSuccess);
-
     if (isSuccess) {
-      this.store.resetClientSecret();
+      // Workaround so the drawer doesn't close when the client secret is copied
+      setTimeout(() => this.store.resetClientSecret());
     }
   }
 
@@ -158,6 +157,8 @@ export class DhClientSecretViewComponent {
     );
 
     this.toastService.open({ type: 'success', message });
+
+    this.auditLogService.refreshAuditLog(this.actorId);
   };
 
   private readonly onRemoveErrorFn = () => {

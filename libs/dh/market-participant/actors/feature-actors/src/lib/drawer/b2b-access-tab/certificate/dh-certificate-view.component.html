@@ -16,12 +16,6 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess'">
   <vater-flex gap="m">
-    <watt-validation-message
-      *ngIf="isInvalidFileType()"
-      type="warning"
-      [message]="t('invalidFileType')"
-    />
-
     <watt-card variant="solid">
       <h4>{{ t("certificateHeadline") }}</h4>
 
@@ -55,7 +49,11 @@ limitations under the License.
       </watt-table>
     </watt-card>
 
-    <vater-stack direction="row" justify="flex-end">
+    <vater-stack direction="row" justify="flex-end" gap="m">
+      <watt-button variant="secondary" (click)="replaceCertificate()">{{
+        t("replaceCertificateWithClientSecret")
+      }}</watt-button>
+
       <dh-certificate-uploader [actorId]="actorId" />
     </vater-stack>
   </vater-flex>

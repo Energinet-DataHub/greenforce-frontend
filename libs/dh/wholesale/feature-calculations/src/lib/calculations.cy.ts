@@ -57,7 +57,7 @@ it('mounts', () => {
   cy.findByRole('dialog').should('exist');
 
   // Create calculation with process type of balance fixing and with "invalid" period
-  cy.selectOption('processType', calculations.processTypes.BALANCE_FIXING);
+  cy.selectOption('processType', daTranslations.wholesale.shared.BALANCE_FIXING);
   cy.typeDateRange('dateRange', '04-05-2023', '05-05-2023');
 
   // Expect the alert to be visible due to "invalid" period
@@ -79,7 +79,7 @@ it('mounts', () => {
   cy.findByRole('button', { name: new RegExp(calculations.new) }).click();
 
   // Change the process type to aggregation
-  cy.selectOption('processType', calculations.processTypes.AGGREGATION);
+  cy.selectOption('processType', daTranslations.wholesale.shared.AGGREGATION);
   cy.typeDateRange('dateRange', '04-05-2023', '05-05-2023');
 
   // Expect the alert to be hidden due to aggregation is selected

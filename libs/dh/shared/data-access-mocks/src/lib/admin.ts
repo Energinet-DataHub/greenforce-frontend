@@ -29,8 +29,10 @@ import { adminPermissionDetailsMock } from './data/admin-get-permission-details'
 import { marketParticipantUserRoles } from './data/admin-get-marketParticipantUserRoles';
 import { marketParticipantOrganization } from './data/admin-get-actorOrganization';
 import { marketParticipantUserSearchUsers } from './data/marketParticipantUserSearchUsers';
+import { getUserRolesByEicfunction } from './data/get-user-roles-by-eicfunction';
 import { marketParticipantOrganizationGetFilteredActors } from './data/marketParticipantOrganizationGetFilteredActors';
 import { mockGetKnownEmailsQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import { getGridAreasForCreateActorMock } from './data/get-grid-areas-for-actor-create';
 
 export function adminMocks(apiBase: string) {
   return [
@@ -45,12 +47,14 @@ export function adminMocks(apiBase: string) {
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
     getUserRoleAuditLogs(),
+    getUserRolesByEicfunctionQuery(),
     putMarketParticipantPermissionsUpdate(apiBase),
     putMarketParticipantUserUpdateUserIdentity(apiBase),
     putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase),
     getMarketParticipantUserRoleGetAssignable(apiBase),
     getActorOrganization(apiBase),
     getKnownEmailsQuery(),
+    getGridAreasForCreateActor(),
   ];
 }
 
@@ -173,6 +177,12 @@ function putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase: string
   );
 }
 
+function getUserRolesByEicfunctionQuery() {
+  return graphql.mockGetUserRolesByEicfunctionQuery((req, res, ctx) => {
+    return res(ctx.delay(300), ctx.data(getUserRolesByEicfunction));
+  });
+}
+
 function getKnownEmailsQuery() {
   return mockGetKnownEmailsQuery((req, res, ctx) => {
     return res(
@@ -182,5 +192,11 @@ function getKnownEmailsQuery() {
         knownEmails: marketParticipantUserSearchUsers.users.map((x) => x.email),
       })
     );
+  });
+}
+
+function getGridAreasForCreateActor() {
+  return graphql.mockGetGridAreasForCreateActorQuery((req, res, ctx) => {
+    return res(ctx.data(getGridAreasForCreateActorMock));
   });
 }

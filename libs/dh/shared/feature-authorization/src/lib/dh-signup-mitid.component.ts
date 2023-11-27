@@ -14,41 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { TranslocoDirective } from '@ngneat/transloco';
 
-import { DhB2CEnvironment, dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
-import { TranslocoModule } from '@ngneat/transloco';
 import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { Subject } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   selector: 'dh-signup-mitid',
   styleUrls: ['./dh-signup-mitid.component.scss'],
   templateUrl: './dh-signup-mitid.component.html',
   standalone: true,
-  imports: [CommonModule, RxPush, WattSpinnerComponent, TranslocoModule],
+  imports: [NgIf, TranslocoDirective, WattSpinnerComponent],
 })
 export class DhSignupMitIdComponent {
-  constructor(
-    private marketParticipantUserHttp: MarketParticipantUserHttp,
-    @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment
-  ) {}
+  private marketParticipantUserHttp = inject(MarketParticipantUserHttp);
+  private config = inject(dhB2CEnvironmentToken);
 
-  isLoading$ = new Subject<boolean>();
+  isLoading = signal(false);
 
   redirectToMitIdSignup = () => {
-    this.isLoading$.next(true);
+    this.isLoading.set(true);
+
     this.marketParticipantUserHttp
       .v1MarketParticipantUserInitiateMitIdSignupPost()
-      .subscribe(() => {
-        MSALInstanceFactory({
+      .subscribe(async () => {
+        const instance = MSALInstanceFactory({
           ...this.config,
           authority: this.config.mitIdInviteFlowUri,
-        }).loginRedirect();
+        });
+
+        await instance.initialize();
+        await instance.loginRedirect();
       });
   };
 }

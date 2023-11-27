@@ -65,7 +65,7 @@ export class WattFieldComponent implements OnChanges {
   @HostBinding('class.watt-field--invalid')
   get _hasError() {
     return (
-      (this.control?.status === 'INVALID' && !!this.control?.touched) ||
+      (this.control?.status === 'INVALID' && (!!this.control?.dirty || !!this.control?.touched)) ||
       (this._formGroupDirective?.submitted && this.control?.status === 'INVALID')
     );
   }

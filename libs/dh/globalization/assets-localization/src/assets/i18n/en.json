@@ -539,7 +539,7 @@
         "steps": {
           "actor": "Market party",
           "organization": "Organization",
-          "invite": "Invite user"
+          "create": "Create market party"
         },
         "gridArea": "Grid area",
         "tooltip": "The market party gets the organization name if you do not specify a value.",
@@ -661,7 +661,7 @@
             "removeError": "An error occurred while removing the certificate. Please try again",
             "removeCertificateModal": {
               "title": "Remove certificate?",
-              "message": "Are you sure you want to remove the certificate?",
+              "message": "There will no longer be B2B access if the certificate is removed. To regain access, a new certificate must be uploaded or a Client Secret generated.",
               "cancel": "Cancel",
               "remove": "Remove certificate"
             },
@@ -671,10 +671,18 @@
             "generateSecretError": "An error occurred while generating the Client Secret. Please try again",
             "copy": "Copy",
             "replaceClientSecretWithCertificate": "Replace Client Secret with certificate",
+            "replaceCertificateWithClientSecret": "Replace certificate with Client Secret",
+            "certificate": {
+              "replaceCertificateModal": {
+                "title": "Generate Client Secret and replace certificate?",
+                "message": "If a Client Secret is generated, this will replace the existing certificate.",
+                "cancel": "Cancel"
+              }
+            },
             "clientSecret": {
               "removeSecretModal": {
                 "title": "Delete Client Secret?",
-                "message": "Are you sure you want to delete the Client Secret?",
+                "message": "There will no longer be B2B access if the Client Secret is removed. To regain access, a new Client Secret must be generated or a certificate uploaded.",
                 "cancel": "Cancel",
                 "confirm": "Delete Client Secret",
                 "removeSuccess": "The Client Secret Certificate was removed successfully",

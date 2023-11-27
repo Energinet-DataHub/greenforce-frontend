@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import {
@@ -29,13 +35,20 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
-import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
+import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-access-api';
 
 @Component({
   selector: 'eo-certificates-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatPaginatorModule, MatTableModule, MatSortModule, RouterModule, WattDatePipe],
+  imports: [
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
+    RouterModule,
+    WattDatePipe,
+    EnergyUnitPipe,
+  ],
   standalone: true,
   styles: [
     `
@@ -62,14 +75,20 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
 
       <!-- GSRN Column -->
       <ng-container matColumnDef="gsrn">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Metering Point </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Metering Point</mat-header-cell>
         <mat-cell *matCellDef="let element">{{ element.gsrn }}</mat-cell>
       </ng-container>
 
       <!-- Quantity Column -->
       <ng-container matColumnDef="quantity">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Amount </mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.quantity.toLocaleString() }} Wh </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Amount</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.quantity | energyUnit }}</mat-cell>
+      </ng-container>
+
+      <!-- Product Type Column -->
+      <ng-container matColumnDef="certificateType">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.certificateType }}</mat-cell>
       </ng-container>
 
       <!-- Action column -->
@@ -95,14 +114,13 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
   `,
 })
 export class EoCertificatesTableComponent implements AfterViewInit {
+  private store = inject(EoCertificatesStore);
   certificates: EoCertificate[] = [];
   dataSource: MatTableDataSource<EoCertificate> = new MatTableDataSource();
-  displayedColumns: string[] = ['dateFrom', 'gsrn', 'quantity', 'action'];
+  displayedColumns: string[] = ['dateFrom', 'gsrn', 'quantity', 'certificateType', 'action'];
 
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  constructor(private store: EoCertificatesStore) {}
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

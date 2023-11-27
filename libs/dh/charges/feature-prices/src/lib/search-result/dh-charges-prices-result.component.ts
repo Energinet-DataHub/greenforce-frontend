@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, OnChanges, ViewChild, Input } from '@angular/core';
+import { Component, OnChanges, ViewChild, Input, inject } from '@angular/core';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
@@ -59,6 +59,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
   styleUrls: ['./dh-charges-prices-result.component.scss'],
 })
 export class DhChargesPricesResultComponent implements OnChanges {
+  private translocoService = inject(TranslocoService);
   @ViewChild(DhChargesPricesDrawerComponent)
   chargePriceDrawer!: DhChargesPricesDrawerComponent;
 
@@ -101,8 +102,6 @@ export class DhChargesPricesResultComponent implements OnChanges {
 
   private dateFormat = 'dd-MM-yyyy';
   private dateTimeFormat = 'dd-MM-yyyy HH:mm:ss';
-
-  constructor(private translocoService: TranslocoService) {}
 
   ngOnChanges() {
     if (this.result) this.dataSource.data = this.result;

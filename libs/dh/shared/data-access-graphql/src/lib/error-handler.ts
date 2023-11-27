@@ -17,6 +17,8 @@
 import { onError } from '@apollo/client/link/error';
 
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import { translate } from '@ngneat/transloco';
+import { GraphQLError } from 'graphql';
 
 export const errorHandler = (logger: DhApplicationInsights) =>
   onError(({ graphQLErrors }) => {
@@ -26,3 +28,13 @@ export const errorHandler = (logger: DhApplicationInsights) =>
       });
     }
   });
+
+export const parseGraphQLErrorResponse = (errorResponse: readonly GraphQLError[]) => {
+  return errorResponse
+    .map((x) => {
+      const translationKey = `graphQLErrors.${x.name.toLowerCase()}`;
+      const translation = translate(translationKey);
+      return translation === translationKey ? x.message : translation;
+    })
+    .join(' ');
+};

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import { RouterModule } from '@angular/router';
 import { EoCookieBannerComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
@@ -90,29 +90,17 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
 
       ::ng-deep .watt-main-content {
         --top-app-bar-height: var(--watt-space-xl);
-
         min-height: calc(100% - var(--top-app-bar-height));
         padding: 0 !important; // We remove the padding, so we can stretch the footer out in full width
-
-        /**
-         * We have 3 items in the content area:
-         * 1) The Angular router-outlet
-         * 2) The page/component being rendered below the router outlet
-         * 3) The footer
-         *
-         * Display grid considers the above 3 elements, when positioning them on the screen
-         * This allows us to set the router outlet height = 0, the page content to what ever height it might have, the footer to the height it has
-        */
         display: grid;
-        grid-template-rows: 0 1fr auto;
+        grid-template-rows: 1fr auto;
       }
 
-      // This is the feature/page component
-      ::ng-deep .watt-main-content.watt-main-content > :nth-child(2) {
-        padding: var(--watt-space-l);
+      .content {
+        padding: var(--watt-space-m);
 
-        @include watt.media('<Large') {
-          padding: var(--watt-space-m);
+        @include watt.media('>=Large') {
+          padding: var(--watt-space-l);
         }
       }
     `,
@@ -131,20 +119,21 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
         <h2>{{ title$ | push }}</h2>
       </ng-container>
 
-      <router-outlet />
+      <div class="content">
+        <router-outlet />
+      </div>
 
       <eo-footer />
     </watt-shell>
   `,
 })
 export class EoShellComponent implements OnDestroy {
+  private titleStore = inject(EoTitleStore);
+  private idleTimerService = inject(IdleTimerService);
   title$: Observable<string> = this.titleStore.routeTitle$;
   cookiesSet: string | null = null;
 
-  constructor(
-    private titleStore: EoTitleStore,
-    private idleTimerService: IdleTimerService
-  ) {
+  constructor() {
     this.idleTimerService.startMonitor();
     this.getBannerStatus();
   }
