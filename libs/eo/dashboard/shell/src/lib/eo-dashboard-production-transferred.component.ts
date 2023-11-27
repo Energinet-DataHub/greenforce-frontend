@@ -116,7 +116,7 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
           display: flex;
           align-items: center;
           font-size: 12px;
-          line-height: 22px;
+          margin-bottom: var(--watt-space-xs);
 
           &::before {
             display: none;
@@ -124,6 +124,7 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
 
           .legend-color {
             width: 8px;
+            min-width: 8px;
             height: 8px;
             border-radius: 50%;
             display: inline-block;
