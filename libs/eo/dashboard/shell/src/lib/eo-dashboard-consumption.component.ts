@@ -21,6 +21,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
 import { DatePipe, NgFor, NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import {
   eachDayOfInterval,
   endOfToday,
@@ -34,6 +35,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import {
   EnergyUnitPipe,
@@ -45,8 +47,6 @@ import {
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
