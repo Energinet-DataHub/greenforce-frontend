@@ -56,6 +56,16 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   );
 
   readonly meteringPoints$ = this.select((state) => state.meteringPoints);
+  readonly consumptionMeteringPoints$ = this.select((state) =>
+    state.meteringPoints.filter((mp) => mp.type === 'consumption' && (mp.assetType === 'Wind' || mp.assetType === 'Solar'))
+  );
+  readonly productionMeteringPoints$ = this.select((state) =>
+    state.meteringPoints.filter((mp) => mp.type === 'production' && (mp.assetType === 'Wind' || mp.assetType === 'Solar'))
+  );
+  readonly productionAndConsumptionMeteringPoints$ = this.select((state) =>
+    state.meteringPoints.filter((mp) => (mp.type === 'production' || mp.type === 'consumption') && (mp.assetType === 'Wind' || mp.assetType === 'Solar'))
+  );
+
   readonly consumptionMeteringPointsWithContract$ = this.select((state) =>
     state.meteringPoints.filter((mp) => mp.type === 'consumption' && !!mp.contract)
   );
