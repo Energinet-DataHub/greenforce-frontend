@@ -36,6 +36,9 @@ import {
   EdiB2CProcessType,
   RequestCalculationDocument,
   EicFunction,
+  GetSelectedActorDocument,
+  GetActorsForRequestCalculationDocument,
+  RequestCalculationMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -44,7 +47,6 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -150,13 +152,13 @@ export class DhWholesaleRequestCalculationComponent {
   selectedActorQuery = this._apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
-    query: graphql.GetSelectedActorDocument,
+    query: GetSelectedActorDocument,
   });
 
   energySupplierQuery = this._apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
-    query: graphql.GetActorsForRequestCalculationDocument,
+    query: GetActorsForRequestCalculationDocument,
     variables: {
       eicFunctions: [EicFunction.EnergySupplier, EicFunction.BalanceResponsibleParty],
     },
@@ -217,7 +219,7 @@ export class DhWholesaleRequestCalculationComponent {
     });
   }
 
-  handleResponse(queryResult: MutationResult<graphql.RequestCalculationMutation> | null): void {
+  handleResponse(queryResult: MutationResult<RequestCalculationMutation> | null): void {
     if (queryResult === null) {
       this.showErrorToast();
       return;

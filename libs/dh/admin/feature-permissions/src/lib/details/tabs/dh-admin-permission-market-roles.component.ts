@@ -24,20 +24,25 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PermissionDto, graphql } from '@energinet-datahub/dh/shared/domain';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import { ApolloError } from '@apollo/client';
 import { RxLet } from '@rx-angular/template/let';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  GetPermissionDetailsDocument,
+  GetPermissionDetailsQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
 type MarketRole = ResultOf<
-  typeof graphql.GetPermissionDetailsDocument
+  typeof GetPermissionDetailsDocument
 >['permissionById']['assignableTo'][number];
 
 @Component({
@@ -86,7 +91,7 @@ export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges,
   };
 
   private getPermissionQuery?: QueryRef<
-    graphql.GetPermissionDetailsQuery,
+    GetPermissionDetailsQuery,
     {
       id: number;
     }
@@ -96,7 +101,7 @@ export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges,
     this.getPermissionQuery = this.apollo.watchQuery({
       useInitialLoading: true,
       notifyOnNetworkStatusChange: true,
-      query: graphql.GetPermissionDetailsDocument,
+      query: GetPermissionDetailsDocument,
       variables: { id: this.selectedPermission.id },
     });
 
