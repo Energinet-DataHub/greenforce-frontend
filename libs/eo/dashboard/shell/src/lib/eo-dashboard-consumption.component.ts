@@ -21,6 +21,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
 import { DatePipe, NgFor, NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import {
   eachDayOfInterval,
   endOfToday,
@@ -34,10 +35,12 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import {
   EnergyUnitPipe,
   PercentageOfPipe,
+  eoRoutes,
   findNearestUnit,
   fromWh,
 } from '@energinet-datahub/eo/shared/utilities';
@@ -53,12 +56,14 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
     LottieComponent,
     NgIf,
     NgFor,
+    RouterLink,
     EnergyUnitPipe,
     WattEmptyStateComponent,
     WattButtonComponent,
     PercentageOfPipe,
     VaterSpacerComponent,
     VaterStackComponent,
+    WattIconComponent,
   ],
   providers: [EnergyUnitPipe],
   selector: 'eo-dashboard-consumption',
@@ -81,6 +86,11 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
 
         small {
           color: var(--watt-on-light-low-emphasis);
+        }
+
+        a {
+          display: flex;
+          align-items: center;
         }
 
         .chart-container {
@@ -116,7 +126,7 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
           display: flex;
           align-items: center;
           font-size: 12px;
-          line-height: 22px;
+          margin-bottom: var(--watt-space-xs);
 
           &::before {
             display: none;
@@ -124,6 +134,7 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
 
           .legend-color {
             width: 8px;
+            min-width: 8px;
             height: 8px;
             border-radius: 50%;
             display: inline-block;
@@ -151,13 +162,24 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
     </div>
 
     <vater-stack direction="row" gap="s">
-      <div>
+      <div *ngIf="consumptionTotal > 0 || isLoading; else noData">
         <h5>{{ claimedTotal | percentageOf: consumptionTotal }} green energy</h5>
         <small
           >{{ claimedTotal | energyUnit }} of {{ consumptionTotal | energyUnit }} is certified green
           energy</small
         >
       </div>
+
+      <ng-template #noData>
+        <div>
+          <h5>No data</h5>
+          <small
+            ><a [routerLink]="'../' + routes.meteringpoints"
+              >Activate metering points <watt-icon name="openInNew" size="xs" /></a
+          ></small>
+        </div>
+      </ng-template>
+
       <vater-spacer />
 
       <ul class="legends">
@@ -191,6 +213,7 @@ export class EoDashboardConsumptionComponent implements OnInit {
 
   protected claimedTotal = 0;
   protected consumptionTotal = 0;
+  protected routes = eoRoutes;
 
   protected options: AnimationOptions = {
     path: '/assets/graph-loader.json',
