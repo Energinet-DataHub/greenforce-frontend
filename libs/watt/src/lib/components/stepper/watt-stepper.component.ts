@@ -26,7 +26,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { CdkStepper, StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { RxPush } from '@rx-angular/template/push';
 import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
@@ -44,11 +44,12 @@ import { WattButtonComponent } from '../button';
   imports: [
     NgIf,
     NgFor,
+    NgTemplateOutlet,
+    RxPush,
     WattStepperStepComponent,
     MatStepperModule,
     WattIconComponent,
     WattButtonComponent,
-    RxPush,
   ],
   providers: [
     {
