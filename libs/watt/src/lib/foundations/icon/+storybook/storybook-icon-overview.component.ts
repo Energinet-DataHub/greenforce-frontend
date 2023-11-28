@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
+import { NgFor } from '@angular/common';
 
 import { WattIcon } from '../icons';
-import { CommonModule } from '@angular/common';
 import { WattIconComponent } from '../icon.component';
 
 interface Icon {
@@ -36,7 +36,7 @@ interface IconGroup {
   templateUrl: './storybook-icon-overview.component.html',
   styleUrls: ['./storybook-icon-overview.component.scss'],
   standalone: true,
-  imports: [CommonModule, WattIconComponent],
+  imports: [NgFor, WattIconComponent],
 })
 export class StorybookIconOverviewComponent {
   /**

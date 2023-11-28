@@ -27,8 +27,8 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Subscription, fromEvent } from 'rxjs';
+
 import { WattColorHelperService } from '../../foundations/color/color-helper.service';
 import { WattColor } from '../../foundations/color/colors';
 
@@ -47,7 +47,6 @@ export interface WattSliderValue {
   styleUrls: ['./watt-slider.component.scss'],
   templateUrl: './watt-slider.component.html',
   standalone: true,
-  imports: [CommonModule],
 })
 export class WattSliderComponent implements AfterViewInit, OnDestroy {
   private _colorService = inject(WattColorHelperService);
