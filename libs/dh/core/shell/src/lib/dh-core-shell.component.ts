@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MsalService } from '@azure/msal-angular';
@@ -52,17 +52,15 @@ import { ApolloModule } from 'apollo-angular';
   ],
 })
 export class DhCoreShellComponent {
+  private readonly authService = inject(MsalService);
+  private readonly dhTopBarStore = inject(DhTopBarStore);
   titleTranslationKey$ = this.dhTopBarStore.titleTranslationKey$;
 
-  constructor(
-    private readonly authService: MsalService,
-    private readonly dhTopBarStore: DhTopBarStore,
-    inactivityDetection: DhInactivityDetectionService
-  ) {
+  constructor(inactivityDetection: DhInactivityDetectionService) {
     inactivityDetection.trackInactivity();
   }
 
   logout() {
-    this.authService.logout();
+    this.authService.logoutRedirect();
   }
 }

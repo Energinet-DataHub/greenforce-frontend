@@ -16,7 +16,15 @@
  */
 import { rest } from 'msw';
 
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import {
+  mockGetGridAreasForCreateActorQuery,
+  mockGetKnownEmailsQuery,
+  mockGetPermissionDetailsQuery,
+  mockGetPermissionLogsQuery,
+  mockGetPermissionsQuery,
+  mockGetUserRoleAuditLogsQuery,
+  mockGetUserRolesByEicfunctionQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import marketParticipantActorQuerySelectionActors from './data/marketParticipantActorQuerySelectionActors.json';
 import marketParticipantUserRoleGetAll from './data/marketParticipantUserRoleGetAll.json';
@@ -29,8 +37,9 @@ import { adminPermissionDetailsMock } from './data/admin-get-permission-details'
 import { marketParticipantUserRoles } from './data/admin-get-marketParticipantUserRoles';
 import { marketParticipantOrganization } from './data/admin-get-actorOrganization';
 import { marketParticipantUserSearchUsers } from './data/marketParticipantUserSearchUsers';
+import { getUserRolesByEicfunction } from './data/get-user-roles-by-eicfunction';
 import { marketParticipantOrganizationGetFilteredActors } from './data/marketParticipantOrganizationGetFilteredActors';
-import { mockGetKnownEmailsQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import { getGridAreasForCreateActorMock } from './data/get-grid-areas-for-actor-create';
 
 export function adminMocks(apiBase: string) {
   return [
@@ -45,12 +54,14 @@ export function adminMocks(apiBase: string) {
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
     getUserRoleAuditLogs(),
+    getUserRolesByEicfunctionQuery(),
     putMarketParticipantPermissionsUpdate(apiBase),
     putMarketParticipantUserUpdateUserIdentity(apiBase),
     putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase),
     getMarketParticipantUserRoleGetAssignable(apiBase),
     getActorOrganization(apiBase),
     getKnownEmailsQuery(),
+    getGridAreasForCreateActor(),
   ];
 }
 
@@ -112,7 +123,7 @@ function getMarketParticipantUserRoleGetUserRoleWithPermissions(apiBase: string)
 }
 
 function getUserRoleAuditLogs() {
-  return graphql.mockGetUserRoleAuditLogsQuery((req, res, ctx) => {
+  return mockGetUserRoleAuditLogsQuery((req, res, ctx) => {
     return res(ctx.data(getUserRoleAuditLogsMock));
   });
 }
@@ -133,19 +144,19 @@ function getMarketParticipantOrganizationGetFilteredActors(apiBase: string) {
 }
 
 function getAdminPermissions() {
-  return graphql.mockGetPermissionsQuery((req, res, ctx) => {
+  return mockGetPermissionsQuery((req, res, ctx) => {
     return res(ctx.data(adminPermissionsMock));
   });
 }
 
 function getAdminPermissionDetails() {
-  return graphql.mockGetPermissionDetailsQuery((req, res, ctx) => {
+  return mockGetPermissionDetailsQuery((req, res, ctx) => {
     return res(ctx.data(adminPermissionDetailsMock));
   });
 }
 
 function getAdminPermissionLogs() {
-  return graphql.mockGetPermissionLogsQuery((req, res, ctx) => {
+  return mockGetPermissionLogsQuery((req, res, ctx) => {
     const permId = req.variables.id;
     const permissionLogs = [adminPermissionPermissionLogsMock[permId]];
     return res(ctx.delay(300), ctx.data({ __typename: 'Query', permissionLogs }));
@@ -173,6 +184,12 @@ function putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase: string
   );
 }
 
+function getUserRolesByEicfunctionQuery() {
+  return mockGetUserRolesByEicfunctionQuery((req, res, ctx) => {
+    return res(ctx.delay(300), ctx.data(getUserRolesByEicfunction));
+  });
+}
+
 function getKnownEmailsQuery() {
   return mockGetKnownEmailsQuery((req, res, ctx) => {
     return res(
@@ -182,5 +199,11 @@ function getKnownEmailsQuery() {
         knownEmails: marketParticipantUserSearchUsers.users.map((x) => x.email),
       })
     );
+  });
+}
+
+function getGridAreasForCreateActor() {
+  return mockGetGridAreasForCreateActorQuery((req, res, ctx) => {
+    return res(ctx.data(getGridAreasForCreateActorMock));
   });
 }

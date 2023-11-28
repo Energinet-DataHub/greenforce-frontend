@@ -20,7 +20,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { DhMarketPartyCredentialsStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+
+import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
 
 const certificateExt = '.cer';
 const certificateMimeType = 'application/x-x509-ca-cert';
@@ -58,9 +60,10 @@ const certificateMimeType = 'application/x-x509-ca-cert';
   imports: [TranslocoDirective, WattButtonComponent],
 })
 export class DhCertificateUploaderComponent {
-  private readonly store = inject(DhMarketPartyCredentialsStore);
+  private readonly store = inject(DhMarketPartyB2BAccessStore);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
+  private readonly auditLogService = inject(DhActorAuditLogService);
 
   certificateExt = certificateExt;
 
@@ -115,6 +118,7 @@ export class DhCertificateUploaderComponent {
 
     this.uploadSuccess.emit();
     this.store.getCredentials(this.actorId);
+    this.auditLogService.refreshAuditLog(this.actorId);
   };
 
   private onUploadErrorFn = () => {

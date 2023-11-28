@@ -26,18 +26,23 @@ import {
 import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { Subscription } from 'rxjs';
+import { Apollo, QueryRef } from 'apollo-angular';
+import { ApolloError } from '@apollo/client';
+
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { Subscription } from 'rxjs';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { PermissionAuditLog } from '../../permissionAuditLog';
-import { Apollo, QueryRef } from 'apollo-angular';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { ApolloError } from '@apollo/client';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  GetPermissionLogsDocument,
+  GetPermissionLogsQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { PermissionAuditLog } from '../../permissionAuditLog';
 
 @Component({
   selector: 'dh-admin-permission-audit-logs',
@@ -57,14 +62,16 @@ import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
   ],
 })
 export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDestroy {
+  private trans = inject(TranslocoService);
   dataSource = new WattTableDataSource<PermissionAuditLog>();
 
   @Input({ required: true }) selectedPermission!: PermissionDto;
+
   auditLogs: PermissionAuditLog | null = null;
 
   private apollo = inject(Apollo);
   private getPermissionLogsQuery?: QueryRef<
-    graphql.GetPermissionLogsQuery,
+    GetPermissionLogsQuery,
     {
       id: number;
     }
@@ -80,13 +87,11 @@ export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDest
     entry: { accessor: null },
   };
 
-  constructor(private trans: TranslocoService) {}
-
   ngOnInit(): void {
     this.getPermissionLogsQuery = this.apollo.watchQuery({
       useInitialLoading: true,
       notifyOnNetworkStatusChange: true,
-      query: graphql.GetPermissionLogsDocument,
+      query: GetPermissionLogsDocument,
       variables: { id: this.selectedPermission.id },
     });
 

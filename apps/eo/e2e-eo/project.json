@@ -8,7 +8,7 @@
       "executor": "@nx/cypress:cypress",
       "options": {
         "cypressConfig": "apps/eo/e2e-eo/cypress.config.js",
-        "devServerTarget": "app-eo:serve:e2e-development",
+        "devServerTarget": "app-eo:serve:mocked",
         "headed": true,
         "testingType": "e2e"
       },
@@ -18,13 +18,13 @@
           "headed": false
         },
         "production": {
-          "devServerTarget": "app-eo:serve:production"
+          "devServerTarget": "app-eo:serve:mocked"
         },
         "watch": {
           "watch": true
         },
         "watch-production": {
-          "devServerTarget": "app-eo:serve:production",
+          "devServerTarget": "app-eo:serve:mocked",
           "watch": true
         }
       }

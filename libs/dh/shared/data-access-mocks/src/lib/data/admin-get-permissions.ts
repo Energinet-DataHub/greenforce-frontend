@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { graphql } from '@energinet-datahub/dh/shared/domain';
 import parseISO from 'date-fns/parseISO';
 
-export const adminPermissionsMock: graphql.GetPermissionsQuery = {
+import { GetPermissionsQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export const adminPermissionsMock: GetPermissionsQuery = {
   __typename: 'Query',
   permissions: [
     {

@@ -22,6 +22,7 @@ import {
   ElementRef,
   Input,
   SecurityContext,
+  inject,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import Player from '@vimeo/player';
@@ -67,6 +68,9 @@ import Player from '@vimeo/player';
   `,
 })
 export class EoVimeoPlayerComponent {
+  private sanitizer = inject(DomSanitizer);
+  private changeDetector = inject(ChangeDetectorRef);
+  private hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
   #safePosterUrl = '';
   #safeVideoUrl: string | null = null;
 
@@ -105,12 +109,6 @@ export class EoVimeoPlayerComponent {
   }
 
   isPosterVisible = true;
-
-  constructor(
-    private sanitizer: DomSanitizer,
-    private changeDetector: ChangeDetectorRef,
-    private hostElement: ElementRef<HTMLElement>
-  ) {}
 
   async onVideoPlay(): Promise<void> {
     if (this.#safeVideoUrl === null) {

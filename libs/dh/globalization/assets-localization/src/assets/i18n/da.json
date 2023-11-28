@@ -532,10 +532,10 @@
         "steps": {
           "actor": "Aktør",
           "organization": "Organisation",
-          "invite": "Inviter bruger"
+          "create": "Opret aktør"
         },
         "gridArea": "Netområde",
-        "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktør navn.",
+        "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktørnavn.",
         "glnOrEicInvalid": "Ugyldigt GLN/EIC nummer",
         "wrongEmailPattern": "Indtast en valid email",
         "phoneInvalid": "Ugyldigt telefonnummer",
@@ -558,7 +558,7 @@
         "departmentOrName": "Afdeling/Navn",
         "email": "E-mail",
         "phone": "Telefonnr.",
-        "searchDatahub": "Søg datahub",
+        "chooseOrganization": "Vælg organisation",
         "newOrganization": "Ny organisation",
         "marketParty": "Aktør",
         "createHeader": "Ny aktør",
@@ -654,7 +654,7 @@
             "removeError": "Noget gik galt. Certifikatet blev ikke fjernet. Prøv igen",
             "removeCertificateModal": {
               "title": "Fjern certifikat?",
-              "message": "Er du sikker på, at du vil fjerne certifikatet?",
+              "message": "Der vil ikke længere være B2B adgang, hvis certifikatet bliver fjernet. For at få adgang igen, skal der uploades et nyt certifikat eller genereres en Client Secret.",
               "cancel": "Fortryd",
               "confirm": "Fjern certifikat"
             },
@@ -664,10 +664,18 @@
             "generateSecretError": "Noget gik galt. Client Secret blev ikke genereret. Prøv igen",
             "copy": "Kopier",
             "replaceClientSecretWithCertificate": "Erstat Client Secret med certifikat",
+            "replaceCertificateWithClientSecret": "Erstat certifikat med Client Secret",
+            "certificate": {
+              "replaceCertificateModal": {
+                "title": "Generer Client Secret og erstat certifikat?",
+                "message": "Hvis Client Secret bliver genereret, erstatter den det uploadede certifikat.",
+                "cancel": "Fortryd"
+              }
+            },
             "clientSecret": {
               "removeSecretModal": {
                 "title": "Slet Client Secret?",
-                "message": "Er du sikker på, at du vil slette Client Secret?",
+                "message": "Der vil ikke længere være B2B adgang, hvis Client Secret bliver slettet. For at få adgang igen, skal der genereres en ny Client Secret eller uploades et certifikat.",
                 "cancel": "Fortryd",
                 "confirm": "Slet Client Secret",
                 "removeSuccess": "Client Secret er blevet slettet",
@@ -681,7 +689,7 @@
             }
           },
           "history": {
-            "tabLabel": "History",
+            "tabLabel": "Historik",
             "changeTypes": {
               "NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
               "NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
