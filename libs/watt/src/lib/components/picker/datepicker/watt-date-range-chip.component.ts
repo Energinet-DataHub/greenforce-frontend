@@ -16,7 +16,7 @@
  */
 
 import { Component, EventEmitter, Injectable, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import {
   DateRange,
   DefaultMatCalendarRangeStrategy,
@@ -42,7 +42,7 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
   standalone: true,
   providers: [{ provide: MAT_DATE_RANGE_SELECTION_STRATEGY, useClass: EndOfDaySelectionStrategy }],
   imports: [
-    CommonModule,
+    NgIf,
     MatDatepickerModule,
     WattMenuChipComponent,
     WattDatePipe,

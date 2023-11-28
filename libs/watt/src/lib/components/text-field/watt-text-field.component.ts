@@ -39,7 +39,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
 
 @Component({
   standalone: true,
-  imports: [NgClass, ReactiveFormsModule, WattFieldComponent, WattIconComponent, NgIf],
+  imports: [NgIf, NgClass, ReactiveFormsModule, WattFieldComponent, WattIconComponent],
   selector: 'watt-text-field',
   styleUrls: ['./watt-text-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
