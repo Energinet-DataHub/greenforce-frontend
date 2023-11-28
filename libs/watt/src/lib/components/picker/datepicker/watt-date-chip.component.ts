@@ -16,7 +16,7 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { WattDatePipe } from '../../../utils/date';
@@ -27,7 +27,7 @@ import { WattFieldComponent } from '../../field/watt-field.component';
 @Component({
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
     MatDatepickerModule,
     WattMenuChipComponent,
     WattFieldComponent,
