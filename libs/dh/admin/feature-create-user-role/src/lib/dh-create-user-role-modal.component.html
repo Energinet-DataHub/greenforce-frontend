@@ -42,20 +42,13 @@ limitations under the License.
           name="eicFunction"
           [showResetOption]="false"
           [placeholder]="t('steps.masterData.selectEicFunctionStatus')"
-        >
-          <watt-field-error *ngIf="userRoleForm.controls.eicFunction.hasError('required')">
-            {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
-        </watt-dropdown>
+        />
 
         <!-- Name -->
         <watt-text-field
           [label]="t('steps.masterData.name')"
           [formControl]="userRoleForm.controls.name"
         >
-          <watt-field-error *ngIf="userRoleForm.controls.name.hasError('required')">
-            {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
           <watt-field-error *ngIf="userRoleForm.controls.name.hasError('maxlength')">
             {{ t("steps.masterData.nameMaxLengthErrorText") }}
           </watt-field-error>
@@ -65,11 +58,7 @@ limitations under the License.
         <watt-textarea-field
           [formControl]="userRoleForm.controls.description"
           [label]="t('steps.masterData.description')"
-        >
-          <watt-field-error *ngIf="userRoleForm.controls.description.hasError('required')">
-            {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
-        </watt-textarea-field>
+        />
       </form>
     </watt-stepper-step>
 
@@ -79,15 +68,6 @@ limitations under the License.
       [previousButtonLabel]="t('steps.masterData.label')"
       [nextButtonLabel]="t('save')"
     >
-      <watt-field-error
-        class="permissions-error"
-        *ngIf="
-          (isSubmitted || selectedPermissions.touched) && selectedPermissions.hasError('required')
-        "
-      >
-        {{ "shared.fieldRequiredErrorText" | transloco }}
-      </watt-field-error>
-
       <ng-container *rxLet="permissions$ as permissions">
         <dh-permissions-table
           [permissions]="permissions"

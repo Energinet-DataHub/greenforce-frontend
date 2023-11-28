@@ -24,6 +24,9 @@
       "next": "Næste",
       "previous": "Forrige"
     },
+    "fieldValidation": {
+      "required": "Feltet er påkrævet."
+    },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
       "of": "af",
@@ -538,13 +541,15 @@
         "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktørnavn.",
         "glnOrEicInvalid": "Ugyldigt GLN/EIC nummer",
         "wrongEmailPattern": "Indtast en valid email",
-        "phoneInvalid": "Ugyldigt telefonnummer",
+        "phoneInvalid": "Telefonnr. format +45 12345678",
         "domainInvalid": "Ugyldigt domæne",
         "companyName": "Virksomhedsnavn",
         "domain": "Domæne",
         "cvrInvalid": "Ugyldigt CVR nummer",
         "cvrNumber": "CVR-Nr.",
         "country": "Land",
+        "phoneHint": "Telefonnr. format +45 12345678",
+        "glnOrEicHint": "Gln er 13 cifre og EIC er 16 cifre",
         "counties": {
           "DK": "Danmark",
           "SE": "Sverige",
@@ -723,6 +728,7 @@
         "departmentPhone": "Telefonnr.",
         "required": "Feltet er påkrævet",
         "invalidEmail": "Ugyldig email",
+        "phoneInvalid": "Telefonnr. format +45 12345678",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {

@@ -27,11 +27,13 @@ import {
 import { ControlContainer, FormControl, FormGroupDirective, Validators } from '@angular/forms';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { WattTooltipDirective } from '../tooltip';
+import { WattFieldErrorComponent } from './watt-field-error.component';
+import { WattFieldIntlService } from './watt-field-intl.service';
 
 @Component({
   selector: 'watt-field',
   standalone: true,
-  imports: [NgIf, NgClass, WattIconComponent, WattTooltipDirective],
+  imports: [NgIf, NgClass, WattIconComponent, WattTooltipDirective, WattFieldErrorComponent],
   encapsulation: ViewEncapsulation.None,
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
   styleUrls: ['./watt-field.component.scss'],
@@ -46,11 +48,14 @@ import { WattTooltipDirective } from '../tooltip';
       </div>
       <ng-content select="watt-field-hint" />
       <ng-content select="watt-field-error" />
+      <watt-field-error *ngIf="control?.errors?.['required']">{{ intl.required }}</watt-field-error>
     </label>
   `,
 })
 export class WattFieldComponent implements OnChanges {
   private _formGroupDirective = inject(FormGroupDirective, { optional: true });
+  intl = inject(WattFieldIntlService);
+
   @Input() label!: string;
   @Input({ required: true }) control!: FormControl | null;
   @Input() id!: string;
@@ -65,7 +70,7 @@ export class WattFieldComponent implements OnChanges {
   @HostBinding('class.watt-field--invalid')
   get _hasError() {
     return (
-      (this.control?.status === 'INVALID' && (!!this.control?.dirty || !!this.control?.touched)) ||
+      (this.control?.status === 'INVALID' && !!this.control?.touched) ||
       (this._formGroupDirective?.submitted && this.control?.status === 'INVALID')
     );
   }

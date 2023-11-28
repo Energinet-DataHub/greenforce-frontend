@@ -14,8 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattFieldComponent } from './watt-field.component';
-export { WattFieldErrorComponent } from './watt-field-error.component';
-export { WattFieldHintComponent } from './watt-field-hint.component';
-export { WattFormChipDirective } from './chip.directive';
-export { WattFieldIntlService } from './watt-field-intl.service';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class WattFieldIntlService {
+  readonly changes: Subject<void> = new Subject<void>();
+  required = 'Field is required';
+}

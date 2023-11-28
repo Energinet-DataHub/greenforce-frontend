@@ -14,6 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import { Apollo } from 'apollo-angular';
+import { TranslocoDirective } from '@ngneat/transloco';
+
 import { NgIf } from '@angular/common';
 import { Component, Input, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -25,12 +29,11 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { Apollo } from 'apollo-angular';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   standalone: true,
@@ -40,6 +43,7 @@ import { Apollo } from 'apollo-angular';
     TranslocoDirective,
     WattTextFieldComponent,
     WattFieldErrorComponent,
+    WattFieldHintComponent,
     WattDropdownComponent,
     ReactiveFormsModule,
     NgIf,
@@ -73,6 +77,7 @@ import { Apollo } from 'apollo-angular';
         [formControl]="newActorForm.controls.glnOrEicNumber"
         [label]="t('glnOrEicNumber')"
       >
+        <watt-field-hint>{{ t('glnOrEicHint') }}</watt-field-hint>
         <watt-field-error *ngIf="newActorForm.controls.glnOrEicNumber.hasError('invalidGlnOrEic')">
           {{ t('glnOrEicInvalid') }}
         </watt-field-error>
@@ -117,6 +122,7 @@ import { Apollo } from 'apollo-angular';
         [formControl]="newActorForm.controls.contact.controls.phone"
         [label]="t('phone')"
       >
+        <watt-field-hint>{{ t('phoneHint') }}</watt-field-hint>
         <watt-field-error *ngIf="newActorForm.controls.contact.controls.phone.hasError('pattern')">
           {{ t('phoneInvalid') }}
         </watt-field-error>

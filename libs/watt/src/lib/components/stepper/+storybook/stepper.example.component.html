@@ -22,22 +22,14 @@ limitations under the License.
         [formControl]="user.controls.firstname"
         type="text"
         label="firstname"
-      >
-        <watt-field-error *ngIf="user.controls.firstname.hasError('required')"
-          >Error</watt-field-error
-        >
-      </watt-text-field>
+      />
 
       <watt-text-field
         class="lastname"
         [formControl]="user.controls.lastname"
         type="text"
         label="lastname"
-      >
-        <watt-field-error *ngIf="user.controls.lastname.hasError('required')"
-          >Error</watt-field-error
-        >
-      </watt-text-field>
+      />
     </form>
   </watt-stepper-step>
   <watt-stepper-step
@@ -52,9 +44,7 @@ limitations under the License.
         [formControl]="user.controls.lastname"
         type="email"
         label="email"
-      >
-        <watt-field-error *ngIf="email.controls.email.hasError('required')">Error</watt-field-error>
-      </watt-text-field>
+      />
     </form>
   </watt-stepper-step>
   <watt-stepper-step
@@ -69,17 +59,14 @@ limitations under the License.
         [formControl]="address.controls.street"
         type="text"
         label="street"
-      >
-        <watt-field-error *ngIf="address.controls.street.hasError('required')"
-          >Error</watt-field-error
-        >
-      </watt-text-field>
+      />
 
-      <watt-text-field class="city" [formControl]="address.controls.city" type="text" label="city">
-        <watt-field-error *ngIf="address.controls.city.hasError('required')"
-          >Error</watt-field-error
-        >
-      </watt-text-field>
+      <watt-text-field
+        class="city"
+        [formControl]="address.controls.city"
+        type="text"
+        label="city"
+      />
     </form>
   </watt-stepper-step>
 </watt-stepper>
