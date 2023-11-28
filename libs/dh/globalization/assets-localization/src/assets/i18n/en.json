@@ -24,6 +24,9 @@
       "next": "Next",
       "previous": "Previous"
     },
+    "fieldValidation": {
+      "required": "Field is required"
+    },
     "paginator": {
       "itemsPerPageLabel": "Results per page",
       "of": "of",
@@ -552,6 +555,8 @@
         "cvrInvalid": "Invalid CVR number",
         "cvrNumber": "CVR-Nr.",
         "country": "Country",
+        "phoneHint": "Phonenumber format +45 12345678",
+        "glnOrEicHint": "GLN is 13 digits and EIC is 16 digits",
         "counties": {
           "DK": "Denmark",
           "SE": "Sweden",
@@ -730,6 +735,7 @@
         "departmentPhone": "Phone Number",
         "required": "Field is required",
         "invalidEmail": "Invalid email",
+        "phoneInvalid": "Phone number format +45 12345678",
         "cancel": "Cancel",
         "save": "Save changes",
         "updateRequest": {

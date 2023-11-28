@@ -32,19 +32,16 @@ limitations under the License.
         [required]="true"
         [label]="t('name')"
         [formControl]="actorForm.controls.name"
-      >
-        <watt-field-error>{{ t("required") }}</watt-field-error>
-      </watt-text-field>
+      />
 
       <h4>{{ t("contactHeader") }}</h4>
+
       <watt-text-field
         class="contact-field"
         [required]="true"
         [label]="t('departmentName')"
         [formControl]="actorForm.controls.departmentName"
-      >
-        <watt-field-error>{{ t("required") }}</watt-field-error>
-      </watt-text-field>
+      />
 
       <watt-text-field
         class="contact-field"
@@ -54,10 +51,6 @@ limitations under the License.
         [formControl]="actorForm.controls.departmentEmail"
       >
         <span wattSuffix class="email-suffix">@{{ emailDomain }}</span>
-
-        <watt-field-error *ngIf="actorForm.controls.departmentEmail.hasError('required')">
-          {{ t("required") }}
-        </watt-field-error>
 
         <watt-field-error *ngIf="actorForm.controls.departmentEmail.hasError('pattern')">
           {{ t("invalidEmail") }}
@@ -71,8 +64,10 @@ limitations under the License.
         [label]="t('departmentPhone')"
         [formControl]="actorForm.controls.departmentPhone"
       >
-        <watt-field-error>{{ t("required") }}</watt-field-error>
-      </watt-text-field>
+      <watt-field-error *ngIf="actorForm.controls.departmentPhone.hasError('pattern')">
+        {{ t('phoneInvalid') }}
+      </watt-field-error>
+    </watt-text-field>
     </form>
 
     <watt-modal-actions>
