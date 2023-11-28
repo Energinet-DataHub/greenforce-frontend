@@ -15,11 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-card vater inset="0" *transloco="let t; read: 'wholesale.requestCalculation'">
-  <form
-    [formGroup]="form"
-    #formDirective="ngForm"
-    (ngSubmit)="requestCalculation(form, formDirective)"
-  >
+  <form [formGroup]="form" (ngSubmit)="requestCalculation()">
     <vater-flex fill="vertical" gap="m">
       <vater-stack align="flex-start" direction="column" gap="s">
         <watt-dropdown
@@ -66,7 +62,7 @@ limitations under the License.
         />
       </vater-stack>
       <vater-stack direction="column" align="flex-end">
-        <watt-button variant="primary" type="submit">{{t('request')}}</watt-button>
+        <watt-button variant="primary" type="submit">{{ t('request') }}</watt-button>
       </vater-stack>
     </vater-flex>
   </form>

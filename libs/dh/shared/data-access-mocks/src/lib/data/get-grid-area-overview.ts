@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { graphql } from '@energinet-datahub/dh/shared/domain';
+import { GetGridAreaOverviewQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const getGridAreaOverviewMock: graphql.GetGridAreaOverviewQuery = {
+export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
   __typename: 'Query',
   gridAreaOverview: [
     {

@@ -40,7 +40,6 @@ import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import {
   WholesaleProcessType,
   WholesaleSettlementReportHttp,
-  graphql,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { Actor, ActorFilter, GridArea, streamToFile } from '@energinet-datahub/dh/wholesale/domain';
@@ -53,8 +52,15 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import {
+  EicFunction,
+  GetActorsForSettlementReportDocument,
+  GetGridAreasDocument,
+  GridAreaDto,
+  PriceAreaCode,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
-export type settlementReportsTableColumns = graphql.GridAreaDto & { download: boolean };
+export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
 
 @Component({
   standalone: true,
@@ -109,22 +115,22 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
   actorsQuery = this.apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
-    query: graphql.GetActorsForSettlementReportDocument,
+    query: GetActorsForSettlementReportDocument,
     variables: {
-      eicFunctions: [graphql.EicFunction.GridAccessProvider, graphql.EicFunction.EnergySupplier],
+      eicFunctions: [EicFunction.GridAccessProvider, EicFunction.EnergySupplier],
     },
   });
 
   gridAreasQuery = this.apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
-    query: graphql.GetGridAreasDocument,
+    query: GetGridAreasDocument,
   });
 
   gridAreasForFilterQuery = this.apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
-    query: graphql.GetGridAreasDocument,
+    query: GetGridAreasDocument,
   });
 
   actors!: ActorFilter;
@@ -162,7 +168,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
               code: g.code,
               id: g.code,
               name: g.name,
-              priceAreaCode: graphql.PriceAreaCode.Dk1,
+              priceAreaCode: PriceAreaCode.Dk1,
               validFrom: g.validFrom,
               validtTo: g.validTo,
               download: true,

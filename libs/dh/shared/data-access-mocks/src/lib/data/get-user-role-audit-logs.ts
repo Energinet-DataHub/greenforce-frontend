@@ -14,11 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import parseISO from 'date-fns/parseISO';
 
-export const getUserRoleAuditLogsMock: graphql.GetUserRoleAuditLogsQuery = {
+import {
+  GetUserRoleAuditLogsQuery,
+  UserRoleChangeType,
+  UserRoleStatus,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+export const getUserRoleAuditLogsMock: GetUserRoleAuditLogsQuery = {
   __typename: 'Query',
   userRoleAuditLogs: [
     {
@@ -29,7 +33,7 @@ export const getUserRoleAuditLogsMock: graphql.GetUserRoleAuditLogsQuery = {
       eicFunction: null,
       permissions: [],
       status: UserRoleStatus.Active,
-      changeType: graphql.UserRoleChangeType.Created,
+      changeType: UserRoleChangeType.Created,
       timestamp: parseISO('2023-10-04T00:00:00+00:00'),
     },
     {
@@ -40,7 +44,7 @@ export const getUserRoleAuditLogsMock: graphql.GetUserRoleAuditLogsQuery = {
       eicFunction: null,
       permissions: [],
       status: UserRoleStatus.Active,
-      changeType: graphql.UserRoleChangeType.NameChange,
+      changeType: UserRoleChangeType.NameChange,
       timestamp: parseISO('2023-10-04T01:00:00+00:00'),
     },
     {
@@ -51,7 +55,7 @@ export const getUserRoleAuditLogsMock: graphql.GetUserRoleAuditLogsQuery = {
       description: 'En beskrivelse',
       permissions: [],
       status: UserRoleStatus.Active,
-      changeType: graphql.UserRoleChangeType.DescriptionChange,
+      changeType: UserRoleChangeType.DescriptionChange,
       timestamp: parseISO('2023-10-04T02:00:00+00:00'),
     },
     {
@@ -62,7 +66,7 @@ export const getUserRoleAuditLogsMock: graphql.GetUserRoleAuditLogsQuery = {
       eicFunction: null,
       permissions: ['organizations:view', 'organizations:manage', 'users:view', 'users:manage'],
       status: UserRoleStatus.Active,
-      changeType: graphql.UserRoleChangeType.PermissionAdded,
+      changeType: UserRoleChangeType.PermissionAdded,
       timestamp: parseISO('2023-10-04T03:00:00+00:00'),
     },
     {
@@ -73,7 +77,7 @@ export const getUserRoleAuditLogsMock: graphql.GetUserRoleAuditLogsQuery = {
       eicFunction: null,
       permissions: ['users:view'],
       status: UserRoleStatus.Active,
-      changeType: graphql.UserRoleChangeType.PermissionRemoved,
+      changeType: UserRoleChangeType.PermissionRemoved,
       timestamp: parseISO('2023-10-04T04:00:00+00:00'),
     },
     {
@@ -84,7 +88,7 @@ export const getUserRoleAuditLogsMock: graphql.GetUserRoleAuditLogsQuery = {
       eicFunction: null,
       permissions: [],
       status: UserRoleStatus.Inactive,
-      changeType: graphql.UserRoleChangeType.StatusChange,
+      changeType: UserRoleChangeType.StatusChange,
       timestamp: parseISO('2023-10-04T05:00:00+00:00'),
     },
   ],
