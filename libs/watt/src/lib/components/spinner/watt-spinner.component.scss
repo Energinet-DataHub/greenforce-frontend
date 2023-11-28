@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 :host {
-  display: block;
   --watt-spinner-circle-color: var(--watt-color-primary);
+
+  display: block;
   width: var(--watt-spinner-diameter);
   height: var(--watt-spinner-diameter);
   position: relative;
