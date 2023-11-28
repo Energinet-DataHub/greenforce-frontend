@@ -23,6 +23,7 @@ import { getUnixTime } from 'date-fns';
 
 export interface EoTransfer {
   startDate: number;
+  senderName?: string;
   endDate: number | null;
   receiverTin: string;
   base64EncodedWalletDepositEndpoint: string;
