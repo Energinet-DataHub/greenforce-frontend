@@ -16,6 +16,7 @@
  */
 import { Component } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
+import { NgIf } from '@angular/common';
 
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 
@@ -35,6 +36,7 @@ import { DhPermissionsTabComponent } from './permissions-tab/dh-permissions-tab.
     `,
   ],
   imports: [
+    NgIf,
     TranslocoModule,
     WattTabComponent,
     WattTabsComponent,
