@@ -204,13 +204,6 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
       >
         <watt-field-error
           *ngIf="
-            form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.errors?.['required']
-          "
-        >
-          A Wallet Deposit Endpoint is required
-        </watt-field-error>
-        <watt-field-error
-          *ngIf="
             form.controls.receiver.controls.base64EncodedWalletDepositEndpoint.errors?.['pattern']
           "
         >

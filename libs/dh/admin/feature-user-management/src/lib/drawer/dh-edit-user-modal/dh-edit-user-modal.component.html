@@ -29,22 +29,14 @@ limitations under the License.
             class="name-field"
             [formControl]="userInfoForm.controls.firstName"
             type="text"
-          >
-            <watt-field-error *ngIf="firstNameControl.hasError('required')">
-              {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-field-error>
-          </watt-text-field>
+          />
 
           <watt-text-field
             [label]="t('masterData.lastName')"
             class="name-field"
             [formControl]="userInfoForm.controls.lastName"
             type="text"
-          >
-            <watt-field-error *ngIf="lastNameControl.hasError('required')">
-              {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-field-error>
-          </watt-text-field>
+          />
 
           <watt-text-field
             [label]="t('masterData.phone')"
@@ -52,9 +44,6 @@ limitations under the License.
             [formControl]="userInfoForm.controls.phoneNumber"
             type="text"
           >
-            <watt-field-error *ngIf="phoneNumberControl.hasError('required')">
-              {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-field-error>
             <watt-field-error *ngIf="phoneNumberControl.hasError('pattern')">
               {{ t("phoneNumberError") }}
             </watt-field-error>

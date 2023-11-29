@@ -77,7 +77,9 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
       [formGroup]="_formGroup"
       *transloco="let t; read: 'wholesale.calculations.filters'"
     >
-      <watt-date-range-chip formControlName="period">{{ t('period') }}</watt-date-range-chip>
+      <watt-date-range-chip [formControl]="this._formGroup.controls.period!">{{
+        t('period')
+      }}</watt-date-range-chip>
       <watt-dropdown
         formControlName="processTypes"
         [chipMode]="true"
@@ -92,7 +94,7 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
         [options]="_gridAreaOptions | push"
         [placeholder]="t('gridAreas')"
       />
-      <watt-date-range-chip formControlName="executionTime">
+      <watt-date-range-chip [formControl]="this._formGroup.controls.executionTime!">
         {{ t('executionTime') }}
       </watt-date-range-chip>
       <watt-dropdown
@@ -142,7 +144,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
     )
   );
 
-  ngOnInit() {
+  constructor() {
     this._formGroup = new FormGroup<Filters>({
       executionTime: dhMakeFormControl(this.initial?.executionTime),
       period: dhMakeFormControl(this.initial?.period),
@@ -150,7 +152,9 @@ export class DhCalculationsFiltersComponent implements OnInit {
       processTypes: dhMakeFormControl(this.initial?.processTypes),
       executionStates: dhMakeFormControl(this.initial?.executionStates),
     });
+  }
 
+  ngOnInit() {
     this._formGroup.valueChanges
       .pipe(debounceTime(500))
       .subscribe((value) => this.filter.emit(value));
