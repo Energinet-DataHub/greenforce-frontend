@@ -22,7 +22,7 @@ import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import { ArchivedMessage, Stream } from '@energinet-datahub/dh/shared/domain';
+import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattDrawerComponent, WATT_DRAWER, WattDrawerSize } from '@energinet-datahub/watt/drawer';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -127,10 +127,8 @@ export class DhMessageArchiveDrawerComponent implements OnInit {
     link.remove();
   }
 
-  private readonly onSuccesFn = async (id: string, data: Stream) => {
-    const blobPart = data as unknown as BlobPart;
-    const blob = new Blob([blobPart]);
-    this.documentContent = await new Response(blob).text();
+  private readonly onSuccesFn = async (id: string, data: string) => {
+    this.documentContent = data;
   };
 
   private readonly onErrorFn = () => {
