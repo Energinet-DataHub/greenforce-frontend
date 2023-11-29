@@ -17,7 +17,7 @@ using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class NewEicFunctionType : EnumType<EicFunction>
+    public class MarketPartEicFunctionType : EnumType<EicFunction>
     {
         protected override void Configure(IEnumTypeDescriptor<EicFunction> descriptor)
         {
