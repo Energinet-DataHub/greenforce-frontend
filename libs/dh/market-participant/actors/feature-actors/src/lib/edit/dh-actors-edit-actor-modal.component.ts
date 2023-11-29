@@ -17,8 +17,7 @@
 import { tap } from 'rxjs';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, Input, ViewChild, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -63,7 +62,7 @@ import { DhActorExtended } from '../dh-actor';
     WattTextFieldComponent,
     WattFieldErrorComponent,
     RxLet,
-    CommonModule,
+    NgIf,
     TranslocoModule,
   ],
 })

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf, NgFor, NgClass, NgStyle } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
 import { MatSort, MatSortable, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -36,11 +36,14 @@ import { compareSortValues, getRowHeight, getRowToExpand, wrapInTableRow } from 
   styleUrls: ['./dh-processes-table.component.scss'],
   standalone: true,
   imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    NgStyle,
     MatTableModule,
     TranslocoModule,
     WattIconComponent,
     MatSortModule,
-    CommonModule,
     RouterModule,
     WattDatePipe,
     DhProcessesDetailItemComponent,

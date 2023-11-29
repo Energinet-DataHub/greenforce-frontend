@@ -15,11 +15,12 @@
  * limitations under the License.
  */
 import { Component, inject } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { map, take, tap, timer } from 'rxjs';
-import { WATT_MODAL, WattDialogRef } from '@energinet-datahub/watt/modal';
 import { TranslocoModule } from '@ngneat/transloco';
+
+import { WATT_MODAL, WattDialogRef } from '@energinet-datahub/watt/modal';
 
 @Component({
   selector: 'dh-inactivity-logout',
@@ -37,7 +38,7 @@ import { TranslocoModule } from '@ngneat/transloco';
     </watt-modal>
   `,
   standalone: true,
-  imports: [CommonModule, RxPush, DatePipe, TranslocoModule, WATT_MODAL],
+  imports: [RxPush, DatePipe, TranslocoModule, WATT_MODAL],
 })
 export class DhInactivityLogoutComponent {
   private dialogRef = inject<WattDialogRef<DhInactivityLogoutComponent>>(WattDialogRef);

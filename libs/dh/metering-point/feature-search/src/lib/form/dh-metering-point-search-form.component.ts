@@ -28,7 +28,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -46,12 +46,12 @@ import { meteringPointIdValidator } from './dh-metering-point.validator';
   templateUrl: './dh-metering-point-search-form.component.html',
   standalone: true,
   imports: [
+    NgIf,
     WattButtonComponent,
     WattIconComponent,
     TranslocoModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule,
     WattTextFieldComponent,
     WattFieldErrorComponent,
   ],

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { tap } from 'rxjs';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -33,8 +33,8 @@ import { DhProcessesTabContentComponent } from './processes-tab-content/dh-proce
   templateUrl: './dh-metering-point-tabs.template.html',
   standalone: true,
   imports: [
+    NgIf,
     RxLet,
-    CommonModule,
     WattTabsComponent,
     WattTabComponent,
     TranslocoModule,
