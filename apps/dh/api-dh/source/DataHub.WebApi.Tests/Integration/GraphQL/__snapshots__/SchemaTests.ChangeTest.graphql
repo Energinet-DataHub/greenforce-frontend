@@ -321,7 +321,7 @@ input ActorGridAreaDtoInput {
 }
 
 input ActorMarketRoleDtoInput {
-  eicFunction: String!
+  eicFunction: EicFunctionType!
   gridAreas: [ActorGridAreaDtoInput!]!
   comment: String
 }
@@ -496,6 +496,24 @@ enum EicFunction {
   EnergySupplier
   GridAccessProvider
   ImbalanceSettlementResponsible
+  MeterOperator
+  MeteredDataAdministrator
+  MeteredDataResponsible
+  MeteringPointAdministrator
+  SystemOperator
+  DanishEnergyAgency
+  DataHubAdministrator
+  IndependentAggregator
+  SerialEnergyTrader
+}
+
+enum EicFunctionType {
+  BalanceResponsibleParty
+  BillingAgent
+  EnergySupplier
+  GridAccessProvider
+  ImbalanceSettlementResponsible
+  MeterOperator
   MeteredDataAdministrator
   MeteredDataResponsible
   MeteringPointAdministrator
