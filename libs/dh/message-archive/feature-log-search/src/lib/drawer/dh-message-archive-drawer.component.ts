@@ -22,7 +22,7 @@ import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import { ArchivedMessage, Stream } from '@energinet-datahub/dh/shared/domain';
+import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattDrawerComponent, WATT_DRAWER, WattDrawerSize } from '@energinet-datahub/watt/drawer';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
