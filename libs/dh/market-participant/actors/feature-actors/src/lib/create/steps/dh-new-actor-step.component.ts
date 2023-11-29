@@ -18,7 +18,7 @@ import { NgIf } from '@angular/common';
 import { Component, Input, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
-  EicFunction,
+  EicFunctionType,
   GetGridAreasForCreateActorDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
@@ -130,7 +130,7 @@ export class DhNewActorStepComponent {
   @Input({ required: true }) newActorForm!: FormGroup<{
     glnOrEicNumber: FormControl<string>;
     name: FormControl<string>;
-    marketrole: FormControl<string>;
+    marketrole: FormControl<EicFunctionType>;
     gridArea: FormControl<string>;
     contact: FormGroup<{
       departmentOrName: FormControl<string>;
@@ -139,7 +139,7 @@ export class DhNewActorStepComponent {
     }>;
   }>;
 
-  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction);
+  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunctionType);
   gridAreaOptions: WattDropdownOptions = [];
 
   showGridAreaOptions = signal(false);
@@ -160,9 +160,9 @@ export class DhNewActorStepComponent {
       });
   }
 
-  onMarketRoleChange(eicfunction: EicFunction): void {
-    this.showGridAreaOptions.set(eicfunction === EicFunction.GridAccessProvider);
-    if (eicfunction === EicFunction.GridAccessProvider) {
+  onMarketRoleChange(eicfunction: EicFunctionType): void {
+    this.showGridAreaOptions.set(eicfunction === EicFunctionType.GridAccessProvider);
+    if (eicfunction === EicFunctionType.GridAccessProvider) {
       this.newActorForm.controls.gridArea.enable();
     }
   }
