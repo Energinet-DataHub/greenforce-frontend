@@ -38,7 +38,6 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
   template: `
     <button
       mat-button
-      class="watt-button--{{ variant }}"
       [disabled]="disabled"
       [type]="type"
       [attr.form]="type === 'submit' ? formId : null"
@@ -74,6 +73,14 @@ export class WattButtonComponent {
   @HostBinding('class.watt-button--disabled')
   get buttonDisabledState() {
     return this.disabled;
+  }
+
+  /**
+   * @ignore
+   */
+  @HostBinding('class')
+  get cssClass() {
+    return `watt-button--${this.variant}`;
   }
 
   /**
