@@ -80,7 +80,6 @@ export class WattFieldComponent implements OnChanges {
   protected _isRequired = false;
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if (changes['control']) {
       this._isRequired = this.control?.hasValidator(Validators.required) ?? false;
     }
