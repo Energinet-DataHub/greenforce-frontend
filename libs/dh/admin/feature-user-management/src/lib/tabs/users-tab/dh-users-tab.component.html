@@ -22,12 +22,12 @@ limitations under the License.
       (changed)="onStatusChanged($event)"
     />
     <dh-users-tab-actor-filter
-      *ngIf="canChooseMultipleActors$ | async"
-      [actorOptions]="(actorOptions$ | async) ?? []"
+      *ngIf="canChooseMultipleActors$ | push"
+      [actorOptions]="(actorOptions$ | push) ?? []"
       (changed)="onActorFilterChanged($event)"
     />
     <dh-users-tab-userrole-filter
-      [userRoleOptions]="(userRolesOptions$ | async) ?? []"
+      [userRoleOptions]="(userRolesOptions$ | push) ?? []"
       (changed)="onUserRolesFilterChanged($event)"
     />
   </div>

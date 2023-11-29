@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, Input, OnChanges, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -39,7 +39,7 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
   styleUrls: ['./dh-user-audit-logs.component.scss'],
   providers: [provideComponentStore(DhAdminUserManagementAuditLogsDataAccessApiStore)],
   imports: [
-    CommonModule,
+    NgIf,
     RxLet,
     RxPush,
     TranslocoModule,
