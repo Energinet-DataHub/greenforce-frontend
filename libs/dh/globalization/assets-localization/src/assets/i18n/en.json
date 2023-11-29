@@ -554,7 +554,7 @@
         "cvrInvalid": "Invalid CVR number",
         "cvrNumber": "CVR-Nr.",
         "country": "Country",
-        "phoneHint": "Phonenumber format +45 12345678",
+        "phoneHint": "Phone number format +45 12345678",
         "glnOrEicHint": "GLN is 13 digits and EIC is 16 digits",
         "counties": {
           "DK": "Denmark",
