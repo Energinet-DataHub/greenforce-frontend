@@ -24,6 +24,7 @@ import {
   inject,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
@@ -40,8 +41,6 @@ import {
 
 import { DhUserStatusComponent } from '../../shared/dh-user-status.component';
 import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
-import { CommonModule } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-users-tab-table',
@@ -58,7 +57,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     WATT_TABLE,
-    CommonModule,
     TranslocoModule,
     DhEmDashFallbackPipe,
     DhUserStatusComponent,
