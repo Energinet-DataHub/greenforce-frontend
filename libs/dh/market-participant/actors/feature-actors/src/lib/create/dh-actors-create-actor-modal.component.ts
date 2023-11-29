@@ -34,6 +34,7 @@ import {
   ContactCategoryType,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
+  EicFunctionType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -93,7 +94,7 @@ export class DhActorsCreateActorModalComponent {
   newActorForm = this._fb.group({
     glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
     name: [''],
-    marketrole: ['', Validators.required],
+    marketrole: [EicFunctionType.BillingAgent, Validators.required],
     gridArea: [{ value: '', disabled: true }, Validators.required],
     contact: this._fb.group({
       departmentOrName: ['', Validators.required],

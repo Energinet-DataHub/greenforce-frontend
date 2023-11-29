@@ -2715,7 +2715,11 @@
         "additionalProperties": false,
         "properties": {
           "eicFunction": {
-            "type": "string"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EicFunction"
+              }
+            ]
           },
           "gridAreas": {
             "type": "array",
@@ -2973,6 +2977,7 @@
           "EnergySupplier",
           "GridAccessProvider",
           "ImbalanceSettlementResponsible",
+          "MeterOperator",
           "MeteredDataAdministrator",
           "MeteredDataResponsible",
           "MeteringPointAdministrator",
