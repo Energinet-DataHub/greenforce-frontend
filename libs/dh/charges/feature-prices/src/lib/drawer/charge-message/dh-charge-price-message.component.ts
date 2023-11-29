@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import {
@@ -38,7 +38,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
     RxPush,
     RxLet,
     WattEmptyStateComponent,

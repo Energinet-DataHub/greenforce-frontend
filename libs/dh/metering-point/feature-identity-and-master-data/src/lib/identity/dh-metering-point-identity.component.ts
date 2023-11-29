@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -41,11 +41,11 @@ export interface MeteringPointIdentityTranslationKeys {
   styleUrls: ['./dh-metering-point-identity.component.scss'],
   templateUrl: './dh-metering-point-identity.component.html',
   imports: [
+    NgIf,
     DhMeteringPointIdentityTextFieldWithIconComponent,
     DhStatusBadgeComponent,
     DhEmDashFallbackPipe,
     WattDatePipe,
-    CommonModule,
     TranslocoModule,
   ],
 })

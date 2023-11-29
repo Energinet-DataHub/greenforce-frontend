@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChildren,
@@ -31,7 +31,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
 @Component({
   selector: 'watt-breadcrumb',
   standalone: true,
-  imports: [CommonModule, WattIconComponent],
+  imports: [WattIconComponent],
   encapsulation: ViewEncapsulation.None,
   template: `<ng-template #templateRef><ng-content /></ng-template>`,
 })
@@ -49,7 +49,7 @@ export class WattBreadcrumbComponent {
 @Component({
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [CommonModule, WattIconComponent],
+  imports: [NgIf, NgFor, NgTemplateOutlet, WattIconComponent],
   selector: 'watt-breadcrumbs',
   styleUrls: ['./watt-breadcrumbs.component.scss'],
   template: `

@@ -535,7 +535,7 @@
           "create": "Opret aktør"
         },
         "gridArea": "Netområde",
-        "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktør navn.",
+        "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktørnavn.",
         "glnOrEicInvalid": "Ugyldigt GLN/EIC nummer",
         "wrongEmailPattern": "Indtast en valid email",
         "phoneInvalid": "Ugyldigt telefonnummer",
@@ -558,7 +558,7 @@
         "departmentOrName": "Afdeling/Navn",
         "email": "E-mail",
         "phone": "Telefonnr.",
-        "searchDatahub": "Søg datahub",
+        "chooseOrganization": "Vælg organisation",
         "newOrganization": "Ny organisation",
         "marketParty": "Aktør",
         "createHeader": "Ny aktør",

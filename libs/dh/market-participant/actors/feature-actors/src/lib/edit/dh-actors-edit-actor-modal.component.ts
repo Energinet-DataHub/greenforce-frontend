@@ -17,8 +17,7 @@
 import { tap } from 'rxjs';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, Input, ViewChild, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -28,7 +27,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { dhFirstPartEmailValidator } from '@energinet-datahub/dh/shared/ui-validators';
-import { DhMarketParticipantActorsEditActorDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { DhMarketParticipantActorsEditActorDataAccessApiStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 
 import { DhActorExtended } from '../dh-actor';
 
@@ -63,7 +62,7 @@ import { DhActorExtended } from '../dh-actor';
     WattTextFieldComponent,
     WattFieldErrorComponent,
     RxLet,
-    CommonModule,
+    NgIf,
     TranslocoModule,
   ],
 })

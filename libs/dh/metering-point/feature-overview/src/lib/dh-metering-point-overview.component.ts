@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { RxLet } from '@rx-angular/template/let';
@@ -38,7 +38,7 @@ import { DhMeteringPointGeneralErrorComponent } from './general-error/dh-meterin
   templateUrl: './dh-metering-point-overview.component.html',
   providers: [DhMeteringPointDataAccessApiStore],
   imports: [
-    CommonModule,
+    NgIf,
     DhBreadcrumbComponent,
     DhMeteringPointIdentityAndMasterDataComponent,
     DhMeteringPointNotFoundComponent,

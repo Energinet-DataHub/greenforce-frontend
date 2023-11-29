@@ -23,13 +23,13 @@ import {
   OnInit,
   Input,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
@@ -50,7 +50,6 @@ import {
   GetCalculationsDocument,
   GetCalculationsQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 type wholesaleTableData = WattTableDataSource<Calculation>;
 
@@ -58,7 +57,6 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
   standalone: true,
   imports: [
     WATT_TABLE,
-    CommonModule,
     DhCalculationsFiltersComponent,
     WattDatePipe,
     TranslocoModule,

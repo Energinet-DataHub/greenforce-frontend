@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -35,7 +35,7 @@ export interface MeteringPointTranslationKeys {
   selector: 'dh-breadcrumb',
   templateUrl: './dh-breadcrumb.component.html',
   styleUrls: ['./dh-breadcrumb.component.scss'],
-  imports: [CommonModule, RouterModule, TranslocoModule, WattIconComponent, DhIsParentPipe],
+  imports: [NgIf, RouterModule, TranslocoModule, WattIconComponent, DhIsParentPipe],
 })
 export class DhBreadcrumbComponent {
   #meteringPoint: MeteringPointCimDto | undefined;

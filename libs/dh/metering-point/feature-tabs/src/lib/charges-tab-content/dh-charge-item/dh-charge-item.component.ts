@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { ChargeLinkV1Dto, ChargeType } from '@energinet-datahub/dh/shared/domain';
@@ -30,8 +30,8 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
   styleUrls: ['./dh-charge-item.component.scss'],
   standalone: true,
   imports: [
+    NgIf,
     TranslocoModule,
-    CommonModule,
     WattEmptyStateComponent,
     WattDatePipe,
     WattIconComponent,
