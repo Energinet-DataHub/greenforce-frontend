@@ -24,20 +24,22 @@ import {
   DestroyRef,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
-import { DatePickerData, DrawerDatepickerService } from './drawer-datepicker.service';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { DatePickerData, DrawerDatepickerService } from './drawer-datepicker.service';
 
 @Component({
   standalone: true,
   imports: [
+    NgFor,
     TranslocoModule,
-    CommonModule,
     ReactiveFormsModule,
     WattDatepickerComponent,
     WattFilterChipComponent,

@@ -32,22 +32,14 @@ export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
  * },
  */
 
-const created = '02-11-2023';
+const created = '27-11-2023';
 
 export const dhFeatureFlagsConfig = {
-  start_wholesale_process_feature_flag: {
-    created,
-    disabledEnvironments: [],
-  },
   charges_price_date_chips_feature_flag: {
     created,
     disabledEnvironments: [],
   },
   charge_prices_download_button_feature_flag: {
-    created,
-    disabledEnvironments: [],
-  },
-  create_charge_prices_page_feature_flag: {
     created,
     disabledEnvironments: [],
   },

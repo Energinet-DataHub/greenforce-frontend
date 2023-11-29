@@ -14,4 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattTabsComponent, WattTabComponent, WATT_TABS } from './watt-tabs.component';
+import { WattTabComponent } from './watt-tab.component';
+import { WattTabsComponent } from './watt-tabs.component';
+
+export { WattTabComponent } from './watt-tab.component';
+export { WattTabsComponent } from './watt-tabs.component';
+
+export const WATT_TABS = [WattTabsComponent, WattTabComponent];

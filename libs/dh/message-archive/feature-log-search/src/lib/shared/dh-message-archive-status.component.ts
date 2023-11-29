@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+
 @Component({
-  imports: [CommonModule, TranslocoModule, WattBadgeComponent],
+  imports: [NgSwitch, NgSwitchCase, NgSwitchDefault, TranslocoModule, WattBadgeComponent],
   standalone: true,
   selector: 'dh-message-archive-status',
   template: `<ng-container *transloco="let t; read: 'messageArchive.search'"

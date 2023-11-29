@@ -114,7 +114,6 @@ export class DhActorsCreateActorModalComponent {
 
   toggleShowCreateNewOrganization(): void {
     this.showCreateNewOrganization.set(!this.showCreateNewOrganization());
-    this.newOrganizationForm.reset();
   }
 
   open() {

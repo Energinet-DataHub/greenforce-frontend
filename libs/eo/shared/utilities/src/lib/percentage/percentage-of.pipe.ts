@@ -26,6 +26,6 @@ export class PercentageOfPipe implements PipeTransform {
     if (total === 0) {
       return 0 + '%';
     }
-    return Math.round((value / total) * 100) + '%';
+    return Math.floor((value / total) * 100) + '%';
   }
 }

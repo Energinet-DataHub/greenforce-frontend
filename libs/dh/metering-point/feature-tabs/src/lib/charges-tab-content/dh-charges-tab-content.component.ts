@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { RxLet } from '@rx-angular/template/let';
 import { map, Observable } from 'rxjs';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { DhChargeLinksDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 import { ChargeLinkV1Dto } from '@energinet-datahub/dh/shared/domain';
@@ -37,10 +37,10 @@ import { DhChargesGeneralErrorComponent } from './dh-charges-general-error/dh-ch
   providers: [DhChargeLinksDataAccessApiStore],
   standalone: true,
   imports: [
-    CommonModule,
-    WattSpinnerComponent,
+    NgIf,
     RxLet,
-    TranslocoModule,
+    TranslocoDirective,
+    WattSpinnerComponent,
     DhChargeItemComponent,
     DhChargesNotFoundComponent,
     DhChargesGeneralErrorComponent,

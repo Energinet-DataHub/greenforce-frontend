@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { NgIf, NgClass, DOCUMENT } from '@angular/common';
 import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { provideComponentStore } from '@ngrx/component-store';
 import { MatDividerModule } from '@angular/material/divider';
@@ -50,7 +50,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './dh-message-archive-drawer.component.html',
   styleUrls: ['./dh-message-archive-drawer.component.scss'],
   imports: [
-    CommonModule,
+    NgIf,
+    NgClass,
     WATT_DRAWER,
     TranslocoModule,
     WattIconComponent,

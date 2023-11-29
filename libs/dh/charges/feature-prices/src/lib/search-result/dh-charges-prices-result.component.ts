@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf, NgClass } from '@angular/common';
 import { Component, OnChanges, ViewChild, Input, inject } from '@angular/core';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -40,7 +40,8 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
   standalone: true,
   imports: [
     WATT_TABLE,
-    CommonModule,
+    NgIf,
+    NgClass,
     TranslocoModule,
     RxLet,
     WattIconComponent,
