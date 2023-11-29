@@ -22,7 +22,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { NgClass, NgIf } from '@angular/common';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 
 import { WattIcon } from '../../foundations/icon';
 import { WattIconComponent } from './../../foundations/icon/icon.component';

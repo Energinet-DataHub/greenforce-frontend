@@ -56,12 +56,12 @@ watt-button {
   display: inline-block;
 }
 
-.mat-button {
+.mdc-button {
   @include watt.typography-font-weight("semi-bold");
   @include watt.typography-font-size("m");
   @include watt.space-inset-squish-m;
 
-  &.mat-button {
+  &.mat-mdc-button {
     min-width: 44px; // Magic UX width
     height: 44px; // Magic UX normal height
   }
@@ -74,7 +74,7 @@ watt-button {
     background: transparent; // Remove the overlay background color from Material Design
   }
 
-  .mat-button-wrapper {
+  .mdc-button__label {
     display: flex;
     justify-content: center;
     align-items: center;

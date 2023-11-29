@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -29,7 +29,7 @@ import { MarketParticipantUserRoleStatus } from '@energinet-datahub/dh/shared/do
 
     <watt-badge *ngIf="status === 'Inactive'" type="warning">{{ t('inactive') }}</watt-badge>
   </ng-container>`,
-  imports: [CommonModule, TranslocoModule, WattBadgeComponent],
+  imports: [NgIf, TranslocoModule, WattBadgeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhRoleStatusComponent {
