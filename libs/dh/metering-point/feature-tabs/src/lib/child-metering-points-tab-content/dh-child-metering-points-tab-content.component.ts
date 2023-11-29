@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, Input, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MatSortModule } from '@angular/material/sort';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -34,11 +34,11 @@ import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/domain';
   styleUrls: ['./dh-child-metering-points-tab-content.component.scss'],
   standalone: true,
   imports: [
+    NgIf,
     TranslocoModule,
     DhStatusBadgeComponent,
     WattIconComponent,
     MatSortModule,
-    CommonModule,
     WattEmptyStateComponent,
     WATT_TABLE,
     RouterModule,

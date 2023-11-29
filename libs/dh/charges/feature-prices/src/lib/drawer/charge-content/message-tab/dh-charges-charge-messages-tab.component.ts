@@ -24,7 +24,7 @@ import {
   inject,
   DestroyRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
@@ -52,8 +52,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   standalone: true,
   imports: [
+    NgIf,
     WATT_TABLE,
-    CommonModule,
     TranslocoModule,
     RxLet,
     RxPush,
