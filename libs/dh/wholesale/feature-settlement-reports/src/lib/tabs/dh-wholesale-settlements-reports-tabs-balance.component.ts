@@ -24,7 +24,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { ApolloError } from '@apollo/client/errors';
@@ -68,6 +68,7 @@ export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
   templateUrl: './dh-wholesale-settlements-reports-tabs-balance.component.html',
   styleUrls: ['./dh-wholesale-settlements-reports-tabs-balance.component.scss'],
   imports: [
+    NgIf,
     WATT_TABS,
     WATT_CARD,
     WATT_TABLE,
@@ -78,7 +79,6 @@ export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
     ReactiveFormsModule,
     WattDropdownComponent,
     WattEmptyStateComponent,
-    CommonModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

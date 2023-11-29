@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
@@ -44,7 +43,7 @@ export type PrimaryMasterData = Pick<
   selector: 'dh-metering-point-primary-master-data',
   styleUrls: ['./dh-metering-point-primary-master-data.component.scss'],
   templateUrl: './dh-metering-point-primary-master-data.component.html',
-  imports: [CommonModule, TranslocoModule, DhEmDashFallbackPipe],
+  imports: [TranslocoModule, DhEmDashFallbackPipe],
 })
 export class DhMeteringPointPrimaryMasterDataComponent {
   @Input() primaryMasterData?: PrimaryMasterData;

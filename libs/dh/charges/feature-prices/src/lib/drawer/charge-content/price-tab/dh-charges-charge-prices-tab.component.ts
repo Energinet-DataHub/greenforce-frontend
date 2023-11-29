@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf, CurrencyPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -55,8 +55,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   standalone: true,
   imports: [
+    NgIf,
+    CurrencyPipe,
     WATT_TABLE,
-    CommonModule,
     DhDrawerDatepickerComponent,
     WattIconComponent,
     WattButtonComponent,

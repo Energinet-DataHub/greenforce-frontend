@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
+
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { MatDividerModule } from '@angular/material/divider';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
@@ -24,7 +25,7 @@ import { WattExpansionComponent } from '@energinet-datahub/watt/expansion';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslocoModule, WattDatePipe, MatDividerModule, WattExpansionComponent],
+  imports: [NgIf, TranslocoModule, WattDatePipe, MatDividerModule, WattExpansionComponent],
   selector: 'dh-charge-details-header',
   styleUrls: ['./dh-charge-details-header.component.scss'],
   templateUrl: './dh-charge-details-header.component.html',
