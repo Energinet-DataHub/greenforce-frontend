@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 

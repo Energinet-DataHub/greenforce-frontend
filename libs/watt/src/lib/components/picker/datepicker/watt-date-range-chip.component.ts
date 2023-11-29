@@ -15,8 +15,10 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Injectable, Input, Output } from '@angular/core';
 import { NgIf } from '@angular/common';
+import { FormControl } from '@angular/forms';
+import { Component, EventEmitter, Injectable, Input, Output } from '@angular/core';
+
 import {
   DateRange,
   DefaultMatCalendarRangeStrategy,
@@ -29,7 +31,7 @@ import { WattDatePipe, WattRange } from '../../../utils/date';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 import { WattFieldComponent } from '../../field/watt-field.component';
-import { FormControl } from '@angular/forms';
+
 @Injectable()
 export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<Date> {
   override selectionFinished(date: Date, currentRange: DateRange<Date>): DateRange<Date> {
