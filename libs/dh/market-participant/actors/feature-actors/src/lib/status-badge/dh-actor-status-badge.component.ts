@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgSwitch, NgSwitchCase } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -37,7 +37,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, TranslocoModule, DhEmDashFallbackPipe, WattBadgeComponent],
+  imports: [NgSwitch, NgSwitchCase, TranslocoModule, DhEmDashFallbackPipe, WattBadgeComponent],
 })
 export class DhActorStatusBadgeComponent {
   @Input({ required: true }) status: ActorStatus | null | undefined = null;

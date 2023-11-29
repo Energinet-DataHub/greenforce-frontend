@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -60,7 +60,7 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
   styleUrls: ['./dh-message-archive-log-search-result.component.scss'],
   imports: [
     WattTableCellDirective,
-    CommonModule,
+    NgIf,
     TranslocoModule,
     RxLet,
     MatSortModule,

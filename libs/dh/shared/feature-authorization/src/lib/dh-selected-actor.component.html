@@ -21,7 +21,7 @@ limitations under the License.
     cdkOverlayOrigin
     #trigger="cdkOverlayOrigin"
   >
-    <watt-spinner class="selected-actor-container-spinner" *ngIf="isLoading"></watt-spinner>
+    <watt-spinner class="selected-actor-container-spinner" *ngIf="isLoading" />
     <ng-container *ngIf="!isLoading">
       <ng-container *rxLet="selectedActor$ as selectedActor">
         <div class="watt-label selected-organization-name-label">
@@ -65,11 +65,7 @@ limitations under the License.
                   {{ actor.actorName }}
                 </div>
               </div>
-              <watt-icon
-                class="actor-selected-icon"
-                name="checkmark"
-                *ngIf="actor.selected"
-              ></watt-icon>
+              <watt-icon class="actor-selected-icon" name="checkmark" *ngIf="actor.selected" />
             </div>
           </div>
         </div>

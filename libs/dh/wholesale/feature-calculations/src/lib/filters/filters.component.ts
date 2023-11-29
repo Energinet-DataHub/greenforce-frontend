@@ -23,7 +23,6 @@ import {
   Output,
   inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { Apollo } from 'apollo-angular';
@@ -51,7 +50,6 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     RxPush,
     TranslocoModule,
