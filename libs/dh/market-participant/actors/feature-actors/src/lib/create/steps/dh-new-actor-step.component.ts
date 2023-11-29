@@ -18,7 +18,6 @@ import { NgIf } from '@angular/common';
 import { Component, Input, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
-  EicFunction,
   EicFunctionType,
   GetGridAreasForCreateActorDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
