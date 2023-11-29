@@ -69,11 +69,7 @@ limitations under the License.
             [label]="transloco('periode')"
             formControlName="dateRange"
             [range]="true"
-          >
-            <watt-field-error *ngIf="searchForm.controls.dateRange.errors?.rangeRequired">
-              {{ transloco("invalidDate") }}
-            </watt-field-error>
-          </watt-datepicker>
+          />
 
           <watt-timepicker [label]="transloco('time')" formControlName="timeRange" [range]="true" />
 
