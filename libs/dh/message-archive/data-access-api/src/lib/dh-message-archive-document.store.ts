@@ -41,7 +41,7 @@ export class DhMessageArchiveDocumentStore extends ComponentStore<MessageArchive
     (
       trigger$: Observable<{
         id: string;
-        onSuccessFn: (id: string, data: Stream) => void;
+        onSuccessFn: (id: string, data: string) => void;
         onErrorFn: () => void;
       }>
     ) => {

@@ -127,10 +127,8 @@ export class DhMessageArchiveDrawerComponent implements OnInit {
     link.remove();
   }
 
-  private readonly onSuccesFn = async (id: string, data: Stream) => {
-    const blobPart = data as unknown as BlobPart;
-    const blob = new Blob([blobPart]);
-    this.documentContent = await new Response(blob).text();
+  private readonly onSuccesFn = async (id: string, data: string) => {
+    this.documentContent = data;
   };
 
   private readonly onErrorFn = () => {
