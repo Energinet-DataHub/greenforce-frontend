@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import {
   Component,
   inject,
@@ -66,7 +66,7 @@ type MarketRole = ResultOf<
   ],
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
     WATT_CARD,
     WattSpinnerComponent,
     WATT_TABLE,

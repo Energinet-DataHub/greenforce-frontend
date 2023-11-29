@@ -28,7 +28,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -77,11 +77,11 @@ interface UserRoleForm {
     provideComponentStore(DhAdminMarketRolePermissionsStore),
   ],
   imports: [
+    NgIf,
     WATT_MODAL,
     WattButtonComponent,
     TranslocoModule,
     WattIconComponent,
-    CommonModule,
     ReactiveFormsModule,
     WattDropdownComponent,
     WattFieldErrorComponent,

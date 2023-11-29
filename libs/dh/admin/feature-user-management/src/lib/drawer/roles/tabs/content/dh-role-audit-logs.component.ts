@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -59,7 +59,7 @@ import { UserRoleAuditLog } from '../../../../userRoleAuditLog';
     `,
   ],
   imports: [
-    CommonModule,
+    NgIf,
     RxLet,
     RxPush,
     TranslocoModule,
