@@ -5159,7 +5159,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public partial class ActorMarketRoleDto
     {
         [Newtonsoft.Json.JsonProperty("eicFunction", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string EicFunction { get; set; } = default!;
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public EicFunction EicFunction { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("gridAreas", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<ActorGridAreaDto> GridAreas { get; set; } = default!;
@@ -5402,29 +5403,32 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [System.Runtime.Serialization.EnumMember(Value = @"ImbalanceSettlementResponsible")]
         ImbalanceSettlementResponsible = 4,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"MeterOperator")]
+        MeterOperator = 5,
+
         [System.Runtime.Serialization.EnumMember(Value = @"MeteredDataAdministrator")]
-        MeteredDataAdministrator = 5,
+        MeteredDataAdministrator = 6,
 
         [System.Runtime.Serialization.EnumMember(Value = @"MeteredDataResponsible")]
-        MeteredDataResponsible = 6,
+        MeteredDataResponsible = 7,
 
         [System.Runtime.Serialization.EnumMember(Value = @"MeteringPointAdministrator")]
-        MeteringPointAdministrator = 7,
+        MeteringPointAdministrator = 8,
 
         [System.Runtime.Serialization.EnumMember(Value = @"SystemOperator")]
-        SystemOperator = 8,
+        SystemOperator = 9,
 
         [System.Runtime.Serialization.EnumMember(Value = @"DanishEnergyAgency")]
-        DanishEnergyAgency = 9,
+        DanishEnergyAgency = 10,
 
         [System.Runtime.Serialization.EnumMember(Value = @"DataHubAdministrator")]
-        DataHubAdministrator = 10,
+        DataHubAdministrator = 11,
 
         [System.Runtime.Serialization.EnumMember(Value = @"IndependentAggregator")]
-        IndependentAggregator = 11,
+        IndependentAggregator = 12,
 
         [System.Runtime.Serialization.EnumMember(Value = @"SerialEnergyTrader")]
-        SerialEnergyTrader = 12,
+        SerialEnergyTrader = 13,
 
     }
 
