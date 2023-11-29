@@ -29,9 +29,11 @@ import { Component, HostBinding, Input } from '@angular/core';
 })
 export class WattSpinnerComponent {
   @HostBinding('attr.role') role = 'progressbar';
+
   @HostBinding('style')
   get style(): string {
     return `--watt-spinner-diameter: ${this.diameter}px`;
   }
+
   @Input() diameter = 44;
 }
