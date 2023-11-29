@@ -19,7 +19,6 @@
       "title": "No results found",
       "message": "Try changing the search criteria"
     },
-    "fieldRequiredErrorText": "Field is required.",
     "navigation": {
       "next": "Next",
       "previous": "Previous"
@@ -1584,7 +1583,7 @@
         "cancel": "Cancel",
         "save": "Save",
         "validationErrors": {
-          "required": "{{ shared.fieldRequiredErrorText }}"
+          "required": "{{ shared.fieldValidation.required }}"
         }
       },
       "permissionsTable": {

@@ -68,6 +68,14 @@ limitations under the License.
       [previousButtonLabel]="t('steps.masterData.label')"
       [nextButtonLabel]="t('save')"
     >
+      <watt-field-error
+        class="permissions-error"
+        *ngIf="
+          (isSubmitted || selectedPermissions.touched) && selectedPermissions.hasError('required')
+        "
+      >
+        {{ "shared.fieldRequiredErrorText" | transloco }}
+      </watt-field-error>
       <ng-container *rxLet="permissions$ as permissions">
         <dh-permissions-table
           [permissions]="permissions"

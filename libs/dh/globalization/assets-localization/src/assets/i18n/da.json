@@ -19,7 +19,6 @@
       "title": "Ingen resultater fundet",
       "message": "Prøv at ændre dine søgeindstillinger"
     },
-    "fieldRequiredErrorText": "Feltet er påkrævet.",
     "navigation": {
       "next": "Næste",
       "previous": "Forrige"
@@ -1558,7 +1557,7 @@
         "cancel": "Fortryd",
         "save": "Gem",
         "validationErrors": {
-          "required": "{{ shared.fieldRequiredErrorText }}"
+          "required": "{{ shared.fieldValidation.required }}"
         }
       },
       "permissionsTable": {

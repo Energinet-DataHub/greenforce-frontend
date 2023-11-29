@@ -48,7 +48,10 @@ import { WattFieldIntlService } from './watt-field-intl.service';
       </div>
       <ng-content select="watt-field-hint" />
       <ng-content select="watt-field-error" />
-      <watt-field-error *ngIf="control?.errors?.['required']">{{ intl.required }}</watt-field-error>
+      <watt-field-error
+        *ngIf="control?.errors?.['required'] || control?.errors?.['rangeRequired']"
+        >{{ intl.required }}</watt-field-error
+      >
     </label>
   `,
 })
@@ -77,6 +80,7 @@ export class WattFieldComponent implements OnChanges {
   protected _isRequired = false;
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
     if (changes['control']) {
       this._isRequired = this.control?.hasValidator(Validators.required) ?? false;
     }

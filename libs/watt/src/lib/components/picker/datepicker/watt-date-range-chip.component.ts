@@ -29,7 +29,7 @@ import { WattDatePipe, WattRange } from '../../../utils/date';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 import { WattFieldComponent } from '../../field/watt-field.component';
-
+import { FormControl } from '@angular/forms';
 @Injectable()
 export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<Date> {
   override selectionFinished(date: Date, currentRange: DateRange<Date>): DateRange<Date> {
@@ -66,7 +66,7 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
   ],
   template: `
     <mat-date-range-picker #picker />
-    <watt-field [control]="null" [chipMode]="true">
+    <watt-field [control]="formControl" [chipMode]="true">
       <watt-menu-chip
         hasPopup="dialog"
         [disabled]="disabled"
@@ -105,5 +105,6 @@ export class WattDateRangeChipComponent {
   @Input() disabled = false;
   @Input() label?: string;
   @Input() value?: WattRange<Date>;
+  @Input({ required: true }) formControl!: FormControl;
   @Output() selectionChange = new EventEmitter<WattRange<Date> | null>();
 }

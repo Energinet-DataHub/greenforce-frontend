@@ -112,9 +112,6 @@ limitations under the License.
             [min]="minDate"
             [max]="maxDate"
           >
-            <watt-field-error *ngIf="formGroup.controls.dateRange.errors?.rangeRequired">
-              {{ t("create.period.required") }}
-            </watt-field-error>
             <watt-field-error
               *ngIf="
                 formGroup.controls.dateRange.errors?.invalidPeriod &&

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
@@ -23,6 +23,7 @@ import { WattDatePipe } from '../../../utils/date';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 import { WattFieldComponent } from '../../field/watt-field.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   standalone: true,
@@ -47,7 +48,7 @@ import { WattFieldComponent } from '../../field/watt-field.component';
   ],
   template: `
     <mat-datepicker #picker />
-    <watt-field [control]="null" [chipMode]="true">
+    <watt-field [control]="formControl" [chipMode]="true">
       <watt-menu-chip
         hasPopup="dialog"
         [disabled]="disabled"
@@ -76,5 +77,6 @@ export class WattDateChipComponent {
   @Input() disabled = false;
   @Input() label?: string;
   @Input() value?: string;
+  @Input({ required: true }) formControl!: FormControl;
   @Output() selectionChange = new EventEmitter<Date>();
 }
