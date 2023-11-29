@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -55,7 +54,6 @@ import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-fie
   ],
   providers: [DhAdminEditPermissionStore],
   imports: [
-    CommonModule,
     TranslocoModule,
     ReactiveFormsModule,
     RxPush,

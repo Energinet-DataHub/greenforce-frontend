@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import {
@@ -61,7 +61,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   providers: [DhMarketParticipantDataAccessApiStore, DhChargesDataAccessApiStore],
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
     FormsModule,
     RxPush,
     TranslocoModule,

@@ -19,7 +19,6 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
-import { CommonModule } from '@angular/common';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
@@ -33,7 +32,6 @@ import {
     WattCardComponent,
     WattDescriptionListComponent,
     TranslocoModule,
-    CommonModule,
     WattDescriptionListItemComponent,
   ],
 })

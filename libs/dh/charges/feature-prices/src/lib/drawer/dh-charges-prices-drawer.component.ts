@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf, NgClass } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -42,7 +42,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
+    NgClass,
     WATT_DRAWER,
     TranslocoModule,
     WattTabComponent,

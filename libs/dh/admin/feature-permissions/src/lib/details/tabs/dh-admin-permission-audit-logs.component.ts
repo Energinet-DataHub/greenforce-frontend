@@ -23,7 +23,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -50,7 +50,7 @@ import { PermissionAuditLog } from '../../permissionAuditLog';
   templateUrl: './dh-admin-permission-audit-logs.component.html',
   styleUrls: ['./dh-admin-permission-audit-logs.component.scss'],
   imports: [
-    CommonModule,
+    NgIf,
     RxLet,
     RxPush,
     TranslocoModule,

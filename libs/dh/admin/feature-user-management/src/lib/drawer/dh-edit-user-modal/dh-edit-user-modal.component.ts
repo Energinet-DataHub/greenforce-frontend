@@ -25,7 +25,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -46,7 +46,7 @@ import { dhDkPhoneNumberValidator } from '@energinet-datahub/dh/shared/ui-valida
   selector: 'dh-edit-user-modal',
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
     WATT_MODAL,
     WattButtonComponent,
     TranslocoModule,
