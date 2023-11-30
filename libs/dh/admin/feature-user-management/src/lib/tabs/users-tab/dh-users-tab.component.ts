@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
@@ -92,6 +92,7 @@ import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filte
   ],
   imports: [
     NgIf,
+    NgTemplateOutlet,
     RxLet,
     RxPush,
     TranslocoModule,
