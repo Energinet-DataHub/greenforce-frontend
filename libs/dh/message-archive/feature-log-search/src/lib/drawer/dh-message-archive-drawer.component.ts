@@ -15,7 +15,16 @@
  * limitations under the License.
  */
 import { NgIf, NgClass, DOCUMENT } from '@angular/common';
-import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { provideComponentStore } from '@ngrx/component-store';
 import { MatDividerModule } from '@angular/material/divider';
 import { RxPush } from '@rx-angular/template/push';
@@ -84,6 +93,8 @@ export class DhMessageArchiveDrawerComponent implements OnInit {
 
   @Input() actors: WattDropdownOptions | null = null;
 
+  @Output() closed = new EventEmitter<void>();
+
   message: ArchivedMessage | null = null;
   documentContent: string | null = null;
 
@@ -105,6 +116,7 @@ export class DhMessageArchiveDrawerComponent implements OnInit {
 
   onClose() {
     this.drawer.close();
+    this.closed.emit();
     this.message = null;
   }
 
