@@ -25,7 +25,7 @@ import {
   inject,
 } from '@angular/core';
 import { NgFor, NgTemplateOutlet } from '@angular/common';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
 
 import { WattTabComponent } from './watt-tab.component';
 

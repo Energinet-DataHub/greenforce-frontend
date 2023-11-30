@@ -40,6 +40,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
       mat-button
       [disabled]="disabled"
       [type]="type"
+      [color]="variant"
       [attr.form]="type === 'submit' ? formId : null"
     >
       <watt-spinner *ngIf="loading" [diameter]="18" />
