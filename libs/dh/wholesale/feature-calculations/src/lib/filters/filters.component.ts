@@ -144,7 +144,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
     )
   );
 
-  constructor() {
+  ngOnInit() {
     this._formGroup = new FormGroup<Filters>({
       executionTime: dhMakeFormControl(this.initial?.executionTime),
       period: dhMakeFormControl(this.initial?.period),
@@ -152,9 +152,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
       processTypes: dhMakeFormControl(this.initial?.processTypes),
       executionStates: dhMakeFormControl(this.initial?.executionStates),
     });
-  }
 
-  ngOnInit() {
     this._formGroup.valueChanges
       .pipe(debounceTime(500))
       .subscribe((value) => this.filter.emit(value));
