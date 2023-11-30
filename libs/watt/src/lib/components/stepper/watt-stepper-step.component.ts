@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MatStep } from '@angular/material/stepper';
 
 @Component({
@@ -26,7 +26,10 @@ import { MatStep } from '@angular/material/stepper';
 })
 export class WattStepperStepComponent extends MatStep {
   @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null = null;
-  @Input() public nextButtonLabel?: string;
-  @Input() public previousButtonLabel?: string;
-  @Input() public enabled = true;
+
+  @Input() nextButtonLabel?: string;
+  @Input() previousButtonLabel?: string;
+  @Input() enabled = true;
+
+  @Output() next = new EventEmitter<void>();
 }
