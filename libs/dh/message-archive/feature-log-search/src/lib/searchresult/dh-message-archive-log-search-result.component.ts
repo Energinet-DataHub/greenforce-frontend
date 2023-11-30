@@ -81,50 +81,40 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
 })
 export class DhMessageArchiveLogSearchResultComponent implements AfterViewInit, OnChanges {
   activeRow: ArchivedMessage | undefined;
+
+  columns: WattTableColumnDef<ArchivedMessage> = {
+    messageId: {
+      accessor: 'messageId',
+    },
+    documentType: {
+      accessor: 'documentType',
+    },
+    senderGln: {
+      accessor: 'senderGln',
+    },
+    receiverGln: {
+      accessor: 'receiverGln',
+    },
+    createdDate: {
+      accessor: 'createdDate',
+    },
+  };
+
+  readonly dataSource = new WattTableDataSource<ArchivedMessage>();
+
   @ViewChild(MatSort) matSort!: MatSort;
+
   @ViewChild(DhMessageArchiveDrawerComponent)
   messageDrawer!: DhMessageArchiveDrawerComponent;
+
   @Input() searchResult: Array<ArchivedMessage> = [];
-  @Output() showLogDownloadPage = new EventEmitter<ArchivedMessage>();
-  @Output() downloadLogFile = new EventEmitter<ArchivedMessage>();
   @Input() isSearching = false;
-
-  columns: WattTableColumnDef<ArchivedMessage>;
-
   @Input() hasSearchError = false;
   @Input() isInit = false;
   @Input() actors!: WattDropdownOptions;
 
-  readonly dataSource = new WattTableDataSource<ArchivedMessage>();
-
-  constructor() {
-    this.columns = {
-      messageId: {
-        accessor: 'messageId',
-      },
-      documentType: {
-        accessor: 'documentType',
-      },
-      senderGln: {
-        accessor: 'senderGln',
-      },
-      receiverGln: {
-        accessor: 'receiverGln',
-      },
-      createdDate: {
-        accessor: 'createdDate',
-      },
-    };
-  }
-
-  onRowClick(row: ArchivedMessage) {
-    this.activeRow = row;
-    this.messageDrawer.open(row);
-  }
-
-  onScroll() {
-    console.log('get more data');
-  }
+  @Output() showLogDownloadPage = new EventEmitter<ArchivedMessage>();
+  @Output() downloadLogFile = new EventEmitter<ArchivedMessage>();
 
   ngOnChanges() {
     this.dataSource.data = this.searchResult;
@@ -133,5 +123,14 @@ export class DhMessageArchiveLogSearchResultComponent implements AfterViewInit, 
   ngAfterViewInit() {
     this.dataSource.sort = this.matSort;
     this.dataSource.sortingDataAccessor = ToLowerSort();
+  }
+
+  onRowClick(row: ArchivedMessage) {
+    this.activeRow = row;
+    this.messageDrawer.open(row);
+  }
+
+  onClosed(): void {
+    this.activeRow = undefined;
   }
 }
