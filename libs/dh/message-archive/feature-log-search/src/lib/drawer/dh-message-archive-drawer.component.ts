@@ -24,12 +24,14 @@ import {
   Output,
   ViewChild,
   inject,
+  signal,
 } from '@angular/core';
 import { provideComponentStore } from '@ngrx/component-store';
 import { MatDividerModule } from '@angular/material/divider';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -51,7 +53,6 @@ import {
 import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
 import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -96,7 +97,7 @@ export class DhMessageArchiveDrawerComponent implements OnInit {
   @Output() closed = new EventEmitter<void>();
 
   message: ArchivedMessage | null = null;
-  documentContent: string | null = null;
+  documentContent = signal<string | null>(null);
 
   isLoading$ = this._apiStore.isLoading$;
 
@@ -107,6 +108,8 @@ export class DhMessageArchiveDrawerComponent implements OnInit {
   open(message: ArchivedMessage) {
     this.message = null;
     this.message = message;
+    this.documentContent.set(null);
+
     this.drawer.open();
 
     if (this.message) {
@@ -129,7 +132,7 @@ export class DhMessageArchiveDrawerComponent implements OnInit {
   }
 
   downloadDocument() {
-    const blobPart = this.documentContent as unknown as BlobPart;
+    const blobPart = this.documentContent() as unknown as BlobPart;
     const blob = new Blob([blobPart]);
     const url = window.URL.createObjectURL(blob);
     const link = this._document.createElement('a');
@@ -140,7 +143,7 @@ export class DhMessageArchiveDrawerComponent implements OnInit {
   }
 
   private readonly onSuccesFn = async (id: string, data: string) => {
-    this.documentContent = data;
+    this.documentContent.set(data);
   };
 
   private readonly onErrorFn = () => {
