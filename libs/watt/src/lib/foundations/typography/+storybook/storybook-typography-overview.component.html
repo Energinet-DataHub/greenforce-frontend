@@ -54,8 +54,11 @@ limitations under the License.
 </section>
 
 <section class="small-screen">
-  <h2>SMALL SCREEN - Usage</h2>
   <table mat-table [dataSource]="dataSourceSmall" style="width: 100%">
+    <caption>
+      <h3>SMALL SCREEN - Usage</h3>
+    </caption>
+
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -98,8 +101,11 @@ limitations under the License.
 </section>
 
 <section>
-  <h2>LARGE SCREEN - Usage (differences)</h2>
   <table mat-table [dataSource]="dataSourceLarge" style="width: 100%">
+    <caption>
+      <h3>LARGE SCREEN - Usage (differences)</h3>
+    </caption>
+
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
