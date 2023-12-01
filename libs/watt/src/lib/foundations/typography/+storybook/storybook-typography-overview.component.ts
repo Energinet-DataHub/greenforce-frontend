@@ -15,10 +15,9 @@
  * limitations under the License.
  */
 import { Component, ViewEncapsulation } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
 
 import { typographyHtmlSnippets } from './shared/typography-html-snippets';
-import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
 
 interface Typography {
   html: string;
@@ -167,7 +166,7 @@ const typeScaleLarge: Typography[] = [
   styleUrls: ['./storybook-typography-overview.component.scss'],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [MatCardModule, MatTableModule],
+  imports: [MatTableModule],
 })
 export class StorybookTypographyOverviewComponent {
   /**
