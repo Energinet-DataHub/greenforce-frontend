@@ -16,7 +16,7 @@ Run `yarn nx test watt`.
 
 ## Creating components
 
-It is recommended to run `yarn nx workspace-tools:watt-component` to generate the files needed for new components in the library (it can also be executed from the “generate” command in Nx Console extension).
+It is recommended to run `yarn nx g workspace-tools:watt-component` to generate the files needed for new components in the library (it can also be executed from the “generate” command in Nx Console extension).
 
 _When asked for a component name, any "casing" can be used (e.g. `my-button`, `MyButton`), but prefer the former (kebab-case) for now._
 

@@ -14,6 +14,15 @@
       },
       "x-prompt": "What is the name of the domain?"
     },
+    "product": {
+      "type": "string",
+      "description": "To which product does the domain belong to?",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "To which product does the domain belong to?"
+    },
     "name": {
       "type": "string",
       "description": "What is the name of the first feature under the new domain?",

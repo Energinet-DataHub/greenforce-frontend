@@ -15,34 +15,39 @@
  * limitations under the License.
  */
 import { installPackagesTask, Tree } from '@nx/devkit';
-import dhLibraryGenerator, { LibraryType } from '../dh-library-generator';
+import libraryGenerator, { LibraryType } from '../library-generator';
 
 interface Schema {
   domain: string;
   name: string;
+  product: string;
 }
 
 export default async function (tree: Tree, schema: Schema) {
-  await dhLibraryGenerator(tree, {
+  await libraryGenerator(tree, {
     domain: schema.domain,
     libraryType: LibraryType.feature,
     name: schema.name,
+    product: schema.product,
   });
 
-  await dhLibraryGenerator(tree, {
+  await libraryGenerator(tree, {
     domain: schema.domain,
     libraryType: LibraryType.routing,
+    product: schema.product,
   });
 
-  await dhLibraryGenerator(tree, {
+  await libraryGenerator(tree, {
     domain: schema.domain,
     libraryType: LibraryType.dataAccess,
     name: 'api',
+    product: schema.product,
   });
 
-  await dhLibraryGenerator(tree, {
+  await libraryGenerator(tree, {
     domain: schema.domain,
     libraryType: LibraryType.shell,
+    product: schema.product,
   });
 
   return () => {

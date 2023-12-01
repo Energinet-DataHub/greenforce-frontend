@@ -1,15 +1,5 @@
 {
   "generators": {
-    "dh-domain-generator": {
-      "implementation": "./src/generators/dh-domain-generator",
-      "schema": "./src/generators/dh-domain-generator/schema.json",
-      "description": "Generate an entire new domain that's going to be used in DataHub."
-    },
-    "dh-library-generator": {
-      "implementation": "./src/generators/dh-library-generator",
-      "schema": "./src/generators/dh-library-generator/schema.json",
-      "description": "Generate a library that is going to be used in DataHub."
-    },
     "watt-component": {
       "implementation": "./src/generators/watt-component",
       "schema": "./src/generators/watt-component/schema.json",

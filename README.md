@@ -118,11 +118,11 @@ that takes care of all the manual work and avoids common pitfalls.
 _Note: Make sure to read the [Workspace](#workspace) section beforehand to understand
 which library type to generate. **It is currently not possible to generate
 libraries of type `assets` and `styles`**._
-
+$
 To generate a new library, run the below command\* and follow the instructions:
 
 ```sh
-yarn nx workspace-generator dh-library-generator
+yarn nx g workspace-tools:library-generator
 ```
 
 While rarely needed, it is also possible to generate an entirely new domain.
@@ -130,7 +130,7 @@ Running the following command\* will create a new domain with
 `data-access-api`, `feature`, `routing` and `shell` libraries included:
 
 ```sh
-yarn nx workspace-generator dh-domain-generator
+yarn nx g workspace-tools:domain-generator
 ```
 
 > Also available in [Nx Console](https://nx.dev/core-features/integrate-with-editors).

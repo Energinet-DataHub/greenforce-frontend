@@ -5,6 +5,20 @@
   "description": "Generate a library that is going to be used in DataHub.",
   "type": "object",
   "properties": {
+    "product": {
+      "type": "string",
+      "description": "To which product does the library belong to?",
+      "enum": [
+        "eo",
+        "dh",
+        "eov"
+      ],
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "To which product does the library belong to?"
+    },
     "domain": {
       "type": "string",
       "description": "To which domain does the library belong to?",

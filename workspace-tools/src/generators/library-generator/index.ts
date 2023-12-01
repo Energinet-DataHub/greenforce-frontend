@@ -40,30 +40,34 @@ export enum LibraryType {
   util = 'util',
 }
 
-export interface DhLibrarySchema {
+export interface LibrarySchema {
   domain: string;
   libraryType: LibraryType;
   name?: string;
+  product: string;
 }
 
-export default async function (tree: Tree, schema: DhLibrarySchema) {
+export default async function (tree: Tree, schema: LibrarySchema) {
   validateParams(schema);
 
   const { fileName: libType, className: libTypeClassName } = names(schema.libraryType);
   const { fileName: libName, className: libClassName } = names(schema.name ?? '');
   const { fileName: libDomain, className: libDomainClassName } = names(schema.domain);
+  const { fileName: libProduct, className: libProductClassName } = names(schema.product);
 
   const libPath = getFinalLibraryPath({
     libDomain,
     libType: schema.libraryType,
     libName,
+    libProduct,
   });
 
   await libraryGenerator(tree, {
     name: getFinalLibraryName(schema.libraryType, libName),
-    directory: `dh/${libDomain}`,
-    tags: `product:dh, domain:${libDomain}, type:${libType}`,
-    prefix: 'dh',
+    directory: `${libProduct}/${libDomain}`,
+    tags: `product:${libProduct}, domain:${libDomain}, type:${libType}`,
+    prefix: `${libProduct}`,
+    importPath: `@energinet-datahub/${libProduct}/${libDomain}/${libName !== '' ? libName : libType}`,
     strict: true,
     skipModule: [
       LibraryType.dataAccess,
@@ -72,6 +76,7 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
       LibraryType.environments,
       LibraryType.routing,
       LibraryType.testUtil,
+      LibraryType.shell,
     ].includes(schema.libraryType),
   });
 
@@ -90,14 +95,16 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
       libType,
       libName,
       libDomain,
-      className: `${libDomainClassName}${libTypeClassName}${libClassName}`,
+      className: `${libProductClassName}${libDomainClassName}${libTypeClassName}${libClassName}`,
+      libProduct,
       stateInterface: libDomainClassName,
     });
   } else if (libType === LibraryType.shell) {
     addShellSpecificFiles(tree, {
       libPath,
       libDomain,
-      className: libDomainClassName,
+      className: `${libProduct}${libDomainClassName}`,
+      libProduct,
     });
   } else if (libType === LibraryType.routing) {
     // Necessary step since the libraryGenerator does not support
@@ -106,14 +113,15 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
     // https://github.com/nrwl/nx/pull/10167#issuecomment-1126146451
     await angularMoveGenerator(tree, {
       updateImportPath: true,
-      importPath: `@energinet-datahub/dh/${libDomain}/routing`,
-      projectName: `dh-${libDomain}-routing-tmpl`,
-      destination: `dh/${libDomain}/routing`,
+      importPath: `@energinet-datahub/${libProduct}/${libDomain}/routing`,
+      projectName: `${libProduct}-${libDomain}-routing-tmpl`,
+      destination: `${libProduct}/${libDomain}/routing`,
     });
 
     addRoutingSpecificFiles(tree, {
       libPath: libPath.replace('-tmpl', ''),
       libDomain,
+      libProduct,
       className: libDomainClassName,
     });
   }
@@ -129,14 +137,15 @@ function getFinalLibraryPath(options: {
   libDomain: string;
   libType: LibraryType;
   libName: string;
+  libProduct: string;
 }): string {
   switch (options.libType) {
     case LibraryType.routing:
-      return `./libs/dh/${options.libDomain}/routing-tmpl`;
+      return `./libs/${options.libProduct}/${options.libDomain}/routing-tmpl`;
     case LibraryType.domain:
     case LibraryType.environments:
     case LibraryType.shell:
-      return `./libs/dh/${options.libDomain}/${options.libType}`;
+      return `./libs/${options.libProduct}/${options.libDomain}/${options.libType}`;
     case LibraryType.configuration:
     case LibraryType.dataAccess:
     case LibraryType.e2eUtil:
@@ -144,7 +153,7 @@ function getFinalLibraryPath(options: {
     case LibraryType.testUtil:
     case LibraryType.ui:
     case LibraryType.util:
-      return `./libs/dh/${options.libDomain}/${options.libType}-${options.libName}`;
+      return `./libs/${options.libProduct}/${options.libDomain}/${options.libType}-${options.libName}`;
   }
 }
 
@@ -194,6 +203,7 @@ function addDataAccessSpecificFiles(
     className: string;
     libType: string;
     libName: string;
+    libProduct: string;
     stateInterface: string;
   }
 ) {
@@ -207,6 +217,7 @@ function addShellSpecificFiles(
     libPath: string;
     libDomain: string;
     className: string;
+    libProduct: string;
   }
 ) {
   replaceShellModule(tree, options);
@@ -217,7 +228,7 @@ function replaceShellModule(
   options: {
     libPath: string;
     libDomain: string;
-    className: string;
+    libProduct: string;
   }
 ) {
   generateFiles(
@@ -227,7 +238,7 @@ function replaceShellModule(
     {
       tmpl: '',
       domain: options.libDomain,
-      className: options.className,
+      product: options.libProduct,
     }
   );
 }
@@ -268,10 +279,11 @@ function exposeEmptyStoreFromLibrary(
     libDomain: string;
     libType: string;
     libName: string;
+    libProduct: string;
   }
 ) {
   const indexPath = `${options.libPath}/src/index.ts`;
-  const storeFileName = `dh-${options.libDomain}-${options.libType}-${options.libName}.store`;
+  const storeFileName = `${options.libProduct}-${options.libDomain}-${options.libType}-${options.libName}.store`;
   const content = `export * from './lib/${storeFileName}';\n`;
 
   tree.write(indexPath, content);
@@ -282,6 +294,7 @@ function addRoutingSpecificFiles(
   options: {
     libPath: string;
     libDomain: string;
+    libProduct: string;
     className: string;
   }
 ) {
@@ -294,6 +307,7 @@ function generateConstantFile(
   options: {
     libPath: string;
     libDomain: string;
+    libProduct: string;
     className: string;
   }
 ) {
@@ -314,11 +328,12 @@ function exposeConstantFromLibrary(
   options: {
     libPath: string;
     libDomain: string;
+    libProduct: string;
     className: string;
   }
 ) {
   const indexPath = `${options.libPath}/src/index.ts`;
-  const pathFileName = `dh-${options.libDomain}-path`;
+  const pathFileName = `${options.libProduct}-${options.libDomain}-path`;
   const content = `export * from './lib/${pathFileName}';\n`;
 
   tree.write(indexPath, content);
@@ -361,7 +376,7 @@ function updateTestSetupFile(
   );
 }
 
-function validateParams(schema: DhLibrarySchema) {
+function validateParams(schema: LibrarySchema) {
   if (!schema.name) return;
   switch (schema.libraryType) {
     case LibraryType.routing:
