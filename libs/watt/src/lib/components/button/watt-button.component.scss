@@ -56,17 +56,6 @@ watt-button {
   display: inline-block;
 
   &.watt-button--primary {
-    color: var(--watt-color-primary-contrast);
-
-    &:focus-visible {
-      @include primary-focus;
-    }
-
-    &:hover,
-    &:focus-visible {
-      @include primary-hover;
-    }
-
     &.watt-button--disabled .mat-mdc-button.mat-primary {
       background-color: transparent;
       color: var(--watt-color-neutral-grey-500);
@@ -77,21 +66,24 @@ watt-button {
     }
 
     .mat-mdc-button.mat-primary {
+      color: var(--watt-color-primary-contrast);
       background-color: var(--watt-color-primary);
       --mdc-text-button-label-text-color: var(--watt-color-primary-contrast);
+      --mat-mdc-button-persistent-ripple-color: var(--watt-color-primary);
+      --mat-mdc-button-ripple-color: var(--watt-color-primary);
+
+      &:focus-visible {
+        @include primary-focus;
+      }
+
+      &:hover,
+      &:focus-visible {
+        @include primary-hover;
+      }
     }
   }
 
   &.watt-button--secondary {
-    &:focus-visible {
-      @include secondary-focus;
-    }
-
-    &:hover,
-    &:focus-visible {
-      @include secondary-hover;
-    }
-
     &.watt-button--disabled .mat-mdc-button.mat-secondary {
       background-color: transparent;
       border-color: var(--watt-color-neutral-grey-300);
@@ -101,19 +93,19 @@ watt-button {
     .mat-mdc-button.mat-secondary {
       border: 1px solid var(--watt-color-primary);
       color: var(--watt-color-primary);
+
+      &:focus-visible {
+        @include secondary-focus;
+      }
+
+      &:hover,
+      &:focus-visible {
+        @include secondary-hover;
+      }
     }
   }
 
   &.watt-button--text {
-    &:focus-visible {
-      @include text-focus;
-    }
-
-    &:hover,
-    &:focus-visible {
-      @include text-hover;
-    }
-
     &.watt-button--disabled .mat-mdc-button.mat-text {
       background-color: transparent;
       color: var(--watt-color-neutral-grey-500);
@@ -122,23 +114,19 @@ watt-button {
     .mat-mdc-button.mat-text {
       color: var(--watt-color-primary);
       outline: 2px solid transparent;
+
+      &:focus-visible {
+        @include text-focus;
+      }
+
+      &:hover,
+      &:focus-visible {
+        @include text-hover;
+      }
     }
   }
 
   &.watt-button--icon {
-    &:focus-visible {
-      @include icon-focus;
-    }
-
-    &:hover,
-    &:focus-visible {
-      @include icon-hover;
-    }
-
-    &.mat-button {
-      min-width: 44px;
-    }
-
     &.watt-button--disabled .mat-mdc-button.mat-icon {
       background-color: transparent;
       color: var(--watt-color-neutral-grey-500);
@@ -147,6 +135,19 @@ watt-button {
     .mat-mdc-button.mat-icon {
       color: var(--watt-color-primary);
       @include watt.space-inset-s;
+
+      &:focus-visible {
+        @include icon-focus;
+      }
+
+      &:hover,
+      &:focus-visible {
+        @include icon-hover;
+      }
+
+      &.mat-button {
+        min-width: 44px;
+      }
     }
   }
 
