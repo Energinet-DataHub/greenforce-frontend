@@ -1,5 +1,5 @@
 {
-  "apiBase": "/api",
+  "apiBase": "https://eo-u-1919v3tainones.westeurope.cloudapp.azure.com/api",
   "apiVersions": {
     "claim-automation": "20230101",
     "cvr": "20230101",
