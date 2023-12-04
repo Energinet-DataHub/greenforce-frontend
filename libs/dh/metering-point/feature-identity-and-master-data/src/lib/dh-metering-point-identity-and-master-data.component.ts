@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RxLet } from '@rx-angular/template/let';
 
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
@@ -29,7 +28,6 @@ import { DhSecondaryMasterDataComponent } from './secondary-master-data/dh-secon
   templateUrl: './dh-metering-point-identity-and-master-data.template.html',
   standalone: true,
   imports: [
-    CommonModule,
     RxLet,
     DhMeteringPointIdentityComponent,
     DhMeteringPointPrimaryMasterDataComponent,

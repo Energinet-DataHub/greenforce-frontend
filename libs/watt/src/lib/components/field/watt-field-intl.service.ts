@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "../watt-button.component.scss" as button;
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
-:host {
-  & > mat-card > .content-grid {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 1rem;
-  }
+@Injectable({ providedIn: 'root' })
+export class WattFieldIntlService {
+  readonly changes: Subject<void> = new Subject<void>();
+  required = 'Field is required';
 }

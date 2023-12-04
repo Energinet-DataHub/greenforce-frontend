@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -30,7 +30,7 @@ import { connectionStateToBadgeType } from './connection-state-to-badge-type';
     <watt-badge *transloco="let t" [type]="badgeType">{{ t(translationKey) }}</watt-badge>
   </ng-container>`,
   standalone: true,
-  imports: [CommonModule, TranslocoModule, WattBadgeComponent],
+  imports: [NgIf, TranslocoModule, WattBadgeComponent],
 })
 export class DhStatusBadgeComponent {
   translationKey = '';

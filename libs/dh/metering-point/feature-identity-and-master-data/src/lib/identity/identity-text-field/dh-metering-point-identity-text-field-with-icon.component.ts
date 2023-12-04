@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf, NgStyle } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { WattIcon, WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -32,7 +32,7 @@ import { WattIcon, WattIconComponent } from '@energinet-datahub/watt/icon';
     </span>
 
     <span>{{ text }}</span>`,
-  imports: [CommonModule, WattIconComponent],
+  imports: [NgIf, NgStyle, WattIconComponent],
 })
 export class DhMeteringPointIdentityTextFieldWithIconComponent {
   @Input() iconName?: WattIcon;

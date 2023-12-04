@@ -16,11 +16,11 @@
  */
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RxPush } from '@rx-angular/template/push';
 
 import { ChargeTypes, ValidityOptions } from '@energinet-datahub/dh/charges/domain';
-
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -28,20 +28,17 @@ import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTextFieldTDComponent } from '@energinet-datahub/watt/text-field';
-
-import { RxPush } from '@rx-angular/template/push';
-import { DhChargesPricesResultComponent } from './search-result/dh-charges-prices-result.component';
 import {
   DhChargesDataAccessApiStore,
   DhMarketParticipantDataAccessApiStore,
 } from '@energinet-datahub/dh/charges/data-access-api';
 import { ChargeSearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { DhChargesPricesResultComponent } from './search-result/dh-charges-prices-result.component';
 
 @Component({
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     RxPush,
     TranslocoModule,

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 
 interface Scale {
@@ -58,7 +57,7 @@ const spacingScales: Scale[] = [
   templateUrl: './storybook-spacing-overview.component.html',
   styleUrls: ['./storybook-spacing-overview.component.scss'],
   standalone: true,
-  imports: [MatCardModule, MatTableModule],
+  imports: [MatTableModule],
 })
 export class StorybookSpacingOverviewComponent {
   /**

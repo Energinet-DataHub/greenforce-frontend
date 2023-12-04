@@ -19,10 +19,12 @@
       "title": "No results found",
       "message": "Try changing the search criteria"
     },
-    "fieldRequiredErrorText": "Field is required.",
     "navigation": {
       "next": "Next",
       "previous": "Previous"
+    },
+    "fieldValidation": {
+      "required": "Field is required"
     },
     "paginator": {
       "itemsPerPageLabel": "Results per page",
@@ -552,6 +554,8 @@
         "cvrInvalid": "Invalid CVR number",
         "cvrNumber": "CVR-Nr.",
         "country": "Country",
+        "phoneHint": "Phone number format +45 12345678",
+        "glnOrEicHint": "GLN is 13 digits and EIC is 16 digits",
         "counties": {
           "DK": "Denmark",
           "SE": "Sweden",
@@ -730,6 +734,7 @@
         "departmentPhone": "Phone Number",
         "required": "Field is required",
         "invalidEmail": "Invalid email",
+        "phoneInvalid": "Phone number format +45 12345678",
         "cancel": "Cancel",
         "save": "Save changes",
         "updateRequest": {
@@ -816,6 +821,7 @@
       "MeteredDataAdministrator": "Metered data administrator",
       "MeteredDataResponsible": "Metered data responsible",
       "MeteringPointAdministrator": "Metering point administrator",
+      "MeterOperator": "Meter Operator",
       "SystemOperator": "System operator",
       "DanishEnergyAgency": "Energistyrelsen",
       "DataHubAdministrator": "DataHub systemadministrator",
@@ -832,6 +838,7 @@
       "MeteredDataAdministrator": "A party responsible for storing and distributing validated measured data.",
       "MeteredDataResponsible": "A party responsible for the establishment and validation of measured data based on the collected data received from the Metered Data Collector. The party is responsible for the history of metered data for a Metering Point.",
       "MeteringPointAdministrator": "A party responsible for administrating and making available the Metering Point characteristics, including registering the parties linked to the Metering Point.",
+      "MeterOperator": "Is used for delegation of messages in and out of DataHub",
       "SystemOperator": " ",
       "DanishEnergyAgency": " ",
       "DataHubAdministrator": " ",
@@ -1578,7 +1585,7 @@
         "cancel": "Cancel",
         "save": "Save",
         "validationErrors": {
-          "required": "{{ shared.fieldRequiredErrorText }}"
+          "required": "{{ shared.fieldValidation.required }}"
         }
       },
       "permissionsTable": {

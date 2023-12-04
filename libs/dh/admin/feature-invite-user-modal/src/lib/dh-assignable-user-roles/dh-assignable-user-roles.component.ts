@@ -14,27 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider';
+import { RxLet } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { TranslocoModule } from '@ngneat/transloco';
+import { takeUntil } from 'rxjs';
+
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { DhAdminAssignableUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
-import { FormsModule } from '@angular/forms';
-import { RxLet } from '@rx-angular/template/let';
-import { RxPush } from '@rx-angular/template/push';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { TranslocoModule } from '@ngneat/transloco';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { MatDividerModule } from '@angular/material/divider';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'dh-assignable-user-roles',
   standalone: true,
   imports: [
-    CommonModule,
+    NgTemplateOutlet,
+    NgIf,
     WattCheckboxComponent,
     FormsModule,
     RxLet,

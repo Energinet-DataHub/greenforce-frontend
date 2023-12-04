@@ -130,6 +130,8 @@ export class DhWholesaleRequestCalculationComponent {
   maxDate = subDays(new Date(), 5);
   minDate = subYears(new Date(), 3);
 
+  isLoading = false;
+
   form = this._fb.group<FormType>({
     processType: this._fb.control(null, Validators.required),
     period: this._fb.control({ start: null, end: null }, [
@@ -279,7 +281,11 @@ export class DhWholesaleRequestCalculationComponent {
         takeUntilDestroyed(this._destroyRef),
         catchError(() => of(null))
       )
-      .subscribe((res) => this.handleResponse(res));
+      .subscribe((res) => {
+        this.isLoading = res?.loading ?? false;
+
+        this.handleResponse(res);
+      });
   }
 
   private getExcludedMeterpointTypes(selectedEicFunction: EicFunction | null | undefined) {
