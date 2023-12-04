@@ -17,17 +17,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
   inject,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
-import { Subscription, debounceTime } from 'rxjs';
+import { debounceTime } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
@@ -109,8 +110,8 @@ type Form = FormGroup<{
     </form>
   `,
 })
-export class DhActorsFiltersComponent implements OnInit, OnDestroy {
-  private formGroupSubscription?: Subscription;
+export class DhActorsFiltersComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
 
   @Input({ required: true }) initial!: ActorsFilters;
   @Output() filter = new EventEmitter<ActorsFilters>();
@@ -135,12 +136,8 @@ export class DhActorsFiltersComponent implements OnInit, OnDestroy {
       marketRoles: dhMakeFormControl<EicFunction[]>(this.initial.marketRoles),
     });
 
-    this.formGroupSubscription = this.formGroup.valueChanges
-      .pipe(debounceTime(250))
+    this.formGroup.valueChanges
+      .pipe(debounceTime(250), takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => this.filter.emit(value as ActorsFilters));
-  }
-
-  ngOnDestroy() {
-    this.formGroupSubscription?.unsubscribe();
   }
 }
