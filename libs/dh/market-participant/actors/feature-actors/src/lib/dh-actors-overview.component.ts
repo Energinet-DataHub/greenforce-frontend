@@ -115,7 +115,7 @@ export class DhActorsOverviewComponent implements OnInit {
         next: (result) => {
           this.isLoading = result.loading;
 
-          this.tableDataSource.data = result.data?.actors;
+          this.tableDataSource.data = result.data?.actors ?? [];
         },
         error: () => {
           this.hasError = true;
