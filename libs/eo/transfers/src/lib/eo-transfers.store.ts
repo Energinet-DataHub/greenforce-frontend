@@ -17,14 +17,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, of, exhaustMap, switchMap, tap, throwError, withLatestFrom } from 'rxjs';
+import { Observable, firstValueFrom, of, switchMap, tap, throwError, withLatestFrom } from 'rxjs';
 import { fromUnixTime } from 'date-fns';
 
 import {
   EoListedTransfer,
+  EoTransferAgreementProposal,
   EoTransferAgreementsHistory,
   EoTransfersService,
 } from './eo-transfers.service';
+import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 
 interface EoTransfersState {
   loadingTransferAgreements: boolean;
@@ -64,12 +66,6 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   );
   readonly historyOfSelectedTransferLoading$ = this.select(
     (state) => state.historyOfSelectedTransferLoading
-  );
-
-  readonly walletDepositEndpoint$ = this.select((state) => state.walletDepositEndpoint);
-  readonly walletDepositEndpointError$ = this.select((state) => state.walletDepositEndpointError);
-  readonly walletDepositEndpointLoading$ = this.select(
-    (state) => state.walletDepositEndpointLoading
   );
 
   readonly setSelectedTransfer = this.updater(
@@ -112,8 +108,13 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
           this.patchState({ loadingTransferAgreements: false });
         },
         (error: HttpErrorResponse) => {
-          this.setError(error);
-          this.patchState({ loadingTransferAgreements: false });
+          if(error.status === 404) {
+            this.setTransfers([]);
+            this.patchState({ loadingTransferAgreements: false });
+          } else {
+            this.setError(error);
+            this.patchState({ loadingTransferAgreements: false });
+          }
         }
       )
     );
@@ -132,7 +133,7 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
         this.service.getHistory(id).pipe(
           tapResponse(
             (response) => {
-              this.setHistoryOfSelectedTransfer(response?.result ?? []);
+              this.setHistoryOfSelectedTransfer(response ?? []);
             },
             (error: HttpErrorResponse) => {
               this.setHistoryOfSelectedTransferError(error);
@@ -180,32 +181,11 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
     }
   );
 
-  readonly createWalletDepositEndpoint = this.effect<void>((trigger$) =>
-    trigger$.pipe(
-      exhaustMap(() => {
-        this.patchState({
-          walletDepositEndpointLoading: true,
-          walletDepositEndpoint: undefined,
-          walletDepositEndpointError: null,
-        });
-        return this.service.createWalletDepositEndpoint().pipe(
-          tapResponse(
-            (response) => {
-              this.patchState({
-                walletDepositEndpoint: response.result,
-                walletDepositEndpointLoading: false,
-              });
-            },
-            (error: HttpErrorResponse) => {
-              this.patchState({
-                walletDepositEndpointError: error,
-                walletDepositEndpointLoading: false,
-              });
-            }
-          )
-        );
-      })
-    )
+  readonly removeTransfer = this.updater(
+    (state, proposalId: string): EoTransfersState => ({
+      ...state,
+      transfers: state.transfers.filter((transfer) => transfer.id !== proposalId),
+    })
   );
 
   private readonly setTransfers = this.updater(
@@ -298,7 +278,7 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
     );
   };
 
-  constructor(private service: EoTransfersService) {
+  constructor(private service: EoTransfersService, private authStore: EoAuthStore) {
     super({
       loadingTransferAgreements: false,
       transfers: [],
@@ -315,5 +295,16 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
 
   addTransfer(transfer: EoListedTransfer) {
     this.addSingleTransfer(transfer);
+  }
+
+  async addTransferProposal(proposal: EoTransferAgreementProposal) {
+    const tin = await firstValueFrom(this.authStore.getTin$) || '';
+    this.addSingleTransfer({
+      ...proposal,
+      startDate: proposal.startDate / 1000,
+      endDate: proposal.endDate ? proposal.endDate / 1000 : null,
+      senderName: proposal.senderCompanyName,
+      receiverTin: proposal.receiverTin !== null ? proposal.receiverTin : tin,
+    });
   }
 }

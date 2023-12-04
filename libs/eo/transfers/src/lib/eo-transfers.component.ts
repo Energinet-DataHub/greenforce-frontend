@@ -19,7 +19,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
   OnInit,
+  ViewChild,
   inject,
   signal,
 } from '@angular/core';
@@ -28,13 +30,15 @@ import { tap } from 'rxjs';
 
 import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoTransfersStore } from './eo-transfers.store';
 import { EoTransfersTableComponent } from './eo-transfers-table.component';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EoTransfersService } from './eo-transfers.service';
+import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.service';
+import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-proposal.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,11 +52,12 @@ import { EoTransfersService } from './eo-transfers.service';
     EoBetaMessageComponent,
     WattIconComponent,
     VaterStackComponent,
+    EoTransfersRespondProposalComponent,
   ],
   standalone: true,
   template: `
     <eo-popup-message *ngIf="error$ | push" />
-    <eo-eo-beta-message />
+
     <watt-card class="watt-space-stack-m">
       <eo-transfers-table
         [transfers]="transfers$ | push"
@@ -69,13 +74,23 @@ import { EoTransfersService } from './eo-transfers.service';
       </p>
       <small>Once we resolve the issue, the outstanding transfers will update automatically.</small>
     </vater-stack>
+
+    <!-- Respond proposal modal -->
+    <eo-transfers-repsond-proposal [proposalId]="proposalId" (accepted)="onAcceptedProposal($event)" />
   `,
 })
 export class EoTransfersComponent implements OnInit {
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('respond-proposal') proposalId!: string;
+
+  @ViewChild(EoTransfersRespondProposalComponent, { static: true })
+  respondProposal!: EoTransfersRespondProposalComponent;
+
   protected store = inject(EoTransfersStore);
   protected showAutomationError = signal<boolean>(false);
   private transfersService = inject(EoTransfersService);
   private cd = inject(ChangeDetectorRef);
+  private toastService = inject(WattToastService);
 
   error$ = this.store.error$;
   loading$ = this.store.loadingTransferAgreements$.pipe(
@@ -89,6 +104,26 @@ export class EoTransfersComponent implements OnInit {
   ngOnInit(): void {
     this.store.getTransfers();
     this.setShowAutomationError();
+
+    if (this.proposalId) {
+      this.respondProposal.open();
+    }
+  }
+
+  onAcceptedProposal(proposal: EoTransferAgreementProposal) {
+    this.store.addTransferProposal(proposal);
+
+    this.transfersService.createTransferAgreement(proposal.id).subscribe({
+      error: () => {
+        this.store.removeTransfer(proposal.id);
+
+        this.toastService.open({
+          message: `Creating the transfer agreement failed. Try accepting the proposal again or request the organization that sent the invitation to generate a new link.`,
+          type: 'danger',
+          duration: 24 * 60 * 60 * 1000, // 24 hours
+        });
+      }
+    });
   }
 
   private setShowAutomationError() {
