@@ -21,7 +21,7 @@ import { WattRange } from './watt-date-range';
 
 const formatStrings = {
   short: 'dd-MM-yyyy',
-  long: 'dd-MM-yyyy HH:mm',
+  long: 'dd-MM-yyyy, HH:mm',
   longAbbr: 'dd-MMM-yyy HH:mm',
   time: 'HH:mm',
 };
