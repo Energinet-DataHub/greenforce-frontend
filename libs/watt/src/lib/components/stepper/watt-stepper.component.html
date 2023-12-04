@@ -43,7 +43,7 @@ limitations under the License.
           <watt-icon name="left" />
           {{ step.previousButtonLabel }}
         </watt-button>
-        <watt-button *ngIf="!(onLastStep$ | push)" variant="secondary" (click)="nextStep(step)">
+        <watt-button *ngIf="!(onLastStep$ | push)" variant="secondary" (click)="nextStep(step)" [disabled]="step.disableNextButton">
           {{ step.nextButtonLabel }}<watt-icon name="right" />
         </watt-button>
         <watt-button
@@ -51,6 +51,7 @@ limitations under the License.
           variant="primary"
           [loading]="isCompleting"
           (click)="complete()"
+          [disabled]="step.disableNextButton"
           >{{ step.nextButtonLabel }}</watt-button
         >
       </div>
