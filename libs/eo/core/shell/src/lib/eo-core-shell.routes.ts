@@ -90,15 +90,6 @@ export const eoShellRoutes: Routes = [
           import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),
       },
       {
-        path: eoConnectionsRoutePath,
-        canActivate: [EoScopeGuard],
-        data: { title: 'Connections' },
-        loadChildren: () =>
-          import('@energinet-datahub/eo/connections/shell').then(
-            (esModule) => esModule.eoConnectionsRoutes
-          ),
-      },
-      {
         path: eoPrivacyPolicyRoutePath,
         data: { title: 'Privacy Policy' },
         loadChildren: () =>
