@@ -22,7 +22,14 @@ limitations under the License.
     <watt-icon name="checkmark" />
   </ng-template>
   <ng-template matStepperIcon="number" let-index="index">
-    <ng-container *ngIf="stepper.steps.get(index)?.completed && stepper.steps.get(index)?.interacted && index !== stepper.selectedIndex; else notCompleted">
+    <ng-container
+      *ngIf="
+        stepper.steps.get(index)?.completed &&
+          stepper.steps.get(index)?.interacted &&
+          index !== stepper.selectedIndex;
+        else notCompleted
+      "
+    >
       <watt-icon name="checkmark" />
     </ng-container>
     <ng-template #notCompleted>
@@ -43,7 +50,12 @@ limitations under the License.
           <watt-icon name="left" />
           {{ step.previousButtonLabel }}
         </watt-button>
-        <watt-button *ngIf="!(onLastStep$ | push)" variant="secondary" (click)="nextStep(step)" [disabled]="step.disableNextButton">
+        <watt-button
+          *ngIf="!(onLastStep$ | push)"
+          variant="secondary"
+          (click)="nextStep(step)"
+          [disabled]="step.disableNextButton"
+        >
           {{ step.nextButtonLabel }}<watt-icon name="right" />
         </watt-button>
         <watt-button

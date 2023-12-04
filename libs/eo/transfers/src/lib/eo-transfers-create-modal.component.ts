@@ -56,20 +56,24 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
       (closed)="onClosed()"
       *ngIf="opened"
     >
-        <!-- We don't use the build-in loading state for the modal, since it wont update properly -->
-        <div class="watt-modal__spinner" style="z-index: 1;" *ngIf="creatingTransferAgreementProposal">
-          <watt-spinner />
-        </div>
+      <!-- We don't use the build-in loading state for the modal, since it wont update properly -->
+      <div
+        class="watt-modal__spinner"
+        style="z-index: 1;"
+        *ngIf="creatingTransferAgreementProposal"
+      >
+        <watt-spinner />
+      </div>
 
-        <eo-transfers-form
-          [senderTin]="authStore.getTin$ | push"
-          [existingTransferAgreements]="existingTransferAgreements$ | push"
-          [generateProposalFailed]="creatingTransferAgreementProposalFailed"
-          [proposalId]="proposalId"
-          (receiverTinChanged)="onReceiverTinChange($event)"
-          (submitted)="createAgreementProposal($event)"
-          (canceled)="modal.close(false)"
-        />
+      <eo-transfers-form
+        [senderTin]="authStore.getTin$ | push"
+        [existingTransferAgreements]="existingTransferAgreements$ | push"
+        [generateProposalFailed]="creatingTransferAgreementProposalFailed"
+        [proposalId]="proposalId"
+        (receiverTinChanged)="onReceiverTinChange($event)"
+        (submitted)="createAgreementProposal($event)"
+        (canceled)="modal.close(false)"
+      />
     </watt-modal>
   `,
 })
@@ -121,21 +125,19 @@ export class EoTransfersCreateModalComponent {
 
     this.creatingTransferAgreementProposal = true;
     this.proposalId = null;
-    this.service
-      .createAgreementProposal({ receiverTin, startDate, endDate })
-      .subscribe({
-        next: (proposalId) => {
-          this.proposalId = proposalId;
-          this.creatingTransferAgreementProposal = false;
-          this.creatingTransferAgreementProposalFailed = false;
-          this.cd.detectChanges();
-        },
-        error: () => {
-          this.proposalId = null;
-          this.creatingTransferAgreementProposal = false;
-          this.creatingTransferAgreementProposalFailed = true;
-          this.cd.detectChanges();
-        },
-      });
+    this.service.createAgreementProposal({ receiverTin, startDate, endDate }).subscribe({
+      next: (proposalId) => {
+        this.proposalId = proposalId;
+        this.creatingTransferAgreementProposal = false;
+        this.creatingTransferAgreementProposalFailed = false;
+        this.cd.detectChanges();
+      },
+      error: () => {
+        this.proposalId = null;
+        this.creatingTransferAgreementProposal = false;
+        this.creatingTransferAgreementProposalFailed = true;
+        this.cd.detectChanges();
+      },
+    });
   }
 }

@@ -101,7 +101,9 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   /* @ignore */
   onChange!: (value: string) => void;
 
-  onTouched: () => void = () => { /* noop */ };
+  onTouched: () => void = () => {
+    /* noop */
+  };
 
   /* @ignore */
   writeValue(value: string): void {

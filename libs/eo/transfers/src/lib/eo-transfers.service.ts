@@ -85,15 +85,17 @@ export class EoTransfersService {
   }
 
   createTransferAgreement(proposalId: string) {
-    return this.http
-      .post<EoTransferAgreementProposal>(`${this.#apiBase}/transfer-agreements`, {
-        transferAgreementProposalId: proposalId,
-      });
+    return this.http.post<EoTransferAgreementProposal>(`${this.#apiBase}/transfer-agreements`, {
+      transferAgreementProposalId: proposalId,
+    });
   }
 
   getAgreementProposal(proposalId: string) {
     return this.http
-      .get<EoTransferAgreementProposal>(`${this.#apiBase}/transfer-agreement-proposals/${proposalId}`).pipe(
+      .get<EoTransferAgreementProposal>(
+        `${this.#apiBase}/transfer-agreement-proposals/${proposalId}`
+      )
+      .pipe(
         map((proposal) => ({
           ...proposal,
           startDate: proposal.startDate * 1000,
@@ -117,9 +119,11 @@ export class EoTransfersService {
   }
 
   getHistory(transferAgreementId: string, limit = 10, offset = 0) {
-    return this.http.get<EoTransferAgreementsHistoryResponse>(
-      `${this.#apiBase}/transfer-agreements/${transferAgreementId}/history?limit=${limit}&offset=${offset}`
-    ).pipe(map((response) => response.items));
+    return this.http
+      .get<EoTransferAgreementsHistoryResponse>(
+        `${this.#apiBase}/transfer-agreements/${transferAgreementId}/history?limit=${limit}&offset=${offset}`
+      )
+      .pipe(map((response) => response.items));
   }
 
   transferAutomationHasError(): Observable<boolean> {

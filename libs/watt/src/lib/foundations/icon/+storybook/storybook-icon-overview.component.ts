@@ -64,7 +64,7 @@ export class StorybookIconOverviewComponent {
     },
     {
       icons: [
-        { name: 'Refresh', icon: 'refresh'},
+        { name: 'Refresh', icon: 'refresh' },
         { name: 'Redo', icon: 'redo' },
         { name: 'Undo', icon: 'undo' },
         { name: 'Close', icon: 'close' },

@@ -76,7 +76,10 @@ import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-prop
     </vater-stack>
 
     <!-- Respond proposal modal -->
-    <eo-transfers-repsond-proposal [proposalId]="proposalId" (accepted)="onAcceptedProposal($event)" />
+    <eo-transfers-repsond-proposal
+      [proposalId]="proposalId"
+      (accepted)="onAcceptedProposal($event)"
+    />
   `,
 })
 export class EoTransfersComponent implements OnInit {
@@ -122,7 +125,7 @@ export class EoTransfersComponent implements OnInit {
           type: 'danger',
           duration: 24 * 60 * 60 * 1000, // 24 hours
         });
-      }
+      },
     });
   }
 

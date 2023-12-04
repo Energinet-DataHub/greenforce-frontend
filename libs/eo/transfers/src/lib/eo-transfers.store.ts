@@ -108,7 +108,7 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
           this.patchState({ loadingTransferAgreements: false });
         },
         (error: HttpErrorResponse) => {
-          if(error.status === 404) {
+          if (error.status === 404) {
             this.setTransfers([]);
             this.patchState({ loadingTransferAgreements: false });
           } else {
@@ -278,7 +278,10 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
     );
   };
 
-  constructor(private service: EoTransfersService, private authStore: EoAuthStore) {
+  constructor(
+    private service: EoTransfersService,
+    private authStore: EoAuthStore
+  ) {
     super({
       loadingTransferAgreements: false,
       transfers: [],
@@ -298,7 +301,7 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
   }
 
   async addTransferProposal(proposal: EoTransferAgreementProposal) {
-    const tin = await firstValueFrom(this.authStore.getTin$) || '';
+    const tin = (await firstValueFrom(this.authStore.getTin$)) || '';
     this.addSingleTransfer({
       ...proposal,
       startDate: proposal.startDate / 1000,
