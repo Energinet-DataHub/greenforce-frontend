@@ -106,7 +106,9 @@ type Form = FormGroup<{
       />
 
       <vater-spacer />
-      <watt-button variant="text" icon="undo" type="reset">{{ t('reset') }}</watt-button>
+      <watt-button variant="text" icon="undo" type="reset" (click)="formReset.emit()">
+        {{ t('reset') }}
+      </watt-button>
     </form>
   `,
 })
@@ -114,7 +116,9 @@ export class DhActorsFiltersComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   @Input({ required: true }) initial!: ActorsFilters;
+
   @Output() filter = new EventEmitter<ActorsFilters>();
+  @Output() formReset = new EventEmitter<void>();
 
   formGroup!: Form;
 
