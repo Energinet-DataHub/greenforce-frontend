@@ -25,7 +25,7 @@ import {
   inject,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 import { Subscription, debounceTime } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 
@@ -110,7 +110,6 @@ type Form = FormGroup<{
   `,
 })
 export class DhActorsFiltersComponent implements OnInit, OnDestroy {
-  private transloco = inject(TranslocoService);
   private formGroupSubscription?: Subscription;
 
   @Input({ required: true }) initial!: ActorsFilters;
