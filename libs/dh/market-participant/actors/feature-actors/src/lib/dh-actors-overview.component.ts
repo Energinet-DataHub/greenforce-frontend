@@ -18,6 +18,7 @@ import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoModule, translate } from '@ngneat/transloco';
 import { BehaviorSubject, Observable, combineLatest, debounceTime, map } from 'rxjs';
 import { Apollo } from 'apollo-angular';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
