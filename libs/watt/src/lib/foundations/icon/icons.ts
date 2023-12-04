@@ -45,6 +45,7 @@ const materialIcons = {
   login: 'lock_open',
   help: 'help',
   alternateEmail: 'alternate_email',
+  refresh: 'refresh',
   // Navigation
   left: 'navigate_before',
   right: 'navigate_next',
