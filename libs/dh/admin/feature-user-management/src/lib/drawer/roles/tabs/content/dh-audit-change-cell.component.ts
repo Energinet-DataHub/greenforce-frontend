@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
+
 import { UserRoleAuditLog } from '../../../../userRoleAuditLog';
-import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'dh-audit-change-cell',
-  imports: [TranslocoModule, CommonModule],
+  imports: [TranslocoModule, NgIf],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ng-container *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.history'">

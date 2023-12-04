@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { NgFor } from '@angular/common';
 
 import { WattColorHelperService } from '../color-helper.service';
 import { WattColor } from '../colors';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
 
 interface ColorType {
   name: string;
@@ -41,9 +40,10 @@ interface Color {
   templateUrl: './storybook-colors-overview.component.html',
   styleUrls: ['./storybook-colors-overview.component.scss'],
   standalone: true,
-  imports: [CommonModule, MatCardModule],
+  imports: [NgFor],
 })
 export class StorybookColorsOverviewComponent {
+  private colorHelperService = inject(WattColorHelperService);
   /**
    * @ignore
    */
@@ -115,8 +115,6 @@ export class StorybookColorsOverviewComponent {
       ],
     },
   ];
-
-  constructor(private colorHelperService: WattColorHelperService) {}
 
   /**
    * @ignore

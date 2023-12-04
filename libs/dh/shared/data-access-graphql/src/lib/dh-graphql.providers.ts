@@ -17,8 +17,13 @@
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache, ApolloLink, Operation } from '@apollo/client/core';
+import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
 
-import { DhApiEnvironment, dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import {
+  DhApiEnvironment,
+  dhApiEnvironmentToken,
+  environment,
+} from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { errorHandler } from './error-handler';
@@ -33,6 +38,10 @@ export const graphQLProviders = makeEnvironmentProviders([
       dhApiEnvironment: DhApiEnvironment,
       dhApplicationInsights: DhApplicationInsights
     ) {
+      if (environment.production === false) {
+        loadDevMessages();
+        loadErrorMessages();
+      }
       return {
         cache: new InMemoryCache({
           typePolicies: {

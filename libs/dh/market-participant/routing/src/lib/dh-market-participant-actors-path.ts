@@ -15,7 +15,3 @@
  * limitations under the License.
  */
 export const dhMarketParticipantActorsPath = 'actors';
-export const dhMarketParticipantActorsCreatePath = 'new';
-export const dhMarketParticipantActorsEditPath = 'edit';
-
-export const dhMarketParticipantActorIdParam = 'actor-id';

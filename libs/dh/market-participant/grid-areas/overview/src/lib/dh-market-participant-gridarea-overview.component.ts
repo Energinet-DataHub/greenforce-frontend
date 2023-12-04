@@ -16,6 +16,8 @@
  */
 import { Component, Input, OnChanges } from '@angular/core';
 import { TranslocoModule, translate } from '@ngneat/transloco';
+import { NgIf } from '@angular/common';
+
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -31,7 +33,6 @@ import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { CommonModule } from '@angular/common';
 
 export interface GridAreaOverviewRow {
   id: string;
@@ -60,7 +61,7 @@ export interface GridAreaOverviewRow {
     `,
   ],
   imports: [
-    CommonModule,
+    NgIf,
     TranslocoModule,
 
     WATT_CARD,

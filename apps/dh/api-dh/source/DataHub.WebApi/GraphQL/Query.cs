@@ -34,6 +34,7 @@ using PermissionChangeType = Energinet.DataHub.MarketParticipant.Client.Models.P
 using PermissionDetailsDto = Energinet.DataHub.MarketParticipant.Client.Models.PermissionDetailsDto;
 using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
 using SortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
+using UserRoleDto = Energinet.DataHub.MarketParticipant.Client.Models.UserRoleDto;
 using UserRoleWithPermissionsDto = Energinet.DataHub.MarketParticipant.Client.Models.UserRoleWithPermissionsDto;
 
 namespace Energinet.DataHub.WebApi.GraphQL
@@ -113,6 +114,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Guid id,
             [Service] IMarketParticipantUserRoleClient client) =>
             client.GetAsync(id);
+
+        public async Task<IEnumerable<UserRoleDto>> GetUserRolesByEicFunctionAsync(
+            EicFunction eicFunction,
+            [Service] IMarketParticipantUserRoleClient client)
+        {
+            var userRoles = await client.GetAllAsync().ConfigureAwait(false);
+            return userRoles.Where(y => y.EicFunction == eicFunction);
+        }
 
         public Task<OrganizationDto> GetOrganizationByIdAsync(
             Guid id,
@@ -312,6 +321,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     ActorChangeType.Name => ActorAuditLogType.Name,
                     ActorChangeType.Created => ActorAuditLogType.Created,
                     ActorChangeType.Status => ActorAuditLogType.Status,
+                    ActorChangeType.CertificateCredentials => ActorAuditLogType.CertificateCredentials,
+                    ActorChangeType.SecretCredentials => ActorAuditLogType.ClientSecretCredentials,
                     _ => ActorAuditLogType.Created,
                 };
                 actorAuditLogs.Add(new ActorAuditLog()

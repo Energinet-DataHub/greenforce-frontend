@@ -34,7 +34,10 @@ export class AbsoluteUrlGenerator {
     return url.replace(/^\//, '');
   }
 
-  constructor(@Inject(APP_BASE_HREF) private baseHref: string, private router: Router) {}
+  constructor(
+    @Inject(APP_BASE_HREF) private baseHref: string,
+    private router: Router
+  ) {}
 
   fromUrl(appUrl: string): string {
     return this.#externalUrl(appUrl);

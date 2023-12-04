@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf, NgClass } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -42,7 +42,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
+    NgClass,
     WATT_DRAWER,
     TranslocoModule,
     WattTabComponent,
@@ -59,22 +60,20 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrls: ['./dh-charges-prices-drawer.component.scss'],
 })
 export class DhChargesPricesDrawerComponent implements OnInit {
+  private _dhChargesPricesDrawerService = inject(DhChargesPricesDrawerService);
   private _destroyRef = inject(DestroyRef);
 
   @ViewChild('drawer') drawer!: WattDrawerComponent;
-  @ViewChild(DhChargeContentComponent)
-  chargeContent!: DhChargeContentComponent;
+  @ViewChild(DhChargeContentComponent) chargeContent!: DhChargeContentComponent;
 
   @Output() closed = new EventEmitter<void>();
 
-  message$ = this.dhChargesPricesDrawerService.message;
+  message$ = this._dhChargesPricesDrawerService.message;
   charge?: ChargeV1Dto;
   showChargeMessage = false;
 
-  constructor(private dhChargesPricesDrawerService: DhChargesPricesDrawerService) {}
-
   ngOnInit(): void {
-    this.dhChargesPricesDrawerService.message
+    this._dhChargesPricesDrawerService.message
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((message) => {
         if (message === undefined) this.showChargeMessage = false;
@@ -86,15 +85,15 @@ export class DhChargesPricesDrawerComponent implements OnInit {
     this.charge = charge;
     this.drawer.open();
     setTimeout(() => this.chargeContent.load());
-    this.dhChargesPricesDrawerService.removeMessage();
+    this._dhChargesPricesDrawerService.removeMessage();
   }
 
   drawerClosed() {
-    this.dhChargesPricesDrawerService.reset();
+    this._dhChargesPricesDrawerService.reset();
     this.closed.emit();
   }
 
   goToCharge() {
-    this.dhChargesPricesDrawerService.removeMessage();
+    this._dhChargesPricesDrawerService.removeMessage();
   }
 }

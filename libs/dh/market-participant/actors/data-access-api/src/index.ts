@@ -14,4 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhMarketParticipantCertificateStore } from './lib/dh-market-participant-certificate.store';
+export { DhMarketPartyB2BAccessStore } from './lib/dh-market-party-b2b-access.store';
+export { DhMarketParticipantActorsEditActorDataAccessApiStore } from './lib/dh-market-participant-actors-edit-actor-data-access-api.store';

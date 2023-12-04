@@ -36,7 +36,7 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddHttpClient()
                 .AddHttpContextAccessor()
                 .AddAuthorizedHttpClient()
-                .RegisterEDIServices(apiClientSettings.MessageArchiveBaseUrl)
+                .RegisterEDIServices(apiClientSettings.EdiB2CWebApiBaseUrl)
                 .AddChargesClient(
                     GetBaseUri(apiClientSettings.ChargesBaseUrl))
                 .AddMeteringPointClient(

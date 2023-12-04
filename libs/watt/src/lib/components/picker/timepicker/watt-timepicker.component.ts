@@ -21,22 +21,21 @@ import {
   ElementRef,
   HostBinding,
   Input,
-  Optional,
-  Self,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BehaviorSubject, distinctUntilChanged, EMPTY, map } from 'rxjs';
 
 import { WattButtonComponent } from '../../button';
 import { WattSliderComponent } from '../../slider';
-import { BehaviorSubject, distinctUntilChanged, EMPTY, map } from 'rxjs';
-
 import { WattInputMaskService, WattMaskedInput } from '../shared/watt-input-mask.service';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattDateRange } from '../../../utils/date';
@@ -44,7 +43,6 @@ import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattSliderValue } from '../../slider/watt-slider.component';
 import { WattPickerValue } from '../shared/watt-picker-value';
 import { WattFieldComponent } from '../../field/watt-field.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /**
  * Note: `Inputmask` package uses upper case `MM` for "minutes" and
@@ -100,22 +98,27 @@ const getTruthyAt =
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
+    NgIf,
     MatDatepickerModule,
     WattButtonComponent,
     WattSliderComponent,
     MatInputModule,
     OverlayModule,
-    CommonModule,
     WattFieldComponent,
   ],
 })
 export class WattTimepickerComponent extends WattPickerBase {
+  protected override inputMaskService = inject(WattInputMaskService);
+  protected override rangeInputService = inject(WattRangeInputService);
+  protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected override changeDetectionRef = inject(ChangeDetectorRef);
+  protected override ngControl = inject(NgControl, { optional: true, self: true });
+
   @Input() label = '';
   /**
    * Text to display on label for time range slider.
    */
-  @Input()
-  sliderLabel = '';
+  @Input() sliderLabel = '';
 
   /**
    * @ignore
@@ -204,21 +207,8 @@ export class WattTimepickerComponent extends WattPickerBase {
     if (!this.focused) this.sliderOpen = false;
   }
 
-  constructor(
-    protected override inputMaskService: WattInputMaskService,
-    protected override rangeInputService: WattRangeInputService,
-    protected override elementRef: ElementRef<HTMLElement>,
-    protected override changeDetectionRef: ChangeDetectorRef,
-    @Optional() @Self() ngControl: NgControl
-  ) {
-    super(
-      `watt-timepicker-${WattTimepickerComponent.nextId++}`,
-      inputMaskService,
-      rangeInputService,
-      elementRef,
-      changeDetectionRef,
-      ngControl
-    );
+  constructor() {
+    super(`watt-timepicker-${WattTimepickerComponent.nextId++}`);
   }
 
   /**
@@ -317,7 +307,10 @@ export class WattTimepickerComponent extends WattPickerBase {
   private maskInput(
     input: HTMLInputElement,
     initialValue: string | null = ''
-  ): { element: HTMLInputElement; maskedInput: WattMaskedInput } {
+  ): {
+    element: HTMLInputElement;
+    maskedInput: WattMaskedInput;
+  } {
     const maskedInput = this.inputMaskService.mask(
       initialValue,
       hoursMinutesFormat,

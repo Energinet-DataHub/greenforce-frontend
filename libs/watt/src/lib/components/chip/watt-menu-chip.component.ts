@@ -16,7 +16,6 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { WattChipComponent } from './watt-chip.component';
@@ -25,7 +24,7 @@ export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialo
 
 @Component({
   standalone: true,
-  imports: [CommonModule, WattChipComponent, WattIconComponent],
+  imports: [WattChipComponent, WattIconComponent],
   selector: 'watt-menu-chip',
   styles: [
     `

@@ -14,27 +14,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-card>
-  <h1>Typography</h1>
-</mat-card>
+<h1>Typography</h1>
 
-<mat-card>
+<section>
   <h3>Font Family Options</h3>
   <ul>
     <li>Primary: <strong>Open Sans</strong></li>
   </ul>
-</mat-card>
+</section>
 
-<mat-card>
+<section>
   <h3>Font Weight Options</h3>
   <ul>
     <li class="font-weight-regular">Regular: 400</li>
     <li class="font-weight-semi-bold">Semi-bold: 600</li>
     <li class="font-weight-bold">Bold: 700</li>
   </ul>
-</mat-card>
+</section>
 
-<mat-card style="display: flex; gap: 64px">
+<section style="display: flex; gap: 64px">
   <section>
     <h3>Font Size Options</h3>
     <p>(font-size/line-height)</p>
@@ -53,15 +51,13 @@ limitations under the License.
       <li>1,25</li>
     </ul>
   </section>
-</mat-card>
+</section>
 
-<mat-card class="small-screen">
+<section class="small-screen">
   <table mat-table [dataSource]="dataSourceSmall" style="width: 100%">
     <caption>
       <h3>SMALL SCREEN - Usage</h3>
     </caption>
-    <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
@@ -102,15 +98,13 @@ limitations under the License.
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-</mat-card>
+</section>
 
-<mat-card>
+<section>
   <table mat-table [dataSource]="dataSourceLarge" style="width: 100%">
     <caption>
       <h3>LARGE SCREEN - Usage (differences)</h3>
     </caption>
-    <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
@@ -151,10 +145,10 @@ limitations under the License.
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-</mat-card>
+</section>
 
-<mat-card
-  ><h3>Text Color</h3>
+<section>
+  <h2>Text Color</h2>
   <p>Create better contrast by displaying the text colors with reduced opacity.</p>
   <div style="display: grid; grid-template-columns: 418px 1fr; gap: 32px">
     <div>
@@ -304,4 +298,4 @@ limitations under the License.
       </div>
     </div>
   </div>
-</mat-card>
+</section>

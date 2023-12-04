@@ -24,7 +24,8 @@ watt-timepicker {
   width: 340px;
   padding: var(--watt-space-s) 12px var(--watt-space-m);
   background: var(--watt-color-neutral-white);
-  box-shadow: 0px 1px 6px rgba(11, 60, 93, 0.12),
+  box-shadow:
+    0px 1px 6px rgba(11, 60, 93, 0.12),
     0px 4px 18px 3px rgba(46, 50, 52, 0.08);
   border-radius: 3px;
 }

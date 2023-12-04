@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, ContentChild, Input, ViewEncapsulation, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 
 import {
   VaterFlexComponent,
@@ -36,7 +36,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
   selector: 'watt-data-table',
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
     VaterFlexComponent,
     VaterSpacerComponent,
     VaterStackComponent,

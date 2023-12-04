@@ -49,7 +49,10 @@ import { marketParticipantActors } from './data/market-participant-actors';
 import { getOrganizationsQueryMock } from './data/market-participant-organizations';
 import { getActorAuditLogsMock } from './data/get-actor-audit-logs';
 import { getGridAreaOverviewMock } from './data/get-grid-area-overview';
-import { MarketParticipantActorCredentialsDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantActorClientSecretDto,
+  MarketParticipantActorCredentialsDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
@@ -73,6 +76,7 @@ export function marketParticipantMocks(apiBase: string) {
     getMarketParticipantActorActorCredentials(apiBase),
     marketParticipantActorAssignCertificateCredentials(apiBase),
     marketParticipantActorRemoveActorCredentials(apiBase),
+    marketParticipantActorRequestClientSecretCredentials(apiBase),
     getGridAreaOverview(),
   ];
 }
@@ -373,11 +377,11 @@ function getAuditLogByActorId() {
 
 function getMarketParticipantActorActorCredentials(apiBase: string) {
   const response: MarketParticipantActorCredentialsDto = {
-    certificateCredentials: {
-      thumbprint: 'thumbprint-value',
+    certificateCredentials: undefined,
+    clientSecretCredentials: {
+      clientSecretIdentifier: 'client-secret-identifier-value',
       expirationDate: '2020-09-30T12:00:00',
     },
-    clientSecretCredentials: undefined,
   };
 
   return rest.get(`${apiBase}/v1/MarketParticipantActor/GetActorCredentials`, (req, res, ctx) => {
@@ -398,7 +402,22 @@ function marketParticipantActorRemoveActorCredentials(apiBase: string) {
   return rest.delete(
     `${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`,
     (req, res, ctx) => {
-      return res(ctx.delay(1000), ctx.status(200));
+      return res(ctx.delay(300), ctx.status(200));
+    }
+  );
+}
+
+function marketParticipantActorRequestClientSecretCredentials(apiBase: string) {
+  return rest.post(
+    `${apiBase}/v1/MarketParticipantActor/RequestClientSecretCredentials`,
+    (req, res, ctx) => {
+      const clientSecret = 'random-secret-XEi33WhFi8qwnCzrnlf';
+
+      const response: MarketParticipantActorClientSecretDto = {
+        secretText: clientSecret,
+      };
+
+      return res(ctx.delay(300), ctx.json(response));
     }
   );
 }

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import {
   Component,
   inject,
@@ -24,20 +24,25 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { TranslocoModule } from '@ngneat/transloco';
-import { PermissionDto, graphql } from '@energinet-datahub/dh/shared/domain';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import { ApolloError } from '@apollo/client';
 import { RxLet } from '@rx-angular/template/let';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  GetPermissionDetailsDocument,
+  GetPermissionDetailsQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
 type UserRole = ResultOf<
-  typeof graphql.GetPermissionDetailsDocument
+  typeof GetPermissionDetailsDocument
 >['permissionById']['userRoles'][number];
 
 @Component({
@@ -61,13 +66,15 @@ type UserRole = ResultOf<
   ],
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
+    TranslocoDirective,
+    TranslocoPipe,
+    RxLet,
+
     WATT_CARD,
-    WattSpinnerComponent,
     WATT_TABLE,
     WattEmptyStateComponent,
-    TranslocoModule,
-    RxLet,
+    WattSpinnerComponent,
   ],
 })
 export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDestroy {
@@ -87,7 +94,7 @@ export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDes
   };
 
   private getPermissionQuery?: QueryRef<
-    graphql.GetPermissionDetailsQuery,
+    GetPermissionDetailsQuery,
     {
       id: number;
     }
@@ -97,7 +104,7 @@ export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDes
     this.getPermissionQuery = this.apollo.watchQuery({
       useInitialLoading: true,
       notifyOnNetworkStatusChange: true,
-      query: graphql.GetPermissionDetailsDocument,
+      query: GetPermissionDetailsDocument,
       variables: { id: this.selectedPermission.id },
     });
 

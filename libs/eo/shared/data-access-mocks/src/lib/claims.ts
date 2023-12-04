@@ -44,7 +44,7 @@ function getClaims(apiBase: string) {
       result: [
         {
           claimId: id,
-          quantity: 45000,
+          quantity: 45000.45,
           productionCertificate: {
             federatedStreamId: {
               registry: 'string',

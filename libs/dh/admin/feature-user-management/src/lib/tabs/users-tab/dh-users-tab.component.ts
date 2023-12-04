@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
@@ -35,16 +35,16 @@ import {
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhInviteUserModalComponent } from '@energinet-datahub/dh/admin/feature-invite-user-modal';
+import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
 import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.component';
 import { DhUsersTabActorFilterComponent } from './dh-users-tab-actor-filter.component';
 import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filter.component';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhInviteUserModalComponent } from '@energinet-datahub/dh/admin/feature-invite-user-modal';
-import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 @Component({
   selector: 'dh-users-tab',
@@ -57,8 +57,9 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
       }
 
       .filter-container {
-        display: inline-flex;
+        display: flex;
         gap: var(--watt-space-m);
+        flex-wrap: wrap;
       }
 
       .users-overview {
@@ -90,7 +91,8 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
     provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
   ],
   imports: [
-    CommonModule,
+    NgIf,
+    NgTemplateOutlet,
     RxLet,
     RxPush,
     TranslocoModule,
@@ -109,6 +111,9 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
   ],
 })
 export class DhUsersTabComponent {
+  private store = inject(DhAdminUserManagementDataAccessApiStore);
+  private actorStore = inject(DhUserActorsDataAccessApiStore);
+  private userRolesStore = inject(DhAdminUserRolesManagementDataAccessApiStore);
   readonly users$ = this.store.users$;
   readonly totalUserCount$ = this.store.totalUserCount$;
 
@@ -125,11 +130,7 @@ export class DhUsersTabComponent {
   readonly userRolesOptions$ = this.userRolesStore.rolesOptions$;
   readonly canChooseMultipleActors$ = this.actorStore.canChooseMultipleActors$;
 
-  constructor(
-    private store: DhAdminUserManagementDataAccessApiStore,
-    private actorStore: DhUserActorsDataAccessApiStore,
-    private userRolesStore: DhAdminUserRolesManagementDataAccessApiStore
-  ) {
+  constructor() {
     this.actorStore.getActors();
     this.userRolesStore.getRoles();
   }

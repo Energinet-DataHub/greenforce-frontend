@@ -27,7 +27,7 @@ import {
   Injector,
   AfterViewInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Apollo } from 'apollo-angular';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -49,7 +49,7 @@ import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.compo
 @Component({
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
     DhCalculationsGridAreasComponent,
     DhEmDashFallbackPipe,
     TranslocoModule,

@@ -20,9 +20,5 @@ export class DashboardPo {
   // Visibility
   headerIsVisible = () => cy.get('h2').should('contain.text', this.pageHeaderText);
   urlIsDashboardPage = () => cy.url().should('contain', 'dashboard');
-  exportDataCardIsVisible = () => cy.get('eo-dashboard-get-data').should('be.visible');
-  hourlyDeclarationIsVisible = () => cy.get('eo-dashboard-hourly-declaration').should('be.visible');
-  linkCollectionIsVisible = () => cy.get('eo-dashboard-links').should('be.visible');
-  linkCollectionHasAmount = (amount: number) =>
-    cy.get('eo-dashboard-links a').should('have.length', amount);
+  greenConsumptionIsVisible = () => cy.get('eo-dashboard-consumption').should('be.visible');
 }

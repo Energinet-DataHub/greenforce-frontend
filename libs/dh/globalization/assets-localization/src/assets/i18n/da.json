@@ -19,10 +19,12 @@
       "title": "Ingen resultater fundet",
       "message": "Prøv at ændre dine søgeindstillinger"
     },
-    "fieldRequiredErrorText": "Feltet er påkrævet.",
     "navigation": {
       "next": "Næste",
       "previous": "Forrige"
+    },
+    "fieldValidation": {
+      "required": "Feltet er påkrævet."
     },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
@@ -530,21 +532,37 @@
     "actor": {
       "create": {
         "steps": {
-          "orgNext": "Aktør"
+          "actor": "Aktør",
+          "organization": "Organisation",
+          "create": "Opret aktør"
         },
+        "gridArea": "Netområde",
+        "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktørnavn.",
+        "glnOrEicInvalid": "Ugyldigt GLN/EIC nummer",
+        "wrongEmailPattern": "Indtast en valid email",
+        "phoneInvalid": "Telefonnr. format +45 12345678",
         "domainInvalid": "Ugyldigt domæne",
         "companyName": "Virksomhedsnavn",
         "domain": "Domæne",
         "cvrInvalid": "Ugyldigt CVR nummer",
         "cvrNumber": "CVR-Nr.",
         "country": "Land",
+        "phoneHint": "Telefonnr. format +45 12345678",
+        "glnOrEicHint": "Gln er 13 cifre og EIC er 16 cifre",
         "counties": {
           "DK": "Danmark",
           "SE": "Sverige",
           "NO": "Norge",
           "FI": "Finland"
         },
-        "searchDatahub": "Søg datahub",
+        "glnOrEicNumber": "Aktør ID",
+        "name": "Aktørnavn",
+        "contact": "Kontakt",
+        "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
+        "departmentOrName": "Afdeling/Navn",
+        "email": "E-mail",
+        "phone": "Telefonnr.",
+        "chooseOrganization": "Vælg organisation",
         "newOrganization": "Ny organisation",
         "marketParty": "Aktør",
         "createHeader": "Ny aktør",
@@ -624,8 +642,12 @@
           "b2bAccess": {
             "tabLabel": "B2B adgang",
             "certificateHeadline": "Certifikat",
+            "clientSecretHeadline": "Client Secret",
             "thumbprint": "Thumbprint",
             "expiryDate": "Udløbsdato",
+            "clientId": "Client ID",
+            "clientSecretLabel": "Client Secret",
+            "removeClientSecret": "Slet Client Secret",
             "removeCertificate": "Fjern certifikat",
             "uploadCertificate": "Upload certifikat",
             "uploadNewCertificate": "Upload nyt certifikat",
@@ -636,13 +658,42 @@
             "removeError": "Noget gik galt. Certifikatet blev ikke fjernet. Prøv igen",
             "removeCertificateModal": {
               "title": "Fjern certifikat?",
-              "message": "Er du sikker på, at du vil fjerne certifikatet?",
+              "message": "Der vil ikke længere være B2B adgang, hvis certifikatet bliver fjernet. For at få adgang igen, skal der uploades et nyt certifikat eller genereres en Client Secret.",
               "cancel": "Fortryd",
               "confirm": "Fjern certifikat"
+            },
+            "generateClientSecret": "Generer Client Secret",
+            "generateNewClientSecret": "Generer ny Client Secret",
+            "generateSecretSuccess": "Client Secret er blevet genereret",
+            "generateSecretError": "Noget gik galt. Client Secret blev ikke genereret. Prøv igen",
+            "copy": "Kopier",
+            "replaceClientSecretWithCertificate": "Erstat Client Secret med certifikat",
+            "replaceCertificateWithClientSecret": "Erstat certifikat med Client Secret",
+            "certificate": {
+              "replaceCertificateModal": {
+                "title": "Generer Client Secret og erstat certifikat?",
+                "message": "Hvis Client Secret bliver genereret, erstatter den det uploadede certifikat.",
+                "cancel": "Fortryd"
+              }
+            },
+            "clientSecret": {
+              "removeSecretModal": {
+                "title": "Slet Client Secret?",
+                "message": "Der vil ikke længere være B2B adgang, hvis Client Secret bliver slettet. For at få adgang igen, skal der genereres en ny Client Secret eller uploades et certifikat.",
+                "cancel": "Fortryd",
+                "confirm": "Slet Client Secret",
+                "removeSuccess": "Client Secret er blevet slettet",
+                "removeError": "Noget gik galt. Client Secret blev ikke slettet. Prøv igen"
+              },
+              "replaceSecretModal": {
+                "title": "Erstat Client Secret med certifikat?",
+                "message": "Hvis et certifikat bliver uploadet, erstatter det Client Secret. Det er ikke muligt at fortryde handlingen.",
+                "cancel": "Fortryd"
+              }
             }
           },
           "history": {
-            "tabLabel": "History",
+            "tabLabel": "Historik",
             "changeTypes": {
               "NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
               "NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
@@ -650,6 +701,10 @@
               "STATUS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede status på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
               "CREATED": "<b>{{ changedByUserName }}</b> oprettede aktøren",
               "CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> oprettede aktøren",
+              "CERTIFICATE_CREDENTIALS": "<b>{{ changedByUserName }}</b> fjernede certifikatet med thumbprint <b>{{ previousValue }}</b>",
+              "CERTIFICATE_CREDENTIALS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> tilføjede et certifikat med thumbprint <b>{{ currentValue }}</b>",
+              "CLIENT_SECRET_CREDENTIALS": "<b>{{ changedByUserName }}</b> fjernede client secret med udløbsdato d. <b>{{ previousValue }}</b>",
+              "CLIENT_SECRET_CREDENTIALS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> tilføjede en client secret som vil udløbe d. <b>{{ currentValue }}</b>",
               "CONTACT_NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
               "CONTACT_EMAIL": "<b>{{ changedByUserName }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
               "CONTACT_PHONE": "<b>{{ changedByUserName }}</b> ændrede telefonnummer på kontakten fra <b>{{ currentValue }}</b> til <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
@@ -672,6 +727,7 @@
         "departmentPhone": "Telefonnr.",
         "required": "Feltet er påkrævet",
         "invalidEmail": "Ugyldig email",
+        "phoneInvalid": "Telefonnr. format +45 12345678",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {
@@ -758,6 +814,7 @@
       "MeteredDataAdministrator": "Beskedsadministrator - aggregeringer",
       "MeteredDataResponsible": "Måledataansvarlig",
       "MeteringPointAdministrator": "Beskedadministrator",
+      "MeterOperator": "Måleoperatør",
       "SystemOperator": "Systemoperatør",
       "DanishEnergyAgency": "Energistyrelsen",
       "DataHubAdministrator": "DataHub systemadministrator",
@@ -773,6 +830,7 @@
       "MeteredDataAdministrator": "En part, der er ansvarlig for lagring og distribution af aggregerede data.",
       "MeteredDataResponsible": "En part, der er ansvarlig for etablering og validering af målte data baseret på de indsamlede data modtaget fra måledataindsamleren. Parten er ansvarlig for historikken for målte data for et målepunkt.",
       "MeteringPointAdministrator": "En part, der er ansvarlig for at administrere og stille målepunktets karakteristika til rådighed, herunder registrere de parter, der er knyttet til målepunktet. DDZ ift. modtagelse af meddelelser.",
+      "MeterOperator": "Skal bruges til delegering af meddelelser ind/ud af DataHub",
       "SystemOperator": "Ansvarlig for håndteringen af Energinets priselementer.",
       "DanishEnergyAgency": "Energistyrelsens adgang til forvaltningsretlige opgaver.",
       "DataHubAdministrator": "DataHub adgang til drift og support.",
@@ -1501,7 +1559,7 @@
         "cancel": "Fortryd",
         "save": "Gem",
         "validationErrors": {
-          "required": "{{ shared.fieldRequiredErrorText }}"
+          "required": "{{ shared.fieldValidation.required }}"
         }
       },
       "permissionsTable": {

@@ -19,18 +19,20 @@ import {
   Component,
   ContentChildren,
   EventEmitter,
+  Input,
   Output,
   QueryList,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { WattStepperStepComponent } from './watt-stepper-step.component';
-import { WattIconComponent } from '../../foundations/icon/icon.component';
-import { CommonModule } from '@angular/common';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { CdkStepper, StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { RxPush } from '@rx-angular/template/push';
 import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
+
+import { WattStepperStepComponent } from './watt-stepper-step.component';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { WattButtonComponent } from '../button';
 
 @Component({
@@ -40,12 +42,14 @@ import { WattButtonComponent } from '../button';
   styleUrls: ['./watt-stepper.component.scss'],
   encapsulation: ViewEncapsulation.None,
   imports: [
+    NgIf,
+    NgFor,
+    NgTemplateOutlet,
+    RxPush,
     WattStepperStepComponent,
     MatStepperModule,
-    CommonModule,
     WattIconComponent,
     WattButtonComponent,
-    RxPush,
   ],
   providers: [
     {
@@ -58,6 +62,7 @@ import { WattButtonComponent } from '../button';
 })
 export class WattStepperComponent extends MatStepper implements AfterViewInit {
   @Output() completed = new EventEmitter<void>();
+  @Input() isCompleting = false;
 
   @ContentChildren(WattStepperStepComponent, { descendants: true })
   override _steps!: QueryList<WattStepperStepComponent>;
