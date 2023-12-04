@@ -34,6 +34,7 @@ const materialIcons = {
   date: 'calendar_today',
   time: 'schedule',
   email: 'email',
+  markEmailUnread: 'mark_email_unread',
   link: 'link',
   openInNew: 'open_in_new',
   monetization: 'monetization_on',
@@ -50,11 +51,13 @@ const materialIcons = {
   up: 'expand_less',
   down: 'expand_more',
   arrowDropDown: 'arrow_drop_down',
+  arrowRightAlt: 'arrow_right_alt',
   // Alerts
   danger: 'dangerous',
   warning: 'report_problem',
   success: 'check_circle',
   info: 'info',
+  feedback: 'feedback',
   // Files
   save: 'save_alt',
   upload: 'cloud_upload',
