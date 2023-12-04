@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
@@ -44,10 +45,21 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   `,
 })
 export class WattSearchComponent {
+  /**
+   * @ignore
+   */
+  @ViewChild('input') input!: ElementRef<HTMLInputElement>;
+
   @Input() label = '';
 
   /**
    * @ignore
    */
   @Output() search = new EventEmitter<string>();
+
+  public clear(): void {
+    this.input.nativeElement.value = '';
+
+    this.search.emit(this.input.nativeElement.value);
+  }
 }
