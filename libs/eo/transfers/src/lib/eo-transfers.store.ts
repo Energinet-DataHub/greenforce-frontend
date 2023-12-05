@@ -108,13 +108,8 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
           this.patchState({ loadingTransferAgreements: false });
         },
         (error: HttpErrorResponse) => {
-          if (error.status === 404) {
-            this.setTransfers([]);
-            this.patchState({ loadingTransferAgreements: false });
-          } else {
-            this.setError(error);
-            this.patchState({ loadingTransferAgreements: false });
-          }
+          this.setError(error);
+          this.patchState({ loadingTransferAgreements: false });
         }
       )
     );
