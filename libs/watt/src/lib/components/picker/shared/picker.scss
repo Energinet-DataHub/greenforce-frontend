@@ -46,6 +46,7 @@
     color: transparent;
 
     &:disabled {
+      color: inherit;
       background-image: none !important;
     }
   }

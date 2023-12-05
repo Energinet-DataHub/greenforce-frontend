@@ -19,7 +19,6 @@ import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
   eoCertificatesRoutePath,
   eoClaimsRoutePath,
-  eoConnectionsRoutePath,
   eoDashboardRoutePath,
   eoHelpRoutePath,
   eoMeteringPointsRoutePath,
@@ -88,15 +87,6 @@ export const eoShellRoutes: Routes = [
         data: { title: 'Claims' },
         loadChildren: () =>
           import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),
-      },
-      {
-        path: eoConnectionsRoutePath,
-        canActivate: [EoScopeGuard],
-        data: { title: 'Connections' },
-        loadChildren: () =>
-          import('@energinet-datahub/eo/connections/shell').then(
-            (esModule) => esModule.eoConnectionsRoutes
-          ),
       },
       {
         path: eoPrivacyPolicyRoutePath,
