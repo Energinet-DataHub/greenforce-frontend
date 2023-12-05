@@ -16,8 +16,7 @@ Feature: Transfers Page
     And I click on the new transfer agreement button
     And I can see a modal to create a new agreement
     And I enter details for receiver
-    And I click on Agreement details button
+    And I click on the Timeframe step
     And I enter details for a transfer agreement
-    And I click create transfer agreement
-    And I can see the modal to create a new agreement has closed
-    Then I can see the new agreement in the table on the transfers page
+    And I click on the Invitation step
+    And I copy the link to the transfer agreement proposal

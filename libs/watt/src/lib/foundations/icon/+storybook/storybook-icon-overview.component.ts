@@ -64,6 +64,7 @@ export class StorybookIconOverviewComponent {
     },
     {
       icons: [
+        { name: 'Refresh', icon: 'refresh' },
         { name: 'Redo', icon: 'redo' },
         { name: 'Undo', icon: 'undo' },
         { name: 'Close', icon: 'close' },
@@ -87,6 +88,7 @@ export class StorybookIconOverviewComponent {
     {
       icons: [
         { name: 'E-mail', icon: 'email' },
+        { name: 'Mark Email Unread', icon: 'markEmailUnread' },
         { name: 'Link', icon: 'link' },
         { name: 'Open In New', icon: 'openInNew' },
       ],
@@ -99,6 +101,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Up', icon: 'up' },
         { name: 'Down', icon: 'down' },
         { name: 'Arrow Drop Down', icon: 'arrowDropDown' },
+        { name: 'Arrow Right Alt', icon: 'arrowRightAlt' },
       ],
     },
     {
@@ -108,6 +111,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Warning', icon: 'warning' },
         { name: 'Success', icon: 'success' },
         { name: 'Info', icon: 'info' },
+        { name: 'Feedback', icon: 'feedback' },
       ],
     },
     {
