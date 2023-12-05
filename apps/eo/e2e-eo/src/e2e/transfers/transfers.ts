@@ -52,7 +52,7 @@ When(/^I click on the Invitation step$/, function () {
   transfers.clickInvitationButton();
 });
 
-When(/^I copy the link to the transfer agreement proposal$/, function() {
+When(/^I copy the link to the transfer agreement proposal$/, function () {
   transfers.copyLinkToTransferAgreementProposal();
 });
 
