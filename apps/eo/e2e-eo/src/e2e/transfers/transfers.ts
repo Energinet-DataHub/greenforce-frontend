@@ -44,16 +44,20 @@ When(/^I enter details for receiver$/, function () {
   transfers.enterReceiverDetailsForNewAgreement();
 });
 
-When(/^I click on Agreement details button$/, function () {
-  transfers.clickAgreementDetailsButton();
+When(/^I click on the Timeframe step$/, function () {
+  transfers.clickTimeframeButton();
+});
+
+When(/^I click on the Invitation step$/, function () {
+  transfers.clickInvitationButton();
+});
+
+When(/^I copy the link to the transfer agreement proposal$/, function() {
+  transfers.copyLinkToTransferAgreementProposal();
 });
 
 When('I enter details for a transfer agreement', () => {
   transfers.enterDetailsForNewAgreement();
-});
-
-When('I click create transfer agreement', () => {
-  transfers.clickCreateAgreementButton();
 });
 
 When('I can see a modal to create a new agreement', () => {
