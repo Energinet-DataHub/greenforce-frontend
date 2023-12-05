@@ -55,5 +55,7 @@ limitations under the License.
   }}</watt-date-range-chip>
 
   <vater-spacer />
-  <watt-button variant="text" icon="undo" type="reset">{{ t("reset") }}</watt-button>
+  <watt-button variant="text" icon="undo" type="reset" (click)="formReset.emit()">
+    {{ t("reset") }}
+  </watt-button>
 </form>

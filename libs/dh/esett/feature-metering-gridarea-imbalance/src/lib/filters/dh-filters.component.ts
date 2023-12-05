@@ -84,7 +84,9 @@ export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit, OnDe
   private subscription: Subscription | null = null;
 
   @Input() initial?: DhMeteringGridAreaImbalanceFilters;
+
   @Output() filter = new EventEmitter<DhMeteringGridAreaImbalanceFilters>();
+  @Output() formReset = new EventEmitter<void>();
 
   gridAreaOptions$ = this.getGridAreaOptions();
 
