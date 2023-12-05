@@ -14,12 +14,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-card>
-  <h1>Color</h1>
-</mat-card>
+<h1>Color</h1>
 
-<mat-card *ngFor="let type of colorTypes">
-  <h3>{{ type.title }}</h3>
+<ng-container *ngFor="let type of colorTypes">
+  <h2>{{ type.title }}</h2>
   <p>{{ type.description }}</p>
 
   <div class="color-grid">
@@ -34,4 +32,4 @@ limitations under the License.
       <figcaption class="watt-label">{{ color.name }}</figcaption>
     </figure>
   </div>
-</mat-card>
+</ng-container>
