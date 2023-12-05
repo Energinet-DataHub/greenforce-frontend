@@ -23,7 +23,9 @@ type WattButtonOptions = Partial<
   Pick<WattButtonComponent, 'icon' | 'variant' | 'type' | 'formId' | 'disabled' | 'loading'>
 >;
 
-describe(WattButtonComponent.name, () => {
+const testId = 'watt-button-text';
+
+describe(WattButtonComponent, () => {
   const renderComponent = async (options: WattButtonOptions & { text?: string }) => {
     return await render<WattButtonComponent>(
       `<watt-button
@@ -31,6 +33,7 @@ describe(WattButtonComponent.name, () => {
         [icon]="icon"
         [type]="type"
         [loading]="loading"
+        data-testid=${testId}
         [disabled]="disabled"
         [formId]="formId">
            ${options.text ?? 'Text'}
@@ -45,15 +48,17 @@ describe(WattButtonComponent.name, () => {
   };
 
   it('renders default options', async () => {
-    await render('<watt-button>Default button</watt-button>', {
+    await render(`<watt-button data-testid=${testId}>Default button</watt-button>`, {
       imports: [WattButtonComponent],
     });
 
-    expect(screen.getByRole('button')).toHaveTextContent('Default button');
-    expect(screen.getByRole('button')).toHaveClass('watt-button--primary');
-    expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
-    expect(screen.getByRole('button')).not.toHaveClass('mat-button-disabled');
-    expect(screen.getByRole('button')).not.toHaveAttribute('form');
+    const button = screen.queryByTestId(testId)?.querySelector('button');
+
+    expect(button).toHaveTextContent('Default button');
+    expect(screen.queryByTestId(testId)).toHaveClass('watt-button--primary');
+    expect(button).toHaveAttribute('type', 'button');
+    expect(button).not.toHaveClass('mat-button-disabled');
+    expect(button).not.toHaveAttribute('form');
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
   });
@@ -67,11 +72,13 @@ describe(WattButtonComponent.name, () => {
   test.each(WattButtonTypes)('renders variant "%s" as a class', async (variant) => {
     await renderComponent({ variant, text: 'Text' });
 
+    const button = screen.queryByTestId(testId);
+
     if (variant === 'icon') {
-      expect(screen.getByRole('button')).not.toHaveTextContent('Text');
+      expect(button).not.toHaveTextContent('Text');
     }
 
-    expect(screen.getByRole('button')).toHaveClass('watt-button--' + variant);
+    expect(button).toHaveClass('watt-button--' + variant);
   });
 
   it('supports reset type', async () => {

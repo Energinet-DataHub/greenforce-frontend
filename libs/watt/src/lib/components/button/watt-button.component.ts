@@ -22,7 +22,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { NgClass, NgIf } from '@angular/common';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 
 import { WattIcon } from '../../foundations/icon';
 import { WattIconComponent } from './../../foundations/icon/icon.component';
@@ -38,9 +38,9 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
   template: `
     <button
       mat-button
-      class="watt-button--{{ variant }}"
       [disabled]="disabled"
       [type]="type"
+      [color]="variant"
       [attr.form]="type === 'submit' ? formId : null"
     >
       <watt-spinner *ngIf="loading" [diameter]="18" />
@@ -74,6 +74,14 @@ export class WattButtonComponent {
   @HostBinding('class.watt-button--disabled')
   get buttonDisabledState() {
     return this.disabled;
+  }
+
+  /**
+   * @ignore
+   */
+  @HostBinding('class')
+  get cssClass() {
+    return `watt-button--${this.variant}`;
   }
 
   /**
