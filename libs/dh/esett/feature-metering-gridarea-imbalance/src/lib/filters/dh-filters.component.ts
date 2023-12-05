@@ -25,7 +25,7 @@ import {
   inject,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 import { Observable, Subscription, debounceTime, map } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { Apollo } from 'apollo-angular';
@@ -79,7 +79,6 @@ type Filters = FormControls<DhMeteringGridAreaImbalanceFilters>;
   ],
 })
 export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit, OnDestroy {
-  private transloco = inject(TranslocoService);
   private apollo = inject(Apollo);
   private subscription: Subscription | null = null;
 
