@@ -101,7 +101,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
       <!-- Status - Custom column -->
       <ng-container *wattTableCell="table.columns['action']; let element">
-        <strong>{{ element.actorName }}</strong> has {{ element.action | lowercase }}
+        <strong>{{ element.actorName || element.transferAgreement.senderName }}</strong> has
+        {{ element.action | lowercase }}
         <span *ngIf="element.action === 'Updated'">
           <span *ngIf="element.transferAgreement.endDate">
             the end date to

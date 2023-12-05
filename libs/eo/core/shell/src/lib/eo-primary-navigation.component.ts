@@ -68,9 +68,6 @@ import { AsyncPipe, NgIf } from '@angular/common';
       <watt-nav-list-item link="{{ routes.transfer }}" onFeatureFlag="certificates">
         Transfers
       </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.connections }}" onFeatureFlag="certificates">
-        Connections
-      </watt-nav-list-item>
       <div class="menu-spacer"></div>
       <watt-nav-list-item link="{{ routes.help }}">Help</watt-nav-list-item>
       <watt-nav-list-item *ngIf="isLoggedIn$ | async" (click)="onLogOut()" role="link">
