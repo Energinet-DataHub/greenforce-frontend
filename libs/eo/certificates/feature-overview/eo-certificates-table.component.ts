@@ -96,7 +96,10 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
         <mat-header-cell *matHeaderCellDef />
         <mat-cell *matCellDef="let element"
           ><h4>
-            <a class="link" routerLink="/${eoCertificatesRoutePath}/{{ element.federatedStreamId.streamId }}">
+            <a
+              class="link"
+              routerLink="/${eoCertificatesRoutePath}/{{ element.federatedStreamId.streamId }}"
+            >
               View certificate
             </a>
           </h4>

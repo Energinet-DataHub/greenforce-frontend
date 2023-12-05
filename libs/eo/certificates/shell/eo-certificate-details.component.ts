@@ -134,7 +134,12 @@ export class EoCertificateDetailsComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   certificate$ = this.store.certificates$.pipe(
-    map((certs) => certs?.find((item) => item.federatedStreamId.streamId === this.route.snapshot.paramMap.get('id'))),
+    map(
+      (certs) =>
+        certs?.find(
+          (item) => item.federatedStreamId.streamId === this.route.snapshot.paramMap.get('id')
+        )
+    ),
     tap((certFound) => {
       if (!certFound) this.router.navigate([`/${eoCertificatesRoutePath}`]);
     })
