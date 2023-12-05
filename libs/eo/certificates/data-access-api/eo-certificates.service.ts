@@ -16,7 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, catchError, map, of, throwError } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
