@@ -35,7 +35,11 @@ limitations under the License.
       >
     </vater-stack>
 
-    <dh-actors-filters [initial]="filters$.value" (filter)="filters$.next($event)" />
+    <dh-actors-filters
+      [initial]="filters$.value"
+      (filter)="filters$.next($event)"
+      (formReset)="searchComponent.clear()"
+    />
 
     <dh-actors-table
       [tableDataSource]="tableDataSource"

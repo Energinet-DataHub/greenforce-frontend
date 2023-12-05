@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
 import { TranslocoModule, translate } from '@ngneat/transloco';
 import { BehaviorSubject, Observable, combineLatest, debounceTime, map } from 'rxjs';
 import { Apollo } from 'apollo-angular';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -32,17 +33,16 @@ import {
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
 import { ActorsFilters, AllFiltersCombined } from './actors-filters';
-import { DhActor } from './dh-actor';
 import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
-import { dhToJSON } from './dh-json-util';
-import { DhActorsTableComponent } from './table/dh-actors-table.component';
 import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-actor-modal.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { WattModalService } from '@energinet-datahub/watt/modal';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhActorsTableComponent } from './table/dh-actors-table.component';
+import { DhActor } from './dh-actor';
+import { dhToJSON } from './dh-json-util';
 
 @Component({
   standalone: true,
@@ -108,6 +108,8 @@ export class DhActorsOverviewComponent implements OnInit {
   isLoading = true;
   hasError = false;
 
+  @ViewChild(WattSearchComponent) searchComponent!: WattSearchComponent;
+
   ngOnInit(): void {
     const subscription = this.getActorsQuery$.valueChanges
       .pipe(takeUntilDestroyed(this._destroyRef))
@@ -115,7 +117,7 @@ export class DhActorsOverviewComponent implements OnInit {
         next: (result) => {
           this.isLoading = result.loading;
 
-          this.tableDataSource.data = result.data?.actors;
+          this.tableDataSource.data = result.data?.actors ?? [];
         },
         error: () => {
           this.hasError = true;
