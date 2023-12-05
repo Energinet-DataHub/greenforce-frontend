@@ -63,14 +63,7 @@ export class EoCertificatesService {
    * Array of all the user's contracts for issuing granular certificates
    */
   getContracts() {
-    return this.http.get<EoContractResponse>(`${this.#apiBase}/certificates/contracts`).pipe(
-      catchError((error) => {
-        if (error.status === 404) {
-          return of({ result: [] });
-        }
-        return throwError(() => new Error(error));
-      })
-    );
+    return this.http.get<EoContractResponse>(`${this.#apiBase}/certificates/contracts`);
   }
 
   getContract(id: string): Observable<EoContractResponse> {
