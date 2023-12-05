@@ -2,10 +2,9 @@
   "apiBase": "https://demo.energioprindelse.dk/api",
   "apiVersions": {
     "claim-automation": "20230101",
-    "connection-invitations": "20230101",
-    "connections": "20230101",
     "cvr": "20230101",
-    "transfer-agreements": "20230101",
-    "transfer-automation": "20230101"
+    "transfer-agreements": "20231123",
+    "transfer-automation": "20231123",
+    "transfer-agreement-proposals": "20231123"
   }
 }

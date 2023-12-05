@@ -28,7 +28,6 @@ export const eoSimultaneityRoutePath = 'simultaneity';
 export const eoGeographyRoutePath = 'geography';
 export const eoTermsRoutePath = 'terms';
 export const eoTransferRoutePath = 'transfers';
-export const eoConnectionsRoutePath = 'connections';
 export const eoClaimsRoutePath = 'claims';
 
 export const eoRoutes = {
@@ -46,6 +45,5 @@ export const eoRoutes = {
   geography: eoGeographyRoutePath,
   terms: eoTermsRoutePath,
   transfer: eoTransferRoutePath,
-  connections: eoConnectionsRoutePath,
   claims: eoClaimsRoutePath,
 };

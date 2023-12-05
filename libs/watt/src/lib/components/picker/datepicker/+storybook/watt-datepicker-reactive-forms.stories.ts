@@ -152,8 +152,14 @@ WithValidations.play = async ({ canvasElement }) => {
 
 export const WithFormControlDisabled: StoryFn<WattDatepickerStoryConfig> = (args) => ({
   props: {
-    exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
-    exampleFormControlRange: new FormControl({ value: null, disabled: true }),
+    exampleFormControlSingle: new FormControl({ value: initialValueSingle, disabled: true }),
+    exampleFormControlRange: new FormControl({
+      value: {
+        start: initialValueRangeStart,
+        end: initialValueRangeEnd_EndOfDay,
+      },
+      disabled: true,
+    }),
     exampleChipFormControlSingle: new FormControl({ value: null, disabled: true }),
     exampleChipFormControlRange: new FormControl({ value: null, disabled: true }),
     ...args,
