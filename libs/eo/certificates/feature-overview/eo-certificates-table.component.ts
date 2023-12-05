@@ -69,14 +69,14 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
       <ng-container matColumnDef="dateFrom">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Time </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.dateFrom | wattDate: 'longAbbr' }}-{{ element.dateTo | wattDate: 'time' }}
+          {{ element.start | wattDate: 'longAbbr' }}-{{ element.end | wattDate: 'time' }}
         </mat-cell>
       </ng-container>
 
       <!-- GSRN Column -->
       <ng-container matColumnDef="gsrn">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Metering Point</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.gsrn }}</mat-cell>
+        <mat-cell *matCellDef="let element">{{ element.attributes.assetId }}</mat-cell>
       </ng-container>
 
       <!-- Quantity Column -->
@@ -96,7 +96,10 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
         <mat-header-cell *matHeaderCellDef />
         <mat-cell *matCellDef="let element"
           ><h4>
-            <a class="link" routerLink="/${eoCertificatesRoutePath}/{{ element.id }}">
+            <a
+              class="link"
+              routerLink="/${eoCertificatesRoutePath}/{{ element.federatedStreamId.streamId }}"
+            >
               View certificate
             </a>
           </h4>
@@ -114,7 +117,7 @@ import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-acc
   `,
 })
 export class EoCertificatesTableComponent implements AfterViewInit {
-  private store = inject(EoCertificatesStore);
+  private store: EoCertificatesStore = inject(EoCertificatesStore);
   certificates: EoCertificate[] = [];
   dataSource: MatTableDataSource<EoCertificate> = new MatTableDataSource();
   displayedColumns: string[] = ['dateFrom', 'gsrn', 'quantity', 'certificateType', 'action'];
