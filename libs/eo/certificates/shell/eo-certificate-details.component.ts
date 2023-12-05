@@ -81,13 +81,13 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
               <b>Energy</b>
               <div>{{ cert?.quantity?.toLocaleString() }} Wh</div>
               <b>Start time</b>
-              <div>{{ cert?.dateFrom | wattDate: 'longAbbr' }}</div>
+              <div>{{ cert?.start | wattDate: 'longAbbr' }}</div>
               <b>Start time</b>
-              <div>{{ cert?.dateTo | wattDate: 'longAbbr' }}</div>
+              <div>{{ cert?.end | wattDate: 'longAbbr' }}</div>
               <b>GSRN</b>
-              <div>{{ cert?.gsrn }}</div>
+              <div>{{ cert?.attributes?.assetId }}</div>
               <b>Certificate ID</b>
-              <div>{{ cert?.id }}</div>
+              <div>{{ cert?.federatedStreamId?.streamId }}</div>
             </div>
           </eo-stack>
         </watt-card>
@@ -97,9 +97,9 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
               <h4><b>Technology</b></h4>
               <div class="grid-table">
                 <b>Technology Code</b>
-                <div>{{ cert?.techCode }}</div>
+                <div>{{ cert?.attributes?.techCode }}</div>
                 <b>Fuel Code</b>
-                <div>{{ cert?.fuelCode }}</div>
+                <div>{{ cert?.attributes?.fuelCode }}</div>
               </div>
             </eo-stack>
             <img
@@ -130,11 +130,11 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
   `,
 })
 export class EoCertificateDetailsComponent {
-  private store = inject(EoCertificatesStore);
+  private store: EoCertificatesStore = inject(EoCertificatesStore);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   certificate$ = this.store.certificates$.pipe(
-    map((certs) => certs?.find((item) => item.id === this.route.snapshot.paramMap.get('id'))),
+    map((certs) => certs?.find((item) => item.federatedStreamId.streamId === this.route.snapshot.paramMap.get('id'))),
     tap((certFound) => {
       if (!certFound) this.router.navigate([`/${eoCertificatesRoutePath}`]);
     })
