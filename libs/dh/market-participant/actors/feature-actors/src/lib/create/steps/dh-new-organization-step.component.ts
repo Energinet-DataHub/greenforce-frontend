@@ -44,9 +44,12 @@ import { TranslocoDirective } from '@ngneat/transloco';
       :host {
         display: block;
       }
+
       h4 {
         margin-top: 0;
+        margin-bottom: 0;
       }
+
       watt-dropdown,
       vater-stack {
         width: 50%;
@@ -54,7 +57,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
     `,
   ],
   template: ` <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
-    <vater-stack direction="row" justify="space-between" fill="horizontal">
+    <vater-stack direction="row" justify="space-between" class="watt-space-stack-m">
       <h4>{{ t('newOrganization') }}</h4>
       <watt-button variant="text" (click)="toggleShowCreateNewOrganization.emit()">{{
         t('chooseOrganization')
