@@ -17,13 +17,14 @@
 import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoDirective } from '@ngneat/transloco';
+
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective } from '@ngneat/transloco';
 
 @Component({
   standalone: true,
@@ -44,9 +45,12 @@ import { TranslocoDirective } from '@ngneat/transloco';
       :host {
         display: block;
       }
+
       h4 {
         margin-top: 0;
+        margin-bottom: 0;
       }
+
       watt-dropdown,
       vater-stack {
         width: 50%;
@@ -54,7 +58,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
     `,
   ],
   template: ` <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
-    <vater-stack direction="row" justify="space-between" fill="horizontal">
+    <vater-stack direction="row" justify="space-between" class="watt-space-stack-m">
       <h4>{{ t('newOrganization') }}</h4>
       <watt-button variant="text" (click)="toggleShowCreateNewOrganization.emit()">{{
         t('chooseOrganization')
