@@ -20,14 +20,11 @@ import {
   Component,
   DestroyRef,
   ElementRef,
-  Inject,
   Input,
   LOCALE_ID,
-  Optional,
-  Self,
   ViewChild,
   ViewEncapsulation,
-  inject,
+  inject
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import {
