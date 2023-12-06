@@ -68,7 +68,7 @@ export default async function (tree: Tree, schema: LibrarySchema) {
     tags: `product:${libProduct}, domain:${libDomain}, type:${libType}`,
     prefix: `${libProduct}`,
     importPath: `@energinet-datahub/${libProduct}/${libDomain}/${
-      libName !== '' ? libName : libType
+      libName !== '' ? `${libType}-${libName}` : libType
     }`,
     strict: true,
     skipModule: [
