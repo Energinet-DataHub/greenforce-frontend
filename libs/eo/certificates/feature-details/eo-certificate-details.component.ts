@@ -15,31 +15,27 @@
  * limitations under the License.
  */
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { map, tap } from 'rxjs';
-import { RxLet } from '@rx-angular/template/let';
-import { UpperCasePipe } from '@angular/common';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
-import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { NgIf } from '@angular/common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    EoStackComponent,
-    RouterModule,
-    RxLet,
-    UpperCasePipe,
-    WattDatePipe,
-    EoBetaMessageComponent,
-    WATT_CARD,
     EnergyUnitPipe,
+    EoStackComponent,
+    NgIf,
+    RouterModule,
+    WATT_CARD,
+    WattDatePipe,
   ],
   standalone: true,
   styles: [
@@ -70,8 +66,8 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-
     `,
   ],
   template: `
-    <div class="certificate">
-      <eo-stack size="M" *rxLet="certificate$; let cert">
+    <div class="certificate" *ngIf="certificate(); let cert">
+      <eo-stack size="M">
         <watt-card>
           <watt-card-title
             ><h4><b>Static Data</b></h4></watt-card-title
@@ -129,15 +125,21 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-
     </div>
   `,
 })
-export class EoCertificateDetailsComponent {
+export class EoCertificateDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private certificatesService: EoCertificatesService = inject(EoCertificatesService);
 
-  certificate$ = this.certificatesService.getCertificates().pipe(
-    map((certs: EoCertificate[]) => certs.find((item) => item.federatedStreamId.streamId === this.route.snapshot.paramMap.get('id'))),
-    tap((certFound) => {
-      if (!certFound) this.router.navigate([`/${eoCertificatesRoutePath}`]);
-    })
-  );
+  certificate = signal<EoCertificate | undefined>(undefined);
+
+  ngOnInit(): void {
+    this.certificatesService.getCertificates().pipe(
+      map((certs: EoCertificate[]) => certs.find((item) => item.federatedStreamId.streamId === this.route.snapshot.paramMap.get('id'))),
+      tap((certFound) => {
+        if (!certFound) this.router.navigate([`/${eoCertificatesRoutePath}`]);
+      })
+    ).subscribe((certificate) => {
+      this.certificate.set(certificate);
+    });
+  }
 }
