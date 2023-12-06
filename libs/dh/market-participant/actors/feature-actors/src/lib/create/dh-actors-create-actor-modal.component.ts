@@ -168,7 +168,10 @@ export class DhActorsCreateActorModalComponent {
               marketRoles: [
                 {
                   eicFunction: this.newActorForm.controls.marketrole.value,
-                  gridAreas: this.newActorForm.controls.gridArea.value.map((gridArea) => ({ id: gridArea, meteringPointTypes: [] }))
+                  gridAreas: this.newActorForm.controls.gridArea.value.map((gridArea) => ({
+                    id: gridArea,
+                    meteringPointTypes: [],
+                  })),
                 },
               ],
               actorNumber: {
