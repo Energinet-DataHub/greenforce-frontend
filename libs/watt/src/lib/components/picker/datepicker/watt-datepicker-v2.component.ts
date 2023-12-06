@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule, FormatWidth, getLocaleDateFormat } from '@angular/common';
+import { FormatWidth, getLocaleDateFormat } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -84,13 +84,15 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
     MatDatepickerModule,
     MatInputModule,
     WattButtonComponent,
-    CommonModule,
     WattFieldComponent,
     MaskitoModule,
     WattPlaceholderMaskComponent,
   ],
 })
 export class WattDatepickerV2Component extends WattPickerBase {
+  protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected override changeDetectionRef = inject(ChangeDetectorRef);
+  protected override ngControl = inject(NgControl, { optional: true, self: true });
   @Input() max: Date | null = null;
   @Input() min: Date | null = null;
   @Input() startAt = new Date();

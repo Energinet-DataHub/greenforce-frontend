@@ -99,6 +99,9 @@ function minutesToTime(value: number): string {
   ],
 })
 export class WattTimepickerV2Component extends WattPickerBase {
+  protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected override changeDetectionRef = inject(ChangeDetectorRef);
+  protected override ngControl = inject(NgControl, { optional: true, self: true });
   @Input() label = '';
   /**
    * Text to display on label for time range slider.
@@ -218,17 +221,8 @@ export class WattTimepickerV2Component extends WattPickerBase {
    */
   destroyRef = inject(DestroyRef);
 
-  constructor(
-    protected override elementRef: ElementRef<HTMLElement>,
-    protected override changeDetectionRef: ChangeDetectorRef,
-    @Optional() @Self() ngControl: NgControl
-  ) {
-    super(
-      `watt-timepicker-v2-${WattTimepickerV2Component.nextId++}`,
-      elementRef,
-      changeDetectionRef,
-      ngControl
-    );
+  constructor() {
+    super(`watt-timepicker-v2-${WattTimepickerV2Component.nextId++}`);
   }
 
   /**
