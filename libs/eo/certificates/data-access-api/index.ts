@@ -15,4 +15,3 @@
  * limitations under the License.
  */
 export * from './eo-certificates.service';
-export * from './eo-certificates.store';
