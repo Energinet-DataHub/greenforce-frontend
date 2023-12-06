@@ -14,7 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Directive, ElementRef, HostBinding, HostListener, inject, Input } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  inject,
+  Input,
+  Output,
+} from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { WattToastService } from '../toast';
 import { WattClipboardIntlService } from './watt-clipboard-intl.service';
@@ -32,6 +41,8 @@ export class WattCopyToClipboardDirective {
   @Input('wattCopyToClipboard')
   text?: string;
 
+  @Output() copySuccess = new EventEmitter<boolean>();
+
   @HostBinding('style.cursor')
   cursor = 'pointer';
 
@@ -46,11 +57,15 @@ export class WattCopyToClipboardDirective {
         type: 'success',
         message: this.intl.success,
       });
+
+      this.copySuccess.emit(true);
     } else {
       this.toast.open({
         type: 'danger',
         message: this.intl.error,
       });
+
+      this.copySuccess.emit(false);
     }
   }
 }

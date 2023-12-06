@@ -36,19 +36,12 @@ limitations under the License.
               >
                 {{ t("tab.validationErrors.nameAlreadyExists") }}
               </watt-field-error>
-              <watt-field-error *ngIf="userRoleEditForm.controls.name?.errors?.['required']">
-                {{ t("tab.validationErrors.required") }}
-              </watt-field-error>
             </watt-text-field>
 
             <watt-textarea-field
               [label]="t('tab.masterData.descriptionInputLabel')"
               [formControl]="userRoleEditForm.controls.description"
-            >
-              <watt-field-error *ngIf="userRoleEditForm.controls.description?.errors?.['required']">
-                {{ t("tab.validationErrors.required") }}
-              </watt-field-error>
-            </watt-textarea-field>
+            />
           </div>
         </watt-tab>
 
@@ -58,7 +51,10 @@ limitations under the License.
 
             <div
               class="watt-space-stack-m"
-              *ngIf="(form.submitted || userRoleEditForm.dirty) && userRoleEditForm.controls.permissionIds.errors?.['required']"
+              *ngIf="
+                (form.submitted || userRoleEditForm.dirty) &&
+                userRoleEditForm.controls.permissionIds.errors?.['required']
+              "
             >
               <watt-field-error>{{
                 t("tab.validationErrors.permissionRequired")
@@ -71,7 +67,7 @@ limitations under the License.
               </watt-card-title>
 
               <dh-permissions-table
-                [permissions]="marketRolePermissions$ | push : { strategy: 'native' }"
+                [permissions]="marketRolePermissions$ | push: { strategy: 'native' }"
                 [initialSelection]="initiallySelectedPermissions$ | push"
                 (selectionChanged)="onSelectionChanged($event)"
               />

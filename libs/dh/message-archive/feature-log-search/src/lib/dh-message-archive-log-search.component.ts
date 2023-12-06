@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   DhMessageArchiveActorDataAccessApiStore,
@@ -60,7 +60,8 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     WattDatepickerComponent,
     WattTimepickerComponent,
     FormsModule,
-    CommonModule,
+    NgIf,
+    AsyncPipe,
     RxLet,
     TranslocoModule,
     DhMessageArchiveLogSearchResultComponent,
@@ -74,6 +75,8 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
   ],
 })
 export class DhMessageArchiveLogSearchComponent {
+  private store = inject(DhMessageArchiveDataAccessApiStore);
+  private actorStore = inject(DhMessageArchiveActorDataAccessApiStore);
   searchForm = new FormGroup({
     messageId: new FormControl('', { nonNullable: true }),
     documentTypes: new FormControl([], { nonNullable: true }),
@@ -114,12 +117,12 @@ export class DhMessageArchiveLogSearchComponent {
   searching = false;
   maxItemCount = 100;
 
-  searchCriteria: ArchivedMessageSearchCriteria = {};
+  searchCriteria: ArchivedMessageSearchCriteria = {
+    dateTimeFrom: '',
+    dateTimeTo: '',
+  };
 
-  constructor(
-    private store: DhMessageArchiveDataAccessApiStore,
-    private actorStore: DhMessageArchiveActorDataAccessApiStore
-  ) {
+  constructor() {
     this.actorStore.getActors();
     this.searchForm.valueChanges.subscribe((value) => this.handleState(value));
   }

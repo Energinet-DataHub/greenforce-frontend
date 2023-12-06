@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnChanges } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, OnChanges, inject } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -39,7 +39,7 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
   styleUrls: ['./dh-user-audit-logs.component.scss'],
   providers: [provideComponentStore(DhAdminUserManagementAuditLogsDataAccessApiStore)],
   imports: [
-    CommonModule,
+    NgIf,
     RxLet,
     RxPush,
     TranslocoModule,
@@ -51,6 +51,8 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
   ],
 })
 export class DhUserAuditLogsComponent implements OnChanges {
+  private store = inject(DhAdminUserManagementAuditLogsDataAccessApiStore);
+  private trans = inject(TranslocoService);
   private dataSource = new WattTableDataSource<DhUserAuditLogEntry>();
 
   @Input() user: MarketParticipantUserOverviewItemDto | null = null;
@@ -70,11 +72,6 @@ export class DhUserAuditLogsComponent implements OnChanges {
     timestamp: { accessor: 'timestamp' },
     entry: { accessor: 'entry', sort: false },
   };
-
-  constructor(
-    private store: DhAdminUserManagementAuditLogsDataAccessApiStore,
-    private trans: TranslocoService
-  ) {}
 
   ngOnChanges(): void {
     this.reloadAuditLogs();

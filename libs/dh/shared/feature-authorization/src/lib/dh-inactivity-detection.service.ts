@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import {
   concat,
   distinctUntilChanged,
@@ -26,12 +26,18 @@ import {
   switchMap,
   timer,
 } from 'rxjs';
-import { WattModalService } from '@energinet-datahub/watt/modal';
-import { DhInactivityLogoutComponent } from './dh-inactivity-logout.component';
 import { MsalService } from '@azure/msal-angular';
+
+import { WattModalService } from '@energinet-datahub/watt/modal';
+
+import { DhInactivityLogoutComponent } from './dh-inactivity-logout.component';
 
 @Injectable({ providedIn: 'root' })
 export class DhInactivityDetectionService {
+  private readonly ngZone = inject(NgZone);
+  private readonly modalService = inject(WattModalService);
+  private readonly msal = inject(MsalService);
+
   private readonly secondsUntilWarning = 115 * 60;
 
   private readonly inputDetection$ = merge(
@@ -50,21 +56,24 @@ export class DhInactivityDetectionService {
     map((isActive) => !isActive)
   );
 
-  constructor(
-    private readonly modalService: WattModalService,
-    private readonly msal: MsalService
-  ) {}
-
   public trackInactivity() {
-    this.userInactive$.subscribe((isInactive) => {
-      if (isInactive) {
-        this.modalService.open({
-          component: DhInactivityLogoutComponent,
-          onClosed: (result) => result && this.msal.logout(),
-        });
-      } else {
-        this.modalService.close(false);
-      }
+    this.ngZone.runOutsideAngular(() => {
+      this.userInactive$.subscribe((isInactive) => {
+        if (isInactive) {
+          this.openModal();
+        } else {
+          this.modalService.close(false);
+        }
+      });
+    });
+  }
+
+  private openModal() {
+    this.ngZone.run(() => {
+      this.modalService.open({
+        component: DhInactivityLogoutComponent,
+        onClosed: (result) => result && this.msal.logoutRedirect(),
+      });
     });
   }
 }

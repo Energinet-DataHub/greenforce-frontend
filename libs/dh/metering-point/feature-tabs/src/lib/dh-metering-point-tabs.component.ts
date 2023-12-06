@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { tap } from 'rxjs';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -33,8 +33,8 @@ import { DhProcessesTabContentComponent } from './processes-tab-content/dh-proce
   templateUrl: './dh-metering-point-tabs.template.html',
   standalone: true,
   imports: [
+    NgIf,
     RxLet,
-    CommonModule,
     WattTabsComponent,
     WattTabComponent,
     TranslocoModule,
@@ -45,6 +45,7 @@ import { DhProcessesTabContentComponent } from './processes-tab-content/dh-proce
   ],
 })
 export class DhMeteringPointTabsComponent {
+  private store = inject(DhMeteringPointDataAccessApiStore);
   childMeteringPointsCount = 0;
 
   meteringPoint$ = this.store.meteringPoint$.pipe(
@@ -52,6 +53,4 @@ export class DhMeteringPointTabsComponent {
       this.childMeteringPointsCount = meteringPoint.childMeteringPoints?.length ?? 0;
     })
   );
-
-  constructor(private store: DhMeteringPointDataAccessApiStore) {}
 }

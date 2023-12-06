@@ -15,26 +15,26 @@
  * limitations under the License.
  */
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
+import { Apollo, QueryRef } from 'apollo-angular';
+import { ApolloError } from '@apollo/client';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
 import {
-  graphql,
-  MarketParticipantUserRoleWithPermissionsDto,
-} from '@energinet-datahub/dh/shared/domain';
+  GetUserRoleAuditLogsDocument,
+  GetUserRoleAuditLogsQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhAuditChangeCellComponent } from './dh-audit-change-cell.component';
-import { Apollo, QueryRef } from 'apollo-angular';
-import { ApolloError } from '@apollo/client';
 import { UserRoleAuditLog } from '../../../../userRoleAuditLog';
 
 @Component({
@@ -59,7 +59,7 @@ import { UserRoleAuditLog } from '../../../../userRoleAuditLog';
     `,
   ],
   imports: [
-    CommonModule,
+    NgIf,
     RxLet,
     RxPush,
     TranslocoModule,
@@ -74,7 +74,7 @@ import { UserRoleAuditLog } from '../../../../userRoleAuditLog';
 export class DhRoleAuditLogsComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);
   private getUserRoleAuditLogsQuery?: QueryRef<
-    graphql.GetUserRoleAuditLogsQuery,
+    GetUserRoleAuditLogsQuery,
     {
       id: string;
     }
@@ -97,7 +97,7 @@ export class DhRoleAuditLogsComponent implements OnInit, OnDestroy {
     this.getUserRoleAuditLogsQuery = this.apollo.watchQuery({
       useInitialLoading: true,
       notifyOnNetworkStatusChange: true,
-      query: graphql.GetUserRoleAuditLogsDocument,
+      query: GetUserRoleAuditLogsDocument,
       variables: { id: this.role.id },
       fetchPolicy: 'cache-and-network',
     });

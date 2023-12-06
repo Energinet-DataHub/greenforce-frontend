@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, inject } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 
 import { EoMediaPresenter } from './eo-media.presenter';
@@ -77,6 +77,7 @@ import { EoMediaImageDirective } from './eo-media-image.directive';
   `,
 })
 export class EoMediaComponent {
+  presenter = inject(EoMediaPresenter);
   #maxWidthPixels: number | null = null;
 
   /**
@@ -107,8 +108,6 @@ export class EoMediaComponent {
   get testIdAttribute(): string {
     return 'media';
   }
-
-  constructor(public presenter: EoMediaPresenter) {}
 }
 
 export const EO_MEDIA = [EoMediaComponent, EoMediaImageDirective];

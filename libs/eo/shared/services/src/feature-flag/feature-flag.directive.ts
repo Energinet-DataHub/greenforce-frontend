@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input, inject } from '@angular/core';
 import { EoAuthStore } from '../auth/auth.store';
 
 const knownFeatures = [
@@ -23,7 +23,7 @@ const knownFeatures = [
   'production',
   'meters',
   'certificates',
-  'daterange', // To show the date range picker
+  'daterange',
   'resolution', // To show the resolution component
 ] as const;
 export type allowedFeatureFlags = (typeof knownFeatures)[number];
@@ -38,12 +38,13 @@ export type allowedFeatureFlags = (typeof knownFeatures)[number];
   standalone: true,
 })
 export class EoFeatureFlagDirective implements AfterViewInit {
+  private elementRef = inject(ElementRef);
+  private authStore = inject(EoAuthStore);
   /**
    * This directive can be used to show/hide a component based on the feature flags that are currently enabled.
    */
-  @Input() onFeatureFlag: allowedFeatureFlags | undefined;
-
-  constructor(private elementRef: ElementRef, private authStore: EoAuthStore) {}
+  @Input()
+  onFeatureFlag: allowedFeatureFlags | undefined;
 
   ngAfterViewInit() {
     this.authStore.getScope$.subscribe((flags) => {

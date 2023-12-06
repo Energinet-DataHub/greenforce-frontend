@@ -111,8 +111,8 @@ watt-button {
       color: var(--watt-color-neutral-grey-500);
     }
 
-    .mat-spinner circle {
-      stroke: var(--watt-color-neutral-white);
+    watt-spinner {
+      --watt-spinner-circle-color: var(--watt-color-neutral-white);
     }
   }
 

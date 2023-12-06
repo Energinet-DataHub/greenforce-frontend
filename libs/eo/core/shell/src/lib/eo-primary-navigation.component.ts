@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import {
   EoAuthService,
   EoAuthStore,
@@ -64,15 +64,12 @@ import { AsyncPipe, NgIf } from '@angular/common';
       <watt-nav-list-item link="{{ routes.claims }}"> Claims </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.certificates }}" onFeatureFlag="certificates">
         Certificates
-        <span class="beta">BETA</span>
       </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.transfer }}" onFeatureFlag="certificates">
         Transfers
-        <span class="beta">BETA</span>
       </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.connections }}" onFeatureFlag="certificates">
         Connections
-        <span class="beta">BETA</span>
       </watt-nav-list-item>
       <div class="menu-spacer"></div>
       <watt-nav-list-item link="{{ routes.help }}">Help</watt-nav-list-item>
@@ -83,14 +80,14 @@ import { AsyncPipe, NgIf } from '@angular/common';
   `,
 })
 export class EoPrimaryNavigationComponent {
+  private authService = inject(EoAuthService);
+  private authStore = inject(EoAuthStore);
   routes = eoRoutes;
   isLoggedIn$ = this.authStore.getScope$.pipe(map((scope) => scope.length > 0));
   @HostBinding('attr.aria-label')
   get ariaLabelAttribute(): string {
     return 'Menu';
   }
-
-  constructor(private authService: EoAuthService, private authStore: EoAuthStore) {}
 
   onLogOut(): void {
     this.authService.logout();

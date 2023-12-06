@@ -15,16 +15,19 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { Component, Input, OnChanges, computed, inject } from '@angular/core';
+import { Component, Input, OnChanges, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { DhMarketParticipantCertificateStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { DhCertificateComponent } from './dh-certificate.component';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { DhCertificateUploaderComponent } from './dh-certificate-uploader.component';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+
+import { DhCertificateUploaderComponent } from './certificate/dh-certificate-uploader.component';
+import { DhCertificateComponent } from './certificate/dh-certificate-view.component';
+import { DhGenerateClientSecretComponent } from './client-secret/dh-generate-client-secret.component';
+import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-view.component';
 
 @Component({
   selector: 'dh-b2b-access-tab',
@@ -33,6 +36,10 @@ import { DhCertificateUploaderComponent } from './dh-certificate-uploader.compon
     `
       :host {
         display: block;
+      }
+
+      watt-icon {
+        color: var(--watt-color-primary-dark);
       }
     `,
   ],
@@ -44,51 +51,55 @@ import { DhCertificateUploaderComponent } from './dh-certificate-uploader.compon
     <ng-template #elseCase>
       <ng-container *ngIf="doCredentialsExist(); else emptyState">
         <ng-container *ngIf="doesCertificateExist()">
-          <dh-certificate [actorId]="actorId" />
+          <dh-certificate-view [actorId]="actorId" />
         </ng-container>
 
-        <!-- If client secret exists -->
-        <!-- Show client secret component -->
-        <!-- Else show empty state -->
+        <ng-container *ngIf="doesClientSecretMetadataExist()">
+          <dh-client-secret-view [actorId]="actorId" />
+        </ng-container>
       </ng-container>
 
       <ng-template #emptyState>
-        <vater-stack direction="row" justify="center">
-          <dh-certificate-uploader [actorId]="actorId" />
+        <vater-stack justify="center" gap="l">
+          <watt-icon name="custom-no-results" size="xxl" />
+
+          <vater-stack direction="row" justify="center" gap="m">
+            <dh-certificate-uploader [actorId]="actorId" />
+            <dh-generate-client-secret [actorId]="actorId" />
+          </vater-stack>
         </vater-stack>
       </ng-template>
     </ng-template>
   `,
-  viewProviders: [DhMarketParticipantCertificateStore],
+  viewProviders: [DhMarketPartyB2BAccessStore],
   imports: [
     NgIf,
-    TranslocoDirective,
     VaterStackComponent,
     VaterFlexComponent,
     WattButtonComponent,
     WattSpinnerComponent,
+    WattIconComponent,
 
     DhCertificateComponent,
     DhCertificateUploaderComponent,
+    DhGenerateClientSecretComponent,
+    DhClientSecretViewComponent,
   ],
 })
 export class DhB2bAccessTabComponent implements OnChanges {
-  private readonly store = inject(DhMarketParticipantCertificateStore);
+  private readonly store = inject(DhMarketPartyB2BAccessStore);
 
   doCredentialsExist = toSignal(this.store.doCredentialsExist$);
   doesCertificateExist = toSignal(this.store.doesCertificateExist$);
+  doesClientSecretMetadataExist = toSignal(this.store.doesClientSecretMetadataExist$);
 
-  loadingCredentials = toSignal(this.store.loadingCredentials$);
-  isUploadInProgress = toSignal(this.store.uploadInProgress$);
-  isRemoveInProgress = toSignal(this.store.removeInProgress$);
-
-  showSpinner = computed(() => {
-    return this.loadingCredentials() || this.isUploadInProgress() || this.isRemoveInProgress();
-  });
+  showSpinner = toSignal(this.store.showSpinner$);
 
   @Input({ required: true }) actorId = '';
 
   ngOnChanges(): void {
+    this.store.resetClientSecret();
+
     this.store.getCredentials(this.actorId);
   }
 }

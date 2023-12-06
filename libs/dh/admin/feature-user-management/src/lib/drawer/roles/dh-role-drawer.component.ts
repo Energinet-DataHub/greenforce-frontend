@@ -16,7 +16,7 @@
  */
 import { Component, EventEmitter, inject, Output, ViewChild } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
@@ -41,7 +41,7 @@ import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
   styleUrls: [`./dh-role-drawer.component.scss`],
   providers: [provideComponentStore(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore)],
   imports: [
-    CommonModule,
+    NgIf,
     TranslocoModule,
     WATT_DRAWER,
     WattButtonComponent,

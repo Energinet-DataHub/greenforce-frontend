@@ -27,9 +27,12 @@ limitations under the License.
       <watt-button icon="download" variant="text" (click)="download()">{{
         "shared.download" | transloco
       }}</watt-button>
-      <watt-button variant="secondary" (click)="openCreateNewActorModal()">{{
-        t("create")
-      }}</watt-button>
+      <watt-button
+        variant="secondary"
+        *dhPermissionRequired="['actors:manage']"
+        (click)="openCreateNewActorModal()"
+        >{{ t("create") }}</watt-button
+      >
     </vater-stack>
 
     <dh-actors-filters [initial]="filters$.value" (filter)="filters$.next($event)" />

@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { timer } from 'rxjs';
+
 import { WATT_CARD } from '../../card';
 
 @Component({
@@ -74,7 +75,7 @@ import { WATT_CARD } from '../../card';
     </watt-card>
   `,
   standalone: true,
-  imports: [CommonModule, WATT_CARD],
+  imports: [AsyncPipe, WATT_CARD],
 })
 export class WattStorybookDrawerContentComponent {
   timer$ = timer(0, 1000);

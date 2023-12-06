@@ -17,7 +17,7 @@
 import { CdkTrapFocus, A11yModule } from '@angular/cdk/a11y';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -36,7 +36,6 @@ import {
 import { WattButtonComponent } from '../button';
 import { WattSpinnerComponent } from '../spinner';
 import { WattCssCustomPropertiesService } from '../../utils/css-custom-properties.service';
-
 import { WattDrawerTopbarComponent } from './watt-drawer-topbar.component';
 import { WattDrawerActionsComponent } from './watt-drawer-actions.component';
 import { WattDrawerContentComponent } from './watt-drawer-content.component';
@@ -50,9 +49,12 @@ export type WattDrawerSize = 'small' | 'normal' | 'large';
   styleUrls: ['./watt-drawer.component.scss'],
   templateUrl: './watt-drawer.component.html',
   standalone: true,
-  imports: [A11yModule, MatSidenavModule, WattButtonComponent, WattSpinnerComponent, CommonModule],
+  imports: [NgIf, A11yModule, MatSidenavModule, WattButtonComponent, WattSpinnerComponent],
 })
 export class WattDrawerComponent implements OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+  private elementRef = inject(ElementRef);
+  private overlayContainer = inject(OverlayContainer);
   private cssCustomPropertiesService = inject(WattCssCustomPropertiesService);
   private static currentDrawer?: WattDrawerComponent;
 
@@ -68,8 +70,7 @@ export class WattDrawerComponent implements OnDestroy {
   /** Emits whenever the drawer is closed. */
   @Output() closed = new EventEmitter<void>();
 
-  @ViewChild(CdkTrapFocus)
-  cdkTrapFocus!: CdkTrapFocus;
+  @ViewChild(CdkTrapFocus) cdkTrapFocus!: CdkTrapFocus;
 
   /** @ignore */
   bypassClickCheck = false;
@@ -101,12 +102,6 @@ export class WattDrawerComponent implements OnDestroy {
   onEscKeyPressed() {
     this.close();
   }
-
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private elementRef: ElementRef,
-    private overlayContainer: OverlayContainer
-  ) {}
 
   /** @ignore */
   ngOnDestroy(): void {

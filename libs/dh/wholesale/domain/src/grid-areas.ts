@@ -15,10 +15,11 @@
  * limitations under the License.
  */
 import type { ResultOf } from '@graphql-typed-document-node/core';
-import { Range } from '@energinet-datahub/dh/shared/domain';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
 
-export type GridArea = ResultOf<typeof graphql.GetGridAreasDocument>['gridAreas'][0];
+import { Range } from '@energinet-datahub/dh/shared/domain';
+import { GetGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type GridArea = ResultOf<typeof GetGridAreasDocument>['gridAreas'][0];
 
 export function filterValidGridAreas(
   gridAreas: GridArea[],

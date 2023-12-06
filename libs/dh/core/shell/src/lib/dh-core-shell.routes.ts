@@ -72,6 +72,4 @@ export const dhCoreShellRoutes: Routes = [
       },
     ],
   },
-  // Used by MSAL (B2C)
-  { path: 'state', redirectTo: '', pathMatch: 'full' },
 ];

@@ -27,7 +27,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -62,11 +62,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrls: ['./dh-invite-user-modal.component.scss'],
   standalone: true,
   imports: [
+    NgIf,
     WATT_MODAL,
     WattButtonComponent,
     TranslocoModule,
     WattIconComponent,
-    CommonModule,
     ReactiveFormsModule,
     WattDropdownComponent,
     RxPush,

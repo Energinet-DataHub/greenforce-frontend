@@ -14,66 +14,62 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-card>
-  <h1>Layout</h1>
-</mat-card>
+<h1>Layout</h1>
 
-<mat-card>
-  <h3>Baseline grid (4-based)</h3>
+<h2>Baseline grid (4-based)</h2>
 
-  <p>
-    A 4-based scale is used for spacing and sizing to create rhythm and balance. Using a consistent
-    spacing scale promotes maintainability through ratios by making layouts more predictable and
-    more likely to “fit” and align well.
-  </p>
+<p>
+  A 4-based scale is used for spacing and sizing to create rhythm and balance. Using a consistent
+  spacing scale promotes maintainability through ratios by making layouts more predictable and more
+  likely to “fit” and align well.
+</p>
 
-  <table
-    class="watt-space-stack-l"
-    mat-table
-    [dataSource]="dataSource"
-    style="width: 100%"
-    aria-label="Visual reference"
-  >
-    <!--- Note that these columns can be defined in any order.
+<table
+  class="watt-space-stack-l"
+  mat-table
+  [dataSource]="dataSource"
+  style="width: 100%"
+  aria-label="Visual reference"
+>
+  <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
 
-    <!-- Name column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.name }}
-      </td>
-    </ng-container>
+  <!-- Name column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.name }}
+    </td>
+  </ng-container>
 
-    <!-- Size in px column -->
-    <ng-container matColumnDef="sizePx">
-      <th mat-header-cell *matHeaderCellDef>px</th>
-      <td mat-cell *matCellDef="let element">{{ element.sizePx }}px</td>
-    </ng-container>
+  <!-- Size in px column -->
+  <ng-container matColumnDef="sizePx">
+    <th mat-header-cell *matHeaderCellDef>px</th>
+    <td mat-cell *matCellDef="let element">{{ element.sizePx }}px</td>
+  </ng-container>
 
-    <!-- Size in rem column -->
-    <ng-container matColumnDef="sizeRem">
-      <th mat-header-cell *matHeaderCellDef>rem</th>
-      <td mat-cell *matCellDef="let element">{{ element.sizeRem }}rem</td>
-    </ng-container>
+  <!-- Size in rem column -->
+  <ng-container matColumnDef="sizeRem">
+    <th mat-header-cell *matHeaderCellDef>rem</th>
+    <td mat-cell *matCellDef="let element">{{ element.sizeRem }}rem</td>
+  </ng-container>
 
-    <!-- Visual example column -->
-    <ng-container matColumnDef="visualExample">
-      <th mat-header-cell *matHeaderCellDef>Example</th>
-      <td mat-cell *matCellDef="let element">
-        <div class="visual-example" [style.width.px]="element.sizePx"></div>
-      </td>
-    </ng-container>
+  <!-- Visual example column -->
+  <ng-container matColumnDef="visualExample">
+    <th mat-header-cell *matHeaderCellDef>Example</th>
+    <td mat-cell *matCellDef="let element">
+      <div class="visual-example" [style.width.px]="element.sizePx"></div>
+    </td>
+  </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
 
-  <h4>Visual reference</h4>
+<h2>Visual reference</h2>
 
-  <img
-    class="visual-reference"
-    src="./assets/watt/storybook-spacing-visual-reference.png"
-    alt="Visual reference"
-  />
-</mat-card>
+<img
+  class="visual-reference"
+  src="./assets/watt/storybook-spacing-visual-reference.png"
+  alt="Visual reference"
+/>

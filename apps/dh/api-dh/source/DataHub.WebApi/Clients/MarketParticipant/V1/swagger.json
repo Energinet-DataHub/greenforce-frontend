@@ -85,17 +85,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -327,17 +330,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ActorClientSecretDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ActorClientSecretDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ActorClientSecretDto"
                 }
               }
             }
@@ -488,17 +491,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -662,17 +668,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -1037,17 +1046,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -1652,17 +1664,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserAuditLogResponse"
+                  "$ref": "#/components/schemas/GetUserAuditLogsResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserAuditLogResponse"
+                  "$ref": "#/components/schemas/GetUserAuditLogsResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserAuditLogResponse"
+                  "$ref": "#/components/schemas/GetUserAuditLogsResponse"
                 }
               }
             }
@@ -2007,17 +2019,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -2517,7 +2532,9 @@
         "enum": [
           "Name",
           "Created",
-          "Status"
+          "Status",
+          "CertificateCredentials",
+          "SecretCredentials"
         ]
       },
       "ActorClientSecretCredentialsDto": {
@@ -2531,6 +2548,15 @@
           "expirationDate": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "ActorClientSecretDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "secretText": {
+            "type": "string"
           }
         }
       },
@@ -2591,7 +2617,11 @@
             "format": "uuid"
           },
           "category": {
-            "type": "string"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContactCategory"
+              }
+            ]
           },
           "name": {
             "type": "string"
@@ -2685,7 +2715,11 @@
         "additionalProperties": false,
         "properties": {
           "eicFunction": {
-            "type": "string"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EicFunction"
+              }
+            ]
           },
           "gridAreas": {
             "type": "array",
@@ -2784,20 +2818,6 @@
           "name": {
             "type": "string"
           },
-          "businessRegisterIdentifier": {
-            "type": "string"
-          },
-          "address": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/AddressDto"
-              }
-            ]
-          },
-          "comment": {
-            "type": "string",
-            "nullable": true
-          },
           "status": {
             "type": "string"
           },
@@ -2834,7 +2854,11 @@
             "type": "string"
           },
           "category": {
-            "type": "string"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContactCategory"
+              }
+            ]
           },
           "email": {
             "type": "string"
@@ -2909,10 +2933,6 @@
           },
           "domain": {
             "type": "string"
-          },
-          "comment": {
-            "type": "string",
-            "nullable": true
           }
         }
       },
@@ -2957,6 +2977,7 @@
           "EnergySupplier",
           "GridAccessProvider",
           "ImbalanceSettlementResponsible",
+          "MeterOperator",
           "MeteredDataAdministrator",
           "MeteredDataResponsible",
           "MeteringPointAdministrator",
@@ -3024,7 +3045,7 @@
           }
         }
       },
-      "GetUserAuditLogResponse": {
+      "GetUserAuditLogsResponse": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -3215,13 +3236,7 @@
         "type": "string",
         "enum": [
           "DomainChange",
-          "Name",
-          "BusinessRegisterIdentifier",
-          "AddressCity",
-          "AddressCountry",
-          "AddressNumber",
-          "AddressStreetName",
-          "AddressZipCode"
+          "Name"
         ]
       },
       "OrganizationDto": {
@@ -3240,10 +3255,6 @@
           },
           "domain": {
             "type": "string"
-          },
-          "comment": {
-            "type": "string",
-            "nullable": true
           },
           "status": {
             "type": "string"
@@ -3727,9 +3738,7 @@
           "Created",
           "NameChange",
           "DescriptionChange",
-          "EicFunctionChange",
           "StatusChange",
-          "PermissionsChange",
           "PermissionAdded",
           "PermissionRemoved"
         ]

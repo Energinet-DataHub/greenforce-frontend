@@ -12,8 +12,8 @@
 
 
 export interface ArchivedMessageSearchCriteria { 
-    dateTimeFrom?: string | null;
-    dateTimeTo?: string | null;
+    dateTimeFrom: string;
+    dateTimeTo: string;
     messageId?: string | null;
     senderNumber?: string | null;
     receiverNumber?: string | null;
