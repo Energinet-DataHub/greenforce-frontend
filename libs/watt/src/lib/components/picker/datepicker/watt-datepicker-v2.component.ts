@@ -27,6 +27,7 @@ import {
   Self,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import {
@@ -93,6 +94,10 @@ export class WattDatepickerV2Component extends WattPickerBase {
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected override changeDetectionRef = inject(ChangeDetectorRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });
+  private localeService = inject(WattLocaleService);
+  private locale: WattSupportedLocales = inject(LOCALE_ID) as WattSupportedLocales;
+  private destroyRef = inject(DestroyRef);
+
   @Input() max: Date | null = null;
   @Input() min: Date | null = null;
   @Input() startAt = new Date();
@@ -185,16 +190,9 @@ export class WattDatepickerV2Component extends WattPickerBase {
   getRangePlaceholder(): string {
     return this.datePlaceholder + this.rangeSeparator + this.datePlaceholder;
   }
-  constructor(
-    protected override elementRef: ElementRef<HTMLElement>,
-    @Optional() @Self() ngControl: NgControl,
-    @Inject(LOCALE_ID) private locale: WattSupportedLocales,
-    private cdr: ChangeDetectorRef,
-    private localeService: WattLocaleService,
-    destroyRef: DestroyRef
-  ) {
-    super(`watt-datepicker-v2-${WattDatepickerV2Component.nextId++}`, elementRef, cdr, ngControl);
-    localeService.onLocaleChange$.pipe(takeUntilDestroyed(destroyRef)).subscribe((locale) => {
+  constructor() {
+    super(`watt-datepicker-v2-${WattDatepickerV2Component.nextId++}`);
+    this.localeService.onLocaleChange$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((locale) => {
       this.datePlaceholder = this.getPlaceholderByLocale(locale);
       this.rangePlaceholder = this.getRangePlaceholder();
     });

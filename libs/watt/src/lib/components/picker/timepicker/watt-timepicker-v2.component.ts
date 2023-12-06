@@ -24,8 +24,6 @@ import {
   ElementRef,
   HostBinding,
   Input,
-  Optional,
-  Self,
   ViewChild,
   ViewEncapsulation,
   inject,
