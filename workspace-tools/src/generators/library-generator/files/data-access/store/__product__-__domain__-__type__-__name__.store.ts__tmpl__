@@ -8,7 +8,7 @@ interface <%= stateInterface %>State {}
 const initialState: <%= stateInterface %>State = {};
 
 @Injectable()
-export class <%= className %>Store extends ComponentStore<Dh<%= stateInterface %>State> {
+export class <%= className %>Store extends ComponentStore<<%= stateInterface %>State> {
   constructor() {
     super(initialState);
   }

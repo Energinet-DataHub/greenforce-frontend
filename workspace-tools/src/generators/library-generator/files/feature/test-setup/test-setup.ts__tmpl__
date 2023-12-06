@@ -5,9 +5,10 @@ import {
   setUpAngularTestingLibrary,
 } from '@energinet-datahub/gf/test-util-staging';
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { <%= product =>LocalApiEnvironment } from '@energinet-datahub/<%= product =>/shared/assets';
 import { setupMSW } from '@energinet-datahub/dh/shared/test-util-msw';
 
-setupMSW();
+setupMSWServer(<%= product =>LocalApiEnvironment.apiBase, mocks);
 addDomMatchers();
 setUpTestbed();
 setUpAngularTestingLibrary();

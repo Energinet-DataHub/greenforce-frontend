@@ -5,6 +5,19 @@
   "description": "Generate an entire new domain that's going to be used in DataHub.",
   "type": "object",
   "properties": {
+    "product": {
+      "type": "string",
+      "description": "To which product does the domain belong to?",
+      "enum": [
+        "eo",
+        "dh"
+      ],
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "To which product does the domain belong to?"
+    },
     "domain": {
       "type": "string",
       "description": "What is the name of the domain?",
@@ -14,15 +27,6 @@
       },
       "x-prompt": "What is the name of the domain?"
     },
-    "product": {
-      "type": "string",
-      "description": "To which product does the domain belong to?",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
-      "x-prompt": "To which product does the domain belong to?"
-    },
     "name": {
       "type": "string",
       "description": "What is the name of the first feature under the new domain?",
@@ -30,5 +34,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["domain", "name"]
+  "required": ["product", "domain", "name"]
 }

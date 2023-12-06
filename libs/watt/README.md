@@ -27,6 +27,4 @@ Using the example name above, the generator will create a `my-button` folder in 
 - `watt-my-button.component.ts`
 - `watt-my-button.stories.ts`
 
-It will also automatically update the `libs/watt/src/index.ts` with an `export` declaration that re-exports everything from `my-button/index.ts`.
-
 The generated files contain some sensible defaults for getting started and it should have a working story out of the box.

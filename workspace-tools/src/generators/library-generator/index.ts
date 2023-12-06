@@ -70,17 +70,11 @@ export default async function (tree: Tree, schema: LibrarySchema) {
     importPath: `@energinet-datahub/${libProduct}/${libDomain}/${libName !== '' ? libName : libType}`,
     strict: true,
     skipModule: [
-      LibraryType.dataAccess,
-      LibraryType.domain,
-      LibraryType.e2eUtil,
-      LibraryType.environments,
-      LibraryType.routing,
-      LibraryType.testUtil,
-      LibraryType.shell,
+      ...Object.values(LibraryType)
     ].includes(schema.libraryType),
   });
 
-  updateTestSetupFile(tree, { libPath, libType });
+  updateTestSetupFile(tree, { libPath, libType, libProduct });
   updateReadmeFile(tree, {
     libPath,
     libType,
@@ -366,13 +360,14 @@ function updateTestSetupFile(
   options: {
     libPath: string;
     libType: string;
+    libProduct: string;
   }
 ) {
   generateFiles(
     tree,
     joinPathFragments(__dirname, `./files/${options.libType}/test-setup`),
     `${options.libPath}/src`,
-    { tmpl: '' }
+    { tmpl: '',  product: options.libProduct }
   );
 }
 

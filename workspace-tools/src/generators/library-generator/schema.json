@@ -10,8 +10,7 @@
       "description": "To which product does the library belong to?",
       "enum": [
         "eo",
-        "dh",
-        "eov"
+        "dh"
       ],
       "$default": {
         "$source": "argv",
@@ -57,5 +56,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["domain", "libraryType"]
+  "required": ["product", "domain", "libraryType"]
 }
