@@ -60,8 +60,8 @@ export class EoCertificatesStore extends ComponentStore<EoCertificatesState> {
       next: (response) => {
         const adjustedToDateInMilliseconds = response?.result?.map((cert) => ({
           ...cert,
-          dateTo: cert.dateTo * 1000,
-          dateFrom: cert.dateFrom * 1000,
+          start: cert.start * 1000,
+          end: cert.end * 1000,
         }));
         this.setCertificates(adjustedToDateInMilliseconds);
         this.setError(null);

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
@@ -67,7 +67,7 @@ interface FormValues {
   styleUrls: ['./create.component.scss'],
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
     RxLet,
     RxPush,
     ReactiveFormsModule,
@@ -133,7 +133,14 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
   processTypes: Observable<WattDropdownOption[]> = this._transloco
     .selectTranslateObject('wholesale.calculations.processTypes')
-    .pipe(map((t) => processTypes.map((value) => ({ displayValue: t[value], value }))));
+    .pipe(
+      map((translations) =>
+        processTypes.map((processType) => ({
+          displayValue: this._transloco.translate(translations[processType].replace(/{{|}}/g, '')),
+          value: processType,
+        }))
+      )
+    );
 
   selectedExecutionType = 'ACTUAL';
   latestPeriodEnd?: Date | null;

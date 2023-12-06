@@ -94,4 +94,11 @@ export class DhApplicationInsights {
   trackException(exception: Error, severityLevel: SeverityLevel): void {
     this.appInsights.trackException({ exception, severityLevel });
   }
+
+  /**
+   * Manually trigger an immediate send of all telemetry still in the buffer.
+   */
+  flush(): void {
+    this.appInsights.flush(false);
+  }
 }

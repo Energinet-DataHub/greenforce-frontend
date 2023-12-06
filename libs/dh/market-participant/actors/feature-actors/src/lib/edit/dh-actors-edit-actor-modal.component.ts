@@ -14,19 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewChild, inject } from '@angular/core';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { DhActorExtended } from '../dh-actor';
-import { CommonModule } from '@angular/common';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DhMarketParticipantActorsEditActorDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { tap } from 'rxjs';
 import { RxLet } from '@rx-angular/template/let';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { NgIf } from '@angular/common';
+import { Component, Input, ViewChild, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import {
+  dhDkPhoneNumberValidator,
+  dhFirstPartEmailValidator,
+} from '@energinet-datahub/dh/shared/ui-validators';
+import { DhMarketParticipantActorsEditActorDataAccessApiStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+
+import { DhActorExtended } from '../dh-actor';
 
 @Component({
   standalone: true,
@@ -59,7 +65,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
     WattTextFieldComponent,
     WattFieldErrorComponent,
     RxLet,
-    CommonModule,
+    NgIf,
     TranslocoModule,
   ],
 })
@@ -77,8 +83,8 @@ export class DhActorsEditActorModalComponent {
   actorForm = this.formBuilder.group({
     name: ['', Validators.required],
     departmentName: ['', Validators.required],
-    departmentEmail: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+')]],
-    departmentPhone: ['', [Validators.required]],
+    departmentEmail: ['', [Validators.required, dhFirstPartEmailValidator]],
+    departmentPhone: ['', [Validators.required, dhDkPhoneNumberValidator]],
   });
 
   isLoading = true;
@@ -116,7 +122,8 @@ export class DhActorsEditActorModalComponent {
       !this.actorForm.value.name ||
       !this.actorForm.value.departmentName ||
       !this.actorForm.value.departmentPhone ||
-      !this.actorForm.value.departmentEmail
+      !this.actorForm.value.departmentEmail ||
+      !this.actorForm.valid
     )
       return;
 

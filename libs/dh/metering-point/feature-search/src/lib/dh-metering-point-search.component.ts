@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { take } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoDirective } from '@ngneat/transloco';
 
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -34,24 +34,22 @@ import { DhMeteringPointSearchFormComponent } from './form/dh-metering-point-sea
   providers: [DhMeteringPointDataAccessApiStore],
   standalone: true,
   imports: [
+    NgIf,
     DhMeteringPointSearchFormComponent,
     WattEmptyStateComponent,
-    TranslocoModule,
+    TranslocoPipe,
+    TranslocoDirective,
     RxPush,
-    CommonModule,
   ],
 })
 export class DhMeteringPointSearchComponent {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private store = inject(DhMeteringPointDataAccessApiStore);
   isLoading$ = this.store.isLoading$;
   notFound$ = this.store.meteringPointNotFound$;
   hasGeneralError$ = this.store.hasGeneralError$;
   meteringPointLoaded$ = this.store.meteringPoint$.pipe(take(1));
-
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private store: DhMeteringPointDataAccessApiStore
-  ) {}
 
   onSubmit(id: string) {
     this.store.loadMeteringPointData(id);

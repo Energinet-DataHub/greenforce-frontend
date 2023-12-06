@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ApolloError } from '@apollo/client';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
@@ -39,7 +39,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './dh-admin-permission-overview.component.html',
   styleUrls: ['./dh-admin-permission-overview.component.scss'],
   imports: [
-    CommonModule,
+    NgIf,
     TranslocoModule,
     DhPermissionsTableComponent,
     WattButtonComponent,

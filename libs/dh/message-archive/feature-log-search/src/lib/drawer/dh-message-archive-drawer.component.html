@@ -32,12 +32,12 @@ limitations under the License.
       <watt-button
         (click)="downloadDocument()"
         icon="download"
-        [disabled]="!(message && documentContent)"
+        [disabled]="!(message && documentContent())"
         >{{ t("download") }}</watt-button
       >
     </watt-drawer-actions>
 
-    <watt-drawer-content>
+    <watt-drawer-content *ngIf="drawer.isOpen">
       <div class="message-metadata">
         <watt-description-list>
           <watt-description-list-item
@@ -65,7 +65,7 @@ limitations under the License.
 
           <ng-template #documentContentTmpl>
             <watt-code
-              [code]="documentContent"
+              [code]="documentContent()"
               [languages]="['xml', 'json']"
               [lineNumbers]="true"
             />

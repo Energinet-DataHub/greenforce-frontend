@@ -28,10 +28,7 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import {
-  GetActorByIdDocument,
-  GetAuditLogByActorIdDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -44,6 +41,7 @@ import { DhActorExtended, dhActorAuditLogEntry } from '../dh-actor';
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
 import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';
+import { DhActorAuditLogService } from './dh-actor-audit-log.service';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -72,6 +70,7 @@ import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.comp
       }
     `,
   ],
+  viewProviders: [DhActorAuditLogService],
   imports: [
     NgIf,
     TranslocoModule,
@@ -96,7 +95,9 @@ import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.comp
   ],
 })
 export class DhActorDrawerComponent {
-  private apollo = inject(Apollo);
+  private readonly apollo = inject(Apollo);
+  private readonly auditLogService = inject(DhActorAuditLogService);
+
   private subscription?: Subscription;
   private actorAuditLogSubscription?: Subscription;
 
@@ -106,13 +107,6 @@ export class DhActorDrawerComponent {
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
     query: GetActorByIdDocument,
-  });
-
-  private getActorAuditLogByIdQuery$ = this.apollo.watchQuery({
-    errorPolicy: 'all',
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
-    query: GetAuditLogByActorIdDocument,
   });
 
   actor: DhActorExtended | undefined = undefined;
@@ -149,6 +143,10 @@ export class DhActorDrawerComponent {
     return emDash;
   }
 
+  get isGridAccessProvider(): boolean {
+    return this.actor?.marketRole === EicFunction.GridAccessProvider;
+  }
+
   get gridAreaOrFallback() {
     return this.actor?.gridAreas?.[0]?.code ?? emDash;
   }
@@ -170,9 +168,9 @@ export class DhActorDrawerComponent {
   private loadAuditLog(actorId: string): void {
     this.actorAuditLogSubscription?.unsubscribe();
 
-    this.getActorAuditLogByIdQuery$.setVariables({ actorId });
+    this.auditLogService.getActorAuditLogByIdQuery$.setVariables({ actorId });
 
-    this.actorAuditLogSubscription = this.getActorAuditLogByIdQuery$.valueChanges
+    this.actorAuditLogSubscription = this.auditLogService.getActorAuditLogByIdQuery$.valueChanges
       .pipe(takeUntil(this.closed))
       .subscribe({
         next: (result) => {

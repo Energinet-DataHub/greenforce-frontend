@@ -14,19 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, Signal, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
+import { fromUnixTime } from 'date-fns';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
   VaterStackComponent,
 } from '@energinet-datahub/watt/vater';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
+
+import { EnergyUnitPipe } from '@energinet-datahub/eo/shared/utilities';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoClaimsService, Claim } from '@energinet-datahub/eo/claims/data-access-api';
-
 import { EoClaimsTableComponent } from './claims-table.component';
 
 @Component({
@@ -41,6 +44,7 @@ import { EoClaimsTableComponent } from './claims-table.component';
     WattButtonComponent,
     WattSearchComponent,
   ],
+  providers: [WattDatePipe, EnergyUnitPipe],
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
@@ -66,7 +70,7 @@ import { EoClaimsTableComponent } from './claims-table.component';
         <vater-stack direction="row" gap="s">
           <h3 class="watt-on-light--high-emphasis">Results</h3>
           <div class="badge">
-            <small>{{ amountOfclaims() }}</small>
+            <small>{{ this.claimsTable?.dataSource?.filteredData?.length }}</small>
           </div>
           <vater-spacer />
           <watt-search label="Search" (search)="search = $event" />
@@ -82,7 +86,11 @@ import { EoClaimsTableComponent } from './claims-table.component';
   `,
 })
 export class EoClaimsComponent implements OnInit {
-  private claimsService = inject(EoClaimsService);
+  @ViewChild(EoClaimsTableComponent) claimsTable?: EoClaimsTableComponent;
+
+  private claimsService: EoClaimsService = inject(EoClaimsService);
+  protected wattDatePipe: WattDatePipe = inject(WattDatePipe);
+  protected energyUnitPipe: EnergyUnitPipe = inject(EnergyUnitPipe);
 
   protected search = '';
   protected claims = signal<{
@@ -94,7 +102,6 @@ export class EoClaimsComponent implements OnInit {
     hasError: false,
     data: null,
   });
-  protected amountOfclaims: Signal<number> = computed(() => this.claims().data?.length || 0);
 
   ngOnInit(): void {
     this.loadclaims();
@@ -103,8 +110,27 @@ export class EoClaimsComponent implements OnInit {
   private loadclaims() {
     this.claims.set({ loading: true, hasError: false, data: null });
     this.claimsService.getClaims().subscribe({
-      next: (data) => {
-        this.claims.set({ loading: false, hasError: false, data });
+      next: (claims) => {
+        this.claims.set({
+          loading: false,
+          hasError: false,
+          data: claims?.map((claim) => {
+            return {
+              ...claim,
+              amount: this.energyUnitPipe.transform(claim.quantity) as string,
+              start:
+                this.wattDatePipe.transform(
+                  fromUnixTime(claim.consumptionCertificate.start),
+                  'long'
+                ) ?? '',
+              end:
+                this.wattDatePipe.transform(
+                  fromUnixTime(claim.consumptionCertificate.end),
+                  'long'
+                ) ?? '',
+            };
+          }),
+        });
       },
       error: () => {
         this.claims.set({ loading: false, hasError: true, data: null });

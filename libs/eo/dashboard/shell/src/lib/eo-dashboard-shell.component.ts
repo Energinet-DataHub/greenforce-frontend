@@ -14,62 +14,98 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EoInlineMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { EoDashboardGetDataComponent } from './eo-dashboard-get-data.component';
-import { EoDashboardHourlyDeclarationComponent } from './eo-dashboard-hourly-declaration.component';
-import { EoDashboardLinksComponent } from './eo-dashboard-links.component';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+
+import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
+
+import { EoDashboardConsumptionComponent } from './eo-dashboard-consumption.component';
+import { EoDashboardProductionTransferredComponent } from './eo-dashboard-production-transferred.component';
+import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
+import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    WattIconComponent,
-    EoInlineMessageComponent,
-    EoDashboardLinksComponent,
-    EoDashboardGetDataComponent,
-    EoDashboardHourlyDeclarationComponent,
-  ],
-  selector: 'eo-dashboard-shell',
   styles: [
     `
+      @use '@energinet-datahub/watt/utils' as watt;
+
       :host {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        gap: var(--watt-space-m);
+        @include watt.media('>=Large') {
+          gap: var(--watt-space-l);
+        }
       }
 
-      .shell-container {
-        display: grid;
-        grid-template-columns: 375px 375px;
-        gap: var(--watt-space-l);
+      .loading-container {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
       }
     `,
   ],
+  imports: [
+    EoDashboardConsumptionComponent,
+    EoDashboardProductionTransferredComponent,
+    NgIf,
+    AsyncPipe,
+    WattSpinnerComponent,
+    WattEmptyStateComponent,
+    JsonPipe,
+  ],
+  selector: 'eo-dashboard-shell',
   template: `
-    <div class="shell-container">
-      <div>
-        <eo-dashboard-links class="watt-space-stack-l" />
+    <ng-container *ngIf="(isLoadingMeteringPoints$ | async) === false; else loading">
+      <ng-container *ngIf="productionMeteringPoints$ | async as productionMeteringPoints">
+        <eo-dashboard-production-transferred *ngIf="productionMeteringPoints.length > 0" />
+      </ng-container>
+      <ng-container *ngIf="consumptionMeteringPoints$ | async as consumptionMeteringPoints">
+        <eo-dashboard-consumption *ngIf="consumptionMeteringPoints.length > 0" />
+      </ng-container>
+      <ng-container *ngIf="productionAndConsumptionMeteringPoints$ | async as meteringPoints">
+        <watt-empty-state
+          *ngIf="meteringPoints.length === 0"
+          icon="custom-power"
+          title="No data to visualize"
+          message="We have no data to visualize because you have no production or consumption metering point(s). "
+        />
+      </ng-container>
+    </ng-container>
+
+    <ng-template #loading>
+      <div class="loading-container">
+        <watt-spinner />
       </div>
-      <div>
-        <eo-dashboard-hourly-declaration class="watt-space-stack-l" />
-        <eo-dashboard-get-data />
-      </div>
-    </div>
-    <eo-inline-message type="warning">
-      <watt-icon name="custom-primary-info" size="l" />
-      <p>
-        The Energy Origin Platform is <strong>under development</strong> and new functionalities
-        will be released continuously. The first release of the platform only offers
-        <strong>data for companies</strong>. Data for private users is intended to form part of one
-        of the next releases. If you want to influence the new functionality, join us at our
-        <a
-          href="https://www.linkedin.com/groups/12643238/"
-          target="_blank"
-          rel="noopener noreferrer"
-          >LinkedIn group</a
-        >.
-      </p>
-    </eo-inline-message>
+    </ng-template>
+
+    <watt-empty-state
+      *ngIf="(meteringPointError$ | async) !== null"
+      icon="custom-power"
+      title="An unexpected error occured"
+      message="Try again by reloading the page or contacting your system administrator if you keep getting this error."
+    />
   `,
 })
-export class EoDashboardShellComponent {}
+export class EoDashboardShellComponent implements OnInit {
+  private meteringPointStore = inject(EoMeteringPointsStore);
+  private aggregateService: EoAggregateService = inject(EoAggregateService);
+
+  isLoadingMeteringPoints$ = this.meteringPointStore.loading$;
+  productionMeteringPoints$ = this.meteringPointStore.productionMeteringPoints$;
+  consumptionMeteringPoints$ = this.meteringPointStore.consumptionMeteringPoints$;
+  productionAndConsumptionMeteringPoints$ =
+    this.meteringPointStore.productionAndConsumptionMeteringPoints$;
+  meteringPointError$ = this.meteringPointStore.meteringPointError$;
+
+  ngOnInit(): void {
+    this.meteringPointStore.loadMeteringPoints();
+    this.aggregateService.clearCache();
+  }
+}

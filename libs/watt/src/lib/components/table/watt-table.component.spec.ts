@@ -384,6 +384,7 @@ describe(WattTableComponent.name, () => {
   });
 
   it('can set initially selected rows', async () => {
+    const selectionChange = jest.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
@@ -397,6 +398,7 @@ describe(WattTableComponent.name, () => {
       columns,
       selectable: true,
       initialSelection: [firstRow, secondRow],
+      selectionChange,
     });
 
     const [selectAllCheckbox, firstCheckbox, secondCheckbox, ...otherCheckboxes] =

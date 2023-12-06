@@ -51,6 +51,24 @@ type Calculation {
   processType: ProcessType!
 }
 
+enum ContactCategoryType {
+  default
+  charges
+  chargelinks
+  electricalheating
+  endofsupply
+  energinetinquiry
+  errorreport
+  incorrectmove
+  incorrectswitch
+  measurementdata
+  meteringpoint
+  netsettlement
+  notification
+  recon
+  reminder
+}
+
 enum EdiB2CProcessType {
   preliminaryaggregation
   balancefixing
@@ -66,6 +84,7 @@ enum EicFunction {
   EnergySupplier
   GridAccessProvider
   ImbalanceSettlementResponsible
+  MeterOperator
   MeteredDataAdministrator
   MeteredDataResponsible
   MeteringPointAdministrator
@@ -90,6 +109,23 @@ type EsettOutgoingMessage {
 enum ExchangeEventCalculationType {
   BALANCE_FIXING
   AGGREGATION
+}
+
+enum EicFunctionType {
+  BalanceResponsibleParty
+  BillingAgent
+  EnergySupplier
+  GridAccessProvider
+  ImbalanceSettlementResponsible
+  MeterOperator
+  MeteredDataAdministrator
+  MeteredDataResponsible
+  MeteringPointAdministrator
+  SystemOperator
+  DanishEnergyAgency
+  DataHubAdministrator
+  IndependentAggregator
+  SerialEnergyTrader
 }
 
 type OrganizationAuditLog {
@@ -140,6 +176,7 @@ type Query {
   permissionLogs(id: Int!): [PermissionLog!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditLog!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
+  userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   organizationById(id: UUID!): Organization!
   organizations: [Organization!]!
   gridAreas: [GridAreaDto!]!
@@ -168,6 +205,7 @@ type Mutation {
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
+  createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
 }
 
 scalar UUID
@@ -276,6 +314,13 @@ type MarketParticipantBadRequestError implements Error {
   statusCode: Int!
 }
 
+type ApiError implements Error {
+  message: String!
+  statusCode: Int!
+  response: String
+  headers: [KeyValuePairOfStringAndIEnumerableOfString!]!
+}
+
 interface Error {
   message: String!
 }
@@ -308,6 +353,13 @@ enum ContactCategory {
 enum PriceAreaCode {
   DK1
   DK2
+}
+
+input CreateMarketParticipantInput {
+  organizationId: UUID
+  organization: CreateOrganizationDtoInput
+  actor: CreateActorDtoInput!
+  actorContact: CreateActorContactDtoInput!
 }
 
 enum MeteringPointType {
@@ -407,6 +459,11 @@ type PermissionLog {
   type: PermissionAuditLogType!
 }
 
+type KeyValuePairOfStringAndIEnumerableOfString {
+  key: String!
+  value: [String!]!
+}
+
 enum PermissionAuditLogType {
   UNKNOWN
   DESCRIPTION_CHANGE
@@ -453,12 +510,62 @@ enum ActorAuditLogType {
   CONTACT_PHONE
   CONTACT_CREATED
   CONTACT_DELETED
+  CERTIFICATE_CREDENTIALS
+  CLIENT_SECRET_CREDENTIALS
+}
+
+input CreateActorContactDtoInput {
+  name: String!
+  category: ContactCategoryType!
+  email: String!
+  phone: String
+}
+
+input CreateActorDtoInput {
+  organizationId: UUID!
+  name: ActorNameDtoInput!
+  actorNumber: ActorNumberDtoInput!
+  marketRoles: [ActorMarketRoleDtoInput!]!
+}
+
+input CreateOrganizationDtoInput {
+  name: String!
+  businessRegisterIdentifier: String!
+  address: AddressDtoInput!
+  domain: String!
+}
+
+input AddressDtoInput {
+  streetName: String
+  number: String
+  zipCode: String
+  city: String
+  country: String!
+}
+
+input ActorMarketRoleDtoInput {
+  eicFunction: EicFunctionType!
+  gridAreas: [ActorGridAreaDtoInput!]!
+  comment: String
+}
+
+input ActorNumberDtoInput {
+  value: String!
+}
+
+input ActorNameDtoInput {
+  value: String!
 }
 
 type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!
   incomingQuantity: Float
   outgoingQuantity: Float
+}
+
+input ActorGridAreaDtoInput {
+  id: UUID!
+  meteringPointTypes: [String!]!
 }
 
 input UpdateActorInput {
@@ -510,4 +617,11 @@ union UpdateOrganizationError = MarketParticipantBadRequestError
 type UpdateOrganizationPayload {
   boolean: Boolean
   errors: [UpdateOrganizationError!]
+}
+
+union CreateMarketParticipantError = ApiError
+
+type CreateMarketParticipantPayload {
+  boolean: Boolean
+  errors: [CreateMarketParticipantError!]
 }

@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { map, take, tap, timer } from 'rxjs';
-import { WATT_MODAL, WattDialogRef } from '@energinet-datahub/watt/modal';
 import { TranslocoModule } from '@ngneat/transloco';
+
+import { WATT_MODAL, WattDialogRef } from '@energinet-datahub/watt/modal';
 
 @Component({
   selector: 'dh-inactivity-logout',
@@ -33,13 +34,14 @@ import { TranslocoModule } from '@ngneat/transloco';
   template: `
     <watt-modal *transloco="let t" [size]="'small'" [title]="t('sessionExpirationTitle')">
       <p>{{ t('sessionExpirationContentPartA') }}<br />{{ t('sessionExpirationContentPartB') }}</p>
-      <h2>{{ warningCountdown$ | push | date : 'mm:ss' }}</h2>
+      <h2>{{ warningCountdown$ | push | date: 'mm:ss' }}</h2>
     </watt-modal>
   `,
   standalone: true,
-  imports: [CommonModule, RxPush, DatePipe, TranslocoModule, WATT_MODAL],
+  imports: [RxPush, DatePipe, TranslocoModule, WATT_MODAL],
 })
 export class DhInactivityLogoutComponent {
+  private dialogRef = inject<WattDialogRef<DhInactivityLogoutComponent>>(WattDialogRef);
   private readonly secondsUntilLogOff = 5 * 60;
 
   readonly warningCountdown$ = timer(0, 1000).pipe(
@@ -48,6 +50,4 @@ export class DhInactivityLogoutComponent {
     map((elapsed) => Math.max(0, this.secondsUntilLogOff - elapsed - 1)),
     map((elapsed) => new Date(elapsed * 1000))
   );
-
-  constructor(private dialogRef: WattDialogRef<DhInactivityLogoutComponent>) {}
 }

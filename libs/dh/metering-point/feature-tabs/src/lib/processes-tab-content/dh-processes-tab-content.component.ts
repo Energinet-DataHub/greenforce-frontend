@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RxLet } from '@rx-angular/template/let';
 import { map } from 'rxjs';
@@ -35,7 +35,7 @@ import { DhProcessesTableComponent } from './processes-table/dh-processes-table.
   providers: [DhProcessesDataAccessApiStore],
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
     WattSpinnerComponent,
     RxLet,
     DhProcessesTableComponent,
@@ -44,16 +44,15 @@ import { DhProcessesTableComponent } from './processes-table/dh-processes-table.
   ],
 })
 export class DhProcessesTabContentComponent {
+  private route = inject(ActivatedRoute);
+  private store = inject(DhProcessesDataAccessApiStore);
   meteringPointId$ = this.route.params.pipe(
     map((params) => params[dhMeteringPointIdParam] as string)
   );
   processes$ = this.store.processes$;
   isLoading$ = this.store.isLoading$;
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: DhProcessesDataAccessApiStore
-  ) {
+  constructor() {
     this.loadProcessData();
   }
 

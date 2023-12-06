@@ -23,13 +23,7 @@ limitations under the License.
             <watt-textarea-field
               [label]="t('tab.masterData.descriptionInputLabel')"
               [formControl]="userPermissionsForm.controls.description"
-            >
-              <watt-field-error
-                *ngIf="userPermissionsForm.controls.description?.errors?.['required']"
-              >
-                {{ t("validationErrors.required") }}
-              </watt-field-error>
-            </watt-textarea-field>
+            />
           </div>
         </watt-tab>
       </watt-tabs>

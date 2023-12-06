@@ -48,6 +48,13 @@ type AddressDto {
   country: String!
 }
 
+type ApiError implements Error {
+  message: String!
+  statusCode: Int!
+  response: String
+  headers: [KeyValuePairOfStringAndIEnumerableOfString!]!
+}
+
 type BalanceResponsiblePageResult {
   page: [BalanceResponsibleType!]!
   totalCount: Int!
@@ -90,6 +97,11 @@ type CreateAggregatedMeasureDataRequestPayload {
 
 type CreateCalculationPayload {
   calculation: Calculation
+}
+
+type CreateMarketParticipantPayload {
+  boolean: Boolean
+  errors: [CreateMarketParticipantError!]
 }
 
 type EsettOutgoingMessage {
@@ -143,6 +155,11 @@ type GridAreaOverviewItemDto {
   fullFlexDate: DateTime
 }
 
+type KeyValuePairOfStringAndIEnumerableOfString {
+  key: String!
+  value: [String!]!
+}
+
 type MarketParticipantBadRequestError implements Error {
   message: String!
   jsonError: JSON!
@@ -177,6 +194,7 @@ type Mutation {
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
+  createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
 }
 
 type Organization {
@@ -221,6 +239,7 @@ type Query {
   permissionLogs(id: Int!): [PermissionLog!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditLog!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
+  userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   organizationById(id: UUID!): Organization!
   organizations: [Organization!]!
   gridAreas: [GridAreaDto!]!
@@ -290,9 +309,52 @@ type UserRoleWithPermissionsDto {
   permissions: [Permission!]!
 }
 
+union CreateMarketParticipantError = ApiError
+
 union UpdateActorError = MarketParticipantBadRequestError
 
 union UpdateOrganizationError = MarketParticipantBadRequestError
+
+input ActorGridAreaDtoInput {
+  id: UUID!
+  meteringPointTypes: [String!]!
+}
+
+input ActorMarketRoleDtoInput {
+  eicFunction: EicFunctionType!
+  gridAreas: [ActorGridAreaDtoInput!]!
+  comment: String
+}
+
+input ActorNameDtoInput {
+  value: String!
+}
+
+input ActorNumberDtoInput {
+  value: String!
+}
+
+input AddressDtoInput {
+  streetName: String
+  number: String
+  zipCode: String
+  city: String
+  country: String!
+}
+
+input CreateActorContactDtoInput {
+  name: String!
+  category: ContactCategoryType!
+  email: String!
+  phone: String
+}
+
+input CreateActorDtoInput {
+  organizationId: UUID!
+  name: ActorNameDtoInput!
+  actorNumber: ActorNumberDtoInput!
+  marketRoles: [ActorMarketRoleDtoInput!]!
+}
 
 input CreateAggregatedMeasureDataRequestInput {
   processType: EdiB2CProcessType!
@@ -308,6 +370,20 @@ input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
   processType: ProcessType!
+}
+
+input CreateMarketParticipantInput {
+  organizationId: UUID
+  organization: CreateOrganizationDtoInput
+  actor: CreateActorDtoInput!
+  actorContact: CreateActorContactDtoInput!
+}
+
+input CreateOrganizationDtoInput {
+  name: String!
+  businessRegisterIdentifier: String!
+  address: AddressDtoInput!
+  domain: String!
 }
 
 input UpdateActorInput {
@@ -337,6 +413,8 @@ enum ActorAuditLogType {
   CONTACT_PHONE
   CONTACT_CREATED
   CONTACT_DELETED
+  CERTIFICATE_CREDENTIALS
+  CLIENT_SECRET_CREDENTIALS
 }
 
 enum ActorStatus {
@@ -377,6 +455,24 @@ enum ContactCategory {
   REMINDER
 }
 
+enum ContactCategoryType {
+  default
+  charges
+  chargelinks
+  electricalheating
+  endofsupply
+  energinetinquiry
+  errorreport
+  incorrectmove
+  incorrectswitch
+  measurementdata
+  meteringpoint
+  netsettlement
+  notification
+  recon
+  reminder
+}
+
 enum DocumentStatus {
   RECEIVED
   AWAITING_DISPATCH
@@ -400,6 +496,24 @@ enum EicFunction {
   EnergySupplier
   GridAccessProvider
   ImbalanceSettlementResponsible
+  MeterOperator
+  MeteredDataAdministrator
+  MeteredDataResponsible
+  MeteringPointAdministrator
+  SystemOperator
+  DanishEnergyAgency
+  DataHubAdministrator
+  IndependentAggregator
+  SerialEnergyTrader
+}
+
+enum EicFunctionType {
+  BalanceResponsibleParty
+  BillingAgent
+  EnergySupplier
+  GridAccessProvider
+  ImbalanceSettlementResponsible
+  MeterOperator
   MeteredDataAdministrator
   MeteredDataResponsible
   MeteringPointAdministrator

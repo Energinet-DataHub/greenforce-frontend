@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import {
@@ -61,7 +61,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   providers: [DhMarketParticipantDataAccessApiStore, DhChargesDataAccessApiStore],
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
     FormsModule,
     RxPush,
     TranslocoModule,
@@ -78,6 +78,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class DhChargesCreatePricesComponent implements OnInit {
+  private chargesStore = inject(DhChargesDataAccessApiStore);
+  private marketParticipantStore = inject(DhMarketParticipantDataAccessApiStore);
+  private toastService = inject(WattToastService);
+  private translocoService = inject(TranslocoService);
+  private router = inject(Router);
   private _destroy = inject(DestroyRef);
 
   chargeTypeOptions: WattDropdownOptions = [];
@@ -107,14 +112,6 @@ export class DhChargesCreatePricesComponent implements OnInit {
   hasSubmitted = false;
 
   isLoading = this.chargesStore.isCreateRequestLoading$;
-
-  constructor(
-    private chargesStore: DhChargesDataAccessApiStore,
-    private marketParticipantStore: DhMarketParticipantDataAccessApiStore,
-    private toastService: WattToastService,
-    private translocoService: TranslocoService,
-    private router: Router
-  ) {}
 
   ngOnInit() {
     this.marketParticipantStore.loadMarketParticipants();

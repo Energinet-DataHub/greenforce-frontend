@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { WattButtonComponent } from '../../button/watt-button.component';
 import { WATT_MODAL } from '../watt-modal.component';
 import { WattModalService } from '../watt-modal.service';
@@ -58,7 +58,7 @@ export class WattModalComponent implements OnInit {
   template: `<watt-button (click)="openModal()">Open modal from service</watt-button>`,
 })
 export class WattModalFromClassComponent {
-  constructor(private modalService: WattModalService) {}
+  private modalService = inject(WattModalService);
 
   openModal() {
     this.modalService.open({

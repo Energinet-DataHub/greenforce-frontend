@@ -15,8 +15,10 @@
  * limitations under the License.
  */
 
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
+import { FormControl } from '@angular/forms';
 import { Component, EventEmitter, Injectable, Input, Output } from '@angular/core';
+
 import {
   DateRange,
   DefaultMatCalendarRangeStrategy,
@@ -43,7 +45,7 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
   standalone: true,
   providers: [{ provide: MAT_DATE_RANGE_SELECTION_STRATEGY, useClass: EndOfDaySelectionStrategy }],
   imports: [
-    CommonModule,
+    NgIf,
     MatDatepickerModule,
     WattMenuChipComponent,
     WattDatePipe,
@@ -73,7 +75,7 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
         <watt-button variant="primary" matDateRangePickerApply>Vælg</watt-button>
       </mat-date-range-picker-actions>
     </mat-date-range-picker>
-    <watt-field [control]="null" [chipMode]="true">
+    <watt-field [control]="formControl" [chipMode]="true">
       <watt-menu-chip
         hasPopup="dialog"
         [disabled]="disabled"
@@ -112,6 +114,7 @@ export class WattDateRangeChipComponent {
   @Input() disabled = false;
   @Input() label?: string;
   @Input() value?: WattRange<Date>;
+  @Input({ required: true }) formControl!: FormControl;
   @Output() selectionChange = new EventEmitter<WattRange<Date> | null>();
 
   clearInput(): void {

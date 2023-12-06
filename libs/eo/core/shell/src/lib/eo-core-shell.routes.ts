@@ -19,12 +19,9 @@ import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
   eoCertificatesRoutePath,
   eoClaimsRoutePath,
-  eoConnectionsRoutePath,
   eoDashboardRoutePath,
-  eoEmissionsRoutePath,
   eoHelpRoutePath,
   eoMeteringPointsRoutePath,
-  eoOriginOfEnergyRoutePath,
   eoPrivacyPolicyRoutePath,
   eoTransferRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
@@ -69,30 +66,12 @@ export const eoShellRoutes: Routes = [
           ),
       },
       {
-        path: eoOriginOfEnergyRoutePath,
-        canActivate: [EoScopeGuard],
-        data: { title: 'Renewable Share' },
-        loadChildren: () =>
-          import('@energinet-datahub/eo/origin-of-energy/shell').then(
-            (esModule) => esModule.eoOriginOfEnergyRoutes
-          ),
-      },
-      {
         path: eoMeteringPointsRoutePath,
         canActivate: [EoScopeGuard],
         data: { title: 'Metering points' },
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
             (esModule) => esModule.eoMeteringPointsRoutes
-          ),
-      },
-      {
-        path: eoEmissionsRoutePath,
-        canActivate: [EoScopeGuard],
-        data: { title: 'Emissions' },
-        loadChildren: () =>
-          import('@energinet-datahub/eo/emissions/shell').then(
-            (esModule) => esModule.eoEmissionsRoutes
           ),
       },
       {
@@ -108,15 +87,6 @@ export const eoShellRoutes: Routes = [
         data: { title: 'Claims' },
         loadChildren: () =>
           import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),
-      },
-      {
-        path: eoConnectionsRoutePath,
-        canActivate: [EoScopeGuard],
-        data: { title: 'Connections' },
-        loadChildren: () =>
-          import('@energinet-datahub/eo/connections/shell').then(
-            (esModule) => esModule.eoConnectionsRoutes
-          ),
       },
       {
         path: eoPrivacyPolicyRoutePath,

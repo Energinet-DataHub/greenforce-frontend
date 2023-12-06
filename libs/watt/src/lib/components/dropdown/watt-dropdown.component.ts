@@ -17,7 +17,6 @@
 import {
   Component,
   DestroyRef,
-  Host,
   HostBinding,
   Input,
   OnInit,
@@ -35,19 +34,18 @@ import {
   ValidatorFn,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { MatSelectModule, MatSelect } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { of, ReplaySubject, distinctUntilChanged, map, take, filter } from 'rxjs';
-import { WattFieldComponent } from '../field';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+import { WattFieldComponent } from '../field';
 import type { WattDropdownOptions } from './watt-dropdown-option';
 import type { WattDropdownValue } from './watt-dropdown-value';
-
 import { WattMenuChipComponent } from '../chip';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'watt-dropdown',
@@ -56,8 +54,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [
+    NgClass,
+    NgIf,
+    NgFor,
     MatSelectModule,
-    CommonModule,
     RxPush,
     ReactiveFormsModule,
     NgxMatSelectSearchModule,
@@ -67,6 +67,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class WattDropdownComponent implements ControlValueAccessor, OnInit {
+  private parentControlDirective = inject(NgControl, { host: true });
   /**
    * @ignore
    */
@@ -88,8 +89,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    * @ignore
    *
    */
-  @HostBinding('attr.watt-field-disabled')
-  isDisabled = false;
+  @HostBinding('attr.watt-field-disabled') isDisabled = false;
 
   /**
    * @ignore
@@ -157,7 +157,8 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    * Set the mode of the dropdown.
    */
   @Input() chipMode = false;
-  @HostBinding('class.watt-chip-mode') get chipModeClass() {
+  @HostBinding('class.watt-chip-mode')
+  get chipModeClass() {
     return this.chipMode;
   }
 
@@ -201,7 +202,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    */
   @Input() noOptionsFoundLabel = '';
 
-  constructor(@Host() private parentControlDirective: NgControl) {
+  constructor() {
     this.parentControlDirective.valueAccessor = this;
   }
 

@@ -21,10 +21,10 @@ import {
   DestroyRef,
   Directive,
   ElementRef,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
@@ -37,6 +37,10 @@ import { WattPickerValue } from './watt-picker-value';
 export abstract class WattPickerBase
   implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor
 {
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected changeDetectionRef = inject(ChangeDetectorRef);
+  protected ngControl = inject(NgControl, { optional: true });
+
   /**
    * @ignore
    */
@@ -185,6 +189,7 @@ export abstract class WattPickerBase
   /**
    * @ignore
    */
+  @HostBinding('attr.watt-field-disabled')
   @Input()
   get disabled(): boolean {
     return this._disabled;
@@ -229,24 +234,13 @@ export abstract class WattPickerBase
   }
 
   /**
-   * @ignore
-   */
-  ngControl: NgControl | null = null;
-
-  /**
    *
    * @ignore
    */
   control: FormControl | null = null;
 
-  constructor(
-    public id: string,
-    protected elementRef: ElementRef<HTMLElement>,
-    protected changeDetectionRef: ChangeDetectorRef,
-    @Optional() ngControl: NgControl
-  ) {
-    this.elementRef.nativeElement.setAttribute('id', id);
-    this.ngControl = ngControl;
+  constructor(public id: string) {
+    this.elementRef.nativeElement.setAttribute('id', this.id);
 
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;

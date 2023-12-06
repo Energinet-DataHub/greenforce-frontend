@@ -16,11 +16,12 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-
+import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 import { EoCertificate, EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
+import { eachDayOfInterval, fromUnixTime } from 'date-fns';
 
 interface EoCertificateResponse {
   result: EoCertificate[];
@@ -28,6 +29,16 @@ interface EoCertificateResponse {
 
 interface EoContractResponse {
   result: EoCertificateContract[];
+}
+
+interface EoAggregateCertificateResponse {
+  result: [
+    {
+      start: number;
+      end: number;
+      quantity: number;
+    },
+  ];
 }
 
 @Injectable({
@@ -44,7 +55,8 @@ export class EoCertificatesService {
   }
 
   getCertificates() {
-    return this.http.get<EoCertificateResponse>(`${this.#apiBase}/certificates`);
+    const walletApiBase = `${this.#apiBase}/v1`.replace('/api', '/wallet-api');
+    return this.http.get<EoCertificateResponse>(`${walletApiBase}/certificates`);
   }
 
   /**
@@ -69,8 +81,48 @@ export class EoCertificatesService {
     });
   }
 
+  getAggregatedCertificates(
+    timeAggregate: EoTimeAggregate,
+    start: number,
+    end: number,
+    type: 'consumption' | 'production' = 'consumption'
+  ) {
+    const dates = eachDayOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
+      (date) => {
+        return {
+          day: date.getDate(),
+          month: date.getMonth() + 1,
+          quantity: 0,
+        };
+      }
+    );
+
+    const apiBase = `${this.#apiBase}/v1`.replace('/api', '/wallet-api');
+    const timeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
+
+    return this.http
+      .get<EoAggregateCertificateResponse>(
+        `${apiBase}/aggregate-certificates?timeAggregate=${timeAggregate}&timeZone=${timeZone}&start=${start}&end=${end}&type=${type}`
+      )
+      .pipe(
+        map((response) => response.result),
+        map((certificates) =>
+          dates.map((date) => {
+            const certificate = certificates.find((c) => {
+              return (
+                fromUnixTime(c.start).getDate() === date.day &&
+                fromUnixTime(c.start).getMonth() + 1 === date.month
+              );
+            });
+            return certificate ? { ...date, quantity: certificate.quantity } : date;
+          })
+        ),
+        map((result) => result.map((x) => x.quantity))
+      );
+  }
+
   patchContract(id: string) {
-    return this.http.patch<EoCertificateContract>(`${this.#apiBase}/certificates/contracts/${id}`, {
+    return this.http.put<EoCertificateContract>(`${this.#apiBase}/certificates/contracts/${id}`, {
       endDate: Math.floor(Date.now() / 1000),
     });
   }

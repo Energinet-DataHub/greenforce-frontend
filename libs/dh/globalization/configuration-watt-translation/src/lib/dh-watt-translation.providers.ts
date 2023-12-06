@@ -20,6 +20,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
 import { WattDataIntlService } from '@energinet-datahub/watt/data';
 import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
+import { WattFieldIntlService } from '@energinet-datahub/watt/field';
 
 @Injectable()
 export class DhClipboardIntlService extends WattClipboardIntlService {
@@ -43,6 +44,18 @@ export class DhDataIntlService extends WattDataIntlService {
       this.emptyMessage = translations.empty.message;
       this.errorTitle = translations.error.title;
       this.errorMessage = translations.error.message;
+      this.changes.next();
+    });
+  }
+}
+
+@Injectable()
+export class DhFieldIntlService extends WattFieldIntlService {
+  constructor(transloco: TranslocoService) {
+    super();
+
+    transloco.selectTranslateObject('shared.fieldValidation').subscribe((translations) => {
+      this.required = translations.required;
       this.changes.next();
     });
   }
@@ -78,5 +91,9 @@ export const dhWattTranslationsProviders = makeEnvironmentProviders([
   {
     provide: WattPaginatorIntlService,
     useClass: DhPaginatorIntlService,
+  },
+  {
+    provide: WattFieldIntlService,
+    useClass: DhFieldIntlService,
   },
 ]);

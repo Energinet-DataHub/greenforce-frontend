@@ -14,24 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { NgIf, NgFor } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 
-import { DhSelectedActorStore, Actor } from './dh-selected-actor.store';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+
+import { DhSelectedActorStore, Actor } from './dh-selected-actor.store';
 
 @Component({
   selector: 'dh-selected-actor',
   styleUrls: ['./dh-selected-actor.component.scss'],
   templateUrl: './dh-selected-actor.component.html',
   standalone: true,
-  imports: [CommonModule, RxLet, RxPush, WattIconComponent, WattSpinnerComponent, OverlayModule],
+  imports: [NgIf, NgFor, RxLet, RxPush, WattIconComponent, WattSpinnerComponent, OverlayModule],
 })
 export class DhSelectedActorComponent {
+  private store = inject(DhSelectedActorStore);
   actorGroups$ = this.store.actorGroups$;
   selectedActor$ = this.store.selectedActor$;
   isLoading$ = this.store.isLoading$;
@@ -47,7 +49,7 @@ export class DhSelectedActorComponent {
     },
   ];
 
-  constructor(private store: DhSelectedActorStore) {
+  constructor() {
     this.store.init();
   }
 

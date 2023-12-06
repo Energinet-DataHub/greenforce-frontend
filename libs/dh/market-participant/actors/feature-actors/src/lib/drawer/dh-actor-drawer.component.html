@@ -69,6 +69,7 @@ limitations under the License.
               />
 
               <watt-description-list-item
+                *ngIf="isGridAccessProvider"
                 [label]="t('tabs.masterData.gridArea')"
                 [value]="gridAreaOrFallback"
               />
@@ -108,16 +109,32 @@ limitations under the License.
               sortDirection="desc"
             >
               <ng-container *wattTableCell="auditLogColumns['timestamp']; let element">
-                {{ element.timestamp | wattDate : "long" }}
+                {{ element.timestamp | wattDate: "long" }}
               </ng-container>
               <ng-container *wattTableCell="auditLogColumns['currentValue']; let entry">
                 <div
+                  *ngIf="entry.type !== 'CLIENT_SECRET_CREDENTIALS'"
                   [innerHTML]="
                     t(
                       'tabs.history.changeTypes.' +
                         entry.type +
                         (entry.previousValue ? '' : '_NO_PREVIOUS'),
                       entry
+                    )
+                  "
+                ></div>
+                <div
+                  *ngIf="entry.type === 'CLIENT_SECRET_CREDENTIALS'"
+                  [innerHTML]="
+                    t(
+                      'tabs.history.changeTypes.' +
+                        entry.type +
+                        (entry.previousValue ? '' : '_NO_PREVIOUS'),
+                      {
+                        changedByUserName: entry.changedByUserName,
+                        currentValue: entry.currentValue | wattDate,
+                        previousValue: entry.previousValue | wattDate
+                      }
                     )
                   "
                 ></div>

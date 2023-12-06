@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgFor, UpperCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -33,7 +33,7 @@ import { DisplayLanguage, displayLanguages } from '@energinet-datahub/dh/globali
   templateUrl: './dh-language-button.component.html',
   styleUrls: ['./dh-language-button.component.scss'],
   standalone: true,
-  imports: [CommonModule, MatButtonToggleModule],
+  imports: [NgFor, UpperCasePipe, MatButtonToggleModule],
   encapsulation: ViewEncapsulation.None,
 })
 export class DhLanguageButtonComponent {

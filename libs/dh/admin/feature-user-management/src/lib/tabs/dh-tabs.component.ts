@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
+import { NgIf } from '@angular/common';
 
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 
@@ -36,13 +36,13 @@ import { DhPermissionsTabComponent } from './permissions-tab/dh-permissions-tab.
     `,
   ],
   imports: [
+    NgIf,
     TranslocoModule,
     WattTabComponent,
     WattTabsComponent,
     DhUsersTabComponent,
     DhUserRolesTabComponent,
     DhPermissionsTabComponent,
-    CommonModule,
   ],
 })
 export class DhTabsComponent {

@@ -18,16 +18,14 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject,
   Input,
   LOCALE_ID,
-  Optional,
-  Self,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { FormatWidth, getLocaleDateFormat, CommonModule } from '@angular/common';
+import { FormatWidth, getLocaleDateFormat, NgIf } from '@angular/common';
 import {
   MatDatepickerInput,
   MatEndDate,
@@ -42,6 +40,8 @@ import { MatInputModule } from '@angular/material/input';
 import { combineLatest, map, merge, startWith, tap } from 'rxjs';
 import { parse, isValid, parseISO, endOfDay, startOfMonth, endOfMonth } from 'date-fns';
 import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { WattFieldComponent } from '@energinet-datahub/watt/field';
 
 import { WattButtonComponent } from '../../button';
@@ -50,7 +50,6 @@ import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattDateRange } from '../../../utils/date';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const dateShortFormat = 'dd-MM-yyyy';
 const danishLocaleCode = 'da';
@@ -76,18 +75,19 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
   ],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [
-    MatDatepickerModule,
-    MatInputModule,
-    WattButtonComponent,
-    CommonModule,
-    WattFieldComponent,
-  ],
+  imports: [NgIf, MatDatepickerModule, MatInputModule, WattButtonComponent, WattFieldComponent],
 })
 export class WattDatepickerComponent extends WattPickerBase {
+  protected inputMaskService = inject(WattInputMaskService);
+  protected rangeInputService = inject(WattRangeInputService);
+  protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected override ngControl = inject(NgControl, { optional: true, self: true });
+  private locale = inject(LOCALE_ID);
+  private cdr = inject(ChangeDetectorRef);
+
   @Input() max: Date | null = null;
   @Input() min: Date | null = null;
-  @Input() startAt = new Date();
+  @Input() startAt: Date | null = null;
   @Input() rangeMonthOnlyMode = false;
   @Input() label = '';
 
@@ -135,20 +135,14 @@ export class WattDatepickerComponent extends WattPickerBase {
    */
   protected _placeholder = this.getPlaceholder(this.getInputFormat());
 
-  @Input() dateClass: MatCalendarCellClassFunction<Date> = () => '';
+  @Input()
+  dateClass: MatCalendarCellClassFunction<Date> = () => '';
 
   /**
    * @ignore
    */
-  constructor(
-    protected inputMaskService: WattInputMaskService,
-    protected rangeInputService: WattRangeInputService,
-    protected override elementRef: ElementRef<HTMLElement>,
-    @Optional() @Self() ngControl: NgControl,
-    @Inject(LOCALE_ID) private locale: string,
-    private cdr: ChangeDetectorRef
-  ) {
-    super(`watt-datepicker-${WattDatepickerComponent.nextId++}`, elementRef, cdr, ngControl);
+  constructor() {
+    super(`watt-datepicker-${WattDatepickerComponent.nextId++}`);
   }
 
   /**
@@ -422,11 +416,11 @@ export class WattDatepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  private setValueToInput<D extends { value: Date | null }>(
-    value: string | null | undefined,
-    nativeInput: HTMLInputElement,
-    matDateInput: D
-  ): void {
+  private setValueToInput<
+    D extends {
+      value: Date | null;
+    },
+  >(value: string | null | undefined, nativeInput: HTMLInputElement, matDateInput: D): void {
     nativeInput.value = value ? this.formatDateTimeFromModelToView(value) : '';
     matDateInput.value = value ? zonedTimeToUtc(value, danishTimeZoneIdentifier) : null;
   }

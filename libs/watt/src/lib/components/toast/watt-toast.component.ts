@@ -14,16 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
-  Inject,
-  Optional,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { MatSnackBarModule, MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { fromEvent, repeat, Subscription, takeUntil, tap, timer } from 'rxjs';
@@ -55,16 +54,15 @@ export type WattToastRef = MatSnackBarRef<WattToastComponent>;
   styleUrls: ['./watt-toast.component.scss'],
   templateUrl: './watt-toast.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatSnackBarModule,
-    WattButtonComponent,
-    WattIconComponent,
-    WattSpinnerComponent,
-  ],
+  imports: [NgIf, MatSnackBarModule, WattButtonComponent, WattIconComponent, WattSpinnerComponent],
 })
 export class WattToastComponent {
-  @HostBinding('class') get class() {
+  private _config = inject(MAT_SNACK_BAR_DATA);
+  private cd = inject(ChangeDetectorRef);
+  private _matSnackBarRef = inject<MatSnackBarRef<WattToastComponent>>(MatSnackBarRef);
+  private elementRef = inject(ElementRef);
+  @HostBinding('class')
+  get class() {
     this.cd.detectChanges(); // Make sure changes to the config will be detected
     return this.config.type ? `watt-toast watt-toast--${this.config.type}` : 'watt-toast';
   }
@@ -84,12 +82,7 @@ export class WattToastComponent {
    */
   private dissmissToastSubscription?: Subscription;
 
-  constructor(
-    @Inject(MAT_SNACK_BAR_DATA) private _config: WattToastConfig,
-    private cd: ChangeDetectorRef,
-    @Optional() private _matSnackBarRef: MatSnackBarRef<WattToastComponent>,
-    private elementRef: ElementRef
-  ) {
+  constructor() {
     this.config = this._config;
     this.matSnackBarRef = this._matSnackBarRef;
     this.initDuration(this.config.duration);

@@ -19,20 +19,19 @@ import {
   Component,
   EventEmitter,
   Input,
-  Optional,
   Output,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
 import { WattButtonComponent } from '../button';
 import { WattSpinnerComponent } from '../spinner';
-
 import { WattModalModule, WattModalService } from './watt-modal.service';
-import { MatDialogRef } from '@angular/material/dialog';
 
 export type WattModalSize = 'small' | 'medium' | 'large';
 
@@ -51,7 +50,8 @@ export type WattModalSize = 'small' | 'medium' | 'large';
   templateUrl: './watt-modal.component.html',
   standalone: true,
   imports: [
-    CommonModule,
+    NgClass,
+    NgIf,
     WattResizeObserverDirective,
     WattButtonComponent,
     WattSpinnerComponent,
@@ -59,51 +59,39 @@ export type WattModalSize = 'small' | 'medium' | 'large';
   ],
 })
 export class WattModalComponent {
+  private modalService = inject(WattModalService);
+  protected dialogRef = inject<MatDialogRef<unknown>>(MatDialogRef, { optional: true });
   /** Title to stay fixed to top of modal. */
-  @Input()
-  title = '';
+  @Input() title = '';
 
-  @Input()
-  size: WattModalSize = 'medium';
+  @Input() size: WattModalSize = 'medium';
 
   /** Whether the modal should show a loading state. */
-  @Input()
-  loading = false;
+  @Input() loading = false;
 
   /** Whether the modal should show a loading text for the loading state. */
-  @Input()
-  loadingMessage = '';
+  @Input() loadingMessage = '';
 
   /** Disable ESC, close button and backdrop click as methods of closing. */
-  @Input()
-  disableClose = false;
+  @Input() disableClose = false;
 
   /** The aria-label for the close button. */
-  @Input()
-  closeLabel = 'Close';
+  @Input() closeLabel = 'Close';
 
-  @Input()
-  minHeight = '147px';
+  @Input() minHeight = '147px';
 
   /**
    * When modal is closed, emits `true` if it was "accepted",
    * otherwise emits `false`.
    * @ignore
    */
-  @Output()
-  closed = new EventEmitter<boolean>();
+  @Output() closed = new EventEmitter<boolean>();
 
   /** @ignore */
-  @ViewChild('modal')
-  modal!: TemplateRef<Element>;
+  @ViewChild('modal') modal!: TemplateRef<Element>;
 
   /** @ignore */
   scrollable = false;
-
-  constructor(
-    private modalService: WattModalService,
-    @Optional() protected dialogRef: MatDialogRef<unknown>
-  ) {}
 
   /**
    * Opens the modal. Subsequent calls are ignored while the modal is opened.

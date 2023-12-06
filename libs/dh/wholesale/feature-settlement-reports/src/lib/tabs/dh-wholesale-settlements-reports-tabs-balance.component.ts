@@ -24,12 +24,13 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { ApolloError } from '@apollo/client/errors';
 import { Subscription, switchMap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
+import { addDays } from 'date-fns';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -39,7 +40,6 @@ import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import {
   WholesaleProcessType,
   WholesaleSettlementReportHttp,
-  graphql,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { Actor, ActorFilter, GridArea, streamToFile } from '@energinet-datahub/dh/wholesale/domain';
@@ -52,8 +52,15 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import {
+  EicFunction,
+  GetActorsForSettlementReportDocument,
+  GetGridAreasDocument,
+  GridAreaDto,
+  PriceAreaCode,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
-export type settlementReportsTableColumns = graphql.GridAreaDto & { download: boolean };
+export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
 
 @Component({
   standalone: true,
@@ -61,6 +68,7 @@ export type settlementReportsTableColumns = graphql.GridAreaDto & { download: bo
   templateUrl: './dh-wholesale-settlements-reports-tabs-balance.component.html',
   styleUrls: ['./dh-wholesale-settlements-reports-tabs-balance.component.scss'],
   imports: [
+    NgIf,
     WATT_TABS,
     WATT_CARD,
     WATT_TABLE,
@@ -71,7 +79,6 @@ export type settlementReportsTableColumns = graphql.GridAreaDto & { download: bo
     ReactiveFormsModule,
     WattDropdownComponent,
     WattEmptyStateComponent,
-    CommonModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -108,22 +115,22 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
   actorsQuery = this.apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
-    query: graphql.GetActorsForSettlementReportDocument,
+    query: GetActorsForSettlementReportDocument,
     variables: {
-      eicFunctions: [graphql.EicFunction.GridAccessProvider, graphql.EicFunction.EnergySupplier],
+      eicFunctions: [EicFunction.GridAccessProvider, EicFunction.EnergySupplier],
     },
   });
 
   gridAreasQuery = this.apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
-    query: graphql.GetGridAreasDocument,
+    query: GetGridAreasDocument,
   });
 
   gridAreasForFilterQuery = this.apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
-    query: graphql.GetGridAreasDocument,
+    query: GetGridAreasDocument,
   });
 
   actors!: ActorFilter;
@@ -161,7 +168,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
               code: g.code,
               id: g.code,
               name: g.name,
-              priceAreaCode: graphql.PriceAreaCode.Dk1,
+              priceAreaCode: PriceAreaCode.Dk1,
               validFrom: g.validFrom,
               validtTo: g.validTo,
               download: true,
@@ -218,12 +225,16 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
       message: this.transloco.translate('wholesale.settlementReports.downloadStart'),
     });
 
+    const { start, end } = this.searchForm.controls.period.value as { start: string; end: string };
+    const startDate = addDays(new Date(start), 1);
+    const endDate = addDays(new Date(end), 1);
+
     this.httpClient
       .v1WholesaleSettlementReportDownloadGet(
         gridAreas.map((g) => g.id),
         WholesaleProcessType.BalanceFixing,
-        this.searchForm.controls.period.value?.start ?? '',
-        this.searchForm.controls.period.value?.end ?? '',
+        startDate.toISOString().slice(0, 10),
+        endDate.toISOString().slice(0, 10),
         this.searchForm.controls.actor.value ?? undefined,
         this.transloco.translate('selectedLanguageIso')
       )

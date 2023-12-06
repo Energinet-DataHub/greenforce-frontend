@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { take } from 'rxjs';
@@ -49,7 +49,7 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore)],
   imports: [
-    CommonModule,
+    NgIf,
     TranslocoModule,
     WattButtonComponent,
     WATT_CARD,

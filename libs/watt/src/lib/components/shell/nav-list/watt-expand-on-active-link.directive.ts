@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Directive, AfterViewInit, Input, QueryList } from '@angular/core';
+import { Directive, AfterViewInit, Input, QueryList, inject } from '@angular/core';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { from, filter, mergeMap } from 'rxjs';
 
@@ -26,10 +26,8 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
   standalone: true,
 })
 export class WattExpandOnActiveLinkDirective implements AfterViewInit {
-  @Input()
-  wattNavListItemComponents: QueryList<WattNavListItemComponent> | null = null;
-
-  constructor(private panel: MatExpansionPanel) {}
+  private panel = inject(MatExpansionPanel);
+  @Input() wattNavListItemComponents: QueryList<WattNavListItemComponent> | null = null;
 
   ngAfterViewInit(): void {
     const navListItems = this.wattNavListItemComponents?.toArray();

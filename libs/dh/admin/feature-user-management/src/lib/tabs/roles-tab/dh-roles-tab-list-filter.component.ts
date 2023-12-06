@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { Component, OnInit, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
   MarketParticipantEicFunction,
@@ -27,7 +27,6 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-roles-tab-list-filter',
@@ -50,7 +49,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     `,
   ],
   imports: [
-    CommonModule,
     RxLet,
     RxPush,
     TranslocoModule,
