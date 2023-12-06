@@ -1325,10 +1325,10 @@
         "deactivateError": "Something went wrong. The user could not be deactivated. Please try again",
         "deactivateSuccess": "The user has been deactivated",
         "deactivateConfirmation": {
-          "title": "Deactivate user",
-          "body": "User {{first}} {{last}} ({{email}}) will be deactivated and sign-in will be blocked.",
+          "title": "Deactivate user?",
+          "body": "User {{first}} {{last}} ({{email}}) will be deactivated, and sign-in will be blocked.",
           "important": "If the user is currently signed in, it can take up to 30 minutes before the user loses access.",
-          "confirm": "Deactivate {{email}}",
+          "confirm": "Deactivate user",
           "reject": "Cancel"
         },
         "editRole": "Edit role",
