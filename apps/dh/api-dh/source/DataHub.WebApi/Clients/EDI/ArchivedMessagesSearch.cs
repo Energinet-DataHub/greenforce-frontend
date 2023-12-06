@@ -45,9 +45,9 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
             return MapResult(searchResultResponseMessages);
         }
 
-        public async Task<Stream> GetDocumentAsync(string id, CancellationToken cancellationToken)
+        public async Task<string> GetDocumentAsync(string id, CancellationToken cancellationToken)
         {
-            return await _b2CWebAppClient.ArchivedMessageGetDocumentAsync(id, cancellationToken).ConfigureAwait(false);
+           return await _b2CWebAppClient.ArchivedMessageGetDocumentAsync(id, cancellationToken).ConfigureAwait(false);
         }
 
         private async Task<ICollection<ArchivedMessageResult>?> GetSearchResultResponseMessagesAsync(

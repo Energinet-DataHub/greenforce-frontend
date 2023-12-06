@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
@@ -25,6 +24,6 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
   templateUrl: './dh-charges-general-error.component.html',
   styleUrls: ['./dh-charges-general-error.component.scss'],
   standalone: true,
-  imports: [TranslocoModule, CommonModule, WattEmptyStateComponent],
+  imports: [TranslocoPipe, WattEmptyStateComponent],
 })
 export class DhChargesGeneralErrorComponent {}

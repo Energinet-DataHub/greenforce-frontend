@@ -16,10 +16,10 @@
  */
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { take } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoDirective } from '@ngneat/transloco';
 
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -34,11 +34,12 @@ import { DhMeteringPointSearchFormComponent } from './form/dh-metering-point-sea
   providers: [DhMeteringPointDataAccessApiStore],
   standalone: true,
   imports: [
+    NgIf,
     DhMeteringPointSearchFormComponent,
     WattEmptyStateComponent,
-    TranslocoModule,
+    TranslocoPipe,
+    TranslocoDirective,
     RxPush,
-    CommonModule,
   ],
 })
 export class DhMeteringPointSearchComponent {

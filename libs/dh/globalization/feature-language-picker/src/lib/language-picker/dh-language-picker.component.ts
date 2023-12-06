@@ -17,7 +17,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
-import { CommonModule } from '@angular/common';
 import { map, Observable, tap } from 'rxjs';
 
 import {
@@ -35,7 +34,7 @@ import { DhLanguageButtonComponent } from '../language-button/dh-language-button
   templateUrl: './dh-language-picker.component.html',
   styleUrls: ['./dh-language-picker.component.scss'],
   standalone: true,
-  imports: [CommonModule, RxLet, DhLanguageButtonComponent],
+  imports: [RxLet, DhLanguageButtonComponent],
 })
 export class DhLanguagePickerComponent {
   private transloco = inject(TranslocoService);

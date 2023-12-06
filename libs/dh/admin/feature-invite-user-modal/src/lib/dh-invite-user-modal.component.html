@@ -37,15 +37,8 @@ limitations under the License.
           [formControl]="baseInfo.controls.actorId"
           [options]="(actors$ | push) ?? []"
           name="actorId"
-        >
-          <watt-field-error *ngIf="baseInfo.controls.actorId.hasError('required')">
-            {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
-        </watt-dropdown>
+        />
         <watt-text-field [label]="t('email')" class="email" [formControl]="baseInfo.controls.email">
-          <watt-field-error *ngIf="baseInfo.controls.email.hasError('required')">
-            {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
           <watt-field-error *ngIf="baseInfo.controls.email.hasError('email')">
             {{ t("wrongEmailPattern") }}
           </watt-field-error>
@@ -66,22 +59,14 @@ limitations under the License.
           class="firstname"
           [formControl]="userInfo.controls.firstname"
           type="text"
-        >
-          <watt-field-error *ngIf="userInfo.controls.firstname.hasError('required')">
-            {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
-        </watt-text-field>
+        />
 
         <watt-text-field
           [label]="t('lastname')"
           class="lastname"
           [formControl]="userInfo.controls.lastname"
           type="text"
-        >
-          <watt-field-error *ngIf="userInfo.controls.lastname.hasError('required')">
-            {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
-        </watt-text-field>
+        />
 
         <watt-text-field
           [formControl]="userInfo.controls.phoneNumber"
@@ -89,9 +74,6 @@ limitations under the License.
           [label]="t('phoneNumber')"
           class="phoneNumber"
         >
-          <watt-field-error *ngIf="userInfo.controls.phoneNumber.hasError('required')">
-            {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
           <watt-field-error
             *ngIf="
               userInfo.controls.phoneNumber.hasError('pattern') ||

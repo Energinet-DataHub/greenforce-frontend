@@ -21,6 +21,7 @@ import {
   DestroyRef,
   Directive,
   ElementRef,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -192,6 +193,7 @@ export abstract class WattPickerBase
   /**
    * @ignore
    */
+  @HostBinding('attr.watt-field-disabled')
   @Input()
   get disabled(): boolean {
     return this._disabled;

@@ -22,8 +22,10 @@
   margin-top: -10px;
 }
 
-.mat-calendar-body-in-range::before {
-  background-color: var(--watt-color-primary-light);
+.mat-calendar-body-in-range {
+  --mat-datepicker-calendar-date-in-range-state-background-color: var(
+    --watt-color-primary-light
+  );
 }
 
 .mat-calendar-body-today:not(.mat-calendar-body-selected):not(

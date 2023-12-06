@@ -28,6 +28,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.EicFunctionType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.EsettExchangeEventType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ExchangeEventCalculationType>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.NewEicFunctionType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.OrganizationAuditLogType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.OrganizationType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.PermissionType>();

@@ -14,15 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, DestroyRef, Input, OnInit, ViewChild, inject } from '@angular/core';
+import { NgIf, NgClass, DOCUMENT } from '@angular/common';
+import {
+  Component,
+  DestroyRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+  inject,
+  signal,
+} from '@angular/core';
 import { provideComponentStore } from '@ngrx/component-store';
 import { MatDividerModule } from '@angular/material/divider';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { ArchivedMessage, Stream } from '@energinet-datahub/dh/shared/domain';
+import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattDrawerComponent, WATT_DRAWER, WattDrawerSize } from '@energinet-datahub/watt/drawer';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -42,7 +53,6 @@ import {
 import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
 import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -50,7 +60,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './dh-message-archive-drawer.component.html',
   styleUrls: ['./dh-message-archive-drawer.component.scss'],
   imports: [
-    CommonModule,
+    NgIf,
+    NgClass,
     WATT_DRAWER,
     TranslocoModule,
     WattIconComponent,
@@ -83,8 +94,10 @@ export class DhMessageArchiveDrawerComponent implements OnInit {
 
   @Input() actors: WattDropdownOptions | null = null;
 
+  @Output() closed = new EventEmitter<void>();
+
   message: ArchivedMessage | null = null;
-  documentContent: string | null = null;
+  documentContent = signal<string | null>(null);
 
   isLoading$ = this._apiStore.isLoading$;
 
@@ -95,6 +108,8 @@ export class DhMessageArchiveDrawerComponent implements OnInit {
   open(message: ArchivedMessage) {
     this.message = null;
     this.message = message;
+    this.documentContent.set(null);
+
     this.drawer.open();
 
     if (this.message) {
@@ -104,6 +119,7 @@ export class DhMessageArchiveDrawerComponent implements OnInit {
 
   onClose() {
     this.drawer.close();
+    this.closed.emit();
     this.message = null;
   }
 
@@ -116,7 +132,7 @@ export class DhMessageArchiveDrawerComponent implements OnInit {
   }
 
   downloadDocument() {
-    const blobPart = this.documentContent as unknown as BlobPart;
+    const blobPart = this.documentContent() as unknown as BlobPart;
     const blob = new Blob([blobPart]);
     const url = window.URL.createObjectURL(blob);
     const link = this._document.createElement('a');
@@ -126,10 +142,8 @@ export class DhMessageArchiveDrawerComponent implements OnInit {
     link.remove();
   }
 
-  private readonly onSuccesFn = async (id: string, data: Stream) => {
-    const blobPart = data as unknown as BlobPart;
-    const blob = new Blob([blobPart]);
-    this.documentContent = await new Response(blob).text();
+  private readonly onSuccesFn = async (id: string, data: string) => {
+    this.documentContent.set(data);
   };
 
   private readonly onErrorFn = () => {

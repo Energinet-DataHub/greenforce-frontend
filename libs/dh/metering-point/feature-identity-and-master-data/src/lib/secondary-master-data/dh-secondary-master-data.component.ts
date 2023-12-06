@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -49,8 +49,8 @@ export interface MeteringPointIdentityTranslationKeys {
   templateUrl: './dh-secondary-master-data.component.html',
   styleUrls: ['./dh-secondary-master-data.component.scss'],
   imports: [
+    NgIf,
     WattExpansionComponent,
-    CommonModule,
     TranslocoModule,
     WattIconComponent,
     DhYesNoPipe,

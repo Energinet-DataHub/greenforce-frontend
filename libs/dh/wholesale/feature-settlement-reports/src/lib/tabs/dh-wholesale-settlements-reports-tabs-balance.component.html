@@ -24,7 +24,7 @@ limitations under the License.
     </watt-card-title>
 
     <form [formGroup]="searchForm" class="form-grid watt-space-stack-m">
-      <watt-date-range-chip formControlName="period">{{
+      <watt-date-range-chip [formControl]="searchForm.controls.period">{{
         "shared.form.filters.period" | transloco
       }}</watt-date-range-chip>
 

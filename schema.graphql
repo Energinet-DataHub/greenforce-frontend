@@ -84,6 +84,7 @@ enum EicFunction {
   EnergySupplier
   GridAccessProvider
   ImbalanceSettlementResponsible
+  MeterOperator
   MeteredDataAdministrator
   MeteredDataResponsible
   MeteringPointAdministrator
@@ -108,6 +109,23 @@ type EsettOutgoingMessage {
 enum ExchangeEventCalculationType {
   BALANCE_FIXING
   AGGREGATION
+}
+
+enum EicFunctionType {
+  BalanceResponsibleParty
+  BillingAgent
+  EnergySupplier
+  GridAccessProvider
+  ImbalanceSettlementResponsible
+  MeterOperator
+  MeteredDataAdministrator
+  MeteredDataResponsible
+  MeteringPointAdministrator
+  SystemOperator
+  DanishEnergyAgency
+  DataHubAdministrator
+  IndependentAggregator
+  SerialEnergyTrader
 }
 
 type OrganizationAuditLog {
@@ -526,7 +544,7 @@ input AddressDtoInput {
 }
 
 input ActorMarketRoleDtoInput {
-  eicFunction: String!
+  eicFunction: EicFunctionType!
   gridAreas: [ActorGridAreaDtoInput!]!
   comment: String
 }

@@ -31,11 +31,7 @@ limitations under the License.
             name="chargeType"
             [showResetOption]="false"
             [placeholder]="t('createPrices.selectChargeType')"
-          >
-            <watt-field-error *ngIf="charge.controls['chargeType'].hasError('required')">
-              {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-field-error>
-          </watt-dropdown>
+          />
 
           <!-- Price Id -->
           <watt-text-field
@@ -45,11 +41,6 @@ limitations under the License.
             [formControl]="charge.controls.senderProvidedChargeId"
             [required]="true"
           >
-            <watt-field-error
-              *ngIf="charge.controls['senderProvidedChargeId'].hasError('required')"
-            >
-              {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-field-error>
             <watt-field-error
               *ngIf="charge.controls['senderProvidedChargeId'].hasError('maxlength')"
             >
@@ -65,9 +56,6 @@ limitations under the License.
             [formControl]="charge.controls.chargeName"
             [required]="true"
           >
-            <watt-field-error *ngIf="charge.controls['chargeName'].hasError('required')">
-              {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-field-error>
             <watt-field-error *ngIf="charge.controls['chargeName'].hasError('maxlength')">
               {{ t("chargeNameMaxLengthErrorText") }}
             </watt-field-error>
@@ -83,19 +71,10 @@ limitations under the License.
             [placeholder]="t('prices.search.enterOwner')"
             [showResetOption]="false"
             (ngModelChange)="ownerChanged($event)"
-          >
-            <watt-field-error
-              *ngIf="charge.controls['senderMarketParticipantId'].hasError('required')"
-            >
-              {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-field-error>
-          </watt-dropdown>
+          />
 
           <!-- Price Description -->
           <watt-textarea-field class="description" [formControl]="charge.controls.description">
-            <watt-field-error *ngIf="charge.controls['description'].hasError('required')">
-              {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-field-error>
             <watt-field-error *ngIf="charge.controls['description'].hasError('maxlength')">
               {{ "shared.fieldRequiredErrorText" | transloco }}
             </watt-field-error>
@@ -110,11 +89,7 @@ limitations under the License.
             name="validityOption"
             [showResetOption]="false"
             [placeholder]="t('createPrices.selectResolution')"
-          >
-            <watt-field-error *ngIf="charge.controls['resolution'].hasError('required')">
-              {{ "shared.fieldRequiredErrorText" | transloco }}
-            </watt-field-error>
-          </watt-dropdown>
+          />
 
           <!-- Effective Date -->
           <div class="effective-date">
@@ -122,12 +97,6 @@ limitations under the License.
               label="{{ t('createPrices.validFromDateTime') }}"
               [formControl]="charge.controls.effectiveDate"
             >
-              <watt-field-error
-                *ngIf="charge.controls['effectiveDate'].hasError('required') && hasSubmitted"
-              >
-                {{ "shared.fieldRequiredErrorText" | transloco }}
-              </watt-field-error>
-
               <watt-field-error
                 *ngIf="charge.controls['effectiveDate'].hasError('maxDate') && hasSubmitted"
               >

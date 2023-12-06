@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
+import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 
 import { WattIcon, WattIconComponent } from '../../foundations/icon';
 import { WattIconSize } from '../../foundations/icon/watt-icon-size';
-import { CommonModule } from '@angular/common';
 
 /**
  * Usage:
@@ -30,7 +30,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './empty-state.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [CommonModule, WattIconComponent],
+  imports: [NgClass, NgIf, NgTemplateOutlet, WattIconComponent],
 })
 export class WattEmptyStateComponent {
   @Input() icon?: WattIcon;

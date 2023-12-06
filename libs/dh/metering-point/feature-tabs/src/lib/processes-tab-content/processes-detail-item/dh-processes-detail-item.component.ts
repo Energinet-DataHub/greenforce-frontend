@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf, NgClass, NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -30,8 +30,10 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
   styleUrls: ['./dh-processes-detail-item.component.scss'],
   standalone: true,
   imports: [
+    NgIf,
+    NgClass,
+    NgFor,
     WattIconComponent,
-    CommonModule,
     WattDatePipe,
     TranslocoModule,
     WattValidationMessageComponent,

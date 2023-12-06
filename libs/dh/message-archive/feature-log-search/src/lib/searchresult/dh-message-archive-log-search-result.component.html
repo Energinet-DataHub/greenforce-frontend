@@ -24,6 +24,7 @@ limitations under the License.
         {{ t("searchResult") }}
       </h3>
     </watt-card-title>
+
     <ng-container *ngIf="!hasSearchError && !isInit && searchResult && searchResult.length > 0">
       <watt-table
         #table
@@ -110,5 +111,5 @@ limitations under the License.
     </ng-container>
   </watt-card>
 
-  <dh-message-archive-drawer [actors]="actors" />
+  <dh-message-archive-drawer [actors]="actors" (closed)="onClosed()" />
 </ng-container>
