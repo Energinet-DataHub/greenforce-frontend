@@ -24,7 +24,7 @@ import {
   LOCALE_ID,
   ViewChild,
   ViewEncapsulation,
-  inject
+  inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import {
