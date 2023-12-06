@@ -35,6 +35,7 @@ import {
   OrganizationAuditLog,
   mockGetAuditLogByActorIdQuery,
   mockGetGridAreaOverviewQuery,
+  mockCreateMarketParticipantMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import organizationsData from './data/marketParticipantOrganizations.json';
@@ -78,6 +79,7 @@ export function marketParticipantMocks(apiBase: string) {
     marketParticipantActorRemoveActorCredentials(apiBase),
     marketParticipantActorRequestClientSecretCredentials(apiBase),
     getGridAreaOverview(),
+    createMarketParticipant(),
   ];
 }
 
@@ -425,5 +427,21 @@ function marketParticipantActorRequestClientSecretCredentials(apiBase: string) {
 function getGridAreaOverview() {
   return mockGetGridAreaOverviewQuery((req, res, ctx) => {
     return res(ctx.delay(300), ctx.data(getGridAreaOverviewMock));
+  });
+}
+
+function createMarketParticipant() {
+  return mockCreateMarketParticipantMutation((req, res, ctx) => {
+    return res(
+      ctx.delay(300),
+      ctx.data({
+        __typename: 'Mutation',
+        createMarketParticipant: {
+          __typename: 'CreateMarketParticipantPayload',
+          success: true,
+          errors: [],
+        },
+      })
+    );
   });
 }

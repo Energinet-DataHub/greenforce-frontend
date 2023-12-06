@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, Input, inject, signal } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { NgIf } from '@angular/common';
-import { Component, Input, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   EicFunctionType,
   GetGridAreasForCreateActorDocument,
@@ -29,7 +29,6 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -169,6 +168,7 @@ export class DhNewActorStepComponent {
 
   onMarketRoleChange(eicfunction: EicFunctionType): void {
     this.showGridAreaOptions.set(eicfunction === EicFunctionType.GridAccessProvider);
+
     if (eicfunction === EicFunctionType.GridAccessProvider) {
       this.newActorForm.controls.gridArea.enable();
     }

@@ -117,12 +117,12 @@ export class DhActorsCreateActorModalComponent {
     this.showCreateNewOrganization.set(!this.showCreateNewOrganization());
   }
 
-  open() {
+  open(): void {
     this.modal?.open();
   }
 
-  close() {
-    this.modal?.close(false);
+  close(isSuccess = false): void {
+    this.modal?.close(isSuccess);
   }
 
   createMarketParticipent(): void {
@@ -206,8 +206,10 @@ export class DhActorsCreateActorModalComponent {
 
     if (response.data?.createMarketParticipant?.success) {
       this._toastService.open({ type: 'success', message: 'Market participant created' });
+
+      this.close(true);
     }
+
     this.isCompleting.set(false);
-    this.close();
   }
 }
