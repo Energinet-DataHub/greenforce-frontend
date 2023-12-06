@@ -100,6 +100,7 @@ import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-data
       <watt-dropdown
         *ngIf="showGridAreaOptions()"
         [options]="gridAreaOptions"
+        [multiple]="true"
         [formControl]="newActorForm.controls.gridArea"
         [label]="t('gridArea')"
       />
@@ -137,7 +138,7 @@ export class DhNewActorStepComponent {
     glnOrEicNumber: FormControl<string>;
     name: FormControl<string>;
     marketrole: FormControl<EicFunctionType>;
-    gridArea: FormControl<string>;
+    gridArea: FormControl<string[]>;
     contact: FormGroup<{
       departmentOrName: FormControl<string>;
       email: FormControl<string>;
