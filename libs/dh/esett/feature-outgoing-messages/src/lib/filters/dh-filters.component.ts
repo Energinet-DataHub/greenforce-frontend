@@ -89,7 +89,9 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
   private subscription: Subscription | null = null;
 
   @Input() initial?: DhOutgoingMessagesFilters;
+
   @Output() filter = new EventEmitter<DhOutgoingMessagesFilters>();
+  @Output() formReset = new EventEmitter<void>();
 
   calculationTypeOptions$ = this.getCalculationTypeOptions();
   messageTypeOptions$ = this.getMessageTypeOptions();
