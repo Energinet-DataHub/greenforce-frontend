@@ -1317,10 +1317,10 @@
         "deactivateError": "Noget gik galt. Brugeren blev ikke deaktiveret. Prøv igen",
         "deactivateSuccess": "Brugeren blev deaktiveret",
         "deactivateConfirmation": {
-          "title": "Deaktiver bruger",
-          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret og login vil blive spærret.",
-          "important": "Hvis brugeren er allerede logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
-          "confirm": "Deaktiver {{email}}",
+          "title": "Deaktiver bruger?",
+          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret, og login vil blive spærret.",
+          "important": "Hvis brugeren allerede er logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
+          "confirm": "Deaktiver bruger",
           "reject": "Fortryd"
         },
         "editRole": "Rediger rolle",
