@@ -81,11 +81,11 @@ limitations under the License.
       </b>
     </p>
     <watt-modal-actions>
-      <watt-button (click)="deactivateConfirmationModal.close(false)">{{
+      <watt-button variant="secondary" (click)="deactivateConfirmationModal.close(false)">{{
         t("deactivateConfirmation.reject")
       }}</watt-button>
       <watt-button variant="secondary" (click)="deactivateConfirmationModal.close(true)">{{
-        t("deactivateConfirmation.confirm", { email: selectedUser?.email })
+        t("deactivateConfirmation.confirm")
       }}</watt-button>
     </watt-modal-actions>
   </watt-modal>
