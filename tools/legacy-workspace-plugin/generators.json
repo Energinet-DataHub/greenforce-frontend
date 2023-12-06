@@ -1,9 +1,0 @@
-{
-  "generators": {
-    "watt-component": {
-      "implementation": "./src/generators/watt-component",
-      "schema": "./src/generators/watt-component/schema.json",
-      "description": "Generator watt-component"
-    }
-  }
-}

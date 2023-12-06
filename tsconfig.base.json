@@ -369,9 +369,6 @@
         "libs/gf/util-browser/src/index.ts"
       ],
       "@energinet-datahub/gf/util-msw": ["libs/gf/msw/util-msw/src/index.ts"],
-      "@energinet-datahub/legacy-workspace-plugin": [
-        "tools/legacy-workspace-plugin/src/index.ts"
-      ],
       "@energinet-datahub/watt/badge": [
         "libs/watt/src/lib/components/badge/index.ts"
       ],
