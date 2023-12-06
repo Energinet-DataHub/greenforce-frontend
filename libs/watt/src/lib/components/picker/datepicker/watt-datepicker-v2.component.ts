@@ -189,10 +189,12 @@ export class WattDatepickerV2Component extends WattPickerBase {
   }
   constructor() {
     super(`watt-datepicker-v2-${WattDatepickerV2Component.nextId++}`);
-    this.localeService.onLocaleChange$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((locale) => {
-      this.datePlaceholder = this.getPlaceholderByLocale(locale);
-      this.rangePlaceholder = this.getRangePlaceholder();
-    });
+    this.localeService.onLocaleChange$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((locale) => {
+        this.datePlaceholder = this.getPlaceholderByLocale(locale);
+        this.rangePlaceholder = this.getRangePlaceholder();
+      });
   }
 
   protected initSingleInput() {
