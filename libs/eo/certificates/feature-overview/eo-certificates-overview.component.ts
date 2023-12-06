@@ -152,47 +152,46 @@ export class EoCertificatesOverviewComponent implements OnInit {
 
   private loadData() {
     this.loading.set(true);
-    this.certificatesService.getCertificates().pipe(
-      map((certificates: EoCertificate[]) => {
-        return certificates.map((certificate) => {
-          const start = this.datePipe.transform(certificate.start, 'longAbbr');
-          const end = this.datePipe.transform(certificate.end, 'time');
+    this.certificatesService
+      .getCertificates()
+      .pipe(
+        map((certificates: EoCertificate[]) => {
+          return certificates.map((certificate) => {
+            const start = this.datePipe.transform(certificate.start, 'longAbbr');
+            const end = this.datePipe.transform(certificate.end, 'time');
 
-          return {
-            ...certificate,
-            time: `${start}-${end}`,
-            amount: this.energyUnitPipe.transform(certificate.quantity) as string,
-          };
-        });
-      })
-    ).subscribe({
-      next: (certificates) => {
-        this.dataSource.data = certificates;
-        this.loading.set(false);
-        this.hasError.set(false);
-      },
-      error: () => {
-        this.hasError.set(true);
-        this.loading.set(false);
-        this.dataSource.data = [];
-      },
-    });
+            return {
+              ...certificate,
+              time: `${start}-${end}`,
+              amount: this.energyUnitPipe.transform(certificate.quantity) as string,
+            };
+          });
+        })
+      )
+      .subscribe({
+        next: (certificates) => {
+          this.dataSource.data = certificates;
+          this.loading.set(false);
+          this.hasError.set(false);
+        },
+        error: () => {
+          this.hasError.set(true);
+          this.loading.set(false);
+          this.dataSource.data = [];
+        },
+      });
   }
 
   private sortData() {
-     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-     this.dataSource.sortData = (data: any[], sort: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.dataSource.sortData = (data: any[], sort: any) => {
       const isAsc = sort.direction === 'asc';
 
       if (!sort.active || sort.direction === '') {
         return data;
       } else if (sort.active === 'time') {
         return data.sort((a, b) => {
-          return this.compare(
-            a.start,
-            b.start,
-            isAsc
-          );
+          return this.compare(a.start, b.start, isAsc);
         });
       } else {
         return data.sort((a, b) => {

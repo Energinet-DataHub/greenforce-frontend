@@ -29,14 +29,7 @@ import { NgIf } from '@angular/common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    EnergyUnitPipe,
-    EoStackComponent,
-    NgIf,
-    RouterModule,
-    WATT_CARD,
-    WattDatePipe,
-  ],
+  imports: [EnergyUnitPipe, EoStackComponent, NgIf, RouterModule, WATT_CARD, WattDatePipe],
   standalone: true,
   styles: [
     `
@@ -133,13 +126,20 @@ export class EoCertificateDetailsComponent implements OnInit {
   certificate = signal<EoCertificate | undefined>(undefined);
 
   ngOnInit(): void {
-    this.certificatesService.getCertificates().pipe(
-      map((certs: EoCertificate[]) => certs.find((item) => item.federatedStreamId.streamId === this.route.snapshot.paramMap.get('id'))),
-      tap((certFound) => {
-        if (!certFound) this.router.navigate([`/${eoCertificatesRoutePath}`]);
-      })
-    ).subscribe((certificate) => {
-      this.certificate.set(certificate);
-    });
+    this.certificatesService
+      .getCertificates()
+      .pipe(
+        map((certs: EoCertificate[]) =>
+          certs.find(
+            (item) => item.federatedStreamId.streamId === this.route.snapshot.paramMap.get('id')
+          )
+        ),
+        tap((certFound) => {
+          if (!certFound) this.router.navigate([`/${eoCertificatesRoutePath}`]);
+        })
+      )
+      .subscribe((certificate) => {
+        this.certificate.set(certificate);
+      });
   }
 }
