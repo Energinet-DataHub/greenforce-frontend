@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoModule, translate } from '@ngneat/transloco';
 import { BehaviorSubject, Observable, combineLatest, debounceTime, map } from 'rxjs';
 import { Apollo } from 'apollo-angular';
@@ -107,8 +107,6 @@ export class DhActorsOverviewComponent implements OnInit {
 
   isLoading = true;
   hasError = false;
-
-  @ViewChild(WattSearchComponent) searchComponent!: WattSearchComponent;
 
   ngOnInit(): void {
     const subscription = this.getActorsQuery$.valueChanges
