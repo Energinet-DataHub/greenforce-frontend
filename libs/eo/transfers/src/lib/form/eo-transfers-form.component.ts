@@ -38,7 +38,7 @@ import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 
 import {
   compareValidator,
@@ -101,6 +101,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
     WATT_STEPPER,
     EoTransferInvitationLinkComponent,
     VaterStackComponent,
+    WattFieldHintComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -121,6 +122,17 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
 
       eo-transfers-form watt-stepper-content-wrapper {
         min-height: 341px;
+      }
+
+      eo-transfers-form .receiver,
+      eo-transfers-form .timeframe-step {
+        gap: var(--watt-space-l);
+        display: flex;
+        flex-direction: column;
+      }
+
+      eo-transfers-form watt-field.watt-field--invalid watt-field-error {
+        display: none;
       }
     `,
   ],
@@ -147,10 +159,15 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
             (next)="onSubmit()"
             [stepControl]="form.controls.period"
           >
-            <eo-transfers-form-period
-              formGroupName="period"
-              [existingTransferAgreements]="existingTransferAgreements"
-            />
+            <div class="timeframe-step">
+              <h2>What is the duration of agreement?</h2>
+              <p>Choosing no end date, you can always stop the agreement manually.</p>
+
+              <eo-transfers-form-period
+                formGroupName="period"
+                [existingTransferAgreements]="existingTransferAgreements"
+              />
+            </div>
           </watt-stepper-step>
           <!-- Invitation -->
           <watt-stepper-step
@@ -212,29 +229,41 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
     </ng-template>
 
     <ng-template #receiver>
-      <watt-text-field
-        label="CVR NO./TIN"
-        type="text"
-        style="max-width: 300px;"
-        [formControl]="form.controls.receiver.controls.tin"
-        (keydown)="preventNonNumericInput($event)"
-        data-testid="new-agreement-receiver-input"
-        [maxLength]="8"
-      >
-        <watt-field-error
-          *ngIf="form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin']"
+      <div class="receiver">
+        <ng-container *ngIf="mode === 'create'">
+          <h3 class="watt-headline-2">Who is the agreement for?</h3>
+          <p>Optional, but recommended for security reasons.</p>
+        </ng-container>
+
+        <watt-text-field
+          label="Recipient"
+          placeholder="CVR / TIN"
+          type="text"
+          style="max-width: 300px;"
+          [formControl]="form.controls.receiver.controls.tin"
+          (keydown)="preventNonNumericInput($event)"
+          data-testid="new-agreement-receiver-input"
+          [maxLength]="8"
         >
-          The receiver cannot be your own TIN/CVR
-        </watt-field-error>
-        <watt-field-error
-          *ngIf="
-            form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin'] ||
-            form.controls.receiver.controls.tin.errors
-          "
-        >
-          An 8-digit TIN/CVR number is required
-        </watt-field-error>
-      </watt-text-field>
+          <watt-field-hint *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
+            >Enter new CVR number or choose from previous transfer agreements</watt-field-hint
+          >
+
+          <watt-field-error
+            *ngIf="form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin']"
+          >
+            The receiver cannot be your own TIN/CVR
+          </watt-field-error>
+          <watt-field-error
+            *ngIf="
+              form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin'] ||
+              form.controls.receiver.controls.tin.errors
+            "
+          >
+            An 8-digit TIN/CVR number is required
+          </watt-field-error>
+        </watt-text-field>
+      </div>
     </ng-template>
   `,
 })

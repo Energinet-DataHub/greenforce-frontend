@@ -55,6 +55,7 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
       closeLabel="Close modal"
       (closed)="onClosed()"
       *ngIf="opened"
+      minHeight="634px"
     >
       <!-- We don't use the build-in loading state for the modal, since it wont update properly -->
       <div

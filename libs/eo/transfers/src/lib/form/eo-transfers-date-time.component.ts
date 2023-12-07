@@ -35,6 +35,7 @@ import {
   AbstractControl,
   NG_VALIDATORS,
   Validator,
+  Validators,
 } from '@angular/forms';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { Subscription } from 'rxjs';
@@ -168,7 +169,7 @@ export class EoTransfersDateTimeComponent
   private destroyRef = inject(DestroyRef);
   private statusChangesSubscription!: Subscription;
   protected form = new FormGroup({
-    date: new FormControl(),
+    date: new FormControl('', { validators: [Validators.required] }),
     time: new FormControl(),
   });
   protected disabledHours: string[] = [];
