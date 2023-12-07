@@ -16,14 +16,14 @@
  */
 
 import { Routes } from '@angular/router';
-import { EoCertificateDetailsComponent } from './eo-certificate-details.component';
-import { EoCertificatesComponent } from './eo-certificates.component';
+import { EoCertificateDetailsComponent } from '@energinet-datahub/eo/certificates/feature-details';
+import { EoCertificatesOverviewComponent } from '@energinet-datahub/eo/certificates/feature-overview';
 
 export const eoCertificatesRoutes: Routes = [
   {
     path: '',
     data: { title: 'Certificates' },
-    component: EoCertificatesComponent,
+    component: EoCertificatesOverviewComponent,
   },
   {
     path: ':id',

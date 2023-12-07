@@ -106,7 +106,7 @@ export class EoTransfersService {
 
   updateAgreement(transferId: string, endDate: number | null) {
     return this.http
-      .patch<EoListedTransfer>(`${this.#apiBase}/transfer-agreements/${transferId}`, {
+      .put<EoListedTransfer>(`${this.#apiBase}/transfer-agreements/${transferId}`, {
         endDate,
       })
       .pipe(

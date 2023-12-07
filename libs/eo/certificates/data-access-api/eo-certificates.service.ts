@@ -56,7 +56,18 @@ export class EoCertificatesService {
 
   getCertificates() {
     const walletApiBase = `${this.#apiBase}/v1`.replace('/api', '/wallet-api');
-    return this.http.get<EoCertificateResponse>(`${walletApiBase}/certificates`);
+    return this.http.get<EoCertificateResponse>(`${walletApiBase}/certificates`).pipe(
+      map((response) => response.result),
+      map((certificates) => {
+        return certificates.map((certificate) => {
+          return {
+            ...certificate,
+            start: certificate.start * 1000,
+            end: certificate.end * 1000,
+          };
+        });
+      })
+    );
   }
 
   /**
