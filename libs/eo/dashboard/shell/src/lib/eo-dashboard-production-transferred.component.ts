@@ -296,7 +296,8 @@ export class EoDashboardProductionTransferredComponent implements OnInit {
           this.productionTotal /
             Math.max(
               claims.filter((x: number) => x > 0).length,
-              certificates.filter((x: number) => x > 0).length
+              certificates.filter((x: number) => x > 0).length,
+              transfers.filter((x: number) => x > 0).length
             )
         )[1];
 

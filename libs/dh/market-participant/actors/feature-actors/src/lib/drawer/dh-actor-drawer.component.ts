@@ -148,7 +148,8 @@ export class DhActorDrawerComponent {
   }
 
   get gridAreaOrFallback() {
-    return this.actor?.gridAreas?.[0]?.code ?? emDash;
+    const stringList = this.actor?.gridAreas?.map((gridArea) => gridArea.code).join(', ');
+    return stringList ?? emDash;
   }
 
   private loadActor(id: string): void {

@@ -95,7 +95,7 @@ export class DhActorsCreateActorModalComponent {
     glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
     name: [''],
     marketrole: [EicFunctionType.BillingAgent, Validators.required],
-    gridArea: [{ value: '', disabled: true }, Validators.required],
+    gridArea: [{ value: [] as string[], disabled: true }, Validators.required],
     contact: this._fb.group({
       departmentOrName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -117,12 +117,12 @@ export class DhActorsCreateActorModalComponent {
     this.showCreateNewOrganization.set(!this.showCreateNewOrganization());
   }
 
-  open() {
+  open(): void {
     this.modal?.open();
   }
 
-  close() {
-    this.modal?.close(false);
+  close(isSuccess = false): void {
+    this.modal?.close(isSuccess);
   }
 
   createMarketParticipent(): void {
@@ -168,9 +168,10 @@ export class DhActorsCreateActorModalComponent {
               marketRoles: [
                 {
                   eicFunction: this.newActorForm.controls.marketrole.value,
-                  gridAreas: this.newActorForm.controls.gridArea.value
-                    ? [{ id: this.newActorForm.controls.gridArea.value, meteringPointTypes: [] }]
-                    : [],
+                  gridAreas: this.newActorForm.controls.gridArea.value.map((gridArea) => ({
+                    id: gridArea,
+                    meteringPointTypes: [],
+                  })),
                 },
               ],
               actorNumber: {
@@ -205,8 +206,10 @@ export class DhActorsCreateActorModalComponent {
 
     if (response.data?.createMarketParticipant?.success) {
       this._toastService.open({ type: 'success', message: 'Market participant created' });
+
+      this.close(true);
     }
+
     this.isCompleting.set(false);
-    this.close();
   }
 }

@@ -142,8 +142,10 @@ export class DhActorsOverviewComponent implements OnInit {
   openCreateNewActorModal(): void {
     this._modalService.open({
       component: DhActorsCreateActorModalComponent,
-      onClosed: () => {
-        this.getActorsQuery$.refetch();
+      onClosed: (result) => {
+        if (result) {
+          this.getActorsQuery$.refetch();
+        }
       },
     });
   }
