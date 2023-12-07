@@ -26,7 +26,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { RxLet } from '@rx-angular/template/let';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -102,6 +102,11 @@ export class DhMessageArchiveLogSearchResultComponent implements AfterViewInit, 
     },
   };
 
+  sortMetadata: Sort = {
+    active: 'createdDate',
+    direction: 'desc',
+  };
+
   readonly dataSource = new WattTableDataSource<ArchivedMessage>();
 
   @ViewChild(MatSort) matSort!: MatSort;
@@ -134,5 +139,9 @@ export class DhMessageArchiveLogSearchResultComponent implements AfterViewInit, 
 
   onClosed(): void {
     this.activeRow = undefined;
+  }
+
+  onSortChange(sort: Sort): void {
+    this.sortMetadata = sort;
   }
 }
