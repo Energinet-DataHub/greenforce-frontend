@@ -98,7 +98,4 @@ limitations under the License.
   <ItemGroup>
     <ProjectReference Condition="Exists('$(MarketingParticipantProjectReference)')" Include="$(MarketingParticipantProjectReference)" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Clients\EDI\B2CWebApi\Model\" />
-  </ItemGroup>
 </Project>

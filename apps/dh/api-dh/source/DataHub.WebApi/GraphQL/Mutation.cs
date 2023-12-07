@@ -14,17 +14,20 @@
 
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.EDI.B2CWebApi.Exceptions;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using HotChocolate;
 using HotChocolate.Types;
 using NodaTime;
 using ActorNameDto = Energinet.DataHub.MarketParticipant.Client.Models.ActorNameDto;
+using ApiException = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ApiException;
 using ChangeActorDto = Energinet.DataHub.MarketParticipant.Client.Models.ChangeActorDto;
 using ChangeOrganizationDto = Energinet.DataHub.MarketParticipant.Client.Models.ChangeOrganizationDto;
 using ContactCategory = Energinet.DataHub.MarketParticipant.Client.Models.ContactCategory;
@@ -129,6 +132,8 @@ public class Mutation
             });
     }
 
+    [Error(typeof(ApiException))]
+    [Error(typeof(InvalidRequestCombinationException))]
     public async Task<bool> CreateAggregatedMeasureDataRequestAsync(
         EdiB2CWebAppProcessType processType,
         MeteringPointType? meteringPointType,
@@ -140,19 +145,32 @@ public class Mutation
         CancellationToken cancellationToken,
         [Service] IEdiB2CWebAppClient_V1 client)
     {
-        await client.RequestAggregatedMeasureDataAsync(
-            new RequestAggregatedMeasureDataMarketRequest()
+        try
+        {
+            await client.RequestAggregatedMeasureDataAsync(
+                    new RequestAggregatedMeasureDataMarketRequest()
+                    {
+                        ProcessType = processType,
+                        MeteringPointType = meteringPointType,
+                        StartDate = startDate,
+                        EndDate = endDate,
+                        GridArea = gridArea,
+                        EnergySupplierId = energySupplierId,
+                        BalanceResponsibleId = balanceResponsibleId,
+                    },
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (ApiException e)
+        {
+            if (e.StatusCode == (int)HttpStatusCode.BadRequest)
             {
-                ProcessType = processType,
-                MeteringPointType = meteringPointType,
-                StartDate = startDate,
-                EndDate = endDate,
-                GridArea = gridArea,
-                EnergySupplierId = energySupplierId,
-                BalanceResponsibleId = balanceResponsibleId,
-            },
-            cancellationToken)
-            .ConfigureAwait(false);
+                throw new InvalidRequestCombinationException(e.Message);
+            }
+
+            throw;
+        }
+
         return true;
     }
 
