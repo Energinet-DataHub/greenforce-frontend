@@ -5,6 +5,9 @@ import { environment } from '../environment';
 
 export interface EoApiEnvironment {
   readonly apiBase: string;
+  readonly apiVersions: {
+    readonly [key: string]: string;
+  };
 }
 
 export const eoApiEnvironmentToken = new InjectionToken<EoApiEnvironment>('eoApiEnvironmentToken', {

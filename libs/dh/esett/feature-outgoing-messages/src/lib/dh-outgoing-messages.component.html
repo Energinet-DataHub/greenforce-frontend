@@ -22,14 +22,22 @@ limitations under the License.
 
       <vater-spacer />
 
-      <watt-search [label]="t('filters.documentId')" (search)="documentIdSearch$.next($event)" />
+      <watt-search
+        #searchComponent
+        [label]="t('filters.documentId')"
+        (search)="documentIdSearch$.next($event)"
+      />
 
       <watt-button icon="download" variant="text" (click)="download()">{{
         "shared.download" | transloco
       }}</watt-button>
     </vater-stack>
 
-    <dh-outgoing-messages-filters [initial]="filter$.value" (filter)="filter$.next($event)" />
+    <dh-outgoing-messages-filters
+      [initial]="filter$.value"
+      (filter)="filter$.next($event)"
+      (formReset)="searchComponent.clear()"
+    />
 
     <dh-outgoing-messages-table
       [tableDataSource]="tableDataSource"

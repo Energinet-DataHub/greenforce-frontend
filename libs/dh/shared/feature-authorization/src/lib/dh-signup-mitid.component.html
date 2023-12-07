@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <a (click)="redirectToMitIdSignup()">
   <div class="mitid-icon-link" alt="mitid-login">
-    <ng-container *ngIf="!(isLoading$ | push); else waitSpinner">
+    <ng-container *ngIf="!isLoading(); else waitSpinner">
       <label class="mit-id-label" *transloco="let t; read: 'admin.userManagement'">{{
         t("connect")
       }}</label>
@@ -26,5 +26,5 @@ limitations under the License.
 </a>
 
 <ng-template #waitSpinner>
-  <watt-spinner [diameter]="24"></watt-spinner>
+  <watt-spinner [diameter]="24" />
 </ng-template>

@@ -14,10 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { graphql } from '@energinet-datahub/dh/shared/domain';
 import parseISO from 'date-fns/parseISO';
 
-export const adminPermissionDetailsMock: graphql.GetPermissionDetailsQuery = {
+import {
+  EicFunction,
+  GetPermissionDetailsQuery,
+  UserRoleStatus,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+export const adminPermissionDetailsMock: GetPermissionDetailsQuery = {
   __typename: 'Query',
   permissionById: {
     __typename: 'Permission',
@@ -25,15 +30,15 @@ export const adminPermissionDetailsMock: graphql.GetPermissionDetailsQuery = {
     name: 'organizations:view',
     description: 'Description for OrganizationView',
     created: parseISO('2023-03-07T00:00:00+00:00'),
-    assignableTo: [graphql.EicFunction.BalanceResponsibleParty, graphql.EicFunction.BillingAgent],
+    assignableTo: [EicFunction.BalanceResponsibleParty, EicFunction.BillingAgent],
     userRoles: [
       {
         __typename: 'UserRoleDto',
         id: '2ca09c29-ffc9-4155-d925-08db05f27124',
         name: 'Test role 1',
         description: 'Description 1',
-        eicFunction: graphql.EicFunction.BillingAgent,
-        status: graphql.UserRoleStatus.Active,
+        eicFunction: EicFunction.BillingAgent,
+        status: UserRoleStatus.Active,
       },
     ],
   },

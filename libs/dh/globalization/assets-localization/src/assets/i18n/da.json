@@ -19,10 +19,12 @@
       "title": "Ingen resultater fundet",
       "message": "Prøv at ændre dine søgeindstillinger"
     },
-    "fieldRequiredErrorText": "Feltet er påkrævet.",
     "navigation": {
       "next": "Næste",
       "previous": "Forrige"
+    },
+    "fieldValidation": {
+      "required": "Feltet er påkrævet."
     },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
@@ -532,26 +534,21 @@
         "steps": {
           "actor": "Aktør",
           "organization": "Organisation",
-          "invite": "Inviter bruger",
           "create": "Opret aktør"
         },
-        "columns": {
-          "name": "Navn",
-          "description": "Beskrivelse"
-        },
         "gridArea": "Netområde",
-        "firstname": "Fornavn",
-        "lastname": "Efternavn",
-        "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktør navn.",
+        "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktørnavn.",
         "glnOrEicInvalid": "Ugyldigt GLN/EIC nummer",
         "wrongEmailPattern": "Indtast en valid email",
-        "phoneInvalid": "Ugyldigt telefonnummer",
+        "phoneInvalid": "Telefonnr. format +45 12345678",
         "domainInvalid": "Ugyldigt domæne",
         "companyName": "Virksomhedsnavn",
         "domain": "Domæne",
         "cvrInvalid": "Ugyldigt CVR nummer",
         "cvrNumber": "CVR-Nr.",
         "country": "Land",
+        "phoneHint": "Telefonnr. format +45 12345678",
+        "glnOrEicHint": "Gln er 13 cifre og EIC er 16 cifre",
         "counties": {
           "DK": "Danmark",
           "SE": "Sverige",
@@ -565,7 +562,7 @@
         "departmentOrName": "Afdeling/Navn",
         "email": "E-mail",
         "phone": "Telefonnr.",
-        "searchDatahub": "Søg datahub",
+        "chooseOrganization": "Vælg organisation",
         "newOrganization": "Ny organisation",
         "marketParty": "Aktør",
         "createHeader": "Ny aktør",
@@ -696,7 +693,7 @@
             }
           },
           "history": {
-            "tabLabel": "History",
+            "tabLabel": "Historik",
             "changeTypes": {
               "NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
               "NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
@@ -730,6 +727,7 @@
         "departmentPhone": "Telefonnr.",
         "required": "Feltet er påkrævet",
         "invalidEmail": "Ugyldig email",
+        "phoneInvalid": "Telefonnr. format +45 12345678",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {
@@ -816,6 +814,7 @@
       "MeteredDataAdministrator": "Beskedsadministrator - aggregeringer",
       "MeteredDataResponsible": "Måledataansvarlig",
       "MeteringPointAdministrator": "Beskedadministrator",
+      "MeterOperator": "Måleoperatør",
       "SystemOperator": "Systemoperatør",
       "DanishEnergyAgency": "Energistyrelsen",
       "DataHubAdministrator": "DataHub systemadministrator",
@@ -831,6 +830,7 @@
       "MeteredDataAdministrator": "En part, der er ansvarlig for lagring og distribution af aggregerede data.",
       "MeteredDataResponsible": "En part, der er ansvarlig for etablering og validering af målte data baseret på de indsamlede data modtaget fra måledataindsamleren. Parten er ansvarlig for historikken for målte data for et målepunkt.",
       "MeteringPointAdministrator": "En part, der er ansvarlig for at administrere og stille målepunktets karakteristika til rådighed, herunder registrere de parter, der er knyttet til målepunktet. DDZ ift. modtagelse af meddelelser.",
+      "MeterOperator": "Skal bruges til delegering af meddelelser ind/ud af DataHub",
       "SystemOperator": "Ansvarlig for håndteringen af Energinets priselementer.",
       "DanishEnergyAgency": "Energistyrelsens adgang til forvaltningsretlige opgaver.",
       "DataHubAdministrator": "DataHub adgang til drift og support.",
@@ -1317,10 +1317,10 @@
         "deactivateError": "Noget gik galt. Brugeren blev ikke deaktiveret. Prøv igen",
         "deactivateSuccess": "Brugeren blev deaktiveret",
         "deactivateConfirmation": {
-          "title": "Deaktiver bruger",
-          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret og login vil blive spærret.",
-          "important": "Hvis brugeren er allerede logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
-          "confirm": "Deaktiver {{email}}",
+          "title": "Deaktiver bruger?",
+          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret, og login vil blive spærret.",
+          "important": "Hvis brugeren allerede er logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
+          "confirm": "Deaktiver bruger",
           "reject": "Fortryd"
         },
         "editRole": "Rediger rolle",
@@ -1559,7 +1559,7 @@
         "cancel": "Fortryd",
         "save": "Gem",
         "validationErrors": {
-          "required": "{{ shared.fieldRequiredErrorText }}"
+          "required": "{{ shared.fieldValidation.required }}"
         }
       },
       "permissionsTable": {

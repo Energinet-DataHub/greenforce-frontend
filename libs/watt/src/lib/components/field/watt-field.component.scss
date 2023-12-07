@@ -33,7 +33,7 @@ watt-field watt-field-error,
   display: none;
 }
 
-.ng-invalid:not(form) watt-field watt-field-hint {
+watt-field.watt-field--invalid watt-field-hint {
   display: none;
 }
 

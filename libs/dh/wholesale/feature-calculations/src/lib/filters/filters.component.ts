@@ -23,7 +23,6 @@ import {
   Output,
   inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { Apollo } from 'apollo-angular';
@@ -51,7 +50,6 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     RxPush,
     TranslocoModule,
@@ -79,7 +77,9 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
       [formGroup]="_formGroup"
       *transloco="let t; read: 'wholesale.calculations.filters'"
     >
-      <watt-date-range-chip formControlName="period">{{ t('period') }}</watt-date-range-chip>
+      <watt-date-range-chip [formControl]="this._formGroup.controls.period!">{{
+        t('period')
+      }}</watt-date-range-chip>
       <watt-dropdown
         formControlName="processTypes"
         [chipMode]="true"
@@ -94,7 +94,7 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
         [options]="_gridAreaOptions | push"
         [placeholder]="t('gridAreas')"
       />
-      <watt-date-range-chip formControlName="executionTime">
+      <watt-date-range-chip [formControl]="this._formGroup.controls.executionTime!">
         {{ t('executionTime') }}
       </watt-date-range-chip>
       <watt-dropdown

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RxLet } from '@rx-angular/template/let';
@@ -35,7 +35,7 @@ import { DhProcessesTableComponent } from './processes-table/dh-processes-table.
   providers: [DhProcessesDataAccessApiStore],
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
     WattSpinnerComponent,
     RxLet,
     DhProcessesTableComponent,

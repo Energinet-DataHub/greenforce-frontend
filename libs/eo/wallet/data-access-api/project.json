@@ -1,0 +1,19 @@
+{
+  "name": "eo-wallet-data-access-api",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/wallet/data-access-api",
+  "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/wallet/data-access-api/**/*.ts",
+          "libs/eo/wallet/data-access-api/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:wallet", "type:data-access"]
+}

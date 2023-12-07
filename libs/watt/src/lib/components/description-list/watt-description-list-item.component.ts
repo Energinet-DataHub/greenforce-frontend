@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, Input, TemplateRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgClass],
   selector: 'watt-description-list-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-template #templateRef

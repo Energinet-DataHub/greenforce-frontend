@@ -122,15 +122,6 @@
       "@energinet-datahub/dh/market-participant/data-access-api": [
         "libs/dh/market-participant/data-access-api/src/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/edit-actor": [
-        "libs/dh/market-participant/feature-edit-actor/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/feature-edit-organization": [
-        "libs/dh/market-participant/feature-edit-organization/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/feature-organization": [
-        "libs/dh/market-participant/feature-organization/src/index.ts"
-      ],
       "@energinet-datahub/dh/market-participant/grid-areas/overview": [
         "libs/dh/market-participant/grid-areas/overview/src/index.ts"
       ],
@@ -275,6 +266,9 @@
       "@energinet-datahub/eo/certificates/domain": [
         "libs/eo/certificates/domain/index.ts"
       ],
+      "@energinet-datahub/eo/certificates/feature-details": [
+        "libs/eo/certificates/feature-details/index.ts"
+      ],
       "@energinet-datahub/eo/certificates/feature-overview": [
         "libs/eo/certificates/feature-overview/index.ts"
       ],
@@ -288,33 +282,12 @@
         "libs/eo/claims/feature-overview/index.ts"
       ],
       "@energinet-datahub/eo/claims/shell": ["libs/eo/claims/shell/index.ts"],
-      "@energinet-datahub/eo/connections/data-access-api": [
-        "libs/eo/connections/data-access-api/index.ts"
-      ],
-      "@energinet-datahub/eo/connections/feature-invite-connection": [
-        "libs/eo/connections/feature-invite-connection/index.ts"
-      ],
-      "@energinet-datahub/eo/connections/feature-invite-connection-respond": [
-        "libs/eo/connections/feature-invite-connection-respond/index.ts"
-      ],
-      "@energinet-datahub/eo/connections/feature-overview": [
-        "libs/eo/connections/feature-overview/index.ts"
-      ],
-      "@energinet-datahub/eo/connections/feature-remove-connection": [
-        "libs/eo/connections/feature-remove-connection/index.ts"
-      ],
-      "@energinet-datahub/eo/connections/shell": [
-        "libs/eo/connections/shell/index.ts"
-      ],
       "@energinet-datahub/eo/consumption-page/shell": [
         "libs/eo/consumption-page/shell/src/index.ts"
       ],
       "@energinet-datahub/eo/core/shell": ["libs/eo/core/shell/src/index.ts"],
       "@energinet-datahub/eo/dashboard/shell": [
         "libs/eo/dashboard/shell/src/index.ts"
-      ],
-      "@energinet-datahub/eo/emissions/shell": [
-        "libs/eo/emissions/shell/src/index.ts"
       ],
       "@energinet-datahub/eo/help/shell": ["libs/eo/help/shell/src/index.ts"],
       "@energinet-datahub/eo/landing-page/shell": [
@@ -328,9 +301,6 @@
       ],
       "@energinet-datahub/eo/metering-points/shell": [
         "libs/eo/metering-points/shell/src/index.ts"
-      ],
-      "@energinet-datahub/eo/origin-of-energy/shell": [
-        "libs/eo/origin-of-energy/shell/src/index.ts"
       ],
       "@energinet-datahub/eo/privacy-policy/shell": [
         "libs/eo/privacy-policy/shell/src/index.ts"
@@ -365,6 +335,9 @@
       ],
       "@energinet-datahub/eo/terms": ["libs/eo/terms/src/index.ts"],
       "@energinet-datahub/eo/transfers": ["libs/eo/transfers/src/index.ts"],
+      "@energinet-datahub/eo/wallet/data-access-api": [
+        "libs/eo/wallet/data-access-api/index.ts"
+      ],
       "@energinet-datahub/gf/configuration-danish-locale": [
         "libs/gf/configuration-danish-locale/src/index.ts"
       ],
@@ -441,9 +414,6 @@
       ],
       "@energinet-datahub/watt/field": [
         "libs/watt/src/lib/components/field/index.ts"
-      ],
-      "@energinet-datahub/watt/form-field": [
-        "libs/watt/src/lib/components/form-field/index.ts"
       ],
       "@energinet-datahub/watt/icon": [
         "libs/watt/src/lib/foundations/icon/index.ts"

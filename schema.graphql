@@ -51,6 +51,24 @@ type Calculation {
   processType: ProcessType!
 }
 
+enum ContactCategoryType {
+  default
+  charges
+  chargelinks
+  electricalheating
+  endofsupply
+  energinetinquiry
+  errorreport
+  incorrectmove
+  incorrectswitch
+  measurementdata
+  meteringpoint
+  netsettlement
+  notification
+  recon
+  reminder
+}
+
 enum EdiB2CProcessType {
   preliminaryaggregation
   balancefixing
@@ -66,6 +84,7 @@ enum EicFunction {
   EnergySupplier
   GridAccessProvider
   ImbalanceSettlementResponsible
+  MeterOperator
   MeteredDataAdministrator
   MeteredDataResponsible
   MeteringPointAdministrator
@@ -90,6 +109,23 @@ type EsettOutgoingMessage {
 enum ExchangeEventCalculationType {
   BALANCE_FIXING
   AGGREGATION
+}
+
+enum EicFunctionType {
+  BalanceResponsibleParty
+  BillingAgent
+  EnergySupplier
+  GridAccessProvider
+  ImbalanceSettlementResponsible
+  MeterOperator
+  MeteredDataAdministrator
+  MeteredDataResponsible
+  MeteringPointAdministrator
+  SystemOperator
+  DanishEnergyAgency
+  DataHubAdministrator
+  IndependentAggregator
+  SerialEnergyTrader
 }
 
 type OrganizationAuditLog {
@@ -278,6 +314,13 @@ type MarketParticipantBadRequestError implements Error {
   statusCode: Int!
 }
 
+type ApiError implements Error {
+  message: String!
+  statusCode: Int!
+  response: String
+  headers: [KeyValuePairOfStringAndIEnumerableOfString!]!
+}
+
 interface Error {
   message: String!
 }
@@ -313,10 +356,10 @@ enum PriceAreaCode {
 }
 
 input CreateMarketParticipantInput {
-  organizationId: String
+  organizationId: UUID
   organization: CreateOrganizationDtoInput
   actor: CreateActorDtoInput!
-  userInvite: UserInvitationDtoInput!
+  actorContact: CreateActorContactDtoInput!
 }
 
 enum MeteringPointType {
@@ -416,6 +459,11 @@ type PermissionLog {
   type: PermissionAuditLogType!
 }
 
+type KeyValuePairOfStringAndIEnumerableOfString {
+  key: String!
+  value: [String!]!
+}
+
 enum PermissionAuditLogType {
   UNKNOWN
   DESCRIPTION_CHANGE
@@ -466,13 +514,11 @@ enum ActorAuditLogType {
   CLIENT_SECRET_CREDENTIALS
 }
 
-input UserInvitationDtoInput {
+input CreateActorContactDtoInput {
+  name: String!
+  category: ContactCategoryType!
   email: String!
-  firstName: String!
-  lastName: String!
-  phoneNumber: String!
-  assignedActor: UUID!
-  assignedRoles: [UUID!]!
+  phone: String
 }
 
 input CreateActorDtoInput {
@@ -498,7 +544,7 @@ input AddressDtoInput {
 }
 
 input ActorMarketRoleDtoInput {
-  eicFunction: String!
+  eicFunction: EicFunctionType!
   gridAreas: [ActorGridAreaDtoInput!]!
   comment: String
 }
@@ -573,7 +619,7 @@ type UpdateOrganizationPayload {
   errors: [UpdateOrganizationError!]
 }
 
-union CreateMarketParticipantError = MarketParticipantBadRequestError
+union CreateMarketParticipantError = ApiError
 
 type CreateMarketParticipantPayload {
   boolean: Boolean

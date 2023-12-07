@@ -91,7 +91,7 @@ describe(DhUserAuditLogsComponent.name, () => {
       ),
     });
 
-    const rowTimestamp = screen.getByText('10-01-2023 11:12');
+    const rowTimestamp = screen.getByText('10-01-2023, 11:12');
 
     // assert
     expect(changesMessage).toBeInTheDocument();

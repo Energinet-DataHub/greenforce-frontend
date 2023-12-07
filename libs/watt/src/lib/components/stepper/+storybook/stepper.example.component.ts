@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 import { Component, inject } from '@angular/core';
-import { WATT_STEPPER } from '..';
+import { NgIf } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+
+import { WATT_STEPPER } from '..';
 import { WattButtonComponent } from '../../button';
 import { WattIconComponent } from '../../../foundations/icon';
 import { WattTextFieldComponent } from '../../text-field/watt-text-field.component';
 import { WattFieldErrorComponent } from '../../field/watt-field-error.component';
-import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'watt-stepper-example',
@@ -39,6 +40,7 @@ import { CommonModule } from '@angular/common';
     `,
   ],
   imports: [
+    NgIf,
     WATT_STEPPER,
     ReactiveFormsModule,
     WattButtonComponent,
@@ -46,7 +48,6 @@ import { CommonModule } from '@angular/common';
     WattTextFieldComponent,
     WattFieldErrorComponent,
     MatButtonModule,
-    CommonModule,
   ],
 })
 export class StepperExampleComponent {

@@ -85,17 +85,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -488,17 +491,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -662,17 +668,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -1037,17 +1046,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -2007,17 +2019,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -2602,7 +2617,11 @@
             "format": "uuid"
           },
           "category": {
-            "type": "string"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContactCategory"
+              }
+            ]
           },
           "name": {
             "type": "string"
@@ -2696,7 +2715,11 @@
         "additionalProperties": false,
         "properties": {
           "eicFunction": {
-            "type": "string"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EicFunction"
+              }
+            ]
           },
           "gridAreas": {
             "type": "array",
@@ -2831,7 +2854,11 @@
             "type": "string"
           },
           "category": {
-            "type": "string"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContactCategory"
+              }
+            ]
           },
           "email": {
             "type": "string"
@@ -2950,6 +2977,7 @@
           "EnergySupplier",
           "GridAccessProvider",
           "ImbalanceSettlementResponsible",
+          "MeterOperator",
           "MeteredDataAdministrator",
           "MeteredDataResponsible",
           "MeteringPointAdministrator",

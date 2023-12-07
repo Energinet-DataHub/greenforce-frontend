@@ -14,10 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { ActorAuditLogType, ContactCategory } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ActorAuditLogType,
+  ContactCategory,
+  GetAuditLogByActorIdQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const getActorAuditLogsMock: graphql.GetAuditLogByActorIdQuery = {
+export const getActorAuditLogsMock: GetAuditLogByActorIdQuery = {
   __typename: 'Query',
   actorAuditLogs: [
     {

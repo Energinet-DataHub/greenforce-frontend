@@ -23,10 +23,12 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.BalanceResponsibleType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.CalculationType>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.Types.ContactCategoryType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.Types.EdiB2CProcessType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.EicFunctionType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.EsettExchangeEventType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ExchangeEventCalculationType>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.MarketPartEicFunctionType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.OrganizationAuditLogType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.OrganizationType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.PermissionType>();

@@ -116,7 +116,6 @@
         "development": {
           "hmr": true
         },
-        "e2e-development": {},
         "production": {
           "buildTarget": "app-eo:build:production"
         },

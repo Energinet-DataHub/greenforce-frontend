@@ -32,9 +32,9 @@ __metadata:
   linkType: hard
 
 "@adobe/css-tools@npm:^4.0.1":
-  version: 4.3.1
-  resolution: "@adobe/css-tools@npm:4.3.1"
-  checksum: ad43456379ff391132aff687ece190cb23ea69395e23c9b96690eeabe2468da89a4aaf266e4f8b6eaab53db3d1064107ce0f63c3a974e864f4a04affc768da3f
+  version: 4.3.2
+  resolution: "@adobe/css-tools@npm:4.3.2"
+  checksum: 9667d61d55dc3b0a315c530ae84e016ce5267c4dd8ac00abb40108dc98e07b98e3090ce8b87acd51a41a68d9e84dcccb08cdf21c902572a9cf9dcaf830da4ae3
   languageName: node
   linkType: hard
 
@@ -682,31 +682,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-angular@npm:3.0.2":
-  version: 3.0.2
-  resolution: "@azure/msal-angular@npm:3.0.2"
+"@azure/msal-angular@npm:3.0.8":
+  version: 3.0.8
+  resolution: "@azure/msal-angular@npm:3.0.8"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
-    "@azure/msal-browser": ^3.0.2
+    "@azure/msal-browser": ^3.5.0
     rxjs: ^7.0.0
-  checksum: 335aa0e876294b102fd64bbafa23f3a38f8166e5fd17da00c68d6627c30051afa77b7c3001e53120fb3818f8a4c867215b86a79f5076adfb5910576e95e5bf84
+  checksum: 50b90110deafc614b4f49565fb4e50c2c0698e6ac321364ea1a99b46d76abccdd167d420aed6e2fd900f2e25b3fb4ad3339b07ef0eb9af40721fdfba05d2b9dc
   languageName: node
   linkType: hard
 
-"@azure/msal-browser@npm:3.0.2":
-  version: 3.0.2
-  resolution: "@azure/msal-browser@npm:3.0.2"
+"@azure/msal-browser@npm:3.5.0":
+  version: 3.5.0
+  resolution: "@azure/msal-browser@npm:3.5.0"
   dependencies:
-    "@azure/msal-common": 14.0.2
-  checksum: 3036e8ee50d967887697591b6547866f6d60697b7aedf239f997a5a6ff28032383c6fc5a03010dc432470458c28061081ac035bfa388e9a6244df27187b41399
+    "@azure/msal-common": 14.4.0
+  checksum: 876e5d5ac4fc638acc18faa2cea269b595963df5806482b858f3ec72b2cff3e2b4cb47fa1e0f7ace04dd66b0544e4471f04de299a551975bdb74f111fc65af34
   languageName: node
   linkType: hard
 
-"@azure/msal-common@npm:14.0.2":
-  version: 14.0.2
-  resolution: "@azure/msal-common@npm:14.0.2"
-  checksum: 19515bfd2358d7cd07a2f083c98cf7eb0de68caf6f32f2bdd86a28839352f62830ba37b6dda938531f8924e27f28b877ee385055414ada41aeb024207763cea0
+"@azure/msal-common@npm:14.4.0":
+  version: 14.4.0
+  resolution: "@azure/msal-common@npm:14.4.0"
+  checksum: 63c63fac0915b4dbd026add260e2527138a02ba6f9ccd8d92d2641fc3e2b5d59c6943415d470e40af2f34c55e77ccfc2d3f90e8a2befc1eeae3a9896ec65ade8
   languageName: node
   linkType: hard
 
@@ -6831,6 +6831,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kurkle/color@npm:^0.3.0":
+  version: 0.3.2
+  resolution: "@kurkle/color@npm:0.3.2"
+  checksum: 79e97b31f8f6efb28c69d373f94b0c7480226fe8ec95221f518ac998e156444a496727ce47de6d728eb5c3369288e794cba82cae34253deb0d472d3bfe080e49
+  languageName: node
+  linkType: hard
+
 "@leichtgewicht/ip-codec@npm:^2.0.1":
   version: 2.0.4
   resolution: "@leichtgewicht/ip-codec@npm:2.0.4"
@@ -9429,6 +9436,13 @@ __metadata:
     "@rx-angular/cdk": ^16.0.0
     rxjs: ^6.5.3 || ^7.4.0
   checksum: a46cba17ae98a7ce66278f12f759aa812cae3d897819000d612bc0e4a5e23c950e6737f8fda1c6c42acbb3037a7407a972fb2f11daf8dfa61055f073019ff1c2
+  languageName: node
+  linkType: hard
+
+"@scarf/scarf@npm:^1.1.1":
+  version: 1.3.0
+  resolution: "@scarf/scarf@npm:1.3.0"
+  checksum: 652c1248c8e1b5a4ba64333c1b2e9847e314d4cd78beb4bab51b3825bcd2b45dc20d185d3b99b11b18753a9e64113475067852ac898910ad73aa0559e24f0d6d
   languageName: node
   linkType: hard
 
@@ -16584,19 +16598,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chart.js@npm:3.8.0":
-  version: 3.8.0
-  resolution: "chart.js@npm:3.8.0"
-  checksum: 0360212bf5d534effc8475a1aa705ba7257a315af368b5e8eecf476f0bd57a6bb80ad740e870d552f2d11e134dd1497ccef02950d7e626c21a400ff00ecf59af
-  languageName: node
-  linkType: hard
-
-"chartjs-plugin-datalabels@npm:2.0.0":
-  version: 2.0.0
-  resolution: "chartjs-plugin-datalabels@npm:2.0.0"
-  peerDependencies:
-    chart.js: ^3.0.0
-  checksum: aa59cabc57feca686281033f6160c4f7e84f973e5ad27e794daa7a6bc8dbf7a14055fee4c05df6a9d8c7be66ec0a59203244e8f528fce3dfd13847bf92d7aa7c
+"chart.js@npm:4.4.0":
+  version: 4.4.0
+  resolution: "chart.js@npm:4.4.0"
+  dependencies:
+    "@kurkle/color": ^0.3.0
+  checksum: 5ee2d99b78608025525b5790af17178fdaa5adc3294e082deba2718029b0496109ba124f1b08dd1e4c8a04d6e842be7f384f2cfe9a11df8d1c6fe884acece52b
   languageName: node
   linkType: hard
 
@@ -19224,8 +19231,8 @@ __metadata:
     "@angular/platform-browser-dynamic": 17.0.2
     "@angular/router": 17.0.2
     "@apollo/client": 3.8.1
-    "@azure/msal-angular": 3.0.2
-    "@azure/msal-browser": 3.0.2
+    "@azure/msal-angular": 3.0.8
+    "@azure/msal-browser": 3.5.0
     "@babel/core": ^7.22.9
     "@babel/runtime": ^7.22.6
     "@badeball/cypress-cucumber-preprocessor": 13.1.0
@@ -19294,8 +19301,7 @@ __metadata:
     "@typescript-eslint/parser": 6.9.1
     "@vimeo/player": 2.17.0
     apollo-angular: 5.0.2
-    chart.js: 3.8.0
-    chartjs-plugin-datalabels: 2.0.0
+    chart.js: 4.4.0
     cross-env: ^7.0.3
     crypto-js: 4.2.0
     cypress: 13.1.0
@@ -19322,10 +19328,13 @@ __metadata:
     jsonc-eslint-parser: 2.1.0
     jwt-decode: 3.1.2
     kill-port-process: 3.1.0
+    lottie-web: ^5.12.2
     msw: 1.3.1
+    ng-lottie: ^0.3.2
     ng-mocks: 14.0.1
-    ng2-charts: 3.0.11
+    ng2-charts: 5.0.3
     ngx-highlightjs: 10.0.0
+    ngx-lottie: ^10.0.0
     ngx-mat-select-search: 7.0.4
     nx: 17.1.1
     prettier: 3.1.0
@@ -26675,6 +26684,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lottie-web@npm:^5.1.3, lottie-web@npm:^5.12.2":
+  version: 5.12.2
+  resolution: "lottie-web@npm:5.12.2"
+  checksum: af5bc3bc405fd760de8b17a36158d5a8c3e8c586c711d0c63681ddf056b65bc6b54ea36b1fcad782fb02dbe12e696a40e0ba72daf41b8f10ab5b5d1113793636
+  languageName: node
+  linkType: hard
+
 "loud-rejection@npm:^1.0.0":
   version: 1.6.0
   resolution: "loud-rejection@npm:1.6.0"
@@ -28377,6 +28393,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ng-lottie@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "ng-lottie@npm:0.3.2"
+  dependencies:
+    lottie-web: ^5.1.3
+  checksum: 795a4ae48e35556baf18b807a557629efad44a62ec9c372e4b7c9c67639ee459969458224e8ed0e54dfc922d24d1e41adb56fedd4875826dc86372a160e649bf
+  languageName: node
+  linkType: hard
+
 "ng-mocks@npm:14.0.1":
   version: 14.0.1
   resolution: "ng-mocks@npm:14.0.1"
@@ -28421,18 +28446,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ng2-charts@npm:3.0.11":
-  version: 3.0.11
-  resolution: "ng2-charts@npm:3.0.11"
+"ng2-charts@npm:5.0.3":
+  version: 5.0.3
+  resolution: "ng2-charts@npm:5.0.3"
   dependencies:
     lodash-es: ^4.17.15
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/common": ">=11.0.0"
-    "@angular/core": ">=11.0.0"
-    chart.js: ^3.4.0
+    "@angular/cdk": ">=16.0.0"
+    "@angular/common": ">=16.0.0"
+    "@angular/core": ">=16.0.0"
+    "@angular/platform-browser": ">=16.0.0"
+    chart.js: ^3.4.0 || ^4.0.0
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: 4c3735f7bc1d6e940e68bbe43ac6cbb5f4f7b60338b9cd8d7670c74dd5cec828118748326be42195256cb81977a7d530fab83b7d41e16fd1482023d19be64114
+  checksum: f2c597627f66a75e36b9aa26c0a5c47e1f3b110e97e358988f33748b9771f78a686389d97b75707d7e99d2b0b41adf0ad5e9cfc15c22f11c6f93afd60ab47058
   languageName: node
   linkType: hard
 
@@ -28447,6 +28474,19 @@ __metadata:
     "@angular/core": ">=16.0.0"
     rxjs: ">=7.0.0"
   checksum: ea5d9f4b69a383c26ef4ca1abc8b62d24dc5baa20dcec9cfb03dac500a88b79166a0a4039362f4a91fb56cb89afc8a5e8e11b8c41dc4adc0e316e66dc56e5e8b
+  languageName: node
+  linkType: hard
+
+"ngx-lottie@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "ngx-lottie@npm:10.0.0"
+  dependencies:
+    "@scarf/scarf": ^1.1.1
+    tslib: ^2.3.0
+  peerDependencies:
+    "@angular/core": ">=15"
+    lottie-web: ">=5.9.2"
+  checksum: 1e7abd8baab02f3ae365bff90272ead63db9fc2b6a4c1775ad58ce7349300c14e824d294804ceb045c5dae6e07beceacbbbf7350eb3d5d52f71940c6ba24b997
   languageName: node
   linkType: hard
 
