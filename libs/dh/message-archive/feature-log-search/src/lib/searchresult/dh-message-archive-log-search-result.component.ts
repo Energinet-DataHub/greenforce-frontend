@@ -27,7 +27,8 @@ import {
 } from '@angular/core';
 import { RxLet } from '@rx-angular/template/let';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -35,6 +36,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+
 import {
   WattTableComponent,
   WattTableColumnDef,
@@ -44,12 +46,11 @@ import {
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMessageArchiveDrawerComponent } from '../drawer/dh-message-archive-drawer.component';
-
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
 import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
 
 @Component({
@@ -61,7 +62,8 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
   imports: [
     WattTableCellDirective,
     NgIf,
-    TranslocoModule,
+    TranslocoDirective,
+    TranslocoPipe,
     RxLet,
     MatSortModule,
     WattIconComponent,
