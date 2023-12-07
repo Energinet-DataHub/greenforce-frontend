@@ -50,7 +50,7 @@ limitations under the License.
         [label]="t('departmentEmail')"
         [formControl]="actorForm.controls.departmentEmail"
       >
-        <span wattSuffix class="email-suffix"><span>@</span>{{ emailDomain }}</span>
+        <span wattSuffix class="email-suffix">&#64;{{ emailDomain }}</span>
 
         <watt-field-error *ngIf="actorForm.controls.departmentEmail.hasError('pattern')">
           {{ t("invalidEmail") }}
