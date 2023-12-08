@@ -40,7 +40,7 @@ import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import { zonedTimeToUtc } from 'date-fns-tz';
+import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc';
 import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-message-archive-log-search-result.component';
 
 @Component({

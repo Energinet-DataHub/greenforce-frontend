@@ -44,7 +44,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 import { DhDrawerDatepickerComponent } from '../drawer-datepicker/dh-drawer-datepicker.component';
-import { zonedTimeToUtc } from 'date-fns-tz';
+import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc';
 import { DhChargesPricesDrawerService } from '../../dh-charges-prices-drawer.service';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
