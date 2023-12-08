@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ChargePriceV1Dto, ChargeResolution } from '@energinet-datahub/dh/shared/domain';
-import { format } from 'date-fns';
+import format from 'date-fns/format';
 
 const timeFormat = 'HH:mm';
 

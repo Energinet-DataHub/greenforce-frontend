@@ -17,7 +17,9 @@
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { BehaviorSubject, combineLatest, debounceTime, map, switchMap } from 'rxjs';
-import { endOfDay, startOfDay, sub } from 'date-fns';
+import endOfDay from 'date-fns/endOfDay';
+import startOfDay from 'date-fns/startOfDay';
+import sub from 'date-fns/sub';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
