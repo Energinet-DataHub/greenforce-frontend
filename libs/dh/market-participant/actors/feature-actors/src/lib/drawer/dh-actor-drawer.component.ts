@@ -16,7 +16,7 @@
  */
 import { NgIf } from '@angular/common';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
-import { TranslocoModule, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { Subscription, takeUntil } from 'rxjs';
 
@@ -73,7 +73,8 @@ import { DhActorAuditLogService } from './dh-actor-audit-log.service';
   viewProviders: [DhActorAuditLogService],
   imports: [
     NgIf,
-    TranslocoModule,
+    TranslocoDirective,
+    TranslocoPipe,
 
     WATT_DRAWER,
     WATT_TABS,
