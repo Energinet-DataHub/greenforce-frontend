@@ -81,6 +81,8 @@ export class DhUsersTabTableComponent implements AfterViewInit {
     this.dataSource.data = value;
   }
 
+  @Input({ required: true }) isLoading = false;
+
   @Input({ required: true }) sortChanged!: (
     prop: MarketParticipantUserOverviewSortProperty,
     direction: MarketParticipantSortDirection
