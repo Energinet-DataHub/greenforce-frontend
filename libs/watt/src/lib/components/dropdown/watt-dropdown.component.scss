@@ -42,7 +42,7 @@ watt-dropdown {
     height: auto;
   }
 
-  .mati-input-element {
+  .mat-input-element {
     @include watt.typography-watt-text-s;
     color: var(--watt-input-color);
     caret-color: var(--watt-color-neutral-grey-900) !important;
@@ -85,6 +85,7 @@ watt-dropdown {
   .watt-field--chip .mat-mdc-select {
     visibility: hidden;
     position: absolute;
+    width: 100px;
   }
 
   .mat-mdc-select-placeholder {
