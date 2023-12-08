@@ -30,7 +30,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { ApolloError } from '@apollo/client/errors';
 import { Subscription, switchMap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import { addDays } from 'date-fns';
+import addDays from 'date-fns/addDays';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
