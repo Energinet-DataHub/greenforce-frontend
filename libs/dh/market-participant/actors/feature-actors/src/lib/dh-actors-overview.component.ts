@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
-import { TranslocoModule, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { BehaviorSubject, Observable, combineLatest, debounceTime, map } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -68,7 +68,8 @@ import { dhToJSON } from './dh-json-util';
     `,
   ],
   imports: [
-    TranslocoModule,
+    TranslocoDirective,
+    TranslocoPipe,
 
     WATT_CARD,
     WattPaginatorComponent,

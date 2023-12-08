@@ -16,7 +16,7 @@
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TranslocoModule, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -60,7 +60,8 @@ import { DhOrganization } from './dh-organization';
     `,
   ],
   imports: [
-    TranslocoModule,
+    TranslocoDirective,
+    TranslocoPipe,
 
     WATT_CARD,
     VaterFlexComponent,
