@@ -16,7 +16,7 @@
  */
 import { Component, Input, ViewChild } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -40,7 +40,8 @@ import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
   ],
   imports: [
     NgIf,
-    TranslocoModule,
+    TranslocoDirective,
+    TranslocoPipe,
 
     WATT_TABLE,
     WattEmptyStateComponent,

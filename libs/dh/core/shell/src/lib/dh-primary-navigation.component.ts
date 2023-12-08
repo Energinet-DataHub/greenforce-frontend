@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
@@ -35,8 +34,8 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   templateUrl: './dh-primary-navigation.component.html',
   standalone: true,
   imports: [
-    TranslocoModule,
-    RouterModule,
+    TranslocoDirective,
+
     WattNavListComponent,
     WattNavListItemComponent,
     DhFeatureFlagDirective,
