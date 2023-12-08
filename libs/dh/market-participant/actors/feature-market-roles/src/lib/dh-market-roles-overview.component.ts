@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { AfterViewInit, Component, inject } from '@angular/core';
-import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { take } from 'rxjs';
 
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
@@ -47,7 +47,8 @@ import {
   templateUrl: './dh-market-roles-overview.component.html',
   standalone: true,
   imports: [
-    TranslocoModule,
+    TranslocoDirective,
+    TranslocoPipe,
 
     WATT_CARD,
     WATT_TABLE,
