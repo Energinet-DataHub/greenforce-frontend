@@ -11,8 +11,7 @@
         "{workspaceRoot}/coverage/libs/dh/shared/data-access-top-bar"
       ],
       "options": {
-        "jestConfig": "libs/dh/shared/data-access-top-bar/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/shared/data-access-top-bar/jest.config.ts"
       }
     },
     "lint": {

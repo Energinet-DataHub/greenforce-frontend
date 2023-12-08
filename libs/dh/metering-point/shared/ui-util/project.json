@@ -11,8 +11,7 @@
         "{workspaceRoot}/coverage/libs/dh/metering-point/shared/ui-util"
       ],
       "options": {
-        "jestConfig": "libs/dh/metering-point/shared/ui-util/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/metering-point/shared/ui-util/jest.config.ts"
       }
     },
     "lint": {

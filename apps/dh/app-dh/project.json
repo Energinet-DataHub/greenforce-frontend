@@ -6,7 +6,7 @@
   "prefix": "dh",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular-devkit/build-angular:browser-esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/dh/app-dh",
@@ -137,24 +137,24 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "app-dh:build:production",
-          "ssl": true
+          "ssl": true,
+          "buildTarget": "app-dh:build:production"
         },
         "development": {
-          "browserTarget": "app-dh:build:development",
           "hmr": true,
           "ssl": true,
           "sslKey": "localhost.key",
           "sslCert": "localhost.crt",
-          "host": "127.0.0.1"
+          "host": "127.0.0.1",
+          "buildTarget": "app-dh:build:development"
         },
         "mocked": {
-          "browserTarget": "app-dh:build:mocked",
           "hmr": true,
           "ssl": true,
           "sslKey": "localhost.key",
           "sslCert": "localhost.crt",
-          "host": "127.0.0.1"
+          "host": "127.0.0.1",
+          "buildTarget": "app-dh:build:mocked"
         }
       },
       "defaultConfiguration": "mocked"
@@ -173,8 +173,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/dh/app-dh"],
       "options": {
-        "jestConfig": "apps/dh/app-dh/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/dh/app-dh/jest.config.ts"
       }
     }
   },

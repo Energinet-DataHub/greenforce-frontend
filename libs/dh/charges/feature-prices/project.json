@@ -9,8 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/charges/feature-prices"],
       "options": {
-        "jestConfig": "libs/dh/charges/feature-prices/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/charges/feature-prices/jest.config.ts"
       }
     },
     "lint": {

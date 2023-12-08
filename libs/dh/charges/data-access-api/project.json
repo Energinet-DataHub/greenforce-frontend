@@ -9,8 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/charges/data-access-api"],
       "options": {
-        "jestConfig": "libs/dh/charges/data-access-api/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/charges/data-access-api/jest.config.ts"
       }
     },
     "lint": {

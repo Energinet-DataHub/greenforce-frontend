@@ -11,8 +11,7 @@
         "{workspaceRoot}/coverage/libs/dh/metering-point/feature-identity-and-master-data"
       ],
       "options": {
-        "jestConfig": "libs/dh/metering-point/feature-identity-and-master-data/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/metering-point/feature-identity-and-master-data/jest.config.ts"
       }
     },
     "lint": {

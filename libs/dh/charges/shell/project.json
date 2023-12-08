@@ -9,8 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/charges/shell"],
       "options": {
-        "jestConfig": "libs/dh/charges/shell/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/charges/shell/jest.config.ts"
       }
     },
     "lint": {
