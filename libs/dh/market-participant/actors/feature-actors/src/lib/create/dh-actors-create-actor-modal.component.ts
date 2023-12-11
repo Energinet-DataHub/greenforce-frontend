@@ -49,7 +49,7 @@ import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-acc
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
-import { readApiErrorResponse } from 'libs/dh/market-participant/data-access-api/src/lib/dh-market-participant-error-handling';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 @Component({
   standalone: true,
