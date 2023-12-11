@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 import { Component, inject } from '@angular/core';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import {
   DhAdminUserManagementDataAccessApiStore,
@@ -32,13 +32,13 @@ import {
   MarketParticipantUserOverviewSortProperty,
   MarketParticipantUserStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhInviteUserModalComponent } from '@energinet-datahub/dh/admin/feature-invite-user-modal';
 import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
@@ -74,14 +74,16 @@ import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filte
         }
       }
 
-      h4 {
+      h3 {
         margin: 0;
       }
 
-      .card-title__container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
       }
     `,
   ],
@@ -92,11 +94,12 @@ import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filte
   ],
   imports: [
     NgIf,
-    NgTemplateOutlet,
     RxLet,
     RxPush,
-    TranslocoModule,
-    WattSpinnerComponent,
+    TranslocoDirective,
+
+    VaterStackComponent,
+    VaterSpacerComponent,
     WATT_CARD,
     DhUsersTabTableComponent,
     DhUsersTabStatusFilterComponent,
