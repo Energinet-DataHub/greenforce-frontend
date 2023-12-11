@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgClass, NgIf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import {
   Component,
   Input,
@@ -25,6 +25,8 @@ import {
   forwardRef,
   AfterViewInit,
   inject,
+  EventEmitter,
+  Output,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -32,6 +34,8 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
+
 import { WattFieldComponent } from '../field/watt-field.component';
 import { WattIconComponent, WattIcon } from '../../foundations/icon';
 
@@ -39,7 +43,14 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
 
 @Component({
   standalone: true,
-  imports: [NgIf, NgClass, ReactiveFormsModule, WattFieldComponent, WattIconComponent],
+  imports: [
+    MatAutocompleteModule,
+    NgForOf,
+    NgIf,
+    ReactiveFormsModule,
+    WattFieldComponent,
+    WattIconComponent,
+  ],
   selector: 'watt-text-field',
   styleUrls: ['./watt-text-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -50,19 +61,51 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       multi: true,
     },
   ],
-  template: `<watt-field [control]="formControl" [label]="label" [tooltip]="tooltip">
+  template: `<watt-field
+    [control]="formControl"
+    [label]="label"
+    [tooltip]="tooltip"
+    matAutocompleteOrigin
+    #origin="matAutocompleteOrigin"
+  >
     <watt-icon *ngIf="prefix" [name]="prefix" />
-    <input
-      [attr.aria-label]="label"
-      [attr.type]="type"
-      [attr.placeholder]="placeholder"
-      [value]="value"
-      [formControl]="formControl"
-      (blur)="onTouched()"
-      (input)="onChanged($event)"
-      [maxlength]="maxLength"
-      #inputField
-    />
+
+    <ng-container *ngIf="!autocompleteOptions; else autocomplete">
+      <input
+        [attr.aria-label]="label"
+        [attr.type]="type"
+        [attr.placeholder]="placeholder"
+        [value]="value"
+        [formControl]="formControl"
+        (blur)="onTouched()"
+        (input)="onChanged($event)"
+        [maxlength]="maxLength"
+        #inputField
+      />
+    </ng-container>
+
+    <ng-template #autocomplete>
+      <input
+        [attr.aria-label]="label"
+        [attr.type]="type"
+        [attr.placeholder]="placeholder"
+        [value]="value"
+        [formControl]="formControl"
+        (blur)="onTouched()"
+        (input)="onChanged($event)"
+        [maxlength]="maxLength"
+        [matAutocomplete]="auto"
+        [matAutocompleteConnectedTo]="origin"
+        #inputField
+      />
+
+      <mat-autocomplete #auto="matAutocomplete" class="watt-autocomplete-panel">
+        <mat-option *ngFor="let option of autocompleteOptions" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+    </ng-template>
+
     <ng-content />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
@@ -77,6 +120,14 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   @Input() prefix?: WattIcon;
   @Input() maxLength: string | number | null = null;
   @Input() formControl!: FormControl;
+  @Input() autocompleteOptions!: string[];
+
+  @ViewChild(MatAutocomplete) autocompleteRef!: MatAutocomplete;
+
+  /**
+   * Emits the value of the input field when it changes.
+   */
+  @Output() search = new EventEmitter<string>();
 
   private element = inject(ElementRef);
 
@@ -95,14 +146,25 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
   onChanged(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
+
+    if (this.autocompleteRef) {
+      // Reset the autocomplete selection if the value is not matching anymore, and auto-select if the value has an exact match
+      this.autocompleteRef.options.forEach((option) => {
+        option.value === value ? option.select(false) : option.deselect(false);
+      });
+    }
+
+    this.search.emit(value);
     this.onChange(value);
   }
 
   /* @ignore */
-  onChange!: (value: string) => void;
+  onChange: (value: string) => void = () => {
+    /* noop function */
+  };
 
   onTouched: () => void = () => {
-    /* noop */
+    /* noop function */
   };
 
   /* @ignore */
