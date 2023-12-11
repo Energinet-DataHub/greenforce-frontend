@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import set from 'date-fns/set';
-import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc';
+import { set } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { BehaviorSubject } from 'rxjs';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 

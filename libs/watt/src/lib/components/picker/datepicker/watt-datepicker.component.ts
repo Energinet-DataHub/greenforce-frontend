@@ -38,15 +38,8 @@ import {
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { combineLatest, map, merge, startWith, tap } from 'rxjs';
-import parse from 'date-fns/parse';
-import isValid from 'date-fns/isValid';
-import parseISO from 'date-fns/parseISO';
-import endOfDay from 'date-fns/endOfDay';
-import startOfMonth from 'date-fns/startOfMonth';
-import endOfMonth from 'date-fns/endOfMonth';
-import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
-import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc';
-import utcToZonedTime from 'date-fns-tz/utcToZonedTime';
+import { parse, isValid, parseISO, endOfDay, startOfMonth, endOfMonth } from 'date-fns';
+import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattFieldComponent } from '@energinet-datahub/watt/field';

@@ -50,7 +50,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { RxPush } from '@rx-angular/template/push';
 import { Router } from '@angular/router';
 import { dhChargesPath, dhChargesPricesPath } from '@energinet-datahub/dh/charges/routing';
-import add from 'date-fns/add';
+import { add } from 'date-fns';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({

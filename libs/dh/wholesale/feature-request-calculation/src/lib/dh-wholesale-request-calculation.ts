@@ -28,10 +28,7 @@ import {
 } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { Apollo, MutationResult } from 'apollo-angular';
-import differenceInDays from 'date-fns/differenceInDays';
-import parseISO from 'date-fns/parseISO';
-import subDays from 'date-fns/subDays';
-import subYears from 'date-fns/subYears';
+import { differenceInDays, parseISO, subDays, subYears } from 'date-fns';
 import { catchError, of } from 'rxjs';
 
 import {

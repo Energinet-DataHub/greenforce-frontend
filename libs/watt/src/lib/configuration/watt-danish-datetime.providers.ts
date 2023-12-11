@@ -17,7 +17,7 @@
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { makeEnvironmentProviders } from '@angular/core';
 import { MAT_DATE_FNS_FORMATS } from '@angular/material-date-fns-adapter';
-import daLocale from 'date-fns/locale/da';
+import { da as daLocale } from 'date-fns/locale';
 
 import { WattDateAdapter } from './watt-date-adapter';
 

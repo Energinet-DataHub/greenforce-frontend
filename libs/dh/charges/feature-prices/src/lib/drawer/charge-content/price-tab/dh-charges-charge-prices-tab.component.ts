@@ -47,7 +47,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { getFromDateTime, getToDateTime } from './dh-format-charge-price-time';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

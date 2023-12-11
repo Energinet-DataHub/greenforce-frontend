@@ -17,7 +17,7 @@
 import { NgSwitch, NgSwitchCase } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import differenceInSeconds from 'date-fns/differenceInSeconds';
+import { differenceInSeconds } from 'date-fns';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DocumentStatus } from '@energinet-datahub/dh/shared/domain/graphql';

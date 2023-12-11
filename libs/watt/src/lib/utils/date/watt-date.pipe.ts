@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
-import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
+import { formatInTimeZone } from 'date-fns-tz';
 
 import { WattRange } from './watt-date-range';
 
