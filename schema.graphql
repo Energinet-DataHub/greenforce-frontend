@@ -463,17 +463,12 @@ type PermissionLog {
 type ApiErrorDescriptor {
   message: String!
   code: String!
-  args: [ApiErrorDescriptorArgument!]!
+  args: JSON!
 }
 
 type KeyValuePairOfStringAndIEnumerableOfString {
   key: String!
   value: [String!]!
-}
-
-type ApiErrorDescriptorArgument {
-  key: String!
-  value: JSON!
 }
 
 enum PermissionAuditLogType {

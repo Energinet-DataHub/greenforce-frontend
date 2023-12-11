@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
 using System.Text.Json;
 
 namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -20,6 +19,4 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 public sealed record ApiErrorDescriptor(
     string Message,
     string Code,
-    IReadOnlyCollection<ApiErrorDescriptorArgument> Args);
-
-public sealed record ApiErrorDescriptorArgument(string Key, JsonElement Value);
+    JsonElement Args);

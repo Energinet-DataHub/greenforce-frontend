@@ -49,6 +49,8 @@ import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-acc
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
+import { readApiErrorResponse } from 'libs/dh/market-participant/data-access-api/src/lib/dh-market-participant-error-handling';
+
 @Component({
   standalone: true,
   selector: 'dh-actors-create-actor-modal',
@@ -193,15 +195,15 @@ export class DhActorsCreateActorModalComponent {
       });
     }
 
-    // if (
-    //   response.data?.createMarketParticipant?.errors &&
-    //   response.data?.createMarketParticipant?.errors.length > 0
-    // ) {
-    //   this._toastService.open({
-    //     type: 'danger',
-    //     message: parseApiErrorResponse(response.data?.createMarketParticipant?.errors),
-    //   });
-    // }
+    if (
+      response.data?.createMarketParticipant?.errors &&
+      response.data?.createMarketParticipant?.errors.length > 0
+    ) {
+      this._toastService.open({
+        type: 'danger',
+        message: readApiErrorResponse(response.data?.createMarketParticipant?.errors),
+      });
+    }
 
     if (response.data?.createMarketParticipant?.success) {
       this._toastService.open({ type: 'success', message: 'Market participant created' });

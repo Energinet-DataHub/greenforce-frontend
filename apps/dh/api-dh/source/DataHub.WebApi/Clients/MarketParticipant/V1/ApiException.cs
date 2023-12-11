@@ -20,6 +20,11 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 public partial class ApiException
 {
+    private static readonly JsonSerializerOptions _jsonSerializerOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    };
+
     private IReadOnlyCollection<ApiErrorDescriptor>? _apiErrors;
 
     public IReadOnlyCollection<ApiErrorDescriptor> ApiErrors => ReadErrorResponse();
@@ -36,7 +41,7 @@ public partial class ApiException
             return Array.Empty<ApiErrorDescriptor>();
         }
 
-        var errorResponse = JsonSerializer.Deserialize<ApiErrorResponse>(Response);
+        var errorResponse = JsonSerializer.Deserialize<ApiErrorResponse>(Response, _jsonSerializerOptions);
         if (errorResponse == null)
         {
             return Array.Empty<ApiErrorDescriptor>();
