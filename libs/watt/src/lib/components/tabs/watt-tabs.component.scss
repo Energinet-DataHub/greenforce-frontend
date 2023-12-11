@@ -18,52 +18,62 @@
 
 watt-drawer {
   watt-tabs {
-    .mat-tab-group,
-    .mat-tab-body-wrapper {
+    .mat-mdc-tab-group,
+    .mat-mdc-tab-body-wrapper {
       height: auto;
     }
   }
 }
 
 watt-tabs {
-  .mat-tab-group,
-  .mat-tab-body-wrapper {
+  .mat-mdc-tab-group,
+  .mat-mdc-tab-body-wrapper {
     height: 100%;
   }
 
-  .mat-tab-group.mat-primary
-    .mat-tab-label.cdk-focused.cdk-keyboard-focused:focus {
+  .mat-mdc-tab-group.mat-primary
+    .mdc-tab.cdk-focused.cdk-keyboard-focused:focus {
     background-color: var(--watt-color-primary-ultralight);
   }
-  .mat-tab-label {
+
+  .mat-mdc-tab-labels {
+    padding-left: var(--watt-space-ml);
+  }
+
+  .mat-mdc-tab {
     min-width: 120px;
     opacity: 1;
-    border-bottom: 2px solid transparent;
-    @include watt.space-inset-m;
 
-    .mat-tab-label-content {
+    .mdc-tab__content {
       @include watt.typography-watt-button;
       color: var(--watt-on-light-medium-emphasis);
     }
 
-    &.mat-tab-label-active,
-    &.mat-tab-label:hover {
-      color: var(--watt-on-light-medium-emphasis);
+    &.mat-mdc-tab-active {
       border-bottom: 2px solid var(--watt-color-primary);
+    }
+    &.mat-mdc-tab:hover {
+      border-bottom: 2px solid var(--watt-color-primary);
+    }
 
-      .mat-tab-label-content {
+    &.mat-mdc-tab-active,
+    &.mat-mdc-tab:hover {
+      color: var(--watt-on-light-medium-emphasis);
+
+      .mdc-tab__content {
         color: var(--watt-color-primary);
       }
     }
   }
 
-  .mat-tab-body-wrapper {
+  .mat-mdc-tab-body-wrapper {
     padding: var(--watt-space-ml);
   }
 
-  .mat-tab-body.mat-tab-body-active,
-  .mat-tab-group.mat-tab-group-dynamic-height .mat-tab-body.mat-tab-body-active,
-  .mat-tab-group-dynamic-height .mat-tab-body-content {
+  .mat-mdc-tab-body.mat-mdc-tab-body-active,
+  .mat-mdc-tab-group.mat-mdc-tab-group-dynamic-height
+    .mat-mdc-tab-body.mat-mdc-tab-body-active,
+  .mat-mdc-tab-group-dynamic-height .mat-mdc-tab-body-content {
     position: relative;
     overflow: initial;
   }
@@ -72,11 +82,12 @@ watt-tabs {
     padding-left: var(--watt-space-ml);
   }
 
-  .mat-tab-header-pagination-chevron {
-    border-color: var(--watt-color-primary);
+  .mat-mdc-tab-header-pagination-controls-enabled
+    .mat-mdc-tab-header-pagination {
+    display: none;
   }
 
-  .mat-tab-header {
+  .mat-mdc-tab-header {
     box-shadow: var(--watt-bottom-box-shadow);
     background-color: var(--watt-color-neutral-white);
   }
