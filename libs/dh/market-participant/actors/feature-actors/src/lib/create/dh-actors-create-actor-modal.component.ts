@@ -194,15 +194,15 @@ export class DhActorsCreateActorModalComponent {
       });
     }
 
-    if (
-      response.data?.createMarketParticipant?.errors &&
-      response.data?.createMarketParticipant?.errors.length > 0
-    ) {
-      this._toastService.open({
-        type: 'danger',
-        message: parseApiErrorResponse(response.data?.createMarketParticipant?.errors),
-      });
-    }
+    // if (
+    //   response.data?.createMarketParticipant?.errors &&
+    //   response.data?.createMarketParticipant?.errors.length > 0
+    // ) {
+    //   this._toastService.open({
+    //     type: 'danger',
+    //     message: parseApiErrorResponse(response.data?.createMarketParticipant?.errors),
+    //   });
+    // }
 
     if (response.data?.createMarketParticipant?.success) {
       this._toastService.open({ type: 'success', message: 'Market participant created' });

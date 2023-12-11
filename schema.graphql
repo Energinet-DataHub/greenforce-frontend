@@ -316,6 +316,7 @@ type MarketParticipantBadRequestError implements Error {
 
 type ApiError implements Error {
   message: String!
+  apiErrors: [ApiErrorDescriptor!]!
   statusCode: Int!
   response: String
   headers: [KeyValuePairOfStringAndIEnumerableOfString!]!
@@ -459,9 +460,20 @@ type PermissionLog {
   type: PermissionAuditLogType!
 }
 
+type ApiErrorDescriptor {
+  message: String!
+  code: String!
+  args: [ApiErrorDescriptorArgument!]!
+}
+
 type KeyValuePairOfStringAndIEnumerableOfString {
   key: String!
   value: [String!]!
+}
+
+type ApiErrorDescriptorArgument {
+  key: String!
+  value: JSON!
 }
 
 enum PermissionAuditLogType {
