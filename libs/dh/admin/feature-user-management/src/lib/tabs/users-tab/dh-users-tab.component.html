@@ -36,7 +36,7 @@ limitations under the License.
       </vater-stack>
     </watt-card-title>
 
-    <div class="filter-container">
+    <vater-stack direction="row" gap="m" class="watt-space-stack-m">
       <dh-users-tab-status-filter
         [initialValue]="initialStatusFilter$ | push"
         (changed)="onStatusChanged($event)"
@@ -52,7 +52,7 @@ limitations under the License.
         [userRoleOptions]="userRolesOptions$ | push"
         (changed)="onUserRolesFilterChanged($event)"
       />
-    </div>
+    </vater-stack>
 
     <ng-container *rxLet="isLoading$ as isLoading">
       <dh-users-tab-table

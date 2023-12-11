@@ -60,12 +60,6 @@ import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filte
         display: block;
       }
 
-      .filter-container {
-        display: flex;
-        gap: var(--watt-space-m);
-        flex-wrap: wrap;
-      }
-
       .users-overview__error {
         padding: var(--watt-space-xl) 0;
       }
