@@ -1430,7 +1430,6 @@
           "filter": {
             "status": "Status"
           },
-          "searchPlaceholder": "Søg brugere",
           "searchActorPlaceHolder": "Vælg aktør",
           "searchUserRolePlaceHolder": "Vælg brugerrolle",
           "table": {

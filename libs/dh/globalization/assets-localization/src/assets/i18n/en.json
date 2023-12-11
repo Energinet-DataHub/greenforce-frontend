@@ -1439,7 +1439,6 @@
         "users": {
           "inviteUser": "Invite user",
           "tabLabel": "Users",
-          "searchPlaceholder": "Search users",
           "searchActorPlaceHolder": "Choose market party",
           "searchUserRolePlaceHolder": "Choose user role",
           "filter": {

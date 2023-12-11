@@ -15,10 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
-  <div class="filter-container">
-    <dh-shared-ui-search (search)="onSearch($event)" [placeholder]="t('searchPlaceholder')" />
-  </div>
-
   <watt-card>
     <watt-card-title>
       <vater-stack direction="row" gap="s">
@@ -26,6 +22,8 @@ limitations under the License.
         <span class="watt-chip-label">{{ totalUserCount$ | push }}</span>
 
         <vater-spacer />
+
+        <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
 
         <watt-button
           *dhPermissionRequired="['users:manage']"
