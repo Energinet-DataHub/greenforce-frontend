@@ -36,7 +36,18 @@ export const wattAutoCompleteTemplate = `
   template: wattAutoCompleteTemplate,
 })
 export class StorybookAutocompleteComponent {
-  protected options = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+  protected options = [
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+    'ten',
+  ];
   protected filteredOptions = this.options;
   protected exampleFormControl = new FormControl(null);
 

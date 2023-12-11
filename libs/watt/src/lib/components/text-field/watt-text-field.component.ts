@@ -82,7 +82,11 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       [matAutocompleteConnectedTo]="origin"
       #inputField
     />
-    <mat-autocomplete #auto="matAutocomplete" class="watt-autocomplete-panel" hideSingleSelectionIndicator="true">
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      class="watt-autocomplete-panel"
+      hideSingleSelectionIndicator="true"
+    >
       <mat-option *ngFor="let option of autocompleteOptions" [value]="option">
         {{ option }}
       </mat-option>
