@@ -2,7 +2,7 @@ mutation CreateMarketParticipant($input: CreateMarketParticipantInput!) {
   createMarketParticipant(input: $input) {
     errors {
       ... on ApiError {
-        apiErrors
+        apiErrors { ... }
       }
       ... on Error {
         message
