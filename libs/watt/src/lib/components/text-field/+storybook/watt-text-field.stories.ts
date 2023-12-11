@@ -48,7 +48,7 @@ const meta: Meta<WattTextFieldComponent> = {
 
 export default meta;
 
-const template = `<watt-text-field [label]="label" [required]="required" [type]="type" [placeholder]="placeholder" [autocompleteOptions]="autocompleteOptions" [formControl]="exampleFormControl" />
+const template = `<watt-text-field [label]="label" [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl" />
                   <p>Value: {{exampleFormControl.value}}</p>`;
 
 const howToUseGuideBasic = `
