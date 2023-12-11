@@ -196,7 +196,9 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     const deactivateConsumptionContract$ = this.consumptionMeteringPointsWithContract$.pipe(
       take(1),
       switchMap((consumptionMeteringPointsWithContract) => {
-        return consumptionMeteringPointsWithContract.length <= 1 ? this.service.stopClaim() : of(EMPTY);
+        return consumptionMeteringPointsWithContract.length <= 1
+          ? this.service.stopClaim()
+          : of(EMPTY);
       })
     );
 
