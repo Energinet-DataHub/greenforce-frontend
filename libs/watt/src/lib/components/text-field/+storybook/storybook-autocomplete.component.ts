@@ -26,7 +26,8 @@ export const wattAutoCompleteTemplate = `
   [formControl]="exampleFormControl"
   label="WattTextField with autocomplete"
   type="text"
-/>`;
+/>
+<p>Value: {{exampleFormControl.value}}</p>`;
 
 @Component({
   selector: 'watt-storybook-autocomplete',
@@ -36,8 +37,7 @@ export const wattAutoCompleteTemplate = `
 })
 export class StorybookAutocompleteComponent {
   protected options = ['one', 'two', 'three'];
-  protected filteredOptions!: string[];
-
+  protected filteredOptions = this.options;
   protected exampleFormControl = new FormControl(null);
 
   protected search(value: string): void {

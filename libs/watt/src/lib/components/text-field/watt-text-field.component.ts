@@ -104,7 +104,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   @Input() autocompleteOptions!: string[];
 
   /**
-   * Emits a normalized value of the input field.
+   * Emits the value of the input field when it changes.
    */
   @Output() search = new EventEmitter<string>();
 
@@ -125,7 +125,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
   onChanged(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
-    this.search.emit(this.normalizeValue(value));
+    this.search.emit(value);
     this.onChange(value);
   }
 
@@ -160,9 +160,5 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
   setFocus(): void {
     this.inputField.nativeElement.focus();
-  }
-
-  private normalizeValue(value: string): string {
-    return value.toLowerCase().replace(/\s/g, '');
   }
 }
