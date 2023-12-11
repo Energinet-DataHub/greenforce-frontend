@@ -69,24 +69,43 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
     #origin="matAutocompleteOrigin"
   >
     <watt-icon *ngIf="prefix" [name]="prefix" />
-    <input
-      [attr.aria-label]="label"
-      [attr.type]="type"
-      [attr.placeholder]="placeholder"
-      [value]="value"
-      [formControl]="formControl"
-      (blur)="onTouched()"
-      (input)="onChanged($event)"
-      [maxlength]="maxLength"
-      [matAutocomplete]="auto"
-      [matAutocompleteConnectedTo]="origin"
-      #inputField
-    />
-    <mat-autocomplete #auto="matAutocomplete" class="watt-autocomplete-panel">
-      <mat-option *ngFor="let option of autocompleteOptions" [value]="option">
-        {{ option }}
-      </mat-option>
-    </mat-autocomplete>
+
+    <ng-container *ngIf="!autocompleteOptions; else autocomplete">
+      <input
+        [attr.aria-label]="label"
+        [attr.type]="type"
+        [attr.placeholder]="placeholder"
+        [value]="value"
+        [formControl]="formControl"
+        (blur)="onTouched()"
+        (input)="onChanged($event)"
+        [maxlength]="maxLength"
+        #inputField
+      />
+    </ng-container>
+
+    <ng-template #autocomplete>
+      <input
+        [attr.aria-label]="label"
+        [attr.type]="type"
+        [attr.placeholder]="placeholder"
+        [value]="value"
+        [formControl]="formControl"
+        (blur)="onTouched()"
+        (input)="onChanged($event)"
+        [maxlength]="maxLength"
+        [matAutocomplete]="auto"
+        [matAutocompleteConnectedTo]="origin"
+        #inputField
+      />
+
+      <mat-autocomplete #auto="matAutocomplete" class="watt-autocomplete-panel">
+        <mat-option *ngFor="let option of autocompleteOptions" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+    </ng-template>
+
     <ng-content />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
