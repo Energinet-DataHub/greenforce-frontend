@@ -31,10 +31,11 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
       <watt-dropdown
         dhDropdownTranslator
         translate="admin.userManagement.userStatus"
-        [label]="t('filter.status')"
+        [placeholder]="t('filter.status')"
         [formControl]="statusControl"
         [options]="userStatusOptions"
         [multiple]="true"
+        [chipMode]="true"
       />
     </ng-container>
   `,
@@ -42,10 +43,6 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
     `
       :host {
         display: block;
-      }
-
-      watt-dropdown {
-        width: 15rem;
       }
     `,
   ],

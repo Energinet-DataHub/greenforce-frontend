@@ -21,6 +21,7 @@ import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { Observable } from 'rxjs';
 
 import {
   DhAdminUserManagementDataAccessApiStore,
@@ -39,6 +40,7 @@ import { DhInviteUserModalComponent } from '@energinet-datahub/dh/admin/feature-
 import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
@@ -128,10 +130,11 @@ export class DhUsersTabComponent {
   readonly hasGeneralError$ = this.store.hasGeneralError$;
 
   readonly initialStatusFilter$ = this.store.initialStatusFilter$;
-  isInviteUserModalVisible = false;
-  readonly actorOptions$ = this.actorStore.actors$;
-  readonly userRolesOptions$ = this.userRolesStore.rolesOptions$;
+  readonly actorOptions$: Observable<WattDropdownOptions> = this.actorStore.actors$;
+  readonly userRolesOptions$: Observable<WattDropdownOptions> = this.userRolesStore.rolesOptions$;
   readonly canChooseMultipleActors$ = this.actorStore.canChooseMultipleActors$;
+
+  isInviteUserModalVisible = false;
 
   constructor() {
     this.actorStore.getActors();

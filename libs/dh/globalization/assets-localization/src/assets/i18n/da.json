@@ -1428,9 +1428,7 @@
           "inviteUser": "Inviter bruger",
           "tabLabel": "Brugere",
           "filter": {
-            "status": "Status",
-            "actor": "Aktør",
-            "userrole": "Brugerrolle"
+            "status": "Status"
           },
           "searchPlaceholder": "Søg brugere",
           "searchActorPlaceHolder": "Vælg aktør",

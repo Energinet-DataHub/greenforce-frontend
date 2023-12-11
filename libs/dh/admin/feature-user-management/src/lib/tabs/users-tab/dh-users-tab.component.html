@@ -17,19 +17,6 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
   <div class="filter-container">
     <dh-shared-ui-search (search)="onSearch($event)" [placeholder]="t('searchPlaceholder')" />
-    <dh-users-tab-status-filter
-      [initialValue]="initialStatusFilter$ | push"
-      (changed)="onStatusChanged($event)"
-    />
-    <dh-users-tab-actor-filter
-      *ngIf="canChooseMultipleActors$ | push"
-      [actorOptions]="(actorOptions$ | push) ?? []"
-      (changed)="onActorFilterChanged($event)"
-    />
-    <dh-users-tab-userrole-filter
-      [userRoleOptions]="(userRolesOptions$ | push) ?? []"
-      (changed)="onUserRolesFilterChanged($event)"
-    />
   </div>
 
   <watt-card>
@@ -50,6 +37,24 @@ limitations under the License.
         >
       </vater-stack>
     </watt-card-title>
+
+    <div class="filter-container">
+      <dh-users-tab-status-filter
+        [initialValue]="initialStatusFilter$ | push"
+        (changed)="onStatusChanged($event)"
+      />
+
+      <dh-users-tab-actor-filter
+        *ngIf="canChooseMultipleActors$ | push"
+        [actorOptions]="actorOptions$ | push"
+        (changed)="onActorFilterChanged($event)"
+      />
+
+      <dh-users-tab-userrole-filter
+        [userRoleOptions]="userRolesOptions$ | push"
+        (changed)="onUserRolesFilterChanged($event)"
+      />
+    </div>
 
     <ng-container *rxLet="isLoading$ as isLoading">
       <dh-users-tab-table
@@ -74,4 +79,4 @@ limitations under the License.
   </watt-card>
 </ng-container>
 
-<dh-invite-user-modal *ngIf="isInviteUserModalVisible" (closed)="modalOnClose()" #inviteUserModal />
+<dh-invite-user-modal *ngIf="isInviteUserModalVisible" (closed)="modalOnClose()" />

@@ -16,10 +16,10 @@
  */
 import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule } from '@ngneat/transloco';
-
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { TranslocoDirective } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 @Component({
   selector: 'dh-users-tab-actor-filter',
@@ -27,11 +27,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   template: `
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
       <watt-dropdown
-        [label]="t('filter.actor')"
         [placeholder]="t('searchActorPlaceHolder')"
         [formControl]="actorControl"
         [options]="actorOptions"
         [multiple]="false"
+        [chipMode]="true"
       />
     </ng-container>
   `,
@@ -39,13 +39,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     `
       :host {
         display: block;
-        watt-dropdown {
-          width: 15rem;
-        }
       }
     `,
   ],
-  imports: [TranslocoModule, ReactiveFormsModule, WattDropdownComponent],
+  imports: [TranslocoDirective, ReactiveFormsModule, WattDropdownComponent],
 })
 export class DhUsersTabActorFilterComponent implements OnInit {
   private _destroyRef = inject(DestroyRef);
@@ -54,12 +51,8 @@ export class DhUsersTabActorFilterComponent implements OnInit {
     nonNullable: true,
   });
 
-  @Input() actorOptions: { value: string; displayValue: string }[];
+  @Input() actorOptions: WattDropdownOptions = [];
   @Output() changed = new EventEmitter<string | undefined>();
-
-  constructor() {
-    this.actorOptions = [];
-  }
 
   ngOnInit(): void {
     this.actorControl.valueChanges

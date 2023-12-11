@@ -1443,9 +1443,7 @@
           "searchActorPlaceHolder": "Choose market party",
           "searchUserRolePlaceHolder": "Choose user role",
           "filter": {
-            "status": "Status",
-            "actor": "Market party",
-            "userrole": "User role"
+            "status": "Status"
           },
           "table": {
             "columns": {
