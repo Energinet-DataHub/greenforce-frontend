@@ -50,9 +50,21 @@ type AddressDto {
 
 type ApiError implements Error {
   message: String!
+  apiErrors: [ApiErrorDescriptor!]!
   statusCode: Int!
   response: String
   headers: [KeyValuePairOfStringAndIEnumerableOfString!]!
+}
+
+type ApiErrorDescriptor {
+  message: String!
+  code: String!
+  args: [ApiErrorDescriptorArgument!]!
+}
+
+type ApiErrorDescriptorArgument {
+  key: String!
+  value: JSON!
 }
 
 type BalanceResponsiblePageResult {
