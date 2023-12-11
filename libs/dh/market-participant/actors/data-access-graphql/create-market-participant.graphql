@@ -1,5 +1,6 @@
 mutation CreateMarketParticipant($input: CreateMarketParticipantInput!) {
   createMarketParticipant(input: $input) {
+    success: boolean
     errors {
       ... on ApiError {
         apiErrors {
@@ -12,6 +13,5 @@ mutation CreateMarketParticipant($input: CreateMarketParticipantInput!) {
         }
       }
     }
-    success: boolean
   }
 }

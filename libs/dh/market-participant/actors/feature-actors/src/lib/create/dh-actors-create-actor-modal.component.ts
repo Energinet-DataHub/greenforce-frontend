@@ -45,7 +45,6 @@ import {
 } from '@energinet-datahub/dh/shared/ui-validators';
 
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { parseApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
