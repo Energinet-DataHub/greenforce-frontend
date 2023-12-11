@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgClass, NgIf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import {
   Component,
   Input,
@@ -25,6 +25,8 @@ import {
   forwardRef,
   AfterViewInit,
   inject,
+  EventEmitter,
+  Output,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -32,6 +34,8 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 import { WattFieldComponent } from '../field/watt-field.component';
 import { WattIconComponent, WattIcon } from '../../foundations/icon';
 
@@ -39,7 +43,14 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
 
 @Component({
   standalone: true,
-  imports: [NgIf, NgClass, ReactiveFormsModule, WattFieldComponent, WattIconComponent],
+  imports: [
+    MatAutocompleteModule,
+    NgForOf,
+    NgIf,
+    ReactiveFormsModule,
+    WattFieldComponent,
+    WattIconComponent,
+  ],
   selector: 'watt-text-field',
   styleUrls: ['./watt-text-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -50,7 +61,13 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       multi: true,
     },
   ],
-  template: `<watt-field [control]="formControl" [label]="label" [tooltip]="tooltip">
+  template: `<watt-field
+    [control]="formControl"
+    [label]="label"
+    [tooltip]="tooltip"
+    matAutocompleteOrigin
+    #origin="matAutocompleteOrigin"
+  >
     <watt-icon *ngIf="prefix" [name]="prefix" />
     <input
       [attr.aria-label]="label"
@@ -61,8 +78,15 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       (blur)="onTouched()"
       (input)="onChanged($event)"
       [maxlength]="maxLength"
+      [matAutocomplete]="auto"
+      [matAutocompleteConnectedTo]="origin"
       #inputField
     />
+    <mat-autocomplete #auto="matAutocomplete" class="watt-autocomplete-panel">
+      <mat-option *ngFor="let option of autocompleteOptions" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
     <ng-content />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
@@ -77,6 +101,12 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   @Input() prefix?: WattIcon;
   @Input() maxLength: string | number | null = null;
   @Input() formControl!: FormControl;
+  @Input() autocompleteOptions!: string[];
+
+  /**
+   * Emits a normalized value of the input field.
+   */
+  @Output() search = new EventEmitter<string>();
 
   private element = inject(ElementRef);
 
@@ -95,11 +125,14 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
   onChanged(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
+    this.search.emit(this.normalizeValue(value));
     this.onChange(value);
   }
 
   /* @ignore */
-  onChange!: (value: string) => void;
+  onChange: (value: string) => void = () => {
+    /* nooop function */
+  };
 
   onTouched: () => void = () => {
     /* noop */
@@ -127,5 +160,9 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
   setFocus(): void {
     this.inputField.nativeElement.focus();
+  }
+
+  private normalizeValue(value: string): string {
+    return value.toLowerCase().replace(/\s/g, '');
   }
 }

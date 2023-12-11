@@ -14,13 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { WattIconComponent } from '../../foundations/icon/icon.component';
-import { WattTextFieldComponent } from './watt-text-field.component';
-import { WattFieldComponent, WattFieldErrorComponent, WattFieldHintComponent } from '../field';
-import { WattButtonComponent } from '../button';
+import { WattIconComponent } from '../../../foundations/icon/icon.component';
+import { WattTextFieldComponent } from '../watt-text-field.component';
+import { WattFieldComponent, WattFieldErrorComponent, WattFieldHintComponent } from '../../field';
+import { WattButtonComponent } from '../../button';
+import { StorybookAutocompleteComponent, wattAutoCompleteTemplate } from './storybook-autocomplete.component';
 
 const meta: Meta<WattTextFieldComponent> = {
   title: 'Components/Text Field',
@@ -35,14 +37,18 @@ const meta: Meta<WattTextFieldComponent> = {
         WattButtonComponent,
         WattFieldErrorComponent,
         WattFieldHintComponent,
+        StorybookAutocompleteComponent,
       ],
+    }),
+    applicationConfig({
+      providers: [provideAnimations()],
     }),
   ],
 };
 
 export default meta;
 
-const template = `<watt-text-field [label]="label" [required]="required" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl" />
+const template = `<watt-text-field [label]="label" [required]="required" [type]="type" [placeholder]="placeholder" [autocompleteOptions]="autocompleteOptions" [formControl]="exampleFormControl" />
                   <p>Value: {{exampleFormControl.value}}</p>`;
 
 const howToUseGuideBasic = `
@@ -75,6 +81,19 @@ Input.parameters = {
     },
   },
 };
+
+export const WithAutocomplete: StoryFn<WattTextFieldComponent> = () => ({
+  template: `<watt-storybook-autocomplete />`,
+});
+
+WithAutocomplete.parameters = {
+  docs: {
+    source: {
+      code: wattAutoCompleteTemplate,
+    },
+  },
+};
+
 
 export const WithDisabled: StoryFn<WattTextFieldComponent> = () => ({
   props: {
