@@ -22,7 +22,10 @@ import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattTextFieldComponent } from '../watt-text-field.component';
 import { WattFieldComponent, WattFieldErrorComponent, WattFieldHintComponent } from '../../field';
 import { WattButtonComponent } from '../../button';
-import { StorybookAutocompleteComponent, wattAutoCompleteTemplate } from './storybook-autocomplete.component';
+import {
+  StorybookAutocompleteComponent,
+  wattAutoCompleteTemplate,
+} from './storybook-autocomplete.component';
 
 const meta: Meta<WattTextFieldComponent> = {
   title: 'Components/Text Field',
@@ -93,7 +96,6 @@ WithAutocomplete.parameters = {
     },
   },
 };
-
 
 export const WithDisabled: StoryFn<WattTextFieldComponent> = () => ({
   props: {
