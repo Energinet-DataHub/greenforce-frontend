@@ -517,7 +517,7 @@
       "bad_argument": {
         "missing_required_value": "Feltet '{{ param }}' kræver en værdi, men denne er ikke blevet angivet.",
         "invalid_gln": "Værdien '{{ value.value }}' er ikke et gyldigt GLN- eller EIC-nummer.",
-        "invalid_length": "Indholdet af '{{ param }}' er for langt. Maksimal længde er {{ max }} tegn.",
+        "invalid_length": "Indholdet af '{{ param }}' opfylder ikke krav til længden. Teksten skal være mellem {{ min }} og {{ max }} tegn.",
         "invalid_enum": "Værdien '{{ value }}' er ikke tilladt for feltet '{{ param }}'."
       },
       "validation": {

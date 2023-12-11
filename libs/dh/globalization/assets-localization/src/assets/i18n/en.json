@@ -524,7 +524,7 @@
       "bad_argument": {
         "missing_required_value": "Field '{{ param }}' requires a value, but a value was not provided.",
         "invalid_gln": "Value '{{ value.value }}' is not a valid GLN or EIC number.",
-        "invalid_length": "The contents of '{{ param }}' are too long. The maximum length is {{ max }} characters.",
+        "invalid_length": "The contents of '{{ param }}' do not meet the length requirements. The text should be between {{ min }} and {{ max }} characters.",
         "invalid_enum": "Value '{{ value }}' is not valid for field '{{ param }}'."
       },
       "validation": {
