@@ -67,7 +67,7 @@ export function adminMocks(apiBase: string) {
 
 function getMarketParticipantUserSearchUsers(apiBase: string) {
   return rest.post(`${apiBase}/v1/MarketParticipantUserOverview/SearchUsers`, (req, res, ctx) => {
-    return res(ctx.json(marketParticipantUserSearchUsers));
+    return res(ctx.delay(300), ctx.json(marketParticipantUserSearchUsers));
   });
 }
 
