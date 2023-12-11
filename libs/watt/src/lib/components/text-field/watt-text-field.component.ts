@@ -34,7 +34,7 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { WattFieldComponent } from '../field/watt-field.component';
 import { WattIconComponent, WattIcon } from '../../foundations/icon';
@@ -82,11 +82,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       [matAutocompleteConnectedTo]="origin"
       #inputField
     />
-    <mat-autocomplete
-      #auto="matAutocomplete"
-      class="watt-autocomplete-panel"
-      hideSingleSelectionIndicator="true"
-    >
+    <mat-autocomplete #auto="matAutocomplete" class="watt-autocomplete-panel">
       <mat-option *ngFor="let option of autocompleteOptions" [value]="option">
         {{ option }}
       </mat-option>
@@ -106,6 +102,8 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   @Input() maxLength: string | number | null = null;
   @Input() formControl!: FormControl;
   @Input() autocompleteOptions!: string[];
+
+  @ViewChild(MatAutocomplete) autocompleteRef!: MatAutocomplete;
 
   /**
    * Emits the value of the input field when it changes.
@@ -129,6 +127,14 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
   onChanged(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
+
+    if (this.autocompleteRef) {
+      // Reset the autocomplete selection if the value is not matching anymore, and auto-select if the value has an exact match
+      this.autocompleteRef.options.forEach((option) => {
+        option.value === value ? option.select(false) : option.deselect(false);
+      });
+    }
+
     this.search.emit(value);
     this.onChange(value);
   }
