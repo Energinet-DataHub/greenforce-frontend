@@ -60,7 +60,7 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
       <!-- We don't use the build-in loading state for the modal, since it wont update properly -->
       <div
         class="watt-modal__spinner"
-        style="z-index: 1;"
+        style="z-index: 2;"
         *ngIf="creatingTransferAgreementProposal"
       >
         <watt-spinner />
@@ -68,6 +68,7 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 
       <eo-transfers-form
         [senderTin]="authStore.getTin$ | push"
+        [receiversTin]="receiversTin | push"
         [existingTransferAgreements]="existingTransferAgreements$ | push"
         [generateProposalFailed]="creatingTransferAgreementProposalFailed"
         [proposalId]="proposalId"
@@ -92,6 +93,8 @@ export class EoTransfersCreateModalComponent {
   private service = inject(EoTransfersService);
   private store = inject(EoTransfersStore);
   private cd = inject(ChangeDetectorRef);
+
+  protected receiversTin = this.store.receiversTin$;
 
   open() {
     /**

@@ -28,7 +28,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule, NgClass, NgIf } from '@angular/common';
+import { CommonModule, JsonPipe, NgClass, NgIf } from '@angular/common';
 import { distinctUntilChanged, of, switchMap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -102,6 +102,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
     EoTransferInvitationLinkComponent,
     VaterStackComponent,
     WattFieldHintComponent,
+    JsonPipe,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -109,11 +110,6 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
       eo-transfers-form .fieldset {
         display: flex;
         flex-wrap: wrap;
-        max-width: 300px;
-      }
-
-      eo-transfers-form watt-field:not(.watt-field--chip) {
-        min-height: 0px;
       }
 
       eo-transfers-form form {
@@ -129,10 +125,6 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
         gap: var(--watt-space-l);
         display: flex;
         flex-direction: column;
-      }
-
-      eo-transfers-form watt-field.watt-field--invalid watt-field-error {
-        display: none;
       }
     `,
   ],
@@ -239,13 +231,15 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           label="Recipient"
           placeholder="CVR / TIN"
           type="text"
-          style="max-width: 300px;"
+          style="max-width: 330px;"
           [formControl]="form.controls.receiver.controls.tin"
           (keydown)="preventNonNumericInput($event)"
           data-testid="new-agreement-receiver-input"
+          [autocompleteOptions]="filteredReceiversTin"
+          (search)="onSearch($event)"
           [maxLength]="8"
         >
-          <watt-field-hint *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
+          <watt-field-hint style="position: absolute; max-width: 330px;" *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
             >Enter new CVR number or choose from previous transfer agreements</watt-field-hint
           >
 
@@ -283,6 +277,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
     'startDate',
     'endDate',
   ];
+  @Input() receiversTin: string[] = [];
   @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
   @Input() proposalId: string | null = null;
   @Input() generateProposalFailed = false;
@@ -294,10 +289,13 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   @ViewChild('invitaionLink') invitaionLink!: EoTransferInvitationLinkComponent;
 
   protected form!: FormGroup<EoTransfersForm>;
+  protected filteredReceiversTin!: string[];
+
   private _destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.initForm();
+    this.filteredReceiversTin = this.receiversTin;
 
     const tin = this.form.controls.receiver.controls['tin'];
     tin.valueChanges
@@ -319,6 +317,10 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
       this.form.controls.period.setValidators(this.getPeriodValidators());
       this.form.controls.period.updateValueAndValidity();
     }
+  }
+
+  protected onSearch(query: string) {
+    this.filteredReceiversTin = this.receiversTin.filter((tin) => tin.includes(query));
   }
 
   protected onCancel() {

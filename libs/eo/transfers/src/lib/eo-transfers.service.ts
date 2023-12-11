@@ -30,7 +30,7 @@ export interface EoTransfer {
 
 export interface EoListedTransfer extends EoTransfer {
   id: string;
-  senderTin?: string;
+  senderTin: string;
 }
 
 export interface EoListedTransferResponse {

@@ -76,6 +76,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         padding-bottom: 0;
       }
 
+      eo-transfers-datetime watt-field:not(.watt-field--chip) {
+        min-height: 0px;
+      }
+
+      eo-transfers-datetime watt-field.watt-field--invalid watt-field-error {
+        display: none;
+      }
+
       .mat-calendar-body-cell {
         pointer-events: none;
       }

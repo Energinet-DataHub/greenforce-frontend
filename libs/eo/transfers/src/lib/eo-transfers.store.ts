@@ -68,6 +68,24 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
     (state) => state.historyOfSelectedTransferLoading
   );
 
+  readonly receiversTin$ = this.authStore.getTin$.pipe(
+    switchMap((ownTin) => {
+      return this.select((state) => {
+        const tinArray = state.transfers.reduce((acc, transfer) => {
+          if (transfer.receiverTin !== ownTin) {
+            acc.push(transfer.receiverTin);
+          }
+          if (transfer.senderTin !== ownTin) {
+            acc.push(transfer.senderTin);
+          }
+          return acc;
+        }, [] as string[]);
+
+        return [...new Set(tinArray)];
+      });
+    })
+  );
+
   readonly setSelectedTransfer = this.updater(
     (state, selectedTransfer: EoListedTransfer | undefined): EoTransfersState => ({
       ...state,
@@ -302,6 +320,7 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
       startDate: proposal.startDate / 1000,
       endDate: proposal.endDate ? proposal.endDate / 1000 : null,
       senderName: proposal.senderCompanyName,
+      senderTin: '',
       receiverTin: proposal.receiverTin !== null ? proposal.receiverTin : tin,
     });
   }
