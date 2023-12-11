@@ -16,7 +16,7 @@
  */
 import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
@@ -50,7 +50,7 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
     `,
   ],
   imports: [
-    TranslocoModule,
+    TranslocoDirective,
     ReactiveFormsModule,
 
     WattDropdownComponent,
