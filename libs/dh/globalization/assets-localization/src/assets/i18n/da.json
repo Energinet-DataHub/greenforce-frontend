@@ -1483,10 +1483,6 @@
           "searchPlaceholder": "Søg brugere",
           "searchActorPlaceHolder": "Vælg aktør",
           "searchUserRolePlaceHolder": "Vælg brugerrolle",
-          "usersHeadline": {
-            "singular": "{{ usersCount }} bruger",
-            "plural": "{{ usersCount }} brugere"
-          },
           "table": {
             "columns": {
               "firstName": "Fornavn",

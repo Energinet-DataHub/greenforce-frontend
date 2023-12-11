@@ -34,22 +34,11 @@ limitations under the License.
 
   <watt-card>
     <watt-card-title>
-      <div class="card-title__container">
-        <ng-container
-          *ngTemplateOutlet="
-            usersHeadline;
-            context: {
-              $implicit: totalUserCount$ | push
-            }
-          "
-        />
+      <vater-stack direction="row" gap="s">
+        <h3>{{ t("tabLabel") }}</h3>
+        <span class="watt-chip-label">{{ totalUserCount$ | push }}</span>
 
-        <watt-paginator
-          [length]="totalUserCount$ | push"
-          [pageSize]="pageSize$ | push"
-          [pageIndex]="pageIndex$ | push"
-          (changed)="onPageChange($event)"
-        />
+        <vater-spacer />
 
         <watt-button
           *dhPermissionRequired="['users:manage']"
@@ -59,15 +48,22 @@ limitations under the License.
           (click)="showInviteUserModal()"
           >{{ t("inviteUser") }}</watt-button
         >
-      </div>
+      </vater-stack>
     </watt-card-title>
 
     <ng-container *rxLet="isLoading$ as isLoading">
-      <dh-users-tab-table [users]="users$ | push" [sortChanged]="sortChanged" />
+      <dh-users-tab-table
+        [users]="users$ | push"
+        [sortChanged]="sortChanged"
+        [isLoading]="isLoading"
+      />
 
-      <div *ngIf="isLoading" class="users-overview__spinner">
-        <watt-spinner />
-      </div>
+      <watt-paginator
+        [length]="totalUserCount$ | push"
+        [pageSize]="pageSize$ | push"
+        [pageIndex]="pageIndex$ | push"
+        (changed)="onPageChange($event)"
+      />
     </ng-container>
 
     <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
@@ -77,17 +73,5 @@ limitations under the License.
     </ng-container>
   </watt-card>
 </ng-container>
-
-<ng-template #usersHeadline let-usersCount>
-  <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users.usersHeadline'">
-    <h4 *ngIf="usersCount === 1">
-      {{ t("singular", { usersCount: usersCount }) }}
-    </h4>
-
-    <h4 *ngIf="usersCount !== 1">
-      {{ t("plural", { usersCount: usersCount }) }}
-    </h4>
-  </ng-container>
-</ng-template>
 
 <dh-invite-user-modal *ngIf="isInviteUserModalVisible" (closed)="modalOnClose()" #inviteUserModal />
