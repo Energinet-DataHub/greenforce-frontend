@@ -25,9 +25,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: 'dh-users-tab-userrole-filter',
   standalone: true,
   template: `
-    <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
+    <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users.filter'">
       <watt-dropdown
-        [placeholder]="t('searchUserRolePlaceHolder')"
+        [placeholder]="t('userRolePlaceholder')"
         [formControl]="userRoleControl"
         [options]="userRoleOptions"
         [multiple]="true"

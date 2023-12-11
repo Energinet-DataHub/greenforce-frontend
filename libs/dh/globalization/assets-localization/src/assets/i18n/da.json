@@ -1428,10 +1428,10 @@
           "inviteUser": "Inviter bruger",
           "tabLabel": "Brugere",
           "filter": {
-            "status": "Status"
+            "status": "Status",
+            "marketPartyPlaceholder": "Vælg aktør",
+            "userRolePlaceholder": "Vælg brugerrolle"
           },
-          "searchActorPlaceHolder": "Vælg aktør",
-          "searchUserRolePlaceHolder": "Vælg brugerrolle",
           "table": {
             "columns": {
               "firstName": "Fornavn",

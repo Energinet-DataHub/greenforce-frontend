@@ -25,9 +25,9 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
   selector: 'dh-users-tab-actor-filter',
   standalone: true,
   template: `
-    <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
+    <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users.filter'">
       <watt-dropdown
-        [placeholder]="t('searchActorPlaceHolder')"
+        [placeholder]="t('marketPartyPlaceholder')"
         [formControl]="actorControl"
         [options]="actorOptions"
         [multiple]="false"

@@ -1439,10 +1439,10 @@
         "users": {
           "inviteUser": "Invite user",
           "tabLabel": "Users",
-          "searchActorPlaceHolder": "Choose market party",
-          "searchUserRolePlaceHolder": "Choose user role",
           "filter": {
-            "status": "Status"
+            "status": "Status",
+            "marketPartyPlaceholder": "Choose market party",
+            "userRolePlaceholder": "Choose user role"
           },
           "table": {
             "columns": {
