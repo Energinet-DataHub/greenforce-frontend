@@ -39,9 +39,10 @@ import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain
     `
       :host {
         display: block;
-        watt-dropdown {
-          width: 15rem;
-        }
+      }
+
+      watt-dropdown {
+        width: 15rem;
       }
     `,
   ],
