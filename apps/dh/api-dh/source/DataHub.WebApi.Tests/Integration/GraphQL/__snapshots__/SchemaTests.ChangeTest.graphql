@@ -59,12 +59,7 @@ type ApiError implements Error {
 type ApiErrorDescriptor {
   message: String!
   code: String!
-  args: [ApiErrorDescriptorArgument!]!
-}
-
-type ApiErrorDescriptorArgument {
-  key: String!
-  value: JSON!
+  args: JSON!
 }
 
 type BalanceResponsiblePageResult {
