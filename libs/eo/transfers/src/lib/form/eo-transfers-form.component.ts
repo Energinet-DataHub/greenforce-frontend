@@ -239,7 +239,9 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           (search)="onSearch($event)"
           [maxLength]="8"
         >
-          <watt-field-hint style="position: absolute; max-width: 330px;" *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
+          <watt-field-hint
+            style="position: absolute; max-width: 330px;"
+            *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
             >Enter new CVR number or choose from previous transfer agreements</watt-field-hint
           >
 
