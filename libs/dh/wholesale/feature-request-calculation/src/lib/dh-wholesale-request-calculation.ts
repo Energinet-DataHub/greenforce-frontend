@@ -69,6 +69,23 @@ const maxOneMonthDateRangeValidator =
     return null;
   };
 
+const startDateCannotBeAfterEndDateValidator =
+  () =>
+  (control: AbstractControl): ValidationErrors | null => {
+    const range = control.value as WattRange<string>;
+
+    if (!range) return null;
+
+    const startDate = parseISO(range.start);
+    const endDate = parseISO(range.end);
+
+    if (startDate > endDate) {
+      return { startDateCannotBeAfterEndDate: true };
+    }
+
+    return null;
+  };
+
 const label = (key: string) => `wholesale.requestCalculation.${key}`;
 
 const ExtendMeteringPoint = { ...MeteringPointType, All: 'All' } as const;
@@ -138,6 +155,7 @@ export class DhWholesaleRequestCalculationComponent {
       Validators.required,
       WattRangeValidators.required(),
       maxOneMonthDateRangeValidator(),
+      startDateCannotBeAfterEndDateValidator(),
     ]),
     energySupplierId: this._fb.control(null),
     balanceResponsibleId: this._fb.control(null),

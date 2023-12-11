@@ -1203,6 +1203,7 @@
       "energySupplier": "Elleverandør",
       "balanceResponsible": "Balanceansvarlig",
       "error": "Der opstod desværre en fejl, under anmodingen om beregning",
+      "startDateCannotBeAfterEndDate": "Startdato kan ikke være efter slutdato",
       "success": "Din anmoding er startet.",
       "topBarTitle": "Anmod om beregning",
       "processType": "{{shared.processType}}",

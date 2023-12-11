@@ -36,6 +36,9 @@ limitations under the License.
           <watt-field-error *ngIf="form.controls.period.errors?.maxOneMonthDateRange">
             {{ t('maxPeriodLength')}}
           </watt-field-error>
+          <watt-field-error *ngIf="form.controls.period.errors?.startDateCannotBeAfterEndDate">
+            {{ t('startDateCannotBeAfterEndDate')}}
+          </watt-field-error>
         </watt-datepicker>
 
         <watt-dropdown
