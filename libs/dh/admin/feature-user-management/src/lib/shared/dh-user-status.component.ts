@@ -25,12 +25,12 @@ import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain
   selector: 'dh-user-status',
   standalone: true,
   template: `<ng-container *transloco="let t; read: 'admin.userManagement.userStatus'">
-    <watt-badge *ngIf="status === 'Active'" type="info">{{ t('active') }}</watt-badge>
-    <watt-badge *ngIf="status === 'Inactive'" type="warning">{{ t('inactive') }}</watt-badge>
-    <watt-badge *ngIf="status === 'Invited'" type="info">{{ t('invited') }}</watt-badge>
-    <watt-badge *ngIf="status === 'InviteExpired'" type="warning">{{
-      t('inviteExpired')
-    }}</watt-badge>
+    <watt-badge *ngIf="status === 'Active'" type="info">{{ t('Active') }}</watt-badge>
+    <watt-badge *ngIf="status === 'Inactive'" type="warning">{{ t('Inactive') }}</watt-badge>
+    <watt-badge *ngIf="status === 'Invited'" type="info">{{ t('Invited') }}</watt-badge>
+    <watt-badge *ngIf="status === 'InviteExpired'" type="warning">
+      {{ t('InviteExpired') }}
+    </watt-badge>
   </ng-container>`,
   imports: [NgIf, TranslocoModule, WattBadgeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,

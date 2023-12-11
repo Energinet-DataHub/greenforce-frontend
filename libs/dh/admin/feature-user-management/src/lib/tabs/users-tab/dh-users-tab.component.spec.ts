@@ -106,7 +106,7 @@ describe(DhUsersTabComponent, () => {
       name: new RegExp(testUser.phoneNumber ?? '', 'i'),
     });
     const status = screen.getByRole('gridcell', {
-      name: new RegExp(enTranslations.admin.userManagement.userStatus.active, 'i'),
+      name: new RegExp(enTranslations.admin.userManagement.userStatus.Active, 'i'),
     });
 
     expect(firstName).toBeInTheDocument();
