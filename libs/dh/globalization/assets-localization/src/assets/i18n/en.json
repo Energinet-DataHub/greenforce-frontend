@@ -1439,6 +1439,8 @@
         "users": {
           "inviteUser": "Invite user",
           "tabLabel": "Users",
+          "emptyTitle": "No users found",
+          "emptyMessage": "Try changing the search criteria",
           "filter": {
             "status": "Status",
             "marketPartyPlaceholder": "Choose market party",

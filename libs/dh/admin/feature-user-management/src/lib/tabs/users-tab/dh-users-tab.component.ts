@@ -43,6 +43,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
@@ -60,7 +61,8 @@ import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filte
         display: block;
       }
 
-      .users-overview__error {
+      .users-overview__error,
+      .users-overview__empty-state {
         padding: var(--watt-space-xl) 0;
       }
 
@@ -98,6 +100,7 @@ import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filte
     DhUsersTabActorFilterComponent,
     DhUsersTabUserRoleFilterComponent,
     WattButtonComponent,
+    WattEmptyStateComponent,
     WattPaginatorComponent,
     WattSearchComponent,
     DhPermissionRequiredDirective,

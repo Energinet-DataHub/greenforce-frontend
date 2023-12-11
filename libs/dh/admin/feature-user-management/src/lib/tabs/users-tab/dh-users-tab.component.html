@@ -54,19 +54,18 @@ limitations under the License.
       />
     </vater-stack>
 
-    <ng-container *rxLet="isLoading$ as isLoading">
+    <ng-container *rxLet="users$ as users">
       <dh-users-tab-table
-        [users]="users$ | push"
+        [users]="users"
         [sortChanged]="sortChanged"
-        [isLoading]="isLoading"
+        [isLoading]="isLoading$ | push"
       />
 
-      <watt-paginator
-        [length]="totalUserCount$ | push"
-        [pageSize]="pageSize$ | push"
-        [pageIndex]="pageIndex$ | push"
-        (changed)="onPageChange($event)"
-      />
+      <ng-container *rxLet="isLoading$ as isLoading">
+        <div class="users-overview__empty-state" *ngIf="!isLoading && users.length === 0">
+          <watt-empty-state icon="cancel" [title]="t('emptyTitle')" [message]="t('emptyMessage')" />
+        </div>
+      </ng-container>
     </ng-container>
 
     <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
@@ -74,6 +73,13 @@ limitations under the License.
         <dh-users-tab-general-error (reload)="reloadUsers()" />
       </div>
     </ng-container>
+
+    <watt-paginator
+      [length]="totalUserCount$ | push"
+      [pageSize]="pageSize$ | push"
+      [pageIndex]="pageIndex$ | push"
+      (changed)="onPageChange($event)"
+    />
   </watt-card>
 </ng-container>
 
