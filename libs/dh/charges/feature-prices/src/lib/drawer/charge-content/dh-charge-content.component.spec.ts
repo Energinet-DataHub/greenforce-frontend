@@ -106,7 +106,7 @@ describe(DhChargeContentComponent, () => {
     const priceTab = screen.getByRole('tab', { name: /prices/i });
 
     expect(priceTab).toBeInTheDocument();
-    expect(priceTab).toHaveClass('mat-tab-label-active');
+    expect(priceTab).toHaveClass('mdc-tab--active');
   });
 
   it('displays a date range', async () => {
@@ -165,7 +165,7 @@ describe(DhChargeContentComponent, () => {
     expect(messageTab).toBeInTheDocument();
 
     userEvent.click(messageTab);
-    expect(messageTab).toHaveClass('mat-tab-label-active');
+    expect(messageTab).toHaveClass('mdc-tab--active');
 
     await runOnPushChangeDetection(fixture);
 

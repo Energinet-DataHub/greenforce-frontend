@@ -16,7 +16,7 @@
  */
 import { tap } from 'rxjs';
 import { RxLet } from '@rx-angular/template/let';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 import { Component, Input, ViewChild, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -59,14 +59,15 @@ import { DhActorExtended } from '../dh-actor';
     `,
   ],
   imports: [
-    WATT_MODAL,
+    RxLet,
+    NgIf,
     ReactiveFormsModule,
+    TranslocoDirective,
+
+    WATT_MODAL,
     WattButtonComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
-    RxLet,
-    NgIf,
-    TranslocoModule,
   ],
 })
 export class DhActorsEditActorModalComponent {

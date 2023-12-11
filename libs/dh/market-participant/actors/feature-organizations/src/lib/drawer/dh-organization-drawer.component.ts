@@ -16,7 +16,7 @@
  */
 import { NgIf } from '@angular/common';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { Subscription, takeUntil } from 'rxjs';
 
@@ -43,10 +43,10 @@ import { DhActorStatusBadgeComponent } from '@energinet-datahub/dh/market-partic
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { DhOrganizationDetails } from '../dh-organization';
 import { DhOrganizationEditModalComponent } from '../edit/dh-edit-modal.component';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 type Actor = {
   actorNumberAndName: string;
@@ -90,7 +90,8 @@ type OrganizationAuditLogEntry = {
   ],
   imports: [
     NgIf,
-    TranslocoModule,
+    TranslocoDirective,
+    TranslocoPipe,
 
     WATT_DRAWER,
     WATT_TABLE,

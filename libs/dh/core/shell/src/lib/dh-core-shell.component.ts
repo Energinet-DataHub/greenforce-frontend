@@ -16,22 +16,22 @@
  */
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { MsalService } from '@azure/msal-angular';
 import { RxPush } from '@rx-angular/template/push';
+import { ApolloModule } from 'apollo-angular';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhLanguagePickerComponent } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
-
-import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
 import {
   DhInactivityDetectionService,
   DhSelectedActorComponent,
   DhSignupMitIdComponent,
 } from '@energinet-datahub/dh/shared/feature-authorization';
-import { ApolloModule } from 'apollo-angular';
+
+import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
 
 @Component({
   selector: 'dh-shell',
@@ -39,11 +39,13 @@ import { ApolloModule } from 'apollo-angular';
   templateUrl: './dh-core-shell.component.html',
   standalone: true,
   imports: [
-    TranslocoModule,
+    TranslocoDirective,
+    TranslocoPipe,
     ApolloModule,
-    DhLanguagePickerComponent,
     RouterOutlet,
     RxPush,
+
+    DhLanguagePickerComponent,
     DhPrimaryNavigationComponent,
     WattShellComponent,
     WattButtonComponent,
