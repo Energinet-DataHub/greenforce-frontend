@@ -68,8 +68,9 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   activeRow: MarketParticipantUserRoleDto | undefined = undefined;
 
   @Input() roles: MarketParticipantUserRoleDto[] = [];
-
+  @Input() isLoading = false;
   @Input() paginator!: WattPaginatorComponent<unknown>;
+
   @Output() userRoleDeactivated = new EventEmitter<void>();
 
   @ViewChild(DhRoleDrawerComponent)
