@@ -36,6 +36,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-create-user-role';
 import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
 import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.component';
@@ -52,6 +53,9 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
     NgIf,
     TranslocoModule,
     WattButtonComponent,
+
+    VaterStackComponent,
+    VaterSpacerComponent,
     WATT_CARD,
     WattSpinnerComponent,
     RxPush,
