@@ -17,7 +17,7 @@
 import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
-import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { translate, TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { take } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
@@ -36,6 +36,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-create-user-role';
 import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
 import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.component';
@@ -50,19 +51,22 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
   providers: [provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore)],
   imports: [
     NgIf,
-    TranslocoModule,
-    WattButtonComponent,
-    WATT_CARD,
-    WattSpinnerComponent,
+    TranslocoDirective,
     RxPush,
+    RxLet,
+
+    VaterStackComponent,
+    VaterSpacerComponent,
+    WATT_CARD,
+    WATT_MODAL,
+    WattButtonComponent,
+    WattPaginatorComponent,
+    WattSpinnerComponent,
     DhRolesTabTableComponent,
     DhRolesTabListFilterComponent,
     DhTabDataGeneralErrorComponent,
-    RxLet,
     DhPermissionRequiredDirective,
     DhCreateUserRoleModalComponent,
-    WattPaginatorComponent,
-    WATT_MODAL,
   ],
 })
 export class DhUserRolesTabComponent {

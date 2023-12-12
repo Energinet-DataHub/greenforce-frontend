@@ -27,6 +27,7 @@ limitations under the License.
     [activeRow]="activeRow"
     [activeRowComparator]="activeRowComparator"
     [sortClear]="false"
+    [loading]="isLoading"
   >
     <ng-container *wattTableCell="columns['marketRole']; let mr">
       {{ t(mr.eicFunction) }}
