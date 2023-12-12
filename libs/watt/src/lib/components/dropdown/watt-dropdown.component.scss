@@ -159,6 +159,11 @@ watt-dropdown {
     color: var(--watt-color-neutral-black);
     min-height: 42px;
 
+    &[aria-disabled="true"].contains-mat-select-search {
+      margin-top: 0;
+      top: auto;
+    }
+
     &.mdc-list-item.mat-mdc-option-active,
     &.mdc-list-item.mdc-list-item--selected.mat-mdc-option-active:not(
         .mat-mdc-option-multiple
