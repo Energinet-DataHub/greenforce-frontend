@@ -95,7 +95,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         (input)="onChanged($event)"
         [maxlength]="maxLength"
         [matAutocomplete]="auto"
-        [matAutocompleteConnectedTo]="{elementRef: wattField.wrapper}"
+        [matAutocompleteConnectedTo]="{ elementRef: wattField.wrapper }"
         #inputField
       />
 

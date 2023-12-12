@@ -68,7 +68,7 @@ export class WattFieldComponent implements OnChanges {
   @Input() tooltip?: string;
 
   // Used for text fields with autocomplete
-  @ViewChild('wrapper', {static: true}) wrapper !: ElementRef<HTMLDivElement>;
+  @ViewChild('wrapper', { static: true }) wrapper!: ElementRef<HTMLDivElement>;
 
   @HostBinding('class.watt-field--chip')
   get _chip() {
