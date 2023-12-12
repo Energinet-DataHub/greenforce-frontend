@@ -113,7 +113,7 @@ import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
       </watt-drawer-content>
     </watt-drawer>
 
-    <eo-transfers-edit-modal [transfer]="transfer" />
+    <eo-transfers-edit-modal [transfer]="transfer" [transferAgreements]="transferAgreements" />
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
   `,
 })
@@ -124,6 +124,8 @@ export class EoTransfersDrawerComponent {
 
   isActive!: boolean;
   isEditable = false;
+
+  @Input() transferAgreements: EoListedTransfer[] = [];
 
   private _transfer?: EoListedTransfer;
 

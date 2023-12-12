@@ -73,10 +73,8 @@ export interface EoTransferAgreementsWithRecipient {
       <eo-transfers-form
         [senderTin]="ownTin()"
         [transferAgreements]="transferAgreements"
-        [existingTransferAgreements]="transferAgreementsWithRecipient"
         [generateProposalFailed]="creatingTransferAgreementProposalFailed"
         [proposalId]="proposalId"
-        (receiverTinChanged)="onReceiverTinChange($event)"
         (submitted)="createAgreementProposal($event)"
         (canceled)="modal.close(false)"
       />
@@ -88,7 +86,6 @@ export class EoTransfersCreateModalComponent {
 
   @Input() transferAgreements: EoListedTransfer[] = [];
 
-  protected transferAgreementsWithRecipient: EoTransferAgreementsWithRecipient[] = [];
   protected recipientTins: string[] = [];
   protected ownTin = signal<string | undefined>(undefined);
 
@@ -120,25 +117,6 @@ export class EoTransfersCreateModalComponent {
     this.creatingTransferAgreementProposalFailed = false;
     this.isFormValid = false;
     this.opened = false;
-    this.transferAgreementsWithRecipient = [];
-  }
-
-  onReceiverTinChange(receiverTin: string | null) {
-    if (!receiverTin) this.transferAgreementsWithRecipient = [];
-
-    this.transferAgreementsWithRecipient = this.transferAgreements
-      .filter((transfer) => transfer.receiverTin === receiverTin)
-      .map((transfer) => {
-        return { startDate: transfer.startDate, endDate: transfer.endDate };
-      })
-      // Filter out transfers that have ended
-      .filter((transfer) => transfer.endDate === null || transfer.endDate > new Date().getTime())
-      // TODO: CONSIDER MOVING THE SORTING
-      .sort((a, b) => {
-        if (a.endDate === null) return 1; // a is lesser if its endDate is null
-        if (b.endDate === null) return -1; // b is lesser if its endDate is null
-        return a.endDate - b.endDate;
-      });
   }
 
   createAgreementProposal(transferAgreement: {

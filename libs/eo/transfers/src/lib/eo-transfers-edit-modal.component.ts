@@ -35,8 +35,7 @@ import {
   EoTransfersFormComponent,
   EoTransfersFormInitialValues,
 } from './form/eo-transfers-form.component';
-import { EoExistingTransferAgreement, EoTransfersStore } from './eo-transfers.store';
-import { Observable, of } from 'rxjs';
+import { EoTransfersStore } from './eo-transfers.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -65,8 +64,9 @@ import { Observable, of } from 'rxjs';
       <eo-transfers-form
         submitButtonText="Save"
         mode="edit"
+        [transferId]="transfer?.id"
+        [transferAgreements]="transferAgreements"
         [editableFields]="['endDate']"
-        [existingTransferAgreements]="existingTransferAgreements$ | push"
         [initialValues]="initialValues"
         (submitted)="saveTransferAgreement($event)"
         (canceled)="modal.close(false)"
@@ -78,10 +78,10 @@ export class EoTransfersEditModalComponent implements OnChanges {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
   @Input() transfer?: EoListedTransfer;
+  @Input() transferAgreements: EoListedTransfer[] = [];
 
   protected opened = false;
   protected initialValues!: EoTransfersFormInitialValues;
-  protected existingTransferAgreements$: Observable<EoExistingTransferAgreement[]> = of([]);
 
   private store = inject(EoTransfersStore);
   private cd = inject(ChangeDetectorRef);
@@ -107,12 +107,6 @@ export class EoTransfersEditModalComponent implements OnChanges {
     this.opened = true;
     this.cd.detectChanges();
     this.modal.open();
-
-    if (!this.transfer) return;
-    this.existingTransferAgreements$ = this.store.getExistingTransferAgreements$(
-      this.transfer.receiverTin,
-      this.transfer.id
-    );
   }
 
   onClosed() {

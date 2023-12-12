@@ -150,6 +150,8 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
             label="Timeframe"
             nextButtonLabel="Next"
             previousButtonLabel="Previous"
+            (entering)="onEnteringTimeframeStep()"
+            (leaving)="onLeavingTimeframeStep()"
             [stepControl]="form.controls.period"
           >
             <div class="timeframe-step">
@@ -158,7 +160,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
 
               <eo-transfers-form-period
                 formGroupName="period"
-                [existingTransferAgreements]="existingTransferAgreements"
+                [existingTransferAgreements]="existingTransferAgreements()"
               />
             </div>
           </watt-stepper-step>
@@ -205,7 +207,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
         <ng-container *ngTemplateOutlet="receiver" />
         <eo-transfers-form-period
           formGroupName="period"
-          [existingTransferAgreements]="existingTransferAgreements"
+          [existingTransferAgreements]="existingTransferAgreements()"
         />
 
         <watt-modal-actions>
@@ -261,6 +263,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
 })
 export class EoTransfersFormComponent implements OnInit, OnChanges {
   @Input() senderTin?: string;
+  @Input() transferId?: string; // used in edit mode
   @Input() mode: 'create' | 'edit' = 'create';
   @Input() submitButtonText = 'Create transfer agreement';
   @Input() initialValues: EoTransfersFormInitialValues = {
@@ -277,36 +280,33 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   ];
 
   @Input() transferAgreements: EoListedTransfer[] = [];
-  @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
   @Input() proposalId: string | null = null;
   @Input() generateProposalFailed = false;
 
   @Output() submitted = new EventEmitter();
   @Output() canceled = new EventEmitter();
-  @Output() receiverTinChanged = new EventEmitter<string | null>();
 
   @ViewChild('invitaionLink') invitaionLink!: EoTransferInvitationLinkComponent;
 
   protected form!: FormGroup<EoTransfersForm>;
   protected filteredReceiversTin = signal<string[]>([]);
+  protected existingTransferAgreements = signal<EoExistingTransferAgreement[]>([]);
 
   private recipientTins = signal<string[]>([]);
   private _destroyRef = inject(DestroyRef);
 
+  onEnteringTimeframeStep() {
+    this.setExistingTransferAgreements();
+  }
+
+  onLeavingTimeframeStep() {
+    this.existingTransferAgreements.set([]);
+  }
+
   ngOnInit(): void {
-    const tin = this.form.controls.receiver.controls['tin'];
-    tin.valueChanges
-      .pipe(
-        takeUntilDestroyed(this._destroyRef),
-        switchMap(() => {
-          return of(tin.valid);
-        }),
-        distinctUntilChanged()
-      )
-      .subscribe((receiverTinValidity) => {
-        const receiverTin = receiverTinValidity ? tin.value : null;
-        this.receiverTinChanged.emit(receiverTin);
-      });
+    if(this.mode === 'edit') {
+      this.setExistingTransferAgreements();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -357,6 +357,28 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
     if (!isNumericInput && !isSpecialKey && !selectAll) {
       event.preventDefault();
     }
+  }
+
+  private setExistingTransferAgreements() {
+    const recipient = this.form.controls.receiver.get('tin')?.value;
+    if (!recipient) this.existingTransferAgreements.set([]);
+
+    this.existingTransferAgreements.set(
+      this.transferAgreements
+        .filter((transfer) => transfer.id !== this.transferId) // used in edit mode
+        .filter((transfer) => transfer.receiverTin === recipient)
+        .map((transfer) => {
+          return { startDate: transfer.startDate, endDate: transfer.endDate };
+        })
+        // Filter out transfers that have ended
+        .filter((transfer) => transfer.endDate === null || transfer.endDate > new Date().getTime())
+        // TODO: CONSIDER MOVING THE SORTING
+        .sort((a, b) => {
+          if (a.endDate === null) return 1; // a is lesser if its endDate is null
+          if (b.endDate === null) return -1; // b is lesser if its endDate is null
+          return a.endDate - b.endDate;
+        })
+    );
   }
 
   private getRecipientTins(transferAgreements: EoListedTransfer[]) {
@@ -417,7 +439,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   getPeriodValidators() {
     return [
       endDateMustBeLaterThanStartDateValidator(),
-      overlappingTransferAgreementsValidator(this.existingTransferAgreements),
+      overlappingTransferAgreementsValidator(this.existingTransferAgreements()),
     ];
   }
 }

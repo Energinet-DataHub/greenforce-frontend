@@ -172,6 +172,7 @@ interface EoTransferTableElement extends EoListedTransfer {
 
     <eo-transfers-create-modal [transferAgreements]="transfers" />
     <eo-transfers-drawer
+      [transferAgreements]="transfers"
       [transfer]="selectedTransfer"
       (closed)="transferSelected.emit(undefined)"
     />
