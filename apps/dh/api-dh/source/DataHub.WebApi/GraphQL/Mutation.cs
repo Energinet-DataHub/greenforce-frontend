@@ -28,7 +28,6 @@ using ActorNameDto = Energinet.DataHub.MarketParticipant.Client.Models.ActorName
 using ChangeActorDto = Energinet.DataHub.MarketParticipant.Client.Models.ChangeActorDto;
 using ChangeOrganizationDto = Energinet.DataHub.MarketParticipant.Client.Models.ChangeOrganizationDto;
 using ContactCategory = Energinet.DataHub.MarketParticipant.Client.Models.ContactCategory;
-using CreateActorContactDto = Energinet.DataHub.MarketParticipant.Client.Models.CreateActorContactDto;
 using EdiB2CWebAppProcessType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType;
 using PermissionDetailsDto = Energinet.DataHub.MarketParticipant.Client.Models.PermissionDetailsDto;
 using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
@@ -53,9 +52,10 @@ public class Mutation
         string departmentName,
         string departmentEmail,
         string departmentPhone,
-        [Service] IMarketParticipantClient client)
+        [Service] IMarketParticipantClient oldClient,
+        [Service] IMarketParticipantClient_V1 client)
     {
-        var actor = await client.GetActorAsync(actorId).ConfigureAwait(false);
+        var actor = await oldClient.GetActorAsync(actorId).ConfigureAwait(false);
         if (!string.Equals(actor.Name.Value, actorName, StringComparison.Ordinal))
         {
             var changes = new ChangeActorDto(
@@ -63,10 +63,10 @@ public class Mutation
                 new ActorNameDto(actorName),
                 actor.MarketRoles);
 
-            await client.UpdateActorAsync(actorId, changes).ConfigureAwait(false);
+            await oldClient.UpdateActorAsync(actorId, changes).ConfigureAwait(false);
         }
 
-        var allContacts = await client.GetContactsAsync(actorId).ConfigureAwait(false);
+        var allContacts = await oldClient.GetContactsAsync(actorId).ConfigureAwait(false);
         var defaultContact = allContacts.SingleOrDefault(c => c.Category == ContactCategory.Default);
         if (defaultContact == null ||
             !string.Equals(defaultContact.Name, departmentName, StringComparison.Ordinal) ||
@@ -75,19 +75,21 @@ public class Mutation
         {
             if (defaultContact != null)
             {
-                await client
+                await oldClient
                     .DeleteContactAsync(actorId, defaultContact.ContactId)
                     .ConfigureAwait(false);
             }
 
-            var newDefaultContact = new CreateActorContactDto(
-                departmentName,
-                ContactCategory.Default,
-                departmentEmail,
-                departmentPhone);
+            var newDefaultContact = new Clients.MarketParticipant.v1.CreateActorContactDto
+            {
+                Name = departmentName,
+                Email = departmentEmail,
+                Phone = departmentPhone,
+                Category = Clients.MarketParticipant.v1.ContactCategory.Default,
+            };
 
             await client
-                .CreateContactAsync(actorId, newDefaultContact)
+                .ContactPOSTAsync(actorId, newDefaultContact)
                 .ConfigureAwait(false);
         }
 
