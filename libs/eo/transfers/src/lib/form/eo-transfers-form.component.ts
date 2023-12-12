@@ -30,7 +30,6 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, JsonPipe, NgClass, NgIf } from '@angular/common';
-import { distinctUntilChanged, of, switchMap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
@@ -53,7 +52,6 @@ import { EoExistingTransferAgreement } from '../eo-transfers.store';
 import { EoTransfersPeriodComponent } from './eo-transfers-period.component';
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EoTransferInvitationLinkComponent } from './eo-invitation-link';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { EoListedTransfer } from '../eo-transfers.service';
