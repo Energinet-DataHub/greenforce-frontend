@@ -124,7 +124,7 @@ export class EoTransfersCreateModalComponent {
   }
 
   onReceiverTinChange(receiverTin: string | null) {
-    if(!receiverTin) this.transferAgreementsWithRecipient = [];
+    if (!receiverTin) this.transferAgreementsWithRecipient = [];
 
     this.transferAgreementsWithRecipient = this.transferAgreements
       .filter((transfer) => transfer.receiverTin === receiverTin)

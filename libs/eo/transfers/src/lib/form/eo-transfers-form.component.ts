@@ -242,8 +242,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           (search)="onSearch($event)"
           [maxLength]="8"
         >
-          <watt-field-hint
-            *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
+          <watt-field-hint *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
             >Enter new CVR number or choose from previous transfer agreements</watt-field-hint
           >
 
@@ -311,7 +310,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(!this.form) this.initForm();
+    if (!this.form) this.initForm();
 
     if (changes['existingTransferAgreements'] && this.form) {
       this.form.controls.period.setValidators(this.getPeriodValidators());
@@ -323,8 +322,8 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
       this.onSearch('');
 
       this.form.controls.receiver.controls['tin'].addValidators(
-        compareValidator(this.senderTin, 'receiverTinEqualsSenderTin'),
-      )
+        compareValidator(this.senderTin, 'receiverTinEqualsSenderTin')
+      );
     }
   }
 
@@ -381,9 +380,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
             disabled: !this.editableFields.includes('receiverTin'),
           },
           {
-            validators: [
-              Validators.pattern('^[0-9]{8}$')
-            ],
+            validators: [Validators.pattern('^[0-9]{8}$')],
           }
         ),
       }),

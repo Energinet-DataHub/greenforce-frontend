@@ -27,7 +27,6 @@ export function transferMocks(apiBase: string) {
 function getTransferAgreements(apiBase: string) {
   console.log(apiBase);
   return rest.get(`${apiBase}/transfer-agreements`, (req, res, ctx) => {
-
     const data = {
       result: [
         {

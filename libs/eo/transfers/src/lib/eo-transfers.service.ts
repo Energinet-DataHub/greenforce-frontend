@@ -71,9 +71,9 @@ export class EoTransfersService {
   }
 
   getTransfers() {
-    return this.http.get<EoListedTransferResponse>(`${this.#apiBase}/transfer-agreements`).pipe(
-      map((x) => x.result)
-    );
+    return this.http
+      .get<EoListedTransferResponse>(`${this.#apiBase}/transfer-agreements`)
+      .pipe(map((x) => x.result));
   }
 
   createAgreementProposal(transfer: EoTransfer) {

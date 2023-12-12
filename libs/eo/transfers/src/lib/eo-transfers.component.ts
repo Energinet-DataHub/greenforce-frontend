@@ -33,7 +33,11 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoTransfersTableComponent } from './eo-transfers-table.component';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EoListedTransfer, EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.service';
+import {
+  EoListedTransfer,
+  EoTransferAgreementProposal,
+  EoTransfersService,
+} from './eo-transfers.service';
 import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-proposal.component';
 
 @Component({
@@ -87,7 +91,11 @@ export class EoTransfersComponent implements OnInit {
   private transfersService = inject(EoTransfersService);
   private toastService = inject(WattToastService);
 
-  protected transferAgreements = signal<{loading: boolean; error: boolean; data: EoListedTransfer[]}>({
+  protected transferAgreements = signal<{
+    loading: boolean;
+    error: boolean;
+    data: EoListedTransfer[];
+  }>({
     loading: false,
     error: false,
     data: [],
