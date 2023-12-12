@@ -304,7 +304,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    if(this.mode === 'edit') {
+    if (this.mode === 'edit') {
       this.setExistingTransferAgreements();
     }
   }
