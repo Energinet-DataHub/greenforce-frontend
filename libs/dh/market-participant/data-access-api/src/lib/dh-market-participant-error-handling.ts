@@ -15,65 +15,24 @@
  * limitations under the License.
  */
 
-import { HttpErrorResponse } from '@angular/common/http';
-import { ApiError } from '@energinet-datahub/dh/shared/domain/graphql';
-import { translate } from '@ngneat/transloco';
+import { ApiError, ApiErrorDescriptor } from '@energinet-datahub/dh/shared/domain/graphql';
+import { flatten, translate } from '@ngneat/transloco';
 
-interface ServerErrorDescriptor {
-  error: ErrorDescriptor;
-}
+type ApiErrorCollection = Pick<ApiError, 'apiErrors'>;
 
-interface ErrorDescriptor {
-  code: string;
-  message: string;
-  target?: string;
-  details?: ErrorDescriptor[];
-}
-
-type ApiErrorWithoutHeaders = Omit<ApiError, 'headers'>;
-
-interface ClientErrorDescriptor {
-  errors: {
-    [s: string]: string;
-  };
-}
-
-export const parseApiErrorResponse = (errorResponse: ApiErrorWithoutHeaders[]) => {
-  return errorResponse
-    .map((x) => {
-      if (x.response) {
-        const errorDescriptor = JSON.parse(x.response) as ServerErrorDescriptor;
-        return getTranslatedError(errorDescriptor);
-      }
-      return x.message;
-    })
+export const readApiErrorResponse = (errors: ApiErrorCollection[]) => {
+  return errors
+    .flatMap((error) => error.apiErrors)
+    .map(translateApiError)
     .join(' ');
 };
 
-export const parseErrorResponse = (errorResponse: HttpErrorResponse) => {
-  const errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor = errorResponse.error;
-  return getTranslatedError(errorDescriptor);
+const translateApiError = (errorDescriptor: ApiErrorDescriptor) => {
+  const translationKey = `marketParticipant.${errorDescriptor.code}`;
+  const translation = translate(translationKey, flatten(errorDescriptor.args));
+  return translationKey === translation
+    ? translate(`marketParticipant.market_participant.error_fallback`, {
+        message: errorDescriptor.message,
+      })
+    : translation;
 };
-
-const getTranslatedError = (errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor) => {
-  if (isServerErrorDescriptor(errorDescriptor)) {
-    if (errorDescriptor.error.details) {
-      return errorDescriptor.error.details
-        .map((x) => {
-          const translationKey = `marketParticipant.apiErrorCodes.${x.code[0].toLowerCase()}${[
-            x.code.slice(1),
-          ]}`;
-          const translation = translate(translationKey);
-          return translation === translationKey ? x.message : translation;
-        })
-        .join(' ');
-    }
-    return errorDescriptor.error.message;
-  }
-  return Object.values(errorDescriptor.errors).join(' ');
-};
-
-const isServerErrorDescriptor = (
-  errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor
-): errorDescriptor is ServerErrorDescriptor =>
-  (<ServerErrorDescriptor>errorDescriptor).error !== undefined;

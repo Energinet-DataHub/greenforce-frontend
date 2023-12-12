@@ -14,13 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { BehaviorSubject, Observable, debounceTime } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
   DhAdminUserManagementDataAccessApiStore,
@@ -32,13 +34,16 @@ import {
   MarketParticipantUserOverviewSortProperty,
   MarketParticipantUserStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhInviteUserModalComponent } from '@energinet-datahub/dh/admin/feature-invite-user-modal';
 import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { DhUsersTabGeneralErrorComponent } from './general-error/dh-users-tab-general-error.component';
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
@@ -56,32 +61,21 @@ import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filte
         display: block;
       }
 
-      .filter-container {
-        display: flex;
-        gap: var(--watt-space-m);
-        flex-wrap: wrap;
+      .users-overview__error,
+      .users-overview__empty-state {
+        padding: var(--watt-space-xl) 0;
       }
 
-      .users-overview {
-        &__spinner {
-          display: flex;
-          justify-content: center;
-          padding: var(--watt-space-l) 0;
-        }
-
-        &__error {
-          padding: var(--watt-space-xl) 0;
-        }
-      }
-
-      h4 {
+      h3 {
         margin: 0;
       }
 
-      .card-title__container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
       }
     `,
   ],
@@ -92,11 +86,13 @@ import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filte
   ],
   imports: [
     NgIf,
-    NgTemplateOutlet,
     RxLet,
     RxPush,
-    TranslocoModule,
-    WattSpinnerComponent,
+    TranslocoDirective,
+    TranslocoPipe,
+
+    VaterStackComponent,
+    VaterSpacerComponent,
     WATT_CARD,
     DhUsersTabTableComponent,
     DhUsersTabStatusFilterComponent,
@@ -104,16 +100,20 @@ import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filte
     DhUsersTabActorFilterComponent,
     DhUsersTabUserRoleFilterComponent,
     WattButtonComponent,
+    WattEmptyStateComponent,
     WattPaginatorComponent,
+    WattSearchComponent,
     DhPermissionRequiredDirective,
     DhInviteUserModalComponent,
     DhSharedUiSearchComponent,
   ],
 })
 export class DhUsersTabComponent {
+  private destroyRef = inject(DestroyRef);
   private store = inject(DhAdminUserManagementDataAccessApiStore);
   private actorStore = inject(DhUserActorsDataAccessApiStore);
   private userRolesStore = inject(DhAdminUserRolesManagementDataAccessApiStore);
+
   readonly users$ = this.store.users$;
   readonly totalUserCount$ = this.store.totalUserCount$;
 
@@ -125,14 +125,18 @@ export class DhUsersTabComponent {
   readonly hasGeneralError$ = this.store.hasGeneralError$;
 
   readonly initialStatusFilter$ = this.store.initialStatusFilter$;
-  isInviteUserModalVisible = false;
-  readonly actorOptions$ = this.actorStore.actors$;
-  readonly userRolesOptions$ = this.userRolesStore.rolesOptions$;
+  readonly actorOptions$: Observable<WattDropdownOptions> = this.actorStore.actors$;
+  readonly userRolesOptions$: Observable<WattDropdownOptions> = this.userRolesStore.rolesOptions$;
   readonly canChooseMultipleActors$ = this.actorStore.canChooseMultipleActors$;
+
+  searchInput$ = new BehaviorSubject<string>('');
+  isInviteUserModalVisible = false;
 
   constructor() {
     this.actorStore.getActors();
     this.userRolesStore.getRoles();
+
+    this.onSearchInput();
   }
 
   onPageChange(event: PageEvent): void {
@@ -140,10 +144,6 @@ export class DhUsersTabComponent {
       pageIndex: event.pageIndex,
       pageSize: event.pageSize,
     });
-  }
-
-  onSearch(value: string): void {
-    this.store.updateSearchText(value);
   }
 
   onStatusChanged(value: MarketParticipantUserStatus[]): void {
@@ -173,5 +173,11 @@ export class DhUsersTabComponent {
 
   showInviteUserModal(): void {
     this.isInviteUserModalVisible = true;
+  }
+
+  private onSearchInput(): void {
+    this.searchInput$
+      .pipe(debounceTime(250), takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => this.store.updateSearchText(value));
   }
 }

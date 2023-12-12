@@ -42,7 +42,7 @@ watt-dropdown {
     height: auto;
   }
 
-  .mati-input-element {
+  .mat-input-element {
     @include watt.typography-watt-text-s;
     color: var(--watt-input-color);
     caret-color: var(--watt-color-neutral-grey-900) !important;
@@ -85,6 +85,7 @@ watt-dropdown {
   .watt-field--chip .mat-mdc-select {
     visibility: hidden;
     position: absolute;
+    width: 100px;
   }
 
   .mat-mdc-select-placeholder {
@@ -113,7 +114,6 @@ watt-dropdown {
 
   &.watt-dropdown-panel-chip-mode {
     margin-top: 0;
-    width: 250px;
   }
 
   &.mat-mdc-select-search-panel {
@@ -158,6 +158,11 @@ watt-dropdown {
   .mat-mdc-option {
     color: var(--watt-color-neutral-black);
     min-height: 42px;
+
+    &[aria-disabled="true"].contains-mat-select-search {
+      margin-top: 0;
+      top: auto;
+    }
 
     &.mdc-list-item.mat-mdc-option-active,
     &.mdc-list-item.mdc-list-item--selected.mat-mdc-option-active:not(
