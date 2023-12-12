@@ -18,16 +18,8 @@
   display: block;
 }
 
-.user-roles {
-  &__spinner {
-    display: flex;
-    justify-content: center;
-    padding: var(--watt-space-l) 0;
-  }
-
-  &__error {
-    padding: var(--watt-space-xl) 0;
-  }
+.user-roles__error {
+  padding: var(--watt-space-xl) 0;
 }
 
 h3 {
