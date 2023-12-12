@@ -90,33 +90,16 @@ export class DhAdminUserManagementDataAccessApiStore
   readonly pageSize$ = this.select((state) => state.pageSize);
 
   private readonly fetchUsersParams$: Observable<FetchUsersParams> = this.select(
-    this.pageSize$,
-    this.select((state) => state.pageNumber),
-    this.select((state) => state.sortProperty),
-    this.select((state) => state.direction),
-    this.select((state) => state.searchText),
-    this.select((state) => state.statusFilter),
-    this.select((state) => state.actorIdFilter),
-    this.select((state) => state.userRoleFilter),
-    (
-      pageSize,
-      pageNumber,
-      sortProperty,
-      direction,
-      searchText,
-      statusFilter,
-      actorIdFilter,
-      userRoleFilter
-    ) => ({
-      pageSize,
-      pageNumber,
-      sortProperty,
-      direction,
-      searchText,
-      statusFilter,
-      actorIdFilter,
-      userRoleFilter,
-    }),
+    {
+      pageSize: this.pageSize$,
+      pageNumber: this.select((state) => state.pageNumber),
+      sortProperty: this.select((state) => state.sortProperty),
+      direction: this.select((state) => state.direction),
+      searchText: this.select((state) => state.searchText),
+      statusFilter: this.select((state) => state.statusFilter),
+      actorIdFilter: this.select((state) => state.actorIdFilter),
+      userRoleFilter: this.select((state) => state.userRoleFilter),
+    },
     { debounce: true }
   );
 

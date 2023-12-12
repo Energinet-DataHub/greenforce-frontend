@@ -18,20 +18,20 @@ import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, inject } fr
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-users-tab-userrole-filter',
   standalone: true,
   template: `
-    <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
+    <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users.filter'">
       <watt-dropdown
-        [placeholder]="t('searchUserRolePlaceHolder')"
+        [placeholder]="t('userRolePlaceholder')"
         [formControl]="userRoleControl"
         [options]="userRoleOptions"
-        [label]="t('filter.userrole')"
         [multiple]="true"
+        [chipMode]="true"
       />
     </ng-container>
   `,
@@ -39,10 +39,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     `
       :host {
         display: block;
-
-        watt-dropdown {
-          width: 15rem;
-        }
       }
     `,
   ],
@@ -53,12 +49,8 @@ export class DhUsersTabUserRoleFilterComponent implements OnInit {
 
   userRoleControl = new FormControl<string[]>([], { nonNullable: true });
 
-  @Input() userRoleOptions: { value: string; displayValue: string }[];
+  @Input() userRoleOptions: WattDropdownOptions = [];
   @Output() changed = new EventEmitter<string[]>();
-
-  constructor() {
-    this.userRoleOptions = [];
-  }
 
   ngOnInit(): void {
     this.userRoleControl.valueChanges

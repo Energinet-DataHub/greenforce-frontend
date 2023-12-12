@@ -1422,10 +1422,10 @@
       },
       "topBarTitle": "Brugeradministration",
       "userStatus": {
-        "active": "Aktiv",
-        "inactive": "Deaktiveret",
-        "invited": "Afventer aktivering",
-        "inviteExpired": "Aktivering udløbet"
+        "Active": "Aktiv",
+        "Inactive": "Deaktiveret",
+        "Invited": "Afventer aktivering",
+        "InviteExpired": "Aktivering udløbet"
       },
       "roleStatus": {
         "active": "Aktiv",
@@ -1475,14 +1475,13 @@
         "users": {
           "inviteUser": "Inviter bruger",
           "tabLabel": "Brugere",
+          "emptyTitle": "Ingen brugere fundet",
+          "emptyMessage": "Prøv at ændre dine søgeindstillinger",
           "filter": {
             "status": "Status",
-            "actor": "Aktør",
-            "userrole": "Brugerrolle"
+            "marketPartyPlaceholder": "Vælg aktør",
+            "userRolePlaceholder": "Vælg brugerrolle"
           },
-          "searchPlaceholder": "Søg brugere",
-          "searchActorPlaceHolder": "Vælg aktør",
-          "searchUserRolePlaceHolder": "Vælg brugerrolle",
           "table": {
             "columns": {
               "firstName": "Fornavn",

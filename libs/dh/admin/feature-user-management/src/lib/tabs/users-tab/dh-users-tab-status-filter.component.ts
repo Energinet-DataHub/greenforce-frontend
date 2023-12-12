@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-users-tab-status-filter',
@@ -28,10 +29,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   template: `
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
       <watt-dropdown
-        [label]="t('filter.status')"
+        dhDropdownTranslator
+        translate="admin.userManagement.userStatus"
+        [placeholder]="t('filter.status')"
         [formControl]="statusControl"
         [options]="userStatusOptions"
         [multiple]="true"
+        [chipMode]="true"
       />
     </ng-container>
   `,
@@ -39,18 +43,18 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     `
       :host {
         display: block;
-        watt-dropdown {
-          width: 15rem;
-        }
       }
     `,
   ],
-  imports: [TranslocoModule, ReactiveFormsModule, WattDropdownComponent],
-})
-export class DhUsersTabStatusFilterComponent implements OnInit {
-  private trans = inject(TranslocoService);
-  private _destroyRef = inject(DestroyRef);
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
 
+    WattDropdownComponent,
+    DhDropdownTranslatorDirective,
+  ],
+})
+export class DhUsersTabStatusFilterComponent {
   statusControl = new FormControl<MarketParticipantUserStatus[]>([], { nonNullable: true });
 
   @Input() set initialValue(value: MarketParticipantUserStatus[]) {
@@ -59,28 +63,16 @@ export class DhUsersTabStatusFilterComponent implements OnInit {
 
   @Output() changed = new EventEmitter<MarketParticipantUserStatus[]>();
 
-  userStatusOptions: WattDropdownOption[] = [];
+  userStatusOptions: WattDropdownOption[] = Object.keys(MarketParticipantUserStatus).map(
+    (entry) => ({
+      value: entry,
+      displayValue: entry,
+    })
+  );
 
-  ngOnInit(): void {
-    this.buildUserStatusOptions();
+  constructor() {
     this.statusControl.valueChanges
-      .pipe(takeUntilDestroyed(this._destroyRef))
+      .pipe(takeUntilDestroyed())
       .subscribe((value) => this.changed.emit(value));
-  }
-
-  private buildUserStatusOptions() {
-    this.trans
-      .selectTranslateObject('admin.userManagement.userStatus')
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe({
-        next: (keys) => {
-          this.userStatusOptions = Object.keys(MarketParticipantUserStatus).map((entry) => {
-            return {
-              value: entry,
-              displayValue: keys[entry[0].toLowerCase() + entry.slice(1)],
-            };
-          });
-        },
-      });
   }
 }

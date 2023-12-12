@@ -1434,10 +1434,10 @@
       },
       "topBarTitle": "User management",
       "userStatus": {
-        "active": "Active",
-        "inactive": "Deactivated",
-        "invited": "Awaiting activation",
-        "inviteExpired": "Activation expired"
+        "Active": "Active",
+        "Inactive": "Deactivated",
+        "Invited": "Awaiting activation",
+        "InviteExpired": "Activation expired"
       },
       "roleStatus": {
         "active": "Active",
@@ -1487,13 +1487,12 @@
         "users": {
           "inviteUser": "Invite user",
           "tabLabel": "Users",
-          "searchPlaceholder": "Search users",
-          "searchActorPlaceHolder": "Choose market party",
-          "searchUserRolePlaceHolder": "Choose user role",
+          "emptyTitle": "No users found",
+          "emptyMessage": "Try changing the search criteria",
           "filter": {
             "status": "Status",
-            "actor": "Market party",
-            "userrole": "User role"
+            "marketPartyPlaceholder": "Choose market party",
+            "userRolePlaceholder": "Choose user role"
           },
           "table": {
             "columns": {
