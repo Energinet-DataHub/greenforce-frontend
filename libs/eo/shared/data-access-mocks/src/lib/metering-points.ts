@@ -55,6 +55,20 @@ function getMeteringPoints(apiBase: string) {
           },
         },
         {
+          gsrn: '571313171355411111',
+          gridArea: 'DK1',
+          type: 'consumption',
+          subMeterType: 'Virtual',
+          assetType: 'Solar',
+          address: {
+            address1: 'Dummy street 2',
+            address2: '1 11A',
+            city,
+            postalCode: '9999',
+            country: 'DK',
+          },
+        },
+        {
           gsrn: '571313130083531004',
           gridArea: 'DK1',
           type: 'production',
