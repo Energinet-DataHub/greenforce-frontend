@@ -519,8 +519,56 @@
     }
   },
   "marketParticipant": {
-    "apiErrorCodes": {
-      "globalLocationNumberValidation": "'Actor Number' must be a valid GLN or EIC."
+    "market_participant": {
+      "error_fallback": "The computer was asked to perform an action, but it did not. The reason was: {{ message }}",
+      "bad_argument": {
+        "missing_required_value": "Field '{{ param }}' requires a value, but a value was not provided.",
+        "invalid_gln": "Value '{{ value.value }}' is not a valid GLN or EIC number.",
+        "invalid_length": "The contents of '{{ param }}' do not meet the length requirements. The text should be between {{ min }} and {{ max }} characters.",
+        "invalid_enum": "Value '{{ value }}' is not valid for field '{{ param }}'."
+      },
+      "validation": {
+        "organization": {
+          "business_register_identifier": {
+            "reserved": "The provided business register identifier {{ identifier }} is already in use."
+          },
+          "domain": {
+            "reserved": "The provided organisation domain is already in use.",
+            "invalid": "The provided organisation domain is not a valid domain."
+          }
+        },
+        "actor": {
+          "number": {
+            "reserved": "The provided market participant number is already in use."
+          },
+          "grid_area": {
+            "reserved": "The chosen grid area is already assigned to another market participant."
+          },
+          "market_role": {
+            "reserved": "The chosen market role cannot be assigned, as it is already in use by another market participant in the organisation.",
+            "forbidden": "The chosen market role cannot be used in this organisation."
+          },
+          "credentials": {
+            "invalid": "The provided certificate is invalid.",
+            "expired": "The provided certificate has expired.",
+            "invalid_state": "The market participants B2B access cannot be modified, as the market participant has been deactivated or is still being created.",
+            "still_active": "The market participant cannot be deactivated, as it still has B2B access configured.",
+            "thumbprint_reserved": "The provided certificate is already in use by another market participant."
+          }
+        },
+        "market_role": {
+          "reserved": "The chosen name for the user role is already in use."
+        },
+        "user": {
+          "authentication": {
+            "invalid_phone": "The provided phone number cannot be used with 2-factor authentication.",
+            "email_domain_mismatch": "The provided email does not belong to the organisation domain."
+          },
+          "invite": {
+            "not_expired": "The user's invitation has not yet expired and cannot be renewed."
+          }
+        }
+      }
     },
     "actors": {
       "topBarTitle": "Actors",

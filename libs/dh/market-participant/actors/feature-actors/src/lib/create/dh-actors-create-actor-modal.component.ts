@@ -45,11 +45,12 @@ import {
 } from '@energinet-datahub/dh/shared/ui-validators';
 
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { parseApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+
 @Component({
   standalone: true,
   selector: 'dh-actors-create-actor-modal',
@@ -200,7 +201,7 @@ export class DhActorsCreateActorModalComponent {
     ) {
       this._toastService.open({
         type: 'danger',
-        message: parseApiErrorResponse(response.data?.createMarketParticipant?.errors),
+        message: readApiErrorResponse(response.data?.createMarketParticipant?.errors),
       });
     }
 
