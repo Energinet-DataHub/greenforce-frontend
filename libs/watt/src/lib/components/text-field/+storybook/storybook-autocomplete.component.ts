@@ -15,24 +15,27 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import { WattTextFieldComponent } from '../watt-text-field.component';
-import { FormControl } from '@angular/forms';
+import { WattFieldHintComponent } from '../../field/watt-field-hint.component';
 
 export const wattAutoCompleteTemplate = `
 <watt-text-field
   [autocompleteOptions]="filteredOptions"
   (search)="search($event)"
+  prefix="search"
   [formControl]="exampleFormControl"
   label="WattTextField with autocomplete"
-  type="text"
-/>
+  type="text">
+  <watt-field-hint>Enter new CVR number or choose from previous transfer agreements</watt-field-hint>
+</watt-text-field>
 <p>Value: {{exampleFormControl.value}}</p>`;
 
 @Component({
   selector: 'watt-storybook-autocomplete',
   standalone: true,
-  imports: [WattTextFieldComponent],
+  imports: [WattTextFieldComponent, WattFieldHintComponent],
   template: wattAutoCompleteTemplate,
 })
 export class StorybookAutocompleteComponent {

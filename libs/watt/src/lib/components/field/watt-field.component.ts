@@ -17,10 +17,12 @@
 import { NgIf, NgClass } from '@angular/common';
 import {
   Component,
+  ElementRef,
   HostBinding,
   Input,
   OnChanges,
   SimpleChanges,
+  ViewChild,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
@@ -43,7 +45,7 @@ import { WattFieldIntlService } from './watt-field-intl.service';
         {{ label }}
         <watt-icon name="info" *ngIf="tooltip" wattTooltipPosition="top" [wattTooltip]="tooltip" />
       </span>
-      <div class="watt-field-wrapper">
+      <div class="watt-field-wrapper" #wrapper>
         <ng-content />
       </div>
       <ng-content select="watt-field-hint" />
@@ -64,6 +66,9 @@ export class WattFieldComponent implements OnChanges {
   @Input() id!: string;
   @Input() chipMode = false;
   @Input() tooltip?: string;
+
+  // Used for text fields with autocomplete
+  @ViewChild('wrapper', {static: true}) wrapper !: ElementRef<HTMLDivElement>;
 
   @HostBinding('class.watt-field--chip')
   get _chip() {
