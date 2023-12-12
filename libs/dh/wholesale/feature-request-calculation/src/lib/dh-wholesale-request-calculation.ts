@@ -18,17 +18,15 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
-  AbstractControl,
   FormControl,
   FormsModule,
   NonNullableFormBuilder,
   ReactiveFormsModule,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { differenceInDays, parseISO, subDays, subYears } from 'date-fns';
+import { subYears } from 'date-fns';
 import { catchError, of } from 'rxjs';
 
 import {
@@ -53,38 +51,12 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange } from '@energinet-datahub/watt/date';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-
-const maxOneMonthDateRangeValidator =
-  () =>
-  (control: AbstractControl): ValidationErrors | null => {
-    const range = control.value as WattRange<string>;
-
-    if (!range) return null;
-
-    const rangeInDays = differenceInDays(parseISO(range.end), parseISO(range.start));
-    if (rangeInDays > 31) {
-      return { maxOneMonthDateRange: true };
-    }
-
-    return null;
-  };
-
-const startDateCannotBeAfterEndDateValidator =
-  () =>
-  (control: AbstractControl): ValidationErrors | null => {
-    const range = control.value as WattRange<string>;
-
-    if (!range) return null;
-
-    const startDate = parseISO(range.start);
-    const endDate = parseISO(range.end);
-
-    if (startDate > endDate) {
-      return { startDateCannotBeAfterEndDate: true };
-    }
-
-    return null;
-  };
+import {
+  maxOneMonthDateRangeValidator,
+  startAndEndDateCannotBeInTheFutureValidator,
+  startDateCannotBeAfterEndDateValidator,
+  startDateCannotBeOlderThan3YearsValidator,
+} from './dh-whole-request-calculation-validators';
 
 const label = (key: string) => `wholesale.requestCalculation.${key}`;
 
@@ -144,7 +116,6 @@ export class DhWholesaleRequestCalculationComponent {
   private _destroyRef = inject(DestroyRef);
   private _selectedEicFunction: EicFunction | null | undefined;
 
-  maxDate = subDays(new Date(), 5);
   minDate = subYears(new Date(), 3);
 
   isLoading = false;
@@ -156,6 +127,8 @@ export class DhWholesaleRequestCalculationComponent {
       WattRangeValidators.required(),
       maxOneMonthDateRangeValidator(),
       startDateCannotBeAfterEndDateValidator(),
+      startDateCannotBeOlderThan3YearsValidator(),
+      startAndEndDateCannotBeInTheFutureValidator(),
     ]),
     energySupplierId: this._fb.control(null),
     balanceResponsibleId: this._fb.control(null),

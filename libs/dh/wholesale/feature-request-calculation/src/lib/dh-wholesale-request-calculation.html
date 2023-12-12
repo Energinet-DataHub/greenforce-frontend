@@ -29,7 +29,6 @@ limitations under the License.
         <watt-datepicker
           [range]="true"
           [label]="t('period')"
-          [max]="maxDate"
           [min]="minDate"
           [formControl]="form.controls.period"
         >
@@ -38,6 +37,12 @@ limitations under the License.
           </watt-field-error>
           <watt-field-error *ngIf="form.controls.period.errors?.startDateCannotBeAfterEndDate">
             {{ t('startDateCannotBeAfterEndDate')}}
+          </watt-field-error>
+          <watt-field-error *ngIf="form.controls.period.errors?.startDateCannotBeOlderThan3Years">
+            {{ t('startDateCannotBeOlderThan3Years')}}
+          </watt-field-error>
+          <watt-field-error *ngIf="form.controls.period.errors?.startAndEndDateCannotBeInTheFuture">
+            {{ t('startAndEndDateCannotBeInTheFuture')}}
           </watt-field-error>
         </watt-datepicker>
 
