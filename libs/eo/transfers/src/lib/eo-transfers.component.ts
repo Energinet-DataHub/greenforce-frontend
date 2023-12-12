@@ -134,12 +134,9 @@ export class EoTransfersComponent implements OnInit {
       data: [
         ...this.transferAgreements().data,
         {
-          id: proposal.id,
-          startDate: proposal.startDate * 1000,
-          endDate: proposal.endDate ? proposal.endDate * 1000 : null,
+          ...proposal,
           senderName: proposal.senderCompanyName,
           senderTin: '',
-          receiverTin: proposal.receiverTin,
         },
       ],
     });
