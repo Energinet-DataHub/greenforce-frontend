@@ -17,7 +17,7 @@
 import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
-import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { translate, TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { take } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
@@ -51,7 +51,7 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
   providers: [provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore)],
   imports: [
     NgIf,
-    TranslocoModule,
+    TranslocoDirective,
     RxPush,
     RxLet,
 
