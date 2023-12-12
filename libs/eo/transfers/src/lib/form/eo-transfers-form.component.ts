@@ -27,7 +27,6 @@ import {
   DestroyRef,
   ViewChild,
   signal,
-  computed,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, JsonPipe, NgClass, NgIf } from '@angular/common';
@@ -38,7 +37,7 @@ import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattModalActionsComponent } from '@energinet-datahub/watt/modal';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
+import { WATT_STEPPER, WattStep } from '@energinet-datahub/watt/stepper';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 
@@ -151,7 +150,6 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
             label="Timeframe"
             nextButtonLabel="Next"
             previousButtonLabel="Previous"
-            (next)="onSubmit()"
             [stepControl]="form.controls.period"
           >
             <div class="timeframe-step">
@@ -170,6 +168,8 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
             nextButtonLabel="Copy & close"
             [disableNextButton]="generateProposalFailed"
             previousButtonLabel="Previous"
+            (entering)="onSubmit()"
+            (leaving)="onLeaveInvitationStep($event)"
           >
             <vater-stack direction="column" gap="l" align="flex-start">
               <ng-container *ngIf="!generateProposalFailed; else error">
@@ -342,6 +342,10 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
 
   protected onSubmit() {
     this.submitted.emit(this.form.value);
+  }
+
+  onLeaveInvitationStep(step: WattStep) {
+    step.reset();
   }
 
   protected preventNonNumericInput(event: KeyboardEvent) {

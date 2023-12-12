@@ -56,7 +56,7 @@ function postTransferAgreementProposals(apiBase: string) {
   return rest.post(`${apiBase}/transfer-agreement-proposals`, (req, res, ctx) => {
     return res(
       ctx.status(200),
-      ctx.delay(2000),
+      ctx.delay(1000),
       ctx.json({ id: '3fa85f64-5717-4562-b3fc-2c963f66afa6' })
     );
   });
