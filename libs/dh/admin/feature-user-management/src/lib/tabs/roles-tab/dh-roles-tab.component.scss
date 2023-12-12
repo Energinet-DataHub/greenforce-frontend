@@ -40,19 +40,10 @@ h4 {
   align-items: center;
 }
 
-.create-role-table-buttons {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
+watt-paginator {
+  --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
 
-.card-title-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.paginator-container {
-  display: flex;
-  align-items: center;
+  display: block;
+  margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+    var(--watt-space-ml--negative);
 }

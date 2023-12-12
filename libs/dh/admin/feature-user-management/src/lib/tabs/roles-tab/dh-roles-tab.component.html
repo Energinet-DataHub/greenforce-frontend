@@ -31,7 +31,7 @@ limitations under the License.
         <watt-card-title>
           <div class="create-role-header-container">
             <h4>{{ t("rolesHeadline") }}</h4>
-            <watt-paginator #paginator [length]="roles.length" />
+
             <watt-button
               *transloco="let t; read: 'admin.userManagement'"
               icon="download"
@@ -48,12 +48,15 @@ limitations under the License.
             </watt-button>
           </div>
         </watt-card-title>
+
         <dh-roles-tab-table
           #rolesTable
           [roles]="roles"
           [paginator]="paginator"
           (userRoleDeactivated)="reloadRoles()"
         />
+
+        <watt-paginator #paginator [length]="roles.length" />
       </watt-card>
     </ng-container>
   </ng-container>
