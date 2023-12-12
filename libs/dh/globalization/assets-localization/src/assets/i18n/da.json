@@ -512,8 +512,56 @@
     }
   },
   "marketParticipant": {
-    "apiErrorCodes": {
-      "globalLocationNumberValidation": "'Aktørnummer' skal være et gyldigt GLN eller EIC nummer"
+    "market_participant": {
+      "error_fallback": "Computeren blev bedt om at udføre en handling, men gjorde det ikke. Årsagen var: {{ message }}",
+      "bad_argument": {
+        "missing_required_value": "Feltet '{{ param }}' kræver en værdi, men denne er ikke blevet angivet.",
+        "invalid_gln": "Værdien '{{ value.value }}' er ikke et gyldigt GLN- eller EIC-nummer.",
+        "invalid_length": "Indholdet af '{{ param }}' opfylder ikke krav til længden. Teksten skal være mellem {{ min }} og {{ max }} tegn.",
+        "invalid_enum": "Værdien '{{ value }}' er ikke tilladt for feltet '{{ param }}'."
+      },
+      "validation": {
+        "organization": {
+          "business_register_identifier": {
+            "reserved": "Det indtastede CVR-nummer {{ identifier }} er allerede i brug."
+          },
+          "domain": {
+            "reserved": "Det indtastede organisationsdomæne er allerede i brug.",
+            "invalid": "Det indtastede organisationsdomæne er ikke et gyldigt domæne."
+          }
+        },
+        "actor": {
+          "number": {
+            "reserved": "Det valge aktørnummer er allerede i brug."
+          },
+          "grid_area": {
+            "reserved": "Det valge netområde er allerede tildelt til en anden aktør."
+          },
+          "market_role": {
+            "reserved": "Kan ikke tildele markedsrollen, da denne allerede er tildelt til en anden aktør i organisationen.",
+            "forbidden": "Den valgte markedsrolle kan ikke bruges i denne organisation."
+          },
+          "credentials": {
+            "invalid": "Det givne certifikat er ikke gyldigt.",
+            "expired": "Det givne certifikat er udløbet.",
+            "invalid_state": "Aktørens B2B adgang kan ændres, da aktøren enten er deaktiveret eller er ved at blive gjort klar.",
+            "still_active": "Aktøren kan ikke deaktiveres, da aktøren stadig har B2B adgang opsat.",
+            "thumbprint_reserved": "Den angivne certifikat er allerede i brug."
+          }
+        },
+        "market_role": {
+          "reserved": "Det valgte navn på brugerrollen er allerede i brug."
+        },
+        "user": {
+          "authentication": {
+            "invalid_phone": "Det indtastede telefonnummer kan ikke bruges til 2-faktor godkendelse.",
+            "email_domain_mismatch": "Det indtastede e-mail tilhører ikke organisationsdomænet."
+          },
+          "invite": {
+            "not_expired": "Brugerens invitation er endnu ikke udløbet og kan derfor ikke fornys."
+          }
+        }
+      }
     },
     "actors": {
       "topBarTitle": "Aktører",
@@ -1377,10 +1425,10 @@
       },
       "topBarTitle": "Brugeradministration",
       "userStatus": {
-        "active": "Aktiv",
-        "inactive": "Deaktiveret",
-        "invited": "Afventer aktivering",
-        "inviteExpired": "Aktivering udløbet"
+        "Active": "Aktiv",
+        "Inactive": "Deaktiveret",
+        "Invited": "Afventer aktivering",
+        "InviteExpired": "Aktivering udløbet"
       },
       "roleStatus": {
         "active": "Aktiv",
@@ -1430,14 +1478,13 @@
         "users": {
           "inviteUser": "Inviter bruger",
           "tabLabel": "Brugere",
+          "emptyTitle": "Ingen brugere fundet",
+          "emptyMessage": "Prøv at ændre dine søgeindstillinger",
           "filter": {
             "status": "Status",
-            "actor": "Aktør",
-            "userrole": "Brugerrolle"
+            "marketPartyPlaceholder": "Vælg aktør",
+            "userRolePlaceholder": "Vælg brugerrolle"
           },
-          "searchPlaceholder": "Søg brugere",
-          "searchActorPlaceHolder": "Vælg aktør",
-          "searchUserRolePlaceHolder": "Vælg brugerrolle",
           "table": {
             "columns": {
               "firstName": "Fornavn",

@@ -16,6 +16,7 @@
  */
 import { HttpClientModule } from '@angular/common/http';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { FormGroupDirective } from '@angular/forms';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
 import userEvent from '@testing-library/user-event';
@@ -31,11 +32,9 @@ import {
   MarketParticipantUserOverviewItemDto,
   MarketParticipantUserStatus,
 } from '@energinet-datahub/dh/shared/domain';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhUsersTabComponent } from './dh-users-tab.component';
-import { searchDebounceTimeMs } from '@energinet-datahub/dh/shared/ui-search';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { FormGroupDirective } from '@angular/forms';
 
 const users: MarketParticipantUserOverviewItemDto[] = [
   {
@@ -78,6 +77,11 @@ describe(DhUsersTabComponent, () => {
 
     const store = TestBed.inject(DhAdminUserManagementDataAccessApiStore);
 
+    const statusFilterBtn = screen.getByRole('button', {
+      name: new RegExp(enTranslations.admin.userManagement.tabs.users.filter.status),
+      pressed: false,
+    });
+
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const matSelect = await loader.getHarness(MatSelectHarness);
 
@@ -85,6 +89,7 @@ describe(DhUsersTabComponent, () => {
       fixture,
       store,
       matSelect,
+      statusFilterBtn,
     };
   }
 
@@ -106,7 +111,7 @@ describe(DhUsersTabComponent, () => {
       name: new RegExp(testUser.phoneNumber ?? '', 'i'),
     });
     const status = screen.getByRole('gridcell', {
-      name: new RegExp(enTranslations.admin.userManagement.userStatus.active, 'i'),
+      name: new RegExp(enTranslations.admin.userManagement.userStatus.Active, 'i'),
     });
 
     expect(firstName).toBeInTheDocument();
@@ -120,27 +125,29 @@ describe(DhUsersTabComponent, () => {
     const { store } = await setup();
 
     const inputValue = 'test';
-    const searchInput = screen.getByRole('textbox');
+    const searchInput = screen.getByRole('searchbox');
 
     userEvent.type(searchInput, inputValue);
-    tick(searchDebounceTimeMs);
+    tick(250);
 
     expect(store.updateSearchText).toHaveBeenCalledWith(inputValue);
   }));
 
-  it('forwards status filter value to store', fakeAsync(async () => {
-    const { store, matSelect } = await setup();
+  it('forwards status filter value to store', async () => {
+    const { store, matSelect, statusFilterBtn } = await setup();
 
-    await matSelect.open();
+    userEvent.click(statusFilterBtn);
+
     const options = await matSelect.getOptions();
 
     for (const option of options) {
       // Skip empty placeholder.
       if ((await option.getText()) === '') continue;
+
       await option.click();
     }
 
     const allOptions = Object.keys(MarketParticipantUserStatus);
     expect(store.updateStatusFilter).toHaveBeenCalledWith(allOptions);
-  }));
+  });
 });
