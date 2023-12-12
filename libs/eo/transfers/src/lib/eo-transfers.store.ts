@@ -113,8 +113,8 @@ export class EoTransfersStore extends ComponentStore<EoTransfersState> {
       tapResponse(
         (response) => {
           this.setTransfers(
-            response && response.result
-              ? response.result.map((transfer) => {
+            response
+              ? response.map((transfer) => {
                   return {
                     ...transfer,
                     startDate: fromUnixTime(transfer.startDate).getTime(),

@@ -27,37 +27,29 @@ export function transferMocks(apiBase: string) {
 function getTransferAgreements(apiBase: string) {
   console.log(apiBase);
   return rest.get(`${apiBase}/transfer-agreements`, (req, res, ctx) => {
-    const senderName = 'Producent A/S';
+
     const data = {
       result: [
         {
-          id: '4ed4ed4c-930b-4ef6-99c2-b5300c024aff1',
-          startDate: 1697796000,
-          endDate: 1698400800,
-          senderName,
+          id: 'f44211b2-78fa-4fa0-9215-23369abf24ea',
+          startDate: 1702371600,
+          endDate: 1702396800,
+          senderName: 'Producent A/S',
           senderTin: '11223344',
-          receiverTin: '11111111',
+          receiverTin: '39293595',
         },
         {
-          id: '4ed4ed4c-930b-4ef6-99c2-b5300c024aff2',
-          startDate: 1697796000,
-          endDate: 1698400800,
-          senderName,
+          id: '0f190d46-7736-4f71-ad07-63dbaeeb689a',
+          startDate: 1702371600,
+          endDate: 1702378800,
+          senderName: 'Producent A/S',
           senderTin: '11223344',
-          receiverTin: '22222222',
-        },
-        {
-          id: '4ed4ed4c-930b-4ef6-99c2-b5300c024aff3',
-          startDate: 1697796000,
-          endDate: 1698400800,
-          senderName,
-          senderTin: '11223344',
-          receiverTin: '33333333',
+          receiverTin: '12345678',
         },
       ],
     };
 
-    return res(ctx.status(200), ctx.json(data));
+    return res(ctx.status(200), ctx.delay(1000), ctx.json(data));
   });
 }
 
@@ -65,8 +57,8 @@ function postTransferAgreementProposals(apiBase: string) {
   return rest.post(`${apiBase}/transfer-agreement-proposals`, (req, res, ctx) => {
     return res(
       ctx.status(200),
-      ctx.json({ result: '3fa85f64-5717-4562-b3fc-2c963f66afa6' }),
-      ctx.delay(1000)
+      ctx.delay(2000),
+      ctx.json({ id: '3fa85f64-5717-4562-b3fc-2c963f66afa6' })
     );
   });
 }

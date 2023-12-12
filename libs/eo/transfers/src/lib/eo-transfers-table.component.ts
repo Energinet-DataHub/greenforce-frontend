@@ -170,7 +170,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     />
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
 
-    <eo-transfers-create-modal />
+    <eo-transfers-create-modal [transferAgreements]="transfers" />
     <eo-transfers-drawer
       [transfer]="selectedTransfer"
       (closed)="transferSelected.emit(undefined)"

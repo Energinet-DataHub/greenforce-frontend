@@ -26,6 +26,8 @@ import {
   inject,
   DestroyRef,
   ViewChild,
+  signal,
+  computed,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, JsonPipe, NgClass, NgIf } from '@angular/common';
@@ -55,6 +57,7 @@ import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EoTransferInvitationLinkComponent } from './eo-invitation-link';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { EoListedTransfer } from '../eo-transfers.service';
 
 export interface EoTransfersFormInitialValues {
   receiverTin: string;
@@ -235,12 +238,11 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           [formControl]="form.controls.receiver.controls.tin"
           (keydown)="preventNonNumericInput($event)"
           data-testid="new-agreement-receiver-input"
-          [autocompleteOptions]="filteredReceiversTin"
+          [autocompleteOptions]="filteredReceiversTin()"
           (search)="onSearch($event)"
           [maxLength]="8"
         >
           <watt-field-hint
-            style="position: absolute; max-width: 330px;"
             *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
             >Enter new CVR number or choose from previous transfer agreements</watt-field-hint
           >
@@ -250,12 +252,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           >
             The receiver cannot be your own TIN/CVR
           </watt-field-error>
-          <watt-field-error
-            *ngIf="
-              form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin'] ||
-              form.controls.receiver.controls.tin.errors
-            "
-          >
+          <watt-field-error *ngIf="form.controls.receiver.controls.tin.errors?.['pattern']">
             An 8-digit TIN/CVR number is required
           </watt-field-error>
         </watt-text-field>
@@ -279,7 +276,8 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
     'startDate',
     'endDate',
   ];
-  @Input() receiversTin: string[] = [];
+
+  @Input() transferAgreements: EoListedTransfer[] = [];
   @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
   @Input() proposalId: string | null = null;
   @Input() generateProposalFailed = false;
@@ -291,14 +289,12 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   @ViewChild('invitaionLink') invitaionLink!: EoTransferInvitationLinkComponent;
 
   protected form!: FormGroup<EoTransfersForm>;
-  protected filteredReceiversTin!: string[];
+  protected filteredReceiversTin = signal<string[]>([]);
 
+  private recipientTins = signal<string[]>([]);
   private _destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    this.initForm();
-    this.filteredReceiversTin = this.receiversTin;
-
     const tin = this.form.controls.receiver.controls['tin'];
     tin.valueChanges
       .pipe(
@@ -315,14 +311,25 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if(!this.form) this.initForm();
+
     if (changes['existingTransferAgreements'] && this.form) {
       this.form.controls.period.setValidators(this.getPeriodValidators());
       this.form.controls.period.updateValueAndValidity();
     }
+
+    if (changes['senderTin'] && this.senderTin) {
+      this.recipientTins.set(this.getRecipientTins(this.transferAgreements));
+      this.onSearch('');
+
+      this.form.controls.receiver.controls['tin'].addValidators(
+        compareValidator(this.senderTin, 'receiverTinEqualsSenderTin'),
+      )
+    }
   }
 
   protected onSearch(query: string) {
-    this.filteredReceiversTin = this.receiversTin.filter((tin) => tin.includes(query));
+    this.filteredReceiversTin.set(this.recipientTins().filter((tin) => tin.includes(query)));
   }
 
   protected onCancel() {
@@ -349,6 +356,20 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
     }
   }
 
+  private getRecipientTins(transferAgreements: EoListedTransfer[]) {
+    const tins = transferAgreements.reduce((acc, transfer) => {
+      if (transfer.receiverTin !== this.senderTin) {
+        acc.push(transfer.receiverTin);
+      }
+      if (transfer.senderTin !== this.senderTin) {
+        acc.push(transfer.senderTin);
+      }
+      return acc;
+    }, [] as string[]);
+
+    return [...new Set(tins)];
+  }
+
   private initForm() {
     const { receiverTin, startDate, endDate } = this.initialValues;
 
@@ -361,8 +382,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
           },
           {
             validators: [
-              Validators.pattern('^[0-9]{8}$'),
-              compareValidator(this.senderTin || '', 'receiverTinEqualsSenderTin'),
+              Validators.pattern('^[0-9]{8}$')
             ],
           }
         ),
