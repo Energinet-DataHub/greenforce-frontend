@@ -97,7 +97,7 @@ function getActorOrganization(apiBase: string) {
 
 function getMarketParticipantUserRoleGetAll(apiBase: string) {
   return rest.get(`${apiBase}/v1/MarketParticipantUserRole/GetAll`, (req, res, ctx) => {
-    return res(ctx.json(marketParticipantUserRoleGetAll));
+    return res(ctx.delay(300), ctx.json(marketParticipantUserRoleGetAll));
   });
 }
 
