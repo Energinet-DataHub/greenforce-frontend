@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -54,9 +54,7 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
     DhDropdownTranslatorDirective,
   ],
 })
-export class DhUsersTabStatusFilterComponent implements OnInit {
-  private _destroyRef = inject(DestroyRef);
-
+export class DhUsersTabStatusFilterComponent {
   statusControl = new FormControl<MarketParticipantUserStatus[]>([], { nonNullable: true });
 
   @Input() set initialValue(value: MarketParticipantUserStatus[]) {
@@ -72,9 +70,9 @@ export class DhUsersTabStatusFilterComponent implements OnInit {
     })
   );
 
-  ngOnInit(): void {
+  constructor() {
     this.statusControl.valueChanges
-      .pipe(takeUntilDestroyed(this._destroyRef))
+      .pipe(takeUntilDestroyed())
       .subscribe((value) => this.changed.emit(value));
   }
 }
