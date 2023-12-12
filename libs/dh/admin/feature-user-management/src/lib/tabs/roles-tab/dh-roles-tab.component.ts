@@ -52,21 +52,21 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
   imports: [
     NgIf,
     TranslocoModule,
-    WattButtonComponent,
+    RxPush,
+    RxLet,
 
     VaterStackComponent,
     VaterSpacerComponent,
     WATT_CARD,
+    WATT_MODAL,
+    WattButtonComponent,
+    WattPaginatorComponent,
     WattSpinnerComponent,
-    RxPush,
     DhRolesTabTableComponent,
     DhRolesTabListFilterComponent,
     DhTabDataGeneralErrorComponent,
-    RxLet,
     DhPermissionRequiredDirective,
     DhCreateUserRoleModalComponent,
-    WattPaginatorComponent,
-    WATT_MODAL,
   ],
 })
 export class DhUserRolesTabComponent {
