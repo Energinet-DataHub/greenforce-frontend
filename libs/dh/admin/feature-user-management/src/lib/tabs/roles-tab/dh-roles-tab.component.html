@@ -55,14 +55,14 @@ limitations under the License.
         (userRoleDeactivated)="reloadRoles()"
       />
 
+      <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+        <div *ngIf="hasGeneralError" class="user-roles__error">
+          <dh-tab-data-general-error (reload)="reloadRoles()" />
+        </div>
+      </ng-container>
+
       <watt-paginator #paginator [length]="roles.length" />
     </watt-card>
-  </ng-container>
-
-  <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
-    <div *ngIf="hasGeneralError" class="user-roles__error">
-      <dh-tab-data-general-error (reload)="reloadRoles()" />
-    </div>
   </ng-container>
 </ng-container>
 
