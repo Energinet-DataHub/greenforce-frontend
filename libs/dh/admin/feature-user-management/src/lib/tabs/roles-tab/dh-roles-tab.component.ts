@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, DestroyRef } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { translate, TranslocoDirective, TranslocoService, TranslocoPipe } from '@ngneat/transloco';
-import { take } from 'rxjs';
+import { take, BehaviorSubject, debounceTime } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -75,6 +76,7 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
 export class DhUserRolesTabComponent {
   @Input() roles: MarketParticipantUserRoleDto[] = [];
 
+  private readonly destroyRef = inject(DestroyRef);
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
   private readonly trans = inject(TranslocoService);
 
@@ -82,7 +84,12 @@ export class DhUserRolesTabComponent {
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
+  searchInput$ = new BehaviorSubject<string>('');
   isCreateUserRoleModalVisible = false;
+
+  constructor() {
+    this.onSearchInput();
+  }
 
   updateFilterStatus(status: MarketParticipantUserRoleStatus | null) {
     this.store.setFilterStatus(status);
@@ -90,10 +97,6 @@ export class DhUserRolesTabComponent {
 
   updateFilterEicFunction(eicFunctions: MarketParticipantEicFunction[] | null) {
     this.store.setFilterEicFunction(eicFunctions);
-  }
-
-  updateSearchTerm(searchTerm: string | null) {
-    this.store.setSearchTerm(searchTerm);
   }
 
   reloadRoles(): void {
@@ -129,5 +132,11 @@ export class DhUserRolesTabComponent {
 
         exportToCSV({ headers, lines });
       });
+  }
+
+  private onSearchInput(): void {
+    this.searchInput$
+      .pipe(debounceTime(250), takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => this.store.setSearchTerm(value));
   }
 }
