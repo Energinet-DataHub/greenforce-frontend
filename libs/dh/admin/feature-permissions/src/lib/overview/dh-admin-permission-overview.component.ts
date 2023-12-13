@@ -18,6 +18,7 @@ import { Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core'
 import { NgIf } from '@angular/common';
 import { ApolloError } from '@apollo/client';
 import { translate, TranslocoModule } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -27,13 +28,12 @@ import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
-import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 @Component({
   selector: 'dh-admin-permission-overview',
@@ -43,16 +43,18 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
   imports: [
     NgIf,
     TranslocoModule,
+
     VaterStackComponent,
     VaterSpacerComponent,
-    WattSearchComponent,
-    DhPermissionsTableComponent,
     WattButtonComponent,
     WattSpinnerComponent,
     WattEmptyStateComponent,
     WATT_CARD,
-    DhEmDashFallbackPipe,
     WATT_TABLE,
+    WattSearchComponent,
+
+    DhPermissionsTableComponent,
+    DhEmDashFallbackPipe,
     DhAdminPermissionDetailComponent,
     DhSharedUiSearchComponent,
   ],
