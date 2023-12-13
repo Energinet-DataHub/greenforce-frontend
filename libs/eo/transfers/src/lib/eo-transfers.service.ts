@@ -109,7 +109,7 @@ export class EoTransfersService {
   updateAgreement(transferId: string, endDate: number | null) {
     return this.http
       .put<EoListedTransfer>(`${this.#apiBase}/transfer-agreements/${transferId}`, {
-        endDate,
+        endDate: endDate ? getUnixTime(endDate) : null,
       })
       .pipe(
         map((transfer) => ({
