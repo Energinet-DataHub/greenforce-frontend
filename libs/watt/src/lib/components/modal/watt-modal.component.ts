@@ -102,6 +102,7 @@ export class WattModalComponent {
       disableClose: this.disableClose,
       templateRef: this.modal,
       onClosed: this.closed,
+      minHeight: this.minHeight,
     });
   }
 

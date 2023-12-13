@@ -170,10 +170,12 @@ interface EoTransferTableElement extends EoListedTransfer {
     />
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
 
-    <eo-transfers-create-modal />
+    <eo-transfers-create-modal [transferAgreements]="transfers" />
     <eo-transfers-drawer
+      [transferAgreements]="transfers"
       [transfer]="selectedTransfer"
       (closed)="transferSelected.emit(undefined)"
+      (saveTransferAgreement)="saveTransferAgreement.emit($event)"
     />
   `,
 })
@@ -182,6 +184,7 @@ export class EoTransfersTableComponent implements OnChanges {
   @Input() loading = false;
   @Input() selectedTransfer?: EoListedTransfer;
   @Output() transferSelected = new EventEmitter<EoListedTransfer>();
+  @Output() saveTransferAgreement = new EventEmitter();
 
   @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
   @ViewChild(EoTransfersCreateModalComponent) transfersModal!: EoTransfersCreateModalComponent;

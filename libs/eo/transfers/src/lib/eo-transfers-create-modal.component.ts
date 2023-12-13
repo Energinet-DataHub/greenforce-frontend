@@ -19,33 +19,37 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
   ViewChild,
   ViewEncapsulation,
   inject,
+  signal,
 } from '@angular/core';
-import { RxPush } from '@rx-angular/template/push';
-import { Observable, of } from 'rxjs';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import { EoTransfersService } from './eo-transfers.service';
-import { EoExistingTransferAgreement, EoTransfersStore } from './eo-transfers.store';
+import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
 import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
 import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+
+// TODO: MOVE THIS TO DOMAIN
+export interface EoTransferAgreementsWithRecipient {
+  startDate: number;
+  endDate: number | null;
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-transfers-create-modal',
   imports: [
-    WATT_MODAL,
-    WattValidationMessageComponent,
-    NgIf,
     EoTransfersFormComponent,
-    RxPush,
+    NgIf,
+    WATT_MODAL,
     WattSpinnerComponent,
+    WattValidationMessageComponent,
   ],
   standalone: true,
   template: `
@@ -55,22 +59,22 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
       closeLabel="Close modal"
       (closed)="onClosed()"
       *ngIf="opened"
+      minHeight="634px"
     >
       <!-- We don't use the build-in loading state for the modal, since it wont update properly -->
       <div
         class="watt-modal__spinner"
-        style="z-index: 1;"
+        style="z-index: 2;"
         *ngIf="creatingTransferAgreementProposal"
       >
         <watt-spinner />
       </div>
 
       <eo-transfers-form
-        [senderTin]="authStore.getTin$ | push"
-        [existingTransferAgreements]="existingTransferAgreements$ | push"
+        [senderTin]="ownTin()"
+        [transferAgreements]="transferAgreements"
         [generateProposalFailed]="creatingTransferAgreementProposalFailed"
         [proposalId]="proposalId"
-        (receiverTinChanged)="onReceiverTinChange($event)"
         (submitted)="createAgreementProposal($event)"
         (canceled)="modal.close(false)"
       />
@@ -80,16 +84,19 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 export class EoTransfersCreateModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
+  @Input() transferAgreements: EoListedTransfer[] = [];
+
+  protected recipientTins: string[] = [];
+  protected ownTin = signal<string | undefined>(undefined);
+
   protected creatingTransferAgreementProposal = false;
   protected creatingTransferAgreementProposalFailed = false;
   protected isFormValid = false;
   protected opened = false;
-  protected existingTransferAgreements$: Observable<EoExistingTransferAgreement[]> = of([]);
   protected proposalId: null | string = null;
 
   protected authStore = inject(EoAuthStore);
   private service = inject(EoTransfersService);
-  private store = inject(EoTransfersStore);
   private cd = inject(ChangeDetectorRef);
 
   open() {
@@ -99,6 +106,10 @@ export class EoTransfersCreateModalComponent {
     this.opened = true;
     this.cd.detectChanges();
     this.modal.open();
+
+    this.authStore.getTin$.subscribe((tin) => {
+      this.ownTin.set(tin);
+    });
   }
 
   onClosed() {
@@ -106,11 +117,6 @@ export class EoTransfersCreateModalComponent {
     this.creatingTransferAgreementProposalFailed = false;
     this.isFormValid = false;
     this.opened = false;
-    this.existingTransferAgreements$ = of([]);
-  }
-
-  onReceiverTinChange(receiverTin: string | null) {
-    this.existingTransferAgreements$ = this.store.getExistingTransferAgreements$(receiverTin);
   }
 
   createAgreementProposal(transferAgreement: {

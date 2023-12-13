@@ -30,7 +30,7 @@ export interface EoTransfer {
 
 export interface EoListedTransfer extends EoTransfer {
   id: string;
-  senderTin?: string;
+  senderTin: string;
 }
 
 export interface EoListedTransferResponse {
@@ -71,7 +71,9 @@ export class EoTransfersService {
   }
 
   getTransfers() {
-    return this.http.get<EoListedTransferResponse>(`${this.#apiBase}/transfer-agreements`);
+    return this.http
+      .get<EoListedTransferResponse>(`${this.#apiBase}/transfer-agreements`)
+      .pipe(map((x) => x.result));
   }
 
   createAgreementProposal(transfer: EoTransfer) {
