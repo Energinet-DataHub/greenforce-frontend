@@ -42,9 +42,10 @@ import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
-import { EoExistingTransferAgreement } from '../eo-transfers.store';
+
 import { isToday } from 'date-fns';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 
 @Component({
   selector: 'eo-transfers-datetime',

@@ -23,11 +23,11 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
-import { EoExistingTransferAgreement } from '../eo-transfers.store';
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
 import { EoTransferFormPeriod } from './eo-transfers-form.component';
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 
 interface EoTransfersPeriodForm extends EoTransferFormPeriod {
   hasEndDate: FormControl<boolean>;

@@ -16,7 +16,9 @@
  */
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { clearErrors, setValidationErrorsWithData } from './utils';
-import { EoExistingTransferAgreement } from '../eo-transfers.store';
+
+import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
+
 
 interface OverlappingTransferAgreementsValidatorError {
   start: EoExistingTransferAgreement | null;

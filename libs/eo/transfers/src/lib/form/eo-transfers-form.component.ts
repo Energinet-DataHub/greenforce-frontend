@@ -48,13 +48,13 @@ import {
   overlappingTransferAgreementsValidator,
 } from '../validations';
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
-import { EoExistingTransferAgreement } from '../eo-transfers.store';
 import { EoTransfersPeriodComponent } from './eo-transfers-period.component';
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
 import { EoTransferInvitationLinkComponent } from './eo-invitation-link';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { EoListedTransfer } from '../eo-transfers.service';
+import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 
 export interface EoTransfersFormInitialValues {
   receiverTin: string;
