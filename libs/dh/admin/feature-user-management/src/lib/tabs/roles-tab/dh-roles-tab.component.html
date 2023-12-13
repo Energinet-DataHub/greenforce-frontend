@@ -16,12 +16,6 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
   <ng-container *rxLet="isLoading$ as isLoading">
-    <dh-roles-tab-list-filter
-      (statusChanged)="updateFilterStatus($event)"
-      (eicFunctionChanged)="updateFilterEicFunction($event)"
-      (searchTermChanged)="updateSearchTerm($event)"
-    />
-
     <watt-card *rxLet="roles$ as roles">
       <watt-card-title>
         <vater-stack direction="row" gap="s">
@@ -30,6 +24,8 @@ limitations under the License.
 
           <vater-spacer />
 
+          <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
+
           <watt-button
             *transloco="let t; read: 'admin.userManagement'"
             icon="download"
@@ -37,6 +33,7 @@ limitations under the License.
             (click)="download(rolesTable.filteredAndSortedData)"
             >{{ t("download") }}</watt-button
           >
+
           <watt-button
             *dhPermissionRequired="['user-roles:manage']"
             icon="plus"
@@ -47,6 +44,12 @@ limitations under the License.
         </vater-stack>
       </watt-card-title>
 
+      <dh-roles-tab-list-filter
+        class="watt-space-stack-m"
+        (statusChanged)="updateFilterStatus($event)"
+        (eicFunctionChanged)="updateFilterEicFunction($event)"
+      />
+
       <dh-roles-tab-table
         #rolesTable
         [roles]="roles"
@@ -54,6 +57,10 @@ limitations under the License.
         [paginator]="paginator"
         (userRoleDeactivated)="reloadRoles()"
       />
+
+      <div class="user-roles__empty-state" *ngIf="!isLoading && roles.length === 0">
+        <watt-empty-state icon="cancel" [title]="t('emptyTitle')" [message]="t('emptyMessage')" />
+      </div>
 
       <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
         <div *ngIf="hasGeneralError" class="user-roles__error">
