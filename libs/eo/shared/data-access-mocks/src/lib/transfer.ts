@@ -25,7 +25,7 @@ export function transferMocks(apiBase: string) {
   ];
 }
 
-const senderName  = 'Producent A/S';
+const senderName = 'Producent A/S';
 
 function getTransferAgreements(apiBase: string) {
   return rest.get(`${apiBase}/transfer-agreements`, (req, res, ctx) => {
