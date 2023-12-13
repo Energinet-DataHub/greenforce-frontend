@@ -17,9 +17,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Microsoft.AspNetCore.Mvc;
+using ActorDto = Energinet.DataHub.MarketParticipant.Client.Models.ActorDto;
+using EicFunction = Energinet.DataHub.MarketParticipant.Client.Models.EicFunction;
+using PermissionDetailsDto = Energinet.DataHub.MarketParticipant.Client.Models.PermissionDetailsDto;
+using UpdateUserRoleDto = Energinet.DataHub.MarketParticipant.Client.Models.UpdateUserRoleDto;
+using UserRoleDto = Energinet.DataHub.MarketParticipant.Client.Models.UserRoleDto;
+using UserRoleWithPermissionsDto = Energinet.DataHub.MarketParticipant.Client.Models.UserRoleWithPermissionsDto;
 
 namespace Energinet.DataHub.WebApi.Controllers
 {
@@ -29,13 +35,16 @@ namespace Energinet.DataHub.WebApi.Controllers
     {
         private readonly IMarketParticipantUserRoleClient _userRoleClient;
         private readonly IMarketParticipantClient _marketParticipantClient;
+        private readonly IMarketParticipantClient_V1 _marketParticipantClientV1;
 
         public MarketParticipantUserRoleController(
             IMarketParticipantUserRoleClient userRoleClient,
-            IMarketParticipantClient marketParticipantClient)
+            IMarketParticipantClient marketParticipantClient,
+            IMarketParticipantClient_V1 marketParticipantClientV1)
         {
             _userRoleClient = userRoleClient;
             _marketParticipantClient = marketParticipantClient;
+            _marketParticipantClientV1 = marketParticipantClientV1;
         }
 
         [HttpGet]
@@ -124,9 +133,13 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public Task<ActionResult<Guid>> CreateAsync(CreateUserRoleDto userRole)
+        public async Task<ActionResult<Guid>> CreateAsync(Clients.MarketParticipant.v1.CreateUserRoleDto userRole)
         {
-            return HandleExceptionAsync(() => _userRoleClient.CreateAsync(userRole));
+            var userRoleId = await _marketParticipantClientV1
+                .UserRolesPOSTAsync(userRole)
+                .ConfigureAwait(false);
+
+            return Ok(userRoleId);
         }
 
         [HttpPut]
