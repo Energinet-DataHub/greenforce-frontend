@@ -151,7 +151,7 @@ function getAdminPermissions() {
 
 function getAdminPermissionDetails() {
   return mockGetPermissionDetailsQuery((req, res, ctx) => {
-    return res(ctx.data(adminPermissionDetailsMock));
+    return res(ctx.delay(300), ctx.data(adminPermissionDetailsMock));
   });
 }
 
