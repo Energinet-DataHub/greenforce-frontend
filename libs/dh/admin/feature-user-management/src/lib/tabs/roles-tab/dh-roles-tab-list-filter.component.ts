@@ -61,7 +61,7 @@ export class DhRolesTabListFilterComponent implements OnInit {
   statusControl = new FormControl<MarketParticipantUserRoleStatus | null>(null);
   marketRolesControl = new FormControl<MarketParticipantEicFunction[] | null>(null);
 
-  statusListOptions: WattDropdownOption[] = [];
+  statusOptions: WattDropdownOption[] = [];
   marketRolesOptions: WattDropdownOption[] = Object.keys(MarketParticipantEicFunction).map(
     (entry) => ({
       value: entry,
@@ -80,7 +80,7 @@ export class DhRolesTabListFilterComponent implements OnInit {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((e) => this.eicFunctionChanged.emit(e));
 
-    this.statusControl.setValue(this.statusListOptions[0].value as MarketParticipantUserRoleStatus);
+    this.statusControl.setValue(this.statusOptions[0].value as MarketParticipantUserRoleStatus);
   }
 
   private buildStatusListOptions() {
@@ -89,7 +89,7 @@ export class DhRolesTabListFilterComponent implements OnInit {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (keys) => {
-          this.statusListOptions = Object.keys(MarketParticipantUserRoleStatus).map((entry) => {
+          this.statusOptions = Object.keys(MarketParticipantUserRoleStatus).map((entry) => {
             return {
               value: entry,
               displayValue: keys[entry.toLowerCase()],
