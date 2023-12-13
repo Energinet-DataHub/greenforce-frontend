@@ -17,7 +17,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable, firstValueFrom, switchMap, tap, throwError, withLatestFrom } from 'rxjs';
+import { Observable, firstValueFrom, switchMap, throwError, withLatestFrom } from 'rxjs';
 import { fromUnixTime } from 'date-fns';
 
 import {

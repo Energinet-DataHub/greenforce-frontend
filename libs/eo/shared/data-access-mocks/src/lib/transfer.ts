@@ -25,6 +25,8 @@ export function transferMocks(apiBase: string) {
   ];
 }
 
+const senderName  = 'Producent A/S';
+
 function getTransferAgreements(apiBase: string) {
   return rest.get(`${apiBase}/transfer-agreements`, (req, res, ctx) => {
     const data = {
@@ -33,7 +35,7 @@ function getTransferAgreements(apiBase: string) {
           id: 'f44211b2-78fa-4fa0-9215-23369abf24ea',
           startDate: 1702371600,
           endDate: 1702396800,
-          senderName: 'Producent A/S',
+          senderName,
           senderTin: '11223344',
           receiverTin: '39293595',
         },
@@ -41,7 +43,7 @@ function getTransferAgreements(apiBase: string) {
           id: '0f190d46-7736-4f71-ad07-63dbaeeb689a',
           startDate: 1702371600,
           endDate: 1702378800,
-          senderName: 'Producent A/S',
+          senderName,
           senderTin: '11223344',
           receiverTin: '12345678',
         },
@@ -80,7 +82,7 @@ function getTransferAgreementHistory(apiBase: string) {
             id: 'd7786904-f78b-47ed-a8cf-f1861eeecae1',
             startDate: 1701770400,
             endDate: null,
-            senderName: 'Producent A/S',
+            senderName,
             senderTin: '11223344',
             receiverTin: '28980671',
           },
