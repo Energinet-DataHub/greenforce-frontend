@@ -14,18 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-text-field {
-  display: block;
-  width: 100%;
-
-  input {
-    border: none;
-    width: 100%;
-    outline: none;
-    background-color: transparent;
-
-    &::placeholder {
-      color: var(--watt-on-light-low-emphasis);
-    }
-  }
+export interface EoExistingTransferAgreement {
+  startDate: number;
+  endDate: number | null;
 }

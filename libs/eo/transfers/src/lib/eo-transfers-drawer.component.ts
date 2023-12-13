@@ -106,14 +106,18 @@ import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
           </watt-tab>
           <watt-tab label="History">
             <watt-card variant="solid">
-              <eo-transfers-history *ngIf="tabs.activeTabIndex === 1" />
+              <eo-transfers-history *ngIf="tabs.activeTabIndex === 1" [transfer]="transfer" />
             </watt-card>
           </watt-tab>
         </watt-tabs>
       </watt-drawer-content>
     </watt-drawer>
 
-    <eo-transfers-edit-modal [transfer]="transfer" />
+    <eo-transfers-edit-modal
+      [transfer]="transfer"
+      [transferAgreements]="transferAgreements"
+      (save)="saveTransferAgreement.emit($event)"
+    />
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
   `,
 })
@@ -124,6 +128,9 @@ export class EoTransfersDrawerComponent {
 
   isActive!: boolean;
   isEditable = false;
+
+  @Input() transferAgreements: EoListedTransfer[] = [];
+  @Output() saveTransferAgreement = new EventEmitter();
 
   private _transfer?: EoListedTransfer;
 
