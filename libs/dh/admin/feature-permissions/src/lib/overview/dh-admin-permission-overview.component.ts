@@ -19,7 +19,6 @@ import { NgIf } from '@angular/common';
 import { ApolloError } from '@apollo/client';
 import { translate, TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, debounceTime } from 'rxjs';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -66,8 +65,6 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
   loading = false;
   error?: ApolloError;
 
-  searchInput$ = new BehaviorSubject<string>('');
-
   columns: WattTableColumnDef<PermissionDto> = {
     name: { accessor: 'name' },
     description: { accessor: 'description' },
@@ -80,8 +77,6 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
   permissionDetail!: DhAdminPermissionDetailComponent;
 
   ngOnInit(): void {
-    this.onSearchInput();
-
     this.query.valueChanges.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
       next: (result) => {
         this.loading = result.loading;
@@ -103,8 +98,12 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
     this.activeRow = undefined;
   }
 
-  refresh(searchTerm = ''): void {
-    this.query.refetch({ searchTerm });
+  onSearch(value: string): void {
+    this.dataSource.filter = value;
+  }
+
+  refresh(): void {
+    this.query.refetch({ searchTerm: '' });
   }
 
   exportAsCsv(): void {
@@ -124,11 +123,5 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
 
       exportToCSV({ headers, lines });
     }
-  }
-
-  private onSearchInput(): void {
-    this.searchInput$
-      .pipe(debounceTime(250), takeUntilDestroyed(this._destroyRef))
-      .subscribe((value) => this.refresh(value));
   }
 }
