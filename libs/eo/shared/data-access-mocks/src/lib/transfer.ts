@@ -21,11 +21,11 @@ export function transferMocks(apiBase: string) {
     getTransferAgreements(apiBase),
     getTransferAutomationStatus(apiBase),
     postTransferAgreementProposals(apiBase),
+    getTransferAgreementHistory(apiBase),
   ];
 }
 
 function getTransferAgreements(apiBase: string) {
-  console.log(apiBase);
   return rest.get(`${apiBase}/transfer-agreements`, (req, res, ctx) => {
     const data = {
       result: [
@@ -67,5 +67,30 @@ function getTransferAutomationStatus(apiBase: string) {
     const data = { healthy: false };
 
     return res(ctx.status(200), ctx.json(data));
+  });
+}
+
+function getTransferAgreementHistory(apiBase: string) {
+  return rest.get(`${apiBase}/transfer-agreements/:id/history`, (req, res, ctx) => {
+    const data = {
+      totalCount: 1,
+      items: [
+        {
+          transferAgreement: {
+            id: 'd7786904-f78b-47ed-a8cf-f1861eeecae1',
+            startDate: 1701770400,
+            endDate: null,
+            senderName: 'Producent A/S',
+            senderTin: '11223344',
+            receiverTin: '28980671',
+          },
+          createdAt: 1701767171,
+          action: 'Created',
+          actorName: 'Erik Energinet',
+        },
+      ],
+    };
+
+    return res(ctx.status(200), ctx.json(data), ctx.delay(1000));
   });
 }

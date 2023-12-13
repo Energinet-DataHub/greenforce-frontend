@@ -106,7 +106,7 @@ import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
           </watt-tab>
           <watt-tab label="History">
             <watt-card variant="solid">
-              <eo-transfers-history *ngIf="tabs.activeTabIndex === 1" />
+              <eo-transfers-history *ngIf="tabs.activeTabIndex === 1" [transfer]="transfer" />
             </watt-card>
           </watt-tab>
         </watt-tabs>
