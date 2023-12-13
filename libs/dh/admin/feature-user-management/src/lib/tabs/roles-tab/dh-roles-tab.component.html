@@ -24,6 +24,8 @@ limitations under the License.
 
           <vater-spacer />
 
+          <watt-search [label]="'shared.search' | transloco" (search)="updateSearchTerm($event)" />
+
           <watt-button
             *transloco="let t; read: 'admin.userManagement'"
             icon="download"
@@ -31,6 +33,7 @@ limitations under the License.
             (click)="download(rolesTable.filteredAndSortedData)"
             >{{ t("download") }}</watt-button
           >
+
           <watt-button
             *dhPermissionRequired="['user-roles:manage']"
             icon="plus"
@@ -44,7 +47,6 @@ limitations under the License.
       <dh-roles-tab-list-filter
         (statusChanged)="updateFilterStatus($event)"
         (eicFunctionChanged)="updateFilterEicFunction($event)"
-        (searchTermChanged)="updateSearchTerm($event)"
       />
 
       <dh-roles-tab-table

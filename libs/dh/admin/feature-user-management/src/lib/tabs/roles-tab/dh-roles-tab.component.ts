@@ -17,7 +17,7 @@
 import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
-import { translate, TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { translate, TranslocoDirective, TranslocoService, TranslocoPipe } from '@ngneat/transloco';
 import { take } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
@@ -37,6 +37,7 @@ import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feat
 import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
 import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.component';
@@ -52,6 +53,7 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
   imports: [
     NgIf,
     TranslocoDirective,
+    TranslocoPipe,
     RxPush,
     RxLet,
 
@@ -59,6 +61,7 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
     VaterSpacerComponent,
     WATT_CARD,
     WATT_MODAL,
+    WattSearchComponent,
     WattButtonComponent,
     WattPaginatorComponent,
     WattSpinnerComponent,
