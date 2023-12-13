@@ -39,6 +39,7 @@ import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
 import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.component';
@@ -66,6 +67,8 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
     WattButtonComponent,
     WattPaginatorComponent,
     WattSpinnerComponent,
+    WattEmptyStateComponent,
+
     DhRolesTabTableComponent,
     DhRolesTabListFilterComponent,
     DhTabDataGeneralErrorComponent,

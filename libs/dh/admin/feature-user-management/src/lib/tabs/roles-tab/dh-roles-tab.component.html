@@ -58,6 +58,10 @@ limitations under the License.
         (userRoleDeactivated)="reloadRoles()"
       />
 
+      <div class="user-roles__empty-state" *ngIf="!isLoading && roles.length === 0">
+        <watt-empty-state icon="cancel" [title]="t('emptyTitle')" [message]="t('emptyMessage')" />
+      </div>
+
       <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
         <div *ngIf="hasGeneralError" class="user-roles__error">
           <dh-tab-data-general-error (reload)="reloadRoles()" />
