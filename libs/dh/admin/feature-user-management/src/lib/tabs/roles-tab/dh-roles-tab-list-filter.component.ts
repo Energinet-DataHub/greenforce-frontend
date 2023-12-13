@@ -36,15 +36,8 @@ import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-searc
     `
       :host {
         display: flex;
+        align-items: center;
         gap: var(--watt-space-m);
-
-        .marketRole {
-          width: 17rem;
-        }
-
-        .status {
-          width: 7rem;
-        }
       }
     `,
   ],

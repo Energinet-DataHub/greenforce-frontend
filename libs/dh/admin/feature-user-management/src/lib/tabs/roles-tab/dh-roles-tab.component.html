@@ -16,12 +16,6 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
   <ng-container *rxLet="isLoading$ as isLoading">
-    <dh-roles-tab-list-filter
-      (statusChanged)="updateFilterStatus($event)"
-      (eicFunctionChanged)="updateFilterEicFunction($event)"
-      (searchTermChanged)="updateSearchTerm($event)"
-    />
-
     <watt-card *rxLet="roles$ as roles">
       <watt-card-title>
         <vater-stack direction="row" gap="s">
@@ -46,6 +40,12 @@ limitations under the License.
           </watt-button>
         </vater-stack>
       </watt-card-title>
+
+      <dh-roles-tab-list-filter
+        (statusChanged)="updateFilterStatus($event)"
+        (eicFunctionChanged)="updateFilterEicFunction($event)"
+        (searchTermChanged)="updateSearchTerm($event)"
+      />
 
       <dh-roles-tab-table
         #rolesTable
