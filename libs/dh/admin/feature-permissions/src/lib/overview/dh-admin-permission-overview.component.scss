@@ -16,7 +16,10 @@
  */
 :host {
   display: block;
-  margin: var(--watt-space-ml) var(--watt-space-s);
+}
+
+h3 {
+  margin: 0;
 }
 
 .permissions-overview {
@@ -29,16 +32,4 @@
   &__error {
     padding: var(--watt-space-xl) 0;
   }
-}
-
-.card-title-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-}
-
-.card-title-buttons-container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
 }

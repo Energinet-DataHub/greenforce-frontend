@@ -32,6 +32,8 @@ import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
 import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 @Component({
   selector: 'dh-admin-permission-overview',
@@ -41,6 +43,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [
     NgIf,
     TranslocoModule,
+    VaterStackComponent,
+    VaterSpacerComponent,
+    WattSearchComponent,
     DhPermissionsTableComponent,
     WattButtonComponent,
     WattSpinnerComponent,
@@ -55,7 +60,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class DhAdminPermissionOverviewComponent implements OnInit {
   private _destroyRef = inject(DestroyRef);
   query = getPermissionsWatchQuery();
-  permissions: PermissionDto[] = [];
   loading = false;
   error?: ApolloError;
   searchTerm?: string;
@@ -65,7 +69,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
     description: { accessor: 'description' },
   };
 
-  dataSource = new WattTableDataSource<PermissionDto>();
+  dataSource = new WattTableDataSource<PermissionDto>([]);
   activeRow: PermissionDto | undefined = undefined;
 
   @ViewChild(DhAdminPermissionDetailComponent)
@@ -74,7 +78,6 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.query.valueChanges.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
       next: (result) => {
-        this.permissions = result.data?.permissions ?? [];
         this.loading = result.loading;
         this.error = result.error;
         this.dataSource.data = result.data?.permissions ?? [];
