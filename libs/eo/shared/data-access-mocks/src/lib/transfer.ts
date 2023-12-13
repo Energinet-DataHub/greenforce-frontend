@@ -22,6 +22,7 @@ export function transferMocks(apiBase: string) {
     getTransferAutomationStatus(apiBase),
     postTransferAgreementProposals(apiBase),
     getTransferAgreementHistory(apiBase),
+    putTransferAgreements(apiBase),
   ];
 }
 
@@ -43,6 +44,54 @@ function getTransferAgreements(apiBase: string) {
           id: '0f190d46-7736-4f71-ad07-63dbaeeb689a',
           startDate: 1702371600,
           endDate: 1702378800,
+          senderName,
+          senderTin: '11223344',
+          receiverTin: '12345678',
+        },
+        {
+          id: '8892efde-2d14-48a5-85ad-85cb45386790',
+          startDate: 1702382400,
+          endDate: 1702386000,
+          senderName,
+          senderTin: '11223344',
+          receiverTin: '12345678',
+        },
+        {
+          id: 'fe1a2948-a2eb-4464-b6bc-c0be0289b1cc',
+          startDate: 1702407600,
+          endDate: 1702443600,
+          senderName,
+          senderTin: '11223344',
+          receiverTin: '39293595',
+        },
+        {
+          id: 'b1dd65a9-ded0-4ff2-bf4e-fb04c8bf6b1e',
+          startDate: 1702393200,
+          endDate: 1702411200,
+          senderName,
+          senderTin: '11223344',
+          receiverTin: '12345678',
+        },
+        {
+          id: 'e31acbac-d26d-4c5b-aaa4-98fb49c740c5',
+          startDate: 1702414800,
+          endDate: 1702440000,
+          senderName,
+          senderTin: '11223344',
+          receiverTin: '12345678',
+        },
+        {
+          id: '427e47ed-47b3-45f0-8d62-e2a9930090f0',
+          startDate: 1702447200,
+          endDate: 1702533600,
+          senderName,
+          senderTin: '11223344',
+          receiverTin: '12345678',
+        },
+        {
+          id: '3e3b749b-6149-4e34-bc6e-a13ffed0f28c',
+          startDate: 1702537200,
+          endDate: 1702551600,
           senderName,
           senderTin: '11223344',
           receiverTin: '12345678',
@@ -91,6 +140,21 @@ function getTransferAgreementHistory(apiBase: string) {
           actorName: 'Erik Energinet',
         },
       ],
+    };
+
+    return res(ctx.status(200), ctx.json(data), ctx.delay(1000));
+  });
+}
+
+function putTransferAgreements(apiBase: string) {
+  return rest.put(`${apiBase}/transfer-agreements/:id`, (req, res, ctx) => {
+    const data = {
+      id: '72395d38-50d9-4038-b39c-ef343ee11e93',
+      startDate: 1701770400,
+      endDate: 1702508400,
+      senderName,
+      senderTin: '11223344',
+      receiverTin: '28980671',
     };
 
     return res(ctx.status(200), ctx.json(data), ctx.delay(1000));

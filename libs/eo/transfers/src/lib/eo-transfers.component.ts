@@ -63,6 +63,7 @@ import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-prop
         [loading]="transferAgreements().loading"
         [selectedTransfer]="selectedTransfer()"
         (transferSelected)="selectedTransfer.set($event)"
+        (saveTransferAgreement)="onSaveTransferAgreement($event)"
       />
     </watt-card>
 
@@ -126,6 +127,41 @@ export class EoTransfersComponent implements OnInit {
         });
       },
     });
+  }
+
+  onSaveTransferAgreement(values: {
+    id: string;
+    period: { endDate: number | null; hasEndDate: boolean };
+  }) {
+    const { endDate } = values.period;
+    const { id } = values;
+
+    this.updateEndDateOnTransferAgreement(id, endDate);
+    this.updateSelectedTransferAgreement();
+  }
+
+  private updateEndDateOnTransferAgreement(id: string, endDate: number | null) {
+    this.transferAgreements.set({
+      ...this.transferAgreements(),
+      data: [
+        ...this.transferAgreements().data.map((transfer) => {
+          return transfer.id === id
+            ? {
+                ...transfer,
+                endDate,
+              }
+            : transfer;
+        }),
+      ],
+    });
+  }
+
+  private updateSelectedTransferAgreement() {
+    this.selectedTransfer.set(
+      this.transferAgreements().data.find(
+        (transfer: EoListedTransfer) => transfer.id === this.selectedTransfer()?.id
+      )
+    );
   }
 
   private addTransferProposal(proposal: EoTransferAgreementProposal) {
