@@ -23,6 +23,7 @@ import {
   Output,
   ViewChild,
   inject,
+  signal,
 } from '@angular/core';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -40,6 +41,7 @@ import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.component';
 import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
+import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -86,7 +88,10 @@ import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
       </watt-drawer-heading>
 
       <watt-drawer-actions>
-        <watt-button variant="secondary" *ngIf="isEditable" (click)="transfersEditModal.open()"
+        <watt-button
+          variant="secondary"
+          *ngIf="isEditable && ownTin() === transfer?.senderTin"
+          (click)="transfersEditModal.open()"
           >Edit</watt-button
         >
       </watt-drawer-actions>
@@ -122,7 +127,9 @@ import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
   `,
 })
 export class EoTransfersDrawerComponent {
-  utils = inject(SharedUtilities);
+  private utils = inject(SharedUtilities);
+  protected authStore = inject(EoAuthStore);
+
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
   @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
 
@@ -146,11 +153,17 @@ export class EoTransfersDrawerComponent {
     return this._transfer;
   }
 
+  protected ownTin = signal<string | undefined>(undefined);
+
   @Output()
   closed = new EventEmitter<void>();
 
   open() {
     this.drawer.open();
+
+    this.authStore.getTin$.subscribe((tin) => {
+      this.ownTin.set(tin);
+    });
   }
 
   onClose() {
