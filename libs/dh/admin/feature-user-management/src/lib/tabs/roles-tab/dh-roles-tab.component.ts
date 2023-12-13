@@ -77,8 +77,6 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
   ],
 })
 export class DhUserRolesTabComponent {
-  @Input() roles: MarketParticipantUserRoleDto[] = [];
-
   private readonly destroyRef = inject(DestroyRef);
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
   private readonly trans = inject(TranslocoService);
@@ -89,6 +87,8 @@ export class DhUserRolesTabComponent {
 
   searchInput$ = new BehaviorSubject<string>('');
   isCreateUserRoleModalVisible = false;
+
+  @Input() roles: MarketParticipantUserRoleDto[] = [];
 
   constructor() {
     this.onSearchInput();
