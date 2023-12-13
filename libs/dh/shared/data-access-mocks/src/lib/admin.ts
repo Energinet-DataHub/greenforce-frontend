@@ -145,7 +145,7 @@ function getMarketParticipantOrganizationGetFilteredActors(apiBase: string) {
 
 function getAdminPermissions() {
   return mockGetPermissionsQuery((req, res, ctx) => {
-    return res(ctx.data(adminPermissionsMock));
+    return res(ctx.delay(300), ctx.data(adminPermissionsMock));
   });
 }
 
