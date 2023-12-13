@@ -22,7 +22,11 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { EoListedTransfer, EoTransferAgreementsHistory, EoTransfersService } from './eo-transfers.service';
+import {
+  EoListedTransfer,
+  EoTransferAgreementsHistory,
+  EoTransfersService,
+} from './eo-transfers.service';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -113,7 +117,11 @@ import { HttpErrorResponse } from '@angular/common/http';
     </watt-table>
 
     <watt-empty-state
-      *ngIf="dataSource.data.length === 0 && !transferHistoryState().error && !transferHistoryState().loading"
+      *ngIf="
+        dataSource.data.length === 0 &&
+        !transferHistoryState().error &&
+        !transferHistoryState().loading
+      "
       icon="power"
       title="No history was found"
     />
@@ -146,17 +154,17 @@ export class EoTransfersHistoryComponent implements OnInit {
     action: { accessor: 'action', header: 'Change' },
   } as WattTableColumnDef<EoTransferAgreementsHistory>;
 
-  protected transferHistoryState = signal<{loading: boolean; error: HttpErrorResponse | null}>({
+  protected transferHistoryState = signal<{ loading: boolean; error: HttpErrorResponse | null }>({
     loading: false,
     error: null,
-  })
+  });
 
   ngOnInit(): void {
     this.getHistory(this.transfer?.id);
   }
 
   getHistory(transferAgreementId?: string): void {
-    if(!transferAgreementId) return;
+    if (!transferAgreementId) return;
 
     this.transferHistoryState.set({ loading: true, error: null });
 
@@ -167,7 +175,7 @@ export class EoTransfersHistoryComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         this.transferHistoryState.set({ loading: false, error });
-      }
+      },
     });
   }
 }
