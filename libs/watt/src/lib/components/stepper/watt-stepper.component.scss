@@ -76,32 +76,30 @@
 
 .watt-modal--medium,
 .watt-modal--large {
-  @include watt.media("<720px") {
-    watt-stepper,
-    .watt-stepper,
-    .mat-horizontal-stepper-wrapper,
-    .mat-horizontal-content-container,
-    .mat-horizontal-stepper-content {
-      height: 100%;
+  watt-stepper,
+  .watt-stepper,
+  .mat-horizontal-stepper-wrapper,
+  .mat-horizontal-content-container,
+  .mat-horizontal-stepper-content {
+    height: 100%;
+  }
+
+  .mat-horizontal-stepper-content {
+    display: grid;
+    align-items: center;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+      "content"
+      "actions";
+
+    .watt-stepper-content-wrapper {
+      align-self: stretch;
+      grid-area: content;
+      overflow: auto;
     }
 
-    .mat-horizontal-stepper-content {
-      display: grid;
-      align-items: center;
-      grid-template-rows: 1fr auto;
-      grid-template-areas:
-        "content"
-        "actions";
-
-      .watt-stepper-content-wrapper {
-        align-self: stretch;
-        grid-area: content;
-        overflow: auto;
-      }
-
-      .watt-stepper-button-wrapper {
-        grid-area: actions;
-      }
+    .watt-stepper-button-wrapper {
+      grid-area: actions;
     }
   }
 }
