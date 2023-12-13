@@ -58,8 +58,8 @@ export class DhRolesTabListFilterComponent implements OnInit {
   @Output() statusChanged = new EventEmitter<MarketParticipantUserRoleStatus | null>();
   @Output() eicFunctionChanged = new EventEmitter<MarketParticipantEicFunction[] | null>();
 
-  statusFormControl = new FormControl<MarketParticipantUserRoleStatus | null>(null);
-  eicFunctionFormControl = new FormControl<MarketParticipantEicFunction[] | null>(null);
+  statusControl = new FormControl<MarketParticipantUserRoleStatus | null>(null);
+  marketRolesControl = new FormControl<MarketParticipantEicFunction[] | null>(null);
 
   statusListOptions: WattDropdownOption[] = [];
   marketRolesOptions: WattDropdownOption[] = Object.keys(MarketParticipantEicFunction).map(
@@ -72,17 +72,15 @@ export class DhRolesTabListFilterComponent implements OnInit {
   ngOnInit(): void {
     this.buildStatusListOptions();
 
-    this.statusFormControl.valueChanges
+    this.statusControl.valueChanges
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((e) => this.statusChanged.emit(e));
 
-    this.eicFunctionFormControl.valueChanges
+    this.marketRolesControl.valueChanges
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((e) => this.eicFunctionChanged.emit(e));
 
-    this.statusFormControl.setValue(
-      this.statusListOptions[0].value as MarketParticipantUserRoleStatus
-    );
+    this.statusControl.setValue(this.statusListOptions[0].value as MarketParticipantUserRoleStatus);
   }
 
   private buildStatusListOptions() {

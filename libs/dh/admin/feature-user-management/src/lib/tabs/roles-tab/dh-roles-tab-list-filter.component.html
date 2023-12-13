@@ -17,7 +17,7 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles.filter'">
   <watt-dropdown
     [placeholder]="t('status')"
-    [formControl]="statusFormControl"
+    [formControl]="statusControl"
     [options]="statusListOptions"
     [chipMode]="true"
   />
@@ -26,7 +26,7 @@ limitations under the License.
     dhDropdownTranslator
     translate="marketParticipant.marketRoles"
     [placeholder]="t('marketRole')"
-    [formControl]="eicFunctionFormControl"
+    [formControl]="marketRolesControl"
     [options]="marketRolesOptions"
     [multiple]="true"
     [chipMode]="true"
