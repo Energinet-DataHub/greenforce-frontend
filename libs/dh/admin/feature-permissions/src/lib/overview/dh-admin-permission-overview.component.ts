@@ -17,7 +17,7 @@
 import { Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { ApolloError } from '@apollo/client';
-import { translate, TranslocoModule } from '@ngneat/transloco';
+import { translate, TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
@@ -42,7 +42,8 @@ import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-que
   styleUrls: ['./dh-admin-permission-overview.component.scss'],
   imports: [
     NgIf,
-    TranslocoModule,
+    TranslocoDirective,
+    TranslocoPipe,
 
     VaterStackComponent,
     VaterSpacerComponent,
