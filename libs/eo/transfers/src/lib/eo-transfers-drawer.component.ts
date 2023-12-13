@@ -88,7 +88,10 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
       </watt-drawer-heading>
 
       <watt-drawer-actions>
-        <watt-button variant="secondary" *ngIf="isEditable && ownTin() === transfer?.senderTin" (click)="transfersEditModal.open()"
+        <watt-button
+          variant="secondary"
+          *ngIf="isEditable && ownTin() === transfer?.senderTin"
+          (click)="transfersEditModal.open()"
           >Edit</watt-button
         >
       </watt-drawer-actions>
