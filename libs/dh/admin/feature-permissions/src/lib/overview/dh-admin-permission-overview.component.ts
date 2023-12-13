@@ -23,7 +23,6 @@ import { BehaviorSubject, debounceTime } from 'rxjs';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -49,7 +48,6 @@ import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-que
     VaterStackComponent,
     VaterSpacerComponent,
     WattButtonComponent,
-    WattSpinnerComponent,
     WattEmptyStateComponent,
     WATT_CARD,
     WATT_TABLE,

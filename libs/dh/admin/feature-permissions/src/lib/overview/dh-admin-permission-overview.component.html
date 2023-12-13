@@ -38,7 +38,7 @@ limitations under the License.
     sortBy="name"
     sortDirection="asc"
     [sortClear]="false"
-    *ngIf="!loading && !error"
+    [loading]="loading"
   >
     <ng-container *wattTableCell="columns.name; header: t('permissionName'); let element">
       {{ element.name }}
@@ -51,7 +51,6 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  <watt-spinner class="permissions-overview__spinner" *ngIf="loading && !error" />
   <watt-empty-state
     *ngIf="error"
     class="permissions-overview_error"
