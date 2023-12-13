@@ -26,6 +26,7 @@ import {
   MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-roles-tab-list-filter',
@@ -40,7 +41,15 @@ import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/wa
       }
     `,
   ],
-  imports: [RxLet, RxPush, TranslocoDirective, ReactiveFormsModule, WattDropdownComponent],
+  imports: [
+    RxLet,
+    RxPush,
+    TranslocoDirective,
+    ReactiveFormsModule,
+
+    WattDropdownComponent,
+    DhDropdownTranslatorDirective,
+  ],
 })
 export class DhRolesTabListFilterComponent implements OnInit {
   private _destroyRef = inject(DestroyRef);
@@ -53,11 +62,15 @@ export class DhRolesTabListFilterComponent implements OnInit {
   eicFunctionFormControl = new FormControl<MarketParticipantEicFunction[] | null>(null);
 
   statusListOptions: WattDropdownOption[] = [];
-  eicFunctionListListOptions: WattDropdownOption[] = [];
+  marketRolesOptions: WattDropdownOption[] = Object.keys(MarketParticipantEicFunction).map(
+    (entry) => ({
+      value: entry,
+      displayValue: entry,
+    })
+  );
 
   ngOnInit(): void {
     this.buildStatusListOptions();
-    this.buildMarketRoleListOptions();
 
     this.statusFormControl.valueChanges
       .pipe(takeUntilDestroyed(this._destroyRef))
@@ -84,24 +97,6 @@ export class DhRolesTabListFilterComponent implements OnInit {
               displayValue: keys[entry.toLowerCase()],
             };
           });
-        },
-      });
-  }
-
-  private buildMarketRoleListOptions() {
-    this._translocoService
-      .selectTranslateObject('marketParticipant.marketRoles')
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe({
-        next: (keys) => {
-          this.eicFunctionListListOptions = Object.keys(MarketParticipantEicFunction).map(
-            (entry) => {
-              return {
-                value: entry,
-                displayValue: keys[entry],
-              };
-            }
-          );
         },
       });
   }

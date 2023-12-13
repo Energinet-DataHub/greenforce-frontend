@@ -23,9 +23,11 @@ limitations under the License.
   />
 
   <watt-dropdown
+    dhDropdownTranslator
+    translate="marketParticipant.marketRoles"
     [placeholder]="t('marketRole')"
     [formControl]="eicFunctionFormControl"
-    [options]="eicFunctionListListOptions"
+    [options]="marketRolesOptions"
     [multiple]="true"
     [chipMode]="true"
   />
