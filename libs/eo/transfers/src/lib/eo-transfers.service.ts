@@ -125,7 +125,15 @@ export class EoTransfersService {
       .get<EoTransferAgreementsHistoryResponse>(
         `${this.#apiBase}/transfer-agreements/${transferAgreementId}/history?limit=${limit}&offset=${offset}`
       )
-      .pipe(map((response) => response.items));
+      .pipe(
+        map((response) => response.items),
+        map((items) =>
+          items.map((item) => ({
+            ...item,
+            createdAt: item.createdAt * 1000,
+          }))
+        )
+      );
   }
 
   transferAutomationHasError(): Observable<boolean> {
