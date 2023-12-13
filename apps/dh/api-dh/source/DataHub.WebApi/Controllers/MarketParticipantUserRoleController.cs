@@ -21,6 +21,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Microsoft.AspNetCore.Mvc;
 using ActorDto = Energinet.DataHub.MarketParticipant.Client.Models.ActorDto;
+using CreateUserRoleDto = Energinet.DataHub.MarketParticipant.Client.Models.CreateUserRoleDto;
 using EicFunction = Energinet.DataHub.MarketParticipant.Client.Models.EicFunction;
 using PermissionDetailsDto = Energinet.DataHub.MarketParticipant.Client.Models.PermissionDetailsDto;
 using UpdateUserRoleDto = Energinet.DataHub.MarketParticipant.Client.Models.UpdateUserRoleDto;
@@ -133,10 +134,19 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public async Task<ActionResult<Guid>> CreateAsync(Clients.MarketParticipant.v1.CreateUserRoleDto userRole)
+        public async Task<ActionResult<Guid>> CreateAsync(CreateUserRoleDto userRole)
         {
+            var copy = new Clients.MarketParticipant.v1.CreateUserRoleDto
+            {
+                Name = userRole.Name,
+                Description = userRole.Description,
+                EicFunction = (Clients.MarketParticipant.v1.EicFunction)userRole.EicFunction,
+                Permissions = userRole.Permissions,
+                Status = (UserRoleStatus)userRole.Status,
+            };
+
             var userRoleId = await _marketParticipantClientV1
-                .UserRolesPOSTAsync(userRole)
+                .UserRolesPOSTAsync(copy)
                 .ConfigureAwait(false);
 
             return Ok(userRoleId);
