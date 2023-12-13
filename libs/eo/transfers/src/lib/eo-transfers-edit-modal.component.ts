@@ -116,7 +116,7 @@ export class EoTransfersEditModalComponent implements OnChanges {
   }
 
   onSubmit(values: { period: { endDate: number | null; hasEndDate: boolean } }) {
-    if(!this.transfer) return;
+    if (!this.transfer) return;
 
     this.editTransferAgreementState.set({ loading: true, error: false });
 
@@ -125,7 +125,7 @@ export class EoTransfersEditModalComponent implements OnChanges {
       next: () => {
         this.modal.close(true);
         this.editTransferAgreementState.set({ loading: false, error: false });
-        this.save.emit({...values, id: this.transfer?.id})
+        this.save.emit({ ...values, id: this.transfer?.id });
       },
       error: () => {
         this.editTransferAgreementState.set({ loading: false, error: true });
