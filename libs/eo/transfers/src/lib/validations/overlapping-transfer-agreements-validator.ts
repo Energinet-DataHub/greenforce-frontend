@@ -19,7 +19,6 @@ import { clearErrors, setValidationErrorsWithData } from './utils';
 
 import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 
-
 interface OverlappingTransferAgreementsValidatorError {
   start: EoExistingTransferAgreement | null;
   end: EoExistingTransferAgreement | null;
