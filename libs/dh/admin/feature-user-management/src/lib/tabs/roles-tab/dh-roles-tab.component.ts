@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, inject, Input, DestroyRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, DestroyRef } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { translate, TranslocoDirective, TranslocoService, TranslocoPipe } from '@ngneat/transloco';
@@ -87,8 +87,6 @@ export class DhUserRolesTabComponent {
 
   searchInput$ = new BehaviorSubject<string>('');
   isCreateUserRoleModalVisible = false;
-
-  @Input() roles: MarketParticipantUserRoleDto[] = [];
 
   constructor() {
     this.onSearchInput();
