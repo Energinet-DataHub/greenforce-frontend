@@ -17,7 +17,7 @@
 import { Component, OnInit, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -40,7 +40,7 @@ import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/wa
       }
     `,
   ],
-  imports: [RxLet, RxPush, TranslocoModule, WattDropdownComponent, ReactiveFormsModule],
+  imports: [RxLet, RxPush, TranslocoDirective, ReactiveFormsModule, WattDropdownComponent],
 })
 export class DhRolesTabListFilterComponent implements OnInit {
   private _destroyRef = inject(DestroyRef);
