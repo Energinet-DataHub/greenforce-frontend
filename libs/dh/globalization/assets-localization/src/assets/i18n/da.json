@@ -1497,6 +1497,8 @@
           "roles": "Brugerroller",
           "role": "Brugerrolle",
           "rolesHeadline": "Brugerroller",
+          "emptyTitle": "Ingen brugerroller fundet",
+          "emptyMessage": "Prøv at ændre dine søgeindstillinger",
           "filter": {
             "status": "Status",
             "marketRole": "Markedsrolle",

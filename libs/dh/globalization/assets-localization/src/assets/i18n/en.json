@@ -1516,6 +1516,8 @@
           "roles": "User roles",
           "role": "User role",
           "rolesHeadline": "User roles",
+          "emptyTitle": "No user roles found",
+          "emptyMessage": "Try changing the search criteria",
           "filter": {
             "status": "Status",
             "marketRole": "Market role",
