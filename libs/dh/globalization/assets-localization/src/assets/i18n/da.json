@@ -546,7 +546,7 @@
             "expired": "Det givne certifikat er udløbet.",
             "invalid_state": "Aktørens B2B adgang kan ændres, da aktøren enten er deaktiveret eller er ved at blive gjort klar.",
             "still_active": "Aktøren kan ikke deaktiveres, da aktøren stadig har B2B adgang opsat.",
-            "thumbprint_reserved": "Den angivne certifikat er allerede i brug."
+            "thumbprint_reserved": "Certifikatet er allerede i brug."
           }
         },
         "market_role": {
