@@ -23,6 +23,7 @@ import {
   MarketParticipantActorHttp,
 } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ApiErrorDescriptor } from '@energinet-datahub/dh/shared/domain/graphql';
 
 interface DhB2BAccessState {
   credentials: MarketParticipantActorCredentialsDto | null;
@@ -88,7 +89,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
         actorId: string;
         file: File;
         onSuccess: () => void;
-        onError: (errorCodes: string[]) => void;
+        onError: (errorCodes: ApiErrorDescriptor[]) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -113,7 +114,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
         actorId: string;
         file: File;
         onSuccess: () => void;
-        onError: (errorCodes: string[]) => void;
+        onError: (errorCodes: ApiErrorDescriptor[]) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -217,6 +218,6 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
   }
 
   extractErrorCodes = (errorResponse: HttpErrorResponse) => {
-    return errorResponse.error?.errors?.map((error: { code: string }) => error.code) ?? [];
+    return errorResponse.error?.errors ?? [] as ApiErrorDescriptor[];
   };
 }
