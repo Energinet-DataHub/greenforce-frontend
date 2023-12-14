@@ -27,7 +27,21 @@ import { DhPermissionsTabComponent } from './permissions-tab/dh-permissions-tab.
 @Component({
   selector: 'dh-tabs',
   standalone: true,
-  templateUrl: './dh-tabs.component.html',
+  template: `
+    <ng-container *transloco="let t; read: 'admin.userManagement.tabs'">
+      <watt-tabs>
+        <watt-tab [label]="t('users.tabLabel')">
+          <dh-users-tab />
+        </watt-tab>
+        <watt-tab (changed)="roleTabSelected = true" [label]="t('roles.tabLabel')">
+          <dh-roles-tab *ngIf="roleTabSelected" />
+        </watt-tab>
+        <watt-tab (changed)="permissionTabSelected = true" [label]="t('permissions.tabLabel')">
+          <dh-permissions-tab *ngIf="permissionTabSelected" />
+        </watt-tab>
+      </watt-tabs>
+    </ng-container>
+  `,
   styles: [
     `
       :host {
