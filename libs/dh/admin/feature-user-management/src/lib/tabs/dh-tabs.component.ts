@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 
-import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
+import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 
 import { DhUsersTabComponent } from './users-tab/dh-users-tab.component';
 import { DhUserRolesTabComponent } from './roles-tab/dh-roles-tab.component';
@@ -33,9 +33,11 @@ import { DhPermissionsTabComponent } from './permissions-tab/dh-permissions-tab.
         <watt-tab [label]="t('users.tabLabel')">
           <dh-users-tab />
         </watt-tab>
+
         <watt-tab (changed)="roleTabSelected = true" [label]="t('roles.tabLabel')">
           <dh-roles-tab *ngIf="roleTabSelected" />
         </watt-tab>
+
         <watt-tab (changed)="permissionTabSelected = true" [label]="t('permissions.tabLabel')">
           <dh-permissions-tab *ngIf="permissionTabSelected" />
         </watt-tab>
@@ -51,9 +53,9 @@ import { DhPermissionsTabComponent } from './permissions-tab/dh-permissions-tab.
   ],
   imports: [
     NgIf,
-    TranslocoModule,
-    WattTabComponent,
-    WattTabsComponent,
+    TranslocoDirective,
+
+    WATT_TABS,
     DhUsersTabComponent,
     DhUserRolesTabComponent,
     DhPermissionsTabComponent,
