@@ -23,7 +23,6 @@ import {
   MarketParticipantActorHttp,
 } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ApiErrorDescriptor } from '@energinet-datahub/dh/shared/domain/graphql';
 import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 interface DhB2BAccessState {
@@ -131,7 +130,8 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
             ),
             tapResponse(
               () => onSuccess(),
-              (errorResponse: HttpErrorResponse) => onError(this.createApiErrorCollection(errorResponse))
+              (errorResponse: HttpErrorResponse) =>
+                onError(this.createApiErrorCollection(errorResponse))
             ),
             finalize(() => this.patchState({ uploadInProgress: false }))
           )
@@ -220,6 +220,6 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
   }
 
   createApiErrorCollection = (errorResponse: HttpErrorResponse): ApiErrorCollection => {
-    return { apiErrors: errorResponse.error?.errors ?? ([] as ApiErrorDescriptor[]) };
+    return { apiErrors: errorResponse.error?.errors ?? [] };
   };
 }
