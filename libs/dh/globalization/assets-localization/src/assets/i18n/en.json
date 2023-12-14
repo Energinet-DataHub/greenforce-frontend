@@ -1640,7 +1640,7 @@
         }
       },
       "permissionsTab": {
-        "headline": "{{ numberOfPermissions }} permissions",
+        "headline": "Permissions",
         "permissionName": "Name",
         "permissionDescription": "Description"
       },

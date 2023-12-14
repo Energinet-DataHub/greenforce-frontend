@@ -14,18 +14,22 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<dh-shared-ui-search (search)="search($event)" />
 <watt-card *transloco="let t; read: 'admin.userManagement.permissionsTab'">
   <watt-card-title>
-    <div class="card-title-container">
-      <h4>{{ t("headline", { numberOfPermissions: permissions.length }) }}</h4>
-      <div class="card-title-buttons-container">
-        <watt-button *transloco="let t" icon="download" variant="text" (click)="exportAsCsv()">{{
-          t("shared.download")
-        }}</watt-button>
-      </div>
-    </div>
+    <vater-stack direction="row" gap="s">
+      <h3>{{ t("headline") }}</h3>
+      <span class="watt-chip-label">{{ dataSource.data.length }}</span>
+
+      <vater-spacer />
+
+      <watt-search [label]="'shared.search' | transloco" (search)="onSearch($event)" />
+
+      <watt-button *transloco="let t" icon="download" variant="text" (click)="exportAsCsv()">
+        {{ t("shared.download") }}
+      </watt-button>
+    </vater-stack>
   </watt-card-title>
+
   <watt-table
     [dataSource]="dataSource"
     [columns]="columns"
@@ -34,7 +38,7 @@ limitations under the License.
     sortBy="name"
     sortDirection="asc"
     [sortClear]="false"
-    *ngIf="!loading && !error"
+    [loading]="loading"
   >
     <ng-container *wattTableCell="columns.name; header: t('permissionName'); let element">
       {{ element.name }}
@@ -47,7 +51,6 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  <watt-spinner class="permissions-overview__spinner" *ngIf="loading && !error" />
   <watt-empty-state
     *ngIf="error"
     class="permissions-overview_error"

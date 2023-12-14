@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -61,6 +61,7 @@ import { UserRoleAuditLog } from '../../../../userRoleAuditLog';
   imports: [
     NgIf,
     RxLet,
+    NgTemplateOutlet,
     RxPush,
     TranslocoModule,
     WATT_CARD,
