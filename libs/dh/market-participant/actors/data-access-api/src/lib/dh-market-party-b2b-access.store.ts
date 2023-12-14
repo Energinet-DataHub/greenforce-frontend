@@ -131,7 +131,8 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
             ),
             tapResponse(
               () => onSuccess(),
-              (errorResponse: HttpErrorResponse) => onError(this.createApiErrorCollection(errorResponse))
+              (errorResponse: HttpErrorResponse) =>
+                onError(this.createApiErrorCollection(errorResponse))
             ),
             finalize(() => this.patchState({ uploadInProgress: false }))
           )

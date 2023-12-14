@@ -14,4 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { ApiErrorCollection, readApiErrorResponse } from './lib/dh-market-participant-error-handling';
+export {
+  ApiErrorCollection,
+  readApiErrorResponse,
+} from './lib/dh-market-participant-error-handling';
