@@ -125,7 +125,9 @@ export class DhCertificateUploaderComponent {
   private onUploadErrorFn = (errorCodes: ApiErrorDescriptor[]) => {
     const message =
       errorCodes.length > 0
-        ? errorCodes.map((error) => this.transloco.translate(`marketParticipant.${error.code}`)).join('\n')
+        ? errorCodes
+            .map((error) => this.transloco.translate(`marketParticipant.${error.code}`))
+            .join('\n')
         : this.transloco.translate(
             'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.uploadError'
           );

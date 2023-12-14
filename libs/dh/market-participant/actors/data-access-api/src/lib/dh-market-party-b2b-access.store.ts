@@ -218,6 +218,6 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
   }
 
   extractErrorCodes = (errorResponse: HttpErrorResponse) => {
-    return errorResponse.error?.errors ?? [] as ApiErrorDescriptor[];
+    return errorResponse.error?.errors ?? ([] as ApiErrorDescriptor[]);
   };
 }
