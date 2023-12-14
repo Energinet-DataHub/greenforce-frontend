@@ -25,31 +25,20 @@ using Energinet.DataHub.WebApi.Extensions;
 using HotChocolate;
 using Microsoft.AspNetCore.Http;
 using NodaTime;
-using ActorDto = Energinet.DataHub.MarketParticipant.Client.Models.ActorDto;
-using EicFunction = Energinet.DataHub.MarketParticipant.Client.Models.EicFunction;
-using GridAreaDto = Energinet.DataHub.MarketParticipant.Client.Models.GridAreaDto;
-using OrganizationAuditLogDto = Energinet.DataHub.MarketParticipant.Client.Models.OrganizationAuditLogDto;
-using OrganizationDto = Energinet.DataHub.MarketParticipant.Client.Models.OrganizationDto;
-using PermissionChangeType = Energinet.DataHub.MarketParticipant.Client.Models.PermissionChangeType;
-using PermissionDetailsDto = Energinet.DataHub.MarketParticipant.Client.Models.PermissionDetailsDto;
-using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
-using SortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
-using UserRoleDto = Energinet.DataHub.MarketParticipant.Client.Models.UserRoleDto;
-using UserRoleWithPermissionsDto = Energinet.DataHub.MarketParticipant.Client.Models.UserRoleWithPermissionsDto;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class Query
     {
-        public Task<PermissionDetailsDto> GetPermissionByIdAsync(
+        public Task<PermissionDto> GetPermissionByIdAsync(
             int id,
-            [Service] IMarketParticipantPermissionsClient client) =>
-            client.GetPermissionAsync(id);
+            [Service] IMarketParticipantClient_V1 client) =>
+            client.PermissionGetAsync(id);
 
-        public async Task<IEnumerable<PermissionDetailsDto>> GetPermissionsAsync(
+        public async Task<IEnumerable<PermissionDto>> GetPermissionsAsync(
             string searchTerm,
-            [Service] IMarketParticipantPermissionsClient client) =>
-            (await client.GetPermissionsAsync())
+            [Service] IMarketParticipantClient_V1 client) =>
+            (await client.PermissionGetAsync())
             .Where(x =>
                 searchTerm is null ||
                 x.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ||
@@ -117,9 +106,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public async Task<IEnumerable<UserRoleDto>> GetUserRolesByEicFunctionAsync(
             EicFunction eicFunction,
-            [Service] IMarketParticipantUserRoleClient client)
+            [Service] IMarketParticipantClient_V1 client)
         {
-            var userRoles = await client.GetAllAsync().ConfigureAwait(false);
+            var userRoles = await client.UserRolesGetAsync().ConfigureAwait(false);
             return userRoles.Where(y => y.EicFunction == eicFunction);
         }
 
@@ -207,28 +196,28 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public Task<ActorDto> GetSelectedActorAsync(
             [Service] IHttpContextAccessor httpContextAccessor,
-            [Service] IMarketParticipantClient client)
+            [Service] IMarketParticipantClient_V1 client)
         {
             var user = httpContextAccessor.HttpContext?.User;
             var associatedActor = user?.GetAssociatedActor() ?? throw new InvalidOperationException("No associated actor found.");
-            return client.GetActorAsync(associatedActor);
+            return client.ActorGetAsync(associatedActor);
         }
 
         public Task<ActorDto> GetActorByIdAsync(
             Guid id,
-            [Service] IMarketParticipantClient client) =>
-            client.GetActorAsync(id);
+            [Service] IMarketParticipantClient_V1 client) =>
+            client.ActorGetAsync(id);
 
-        public Task<IEnumerable<ActorDto>> GetActorsAsync(
-            [Service] IMarketParticipantClient client) =>
-            client.GetActorsAsync();
+        public async Task<IEnumerable<ActorDto>> GetActorsAsync(
+            [Service] IMarketParticipantClient_V1 client) =>
+            await client.ActorGetAsync();
 
         public async Task<IEnumerable<ActorDto>> GetActorsForEicFunctionAsync(
             EicFunction[]? eicFunctions,
-            [Service] IMarketParticipantClient client)
+            [Service] IMarketParticipantClient_V1 client)
         {
             eicFunctions ??= Array.Empty<EicFunction>();
-            var actors = await client.GetActorsAsync();
+            var actors = await client.ActorGetAsync();
 
             return actors.Where(x => x.MarketRoles.Any(y => eicFunctions.Contains(y.EicFunction)));
         }
@@ -292,10 +281,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 sortProperty,
                 sortDirection);
 
-        public Task<IEnumerable<ActorDto>> GetActorsByOrganizationIdAsync(
+        public async Task<IEnumerable<ActorDto>> GetActorsByOrganizationIdAsync(
             Guid organizationId,
-            [Service] IMarketParticipantClient client) =>
-            client.GetActorsAsync(organizationId);
+            [Service] IMarketParticipantClient_V1 client) =>
+            await client.OrganizationActorAsync(organizationId);
 
         public Task<IEnumerable<OrganizationAuditLogDto>> GetOrganizationAuditLogAsync(
             Guid organizationId,
@@ -305,13 +294,13 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public Task<bool> EmailExistsAsync(
             string emailAddress,
             [Service] IMarketParticipantClient_V1 client) =>
-            client.ExistsAsync(emailAddress);
+            client.UserExistsAsync(emailAddress);
 
         public async Task<IEnumerable<ActorAuditLog>> GetActorAuditLogsAsync(
             Guid actorId,
             [Service] IMarketParticipantClient_V1 client)
         {
-            var logs = await client.AuditlogsAsync(actorId);
+            var logs = await client.ActorAuditlogsAsync(actorId);
             var actorAuditLogs = new List<ActorAuditLog>();
 
             foreach (var auditLog in logs.ActorAuditLogs)
@@ -385,7 +374,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public async Task<IEnumerable<string>> GetKnownEmailsAsync(
             [Service] IMarketParticipantClient_V1 client)
         {
-            var users = await client.SearchAsync(
+            var users = await client.UserOverviewUsersSearchAsync(
                 1,
                 int.MaxValue,
                 UserOverviewSortProperty.Email,
