@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
-  <watt-card>
-    <watt-card-title>
+  <watt-card vater inset="0">
+    <vater-flex fill="vertical" gap="m">
       <vater-stack direction="row" gap="s">
         <h3>{{ t("tabLabel") }}</h3>
         <span class="watt-chip-label">{{ totalUserCount$ | push }}</span>
@@ -34,52 +34,61 @@ limitations under the License.
           >{{ t("inviteUser") }}</watt-button
         >
       </vater-stack>
-    </watt-card-title>
 
-    <vater-stack direction="row" gap="m" class="watt-space-stack-m">
-      <dh-users-tab-status-filter
-        [initialValue]="initialStatusFilter$ | push"
-        (changed)="onStatusChanged($event)"
+      <vater-stack direction="row" gap="m">
+        <dh-users-tab-status-filter
+          [initialValue]="initialStatusFilter$ | push"
+          (changed)="onStatusChanged($event)"
+        />
+
+        <dh-users-tab-actor-filter
+          *ngIf="canChooseMultipleActors$ | push"
+          [actorOptions]="actorOptions$ | push"
+          (changed)="onActorFilterChanged($event)"
+        />
+
+        <dh-users-tab-userrole-filter
+          [userRoleOptions]="userRolesOptions$ | push"
+          (changed)="onUserRolesFilterChanged($event)"
+        />
+      </vater-stack>
+
+      <vater-flex fill="vertical" scrollable>
+        <ng-container *rxLet="users$ as users">
+          <dh-users-tab-table
+            [users]="users"
+            [sortChanged]="sortChanged"
+            [isLoading]="isLoading$ | push"
+          />
+
+          <ng-container *rxLet="isLoading$ as isLoading">
+            <vater-stack fill="vertical" justify="center" *ngIf="!isLoading && users.length === 0">
+              <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+                <dh-users-tab-general-error
+                  *ngIf="hasGeneralError; else emptyStateTmpl"
+                  (reload)="reloadUsers()"
+                />
+              </ng-container>
+
+              <ng-template #emptyStateTmpl>
+                <watt-empty-state
+                  icon="cancel"
+                  [title]="t('emptyTitle')"
+                  [message]="t('emptyMessage')"
+                />
+              </ng-template>
+            </vater-stack>
+          </ng-container>
+        </ng-container>
+      </vater-flex>
+
+      <watt-paginator
+        [length]="totalUserCount$ | push"
+        [pageSize]="pageSize$ | push"
+        [pageIndex]="pageIndex$ | push"
+        (changed)="onPageChange($event)"
       />
-
-      <dh-users-tab-actor-filter
-        *ngIf="canChooseMultipleActors$ | push"
-        [actorOptions]="actorOptions$ | push"
-        (changed)="onActorFilterChanged($event)"
-      />
-
-      <dh-users-tab-userrole-filter
-        [userRoleOptions]="userRolesOptions$ | push"
-        (changed)="onUserRolesFilterChanged($event)"
-      />
-    </vater-stack>
-
-    <ng-container *rxLet="users$ as users">
-      <dh-users-tab-table
-        [users]="users"
-        [sortChanged]="sortChanged"
-        [isLoading]="isLoading$ | push"
-      />
-
-      <ng-container *rxLet="isLoading$ as isLoading">
-        <div class="users-overview__empty-state" *ngIf="!isLoading && users.length === 0">
-          <watt-empty-state icon="cancel" [title]="t('emptyTitle')" [message]="t('emptyMessage')" />
-        </div>
-      </ng-container>
-    </ng-container>
-
-    <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
-      <div *ngIf="hasGeneralError" class="users-overview__error">
-        <dh-users-tab-general-error (reload)="reloadUsers()" />
-      </div>
-    </ng-container>
-
-    <watt-paginator
-      [length]="totalUserCount$ | push"
-      [pageSize]="pageSize$ | push"
-      [pageIndex]="pageIndex$ | push"
-      (changed)="onPageChange($event)"
-    />
+    </vater-flex>
   </watt-card>
 </ng-container>
 

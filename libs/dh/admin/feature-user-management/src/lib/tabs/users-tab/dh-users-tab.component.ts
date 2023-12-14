@@ -38,9 +38,13 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhInviteUserModalComponent } from '@energinet-datahub/dh/admin/feature-invite-user-modal';
-import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -59,11 +63,6 @@ import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filte
     `
       :host {
         display: block;
-      }
-
-      .users-overview__error,
-      .users-overview__empty-state {
-        padding: var(--watt-space-xl) 0;
       }
 
       h3 {
@@ -92,20 +91,22 @@ import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filte
     TranslocoPipe,
 
     VaterStackComponent,
+    VaterFlexComponent,
     VaterSpacerComponent,
+    VaterUtilityDirective,
     WATT_CARD,
+    WattButtonComponent,
+    WattEmptyStateComponent,
+    WattPaginatorComponent,
+    WattSearchComponent,
+
     DhUsersTabTableComponent,
     DhUsersTabStatusFilterComponent,
     DhUsersTabGeneralErrorComponent,
     DhUsersTabActorFilterComponent,
     DhUsersTabUserRoleFilterComponent,
-    WattButtonComponent,
-    WattEmptyStateComponent,
-    WattPaginatorComponent,
-    WattSearchComponent,
     DhPermissionRequiredDirective,
     DhInviteUserModalComponent,
-    DhSharedUiSearchComponent,
   ],
 })
 export class DhUsersTabComponent {
