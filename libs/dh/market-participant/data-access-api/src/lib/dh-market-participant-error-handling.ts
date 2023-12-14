@@ -18,7 +18,7 @@
 import { ApiError, ApiErrorDescriptor } from '@energinet-datahub/dh/shared/domain/graphql';
 import { flatten, translate } from '@ngneat/transloco';
 
-type ApiErrorCollection = Pick<ApiError, 'apiErrors'>;
+export type ApiErrorCollection = Pick<ApiError, 'apiErrors'>;
 
 export const readApiErrorResponse = (errors: ApiErrorCollection[]) => {
   return errors

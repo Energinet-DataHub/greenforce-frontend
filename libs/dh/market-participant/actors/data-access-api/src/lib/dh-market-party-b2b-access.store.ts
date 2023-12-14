@@ -24,6 +24,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApiErrorDescriptor } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 interface DhB2BAccessState {
   credentials: MarketParticipantActorCredentialsDto | null;
@@ -89,7 +90,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
         actorId: string;
         file: File;
         onSuccess: () => void;
-        onError: (errorCodes: ApiErrorDescriptor[]) => void;
+        onError: (apiErrorCollection: ApiErrorCollection) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -100,7 +101,8 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
             .pipe(
               tapResponse(
                 () => onSuccess(),
-                (errorResponse: HttpErrorResponse) => onError(this.extractErrorCodes(errorResponse))
+                (errorResponse: HttpErrorResponse) =>
+                  onError(this.createApiErrorCollection(errorResponse))
               ),
               finalize(() => this.patchState({ uploadInProgress: false }))
             )
@@ -114,7 +116,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
         actorId: string;
         file: File;
         onSuccess: () => void;
-        onError: (errorCodes: ApiErrorDescriptor[]) => void;
+        onError: (apiErrorCollection: ApiErrorCollection) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -129,7 +131,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
             ),
             tapResponse(
               () => onSuccess(),
-              (errorResponse: HttpErrorResponse) => onError(this.extractErrorCodes(errorResponse))
+              (errorResponse: HttpErrorResponse) => onError(this.createApiErrorCollection(errorResponse))
             ),
             finalize(() => this.patchState({ uploadInProgress: false }))
           )
@@ -217,7 +219,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
     super(initialState);
   }
 
-  extractErrorCodes = (errorResponse: HttpErrorResponse) => {
-    return errorResponse.error?.errors ?? [] as ApiErrorDescriptor[];
+  createApiErrorCollection = (errorResponse: HttpErrorResponse): ApiErrorCollection => {
+    return { apiErrors: errorResponse.error?.errors ?? ([] as ApiErrorDescriptor[]) };
   };
 }

@@ -77,7 +77,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Removes the current credentials from the actor.
         /// </summary>
         [HttpDelete("RemoveActorCredentials")]
-        public Task RemoveActorCredentialsAsync(Guid actorId)
+        public Task<ActionResult> RemoveActorCredentialsAsync(Guid actorId)
         {
             return HandleExceptionAsync(() => _client.CredentialsDELETEAsync(actorId));
         }
