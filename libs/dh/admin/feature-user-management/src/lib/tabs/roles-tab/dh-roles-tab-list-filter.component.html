@@ -14,7 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles.filter'">
+<vater-stack
+  direction="row"
+  gap="m"
+  *transloco="let t; read: 'admin.userManagement.tabs.roles.filter'"
+>
   <watt-dropdown
     [placeholder]="t('status')"
     [formControl]="statusControl"
@@ -31,4 +35,4 @@ limitations under the License.
     [multiple]="true"
     [chipMode]="true"
   />
-</ng-container>
+</vater-stack>

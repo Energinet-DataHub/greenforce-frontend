@@ -16,8 +16,8 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
   <ng-container *rxLet="isLoading$ as isLoading">
-    <watt-card *rxLet="roles$ as roles">
-      <watt-card-title>
+    <watt-card vater inset="0" *rxLet="roles$ as roles">
+      <vater-flex fill="vertical" gap="m">
         <vater-stack direction="row" gap="s">
           <h3>{{ t("rolesHeadline") }}</h3>
           <span class="watt-chip-label">{{ roles.length }}</span>
@@ -42,33 +42,41 @@ limitations under the License.
             >{{ t("createuserrole") }}
           </watt-button>
         </vater-stack>
-      </watt-card-title>
 
-      <dh-roles-tab-list-filter
-        class="watt-space-stack-m"
-        (statusChanged)="updateFilterStatus($event)"
-        (eicFunctionChanged)="updateFilterEicFunction($event)"
-      />
+        <dh-roles-tab-list-filter
+          (statusChanged)="updateFilterStatus($event)"
+          (eicFunctionChanged)="updateFilterEicFunction($event)"
+        />
 
-      <dh-roles-tab-table
-        #rolesTable
-        [roles]="roles"
-        [isLoading]="isLoading"
-        [paginator]="paginator"
-        (userRoleDeactivated)="reloadRoles()"
-      />
+        <vater-flex fill="vertical" scrollable>
+          <dh-roles-tab-table
+            #rolesTable
+            [roles]="roles"
+            [isLoading]="isLoading"
+            [paginator]="paginator"
+            (userRoleDeactivated)="reloadRoles()"
+          />
 
-      <div class="user-roles__empty-state" *ngIf="!isLoading && roles.length === 0">
-        <watt-empty-state icon="cancel" [title]="t('emptyTitle')" [message]="t('emptyMessage')" />
-      </div>
+          <vater-stack fill="vertical" justify="center" *ngIf="!isLoading && roles.length === 0">
+            <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+              <dh-tab-data-general-error
+                *ngIf="hasGeneralError; else emptyStateTmpl"
+                (reload)="reloadRoles()"
+              />
+            </ng-container>
 
-      <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
-        <div *ngIf="hasGeneralError" class="user-roles__error">
-          <dh-tab-data-general-error (reload)="reloadRoles()" />
-        </div>
-      </ng-container>
+            <ng-template #emptyStateTmpl>
+              <watt-empty-state
+                icon="cancel"
+                [title]="t('emptyTitle')"
+                [message]="t('emptyMessage')"
+              />
+            </ng-template>
+          </vater-stack>
+        </vater-flex>
 
-      <watt-paginator #paginator [length]="roles.length" />
+        <watt-paginator #paginator [length]="roles.length" />
+      </vater-flex>
     </watt-card>
   </ng-container>
 </ng-container>

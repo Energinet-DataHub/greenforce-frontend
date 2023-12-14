@@ -37,7 +37,12 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-create-user-role';
 import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
@@ -60,7 +65,9 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
     RxLet,
 
     VaterStackComponent,
+    VaterFlexComponent,
     VaterSpacerComponent,
+    VaterUtilityDirective,
     WATT_CARD,
     WATT_MODAL,
     WattSearchComponent,

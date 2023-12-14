@@ -32,6 +32,7 @@ limitations under the License.
     <ng-container *wattTableCell="columns['marketRole']; let mr">
       {{ t(mr.eicFunction) }}
     </ng-container>
+
     <ng-container *wattTableCell="columns['status']; let role">
       <dh-role-status [status]="role.status" />
     </ng-container>
