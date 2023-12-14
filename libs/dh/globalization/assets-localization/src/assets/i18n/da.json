@@ -1614,7 +1614,7 @@
         }
       },
       "permissionsTab": {
-        "headline": "{{ numberOfPermissions }} rettigheder",
+        "headline": "Rettigheder",
         "permissionName": "Navn",
         "permissionDescription": "Beskrivelse"
       },

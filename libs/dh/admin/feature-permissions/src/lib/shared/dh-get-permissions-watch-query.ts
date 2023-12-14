@@ -21,6 +21,7 @@ import { GetPermissionsDocument } from '@energinet-datahub/dh/shared/domain/grap
 
 export function getPermissionsWatchQuery(searchTerm = '') {
   const apollo = inject(Apollo);
+
   return apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
