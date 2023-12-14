@@ -43,7 +43,17 @@ import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-que
   selector: 'dh-admin-permission-overview',
   standalone: true,
   templateUrl: './dh-admin-permission-overview.component.html',
-  styleUrls: ['./dh-admin-permission-overview.component.scss'],
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      h3 {
+        margin: 0;
+      }
+    `,
+  ],
   imports: [
     NgIf,
     TranslocoDirective,
