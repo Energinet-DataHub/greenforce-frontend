@@ -54,7 +54,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpPost]
         [Route("AssignCertificateCredentials")]
         [RequestSizeLimit(10485760)]
-        public Task AssignCertificateCredentialsAsync(Guid actorId, IFormFile certificate)
+        public Task<ActionResult> AssignCertificateCredentialsAsync(Guid actorId, IFormFile certificate)
         {
             return HandleExceptionAsync(async () =>
             {

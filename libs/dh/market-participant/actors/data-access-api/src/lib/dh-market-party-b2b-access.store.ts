@@ -22,6 +22,7 @@ import {
   MarketParticipantActorCredentialsDto,
   MarketParticipantActorHttp,
 } from '@energinet-datahub/dh/shared/domain';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface DhB2BAccessState {
   credentials: MarketParticipantActorCredentialsDto | null;
@@ -87,7 +88,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
         actorId: string;
         file: File;
         onSuccess: () => void;
-        onError: () => void;
+        onError: (errorCodes: string[]) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -98,7 +99,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
             .pipe(
               tapResponse(
                 () => onSuccess(),
-                () => onError()
+                (errorResponse: HttpErrorResponse) => onError(this.extractErrorCodes(errorResponse))
               ),
               finalize(() => this.patchState({ uploadInProgress: false }))
             )
@@ -112,7 +113,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
         actorId: string;
         file: File;
         onSuccess: () => void;
-        onError: () => void;
+        onError: (errorCodes: string[]) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -127,7 +128,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
             ),
             tapResponse(
               () => onSuccess(),
-              () => onError()
+              (errorResponse: HttpErrorResponse) => onError(this.extractErrorCodes(errorResponse))
             ),
             finalize(() => this.patchState({ uploadInProgress: false }))
           )
@@ -214,4 +215,8 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
   constructor() {
     super(initialState);
   }
+
+  extractErrorCodes = (errorResponse: HttpErrorResponse) => {
+    return errorResponse.error?.errors?.map((error: { code: string }) => error.code) ?? [];
+  };
 }

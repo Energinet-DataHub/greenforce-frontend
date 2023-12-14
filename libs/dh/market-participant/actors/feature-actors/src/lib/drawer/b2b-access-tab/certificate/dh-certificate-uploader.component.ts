@@ -121,10 +121,13 @@ export class DhCertificateUploaderComponent {
     this.auditLogService.refreshAuditLog(this.actorId);
   };
 
-  private onUploadErrorFn = () => {
-    const message = this.transloco.translate(
-      'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.uploadError'
-    );
+  private onUploadErrorFn = (errorCodes: string[]) => {
+    const message =
+      errorCodes.length > 0
+        ? errorCodes.map((code) => this.transloco.translate(`marketParticipant.${code}`)).join('\n')
+        : this.transloco.translate(
+            'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.uploadError'
+          );
 
     this.toastService.open({ type: 'danger', message });
   };

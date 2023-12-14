@@ -15,6 +15,7 @@
 using System;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -35,6 +36,10 @@ namespace Energinet.DataHub.WebApi.Controllers
             {
                 return StatusCode(ex.StatusCode, ex.Message);
             }
+            catch (ApiException ex)
+            {
+                return StatusCode(ex.StatusCode, ex.Response);
+            }
         }
 
         protected async Task<ActionResult> HandleExceptionAsync(Func<Task> func)
@@ -51,6 +56,10 @@ namespace Energinet.DataHub.WebApi.Controllers
             catch (MarketParticipantException ex)
             {
                 return StatusCode(ex.StatusCode, ex.Message);
+            }
+            catch (ApiException ex)
+            {
+                return StatusCode(ex.StatusCode, ex.Response);
             }
         }
     }
