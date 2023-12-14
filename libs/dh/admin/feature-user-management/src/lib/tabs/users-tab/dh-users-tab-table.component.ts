@@ -23,7 +23,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -56,8 +56,8 @@ import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
   // Using `OnPush` causes issues with table's header row translations
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
+    TranslocoDirective,
     WATT_TABLE,
-    TranslocoModule,
     DhEmDashFallbackPipe,
     DhUserStatusComponent,
     DhUserDrawerComponent,
