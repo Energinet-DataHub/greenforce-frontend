@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
@@ -25,6 +24,7 @@ using Energinet.DataHub.WebApi.Extensions;
 using HotChocolate;
 using Microsoft.AspNetCore.Http;
 using NodaTime;
+using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -46,10 +46,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public async Task<IEnumerable<PermissionLog>> GetPermissionLogsAsync(
             int id,
-            [Service] IMarketParticipantPermissionsClient client)
+            [Service] IMarketParticipantClient_V1 client)
         {
-            var permissionTask = client.GetPermissionAsync(id);
-            var logs = await client.GetAuditLogsAsync(id);
+            var permissionTask = client.PermissionGetAsync(id);
+            var logs = await client.PermissionAuditlogsAsync(id);
             return logs
                 .Select(log => new PermissionLog
                 {
@@ -71,15 +71,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public async Task<IEnumerable<UserRoleAuditLog>> GetUserRoleAuditLogsAsync(
             Guid id,
-            [Service] IMarketParticipantUserRoleClient client,
-            [Service] IMarketParticipantPermissionsClient permissionsClient)
+            [Service] IMarketParticipantClient_V1 client)
         {
-            var logs = await client.GetUserRoleAuditLogsAsync(id);
+            var logs = await client.UserRolesAuditlogentryAsync(id);
             var logsWithPermissions = await Task.WhenAll(logs.Select(async log =>
             {
                 var permissions = await Task.WhenAll(log.Permissions.Select(async permissionId =>
                 {
-                    var permission = await permissionsClient.GetPermissionAsync(permissionId);
+                    var permission = await client.PermissionGetAsync(permissionId);
                     return permission.Name;
                 }));
                 return new UserRoleAuditLog
@@ -101,8 +100,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public Task<UserRoleWithPermissionsDto> GetUserRoleByIdAsync(
             Guid id,
-            [Service] IMarketParticipantUserRoleClient client) =>
-            client.GetAsync(id);
+            [Service] IMarketParticipantClient_V1 client) =>
+            client.UserRolesGetAsync(id);
 
         public async Task<IEnumerable<UserRoleDto>> GetUserRolesByEicFunctionAsync(
             EicFunction eicFunction,
@@ -114,16 +113,16 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public Task<OrganizationDto> GetOrganizationByIdAsync(
             Guid id,
-            [Service] IMarketParticipantClient client) =>
-            client.GetOrganizationAsync(id);
+            [Service] IMarketParticipantClient_V1 client) =>
+            client.OrganizationGetAsync(id);
 
-        public Task<IEnumerable<OrganizationDto>> GetOrganizationsAsync(
-            [Service] IMarketParticipantClient client) =>
-            client.GetOrganizationsAsync();
+        public Task<ICollection<OrganizationDto>> GetOrganizationsAsync(
+            [Service] IMarketParticipantClient_V1 client) =>
+            client.OrganizationGetAsync();
 
-        public Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
-            [Service] IMarketParticipantClient client) =>
-            client.GetGridAreasAsync();
+        public Task<ICollection<GridAreaDto>> GetGridAreasAsync(
+            [Service] IMarketParticipantClient_V1 client) =>
+            client.GridAreaGetAsync();
 
         public Task<BatchDto> GetCalculationByIdAsync(
             Guid id,
@@ -162,7 +161,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Interval? period,
             Interval? executionTime,
             [Service] IWholesaleClient_V3 wholesaleClient,
-            [Service] IMarketParticipantClient marketParticipantClient)
+            [Service] IMarketParticipantClient_V1 marketParticipantClient)
         {
             gridAreaCodes ??= Array.Empty<string>();
             var minExecutionTime =
@@ -171,7 +170,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             var periodStart = period?.HasStart == true ? period?.Start.ToDateTimeOffset() : null;
             var periodEnd = period?.HasEnd == true ? period?.End.ToDateTimeOffset() : null;
 
-            var gridAreasTask = marketParticipantClient.GetGridAreasAsync();
+            var gridAreasTask = marketParticipantClient.GridAreaGetAsync();
             var batchesTask = wholesaleClient.SearchBatchesAsync(gridAreaCodes, BatchState.Completed, minExecutionTime, maxExecutionTime, periodStart, periodEnd);
             var batches = await batchesTask;
             var gridAreas = await gridAreasTask;
@@ -273,7 +272,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             int pageNumber,
             int pageSize,
             BalanceResponsibleSortProperty sortProperty,
-            SortDirection sortDirection,
+            Clients.ESettExchange.v1.SortDirection sortDirection,
             [Service] IESettExchangeClient_V1 client) =>
             client.BalanceResponsibleAsync(
                 pageNumber,
@@ -286,10 +285,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
             [Service] IMarketParticipantClient_V1 client) =>
             await client.OrganizationActorAsync(organizationId);
 
-        public Task<IEnumerable<OrganizationAuditLogDto>> GetOrganizationAuditLogAsync(
+        public Task<ICollection<OrganizationAuditLogDto>> GetOrganizationAuditLogAsync(
             Guid organizationId,
-            [Service] IMarketParticipantClient client) =>
-            client.GetAuditLogEntriesAsync(organizationId);
+            [Service] IMarketParticipantClient_V1 client) =>
+            client.OrganizationAuditlogsAsync(organizationId);
 
         public Task<bool> EmailExistsAsync(
             string emailAddress,

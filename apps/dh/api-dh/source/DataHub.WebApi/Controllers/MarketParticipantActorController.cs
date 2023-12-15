@@ -40,7 +40,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             try
             {
-                return Ok(await _client.CredentialsGETAsync(actorId).ConfigureAwait(false));
+                return Ok(await _client.ActorCredentialsGetAsync(actorId).ConfigureAwait(false));
             }
             catch (ApiException ex) when (ex.StatusCode == 404)
             {
@@ -59,7 +59,7 @@ namespace Energinet.DataHub.WebApi.Controllers
             return HandleExceptionAsync(async () =>
             {
                 await using var openReadStream = certificate.OpenReadStream();
-                await _client.CertificateAsync(actorId, new FileParameter(openReadStream)).ConfigureAwait(false);
+                await _client.ActorCredentialsCertificateAsync(actorId, new FileParameter(openReadStream)).ConfigureAwait(false);
             });
         }
 
@@ -70,7 +70,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Route("RequestClientSecretCredentials")]
         public Task<ActionResult<ActorClientSecretDto>> RequestClientSecretCredentialsAsync(Guid actorId)
         {
-            return HandleExceptionAsync(() => _client.SecretAsync(actorId));
+            return HandleExceptionAsync(() => _client.ActorCredentialsSecretAsync(actorId));
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpDelete("RemoveActorCredentials")]
         public Task RemoveActorCredentialsAsync(Guid actorId)
         {
-            return HandleExceptionAsync(() => _client.CredentialsDELETEAsync(actorId));
+            return HandleExceptionAsync(() => _client.ActorCredentialsDeleteAsync(actorId));
         }
     }
 }

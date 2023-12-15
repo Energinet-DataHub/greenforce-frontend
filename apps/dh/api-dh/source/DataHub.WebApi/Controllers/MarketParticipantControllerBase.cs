@@ -35,6 +35,10 @@ namespace Energinet.DataHub.WebApi.Controllers
             {
                 return StatusCode(ex.StatusCode, ex.Message);
             }
+            catch (Clients.MarketParticipant.v1.ApiException ex)
+            {
+                return StatusCode(ex.StatusCode, ex.Message);
+            }
         }
 
         protected async Task<ActionResult> HandleExceptionAsync(Func<Task> func)
@@ -49,6 +53,10 @@ namespace Energinet.DataHub.WebApi.Controllers
                 return StatusCode(ex.StatusCode, ex.JsonError.ToString());
             }
             catch (MarketParticipantException ex)
+            {
+                return StatusCode(ex.StatusCode, ex.Message);
+            }
+            catch (Clients.MarketParticipant.v1.ApiException ex)
             {
                 return StatusCode(ex.StatusCode, ex.Message);
             }

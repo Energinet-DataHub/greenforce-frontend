@@ -146,7 +146,7 @@ namespace Energinet.DataHub.WebApi.Controllers
             };
 
             var userRoleId = await _marketParticipantClientV1
-                .UserRolesPOSTAsync(copy)
+                .UserRolesPostAsync(copy)
                 .ConfigureAwait(false);
 
             return Ok(userRoleId);
