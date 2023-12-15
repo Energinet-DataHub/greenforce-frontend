@@ -24,16 +24,16 @@ limitations under the License.
     [opened]="(isHandset$ | async) === false"
     role="navigation"
   >
-    <div class="button-padding">
-      <watt-button
-        *ngIf="isHandset$ | async"
-        variant="icon"
-        icon="close"
-        class="watt-sidenav-close-button"
-        (click)="drawer.toggle()"
-      />
-      <ng-content select="[watt-shell-sidenav]" />
-    </div>
+
+  <watt-button
+    *ngIf="isHandset$ | async"
+    variant="icon"
+    icon="close"
+    class="watt-sidenav-close-button"
+    (click)="drawer.toggle()"
+  />
+  <ng-content select="[watt-shell-sidenav]" />
+
   </mat-sidenav>
 
   <mat-sidenav-content class="watt-sidenav-content">
