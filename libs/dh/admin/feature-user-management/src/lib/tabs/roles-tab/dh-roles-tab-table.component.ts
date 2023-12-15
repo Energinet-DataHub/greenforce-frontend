@@ -26,6 +26,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
 
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
@@ -36,11 +37,13 @@ import {
   WattTableComponent,
 } from '@energinet-datahub/watt/table';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
 import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
+import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
 
 @Component({
   selector: 'dh-roles-tab-table',
@@ -49,18 +52,23 @@ import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.compone
   styles: [
     `
       :host {
-        display: block;
+        display: contents;
       }
     `,
   ],
   // Using `OnPush` causes issues with table's header row translations
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
+    NgIf,
     TranslocoDirective,
 
     WATT_TABLE,
     VaterFlexComponent,
+    VaterStackComponent,
     WattPaginatorComponent,
+    WattEmptyStateComponent,
+
+    DhTabDataGeneralErrorComponent,
     DhRoleStatusComponent,
     DhRoleDrawerComponent,
   ],
@@ -72,9 +80,11 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
 
   @Input() roles: MarketParticipantUserRoleDto[] = [];
   @Input() isLoading = false;
+  @Input() hasGeneralError = false;
   @Input() paginator!: WattPaginatorComponent<unknown>;
 
   @Output() userRoleDeactivated = new EventEmitter<void>();
+  @Output() reload = new EventEmitter<void>();
 
   @ViewChild(DhRoleDrawerComponent)
   drawer!: DhRoleDrawerComponent;

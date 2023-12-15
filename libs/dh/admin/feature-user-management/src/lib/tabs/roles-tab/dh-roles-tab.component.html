@@ -15,70 +15,51 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
-  <ng-container *rxLet="isLoading$ as isLoading">
-    <watt-card vater inset="0" *rxLet="roles$ as roles">
-      <vater-flex fill="vertical" gap="m">
-        <vater-stack direction="row" gap="s">
-          <h3>{{ t("rolesHeadline") }}</h3>
-          <span class="watt-chip-label">{{ roles.length }}</span>
+  <watt-card vater inset="0" *rxLet="roles$ as roles">
+    <vater-flex fill="vertical" gap="m">
+      <vater-stack direction="row" gap="s">
+        <h3>{{ t("rolesHeadline") }}</h3>
+        <span class="watt-chip-label">{{ roles.length }}</span>
 
-          <vater-spacer />
+        <vater-spacer />
 
-          <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
+        <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
 
-          <watt-button
-            *transloco="let t; read: 'admin.userManagement'"
-            icon="download"
-            variant="text"
-            (click)="download(rolesTable.filteredAndSortedData)"
-            >{{ t("download") }}</watt-button
-          >
+        <watt-button
+          *transloco="let t; read: 'admin.userManagement'"
+          icon="download"
+          variant="text"
+          (click)="download(rolesTable.filteredAndSortedData)"
+          >{{ t("download") }}</watt-button
+        >
 
-          <watt-button
-            *dhPermissionRequired="['user-roles:manage']"
-            icon="plus"
-            variant="secondary"
-            (click)="isCreateUserRoleModalVisible = true"
-            >{{ t("createuserrole") }}
-          </watt-button>
-        </vater-stack>
+        <watt-button
+          *dhPermissionRequired="['user-roles:manage']"
+          icon="plus"
+          variant="secondary"
+          (click)="isCreateUserRoleModalVisible = true"
+          >{{ t("createuserrole") }}
+        </watt-button>
+      </vater-stack>
 
-        <dh-roles-tab-list-filter
-          (statusChanged)="updateFilterStatus($event)"
-          (eicFunctionChanged)="updateFilterEicFunction($event)"
-        />
+      <dh-roles-tab-list-filter
+        (statusChanged)="updateFilterStatus($event)"
+        (eicFunctionChanged)="updateFilterEicFunction($event)"
+      />
 
-        <vater-flex fill="vertical" scrollable>
-          <dh-roles-tab-table
-            #rolesTable
-            [roles]="roles"
-            [isLoading]="isLoading"
-            [paginator]="paginator"
-            (userRoleDeactivated)="reloadRoles()"
-          />
+      <dh-roles-tab-table
+        #rolesTable
+        [roles]="roles"
+        [isLoading]="isLoading$ | push"
+        [hasGeneralError]="hasGeneralError$ | push"
+        [paginator]="paginator"
+        (userRoleDeactivated)="reloadRoles()"
+        (reload)="reloadRoles()"
+      />
 
-          <vater-stack fill="vertical" justify="center" *ngIf="!isLoading && roles.length === 0">
-            <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
-              <dh-tab-data-general-error
-                *ngIf="hasGeneralError; else emptyStateTmpl"
-                (reload)="reloadRoles()"
-              />
-            </ng-container>
-
-            <ng-template #emptyStateTmpl>
-              <watt-empty-state
-                icon="cancel"
-                [title]="t('emptyTitle')"
-                [message]="t('emptyMessage')"
-              />
-            </ng-template>
-          </vater-stack>
-        </vater-flex>
-
-        <watt-paginator #paginator [length]="roles.length" />
-      </vater-flex>
-    </watt-card>
-  </ng-container>
+      <watt-paginator #paginator [length]="roles.length" />
+    </vater-flex>
+  </watt-card>
 </ng-container>
 
 <dh-create-user-role-modal *ngIf="isCreateUserRoleModalVisible" (closed)="modalOnClose($event)" />
