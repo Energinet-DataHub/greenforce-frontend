@@ -41,7 +41,6 @@ export class DhInactivityDetectionService {
   private readonly secondsUntilWarning = 115 * 60;
 
   private readonly inputDetection$ = merge(
-    fromEvent(document, 'mousemove'),
     fromEvent(document, 'mousedown'),
     fromEvent(document, 'keydown'),
     fromEvent(document, 'wheel'),
