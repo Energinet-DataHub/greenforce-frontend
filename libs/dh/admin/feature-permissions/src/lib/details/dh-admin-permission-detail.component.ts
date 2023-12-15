@@ -101,8 +101,8 @@ export class DhAdminPermissionDetailComponent {
         )
       )
       .subscribe({
-        next: (result) => {
-          this.selectedPermission = result ? { ...result } : null;
+        next: (permission) => {
+          this.selectedPermission = permission ? { ...permission } : null;
         },
       });
   }

@@ -23,6 +23,10 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 
 import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
+import {
+  ApiErrorCollection,
+  readApiErrorResponse,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
 
 const certificateExt = '.cer';
 const certificateMimeType = 'application/x-x509-ca-cert';
@@ -121,10 +125,13 @@ export class DhCertificateUploaderComponent {
     this.auditLogService.refreshAuditLog(this.actorId);
   };
 
-  private onUploadErrorFn = () => {
-    const message = this.transloco.translate(
-      'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.uploadError'
-    );
+  private onUploadErrorFn = (apiErrorCollection: ApiErrorCollection) => {
+    const message =
+      apiErrorCollection.apiErrors.length > 0
+        ? readApiErrorResponse([apiErrorCollection])
+        : this.transloco.translate(
+            'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.uploadError'
+          );
 
     this.toastService.open({ type: 'danger', message });
   };

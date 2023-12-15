@@ -30,7 +30,7 @@ export interface EoTransfer {
 
 export interface EoListedTransfer extends EoTransfer {
   id: string;
-  senderTin?: string;
+  senderTin: string;
 }
 
 export interface EoListedTransferResponse {
@@ -71,7 +71,9 @@ export class EoTransfersService {
   }
 
   getTransfers() {
-    return this.http.get<EoListedTransferResponse>(`${this.#apiBase}/transfer-agreements`);
+    return this.http
+      .get<EoListedTransferResponse>(`${this.#apiBase}/transfer-agreements`)
+      .pipe(map((x) => x.result));
   }
 
   createAgreementProposal(transfer: EoTransfer) {
@@ -106,8 +108,8 @@ export class EoTransfersService {
 
   updateAgreement(transferId: string, endDate: number | null) {
     return this.http
-      .patch<EoListedTransfer>(`${this.#apiBase}/transfer-agreements/${transferId}`, {
-        endDate,
+      .put<EoListedTransfer>(`${this.#apiBase}/transfer-agreements/${transferId}`, {
+        endDate: endDate ? getUnixTime(endDate) : null,
       })
       .pipe(
         map((transfer) => ({
@@ -123,7 +125,15 @@ export class EoTransfersService {
       .get<EoTransferAgreementsHistoryResponse>(
         `${this.#apiBase}/transfer-agreements/${transferAgreementId}/history?limit=${limit}&offset=${offset}`
       )
-      .pipe(map((response) => response.items));
+      .pipe(
+        map((response) => response.items),
+        map((items) =>
+          items.map((item) => ({
+            ...item,
+            createdAt: item.createdAt * 1000,
+          }))
+        )
+      );
   }
 
   transferAutomationHasError(): Observable<boolean> {

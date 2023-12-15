@@ -29,6 +29,8 @@ export interface EoCertificate {
     fuelCode: string;
     techCode: string;
   };
+  time?: string;
+  amount?: string;
 }
 
 export interface EoCertificateContract {

@@ -25,7 +25,7 @@ import {
   inject,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 import { debounceTime } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -51,8 +51,8 @@ type Form = FormGroup<{
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    TranslocoModule,
     RxPush,
+    TranslocoDirective,
 
     VaterSpacerComponent,
     VaterStackComponent,

@@ -77,11 +77,13 @@ export class DhUsersTabTableComponent implements AfterViewInit {
   dataSource = new WattTableDataSource<MarketParticipantUserOverviewItemDto>();
   activeRow: MarketParticipantUserOverviewItemDto | undefined = undefined;
 
-  @Input() set users(value: MarketParticipantUserOverviewItemDto[]) {
+  @Input({ required: true }) set users(value: MarketParticipantUserOverviewItemDto[]) {
     this.dataSource.data = value;
   }
 
-  @Input() sortChanged!: (
+  @Input({ required: true }) isLoading = false;
+
+  @Input({ required: true }) sortChanged!: (
     prop: MarketParticipantUserOverviewSortProperty,
     direction: MarketParticipantSortDirection
   ) => void;

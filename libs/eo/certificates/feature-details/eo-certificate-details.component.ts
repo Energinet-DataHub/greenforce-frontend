@@ -14,32 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { UpperCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { RxLet } from '@rx-angular/template/let';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { map, tap } from 'rxjs';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
+import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
+import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
+import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
-import { EoCertificatesStore } from '@energinet-datahub/eo/certificates/data-access-api';
-import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { NgIf } from '@angular/common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    EoStackComponent,
-    RouterModule,
-    RxLet,
-    UpperCasePipe,
-    WattDatePipe,
-    EoBetaMessageComponent,
-    WATT_CARD,
-  ],
-  selector: 'eo-certificates',
+  imports: [EnergyUnitPipe, EoStackComponent, NgIf, RouterModule, WATT_CARD, WattDatePipe],
   standalone: true,
   styles: [
     `
@@ -69,9 +59,8 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
     `,
   ],
   template: `
-    <eo-eo-beta-message />
-    <div class="certificate">
-      <eo-stack size="M" *rxLet="certificate$; let cert">
+    <div class="certificate" *ngIf="certificate(); let cert">
+      <eo-stack size="M">
         <watt-card>
           <watt-card-title
             ><h4><b>Static Data</b></h4></watt-card-title
@@ -79,7 +68,7 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
           <eo-stack size="M">
             <div class="grid-table">
               <b>Energy</b>
-              <div>{{ cert?.quantity?.toLocaleString() }} Wh</div>
+              <div>{{ cert?.quantity | energyUnit }}</div>
               <b>Start time</b>
               <div>{{ cert?.start | wattDate: 'longAbbr' }}</div>
               <b>Start time</b>
@@ -129,19 +118,28 @@ import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-desi
     </div>
   `,
 })
-export class EoCertificateDetailsComponent {
-  private store: EoCertificatesStore = inject(EoCertificatesStore);
+export class EoCertificateDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  certificate$ = this.store.certificates$.pipe(
-    map(
-      (certs) =>
-        certs?.find(
-          (item) => item.federatedStreamId.streamId === this.route.snapshot.paramMap.get('id')
-        )
-    ),
-    tap((certFound) => {
-      if (!certFound) this.router.navigate([`/${eoCertificatesRoutePath}`]);
-    })
-  );
+  private certificatesService: EoCertificatesService = inject(EoCertificatesService);
+
+  certificate = signal<EoCertificate | undefined>(undefined);
+
+  ngOnInit(): void {
+    this.certificatesService
+      .getCertificates()
+      .pipe(
+        map((certs: EoCertificate[]) =>
+          certs.find(
+            (item) => item.federatedStreamId.streamId === this.route.snapshot.paramMap.get('id')
+          )
+        ),
+        tap((certFound) => {
+          if (!certFound) this.router.navigate([`/${eoCertificatesRoutePath}`]);
+        })
+      )
+      .subscribe((certificate) => {
+        this.certificate.set(certificate);
+      });
+  }
 }

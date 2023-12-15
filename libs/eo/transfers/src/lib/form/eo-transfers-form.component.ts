@@ -26,19 +26,19 @@ import {
   inject,
   DestroyRef,
   ViewChild,
+  signal,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule, NgClass, NgIf } from '@angular/common';
-import { distinctUntilChanged, of, switchMap } from 'rxjs';
+import { CommonModule, JsonPipe, NgClass, NgIf } from '@angular/common';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattModalActionsComponent } from '@energinet-datahub/watt/modal';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
+import { WATT_STEPPER, WattStep } from '@energinet-datahub/watt/stepper';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 
 import {
   compareValidator,
@@ -48,13 +48,13 @@ import {
   overlappingTransferAgreementsValidator,
 } from '../validations';
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
-import { EoExistingTransferAgreement } from '../eo-transfers.store';
 import { EoTransfersPeriodComponent } from './eo-transfers-period.component';
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EoTransferInvitationLinkComponent } from './eo-invitation-link';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { EoListedTransfer } from '../eo-transfers.service';
+import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 
 export interface EoTransfersFormInitialValues {
   receiverTin: string;
@@ -101,6 +101,8 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
     WATT_STEPPER,
     EoTransferInvitationLinkComponent,
     VaterStackComponent,
+    WattFieldHintComponent,
+    JsonPipe,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -108,11 +110,6 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
       eo-transfers-form .fieldset {
         display: flex;
         flex-wrap: wrap;
-        max-width: 300px;
-      }
-
-      eo-transfers-form watt-field:not(.watt-field--chip) {
-        min-height: 0px;
       }
 
       eo-transfers-form form {
@@ -121,6 +118,13 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
 
       eo-transfers-form watt-stepper-content-wrapper {
         min-height: 341px;
+      }
+
+      eo-transfers-form .receiver,
+      eo-transfers-form .timeframe-step {
+        gap: var(--watt-space-l);
+        display: flex;
+        flex-direction: column;
       }
     `,
   ],
@@ -144,13 +148,19 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
             label="Timeframe"
             nextButtonLabel="Next"
             previousButtonLabel="Previous"
-            (next)="onSubmit()"
+            (entering)="onEnteringTimeframeStep()"
+            (leaving)="onLeavingTimeframeStep()"
             [stepControl]="form.controls.period"
           >
-            <eo-transfers-form-period
-              formGroupName="period"
-              [existingTransferAgreements]="existingTransferAgreements"
-            />
+            <div class="timeframe-step">
+              <h2>What is the duration of agreement?</h2>
+              <p>Choosing no end date, you can always stop the agreement manually.</p>
+
+              <eo-transfers-form-period
+                formGroupName="period"
+                [existingTransferAgreements]="existingTransferAgreements()"
+              />
+            </div>
           </watt-stepper-step>
           <!-- Invitation -->
           <watt-stepper-step
@@ -158,6 +168,8 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
             nextButtonLabel="Copy & close"
             [disableNextButton]="generateProposalFailed"
             previousButtonLabel="Previous"
+            (entering)="onSubmit()"
+            (leaving)="onLeaveInvitationStep($event)"
           >
             <vater-stack direction="column" gap="l" align="flex-start">
               <ng-container *ngIf="!generateProposalFailed; else error">
@@ -193,7 +205,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
         <ng-container *ngTemplateOutlet="receiver" />
         <eo-transfers-form-period
           formGroupName="period"
-          [existingTransferAgreements]="existingTransferAgreements"
+          [existingTransferAgreements]="existingTransferAgreements()"
         />
 
         <watt-modal-actions>
@@ -212,34 +224,44 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
     </ng-template>
 
     <ng-template #receiver>
-      <watt-text-field
-        label="CVR NO./TIN"
-        type="text"
-        style="max-width: 300px;"
-        [formControl]="form.controls.receiver.controls.tin"
-        (keydown)="preventNonNumericInput($event)"
-        data-testid="new-agreement-receiver-input"
-        [maxLength]="8"
-      >
-        <watt-field-error
-          *ngIf="form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin']"
+      <div class="receiver">
+        <ng-container *ngIf="mode === 'create'">
+          <h3 class="watt-headline-2">Who is the agreement for?</h3>
+          <p>Optional, but recommended for security reasons.</p>
+        </ng-container>
+
+        <watt-text-field
+          label="Recipient"
+          placeholder="CVR / TIN"
+          type="text"
+          style="max-width: 330px;"
+          [formControl]="form.controls.receiver.controls.tin"
+          (keydown)="preventNonNumericInput($event)"
+          data-testid="new-agreement-receiver-input"
+          [autocompleteOptions]="filteredReceiversTin()"
+          (search)="onSearch($event)"
+          [maxLength]="8"
         >
-          The receiver cannot be your own TIN/CVR
-        </watt-field-error>
-        <watt-field-error
-          *ngIf="
-            form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin'] ||
-            form.controls.receiver.controls.tin.errors
-          "
-        >
-          An 8-digit TIN/CVR number is required
-        </watt-field-error>
-      </watt-text-field>
+          <watt-field-hint *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
+            >Enter new CVR number or choose from previous transfer agreements</watt-field-hint
+          >
+
+          <watt-field-error
+            *ngIf="form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin']"
+          >
+            The receiver cannot be your own TIN/CVR
+          </watt-field-error>
+          <watt-field-error *ngIf="form.controls.receiver.controls.tin.errors?.['pattern']">
+            An 8-digit TIN/CVR number is required
+          </watt-field-error>
+        </watt-text-field>
+      </div>
     </ng-template>
   `,
 })
 export class EoTransfersFormComponent implements OnInit, OnChanges {
   @Input() senderTin?: string;
+  @Input() transferId?: string; // used in edit mode
   @Input() mode: 'create' | 'edit' = 'create';
   @Input() submitButtonText = 'Create transfer agreement';
   @Input() initialValues: EoTransfersFormInitialValues = {
@@ -254,42 +276,57 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
     'startDate',
     'endDate',
   ];
-  @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
+
+  @Input() transferAgreements: EoListedTransfer[] = [];
   @Input() proposalId: string | null = null;
   @Input() generateProposalFailed = false;
 
   @Output() submitted = new EventEmitter();
   @Output() canceled = new EventEmitter();
-  @Output() receiverTinChanged = new EventEmitter<string | null>();
 
   @ViewChild('invitaionLink') invitaionLink!: EoTransferInvitationLinkComponent;
 
   protected form!: FormGroup<EoTransfersForm>;
+  protected filteredReceiversTin = signal<string[]>([]);
+  protected existingTransferAgreements = signal<EoExistingTransferAgreement[]>([]);
+
+  private recipientTins = signal<string[]>([]);
   private _destroyRef = inject(DestroyRef);
 
-  ngOnInit(): void {
-    this.initForm();
+  onEnteringTimeframeStep() {
+    this.setExistingTransferAgreements();
+  }
 
-    const tin = this.form.controls.receiver.controls['tin'];
-    tin.valueChanges
-      .pipe(
-        takeUntilDestroyed(this._destroyRef),
-        switchMap(() => {
-          return of(tin.valid);
-        }),
-        distinctUntilChanged()
-      )
-      .subscribe((receiverTinValidity) => {
-        const receiverTin = receiverTinValidity ? tin.value : null;
-        this.receiverTinChanged.emit(receiverTin);
-      });
+  onLeavingTimeframeStep() {
+    this.existingTransferAgreements.set([]);
+  }
+
+  ngOnInit(): void {
+    if (this.mode === 'edit') {
+      this.setExistingTransferAgreements();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (!this.form) this.initForm();
+
     if (changes['existingTransferAgreements'] && this.form) {
       this.form.controls.period.setValidators(this.getPeriodValidators());
       this.form.controls.period.updateValueAndValidity();
     }
+
+    if (changes['senderTin'] && this.senderTin) {
+      this.recipientTins.set(this.getRecipientTins(this.transferAgreements));
+      this.onSearch('');
+
+      this.form.controls.receiver.controls['tin'].addValidators(
+        compareValidator(this.senderTin, 'receiverTinEqualsSenderTin')
+      );
+    }
+  }
+
+  protected onSearch(query: string) {
+    this.filteredReceiversTin.set(this.recipientTins().filter((tin) => tin.includes(query)));
   }
 
   protected onCancel() {
@@ -305,6 +342,10 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
     this.submitted.emit(this.form.value);
   }
 
+  onLeaveInvitationStep(step: WattStep) {
+    step.reset();
+  }
+
   protected preventNonNumericInput(event: KeyboardEvent) {
     const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Control', 'Alt'];
     const selectAll = event.key === 'a' && (event.metaKey || event.ctrlKey);
@@ -314,6 +355,42 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
     if (!isNumericInput && !isSpecialKey && !selectAll) {
       event.preventDefault();
     }
+  }
+
+  private setExistingTransferAgreements() {
+    const recipient = this.form.controls.receiver.get('tin')?.value;
+    if (!recipient) this.existingTransferAgreements.set([]);
+
+    this.existingTransferAgreements.set(
+      this.transferAgreements
+        .filter((transfer) => transfer.id !== this.transferId) // used in edit mode
+        .filter((transfer) => transfer.receiverTin === recipient)
+        .map((transfer) => {
+          return { startDate: transfer.startDate, endDate: transfer.endDate };
+        })
+        // Filter out transfers that have ended
+        .filter((transfer) => transfer.endDate === null || transfer.endDate > new Date().getTime())
+        // TODO: CONSIDER MOVING THE SORTING
+        .sort((a, b) => {
+          if (a.endDate === null) return 1; // a is lesser if its endDate is null
+          if (b.endDate === null) return -1; // b is lesser if its endDate is null
+          return a.endDate - b.endDate;
+        })
+    );
+  }
+
+  private getRecipientTins(transferAgreements: EoListedTransfer[]) {
+    const tins = transferAgreements.reduce((acc, transfer) => {
+      if (transfer.receiverTin !== this.senderTin) {
+        acc.push(transfer.receiverTin);
+      }
+      if (transfer.senderTin !== this.senderTin) {
+        acc.push(transfer.senderTin);
+      }
+      return acc;
+    }, [] as string[]);
+
+    return [...new Set(tins)];
   }
 
   private initForm() {
@@ -327,10 +404,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
             disabled: !this.editableFields.includes('receiverTin'),
           },
           {
-            validators: [
-              Validators.pattern('^[0-9]{8}$'),
-              compareValidator(this.senderTin || '', 'receiverTinEqualsSenderTin'),
-            ],
+            validators: [Validators.pattern('^[0-9]{8}$')],
           }
         ),
       }),
@@ -363,7 +437,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   getPeriodValidators() {
     return [
       endDateMustBeLaterThanStartDateValidator(),
-      overlappingTransferAgreementsValidator(this.existingTransferAgreements),
+      overlappingTransferAgreementsValidator(this.existingTransferAgreements()),
     ];
   }
 }

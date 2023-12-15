@@ -45,11 +45,12 @@ import {
 } from '@energinet-datahub/dh/shared/ui-validators';
 
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { parseApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+
 @Component({
   standalone: true,
   selector: 'dh-actors-create-actor-modal',
@@ -95,7 +96,7 @@ export class DhActorsCreateActorModalComponent {
     glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
     name: [''],
     marketrole: [EicFunctionType.BillingAgent, Validators.required],
-    gridArea: [{ value: '', disabled: true }, Validators.required],
+    gridArea: [{ value: [] as string[], disabled: true }, Validators.required],
     contact: this._fb.group({
       departmentOrName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -117,12 +118,12 @@ export class DhActorsCreateActorModalComponent {
     this.showCreateNewOrganization.set(!this.showCreateNewOrganization());
   }
 
-  open() {
+  open(): void {
     this.modal?.open();
   }
 
-  close() {
-    this.modal?.close(false);
+  close(isSuccess = false): void {
+    this.modal?.close(isSuccess);
   }
 
   createMarketParticipent(): void {
@@ -168,9 +169,10 @@ export class DhActorsCreateActorModalComponent {
               marketRoles: [
                 {
                   eicFunction: this.newActorForm.controls.marketrole.value,
-                  gridAreas: this.newActorForm.controls.gridArea.value
-                    ? [{ id: this.newActorForm.controls.gridArea.value, meteringPointTypes: [] }]
-                    : [],
+                  gridAreas: this.newActorForm.controls.gridArea.value.map((gridArea) => ({
+                    id: gridArea,
+                    meteringPointTypes: [],
+                  })),
                 },
               ],
               actorNumber: {
@@ -199,14 +201,16 @@ export class DhActorsCreateActorModalComponent {
     ) {
       this._toastService.open({
         type: 'danger',
-        message: parseApiErrorResponse(response.data?.createMarketParticipant?.errors),
+        message: readApiErrorResponse(response.data?.createMarketParticipant?.errors),
       });
     }
 
     if (response.data?.createMarketParticipant?.success) {
       this._toastService.open({ type: 'success', message: 'Market participant created' });
+
+      this.close(true);
     }
+
     this.isCompleting.set(false);
-    this.close();
   }
 }

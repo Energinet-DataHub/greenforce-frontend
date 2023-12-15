@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 export {
-  parseErrorResponse,
-  parseApiErrorResponse,
+  ApiErrorCollection,
+  readApiErrorResponse,
 } from './lib/dh-market-participant-error-handling';
