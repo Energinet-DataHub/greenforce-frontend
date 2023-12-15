@@ -1494,14 +1494,12 @@
             "marketPartyPlaceholder": "Choose market party",
             "userRolePlaceholder": "Choose user role"
           },
-          "table": {
-            "columns": {
-              "firstName": "First name",
-              "lastName": "Last name",
-              "email": "Email",
-              "phone": "Phone",
-              "status": "Status"
-            }
+          "columns": {
+            "firstName": "First name",
+            "lastName": "Last name",
+            "email": "Email",
+            "phone": "Phone",
+            "status": "Status"
           },
           "errors": {
             "generalError": {

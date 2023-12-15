@@ -53,34 +53,15 @@ limitations under the License.
         />
       </vater-stack>
 
-      <vater-flex fill="vertical" scrollable>
-        <ng-container *rxLet="users$ as users">
-          <dh-users-tab-table
-            [users]="users"
-            [sortChanged]="sortChanged"
-            [isLoading]="isLoading$ | push"
-          />
-
-          <ng-container *rxLet="isLoading$ as isLoading">
-            <vater-stack fill="vertical" justify="center" *ngIf="!isLoading && users.length === 0">
-              <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
-                <dh-users-tab-general-error
-                  *ngIf="hasGeneralError; else emptyStateTmpl"
-                  (reload)="reloadUsers()"
-                />
-              </ng-container>
-
-              <ng-template #emptyStateTmpl>
-                <watt-empty-state
-                  icon="cancel"
-                  [title]="t('emptyTitle')"
-                  [message]="t('emptyMessage')"
-                />
-              </ng-template>
-            </vater-stack>
-          </ng-container>
-        </ng-container>
-      </vater-flex>
+      <ng-container *rxLet="users$ as users">
+        <dh-users-tab-table
+          [users]="users"
+          [sortChanged]="sortChanged"
+          [isLoading]="isLoading$ | push"
+          [hasGeneralError]="hasGeneralError$ | push"
+          (reload)="reloadUsers()"
+        />
+      </ng-container>
 
       <watt-paginator
         [length]="totalUserCount$ | push"
