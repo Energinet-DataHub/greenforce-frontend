@@ -48,10 +48,28 @@ import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.compon
 
 @Component({
   selector: 'dh-roles-tab',
-  templateUrl: './dh-roles-tab.component.html',
-  styleUrls: ['./dh-roles-tab.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './dh-roles-tab.component.html',
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      h3 {
+        margin: 0;
+      }
+
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
+      }
+    `,
+  ],
   providers: [provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore)],
   imports: [
     NgIf,
