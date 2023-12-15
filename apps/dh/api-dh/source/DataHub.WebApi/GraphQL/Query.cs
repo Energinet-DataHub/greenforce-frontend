@@ -320,7 +320,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     PreviousValue = auditLog.PreviousValue,
                     Timestamp = auditLog.Timestamp,
                     Type = auditLogType,
-                    ContactCategory = MarketParticipant.Client.Models.ContactCategory.Default,
+                    ContactCategory = ContactCategory.Default,
                 });
             }
 
@@ -336,26 +336,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     _ => ActorAuditLogType.Created,
                 };
 
-                // TODO: This is needed as long as we include the original client from the nuget package, since both have a type called ContactCategory
-                var contactCategory = auditLog.ContactCategory switch
-                {
-                    ContactCategory.Default => MarketParticipant.Client.Models.ContactCategory.Default,
-                    ContactCategory.Charges => MarketParticipant.Client.Models.ContactCategory.Charges,
-                    ContactCategory.ChargeLinks => MarketParticipant.Client.Models.ContactCategory.ChargeLinks,
-                    ContactCategory.ElectricalHeating => MarketParticipant.Client.Models.ContactCategory.ElectricalHeating,
-                    ContactCategory.EndOfSupply => MarketParticipant.Client.Models.ContactCategory.EndOfSupply,
-                    ContactCategory.EnerginetInquiry => MarketParticipant.Client.Models.ContactCategory.EnerginetInquiry,
-                    ContactCategory.ErrorReport => MarketParticipant.Client.Models.ContactCategory.ErrorReport,
-                    ContactCategory.IncorrectMove => MarketParticipant.Client.Models.ContactCategory.IncorrectMove,
-                    ContactCategory.IncorrectSwitch => MarketParticipant.Client.Models.ContactCategory.IncorrectSwitch,
-                    ContactCategory.MeasurementData => MarketParticipant.Client.Models.ContactCategory.MeasurementData,
-                    ContactCategory.MeteringPoint => MarketParticipant.Client.Models.ContactCategory.MeteringPoint,
-                    ContactCategory.NetSettlement => MarketParticipant.Client.Models.ContactCategory.NetSettlement,
-                    ContactCategory.Notification => MarketParticipant.Client.Models.ContactCategory.Notification,
-                    ContactCategory.Recon => MarketParticipant.Client.Models.ContactCategory.Recon,
-                    ContactCategory.Reminder => MarketParticipant.Client.Models.ContactCategory.Reminder,
-                    _ => MarketParticipant.Client.Models.ContactCategory.Default,
-                };
                 actorAuditLogs.Add(new ActorAuditLog()
                 {
                     ChangedByUserId = auditLog.AuditIdentityId,
@@ -363,7 +343,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     PreviousValue = auditLog.PreviousValue,
                     Timestamp = auditLog.Timestamp,
                     Type = auditLogType,
-                    ContactCategory = contactCategory,
+                    ContactCategory = auditLog.ContactCategory,
                 });
             }
 

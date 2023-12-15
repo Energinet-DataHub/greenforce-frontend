@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using System.Linq;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
