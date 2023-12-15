@@ -553,7 +553,7 @@
             "expired": "The provided certificate has expired.",
             "invalid_state": "The market participants B2B access cannot be modified, as the market participant has been deactivated or is still being created.",
             "still_active": "The market participant cannot be deactivated, as it still has B2B access configured.",
-            "thumbprint_reserved": "The provided certificate is already in use by another market participant."
+            "thumbprint_reserved": "The certificate is already in use."
           }
         },
         "market_role": {
@@ -1494,14 +1494,12 @@
             "marketPartyPlaceholder": "Choose market party",
             "userRolePlaceholder": "Choose user role"
           },
-          "table": {
-            "columns": {
-              "firstName": "First name",
-              "lastName": "Last name",
-              "email": "Email",
-              "phone": "Phone",
-              "status": "Status"
-            }
+          "columns": {
+            "firstName": "First name",
+            "lastName": "Last name",
+            "email": "Email",
+            "phone": "Phone",
+            "status": "Status"
           },
           "errors": {
             "generalError": {
@@ -1516,6 +1514,8 @@
           "roles": "User roles",
           "role": "User role",
           "rolesHeadline": "User roles",
+          "emptyTitle": "No user roles found",
+          "emptyMessage": "Try changing the search criteria",
           "filter": {
             "status": "Status",
             "marketRole": "Market role",
@@ -1638,7 +1638,7 @@
         }
       },
       "permissionsTab": {
-        "headline": "{{ numberOfPermissions }} permissions",
+        "headline": "Permissions",
         "permissionName": "Name",
         "permissionDescription": "Description"
       },

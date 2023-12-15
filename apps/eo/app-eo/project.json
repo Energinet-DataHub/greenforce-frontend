@@ -120,7 +120,8 @@
           "buildTarget": "app-eo:build:production"
         },
         "mocked": {
-          "buildTarget": "app-eo:build:mocked"
+          "buildTarget": "app-eo:build:mocked",
+          "host": "0.0.0.0"
         }
       },
       "defaultConfiguration": "development"
