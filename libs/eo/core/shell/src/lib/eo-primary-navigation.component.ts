@@ -14,24 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  OnInit,
+  inject,
+  signal,
+} from '@angular/core';
 
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
 
-import {
-  EoAuthStore,
-  EoFeatureFlagDirective,
-} from '@energinet-datahub/eo/shared/services';
+import { EoAuthStore, EoFeatureFlagDirective } from '@energinet-datahub/eo/shared/services';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    WattNavListComponent,
-    WattNavListItemComponent,
-    EoFeatureFlagDirective,
-  ],
+  imports: [WattNavListComponent, WattNavListItemComponent, EoFeatureFlagDirective],
   selector: 'eo-primary-navigation',
   styles: [
     `
@@ -41,8 +41,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         height: calc(100% - 64px);
         grid-template-rows: 1fr auto;
         grid-template-areas:
-          "nav"
-          "userinfo";
+          'nav'
+          'userinfo';
       }
 
       watt-nav-list {
@@ -87,9 +87,9 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
     </watt-nav-list>
 
     <section class="userinfo">
-      <p class="watt-label company-name">{{userInfo()?.cpn}}</p>
-      <p class="watt-label">CVR / TIN: {{userInfo()?.tin}}</p>
-      <p class="watt-label">{{userInfo()?.name}}</p>
+      <p class="watt-label company-name">{{ userInfo()?.cpn }}</p>
+      <p class="watt-label">CVR / TIN: {{ userInfo()?.tin }}</p>
+      <p class="watt-label">{{ userInfo()?.name }}</p>
     </section>
   `,
 })
@@ -97,7 +97,7 @@ export class EoPrimaryNavigationComponent implements OnInit {
   private authStore = inject(EoAuthStore);
 
   protected routes = eoRoutes;
-  protected userInfo = signal<{name: string; cpn: string; tin: string;} | null>(null);
+  protected userInfo = signal<{ name: string; cpn: string; tin: string } | null>(null);
 
   @HostBinding('attr.aria-label')
   get ariaLabelAttribute(): string {
@@ -105,12 +105,12 @@ export class EoPrimaryNavigationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.authStore.getUserInfo$.subscribe((userInfo) => {
-        this.userInfo.set({
-          name: userInfo.name ?? '',
-          cpn: userInfo.cpn ?? '',
-          tin: userInfo.tin ?? '',
-        })
+    this.authStore.getUserInfo$.subscribe((userInfo) => {
+      this.userInfo.set({
+        name: userInfo.name ?? '',
+        cpn: userInfo.cpn ?? '',
+        tin: userInfo.tin ?? '',
       });
+    });
   }
 }
