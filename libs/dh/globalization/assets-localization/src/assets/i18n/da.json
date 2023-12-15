@@ -1482,14 +1482,12 @@
             "marketPartyPlaceholder": "Vælg aktør",
             "userRolePlaceholder": "Vælg brugerrolle"
           },
-          "table": {
-            "columns": {
-              "firstName": "Fornavn",
-              "lastName": "Efternavn",
-              "email": "Email",
-              "phone": "Telefon",
-              "status": "Status"
-            }
+          "columns": {
+            "firstName": "Fornavn",
+            "lastName": "Efternavn",
+            "email": "Email",
+            "phone": "Telefon",
+            "status": "Status"
           }
         },
         "roles": {
