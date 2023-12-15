@@ -27,6 +27,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
   selector: 'dh-roles-tab-list-filter',
@@ -35,9 +36,7 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
   styles: [
     `
       :host {
-        display: flex;
-        align-items: center;
-        gap: var(--watt-space-m);
+        display: block;
       }
     `,
   ],
@@ -47,6 +46,7 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
     TranslocoDirective,
     ReactiveFormsModule,
 
+    VaterStackComponent,
     WattDropdownComponent,
     DhDropdownTranslatorDirective,
   ],

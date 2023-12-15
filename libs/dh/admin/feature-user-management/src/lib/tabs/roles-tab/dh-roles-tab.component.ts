@@ -27,7 +27,6 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import {
   MarketParticipantEicFunction,
   MarketParticipantUserRoleDto,
@@ -35,22 +34,42 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-create-user-role';
-import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
 import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.component';
-import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
 
 @Component({
   selector: 'dh-roles-tab',
-  templateUrl: './dh-roles-tab.component.html',
-  styleUrls: ['./dh-roles-tab.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './dh-roles-tab.component.html',
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      h3 {
+        margin: 0;
+      }
+
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
+      }
+    `,
+  ],
   providers: [provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore)],
   imports: [
     NgIf,
@@ -60,18 +79,16 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
     RxLet,
 
     VaterStackComponent,
+    VaterFlexComponent,
     VaterSpacerComponent,
+    VaterUtilityDirective,
     WATT_CARD,
-    WATT_MODAL,
     WattSearchComponent,
     WattButtonComponent,
     WattPaginatorComponent,
-    WattSpinnerComponent,
-    WattEmptyStateComponent,
 
     DhRolesTabTableComponent,
     DhRolesTabListFilterComponent,
-    DhTabDataGeneralErrorComponent,
     DhPermissionRequiredDirective,
     DhCreateUserRoleModalComponent,
   ],
