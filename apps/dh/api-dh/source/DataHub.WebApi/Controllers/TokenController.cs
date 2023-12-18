@@ -14,8 +14,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,9 +24,9 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class TokenController : MarketParticipantControllerBase
     {
-        private readonly IMarketParticipantClient _client;
+        private readonly IMarketParticipantClient_V1 _client;
 
-        public TokenController(IMarketParticipantClient client)
+        public TokenController(IMarketParticipantClient_V1 client)
         {
             _client = client;
         }
@@ -37,11 +36,11 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// </summary>
         [HttpPost]
         [AllowAnonymous]
-        public Task<ActionResult<GetTokenResponseDto>> GetTokenAsync(Guid actorId)
+        public Task<ActionResult<TokenResponse>> GetTokenAsync(Guid actorId)
         {
             var externalToken = HttpContext.Request.Headers["Authorization"].ToString();
             externalToken = externalToken.Replace("Bearer ", string.Empty);
-            return HandleExceptionAsync(() => _client.GetTokenAsync(new GetTokenRequestDto(actorId, externalToken)));
+            return HandleExceptionAsync(() => _client.TokenAsync(new TokenRequest() { ActorId = actorId, ExternalToken = externalToken }));
         }
     }
 }

@@ -16,17 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Microsoft.AspNetCore.Mvc;
-using ActorDto = Energinet.DataHub.MarketParticipant.Client.Models.ActorDto;
-using CreateUserRoleDto = Energinet.DataHub.MarketParticipant.Client.Models.CreateUserRoleDto;
-using EicFunction = Energinet.DataHub.MarketParticipant.Client.Models.EicFunction;
-using PermissionDetailsDto = Energinet.DataHub.MarketParticipant.Client.Models.PermissionDetailsDto;
-using UpdateUserRoleDto = Energinet.DataHub.MarketParticipant.Client.Models.UpdateUserRoleDto;
-using UserRoleDto = Energinet.DataHub.MarketParticipant.Client.Models.UserRoleDto;
-using UserRoleWithPermissionsDto = Energinet.DataHub.MarketParticipant.Client.Models.UserRoleWithPermissionsDto;
 
 namespace Energinet.DataHub.WebApi.Controllers
 {
@@ -34,83 +26,76 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class MarketParticipantUserRoleController : MarketParticipantControllerBase
     {
-        private readonly IMarketParticipantUserRoleClient _userRoleClient;
-        private readonly IMarketParticipantClient _marketParticipantClient;
-        private readonly IMarketParticipantClient_V1 _marketParticipantClientV1;
+        private readonly IMarketParticipantClient_V1 _client;
 
-        public MarketParticipantUserRoleController(
-            IMarketParticipantUserRoleClient userRoleClient,
-            IMarketParticipantClient marketParticipantClient,
-            IMarketParticipantClient_V1 marketParticipantClientV1)
+        public MarketParticipantUserRoleController(IMarketParticipantClient_V1 client)
         {
-            _userRoleClient = userRoleClient;
-            _marketParticipantClient = marketParticipantClient;
-            _marketParticipantClientV1 = marketParticipantClientV1;
+            _client = client;
         }
 
         [HttpGet]
         [Route("Get")]
-        public Task<ActionResult<IEnumerable<UserRoleDto>>> GetAsync(Guid actorId, Guid userId)
+        public Task<ActionResult<ICollection<UserRoleDto>>> GetAsync(Guid actorId, Guid userId)
         {
-            return HandleExceptionAsync(() => _userRoleClient.GetAsync(actorId, userId));
+            return HandleExceptionAsync(() => _client.ActorsUsersRolesGetAsync(actorId, userId));
         }
 
         [HttpGet]
         [Route("GetUserRoleWithPermissions")]
         public Task<ActionResult<UserRoleWithPermissionsDto>> GetUserRoleWithPermissionsAsync(Guid userRoleId)
         {
-            return HandleExceptionAsync(() => _userRoleClient.GetAsync(userRoleId));
+            return HandleExceptionAsync(() => _client.UserRolesGetAsync(userRoleId));
         }
 
         [HttpGet]
         [Route("GetAll")]
-        public Task<ActionResult<IEnumerable<UserRoleDto>>> GetAllAsync()
+        public Task<ActionResult<ICollection<UserRoleDto>>> GetAllAsync()
         {
-            return HandleExceptionAsync(() => _userRoleClient.GetAllAsync());
+            return HandleExceptionAsync(() => _client.UserRolesGetAsync());
         }
 
         [HttpGet]
         [Route("GetAssignable")]
-        public Task<ActionResult<IEnumerable<UserRoleDto>>> GetAssignableAsync(Guid actorId)
+        public Task<ActionResult<ICollection<UserRoleDto>>> GetAssignableAsync(Guid actorId)
         {
-            return HandleExceptionAsync(() => _userRoleClient.GetAssignableAsync(actorId));
+            return HandleExceptionAsync(() => _client.ActorsRolesAsync(actorId));
         }
 
         [HttpGet]
         [Route("GetUserRoleView")]
         public async Task<ActionResult<IEnumerable<ActorViewDto>>> GetUserRoleViewAsync(Guid userId)
         {
-            var usersActors = await _marketParticipantClient
-                .GetUserActorsAsync(userId)
+            var usersActors = await _client
+                .UserActorsGetAsync(userId)
                 .ConfigureAwait(false);
 
             var fetchedActors = new List<ActorDto>();
 
             foreach (var actorId in usersActors.ActorIds)
             {
-                fetchedActors.Add(await _marketParticipantClient.GetActorAsync(actorId).ConfigureAwait(false));
+                fetchedActors.Add(await _client.ActorGetAsync(actorId).ConfigureAwait(false));
             }
 
             var actorViews = new List<ActorViewDto>();
 
             foreach (var organizationAndActors in fetchedActors.GroupBy(actor => actor.OrganizationId))
             {
-                var organization = await _marketParticipantClient
-                    .GetOrganizationAsync(organizationAndActors.Key)
+                var organization = await _client
+                    .OrganizationGetAsync(organizationAndActors.Key)
                     .ConfigureAwait(false);
 
                 foreach (var actor in organizationAndActors)
                 {
                     var actorUserRoles = new List<UserRoleViewDto>();
-                    var assignedRoles = await _userRoleClient
-                        .GetAsync(actor.ActorId, userId)
+                    var assignedRoles = await _client
+                        .ActorsUsersRolesGetAsync(actor.ActorId, userId)
                         .ConfigureAwait(false);
 
                     var assignmentLookup = assignedRoles
                         .Select(ar => ar.Id)
                         .ToHashSet();
 
-                    foreach (var userRole in await _userRoleClient.GetAssignableAsync(actor.ActorId).ConfigureAwait(false))
+                    foreach (var userRole in await _client.ActorsRolesAsync(actor.ActorId).ConfigureAwait(false))
                     {
                         actorUserRoles.Add(new UserRoleViewDto(
                             userRole.Id,
@@ -136,16 +121,16 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Route("Create")]
         public async Task<ActionResult<Guid>> CreateAsync(CreateUserRoleDto userRole)
         {
-            var copy = new Clients.MarketParticipant.v1.CreateUserRoleDto
+            var copy = new CreateUserRoleDto
             {
                 Name = userRole.Name,
                 Description = userRole.Description,
-                EicFunction = (Clients.MarketParticipant.v1.EicFunction)userRole.EicFunction,
+                EicFunction = userRole.EicFunction,
                 Permissions = userRole.Permissions,
-                Status = (UserRoleStatus)userRole.Status,
+                Status = userRole.Status,
             };
 
-            var userRoleId = await _marketParticipantClientV1
+            var userRoleId = await _client
                 .UserRolesPostAsync(copy)
                 .ConfigureAwait(false);
 
@@ -156,21 +141,21 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Route("Update")]
         public Task<ActionResult> UpdateAsync(Guid userRoleId, UpdateUserRoleDto userRole)
         {
-            return HandleExceptionAsync(() => _userRoleClient.UpdateAsync(userRoleId, userRole));
+            return HandleExceptionAsync(() => _client.UserRolesPutAsync(userRoleId, userRole));
         }
 
         [HttpGet]
         [Route("Permissions")]
-        public Task<ActionResult<IEnumerable<PermissionDetailsDto>>> GetPermissionDetailsAsync(EicFunction eicFunction)
+        public Task<ActionResult<ICollection<PermissionDetailsDto>>> GetPermissionDetailsAsync(EicFunction eicFunction)
         {
-            return HandleExceptionAsync(() => _userRoleClient.GetPermissionDetailsAsync(eicFunction));
+            return HandleExceptionAsync(() => _client.UserRolesPermissionsAsync(eicFunction));
         }
 
         [HttpGet]
         [Route("Deactivate")]
         public Task<ActionResult> DeactivateRoleAsync(Guid roleId)
         {
-            return HandleExceptionAsync(() => _userRoleClient.DeactivateUserRoleAsync(roleId));
+            return HandleExceptionAsync(() => _client.UserRolesDeactivateAsync(roleId));
         }
     }
 }

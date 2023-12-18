@@ -23,7 +23,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
     public class MarketParticipantResolvers
     {
         public Task<ICollection<UserRoleDto>> GetAssignedPermissionAsync(
-            [Parent] PermissionDetailsDto permission,
+            [Parent] PermissionDto permission,
             [Service] IMarketParticipantClient_V1 client) =>
             client.UserRolesAssignedtopermissionAsync(permission.Id);
 

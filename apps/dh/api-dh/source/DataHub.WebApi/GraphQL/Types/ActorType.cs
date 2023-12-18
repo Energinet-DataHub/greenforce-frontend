@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Linq;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
@@ -37,6 +39,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Name("marketRole")
                 .Resolve(context =>
                     context.Parent<ActorDto>().MarketRoles.FirstOrDefault()?.EicFunction);
+
+            descriptor
+                .Field(f => f.Status)
+                .Name("status")
+                .Resolve(context =>
+                    Enum.Parse<ActorStatus>(context.Parent<ActorDto>().Status));
 
             descriptor
                 .Field("gridAreas")

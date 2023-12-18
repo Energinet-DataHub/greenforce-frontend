@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class PermissionType : ObjectType<PermissionDetailsDto>
+    public class PermissionType : ObjectType<PermissionDto>
     {
-        protected override void Configure(IObjectTypeDescriptor<PermissionDetailsDto> descriptor)
+        protected override void Configure(IObjectTypeDescriptor<PermissionDto> descriptor)
         {
             descriptor.Name("Permission");
             descriptor

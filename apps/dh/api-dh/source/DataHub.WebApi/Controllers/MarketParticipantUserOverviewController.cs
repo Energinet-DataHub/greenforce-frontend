@@ -13,8 +13,7 @@
 // limitations under the License.
 
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -23,23 +22,23 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class MarketParticipantUserOverviewController : MarketParticipantControllerBase
     {
-        private readonly IMarketParticipantClient _client;
+        private readonly IMarketParticipantClient_V1 _client;
 
-        public MarketParticipantUserOverviewController(IMarketParticipantClient client)
+        public MarketParticipantUserOverviewController(IMarketParticipantClient_V1 client)
         {
             _client = client;
         }
 
         [HttpPost]
         [Route("SearchUsers")]
-        public Task<ActionResult<UserOverviewResultDto>> SearchUsersAsync(
+        public Task<ActionResult<GetUserOverviewResponse>> SearchUsersAsync(
             int pageNumber,
             int pageSize,
             UserOverviewSortProperty sortProperty,
             SortDirection sortDirection,
             [FromBody] UserOverviewFilterDto filter)
         {
-            return HandleExceptionAsync(() => _client.SearchUsersAsync(pageNumber, pageSize, sortProperty, sortDirection, filter));
+            return HandleExceptionAsync(() => _client.UserOverviewUsersSearchAsync(pageNumber, pageSize, sortProperty, sortDirection, filter));
         }
     }
 }
