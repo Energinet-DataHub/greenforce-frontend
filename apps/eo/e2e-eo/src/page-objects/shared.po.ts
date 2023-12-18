@@ -19,6 +19,7 @@ export class SharedPO {
   private cookieBanner = 'eo-cookie-banner';
   private acceptAllButton = '[data-testid="button-accept-all"]';
   private navListItem = 'watt-nav-list-item';
+  private topbarActions = '.watt-toolbar button';
 
   // Visibility
   cookieBannerIsVisible = () => cy.get(this.cookieBanner).should('be.visible');
@@ -28,7 +29,7 @@ export class SharedPO {
 
   // Interaction
   clickOnlyNecessaryButton = () => cy.get(this.onlyNecessaryButton).click();
-  clickLogoutMenuItem = () => cy.get(this.navListItem).contains('Log out').click();
+  clickLogoutMenuItem = () => cy.get(this.topbarActions).contains('Log out').click();
   clickTransfersMenuItem = () => cy.get(this.navListItem).contains('Transfers').click();
   clickConnectionsMenuItem = () => cy.get(this.navListItem).contains('Connections').click();
 }
