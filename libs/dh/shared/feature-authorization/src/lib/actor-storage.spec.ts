@@ -14,37 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { LocalStorageFake, SessionStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
-import { LocalStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
 import { ActorStorage } from './actor-storage';
 
-describe(ActorStorage.name, () => {
-  const ids = ['18918674-D8EB-483F-94E8-CE241AB502E5', '898BF589-543C-42DA-8A72-120F0E263E86'];
+describe(ActorStorage, () => {
+  const actorIds = ['18918674-D8EB-483F-94E8-CE241AB502E5', '898BF589-543C-42DA-8A72-120F0E263E86'];
 
-  test('should return selected if set', async () => {
+  test('return selected actor when set', () => {
     // arrange
-    const target = new ActorStorage(new LocalStorageFake());
+    const target = new ActorStorage(new LocalStorageFake(), new SessionStorageFake());
 
-    target.setUserAssociatedActors(ids);
+    target.setUserAssociatedActors(actorIds);
 
     // act
-    target.setSelectedActor(ids[1]);
+    target.setSelectedActor(actorIds[1]);
     const actual = target.getSelectedActor();
 
     // assert
-    expect(actual).toBe(ids[1]);
+    expect(actual).toBe(actorIds[1]);
   });
 
-  test('should return first actor if non selected', async () => {
+  test('return first actor if no actor is set', () => {
     // arrange
-    const target = new ActorStorage(new LocalStorageFake());
+    const target = new ActorStorage(new LocalStorageFake(), new SessionStorageFake());
 
-    target.setUserAssociatedActors(ids);
+    target.setUserAssociatedActors(actorIds);
 
     // act
     const actual = target.getSelectedActor();
 
     // assert
-    expect(actual).toBe(ids[0]);
+    expect(actual).toBe(actorIds[0]);
   });
 });

@@ -20,7 +20,7 @@ import { MarketParticipantUserHttp, TokenHttp } from '@energinet-datahub/dh/shar
 import { HttpHandler, HttpRequest, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { firstValueFrom, of } from 'rxjs';
 import { ActorStorage } from './actor-storage';
-import { LocalStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
+import { LocalStorageFake, SessionStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
 describe(ActorTokenService.name, () => {
   const createActorsRequest = () =>
@@ -39,7 +39,7 @@ describe(ActorTokenService.name, () => {
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake())
+      new ActorStorage(new LocalStorageFake(), new SessionStorageFake())
     );
 
     // act
@@ -56,7 +56,7 @@ describe(ActorTokenService.name, () => {
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake())
+      new ActorStorage(new LocalStorageFake(), new SessionStorageFake())
     );
 
     // act
@@ -73,7 +73,7 @@ describe(ActorTokenService.name, () => {
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake())
+      new ActorStorage(new LocalStorageFake(), new SessionStorageFake())
     );
 
     // act
@@ -93,7 +93,7 @@ describe(ActorTokenService.name, () => {
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake())
+      new ActorStorage(new LocalStorageFake(), new SessionStorageFake())
     );
 
     // act
@@ -118,7 +118,7 @@ describe(ActorTokenService.name, () => {
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake())
+      new ActorStorage(new LocalStorageFake(), new SessionStorageFake())
     );
 
     // act
@@ -146,7 +146,7 @@ describe(ActorTokenService.name, () => {
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake())
+      new ActorStorage(new LocalStorageFake(), new SessionStorageFake())
     );
 
     // act
@@ -192,7 +192,7 @@ describe(ActorTokenService.name, () => {
     const target = new ActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake())
+      new ActorStorage(new LocalStorageFake(), new SessionStorageFake())
     );
 
     // act
