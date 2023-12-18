@@ -1491,8 +1491,8 @@
           "emptyMessage": "Try changing the search criteria",
           "filter": {
             "status": "Status",
-            "marketPartyPlaceholder": "Choose market party",
-            "userRolePlaceholder": "Choose user role"
+            "marketPartyPlaceholder": "Market party",
+            "userRolePlaceholder": "User role"
           },
           "columns": {
             "firstName": "First name",
