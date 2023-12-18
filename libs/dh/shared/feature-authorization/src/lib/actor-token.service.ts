@@ -17,13 +17,17 @@
 
 import { HttpEvent, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { MarketParticipantUserHttp, TokenHttp } from '@energinet-datahub/dh/shared/domain';
 import { map, Observable, ReplaySubject, switchMap, tap } from 'rxjs';
+
+import { MarketParticipantUserHttp, TokenHttp } from '@energinet-datahub/dh/shared/domain';
+
 import { ActorStorage, actorStorageToken } from './actor-storage';
 
 type CachedEntry = { token: string; value: Observable<string> } | undefined;
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class ActorTokenService {
   private _internalActors: CachedEntry;
   private _internalToken: CachedEntry;
@@ -65,12 +69,12 @@ export class ActorTokenService {
 
   public acquireToken = (): Observable<string> => {
     return this.marketParticipantUserHttp.v1MarketParticipantUserGetUserActorsGet().pipe(
-      tap((x) => this.actorStorage.setUserAssociatedActors(x.actorIds)),
-      switchMap(() => {
-        return this.tokenHttp
+      tap(({ actorIds }) => this.actorStorage.setUserAssociatedActors(actorIds)),
+      switchMap(() =>
+        this.tokenHttp
           .v1TokenPost(this.actorStorage.getSelectedActor())
-          .pipe(map((r) => r.token));
-      })
+          .pipe(map(({ token }) => token))
+      )
     );
   };
 
