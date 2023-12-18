@@ -30,6 +30,7 @@ limitations under the License.
           [range]="true"
           [label]="t('period')"
           [min]="minDate"
+          [max]="maxDate"
           [formControl]="form.controls.period"
         >
           <watt-field-error *ngIf="form.controls.period.errors?.maxOneMonthDateRange">

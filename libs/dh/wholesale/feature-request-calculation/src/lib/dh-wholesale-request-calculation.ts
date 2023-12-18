@@ -116,6 +116,7 @@ export class DhWholesaleRequestCalculationComponent {
   private _destroyRef = inject(DestroyRef);
   private _selectedEicFunction: EicFunction | null | undefined;
 
+  maxDate = new Date();
   minDate = subYears(new Date(), 3);
 
   isLoading = false;
@@ -126,9 +127,9 @@ export class DhWholesaleRequestCalculationComponent {
       Validators.required,
       WattRangeValidators.required(),
       maxOneMonthDateRangeValidator(),
+      startAndEndDateCannotBeInTheFutureValidator(),
       startDateCannotBeAfterEndDateValidator(),
       startDateCannotBeOlderThan3YearsValidator(),
-      startAndEndDateCannotBeInTheFutureValidator(),
     ]),
     energySupplierId: this._fb.control(null),
     balanceResponsibleId: this._fb.control(null),
