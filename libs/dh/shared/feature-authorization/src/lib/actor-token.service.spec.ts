@@ -16,11 +16,13 @@
  */
 
 import { ActorTokenService } from './actor-token.service';
-import { MarketParticipantUserHttp, TokenHttp } from '@energinet-datahub/dh/shared/domain';
 import { HttpHandler, HttpRequest, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { firstValueFrom, of } from 'rxjs';
-import { ActorStorage } from './actor-storage';
+
+import { MarketParticipantUserHttp, TokenHttp } from '@energinet-datahub/dh/shared/domain';
 import { LocalStorageFake, SessionStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
+
+import { ActorStorage } from './actor-storage';
 
 describe(ActorTokenService.name, () => {
   const createActorsRequest = () =>
