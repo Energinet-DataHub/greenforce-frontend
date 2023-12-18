@@ -24,7 +24,7 @@ import { LocalStorageFake, SessionStorageFake } from '@energinet-datahub/dh/shar
 
 import { ActorStorage } from './actor-storage';
 
-describe(ActorTokenService.name, () => {
+describe(ActorTokenService, () => {
   const createActorsRequest = () =>
     new HttpRequest<string>(
       'GET',
