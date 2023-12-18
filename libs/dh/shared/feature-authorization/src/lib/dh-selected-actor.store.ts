@@ -16,9 +16,11 @@
  */
 
 import { Inject, Injectable } from '@angular/core';
-import { MarketParticipantActorQueryHttp } from '@energinet-datahub/dh/shared/domain';
 import { ComponentStore } from '@ngrx/component-store';
 import { filter, Observable, switchMap, tap } from 'rxjs';
+
+import { MarketParticipantActorQueryHttp } from '@energinet-datahub/dh/shared/domain';
+
 import { ActorStorage, actorStorageToken } from './actor-storage';
 import { windowLocationToken } from './window-location';
 
