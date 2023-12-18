@@ -15,32 +15,54 @@
  * limitations under the License.
  */
 
-import { InjectionToken } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 
+export const localStorageToken = new InjectionToken('localStorageToken', {
+  factory: (): Storage => localStorage,
+});
+
+export const sessionStorageToken = new InjectionToken('sessionStorageToken', {
+  factory: (): Storage => sessionStorage,
+});
+
+@Injectable({
+  providedIn: 'root',
+})
 export class ActorStorage {
+  constructor(
+    @Inject(localStorageToken) private _localStorage: Storage,
+    @Inject(sessionStorageToken) private _sessionStorage: Storage
+  ) {}
+
   private readonly selectedActorKey = 'actorStorage.selectedActor';
 
   private actorIds: string[] = [];
 
-  constructor(private storage: Storage) {}
-
   setUserAssociatedActors = (actorIds: string[]) => (this.actorIds = actorIds);
 
   getSelectedActor = () => {
-    const selected = this.storage.getItem(this.selectedActorKey);
+    const selectedActorInLS = this._localStorage.getItem(this.selectedActorKey);
+    const selectedActorInSS = this._sessionStorage.getItem(this.selectedActorKey);
 
-    if (!selected || !this.actorIds.includes(selected)) {
-      const defaultActor = this.actorIds[0];
-      this.setSelectedActor(defaultActor);
-      return defaultActor;
+    if (selectedActorInSS) {
+      return selectedActorInSS;
     }
 
-    return selected;
+    let actorToSelect = null;
+
+    if (!selectedActorInLS || !this.actorIds.includes(selectedActorInLS)) {
+      actorToSelect = this.actorIds[0];
+    } else {
+      actorToSelect = selectedActorInLS;
+    }
+
+    this.setSelectedActor(actorToSelect);
+
+    return actorToSelect;
   };
 
-  setSelectedActor = (actorId: string) => this.storage.setItem(this.selectedActorKey, actorId);
+  setSelectedActor = (actorId: string) => {
+    this._sessionStorage.setItem(this.selectedActorKey, actorId);
+    this._localStorage.setItem(this.selectedActorKey, actorId);
+  };
 }
-
-export const actorStorageToken = new InjectionToken<ActorStorage>('actorStorageToken', {
-  factory: (): ActorStorage => new ActorStorage(localStorage),
-});

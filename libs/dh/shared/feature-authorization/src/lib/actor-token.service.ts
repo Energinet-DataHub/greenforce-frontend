@@ -16,12 +16,12 @@
  */
 
 import { HttpEvent, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { map, Observable, ReplaySubject, switchMap, tap } from 'rxjs';
 
 import { MarketParticipantUserHttp, TokenHttp } from '@energinet-datahub/dh/shared/domain';
 
-import { ActorStorage, actorStorageToken } from './actor-storage';
+import { ActorStorage } from './actor-storage';
 
 type CachedEntry = { token: string; value: Observable<string> } | undefined;
 
@@ -35,7 +35,7 @@ export class ActorTokenService {
   constructor(
     private marketParticipantUserHttp: MarketParticipantUserHttp,
     private tokenHttp: TokenHttp,
-    @Inject(actorStorageToken) private actorStorage: ActorStorage
+    private actorStorage: ActorStorage
   ) {}
 
   public isPartOfAuthFlow(request: HttpRequest<unknown>) {
