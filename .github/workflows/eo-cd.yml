@@ -104,11 +104,11 @@ jobs:
     needs: affected
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.version.outputs }}
+      version: ${{ steps.version.outputs.version }}
     steps:
       - name: Get version
         id: version
-        uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version
+        uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
 
   sonarcloud:
     name: SonarCloud
