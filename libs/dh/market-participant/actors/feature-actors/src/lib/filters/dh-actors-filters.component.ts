@@ -70,10 +70,6 @@ type Form = FormGroup<{
       form {
         overflow-y: hidden;
       }
-
-      watt-dropdown {
-        width: auto;
-      }
     `,
   ],
   template: `

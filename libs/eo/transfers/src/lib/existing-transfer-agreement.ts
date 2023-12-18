@@ -14,45 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-}
-
-.user-roles {
-  &__spinner {
-    display: flex;
-    justify-content: center;
-    padding: var(--watt-space-l) 0;
-  }
-
-  &__error {
-    padding: var(--watt-space-xl) 0;
-  }
-}
-
-h4 {
-  margin: 0;
-}
-
-.create-role-header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.create-role-table-buttons {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.card-title-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.paginator-container {
-  display: flex;
-  align-items: center;
+export interface EoExistingTransferAgreement {
+  startDate: number;
+  endDate: number | null;
 }

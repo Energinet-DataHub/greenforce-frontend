@@ -60,6 +60,11 @@ function generateLink(id: string | null): string | null {
         background-color: var(--watt-color-primary-ultralight);
         padding: 20px; // TODO: MISSING SIZE
         width: 100%;
+
+        watt-button {
+          margin-top: var(--watt-space-s);
+          min-width: 125px;
+        }
       }
     `,
   ],

@@ -25,6 +25,7 @@ export interface EoLoginToken {
   nbf?: number;
   /** @example "dashboard production meters certificates" */
   scope?: string;
+  cpn?: string;
   sub?: string;
   tin?: string;
 }
@@ -42,6 +43,7 @@ export class EoAuthStore extends ComponentStore<AuthState> {
   }
 
   getScope$ = this.select((state) => state.scope?.split(' ') ?? []);
+  getUserInfo$ = this.select((state) => state);
   getTokenNotBefore$ = this.select((state) => state.nbf ?? 0);
   getTokenExpiry$ = this.select((state) => state.exp ?? 0);
   getTin$ = this.select((state) => state.tin);

@@ -92,12 +92,10 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
       startWith(true)
     );
 
-    // Reset last step when going back
-    this.stepper.selectionChange.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((change) => {
-      const lastStepIndex = this.steps.filter((x) => x.enabled).length - 1;
-      if (change.previouslySelectedIndex === lastStepIndex) {
-        this.stepper.steps.get(lastStepIndex)?.reset();
-      }
+    // Emit entering and leaving events
+    this.selectedIndexChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((change) => {
+      this._steps.get(change.selectedIndex)?.entering.emit(change.selectedStep);
+      this._steps.get(change.previouslySelectedIndex)?.leaving.emit(change.previouslySelectedStep);
     });
   }
 
