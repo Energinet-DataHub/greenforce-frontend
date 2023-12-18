@@ -42,6 +42,7 @@ import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-bad
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
 import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';
 import { DhActorAuditLogService } from './dh-actor-audit-log.service';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -80,6 +81,7 @@ import { DhActorAuditLogService } from './dh-actor-audit-log.service';
     WATT_TABS,
     WATT_CARD,
     WATT_TABLE,
+    WATT_MODAL,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattButtonComponent,
@@ -98,6 +100,9 @@ import { DhActorAuditLogService } from './dh-actor-audit-log.service';
 export class DhActorDrawerComponent {
   private readonly apollo = inject(Apollo);
   private readonly auditLogService = inject(DhActorAuditLogService);
+
+  @ViewChild('deactivateActorConfirmationModal')
+  deactivateActorConfirmationModal!: WattModalComponent;
 
   private subscription?: Subscription;
   private actorAuditLogSubscription?: Subscription;
@@ -188,4 +193,8 @@ export class DhActorDrawerComponent {
         },
       });
   }
+
+  requestDeactivateActor = () => this.deactivateActorConfirmationModal.open();
+
+  deactivate = (success: boolean) => console.log('deactivate: ', success);
 }

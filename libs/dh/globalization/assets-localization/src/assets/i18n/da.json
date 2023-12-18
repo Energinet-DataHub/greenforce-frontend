@@ -675,6 +675,15 @@
       },
       "drawer": {
         "edit": "Rediger",
+        "deactivate": "Deaktiver",
+        "deactivateError": "Noget gik galt. Aktøren blev ikke deaktiveret. Prøv igen",
+        "deactivateSuccess": "Aktøren blev deaktiveret",
+        "deactivateConfirmation": {
+          "title": "Deaktiver aktør?",
+          "body": "{{name}} ({{gln}}) vil blive deaktiveret",
+          "confirm": "Deaktiver aktør",
+          "reject": "Fortryd"
+        },
         "metadata": {
           "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
           "organization": "Organisation"

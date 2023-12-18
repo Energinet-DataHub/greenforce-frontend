@@ -20,9 +20,14 @@ limitations under the License.
       <dh-actor-status-badge [status]="actor?.status" />
     </watt-drawer-topbar>
 
-    <watt-drawer-actions>
+    <watt-drawer-actions *dhPermissionRequired="['users:manage']">
       <watt-button
-        *dhPermissionRequired="['actors:manage']"
+        *ngIf="actor?.status !== 'Inactive'"
+        variant="secondary"
+        (click)="requestDeactivateActor()"
+        >{{ t("deactivate") }}</watt-button
+      >
+      <watt-button
         variant="secondary"
         (click)="editActorModal.open()"
         >{{ t("edit") }}</watt-button
@@ -145,6 +150,29 @@ limitations under the License.
       </watt-tabs>
     </watt-drawer-content>
   </watt-drawer>
+
+  <watt-modal
+    #deactivateActorConfirmationModal
+    [size]="'small'"
+    [title]="t('deactivateConfirmation.title')"
+    [disableClose]="true"
+    (closed)="deactivate($event)"
+  >
+    <p>
+      {{
+        t("deactivateConfirmation.body", { name: actor?.name, gln: actor?.glnOrEicNumber })
+      }}
+    </p>
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="deactivateActorConfirmationModal.close(false)">{{
+        t("deactivateConfirmation.reject")
+      }}</watt-button>
+      <watt-button variant="secondary" (click)="deactivateActorConfirmationModal.close(true)">{{
+        t("deactivateConfirmation.confirm")
+      }}</watt-button>
+    </watt-modal-actions>
+  </watt-modal>
+
 </ng-container>
 
 <dh-actors-edit-actor-modal #editActorModal [actor]="actor" />
