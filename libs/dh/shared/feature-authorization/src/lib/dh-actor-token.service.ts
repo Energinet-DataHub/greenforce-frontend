@@ -21,21 +21,21 @@ import { map, Observable, ReplaySubject, switchMap, tap } from 'rxjs';
 
 import { MarketParticipantUserHttp, TokenHttp } from '@energinet-datahub/dh/shared/domain';
 
-import { ActorStorage } from './actor-storage';
+import { DhActorStorage } from './dh-actor-storage';
 
 type CachedEntry = { token: string; value: Observable<string> } | undefined;
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActorTokenService {
+export class DhActorTokenService {
   private _internalActors: CachedEntry;
   private _internalToken: CachedEntry;
 
   constructor(
     private marketParticipantUserHttp: MarketParticipantUserHttp,
     private tokenHttp: TokenHttp,
-    private actorStorage: ActorStorage
+    private actorStorage: DhActorStorage
   ) {}
 
   public isPartOfAuthFlow(request: HttpRequest<unknown>) {

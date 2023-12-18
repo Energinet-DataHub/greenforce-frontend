@@ -21,7 +21,7 @@ import { filter, Observable, switchMap, tap } from 'rxjs';
 
 import { MarketParticipantActorQueryHttp } from '@energinet-datahub/dh/shared/domain';
 
-import { ActorStorage } from './actor-storage';
+import { DhActorStorage } from './dh-actor-storage';
 import { windowLocationToken } from './window-location';
 
 export type SelectedActorState = {
@@ -62,7 +62,7 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
 
   constructor(
     private client: MarketParticipantActorQueryHttp,
-    private actorStorage: ActorStorage,
+    private actorStorage: DhActorStorage,
     @Inject(windowLocationToken) private windowLocation: Location
   ) {
     super(initialState);

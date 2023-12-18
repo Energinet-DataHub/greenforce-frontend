@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-import { ActorTokenService } from './actor-token.service';
+import { DhActorTokenService } from './dh-actor-token.service';
 import { HttpHandler, HttpRequest, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { firstValueFrom, of } from 'rxjs';
 
 import { MarketParticipantUserHttp, TokenHttp } from '@energinet-datahub/dh/shared/domain';
 import { LocalStorageFake, SessionStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
-import { ActorStorage } from './actor-storage';
+import { DhActorStorage } from './dh-actor-storage';
 
-describe(ActorTokenService, () => {
+describe(DhActorTokenService, () => {
   const createActorsRequest = () =>
     new HttpRequest<string>(
       'GET',
@@ -38,10 +38,10 @@ describe(ActorTokenService, () => {
     // arrange
     const request = createActorsRequest();
 
-    const target = new ActorTokenService(
+    const target = new DhActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake(), new SessionStorageFake())
+      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake())
     );
 
     // act
@@ -55,10 +55,10 @@ describe(ActorTokenService, () => {
     // arrange
     const request = new HttpRequest<string>('GET', 'https://localhost:5000/v1/Token');
 
-    const target = new ActorTokenService(
+    const target = new DhActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake(), new SessionStorageFake())
+      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake())
     );
 
     // act
@@ -72,10 +72,10 @@ describe(ActorTokenService, () => {
     // arrange
     const request = new HttpRequest<string>('GET', 'https://localhost:5000/v1/Not/Relevant');
 
-    const target = new ActorTokenService(
+    const target = new DhActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake(), new SessionStorageFake())
+      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake())
     );
 
     // act
@@ -92,10 +92,10 @@ describe(ActorTokenService, () => {
       'https://devDataHubB2C.b2clogin.com/devDataHubB2C.onmicrosoft.com/b2c_some_policy/oauth2/v2.0/token'
     );
 
-    const target = new ActorTokenService(
+    const target = new DhActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake(), new SessionStorageFake())
+      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake())
     );
 
     // act
@@ -117,10 +117,10 @@ describe(ActorTokenService, () => {
       handle: jest.fn(() => of(response)),
     };
 
-    const target = new ActorTokenService(
+    const target = new DhActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake(), new SessionStorageFake())
+      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake())
     );
 
     // act
@@ -145,10 +145,10 @@ describe(ActorTokenService, () => {
       handle: jest.fn(() => of(response)),
     };
 
-    const target = new ActorTokenService(
+    const target = new DhActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake(), new SessionStorageFake())
+      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake())
     );
 
     // act
@@ -191,10 +191,10 @@ describe(ActorTokenService, () => {
       handle: jest.fn(() => of(responseB)),
     };
 
-    const target = new ActorTokenService(
+    const target = new DhActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new ActorStorage(new LocalStorageFake(), new SessionStorageFake())
+      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake())
     );
 
     // act

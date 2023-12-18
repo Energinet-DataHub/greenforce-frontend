@@ -28,7 +28,7 @@ export const sessionStorageToken = new InjectionToken('sessionStorageToken', {
 @Injectable({
   providedIn: 'root',
 })
-export class ActorStorage {
+export class DhActorStorage {
   constructor(
     @Inject(localStorageToken) private _localStorage: Storage,
     @Inject(sessionStorageToken) private _sessionStorage: Storage

@@ -16,14 +16,14 @@
  */
 import { LocalStorageFake, SessionStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
-import { ActorStorage } from './actor-storage';
+import { DhActorStorage } from './dh-actor-storage';
 
-describe(ActorStorage, () => {
+describe(DhActorStorage, () => {
   const actorIds = ['18918674-D8EB-483F-94E8-CE241AB502E5', '898BF589-543C-42DA-8A72-120F0E263E86'];
 
   test('return selected actor when set', () => {
     // arrange
-    const target = new ActorStorage(new LocalStorageFake(), new SessionStorageFake());
+    const target = new DhActorStorage(new LocalStorageFake(), new SessionStorageFake());
 
     target.setUserAssociatedActors(actorIds);
 
@@ -37,7 +37,7 @@ describe(ActorStorage, () => {
 
   test('return first actor if no actor is set', () => {
     // arrange
-    const target = new ActorStorage(new LocalStorageFake(), new SessionStorageFake());
+    const target = new DhActorStorage(new LocalStorageFake(), new SessionStorageFake());
 
     target.setUserAssociatedActors(actorIds);
 
