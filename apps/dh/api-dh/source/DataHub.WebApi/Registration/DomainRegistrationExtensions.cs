@@ -14,7 +14,6 @@
 
 using System;
 using System.Net.Http;
-using Energinet.DataHub.Charges.Clients.Registration.Charges.ServiceCollectionExtensions;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.MarketParticipant.Client.Extensions;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
@@ -37,8 +36,6 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddHttpContextAccessor()
                 .AddAuthorizedHttpClient()
                 .RegisterEDIServices(apiClientSettings.EdiB2CWebApiBaseUrl)
-                .AddChargesClient(
-                    GetBaseUri(apiClientSettings.ChargesBaseUrl))
                 .AddMeteringPointClient(
                     GetBaseUri(apiClientSettings.MeteringPointBaseUrl))
                 .AddMarketParticipantClient(
