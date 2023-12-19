@@ -106,6 +106,7 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
+      - uses: actions/checkout@v3    
       - name: Generate version
         id: version
         uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
