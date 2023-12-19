@@ -596,7 +596,7 @@
         "cvrNumber": "CVR-Nr.",
         "country": "Land",
         "phoneHint": "Telefonnr. format +45 12345678",
-        "glnOrEicHint": "Gln er 13 cifre og EIC er 16 cifre",
+        "glnOrEicHint": "GLN er 13 cifre og EIC er 16 cifre",
         "counties": {
           "DK": "Danmark",
           "SE": "Sverige",
