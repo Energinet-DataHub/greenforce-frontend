@@ -35,7 +35,7 @@ env:
   # Note: Cypress automatically removes the "CYPRESS_" prefix in CI
   CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_U1_USERNAME }}
   CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_U1_PASSWORD }}
-  CYPRESS_DH_E2E_B2C_URL: https://devDataHubB2C.b2clogin.com
+  CYPRESS_DH_E2E_B2C_URL: https://b2cshresdhsandboxwe.b2clogin.com
   # See https://github.com/cypress-io/cypress/issues/25357
   ELECTRON_EXTRA_LAUNCH_ARGS: --disable-gpu
 on:

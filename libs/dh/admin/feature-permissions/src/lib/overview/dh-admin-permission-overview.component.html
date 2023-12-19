@@ -14,8 +14,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card *transloco="let t; read: 'admin.userManagement.permissionsTab'">
-  <watt-card-title>
+<watt-card vater inset="0" *transloco="let t; read: 'admin.userManagement.permissionsTab'">
+  <vater-flex fill="vertical" gap="m">
     <vater-stack direction="row" gap="s">
       <h3>{{ t("headline") }}</h3>
       <span class="watt-chip-label">{{ dataSource.data.length }}</span>
@@ -28,36 +28,38 @@ limitations under the License.
         {{ t("shared.download") }}
       </watt-button>
     </vater-stack>
-  </watt-card-title>
 
-  <watt-table
-    [dataSource]="dataSource"
-    [columns]="columns"
-    (rowClick)="onRowClick($event)"
-    [activeRow]="activeRow"
-    sortBy="name"
-    sortDirection="asc"
-    [sortClear]="false"
-    [loading]="loading"
-  >
-    <ng-container *wattTableCell="columns.name; header: t('permissionName'); let element">
-      {{ element.name }}
-    </ng-container>
+    <vater-flex fill="vertical" scrollable>
+      <watt-table
+        [dataSource]="dataSource"
+        [columns]="columns"
+        (rowClick)="onRowClick($event)"
+        [activeRow]="activeRow"
+        sortBy="name"
+        sortDirection="asc"
+        [sortClear]="false"
+        [loading]="loading"
+      >
+        <ng-container *wattTableCell="columns.name; header: t('permissionName'); let element">
+          {{ element.name }}
+        </ng-container>
 
-    <ng-container
-      *wattTableCell="columns.description; header: t('permissionDescription'); let element"
-    >
-      {{ element.description }}
-    </ng-container>
-  </watt-table>
+        <ng-container
+          *wattTableCell="columns.description; header: t('permissionDescription'); let element"
+        >
+          {{ element.description }}
+        </ng-container>
+      </watt-table>
 
-  <watt-empty-state
-    *ngIf="error"
-    class="permissions-overview_error"
-    icon="custom-power"
-    [title]="'shared.error.title' | transloco"
-    [message]="'shared.error.message' | transloco"
-  />
+      <vater-stack fill="vertical" justify="center" *ngIf="error">
+        <watt-empty-state
+          icon="custom-power"
+          [title]="'shared.error.title' | transloco"
+          [message]="'shared.error.message' | transloco"
+        />
+      </vater-stack>
+    </vater-flex>
+  </vater-flex>
 </watt-card>
 
 <dh-admin-permission-detail (closed)="onClosed()" (updated)="refresh()" />

@@ -54,7 +54,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpPost]
         [Route("AssignCertificateCredentials")]
         [RequestSizeLimit(10485760)]
-        public Task AssignCertificateCredentialsAsync(Guid actorId, IFormFile certificate)
+        public Task<ActionResult> AssignCertificateCredentialsAsync(Guid actorId, IFormFile certificate)
         {
             return HandleExceptionAsync(async () =>
             {
@@ -77,7 +77,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Removes the current credentials from the actor.
         /// </summary>
         [HttpDelete("RemoveActorCredentials")]
-        public Task RemoveActorCredentialsAsync(Guid actorId)
+        public Task<ActionResult> RemoveActorCredentialsAsync(Guid actorId)
         {
             return HandleExceptionAsync(() => _client.ActorCredentialsDeleteAsync(actorId));
         }

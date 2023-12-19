@@ -553,7 +553,7 @@
             "expired": "The provided certificate has expired.",
             "invalid_state": "The market participants B2B access cannot be modified, as the market participant has been deactivated or is still being created.",
             "still_active": "The market participant cannot be deactivated, as it still has B2B access configured.",
-            "thumbprint_reserved": "The provided certificate is already in use by another market participant."
+            "thumbprint_reserved": "The certificate is already in use."
           }
         },
         "market_role": {
@@ -1259,6 +1259,9 @@
       "energySupplier": "Energy supplier",
       "balanceResponsible": "Balance responsible",
       "error": "Unfortunately, an error occurred requesting the calculation",
+      "startDateCannotBeAfterEndDate": "Start date cannot be after end date",
+      "startDateCannotBeOlderThan3Years": "Start date cannot be older than 3 years",
+      "startAndEndDateCannotBeInTheFuture": "Start and end date cannot be in the future",
       "success": "The calculation has been requested",
       "topBarTitle": "Request calculation",
       "processType": "{{shared.processType}}",
@@ -1491,17 +1494,15 @@
           "emptyMessage": "Try changing the search criteria",
           "filter": {
             "status": "Status",
-            "marketPartyPlaceholder": "Choose market party",
-            "userRolePlaceholder": "Choose user role"
+            "marketPartyPlaceholder": "Market party",
+            "userRolePlaceholder": "User role"
           },
-          "table": {
-            "columns": {
-              "firstName": "First name",
-              "lastName": "Last name",
-              "email": "Email",
-              "phone": "Phone",
-              "status": "Status"
-            }
+          "columns": {
+            "firstName": "First name",
+            "lastName": "Last name",
+            "email": "Email",
+            "phone": "Phone",
+            "status": "Status"
           },
           "errors": {
             "generalError": {
