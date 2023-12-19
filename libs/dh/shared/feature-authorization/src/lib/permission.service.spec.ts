@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { firstValueFrom, of } from 'rxjs';
 
 import { PermissionService } from './permission.service';
-import { firstValueFrom, of } from 'rxjs';
-import { ActorTokenService } from './actor-token.service';
+import { DhActorTokenService } from './dh-actor-token.service';
 
 describe(PermissionService.name, () => {
   // base64 encoded access token: { role: ['actors:manage'] }
@@ -27,7 +27,7 @@ describe(PermissionService.name, () => {
     // arrange
     const target = new PermissionService({
       acquireToken: () => of(fakeAccessToken),
-    } as ActorTokenService);
+    } as DhActorTokenService);
 
     // act
     const actual = await firstValueFrom(target.hasPermission('actors:manage'));
@@ -40,7 +40,7 @@ describe(PermissionService.name, () => {
     // arrange
     const target = new PermissionService({
       acquireToken: () => of(fakeAccessToken),
-    } as ActorTokenService);
+    } as DhActorTokenService);
 
     // act
     const actual = await firstValueFrom(target.hasPermission('grid-areas:manage'));

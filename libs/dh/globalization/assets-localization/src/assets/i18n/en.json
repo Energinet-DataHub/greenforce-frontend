@@ -1259,6 +1259,9 @@
       "energySupplier": "Energy supplier",
       "balanceResponsible": "Balance responsible",
       "error": "Unfortunately, an error occurred requesting the calculation",
+      "startDateCannotBeAfterEndDate": "Start date cannot be after end date",
+      "startDateCannotBeOlderThan3Years": "Start date cannot be older than 3 years",
+      "startAndEndDateCannotBeInTheFuture": "Start and end date cannot be in the future",
       "success": "The calculation has been requested",
       "topBarTitle": "Request calculation",
       "processType": "{{shared.processType}}",
@@ -1491,8 +1494,8 @@
           "emptyMessage": "Try changing the search criteria",
           "filter": {
             "status": "Status",
-            "marketPartyPlaceholder": "Choose market party",
-            "userRolePlaceholder": "Choose user role"
+            "marketPartyPlaceholder": "Market party",
+            "userRolePlaceholder": "User role"
           },
           "columns": {
             "firstName": "First name",

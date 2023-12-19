@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-export class LocalStorageFake implements Storage {
+abstract class StorageFake implements Storage {
   private store: { [key: string]: string } = {};
 
   private internalLength = 0;
@@ -46,3 +45,6 @@ export class LocalStorageFake implements Storage {
     throw new Error('Method not implemented.');
   };
 }
+
+export class LocalStorageFake extends StorageFake {}
+export class SessionStorageFake extends StorageFake {}
