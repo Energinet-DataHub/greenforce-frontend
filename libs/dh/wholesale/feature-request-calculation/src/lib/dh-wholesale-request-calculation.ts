@@ -141,7 +141,7 @@ export class DhWholesaleRequestCalculationComponent {
   energySupplierOptions: WattDropdownOptions = [];
 
   meteringPointOptions: WattDropdownOptions = [];
-  progressTypeOptions = dhEnumToWattDropdownOptions(EdiB2CProcessType);
+  progressTypeOptions: WattDropdownOptions = [];
 
   selectedActorQuery = this._apollo.watchQuery({
     useInitialLoading: true,
@@ -183,11 +183,21 @@ export class DhWholesaleRequestCalculationComponent {
 
         this.form.controls.meteringPointType.setValue(ExtendMeteringPoint.All);
 
-        const exclude = this.getExcludedMeterpointTypes(this._selectedEicFunction);
+        const excludedMeteringpointTypes = this.getExcludedMeterpointTypes(
+          this._selectedEicFunction
+        );
+
+        const excludeProcessTypes = this.getExcludedProcessTypes(this._selectedEicFunction);
 
         this.meteringPointOptions = dhEnumToWattDropdownOptions(
           ExtendMeteringPoint,
-          exclude,
+          excludedMeteringpointTypes,
+          'asc'
+        );
+
+        this.progressTypeOptions = dhEnumToWattDropdownOptions(
+          EdiB2CProcessType,
+          excludeProcessTypes,
           'asc'
         );
 
@@ -284,6 +294,18 @@ export class DhWholesaleRequestCalculationComponent {
     return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
       selectedEicFunction === EicFunction.EnergySupplier
       ? [MeteringPointType.Exchange, MeteringPointType.TotalConsumption]
+      : [];
+  }
+
+  private getExcludedProcessTypes(selectedEicFunction: EicFunction | null | undefined) {
+    return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
+      selectedEicFunction === EicFunction.EnergySupplier
+      ? [
+          EdiB2CProcessType.Firstcorrection,
+          EdiB2CProcessType.Secondcorrection,
+          EdiB2CProcessType.Thirdcorrection,
+          EdiB2CProcessType.Wholesalefixing,
+        ]
       : [];
   }
 }
