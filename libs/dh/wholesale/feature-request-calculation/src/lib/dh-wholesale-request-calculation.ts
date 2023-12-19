@@ -63,6 +63,8 @@ const label = (key: string) => `wholesale.requestCalculation.${key}`;
 const ExtendMeteringPoint = { ...MeteringPointType, All: 'All' } as const;
 type ExtendMeteringPointType = (typeof ExtendMeteringPoint)[keyof typeof ExtendMeteringPoint];
 
+type SelectedEicFunctionType = EicFunction | null | undefined;
+
 type FormType = {
   processType: FormControl<EdiB2CProcessType | null>;
   period: FormControl<WattRange<string | null>>;
@@ -114,7 +116,7 @@ export class DhWholesaleRequestCalculationComponent {
   private _transloco = inject(TranslocoService);
   private _toastService = inject(WattToastService);
   private _destroyRef = inject(DestroyRef);
-  private _selectedEicFunction: EicFunction | null | undefined;
+  private _selectedEicFunction: SelectedEicFunctionType;
 
   maxDate = new Date();
   minDate = subYears(new Date(), 3);
@@ -290,14 +292,14 @@ export class DhWholesaleRequestCalculationComponent {
       });
   }
 
-  private getExcludedMeterpointTypes(selectedEicFunction: EicFunction | null | undefined) {
+  private getExcludedMeterpointTypes(selectedEicFunction: SelectedEicFunctionType) {
     return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
       selectedEicFunction === EicFunction.EnergySupplier
       ? [MeteringPointType.Exchange, MeteringPointType.TotalConsumption]
       : [];
   }
 
-  private getExcludedProcessTypes(selectedEicFunction: EicFunction | null | undefined) {
+  private getExcludedProcessTypes(selectedEicFunction: SelectedEicFunctionType) {
     return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
       selectedEicFunction === EicFunction.EnergySupplier
       ? [
