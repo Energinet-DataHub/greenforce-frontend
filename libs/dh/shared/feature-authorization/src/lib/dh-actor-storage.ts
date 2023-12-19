@@ -44,7 +44,7 @@ export class DhActorStorage {
     const selectedActorInLS = this._localStorage.getItem(this.selectedActorKey);
     const selectedActorInSS = this._sessionStorage.getItem(this.selectedActorKey);
 
-    if (selectedActorInSS) {
+    if (selectedActorInSS && this.actorIds.includes(selectedActorInSS)) {
       return selectedActorInSS;
     }
 
