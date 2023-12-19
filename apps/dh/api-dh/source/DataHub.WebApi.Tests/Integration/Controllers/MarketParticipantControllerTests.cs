@@ -93,7 +93,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
             MarketParticipantClientMock
                 .Setup(client => client.GridAreaGetAsync())
-                .ReturnsAsync((ICollection<GridAreaDto>)gridAreas);
+                .ReturnsAsync(gridAreas.ToList);
 
             // Act
             var actual = await BffClient.GetAsync(GetFilteredActorsUrl);
@@ -155,7 +155,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
             MarketParticipantClientMock
                 .Setup(client => client.GridAreaGetAsync())
-                .ReturnsAsync((ICollection<GridAreaDto>)gridAreas);
+                .ReturnsAsync(gridAreas.ToList);
 
             // Act
             var actual = await BffClient.GetAsync(GetFilteredActorsUrl);
