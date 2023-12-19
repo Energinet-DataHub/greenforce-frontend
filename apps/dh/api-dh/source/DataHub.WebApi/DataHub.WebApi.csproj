@@ -67,8 +67,6 @@ limitations under the License.
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
-    <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="6.1.0" />
-    <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="8.1.0" />
     <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="8.1.0" />
     <PackageReference Condition="!Exists('$(MarketingParticipantProjectReference)')" Include="Energinet.DataHub.MarketParticipant.Client" Version="2.36.1" />
