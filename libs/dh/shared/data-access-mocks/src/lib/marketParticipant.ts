@@ -50,6 +50,7 @@ import { marketParticipantActors } from './data/market-participant-actors';
 import { getOrganizationsQueryMock } from './data/market-participant-organizations';
 import { getActorAuditLogsMock } from './data/get-actor-audit-logs';
 import { getGridAreaOverviewMock } from './data/get-grid-area-overview';
+import { names } from '@nx/devkit';
 import {
   MarketParticipantActorClientSecretDto,
   MarketParticipantActorCredentialsDto,
@@ -273,11 +274,11 @@ function getAuditLogByOrganizationId() {
         __typename: 'OrganizationAuditLog',
         auditIdentityId: guid,
         value: 'Fredericia',
-        organizationChangeType: OrganizationChangeType.AddressCity,
+        organizationChangeType: OrganizationChangeType.Name,
         timestamp: new Date('2021-08-14T12:31:00'),
         organizationId: guid,
         identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
+          __typename: 'GetAuditIdentityResponse',
           displayName: 'Jane Doe',
         },
       },
@@ -285,11 +286,11 @@ function getAuditLogByOrganizationId() {
         __typename: 'OrganizationAuditLog',
         auditIdentityId: '3d6ac98a-d8b8-430e-aaad-aade66c3e00e',
         value: 'DK',
-        organizationChangeType: OrganizationChangeType.AddressCountry,
+        organizationChangeType: OrganizationChangeType.Name,
         timestamp: new Date('2021-08-15T12:31:00'),
         organizationId: '3d6ac98a-d8b8-430e-aaad-eade66c3e00e',
         identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
+          __typename: 'GetAuditIdentityResponse',
           displayName: 'Jane Doe',
         },
       },
@@ -297,11 +298,11 @@ function getAuditLogByOrganizationId() {
         __typename: 'OrganizationAuditLog',
         auditIdentityId: guid,
         value: '10',
-        organizationChangeType: OrganizationChangeType.AddressNumber,
+        organizationChangeType: OrganizationChangeType.Name,
         timestamp: new Date('2021-08-15T12:31:00'),
         organizationId: guid,
         identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
+          __typename: 'GetAuditIdentityResponse',
           displayName: 'Jane Doe',
         },
       },
@@ -309,11 +310,11 @@ function getAuditLogByOrganizationId() {
         __typename: 'OrganizationAuditLog',
         auditIdentityId: guid,
         value: 'Vejen',
-        organizationChangeType: OrganizationChangeType.AddressStreetName,
+        organizationChangeType: OrganizationChangeType.Name,
         timestamp: new Date('2021-09-02T10:00:00'),
         organizationId: guid,
         identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
+          __typename: 'GetAuditIdentityResponse',
           displayName: 'Jane Doe',
         },
       },
@@ -321,11 +322,11 @@ function getAuditLogByOrganizationId() {
         __typename: 'OrganizationAuditLog',
         auditIdentityId: guid,
         value: '7000',
-        organizationChangeType: OrganizationChangeType.AddressZipCode,
+        organizationChangeType: OrganizationChangeType.Name,
         timestamp: new Date('2021-09-03T10:00:00'),
         organizationId: guid,
         identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
+          __typename: 'GetAuditIdentityResponse',
           displayName: 'Jane Doe',
         },
       },
@@ -333,11 +334,11 @@ function getAuditLogByOrganizationId() {
         __typename: 'OrganizationAuditLog',
         auditIdentityId: guid,
         value: '12345678',
-        organizationChangeType: OrganizationChangeType.BusinessRegisterIdentifier,
+        organizationChangeType: OrganizationChangeType.Name,
         timestamp: new Date('2021-09-04T10:00:00'),
         organizationId: guid,
         identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
+          __typename: 'GetAuditIdentityResponse',
           displayName: 'Jane Doe',
         },
       },
@@ -349,7 +350,7 @@ function getAuditLogByOrganizationId() {
         timestamp: new Date('2021-09-05T10:00:00'),
         organizationId: guid,
         identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
+          __typename: 'GetAuditIdentityResponse',
           displayName: 'Jane Doe',
         },
       },
@@ -361,7 +362,7 @@ function getAuditLogByOrganizationId() {
         timestamp: new Date('2021-09-06T10:00:00'),
         organizationId: guid,
         identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
+          __typename: 'GetAuditIdentityResponse',
           displayName: 'Jane Doe',
         },
       },

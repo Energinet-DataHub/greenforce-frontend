@@ -31,10 +31,10 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 import {
-  ContactCategoryType,
+  ContactCategory,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
-  EicFunctionType,
+  EicFunction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -95,7 +95,7 @@ export class DhActorsCreateActorModalComponent {
   newActorForm = this._fb.group({
     glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
     name: [''],
-    marketrole: [EicFunctionType.BillingAgent, Validators.required],
+    marketrole: [EicFunction.BillingAgent, Validators.required],
     gridArea: [{ value: [] as string[], disabled: true }, Validators.required],
     contact: this._fb.group({
       departmentOrName: ['', Validators.required],
@@ -157,7 +157,7 @@ export class DhActorsCreateActorModalComponent {
               email: this.newActorForm.controls.contact.controls.email.value,
               name: this.newActorForm.controls.contact.controls.departmentOrName.value,
               phone: this.newActorForm.controls.contact.controls.phone.value,
-              category: ContactCategoryType.Default,
+              category: ContactCategory.Default,
             },
             actor: {
               name: { value: this.newActorForm.controls.name.value },

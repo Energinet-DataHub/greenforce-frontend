@@ -12,17 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types
+namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class ContactCategoryType : EnumType<ContactCategory>
+    public class GridAreaType : ObjectType<GridAreaDto>
     {
-        protected override void Configure(IEnumTypeDescriptor<ContactCategory> descriptor)
+        protected override void Configure(IObjectTypeDescriptor<GridAreaDto> descriptor)
         {
-            descriptor.Name("ContactCategoryType");
-            descriptor.AsLowerCase();
+            descriptor.Name("GridAreaDto");
+
+            descriptor
+                .Field(f => f.PriceAreaCode)
+                .Name("priceAreaCode")
+                .Resolve(context =>
+                    Enum.Parse<PriceAreaCode>(context.Parent<GridAreaDto>().PriceAreaCode));
         }
     }
 }

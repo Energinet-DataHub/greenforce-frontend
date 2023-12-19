@@ -22,7 +22,7 @@ import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import {
-  EicFunctionType,
+  EicFunction,
   GetGridAreasForCreateActorDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
@@ -136,7 +136,7 @@ export class DhNewActorStepComponent {
   @Input({ required: true }) newActorForm!: FormGroup<{
     glnOrEicNumber: FormControl<string>;
     name: FormControl<string>;
-    marketrole: FormControl<EicFunctionType>;
+    marketrole: FormControl<EicFunction>;
     gridArea: FormControl<string[]>;
     contact: FormGroup<{
       departmentOrName: FormControl<string>;
@@ -145,7 +145,7 @@ export class DhNewActorStepComponent {
     }>;
   }>;
 
-  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunctionType);
+  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction);
   gridAreaOptions: WattDropdownOptions = [];
 
   showGridAreaOptions = signal(false);
@@ -166,10 +166,10 @@ export class DhNewActorStepComponent {
       });
   }
 
-  onMarketRoleChange(eicfunction: EicFunctionType): void {
-    this.showGridAreaOptions.set(eicfunction === EicFunctionType.GridAccessProvider);
+  onMarketRoleChange(eicfunction: EicFunction): void {
+    this.showGridAreaOptions.set(eicfunction === EicFunction.GridAccessProvider);
 
-    if (eicfunction === EicFunctionType.GridAccessProvider) {
+    if (eicfunction === EicFunction.GridAccessProvider) {
       this.newActorForm.controls.gridArea.enable();
     }
   }
