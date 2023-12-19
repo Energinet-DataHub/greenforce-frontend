@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { meteringPointMocks } from './lib/metering-point';
 import { wholesaleMocks } from './lib/wholesale';
 import { marketParticipantMocks } from './lib/marketParticipant';
 import { messageArchiveMocks } from './lib/messageArchive';
@@ -25,7 +24,6 @@ import { tokenMocks } from './lib/token';
 import { eSettMocks } from './lib/esett-mocks';
 
 export const mocks = [
-  meteringPointMocks,
   wholesaleMocks,
   marketParticipantMocks,
   messageArchiveMocks,
@@ -35,5 +33,3 @@ export const mocks = [
   tokenMocks,
   eSettMocks,
 ];
-
-export * from './lib/metering-point';
