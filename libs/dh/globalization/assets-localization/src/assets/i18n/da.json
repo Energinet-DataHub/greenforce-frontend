@@ -109,7 +109,6 @@
       },
       "tabs": {
         "processes": "Processer",
-        "prices": "Priser",
         "childMeteringPoints": "Child Målepunkter ({{ count }})"
       },
       "childMeteringPointsTab": {

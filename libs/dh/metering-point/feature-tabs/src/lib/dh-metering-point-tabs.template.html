@@ -18,9 +18,6 @@ limitations under the License.
   <watt-tab [label]="t('processes')">
     <dh-processes-tab-content />
   </watt-tab>
-  <watt-tab [label]="t('prices')">
-    <dh-charges-tab-content />
-  </watt-tab>
 
   <ng-container *rxLet="meteringPoint$ as meteringPoint">
     <ng-container *ngIf="meteringPoint?.meteringPointType | dhIsParent">

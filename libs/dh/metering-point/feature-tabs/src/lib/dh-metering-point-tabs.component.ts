@@ -24,7 +24,6 @@ import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tab
 import { DhIsParentPipe } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
-import { DhChargesTabContentComponent } from './charges-tab-content/dh-charges-tab-content.component';
 import { DhChildMeteringPointsTabContentComponent } from './child-metering-points-tab-content/dh-child-metering-points-tab-content.component';
 import { DhProcessesTabContentComponent } from './processes-tab-content/dh-processes-tab-content.component';
 
@@ -39,7 +38,6 @@ import { DhProcessesTabContentComponent } from './processes-tab-content/dh-proce
     WattTabComponent,
     TranslocoModule,
     DhIsParentPipe,
-    DhChargesTabContentComponent,
     DhProcessesTabContentComponent,
     DhChildMeteringPointsTabContentComponent,
   ],

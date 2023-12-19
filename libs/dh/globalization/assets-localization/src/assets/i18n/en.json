@@ -114,7 +114,6 @@
       },
       "tabs": {
         "processes": "Processes",
-        "prices": "Prices",
         "childMeteringPoints": "Child metering points ({{ count }})"
       },
       "childMeteringPointsTab": {
