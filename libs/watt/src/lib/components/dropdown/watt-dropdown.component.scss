@@ -91,6 +91,10 @@ watt-dropdown {
   .mat-mdc-select-placeholder {
     color: var(--watt-input-placeholder-color);
   }
+
+  watt-field label .watt-field-wrapper {
+    background-color: transparent;
+  }
 }
 
 .watt-dropdown-panel {
