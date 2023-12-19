@@ -63,6 +63,8 @@ const label = (key: string) => `wholesale.requestCalculation.${key}`;
 const ExtendMeteringPoint = { ...MeteringPointType, All: 'All' } as const;
 type ExtendMeteringPointType = (typeof ExtendMeteringPoint)[keyof typeof ExtendMeteringPoint];
 
+type SelectedEicFunctionType = EicFunction | null | undefined;
+
 type FormType = {
   processType: FormControl<EdiB2CProcessType | null>;
   period: FormControl<WattRange<string | null>>;
@@ -114,7 +116,7 @@ export class DhWholesaleRequestCalculationComponent {
   private _transloco = inject(TranslocoService);
   private _toastService = inject(WattToastService);
   private _destroyRef = inject(DestroyRef);
-  private _selectedEicFunction: EicFunction | null | undefined;
+  private _selectedEicFunction: SelectedEicFunctionType;
 
   maxDate = new Date();
   minDate = subYears(new Date(), 3);
@@ -141,7 +143,7 @@ export class DhWholesaleRequestCalculationComponent {
   energySupplierOptions: WattDropdownOptions = [];
 
   meteringPointOptions: WattDropdownOptions = [];
-  progressTypeOptions = dhEnumToWattDropdownOptions(EdiB2CProcessType);
+  progressTypeOptions: WattDropdownOptions = [];
 
   selectedActorQuery = this._apollo.watchQuery({
     useInitialLoading: true,
@@ -183,11 +185,21 @@ export class DhWholesaleRequestCalculationComponent {
 
         this.form.controls.meteringPointType.setValue(ExtendMeteringPoint.All);
 
-        const exclude = this.getExcludedMeterpointTypes(this._selectedEicFunction);
+        const excludedMeteringpointTypes = this.getExcludedMeterpointTypes(
+          this._selectedEicFunction
+        );
+
+        const excludeProcessTypes = this.getExcludedProcessTypes(this._selectedEicFunction);
 
         this.meteringPointOptions = dhEnumToWattDropdownOptions(
           ExtendMeteringPoint,
-          exclude,
+          excludedMeteringpointTypes,
+          'asc'
+        );
+
+        this.progressTypeOptions = dhEnumToWattDropdownOptions(
+          EdiB2CProcessType,
+          excludeProcessTypes,
           'asc'
         );
 
@@ -280,10 +292,22 @@ export class DhWholesaleRequestCalculationComponent {
       });
   }
 
-  private getExcludedMeterpointTypes(selectedEicFunction: EicFunction | null | undefined) {
+  private getExcludedMeterpointTypes(selectedEicFunction: SelectedEicFunctionType) {
     return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
       selectedEicFunction === EicFunction.EnergySupplier
       ? [MeteringPointType.Exchange, MeteringPointType.TotalConsumption]
+      : [];
+  }
+
+  private getExcludedProcessTypes(selectedEicFunction: SelectedEicFunctionType) {
+    return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
+      selectedEicFunction === EicFunction.EnergySupplier
+      ? [
+          EdiB2CProcessType.Firstcorrection,
+          EdiB2CProcessType.Secondcorrection,
+          EdiB2CProcessType.Thirdcorrection,
+          EdiB2CProcessType.Wholesalefixing,
+        ]
       : [];
   }
 }
