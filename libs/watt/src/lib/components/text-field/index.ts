@@ -15,4 +15,3 @@
  * limitations under the License.
  */
 export { WattTextFieldComponent } from './watt-text-field.component';
-export { WattTextFieldTDComponent } from './watt-text-field-td.component';
