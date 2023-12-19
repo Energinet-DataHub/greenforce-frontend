@@ -1,1 +1,0 @@
-# Metering point domain

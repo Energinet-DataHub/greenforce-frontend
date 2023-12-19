@@ -1,1 +1,0 @@
-# UI status badge component
