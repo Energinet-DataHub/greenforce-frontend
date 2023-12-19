@@ -16,7 +16,7 @@
  */
 import { rest } from 'msw';
 
-import marketParticipantUserActors from './data/marketParticipantUserActors.json';
+import { marketParticipantUserActors } from './data/marketParticipantUserActors';
 
 export function marketParticipantUserMocks(apiBase: string) {
   return [getActors(apiBase), postInitiateMitIdSignup(apiBase)];
