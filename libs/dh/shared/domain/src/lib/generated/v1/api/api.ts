@@ -24,4 +24,4 @@ export * from './token-http.service';
 import { TokenHttp } from './token-http.service';
 export * from './wholesale-settlement-report-http.service';
 import { WholesaleSettlementReportHttp } from './wholesale-settlement-report-http.service';
-export const APIS = [EsettExchangeHttp, MarketParticipantHttp, MarketParticipantActorHttp, MarketParticipantActorQueryHttp, MarketParticipantGridAreaHttp, MarketParticipantPermissionsHttp, MarketParticipantUserHttp, MarketParticipantUserOverviewHttp, MarketParticipantUserRoleHttp, MarketParticipantUserRoleAssignmentHttp, MessageArchiveHttp, MeteringPointHttp, TokenHttp, WholesaleSettlementReportHttp];
+export const APIS = [EsettExchangeHttp, MarketParticipantHttp, MarketParticipantActorHttp, MarketParticipantActorQueryHttp, MarketParticipantGridAreaHttp, MarketParticipantPermissionsHttp, MarketParticipantUserHttp, MarketParticipantUserOverviewHttp, MarketParticipantUserRoleHttp, MarketParticipantUserRoleAssignmentHttp, MessageArchiveHttp, TokenHttp, WholesaleSettlementReportHttp];
