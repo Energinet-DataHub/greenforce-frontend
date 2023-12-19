@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { MarketParticipantUserOverviewResultDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantGetUserOverviewResponse } from '@energinet-datahub/dh/shared/domain';
 
-export const marketParticipantUserSearchUsers: MarketParticipantUserOverviewResultDto = {
+export const marketParticipantUserSearchUsers: MarketParticipantGetUserOverviewResponse = {
   totalUserCount: 4,
   users: [
     {

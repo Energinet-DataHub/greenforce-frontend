@@ -23,7 +23,7 @@ import {
   MarketParticipantUserOverviewHttp,
   MarketParticipantSortDirection,
   MarketParticipantUserOverviewItemDto,
-  MarketParticipantUserOverviewResultDto,
+  MarketParticipantGetUserOverviewResponse,
   MarketParticipantUserOverviewSortProperty,
   MarketParticipantUserStatus,
 } from '@energinet-datahub/dh/shared/domain';
@@ -152,7 +152,7 @@ export class DhAdminUserManagementDataAccessApiStore
   private updateUsers = this.updater(
     (
       state: DhUserManagementState,
-      response: MarketParticipantUserOverviewResultDto
+      response: MarketParticipantGetUserOverviewResponse
     ): DhUserManagementState => ({
       ...state,
       users: response.users,
