@@ -14,12 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.date-range {
-  width: 250px;
-  float: left;
-}
-.date-chips {
-  padding-left: 30px;
-  padding-top: 28px;
-  float: left;
-}
+import { FormGroup, FormControl } from '@angular/forms';
+
+import { EicFunctionType } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type ActorForm = FormGroup<{
+  glnOrEicNumber: FormControl<string>;
+  name: FormControl<string>;
+  marketrole: FormControl<EicFunctionType | null>;
+  gridArea: FormControl<string[]>;
+  contact: FormGroup<{
+    departmentOrName: FormControl<string>;
+    email: FormControl<string>;
+    phone: FormControl<string>;
+  }>;
+}>;

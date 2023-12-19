@@ -14,7 +14,6 @@
 
 using System.Net.Http;
 using System.Threading.Tasks;
-using Energinet.DataHub.Charges.Clients.Charges;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
@@ -40,8 +39,6 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         protected Mock<IMarketParticipantClient_V1> MarketParticipantClientMock { get; }
 
-        protected Mock<IChargesClient> ChargeClientMock { get; }
-
         protected ControllerTestsBase(
             BffWebApiFixture bffWebApiFixture,
             WebApiFactory factory,
@@ -51,7 +48,6 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
             MarketParticipantClientMock = new Mock<IMarketParticipantClient_V1>();
             MeteringPointClientMock = new Mock<IMeteringPointClient>();
-            ChargeClientMock = new Mock<IChargesClient>();
 
             BffClient = factory.WithWebHostBuilder(builder =>
                 {
@@ -60,7 +56,6 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                         services.AddTransient(_ => WholesaleClientV3Mock.Object);
                         services.AddTransient(_ => MeteringPointClientMock.Object);
                         services.AddTransient(_ => MarketParticipantClientMock.Object);
-                        services.AddTransient(_ => ChargeClientMock.Object);
                     });
                 })
                 .CreateClient();
