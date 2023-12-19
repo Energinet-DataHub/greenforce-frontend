@@ -1,7 +1,3 @@
-export * from './charge-links-http.service';
-import { ChargeLinksHttp } from './charge-links-http.service';
-export * from './charges-http.service';
-import { ChargesHttp } from './charges-http.service';
 export * from './esett-exchange-http.service';
 import { EsettExchangeHttp } from './esett-exchange-http.service';
 export * from './market-participant-http.service';
@@ -30,4 +26,4 @@ export * from './token-http.service';
 import { TokenHttp } from './token-http.service';
 export * from './wholesale-settlement-report-http.service';
 import { WholesaleSettlementReportHttp } from './wholesale-settlement-report-http.service';
-export const APIS = [ChargeLinksHttp, ChargesHttp, EsettExchangeHttp, MarketParticipantHttp, MarketParticipantActorHttp, MarketParticipantActorQueryHttp, MarketParticipantGridAreaHttp, MarketParticipantPermissionsHttp, MarketParticipantUserHttp, MarketParticipantUserOverviewHttp, MarketParticipantUserRoleHttp, MarketParticipantUserRoleAssignmentHttp, MessageArchiveHttp, MeteringPointHttp, TokenHttp, WholesaleSettlementReportHttp];
+export const APIS = [EsettExchangeHttp, MarketParticipantHttp, MarketParticipantActorHttp, MarketParticipantActorQueryHttp, MarketParticipantGridAreaHttp, MarketParticipantPermissionsHttp, MarketParticipantUserHttp, MarketParticipantUserOverviewHttp, MarketParticipantUserRoleHttp, MarketParticipantUserRoleAssignmentHttp, MessageArchiveHttp, MeteringPointHttp, TokenHttp, WholesaleSettlementReportHttp];
