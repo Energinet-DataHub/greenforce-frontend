@@ -10,17 +10,13 @@
  * Do not edit the class manually.
  */
 import { MarketParticipantActorNameDto } from './market-participant-actor-name-dto';
-import { MarketParticipantActorStatus } from './market-participant-actor-status';
 import { MarketParticipantActorMarketRoleDto } from './market-participant-actor-market-role-dto';
 
 
 export interface MarketParticipantChangeActorDto { 
-    status: MarketParticipantActorStatus;
+    status: string;
     name: MarketParticipantActorNameDto;
     marketRoles: Array<MarketParticipantActorMarketRoleDto>;
 }
-export namespace MarketParticipantChangeActorDto {
-}
-
 
 

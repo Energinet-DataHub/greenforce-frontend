@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+﻿ // Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using HotChocolate.Types;
-
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
 {
-    public class MarketPartEicFunctionType : EnumType<EicFunction>
+    public enum PriceAreaCode
     {
-        protected override void Configure(IEnumTypeDescriptor<EicFunction> descriptor)
-        {
-            descriptor.Name("EicFunctionType");
-            descriptor.AsIsCase();
-        }
+        Dk1 = 1,
+        Dk2 = 2,
     }
 }

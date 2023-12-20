@@ -13,30 +13,26 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using GreenDonut;
-using HotChocolate.Utilities;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class UserCacheDataLoader : CacheDataLoader<Guid, UserDto>
+    public class UserCacheDataLoader : CacheDataLoader<Guid, GetUserResponse>
     {
-        private readonly IMarketParticipantClient _client;
+        private readonly IMarketParticipantClient_V1 _client;
 
         public UserCacheDataLoader(
-            IMarketParticipantClient client,
+            IMarketParticipantClient_V1 client,
             DataLoaderOptions? options = null)
             : base(options) =>
             _client = client;
 
-        protected override Task<UserDto> LoadSingleAsync(
+        protected override Task<GetUserResponse> LoadSingleAsync(
             Guid key,
             CancellationToken cancellationToken) =>
-            _client.GetUserAsync(key);
+            _client.UserAsync(key);
     }
 }

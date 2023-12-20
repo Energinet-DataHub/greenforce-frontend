@@ -9,11 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { MarketParticipantUserOverviewItemDto } from './market-participant-user-overview-item-dto';
 
 
-export interface MarketParticipantActorGridAreaDto { 
-    id: string;
-    meteringPointTypes: Array<string>;
+export interface MarketParticipantGetUserOverviewResponse { 
+    users: Array<MarketParticipantUserOverviewItemDto>;
+    totalUserCount: number;
 }
 
 

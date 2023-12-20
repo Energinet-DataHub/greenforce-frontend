@@ -9,11 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { MarketParticipantEicFunction } from './market-participant-eic-function';
 
 
-export interface MarketParticipantActorGridAreaDto { 
-    id: string;
-    meteringPointTypes: Array<string>;
+export interface MarketParticipantPermissionDto { 
+    id: number;
+    name: string;
+    description: string;
+    created: string;
+    assignableTo: Array<MarketParticipantEicFunction>;
 }
 
 
