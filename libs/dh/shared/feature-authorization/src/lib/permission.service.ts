@@ -14,15 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
-import { ActorTokenService } from './actor-token.service';
+
 import { Permission } from '@energinet-datahub/dh/shared/domain';
+
+import { DhActorTokenService } from './dh-actor-token.service';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
-  constructor(private actorTokenService: ActorTokenService) {}
+  constructor(private actorTokenService: DhActorTokenService) {}
 
   public hasPermission(permission: Permission) {
     return this.actorTokenService.acquireToken().pipe(

@@ -14,5 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/msal-fake.service';
-export { LocalStorageFake, SessionStorageFake } from './lib/storage-fake';
+import { FormGroup, FormControl } from '@angular/forms';
+
+import { EicFunctionType } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type ActorForm = FormGroup<{
+  glnOrEicNumber: FormControl<string>;
+  name: FormControl<string>;
+  marketrole: FormControl<EicFunctionType | null>;
+  gridArea: FormControl<string[]>;
+  contact: FormGroup<{
+    departmentOrName: FormControl<string>;
+    email: FormControl<string>;
+    phone: FormControl<string>;
+  }>;
+}>;
