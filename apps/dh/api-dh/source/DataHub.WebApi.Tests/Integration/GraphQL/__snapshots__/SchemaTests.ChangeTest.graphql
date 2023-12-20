@@ -140,10 +140,10 @@ type GetAuditIdentityResponse {
 }
 
 type GridAreaDto {
+  priceAreaCode: PriceAreaCode!
   id: UUID!
   code: String!
   name: String!
-  priceAreaCode: String!
   validFrom: DateTime!
   validTo: DateTime
 }
@@ -517,6 +517,11 @@ enum PermissionAuditLogType {
   UNKNOWN
   DESCRIPTION_CHANGE
   CREATED
+}
+
+enum PriceAreaCode {
+  DK1
+  DK2
 }
 
 enum ProcessStatus {
