@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class StorageFake implements Storage {
+abstract class BrowserStorageFake implements Storage {
   private store: { [key: string]: string } = {};
 
   private internalLength = 0;
@@ -46,5 +46,5 @@ abstract class StorageFake implements Storage {
   };
 }
 
-export class LocalStorageFake extends StorageFake {}
-export class SessionStorageFake extends StorageFake {}
+export class LocalStorageFake extends BrowserStorageFake {}
+export class SessionStorageFake extends BrowserStorageFake {}

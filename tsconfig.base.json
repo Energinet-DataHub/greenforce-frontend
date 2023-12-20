@@ -293,6 +293,7 @@
       "@energinet-datahub/gf/configuration-danish-locale": [
         "libs/gf/configuration-danish-locale/src/index.ts"
       ],
+      "@energinet-datahub/gf/test-util": ["libs/gf/test-util/src/index.ts"],
       "@energinet-datahub/gf/test-util-matchers": [
         "libs/gf/test-util-matchers/src/index.ts"
       ],
