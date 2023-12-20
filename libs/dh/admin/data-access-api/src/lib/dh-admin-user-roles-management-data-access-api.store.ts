@@ -35,8 +35,6 @@ import {
   MarketParticipantUserRoleDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
 interface DhUserRolesManagementState {
   readonly roles: MarketParticipantUserRoleDto[];
   readonly requestState: LoadingState | ErrorState;
@@ -199,7 +197,6 @@ export class DhAdminUserRolesManagementDataAccessApiStore
     this.rolesOptions$ = this._transloco
       .selectTranslateObject('marketParticipant.marketRoles')
       .pipe(
-        takeUntilDestroyed(),
         combineLatestWith(this.select((state) => state.roles)),
         filter(([, roles]) => roles.length > 0),
         // eslint-disable-next-line @ngrx/avoid-mapping-component-store-selectors
