@@ -50,7 +50,6 @@ import { marketParticipantActors } from './data/market-participant-actors';
 import { getOrganizationsQueryMock } from './data/market-participant-organizations';
 import { getActorAuditLogsMock } from './data/get-actor-audit-logs';
 import { getGridAreaOverviewMock } from './data/get-grid-area-overview';
-import { names } from '@nx/devkit';
 import {
   MarketParticipantActorClientSecretDto,
   MarketParticipantActorCredentialsDto,
