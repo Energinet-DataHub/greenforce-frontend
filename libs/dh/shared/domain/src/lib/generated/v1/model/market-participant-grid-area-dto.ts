@@ -9,19 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { MarketParticipantPriceAreaCode } from './market-participant-price-area-code';
 
 
 export interface MarketParticipantGridAreaDto { 
     id: string;
     code: string;
     name: string;
-    priceAreaCode: MarketParticipantPriceAreaCode;
+    priceAreaCode: string;
     validFrom: string;
     validTo?: string | null;
 }
-export namespace MarketParticipantGridAreaDto {
-}
-
 
 
