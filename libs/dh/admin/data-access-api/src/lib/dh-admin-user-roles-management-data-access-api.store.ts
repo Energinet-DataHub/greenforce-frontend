@@ -14,8 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
-import { Observable, switchMap, tap, withLatestFrom } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
+import {
+  Observable,
+  combineLatestWith,
+  filter,
+  map,
+  of,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { ComponentStore, OnStoreInit, tapResponse } from '@ngrx/component-store';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
@@ -24,6 +34,8 @@ import {
   MarketParticipantUserRoleStatus,
   MarketParticipantUserRoleDto,
 } from '@energinet-datahub/dh/shared/domain';
+import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface DhUserRolesManagementState {
   readonly roles: MarketParticipantUserRoleDto[];
@@ -47,6 +59,8 @@ export class DhAdminUserRolesManagementDataAccessApiStore
   extends ComponentStore<DhUserRolesManagementState>
   implements OnStoreInit
 {
+  private readonly _transloco = inject(TranslocoService);
+
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
@@ -65,12 +79,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore
     )
   );
 
-  rolesOptions$ = this.select((state) =>
-    state.roles.map((role: MarketParticipantUserRoleDto) => ({
-      value: role.id,
-      displayValue: role.name,
-    }))
-  );
+  rolesOptions$: Observable<WattDropdownOptions> = of([]);
 
   validation$ = this.select((state) => state.validation);
 
@@ -187,6 +196,20 @@ export class DhAdminUserRolesManagementDataAccessApiStore
   private resetState = () => this.setState(initialState);
 
   ngrxOnStoreInit(): void {
+    this.rolesOptions$ = this._transloco
+      .selectTranslateObject('marketParticipant.marketRoles')
+      .pipe(
+        takeUntilDestroyed(),
+        combineLatestWith(this.select((state) => state.roles)),
+        filter(([, roles]) => roles.length > 0),
+        // eslint-disable-next-line @ngrx/avoid-mapping-component-store-selectors
+        map(([keys, roles]) =>
+          roles.map((role: MarketParticipantUserRoleDto) => ({
+            displayValue: `${role.name} - ${keys[role.eicFunction]}`,
+            value: role.id,
+          }))
+        )
+      );
     this.getRoles();
   }
 }
