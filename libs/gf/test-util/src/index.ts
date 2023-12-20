@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/msal-fake.service';
+export { LocalStorageFake, SessionStorageFake } from './lib/browser-storage-fake';
