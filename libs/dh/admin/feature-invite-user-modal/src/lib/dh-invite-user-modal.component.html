@@ -20,6 +20,7 @@ limitations under the License.
   [loading]="(isInvitingUser$ | push) || isLoadingEmails"
   [title]="t('title')"
   (closed)="closeModal($event)"
+  [disableEscAndBackdropClose]="true"
   *transloco="let t; read: 'admin.userManagement.inviteUser'"
 >
   <watt-stepper
