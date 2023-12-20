@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LocalStorageFake, SessionStorageFake } from '@energinet-datahub/dh/shared/test-util-auth';
+import { LocalStorageFake, SessionStorageFake } from '@energinet-datahub/gf/test-util';
 
 import { DhActorStorage } from './dh-actor-storage';
 
