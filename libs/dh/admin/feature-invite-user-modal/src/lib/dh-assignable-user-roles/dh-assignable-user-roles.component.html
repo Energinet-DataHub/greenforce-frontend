@@ -44,7 +44,6 @@ limitations under the License.
           sortDirection="asc"
           [selectable]="true"
           (selectionChange)="selectionChanged($event)"
-          *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
         >
           <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let element">
             {{ element.name }}
