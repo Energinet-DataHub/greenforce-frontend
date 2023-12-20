@@ -62,7 +62,6 @@ export class DhAssignableUserRolesComponent implements OnInit {
   @Output() readonly selectedUserRoles = new EventEmitter<MarketParticipantUserRoleDto[]>();
 
   columns: WattTableColumnDef<MarketParticipantUserRoleDto> = {
-    eicFunction: { accessor: 'eicFunction' },
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
   };
