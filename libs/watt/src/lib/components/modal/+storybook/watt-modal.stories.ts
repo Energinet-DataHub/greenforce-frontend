@@ -51,7 +51,7 @@ export const Small: StoryFn<WattModalComponent> = (args) => ({
   props: args,
   template: `
     <watt-button (click)="modal.open()">{{title}}</watt-button>
-    <watt-modal #modal [title]="title" [size]="size" [disableClose]="disableClose" closeLabel="Close modal">
+    <watt-modal #modal [title]="title" [size]="size" [disableClose]="disableClose" [disableEscAndBackdropClose]="disableEscAndBackdropClose" closeLabel="Close modal">
       <p>Do you accept the terms?</p>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">Reject</watt-button>
@@ -65,13 +65,14 @@ Small.args = {
   title: 'Accept Terms',
   size: 'small',
   disableClose: true,
+  disableEscAndBackdropClose: false,
 };
 
 export const Medium: StoryFn<WattModalComponent> = (args) => ({
   props: { ...args, exampleFormControl: new FormControl(null) },
   template: `
     <watt-button (click)="modal.open()">{{title}}</watt-button>
-    <watt-modal #modal [title]="title" [size]="size" [disableClose]="disableClose" closeLabel="Close modal">
+    <watt-modal #modal [title]="title" [size]="size" [disableClose]="disableClose" [disableEscAndBackdropClose]="disableEscAndBackdropClose" closeLabel="Close modal">
       <br>
       <watt-text-field [formControl]="exampleFormControl" label="Username" />
       <watt-text-field [formControl]="exampleFormControl" label="Password" type="password" />
@@ -87,13 +88,14 @@ Medium.args = {
   title: 'Create User',
   size: 'medium',
   disableClose: false,
+  disableEscAndBackdropClose: false,
 };
 
 export const Large: StoryFn<WattModalComponent> = (args) => ({
   props: args,
   template: `
     <watt-button (click)="modal.open()">{{title}}</watt-button>
-    <watt-modal #modal [title]="title" [size]="size" [disableClose]="disableClose" closeLabel="Close modal">
+    <watt-modal #modal [title]="title" [size]="size" [disableClose]="disableClose" [disableEscAndBackdropClose]="disableEscAndBackdropClose" closeLabel="Close modal">
       <h4 wattTooltip="Tooltip in modal" style="display: inline-block;">Develop across all platforms</h4>
       <p>Learn one way to build applications with Angular and reuse your code and abilities to build apps for any deployment target. For web, mobile web, native mobile and native desktop.</p>
       <h4>Speed &amp; Performance</h4>
@@ -125,6 +127,7 @@ Large.args = {
   title: 'Install Angular',
   size: 'large',
   disableClose: false,
+  disableEscAndBackdropClose: false,
 };
 
 export const FromClass: StoryFn<WattModalComponent> = (args) => ({
