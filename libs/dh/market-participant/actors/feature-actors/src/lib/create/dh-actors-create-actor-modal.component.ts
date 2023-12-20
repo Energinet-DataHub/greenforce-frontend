@@ -30,10 +30,10 @@ import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import {
-  ContactCategoryType,
+  ContactCategory,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
-  EicFunctionType,
+  EicFunction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   dhCvrValidator,
@@ -93,7 +93,7 @@ export class DhActorsCreateActorModalComponent {
   newActorForm: ActorForm = this._fb.group({
     glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
     name: [''],
-    marketrole: new FormControl<EicFunctionType | null>(null, Validators.required),
+    marketrole: new FormControl<EicFunction | null>(null, Validators.required),
     gridArea: [{ value: [] as string[], disabled: true }, Validators.required],
     contact: this._fb.group({
       departmentOrName: ['', Validators.required],
@@ -155,7 +155,7 @@ export class DhActorsCreateActorModalComponent {
               email: this.newActorForm.controls.contact.controls.email.value,
               name: this.newActorForm.controls.contact.controls.departmentOrName.value,
               phone: this.newActorForm.controls.contact.controls.phone.value,
-              category: ContactCategoryType.Default,
+              category: ContactCategory.Default,
             },
             actor: {
               name: { value: this.newActorForm.controls.name.value },
@@ -166,7 +166,7 @@ export class DhActorsCreateActorModalComponent {
                   : this.chooseOrganizationForm.controls.orgId.value,
               marketRoles: [
                 {
-                  eicFunction: this.newActorForm.controls.marketrole.value as EicFunctionType,
+                  eicFunction: this.newActorForm.controls.marketrole.value as EicFunction,
                   gridAreas: this.newActorForm.controls.gridArea.value.map((gridArea) => ({
                     id: gridArea,
                     meteringPointTypes: [],
