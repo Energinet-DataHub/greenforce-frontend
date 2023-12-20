@@ -8045,21 +8045,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ngrx/component-store@npm:16.3.0":
-  version: 16.3.0
-  resolution: "@ngrx/component-store@npm:16.3.0"
+"@ngrx/component-store@npm:17.0.1":
+  version: 17.0.1
+  resolution: "@ngrx/component-store@npm:17.0.1"
   dependencies:
+    "@ngrx/operators": 17.0.0-beta.0
     tslib: ^2.0.0
   peerDependencies:
-    "@angular/core": ^16.0.0
+    "@angular/core": ^17.0.0
     rxjs: ^6.5.3 || ^7.5.0
-  checksum: e13ce0246e60db101369f115d0f3bde8931d75e0ea6db419d2eb731b9f19cd50c637005cbe80b0d42767294bf54450068a70751b57f87171be551c04cfbe0581
+  checksum: 614fc58f7ca92dad55de2303efe9bb3ebd23bf7cef1ca2f94d42f93594591b27e07f3dd88eb27c6f7c209f55607f14ca9ffffef102ae40414c628b522f539387
   languageName: node
   linkType: hard
 
-"@ngrx/eslint-plugin@npm:16.3.0":
-  version: 16.3.0
-  resolution: "@ngrx/eslint-plugin@npm:16.3.0"
+"@ngrx/eslint-plugin@npm:17.0.1":
+  version: 17.0.1
+  resolution: "@ngrx/eslint-plugin@npm:17.0.1"
   dependencies:
     "@typescript-eslint/experimental-utils": ^5.4.0
     eslint-etc: ^5.1.0
@@ -8068,7 +8069,18 @@ __metadata:
   peerDependencies:
     eslint: ">=8.0.0"
     typescript: ">=4.4.0"
-  checksum: 534ea5ead2edfe4e1cfc125b1f7925c02956077558d836b6945e00f8a948c4cb8d32ded71232b5fbc02395444b0096576737a28ed657d77758d06bb42d8facc2
+  checksum: 2d907290ce04a92aab7b124e445d39c14d1d8fa928a92d9dc721fd00414b568e982822c41dce30d3b8986a7ecf7ef7b9b3d51c641f9ad56077d7a1deb6f3594b
+  languageName: node
+  linkType: hard
+
+"@ngrx/operators@npm:17.0.0-beta.0":
+  version: 17.0.0-beta.0
+  resolution: "@ngrx/operators@npm:17.0.0-beta.0"
+  dependencies:
+    tslib: ^2.3.0
+  peerDependencies:
+    rxjs: ^6.5.3 || ^7.4.0
+  checksum: e814a18baa1e84e161825d409afd54d7c1eed2ed05215302bd4870827bae83b2bff039398029e38aedec5c12694deb1c5bc67570531142c4fe7ac6e10a5b566d
   languageName: node
   linkType: hard
 
@@ -19253,8 +19265,8 @@ __metadata:
     "@ngneat/transloco": 5.0.7
     "@ngneat/transloco-keys-manager": 3.8.0
     "@ngneat/transloco-optimize": 5.0.3
-    "@ngrx/component-store": 16.3.0
-    "@ngrx/eslint-plugin": 16.3.0
+    "@ngrx/component-store": 17.0.1
+    "@ngrx/eslint-plugin": 17.0.1
     "@nx/angular": 17.1.3
     "@nx/cypress": 17.1.3
     "@nx/devkit": 17.1.3
