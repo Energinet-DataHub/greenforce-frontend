@@ -44,7 +44,7 @@ import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-desi
   template: `
     <mat-toolbar class="toolbar watt-space-inset-squished-m">
       <img eoProductLogo class="logo" />
-      <ng-content></ng-content>
+      <ng-content />
     </mat-toolbar>
   `,
 })
