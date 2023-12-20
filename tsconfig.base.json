@@ -57,24 +57,6 @@
       "@energinet-datahub/dh/auth/msal": [
         "libs/dh/auth/feature-msal/src/index.ts"
       ],
-      "@energinet-datahub/dh/charges/data-access-api": [
-        "libs/dh/charges/data-access-api/src/index.ts"
-      ],
-      "@energinet-datahub/dh/charges/domain": [
-        "libs/dh/charges/domain/src/index.ts"
-      ],
-      "@energinet-datahub/dh/charges/feature-create-prices": [
-        "libs/dh/charges/feature-create-prices/src/index.ts"
-      ],
-      "@energinet-datahub/dh/charges/feature-prices": [
-        "libs/dh/charges/feature-prices/src/index.ts"
-      ],
-      "@energinet-datahub/dh/charges/routing": [
-        "libs/dh/charges/routing/src/index.ts"
-      ],
-      "@energinet-datahub/dh/charges/shell": [
-        "libs/dh/charges/shell/src/index.ts"
-      ],
       "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
       "@energinet-datahub/dh/esett/feature-balance-responsible": [
         "libs/dh/esett/feature-balance-responsible/src/index.ts"
@@ -145,36 +127,6 @@
       ],
       "@energinet-datahub/dh/message-archive/shell": [
         "libs/dh/message-archive/shell/src/index.ts"
-      ],
-      "@energinet-datahub/dh/metering-point/data-access-api": [
-        "libs/dh/metering-point/data-access-api/src/index.ts"
-      ],
-      "@energinet-datahub/dh/metering-point/domain": [
-        "libs/dh/metering-point/domain/src/index.ts"
-      ],
-      "@energinet-datahub/dh/metering-point/feature-identity-and-master-data": [
-        "libs/dh/metering-point/feature-identity-and-master-data/src/index.ts"
-      ],
-      "@energinet-datahub/dh/metering-point/feature-overview": [
-        "libs/dh/metering-point/feature-overview/src/index.ts"
-      ],
-      "@energinet-datahub/dh/metering-point/feature-search": [
-        "libs/dh/metering-point/feature-search/src/index.ts"
-      ],
-      "@energinet-datahub/dh/metering-point/feature-tabs": [
-        "libs/dh/metering-point/feature-tabs/src/index.ts"
-      ],
-      "@energinet-datahub/dh/metering-point/routing": [
-        "libs/dh/metering-point/routing/src/index.ts"
-      ],
-      "@energinet-datahub/dh/metering-point/shared/ui-util": [
-        "libs/dh/metering-point/shared/ui-util/src/index.ts"
-      ],
-      "@energinet-datahub/dh/metering-point/shell": [
-        "libs/dh/metering-point/shell/src/index.ts"
-      ],
-      "@energinet-datahub/dh/metering-point/ui-status-badge": [
-        "libs/dh/metering-point/ui-status-badge/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/assets": [
         "libs/dh/shared/assets/src/index.ts"
@@ -341,6 +293,7 @@
       "@energinet-datahub/gf/configuration-danish-locale": [
         "libs/gf/configuration-danish-locale/src/index.ts"
       ],
+      "@energinet-datahub/gf/test-util": ["libs/gf/test-util/src/index.ts"],
       "@energinet-datahub/gf/test-util-matchers": [
         "libs/gf/test-util-matchers/src/index.ts"
       ],

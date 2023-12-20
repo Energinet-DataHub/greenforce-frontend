@@ -29,27 +29,25 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-
 import {
-  ContactCategoryType,
+  ContactCategory,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
-  EicFunctionType,
+  EicFunction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import {
   dhCvrValidator,
   dhDkPhoneNumberValidator,
   dhDomainValidator,
   dhGlnOrEicValidator,
 } from '@energinet-datahub/dh/shared/ui-validators';
-
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
-import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { ActorForm } from './dh-actor-form.model';
 
 @Component({
   standalone: true,
@@ -92,10 +90,10 @@ export class DhActorsCreateActorModalComponent {
     domain: ['', [Validators.required, dhDomainValidator]],
   });
 
-  newActorForm = this._fb.group({
+  newActorForm: ActorForm = this._fb.group({
     glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
     name: [''],
-    marketrole: [EicFunctionType.BillingAgent, Validators.required],
+    marketrole: new FormControl<EicFunction | null>(null, Validators.required),
     gridArea: [{ value: [] as string[], disabled: true }, Validators.required],
     contact: this._fb.group({
       departmentOrName: ['', Validators.required],
@@ -157,7 +155,7 @@ export class DhActorsCreateActorModalComponent {
               email: this.newActorForm.controls.contact.controls.email.value,
               name: this.newActorForm.controls.contact.controls.departmentOrName.value,
               phone: this.newActorForm.controls.contact.controls.phone.value,
-              category: ContactCategoryType.Default,
+              category: ContactCategory.Default,
             },
             actor: {
               name: { value: this.newActorForm.controls.name.value },
@@ -168,7 +166,7 @@ export class DhActorsCreateActorModalComponent {
                   : this.chooseOrganizationForm.controls.orgId.value,
               marketRoles: [
                 {
-                  eicFunction: this.newActorForm.controls.marketrole.value,
+                  eicFunction: this.newActorForm.controls.marketrole.value as EicFunction,
                   gridAreas: this.newActorForm.controls.gridArea.value.map((gridArea) => ({
                     id: gridArea,
                     meteringPointTypes: [],

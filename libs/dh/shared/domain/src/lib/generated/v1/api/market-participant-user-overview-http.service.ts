@@ -19,11 +19,11 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { MarketParticipantGetUserOverviewResponse } from '../model/market-participant-get-user-overview-response';
+// @ts-ignore
 import { MarketParticipantSortDirection } from '../model/market-participant-sort-direction';
 // @ts-ignore
 import { MarketParticipantUserOverviewFilterDto } from '../model/market-participant-user-overview-filter-dto';
-// @ts-ignore
-import { MarketParticipantUserOverviewResultDto } from '../model/market-participant-user-overview-result-dto';
 // @ts-ignore
 import { MarketParticipantUserOverviewSortProperty } from '../model/market-participant-user-overview-sort-property';
 
@@ -106,9 +106,9 @@ export class MarketParticipantUserOverviewHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MarketParticipantUserOverviewResultDto>;
-    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MarketParticipantUserOverviewResultDto>>;
-    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MarketParticipantUserOverviewResultDto>>;
+    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MarketParticipantGetUserOverviewResponse>;
+    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MarketParticipantGetUserOverviewResponse>>;
+    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MarketParticipantGetUserOverviewResponse>>;
     public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -181,7 +181,7 @@ export class MarketParticipantUserOverviewHttp {
         }
 
         let localVarPath = `/v1/MarketParticipantUserOverview/SearchUsers`;
-        return this.httpClient.request<MarketParticipantUserOverviewResultDto>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<MarketParticipantGetUserOverviewResponse>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: marketParticipantUserOverviewFilterDto,

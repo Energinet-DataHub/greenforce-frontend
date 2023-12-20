@@ -28,7 +28,12 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
@@ -38,14 +43,26 @@ import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-que
   selector: 'dh-admin-permission-overview',
   standalone: true,
   templateUrl: './dh-admin-permission-overview.component.html',
-  styleUrls: ['./dh-admin-permission-overview.component.scss'],
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      h3 {
+        margin: 0;
+      }
+    `,
+  ],
   imports: [
     NgIf,
     TranslocoDirective,
     TranslocoPipe,
 
     VaterStackComponent,
+    VaterFlexComponent,
     VaterSpacerComponent,
+    VaterUtilityDirective,
     WattButtonComponent,
     WattEmptyStateComponent,
     WATT_CARD,

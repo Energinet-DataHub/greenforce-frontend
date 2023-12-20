@@ -14,9 +14,8 @@
 
 using System.Net.Http;
 using System.Threading.Tasks;
-using Energinet.DataHub.Charges.Clients.Charges;
-using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,9 +37,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         protected Mock<IMeteringPointClient> MeteringPointClientMock { get; }
 
-        protected Mock<IMarketParticipantClient> MarketParticipantClientMock { get; }
-
-        protected Mock<IChargesClient> ChargeClientMock { get; }
+        protected Mock<IMarketParticipantClient_V1> MarketParticipantClientMock { get; }
 
         protected ControllerTestsBase(
             BffWebApiFixture bffWebApiFixture,
@@ -49,9 +46,8 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             : base(bffWebApiFixture, testOutputHelper)
         {
             WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
-            MarketParticipantClientMock = new Mock<IMarketParticipantClient>();
+            MarketParticipantClientMock = new Mock<IMarketParticipantClient_V1>();
             MeteringPointClientMock = new Mock<IMeteringPointClient>();
-            ChargeClientMock = new Mock<IChargesClient>();
 
             BffClient = factory.WithWebHostBuilder(builder =>
                 {
@@ -60,7 +56,6 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                         services.AddTransient(_ => WholesaleClientV3Mock.Object);
                         services.AddTransient(_ => MeteringPointClientMock.Object);
                         services.AddTransient(_ => MarketParticipantClientMock.Object);
-                        services.AddTransient(_ => ChargeClientMock.Object);
                     });
                 })
                 .CreateClient();

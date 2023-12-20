@@ -26,120 +26,120 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     {
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> ActorAllAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> ActorGetAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> ActorAllAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> ActorGetAsync(System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> ActorPOSTAsync(CreateActorDto? body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> ActorPOSTAsync(CreateActorDto? body, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ActorDto> ActorGETAsync(System.Guid actorId);
+        System.Threading.Tasks.Task<System.Guid> ActorPostAsync(CreateActorDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ActorDto> ActorGETAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Guid> ActorPostAsync(CreateActorDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ActorPUTAsync(System.Guid actorId, ChangeActorDto? body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ActorPUTAsync(System.Guid actorId, ChangeActorDto? body, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ActorCredentialsDto> CredentialsGETAsync(System.Guid actorId);
+        System.Threading.Tasks.Task<ActorDto> ActorGetAsync(System.Guid actorId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ActorCredentialsDto> CredentialsGETAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ActorDto> ActorGetAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task CredentialsDELETEAsync(System.Guid actorId);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task CredentialsDELETEAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task CertificateAsync(System.Guid actorId, FileParameter certificate);
+        System.Threading.Tasks.Task ActorPutAsync(System.Guid actorId, ChangeActorDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task CertificateAsync(System.Guid actorId, FileParameter certificate, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task ActorPutAsync(System.Guid actorId, ChangeActorDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ActorClientSecretDto> SecretAsync(System.Guid actorId);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ActorClientSecretDto> SecretAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetActorAuditLogsResponse> AuditlogsAsync(System.Guid actorId);
+        System.Threading.Tasks.Task<ActorCredentialsDto> ActorCredentialsGetAsync(System.Guid actorId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetActorAuditLogsResponse> AuditlogsAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ActorCredentialsDto> ActorCredentialsGetAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorContactDto>> ContactAllAsync(System.Guid actorId);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorContactDto>> ContactAllAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> ContactPOSTAsync(System.Guid actorId, CreateActorContactDto? body);
+        System.Threading.Tasks.Task ActorCredentialsDeleteAsync(System.Guid actorId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> ContactPOSTAsync(System.Guid actorId, CreateActorContactDto? body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task ActorCredentialsDeleteAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ContactDELETEAsync(System.Guid actorId, System.Guid contactId);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ContactDELETEAsync(System.Guid actorId, System.Guid contactId, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SelectionActorDto>> SelectionActorsAsync();
+        System.Threading.Tasks.Task ActorCredentialsCertificateAsync(System.Guid actorId, FileParameter certificate);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SelectionActorDto>> SelectionActorsAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task ActorCredentialsCertificateAsync(System.Guid actorId, FileParameter certificate, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ActorClientSecretDto> ActorCredentialsSecretAsync(System.Guid actorId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ActorClientSecretDto> ActorCredentialsSecretAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<GetActorAuditLogsResponse> ActorAuditlogsAsync(System.Guid actorId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<GetActorAuditLogsResponse> ActorAuditlogsAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorContactDto>> ActorContactGetAsync(System.Guid actorId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorContactDto>> ActorContactGetAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Guid> ActorContactPostAsync(System.Guid actorId, CreateActorContactDto? body);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Guid> ActorContactPostAsync(System.Guid actorId, CreateActorContactDto? body, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ActorContactDeleteAsync(System.Guid actorId, System.Guid contactId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ActorContactDeleteAsync(System.Guid actorId, System.Guid contactId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SelectionActorDto>> QuerySelectionActorsAsync();
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SelectionActorDto>> QuerySelectionActorsAsync(System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -152,48 +152,48 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> GridAreaPOSTAsync(CreateGridAreaDto? body);
+        System.Threading.Tasks.Task<System.Guid> GridAreaPostAsync(CreateGridAreaDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> GridAreaPOSTAsync(CreateGridAreaDto? body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Guid> GridAreaPostAsync(CreateGridAreaDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task GridAreaPUTAsync(ChangeGridAreaDto? body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task GridAreaPUTAsync(ChangeGridAreaDto? body, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaDto>> GridAreaAllAsync();
+        System.Threading.Tasks.Task GridAreaPutAsync(ChangeGridAreaDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaDto>> GridAreaAllAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task GridAreaPutAsync(ChangeGridAreaDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GridAreaDto> GridAreaGETAsync(System.Guid gridAreaId);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GridAreaDto> GridAreaGETAsync(System.Guid gridAreaId, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaAuditLogEntryDto>> AuditlogentryAllAsync(System.Guid gridAreaId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaDto>> GridAreaGetAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaAuditLogEntryDto>> AuditlogentryAllAsync(System.Guid gridAreaId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaDto>> GridAreaGetAsync(System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<GridAreaDto> GridAreaGetAsync(System.Guid gridAreaId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<GridAreaDto> GridAreaGetAsync(System.Guid gridAreaId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaAuditLogEntryDto>> GridAreaAuditlogentryAsync(System.Guid gridAreaId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaAuditLogEntryDto>> GridAreaAuditlogentryAsync(System.Guid gridAreaId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -206,129 +206,129 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task InviteAsync(UserInvitationDto? body);
+        System.Threading.Tasks.Task UsersInviteAsync(UserInvitationDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task InviteAsync(UserInvitationDto? body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task UsersInviteAsync(UserInvitationDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ReinviteAsync(System.Guid userId);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ReinviteAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationDto>> OrganizationAllAsync();
+        System.Threading.Tasks.Task UsersReinviteAsync(System.Guid userId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationDto>> OrganizationAllAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task UsersReinviteAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> OrganizationPOSTAsync(CreateOrganizationDto? body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> OrganizationPOSTAsync(CreateOrganizationDto? body, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OrganizationDto> OrganizationGETAsync(System.Guid organizationId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationDto>> OrganizationGetAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<OrganizationDto> OrganizationGETAsync(System.Guid organizationId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationDto>> OrganizationGetAsync(System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task OrganizationPUTAsync(System.Guid organizationId, ChangeOrganizationDto? body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task OrganizationPUTAsync(System.Guid organizationId, ChangeOrganizationDto? body, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> ActorAll2Async(System.Guid organizationId);
+        System.Threading.Tasks.Task<System.Guid> OrganizationPostAsync(CreateOrganizationDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> ActorAll2Async(System.Guid organizationId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Guid> OrganizationPostAsync(CreateOrganizationDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationAuditLogDto>> AuditlogsAllAsync(System.Guid organizationId);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationAuditLogDto>> AuditlogsAllAsync(System.Guid organizationId, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PermissionDto> PermissionGETAsync(int permissionId);
+        System.Threading.Tasks.Task<OrganizationDto> OrganizationGetAsync(System.Guid organizationId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PermissionDto> PermissionGETAsync(int permissionId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<OrganizationDto> OrganizationGetAsync(System.Guid organizationId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDto>> PermissionAllAsync();
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDto>> PermissionAllAsync(System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task PermissionPUTAsync(UpdatePermissionDto? body);
+        System.Threading.Tasks.Task OrganizationPutAsync(System.Guid organizationId, ChangeOrganizationDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task PermissionPUTAsync(UpdatePermissionDto? body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task OrganizationPutAsync(System.Guid organizationId, ChangeOrganizationDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionAuditLogDto>> AuditlogsAll2Async(int permissionId);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionAuditLogDto>> AuditlogsAll2Async(int permissionId, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task OpenidConfigurationAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> OrganizationActorAsync(System.Guid organizationId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task OpenidConfigurationAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> OrganizationActorAsync(System.Guid organizationId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task KeysAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationAuditLogDto>> OrganizationAuditlogsAsync(System.Guid organizationId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task KeysAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationAuditLogDto>> OrganizationAuditlogsAsync(System.Guid organizationId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<PermissionDto> PermissionGetAsync(int permissionId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<PermissionDto> PermissionGetAsync(int permissionId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDto>> PermissionGetAsync();
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDto>> PermissionGetAsync(System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task PermissionPutAsync(UpdatePermissionDto? body);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task PermissionPutAsync(UpdatePermissionDto? body, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionAuditLogDto>> PermissionAuditlogsAsync(int permissionId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionAuditLogDto>> PermissionAuditlogsAsync(int permissionId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task _wellKnownOpenidConfigurationAsync();
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task _wellKnownOpenidConfigurationAsync(System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task TokenKeysAsync();
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task TokenKeysAsync(System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -341,12 +341,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetActorsAssociatedWithExternalUserIdResponse> ActorsAsync(string? externalToken);
+        System.Threading.Tasks.Task<GetActorsAssociatedWithExternalUserIdResponse> UserActorsGetAsync(string? externalToken);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetActorsAssociatedWithExternalUserIdResponse> ActorsAsync(string? externalToken, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<GetActorsAssociatedWithExternalUserIdResponse> UserActorsGetAsync(string? externalToken, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -359,174 +359,174 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetActorsAssociatedWithUserResponse> Actors2Async(System.Guid userId);
+        System.Threading.Tasks.Task<GetActorsAssociatedWithUserResponse> UserActorsGetAsync(System.Guid userId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetActorsAssociatedWithUserResponse> Actors2Async(System.Guid userId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<GetActorsAssociatedWithUserResponse> UserActorsGetAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetUserAuditLogsResponse> AuditlogentryAsync(System.Guid userId);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetUserAuditLogsResponse> AuditlogentryAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task UseridentityAsync(System.Guid userId, UserIdentityUpdateDto? body);
+        System.Threading.Tasks.Task<GetUserAuditLogsResponse> UserAuditlogentryAsync(System.Guid userId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task UseridentityAsync(System.Guid userId, UserIdentityUpdateDto? body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<GetUserAuditLogsResponse> UserAuditlogentryAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task InitiateMitidSignupAsync();
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task InitiateMitidSignupAsync(System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task DeactivateAsync(System.Guid userId);
+        System.Threading.Tasks.Task UserUseridentityAsync(System.Guid userId, UserIdentityUpdateDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task DeactivateAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task UserUseridentityAsync(System.Guid userId, UserIdentityUpdateDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Reset2faAsync(System.Guid userId);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Reset2faAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<bool> ExistsAsync(string emailAddress);
+        System.Threading.Tasks.Task UserInitiateMitidSignupAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<bool> ExistsAsync(string emailAddress, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task UserInitiateMitidSignupAsync(System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetUserOverviewResponse> SearchAsync(int? pageNumber, int? pageSize, UserOverviewSortProperty? sortProperty, SortDirection? sortDirection, UserOverviewFilterDto? body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetUserOverviewResponse> SearchAsync(int? pageNumber, int? pageSize, UserOverviewSortProperty? sortProperty, SortDirection? sortDirection, UserOverviewFilterDto? body, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> UserRolesAllAsync();
+        System.Threading.Tasks.Task UserDeactivateAsync(System.Guid userId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> UserRolesAllAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task UserDeactivateAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> UserRolesPOSTAsync(CreateUserRoleDto? body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> UserRolesPOSTAsync(CreateUserRoleDto? body, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UserRoleWithPermissionsDto> UserRolesGETAsync(System.Guid userRoleId);
+        System.Threading.Tasks.Task UserReset2faAsync(System.Guid userId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UserRoleWithPermissionsDto> UserRolesGETAsync(System.Guid userRoleId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task UserReset2faAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task UserRolesPUTAsync(System.Guid userRoleId, UpdateUserRoleDto? body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task UserRolesPUTAsync(System.Guid userRoleId, UpdateUserRoleDto? body, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleAuditLogEntryDto>> AuditlogentryAll2Async(System.Guid userRoleId);
+        System.Threading.Tasks.Task<bool> UserExistsAsync(string emailAddress);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleAuditLogEntryDto>> AuditlogentryAll2Async(System.Guid userRoleId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<bool> UserExistsAsync(string emailAddress, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDetailsDto>> PermissionsAsync(EicFunction? eicFunction);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDetailsDto>> PermissionsAsync(EicFunction? eicFunction, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> AssignedtopermissionAsync(int? permissionId);
+        System.Threading.Tasks.Task<GetUserOverviewResponse> UserOverviewUsersSearchAsync(int? pageNumber, int? pageSize, UserOverviewSortProperty? sortProperty, SortDirection? sortDirection, UserOverviewFilterDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> AssignedtopermissionAsync(int? permissionId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<GetUserOverviewResponse> UserOverviewUsersSearchAsync(int? pageNumber, int? pageSize, UserOverviewSortProperty? sortProperty, SortDirection? sortDirection, UserOverviewFilterDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Deactivate2Async(System.Guid userRoleId);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Deactivate2Async(System.Guid userRoleId, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> RolesAllAsync(System.Guid actorId, System.Guid userId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> UserRolesGetAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> RolesAllAsync(System.Guid actorId, System.Guid userId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> UserRolesGetAsync(System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task RolesAsync(System.Guid actorId, System.Guid userId, UpdateUserRoleAssignmentsDto? body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task RolesAsync(System.Guid actorId, System.Guid userId, UpdateUserRoleAssignmentsDto? body, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> RolesAll2Async(System.Guid actorId);
+        System.Threading.Tasks.Task<System.Guid> UserRolesPostAsync(CreateUserRoleDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> RolesAll2Async(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Guid> UserRolesPostAsync(CreateUserRoleDto? body, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<UserRoleWithPermissionsDto> UserRolesGetAsync(System.Guid userRoleId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<UserRoleWithPermissionsDto> UserRolesGetAsync(System.Guid userRoleId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task UserRolesPutAsync(System.Guid userRoleId, UpdateUserRoleDto? body);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task UserRolesPutAsync(System.Guid userRoleId, UpdateUserRoleDto? body, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleAuditLogEntryDto>> UserRolesAuditlogentryAsync(System.Guid userRoleId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleAuditLogEntryDto>> UserRolesAuditlogentryAsync(System.Guid userRoleId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDetailsDto>> UserRolesPermissionsAsync(EicFunction? eicFunction);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDetailsDto>> UserRolesPermissionsAsync(EicFunction? eicFunction, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> UserRolesAssignedtopermissionAsync(int? permissionId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> UserRolesAssignedtopermissionAsync(int? permissionId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task UserRolesDeactivateAsync(System.Guid userRoleId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task UserRolesDeactivateAsync(System.Guid userRoleId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> ActorsUsersRolesGetAsync(System.Guid actorId, System.Guid userId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> ActorsUsersRolesGetAsync(System.Guid actorId, System.Guid userId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ActorsUsersRolesPutAsync(System.Guid actorId, System.Guid userId, UpdateUserRoleAssignmentsDto? body);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ActorsUsersRolesPutAsync(System.Guid actorId, System.Guid userId, UpdateUserRoleAssignmentsDto? body, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> ActorsRolesAsync(System.Guid actorId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> ActorsRolesAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -567,15 +567,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> ActorAllAsync()
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> ActorGetAsync()
         {
-            return ActorAllAsync(System.Threading.CancellationToken.None);
+            return ActorGetAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> ActorAllAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> ActorGetAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/actor");
@@ -641,15 +641,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Guid> ActorPOSTAsync(CreateActorDto? body)
+        public virtual System.Threading.Tasks.Task<System.Guid> ActorPostAsync(CreateActorDto? body)
         {
-            return ActorPOSTAsync(body, System.Threading.CancellationToken.None);
+            return ActorPostAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Guid> ActorPOSTAsync(CreateActorDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid> ActorPostAsync(CreateActorDto? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/actor");
@@ -719,15 +719,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<ActorDto> ActorGETAsync(System.Guid actorId)
+        public virtual System.Threading.Tasks.Task<ActorDto> ActorGetAsync(System.Guid actorId)
         {
-            return ActorGETAsync(actorId, System.Threading.CancellationToken.None);
+            return ActorGetAsync(actorId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ActorDto> ActorGETAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ActorDto> ActorGetAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -797,15 +797,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ActorPUTAsync(System.Guid actorId, ChangeActorDto? body)
+        public virtual System.Threading.Tasks.Task ActorPutAsync(System.Guid actorId, ChangeActorDto? body)
         {
-            return ActorPUTAsync(actorId, body, System.Threading.CancellationToken.None);
+            return ActorPutAsync(actorId, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ActorPUTAsync(System.Guid actorId, ChangeActorDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ActorPutAsync(System.Guid actorId, ChangeActorDto? body, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -873,15 +873,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<ActorCredentialsDto> CredentialsGETAsync(System.Guid actorId)
+        public virtual System.Threading.Tasks.Task<ActorCredentialsDto> ActorCredentialsGetAsync(System.Guid actorId)
         {
-            return CredentialsGETAsync(actorId, System.Threading.CancellationToken.None);
+            return ActorCredentialsGetAsync(actorId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ActorCredentialsDto> CredentialsGETAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ActorCredentialsDto> ActorCredentialsGetAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -951,15 +951,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task CredentialsDELETEAsync(System.Guid actorId)
+        public virtual System.Threading.Tasks.Task ActorCredentialsDeleteAsync(System.Guid actorId)
         {
-            return CredentialsDELETEAsync(actorId, System.Threading.CancellationToken.None);
+            return ActorCredentialsDeleteAsync(actorId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CredentialsDELETEAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ActorCredentialsDeleteAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -1023,15 +1023,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task CertificateAsync(System.Guid actorId, FileParameter certificate)
+        public virtual System.Threading.Tasks.Task ActorCredentialsCertificateAsync(System.Guid actorId, FileParameter certificate)
         {
-            return CertificateAsync(actorId, certificate, System.Threading.CancellationToken.None);
+            return ActorCredentialsCertificateAsync(actorId, certificate, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CertificateAsync(System.Guid actorId, FileParameter certificate, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ActorCredentialsCertificateAsync(System.Guid actorId, FileParameter certificate, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -1110,15 +1110,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<ActorClientSecretDto> SecretAsync(System.Guid actorId)
+        public virtual System.Threading.Tasks.Task<ActorClientSecretDto> ActorCredentialsSecretAsync(System.Guid actorId)
         {
-            return SecretAsync(actorId, System.Threading.CancellationToken.None);
+            return ActorCredentialsSecretAsync(actorId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ActorClientSecretDto> SecretAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ActorClientSecretDto> ActorCredentialsSecretAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -1189,15 +1189,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetActorAuditLogsResponse> AuditlogsAsync(System.Guid actorId)
+        public virtual System.Threading.Tasks.Task<GetActorAuditLogsResponse> ActorAuditlogsAsync(System.Guid actorId)
         {
-            return AuditlogsAsync(actorId, System.Threading.CancellationToken.None);
+            return ActorAuditlogsAsync(actorId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetActorAuditLogsResponse> AuditlogsAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetActorAuditLogsResponse> ActorAuditlogsAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -1267,15 +1267,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorContactDto>> ContactAllAsync(System.Guid actorId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorContactDto>> ActorContactGetAsync(System.Guid actorId)
         {
-            return ContactAllAsync(actorId, System.Threading.CancellationToken.None);
+            return ActorContactGetAsync(actorId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorContactDto>> ContactAllAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorContactDto>> ActorContactGetAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -1345,15 +1345,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Guid> ContactPOSTAsync(System.Guid actorId, CreateActorContactDto? body)
+        public virtual System.Threading.Tasks.Task<System.Guid> ActorContactPostAsync(System.Guid actorId, CreateActorContactDto? body)
         {
-            return ContactPOSTAsync(actorId, body, System.Threading.CancellationToken.None);
+            return ActorContactPostAsync(actorId, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Guid> ContactPOSTAsync(System.Guid actorId, CreateActorContactDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid> ActorContactPostAsync(System.Guid actorId, CreateActorContactDto? body, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -1427,15 +1427,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ContactDELETEAsync(System.Guid actorId, System.Guid contactId)
+        public virtual System.Threading.Tasks.Task ActorContactDeleteAsync(System.Guid actorId, System.Guid contactId)
         {
-            return ContactDELETEAsync(actorId, contactId, System.Threading.CancellationToken.None);
+            return ActorContactDeleteAsync(actorId, contactId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ContactDELETEAsync(System.Guid actorId, System.Guid contactId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ActorContactDeleteAsync(System.Guid actorId, System.Guid contactId, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -1503,15 +1503,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SelectionActorDto>> SelectionActorsAsync()
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SelectionActorDto>> QuerySelectionActorsAsync()
         {
-            return SelectionActorsAsync(System.Threading.CancellationToken.None);
+            return QuerySelectionActorsAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SelectionActorDto>> SelectionActorsAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SelectionActorDto>> QuerySelectionActorsAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/query/selection-actors");
@@ -1655,15 +1655,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Guid> GridAreaPOSTAsync(CreateGridAreaDto? body)
+        public virtual System.Threading.Tasks.Task<System.Guid> GridAreaPostAsync(CreateGridAreaDto? body)
         {
-            return GridAreaPOSTAsync(body, System.Threading.CancellationToken.None);
+            return GridAreaPostAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Guid> GridAreaPOSTAsync(CreateGridAreaDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid> GridAreaPostAsync(CreateGridAreaDto? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/GridArea");
@@ -1733,15 +1733,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task GridAreaPUTAsync(ChangeGridAreaDto? body)
+        public virtual System.Threading.Tasks.Task GridAreaPutAsync(ChangeGridAreaDto? body)
         {
-            return GridAreaPUTAsync(body, System.Threading.CancellationToken.None);
+            return GridAreaPutAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task GridAreaPUTAsync(ChangeGridAreaDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task GridAreaPutAsync(ChangeGridAreaDto? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/GridArea");
@@ -1805,15 +1805,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaDto>> GridAreaAllAsync()
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaDto>> GridAreaGetAsync()
         {
-            return GridAreaAllAsync(System.Threading.CancellationToken.None);
+            return GridAreaGetAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaDto>> GridAreaAllAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaDto>> GridAreaGetAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/GridArea");
@@ -1879,15 +1879,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GridAreaDto> GridAreaGETAsync(System.Guid gridAreaId)
+        public virtual System.Threading.Tasks.Task<GridAreaDto> GridAreaGetAsync(System.Guid gridAreaId)
         {
-            return GridAreaGETAsync(gridAreaId, System.Threading.CancellationToken.None);
+            return GridAreaGetAsync(gridAreaId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GridAreaDto> GridAreaGETAsync(System.Guid gridAreaId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GridAreaDto> GridAreaGetAsync(System.Guid gridAreaId, System.Threading.CancellationToken cancellationToken)
         {
             if (gridAreaId == null)
                 throw new System.ArgumentNullException("gridAreaId");
@@ -1957,15 +1957,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaAuditLogEntryDto>> AuditlogentryAllAsync(System.Guid gridAreaId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaAuditLogEntryDto>> GridAreaAuditlogentryAsync(System.Guid gridAreaId)
         {
-            return AuditlogentryAllAsync(gridAreaId, System.Threading.CancellationToken.None);
+            return GridAreaAuditlogentryAsync(gridAreaId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaAuditLogEntryDto>> AuditlogentryAllAsync(System.Guid gridAreaId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GridAreaAuditLogEntryDto>> GridAreaAuditlogentryAsync(System.Guid gridAreaId, System.Threading.CancellationToken cancellationToken)
         {
             if (gridAreaId == null)
                 throw new System.ArgumentNullException("gridAreaId");
@@ -2109,15 +2109,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task InviteAsync(UserInvitationDto? body)
+        public virtual System.Threading.Tasks.Task UsersInviteAsync(UserInvitationDto? body)
         {
-            return InviteAsync(body, System.Threading.CancellationToken.None);
+            return UsersInviteAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task InviteAsync(UserInvitationDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task UsersInviteAsync(UserInvitationDto? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/users/invite");
@@ -2181,15 +2181,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task ReinviteAsync(System.Guid userId)
+        public virtual System.Threading.Tasks.Task UsersReinviteAsync(System.Guid userId)
         {
-            return ReinviteAsync(userId, System.Threading.CancellationToken.None);
+            return UsersReinviteAsync(userId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task ReinviteAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task UsersReinviteAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken)
         {
             if (userId == null)
                 throw new System.ArgumentNullException("userId");
@@ -2254,15 +2254,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationDto>> OrganizationAllAsync()
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationDto>> OrganizationGetAsync()
         {
-            return OrganizationAllAsync(System.Threading.CancellationToken.None);
+            return OrganizationGetAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationDto>> OrganizationAllAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationDto>> OrganizationGetAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/Organization");
@@ -2328,15 +2328,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Guid> OrganizationPOSTAsync(CreateOrganizationDto? body)
+        public virtual System.Threading.Tasks.Task<System.Guid> OrganizationPostAsync(CreateOrganizationDto? body)
         {
-            return OrganizationPOSTAsync(body, System.Threading.CancellationToken.None);
+            return OrganizationPostAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Guid> OrganizationPOSTAsync(CreateOrganizationDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid> OrganizationPostAsync(CreateOrganizationDto? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/Organization");
@@ -2406,15 +2406,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<OrganizationDto> OrganizationGETAsync(System.Guid organizationId)
+        public virtual System.Threading.Tasks.Task<OrganizationDto> OrganizationGetAsync(System.Guid organizationId)
         {
-            return OrganizationGETAsync(organizationId, System.Threading.CancellationToken.None);
+            return OrganizationGetAsync(organizationId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<OrganizationDto> OrganizationGETAsync(System.Guid organizationId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<OrganizationDto> OrganizationGetAsync(System.Guid organizationId, System.Threading.CancellationToken cancellationToken)
         {
             if (organizationId == null)
                 throw new System.ArgumentNullException("organizationId");
@@ -2484,15 +2484,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task OrganizationPUTAsync(System.Guid organizationId, ChangeOrganizationDto? body)
+        public virtual System.Threading.Tasks.Task OrganizationPutAsync(System.Guid organizationId, ChangeOrganizationDto? body)
         {
-            return OrganizationPUTAsync(organizationId, body, System.Threading.CancellationToken.None);
+            return OrganizationPutAsync(organizationId, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task OrganizationPUTAsync(System.Guid organizationId, ChangeOrganizationDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task OrganizationPutAsync(System.Guid organizationId, ChangeOrganizationDto? body, System.Threading.CancellationToken cancellationToken)
         {
             if (organizationId == null)
                 throw new System.ArgumentNullException("organizationId");
@@ -2560,15 +2560,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> ActorAll2Async(System.Guid organizationId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> OrganizationActorAsync(System.Guid organizationId)
         {
-            return ActorAll2Async(organizationId, System.Threading.CancellationToken.None);
+            return OrganizationActorAsync(organizationId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> ActorAll2Async(System.Guid organizationId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorDto>> OrganizationActorAsync(System.Guid organizationId, System.Threading.CancellationToken cancellationToken)
         {
             if (organizationId == null)
                 throw new System.ArgumentNullException("organizationId");
@@ -2638,15 +2638,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationAuditLogDto>> AuditlogsAllAsync(System.Guid organizationId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationAuditLogDto>> OrganizationAuditlogsAsync(System.Guid organizationId)
         {
-            return AuditlogsAllAsync(organizationId, System.Threading.CancellationToken.None);
+            return OrganizationAuditlogsAsync(organizationId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationAuditLogDto>> AuditlogsAllAsync(System.Guid organizationId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<OrganizationAuditLogDto>> OrganizationAuditlogsAsync(System.Guid organizationId, System.Threading.CancellationToken cancellationToken)
         {
             if (organizationId == null)
                 throw new System.ArgumentNullException("organizationId");
@@ -2716,15 +2716,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<PermissionDto> PermissionGETAsync(int permissionId)
+        public virtual System.Threading.Tasks.Task<PermissionDto> PermissionGetAsync(int permissionId)
         {
-            return PermissionGETAsync(permissionId, System.Threading.CancellationToken.None);
+            return PermissionGetAsync(permissionId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<PermissionDto> PermissionGETAsync(int permissionId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<PermissionDto> PermissionGetAsync(int permissionId, System.Threading.CancellationToken cancellationToken)
         {
             if (permissionId == null)
                 throw new System.ArgumentNullException("permissionId");
@@ -2794,15 +2794,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDto>> PermissionAllAsync()
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDto>> PermissionGetAsync()
         {
-            return PermissionAllAsync(System.Threading.CancellationToken.None);
+            return PermissionGetAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDto>> PermissionAllAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDto>> PermissionGetAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/Permission");
@@ -2868,15 +2868,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task PermissionPUTAsync(UpdatePermissionDto? body)
+        public virtual System.Threading.Tasks.Task PermissionPutAsync(UpdatePermissionDto? body)
         {
-            return PermissionPUTAsync(body, System.Threading.CancellationToken.None);
+            return PermissionPutAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task PermissionPUTAsync(UpdatePermissionDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task PermissionPutAsync(UpdatePermissionDto? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/Permission");
@@ -2940,15 +2940,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionAuditLogDto>> AuditlogsAll2Async(int permissionId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionAuditLogDto>> PermissionAuditlogsAsync(int permissionId)
         {
-            return AuditlogsAll2Async(permissionId, System.Threading.CancellationToken.None);
+            return PermissionAuditlogsAsync(permissionId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionAuditLogDto>> AuditlogsAll2Async(int permissionId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionAuditLogDto>> PermissionAuditlogsAsync(int permissionId, System.Threading.CancellationToken cancellationToken)
         {
             if (permissionId == null)
                 throw new System.ArgumentNullException("permissionId");
@@ -3018,15 +3018,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task OpenidConfigurationAsync()
+        public virtual System.Threading.Tasks.Task _wellKnownOpenidConfigurationAsync()
         {
-            return OpenidConfigurationAsync(System.Threading.CancellationToken.None);
+            return _wellKnownOpenidConfigurationAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task OpenidConfigurationAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task _wellKnownOpenidConfigurationAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/.well-known/openid-configuration");
@@ -3086,15 +3086,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task KeysAsync()
+        public virtual System.Threading.Tasks.Task TokenKeysAsync()
         {
-            return KeysAsync(System.Threading.CancellationToken.None);
+            return TokenKeysAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task KeysAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task TokenKeysAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/token/keys");
@@ -3232,15 +3232,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetActorsAssociatedWithExternalUserIdResponse> ActorsAsync(string? externalToken)
+        public virtual System.Threading.Tasks.Task<GetActorsAssociatedWithExternalUserIdResponse> UserActorsGetAsync(string? externalToken)
         {
-            return ActorsAsync(externalToken, System.Threading.CancellationToken.None);
+            return UserActorsGetAsync(externalToken, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetActorsAssociatedWithExternalUserIdResponse> ActorsAsync(string? externalToken, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetActorsAssociatedWithExternalUserIdResponse> UserActorsGetAsync(string? externalToken, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/user/actors?");
@@ -3389,15 +3389,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetActorsAssociatedWithUserResponse> Actors2Async(System.Guid userId)
+        public virtual System.Threading.Tasks.Task<GetActorsAssociatedWithUserResponse> UserActorsGetAsync(System.Guid userId)
         {
-            return Actors2Async(userId, System.Threading.CancellationToken.None);
+            return UserActorsGetAsync(userId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetActorsAssociatedWithUserResponse> Actors2Async(System.Guid userId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetActorsAssociatedWithUserResponse> UserActorsGetAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken)
         {
             if (userId == null)
                 throw new System.ArgumentNullException("userId");
@@ -3467,15 +3467,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetUserAuditLogsResponse> AuditlogentryAsync(System.Guid userId)
+        public virtual System.Threading.Tasks.Task<GetUserAuditLogsResponse> UserAuditlogentryAsync(System.Guid userId)
         {
-            return AuditlogentryAsync(userId, System.Threading.CancellationToken.None);
+            return UserAuditlogentryAsync(userId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetUserAuditLogsResponse> AuditlogentryAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetUserAuditLogsResponse> UserAuditlogentryAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken)
         {
             if (userId == null)
                 throw new System.ArgumentNullException("userId");
@@ -3545,15 +3545,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task UseridentityAsync(System.Guid userId, UserIdentityUpdateDto? body)
+        public virtual System.Threading.Tasks.Task UserUseridentityAsync(System.Guid userId, UserIdentityUpdateDto? body)
         {
-            return UseridentityAsync(userId, body, System.Threading.CancellationToken.None);
+            return UserUseridentityAsync(userId, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task UseridentityAsync(System.Guid userId, UserIdentityUpdateDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task UserUseridentityAsync(System.Guid userId, UserIdentityUpdateDto? body, System.Threading.CancellationToken cancellationToken)
         {
             if (userId == null)
                 throw new System.ArgumentNullException("userId");
@@ -3621,15 +3621,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task InitiateMitidSignupAsync()
+        public virtual System.Threading.Tasks.Task UserInitiateMitidSignupAsync()
         {
-            return InitiateMitidSignupAsync(System.Threading.CancellationToken.None);
+            return UserInitiateMitidSignupAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task InitiateMitidSignupAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task UserInitiateMitidSignupAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/user/initiate-mitid-signup");
@@ -3690,15 +3690,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task DeactivateAsync(System.Guid userId)
+        public virtual System.Threading.Tasks.Task UserDeactivateAsync(System.Guid userId)
         {
-            return DeactivateAsync(userId, System.Threading.CancellationToken.None);
+            return UserDeactivateAsync(userId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task DeactivateAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task UserDeactivateAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken)
         {
             if (userId == null)
                 throw new System.ArgumentNullException("userId");
@@ -3763,15 +3763,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task Reset2faAsync(System.Guid userId)
+        public virtual System.Threading.Tasks.Task UserReset2faAsync(System.Guid userId)
         {
-            return Reset2faAsync(userId, System.Threading.CancellationToken.None);
+            return UserReset2faAsync(userId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task Reset2faAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task UserReset2faAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken)
         {
             if (userId == null)
                 throw new System.ArgumentNullException("userId");
@@ -3836,15 +3836,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<bool> ExistsAsync(string emailAddress)
+        public virtual System.Threading.Tasks.Task<bool> UserExistsAsync(string emailAddress)
         {
-            return ExistsAsync(emailAddress, System.Threading.CancellationToken.None);
+            return UserExistsAsync(emailAddress, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<bool> ExistsAsync(string emailAddress, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<bool> UserExistsAsync(string emailAddress, System.Threading.CancellationToken cancellationToken)
         {
             if (emailAddress == null)
                 throw new System.ArgumentNullException("emailAddress");
@@ -3914,15 +3914,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetUserOverviewResponse> SearchAsync(int? pageNumber, int? pageSize, UserOverviewSortProperty? sortProperty, SortDirection? sortDirection, UserOverviewFilterDto? body)
+        public virtual System.Threading.Tasks.Task<GetUserOverviewResponse> UserOverviewUsersSearchAsync(int? pageNumber, int? pageSize, UserOverviewSortProperty? sortProperty, SortDirection? sortDirection, UserOverviewFilterDto? body)
         {
-            return SearchAsync(pageNumber, pageSize, sortProperty, sortDirection, body, System.Threading.CancellationToken.None);
+            return UserOverviewUsersSearchAsync(pageNumber, pageSize, sortProperty, sortDirection, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetUserOverviewResponse> SearchAsync(int? pageNumber, int? pageSize, UserOverviewSortProperty? sortProperty, SortDirection? sortDirection, UserOverviewFilterDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetUserOverviewResponse> UserOverviewUsersSearchAsync(int? pageNumber, int? pageSize, UserOverviewSortProperty? sortProperty, SortDirection? sortDirection, UserOverviewFilterDto? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/UserOverview/users/search?");
@@ -4009,15 +4009,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> UserRolesAllAsync()
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> UserRolesGetAsync()
         {
-            return UserRolesAllAsync(System.Threading.CancellationToken.None);
+            return UserRolesGetAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> UserRolesAllAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> UserRolesGetAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/user-roles");
@@ -4083,15 +4083,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Guid> UserRolesPOSTAsync(CreateUserRoleDto? body)
+        public virtual System.Threading.Tasks.Task<System.Guid> UserRolesPostAsync(CreateUserRoleDto? body)
         {
-            return UserRolesPOSTAsync(body, System.Threading.CancellationToken.None);
+            return UserRolesPostAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Guid> UserRolesPOSTAsync(CreateUserRoleDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid> UserRolesPostAsync(CreateUserRoleDto? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/user-roles");
@@ -4161,15 +4161,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<UserRoleWithPermissionsDto> UserRolesGETAsync(System.Guid userRoleId)
+        public virtual System.Threading.Tasks.Task<UserRoleWithPermissionsDto> UserRolesGetAsync(System.Guid userRoleId)
         {
-            return UserRolesGETAsync(userRoleId, System.Threading.CancellationToken.None);
+            return UserRolesGetAsync(userRoleId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<UserRoleWithPermissionsDto> UserRolesGETAsync(System.Guid userRoleId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<UserRoleWithPermissionsDto> UserRolesGetAsync(System.Guid userRoleId, System.Threading.CancellationToken cancellationToken)
         {
             if (userRoleId == null)
                 throw new System.ArgumentNullException("userRoleId");
@@ -4239,15 +4239,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task UserRolesPUTAsync(System.Guid userRoleId, UpdateUserRoleDto? body)
+        public virtual System.Threading.Tasks.Task UserRolesPutAsync(System.Guid userRoleId, UpdateUserRoleDto? body)
         {
-            return UserRolesPUTAsync(userRoleId, body, System.Threading.CancellationToken.None);
+            return UserRolesPutAsync(userRoleId, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task UserRolesPUTAsync(System.Guid userRoleId, UpdateUserRoleDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task UserRolesPutAsync(System.Guid userRoleId, UpdateUserRoleDto? body, System.Threading.CancellationToken cancellationToken)
         {
             if (userRoleId == null)
                 throw new System.ArgumentNullException("userRoleId");
@@ -4315,15 +4315,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleAuditLogEntryDto>> AuditlogentryAll2Async(System.Guid userRoleId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleAuditLogEntryDto>> UserRolesAuditlogentryAsync(System.Guid userRoleId)
         {
-            return AuditlogentryAll2Async(userRoleId, System.Threading.CancellationToken.None);
+            return UserRolesAuditlogentryAsync(userRoleId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleAuditLogEntryDto>> AuditlogentryAll2Async(System.Guid userRoleId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleAuditLogEntryDto>> UserRolesAuditlogentryAsync(System.Guid userRoleId, System.Threading.CancellationToken cancellationToken)
         {
             if (userRoleId == null)
                 throw new System.ArgumentNullException("userRoleId");
@@ -4393,15 +4393,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDetailsDto>> PermissionsAsync(EicFunction? eicFunction)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDetailsDto>> UserRolesPermissionsAsync(EicFunction? eicFunction)
         {
-            return PermissionsAsync(eicFunction, System.Threading.CancellationToken.None);
+            return UserRolesPermissionsAsync(eicFunction, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDetailsDto>> PermissionsAsync(EicFunction? eicFunction, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PermissionDetailsDto>> UserRolesPermissionsAsync(EicFunction? eicFunction, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/user-roles/permissions?");
@@ -4472,15 +4472,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> AssignedtopermissionAsync(int? permissionId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> UserRolesAssignedtopermissionAsync(int? permissionId)
         {
-            return AssignedtopermissionAsync(permissionId, System.Threading.CancellationToken.None);
+            return UserRolesAssignedtopermissionAsync(permissionId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> AssignedtopermissionAsync(int? permissionId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> UserRolesAssignedtopermissionAsync(int? permissionId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/user-roles/assignedtopermission?");
@@ -4551,15 +4551,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task Deactivate2Async(System.Guid userRoleId)
+        public virtual System.Threading.Tasks.Task UserRolesDeactivateAsync(System.Guid userRoleId)
         {
-            return Deactivate2Async(userRoleId, System.Threading.CancellationToken.None);
+            return UserRolesDeactivateAsync(userRoleId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task Deactivate2Async(System.Guid userRoleId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task UserRolesDeactivateAsync(System.Guid userRoleId, System.Threading.CancellationToken cancellationToken)
         {
             if (userRoleId == null)
                 throw new System.ArgumentNullException("userRoleId");
@@ -4624,15 +4624,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> RolesAllAsync(System.Guid actorId, System.Guid userId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> ActorsUsersRolesGetAsync(System.Guid actorId, System.Guid userId)
         {
-            return RolesAllAsync(actorId, userId, System.Threading.CancellationToken.None);
+            return ActorsUsersRolesGetAsync(actorId, userId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> RolesAllAsync(System.Guid actorId, System.Guid userId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> ActorsUsersRolesGetAsync(System.Guid actorId, System.Guid userId, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -4706,15 +4706,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task RolesAsync(System.Guid actorId, System.Guid userId, UpdateUserRoleAssignmentsDto? body)
+        public virtual System.Threading.Tasks.Task ActorsUsersRolesPutAsync(System.Guid actorId, System.Guid userId, UpdateUserRoleAssignmentsDto? body)
         {
-            return RolesAsync(actorId, userId, body, System.Threading.CancellationToken.None);
+            return ActorsUsersRolesPutAsync(actorId, userId, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task RolesAsync(System.Guid actorId, System.Guid userId, UpdateUserRoleAssignmentsDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task ActorsUsersRolesPutAsync(System.Guid actorId, System.Guid userId, UpdateUserRoleAssignmentsDto? body, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -4786,15 +4786,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> RolesAll2Async(System.Guid actorId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> ActorsRolesAsync(System.Guid actorId)
         {
-            return RolesAll2Async(actorId, System.Threading.CancellationToken.None);
+            return ActorsRolesAsync(actorId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> RolesAll2Async(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserRoleDto>> ActorsRolesAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");

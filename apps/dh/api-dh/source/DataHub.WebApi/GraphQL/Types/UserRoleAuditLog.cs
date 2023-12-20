@@ -15,7 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using HotChocolate;
 
 namespace Energinet.DataHub.WebApi.GraphQL;

@@ -47,7 +47,7 @@
       "useRequestAndResponseSerializationSettings": false,
       "serializeTypeInformation": false,
       "queryNullValue": "",
-      "operationGenerationMode": "MultipleClientsFromOperationId",
+      "operationGenerationMode": "SingleClientFromPathSegments",
       "additionalContractNamespaceUsages": [],
       "generateJsonMethods": false,
       "enforceFlagEnums": false,
