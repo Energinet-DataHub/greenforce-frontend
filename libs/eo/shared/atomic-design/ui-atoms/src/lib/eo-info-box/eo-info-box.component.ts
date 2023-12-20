@@ -56,7 +56,7 @@ type Variant = 'normal' | 'dark' | 'light';
       }
     `,
   ],
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
 })
 export class EoInfoBoxComponent implements OnInit {
   private _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
