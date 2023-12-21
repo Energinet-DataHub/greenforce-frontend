@@ -24,10 +24,10 @@ limitations under the License.
     *ngIf="chipMode"
     [opened]="matSelect.panelOpen"
     (toggle)="matSelect.open()"
-    [selected]="!!matSelect?.triggerValue"
+    [selected]="!!matSelect?.triggerValue && !disableSelectedMode"
     [disabled]="matSelectControl.disabled"
   >
-    {{ placeholder }}<span *ngIf="showTriggerValue">: {{ matSelect?.triggerValue }}</span>
+    {{ placeholder }}<span *ngIf="showTriggerValue"><ng-container *ngIf="placeholder">:</ng-container> {{ matSelect?.triggerValue }}</span>
     <span class="watt-chip-label" *ngIf="showChipLabel">{{ matSelectControl.value?.length }}</span>
   </watt-menu-chip>
 

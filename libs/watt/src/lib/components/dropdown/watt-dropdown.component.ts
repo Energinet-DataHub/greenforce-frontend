@@ -162,6 +162,8 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
     return this.chipMode;
   }
 
+  @Input() disableSelectedMode = false;
+
   /**
    *
    * Sets the options for the dropdown.
