@@ -65,15 +65,6 @@ import { UserRoleAuditLog } from '../../../../userRoleAuditLog';
         ></div>
       </ng-container>
       <div
-        *ngIf="entry.changeType === 'PERMISSIONS_CHANGE'"
-        [innerHTML]="
-          t('logs.roles.PERMISSIONS_CHANGE', {
-            changedValueTo: entry.permissions,
-            changedByUserName: entry.changedByUserName
-          })
-        "
-      ></div>
-      <div
         *ngIf="entry.changeType === 'PERMISSION_ADDED'"
         [innerHTML]="
           t('logs.roles.PERMISSION_ADDED', {

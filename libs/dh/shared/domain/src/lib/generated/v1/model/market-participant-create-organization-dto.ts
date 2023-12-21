@@ -17,7 +17,6 @@ export interface MarketParticipantCreateOrganizationDto {
     businessRegisterIdentifier: string;
     address: MarketParticipantAddressDto;
     domain: string;
-    comment?: string | null;
 }
 
 

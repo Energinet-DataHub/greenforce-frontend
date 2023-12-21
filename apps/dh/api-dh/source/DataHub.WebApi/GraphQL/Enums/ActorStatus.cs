@@ -12,21 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using HotChocolate.Types;
-
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
 {
-    public class OrganizationAuditLogType : ObjectType<OrganizationAuditLogDto>
+    public enum ActorStatus
     {
-        protected override void Configure(
-            IObjectTypeDescriptor<OrganizationAuditLogDto> descriptor)
-        {
-            descriptor.Name("OrganizationAuditLog");
-
-            descriptor
-               .Field("identityWithName")
-               .ResolveWith<MarketParticipantResolvers>(c => c.GetIdentityAsync(default!, default!));
-        }
+        New,
+        Active,
+        Inactive,
+        Passive,
     }
 }

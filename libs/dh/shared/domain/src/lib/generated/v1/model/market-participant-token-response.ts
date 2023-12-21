@@ -11,9 +11,8 @@
  */
 
 
-export interface MarketParticipantActorGridAreaDto { 
-    id: string;
-    meteringPointTypes: Array<string>;
+export interface MarketParticipantTokenResponse { 
+    token: string;
 }
 
 
