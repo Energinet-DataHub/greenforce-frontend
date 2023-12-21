@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { combineLatest, fromEvent, map, Observable, tap } from 'rxjs';
+import { combineLatest, Observable, tap } from 'rxjs';
 import { WattMaskedInput } from './watt-input-mask.service';
 
 export interface WattRangeInputConfig {
@@ -27,16 +27,6 @@ export interface WattRangeInputConfig {
     element: HTMLInputElement;
     maskedInput: WattMaskedInput;
   };
-}
-
-export interface WattRangeInputConfigV2 {
-  startInput: {
-    element: HTMLInputElement;
-  };
-  endInput: {
-    element: HTMLInputElement;
-  };
-  placeholder: string;
 }
 
 @Injectable()
@@ -71,38 +61,6 @@ export class WattRangeInputService {
     if (document.activeElement !== startInputElement) return;
 
     if (value.length === inputmask.getemptymask().length) {
-      endInputElement.focus();
-      endInputElement.setSelectionRange(0, 0);
-    }
-  }
-
-  initV2(config: WattRangeInputConfigV2) {
-    const { startInput, endInput } = config;
-
-    const onStartInputChange$ = fromEvent<InputEvent>(startInput.element, 'input').pipe(
-      map((event) => (event?.target as HTMLInputElement).value),
-      tap((value: string) => {
-        this.jumpToEndInputV2(value, startInput.element, endInput.element, config.placeholder);
-      })
-    );
-
-    this.onInputChanges$ = combineLatest([
-      onStartInputChange$,
-      fromEvent<InputEvent>(endInput.element, 'input').pipe(
-        map((event) => (event?.target as HTMLInputElement).value)
-      ),
-    ]);
-  }
-
-  private jumpToEndInputV2(
-    value: string,
-    startInputElement: HTMLInputElement,
-    endInputElement: HTMLInputElement,
-    placeholder: string
-  ) {
-    if (document.activeElement !== startInputElement) return;
-
-    if (value.length === placeholder.length) {
       endInputElement.focus();
       endInputElement.setSelectionRange(0, 0);
     }

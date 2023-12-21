@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { NgIf } from '@angular/common';
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
 import {
   ChangeDetectorRef,
@@ -54,7 +55,6 @@ import { WattButtonComponent } from '../../button';
 import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-placeholder-mask.component';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
-import { WattRangeInputService } from '../shared/watt-range-input.service';
 
 const dateShortFormat = 'dd-MM-yyyy';
 const danishLocaleCode = 'da';
@@ -72,13 +72,13 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
   templateUrl: './watt-datepicker-v2.component.html',
   styleUrls: ['./watt-datepicker.component.scss'],
   providers: [
-    WattRangeInputService,
     { provide: MatFormFieldControl, useExisting: WattDatepickerV2Component },
     MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
   ],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [
+    NgIf,
     MatDatepickerModule,
     MatInputModule,
     WattButtonComponent,

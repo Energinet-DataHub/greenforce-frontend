@@ -46,7 +46,6 @@ import { maskitoTimeRangeOptionsGenerator } from '../shared/maskito-time-range-m
 import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-placeholder-mask.component';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
-import { WattRangeInputService } from '../shared/watt-range-input.service';
 
 // Constants for working with time intervals
 const minutesInADay = 24 * 60;
@@ -79,7 +78,6 @@ function minutesToTime(value: number): string {
   templateUrl: './watt-timepicker-v2.component.html',
   styleUrls: ['./watt-timepicker.component.scss'],
   providers: [
-    WattRangeInputService,
     { provide: MatFormFieldControl, useExisting: WattTimepickerV2Component },
   ],
   encapsulation: ViewEncapsulation.None,
