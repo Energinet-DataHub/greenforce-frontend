@@ -77,9 +77,7 @@ function minutesToTime(value: number): string {
   selector: 'watt-timepicker-v2',
   templateUrl: './watt-timepicker-v2.component.html',
   styleUrls: ['./watt-timepicker.component.scss'],
-  providers: [
-    { provide: MatFormFieldControl, useExisting: WattTimepickerV2Component },
-  ],
+  providers: [{ provide: MatFormFieldControl, useExisting: WattTimepickerV2Component }],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
