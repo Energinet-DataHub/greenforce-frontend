@@ -117,6 +117,14 @@ function getCertificatesContracts(apiBase: string) {
           created: 1698303526,
           meteringPointType: 'Consumption',
         },
+        {
+          id: '2e12b637-a87d-4415-b28e-af1acef11111',
+          gsrn: '571313171355411111',
+          startDate: 1698303525,
+          endDate: null,
+          created: 1698303526,
+          meteringPointType: 'Consumption',
+        },
       ],
     };
 

@@ -104,14 +104,12 @@ jobs:
     needs: affected
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.version.outputs.semver }}
+      version: ${{ steps.version.outputs.version }}
     steps:
-      - name: Get version
+      - uses: actions/checkout@v3
+      - name: Generate version
         id: version
-        uses: Energinet-DataHub/energy-origin/.github/actions/yaml-semver@main
-        with:
-          yaml-file: build/infrastructure/eo/configuration.yaml
-          yaml-path: version
+        uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
 
   sonarcloud:
     name: SonarCloud
@@ -130,7 +128,7 @@ jobs:
             -Dsonar.projectKey=energinet-datahub_energy-origin-frontend
             -Dsonar.organization=energinet-datahub
             -Dsonar.sources=apps/eo/app-eo,libs/eo
-            -Dsonar.exclusions=**/*.spec.ts,jest.config.ts,test-setup.ts
+            -Dsonar.exclusions=**/*.spec.ts,jest.config.ts,test-setup.ts,libs/eo/shared/data-access-mocks/src/lib/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.EO_SONAR_TOKEN }}
@@ -165,19 +163,3 @@ jobs:
           configuration: build/infrastructure/eo/configuration.yaml
           deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}
           dry_run: ${{ !(github.event_name == 'push' && github.ref_name == 'main' || github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'preview/')) }}
-
-  bump_configuration_version:
-    runs-on: ubuntu-latest
-    name: Bump configuration version
-    if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
-    needs:
-      - affected
-      - update-environment
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: ./.github/actions/yaml-increment-version
-        with:
-          yaml-file: build/infrastructure/eo/configuration.yaml
-          yaml-path: version
-          token: ${{ secrets.internal_github_pat }}

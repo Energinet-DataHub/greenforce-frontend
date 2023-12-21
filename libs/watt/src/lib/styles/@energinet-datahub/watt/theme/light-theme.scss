@@ -52,7 +52,7 @@ $watt-theme: mat.define-light-theme(
 
 @include mat.autocomplete-theme($watt-theme);
 @include mat.badge-theme($watt-theme);
-@include mat.legacy-button-theme($watt-theme);
+@include mat.button-theme($watt-theme);
 @include mat.button-toggle-theme($watt-theme);
 @include mat.card-theme($watt-theme);
 @include mat.chips-theme($watt-theme);

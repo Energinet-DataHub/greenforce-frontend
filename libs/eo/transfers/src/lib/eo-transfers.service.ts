@@ -23,9 +23,9 @@ import { getUnixTime } from 'date-fns';
 
 export interface EoTransfer {
   startDate: number;
+  senderName?: string;
   endDate: number | null;
   receiverTin: string;
-  base64EncodedWalletDepositEndpoint: string;
 }
 
 export interface EoListedTransfer extends EoTransfer {
@@ -45,11 +45,16 @@ export interface EoTransferAgreementsHistory {
 }
 
 export interface EoTransferAgreementsHistoryResponse {
-  result: EoTransferAgreementsHistory[];
+  totalCount: number;
+  items: EoTransferAgreementsHistory[];
 }
 
-export interface EoWalletDepositEndpointResponse {
-  result: string;
+export interface EoTransferAgreementProposal {
+  id: string;
+  senderCompanyName: string;
+  receiverTin: string;
+  startDate: number;
+  endDate: number;
 }
 
 @Injectable({
@@ -66,21 +71,45 @@ export class EoTransfersService {
   }
 
   getTransfers() {
-    return this.http.get<EoListedTransferResponse>(`${this.#apiBase}/transfer-agreements`);
+    return this.http
+      .get<EoListedTransferResponse>(`${this.#apiBase}/transfer-agreements`)
+      .pipe(map((x) => x.result));
   }
 
-  createAgreement(transfer: EoTransfer) {
-    return this.http.post<EoListedTransfer>(`${this.#apiBase}/transfer-agreements`, {
-      ...transfer,
-      startDate: getUnixTime(transfer.startDate),
-      endDate: transfer.endDate ? getUnixTime(transfer.endDate) : null,
+  createAgreementProposal(transfer: EoTransfer) {
+    return this.http
+      .post<EoTransferAgreementProposal>(`${this.#apiBase}/transfer-agreement-proposals`, {
+        receiverTin: transfer.receiverTin === '' ? null : transfer.receiverTin,
+        startDate: getUnixTime(transfer.startDate),
+        endDate: transfer.endDate ? getUnixTime(transfer.endDate) : null,
+      })
+      .pipe(map((response) => response.id));
+  }
+
+  createTransferAgreement(proposalId: string) {
+    return this.http.post<EoTransferAgreementProposal>(`${this.#apiBase}/transfer-agreements`, {
+      transferAgreementProposalId: proposalId,
     });
+  }
+
+  getAgreementProposal(proposalId: string) {
+    return this.http
+      .get<EoTransferAgreementProposal>(
+        `${this.#apiBase}/transfer-agreement-proposals/${proposalId}`
+      )
+      .pipe(
+        map((proposal) => ({
+          ...proposal,
+          startDate: proposal.startDate * 1000,
+          endDate: proposal.endDate * 1000,
+        }))
+      );
   }
 
   updateAgreement(transferId: string, endDate: number | null) {
     return this.http
-      .patch<EoListedTransfer>(`${this.#apiBase}/transfer-agreements/${transferId}`, {
-        endDate,
+      .put<EoListedTransfer>(`${this.#apiBase}/transfer-agreements/${transferId}`, {
+        endDate: endDate ? getUnixTime(endDate) : null,
       })
       .pipe(
         map((transfer) => ({
@@ -91,17 +120,20 @@ export class EoTransfersService {
       );
   }
 
-  getHistory(transferAgreementId: string) {
-    return this.http.get<EoTransferAgreementsHistoryResponse>(
-      `${this.#apiBase}/history/transfer-agreements/${transferAgreementId}`
-    );
-  }
-
-  createWalletDepositEndpoint() {
-    return this.http.post<EoWalletDepositEndpointResponse>(
-      `${this.#apiBase}/transfer-agreements/wallet-deposit-endpoint`,
-      {}
-    );
+  getHistory(transferAgreementId: string, limit = 10, offset = 0) {
+    return this.http
+      .get<EoTransferAgreementsHistoryResponse>(
+        `${this.#apiBase}/transfer-agreements/${transferAgreementId}/history?limit=${limit}&offset=${offset}`
+      )
+      .pipe(
+        map((response) => response.items),
+        map((items) =>
+          items.map((item) => ({
+            ...item,
+            createdAt: item.createdAt * 1000,
+          }))
+        )
+      );
   }
 
   transferAutomationHasError(): Observable<boolean> {

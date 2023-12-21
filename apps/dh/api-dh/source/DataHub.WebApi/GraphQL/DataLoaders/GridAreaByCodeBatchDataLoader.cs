@@ -16,18 +16,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using GreenDonut;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class GridAreaByCodeBatchDataLoader : BatchDataLoader<string, GridAreaDto>
     {
-        private readonly IMarketParticipantClient _client;
+        private readonly IMarketParticipantClient_V1 _client;
 
         public GridAreaByCodeBatchDataLoader(
-            IMarketParticipantClient client,
+            IMarketParticipantClient_V1 client,
             IBatchScheduler batchScheduler,
             DataLoaderOptions? options = null)
             : base(batchScheduler, options) =>
@@ -36,6 +35,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
         protected override async Task<IReadOnlyDictionary<string, GridAreaDto>> LoadBatchAsync(
             IReadOnlyList<string> keys,
             CancellationToken cancellationToken) =>
-            (await _client.GetGridAreasAsync()).ToDictionary(x => x.Code);
+            (await _client.GridAreaGetAsync()).ToDictionary(x => x.Code);
     }
 }

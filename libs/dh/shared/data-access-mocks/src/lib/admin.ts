@@ -56,6 +56,7 @@ export function adminMocks(apiBase: string) {
     getUserRoleAuditLogs(),
     getUserRolesByEicfunctionQuery(),
     putMarketParticipantPermissionsUpdate(apiBase),
+    postMarketParticipantUserRoleCreate(apiBase),
     putMarketParticipantUserUpdateUserIdentity(apiBase),
     putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase),
     getMarketParticipantUserRoleGetAssignable(apiBase),
@@ -67,7 +68,7 @@ export function adminMocks(apiBase: string) {
 
 function getMarketParticipantUserSearchUsers(apiBase: string) {
   return rest.post(`${apiBase}/v1/MarketParticipantUserOverview/SearchUsers`, (req, res, ctx) => {
-    return res(ctx.json(marketParticipantUserSearchUsers));
+    return res(ctx.delay(300), ctx.json(marketParticipantUserSearchUsers));
   });
 }
 
@@ -97,7 +98,7 @@ function getActorOrganization(apiBase: string) {
 
 function getMarketParticipantUserRoleGetAll(apiBase: string) {
   return rest.get(`${apiBase}/v1/MarketParticipantUserRole/GetAll`, (req, res, ctx) => {
-    return res(ctx.json(marketParticipantUserRoleGetAll));
+    return res(ctx.delay(300), ctx.json(marketParticipantUserRoleGetAll));
   });
 }
 
@@ -145,13 +146,13 @@ function getMarketParticipantOrganizationGetFilteredActors(apiBase: string) {
 
 function getAdminPermissions() {
   return mockGetPermissionsQuery((req, res, ctx) => {
-    return res(ctx.data(adminPermissionsMock));
+    return res(ctx.delay(300), ctx.data(adminPermissionsMock));
   });
 }
 
 function getAdminPermissionDetails() {
   return mockGetPermissionDetailsQuery((req, res, ctx) => {
-    return res(ctx.data(adminPermissionDetailsMock));
+    return res(ctx.delay(300), ctx.data(adminPermissionDetailsMock));
   });
 }
 
@@ -166,6 +167,12 @@ function getAdminPermissionLogs() {
 function putMarketParticipantPermissionsUpdate(apiBase: string) {
   return rest.put(`${apiBase}/v1/MarketParticipantPermissions/Update`, (req, res, ctx) => {
     return res(ctx.status(200));
+  });
+}
+
+function postMarketParticipantUserRoleCreate(apiBase: string) {
+  return rest.post(`${apiBase}/v1/MarketParticipantUserRole/Create`, (req, res, ctx) => {
+    return res(ctx.delay(300), ctx.status(200), ctx.text(''));
   });
 }
 

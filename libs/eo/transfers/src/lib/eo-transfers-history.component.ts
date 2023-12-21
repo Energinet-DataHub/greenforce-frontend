@@ -15,20 +15,21 @@
  * limitations under the License.
  */
 import { LowerCasePipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
-import { RxPush } from '@rx-angular/template/push';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject, signal } from '@angular/core';
 
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { EoTransfersStore } from './eo-transfers.store';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { EoTransferAgreementsHistory } from './eo-transfers.service';
+import {
+  EoListedTransfer,
+  EoTransferAgreementsHistory,
+  EoTransfersService,
+} from './eo-transfers.service';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,14 +37,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [
     LowerCasePipe,
     NgIf,
-    RxPush,
     WATT_TABLE,
     WattBadgeComponent,
     WattButtonComponent,
     WattDatePipe,
     WattEmptyStateComponent,
     WattPaginatorComponent,
-    WattSpinnerComponent,
   ],
   styles: [
     `
@@ -87,6 +86,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     <watt-table
       #table
       [columns]="columns"
+      [loading]="transferHistoryState().loading"
       [dataSource]="dataSource"
       sortBy="createdAt"
       sortDirection="desc"
@@ -101,7 +101,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
       <!-- Status - Custom column -->
       <ng-container *wattTableCell="table.columns['action']; let element">
-        <strong>{{ element.actorName }}</strong> has {{ element.action | lowercase }}
+        <strong>{{ element.actorName || element.transferAgreement.senderName }}</strong> has
+        {{ element.action | lowercase }}
         <span *ngIf="element.action === 'Updated'">
           <span *ngIf="element.transferAgreement.endDate">
             the end date to
@@ -115,23 +116,23 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
       </ng-container>
     </watt-table>
 
-    <div class="spinner-container" *ngIf="isLoading$ | push">
-      <watt-spinner />
-    </div>
-
     <watt-empty-state
-      *ngIf="dataSource.data.length === 0 && !(hasError$ | push) && !(isLoading$ | push)"
+      *ngIf="
+        dataSource.data.length === 0 &&
+        !transferHistoryState().error &&
+        !transferHistoryState().loading
+      "
       icon="power"
       title="No history was found"
     />
 
     <watt-empty-state
-      *ngIf="hasError$ | push"
+      *ngIf="transferHistoryState().error"
       icon="power"
       title="An unexpected error occured"
       message="Try again or contact your system administrator if you keep getting this error."
     >
-      <watt-button (click)="getHistory(transferAgreementId)">Try again</watt-button>
+      <watt-button (click)="getHistory(transfer?.id)">Try again</watt-button>
     </watt-empty-state>
 
     <watt-paginator
@@ -143,39 +144,38 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   `,
 })
 export class EoTransfersHistoryComponent implements OnInit {
-  private _store = inject(EoTransfersStore);
-  private _destroyRef = inject(DestroyRef);
+  @Input() transfer?: EoListedTransfer;
 
-  transferAgreementId?: string;
-  dataSource = new WattTableDataSource<EoTransferAgreementsHistory>();
-  columns = {
+  private transferService = inject(EoTransfersService);
+
+  protected dataSource = new WattTableDataSource<EoTransferAgreementsHistory>();
+  protected columns = {
     createdAt: { accessor: 'createdAt', header: 'Time' },
     action: { accessor: 'action', header: 'Change' },
   } as WattTableColumnDef<EoTransferAgreementsHistory>;
 
-  hasError$ = this._store.historyOfSelectedTransferError$;
-  isLoading$ = this._store.historyOfSelectedTransferLoading$;
+  protected transferHistoryState = signal<{ loading: boolean; error: HttpErrorResponse | null }>({
+    loading: false,
+    error: null,
+  });
 
   ngOnInit(): void {
-    this._store.selectedTransfer$
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((transfer) => {
-        if (transfer) {
-          this.transferAgreementId = transfer.id;
-          this.getHistory(this.transferAgreementId);
-        }
-      });
-
-    this._store.historyOfSelectedTransfer$
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((history) => {
-        this.dataSource.data = history;
-      });
+    this.getHistory(this.transfer?.id);
   }
 
   getHistory(transferAgreementId?: string): void {
-    if (transferAgreementId) {
-      this._store.getHistory(transferAgreementId);
-    }
+    if (!transferAgreementId) return;
+
+    this.transferHistoryState.set({ loading: true, error: null });
+
+    this.transferService.getHistory(transferAgreementId).subscribe({
+      next: (response) => {
+        this.dataSource.data = response;
+        this.transferHistoryState.set({ loading: false, error: null });
+      },
+      error: (error: HttpErrorResponse) => {
+        this.transferHistoryState.set({ loading: false, error });
+      },
+    });
   }
 }

@@ -19,34 +19,37 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  NgZone,
+  Input,
   ViewChild,
   ViewEncapsulation,
   inject,
+  signal,
 } from '@angular/core';
-import { RxPush } from '@rx-angular/template/push';
-import { Observable, of } from 'rxjs';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import { EoTransfersService } from './eo-transfers.service';
-import { EoExistingTransferAgreement, EoTransfersStore } from './eo-transfers.store';
+import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
 import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
 import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+
+// TODO: MOVE THIS TO DOMAIN
+export interface EoTransferAgreementsWithRecipient {
+  startDate: number;
+  endDate: number | null;
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-transfers-create-modal',
   imports: [
-    WATT_MODAL,
-    WattValidationMessageComponent,
-    NgIf,
     EoTransfersFormComponent,
-    RxPush,
+    NgIf,
+    WATT_MODAL,
     WattSpinnerComponent,
+    WattValidationMessageComponent,
   ],
   standalone: true,
   template: `
@@ -56,26 +59,23 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
       closeLabel="Close modal"
       (closed)="onClosed()"
       *ngIf="opened"
+      minHeight="634px"
     >
       <!-- We don't use the build-in loading state for the modal, since it wont update properly -->
-      <div class="watt-modal__spinner" style="z-index: 1;" *ngIf="creatingTransferAgreement">
+      <div
+        class="watt-modal__spinner"
+        style="z-index: 2;"
+        *ngIf="creatingTransferAgreementProposal"
+      >
         <watt-spinner />
       </div>
 
-      <watt-validation-message
-        *ngIf="creatingTransferAgreementFailed"
-        label="Oops!"
-        message="Something went wrong. Please try again."
-        icon="danger"
-        type="danger"
-        size="compact"
-      />
-
       <eo-transfers-form
-        [senderTin]="authStore.getTin$ | push"
-        [existingTransferAgreements]="existingTransferAgreements$ | push"
-        (receiverTinChanged)="onReceiverTinChange($event)"
-        (submitted)="createAgreement($event)"
+        [senderTin]="ownTin()"
+        [transferAgreements]="transferAgreements"
+        [generateProposalFailed]="creatingTransferAgreementProposalFailed"
+        [proposalId]="proposalId"
+        (submitted)="createAgreementProposal($event)"
         (canceled)="modal.close(false)"
       />
     </watt-modal>
@@ -84,17 +84,20 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 export class EoTransfersCreateModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
-  protected creatingTransferAgreement = false;
-  protected creatingTransferAgreementFailed = false;
+  @Input() transferAgreements: EoListedTransfer[] = [];
+
+  protected recipientTins: string[] = [];
+  protected ownTin = signal<string | undefined>(undefined);
+
+  protected creatingTransferAgreementProposal = false;
+  protected creatingTransferAgreementProposalFailed = false;
   protected isFormValid = false;
   protected opened = false;
-  protected existingTransferAgreements$: Observable<EoExistingTransferAgreement[]> = of([]);
+  protected proposalId: null | string = null;
 
   protected authStore = inject(EoAuthStore);
   private service = inject(EoTransfersService);
-  private store = inject(EoTransfersStore);
   private cd = inject(ChangeDetectorRef);
-  private zone = inject(NgZone);
 
   open() {
     /**
@@ -103,48 +106,44 @@ export class EoTransfersCreateModalComponent {
     this.opened = true;
     this.cd.detectChanges();
     this.modal.open();
+
+    this.authStore.getTin$.subscribe((tin) => {
+      this.ownTin.set(tin);
+    });
   }
 
   onClosed() {
-    this.creatingTransferAgreement = false;
-    this.creatingTransferAgreementFailed = false;
+    this.creatingTransferAgreementProposal = false;
+    this.creatingTransferAgreementProposalFailed = false;
     this.isFormValid = false;
     this.opened = false;
-    this.existingTransferAgreements$ = of([]);
   }
 
-  onReceiverTinChange(receiverTin: string | null) {
-    this.existingTransferAgreements$ = this.store.getExistingTransferAgreements$(receiverTin);
-  }
-
-  createAgreement(transferAgreement: {
+  createAgreementProposal(transferAgreement: {
     receiver: { tin: string; base64EncodedWalletDepositEndpoint: string };
     period: { startDate: number; endDate: number | null; hasEndDate: boolean };
   }) {
     const { receiver, period } = transferAgreement;
-    const { tin: receiverTin, base64EncodedWalletDepositEndpoint } = receiver;
+    const { tin: receiverTin } = receiver;
     const { startDate, endDate } = period;
 
-    if (!receiverTin || !startDate) return;
+    if (!startDate) return;
 
-    this.creatingTransferAgreement = true;
-    this.service
-      .createAgreement({ receiverTin, base64EncodedWalletDepositEndpoint, startDate, endDate })
-      .subscribe({
-        next: (transfer) => {
-          this.zone.run(() => {
-            this.store.addTransfer(transfer);
-          });
-          this.creatingTransferAgreement = false;
-          this.creatingTransferAgreementFailed = false;
-          this.modal.close(true);
-          this.cd.detectChanges();
-        },
-        error: () => {
-          this.creatingTransferAgreement = false;
-          this.creatingTransferAgreementFailed = true;
-          this.cd.detectChanges();
-        },
-      });
+    this.creatingTransferAgreementProposal = true;
+    this.proposalId = null;
+    this.service.createAgreementProposal({ receiverTin, startDate, endDate }).subscribe({
+      next: (proposalId) => {
+        this.proposalId = proposalId;
+        this.creatingTransferAgreementProposal = false;
+        this.creatingTransferAgreementProposalFailed = false;
+        this.cd.detectChanges();
+      },
+      error: () => {
+        this.proposalId = null;
+        this.creatingTransferAgreementProposal = false;
+        this.creatingTransferAgreementProposalFailed = true;
+        this.cd.detectChanges();
+      },
+    });
   }
 }

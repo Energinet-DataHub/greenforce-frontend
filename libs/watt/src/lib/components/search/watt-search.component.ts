@@ -58,6 +58,8 @@ export class WattSearchComponent {
   @Output() search = new EventEmitter<string>();
 
   public clear(): void {
+    if (this.input.nativeElement.value === '') return;
+
     this.input.nativeElement.value = '';
 
     this.search.emit(this.input.nativeElement.value);

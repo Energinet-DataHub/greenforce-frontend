@@ -19,7 +19,7 @@
 .form {
   @include watt.space-inset-l;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(5, 200px);
   column-gap: var(--watt-space-m);
   row-gap: var(--watt-space-m);
   align-items: center;

@@ -19,12 +19,8 @@ export class TransfersPo {
   private cardHeaderText = 'Transfer agreements';
   private transfersTable = '[data-testid="transfers-table"]';
   private newAgreementButton = '[data-testid="new-agreement-button"]';
-  private closeNewAgreementButton = '[data-testid="close-new-agreement-button"]';
   private newAgreementModal = '.watt-modal-panel';
   private newAgreementReceiverInput = '[data-testid="new-agreement-receiver-input"]';
-  private walletDepositEndpointInput = '[data-testid="new-agreement-base64-input"]';
-  private testBase64EncodedWalletDepositEndpoint =
-    'eyJFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6Nzg5MC8iLCJQdWJsaWNLZXkiOiJBVTBWVFVzQUFBQUJ5aE5KRmxENlZhVUZPajRGRzcybmVkSmxVbDRjK0xVejdpV0tRNEkzM1k0Q2J5OVBQTm5SdXRuaWUxT1NVRS9ud0RWTWV3bW14TnFFTkw5a0RZeHdMQWs9IiwiVmVyc2lvbiI6MX0=';
   private paginator = '[data-testid="table-paginator"]';
   private testReceiverId = '11111111';
   private testStartDate = '12052023';
@@ -48,35 +44,25 @@ export class TransfersPo {
 
   enterReceiverDetailsForNewAgreement() {
     cy.get(this.newAgreementReceiverInput).type(this.testReceiverId);
-    cy.get(this.walletDepositEndpointInput).type(this.testBase64EncodedWalletDepositEndpoint);
   }
 
-  clickAgreementDetailsButton() {
-    cy.get('button').contains('Agreement details').click();
+  clickTimeframeButton() {
+    cy.get('div.mat-step-label').contains('Timeframe').click();
+  }
+
+  clickInvitationButton() {
+    cy.get('div.mat-step-label').contains('Invitation').click();
+  }
+
+  copyLinkToTransferAgreementProposal() {
+    cy.get('button').contains('Copy & close').click();
   }
 
   enterDetailsForNewAgreement() {
     cy.get('input[matinput][aria-label="date-input"]').type(this.testStartDate);
   }
 
-  clickCreateAgreementButton() {
-    cy.intercept('POST', 'https://demo.energioprindelse.dk/api/transfer-agreements', {
-      statusCode: 200,
-      body: {
-        id: '3d5b4e89-9184-4fa7-9823-c22501498424',
-        startDate: 1689328800,
-        endDate: 1689415200,
-        senderName: 'Producent A/S',
-        senderTin: '11223344',
-        receiverTin: '11111111',
-        Base64EncodedWalletDepositEndpoint:
-          'eyJFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6Nzg5MC8iLCJQdWJsaWNLZXkiOiJBVTBWVFVzQUFBQUJ5aE5KRmxENlZhVUZPajRGRzcybmVkSmxVbDRjK0xVejdpV0tRNEkzM1k0Q2J5OVBQTm5SdXRuaWUxT1NVRS9ud0RWTWV3bW14TnFFTkw5a0RZeHdMQWs9IiwiVmVyc2lvbiI6MX0=',
-      },
-    });
-    cy.get('button').contains('Create transfer agreement').should('be.visible').click();
-  }
-
   clickCloseNewAgreementModalButton() {
-    cy.get(this.closeNewAgreementButton).click();
+    cy.get('button').contains('Copy & close').click();
   }
 }

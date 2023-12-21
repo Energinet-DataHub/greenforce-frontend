@@ -18,12 +18,14 @@ import {
   AfterViewInit,
   Component,
   ContentChildren,
+  DestroyRef,
   EventEmitter,
   Input,
   Output,
   QueryList,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
@@ -34,6 +36,7 @@ import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
 import { WattStepperStepComponent } from './watt-stepper-step.component';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { WattButtonComponent } from '../button';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'watt-stepper',
@@ -75,6 +78,8 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
   onFirstStep$!: Observable<boolean>;
   onLastStep$!: Observable<boolean>;
 
+  private destroyRef = inject(DestroyRef);
+
   override ngAfterViewInit(): void {
     this.selectedIndexChanged$ = from(this.stepper.selectionChange);
     this.onLastStep$ = this.selectedIndexChanged$.pipe(
@@ -86,10 +91,17 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
       map((index) => index.selectedIndex === 0),
       startWith(true)
     );
+
+    // Emit entering and leaving events
+    this.selectedIndexChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((change) => {
+      this._steps.get(change.selectedIndex)?.entering.emit(change.selectedStep);
+      this._steps.get(change.previouslySelectedIndex)?.leaving.emit(change.previouslySelectedStep);
+    });
   }
 
-  nextStep(): void {
-    this.stepper.selected?.stepControl.markAllAsTouched();
+  nextStep(step: WattStepperStepComponent): void {
+    step.next.emit();
+    this.stepper.selected?.stepControl?.markAllAsTouched();
     this.stepper.next();
   }
 
@@ -98,7 +110,7 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
   }
 
   complete(): void {
-    this.stepper.selected?.stepControl.markAllAsTouched();
+    this.stepper.selected?.stepControl?.markAllAsTouched();
     this.completed.emit();
   }
 }

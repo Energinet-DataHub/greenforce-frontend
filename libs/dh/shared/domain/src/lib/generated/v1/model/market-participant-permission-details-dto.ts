@@ -9,7 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { MarketParticipantEicFunction } from './market-participant-eic-function';
 
 
 export interface MarketParticipantPermissionDetailsDto { 
@@ -17,7 +16,6 @@ export interface MarketParticipantPermissionDetailsDto {
     name: string;
     description: string;
     created: string;
-    assignableTo: Array<MarketParticipantEicFunction>;
 }
 
 

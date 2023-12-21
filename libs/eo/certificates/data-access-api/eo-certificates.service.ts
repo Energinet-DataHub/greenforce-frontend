@@ -55,7 +55,19 @@ export class EoCertificatesService {
   }
 
   getCertificates() {
-    return this.http.get<EoCertificateResponse>(`${this.#apiBase}/certificates`);
+    const walletApiBase = `${this.#apiBase}/v1`.replace('/api', '/wallet-api');
+    return this.http.get<EoCertificateResponse>(`${walletApiBase}/certificates`).pipe(
+      map((response) => response.result),
+      map((certificates) => {
+        return certificates.map((certificate) => {
+          return {
+            ...certificate,
+            start: certificate.start * 1000,
+            end: certificate.end * 1000,
+          };
+        });
+      })
+    );
   }
 
   /**
@@ -121,7 +133,7 @@ export class EoCertificatesService {
   }
 
   patchContract(id: string) {
-    return this.http.patch<EoCertificateContract>(`${this.#apiBase}/certificates/contracts/${id}`, {
+    return this.http.put<EoCertificateContract>(`${this.#apiBase}/certificates/contracts/${id}`, {
       endDate: Math.floor(Date.now() / 1000),
     });
   }

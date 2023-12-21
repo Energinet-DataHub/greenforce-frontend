@@ -25,7 +25,6 @@ export const marketParticipantOrganizationsWithActors: MarketParticipantOrganiza
         name: '1006 mjm',
         businessRegisterIdentifier: '12345674',
         domain: 'DA9B2C41-69B2-4035-B7E3-3F4C64A6034F.dk',
-        comment: '',
         status: 'New',
         address: {
           streetName: null,
@@ -43,7 +42,6 @@ export const marketParticipantOrganizationsWithActors: MarketParticipantOrganiza
         name: '1007 mjm',
         businessRegisterIdentifier: '12345672',
         domain: 'F3B04ECF-EF3F.dk',
-        comment: '',
         status: 'New',
         address: {
           streetName: null,
@@ -61,7 +59,6 @@ export const marketParticipantOrganizationsWithActors: MarketParticipantOrganiza
         name: '1008 mjm',
         businessRegisterIdentifier: '12345673',
         domain: 'C4599587-6B0D.dk',
-        comment: '',
         status: 'New',
         address: {
           streetName: null,
@@ -79,7 +76,6 @@ export const marketParticipantOrganizationsWithActors: MarketParticipantOrganiza
         name: '1009 mjm',
         businessRegisterIdentifier: '12345671',
         domain: '1A1E4E32-7758-4EDA-B2A5-D9BF78DE6A0A.dk',
-        comment: '',
         status: 'New',
         address: {
           streetName: null,
@@ -97,7 +93,6 @@ export const marketParticipantOrganizationsWithActors: MarketParticipantOrganiza
         name: '1a1a1a2a',
         businessRegisterIdentifier: '32145698',
         domain: 'fake-domain-b77c9f73-75de-4408-9457-b0970eb0c5b4.dk',
-        comment: '',
         status: 'New',
         address: {
           streetName: null,
@@ -115,7 +110,6 @@ export const marketParticipantOrganizationsWithActors: MarketParticipantOrganiza
         name: '97 MJM',
         businessRegisterIdentifier: '344434',
         domain: 'fake-domain-16010d98-64fb-4961-aa3e-c94967e72a6e.dk',
-        comment: 'ok2',
         status: 'Deleted',
         address: {
           streetName: null,
@@ -129,7 +123,6 @@ export const marketParticipantOrganizationsWithActors: MarketParticipantOrganiza
         {
           actorId: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
           organizationId: 'b3bdd441-4f22-4f84-b88f-08da5f288474',
-          externalActorId: '8b93b711-a4f8-4434-b7ec-794e408316fa',
           actorNumber: { value: '9561643029441' },
           status: 'Active',
           name: { value: 'Navn Ændret' },
@@ -379,7 +372,6 @@ export const marketParticipantOrganizationsWithActors: MarketParticipantOrganiza
         {
           actorId: 'ccbc4dab-1c14-49af-7c18-08da5f28ddb1',
           organizationId: 'b3bdd441-4f22-4f84-b88f-08da5f288474',
-          externalActorId: null,
           actorNumber: { value: '9561643029441' },
           status: 'Inactive',
           name: { value: '12341312' },
@@ -457,7 +449,6 @@ export const marketParticipantOrganizationsWithActors: MarketParticipantOrganiza
         {
           actorId: '44ff3dc4-d4f0-4620-8ed8-cade66efccee',
           organizationId: 'b3bdd441-4f22-4f84-b88f-08da5f288474',
-          externalActorId: null,
           actorNumber: { value: '11X0-0000-0544-U' },
           status: 'New',
           name: { value: '' },

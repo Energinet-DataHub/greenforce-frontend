@@ -18,11 +18,13 @@
 
 .watt-modal {
   --watt-modal-width: 100vw;
+  --watt-modal-min-height: auto;
   --watt-modal-height: calc(100vh - var(--watt-topbar-height, 0px));
 
   width: var(--watt-modal-width);
   max-width: 100vw;
   height: var(--watt-modal-height);
+  min-height: var(--watt-modal-min-height);
   max-height: 100vh;
 
   position: relative;
@@ -93,7 +95,12 @@
 
     .watt-modal-content--full-width {
       display: block;
-      margin: 0 calc(-1 * var(--watt-space-ml));
+
+      margin: 0 calc(-1 * var(--watt-space-s)) 0 0;
+
+      @include watt.media(">720px") {
+        margin: 0 calc(-1 * var(--watt-space-ml));
+      }
     }
   }
 

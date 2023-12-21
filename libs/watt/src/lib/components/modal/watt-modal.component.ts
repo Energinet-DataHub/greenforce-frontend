@@ -75,6 +75,9 @@ export class WattModalComponent {
   /** Disable ESC, close button and backdrop click as methods of closing. */
   @Input() disableClose = false;
 
+  /** Disable ESC, backdrop click as methods of closing. */
+  @Input() disableEscAndBackdropClose = false;
+
   /** The aria-label for the close button. */
   @Input() closeLabel = 'Close';
 
@@ -99,9 +102,10 @@ export class WattModalComponent {
    */
   open() {
     this.modalService.open({
-      disableClose: this.disableClose,
+      disableClose: this.disableEscAndBackdropClose || this.disableClose,
       templateRef: this.modal,
       onClosed: this.closed,
+      minHeight: this.minHeight,
     });
   }
 

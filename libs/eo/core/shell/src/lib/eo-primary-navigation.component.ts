@@ -14,42 +14,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import {
-  EoAuthService,
-  EoAuthStore,
-  EoFeatureFlagDirective,
-} from '@energinet-datahub/eo/shared/services';
-import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  OnInit,
+  inject,
+  signal,
+} from '@angular/core';
+
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
-import { map } from 'rxjs/operators';
-import { AsyncPipe, NgIf } from '@angular/common';
+
+import { EoAuthStore, EoFeatureFlagDirective } from '@energinet-datahub/eo/shared/services';
+import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    WattNavListComponent,
-    WattNavListItemComponent,
-    EoFeatureFlagDirective,
-    AsyncPipe,
-    NgIf,
-  ],
+  imports: [WattNavListComponent, WattNavListItemComponent, EoFeatureFlagDirective],
   selector: 'eo-primary-navigation',
   styles: [
     `
       :host {
+        display: grid;
+        height: 100%;
+        height: calc(100% - 64px);
+        grid-template-rows: 1fr auto;
+        grid-template-areas:
+          'nav'
+          'userinfo';
+      }
+
+      watt-nav-list {
         display: block;
+        grid-area: nav;
+        align-self: stretch;
+        overflow: auto;
       }
 
-      .menu-spacer {
-        height: var(--watt-space-xl);
-      }
+      .userinfo {
+        grid-area: userinfo;
+        background-color: var(--watt-on-light-low-emphasis);
+        border-radius: 8px;
+        margin: var(--watt-space-m);
+        padding: var(--watt-space-s) var(--watt-space-m);
 
-      .beta {
-        padding-left: 8px;
-        font-weight: bold;
-        color: var(--watt-color-secondary-dark);
+        p {
+          color: var(--watt-on-dark-high-emphasis);
+
+          &.company-name {
+            color: var(--watt-on-dark-medium-emphasis);
+          }
+        }
       }
     `,
   ],
@@ -68,28 +84,33 @@ import { AsyncPipe, NgIf } from '@angular/common';
       <watt-nav-list-item link="{{ routes.transfer }}" onFeatureFlag="certificates">
         Transfers
       </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.connections }}" onFeatureFlag="certificates">
-        Connections
-      </watt-nav-list-item>
-      <div class="menu-spacer"></div>
-      <watt-nav-list-item link="{{ routes.help }}">Help</watt-nav-list-item>
-      <watt-nav-list-item *ngIf="isLoggedIn$ | async" (click)="onLogOut()" role="link">
-        Log out
-      </watt-nav-list-item>
     </watt-nav-list>
+
+    <section class="userinfo">
+      <p class="watt-label company-name">{{ userInfo()?.cpn }}</p>
+      <p class="watt-label">CVR / TIN: {{ userInfo()?.tin }}</p>
+      <p class="watt-label">{{ userInfo()?.name }}</p>
+    </section>
   `,
 })
-export class EoPrimaryNavigationComponent {
-  private authService = inject(EoAuthService);
+export class EoPrimaryNavigationComponent implements OnInit {
   private authStore = inject(EoAuthStore);
-  routes = eoRoutes;
-  isLoggedIn$ = this.authStore.getScope$.pipe(map((scope) => scope.length > 0));
+
+  protected routes = eoRoutes;
+  protected userInfo = signal<{ name: string; cpn: string; tin: string } | null>(null);
+
   @HostBinding('attr.aria-label')
   get ariaLabelAttribute(): string {
     return 'Menu';
   }
 
-  onLogOut(): void {
-    this.authService.logout();
+  ngOnInit(): void {
+    this.authStore.getUserInfo$.subscribe((userInfo) => {
+      this.userInfo.set({
+        name: userInfo.name ?? '',
+        cpn: userInfo.cpn ?? '',
+        tin: userInfo.tin ?? '',
+      });
+    });
   }
 }

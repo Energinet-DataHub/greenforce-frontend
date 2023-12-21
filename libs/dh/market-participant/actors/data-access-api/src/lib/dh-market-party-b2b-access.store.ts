@@ -22,6 +22,8 @@ import {
   MarketParticipantActorCredentialsDto,
   MarketParticipantActorHttp,
 } from '@energinet-datahub/dh/shared/domain';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 interface DhB2BAccessState {
   credentials: MarketParticipantActorCredentialsDto | null;
@@ -87,7 +89,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
         actorId: string;
         file: File;
         onSuccess: () => void;
-        onError: () => void;
+        onError: (apiErrorCollection: ApiErrorCollection) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -98,7 +100,8 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
             .pipe(
               tapResponse(
                 () => onSuccess(),
-                () => onError()
+                (errorResponse: HttpErrorResponse) =>
+                  onError(this.createApiErrorCollection(errorResponse))
               ),
               finalize(() => this.patchState({ uploadInProgress: false }))
             )
@@ -112,7 +115,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
         actorId: string;
         file: File;
         onSuccess: () => void;
-        onError: () => void;
+        onError: (apiErrorCollection: ApiErrorCollection) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -127,7 +130,8 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
             ),
             tapResponse(
               () => onSuccess(),
-              () => onError()
+              (errorResponse: HttpErrorResponse) =>
+                onError(this.createApiErrorCollection(errorResponse))
             ),
             finalize(() => this.patchState({ uploadInProgress: false }))
           )
@@ -214,4 +218,8 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
   constructor() {
     super(initialState);
   }
+
+  createApiErrorCollection = (errorResponse: HttpErrorResponse): ApiErrorCollection => {
+    return { apiErrors: errorResponse.error?.errors ?? [] };
+  };
 }

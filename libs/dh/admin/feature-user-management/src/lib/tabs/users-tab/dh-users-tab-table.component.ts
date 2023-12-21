@@ -19,11 +19,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  EventEmitter,
   Input,
+  Output,
   ViewChild,
   inject,
 } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { NgIf } from '@angular/common';
+import { TranslocoDirective } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -38,9 +41,12 @@ import {
   WattTableDataSource,
   WATT_TABLE,
 } from '@energinet-datahub/watt/table';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { DhUserStatusComponent } from '../../shared/dh-user-status.component';
 import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
+import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
 
 @Component({
   selector: 'dh-users-tab-table',
@@ -49,15 +55,22 @@ import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
   styles: [
     `
       :host {
-        display: block;
+        display: contents;
       }
     `,
   ],
   // Using `OnPush` causes issues with table's header row translations
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
+    NgIf,
+    TranslocoDirective,
+
+    VaterStackComponent,
+    VaterFlexComponent,
+    WattEmptyStateComponent,
     WATT_TABLE,
-    TranslocoModule,
+
+    DhTabDataGeneralErrorComponent,
     DhEmDashFallbackPipe,
     DhUserStatusComponent,
     DhUserDrawerComponent,
@@ -77,14 +90,19 @@ export class DhUsersTabTableComponent implements AfterViewInit {
   dataSource = new WattTableDataSource<MarketParticipantUserOverviewItemDto>();
   activeRow: MarketParticipantUserOverviewItemDto | undefined = undefined;
 
-  @Input() set users(value: MarketParticipantUserOverviewItemDto[]) {
+  @Input({ required: true }) set users(value: MarketParticipantUserOverviewItemDto[]) {
     this.dataSource.data = value;
   }
 
-  @Input() sortChanged!: (
+  @Input({ required: true }) isLoading = false;
+  @Input({ required: true }) hasGeneralError = false;
+
+  @Input({ required: true }) sortChanged!: (
     prop: MarketParticipantUserOverviewSortProperty,
     direction: MarketParticipantSortDirection
   ) => void;
+
+  @Output() reload = new EventEmitter<void>();
 
   @ViewChild(DhUserDrawerComponent)
   drawer!: DhUserDrawerComponent;

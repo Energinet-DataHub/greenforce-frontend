@@ -29,27 +29,26 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-
 import {
-  ContactCategoryType,
+  ContactCategory,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
-  EicFunctionType,
+  EicFunction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import {
   dhCvrValidator,
   dhDkPhoneNumberValidator,
   dhDomainValidator,
   dhGlnOrEicValidator,
 } from '@energinet-datahub/dh/shared/ui-validators';
-
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { parseApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
+import { ActorForm } from './dh-actor-form.model';
+
 @Component({
   standalone: true,
   selector: 'dh-actors-create-actor-modal',
@@ -91,11 +90,11 @@ export class DhActorsCreateActorModalComponent {
     domain: ['', [Validators.required, dhDomainValidator]],
   });
 
-  newActorForm = this._fb.group({
+  newActorForm: ActorForm = this._fb.group({
     glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
     name: [''],
-    marketrole: [EicFunctionType.BillingAgent, Validators.required],
-    gridArea: [{ value: '', disabled: true }, Validators.required],
+    marketrole: new FormControl<EicFunction | null>(null, Validators.required),
+    gridArea: [{ value: [] as string[], disabled: true }, Validators.required],
     contact: this._fb.group({
       departmentOrName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -117,12 +116,12 @@ export class DhActorsCreateActorModalComponent {
     this.showCreateNewOrganization.set(!this.showCreateNewOrganization());
   }
 
-  open() {
+  open(): void {
     this.modal?.open();
   }
 
-  close() {
-    this.modal?.close(false);
+  close(isSuccess = false): void {
+    this.modal?.close(isSuccess);
   }
 
   createMarketParticipent(): void {
@@ -156,7 +155,7 @@ export class DhActorsCreateActorModalComponent {
               email: this.newActorForm.controls.contact.controls.email.value,
               name: this.newActorForm.controls.contact.controls.departmentOrName.value,
               phone: this.newActorForm.controls.contact.controls.phone.value,
-              category: ContactCategoryType.Default,
+              category: ContactCategory.Default,
             },
             actor: {
               name: { value: this.newActorForm.controls.name.value },
@@ -167,10 +166,11 @@ export class DhActorsCreateActorModalComponent {
                   : this.chooseOrganizationForm.controls.orgId.value,
               marketRoles: [
                 {
-                  eicFunction: this.newActorForm.controls.marketrole.value,
-                  gridAreas: this.newActorForm.controls.gridArea.value
-                    ? [{ id: this.newActorForm.controls.gridArea.value, meteringPointTypes: [] }]
-                    : [],
+                  eicFunction: this.newActorForm.controls.marketrole.value as EicFunction,
+                  gridAreas: this.newActorForm.controls.gridArea.value.map((gridArea) => ({
+                    id: gridArea,
+                    meteringPointTypes: [],
+                  })),
                 },
               ],
               actorNumber: {
@@ -199,14 +199,16 @@ export class DhActorsCreateActorModalComponent {
     ) {
       this._toastService.open({
         type: 'danger',
-        message: parseApiErrorResponse(response.data?.createMarketParticipant?.errors),
+        message: readApiErrorResponse(response.data?.createMarketParticipant?.errors),
       });
     }
 
     if (response.data?.createMarketParticipant?.success) {
       this._toastService.open({ type: 'success', message: 'Market participant created' });
+
+      this.close(true);
     }
+
     this.isCompleting.set(false);
-    this.close();
   }
 }

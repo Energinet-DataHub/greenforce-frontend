@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 import { MarketParticipantActorNameDto } from './market-participant-actor-name-dto';
-import { MarketParticipantActorStatus } from './market-participant-actor-status';
 import { MarketParticipantActorNumberDto } from './market-participant-actor-number-dto';
 import { MarketParticipantActorMarketRoleDto } from './market-participant-actor-market-role-dto';
 
@@ -18,14 +17,10 @@ import { MarketParticipantActorMarketRoleDto } from './market-participant-actor-
 export interface MarketParticipantActorDto { 
     actorId: string;
     organizationId: string;
-    externalActorId?: string | null;
+    status: string;
     actorNumber: MarketParticipantActorNumberDto;
-    status: MarketParticipantActorStatus;
     name: MarketParticipantActorNameDto;
     marketRoles: Array<MarketParticipantActorMarketRoleDto>;
 }
-export namespace MarketParticipantActorDto {
-}
-
 
 
