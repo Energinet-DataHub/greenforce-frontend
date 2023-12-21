@@ -27,7 +27,10 @@ limitations under the License.
     [selected]="!!matSelect?.triggerValue && !disableSelectedMode"
     [disabled]="matSelectControl.disabled"
   >
-    {{ placeholder }}<span *ngIf="showTriggerValue"><ng-container *ngIf="placeholder">:</ng-container> {{ matSelect?.triggerValue }}</span>
+    {{ placeholder
+    }}<span *ngIf="showTriggerValue"
+      ><ng-container *ngIf="placeholder">:</ng-container> {{ matSelect?.triggerValue }}</span
+    >
     <span class="watt-chip-label" *ngIf="showChipLabel">{{ matSelectControl.value?.length }}</span>
   </watt-menu-chip>
 

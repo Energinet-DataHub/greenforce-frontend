@@ -66,7 +66,9 @@ import { FormControl } from '@angular/forms';
           (dateChange)="selectionChange.emit($event.value)"
         />
         <ng-content />
-        <ng-container *ngIf="value"><ng-container *ngIf="placeholder">:</ng-container> {{ value | wattDate }}</ng-container>
+        <ng-container *ngIf="value"
+          ><ng-container *ngIf="placeholder">:</ng-container> {{ value | wattDate }}</ng-container
+        >
       </watt-menu-chip>
       <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
       <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />

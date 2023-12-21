@@ -56,7 +56,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
   override selectionFinished(date: Date, currentRange: DateRange<Date>): DateRange<Date> {
     let range: DateRange<Date> = super.selectionFinished(date, currentRange);
 
-    if(this.customSelectionStrategy) {
+    if (this.customSelectionStrategy) {
       range = this.customSelectionStrategy(date);
     }
 
@@ -64,7 +64,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
   }
 
   override createPreview(activeDate: Date | null, currentRange: DateRange<Date>): DateRange<Date> {
-    if(!this.customSelectionStrategy) {
+    if (!this.customSelectionStrategy) {
       return super.createPreview(activeDate, currentRange);
     } else {
       return this.customSelectionStrategy(activeDate);

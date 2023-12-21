@@ -66,7 +66,7 @@ import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/dat
   template: `
     <eo-dashboard-choose-period (periodChanged)="onPeriodChanged($event)" />
 
-    {{period() | json}}
+    {{ period() | json }}
 
     <ng-container *ngIf="(isLoadingMeteringPoints$ | async) === false; else loading">
       <ng-container *ngIf="productionMeteringPoints$ | async as productionMeteringPoints">

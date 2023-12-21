@@ -172,7 +172,7 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
     }
 
     return new DateRange<Date>(null, null);
-  };
+  }
 
   private generateMonths(): WattDropdownOption[] {
     const currentDate = new Date();
@@ -219,7 +219,7 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
 
   private weekSelected() {
     const week = this.form.controls.week.value;
-    if(!week || !week.start || !week.end) return;
+    if (!week || !week.start || !week.end) return;
 
     this.periodChanged.emit({
       timeAggregate: 'hour',
