@@ -3,13 +3,13 @@
   | Name | Version | License |
   | ---- | ------- | ------- |
   | [@angular/animations](https://github.com/angular/angular) | 17.0.2 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 17.0.0 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 17.0.4 | MIT |
 | [@angular/common](https://github.com/angular/angular) | 17.0.2 | MIT |
 | [@angular/compiler](https://github.com/angular/angular) | 17.0.2 | MIT |
 | [@angular/core](https://github.com/angular/angular) | 17.0.2 | MIT |
 | [@angular/forms](https://github.com/angular/angular) | 17.0.2 | MIT |
-| [@angular/material-date-fns-adapter](https://github.com/angular/components) | 17.0.0 | MIT |
-| [@angular/material](https://github.com/angular/components) | 16.2.12 | MIT |
+| [@angular/material-date-fns-adapter](https://github.com/angular/components) | 17.0.4 | MIT |
+| [@angular/material](https://github.com/angular/components) | 17.0.4 | MIT |
 | [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.0.2 | MIT |
 | [@angular/platform-browser](https://github.com/angular/angular) | 17.0.2 | MIT |
 | [@angular/router](https://github.com/angular/angular) | 17.0.2 | MIT |
