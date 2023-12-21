@@ -15,8 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,15 +25,11 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class MarketParticipantGridAreaController : MarketParticipantControllerBase
     {
-        private readonly IMarketParticipantClient _client;
-        private readonly IMarketParticipantAuditIdentityClient _marketParticipantAuditIdentityClient;
+        private readonly IMarketParticipantClient_V1 _client;
 
-        public MarketParticipantGridAreaController(
-            IMarketParticipantClient client,
-            IMarketParticipantAuditIdentityClient marketParticipantAuditIdentityClient)
+        public MarketParticipantGridAreaController(IMarketParticipantClient_V1 client)
         {
             _client = client;
-            _marketParticipantAuditIdentityClient = marketParticipantAuditIdentityClient;
         }
 
         /// <summary>
@@ -42,9 +37,9 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// </summary>
         [HttpGet]
         [Route("GetAllGridAreas")]
-        public Task<ActionResult<IEnumerable<GridAreaDto>>> GetAllGridAreasAsync()
+        public Task<ActionResult<ICollection<GridAreaDto>>> GetAllGridAreasAsync()
         {
-            return HandleExceptionAsync(() => _client.GetGridAreasAsync());
+            return HandleExceptionAsync(() => _client.GridAreaGetAsync());
         }
 
         /// <summary>
@@ -55,13 +50,13 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             return HandleExceptionAsync(async () =>
             {
-                var auditLogs = await _client.GetGridAreaAuditLogEntriesAsync(gridAreaId).ConfigureAwait(false);
+                var auditLogs = await _client.GridAreaAuditlogentryAsync(gridAreaId).ConfigureAwait(false);
                 var updatedAuditLogs = new List<GridAreaAuditLogEntryWithNameDto>();
 
                 foreach (var auditLog in auditLogs)
                 {
-                    var auditIdentity = await _marketParticipantAuditIdentityClient
-                        .GetAsync(auditLog.AuditIdentityId)
+                    var auditIdentity = await _client
+                        .AuditIdentityAsync(auditLog.AuditIdentityId)
                         .ConfigureAwait(false);
 
                     updatedAuditLogs.Add(new GridAreaAuditLogEntryWithNameDto(
@@ -81,7 +76,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Route("UpdateGridAreaName")]
         public Task<ActionResult> UpdateGridAreaNameAsync(ChangeGridAreaDto changes)
         {
-            return HandleExceptionAsync(() => _client.UpdateGridAreaAsync(changes));
+            return HandleExceptionAsync(() => _client.GridAreaPutAsync(changes));
         }
     }
 }

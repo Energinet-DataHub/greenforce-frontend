@@ -9,7 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { MarketParticipantOrganizationStatus } from './market-participant-organization-status';
 import { MarketParticipantAddressDto } from './market-participant-address-dto';
 
 
@@ -18,12 +17,8 @@ export interface MarketParticipantOrganizationDto {
     name: string;
     businessRegisterIdentifier: string;
     domain: string;
-    comment: string;
-    status: MarketParticipantOrganizationStatus;
+    status: string;
     address: MarketParticipantAddressDto;
 }
-export namespace MarketParticipantOrganizationDto {
-}
-
 
 
