@@ -71,9 +71,7 @@ export default async function (tree: Tree, schema: LibrarySchema) {
       libName !== '' ? `${libType}-${libName}` : libType
     }`,
     strict: true,
-    skipModule: [
-      ...Object.values(LibraryType)
-    ].includes(schema.libraryType),
+    skipModule: [...Object.values(LibraryType)].includes(schema.libraryType),
   });
 
   updateTestSetupFile(tree, { libPath, libType, libProduct });
@@ -369,7 +367,7 @@ function updateTestSetupFile(
     tree,
     joinPathFragments(__dirname, `./files/${options.libType}/test-setup`),
     `${options.libPath}/src`,
-    { tmpl: '',  product: options.libProduct }
+    { tmpl: '', product: options.libProduct }
   );
 }
 
