@@ -80,10 +80,6 @@ interface EoTransferTableElement extends EoListedTransfer {
           margin-top: 0;
         }
 
-        ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
-          padding-bottom: 0;
-        }
-
         ::ng-deep
           .mat-form-field-type-mat-select:not(.mat-form-field-disabled)
           .mat-form-field-flex {
