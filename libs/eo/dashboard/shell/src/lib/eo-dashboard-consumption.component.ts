@@ -15,21 +15,13 @@
  * limitations under the License.
  */
 
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
-import { DatePipe, NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import {
-  eachDayOfInterval,
-  endOfToday,
-  fromUnixTime,
-  getUnixTime,
-  startOfToday,
-  subDays,
-} from 'date-fns';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -44,9 +36,9 @@ import {
   findNearestUnit,
   fromWh,
 } from '@energinet-datahub/eo/shared/utilities';
-import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
+import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
 
 @Component({
   standalone: true,
@@ -202,13 +194,12 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
     </div>
   </watt-card>`,
 })
-export class EoDashboardConsumptionComponent implements OnInit {
+export class EoDashboardConsumptionComponent implements OnChanges {
+  @Input() period!: eoDashboardPeriod;
+
   private cd = inject(ChangeDetectorRef);
-  private certificatesService: EoCertificatesService = inject(EoCertificatesService);
   private aggregateService: EoAggregateService = inject(EoAggregateService);
 
-  private startDate = getUnixTime(subDays(startOfToday(), 30)); // 30 days ago at 00:00
-  private endDate = getUnixTime(endOfToday()); // Today at 23:59
   private labels = this.generateLabels();
 
   protected claimedTotal = 0;
@@ -243,23 +234,29 @@ export class EoDashboardConsumptionComponent implements OnInit {
     },
   };
 
-  ngOnInit(): void {
-    this.getData();
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.period) {
+      this.getData();
+    }
   }
 
   protected getData() {
+    if(!this.period) return;
+
     this.isLoading = true;
     this.hasError = false;
 
+    const { timeAggregate, start, end } = this.period;
+
     const claims$ = this.aggregateService.getAggregatedClaims(
-      EoTimeAggregate.Day,
-      this.startDate,
-      this.endDate
+      timeAggregate,
+      start,
+      end
     );
-    const certificates$ = this.certificatesService.getAggregatedCertificates(
-      EoTimeAggregate.Day,
-      this.startDate,
-      this.endDate
+    const certificates$ = this.aggregateService.getAggregatedCertificates(
+      timeAggregate,
+      start,
+      end
     );
 
     forkJoin({
@@ -280,6 +277,8 @@ export class EoDashboardConsumptionComponent implements OnInit {
         this.claimedTotal = claims.reduce((a: number, b: number) => a + b, 0);
         this.consumptionTotal =
           certificates.reduce((a: number, b: number) => a + b, 0) + this.claimedTotal;
+
+        console.log(this.consumptionTotal);
 
         const unit = findNearestUnit(
           this.consumptionTotal /
@@ -317,6 +316,7 @@ export class EoDashboardConsumptionComponent implements OnInit {
 
         this.barChartData = {
           ...this.barChartData,
+          labels: this.generateLabels(),
           datasets: [
             {
               data: claims.map((x: number) => {
@@ -347,13 +347,8 @@ export class EoDashboardConsumptionComponent implements OnInit {
   }
 
   private generateLabels() {
-    return eachDayOfInterval({
-      start: fromUnixTime(this.startDate),
-      end: fromUnixTime(this.endDate),
-    }).map((date) => {
-      // We're not using the WattDatePipe here because we want to use a custom format
-      const datePipe = new DatePipe('en-US');
-      return datePipe.transform(date, 'd MMM');
-    });
+    if (!this.period) return [];
+    const { timeAggregate, start, end } = this.period;
+    return this.aggregateService.getLabels(timeAggregate, start, end);
   }
 }

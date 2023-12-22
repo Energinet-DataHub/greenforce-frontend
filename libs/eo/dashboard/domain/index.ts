@@ -14,13 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const enum EoTimeAggregate {
-  Actual = 'actual',
-  Total = 'total',
-  Year = 'year',
-  Month = 'month',
-  Week = 'week',
-  Day = 'day',
-  Hour = 'hour',
-  QuarterHour = 'quarterHour'
-}
+import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
+
+export type eoDashboardPeriod = {
+  timeAggregate: EoTimeAggregate;
+  start: number;
+  end: number;
+} | null;

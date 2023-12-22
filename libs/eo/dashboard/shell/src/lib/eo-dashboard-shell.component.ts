@@ -20,6 +20,7 @@ import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
+import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
 import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
 import { EoDashboardChoosePeriodComponent } from './eo-dashboard-choose-period.component';
 import { EoDashboardConsumptionComponent } from './eo-dashboard-consumption.component';
@@ -66,14 +67,12 @@ import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/dat
   template: `
     <eo-dashboard-choose-period (periodChanged)="onPeriodChanged($event)" />
 
-    {{ period() | json }}
-
     <ng-container *ngIf="(isLoadingMeteringPoints$ | async) === false; else loading">
       <ng-container *ngIf="productionMeteringPoints$ | async as productionMeteringPoints">
-        <eo-dashboard-production-transferred *ngIf="productionMeteringPoints.length > 0" />
+        <eo-dashboard-production-transferred *ngIf="productionMeteringPoints.length > 0" [period]="period()" />
       </ng-container>
       <ng-container *ngIf="consumptionMeteringPoints$ | async as consumptionMeteringPoints">
-        <eo-dashboard-consumption *ngIf="consumptionMeteringPoints.length > 0" />
+        <eo-dashboard-consumption *ngIf="consumptionMeteringPoints.length > 0" [period]="period()" />
       </ng-container>
       <ng-container *ngIf="productionAndConsumptionMeteringPoints$ | async as meteringPoints">
         <watt-empty-state
@@ -103,7 +102,7 @@ export class EoDashboardShellComponent implements OnInit {
   private meteringPointStore = inject(EoMeteringPointsStore);
   private aggregateService: EoAggregateService = inject(EoAggregateService);
 
-  period = signal<unknown>(null);
+  period = signal<eoDashboardPeriod>(null);
   isLoadingMeteringPoints$ = this.meteringPointStore.loading$;
   productionMeteringPoints$ = this.meteringPointStore.productionMeteringPoints$;
   consumptionMeteringPoints$ = this.meteringPointStore.consumptionMeteringPoints$;
@@ -116,7 +115,7 @@ export class EoDashboardShellComponent implements OnInit {
     this.aggregateService.clearCache();
   }
 
-  protected onPeriodChanged(period: unknown): void {
+  protected onPeriodChanged(period: eoDashboardPeriod): void {
     this.period.set(period);
   }
 }

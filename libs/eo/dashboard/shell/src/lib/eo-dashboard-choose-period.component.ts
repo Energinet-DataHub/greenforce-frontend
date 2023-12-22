@@ -35,12 +35,14 @@ import {
   endOfWeek,
   format,
   getUnixTime,
+  startOfDay,
   startOfToday,
   startOfWeek,
   subDays,
 } from 'date-fns';
 
-type timeAggregate = 'year' | 'month' | 'week' | 'day' | 'hour' | 'quarterHour';
+import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
+import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 
 @Component({
   standalone: true,
@@ -108,11 +110,7 @@ type timeAggregate = 'year' | 'month' | 'week' | 'day' | 'hour' | 'quarterHour';
   `,
 })
 export class EoDashboardChoosePeriodComponent implements OnInit {
-  @Output() periodChanged = new EventEmitter<{
-    timeAggregate: timeAggregate;
-    start: number;
-    end: number;
-  }>();
+  @Output() periodChanged = new EventEmitter<eoDashboardPeriod>();
 
   private _dateAdapter = inject(DateAdapter);
 
@@ -135,7 +133,7 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
   private currentYear = new Date().getFullYear();
 
   form = new FormGroup({
-    period: new FormControl<timeAggregate | null>(null),
+    period: new FormControl<EoTimeAggregate | null>(null),
     day: new FormControl(new Date().toISOString(), { nonNullable: true }),
     week: new FormControl(
       { start: addDays(startOfWeek(new Date()), 1), end: addDays(endOfWeek(new Date()), 1) },
@@ -161,7 +159,7 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
     });
 
     // Set default period to month, and trigger periodChanged event
-    this.form.controls.period.setValue('month');
+    this.form.controls.period.setValue(EoTimeAggregate.Month);
   }
 
   protected weekSelectionStrategy(date: Date | null): DateRange<Date> {
@@ -211,8 +209,8 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
     const day = new Date(this.form.controls.day.value);
 
     this.periodChanged.emit({
-      timeAggregate: 'quarterHour',
-      start: getUnixTime(day),
+      timeAggregate: EoTimeAggregate.QuarterHour,
+      start: getUnixTime(startOfDay(day)),
       end: getUnixTime(endOfDay(day)),
     });
   }
@@ -222,7 +220,7 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
     if (!week || !week.start || !week.end) return;
 
     this.periodChanged.emit({
-      timeAggregate: 'hour',
+      timeAggregate: EoTimeAggregate.Hour,
       start: getUnixTime(week.start),
       end: getUnixTime(week.end),
     });
@@ -233,7 +231,7 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
     // Last 30 days
     if (monthsControl.value === 'last30days') {
       const { start, end } = this.last30Days();
-      this.periodChanged.emit({ timeAggregate: 'day', start, end });
+      this.periodChanged.emit({ timeAggregate: EoTimeAggregate.Day, start, end });
       // Specific month
     } else {
       const [month, year] = monthsControl.value.split('-');
@@ -242,7 +240,7 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
       const endOfMonth = new Date(parseInt(year), parseInt(month), 0, 23, 59, 59); // end of month at 23:59:59
 
       this.periodChanged.emit({
-        timeAggregate: 'day',
+        timeAggregate: EoTimeAggregate.Day,
         start: getUnixTime(startOfMonth),
         end: getUnixTime(endOfMonth),
       });
@@ -255,7 +253,7 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
     const endOfYear = new Date(year, 11, 31, 23, 59); // end of year at 23:59
 
     this.periodChanged.emit({
-      timeAggregate: 'month',
+      timeAggregate: EoTimeAggregate.Month,
       start: getUnixTime(startOfYear),
       end: getUnixTime(endOfYear),
     });

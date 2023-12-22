@@ -20,7 +20,17 @@ import { EMPTY, ReplaySubject, catchError, map, shareReplay, tap } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
-import { eachDayOfInterval, fromUnixTime, isSameDay } from 'date-fns';
+import {
+  eachDayOfInterval,
+  eachHourOfInterval,
+  eachMinuteOfInterval,
+  eachMonthOfInterval,
+  format,
+  fromUnixTime,
+  isSameDay,
+  isSameHour,
+  isSameMonth,
+} from 'date-fns';
 
 interface AggregatedResponse {
   result: [
@@ -52,14 +62,7 @@ export class EoAggregateService {
       const subject = new ReplaySubject(1);
       this.#cache.set(cacheKey, subject);
 
-      const dates = eachDayOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
-        (date) => {
-          return {
-            date,
-            quantity: 0,
-          };
-        }
-      );
+      const intervals = this.getIntervals(timeAggregate, start, end) ?? [];
 
       this.#http
         .get<AggregatedResponse>(
@@ -68,13 +71,16 @@ export class EoAggregateService {
         .pipe(
           map((response) => response.result),
           map((claims) =>
-            dates.map((date) => {
-              const claim = claims.find((c) => isSameDay(fromUnixTime(c.start), date.date));
-              return claim ? { ...date, quantity: claim.quantity } : date;
+            intervals.map((interval) => {
+              const claim = claims.find((c) => {
+                return this.matchInterval(timeAggregate, fromUnixTime(c.start), interval);
+              });
+              return claim ? { ...interval, quantity: claim.quantity } : interval;
             })
           ),
           map((result) => result.map((x) => x.quantity)),
           tap((result) => {
+            console.log(result);
             subject.next(result);
             subject.complete();
           }),
@@ -96,14 +102,7 @@ export class EoAggregateService {
   }
 
   getAggregatedTransfers(timeAggregate: EoTimeAggregate, start: number, end: number) {
-    const dates = eachDayOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
-      (date) => {
-        return {
-          date,
-          quantity: 0,
-        };
-      }
-    );
+    const intervals = this.getIntervals(timeAggregate, start, end) ?? [];
 
     return this.#http
       .get<AggregatedResponse>(
@@ -112,12 +111,133 @@ export class EoAggregateService {
       .pipe(
         map((response) => response.result),
         map((transfers) =>
-          dates.map((date) => {
-            const transfer = transfers.find((c) => isSameDay(fromUnixTime(c.start), date.date));
-            return transfer ? { ...date, quantity: transfer.quantity } : date;
+          intervals.map((interval) => {
+            const transfer = transfers.find((c) =>
+              this.matchInterval(timeAggregate, fromUnixTime(c.start), interval)
+            );
+            return transfer ? { ...interval, quantity: transfer.quantity } : interval;
           })
         ),
         map((result) => result.map((x) => x.quantity))
       );
+  }
+
+  getAggregatedCertificates(
+    timeAggregate: EoTimeAggregate,
+    start: number,
+    end: number,
+    type: 'consumption' | 'production' = 'consumption'
+  ) {
+    const intervals = this.getIntervals(timeAggregate, start, end) ?? [];
+
+    return this.#http
+      .get<AggregatedResponse>(
+        `${this.#apiBase}/aggregate-certificates?timeAggregate=${timeAggregate}&timeZone=${this.#timeZone}&start=${start}&end=${end}&type=${type}`
+      )
+      .pipe(
+        map((response) => response.result),
+        map((certificates) =>
+          intervals.map((interval) => {
+            const certificate = certificates.find((c) => {
+              this.matchInterval(timeAggregate, fromUnixTime(c.start), interval)
+            });
+            return certificate ? { ...interval, quantity: certificate.quantity } : interval;
+          })
+        ),
+        map((result) => result.map((x) => x.quantity))
+      );
+  }
+
+  getLabels(timeAggregate: EoTimeAggregate, start: number, end: number) {
+    if (timeAggregate === EoTimeAggregate.QuarterHour) {
+      return eachMinuteOfInterval(
+        { start: fromUnixTime(start), end: fromUnixTime(end) },
+        { step: 15 }
+      ).map((timestamp) => {
+        return format(timestamp, 'HH:mm');
+      });
+    }
+    if (timeAggregate === EoTimeAggregate.Hour) {
+      return eachHourOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
+        (timestamp) => {
+          return format(timestamp, 'HH:mm');
+        }
+      );
+    } else if (timeAggregate === EoTimeAggregate.Month) {
+      return eachMonthOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
+        (timestamp) => {
+          return format(timestamp, 'MMM');
+        }
+      );
+      // Default to day
+    } else {
+      return eachDayOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
+        (timestamp) => {
+          return format(timestamp, 'dd MMM');
+        }
+      );
+    }
+  }
+
+  private getIntervals(timeAggregate: EoTimeAggregate, start: number, end: number) {
+    if (timeAggregate === EoTimeAggregate.QuarterHour) {
+      return eachMinuteOfInterval(
+        { start: fromUnixTime(start), end: fromUnixTime(end) },
+        { step: 15 }
+      ).map((timestamp) => {
+        return {
+          timestamp,
+          quantity: 0,
+        };
+      });
+    }
+    if (timeAggregate === EoTimeAggregate.Hour) {
+      return eachHourOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
+        (timestamp) => {
+          return {
+            timestamp,
+            quantity: 0,
+          };
+        }
+      );
+    } else if (timeAggregate === EoTimeAggregate.Month) {
+      return eachMonthOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
+        (timestamp) => {
+          return {
+            timestamp,
+            quantity: 0,
+          };
+        }
+      );
+      // Default to day
+    } else {
+      return eachDayOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
+        (timestamp) => {
+          return {
+            timestamp,
+            quantity: 0,
+          };
+        }
+      );
+    }
+  }
+
+  private matchInterval(
+    timeAggregate: EoTimeAggregate,
+    timestamp: Date,
+    interval: { timestamp: Date; quantity: number }
+  ) {
+    if (timeAggregate === EoTimeAggregate.QuarterHour) {
+      return (
+        isSameHour(timestamp, interval.timestamp) &&
+        Math.floor(timestamp.getMinutes() / 15) === Math.floor(interval.timestamp.getMinutes() / 15)
+      );
+    } else if (timeAggregate === EoTimeAggregate.Hour) {
+      return isSameHour(timestamp, interval.timestamp);
+    } else if (timeAggregate === EoTimeAggregate.Month) {
+      return isSameMonth(timestamp, interval.timestamp);
+    } else {
+      return isSameDay(timestamp, interval.timestamp);
+    }
   }
 }
