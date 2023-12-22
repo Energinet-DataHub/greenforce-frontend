@@ -209,7 +209,7 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
     const day = new Date(this.form.controls.day.value);
 
     this.periodChanged.emit({
-      timeAggregate: EoTimeAggregate.QuarterHour,
+      timeAggregate: EoTimeAggregate.Hour,
       start: getUnixTime(startOfDay(day)),
       end: getUnixTime(endOfDay(day)),
     });

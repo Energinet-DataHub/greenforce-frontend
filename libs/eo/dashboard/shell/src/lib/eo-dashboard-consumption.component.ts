@@ -281,8 +281,6 @@ export class EoDashboardConsumptionComponent implements OnChanges {
         this.consumptionTotal =
           certificates.reduce((a: number, b: number) => a + b, 0) + this.claimedTotal;
 
-        console.log(this.consumptionTotal);
-
         const unit = findNearestUnit(
           this.consumptionTotal /
             Math.max(

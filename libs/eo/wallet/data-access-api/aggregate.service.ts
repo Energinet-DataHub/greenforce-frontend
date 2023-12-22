@@ -80,7 +80,6 @@ export class EoAggregateService {
           ),
           map((result) => result.map((x) => x.quantity)),
           tap((result) => {
-            console.log(result);
             subject.next(result);
             subject.complete();
           }),
