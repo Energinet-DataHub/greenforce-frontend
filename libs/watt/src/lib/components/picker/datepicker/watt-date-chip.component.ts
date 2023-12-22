@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
@@ -36,13 +36,20 @@ import { FormControl } from '@angular/forms';
     WattIconComponent,
   ],
   selector: 'watt-date-chip',
+  encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      input {
-        top: 0;
-        bottom: 0;
-        height: auto;
-        visibility: hidden;
+      watt-date-chip {
+        input {
+          top: 0;
+          bottom: 0;
+          height: auto;
+          visibility: hidden;
+        }
+
+        watt-field label .watt-field-wrapper {
+          background-color: transparent;
+        }
       }
     `,
   ],

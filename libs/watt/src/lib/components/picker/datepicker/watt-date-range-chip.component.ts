@@ -24,6 +24,7 @@ import {
   Injectable,
   Input,
   Output,
+  ViewEncapsulation,
   inject,
 } from '@angular/core';
 
@@ -90,17 +91,24 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
     },
   ],
   selector: 'watt-date-range-chip',
+  encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      mat-date-range-input {
-        top: 0;
-        bottom: 0;
-        height: auto;
-        visibility: hidden;
-      }
+      watt-date-range-chip {
+        mat-date-range-input {
+          top: 0;
+          bottom: 0;
+          height: auto;
+          visibility: hidden;
+        }
 
-      :host.has-placeholder .value::before {
-        content: ':';
+        &.has-placeholder .value::before {
+          content: ':';
+        }
+
+        watt-field label .watt-field-wrapper {
+          background-color: transparent;
+        }
       }
     `,
   ],
