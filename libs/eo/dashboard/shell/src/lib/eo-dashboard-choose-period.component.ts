@@ -61,6 +61,7 @@ import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
       :host {
         display: flex;
         gap: var(--watt-space-s);
+        justify-content: flex-end;
       }
     `,
   ],
