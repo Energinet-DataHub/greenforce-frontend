@@ -39,7 +39,7 @@ limitations under the License.
     [formControl]="matSelectControl"
     [placeholder]="placeholder"
     #matSelect
-    [panelWidth]="null"
+    [panelWidth]="panelWidth"
     [multiple]="multiple"
     [ngClass]="{ chip: chipMode }"
     [panelClass]="{
@@ -47,7 +47,7 @@ limitations under the License.
       'watt-dropdown-panel-chip-mode': chipMode
     }"
   >
-    <mat-option
+    <mat-option *ngIf="!hideSearch"
       ><ngx-mat-select-search
         [formControl]="filterControl"
         [placeholderLabel]="placeholder"

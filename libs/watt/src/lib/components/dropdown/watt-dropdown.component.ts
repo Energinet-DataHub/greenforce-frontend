@@ -127,6 +127,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
 
   _options: WattDropdownOptions = [];
 
+
   /**
    * @ignore
    */
@@ -152,6 +153,9 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    * @ignore
    */
   @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
+
+  @Input() hideSearch = false;
+  @Input() panelWidth: null | 'auto' = null;
 
   /**
    * Set the mode of the dropdown.

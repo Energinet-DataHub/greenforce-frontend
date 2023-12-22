@@ -72,6 +72,8 @@ import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
         [showResetOption]="false"
         [disableSelectedMode]="true"
         formControlName="period"
+        [hideSearch]="true"
+        panelWidth="auto"
         [options]="periods"
       />
 
