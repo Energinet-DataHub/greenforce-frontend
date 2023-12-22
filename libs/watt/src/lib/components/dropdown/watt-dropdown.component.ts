@@ -127,7 +127,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
 
   _options: WattDropdownOptions = [];
 
-
   /**
    * @ignore
    */
