@@ -21,7 +21,7 @@ import { DhApplicationInsights } from './dh-application-insights.service';
 export const applicationInsightsInitializer: FactoryProvider = {
   multi: true,
   provide: APP_INITIALIZER,
-  useFactory: (applicationInsights: DhApplicationInsights) => (): void =>
+  useFactory: (applicationInsights: DhApplicationInsights) => async () =>
     applicationInsights.init(),
   deps: [DhApplicationInsights],
 };
