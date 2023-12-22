@@ -1,0 +1,5 @@
+import { RouterModule, Routes } from '@angular/router';
+
+const shellRoutes: Routes = [
+  // { path: '', pathMatch: 'full', component: InsertYourComponentHere }
+];
