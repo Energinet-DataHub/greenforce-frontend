@@ -138,7 +138,7 @@ export class EoAggregateService {
         map((certificates) =>
           intervals.map((interval) => {
             const certificate = certificates.find((c) => {
-              this.matchInterval(timeAggregate, fromUnixTime(c.start), interval);
+              return this.matchInterval(timeAggregate, fromUnixTime(c.start), interval);
             });
             return certificate ? { ...interval, quantity: certificate.quantity } : interval;
           })
