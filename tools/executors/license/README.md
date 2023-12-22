@@ -11,5 +11,5 @@ npx tsc tools/executors/license/impl --resolveJsonModule
 To run the executor
 
 ```powershell
-yarn nx run workspace-tools:add-license --dryRun=true
+yarn nx run tools:add-license --dryRun=true
 ```
