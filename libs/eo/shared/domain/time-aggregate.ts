@@ -22,5 +22,5 @@ export const enum EoTimeAggregate {
   Week = 'week',
   Day = 'day',
   Hour = 'hour',
-  QuarterHour = 'quarterHour'
+  QuarterHour = 'quarterHour',
 }

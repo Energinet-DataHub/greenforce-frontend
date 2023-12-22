@@ -69,10 +69,16 @@ import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/dat
 
     <ng-container *ngIf="(isLoadingMeteringPoints$ | async) === false; else loading">
       <ng-container *ngIf="productionMeteringPoints$ | async as productionMeteringPoints">
-        <eo-dashboard-production-transferred *ngIf="productionMeteringPoints.length > 0" [period]="period()" />
+        <eo-dashboard-production-transferred
+          *ngIf="productionMeteringPoints.length > 0"
+          [period]="period()"
+        />
       </ng-container>
       <ng-container *ngIf="consumptionMeteringPoints$ | async as consumptionMeteringPoints">
-        <eo-dashboard-consumption *ngIf="consumptionMeteringPoints.length > 0" [period]="period()" />
+        <eo-dashboard-consumption
+          *ngIf="consumptionMeteringPoints.length > 0"
+          [period]="period()"
+        />
       </ng-container>
       <ng-container *ngIf="productionAndConsumptionMeteringPoints$ | async as meteringPoints">
         <watt-empty-state

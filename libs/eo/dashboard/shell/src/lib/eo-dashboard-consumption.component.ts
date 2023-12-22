@@ -15,7 +15,14 @@
  * limitations under the License.
  */
 
-import { ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { AnimationOptions, LottieComponent } from 'ngx-lottie';
@@ -235,24 +242,20 @@ export class EoDashboardConsumptionComponent implements OnChanges {
   };
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes.period) {
+    if (changes.period) {
       this.getData();
     }
   }
 
   protected getData() {
-    if(!this.period) return;
+    if (!this.period) return;
 
     this.isLoading = true;
     this.hasError = false;
 
     const { timeAggregate, start, end } = this.period;
 
-    const claims$ = this.aggregateService.getAggregatedClaims(
-      timeAggregate,
-      start,
-      end
-    );
+    const claims$ = this.aggregateService.getAggregatedClaims(timeAggregate, start, end);
     const certificates$ = this.aggregateService.getAggregatedCertificates(
       timeAggregate,
       start,
