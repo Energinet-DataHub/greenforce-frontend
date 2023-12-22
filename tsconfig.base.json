@@ -437,10 +437,8 @@
       "@energinet-datahub/watt/vater": [
         "libs/watt/src/lib/components/vater/index.ts"
       ],
-      "@energinet-datahub/workspace-plugin": [
-        "tools/workspace-plugin/src/index.ts"
-      ],
-      "rxjs": ["./node_modules/rxjs"]
+      "rxjs": ["./node_modules/rxjs"],
+      "workspace-tools": ["workspace-tools/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
