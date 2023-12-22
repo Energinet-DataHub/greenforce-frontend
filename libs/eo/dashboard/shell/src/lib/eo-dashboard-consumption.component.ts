@@ -43,7 +43,6 @@ import {
   findNearestUnit,
   fromWh,
 } from '@energinet-datahub/eo/shared/utilities';
-import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
 import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
 
