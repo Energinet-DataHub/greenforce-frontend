@@ -1,3 +1,5 @@
+@use '@energinet-datahub/watt/utils' as watt;
+
 header {
   background: #00847C;
   height: 40px;
@@ -363,7 +365,7 @@ footer {
 
 //Responsive styles
 
-@media screen and (max-width: 1279px) and (min-width: 960px) {
+@include watt.media("Medium") {
   .hero {
     display: flex;
     align-content: center;
@@ -377,7 +379,7 @@ footer {
   }
 }
 
-@media screen and (max-width: 959px) {
+@include watt.media("<Medium") {
   .container {
     grid-template-columns: [full-width-start] 10px [content-start] auto [content-end] 10px [full-width-end];
 

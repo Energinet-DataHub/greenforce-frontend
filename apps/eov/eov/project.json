@@ -32,6 +32,11 @@
             "output": "assets/watt"
           }
         ],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "libs/watt/src/lib/styles"
+          ]
+        },
         "styles": ["apps/eov/eov/src/styles.scss"],
         "scripts": []
       },
