@@ -1,0 +1,168 @@
+
+<header>
+  <div class="container">
+    <div class="container__content areas">
+      <div></div>
+      <div class="areas__end">
+        <span>Hjælp</span>
+        <span>Kontakt</span>
+        <span>English</span>
+      </div>
+    </div>
+  </div>
+</header>
+<nav [class.scroll-up]="scrollUp" [class.scroll-down]="scrollDown">
+  <div class="container">
+    <div class="container__content areas">
+      <div class="areas__start">
+        <img src="/assets/images/logo.svg" class="mobile-nav logo" (click)="scrollToTop()">
+        <a href="#datadeling">Datadeling</a>
+      </div>
+      <div class="areas__end">
+        <span (click)="showBanner = !showBanner">Driftinfo</span>
+        <span #logonButton class="mobile-nav button" (click)="isOpen = !isOpen" cdkOverlayOrigin #trigger="cdkOverlayOrigin">Log på</span>
+        <ng-template
+          cdkConnectedOverlay
+          [cdkConnectedOverlayOrigin]="trigger"
+          [cdkConnectedOverlayOpen]="isOpen"
+          [cdkConnectedOverlayPositions]="loginOverlayPosition"
+          [cdkConnectedOverlayHasBackdrop]="true"
+          (backdropClick)="isOpen = false"
+          (detach)="isOpen = false"
+          cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+        >
+          <ul class="login-overlay mat-elevation-z8">
+            <li>Privat</li>
+            <li>Erhverv</li>
+            <li>Tredjepart</li>
+          </ul>
+        </ng-template>
+        <img src="/assets/images/hamburger.png" class="mobile-nav mobile-only hamburger button" (click)="isHamburgerOpen = !isHamburgerOpen" cdkOverlayOrigin #hamburgerTrigger="cdkOverlayOrigin">
+        <ng-template
+          cdkConnectedOverlay
+          [cdkConnectedOverlayOrigin]="hamburgerTrigger"
+          [cdkConnectedOverlayOpen]="isHamburgerOpen"
+        >
+          <div class="hamburger-overlay">
+            <span (click)="isHamburgerOpen = false" class="close-icon"></span>
+            <img src="/assets/images/logo.svg" class="logo"/>
+            <div class="login-menu">
+              <h2>LOG PÅ</h2>
+              <ul class="login-items">
+                <li>Privat</li>
+                <li>Erhverv</li>
+                <li>Tredjepart</li>
+              </ul>
+            </div>
+            <div class="bottom-menu">
+              <span>Hjælp</span>
+              <span>Kontakt</span>
+              <span>English</span>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="container__full-width container" *ngIf="showBanner">
+      <div class="container__content system-info-banner">
+        <p><strong>Driftsinfo: </strong>I forbindelse med en opdatering på DataHub vil der ikke være adgang til ElOverblik og tredjepartsløsningen onsdag den 6. december fra kl. 18:00 til 23:00.</p>
+      </div>
+    </div>
+  </div>
+</nav>
+<main class="container">
+  <div class="container__full-width">
+    <div class="hero container">
+      <span class="container__content hero__text">
+        <h1>DINE DATA,<br>
+          DIT ELOVERBLIK</h1>
+        <p>
+          Som elkunde har du adgang til at se oplysninger om dit<br> <strong>historiske</strong> elforbrug via eloverblik.dk.<br><br>
+          Disse oplysninger er gjort tilgængelig af den offentlige<br> platform kaldet DataHub
+        </p>
+      </span>
+    </div>
+  </div>
+  <div class="container__content layout-text-image reveal">
+    <img src="/assets/images/image-text.png">
+    <div>
+      <h3>Overskrift</h3>
+      <p>
+        Bacon ipsum dolor amet chicken leberkas corned beef, short loin prosciutto beef ribs chuck capicola pancetta frankfurter salami kielbasa pork chop doner flank. Shoulder ball tip kielbasa pig spare ribs bacon ribeye short ribs tri-tip buffalo salami ham beef ribs. Tri-tip chuck tail strip steak hamburger chislic andouille short loin shoulder jowl beef ribs. Meatloaf cow ribeye, porchetta prosciutto chicken pork belly pork chop pork loin biltong spare ribs corned beef swine. Cupim bresaola t-bone biltong bacon pork loin boudin fatback chislic venison hamburger pork buffalo.
+      </p>
+    </div>
+  </div>
+  <div class="container__full-width container reveal">
+    <div class="container__breakout layout-text-image">
+      <div>
+        <h3>Overskrift</h3>
+        <p>
+          Bacon ipsum dolor amet chicken leberkas corned beef, short loin prosciutto beef ribs chuck capicola pancetta frankfurter salami kielbasa pork chop doner flank. Shoulder ball tip kielbasa pig spare ribs bacon ribeye short ribs tri-tip buffalo salami ham beef ribs. Tri-tip chuck tail strip steak hamburger chislic andouille short loin shoulder jowl beef ribs. Meatloaf cow ribeye, porchetta prosciutto chicken pork belly pork chop pork loin biltong spare ribs corned beef swine. Cupim bresaola t-bone biltong bacon pork loin boudin fatback chislic venison hamburger pork buffalo.
+        </p>
+      </div>
+      <img src="/assets/images/image-text.png">
+    </div>
+  </div>
+  <div class="container__content layout-text-image reveal">
+    <img src="/assets/images/image-text.png">
+    <div>
+      <h3>Overskrift</h3>
+      <p>
+        Bacon ipsum dolor amet chicken leberkas corned beef, short loin prosciutto beef ribs chuck capicola pancetta frankfurter salami kielbasa pork chop doner flank. Shoulder ball tip kielbasa pig spare ribs bacon ribeye short ribs tri-tip buffalo salami ham beef ribs. Tri-tip chuck tail strip steak hamburger chislic andouille short loin shoulder jowl beef ribs. Meatloaf cow ribeye, porchetta prosciutto chicken pork belly pork chop pork loin biltong spare ribs corned beef swine. Cupim bresaola t-bone biltong bacon pork loin boudin fatback chislic venison hamburger pork buffalo.
+      </p>
+    </div>
+  </div>
+  <div class="container__full-width container reveal">
+    <div class="container__breakout layout-text-text">
+      <div>
+        <a id="datadeling"></a>
+        <h3>Overskrift</h3>
+        <p>
+          Bacon ipsum dolor amet chicken leberkas corned beef, short loin prosciutto beef ribs chuck capicola pancetta frankfurter salami kielbasa pork chop doner flank. Shoulder ball tip kielbasa pig spare ribs bacon ribeye short ribs tri-tip buffalo salami ham beef ribs. Tri-tip chuck tail strip steak hamburger chislic andouille short loin shoulder jowl beef ribs. Meatloaf cow ribeye, porchetta prosciutto chicken pork belly pork chop pork loin biltong spare ribs corned beef swine. Cupim bresaola t-bone biltong bacon pork loin boudin fatback chislic venison hamburger pork buffalo.
+        </p>
+      </div>
+      <div>
+        <h3>Overskrift</h3>
+        <p>
+          Bacon ipsum dolor amet chicken leberkas corned beef, short loin prosciutto beef ribs chuck capicola pancetta frankfurter salami kielbasa pork chop doner flank. Shoulder ball tip kielbasa pig spare ribs bacon ribeye short ribs tri-tip buffalo salami ham beef ribs. Tri-tip chuck tail strip steak hamburger chislic andouille short loin shoulder jowl beef ribs. Meatloaf cow ribeye, porchetta prosciutto chicken pork belly pork chop pork loin biltong spare ribs corned beef swine. Cupim bresaola t-bone biltong bacon pork loin boudin fatback chislic venison hamburger pork buffalo.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="container__content layout-text-image reveal">
+    <img src="/assets/images/image-text.png">
+    <div>
+      <h3>Overskrift</h3>
+      <p>
+        Bacon ipsum dolor amet chicken leberkas corned beef, short loin prosciutto beef ribs chuck capicola pancetta frankfurter salami kielbasa pork chop doner flank. Shoulder ball tip kielbasa pig spare ribs bacon ribeye short ribs tri-tip buffalo salami ham beef ribs. Tri-tip chuck tail strip steak hamburger chislic andouille short loin shoulder jowl beef ribs. Meatloaf cow ribeye, porchetta prosciutto chicken pork belly pork chop pork loin biltong spare ribs corned beef swine. Cupim bresaola t-bone biltong bacon pork loin boudin fatback chislic venison hamburger pork buffalo.
+      </p>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="container">
+    <div class="container__content">
+      <div>
+        ELOVERBLIK LEVERES AF<br><br>
+        <img src="/assets/images/energinet.png"><br><br>
+        ElOverblik er en platform, der er tilgængelig for privatpersoner, erhvervsdrivende og tredjeparter. Formålet med platformen er at levere data vedr. elforbrug og -produktion, så du som kunde kan få et samlet overblik på tværs af landet og på tværs af elleverandører.
+      </div>
+      <ul>
+        <li>ENERGINET</li>
+        <li>DATAHUB</li>
+        <li>KONTAKT</li>
+        <li>TILGÆNGELIGHEDSERKLÆRING</li>
+        <li>PRIVATLIVSPOLITIK</li>
+        <li>PERSONDATA</li>
+      </ul>
+      <div class="address">
+        <span>
+          ADRESSE<br>
+          Tonne Kjærsvej 65<br>
+          7000 Fredericia<br>
+          Danmark<br>
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>

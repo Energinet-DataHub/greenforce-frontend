@@ -18290,6 +18290,7 @@ cors@latest:
     "@nx/js": 17.0.1
     "@nx/plugin": 17.0.1
     "@nx/storybook": 17.0.1
+    "@nx/web": 17.0.1
     "@nx/workspace": 17.0.1
     "@openapitools/openapi-generator-cli": 2.6.0
     "@popperjs/core": 2.11.7

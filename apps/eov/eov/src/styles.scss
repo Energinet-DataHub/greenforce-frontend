@@ -1,0 +1,40 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+
+  font-family: 'Open Sans', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: white;
+}
+
+a {
+  color: #00847C;
+  text-decoration: none;
+}
+
+strong {
+  font-weight: 700;
+}
+
+.cdk-overlay-pane:has(.login-overlay) {
+  position: fixed;
+  z-index: 1000;
+}
+
+.cdk-overlay-backdrop:has(.login-overlay) {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  pointer-events: auto;
+  opacity: 0;
+}

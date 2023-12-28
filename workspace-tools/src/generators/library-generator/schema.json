@@ -8,7 +8,7 @@
     "product": {
       "type": "string",
       "description": "To which product does the library belong to?",
-      "enum": ["eo", "dh"],
+      "enum": ["eo", "dh", "eov"],
       "$default": {
         "$source": "argv",
         "index": 0
