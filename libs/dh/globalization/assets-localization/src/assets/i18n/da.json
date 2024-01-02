@@ -1052,12 +1052,14 @@
         },
         "history": {
           "tabLabel": "Historik",
-          "noEntries": "Ingen resultater",
           "changesSingular": "{{ auditLogCount }} ændring",
           "changesPlural": "{{ auditLogCount }} ændringer",
-          "columns": {
-            "timestamp": "Tid",
-            "entry": "Ændring"
+          "table": {
+            "noEntries": "Ingen resultater",
+            "columns": {
+              "timestamp": "Tid",
+              "entry": "Ændring"
+            }
           },
           "logs": {
             "permissionsDetails": {
@@ -1066,15 +1068,15 @@
                 "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelsen på rettigheden til <b>{{ value }}</b>"
               }
             },
-            "auditLogType": {
-              "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede brugerrollen <b>{{ toValue }}</b>",
-              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b>",
-              "UserInvite": "<b>{{ changedByUserName }}</b> tilføjede brugeren til aktør <b>{{ toValue }}</b>",
-              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b> fordi rollen blev deaktiveret",
-              "UserFirstNameChanged": "<b>{{ changedByUserName }}</b> ændrede fornavn til <b>{{ toValue }}</b>",
-              "UserLastNameChanged": "<b>{{ changedByUserName }}</b> ændrede efternavn til <b>{{ toValue }}</b>",
-              "UserPhoneNumberChanged": "<b>{{ changedByUserName }}</b> ændrede telefonnummer til <b>{{ toValue }}</b>",
-              "UserStatusChanged": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ toValue }}</b>"
+            "audit": {
+              "FIRST_NAME": "<b>{{ auditedBy }}</b> ændrede brugerens fornavn til <b>{{ currentValue }}</b>.",
+              "LAST_NAME": "<b>{{ auditedBy }}</b> ændrede brugerens efternavn til <b>{{ currentValue }}</b>.",
+              "PHONE_NUMBER": "<b>{{ auditedBy }}</b> ændrede brugerens telefonnummer til <b>{{ currentValue }}</b>.",
+              "STATUS": "<b>{{ auditedBy }}</b> ændrede brugerens status til <b>{{ currentValue }}</b>.",
+              "INVITED_INTO_ACTOR": "<b>{{ auditedBy }}</b> inviterede brugeren ind i <b>{{ affectedActorName }}</b>.",
+              "USER_ROLE_ASSIGNED": "<b>{{ auditedBy }}</b> tildelte brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>.",
+              "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>.",
+              "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b>, da rollen blev deaktiveret."
             }
           },
           "generalError": {

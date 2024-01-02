@@ -1057,12 +1057,14 @@
         },
         "history": {
           "tabLabel": "History",
-          "noEntries": "No results",
           "changesSingular": "{{ auditLogCount }} change",
           "changesPlural": "{{ auditLogCount }} changes",
-          "columns": {
-            "timestamp": "Time",
-            "entry": "Change"
+          "table": {
+            "noEntries": "No results",
+            "columns": {
+              "timestamp": "Time",
+              "entry": "Change"
+            }
           },
           "logs": {
             "permissionsDetails": {
@@ -1071,15 +1073,15 @@
                 "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> changed the description of the permission to <b>{{ value }}</b>"
               }
             },
-            "auditLogType": {
-              "UserRoleAdded": "<b>{{ changedByUserName }}</b> added user role <b>{{ toValue }}</b>",
-              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> removed user role <b>{{ toValue }}</b>",
-              "UserInvite": "<b>{{ changedByUserName }}</b> added user to <b>{{ toValue }}</b> market party",
-              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> removed user role <b>{{ toValue }}</b> due to the role being deactivated",
-              "UserFirstNameChanged": "<b>{{ changedByUserName }}</b> changed first name to <b>{{ toValue }}</b>",
-              "UserLastNameChanged": "<b>{{ changedByUserName }}</b> changed last name to <b>{{ toValue }}</b>",
-              "UserPhoneNumberChanged": "<b>{{ changedByUserName }}</b> changed phone number to <b>{{ toValue }}</b>",
-              "UserStatusChanged": "<b>{{ changedByUserName }}</b> changed status to <b>{{ toValue }}</b>"
+            "audit": {
+              "FIRST_NAME": "<b>{{ auditedBy }}</b> changed user's first name to <b>{{ currentValue }}</b>.",
+              "LAST_NAME": "<b>{{ auditedBy }}</b> changed user's last name to <b>{{ currentValue }}</b>.",
+              "PHONE_NUMBER": "<b>{{ auditedBy }}</b> changed user's phone number to <b>{{ currentValue }}</b>.",
+              "STATUS": "<b>{{ auditedBy }}</b> changed user's status to <b>{{ currentValue }}</b>.",
+              "INVITED_INTO_ACTOR": "<b>{{ auditedBy }}</b> invited the user into <b>{{ affectedActorName }}</b>.",
+              "USER_ROLE_ASSIGNED": "<b>{{ auditedBy }}</b> added user role <b>{{ affectedUserRoleName }}</b> in market party <b>{{ affectedActorName }}</b>.",
+              "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> in market party <b>{{ affectedActorName }}</b>.",
+              "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> due to the role being deactivated."
             }
           },
           "generalError": {

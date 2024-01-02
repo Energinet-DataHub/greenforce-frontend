@@ -15,32 +15,47 @@
  * limitations under the License.
  */
 import { Component, Input, OnChanges, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import {
-  DhAdminUserManagementAuditLogsDataAccessApiStore,
-  DhUserAuditLogEntry,
-} from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { provideComponentStore } from '@ngrx/component-store';
+import { TranslocoModule } from '@ngneat/transloco';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { map } from 'rxjs';
+import { catchError, map, of, tap } from 'rxjs';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { Apollo } from 'apollo-angular';
+import {
+  GetUserAuditLogsDocument,
+  UserAuditedChangeAuditLogDto,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-user-audit-logs',
   standalone: true,
   templateUrl: './dh-user-audit-logs.component.html',
-  styleUrls: ['./dh-user-audit-logs.component.scss'],
-  providers: [provideComponentStore(DhAdminUserManagementAuditLogsDataAccessApiStore)],
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      .no-results-text {
+        text-align: center;
+      }
+
+      .spinner {
+        display: flex;
+        justify-content: center;
+      }
+    `,
+  ],
   imports: [
     NgIf,
     RxLet,
+    NgTemplateOutlet,
     RxPush,
     TranslocoModule,
     WATT_CARD,
@@ -51,40 +66,35 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
   ],
 })
 export class DhUserAuditLogsComponent implements OnChanges {
-  private store = inject(DhAdminUserManagementAuditLogsDataAccessApiStore);
-  private trans = inject(TranslocoService);
-  private dataSource = new WattTableDataSource<DhUserAuditLogEntry>();
+  private readonly apollo = inject(Apollo);
+  private readonly getUserAuditLogsQuery = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetUserAuditLogsDocument,
+    fetchPolicy: 'cache-and-network',
+  });
 
-  @Input() user: MarketParticipantUserOverviewItemDto | null = null;
+  readonly dataSource = new WattTableDataSource<UserAuditedChangeAuditLogDto>();
 
-  isLoading$ = this.store.isLoading$;
-  hasGeneralError$ = this.store.hasGeneralError$;
-
-  auditLogCount$ = this.store.auditLogCount$;
-  auditLogs$ = this.store.auditLogs$.pipe(
-    map((logs) => {
-      this.dataSource.data = logs;
-      return this.dataSource;
-    })
+  hasFailed$ = this.getUserAuditLogsQuery.valueChanges.pipe(
+    map((result) => !!result.error),
+    catchError(() => of(true))
   );
 
-  columns: WattTableColumnDef<DhUserAuditLogEntry> = {
+  isLoading$ = this.getUserAuditLogsQuery.valueChanges.pipe(
+    tap((result) => (this.dataSource.data = result.data?.userAuditLogs ?? [])),
+    map((result) => result.loading),
+    catchError(() => of(false))
+  );
+
+  columns: WattTableColumnDef<UserAuditedChangeAuditLogDto> = {
     timestamp: { accessor: 'timestamp' },
-    entry: { accessor: 'entry', sort: false },
+    entry: { accessor: null },
   };
+
+  @Input({ required: true }) user: MarketParticipantUserOverviewItemDto | null = null;
 
   ngOnChanges(): void {
-    this.reloadAuditLogs();
+    this.getUserAuditLogsQuery?.refetch({ id: this.user?.id });
   }
-
-  reloadAuditLogs() {
-    if (this.user) {
-      this.store.getAuditLogs(this.user.id);
-    }
-  }
-
-  translateHeader = (columnId: string): string => {
-    const baseKey = 'admin.userManagement.tabs.history.columns';
-    return this.trans.translate(`${baseKey}.${columnId}`);
-  };
 }

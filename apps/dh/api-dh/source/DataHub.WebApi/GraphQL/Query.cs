@@ -98,6 +98,15 @@ namespace Energinet.DataHub.WebApi.GraphQL
             return logsWithPermissions;
         }
 
+        public async Task<IEnumerable<UserAuditedChangeAuditLogDto>> GetUserAuditLogsAsync(
+            Guid id,
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            return await client
+                .UserAuditAsync(id)
+                .ConfigureAwait(false);
+        }
+
         public Task<UserRoleWithPermissionsDto> GetUserRoleByIdAsync(
             Guid id,
             [Service] IMarketParticipantClient_V1 client) =>

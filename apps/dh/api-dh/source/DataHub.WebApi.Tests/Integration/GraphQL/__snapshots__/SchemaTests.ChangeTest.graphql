@@ -244,6 +244,7 @@ type Query {
   permissions(searchTerm: String!): [Permission!]!
   permissionLogs(id: Int!): [PermissionLog!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditLog!]!
+  userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   organizationById(id: UUID!): Organization!
@@ -284,6 +285,17 @@ type UpdateActorPayload {
 type UpdateOrganizationPayload {
   boolean: Boolean
   errors: [UpdateOrganizationError!]
+}
+
+type UserAuditedChangeAuditLogDto {
+  auditedBy: String
+  affectedActorName: String
+  affectedUserRoleName: String
+  change: UserAuditedChange!
+  timestamp: DateTime!
+  isInitialAssignment: Boolean!
+  currentValue: String
+  previousValue: String
 }
 
 type UserRoleAuditLog {
@@ -550,6 +562,17 @@ enum TimeSeriesType {
   MGA_EXCHANGE
   PRODUCTION
   CONSUMPTION
+}
+
+enum UserAuditedChange {
+  FIRST_NAME
+  LAST_NAME
+  PHONE_NUMBER
+  STATUS
+  INVITED_INTO_ACTOR
+  USER_ROLE_ASSIGNED
+  USER_ROLE_REMOVED
+  USER_ROLE_REMOVED_DUE_TO_DEACTIVATION
 }
 
 enum UserRoleChangeType {
