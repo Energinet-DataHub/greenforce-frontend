@@ -1,5 +1,5 @@
 {
-  "name": "workspace-tools",
+  "name": "tools",
   "$schema": "../node_modules/nx/schemas/project-schema.json",
   "projectType": "tool",
   "sourceRoot": "tools",
