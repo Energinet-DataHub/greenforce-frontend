@@ -11,8 +11,7 @@
         "{workspaceRoot}/coverage/libs/eo/shared/atomic-design/feature-molecules"
       ],
       "options": {
-        "jestConfig": "libs/eo/shared/atomic-design/feature-molecules/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/eo/shared/atomic-design/feature-molecules/jest.config.ts"
       }
     },
     "lint": {

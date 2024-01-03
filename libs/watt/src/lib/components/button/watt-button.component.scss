@@ -157,9 +157,9 @@ watt-button {
     &.mat-mdc-button {
       min-width: 44px; // Magic UX width
       height: 44px; // Magic UX normal height
-      --mdc-typography-button-letter-spacing: 0;
-      --mat-mdc-button-persistent-ripple-color: var(--watt-ripple-color);
-      --mat-mdc-button-ripple-color: var(--watt-ripple-color);
+      --mdc-text-button-label-text-tracking: 0;
+      --mat-text-button-state-layer-color: var(--watt-ripple-color);
+      --mat-text-button-ripple-color: var(--watt-ripple-color);
     }
 
     watt-spinner {

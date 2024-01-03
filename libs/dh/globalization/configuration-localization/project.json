@@ -11,8 +11,7 @@
         "{workspaceRoot}/coverage/libs/dh/globalization/configuration-localization"
       ],
       "options": {
-        "jestConfig": "libs/dh/globalization/configuration-localization/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/globalization/configuration-localization/jest.config.ts"
       }
     },
     "lint": {
