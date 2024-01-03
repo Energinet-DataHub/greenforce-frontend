@@ -14,19 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  QueryList,
-  ViewChildren,
-  inject,
-} from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+
 import { WattButtonComponent } from '../../button';
 import { WattToastService } from '../watt-toast.service';
-import { WattToastComponent, WattToastConfig, WattToastType } from '../watt-toast.component';
+import { WattToastComponent, WattToastConfig } from '../watt-toast.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -37,11 +30,8 @@ import { WattToastComponent, WattToastConfig, WattToastType } from '../watt-toas
   imports: [WattButtonComponent, WattToastComponent],
   providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: {} }],
 })
-export class StorybookToastComponent implements AfterViewInit {
+export class StorybookToastComponent {
   private toast = inject(WattToastService);
-  private cd = inject(ChangeDetectorRef);
-  @ViewChildren(WattToastComponent)
-  toasts!: QueryList<WattToastComponent>;
 
   @Input()
   config!: WattToastConfig;
@@ -53,30 +43,6 @@ export class StorybookToastComponent implements AfterViewInit {
       setTimeout(() => {
         this.toast.update({ message: 'Finished loading :-)', type: 'success' });
       }, 1000);
-    }
-  }
-
-  ngAfterViewInit(): void {
-    this.setConfig(0, 'success');
-    this.setConfig(1, 'info');
-    this.setConfig(2, 'warning');
-    this.setConfig(3, 'danger');
-    this.setConfig(4, 'loading');
-    this.setConfig(5);
-  }
-
-  private setConfig(index: number, type?: WattToastType): void {
-    const toast = this.toasts.get(index);
-    if (toast) {
-      toast.config = {
-        type,
-        message:
-          type !== 'danger'
-            ? 'Text Message'
-            : 'Error #456: There was a problem processing Calculation ID 232-2335 and the task was stopped.',
-        action: () => alert('Some custom action!'),
-        actionLabel: 'action',
-      };
     }
   }
 }

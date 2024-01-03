@@ -9,8 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/ui-search"],
       "options": {
-        "jestConfig": "libs/dh/shared/ui-search/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/shared/ui-search/jest.config.ts"
       }
     },
     "lint": {
