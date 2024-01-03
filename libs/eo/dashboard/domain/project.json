@@ -1,0 +1,19 @@
+{
+  "name": "eo-dashboard-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/dashboard/domain",
+  "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/dashboard/domain/**/*.ts",
+          "libs/eo/dashboard/domain/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:dashboard", "type:domain"]
+}
