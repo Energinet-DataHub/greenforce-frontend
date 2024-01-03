@@ -43,7 +43,7 @@ export const getUserRoleAuditLogsMock: GetUserRoleAuditLogsQuery = {
       change: UserRoleAuditedChange.Description,
       timestamp: parseISO('2023-10-04T02:00:00+00:00'),
       affectedPermissionName: null,
-      },
+    },
     {
       __typename: 'UserRoleAuditedChangeAuditLogDto',
       auditedBy: 'Test User 2 (test2@datahub.dk)',
