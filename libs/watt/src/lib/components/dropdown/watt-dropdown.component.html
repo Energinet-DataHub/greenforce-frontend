@@ -47,7 +47,8 @@ limitations under the License.
       'watt-dropdown-panel-chip-mode': chipMode
     }"
   >
-    <mat-option *ngIf="!hideSearch"
+    <!-- We use this instead of ngIf, since it will trigger a NG0100: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked. -->
+    <mat-option [style.display]="!hideSearch ? 'block' : 'none'"
       ><ngx-mat-select-search
         [formControl]="filterControl"
         [placeholderLabel]="placeholder"
