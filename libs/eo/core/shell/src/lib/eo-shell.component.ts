@@ -23,7 +23,6 @@ import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/shared/services';
 import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
@@ -34,7 +33,6 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
   imports: [
     EoFooterComponent,
     EoPrimaryNavigationComponent,
-    EoProductLogoDirective,
     NgIf,
     RouterModule,
     VaterSpacerComponent,
