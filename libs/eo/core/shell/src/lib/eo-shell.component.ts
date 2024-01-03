@@ -110,7 +110,7 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
     `,
   ],
   template: `
-    <eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getBannerStatus()" />
+    <!--<eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getBannerStatus()" />-->
     <watt-shell>
       <ng-container watt-shell-sidenav>
         <div class="logo-container">

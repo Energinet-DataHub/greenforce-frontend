@@ -1,0 +1,19 @@
+{
+  "generators": {
+    "watt-component": {
+      "factory": "./src/generators/watt-component/generator",
+      "schema": "./src/generators/watt-component/schema.json",
+      "description": "watt-component generator"
+    },
+    "library-generator": {
+      "implementation": "./src/generators/library-generator",
+      "schema": "./src/generators/library-generator/schema.json",
+      "description": "Generate a library that is going to be used in the assigned product."
+    },
+    "domain-generator": {
+      "implementation": "./src/generators/domain-generator",
+      "schema": "./src/generators/domain-generator/schema.json",
+      "description": "Generate an entire new domain that's going to be used in the assigned product."
+    }
+  }
+}
