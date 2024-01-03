@@ -142,7 +142,11 @@ export class EoCertificateDetailsComponent implements OnInit {
       )
       .subscribe((certificate) => {
         this.certificate.set(certificate);
-        this.titleService.setTitle(this.titleService.getTitle() + ' - ' + this.capitalizeFirstLetter(certificate?.certificateType));
+        this.titleService.setTitle(
+          this.titleService.getTitle() +
+            ' - ' +
+            this.capitalizeFirstLetter(certificate?.certificateType)
+        );
       });
   }
 
