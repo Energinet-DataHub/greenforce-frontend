@@ -31,6 +31,7 @@ export enum DhAppEnvironment {
   dev001 = 'dev001',
   dev002 = 'dev002',
   test001 = 'test001',
+  preprod = 'preprod',
   sandbox002 = 'sandbox002',
 }
 

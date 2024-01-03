@@ -28,6 +28,10 @@ const environments = [
     url: 'https://green-beach-024d44703.3.azurestaticapps.net/',
   },
   {
+    name: 'preprod',
+    url: 'https://red-meadow-02d1f9403.3.azurestaticapps.net/',
+  },
+  {
     name: 'sandbox002',
     url: 'https://happy-desert-06b3ac903.4.azurestaticapps.net/',
   },
