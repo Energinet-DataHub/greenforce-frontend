@@ -29,7 +29,7 @@ const environments = [
   },
   {
     name: 'preprod',
-    url: 'https://red-meadow-02d1f9403.3.azurestaticapps.net/',
+    url: 'https://preprod.datahub3.dk/',
   },
   {
     name: 'sandbox002',
