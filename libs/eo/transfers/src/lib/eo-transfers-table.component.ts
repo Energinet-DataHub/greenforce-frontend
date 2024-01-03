@@ -75,21 +75,14 @@ interface EoTransferTableElement extends EoListedTransfer {
         }
       }
 
-      .search-filters {
-        watt-form-field {
-          margin-top: 0;
-        }
-
-        ::ng-deep
-          .mat-form-field-type-mat-select:not(.mat-form-field-disabled)
-          .mat-form-field-flex {
-          margin-top: 0;
-        }
-      }
-
       .no-data {
         text-align: center;
         padding: var(--watt-space-m);
+      }
+
+      watt-paginator {
+        display: block;
+        margin: -8px -24px -24px -24px;
       }
     `,
   ],
@@ -107,7 +100,7 @@ interface EoTransferTableElement extends EoListedTransfer {
         </watt-button>
       </div>
     </div>
-    <div class="search-filters watt-space-stack-s">
+    <div class="watt-space-stack-s">
       <form [formGroup]="filterForm">
         <watt-dropdown
           [chipMode]="true"

@@ -14,27 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import { FooterPO, LandingPagePO, SharedPO } from '../../page-objects';
+import { Given, Then } from '@badeball/cypress-cucumber-preprocessor';
+import { FooterPO, LandingPagePO } from '../../page-objects';
 
 const landingPage = new LandingPagePO();
 const footer = new FooterPO();
-const shared = new SharedPO();
 
 Given('I am on the landing page', () => {
   landingPage.navigateTo();
   landingPage.headerIsVisible();
 });
-
-When('I can see a cookie consent popup', () => {
-  shared.cookieBannerIsVisible();
-  shared.onlyNecessaryButtonIsVisible();
-  shared.acceptAllButtonIsVisible();
-});
-
-When("I click the 'only necessary' button", () => shared.clickOnlyNecessaryButton());
-
-Then('The popup closes', () => shared.cookieBannerIsNotVisible());
 
 Then('I can see 1 login button', () => landingPage.loginButtonsVisible(1));
 
