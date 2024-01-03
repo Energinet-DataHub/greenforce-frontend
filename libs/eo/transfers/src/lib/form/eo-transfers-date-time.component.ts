@@ -73,10 +73,6 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
         }
       }
 
-      eo-transfers-datetime .mat-form-field-appearance-legacy .mat-form-field-wrapper {
-        padding-bottom: 0;
-      }
-
       eo-transfers-datetime watt-field:not(.watt-field--chip) {
         min-height: 0px;
       }

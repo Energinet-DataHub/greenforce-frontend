@@ -10,8 +10,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/data-access-api"],
       "options": {
-        "jestConfig": "libs/dh/shared/data-access-api/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/shared/data-access-api/jest.config.ts"
       }
     },
     "lint": {

@@ -11,8 +11,7 @@
         "{workspaceRoot}/coverage/libs/dh/market-participant/routing"
       ],
       "options": {
-        "jestConfig": "libs/dh/market-participant/routing/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/market-participant/routing/jest.config.ts"
       }
     },
     "lint": {

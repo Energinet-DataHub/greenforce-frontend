@@ -11,8 +11,7 @@
         "{workspaceRoot}/coverage/libs/dh/message-archive/data-access-api"
       ],
       "options": {
-        "jestConfig": "libs/dh/message-archive/data-access-api/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/message-archive/data-access-api/jest.config.ts"
       }
     },
     "lint": {

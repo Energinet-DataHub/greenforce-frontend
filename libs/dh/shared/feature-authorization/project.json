@@ -11,8 +11,7 @@
         "{workspaceRoot}/coverage/libs/dh/shared/feature-authorization"
       ],
       "options": {
-        "jestConfig": "libs/dh/shared/feature-authorization/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/shared/feature-authorization/jest.config.ts"
       }
     },
     "lint": {
