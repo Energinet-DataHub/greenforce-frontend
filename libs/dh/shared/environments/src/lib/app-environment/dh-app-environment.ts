@@ -28,9 +28,10 @@ export interface DhAppEnvironmentConfig {
 
 export enum DhAppEnvironment {
   local = 'localhost',
-  dev = 'u-001',
-  experimental = 'u-002',
-  test = 't-001',
+  dev001 = 'dev001',
+  dev002 = 'dev002',
+  test001 = 'test001',
+  sandbox002 = 'sandbox002',
 }
 
 export const dhAppEnvironmentToken = new InjectionToken<DhAppEnvironmentConfig>(
