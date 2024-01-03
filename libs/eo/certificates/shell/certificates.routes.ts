@@ -22,12 +22,12 @@ import { EoCertificatesOverviewComponent } from '@energinet-datahub/eo/certifica
 export const eoCertificatesRoutes: Routes = [
   {
     path: '',
-    data: { title: 'Certificates' },
+    title: 'Certificates',
     component: EoCertificatesOverviewComponent,
   },
   {
     path: ':id',
-    data: { title: 'Certificate Details - Production' },
+    title: 'Certificate details',
     component: EoCertificateDetailsComponent,
   },
 ];
