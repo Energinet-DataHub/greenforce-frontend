@@ -29,6 +29,7 @@ import { Observable } from 'rxjs';
 import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -122,7 +123,7 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
 
       <ng-container watt-shell-toolbar>
         <vater-stack direction="row" gap="s" style="width: 100%;">
-          <h2>{{ title$ | push }}</h2>
+          <h2>{{ titleService.getTitle() }}</h2>
 
           <vater-spacer />
           <watt-button variant="text" [routerLink]="['/help']" icon="help">Help</watt-button>
@@ -139,11 +140,10 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
   `,
 })
 export class EoShellComponent implements OnDestroy {
-  private titleStore = inject(EoTitleStore);
+  protected titleService = inject(Title);
   private idleTimerService = inject(IdleTimerService);
   private authService = inject(EoAuthService);
 
-  title$: Observable<string> = this.titleStore.routeTitle$;
   cookiesSet: string | null = null;
 
   constructor() {

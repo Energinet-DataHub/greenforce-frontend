@@ -26,6 +26,7 @@ import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { NgIf } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -121,6 +122,7 @@ import { NgIf } from '@angular/common';
 export class EoCertificateDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private titleService = inject(Title);
   private certificatesService: EoCertificatesService = inject(EoCertificatesService);
 
   certificate = signal<EoCertificate | undefined>(undefined);
@@ -140,6 +142,12 @@ export class EoCertificateDetailsComponent implements OnInit {
       )
       .subscribe((certificate) => {
         this.certificate.set(certificate);
+        this.titleService.setTitle(this.titleService.getTitle() + ' - ' + this.capitalizeFirstLetter(certificate?.certificateType));
       });
+  }
+
+  capitalizeFirstLetter(string?: string) {
+    if (!string) return '';
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 }

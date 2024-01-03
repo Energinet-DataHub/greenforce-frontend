@@ -37,11 +37,11 @@ describe(EoTitleStore.name, () => {
         RouterTestingModule.withRoutes([
           {
             path: 'metering-points',
-            data: { title: 'Metering points' },
+            title: 'Metering points',
             children: [
               {
                 path: ':id',
-                data: { title: 'Metering point detail for: 123456789012345' },
+                title: 'Metering point detail for: 123456789012345',
                 component: TestNestedComponent,
               },
             ],
