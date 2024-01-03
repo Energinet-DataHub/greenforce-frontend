@@ -32,6 +32,7 @@ export const getUserRoleAuditLogsMock: GetUserRoleAuditLogsQuery = {
       isInitialAssignment: true,
       change: UserRoleAuditedChange.Name,
       timestamp: parseISO('2023-10-04T01:00:00+00:00'),
+      affectedPermissionName: null,
     },
     {
       __typename: 'UserRoleAuditedChangeAuditLogDto',
@@ -41,7 +42,8 @@ export const getUserRoleAuditLogsMock: GetUserRoleAuditLogsQuery = {
       isInitialAssignment: true,
       change: UserRoleAuditedChange.Description,
       timestamp: parseISO('2023-10-04T02:00:00+00:00'),
-    },
+      affectedPermissionName: null,
+      },
     {
       __typename: 'UserRoleAuditedChangeAuditLogDto',
       auditedBy: 'Test User 2 (test2@datahub.dk)',
@@ -68,6 +70,7 @@ export const getUserRoleAuditLogsMock: GetUserRoleAuditLogsQuery = {
       currentValue: 'Inactive',
       previousValue: 'Active',
       isInitialAssignment: true,
+      affectedPermissionName: null,
       change: UserRoleAuditedChange.Status,
       timestamp: parseISO('2023-10-04T05:00:00+00:00'),
     },

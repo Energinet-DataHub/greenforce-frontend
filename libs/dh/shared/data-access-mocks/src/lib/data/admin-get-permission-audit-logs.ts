@@ -27,6 +27,7 @@ export const adminPermissionAuditLogsMock: PermissionAuditedChangeAuditLogDto[] 
     change: PermissionAuditedChange.Claim,
     timestamp: parseISO('2023-03-17'),
     currentValue: 'val1',
+    previousValue: null,
     isInitialAssignment: true,
   },
   {
@@ -35,6 +36,7 @@ export const adminPermissionAuditLogsMock: PermissionAuditedChangeAuditLogDto[] 
     change: PermissionAuditedChange.Description,
     timestamp: parseISO('2023-03-18'),
     currentValue: 'val2',
+    previousValue: null,
     isInitialAssignment: false,
   },
   {
@@ -43,6 +45,7 @@ export const adminPermissionAuditLogsMock: PermissionAuditedChangeAuditLogDto[] 
     change: PermissionAuditedChange.Claim,
     timestamp: parseISO('2023-03-17'),
     currentValue: 'val3',
+    previousValue: null,
     isInitialAssignment: false,
   },
 ];
