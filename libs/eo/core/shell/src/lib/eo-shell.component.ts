@@ -111,7 +111,7 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
     `,
   ],
   template: `
-    <eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getBannerStatus()" />
+    <!--<eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getBannerStatus()" />-->
     <watt-shell>
       <ng-container watt-shell-sidenav>
         <div class="logo-container">

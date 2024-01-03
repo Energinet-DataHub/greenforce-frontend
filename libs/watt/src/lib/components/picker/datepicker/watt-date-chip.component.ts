@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
@@ -36,13 +36,20 @@ import { FormControl } from '@angular/forms';
     WattIconComponent,
   ],
   selector: 'watt-date-chip',
+  encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      input {
-        top: 0;
-        bottom: 0;
-        height: auto;
-        visibility: hidden;
+      watt-date-chip {
+        input {
+          top: 0;
+          bottom: 0;
+          height: auto;
+          visibility: hidden;
+        }
+
+        watt-field label .watt-field-wrapper {
+          background-color: transparent;
+        }
       }
     `,
   ],
@@ -66,7 +73,9 @@ import { FormControl } from '@angular/forms';
           (dateChange)="selectionChange.emit($event.value)"
         />
         <ng-content />
-        <ng-container *ngIf="value">: {{ value | wattDate }}</ng-container>
+        <ng-container *ngIf="value"
+          ><ng-container *ngIf="placeholder">:</ng-container> {{ value | wattDate }}</ng-container
+        >
       </watt-menu-chip>
       <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
       <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
@@ -76,6 +85,7 @@ import { FormControl } from '@angular/forms';
 export class WattDateChipComponent {
   @Input() disabled = false;
   @Input() label?: string;
+  @Input() placeholder = true;
   @Input() value?: string;
   @Input({ required: true }) formControl!: FormControl;
   @Output() selectionChange = new EventEmitter<Date>();

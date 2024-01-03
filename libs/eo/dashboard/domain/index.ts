@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export class SharedPO {
-  private navListItem = 'watt-nav-list-item';
-  private topbarActions = '.watt-toolbar button';
+import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 
-  // Interaction
-  clickLogoutMenuItem = () => cy.get(this.topbarActions).contains('Log out').click();
-  clickTransfersMenuItem = () => cy.get(this.navListItem).contains('Transfers').click();
-  clickConnectionsMenuItem = () => cy.get(this.navListItem).contains('Connections').click();
-}
+export type eoDashboardPeriod = {
+  timeAggregate: EoTimeAggregate;
+  start: number;
+  end: number;
+} | null;

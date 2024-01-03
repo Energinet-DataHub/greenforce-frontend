@@ -82,7 +82,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
     `,
   ],
   template: `
-    <eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getCookieStatus()" />
+    <!--<eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getCookieStatus()" />-->
     <eo-landing-page-header />
 
     <div class="u-positioning-context">
