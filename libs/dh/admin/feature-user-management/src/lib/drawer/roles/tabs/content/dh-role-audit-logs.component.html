@@ -71,11 +71,11 @@ limitations under the License.
 <ng-template #auditLogHeadline let-auditLogCount>
   <ng-container *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.history.changes'">
     <h4 *ngIf="auditLogCount === 1">
-      {{ t("singular", { auditLogCount: auditLogCount }) }}
+      {{ t("singular", { auditLogCount }) }}
     </h4>
 
     <h4 *ngIf="auditLogCount !== 1">
-      {{ t("plural", { auditLogCount: auditLogCount }) }}
+      {{ t("plural", { auditLogCount }) }}
     </h4>
   </ng-container>
 </ng-template>

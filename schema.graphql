@@ -120,6 +120,15 @@ type Organization {
   address: AddressDto!
 }
 
+type PermissionAuditedChangeAuditLogDto {
+  auditedBy: String
+  change: PermissionAuditedChange!
+  timestamp: DateTime!
+  isInitialAssignment: Boolean!
+  currentValue: String
+  previousValue: String
+}
+
 type Permission {
   userRoles: [UserRoleDto!]!
   id: Int!
@@ -166,7 +175,7 @@ enum ApplyPolicy {
 type Query {
   permissionById(id: Int!): Permission!
   permissions(searchTerm: String!): [Permission!]!
-  permissionLogs(id: Int!): [PermissionLog!]!
+  permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
@@ -275,6 +284,11 @@ type AddressDto {
   zipCode: String
   city: String
   country: String!
+}
+
+enum PermissionAuditedChange {
+  CLAIM
+  DESCRIPTION
 }
 
 type UserRoleDto {
@@ -433,19 +447,6 @@ type UserRoleWithPermissionsDto {
   eicFunction: EicFunction!
   status: UserRoleStatus!
   permissions: [PermissionDetailsDto!]!
-}
-
-type PermissionLog {
-  changedByUserName: String!
-  value: String
-  timestamp: DateTime!
-  type: PermissionAuditLogType!
-}
-
-enum PermissionAuditLogType {
-  UNKNOWN
-  DESCRIPTION_CHANGE
-  CREATED
 }
 
 type PermissionDetailsDto {

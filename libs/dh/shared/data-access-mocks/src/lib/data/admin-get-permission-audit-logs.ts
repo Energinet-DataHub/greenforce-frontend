@@ -14,29 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PermissionAuditLogType, PermissionLog } from '@energinet-datahub/dh/shared/domain/graphql';
+import { PermissionAuditedChange, PermissionAuditedChangeAuditLogDto } from '@energinet-datahub/dh/shared/domain/graphql';
 import parseISO from 'date-fns/parseISO';
 
-export const adminPermissionPermissionLogsMock: PermissionLog[] = [
+export const adminPermissionAuditLogsMock: PermissionAuditedChangeAuditLogDto[] = [
   {
-    __typename: 'PermissionLog',
-    changedByUserName: 'datahub',
-    type: PermissionAuditLogType.Created,
+    __typename: 'PermissionAuditedChangeAuditLogDto',
+    auditedBy: 'datahub',
+    change: PermissionAuditedChange.Claim,
     timestamp: parseISO('2023-03-17'),
-    value: 'val1',
+    currentValue: 'val1',
+    isInitialAssignment: true,
   },
   {
-    __typename: 'PermissionLog',
-    changedByUserName: 'datahub',
-    type: PermissionAuditLogType.DescriptionChange,
+    __typename: 'PermissionAuditedChangeAuditLogDto',
+    auditedBy: 'datahub',
+    change: PermissionAuditedChange.Description,
     timestamp: parseISO('2023-03-18'),
-    value: 'val2',
+    currentValue: 'val2',
+    isInitialAssignment: false,
   },
   {
-    __typename: 'PermissionLog',
-    changedByUserName: 'datahub',
-    type: PermissionAuditLogType.Created,
+    __typename: 'PermissionAuditedChangeAuditLogDto',
+    auditedBy: 'datahub',
+    change: PermissionAuditedChange.Claim,
     timestamp: parseISO('2023-03-17'),
-    value: 'val3',
+    currentValue: 'val3',
+    isInitialAssignment: false,
   },
 ];

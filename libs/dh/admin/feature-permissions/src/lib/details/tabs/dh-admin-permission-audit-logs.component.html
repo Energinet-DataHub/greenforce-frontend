@@ -14,20 +14,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *rxLet="loading as isLoading">
-  <watt-card variant="solid" *transloco="let t; read: 'admin.userManagement.tabs.history'">
-    <div *ngIf="isLoading" class="spinner">
-      <watt-spinner />
-    </div>
+<watt-card
+  variant="solid"
+  *transloco="let t; read: 'admin.userManagement.tabs.history'"
+>
+  <div *ngIf="isLoading$ | push" class="spinner">
+    <watt-spinner />
+  </div>
 
-    <ng-container *ngIf="!isLoading">
-      <watt-card-title *rxLet="permissionLogs.length as auditLogCount">
-        <h4 *ngIf="auditLogCount === 1 && !error">
-          {{ t("changesSingular", { auditLogCount }) }}
-        </h4>
-        <h4 *ngIf="auditLogCount !== 1 && !error">
-          {{ t("changesPlural", { auditLogCount }) }}
-        </h4>
+  <ng-container *ngIf="!(isLoading$ | push)">
+    <ng-container *ngIf="!(hasFailed$ | push)">
+      <watt-card-title>
+        <ng-container
+          *ngTemplateOutlet="
+            auditLogHeadline;
+            context: {
+              $implicit: dataSource.data.length
+            }
+          "
+        />
       </watt-card-title>
 
       <watt-table
@@ -36,30 +41,41 @@ limitations under the License.
         sortBy="timestamp"
         sortDirection="desc"
         [sortClear]="false"
-        [resolveHeader]="translateHeader"
-        *ngIf="!error"
       >
-        <ng-container *wattTableCell="columns['timestamp']; let element">
+        <ng-container
+          *wattTableCell="columns.timestamp; header: t('table.columns.timestamp'); let element"
+        >
           {{ element.timestamp | wattDate: "long" }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns['entry']; let element">
-          <div
-            [innerHTML]="t('logs.permissionsDetails.auditLogType.' + element.type, element)"
-          ></div>
+        <ng-container *wattTableCell="columns.entry; header: t('table.columns.entry'); let element">
+          <span [innerHTML]="t('logs.permissionsDetails.auditLogType.' + element.change, element)"> </span>
         </ng-container>
       </watt-table>
 
+      <h4 *ngIf="dataSource.data.length === 0" class="no-results-text">
+        {{ t("table.noEntries") }}
+      </h4>
+    </ng-container>
+
+    <ng-container *ngIf="hasFailed$ | push">
       <watt-empty-state
-        *ngIf="error"
         icon="custom-power"
         [title]="'shared.error.title' | transloco"
         [message]="'shared.error.message' | transloco"
       />
-
-      <h4 *ngIf="permissionLogs.length === 0" class="no-results-text">
-        {{ t("noEntries") }}
-      </h4>
     </ng-container>
-  </watt-card>
-</ng-container>
+  </ng-container>
+</watt-card>
+
+<ng-template #auditLogHeadline let-auditLogCount>
+  <ng-container *transloco="let t; read: 'admin.userManagement.tabs.history'">
+    <h4 *ngIf="auditLogCount === 1">
+      {{ t("changesSingular", { auditLogCount: auditLogCount }) }}
+    </h4>
+
+    <h4 *ngIf="auditLogCount !== 1">
+      {{ t("changesPlural", { auditLogCount: auditLogCount }) }}
+    </h4>
+  </ng-container>
+</ng-template>

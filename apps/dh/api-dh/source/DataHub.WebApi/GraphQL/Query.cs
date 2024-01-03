@@ -44,29 +44,13 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 x.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ||
                 x.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase));
 
-        public async Task<IEnumerable<PermissionLog>> GetPermissionLogsAsync(
+        public async Task<IEnumerable<PermissionAuditedChangeAuditLogDto>> GetPermissionAuditLogsAsync(
             int id,
             [Service] IMarketParticipantClient_V1 client)
         {
-            var permissionTask = client.PermissionGetAsync(id);
-            var logs = await client.PermissionAuditlogsAsync(id);
-            return logs
-                .Select(log => new PermissionLog
-                {
-                    ChangedByUserId = log.AuditIdentityId,
-                    Value = log.Value,
-                    Timestamp = log.Timestamp,
-                    Type = log.PermissionChangeType switch
-                    {
-                        PermissionChangeType.DescriptionChange =>
-                            PermissionAuditLogType.DescriptionChange,
-                    },
-                })
-                .Prepend(new PermissionLog
-                {
-                    Timestamp = (await permissionTask).Created,
-                    Type = PermissionAuditLogType.Created,
-                });
+            return await client
+                .PermissionAuditAsync(id)
+                .ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<UserRoleAuditedChangeAuditLogDto>> GetUserRoleAuditLogsAsync(

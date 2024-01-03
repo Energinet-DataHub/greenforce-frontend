@@ -1066,8 +1066,8 @@
           "logs": {
             "permissionsDetails": {
               "auditLogType": {
-                "CREATED": "<b>{{ changedByUserName }}</b> added the permission to the system",
-                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> changed the description of the permission to <b>{{ value }}</b>"
+                "CLAIM": "<b>{{ auditedBy }}</b> added the permission <b>{{ currentValue }}</b> to the system.",
+                "DESCRIPTION": "<b>{{ auditedBy }}</b> changed the description of the permission to <b>{{ currentValue }}</b>."
               }
             },
             "audit": {
