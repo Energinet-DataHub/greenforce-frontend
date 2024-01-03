@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PermissionAuditedChange, PermissionAuditedChangeAuditLogDto } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  PermissionAuditedChange,
+  PermissionAuditedChangeAuditLogDto,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import parseISO from 'date-fns/parseISO';
 
 export const adminPermissionAuditLogsMock: PermissionAuditedChangeAuditLogDto[] = [
