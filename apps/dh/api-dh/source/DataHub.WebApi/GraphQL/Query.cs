@@ -71,6 +71,15 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .ConfigureAwait(false);
         }
 
+        public async Task<IEnumerable<OrganizationAuditedChangeAuditLogDto>> GetOrganizationAuditLogAsync(
+            Guid organizationId,
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            return await client
+                .OrganizationAuditAsync(organizationId)
+                .ConfigureAwait(false);
+        }
+
         public Task<UserRoleWithPermissionsDto> GetUserRoleByIdAsync(
             Guid id,
             [Service] IMarketParticipantClient_V1 client) =>
@@ -257,11 +266,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Guid organizationId,
             [Service] IMarketParticipantClient_V1 client) =>
             await client.OrganizationActorAsync(organizationId);
-
-        public Task<ICollection<OrganizationAuditLogDto>> GetOrganizationAuditLogAsync(
-            Guid organizationId,
-            [Service] IMarketParticipantClient_V1 client) =>
-            client.OrganizationAuditlogsAsync(organizationId);
 
         public Task<bool> EmailExistsAsync(
             string emailAddress,

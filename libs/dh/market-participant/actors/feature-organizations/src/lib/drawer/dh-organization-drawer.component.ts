@@ -36,7 +36,7 @@ import {
   GetActorsByOrganizationIdDocument,
   GetAuditLogByOrganizationIdDocument,
   GetOrganizationByIdDocument,
-  OrganizationChangeType,
+  OrganizationAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhActorStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/actors/feature-actors';
@@ -52,13 +52,6 @@ type Actor = {
   actorNumberAndName: string;
   marketRole: EicFunction | null | undefined;
   status: ActorStatus;
-};
-
-type OrganizationAuditLogEntry = {
-  changeType: OrganizationChangeType;
-  value: string;
-  identity: string;
-  timestamp: Date;
 };
 
 @Component({
@@ -154,8 +147,8 @@ export class DhOrganizationDrawerComponent {
   organization: DhOrganizationDetails | undefined = undefined;
 
   actors: WattTableDataSource<Actor> = new WattTableDataSource<Actor>([]);
-  auditLog: WattTableDataSource<OrganizationAuditLogEntry> =
-    new WattTableDataSource<OrganizationAuditLogEntry>([]);
+  auditLog: WattTableDataSource<OrganizationAuditedChangeAuditLogDto> =
+    new WattTableDataSource<OrganizationAuditedChangeAuditLogDto>([]);
 
   actorColumns: WattTableColumnDef<Actor> = {
     actorNumberAndName: { accessor: 'actorNumberAndName' },
@@ -163,9 +156,9 @@ export class DhOrganizationDrawerComponent {
     status: { accessor: 'status' },
   };
 
-  auditLogColumns: WattTableColumnDef<OrganizationAuditLogEntry> = {
+  auditLogColumns: WattTableColumnDef<OrganizationAuditedChangeAuditLogDto> = {
     timestamp: { accessor: 'timestamp' },
-    value: { accessor: 'value' },
+    value: { accessor: null },
   };
 
   isEditModalVisible = false;
@@ -259,16 +252,7 @@ export class DhOrganizationDrawerComponent {
           this.auditLogFailedToLoad =
             !result.loading && (!!result.error || !!result.errors?.length);
 
-          const data = result.data?.organizationAuditLog;
-
-          this.auditLog.data = data
-            ? [...data].map((x) => ({
-                changeType: x.organizationChangeType,
-                value: x.value,
-                identity: x.identityWithName.displayName,
-                timestamp: x.timestamp,
-              }))
-            : [];
+          this.auditLog.data = result.data?.organizationAuditLog ?? [];
         },
         error: () => {
           this.auditLogFailedToLoad = true;

@@ -101,13 +101,13 @@ type GridAreaDto {
   validTo: DateTime
 }
 
-type OrganizationAuditLog {
-  identityWithName: GetAuditIdentityResponse!
-  organizationId: UUID!
-  value: String!
-  auditIdentityId: UUID!
+type OrganizationAuditedChangeAuditLogDto {
+  auditedBy: String
+  change: OrganizationAuditedChange!
   timestamp: DateTime!
-  organizationChangeType: OrganizationChangeType!
+  isInitialAssignment: Boolean!
+  currentValue: String
+  previousValue: String
 }
 
 type Organization {
@@ -178,6 +178,7 @@ type Query {
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
+  organizationAuditLog(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   organizationById(id: UUID!): Organization!
@@ -195,7 +196,6 @@ type Query {
   meteringGridAreaImbalance(pageNumber: Int!, pageSize: Int!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String): MeteringGridAreaImbalanceSearchResponse!
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
-  organizationAuditLog(organizationId: UUID!): [OrganizationAuditLog!]!
   emailExists(emailAddress: String!): Boolean!
   actorAuditLogs(actorId: UUID!): [ActorAuditLog!]!
   knownEmails: [String!]!
@@ -269,12 +269,8 @@ enum PriceAreaCode {
   DK2
 }
 
-type GetAuditIdentityResponse {
-  displayName: String!
-}
-
-enum OrganizationChangeType {
-  DOMAIN_CHANGE
+enum OrganizationAuditedChange {
+  DOMAIN
   NAME
 }
 

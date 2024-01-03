@@ -112,7 +112,7 @@ limitations under the License.
                 {{ element.timestamp | wattDate : "long" }}
               </ng-container>
               <ng-container *wattTableCell="auditLogColumns['value']; let entry">
-                <div [innerHTML]="t('tabs.history.changeTypes.' + entry.changeType, entry)"></div>
+                <div [innerHTML]="t('tabs.history.changeTypes.' + entry.change, entry)"></div>
               </ng-container>
             </watt-table>
           </watt-card>
