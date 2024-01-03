@@ -16,16 +16,20 @@
  */
 const environments = [
   {
-    name: 'U001',
-    url: 'https://jolly-sand-03f839703.azurestaticapps.net/',
+    name: 'dev001',
+    url: 'https://nice-meadow-03a161503.3.azurestaticapps.net/',
   },
   {
-    name: 'U002',
-    url: 'https://wonderful-field-057109603.1.azurestaticapps.net/',
+    name: 'dev002',
+    url: 'https://lively-pond-06cbcb903.3.azurestaticapps.net/',
   },
   {
-    name: 'T001',
-    url: 'https://ashy-forest-09ecf8003.2.azurestaticapps.net/',
+    name: 'test001',
+    url: 'https://green-beach-024d44703.3.azurestaticapps.net/',
+  },
+  {
+    name: 'sandbox002',
+    url: 'https://happy-desert-06b3ac903.4.azurestaticapps.net/',
   },
 ];
 
