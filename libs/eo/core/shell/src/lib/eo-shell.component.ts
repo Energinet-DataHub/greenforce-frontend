@@ -16,7 +16,6 @@
  */
 import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
-import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import { RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -24,7 +23,6 @@ import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { EoCookieBannerComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/shared/services';
@@ -34,17 +32,15 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    RouterModule,
-    WattShellComponent,
-    MatDateFnsModule,
-    EoPrimaryNavigationComponent,
-    EoCookieBannerComponent,
-    EoProductLogoDirective,
     EoFooterComponent,
+    EoPrimaryNavigationComponent,
+    EoProductLogoDirective,
     NgIf,
-    WattButtonComponent,
-    VaterStackComponent,
+    RouterModule,
     VaterSpacerComponent,
+    VaterStackComponent,
+    WattButtonComponent,
+    WattShellComponent,
   ],
   selector: 'eo-shell',
   styles: [
