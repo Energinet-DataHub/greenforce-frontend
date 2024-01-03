@@ -18,13 +18,13 @@ type Actor {
   organization: Organization!
 }
 
-type ActorAuditLog {
-  changedByUserName: String!
+type ActorAuditedChangeAuditLogDto {
+  auditedBy: String
+  change: ActorAuditedChange!
+  timestamp: DateTime!
+  isInitialAssignment: Boolean!
   currentValue: String
   previousValue: String
-  timestamp: DateTime!
-  type: ActorAuditLogType!
-  contactCategory: ContactCategory!
 }
 
 type ActorContactDto {
@@ -243,7 +243,8 @@ type Query {
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
-  organizationAuditLog(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]!
+  organizationAuditLogs(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]!
+  actorAuditLogs(actorId: UUID!): [ActorAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   organizationById(id: UUID!): Organization!
@@ -262,7 +263,6 @@ type Query {
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   emailExists(emailAddress: String!): Boolean!
-  actorAuditLogs(actorId: UUID!): [ActorAuditLog!]!
   knownEmails: [String!]!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
 }
@@ -418,15 +418,14 @@ input UpdatePermissionDtoInput {
   description: String!
 }
 
-enum ActorAuditLogType {
+enum ActorAuditedChange {
   NAME
-  CREATED
   STATUS
   CONTACT_NAME
   CONTACT_EMAIL
   CONTACT_PHONE
-  CONTACT_CREATED
-  CONTACT_DELETED
+  CONTACT_CATEGORY_ADDED
+  CONTACT_CATEGORY_REMOVED
   CERTIFICATE_CREDENTIALS
   CLIENT_SECRET_CREDENTIALS
 }

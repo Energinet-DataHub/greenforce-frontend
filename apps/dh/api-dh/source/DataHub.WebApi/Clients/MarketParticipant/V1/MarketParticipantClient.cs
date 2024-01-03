@@ -107,12 +107,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetActorAuditLogsResponse> ActorAuditAsync(System.Guid actorId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorAuditedChangeAuditLogDto>> ActorAuditAsync(System.Guid actorId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetActorAuditLogsResponse> ActorAuditAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorAuditedChangeAuditLogDto>> ActorAuditAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -1321,7 +1321,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetActorAuditLogsResponse> ActorAuditAsync(System.Guid actorId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorAuditedChangeAuditLogDto>> ActorAuditAsync(System.Guid actorId)
         {
             return ActorAuditAsync(actorId, System.Threading.CancellationToken.None);
         }
@@ -1329,7 +1329,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetActorAuditLogsResponse> ActorAuditAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorAuditedChangeAuditLogDto>> ActorAuditAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -1370,7 +1370,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<GetActorAuditLogsResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<ActorAuditedChangeAuditLogDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -6008,14 +6008,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         [System.Runtime.Serialization.EnumMember(Value = @"SerialEnergyTrader")]
         SerialEnergyTrader = 13,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class GetActorAuditLogsResponse
-    {
-        [Newtonsoft.Json.JsonProperty("auditLogs", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ActorAuditedChangeAuditLogDto> AuditLogs { get; set; } = default!;
 
     }
 

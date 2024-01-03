@@ -49,7 +49,19 @@ limitations under the License.
         </ng-container>
 
         <ng-container *wattTableCell="columns.entry; header: t('table.columns.entry'); let element">
-          <span [innerHTML]="t('logs.roles.' + element.change, element)"> </span>
+          <span
+            *ngIf="element.change !== 'STATUS'"
+            [innerHTML]="t('logs.roles.' + element.change, element)"
+          ></span>
+          <span
+            *ngIf="element.change === 'STATUS'"
+            [innerHTML]="
+              t('logs.roles.' + element.change, {
+                auditedBy: element.auditedBy,
+                status: t('logs.status.' + element.currentValue)
+              })
+            "
+          ></span>
         </ng-container>
       </watt-table>
 

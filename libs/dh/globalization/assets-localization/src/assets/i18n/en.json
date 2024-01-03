@@ -287,6 +287,10 @@
           "organization": "Organisation"
         },
         "tabs": {
+          "shared": {
+            "error": "An error occurred",
+            "noData": "No data"
+          },
           "masterData": {
             "tabLabel": "Information",
             "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
@@ -349,27 +353,30 @@
           },
           "history": {
             "tabLabel": "History",
+            "status": {
+              "New": "New",
+              "Active": "Active",
+              "Inactive": "Inactive",
+              "Passive": "Passive",
+              "Deleted": "Deleted"
+            },
             "changeTypes": {
-              "NAME": "<b>{{ changedByUserName }}</b> changed the name of the actor to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b>",
-              "NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the name of the actor to <b>{{ currentValue }}</b> from <b>\"\"</b>",
-              "STATUS": "<b>{{ changedByUserName }}</b> changed the status of the actor to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b>",
-              "STATUS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the status of the actor to <b>{{ currentValue }}</b> from <b>\"\"</b>",
-              "CREATED": "<b>{{ changedByUserName }}</b> created the actor",
-              "CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> created the actor",
-              "CERTIFICATE_CREDENTIALS": "<b>{{ changedByUserName }}</b> removed the certificate with thumbprint <b>{{ previousValue }}</b>",
-              "CERTIFICATE_CREDENTIALS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> added a certificate with thumbprint <b>{{ currentValue }}</b>",
-              "CLIENT_SECRET_CREDENTIALS": "<b>{{ changedByUserName }}</b> removed the client secret with expiration at <b>{{ previousValue }}</b>",
-              "CLIENT_SECRET_CREDENTIALS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> added a client secret that will expire at <b>{{ currentValue }}</b>",
-              "CONTACT_NAME": "<b>{{ changedByUserName }}</b> changed the name of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ contactCategory }}</b>",
-              "CONTACT_EMAIL": "<b>{{ changedByUserName }}</b> changed the email of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ contactCategory }}</b>",
-              "CONTACT_PHONE": "<b>{{ changedByUserName }}</b> changed the phone of the contact to <b>{{ currentValue }}</b> from <b>{{ previousValue }}</b> on the contact category <b>{{ contactCategory }}</b>",
-              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the name of the contact to <b>{{ currentValue }}</b> from <b>\"\"</b> on the contact category <b>{{ contactCategory }}</b>",
-              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the email of the contact to <b>{{ currentValue }}</b> from <b>\"\"</b> on the contact category <b>{{ contactCategory }}</b>",
-              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> changed the phone of the contact to <b>{{ currentValue }}</b> from <b>\"\"</b> on the contact category <b>{{ contactCategory }}</b>",
-              "CONTACT_CREATED": "<b>{{ changedByUserName }}</b> created a contact of the <b>{{ contactCategory }}</b> category",
-              "CONTACT_CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> created a contact of the <b>{{ contactCategory }}</b> category",
-              "CONTACT_DELETED": "<b>{{ changedByUserName }}</b> deleted a contact of the <b>{{ category }}</b> contactCategory",
-              "CONTACT_DELETED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> deleted a contact of the <b>{{ contactCategory }}</b> category"
+              "NAME": "<b>{{ auditedBy }}</b> changed the name of the actor to <b>{{ currentValue }}</b>.",
+              "NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> created the actor <b>{{ currentValue }}</b>.",
+              "STATUS": "<b>{{ auditedBy }}</b> changed the status of the actor to <b>{{ status }}</b>.",
+              "STATUS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> created actor with status <b>{{ status }}</b>.",
+              "CERTIFICATE_CREDENTIALS": "<b>{{ auditedBy }}</b> removed the certificate with thumbprint <b>{{ previousValue }}</b>.",
+              "CERTIFICATE_CREDENTIALS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> added a certificate with thumbprint <b>{{ currentValue }}</b>.",
+              "CLIENT_SECRET_CREDENTIALS": "<b>{{ auditedBy }}</b> removed the client secret with expiration at <b>{{ previousValue }}</b>.",
+              "CLIENT_SECRET_CREDENTIALS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> added a client secret that will expire at <b>{{ currentValue }}</b>.",
+              "CONTACT_CATEGORY_ADDED_NO_PREVIOUS": "<b>{{ auditedBy }}</b> created contact category <b>{{ currentValue }}</b>.",
+              "CONTACT_CATEGORY_REMOVED": "<b>{{ auditedBy }}</b> removed contact category <b>{{ previousValue }}</b>.",
+              "CONTACT_NAME": "<b>{{ auditedBy }}</b> changed the name of the contact from <b>{{ previousValue }}</b> to <b>{{ currentValue }}</b>.",
+              "CONTACT_EMAIL": "<b>{{ auditedBy }}</b> changed the email of the contact from <b>{{ previousValue }}</b> to <b>{{ currentValue }}</b>.",
+              "CONTACT_PHONE": "<b>{{ auditedBy }}</b> changed the phone number of the contact from <b>{{ previousValue }}</b> to <b>{{ currentValue }}</b>.",
+              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the name of the contact to <b>{{ currentValue }}</b>.",
+              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the email of the contact to <b>{{ currentValue }}</b>.",
+              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the phone number of the contact to <b>{{ currentValue }}</b>."
             }
           }
         }
@@ -1010,10 +1017,14 @@
                 "noEntries": "No results"
               },
               "logs": {
+                "status": {
+                  "Active": "Active",
+                  "Inactive": "Inactive"
+                },
                 "roles": {
                   "NAME": "<b>{{ auditedBy }}</b> changed user role name to <b>{{ currentValue }}</b>.",
                   "DESCRIPTION": "<b>{{ auditedBy }}</b> changed description to <b>{{ currentValue }}</b>.",
-                  "STATUS": "<b>{{ auditedBy }}</b> changed status to <b>{{ currentValue }}</b>.",
+                  "STATUS": "<b>{{ auditedBy }}</b> changed status to <b>{{ status }}</b>.",
                   "PERMISSION_ADDED": "<b>{{ auditedBy }}</b> added permission <b>{{ affectedPermissionName }}</b>.",
                   "PERMISSION_REMOVED": "<b>{{ auditedBy }}</b> removed permission <b>{{ affectedPermissionName }}</b>."
                 }

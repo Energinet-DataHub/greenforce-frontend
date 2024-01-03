@@ -71,12 +71,21 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<OrganizationAuditedChangeAuditLogDto>> GetOrganizationAuditLogAsync(
+        public async Task<IEnumerable<OrganizationAuditedChangeAuditLogDto>> GetOrganizationAuditLogsAsync(
             Guid organizationId,
             [Service] IMarketParticipantClient_V1 client)
         {
             return await client
                 .OrganizationAuditAsync(organizationId)
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<ActorAuditedChangeAuditLogDto>> GetActorAuditLogsAsync(
+            Guid actorId,
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            return await client
+                .ActorAuditAsync(actorId)
                 .ConfigureAwait(false);
         }
 
@@ -271,61 +280,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
             string emailAddress,
             [Service] IMarketParticipantClient_V1 client) =>
             client.UserExistsAsync(emailAddress);
-
-        public async Task<IEnumerable<ActorAuditLog>> GetActorAuditLogsAsync(
-            Guid actorId,
-            [Service] IMarketParticipantClient_V1 client)
-        {
-            var logs = await client.ActorAuditlogsAsync(actorId);
-            var actorAuditLogs = new List<ActorAuditLog>();
-
-            foreach (var auditLog in logs.ActorAuditLogs)
-            {
-                var auditLogType = auditLog.ActorChangeType switch
-                {
-                    ActorChangeType.Name => ActorAuditLogType.Name,
-                    ActorChangeType.Created => ActorAuditLogType.Created,
-                    ActorChangeType.Status => ActorAuditLogType.Status,
-                    ActorChangeType.CertificateCredentials => ActorAuditLogType.CertificateCredentials,
-                    ActorChangeType.SecretCredentials => ActorAuditLogType.ClientSecretCredentials,
-                    _ => ActorAuditLogType.Created,
-                };
-                actorAuditLogs.Add(new ActorAuditLog()
-                {
-                    ChangedByUserId = auditLog.AuditIdentityId,
-                    CurrentValue = auditLog.CurrentValue,
-                    PreviousValue = auditLog.PreviousValue,
-                    Timestamp = auditLog.Timestamp,
-                    Type = auditLogType,
-                    ContactCategory = ContactCategory.Default,
-                });
-            }
-
-            foreach (var auditLog in logs.ActorContactAuditLogs)
-            {
-                var auditLogType = auditLog.ActorContactChangeType switch
-                {
-                    ActorContactChangeType.Name => ActorAuditLogType.ContactName,
-                    ActorContactChangeType.Email => ActorAuditLogType.ContactEmail,
-                    ActorContactChangeType.Phone => ActorAuditLogType.ContactPhone,
-                    ActorContactChangeType.Created => ActorAuditLogType.ContactCreated,
-                    ActorContactChangeType.Deleted => ActorAuditLogType.ContactDeleted,
-                    _ => ActorAuditLogType.Created,
-                };
-
-                actorAuditLogs.Add(new ActorAuditLog()
-                {
-                    ChangedByUserId = auditLog.AuditIdentityId,
-                    CurrentValue = auditLog.CurrentValue,
-                    PreviousValue = auditLog.PreviousValue,
-                    Timestamp = auditLog.Timestamp,
-                    Type = auditLogType,
-                    ContactCategory = auditLog.ContactCategory,
-                });
-            }
-
-            return actorAuditLogs.OrderBy(x => x.Timestamp);
-        }
 
         public async Task<IEnumerable<string>> GetKnownEmailsAsync(
             [Service] IMarketParticipantClient_V1 client)

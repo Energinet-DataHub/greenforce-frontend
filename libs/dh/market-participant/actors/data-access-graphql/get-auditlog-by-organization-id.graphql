@@ -1,5 +1,5 @@
 query GetAuditLogByOrganizationId($organizationId: UUID!) {
-  organizationAuditLog(organizationId: $organizationId) {
+  organizationAuditLogs(organizationId: $organizationId) {
     change
     timestamp
     isInitialAssignment

@@ -56,10 +56,5 @@ namespace Energinet.DataHub.WebApi.GraphQL
             [Parent] OrganizationDto organization,
             ActorByOrganizationBatchDataLoader dataLoader) =>
             await dataLoader.LoadAsync(organization.OrganizationId.ToString());
-
-        public Task<GetAuditIdentityResponse> GetIdentityAsync(
-            [Parent] OrganizationAuditLogDto identityId,
-            AuditIdentityCacheDataLoader dataLoader) =>
-            dataLoader.LoadAsync(identityId.AuditIdentityId);
     }
 }

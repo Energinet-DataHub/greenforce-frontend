@@ -412,17 +412,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetActorAuditLogsResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActorAuditedChangeAuditLogDto"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetActorAuditLogsResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActorAuditedChangeAuditLogDto"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetActorAuditLogsResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActorAuditedChangeAuditLogDto"
+                  }
                 }
               }
             }
@@ -905,7 +914,7 @@
         "tags": [
           "GridArea"
         ],
-        "operationId": "auditAll",
+        "operationId": "audit2",
         "parameters": [
           {
             "name": "gridAreaId",
@@ -1357,7 +1366,7 @@
         "tags": [
           "Organization"
         ],
-        "operationId": "auditAll2",
+        "operationId": "audit3",
         "parameters": [
           {
             "name": "organizationId",
@@ -1579,7 +1588,7 @@
         "tags": [
           "Permission"
         ],
-        "operationId": "auditAll3",
+        "operationId": "audit4",
         "parameters": [
           {
             "name": "permissionId",
@@ -1878,7 +1887,7 @@
         "tags": [
           "User"
         ],
-        "operationId": "auditAll4",
+        "operationId": "audit5",
         "parameters": [
           {
             "name": "userId",
@@ -2430,7 +2439,7 @@
         "tags": [
           "UserRole"
         ],
-        "operationId": "auditAll5",
+        "operationId": "audit6",
         "parameters": [
           {
             "name": "userRoleId",
@@ -3330,18 +3339,6 @@
           "IndependentAggregator",
           "SerialEnergyTrader"
         ]
-      },
-      "GetActorAuditLogsResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "auditLogs": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActorAuditedChangeAuditLogDto"
-            }
-          }
-        }
       },
       "GetActorAuditLogsResponseOld": {
         "type": "object",
