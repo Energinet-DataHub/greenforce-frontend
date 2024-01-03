@@ -17,6 +17,7 @@
 import { render, screen } from '@testing-library/angular';
 
 import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+
 import { DhFeatureFlagDirective } from './feature-flag.directive';
 import { FeatureFlagConfig } from './feature-flags';
 import { dhFeatureFlagsToken } from './feature-flags.service';
@@ -29,7 +30,11 @@ describe(DhFeatureFlagDirective, () => {
     },
     'disabled-flag': {
       created: '01-01-2022',
-      disabledEnvironments: [DhAppEnvironment.local, DhAppEnvironment.dev, DhAppEnvironment.test],
+      disabledEnvironments: [
+        DhAppEnvironment.local,
+        DhAppEnvironment.dev001,
+        DhAppEnvironment.test001,
+      ],
     },
   };
   const setup = async (featureFlagName = '') => {
@@ -38,7 +43,7 @@ describe(DhFeatureFlagDirective, () => {
       providers: [
         {
           provide: dhAppEnvironmentToken,
-          useValue: { current: DhAppEnvironment.test },
+          useValue: { current: DhAppEnvironment.test001 },
         },
         { provide: dhFeatureFlagsToken, useValue: featureFlagsConfigMock },
       ],
