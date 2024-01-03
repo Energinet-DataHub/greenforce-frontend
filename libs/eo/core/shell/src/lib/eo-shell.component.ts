@@ -136,7 +136,7 @@ export class EoShellComponent implements OnDestroy {
   private idleTimerService = inject(IdleTimerService);
   private authService = inject(EoAuthService);
 
-  cookiesSet: string | null = null;
+  protected cookiesSet: string | null = null;
 
   constructor() {
     this.idleTimerService.startMonitor();
