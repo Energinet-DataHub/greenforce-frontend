@@ -1017,14 +1017,11 @@
               },
               "logs": {
                 "roles": {
-                  "CREATED": "Role created by <b>{{ changedByUserName }}</b>",
-                  "NAME_CHANGE": "<b>{{ changedByUserName }}</b> changed user role name to <b>{{ changedValueTo }}</b>",
-                  "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> changed description to <b>{{ changedValueTo }}</b>",
-                  "EIC_FUNCTION_CHANGE": "<b>{{ changedByUserName }}</b> changed market role to <b>{{ changedValueTo }}</b>",
-                  "STATUS_CHANGE": "<b>{{ changedByUserName }}</b> changed status to <b>{{ changedValueTo }}</b>",
-                  "PERMISSIONS_CHANGE": "<b>{{ changedByUserName }}</b> changed permissions to <b>{{ changedValueTo }}</b>",
-                  "PERMISSION_ADDED": "<b>{{ changedByUserName }}</b> added permissions: <b>{{ changedValueTo }}</b>",
-                  "PERMISSION_REMOVED": "<b>{{ changedByUserName }}</b> removed permissions: <b>{{ changedValueTo }}</b>"
+                  "NAME": "<b>{{ auditedBy }}</b> changed user role name to <b>{{ currentValue }}</b>.",
+                  "DESCRIPTION": "<b>{{ auditedBy }}</b> changed description to <b>{{ currentValue }}</b>.",
+                  "STATUS": "<b>{{ auditedBy }}</b> changed status to <b>{{ currentValue }}</b>.",
+                  "PERMISSION_ADDED": "<b>{{ auditedBy }}</b> added permission <b>{{ affectedPermissionName }}</b>.",
+                  "PERMISSION_REMOVED": "<b>{{ auditedBy }}</b> removed permission <b>{{ affectedPermissionName }}</b>."
                 }
               },
               "generalError": {

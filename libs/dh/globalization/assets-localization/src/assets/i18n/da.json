@@ -1016,14 +1016,11 @@
               },
               "logs": {
                 "roles": {
-                  "CREATED": "<b>{{ changedByUserName }}</b> oprettede brugerrollen",
-                  "NAME_CHANGE": "<b>{{ changedByUserName }}</b> ændrede navn på brugerrollen til <b>{{ changedValueTo }}</b>",
-                  "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelse til <b>{{ changedValueTo }}</b>",
-                  "EIC_FUNCTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede markedsrollen til <b>{{ changedValueTo }}</b>",
-                  "STATUS_CHANGE": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
-                  "PERMISSIONS_CHANGE": "<b>{{ changedByUserName }}</b> ændrede rettighederne til <b>{{ changedValueTo }}</b>",
-                  "PERMISSION_ADDED": "<b>{{ changedByUserName }}</b> tilføjede rettigheder: <b>{{ changedValueTo }}</b>",
-                  "PERMISSION_REMOVED": "<b>{{ changedByUserName }}</b> fjernede rettigheder: <b>{{ changedValueTo }}</b>"
+                  "NAME": "<b>{{ auditedBy }}</b> ændrede navn på brugerrollen til <b>{{ currentValue }}</b>.",
+                  "DESCRIPTION": "<b>{{ auditedBy }}</b> ændrede beskrivelse til <b>{{ currentValue }}</b>.",
+                  "STATUS": "<b>{{ auditedBy }}</b> ændrede status til <b>{{ currentValue }}</b>.",
+                  "PERMISSION_ADDED": "<b>{{ auditedBy }}</b> tilføjede rettigheden <b>{{ affectedPermissionName }}</b>.",
+                  "PERMISSION_REMOVED": "<b>{{ auditedBy }}</b> fjernede rettigheden <b>{{ affectedPermissionName }}</b>."
                 }
               }
             }

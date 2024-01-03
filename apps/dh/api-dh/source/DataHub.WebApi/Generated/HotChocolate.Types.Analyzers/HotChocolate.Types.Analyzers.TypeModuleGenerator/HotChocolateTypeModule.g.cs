@@ -33,6 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.PermissionType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ProcessStatusType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.UserAuditedChangeAuditLogDtoType>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.UserRoleAuditedChangeAuditLogDtoType>();
             return builder;
         }
 

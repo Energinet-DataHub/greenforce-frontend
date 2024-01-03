@@ -69,33 +69,13 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 });
         }
 
-        public async Task<IEnumerable<UserRoleAuditLog>> GetUserRoleAuditLogsAsync(
+        public async Task<IEnumerable<UserRoleAuditedChangeAuditLogDto>> GetUserRoleAuditLogsAsync(
             Guid id,
             [Service] IMarketParticipantClient_V1 client)
         {
-            var logs = await client.UserRolesAuditlogentryAsync(id);
-            var logsWithPermissions = await Task.WhenAll(logs.Select(async log =>
-            {
-                var permissions = await Task.WhenAll(log.Permissions.Select(async permissionId =>
-                {
-                    var permission = await client.PermissionGetAsync(permissionId);
-                    return permission.Name;
-                }));
-                return new UserRoleAuditLog
-                {
-                    AuditIdentityId = log.AuditIdentityId,
-                    UserRoleId = log.UserRoleId,
-                    Name = log.Name,
-                    Description = log.Description,
-                    Permissions = permissions,
-                    EicFunction = log.EicFunction,
-                    Status = log.Status,
-                    ChangeType = log.ChangeType,
-                    Timestamp = log.Timestamp,
-                };
-            }));
-
-            return logsWithPermissions;
+            return await client
+                .UserRolesAuditAsync(id)
+                .ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<UserAuditedChangeAuditLogDto>> GetUserAuditLogsAsync(

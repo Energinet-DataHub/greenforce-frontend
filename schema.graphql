@@ -147,6 +147,16 @@ type UserAuditedChangeAuditLogDto {
   previousValue: String
 }
 
+type UserRoleAuditedChangeAuditLogDto {
+  auditedBy: String
+  affectedPermissionName: String
+  change: UserRoleAuditedChange!
+  timestamp: DateTime!
+  isInitialAssignment: Boolean!
+  currentValue: String
+  previousValue: String
+}
+
 enum ApplyPolicy {
   BEFORE_RESOLVER
   AFTER_RESOLVER
@@ -157,7 +167,7 @@ type Query {
   permissionById(id: Int!): Permission!
   permissions(searchTerm: String!): [Permission!]!
   permissionLogs(id: Int!): [PermissionLog!]!
-  userRoleAuditLogs(id: UUID!): [UserRoleAuditLog!]!
+  userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
@@ -284,6 +294,14 @@ enum UserAuditedChange {
   USER_ROLE_ASSIGNED
   USER_ROLE_REMOVED
   USER_ROLE_REMOVED_DUE_TO_DEACTIVATION
+}
+
+enum UserRoleAuditedChange {
+  NAME
+  DESCRIPTION
+  STATUS
+  PERMISSION_ADDED
+  PERMISSION_REMOVED
 }
 
 type ApiError implements Error {
@@ -417,18 +435,6 @@ type UserRoleWithPermissionsDto {
   permissions: [PermissionDetailsDto!]!
 }
 
-type UserRoleAuditLog {
-  changedByUserName: String!
-  userRoleId: UUID!
-  name: String!
-  description: String
-  permissions: [String!]!
-  eicFunction: EicFunction
-  status: UserRoleStatus!
-  changeType: UserRoleChangeType!
-  timestamp: DateTime!
-}
-
 type PermissionLog {
   changedByUserName: String!
   value: String
@@ -440,15 +446,6 @@ enum PermissionAuditLogType {
   UNKNOWN
   DESCRIPTION_CHANGE
   CREATED
-}
-
-enum UserRoleChangeType {
-  CREATED
-  NAME_CHANGE
-  DESCRIPTION_CHANGE
-  STATUS_CHANGE
-  PERMISSION_ADDED
-  PERMISSION_REMOVED
 }
 
 type PermissionDetailsDto {

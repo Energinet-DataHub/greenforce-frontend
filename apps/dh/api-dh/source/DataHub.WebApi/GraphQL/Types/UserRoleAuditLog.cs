@@ -13,38 +13,59 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using HotChocolate;
+using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
-public class UserRoleAuditLog
+public sealed class UserRoleAuditedChangeAuditLogDtoType : ObjectType<UserRoleAuditedChangeAuditLogDto>
 {
-    [GraphQLIgnore]
-    public Guid AuditIdentityId { get; set; }
-
-    public Guid UserRoleId { get; set; }
-
-    public string Name { get; set; } = string.Empty;
-
-    public string? Description { get; set; }
-
-    public IEnumerable<string> Permissions { get; set; } = Array.Empty<string>();
-
-    public EicFunction? EicFunction { get; set; }
-
-    public UserRoleStatus Status { get; set; }
-
-    public UserRoleChangeType ChangeType { get; set; }
-
-    public DateTimeOffset Timestamp { get; set; }
-
-    public Task<string> GetChangedByUserNameAsync(AuditIdentityCacheDataLoader dataLoader)
+    protected override void Configure(IObjectTypeDescriptor<UserRoleAuditedChangeAuditLogDto> descriptor)
     {
-        return dataLoader
-            .LoadAsync(AuditIdentityId)
-            .Then(x => x.DisplayName);
+        descriptor
+            .Field(f => f.AuditIdentityId)
+            .Name("auditedBy")
+            .Resolve(async (ctx, ct) =>
+            {
+                var parent = ctx.Parent<UserRoleAuditedChangeAuditLogDto>();
+                var auditIdentity = await ctx
+                    .Service<IMarketParticipantClient_V1>()
+                    .AuditIdentityAsync(parent.AuditIdentityId, ct)
+                    .ConfigureAwait(false);
+
+                return auditIdentity.DisplayName;
+            });
+
+        descriptor
+            .Field("affectedPermissionName")
+            .Resolve(async (ctx, ct) =>
+            {
+                var parent = ctx.Parent<UserRoleAuditedChangeAuditLogDto>();
+                if (parent is { Change: UserRoleAuditedChange.PermissionAdded, CurrentValue: not null })
+                {
+                    var permissionId = int.Parse(parent.CurrentValue);
+
+                    var actor = await ctx
+                        .Service<IMarketParticipantClient_V1>()
+                        .PermissionGetAsync(permissionId, ct)
+                        .ConfigureAwait(false);
+
+                    return actor.Name;
+                }
+
+                if (parent is { Change: UserRoleAuditedChange.PermissionRemoved, PreviousValue: not null })
+                {
+                    var permissionId = int.Parse(parent.PreviousValue);
+
+                    var actor = await ctx
+                        .Service<IMarketParticipantClient_V1>()
+                        .PermissionGetAsync(permissionId, ct)
+                        .ConfigureAwait(false);
+
+                    return actor.Name;
+                }
+
+                return null;
+            });
     }
 }
