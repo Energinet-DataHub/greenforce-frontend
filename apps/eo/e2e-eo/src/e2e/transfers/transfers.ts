@@ -25,7 +25,6 @@ const shared = new SharedPO();
 
 Given('I am logged in as Charlotte CSR', () => {
   landingPage.navigateTo();
-  shared.clickOnlyNecessaryButton(); // To get rid of Cookie Consent banner
   landingPage.clickLoginButton();
   login.clickCharlotteLogin();
 });
