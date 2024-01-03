@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgSwitch, NgSwitchCase } from '@angular/common';
+import { NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { differenceInSeconds } from 'date-fns';
@@ -44,11 +44,19 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
       <watt-badge *ngSwitchCase="'ACCEPTED'" type="success">{{ t(status!) }}</watt-badge>
       <watt-badge *ngSwitchCase="'REJECTED'" type="warning">{{ t(status!) }}</watt-badge>
 
-      <ng-container *ngSwitchCase="null || undefined">{{ status | dhEmDashFallback }}</ng-container>
+      <ng-container *ngSwitchDefault>{{ status | dhEmDashFallback }}</ng-container>
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgSwitch, NgSwitchCase, TranslocoDirective, DhEmDashFallbackPipe, WattBadgeComponent],
+  imports: [
+    NgSwitch,
+    NgSwitchCase,
+    NgSwitchDefault,
+    TranslocoDirective,
+
+    WattBadgeComponent,
+    DhEmDashFallbackPipe,
+  ],
 })
 export class DhOutgoingMessageStatusBadgeComponent {
   @Input({ required: true }) status: DocumentStatus | null | undefined = null;

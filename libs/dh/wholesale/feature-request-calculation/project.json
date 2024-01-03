@@ -11,8 +11,7 @@
         "{workspaceRoot}/coverage/libs/dh/wholesale/feature-request-calculation"
       ],
       "options": {
-        "jestConfig": "libs/dh/wholesale/feature-request-calculation/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/wholesale/feature-request-calculation/jest.config.ts"
       }
     },
     "lint": {

@@ -9,8 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/eo/metering-points/shell"],
       "options": {
-        "jestConfig": "libs/eo/metering-points/shell/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/eo/metering-points/shell/jest.config.ts"
       }
     },
     "lint": {

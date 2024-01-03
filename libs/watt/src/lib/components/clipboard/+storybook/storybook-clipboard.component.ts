@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { Component, Input } from '@angular/core';
+
 import { WattIconComponent } from '../../../foundations/icon';
 import { WattTooltipDirective } from '../../tooltip';
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
