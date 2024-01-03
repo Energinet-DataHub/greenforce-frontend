@@ -28,8 +28,6 @@ export * from './market-participant-filtered-actor-dto';
 export * from './market-participant-get-actors-associated-with-external-user-id-response';
 export * from './market-participant-get-actors-associated-with-user-response';
 export * from './market-participant-get-user-overview-response';
-export * from './market-participant-grid-area-audit-log-entry-field';
-export * from './market-participant-grid-area-audit-log-entry-with-name-dto';
 export * from './market-participant-grid-area-dto';
 export * from './market-participant-organization-dto';
 export * from './market-participant-organization-with-actors-dto';
