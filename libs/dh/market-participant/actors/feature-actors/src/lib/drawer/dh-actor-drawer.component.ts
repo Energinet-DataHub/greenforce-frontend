@@ -180,7 +180,7 @@ export class DhActorDrawerComponent {
           this.auditLogFailedToLoad =
             !result.loading && (!!result.error || !!result.errors?.length);
 
-          this.auditLog.data = [...result.data?.actorAuditLogs ?? []].reverse();
+          this.auditLog.data = [...(result.data?.actorAuditLogs ?? [])].reverse();
         },
         error: () => {
           this.auditLogFailedToLoad = true;

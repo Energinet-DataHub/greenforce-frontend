@@ -252,7 +252,7 @@ export class DhOrganizationDrawerComponent {
           this.auditLogFailedToLoad =
             !result.loading && (!!result.error || !!result.errors?.length);
 
-          this.auditLog.data = [...result.data?.organizationAuditLogs ?? []].reverse();
+          this.auditLog.data = [...(result.data?.organizationAuditLogs ?? [])].reverse();
         },
         error: () => {
           this.auditLogFailedToLoad = true;

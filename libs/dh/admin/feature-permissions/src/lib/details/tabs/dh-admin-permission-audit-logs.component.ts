@@ -83,7 +83,9 @@ export class DhPermissionAuditLogsComponent implements OnChanges {
   );
 
   isLoading$ = this.getPermissionAuditLogsQuery.valueChanges.pipe(
-    tap((result) => (this.dataSource.data = [...result.data?.permissionAuditLogs ?? []].reverse())),
+    tap(
+      (result) => (this.dataSource.data = [...(result.data?.permissionAuditLogs ?? [])].reverse())
+    ),
     map((result) => result.loading),
     catchError(() => of(false))
   );

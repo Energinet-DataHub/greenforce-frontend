@@ -84,7 +84,7 @@ export class DhRoleAuditLogsComponent implements OnChanges {
   );
 
   isLoading$ = this.getUserRoleAuditLogsQuery.valueChanges.pipe(
-    tap((result) => (this.dataSource.data = [...result.data?.userRoleAuditLogs ?? []].reverse())),
+    tap((result) => (this.dataSource.data = [...(result.data?.userRoleAuditLogs ?? [])].reverse())),
     map((result) => result.loading),
     catchError(() => of(false))
   );
