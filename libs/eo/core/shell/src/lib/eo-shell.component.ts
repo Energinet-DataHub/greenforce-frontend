@@ -22,10 +22,8 @@ import { EoCookieBannerComponent } from '@energinet-datahub/eo/shared/atomic-des
 import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/shared/services';
-import { EoTitleStore } from '@energinet-datahub/eo/shared/utilities';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { RxPush } from '@rx-angular/template/push';
-import { Observable } from 'rxjs';
 import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
