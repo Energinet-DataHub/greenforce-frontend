@@ -353,20 +353,50 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public async Task<IEnumerable<string>> GetKnownEmailsAsync(
             [Service] IMarketParticipantClient_V1 client)
         {
-            var users = await client.UserOverviewUsersSearchAsync(
-                1,
-                int.MaxValue,
-                UserOverviewSortProperty.Email,
-                Clients.MarketParticipant.v1.SortDirection.Asc,
-                new UserOverviewFilterDto()
-                {
-                    UserStatus = new List<UserStatus>(),
-                    UserRoleIds = new List<Guid>(),
-                });
+            var users = await GetUserOverviewAsync(client).ConfigureAwait(false);
             return users.Users.Select(x => x.Email).ToList();
+        }
+
+        public async Task<AssociatedActors> GetAssociatedActorsAsync(
+            string email,
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            var users = await GetUserOverviewAsync(client).ConfigureAwait(false);
+
+            var user = users.Users.FirstOrDefault(x => string.Equals(email, x.Email, StringComparison.OrdinalIgnoreCase));
+
+            if (user is null)
+            {
+                return new AssociatedActors
+                {
+                    Email = email,
+                };
+            }
+
+            var associatedActors = await client.UserActorsGetAsync(user.Id).ConfigureAwait(false);
+
+            return new AssociatedActors
+            {
+                Email = email,
+                Actors = associatedActors.ActorIds,
+            };
         }
 
         public async Task<IEnumerable<GridAreaOverviewItemDto>> GetGridAreaOverviewAsync([Service] IMarketParticipantClient_V1 client) =>
             await client.GridAreaOverviewAsync();
+
+        private static Task<GetUserOverviewResponse> GetUserOverviewAsync(IMarketParticipantClient_V1 client)
+        {
+            return client.UserOverviewUsersSearchAsync(
+                1,
+                int.MaxValue,
+                UserOverviewSortProperty.Email,
+                Clients.MarketParticipant.v1.SortDirection.Asc,
+                new UserOverviewFilterDto
+                {
+                    UserStatus = new List<UserStatus>(),
+                    UserRoleIds = new List<Guid>(),
+                });
+        }
     }
 }

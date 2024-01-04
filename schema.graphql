@@ -168,6 +168,7 @@ type Query {
   emailExists(emailAddress: String!): Boolean!
   actorAuditLogs(actorId: UUID!): [ActorAuditLog!]!
   knownEmails: [String!]!
+  associatedActors(email: String!): AssociatedActors!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
 }
 
@@ -275,12 +276,6 @@ interface Error {
   message: String!
 }
 
-type ApiErrorDescriptor {
-  message: String!
-  code: String!
-  args: JSON!
-}
-
 enum UserRoleStatus {
   ACTIVE
   INACTIVE
@@ -335,6 +330,11 @@ type GridAreaOverviewItemDto {
   actorName: String
   organizationName: String
   fullFlexDate: DateTime
+}
+
+type AssociatedActors {
+  email: String!
+  actors: [UUID!]!
 }
 
 type ActorAuditLog {
@@ -408,10 +408,18 @@ type PermissionLog {
   type: PermissionAuditLogType!
 }
 
+type ApiErrorDescriptor {
+  message: String!
+  code: String!
+  args: JSON!
+}
+
 type KeyValuePairOfStringAndIEnumerableOfString {
   key: String!
   value: [String!]!
 }
+
+scalar JSON
 
 enum PermissionAuditLogType {
   UNKNOWN
@@ -488,8 +496,6 @@ input CreateOrganizationDtoInput {
   address: AddressDtoInput!
   domain: String!
 }
-
-scalar JSON
 
 input AddressDtoInput {
   streetName: String

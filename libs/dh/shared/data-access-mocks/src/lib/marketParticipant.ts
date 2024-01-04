@@ -36,6 +36,7 @@ import {
   mockGetAuditLogByActorIdQuery,
   mockGetGridAreaOverviewQuery,
   mockCreateMarketParticipantMutation,
+  mockGetAssociatedActorsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import organizationsData from './data/marketParticipantOrganizations.json';
@@ -80,6 +81,7 @@ export function marketParticipantMocks(apiBase: string) {
     marketParticipantActorRequestClientSecretCredentials(apiBase),
     getGridAreaOverview(),
     createMarketParticipant(),
+    getAssociatedActors(),
   ];
 }
 
@@ -440,6 +442,23 @@ function createMarketParticipant() {
           __typename: 'CreateMarketParticipantPayload',
           success: true,
           errors: [],
+        },
+      })
+    );
+  });
+}
+
+function getAssociatedActors() {
+  return mockGetAssociatedActorsQuery((req, res, ctx) => {
+    const email = req.variables.email;
+    return res(
+      ctx.delay(300),
+      ctx.data({
+        __typename: 'Query',
+        associatedActors: {
+          __typename: 'AssociatedActors',
+          email: email,
+          actors: email === 'testuser1@test.dk' ? ['00000000-0000-0000-0000-000000000001'] : [],
         },
       })
     );
