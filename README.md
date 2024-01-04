@@ -115,8 +115,8 @@ that takes care of all the manual work and avoids common pitfalls.
 
 _Note: Make sure to read the [Workspace](#workspace) section beforehand to understand
 which library type to generate. **It is currently not possible to generate
-libraries of type `assets` and `styles`**.
-$
+libraries of type `assets` and `styles`**._
+
 To generate a new library, run the below command\* and follow the instructions:
 
 ```sh
