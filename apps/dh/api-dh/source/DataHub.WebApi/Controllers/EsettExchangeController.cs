@@ -42,7 +42,7 @@ namespace Energinet.DataHub.WebApi.Controllers
 
                 return File(fileResponse.Stream, "application/octet-stream");
             }
-            catch (Clients.ESettExchange.v1.ApiException e) when (e.StatusCode == 404)
+            catch (ApiException e) when (e.StatusCode == 404)
             {
                 return NotFound();
             }
@@ -60,7 +60,7 @@ namespace Energinet.DataHub.WebApi.Controllers
 
                 return File(fileResponse.Stream, "application/octet-stream");
             }
-            catch (Clients.ESettExchange.v1.ApiException e) when (e.StatusCode == 404)
+            catch (ApiException e) when (e.StatusCode == 404)
             {
                 return NotFound();
             }
@@ -78,7 +78,7 @@ namespace Energinet.DataHub.WebApi.Controllers
 
                 return File(fileResponse.Stream, "application/octet-stream");
             }
-            catch (Clients.ESettExchange.v1.ApiException e) when (e.StatusCode == 404)
+            catch (ApiException e) when (e.StatusCode == 404)
             {
                 return NotFound();
             }
