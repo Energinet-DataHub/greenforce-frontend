@@ -14,68 +14,64 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *rxLet="isLoading$ as isLoading">
-  <watt-card variant="solid" *transloco="let t; read: 'admin.userManagement.tabs.history'">
-    <div *ngIf="isLoading" class="spinner">
-      <watt-spinner />
-    </div>
+<watt-card variant="solid" *transloco="let t; read: 'admin.userManagement.tabs.history'">
+  <div *ngIf="isLoading$ | push" class="spinner">
+    <watt-spinner />
+  </div>
 
-    <ng-container *ngIf="!isLoading">
-      <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
-        <watt-card-title *rxLet="auditLogCount$ as auditLogCount">
-          <h4 *ngIf="auditLogCount === 1 && !hasGeneralError">
-            {{ t("changesSingular", { auditLogCount }) }}
-          </h4>
-          <h4 *ngIf="auditLogCount !== 1 && !hasGeneralError">
-            {{ t("changesPlural", { auditLogCount }) }}
-          </h4>
-        </watt-card-title>
-
-        <watt-table
-          [columns]="columns"
-          [dataSource]="auditLogs$ | push"
-          sortBy="timestamp"
-          sortDirection="desc"
-          [sortClear]="false"
-          [resolveHeader]="translateHeader"
-          *ngIf="!hasGeneralError"
-        >
-          <ng-container *wattTableCell="columns['timestamp']; let element">
-            {{ element.timestamp | wattDate: "long" }}
-          </ng-container>
-
-          <ng-container *wattTableCell="columns['entry']; let element">
-            <div
-              *ngIf="element.entry.auditLogType !== 'UserStatusChanged'"
-              [innerHTML]="t('logs.auditLogType.' + element.entry.auditLogType, element.entry)"
-            ></div>
-            <ng-container *ngIf="element.entry.auditLogType === 'UserStatusChanged'">
-              <div
-                *transloco="let t; read: 'admin.userManagement'"
-                [innerHTML]="
-                  t('tabs.history.logs.auditLogType.' + element.entry.auditLogType, {
-                    toValue: t('userStatus.' + element.entry.toValue),
-                    changedByUserName: element.entry.changedByUserName
-                  })
-                "
-              ></div>
-            </ng-container>
-          </ng-container>
-        </watt-table>
-
-        <watt-empty-state
-          *ngIf="hasGeneralError"
-          icon="custom-power"
-          [title]="'shared.error.title' | transloco"
-          [message]="'shared.error.message' | transloco"
+  <ng-container *ngIf="!(isLoading$ | push)">
+    <ng-container *ngIf="!(hasFailed$ | push)">
+      <watt-card-title>
+        <ng-container
+          *ngTemplateOutlet="
+            auditLogHeadline;
+            context: {
+              $implicit: dataSource.data.length
+            }
+          "
         />
+      </watt-card-title>
 
-        <ng-container *rxLet="auditLogCount$ as auditLogCount">
-          <h4 *ngIf="auditLogCount === 0" class="no-results-text">
-            {{ t("noEntries") }}
-          </h4>
+      <watt-table
+        [columns]="columns"
+        [dataSource]="dataSource"
+        sortBy="timestamp"
+        sortDirection="desc"
+        [sortClear]="false"
+      >
+        <ng-container
+          *wattTableCell="columns.timestamp; header: t('table.columns.timestamp'); let element"
+        >
+          {{ element.timestamp | wattDate: "long" }}
         </ng-container>
-      </ng-container>
+
+        <ng-container *wattTableCell="columns.entry; header: t('table.columns.entry'); let element">
+          <span [innerHTML]="t('logs.audit.' + element.change, element)"> </span>
+        </ng-container>
+      </watt-table>
+
+      <h4 *ngIf="dataSource.data.length === 0" class="no-results-text">
+        {{ t("table.noEntries") }}
+      </h4>
     </ng-container>
-  </watt-card>
-</ng-container>
+
+    <ng-container *ngIf="hasFailed$ | push">
+      <watt-empty-state
+        icon="custom-power"
+        [title]="'shared.error.title' | transloco"
+        [message]="'shared.error.message' | transloco"
+      />
+    </ng-container>
+  </ng-container>
+</watt-card>
+
+<ng-template #auditLogHeadline let-auditLogCount>
+  <ng-container *transloco="let t; read: 'admin.userManagement.tabs.history'">
+    <h4 *ngIf="auditLogCount === 1">
+      {{ t("changesSingular", { auditLogCount }) }}
+    </h4>
+    <h4 *ngIf="auditLogCount !== 1">
+      {{ t("changesPlural", { auditLogCount }) }}
+    </h4>
+  </ng-container>
+</ng-template>

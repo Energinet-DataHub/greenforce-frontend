@@ -17,16 +17,16 @@ using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
-public sealed class ActorAuditedChangeAuditLogDtoType : ObjectType<ActorAuditedChangeAuditLogDto>
+public sealed class OrganizationAuditedChangeAuditLogDtoType : ObjectType<OrganizationAuditedChangeAuditLogDto>
 {
-    protected override void Configure(IObjectTypeDescriptor<ActorAuditedChangeAuditLogDto> descriptor)
+    protected override void Configure(IObjectTypeDescriptor<OrganizationAuditedChangeAuditLogDto> descriptor)
     {
         descriptor
             .Field(f => f.AuditIdentityId)
             .Name("auditedBy")
             .Resolve(async (ctx, ct) =>
             {
-                var parent = ctx.Parent<ActorAuditedChangeAuditLogDto>();
+                var parent = ctx.Parent<OrganizationAuditedChangeAuditLogDto>();
                 var auditIdentity = await ctx
                     .Service<IMarketParticipantClient_V1>()
                     .AuditIdentityAsync(parent.AuditIdentityId, ct)
