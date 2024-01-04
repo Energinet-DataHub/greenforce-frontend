@@ -162,7 +162,11 @@ export class EoMeteringPointsTableComponent {
     gsrn: { accessor: 'gsrn', header: 'Metering point' },
     address: { accessor: (meteringPoint) => meteringPoint.address.address1 },
     unit: { accessor: (meteringPoint) => meteringPoint.type },
-    source: { accessor: (meteringPoint) => meteringPoint.assetType },
+    source: {
+      accessor: (meteringPoint) => {
+        return meteringPoint.type === 'production' ? meteringPoint.assetType : '';
+      }
+    },
     gc: {
       accessor: (meteringPoint) => {
         const itemHasActiveContract = meteringPoint.contract ? 'active' : 'enable';
