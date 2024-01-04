@@ -9,8 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/feature-flags"],
       "options": {
-        "jestConfig": "libs/dh/shared/feature-flags/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/shared/feature-flags/jest.config.ts"
       }
     },
     "lint": {

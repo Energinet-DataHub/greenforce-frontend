@@ -14,17 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { importProvidersFrom } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
 
 import { WattToastConfig } from '../watt-toast.component';
 import { StorybookToastComponent } from './storybook-toast.component';
-import { MatSnackBarModule as MatSnackBarModule } from '@angular/material/snack-bar';
-import { importProvidersFrom } from '@angular/core';
 
-export default {
+const meta: Meta<StorybookToastComponent> = {
   title: 'Components/Toast',
-
   decorators: [
     applicationConfig({
       providers: [importProvidersFrom(MatSnackBarModule), provideAnimations()],
@@ -40,7 +39,9 @@ export default {
       },
     },
   },
-} as Meta;
+};
+
+export default meta;
 
 export interface WattToastStoryConfig extends WattToastConfig {
   disableAnimations?: boolean; // Used to disable animations for the tests
@@ -49,7 +50,7 @@ export interface WattToastStoryConfig extends WattToastConfig {
 
 export const Overview: StoryFn<WattToastStoryConfig> = (args) => ({
   props: args,
-  template: `<storybook-toast [config]="{type, duration, message, action, actionLabel}"></storybook-toast>`,
+  template: `<storybook-toast [config]="{type, duration, message, action, actionLabel}" />`,
 });
 
 Overview.args = {
@@ -59,7 +60,7 @@ Overview.args = {
     alert('Call alert, and dismiss the toast!');
     ref.dismiss();
   },
-  actionLabel: 'action',
+  actionLabel: 'Action',
 };
 
 Overview.argTypes = {
