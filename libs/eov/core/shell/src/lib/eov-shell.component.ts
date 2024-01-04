@@ -48,8 +48,8 @@ import { eovApiEnvironmentToken } from '@energinet-datahub/eov/shared/environmen
               cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
             >
               <ul class="login-overlay mat-elevation-z8">
-                <li (click)="loginAsCustomer()">Privat</li>
-                <li>Erhverv</li>
+                <li matRipple (click)="loginAsCustomer()">Privat</li>
+                <li matRipple (click)="loginAsCorp()">Erhverv</li>
                 <li>Tredjepart</li>
               </ul>
             </ng-template>
@@ -140,6 +140,17 @@ export class EovShellComponent {
       `&redirect_uri=${this.environment.customerApiUrl}/api/oidc/callback` +
       `&language=da&scope=mitid+openid+userinfo_token+ssn` +
       `&idp_values=mitid&idp_params=%7B%22mitid%22%3A%7B%22reference_text%22%3A%22TG9naW4gdGlsIEVsT3ZlcmJsaWs%3D%22%7D%7D` +
+      `&state=${btoa(JSON.stringify({ webApp: 11, completionUri: 'http://localhost:4200/overview' }))}`;
+  }
+
+  loginAsCorp() {
+    window.location.href =
+      `${this.environment.netsBaseURL}/connect/authorize` +
+      `?response_type=code&client_id=${this.environment.clientId}` +
+      `&prompt=true` +
+      `&redirect_uri=${this.environment.customerApiUrl}/api/oidc/callback` +
+      `&language=da&scope=nemid+openid+ssn+userinfo_token+nemlogin` +
+      `&idp_values=nemid+mitid_erhverv&idp_params=%7B%22nemid%22%3A%7B%22amr_values%22%3A%22nemid.keyfile%20nemid.otp%22%2C%22private_to_business%22%3Atrue%2C%22code_app_trans_ctx%22%3A%22TG9naW4gdGlsIEVsT3ZlcmJsaWs%3D%22%7D%7D` +
       `&state=${btoa(JSON.stringify({ webApp: 11, completionUri: 'http://localhost:4200/overview' }))}`;
   }
 

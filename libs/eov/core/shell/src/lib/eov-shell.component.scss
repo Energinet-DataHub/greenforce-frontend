@@ -228,6 +228,8 @@ footer {
   list-style-type: none;
   border-bottom: dashed 1px #bdbdbd;
   padding: 8px 0;
+  width: 100%;
+  cursor: pointer;
 }
 
 .login-overlay > li:last-child {

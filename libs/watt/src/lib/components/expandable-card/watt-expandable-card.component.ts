@@ -19,8 +19,10 @@ import {
   Component,
   ContentChild,
   Directive,
+  EventEmitter,
   inject,
   Input,
+  Output,
   TemplateRef,
   ViewEncapsulation,
 } from '@angular/core';
@@ -49,9 +51,19 @@ export class WattExpandableCardContentDirective {
 export class WattExpandableCardComponent {
   /** Whether the card is expanded. */
   @Input() expanded = false;
+  @Output() cardOpened = new EventEmitter<void>();
+  @Output() afterExpanded = new EventEmitter<void>();
 
   @ContentChild(WattExpandableCardContentDirective)
   _content?: WattExpandableCardContentDirective;
+
+  opened() {
+    this.cardOpened.emit();
+  }
+
+  afterExpand() {
+    this.afterExpanded.emit();
+  }
 }
 
 @Component({
