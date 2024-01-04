@@ -9,8 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/eo/auth/routing-security"],
       "options": {
-        "jestConfig": "libs/eo/auth/routing-security/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/eo/auth/routing-security/jest.config.ts"
       }
     },
     "lint": {

@@ -24,10 +24,13 @@ limitations under the License.
     *ngIf="chipMode"
     [opened]="matSelect.panelOpen"
     (toggle)="matSelect.open()"
-    [selected]="!!matSelect?.triggerValue"
+    [selected]="!!matSelect?.triggerValue && !disableSelectedMode"
     [disabled]="matSelectControl.disabled"
   >
-    {{ placeholder }}<span *ngIf="showTriggerValue">: {{ matSelect?.triggerValue }}</span>
+    {{ placeholder
+    }}<span *ngIf="showTriggerValue"
+      ><ng-container *ngIf="placeholder">:</ng-container> {{ matSelect?.triggerValue }}</span
+    >
     <span class="watt-chip-label" *ngIf="showChipLabel">{{ matSelectControl.value?.length }}</span>
   </watt-menu-chip>
 
@@ -36,7 +39,7 @@ limitations under the License.
     [formControl]="matSelectControl"
     [placeholder]="placeholder"
     #matSelect
-    [panelWidth]="null"
+    [panelWidth]="panelWidth"
     [multiple]="multiple"
     [ngClass]="{ chip: chipMode }"
     [panelClass]="{
@@ -44,7 +47,8 @@ limitations under the License.
       'watt-dropdown-panel-chip-mode': chipMode
     }"
   >
-    <mat-option
+    <!-- We use this instead of ngIf, since it will trigger a NG0100: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked. -->
+    <mat-option [style.display]="!hideSearch ? 'block' : 'none'"
       ><ngx-mat-select-search
         [formControl]="filterControl"
         [placeholderLabel]="placeholder"

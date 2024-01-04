@@ -62,7 +62,7 @@ import { EoMediaImageDirective } from './eo-media-image.directive';
         [style.flex-basis]="presenter.mediaBodyFlexBasis$ | push"
         data-testid="media-body-box"
       >
-        <ng-content></ng-content>
+        <ng-content />
       </div>
 
       <div
@@ -71,7 +71,7 @@ import { EoMediaImageDirective } from './eo-media-image.directive';
         [style.order]="presenter.mediaImageOrder$ | push"
         data-testid="media-image-box"
       >
-        <ng-content select="[eoMediaImage]"></ng-content>
+        <ng-content select="[eoMediaImage]" />
       </div>
     </div>
   `,

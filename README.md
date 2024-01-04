@@ -58,17 +58,15 @@ over the Angular CLI._
 
 The application is deployed to five different environments as listed below:
 
-| Development       | Development\*     | Test              |
-| ----------------- | ----------------- | ----------------- |
-| [U-001][dh-u-001] | [U-002][dh-u-002] | [T-001][dh-t-001] |
+| Sandbox 002                 | Development 001     | Development 002     | Test                  | PreProd               |
+|-----------------------------|---------------------|---------------------|-----------------------|-----------------------|
+| [sandbox_002][dh-sandbox-002] | [dev_001][dh-dev-001] | [dev_002][dh-dev-002] | [test_001][dh-test-001] | [preprod][dh-preprod] |
 
-[dh-u-001]: https://jolly-sand-03f839703.azurestaticapps.net
-[dh-u-002]: https://wonderful-field-057109603.1.azurestaticapps.net
-[dh-t-001]: https://ashy-forest-09ecf8003.2.azurestaticapps.net
-
-> This is identical to **U-001**, except it also hosts
-> [B2C](https://learn.microsoft.com/en-us/azure/active-directory-b2c/overview).
-> This service can be accessed from **localhost**, **U-001** and **U-002**.
+[dh-sandbox-002]: https://happy-desert-06b3ac903.4.azurestaticapps.net
+[dh-dev-001]: https://nice-meadow-03a161503.3.azurestaticapps.net
+[dh-dev-002]: https://lively-pond-06cbcb903.3.azurestaticapps.net
+[dh-test-001]: https://green-beach-024d44703.3.azurestaticapps.net
+[dh-preprod]: https://preprod.datahub3.dk
 
 ### Documentation
 
@@ -117,8 +115,8 @@ that takes care of all the manual work and avoids common pitfalls.
 
 _Note: Make sure to read the [Workspace](#workspace) section beforehand to understand
 which library type to generate. **It is currently not possible to generate
-libraries of type `assets` and `styles`**.
-$
+libraries of type `assets` and `styles`**._
+
 To generate a new library, run the below command\* and follow the instructions:
 
 ```sh

@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Energinet.DataHub.WebApi.Extensions;
 using HotChocolate;
 using Microsoft.AspNetCore.Http;
@@ -44,58 +43,49 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 x.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ||
                 x.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase));
 
-        public async Task<IEnumerable<PermissionLog>> GetPermissionLogsAsync(
+        public async Task<IEnumerable<PermissionAuditedChangeAuditLogDto>> GetPermissionAuditLogsAsync(
             int id,
             [Service] IMarketParticipantClient_V1 client)
         {
-            var permissionTask = client.PermissionGetAsync(id);
-            var logs = await client.PermissionAuditlogsAsync(id);
-            return logs
-                .Select(log => new PermissionLog
-                {
-                    ChangedByUserId = log.AuditIdentityId,
-                    Value = log.Value,
-                    Timestamp = log.Timestamp,
-                    Type = log.PermissionChangeType switch
-                    {
-                        PermissionChangeType.DescriptionChange =>
-                            PermissionAuditLogType.DescriptionChange,
-                    },
-                })
-                .Prepend(new PermissionLog
-                {
-                    Timestamp = (await permissionTask).Created,
-                    Type = PermissionAuditLogType.Created,
-                });
+            return await client
+                .PermissionAuditAsync(id)
+                .ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<UserRoleAuditLog>> GetUserRoleAuditLogsAsync(
+        public async Task<IEnumerable<UserRoleAuditedChangeAuditLogDto>> GetUserRoleAuditLogsAsync(
             Guid id,
             [Service] IMarketParticipantClient_V1 client)
         {
-            var logs = await client.UserRolesAuditlogentryAsync(id);
-            var logsWithPermissions = await Task.WhenAll(logs.Select(async log =>
-            {
-                var permissions = await Task.WhenAll(log.Permissions.Select(async permissionId =>
-                {
-                    var permission = await client.PermissionGetAsync(permissionId);
-                    return permission.Name;
-                }));
-                return new UserRoleAuditLog
-                {
-                    AuditIdentityId = log.AuditIdentityId,
-                    UserRoleId = log.UserRoleId,
-                    Name = log.Name,
-                    Description = log.Description,
-                    Permissions = permissions,
-                    EicFunction = log.EicFunction,
-                    Status = log.Status,
-                    ChangeType = log.ChangeType,
-                    Timestamp = log.Timestamp,
-                };
-            }));
+            return await client
+                .UserRolesAuditAsync(id)
+                .ConfigureAwait(false);
+        }
 
-            return logsWithPermissions;
+        public async Task<IEnumerable<UserAuditedChangeAuditLogDto>> GetUserAuditLogsAsync(
+            Guid id,
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            return await client
+                .UserAuditAsync(id)
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<OrganizationAuditedChangeAuditLogDto>> GetOrganizationAuditLogsAsync(
+            Guid organizationId,
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            return await client
+                .OrganizationAuditAsync(organizationId)
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<ActorAuditedChangeAuditLogDto>> GetActorAuditLogsAsync(
+            Guid actorId,
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            return await client
+                .ActorAuditAsync(actorId)
+                .ConfigureAwait(false);
         }
 
         public Task<UserRoleWithPermissionsDto> GetUserRoleByIdAsync(
@@ -285,70 +275,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
             [Service] IMarketParticipantClient_V1 client) =>
             await client.OrganizationActorAsync(organizationId);
 
-        public Task<ICollection<OrganizationAuditLogDto>> GetOrganizationAuditLogAsync(
-            Guid organizationId,
-            [Service] IMarketParticipantClient_V1 client) =>
-            client.OrganizationAuditlogsAsync(organizationId);
-
         public Task<bool> EmailExistsAsync(
             string emailAddress,
             [Service] IMarketParticipantClient_V1 client) =>
             client.UserExistsAsync(emailAddress);
-
-        public async Task<IEnumerable<ActorAuditLog>> GetActorAuditLogsAsync(
-            Guid actorId,
-            [Service] IMarketParticipantClient_V1 client)
-        {
-            var logs = await client.ActorAuditlogsAsync(actorId);
-            var actorAuditLogs = new List<ActorAuditLog>();
-
-            foreach (var auditLog in logs.ActorAuditLogs)
-            {
-                var auditLogType = auditLog.ActorChangeType switch
-                {
-                    ActorChangeType.Name => ActorAuditLogType.Name,
-                    ActorChangeType.Created => ActorAuditLogType.Created,
-                    ActorChangeType.Status => ActorAuditLogType.Status,
-                    ActorChangeType.CertificateCredentials => ActorAuditLogType.CertificateCredentials,
-                    ActorChangeType.SecretCredentials => ActorAuditLogType.ClientSecretCredentials,
-                    _ => ActorAuditLogType.Created,
-                };
-                actorAuditLogs.Add(new ActorAuditLog()
-                {
-                    ChangedByUserId = auditLog.AuditIdentityId,
-                    CurrentValue = auditLog.CurrentValue,
-                    PreviousValue = auditLog.PreviousValue,
-                    Timestamp = auditLog.Timestamp,
-                    Type = auditLogType,
-                    ContactCategory = ContactCategory.Default,
-                });
-            }
-
-            foreach (var auditLog in logs.ActorContactAuditLogs)
-            {
-                var auditLogType = auditLog.ActorContactChangeType switch
-                {
-                    ActorContactChangeType.Name => ActorAuditLogType.ContactName,
-                    ActorContactChangeType.Email => ActorAuditLogType.ContactEmail,
-                    ActorContactChangeType.Phone => ActorAuditLogType.ContactPhone,
-                    ActorContactChangeType.Created => ActorAuditLogType.ContactCreated,
-                    ActorContactChangeType.Deleted => ActorAuditLogType.ContactDeleted,
-                    _ => ActorAuditLogType.Created,
-                };
-
-                actorAuditLogs.Add(new ActorAuditLog()
-                {
-                    ChangedByUserId = auditLog.AuditIdentityId,
-                    CurrentValue = auditLog.CurrentValue,
-                    PreviousValue = auditLog.PreviousValue,
-                    Timestamp = auditLog.Timestamp,
-                    Type = auditLogType,
-                    ContactCategory = auditLog.ContactCategory,
-                });
-            }
-
-            return actorAuditLogs.OrderBy(x => x.Timestamp);
-        }
 
         public async Task<IEnumerable<string>> GetKnownEmailsAsync(
             [Service] IMarketParticipantClient_V1 client)

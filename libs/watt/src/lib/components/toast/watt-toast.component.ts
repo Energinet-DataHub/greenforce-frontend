@@ -61,6 +61,7 @@ export class WattToastComponent {
   private cd = inject(ChangeDetectorRef);
   private _matSnackBarRef = inject<MatSnackBarRef<WattToastComponent>>(MatSnackBarRef);
   private elementRef = inject(ElementRef);
+
   @HostBinding('class')
   get class() {
     this.cd.detectChanges(); // Make sure changes to the config will be detected
@@ -103,6 +104,7 @@ export class WattToastComponent {
       this.dissmissToastSubscription.unsubscribe();
     }
     this.initDuration();
+    this.cd.detectChanges();
   }
 
   /**

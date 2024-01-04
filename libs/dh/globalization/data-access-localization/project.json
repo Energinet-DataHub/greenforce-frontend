@@ -11,8 +11,7 @@
         "{workspaceRoot}/coverage/libs/dh/globalization/data-access-localization"
       ],
       "options": {
-        "jestConfig": "libs/dh/globalization/data-access-localization/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/globalization/data-access-localization/jest.config.ts"
       }
     },
     "lint": {
