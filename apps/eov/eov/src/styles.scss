@@ -1,26 +1,83 @@
-* {
-  padding: 0;
-  margin: 0;
-  border: 0;
-
-  font-family: 'Open Sans', sans-serif;
-}
+@use "@energinet-datahub/watt";
+@use '@energinet-datahub/watt/utils' as wattUtils;
 
 html {
   scroll-behavior: smooth;
 }
 
-body {
-  background-color: white;
-}
-
 a {
-  color: #00847C;
+  color: var(--watt-color-primary);
   text-decoration: none;
 }
 
 strong {
   font-weight: 700;
+}
+
+.container, eov-shell router-outlet + *  {
+  display: grid;
+  grid-template-columns: [full-width-start] minmax(24px, 1fr) [breakout-start] 50px [content-start] minmax(716px, 1184px) [content-end] 50px [breakout-end] minmax(24px, 1fr) [full-width-end];
+  gap: 24px 24px;
+  transition: all 0.3s ease;
+
+  .container__content {
+    padding: 96px 0;
+    grid-column: content;
+    transition: all 0.3s ease;
+  }
+
+  .container__breakout {
+    grid-column: breakout;
+    transition: all 0.3s ease;
+  }
+
+  .container__full-width {
+    padding: 96px 0;
+    grid-column: full-width;
+    background: #FAFAFA;
+    ;
+  }
+
+  .container__full-width:has(.hero) {
+    padding: 0;
+    background: white;
+  }
+
+  .container__full-width.container {
+    gap: 0;
+  }
+
+  .layout-text-image, .layout-image-text, .layout-text-text {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 96px;
+    transition: all 0.3s ease;
+
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 28px;
+      letter-spacing: 0em;
+      margin-bottom: 24px;
+    }
+
+    img {
+      width: 100%;
+      //box-shadow: 0px 32px 64px 3px #2E323433, 0px 16px 16px 0px #00000033;
+    }
+  }
+}
+
+.areas {
+  display: flex;
+  justify-content: space-between;
+
+  .areas__end, .areas__start {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+  }
 }
 
 .cdk-overlay-pane:has(.login-overlay) {
@@ -37,4 +94,63 @@ strong {
   z-index: 999;
   pointer-events: auto;
   opacity: 0;
+}
+
+.mobile-only {
+  display: none;
+}
+
+.reveal {
+  position: relative;
+  transform: translateY(120px);
+  opacity: 0;
+  transition: all 1s ease !important;
+}
+
+.reveal.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+router-outlet + * {
+  min-height: calc(100vh - 40px - 80px - 48px - 440px);
+  display: block;
+}
+
+@include wattUtils.media("<Medium") {
+  .container, eov-shell router-outlet + * {
+    grid-template-columns: [full-width-start] 10px [content-start] auto [content-end] 10px [full-width-end];
+
+    .container__full-width {
+      padding: 48px 10px;
+      grid-column: full-width;
+    }
+
+    .container__content {
+      padding: 48px 0;
+      grid-column: content;
+    }
+
+    .container__breakout {
+      grid-column: content;
+    }
+
+    .layout-text-image, .layout-image-text, .layout-text-text {
+      display: grid;
+      grid-template-columns: 1fr;
+      row-gap: 40px;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  router-outlet + * {
+    min-height: calc(100vh - 68px - 36px - 683px);
+  }
 }

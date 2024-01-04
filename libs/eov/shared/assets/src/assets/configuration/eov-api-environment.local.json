@@ -1,0 +1,7 @@
+{
+  "adminApiUrl": "https://test.eloverblik.dk/admin",
+  "customerApiUrl": "https://test.eloverblik.dk/customer",
+  "thirdPartyApiUrl": "https://test.eloverblik.dk/thirdparty",
+  "netsBaseURL": "https://pp.netseidbroker.dk/op",
+  "clientId": "0a775a87-878c-4b83-abe3-ee29c720c3e7"
+}

@@ -294,6 +294,24 @@
       "@energinet-datahub/eov/landing-page/shell": [
         "libs/eov/landing-page/shell/src/index.ts"
       ],
+      "@energinet-datahub/eov/overview/data-access-api": [
+        "libs/eov/overview/data-access-api/src/index.ts"
+      ],
+      "@energinet-datahub/eov/overview/shell": [
+        "libs/eov/overview/shell/src/index.ts"
+      ],
+      "@energinet-datahub/eov/shared/assets": [
+        "libs/eov/shared/assets/src/index.ts"
+      ],
+      "@energinet-datahub/eov/shared/domain": [
+        "libs/eov/shared/domain/src/index.ts"
+      ],
+      "@energinet-datahub/eov/shared/environments": [
+        "libs/eov/shared/environments/src/index.ts"
+      ],
+      "@energinet-datahub/eov/shared/services": [
+        "libs/eov/shared/services/src/index.ts"
+      ],
       "@energinet-datahub/gf/configuration-danish-locale": [
         "libs/gf/configuration-danish-locale/src/index.ts"
       ],
