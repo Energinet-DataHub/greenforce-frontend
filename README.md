@@ -58,14 +58,15 @@ over the Angular CLI._
 
 The application is deployed to five different environments as listed below:
 
-| Sandbox 002                 | Development 001     | Development 002     | Test                  | PreProd               |
-|-----------------------------|---------------------|---------------------|-----------------------|-----------------------|
-| [sandbox_002][dh-sandbox-002] | [dev_001][dh-dev-001] | [dev_002][dh-dev-002] | [test_001][dh-test-001] | [preprod][dh-preprod] |
+| Sandbox 002                   | Development 001       | Development 002       | Test 001                | Test 002                | PreProd               |
+|-------------------------------|-----------------------|-----------------------|-------------------------|-------------------------|-----------------------|
+| [sandbox_002][dh-sandbox-002] | [dev_001][dh-dev_001] | [dev_002][dh-dev_002] | [test_001][dh-test_001] | [test_002][dh-test_002] | [preprod][dh-preprod] |
 
-[dh-sandbox-002]: https://happy-desert-06b3ac903.4.azurestaticapps.net
-[dh-dev-001]: https://nice-meadow-03a161503.3.azurestaticapps.net
-[dh-dev-002]: https://lively-pond-06cbcb903.3.azurestaticapps.net
-[dh-test-001]: https://green-beach-024d44703.3.azurestaticapps.net
+[dh-sandbox-002]: https://sandbox.datahub3.dk
+[dh-dev_001]: https://dev.datahub3.dk
+[dh-dev_002]: https://dev002.datahub3.dk
+[dh-test_001]: https://test.datahub3.dk
+[dh-test_002]: https://test002.datahub3.dk
 [dh-preprod]: https://preprod.datahub3.dk
 
 ### Documentation
