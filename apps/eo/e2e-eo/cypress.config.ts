@@ -35,16 +35,12 @@ export default defineConfig({
       on: Cypress.PluginEvents,
       config: Cypress.PluginConfigOptions
     ): Promise<Cypress.PluginConfigOptions> {
-      // This is required for the preprocessor to be able to generate JSON reports after each run, and more,
+      const bundler = createBundler({
+        plugins: [createEsbuildPlugin(config)],
+      });
+
+      on('file:preprocessor', bundler);
       await addCucumberPreprocessorPlugin(on, config);
-
-      on(
-        'file:preprocessor',
-        createBundler({
-          plugins: [createEsbuildPlugin(config)],
-        })
-      );
-
       // Make sure to return the config object as it might have been modified by the plugin.
       return config;
     },
