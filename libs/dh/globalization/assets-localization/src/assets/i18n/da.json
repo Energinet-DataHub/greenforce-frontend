@@ -964,7 +964,8 @@
         "serverErrors": {
           "invalidPhoneNumber": "Telefonnummeret er formatteret korrekt, men er ikke gyldigt."
         },
-        "unknowEmailInfoMessage": "For at acceptere invitationen skal brugeren allerede have adgang til DataHub, fordi brugeren ikke er en del af din organisation."
+        "unknowEmailInfoMessage": "For at acceptere invitationen skal brugeren allerede have adgang til DataHub, fordi brugeren ikke er en del af din organisation.",
+        "userAlreadyInvited": "Bruger er allerede oprettet."
       },
       "download": "Download",
       "drawer": {

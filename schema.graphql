@@ -208,6 +208,7 @@ type Query {
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   emailExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
+  associatedActors(email: String!): AssociatedActors!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
 }
 
@@ -412,6 +413,11 @@ type GridAreaOverviewItemDto {
   actorName: String
   organizationName: String
   fullFlexDate: DateTime
+}
+
+type AssociatedActors {
+  email: String!
+  actors: [UUID!]!
 }
 
 enum SortDirection {
