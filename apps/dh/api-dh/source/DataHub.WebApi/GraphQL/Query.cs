@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Energinet.DataHub.WebApi.Extensions;
 using HotChocolate;
 using Microsoft.AspNetCore.Http;
