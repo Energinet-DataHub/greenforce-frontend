@@ -1,0 +1,6 @@
+query GetAssociatedActors($email: String!) {
+  associatedActors(email: $email) {
+    email
+    actors
+  }
+}

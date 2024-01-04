@@ -29,7 +29,12 @@ limitations under the License.
     #stepper
     (completed)="inviteUser()"
   >
-    <watt-stepper-step [label]="t('email')" [stepControl]="baseInfo" [nextButtonLabel]="t('next')">
+    <watt-stepper-step
+      [label]="t('email')"
+      [stepControl]="baseInfo"
+      [nextButtonLabel]="t('next')"
+      [disableNextButton]="isLoadingAssociatedActors || isAlreadyAssociatedToActor"
+    >
       <form [formGroup]="userInfo" class="userInfoForm">
         <watt-dropdown
           *ngIf="(actors$ | push).length > 1"
@@ -44,6 +49,10 @@ limitations under the License.
             {{ t("wrongEmailPattern") }}
           </watt-field-error>
         </watt-text-field>
+        <div class="info-section" *ngIf="isAlreadyAssociatedToActor">
+          <watt-icon class="info-icon" name="info" />
+          <span class="info-text">{{ t("userAlreadyInvited") }}</span>
+        </div>
       </form>
     </watt-stepper-step>
     <watt-stepper-step
