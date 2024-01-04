@@ -9,8 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/eo/shared/environments"],
       "options": {
-        "jestConfig": "libs/eo/shared/environments/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/eo/shared/environments/jest.config.ts"
       }
     },
     "lint": {

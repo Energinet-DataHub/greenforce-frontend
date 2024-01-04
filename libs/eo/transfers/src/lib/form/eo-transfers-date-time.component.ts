@@ -35,15 +35,17 @@ import {
   AbstractControl,
   NG_VALIDATORS,
   Validator,
+  Validators,
 } from '@angular/forms';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
-import { EoExistingTransferAgreement } from '../eo-transfers.store';
+
 import { isToday } from 'date-fns';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 
 @Component({
   selector: 'eo-transfers-datetime',
@@ -71,8 +73,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         }
       }
 
-      eo-transfers-datetime .mat-form-field-appearance-legacy .mat-form-field-wrapper {
-        padding-bottom: 0;
+      eo-transfers-datetime watt-field:not(.watt-field--chip) {
+        min-height: 0px;
+      }
+
+      eo-transfers-datetime watt-field.watt-field--invalid watt-field-error {
+        display: none;
       }
 
       .mat-calendar-body-cell {
@@ -168,7 +174,7 @@ export class EoTransfersDateTimeComponent
   private destroyRef = inject(DestroyRef);
   private statusChangesSubscription!: Subscription;
   protected form = new FormGroup({
-    date: new FormControl(),
+    date: new FormControl('', { validators: [Validators.required] }),
     time: new FormControl(),
   });
   protected disabledHours: string[] = [];

@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgSwitch, NgSwitchCase } from '@angular/common';
+import { NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { ActorStatus } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -33,11 +33,19 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
       <watt-badge *ngSwitchCase="'Active'" type="success">{{ t('Active') }}</watt-badge>
       <watt-badge *ngSwitchCase="'Inactive'" type="neutral">{{ t('Inactive') }}</watt-badge>
 
-      <ng-container *ngSwitchCase="null || undefined">{{ status | dhEmDashFallback }}</ng-container>
+      <ng-container *ngSwitchDefault>{{ status | dhEmDashFallback }}</ng-container>
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgSwitch, NgSwitchCase, TranslocoModule, DhEmDashFallbackPipe, WattBadgeComponent],
+  imports: [
+    NgSwitch,
+    NgSwitchCase,
+    NgSwitchDefault,
+    TranslocoDirective,
+
+    WattBadgeComponent,
+    DhEmDashFallbackPipe,
+  ],
 })
 export class DhActorStatusBadgeComponent {
   @Input({ required: true }) status: ActorStatus | null | undefined = null;

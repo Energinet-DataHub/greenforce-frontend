@@ -58,7 +58,7 @@ jobs:
         uses: ./.github/actions/yarn-nm-install
 
       - name: Add license to all projects
-        run: yarn nx run workspace-tools:add-license
+        run: yarn nx run tools:add-license
 
       - name: Commit licensed files
         run: |

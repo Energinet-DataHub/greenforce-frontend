@@ -29,13 +29,14 @@ limitations under the License.
       <watt-table
         #table
         description="Search result"
-        sortBy="createdDate"
-        sortDirection="asc"
+        [sortBy]="sortMetadata.active"
+        [sortDirection]="sortMetadata.direction"
         [dataSource]="dataSource"
         [resolveHeader]="t"
         [columns]="columns"
         [activeRow]="activeRow"
         (rowClick)="onRowClick($event)"
+        (sortChange)="onSortChange($event)"
       >
         <ng-container *wattTableCell="columns.messageId; let element">
           {{ element.messageId }}

@@ -17,16 +17,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Clients.EDI
 {
     public class ActorService
     {
-        private readonly IMarketParticipantClient _marketParticipantClient;
+        private readonly IMarketParticipantClient_V1 _marketParticipantClient;
 
-        public ActorService(IMarketParticipantClient marketParticipantClient)
+        public ActorService(IMarketParticipantClient_V1 marketParticipantClient)
         {
             _marketParticipantClient = marketParticipantClient ??
                                        throw new ArgumentNullException(nameof(marketParticipantClient));
@@ -37,7 +36,7 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
             if (cancellationToken.IsCancellationRequested) return new List<Actor>();
 
             var allActors = await _marketParticipantClient
-                .GetActorsAsync()
+                .ActorGetAsync()
                 .ConfigureAwait(false);
 
             return MapResult(allActors);

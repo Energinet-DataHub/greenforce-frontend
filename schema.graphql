@@ -13,11 +13,10 @@ type Actor {
   name: String!
   glnOrEicNumber: String!
   marketRole: EicFunction
+  status: ActorStatus!
   gridAreas: [GridAreaDto!]!
   contact: ActorContactDto
   organization: Organization!
-  externalActorId: UUID
-  status: ActorStatus!
 }
 
 type BalanceResponsibleType {
@@ -49,24 +48,6 @@ type Calculation {
   executionState: BatchState!
   areSettlementReportsCreated: Boolean!
   processType: ProcessType!
-}
-
-enum ContactCategoryType {
-  default
-  charges
-  chargelinks
-  electricalheating
-  endofsupply
-  energinetinquiry
-  errorreport
-  incorrectmove
-  incorrectswitch
-  measurementdata
-  meteringpoint
-  netsettlement
-  notification
-  recon
-  reminder
 }
 
 enum EdiB2CProcessType {
@@ -111,25 +92,17 @@ enum ExchangeEventCalculationType {
   AGGREGATION
 }
 
-enum EicFunctionType {
-  BalanceResponsibleParty
-  BillingAgent
-  EnergySupplier
-  GridAccessProvider
-  ImbalanceSettlementResponsible
-  MeterOperator
-  MeteredDataAdministrator
-  MeteredDataResponsible
-  MeteringPointAdministrator
-  SystemOperator
-  DanishEnergyAgency
-  DataHubAdministrator
-  IndependentAggregator
-  SerialEnergyTrader
+type GridAreaDto {
+  priceAreaCode: PriceAreaCode!
+  id: UUID!
+  code: String!
+  name: String!
+  validFrom: DateTime!
+  validTo: DateTime
 }
 
 type OrganizationAuditLog {
-  identityWithName: GetAuditIdentityResponseDto!
+  identityWithName: GetAuditIdentityResponse!
   organizationId: UUID!
   value: String!
   auditIdentityId: UUID!
@@ -143,8 +116,7 @@ type Organization {
   name: String!
   businessRegisterIdentifier: String!
   domain: String!
-  comment: String!
-  status: OrganizationStatus!
+  status: String!
   address: AddressDto!
 }
 
@@ -210,15 +182,6 @@ type Mutation {
 
 scalar UUID
 
-type GridAreaDto {
-  id: UUID!
-  code: String!
-  name: String!
-  priceAreaCode: PriceAreaCode!
-  validFrom: DateTime!
-  validTo: DateTime
-}
-
 type ActorContactDto {
   contactId: UUID!
   category: ContactCategory!
@@ -270,26 +233,18 @@ enum DocumentStatus {
   REJECTED
 }
 
-type GetAuditIdentityResponseDto {
+enum PriceAreaCode {
+  DK1
+  DK2
+}
+
+type GetAuditIdentityResponse {
   displayName: String!
 }
 
 enum OrganizationChangeType {
   DOMAIN_CHANGE
   NAME
-  BUSINESS_REGISTER_IDENTIFIER
-  ADDRESS_CITY
-  ADDRESS_COUNTRY
-  ADDRESS_NUMBER
-  ADDRESS_STREET_NAME
-  ADDRESS_ZIP_CODE
-}
-
-enum OrganizationStatus {
-  NEW
-  ACTIVE
-  BLOCKED
-  DELETED
 }
 
 type AddressDto {
@@ -308,14 +263,9 @@ type UserRoleDto {
   status: UserRoleStatus!
 }
 
-type MarketParticipantBadRequestError implements Error {
-  message: String!
-  jsonError: JSON!
-  statusCode: Int!
-}
-
 type ApiError implements Error {
   message: String!
+  apiErrors: [ApiErrorDescriptor!]!
   statusCode: Int!
   response: String
   headers: [KeyValuePairOfStringAndIEnumerableOfString!]!
@@ -325,7 +275,11 @@ interface Error {
   message: String!
 }
 
-scalar JSON
+type ApiErrorDescriptor {
+  message: String!
+  code: String!
+  args: JSON!
+}
 
 enum UserRoleStatus {
   ACTIVE
@@ -348,11 +302,6 @@ enum ContactCategory {
   NOTIFICATION
   RECON
   REMINDER
-}
-
-enum PriceAreaCode {
-  DK1
-  DK2
 }
 
 input CreateMarketParticipantInput {
@@ -437,7 +386,7 @@ type UserRoleWithPermissionsDto {
   description: String!
   eicFunction: EicFunction!
   status: UserRoleStatus!
-  permissions: [Permission!]!
+  permissions: [PermissionDetailsDto!]!
 }
 
 type UserRoleAuditLog {
@@ -474,11 +423,16 @@ enum UserRoleChangeType {
   CREATED
   NAME_CHANGE
   DESCRIPTION_CHANGE
-  EIC_FUNCTION_CHANGE
   STATUS_CHANGE
-  PERMISSIONS_CHANGE
   PERMISSION_ADDED
   PERMISSION_REMOVED
+}
+
+type PermissionDetailsDto {
+  id: Int!
+  name: String!
+  description: String!
+  created: DateTime!
 }
 
 type ExchangeEventSearchResult {
@@ -516,7 +470,7 @@ enum ActorAuditLogType {
 
 input CreateActorContactDtoInput {
   name: String!
-  category: ContactCategoryType!
+  category: ContactCategory!
   email: String!
   phone: String
 }
@@ -535,6 +489,8 @@ input CreateOrganizationDtoInput {
   domain: String!
 }
 
+scalar JSON
+
 input AddressDtoInput {
   streetName: String
   number: String
@@ -544,7 +500,7 @@ input AddressDtoInput {
 }
 
 input ActorMarketRoleDtoInput {
-  eicFunction: EicFunctionType!
+  eicFunction: EicFunction!
   gridAreas: [ActorGridAreaDtoInput!]!
   comment: String
 }
@@ -576,7 +532,7 @@ input UpdateActorInput {
   departmentPhone: String!
 }
 
-union UpdateActorError = MarketParticipantBadRequestError
+union UpdateActorError = ApiError
 
 type UpdateActorPayload {
   boolean: Boolean
@@ -612,7 +568,7 @@ input UpdateOrganizationInput {
   domain: String!
 }
 
-union UpdateOrganizationError = MarketParticipantBadRequestError
+union UpdateOrganizationError = ApiError
 
 type UpdateOrganizationPayload {
   boolean: Boolean

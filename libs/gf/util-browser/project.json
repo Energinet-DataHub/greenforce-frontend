@@ -9,8 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/gf/util-browser"],
       "options": {
-        "jestConfig": "libs/gf/util-browser/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/gf/util-browser/jest.config.ts"
       }
     },
     "lint": {

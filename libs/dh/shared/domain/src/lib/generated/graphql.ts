@@ -15,9 +15,12 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** Represents a date range */
   DateRange: { input: { start: Date, end: Date }; output: { start: Date, end: Date }; }
   UUID: { input: any; output: any; }
+  /** The `DateTime` scalar represents an ISO-8601 compliant date time type. */
   DateTime: { input: Date; output: Date; }
+  /** The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1. */
   Long: { input: any; output: any; }
   JSON: { input: any; output: any; }
 };
@@ -35,11 +38,10 @@ export type Actor = {
   name: Scalars['String']['output'];
   glnOrEicNumber: Scalars['String']['output'];
   marketRole?: Maybe<EicFunction>;
+  status: ActorStatus;
   gridAreas: Array<GridAreaDto>;
   contact?: Maybe<ActorContactDto>;
   organization: Organization;
-  externalActorId?: Maybe<Scalars['UUID']['output']>;
-  status: ActorStatus;
 };
 
 export type BalanceResponsibleType = {
@@ -74,24 +76,6 @@ export type Calculation = {
   areSettlementReportsCreated: Scalars['Boolean']['output'];
   processType: ProcessType;
 };
-
-export enum ContactCategoryType {
-  Default = 'default',
-  Charges = 'charges',
-  Chargelinks = 'chargelinks',
-  Electricalheating = 'electricalheating',
-  Endofsupply = 'endofsupply',
-  Energinetinquiry = 'energinetinquiry',
-  Errorreport = 'errorreport',
-  Incorrectmove = 'incorrectmove',
-  Incorrectswitch = 'incorrectswitch',
-  Measurementdata = 'measurementdata',
-  Meteringpoint = 'meteringpoint',
-  Netsettlement = 'netsettlement',
-  Notification = 'notification',
-  Recon = 'recon',
-  Reminder = 'reminder'
-}
 
 export enum EdiB2CProcessType {
   Preliminaryaggregation = 'preliminaryaggregation',
@@ -136,26 +120,19 @@ export enum ExchangeEventCalculationType {
   Aggregation = 'AGGREGATION'
 }
 
-export enum EicFunctionType {
-  BalanceResponsibleParty = 'BalanceResponsibleParty',
-  BillingAgent = 'BillingAgent',
-  EnergySupplier = 'EnergySupplier',
-  GridAccessProvider = 'GridAccessProvider',
-  ImbalanceSettlementResponsible = 'ImbalanceSettlementResponsible',
-  MeterOperator = 'MeterOperator',
-  MeteredDataAdministrator = 'MeteredDataAdministrator',
-  MeteredDataResponsible = 'MeteredDataResponsible',
-  MeteringPointAdministrator = 'MeteringPointAdministrator',
-  SystemOperator = 'SystemOperator',
-  DanishEnergyAgency = 'DanishEnergyAgency',
-  DataHubAdministrator = 'DataHubAdministrator',
-  IndependentAggregator = 'IndependentAggregator',
-  SerialEnergyTrader = 'SerialEnergyTrader'
-}
+export type GridAreaDto = {
+  __typename: 'GridAreaDto';
+  priceAreaCode: PriceAreaCode;
+  id: Scalars['UUID']['output'];
+  code: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  validFrom: Scalars['DateTime']['output'];
+  validTo?: Maybe<Scalars['DateTime']['output']>;
+};
 
 export type OrganizationAuditLog = {
   __typename: 'OrganizationAuditLog';
-  identityWithName: GetAuditIdentityResponseDto;
+  identityWithName: GetAuditIdentityResponse;
   organizationId: Scalars['UUID']['output'];
   value: Scalars['String']['output'];
   auditIdentityId: Scalars['UUID']['output'];
@@ -170,8 +147,7 @@ export type Organization = {
   name: Scalars['String']['output'];
   businessRegisterIdentifier: Scalars['String']['output'];
   domain: Scalars['String']['output'];
-  comment: Scalars['String']['output'];
-  status: OrganizationStatus;
+  status: Scalars['String']['output'];
   address: AddressDto;
 };
 
@@ -391,16 +367,6 @@ export type MutationCreateMarketParticipantArgs = {
   input: CreateMarketParticipantInput;
 };
 
-export type GridAreaDto = {
-  __typename: 'GridAreaDto';
-  id: Scalars['UUID']['output'];
-  code: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-  priceAreaCode: PriceAreaCode;
-  validFrom: Scalars['DateTime']['output'];
-  validTo?: Maybe<Scalars['DateTime']['output']>;
-};
-
 export type ActorContactDto = {
   __typename: 'ActorContactDto';
   contactId: Scalars['UUID']['output'];
@@ -446,27 +412,19 @@ export enum DocumentStatus {
   Rejected = 'REJECTED'
 }
 
-export type GetAuditIdentityResponseDto = {
-  __typename: 'GetAuditIdentityResponseDto';
+export enum PriceAreaCode {
+  Dk1 = 'DK1',
+  Dk2 = 'DK2'
+}
+
+export type GetAuditIdentityResponse = {
+  __typename: 'GetAuditIdentityResponse';
   displayName: Scalars['String']['output'];
 };
 
 export enum OrganizationChangeType {
   DomainChange = 'DOMAIN_CHANGE',
-  Name = 'NAME',
-  BusinessRegisterIdentifier = 'BUSINESS_REGISTER_IDENTIFIER',
-  AddressCity = 'ADDRESS_CITY',
-  AddressCountry = 'ADDRESS_COUNTRY',
-  AddressNumber = 'ADDRESS_NUMBER',
-  AddressStreetName = 'ADDRESS_STREET_NAME',
-  AddressZipCode = 'ADDRESS_ZIP_CODE'
-}
-
-export enum OrganizationStatus {
-  New = 'NEW',
-  Active = 'ACTIVE',
-  Blocked = 'BLOCKED',
-  Deleted = 'DELETED'
+  Name = 'NAME'
 }
 
 export type AddressDto = {
@@ -487,16 +445,10 @@ export type UserRoleDto = {
   status: UserRoleStatus;
 };
 
-export type MarketParticipantBadRequestError = Error & {
-  __typename: 'MarketParticipantBadRequestError';
-  message: Scalars['String']['output'];
-  jsonError: Scalars['JSON']['output'];
-  statusCode: Scalars['Int']['output'];
-};
-
 export type ApiError = Error & {
   __typename: 'ApiError';
   message: Scalars['String']['output'];
+  apiErrors: Array<ApiErrorDescriptor>;
   statusCode: Scalars['Int']['output'];
   response?: Maybe<Scalars['String']['output']>;
   headers: Array<KeyValuePairOfStringAndIEnumerableOfString>;
@@ -504,6 +456,13 @@ export type ApiError = Error & {
 
 export type Error = {
   message: Scalars['String']['output'];
+};
+
+export type ApiErrorDescriptor = {
+  __typename: 'ApiErrorDescriptor';
+  message: Scalars['String']['output'];
+  code: Scalars['String']['output'];
+  args: Scalars['JSON']['output'];
 };
 
 export enum UserRoleStatus {
@@ -527,11 +486,6 @@ export enum ContactCategory {
   Notification = 'NOTIFICATION',
   Recon = 'RECON',
   Reminder = 'REMINDER'
-}
-
-export enum PriceAreaCode {
-  Dk1 = 'DK1',
-  Dk2 = 'DK2'
 }
 
 export type CreateMarketParticipantInput = {
@@ -623,7 +577,7 @@ export type UserRoleWithPermissionsDto = {
   description: Scalars['String']['output'];
   eicFunction: EicFunction;
   status: UserRoleStatus;
-  permissions: Array<Permission>;
+  permissions: Array<PermissionDetailsDto>;
 };
 
 export type UserRoleAuditLog = {
@@ -663,12 +617,18 @@ export enum UserRoleChangeType {
   Created = 'CREATED',
   NameChange = 'NAME_CHANGE',
   DescriptionChange = 'DESCRIPTION_CHANGE',
-  EicFunctionChange = 'EIC_FUNCTION_CHANGE',
   StatusChange = 'STATUS_CHANGE',
-  PermissionsChange = 'PERMISSIONS_CHANGE',
   PermissionAdded = 'PERMISSION_ADDED',
   PermissionRemoved = 'PERMISSION_REMOVED'
 }
+
+export type PermissionDetailsDto = {
+  __typename: 'PermissionDetailsDto';
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  description: Scalars['String']['output'];
+  created: Scalars['DateTime']['output'];
+};
 
 export type ExchangeEventSearchResult = {
   __typename: 'ExchangeEventSearchResult';
@@ -707,7 +667,7 @@ export enum ActorAuditLogType {
 
 export type CreateActorContactDtoInput = {
   name: Scalars['String']['input'];
-  category: ContactCategoryType;
+  category: ContactCategory;
   email: Scalars['String']['input'];
   phone?: InputMaybe<Scalars['String']['input']>;
 };
@@ -735,7 +695,7 @@ export type AddressDtoInput = {
 };
 
 export type ActorMarketRoleDtoInput = {
-  eicFunction: EicFunctionType;
+  eicFunction: EicFunction;
   gridAreas: Array<ActorGridAreaDtoInput>;
   comment?: InputMaybe<Scalars['String']['input']>;
 };
@@ -768,7 +728,7 @@ export type UpdateActorInput = {
   departmentPhone: Scalars['String']['input'];
 };
 
-export type UpdateActorError = MarketParticipantBadRequestError;
+export type UpdateActorError = ApiError;
 
 export type UpdateActorPayload = {
   __typename: 'UpdateActorPayload';
@@ -807,7 +767,7 @@ export type UpdateOrganizationInput = {
   domain: Scalars['String']['input'];
 };
 
-export type UpdateOrganizationError = MarketParticipantBadRequestError;
+export type UpdateOrganizationError = ApiError;
 
 export type UpdateOrganizationPayload = {
   __typename: 'UpdateOrganizationPayload';
@@ -828,79 +788,12 @@ export type GetKnownEmailsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetKnownEmailsQuery = { __typename: 'Query', knownEmails: Array<string> };
 
-export type GetPermissionLogsQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
-}>;
-
-
-export type GetPermissionLogsQuery = { __typename: 'Query', permissionLogs: Array<{ __typename: 'PermissionLog', changedByUserName: string, type: PermissionAuditLogType, timestamp: Date, value?: string | null }> };
-
-export type GetPermissionDetailsQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
-}>;
-
-
-export type GetPermissionDetailsQuery = { __typename: 'Query', permissionById: { __typename: 'Permission', id: number, name: string, description: string, created: Date, assignableTo: Array<EicFunction>, userRoles: Array<{ __typename: 'UserRoleDto', id: any, name: string, description: string, eicFunction: EicFunction, status: UserRoleStatus }> } };
-
 export type GetPermissionsQueryVariables = Exact<{
   searchTerm: Scalars['String']['input'];
 }>;
 
 
 export type GetPermissionsQuery = { __typename: 'Query', permissions: Array<{ __typename: 'Permission', id: number, name: string, description: string, created: Date }> };
-
-export type GetBalanceResponsibleMessagesQueryVariables = Exact<{
-  pageNumber: Scalars['Int']['input'];
-  pageSize: Scalars['Int']['input'];
-  sortProperty: BalanceResponsibleSortProperty;
-  sortDirection: SortDirection;
-}>;
-
-
-export type GetBalanceResponsibleMessagesQuery = { __typename: 'Query', balanceResponsible: { __typename: 'BalanceResponsiblePageResult', totalCount: number, page: Array<{ __typename: 'BalanceResponsibleType', id: string, receivedDateTime: Date, supplier: string, balanceResponsible: string, meteringPointType: TimeSeriesType, validFromDate: Date, validToDate?: Date | null, gridArea: string, supplierWithName?: { __typename: 'ActorNameDto', value: string } | null, balanceResponsibleWithName?: { __typename: 'ActorNameDto', value: string } | null, gridAreaWithName?: { __typename: 'GridAreaDto', code: string, name: string } | null }> } };
-
-export type GetMeteringGridAreaImbalanceQueryVariables = Exact<{
-  pageNumber: Scalars['Int']['input'];
-  pageSize: Scalars['Int']['input'];
-  periodFrom?: InputMaybe<Scalars['DateTime']['input']>;
-  periodTo?: InputMaybe<Scalars['DateTime']['input']>;
-  gridAreaCode?: InputMaybe<Scalars['String']['input']>;
-  documentId?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type GetMeteringGridAreaImbalanceQuery = { __typename: 'Query', meteringGridAreaImbalance: { __typename: 'MeteringGridAreaImbalanceSearchResponse', totalCount: number, items: Array<{ __typename: 'MeteringGridAreaImbalanceSearchResult', id: string, gridAreaCode: string, documentDateTime: Date, receivedDateTime: Date, periodStart: Date, periodEnd: Date, storageId: string }> } };
-
-export type GetUserRoleAuditLogsQueryVariables = Exact<{
-  id: Scalars['UUID']['input'];
-}>;
-
-
-export type GetUserRoleAuditLogsQuery = { __typename: 'Query', userRoleAuditLogs: Array<{ __typename: 'UserRoleAuditLog', changedByUserName: string, name: string, description?: string | null, permissions: Array<string>, eicFunction?: EicFunction | null, status: UserRoleStatus, changeType: UserRoleChangeType, timestamp: Date }> };
-
-export type GetOutgoingMessageByIdQueryVariables = Exact<{
-  documentId: Scalars['String']['input'];
-}>;
-
-
-export type GetOutgoingMessageByIdQuery = { __typename: 'Query', esettOutgoingMessageById: { __typename: 'EsettOutgoingMessage', documentId: string, calculationType: ExchangeEventCalculationType, created: Date, periodFrom: Date, periodTo: Date, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, gridArea?: { __typename: 'GridAreaDto', code: string, name: string } | null } };
-
-export type CreateCalculationMutationVariables = Exact<{
-  input: CreateCalculationInput;
-}>;
-
-
-export type CreateCalculationMutation = { __typename: 'Mutation', createCalculation: { __typename: 'CreateCalculationPayload', calculation?: { __typename: 'Calculation', id: any } | null } };
-
-export type GetGridAreaOverviewQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetGridAreaOverviewQuery = { __typename: 'Query', gridAreaOverview: Array<{ __typename: 'GridAreaOverviewItemDto', id: any, code: string, name: string, priceAreaCode: string, validFrom: Date, validTo?: Date | null, actorNumber?: string | null, actorName?: string | null, organizationName?: string | null, fullFlexDate?: Date | null }> };
-
-export type GetActorFilterQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetActorFilterQuery = { __typename: 'Query', actors: Array<{ __typename: 'Actor', value: any, displayValue: string, gridAreas: Array<{ __typename: 'GridAreaDto', code: string }> }> };
 
 export type GetOutgoingMessagesQueryVariables = Exact<{
   pageNumber: Scalars['Int']['input'];
@@ -917,6 +810,75 @@ export type GetOutgoingMessagesQueryVariables = Exact<{
 
 export type GetOutgoingMessagesQuery = { __typename: 'Query', esettExchangeEvents: { __typename: 'ExchangeEventSearchResponse', totalCount: number, items: Array<{ __typename: 'ExchangeEventSearchResult', created: Date, documentId: string, gridAreaCode: string, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType }> } };
 
+export type GetPermissionDetailsQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type GetPermissionDetailsQuery = { __typename: 'Query', permissionById: { __typename: 'Permission', id: number, name: string, description: string, created: Date, assignableTo: Array<EicFunction>, userRoles: Array<{ __typename: 'UserRoleDto', id: any, name: string, description: string, eicFunction: EicFunction, status: UserRoleStatus }> } };
+
+export type GetPermissionLogsQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type GetPermissionLogsQuery = { __typename: 'Query', permissionLogs: Array<{ __typename: 'PermissionLog', changedByUserName: string, type: PermissionAuditLogType, timestamp: Date, value?: string | null }> };
+
+export type GetGridAreaOverviewQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetGridAreaOverviewQuery = { __typename: 'Query', gridAreaOverview: Array<{ __typename: 'GridAreaOverviewItemDto', id: any, code: string, name: string, priceAreaCode: string, validFrom: Date, validTo?: Date | null, actorNumber?: string | null, actorName?: string | null, organizationName?: string | null, fullFlexDate?: Date | null }> };
+
+export type GetBalanceResponsibleMessagesQueryVariables = Exact<{
+  pageNumber: Scalars['Int']['input'];
+  pageSize: Scalars['Int']['input'];
+  sortProperty: BalanceResponsibleSortProperty;
+  sortDirection: SortDirection;
+}>;
+
+
+export type GetBalanceResponsibleMessagesQuery = { __typename: 'Query', balanceResponsible: { __typename: 'BalanceResponsiblePageResult', totalCount: number, page: Array<{ __typename: 'BalanceResponsibleType', id: string, receivedDateTime: Date, supplier: string, balanceResponsible: string, meteringPointType: TimeSeriesType, validFromDate: Date, validToDate?: Date | null, gridArea: string, supplierWithName?: { __typename: 'ActorNameDto', value: string } | null, balanceResponsibleWithName?: { __typename: 'ActorNameDto', value: string } | null, gridAreaWithName?: { __typename: 'GridAreaDto', code: string, name: string } | null }> } };
+
+export type GetOutgoingMessageByIdQueryVariables = Exact<{
+  documentId: Scalars['String']['input'];
+}>;
+
+
+export type GetOutgoingMessageByIdQuery = { __typename: 'Query', esettOutgoingMessageById: { __typename: 'EsettOutgoingMessage', documentId: string, calculationType: ExchangeEventCalculationType, created: Date, periodFrom: Date, periodTo: Date, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, gridArea?: { __typename: 'GridAreaDto', code: string, name: string } | null } };
+
+export type GetUserRoleAuditLogsQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetUserRoleAuditLogsQuery = { __typename: 'Query', userRoleAuditLogs: Array<{ __typename: 'UserRoleAuditLog', changedByUserName: string, name: string, description?: string | null, permissions: Array<string>, eicFunction?: EicFunction | null, status: UserRoleStatus, changeType: UserRoleChangeType, timestamp: Date }> };
+
+export type GetActorsForSettlementReportQueryVariables = Exact<{
+  eicFunctions?: InputMaybe<Array<EicFunction> | EicFunction>;
+}>;
+
+
+export type GetActorsForSettlementReportQuery = { __typename: 'Query', actorsForEicFunction: Array<{ __typename: 'Actor', value: string, displayValue: string, gridAreas: Array<{ __typename: 'GridAreaDto', code: string }> }> };
+
+export type GetMeteringGridAreaImbalanceQueryVariables = Exact<{
+  pageNumber: Scalars['Int']['input'];
+  pageSize: Scalars['Int']['input'];
+  periodFrom?: InputMaybe<Scalars['DateTime']['input']>;
+  periodTo?: InputMaybe<Scalars['DateTime']['input']>;
+  gridAreaCode?: InputMaybe<Scalars['String']['input']>;
+  documentId?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetMeteringGridAreaImbalanceQuery = { __typename: 'Query', meteringGridAreaImbalance: { __typename: 'MeteringGridAreaImbalanceSearchResponse', totalCount: number, items: Array<{ __typename: 'MeteringGridAreaImbalanceSearchResult', id: string, gridAreaCode: string, documentDateTime: Date, receivedDateTime: Date, periodStart: Date, periodEnd: Date, storageId: string }> } };
+
+export type CreateCalculationMutationVariables = Exact<{
+  input: CreateCalculationInput;
+}>;
+
+
+export type CreateCalculationMutation = { __typename: 'Mutation', createCalculation: { __typename: 'CreateCalculationPayload', calculation?: { __typename: 'Calculation', id: any } | null } };
+
 export type GetActorsForRequestCalculationQueryVariables = Exact<{
   eicFunctions?: InputMaybe<Array<EicFunction> | EicFunction>;
 }>;
@@ -931,12 +893,24 @@ export type GetCalculationByIdQueryVariables = Exact<{
 
 export type GetCalculationByIdQuery = { __typename: 'Query', calculationById: { __typename: 'Calculation', id: any, executionState: BatchState, executionTimeEnd?: Date | null, executionTimeStart?: Date | null, period: { start: Date, end: Date }, statusType: ProcessStatus, processType: ProcessType, createdByUserName?: string | null, gridAreas: Array<{ __typename: 'GridAreaDto', code: string, name: string, id: any, priceAreaCode: PriceAreaCode, validFrom: Date }> } };
 
-export type GetActorsForSettlementReportQueryVariables = Exact<{
-  eicFunctions?: InputMaybe<Array<EicFunction> | EicFunction>;
+export type GetActorFilterQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetActorFilterQuery = { __typename: 'Query', actors: Array<{ __typename: 'Actor', value: any, displayValue: string, gridAreas: Array<{ __typename: 'GridAreaDto', code: string }> }> };
+
+export type CreateMarketParticipantMutationVariables = Exact<{
+  input: CreateMarketParticipantInput;
 }>;
 
 
-export type GetActorsForSettlementReportQuery = { __typename: 'Query', actorsForEicFunction: Array<{ __typename: 'Actor', value: string, displayValue: string, gridAreas: Array<{ __typename: 'GridAreaDto', code: string }> }> };
+export type CreateMarketParticipantMutation = { __typename: 'Mutation', createMarketParticipant: { __typename: 'CreateMarketParticipantPayload', success?: boolean | null, errors?: Array<{ __typename: 'ApiError', apiErrors: Array<{ __typename: 'ApiErrorDescriptor', message: string, code: string, args: any }> }> | null } };
+
+export type GetLatestBalanceFixingQueryVariables = Exact<{
+  period?: InputMaybe<Scalars['DateRange']['input']>;
+}>;
+
+
+export type GetLatestBalanceFixingQuery = { __typename: 'Query', calculations: Array<{ __typename: 'Calculation', period: { start: Date, end: Date } }> };
 
 export type GetCalculationsQueryVariables = Exact<{
   executionTime?: InputMaybe<Scalars['DateRange']['input']>;
@@ -953,13 +927,6 @@ export type GetGridAreasQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetGridAreasQuery = { __typename: 'Query', gridAreas: Array<{ __typename: 'GridAreaDto', code: string, name: string, validTo?: Date | null, validFrom: Date }> };
-
-export type GetLatestBalanceFixingQueryVariables = Exact<{
-  period?: InputMaybe<Scalars['DateRange']['input']>;
-}>;
-
-
-export type GetLatestBalanceFixingQuery = { __typename: 'Query', calculations: Array<{ __typename: 'Calculation', period: { start: Date, end: Date } }> };
 
 export type GetSettlementReportsQueryVariables = Exact<{
   period?: InputMaybe<Scalars['DateRange']['input']>;
@@ -982,26 +949,10 @@ export type RequestCalculationMutationVariables = Exact<{
 
 export type RequestCalculationMutation = { __typename: 'Mutation', createAggregatedMeasureDataRequest: { __typename: 'CreateAggregatedMeasureDataRequestPayload', success?: boolean | null } };
 
-export type CreateMarketParticipantMutationVariables = Exact<{
-  input: CreateMarketParticipantInput;
-}>;
+export type GetSelectedActorQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CreateMarketParticipantMutation = { __typename: 'Mutation', createMarketParticipant: { __typename: 'CreateMarketParticipantPayload', success?: boolean | null, errors?: Array<{ __typename: 'ApiError', message: string, response?: string | null, statusCode: number }> | null } };
-
-export type GetActorByIdQueryVariables = Exact<{
-  id: Scalars['UUID']['input'];
-}>;
-
-
-export type GetActorByIdQuery = { __typename: 'Query', actorById: { __typename: 'Actor', id: any, glnOrEicNumber: string, name: string, marketRole?: EicFunction | null, status: ActorStatus, gridAreas: Array<{ __typename: 'GridAreaDto', code: string }>, organization: { __typename: 'Organization', name: string } } };
-
-export type GetActorEditableFieldsQueryVariables = Exact<{
-  actorId: Scalars['UUID']['input'];
-}>;
-
-
-export type GetActorEditableFieldsQuery = { __typename: 'Query', actorById: { __typename: 'Actor', name: string, organization: { __typename: 'Organization', domain: string }, contact?: { __typename: 'ActorContactDto', name: string, email: string, phone?: string | null } | null } };
+export type GetSelectedActorQuery = { __typename: 'Query', selectedActor: { __typename: 'Actor', glnOrEicNumber: string, marketRole?: EicFunction | null, gridAreas: Array<{ __typename: 'GridAreaDto', code: string, name: string }> } };
 
 export type GetActorsByOrganizationIdQueryVariables = Exact<{
   organizationId: Scalars['UUID']['input'];
@@ -1010,29 +961,31 @@ export type GetActorsByOrganizationIdQueryVariables = Exact<{
 
 export type GetActorsByOrganizationIdQuery = { __typename: 'Query', actorsByOrganizationId: Array<{ __typename: 'Actor', id: any, glnOrEicNumber: string, name: string, marketRole?: EicFunction | null, status: ActorStatus }> };
 
-export type GetSelectedActorQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetActorEditableFieldsQueryVariables = Exact<{
+  actorId: Scalars['UUID']['input'];
+}>;
 
 
-export type GetSelectedActorQuery = { __typename: 'Query', selectedActor: { __typename: 'Actor', glnOrEicNumber: string, marketRole?: EicFunction | null, gridAreas: Array<{ __typename: 'GridAreaDto', code: string, name: string }> } };
+export type GetActorEditableFieldsQuery = { __typename: 'Query', actorById: { __typename: 'Actor', name: string, organization: { __typename: 'Organization', domain: string }, contact?: { __typename: 'ActorContactDto', name: string, email: string, phone?: string | null } | null } };
 
 export type GetActorsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetActorsQuery = { __typename: 'Query', actors: Array<{ __typename: 'Actor', id: any, glnOrEicNumber: string, name: string, marketRole?: EicFunction | null, status: ActorStatus }> };
 
-export type GetAuditLogByActorIdQueryVariables = Exact<{
-  actorId: Scalars['UUID']['input'];
-}>;
-
-
-export type GetAuditLogByActorIdQuery = { __typename: 'Query', actorAuditLogs: Array<{ __typename: 'ActorAuditLog', changedByUserName: string, currentValue?: string | null, previousValue?: string | null, timestamp: Date, type: ActorAuditLogType, contactCategory: ContactCategory }> };
-
 export type GetAuditLogByOrganizationIdQueryVariables = Exact<{
   organizationId: Scalars['UUID']['input'];
 }>;
 
 
-export type GetAuditLogByOrganizationIdQuery = { __typename: 'Query', organizationAuditLog: Array<{ __typename: 'OrganizationAuditLog', organizationId: any, value: string, auditIdentityId: any, timestamp: Date, organizationChangeType: OrganizationChangeType, identityWithName: { __typename: 'GetAuditIdentityResponseDto', displayName: string } }> };
+export type GetAuditLogByOrganizationIdQuery = { __typename: 'Query', organizationAuditLog: Array<{ __typename: 'OrganizationAuditLog', organizationId: any, value: string, auditIdentityId: any, timestamp: Date, organizationChangeType: OrganizationChangeType, identityWithName: { __typename: 'GetAuditIdentityResponse', displayName: string } }> };
+
+export type GetActorByIdQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetActorByIdQuery = { __typename: 'Query', actorById: { __typename: 'Actor', id: any, glnOrEicNumber: string, name: string, marketRole?: EicFunction | null, status: ActorStatus, gridAreas: Array<{ __typename: 'GridAreaDto', code: string }>, organization: { __typename: 'Organization', name: string } } };
 
 export type GetGridAreasForCreateActorQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1046,12 +999,19 @@ export type GetUserRolesByEicfunctionQueryVariables = Exact<{
 
 export type GetUserRolesByEicfunctionQuery = { __typename: 'Query', userRolesByEicFunction: Array<{ __typename: 'UserRoleDto', name: string, id: any, description: string }> };
 
-export type GetOrganizationByIdQueryVariables = Exact<{
-  id: Scalars['UUID']['input'];
+export type GetAuditLogByActorIdQueryVariables = Exact<{
+  actorId: Scalars['UUID']['input'];
 }>;
 
 
-export type GetOrganizationByIdQuery = { __typename: 'Query', organizationById: { __typename: 'Organization', organizationId?: string | null, name: string, businessRegisterIdentifier: string, domain: string } };
+export type GetAuditLogByActorIdQuery = { __typename: 'Query', actorAuditLogs: Array<{ __typename: 'ActorAuditLog', changedByUserName: string, currentValue?: string | null, previousValue?: string | null, timestamp: Date, type: ActorAuditLogType, contactCategory: ContactCategory }> };
+
+export type UpdateOrganizationMutationVariables = Exact<{
+  input: UpdateOrganizationInput;
+}>;
+
+
+export type UpdateOrganizationMutation = { __typename: 'Mutation', updateOrganization: { __typename: 'UpdateOrganizationPayload', boolean?: boolean | null, errors?: Array<{ __typename: 'ApiError', message: string }> | null } };
 
 export type GetOrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1063,50 +1023,50 @@ export type UpdateActorMutationVariables = Exact<{
 }>;
 
 
-export type UpdateActorMutation = { __typename: 'Mutation', updateActor: { __typename: 'UpdateActorPayload', boolean?: boolean | null, errors?: Array<{ __typename: 'MarketParticipantBadRequestError', message: string }> | null } };
+export type UpdateActorMutation = { __typename: 'Mutation', updateActor: { __typename: 'UpdateActorPayload', boolean?: boolean | null, errors?: Array<{ __typename: 'ApiError', message: string }> | null } };
 
-export type UpdateOrganizationMutationVariables = Exact<{
-  input: UpdateOrganizationInput;
+export type GetOrganizationByIdQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
 }>;
 
 
-export type UpdateOrganizationMutation = { __typename: 'Mutation', updateOrganization: { __typename: 'UpdateOrganizationPayload', boolean?: boolean | null, errors?: Array<{ __typename: 'MarketParticipantBadRequestError', message: string }> | null } };
+export type GetOrganizationByIdQuery = { __typename: 'Query', organizationById: { __typename: 'Organization', organizationId?: string | null, name: string, businessRegisterIdentifier: string, domain: string } };
 
 
 export const GetKnownEmailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetKnownEmails"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"knownEmails"}}]}}]} as unknown as DocumentNode<GetKnownEmailsQuery, GetKnownEmailsQueryVariables>;
-export const GetPermissionLogsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPermissionLogs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"permissionLogs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"changedByUserName"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]} as unknown as DocumentNode<GetPermissionLogsQuery, GetPermissionLogsQueryVariables>;
-export const GetPermissionDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPermissionDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"permissionById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"assignableTo"}},{"kind":"Field","name":{"kind":"Name","value":"userRoles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"eicFunction"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<GetPermissionDetailsQuery, GetPermissionDetailsQueryVariables>;
 export const GetPermissionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPermissions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"searchTerm"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"permissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"searchTerm"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchTerm"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"created"}}]}}]}}]} as unknown as DocumentNode<GetPermissionsQuery, GetPermissionsQueryVariables>;
-export const GetBalanceResponsibleMessagesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getBalanceResponsibleMessages"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageNumber"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sortProperty"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"BalanceResponsibleSortProperty"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sortDirection"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SortDirection"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"balanceResponsible"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageNumber"}}},{"kind":"Argument","name":{"kind":"Name","value":"pageSize"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}}},{"kind":"Argument","name":{"kind":"Name","value":"sortProperty"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sortProperty"}}},{"kind":"Argument","name":{"kind":"Name","value":"sortDirection"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sortDirection"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"receivedDateTime"}},{"kind":"Field","name":{"kind":"Name","value":"supplierWithName"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"supplier"}},{"kind":"Field","name":{"kind":"Name","value":"balanceResponsibleWithName"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balanceResponsible"}},{"kind":"Field","name":{"kind":"Name","value":"meteringPointType"}},{"kind":"Field","name":{"kind":"Name","value":"validFromDate"}},{"kind":"Field","name":{"kind":"Name","value":"validToDate"}},{"kind":"Field","name":{"kind":"Name","value":"gridArea"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreaWithName"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<GetBalanceResponsibleMessagesQuery, GetBalanceResponsibleMessagesQueryVariables>;
-export const GetMeteringGridAreaImbalanceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getMeteringGridAreaImbalance"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageNumber"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"periodFrom"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateTime"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"periodTo"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateTime"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"gridAreaCode"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meteringGridAreaImbalance"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageNumber"}}},{"kind":"Argument","name":{"kind":"Name","value":"pageSize"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}}},{"kind":"Argument","name":{"kind":"Name","value":"createdFrom"},"value":{"kind":"Variable","name":{"kind":"Name","value":"periodFrom"}}},{"kind":"Argument","name":{"kind":"Name","value":"createdTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"periodTo"}}},{"kind":"Argument","name":{"kind":"Name","value":"gridAreaCode"},"value":{"kind":"Variable","name":{"kind":"Name","value":"gridAreaCode"}}},{"kind":"Argument","name":{"kind":"Name","value":"documentId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreaCode"}},{"kind":"Field","name":{"kind":"Name","value":"documentDateTime"}},{"kind":"Field","name":{"kind":"Name","value":"receivedDateTime"}},{"kind":"Field","name":{"kind":"Name","value":"periodStart"}},{"kind":"Field","name":{"kind":"Name","value":"periodEnd"}},{"kind":"Field","name":{"kind":"Name","value":"storageId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<GetMeteringGridAreaImbalanceQuery, GetMeteringGridAreaImbalanceQueryVariables>;
-export const GetUserRoleAuditLogsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUserRoleAuditLogs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userRoleAuditLogs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"changedByUserName"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}},{"kind":"Field","name":{"kind":"Name","value":"eicFunction"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"changeType"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}}]} as unknown as DocumentNode<GetUserRoleAuditLogsQuery, GetUserRoleAuditLogsQueryVariables>;
-export const GetOutgoingMessageByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetOutgoingMessageById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"esettOutgoingMessageById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"documentId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"calculationType"}},{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"periodFrom"}},{"kind":"Field","name":{"kind":"Name","value":"periodTo"}},{"kind":"Field","name":{"kind":"Name","value":"documentStatus"}},{"kind":"Field","name":{"kind":"Name","value":"gridArea"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"timeSeriesType"}}]}}]}}]} as unknown as DocumentNode<GetOutgoingMessageByIdQuery, GetOutgoingMessageByIdQueryVariables>;
-export const CreateCalculationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateCalculation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateCalculationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createCalculation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"calculation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<CreateCalculationMutation, CreateCalculationMutationVariables>;
-export const GetGridAreaOverviewDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetGridAreaOverview"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gridAreaOverview"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"priceAreaCode"}},{"kind":"Field","name":{"kind":"Name","value":"validFrom"}},{"kind":"Field","name":{"kind":"Name","value":"validTo"}},{"kind":"Field","name":{"kind":"Name","value":"actorNumber"}},{"kind":"Field","name":{"kind":"Name","value":"actorName"}},{"kind":"Field","name":{"kind":"Name","value":"organizationName"}},{"kind":"Field","name":{"kind":"Name","value":"fullFlexDate"}}]}}]}}]} as unknown as DocumentNode<GetGridAreaOverviewQuery, GetGridAreaOverviewQueryVariables>;
-export const GetActorFilterDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetActorFilter"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"value"},"name":{"kind":"Name","value":"id"}},{"kind":"Field","alias":{"kind":"Name","value":"displayValue"},"name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<GetActorFilterQuery, GetActorFilterQueryVariables>;
 export const GetOutgoingMessagesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getOutgoingMessages"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageNumber"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"periodFrom"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateTime"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"periodTo"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateTime"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"gridAreaCode"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"calculationType"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ExchangeEventCalculationType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"documentStatus"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DocumentStatus"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"timeSeriesType"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"TimeSeriesType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"esettExchangeEvents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageNumber"}}},{"kind":"Argument","name":{"kind":"Name","value":"pageSize"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}}},{"kind":"Argument","name":{"kind":"Name","value":"periodFrom"},"value":{"kind":"Variable","name":{"kind":"Name","value":"periodFrom"}}},{"kind":"Argument","name":{"kind":"Name","value":"periodTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"periodTo"}}},{"kind":"Argument","name":{"kind":"Name","value":"gridAreaCode"},"value":{"kind":"Variable","name":{"kind":"Name","value":"gridAreaCode"}}},{"kind":"Argument","name":{"kind":"Name","value":"calculationType"},"value":{"kind":"Variable","name":{"kind":"Name","value":"calculationType"}}},{"kind":"Argument","name":{"kind":"Name","value":"documentStatus"},"value":{"kind":"Variable","name":{"kind":"Name","value":"documentStatus"}}},{"kind":"Argument","name":{"kind":"Name","value":"timeSeriesType"},"value":{"kind":"Variable","name":{"kind":"Name","value":"timeSeriesType"}}},{"kind":"Argument","name":{"kind":"Name","value":"documentId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreaCode"}},{"kind":"Field","name":{"kind":"Name","value":"calculationType"}},{"kind":"Field","name":{"kind":"Name","value":"documentStatus"}},{"kind":"Field","name":{"kind":"Name","value":"timeSeriesType"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<GetOutgoingMessagesQuery, GetOutgoingMessagesQueryVariables>;
+export const GetPermissionDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPermissionDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"permissionById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"assignableTo"}},{"kind":"Field","name":{"kind":"Name","value":"userRoles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"eicFunction"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<GetPermissionDetailsQuery, GetPermissionDetailsQueryVariables>;
+export const GetPermissionLogsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPermissionLogs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"permissionLogs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"changedByUserName"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]} as unknown as DocumentNode<GetPermissionLogsQuery, GetPermissionLogsQueryVariables>;
+export const GetGridAreaOverviewDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetGridAreaOverview"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gridAreaOverview"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"priceAreaCode"}},{"kind":"Field","name":{"kind":"Name","value":"validFrom"}},{"kind":"Field","name":{"kind":"Name","value":"validTo"}},{"kind":"Field","name":{"kind":"Name","value":"actorNumber"}},{"kind":"Field","name":{"kind":"Name","value":"actorName"}},{"kind":"Field","name":{"kind":"Name","value":"organizationName"}},{"kind":"Field","name":{"kind":"Name","value":"fullFlexDate"}}]}}]}}]} as unknown as DocumentNode<GetGridAreaOverviewQuery, GetGridAreaOverviewQueryVariables>;
+export const GetBalanceResponsibleMessagesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getBalanceResponsibleMessages"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageNumber"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sortProperty"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"BalanceResponsibleSortProperty"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sortDirection"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SortDirection"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"balanceResponsible"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageNumber"}}},{"kind":"Argument","name":{"kind":"Name","value":"pageSize"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}}},{"kind":"Argument","name":{"kind":"Name","value":"sortProperty"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sortProperty"}}},{"kind":"Argument","name":{"kind":"Name","value":"sortDirection"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sortDirection"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"receivedDateTime"}},{"kind":"Field","name":{"kind":"Name","value":"supplierWithName"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"supplier"}},{"kind":"Field","name":{"kind":"Name","value":"balanceResponsibleWithName"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"balanceResponsible"}},{"kind":"Field","name":{"kind":"Name","value":"meteringPointType"}},{"kind":"Field","name":{"kind":"Name","value":"validFromDate"}},{"kind":"Field","name":{"kind":"Name","value":"validToDate"}},{"kind":"Field","name":{"kind":"Name","value":"gridArea"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreaWithName"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<GetBalanceResponsibleMessagesQuery, GetBalanceResponsibleMessagesQueryVariables>;
+export const GetOutgoingMessageByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetOutgoingMessageById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"esettOutgoingMessageById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"documentId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"calculationType"}},{"kind":"Field","name":{"kind":"Name","value":"created"}},{"kind":"Field","name":{"kind":"Name","value":"periodFrom"}},{"kind":"Field","name":{"kind":"Name","value":"periodTo"}},{"kind":"Field","name":{"kind":"Name","value":"documentStatus"}},{"kind":"Field","name":{"kind":"Name","value":"gridArea"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"timeSeriesType"}}]}}]}}]} as unknown as DocumentNode<GetOutgoingMessageByIdQuery, GetOutgoingMessageByIdQueryVariables>;
+export const GetUserRoleAuditLogsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUserRoleAuditLogs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userRoleAuditLogs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"changedByUserName"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"}},{"kind":"Field","name":{"kind":"Name","value":"eicFunction"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"changeType"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}}]} as unknown as DocumentNode<GetUserRoleAuditLogsQuery, GetUserRoleAuditLogsQueryVariables>;
+export const GetActorsForSettlementReportDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetActorsForSettlementReport"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"eicFunctions"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EicFunction"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actorsForEicFunction"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"eicFunctions"},"value":{"kind":"Variable","name":{"kind":"Name","value":"eicFunctions"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"value"},"name":{"kind":"Name","value":"glnOrEicNumber"}},{"kind":"Field","alias":{"kind":"Name","value":"displayValue"},"name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<GetActorsForSettlementReportQuery, GetActorsForSettlementReportQueryVariables>;
+export const GetMeteringGridAreaImbalanceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getMeteringGridAreaImbalance"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageNumber"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"periodFrom"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateTime"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"periodTo"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateTime"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"gridAreaCode"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meteringGridAreaImbalance"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pageNumber"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageNumber"}}},{"kind":"Argument","name":{"kind":"Name","value":"pageSize"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pageSize"}}},{"kind":"Argument","name":{"kind":"Name","value":"createdFrom"},"value":{"kind":"Variable","name":{"kind":"Name","value":"periodFrom"}}},{"kind":"Argument","name":{"kind":"Name","value":"createdTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"periodTo"}}},{"kind":"Argument","name":{"kind":"Name","value":"gridAreaCode"},"value":{"kind":"Variable","name":{"kind":"Name","value":"gridAreaCode"}}},{"kind":"Argument","name":{"kind":"Name","value":"documentId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreaCode"}},{"kind":"Field","name":{"kind":"Name","value":"documentDateTime"}},{"kind":"Field","name":{"kind":"Name","value":"receivedDateTime"}},{"kind":"Field","name":{"kind":"Name","value":"periodStart"}},{"kind":"Field","name":{"kind":"Name","value":"periodEnd"}},{"kind":"Field","name":{"kind":"Name","value":"storageId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<GetMeteringGridAreaImbalanceQuery, GetMeteringGridAreaImbalanceQueryVariables>;
+export const CreateCalculationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateCalculation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateCalculationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createCalculation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"calculation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<CreateCalculationMutation, CreateCalculationMutationVariables>;
 export const GetActorsForRequestCalculationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetActorsForRequestCalculation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"eicFunctions"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EicFunction"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actorsForEicFunction"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"eicFunctions"},"value":{"kind":"Variable","name":{"kind":"Name","value":"eicFunctions"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"marketRole"}},{"kind":"Field","alias":{"kind":"Name","value":"value"},"name":{"kind":"Name","value":"glnOrEicNumber"}},{"kind":"Field","alias":{"kind":"Name","value":"displayValue"},"name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GetActorsForRequestCalculationQuery, GetActorsForRequestCalculationQueryVariables>;
 export const GetCalculationByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCalculationById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"calculationById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"executionState"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeEnd"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeStart"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"statusType"}},{"kind":"Field","name":{"kind":"Name","value":"processType"}},{"kind":"Field","name":{"kind":"Name","value":"createdByUserName"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"priceAreaCode"}},{"kind":"Field","name":{"kind":"Name","value":"validFrom"}}]}}]}}]}}]} as unknown as DocumentNode<GetCalculationByIdQuery, GetCalculationByIdQueryVariables>;
-export const GetActorsForSettlementReportDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetActorsForSettlementReport"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"eicFunctions"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EicFunction"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actorsForEicFunction"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"eicFunctions"},"value":{"kind":"Variable","name":{"kind":"Name","value":"eicFunctions"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"value"},"name":{"kind":"Name","value":"glnOrEicNumber"}},{"kind":"Field","alias":{"kind":"Name","value":"displayValue"},"name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<GetActorsForSettlementReportQuery, GetActorsForSettlementReportQueryVariables>;
+export const GetActorFilterDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetActorFilter"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"value"},"name":{"kind":"Name","value":"id"}},{"kind":"Field","alias":{"kind":"Name","value":"displayValue"},"name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}}]}}]}}]}}]} as unknown as DocumentNode<GetActorFilterQuery, GetActorFilterQueryVariables>;
+export const CreateMarketParticipantDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateMarketParticipant"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateMarketParticipantInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createMarketParticipant"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"success"},"name":{"kind":"Name","value":"boolean"}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ApiError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"apiErrors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"args"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<CreateMarketParticipantMutation, CreateMarketParticipantMutationVariables>;
+export const GetLatestBalanceFixingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetLatestBalanceFixing"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"period"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateRange"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"calculations"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}},{"kind":"Argument","name":{"kind":"Name","value":"period"},"value":{"kind":"Variable","name":{"kind":"Name","value":"period"}}},{"kind":"Argument","name":{"kind":"Name","value":"processTypes"},"value":{"kind":"EnumValue","value":"BALANCE_FIXING"}},{"kind":"Argument","name":{"kind":"Name","value":"executionStates"},"value":{"kind":"EnumValue","value":"COMPLETED"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"period"}}]}}]}}]} as unknown as DocumentNode<GetLatestBalanceFixingQuery, GetLatestBalanceFixingQueryVariables>;
 export const GetCalculationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCalculations"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"executionTime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateRange"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"period"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateRange"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"processTypes"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ProcessType"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"gridAreaCodes"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"executionStates"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"BatchState"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"calculations"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"executionTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"executionTime"}}},{"kind":"Argument","name":{"kind":"Name","value":"period"},"value":{"kind":"Variable","name":{"kind":"Name","value":"period"}}},{"kind":"Argument","name":{"kind":"Name","value":"processTypes"},"value":{"kind":"Variable","name":{"kind":"Name","value":"processTypes"}}},{"kind":"Argument","name":{"kind":"Name","value":"gridAreaCodes"},"value":{"kind":"Variable","name":{"kind":"Name","value":"gridAreaCodes"}}},{"kind":"Argument","name":{"kind":"Name","value":"executionStates"},"value":{"kind":"Variable","name":{"kind":"Name","value":"executionStates"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"executionState"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeEnd"}},{"kind":"Field","name":{"kind":"Name","value":"executionTimeStart"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"statusType"}},{"kind":"Field","name":{"kind":"Name","value":"processType"}},{"kind":"Field","name":{"kind":"Name","value":"createdByUserName"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetCalculationsQuery, GetCalculationsQueryVariables>;
 export const GetGridAreasDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetGridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"validTo"}},{"kind":"Field","name":{"kind":"Name","value":"validFrom"}}]}}]}}]} as unknown as DocumentNode<GetGridAreasQuery, GetGridAreasQueryVariables>;
-export const GetLatestBalanceFixingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetLatestBalanceFixing"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"period"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateRange"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"calculations"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"1"}},{"kind":"Argument","name":{"kind":"Name","value":"period"},"value":{"kind":"Variable","name":{"kind":"Name","value":"period"}}},{"kind":"Argument","name":{"kind":"Name","value":"processTypes"},"value":{"kind":"EnumValue","value":"BALANCE_FIXING"}},{"kind":"Argument","name":{"kind":"Name","value":"executionStates"},"value":{"kind":"EnumValue","value":"COMPLETED"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"period"}}]}}]}}]} as unknown as DocumentNode<GetLatestBalanceFixingQuery, GetLatestBalanceFixingQueryVariables>;
 export const GetSettlementReportsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetSettlementReports"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"period"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateRange"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"executionTime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"DateRange"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"settlementReports"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"period"},"value":{"kind":"Variable","name":{"kind":"Name","value":"period"}}},{"kind":"Argument","name":{"kind":"Name","value":"executionTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"executionTime"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"batchNumber"}},{"kind":"Field","name":{"kind":"Name","value":"processType"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"executionTime"}},{"kind":"Field","name":{"kind":"Name","value":"gridArea"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetSettlementReportsQuery, GetSettlementReportsQueryVariables>;
 export const RequestCalculationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"requestCalculation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"processtType"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EdiB2CProcessType"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"meteringPointType"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"MeteringPointType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"startDate"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"endDate"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"energySupplierId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"gridArea"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"balanceResponsibleId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAggregatedMeasureDataRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"balanceResponsibleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"balanceResponsibleId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"processType"},"value":{"kind":"Variable","name":{"kind":"Name","value":"processtType"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"meteringPointType"},"value":{"kind":"Variable","name":{"kind":"Name","value":"meteringPointType"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"startDate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"startDate"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"endDate"},"value":{"kind":"Variable","name":{"kind":"Name","value":"endDate"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"energySupplierId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"energySupplierId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"gridArea"},"value":{"kind":"Variable","name":{"kind":"Name","value":"gridArea"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"success"},"name":{"kind":"Name","value":"boolean"}}]}}]}}]} as unknown as DocumentNode<RequestCalculationMutation, RequestCalculationMutationVariables>;
-export const CreateMarketParticipantDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateMarketParticipant"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateMarketParticipantInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createMarketParticipant"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ApiError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"response"}},{"kind":"Field","name":{"kind":"Name","value":"statusCode"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Error"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"success"},"name":{"kind":"Name","value":"boolean"}}]}}]}}]} as unknown as DocumentNode<CreateMarketParticipantMutation, CreateMarketParticipantMutationVariables>;
-export const GetActorByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetActorById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actorById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"glnOrEicNumber"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"marketRole"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}}]}},{"kind":"Field","name":{"kind":"Name","value":"organization"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetActorByIdQuery, GetActorByIdQueryVariables>;
-export const GetActorEditableFieldsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetActorEditableFields"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"actorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actorById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"actorId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"organization"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"domain"}}]}},{"kind":"Field","name":{"kind":"Name","value":"contact"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}}]}}]}}]}}]} as unknown as DocumentNode<GetActorEditableFieldsQuery, GetActorEditableFieldsQueryVariables>;
-export const GetActorsByOrganizationIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetActorsByOrganizationId"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"organizationId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actorsByOrganizationId"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"organizationId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"organizationId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"glnOrEicNumber"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"marketRole"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<GetActorsByOrganizationIdQuery, GetActorsByOrganizationIdQueryVariables>;
 export const GetSelectedActorDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getSelectedActor"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"selectedActor"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"glnOrEicNumber"}},{"kind":"Field","name":{"kind":"Name","value":"marketRole"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetSelectedActorQuery, GetSelectedActorQueryVariables>;
+export const GetActorsByOrganizationIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetActorsByOrganizationId"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"organizationId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actorsByOrganizationId"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"organizationId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"organizationId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"glnOrEicNumber"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"marketRole"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<GetActorsByOrganizationIdQuery, GetActorsByOrganizationIdQueryVariables>;
+export const GetActorEditableFieldsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetActorEditableFields"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"actorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actorById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"actorId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"organization"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"domain"}}]}},{"kind":"Field","name":{"kind":"Name","value":"contact"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}}]}}]}}]}}]} as unknown as DocumentNode<GetActorEditableFieldsQuery, GetActorEditableFieldsQueryVariables>;
 export const GetActorsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetActors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"glnOrEicNumber"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"marketRole"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<GetActorsQuery, GetActorsQueryVariables>;
-export const GetAuditLogByActorIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAuditLogByActorId"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"actorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actorAuditLogs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"actorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"actorId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"changedByUserName"}},{"kind":"Field","name":{"kind":"Name","value":"currentValue"}},{"kind":"Field","name":{"kind":"Name","value":"previousValue"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"contactCategory"}}]}}]}}]} as unknown as DocumentNode<GetAuditLogByActorIdQuery, GetAuditLogByActorIdQueryVariables>;
 export const GetAuditLogByOrganizationIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAuditLogByOrganizationId"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"organizationId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"organizationAuditLog"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"organizationId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"organizationId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"organizationId"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"auditIdentityId"}},{"kind":"Field","name":{"kind":"Name","value":"identityWithName"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"organizationChangeType"}}]}}]}}]} as unknown as DocumentNode<GetAuditLogByOrganizationIdQuery, GetAuditLogByOrganizationIdQueryVariables>;
+export const GetActorByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetActorById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actorById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"glnOrEicNumber"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"marketRole"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}}]}},{"kind":"Field","name":{"kind":"Name","value":"organization"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetActorByIdQuery, GetActorByIdQueryVariables>;
 export const GetGridAreasForCreateActorDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetGridAreasForCreateActor"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gridAreas"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GetGridAreasForCreateActorQuery, GetGridAreasForCreateActorQueryVariables>;
 export const GetUserRolesByEicfunctionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUserRolesByEicfunction"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"eicfunction"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EicFunction"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userRolesByEicFunction"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"eicFunction"},"value":{"kind":"Variable","name":{"kind":"Name","value":"eicfunction"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode<GetUserRolesByEicfunctionQuery, GetUserRolesByEicfunctionQueryVariables>;
-export const GetOrganizationByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetOrganizationById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"organizationById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"organizationId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"businessRegisterIdentifier"}},{"kind":"Field","name":{"kind":"Name","value":"domain"}}]}}]}}]} as unknown as DocumentNode<GetOrganizationByIdQuery, GetOrganizationByIdQueryVariables>;
+export const GetAuditLogByActorIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAuditLogByActorId"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"actorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"actorAuditLogs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"actorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"actorId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"changedByUserName"}},{"kind":"Field","name":{"kind":"Name","value":"currentValue"}},{"kind":"Field","name":{"kind":"Name","value":"previousValue"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"contactCategory"}}]}}]}}]} as unknown as DocumentNode<GetAuditLogByActorIdQuery, GetAuditLogByActorIdQueryVariables>;
+export const UpdateOrganizationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOrganization"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateOrganizationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOrganization"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"boolean"}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Error"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]}}]}}]} as unknown as DocumentNode<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>;
 export const GetOrganizationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetOrganizations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"organizations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"organizationId"}},{"kind":"Field","name":{"kind":"Name","value":"businessRegisterIdentifier"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"domain"}}]}}]}}]} as unknown as DocumentNode<GetOrganizationsQuery, GetOrganizationsQueryVariables>;
 export const UpdateActorDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateActor"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateActorInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateActor"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"boolean"}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Error"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]}}]}}]} as unknown as DocumentNode<UpdateActorMutation, UpdateActorMutationVariables>;
-export const UpdateOrganizationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOrganization"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateOrganizationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOrganization"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"boolean"}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Error"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]}}]}}]} as unknown as DocumentNode<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>;
+export const GetOrganizationByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetOrganizationById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UUID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"organizationById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"organizationId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"businessRegisterIdentifier"}},{"kind":"Field","name":{"kind":"Name","value":"domain"}}]}}]}}]} as unknown as DocumentNode<GetOrganizationByIdQuery, GetOrganizationByIdQueryVariables>;
 
 /**
  * @param resolver a function that accepts a captured request and may return a mocked response.
@@ -1121,40 +1081,6 @@ export const UpdateOrganizationDocument = {"kind":"Document","definitions":[{"ki
 export const mockGetKnownEmailsQuery = (resolver: ResponseResolver<GraphQLRequest<GetKnownEmailsQueryVariables>, GraphQLContext<GetKnownEmailsQuery>, any>) =>
   graphql.query<GetKnownEmailsQuery, GetKnownEmailsQueryVariables>(
     'GetKnownEmails',
-    resolver
-  )
-
-/**
- * @param resolver a function that accepts a captured request and may return a mocked response.
- * @see https://mswjs.io/docs/basics/response-resolver
- * @example
- * mockGetPermissionLogsQuery((req, res, ctx) => {
- *   const { id } = req.variables;
- *   return res(
- *     ctx.data({ permissionLogs })
- *   )
- * })
- */
-export const mockGetPermissionLogsQuery = (resolver: ResponseResolver<GraphQLRequest<GetPermissionLogsQueryVariables>, GraphQLContext<GetPermissionLogsQuery>, any>) =>
-  graphql.query<GetPermissionLogsQuery, GetPermissionLogsQueryVariables>(
-    'GetPermissionLogs',
-    resolver
-  )
-
-/**
- * @param resolver a function that accepts a captured request and may return a mocked response.
- * @see https://mswjs.io/docs/basics/response-resolver
- * @example
- * mockGetPermissionDetailsQuery((req, res, ctx) => {
- *   const { id } = req.variables;
- *   return res(
- *     ctx.data({ permissionById })
- *   )
- * })
- */
-export const mockGetPermissionDetailsQuery = (resolver: ResponseResolver<GraphQLRequest<GetPermissionDetailsQueryVariables>, GraphQLContext<GetPermissionDetailsQuery>, any>) =>
-  graphql.query<GetPermissionDetailsQuery, GetPermissionDetailsQueryVariables>(
-    'GetPermissionDetails',
     resolver
   )
 
@@ -1179,6 +1105,73 @@ export const mockGetPermissionsQuery = (resolver: ResponseResolver<GraphQLReques
  * @param resolver a function that accepts a captured request and may return a mocked response.
  * @see https://mswjs.io/docs/basics/response-resolver
  * @example
+ * mockGetOutgoingMessagesQuery((req, res, ctx) => {
+ *   const { pageNumber, pageSize, periodFrom, periodTo, gridAreaCode, calculationType, documentStatus, timeSeriesType, documentId } = req.variables;
+ *   return res(
+ *     ctx.data({ esettExchangeEvents })
+ *   )
+ * })
+ */
+export const mockGetOutgoingMessagesQuery = (resolver: ResponseResolver<GraphQLRequest<GetOutgoingMessagesQueryVariables>, GraphQLContext<GetOutgoingMessagesQuery>, any>) =>
+  graphql.query<GetOutgoingMessagesQuery, GetOutgoingMessagesQueryVariables>(
+    'getOutgoingMessages',
+    resolver
+  )
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetPermissionDetailsQuery((req, res, ctx) => {
+ *   const { id } = req.variables;
+ *   return res(
+ *     ctx.data({ permissionById })
+ *   )
+ * })
+ */
+export const mockGetPermissionDetailsQuery = (resolver: ResponseResolver<GraphQLRequest<GetPermissionDetailsQueryVariables>, GraphQLContext<GetPermissionDetailsQuery>, any>) =>
+  graphql.query<GetPermissionDetailsQuery, GetPermissionDetailsQueryVariables>(
+    'GetPermissionDetails',
+    resolver
+  )
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetPermissionLogsQuery((req, res, ctx) => {
+ *   const { id } = req.variables;
+ *   return res(
+ *     ctx.data({ permissionLogs })
+ *   )
+ * })
+ */
+export const mockGetPermissionLogsQuery = (resolver: ResponseResolver<GraphQLRequest<GetPermissionLogsQueryVariables>, GraphQLContext<GetPermissionLogsQuery>, any>) =>
+  graphql.query<GetPermissionLogsQuery, GetPermissionLogsQueryVariables>(
+    'GetPermissionLogs',
+    resolver
+  )
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetGridAreaOverviewQuery((req, res, ctx) => {
+ *   return res(
+ *     ctx.data({ gridAreaOverview })
+ *   )
+ * })
+ */
+export const mockGetGridAreaOverviewQuery = (resolver: ResponseResolver<GraphQLRequest<GetGridAreaOverviewQueryVariables>, GraphQLContext<GetGridAreaOverviewQuery>, any>) =>
+  graphql.query<GetGridAreaOverviewQuery, GetGridAreaOverviewQueryVariables>(
+    'GetGridAreaOverview',
+    resolver
+  )
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
  * mockGetBalanceResponsibleMessagesQuery((req, res, ctx) => {
  *   const { pageNumber, pageSize, sortProperty, sortDirection } = req.variables;
  *   return res(
@@ -1189,40 +1182,6 @@ export const mockGetPermissionsQuery = (resolver: ResponseResolver<GraphQLReques
 export const mockGetBalanceResponsibleMessagesQuery = (resolver: ResponseResolver<GraphQLRequest<GetBalanceResponsibleMessagesQueryVariables>, GraphQLContext<GetBalanceResponsibleMessagesQuery>, any>) =>
   graphql.query<GetBalanceResponsibleMessagesQuery, GetBalanceResponsibleMessagesQueryVariables>(
     'getBalanceResponsibleMessages',
-    resolver
-  )
-
-/**
- * @param resolver a function that accepts a captured request and may return a mocked response.
- * @see https://mswjs.io/docs/basics/response-resolver
- * @example
- * mockGetMeteringGridAreaImbalanceQuery((req, res, ctx) => {
- *   const { pageNumber, pageSize, periodFrom, periodTo, gridAreaCode, documentId } = req.variables;
- *   return res(
- *     ctx.data({ meteringGridAreaImbalance })
- *   )
- * })
- */
-export const mockGetMeteringGridAreaImbalanceQuery = (resolver: ResponseResolver<GraphQLRequest<GetMeteringGridAreaImbalanceQueryVariables>, GraphQLContext<GetMeteringGridAreaImbalanceQuery>, any>) =>
-  graphql.query<GetMeteringGridAreaImbalanceQuery, GetMeteringGridAreaImbalanceQueryVariables>(
-    'getMeteringGridAreaImbalance',
-    resolver
-  )
-
-/**
- * @param resolver a function that accepts a captured request and may return a mocked response.
- * @see https://mswjs.io/docs/basics/response-resolver
- * @example
- * mockGetUserRoleAuditLogsQuery((req, res, ctx) => {
- *   const { id } = req.variables;
- *   return res(
- *     ctx.data({ userRoleAuditLogs })
- *   )
- * })
- */
-export const mockGetUserRoleAuditLogsQuery = (resolver: ResponseResolver<GraphQLRequest<GetUserRoleAuditLogsQueryVariables>, GraphQLContext<GetUserRoleAuditLogsQuery>, any>) =>
-  graphql.query<GetUserRoleAuditLogsQuery, GetUserRoleAuditLogsQueryVariables>(
-    'GetUserRoleAuditLogs',
     resolver
   )
 
@@ -1247,6 +1206,57 @@ export const mockGetOutgoingMessageByIdQuery = (resolver: ResponseResolver<Graph
  * @param resolver a function that accepts a captured request and may return a mocked response.
  * @see https://mswjs.io/docs/basics/response-resolver
  * @example
+ * mockGetUserRoleAuditLogsQuery((req, res, ctx) => {
+ *   const { id } = req.variables;
+ *   return res(
+ *     ctx.data({ userRoleAuditLogs })
+ *   )
+ * })
+ */
+export const mockGetUserRoleAuditLogsQuery = (resolver: ResponseResolver<GraphQLRequest<GetUserRoleAuditLogsQueryVariables>, GraphQLContext<GetUserRoleAuditLogsQuery>, any>) =>
+  graphql.query<GetUserRoleAuditLogsQuery, GetUserRoleAuditLogsQueryVariables>(
+    'GetUserRoleAuditLogs',
+    resolver
+  )
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetActorsForSettlementReportQuery((req, res, ctx) => {
+ *   const { eicFunctions } = req.variables;
+ *   return res(
+ *     ctx.data({ actorsForEicFunction })
+ *   )
+ * })
+ */
+export const mockGetActorsForSettlementReportQuery = (resolver: ResponseResolver<GraphQLRequest<GetActorsForSettlementReportQueryVariables>, GraphQLContext<GetActorsForSettlementReportQuery>, any>) =>
+  graphql.query<GetActorsForSettlementReportQuery, GetActorsForSettlementReportQueryVariables>(
+    'GetActorsForSettlementReport',
+    resolver
+  )
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetMeteringGridAreaImbalanceQuery((req, res, ctx) => {
+ *   const { pageNumber, pageSize, periodFrom, periodTo, gridAreaCode, documentId } = req.variables;
+ *   return res(
+ *     ctx.data({ meteringGridAreaImbalance })
+ *   )
+ * })
+ */
+export const mockGetMeteringGridAreaImbalanceQuery = (resolver: ResponseResolver<GraphQLRequest<GetMeteringGridAreaImbalanceQueryVariables>, GraphQLContext<GetMeteringGridAreaImbalanceQuery>, any>) =>
+  graphql.query<GetMeteringGridAreaImbalanceQuery, GetMeteringGridAreaImbalanceQueryVariables>(
+    'getMeteringGridAreaImbalance',
+    resolver
+  )
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
  * mockCreateCalculationMutation((req, res, ctx) => {
  *   const { input } = req.variables;
  *   return res(
@@ -1257,55 +1267,6 @@ export const mockGetOutgoingMessageByIdQuery = (resolver: ResponseResolver<Graph
 export const mockCreateCalculationMutation = (resolver: ResponseResolver<GraphQLRequest<CreateCalculationMutationVariables>, GraphQLContext<CreateCalculationMutation>, any>) =>
   graphql.mutation<CreateCalculationMutation, CreateCalculationMutationVariables>(
     'CreateCalculation',
-    resolver
-  )
-
-/**
- * @param resolver a function that accepts a captured request and may return a mocked response.
- * @see https://mswjs.io/docs/basics/response-resolver
- * @example
- * mockGetGridAreaOverviewQuery((req, res, ctx) => {
- *   return res(
- *     ctx.data({ gridAreaOverview })
- *   )
- * })
- */
-export const mockGetGridAreaOverviewQuery = (resolver: ResponseResolver<GraphQLRequest<GetGridAreaOverviewQueryVariables>, GraphQLContext<GetGridAreaOverviewQuery>, any>) =>
-  graphql.query<GetGridAreaOverviewQuery, GetGridAreaOverviewQueryVariables>(
-    'GetGridAreaOverview',
-    resolver
-  )
-
-/**
- * @param resolver a function that accepts a captured request and may return a mocked response.
- * @see https://mswjs.io/docs/basics/response-resolver
- * @example
- * mockGetActorFilterQuery((req, res, ctx) => {
- *   return res(
- *     ctx.data({ actors })
- *   )
- * })
- */
-export const mockGetActorFilterQuery = (resolver: ResponseResolver<GraphQLRequest<GetActorFilterQueryVariables>, GraphQLContext<GetActorFilterQuery>, any>) =>
-  graphql.query<GetActorFilterQuery, GetActorFilterQueryVariables>(
-    'GetActorFilter',
-    resolver
-  )
-
-/**
- * @param resolver a function that accepts a captured request and may return a mocked response.
- * @see https://mswjs.io/docs/basics/response-resolver
- * @example
- * mockGetOutgoingMessagesQuery((req, res, ctx) => {
- *   const { pageNumber, pageSize, periodFrom, periodTo, gridAreaCode, calculationType, documentStatus, timeSeriesType, documentId } = req.variables;
- *   return res(
- *     ctx.data({ esettExchangeEvents })
- *   )
- * })
- */
-export const mockGetOutgoingMessagesQuery = (resolver: ResponseResolver<GraphQLRequest<GetOutgoingMessagesQueryVariables>, GraphQLContext<GetOutgoingMessagesQuery>, any>) =>
-  graphql.query<GetOutgoingMessagesQuery, GetOutgoingMessagesQueryVariables>(
-    'getOutgoingMessages',
     resolver
   )
 
@@ -1347,16 +1308,49 @@ export const mockGetCalculationByIdQuery = (resolver: ResponseResolver<GraphQLRe
  * @param resolver a function that accepts a captured request and may return a mocked response.
  * @see https://mswjs.io/docs/basics/response-resolver
  * @example
- * mockGetActorsForSettlementReportQuery((req, res, ctx) => {
- *   const { eicFunctions } = req.variables;
+ * mockGetActorFilterQuery((req, res, ctx) => {
  *   return res(
- *     ctx.data({ actorsForEicFunction })
+ *     ctx.data({ actors })
  *   )
  * })
  */
-export const mockGetActorsForSettlementReportQuery = (resolver: ResponseResolver<GraphQLRequest<GetActorsForSettlementReportQueryVariables>, GraphQLContext<GetActorsForSettlementReportQuery>, any>) =>
-  graphql.query<GetActorsForSettlementReportQuery, GetActorsForSettlementReportQueryVariables>(
-    'GetActorsForSettlementReport',
+export const mockGetActorFilterQuery = (resolver: ResponseResolver<GraphQLRequest<GetActorFilterQueryVariables>, GraphQLContext<GetActorFilterQuery>, any>) =>
+  graphql.query<GetActorFilterQuery, GetActorFilterQueryVariables>(
+    'GetActorFilter',
+    resolver
+  )
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockCreateMarketParticipantMutation((req, res, ctx) => {
+ *   const { input } = req.variables;
+ *   return res(
+ *     ctx.data({ createMarketParticipant })
+ *   )
+ * })
+ */
+export const mockCreateMarketParticipantMutation = (resolver: ResponseResolver<GraphQLRequest<CreateMarketParticipantMutationVariables>, GraphQLContext<CreateMarketParticipantMutation>, any>) =>
+  graphql.mutation<CreateMarketParticipantMutation, CreateMarketParticipantMutationVariables>(
+    'CreateMarketParticipant',
+    resolver
+  )
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetLatestBalanceFixingQuery((req, res, ctx) => {
+ *   const { period } = req.variables;
+ *   return res(
+ *     ctx.data({ calculations })
+ *   )
+ * })
+ */
+export const mockGetLatestBalanceFixingQuery = (resolver: ResponseResolver<GraphQLRequest<GetLatestBalanceFixingQueryVariables>, GraphQLContext<GetLatestBalanceFixingQuery>, any>) =>
+  graphql.query<GetLatestBalanceFixingQuery, GetLatestBalanceFixingQueryVariables>(
+    'GetLatestBalanceFixing',
     resolver
   )
 
@@ -1390,23 +1384,6 @@ export const mockGetCalculationsQuery = (resolver: ResponseResolver<GraphQLReque
 export const mockGetGridAreasQuery = (resolver: ResponseResolver<GraphQLRequest<GetGridAreasQueryVariables>, GraphQLContext<GetGridAreasQuery>, any>) =>
   graphql.query<GetGridAreasQuery, GetGridAreasQueryVariables>(
     'GetGridAreas',
-    resolver
-  )
-
-/**
- * @param resolver a function that accepts a captured request and may return a mocked response.
- * @see https://mswjs.io/docs/basics/response-resolver
- * @example
- * mockGetLatestBalanceFixingQuery((req, res, ctx) => {
- *   const { period } = req.variables;
- *   return res(
- *     ctx.data({ calculations })
- *   )
- * })
- */
-export const mockGetLatestBalanceFixingQuery = (resolver: ResponseResolver<GraphQLRequest<GetLatestBalanceFixingQueryVariables>, GraphQLContext<GetLatestBalanceFixingQuery>, any>) =>
-  graphql.query<GetLatestBalanceFixingQuery, GetLatestBalanceFixingQueryVariables>(
-    'GetLatestBalanceFixing',
     resolver
   )
 
@@ -1448,50 +1425,15 @@ export const mockRequestCalculationMutation = (resolver: ResponseResolver<GraphQ
  * @param resolver a function that accepts a captured request and may return a mocked response.
  * @see https://mswjs.io/docs/basics/response-resolver
  * @example
- * mockCreateMarketParticipantMutation((req, res, ctx) => {
- *   const { input } = req.variables;
+ * mockGetSelectedActorQuery((req, res, ctx) => {
  *   return res(
- *     ctx.data({ createMarketParticipant })
+ *     ctx.data({ selectedActor })
  *   )
  * })
  */
-export const mockCreateMarketParticipantMutation = (resolver: ResponseResolver<GraphQLRequest<CreateMarketParticipantMutationVariables>, GraphQLContext<CreateMarketParticipantMutation>, any>) =>
-  graphql.mutation<CreateMarketParticipantMutation, CreateMarketParticipantMutationVariables>(
-    'CreateMarketParticipant',
-    resolver
-  )
-
-/**
- * @param resolver a function that accepts a captured request and may return a mocked response.
- * @see https://mswjs.io/docs/basics/response-resolver
- * @example
- * mockGetActorByIdQuery((req, res, ctx) => {
- *   const { id } = req.variables;
- *   return res(
- *     ctx.data({ actorById })
- *   )
- * })
- */
-export const mockGetActorByIdQuery = (resolver: ResponseResolver<GraphQLRequest<GetActorByIdQueryVariables>, GraphQLContext<GetActorByIdQuery>, any>) =>
-  graphql.query<GetActorByIdQuery, GetActorByIdQueryVariables>(
-    'GetActorById',
-    resolver
-  )
-
-/**
- * @param resolver a function that accepts a captured request and may return a mocked response.
- * @see https://mswjs.io/docs/basics/response-resolver
- * @example
- * mockGetActorEditableFieldsQuery((req, res, ctx) => {
- *   const { actorId } = req.variables;
- *   return res(
- *     ctx.data({ actorById })
- *   )
- * })
- */
-export const mockGetActorEditableFieldsQuery = (resolver: ResponseResolver<GraphQLRequest<GetActorEditableFieldsQueryVariables>, GraphQLContext<GetActorEditableFieldsQuery>, any>) =>
-  graphql.query<GetActorEditableFieldsQuery, GetActorEditableFieldsQueryVariables>(
-    'GetActorEditableFields',
+export const mockGetSelectedActorQuery = (resolver: ResponseResolver<GraphQLRequest<GetSelectedActorQueryVariables>, GraphQLContext<GetSelectedActorQuery>, any>) =>
+  graphql.query<GetSelectedActorQuery, GetSelectedActorQueryVariables>(
+    'getSelectedActor',
     resolver
   )
 
@@ -1516,15 +1458,16 @@ export const mockGetActorsByOrganizationIdQuery = (resolver: ResponseResolver<Gr
  * @param resolver a function that accepts a captured request and may return a mocked response.
  * @see https://mswjs.io/docs/basics/response-resolver
  * @example
- * mockGetSelectedActorQuery((req, res, ctx) => {
+ * mockGetActorEditableFieldsQuery((req, res, ctx) => {
+ *   const { actorId } = req.variables;
  *   return res(
- *     ctx.data({ selectedActor })
+ *     ctx.data({ actorById })
  *   )
  * })
  */
-export const mockGetSelectedActorQuery = (resolver: ResponseResolver<GraphQLRequest<GetSelectedActorQueryVariables>, GraphQLContext<GetSelectedActorQuery>, any>) =>
-  graphql.query<GetSelectedActorQuery, GetSelectedActorQueryVariables>(
-    'getSelectedActor',
+export const mockGetActorEditableFieldsQuery = (resolver: ResponseResolver<GraphQLRequest<GetActorEditableFieldsQueryVariables>, GraphQLContext<GetActorEditableFieldsQuery>, any>) =>
+  graphql.query<GetActorEditableFieldsQuery, GetActorEditableFieldsQueryVariables>(
+    'GetActorEditableFields',
     resolver
   )
 
@@ -1548,23 +1491,6 @@ export const mockGetActorsQuery = (resolver: ResponseResolver<GraphQLRequest<Get
  * @param resolver a function that accepts a captured request and may return a mocked response.
  * @see https://mswjs.io/docs/basics/response-resolver
  * @example
- * mockGetAuditLogByActorIdQuery((req, res, ctx) => {
- *   const { actorId } = req.variables;
- *   return res(
- *     ctx.data({ actorAuditLogs })
- *   )
- * })
- */
-export const mockGetAuditLogByActorIdQuery = (resolver: ResponseResolver<GraphQLRequest<GetAuditLogByActorIdQueryVariables>, GraphQLContext<GetAuditLogByActorIdQuery>, any>) =>
-  graphql.query<GetAuditLogByActorIdQuery, GetAuditLogByActorIdQueryVariables>(
-    'GetAuditLogByActorId',
-    resolver
-  )
-
-/**
- * @param resolver a function that accepts a captured request and may return a mocked response.
- * @see https://mswjs.io/docs/basics/response-resolver
- * @example
  * mockGetAuditLogByOrganizationIdQuery((req, res, ctx) => {
  *   const { organizationId } = req.variables;
  *   return res(
@@ -1575,6 +1501,23 @@ export const mockGetAuditLogByActorIdQuery = (resolver: ResponseResolver<GraphQL
 export const mockGetAuditLogByOrganizationIdQuery = (resolver: ResponseResolver<GraphQLRequest<GetAuditLogByOrganizationIdQueryVariables>, GraphQLContext<GetAuditLogByOrganizationIdQuery>, any>) =>
   graphql.query<GetAuditLogByOrganizationIdQuery, GetAuditLogByOrganizationIdQueryVariables>(
     'GetAuditLogByOrganizationId',
+    resolver
+  )
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockGetActorByIdQuery((req, res, ctx) => {
+ *   const { id } = req.variables;
+ *   return res(
+ *     ctx.data({ actorById })
+ *   )
+ * })
+ */
+export const mockGetActorByIdQuery = (resolver: ResponseResolver<GraphQLRequest<GetActorByIdQueryVariables>, GraphQLContext<GetActorByIdQuery>, any>) =>
+  graphql.query<GetActorByIdQuery, GetActorByIdQueryVariables>(
+    'GetActorById',
     resolver
   )
 
@@ -1615,16 +1558,33 @@ export const mockGetUserRolesByEicfunctionQuery = (resolver: ResponseResolver<Gr
  * @param resolver a function that accepts a captured request and may return a mocked response.
  * @see https://mswjs.io/docs/basics/response-resolver
  * @example
- * mockGetOrganizationByIdQuery((req, res, ctx) => {
- *   const { id } = req.variables;
+ * mockGetAuditLogByActorIdQuery((req, res, ctx) => {
+ *   const { actorId } = req.variables;
  *   return res(
- *     ctx.data({ organizationById })
+ *     ctx.data({ actorAuditLogs })
  *   )
  * })
  */
-export const mockGetOrganizationByIdQuery = (resolver: ResponseResolver<GraphQLRequest<GetOrganizationByIdQueryVariables>, GraphQLContext<GetOrganizationByIdQuery>, any>) =>
-  graphql.query<GetOrganizationByIdQuery, GetOrganizationByIdQueryVariables>(
-    'GetOrganizationById',
+export const mockGetAuditLogByActorIdQuery = (resolver: ResponseResolver<GraphQLRequest<GetAuditLogByActorIdQueryVariables>, GraphQLContext<GetAuditLogByActorIdQuery>, any>) =>
+  graphql.query<GetAuditLogByActorIdQuery, GetAuditLogByActorIdQueryVariables>(
+    'GetAuditLogByActorId',
+    resolver
+  )
+
+/**
+ * @param resolver a function that accepts a captured request and may return a mocked response.
+ * @see https://mswjs.io/docs/basics/response-resolver
+ * @example
+ * mockUpdateOrganizationMutation((req, res, ctx) => {
+ *   const { input } = req.variables;
+ *   return res(
+ *     ctx.data({ updateOrganization })
+ *   )
+ * })
+ */
+export const mockUpdateOrganizationMutation = (resolver: ResponseResolver<GraphQLRequest<UpdateOrganizationMutationVariables>, GraphQLContext<UpdateOrganizationMutation>, any>) =>
+  graphql.mutation<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>(
+    'UpdateOrganization',
     resolver
   )
 
@@ -1665,16 +1625,16 @@ export const mockUpdateActorMutation = (resolver: ResponseResolver<GraphQLReques
  * @param resolver a function that accepts a captured request and may return a mocked response.
  * @see https://mswjs.io/docs/basics/response-resolver
  * @example
- * mockUpdateOrganizationMutation((req, res, ctx) => {
- *   const { input } = req.variables;
+ * mockGetOrganizationByIdQuery((req, res, ctx) => {
+ *   const { id } = req.variables;
  *   return res(
- *     ctx.data({ updateOrganization })
+ *     ctx.data({ organizationById })
  *   )
  * })
  */
-export const mockUpdateOrganizationMutation = (resolver: ResponseResolver<GraphQLRequest<UpdateOrganizationMutationVariables>, GraphQLContext<UpdateOrganizationMutation>, any>) =>
-  graphql.mutation<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>(
-    'UpdateOrganization',
+export const mockGetOrganizationByIdQuery = (resolver: ResponseResolver<GraphQLRequest<GetOrganizationByIdQueryVariables>, GraphQLContext<GetOrganizationByIdQuery>, any>) =>
+  graphql.query<GetOrganizationByIdQuery, GetOrganizationByIdQueryVariables>(
+    'GetOrganizationById',
     resolver
   )
 
@@ -1688,9 +1648,9 @@ export const scalarTypePolicies = {
     fields: { period: dateRangeTypePolicy, executionTimeStart: dateTypePolicy, executionTimeEnd: dateTypePolicy },
   },
   EsettOutgoingMessage: { fields: { created: dateTypePolicy, periodFrom: dateTypePolicy, periodTo: dateTypePolicy } },
+  GridAreaDto: { fields: { validFrom: dateTypePolicy, validTo: dateTypePolicy } },
   OrganizationAuditLog: { fields: { timestamp: dateTypePolicy } },
   Permission: { fields: { created: dateTypePolicy } },
-  GridAreaDto: { fields: { validFrom: dateTypePolicy, validTo: dateTypePolicy } },
   GridAreaOverviewItemDto: {
     fields: { validFrom: dateTypePolicy, validTo: dateTypePolicy, fullFlexDate: dateTypePolicy },
   },
@@ -1698,6 +1658,7 @@ export const scalarTypePolicies = {
   SettlementReport: { fields: { period: dateRangeTypePolicy, executionTime: dateTypePolicy } },
   UserRoleAuditLog: { fields: { timestamp: dateTypePolicy } },
   PermissionLog: { fields: { timestamp: dateTypePolicy } },
+  PermissionDetailsDto: { fields: { created: dateTypePolicy } },
   ExchangeEventSearchResult: { fields: { created: dateTypePolicy } },
   MeteringGridAreaImbalanceSearchResult: {
     fields: {

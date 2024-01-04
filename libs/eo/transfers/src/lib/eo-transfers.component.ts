@@ -17,7 +17,6 @@
 import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   Input,
   OnInit,
@@ -25,8 +24,6 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { RxPush } from '@rx-angular/template/push';
-import { tap } from 'rxjs';
 
 import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -34,10 +31,13 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoTransfersStore } from './eo-transfers.store';
 import { EoTransfersTableComponent } from './eo-transfers-table.component';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.service';
+import {
+  EoListedTransfer,
+  EoTransferAgreementProposal,
+  EoTransfersService,
+} from './eo-transfers.service';
 import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-proposal.component';
 
 @Component({
@@ -48,7 +48,6 @@ import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-prop
     EoTransfersTableComponent,
     EoPopupMessageComponent,
     NgIf,
-    RxPush,
     EoBetaMessageComponent,
     WattIconComponent,
     VaterStackComponent,
@@ -56,18 +55,19 @@ import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-prop
   ],
   standalone: true,
   template: `
-    <eo-popup-message *ngIf="error$ | push" />
+    <eo-popup-message *ngIf="transferAgreements().error" />
 
     <watt-card class="watt-space-stack-m">
       <eo-transfers-table
-        [transfers]="transfers$ | push"
-        [loading]="loading$ | push"
-        [selectedTransfer]="selectedTransfer$ | push"
-        (transferSelected)="store.setSelectedTransfer($event)"
+        [transfers]="transferAgreements().data"
+        [loading]="transferAgreements().loading"
+        [selectedTransfer]="selectedTransfer()"
+        (transferSelected)="selectedTransfer.set($event)"
+        (saveTransferAgreement)="onSaveTransferAgreement($event)"
       />
     </watt-card>
 
-    <vater-stack *ngIf="showAutomationError() && (transfers$ | push).length > 0">
+    <vater-stack *ngIf="showAutomationError() && transferAgreements().data.length > 0">
       <p style="display: flex; gap: var(--watt-space-xs);">
         <watt-icon name="warning" fill />We are currently experiencing an issue handling
         certificates<br />
@@ -89,23 +89,23 @@ export class EoTransfersComponent implements OnInit {
   @ViewChild(EoTransfersRespondProposalComponent, { static: true })
   respondProposal!: EoTransfersRespondProposalComponent;
 
-  protected store = inject(EoTransfersStore);
-  protected showAutomationError = signal<boolean>(false);
   private transfersService = inject(EoTransfersService);
-  private cd = inject(ChangeDetectorRef);
   private toastService = inject(WattToastService);
 
-  error$ = this.store.error$;
-  loading$ = this.store.loadingTransferAgreements$.pipe(
-    tap(() => {
-      this.cd.detectChanges();
-    })
-  );
-  transfers$ = this.store.transfers$;
-  selectedTransfer$ = this.store.selectedTransfer$;
+  protected transferAgreements = signal<{
+    loading: boolean;
+    error: boolean;
+    data: EoListedTransfer[];
+  }>({
+    loading: false,
+    error: false,
+    data: [],
+  });
+  protected selectedTransfer = signal<EoListedTransfer | undefined>(undefined);
+  protected showAutomationError = signal(false);
 
   ngOnInit(): void {
-    this.store.getTransfers();
+    this.getTransfers();
     this.setShowAutomationError();
 
     if (this.proposalId) {
@@ -113,17 +113,103 @@ export class EoTransfersComponent implements OnInit {
     }
   }
 
-  onAcceptedProposal(proposal: EoTransferAgreementProposal) {
-    this.store.addTransferProposal(proposal);
+  protected onAcceptedProposal(proposal: EoTransferAgreementProposal) {
+    this.addTransferProposal(proposal);
 
     this.transfersService.createTransferAgreement(proposal.id).subscribe({
       error: () => {
-        this.store.removeTransfer(proposal.id);
+        this.removeTransfer(proposal.id);
 
         this.toastService.open({
           message: `Creating the transfer agreement failed. Try accepting the proposal again or request the organization that sent the invitation to generate a new link.`,
           type: 'danger',
           duration: 24 * 60 * 60 * 1000, // 24 hours
+        });
+      },
+    });
+  }
+
+  onSaveTransferAgreement(values: {
+    id: string;
+    period: { endDate: number | null; hasEndDate: boolean };
+  }) {
+    const { endDate } = values.period;
+    const { id } = values;
+
+    this.updateEndDateOnTransferAgreement(id, endDate);
+    this.updateSelectedTransferAgreement();
+  }
+
+  private updateEndDateOnTransferAgreement(id: string, endDate: number | null) {
+    this.transferAgreements.set({
+      ...this.transferAgreements(),
+      data: [
+        ...this.transferAgreements().data.map((transfer) => {
+          return transfer.id === id
+            ? {
+                ...transfer,
+                endDate,
+              }
+            : transfer;
+        }),
+      ],
+    });
+  }
+
+  private updateSelectedTransferAgreement() {
+    this.selectedTransfer.set(
+      this.transferAgreements().data.find(
+        (transfer: EoListedTransfer) => transfer.id === this.selectedTransfer()?.id
+      )
+    );
+  }
+
+  private addTransferProposal(proposal: EoTransferAgreementProposal) {
+    this.transferAgreements.set({
+      ...this.transferAgreements(),
+      data: [
+        ...this.transferAgreements().data,
+        {
+          ...proposal,
+          senderName: proposal.senderCompanyName,
+          senderTin: '',
+        },
+      ],
+    });
+  }
+
+  private removeTransfer(id: string) {
+    this.transferAgreements.set({
+      ...this.transferAgreements(),
+      data: this.transferAgreements().data.filter((transfer) => transfer.id !== id),
+    });
+  }
+
+  private getTransfers() {
+    this.transferAgreements.set({
+      loading: true,
+      error: false,
+      data: [],
+    });
+    this.transfersService.getTransfers().subscribe({
+      next: (transferAgreements: EoListedTransfer[]) => {
+        this.transferAgreements.set({
+          loading: false,
+          error: false,
+          data: transferAgreements.map((transferAgreement) => {
+            return {
+              ...transferAgreement,
+              startDate: transferAgreement.startDate * 1000,
+              endDate: transferAgreement.endDate ? transferAgreement.endDate * 1000 : null,
+            };
+          }),
+        });
+      },
+      error: () => {
+        this.transferAgreements.set({
+          loading: false,
+          error: true,
+          data: [],
         });
       },
     });

@@ -13,7 +13,7 @@
 // limitations under the License.
 using System;
 using System.Collections.Generic;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
 {

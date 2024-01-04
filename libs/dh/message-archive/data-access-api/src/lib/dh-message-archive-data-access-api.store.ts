@@ -16,13 +16,14 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { filter, Observable, tap, switchMap } from 'rxjs';
+
 import {
   MessageArchiveHttp,
   ArchivedMessage,
   ArchivedMessageSearchCriteria,
 } from '@energinet-datahub/dh/shared/domain';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 interface SearchResultState {
   readonly searchResult: Array<ArchivedMessage>;

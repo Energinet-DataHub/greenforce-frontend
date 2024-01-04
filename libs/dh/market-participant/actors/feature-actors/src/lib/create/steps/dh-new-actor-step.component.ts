@@ -15,25 +15,26 @@
  * limitations under the License.
  */
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { Component, Input, inject, signal } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { NgIf } from '@angular/common';
-import { Component, Input, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
-  EicFunctionType,
+  EicFunction,
   GetGridAreasForCreateActorDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
+
+import { ActorForm } from '../dh-actor-form.model';
 
 @Component({
   standalone: true,
@@ -92,6 +93,7 @@ import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-data
         translate="marketParticipant.marketRoles"
         dhDropdownTranslator
         [options]="marketRoleOptions"
+        [showResetOption]="false"
         (ngModelChange)="onMarketRoleChange($event)"
         [formControl]="newActorForm.controls.marketrole"
         [label]="t('marketRole')"
@@ -100,6 +102,7 @@ import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-data
       <watt-dropdown
         *ngIf="showGridAreaOptions()"
         [options]="gridAreaOptions"
+        [multiple]="true"
         [formControl]="newActorForm.controls.gridArea"
         [label]="t('gridArea')"
       />
@@ -133,19 +136,9 @@ import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-data
 export class DhNewActorStepComponent {
   private _apollo = inject(Apollo);
 
-  @Input({ required: true }) newActorForm!: FormGroup<{
-    glnOrEicNumber: FormControl<string>;
-    name: FormControl<string>;
-    marketrole: FormControl<EicFunctionType>;
-    gridArea: FormControl<string>;
-    contact: FormGroup<{
-      departmentOrName: FormControl<string>;
-      email: FormControl<string>;
-      phone: FormControl<string>;
-    }>;
-  }>;
+  @Input({ required: true }) newActorForm!: ActorForm;
 
-  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunctionType);
+  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction);
   gridAreaOptions: WattDropdownOptions = [];
 
   showGridAreaOptions = signal(false);
@@ -166,9 +159,10 @@ export class DhNewActorStepComponent {
       });
   }
 
-  onMarketRoleChange(eicfunction: EicFunctionType): void {
-    this.showGridAreaOptions.set(eicfunction === EicFunctionType.GridAccessProvider);
-    if (eicfunction === EicFunctionType.GridAccessProvider) {
+  onMarketRoleChange(eicfunction: EicFunction): void {
+    this.showGridAreaOptions.set(eicfunction === EicFunction.GridAccessProvider);
+
+    if (eicfunction === EicFunction.GridAccessProvider) {
       this.newActorForm.controls.gridArea.enable();
     }
   }

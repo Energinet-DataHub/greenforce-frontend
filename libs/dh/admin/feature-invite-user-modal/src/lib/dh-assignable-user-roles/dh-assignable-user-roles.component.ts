@@ -23,7 +23,6 @@ import { RxPush } from '@rx-angular/template/push';
 import { TranslocoModule } from '@ngneat/transloco';
 import { takeUntil } from 'rxjs';
 
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { DhAdminAssignableUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -37,7 +36,6 @@ import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-
   imports: [
     NgTemplateOutlet,
     NgIf,
-    WattCheckboxComponent,
     FormsModule,
     RxLet,
     RxPush,
@@ -62,7 +60,6 @@ export class DhAssignableUserRolesComponent implements OnInit {
   @Output() readonly selectedUserRoles = new EventEmitter<MarketParticipantUserRoleDto[]>();
 
   columns: WattTableColumnDef<MarketParticipantUserRoleDto> = {
-    eicFunction: { accessor: 'eicFunction' },
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
   };

@@ -14,24 +14,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  class="filter-container"
+<vater-stack
+  direction="row"
+  gap="m"
   *transloco="let t; read: 'admin.userManagement.tabs.roles.filter'"
 >
-  <dh-shared-ui-search [placeholder]="t('search')" (search)="search($event)" />
-
   <watt-dropdown
-    class="status"
-    [label]="t('status')"
-    [formControl]="statusFormControl"
-    [options]="statusListOptions"
+    [placeholder]="t('status')"
+    [formControl]="statusControl"
+    [options]="statusOptions"
+    [chipMode]="true"
   />
 
   <watt-dropdown
-    class="marketRole"
-    [label]="t('marketRole')"
-    [formControl]="eicFunctionFormControl"
-    [options]="eicFunctionListListOptions"
+    dhDropdownTranslator
+    translate="marketParticipant.marketRoles"
+    [placeholder]="t('marketRole')"
+    [formControl]="marketRolesControl"
+    [options]="marketRolesOptions"
     [multiple]="true"
+    [chipMode]="true"
   />
-</ng-container>
+</vater-stack>

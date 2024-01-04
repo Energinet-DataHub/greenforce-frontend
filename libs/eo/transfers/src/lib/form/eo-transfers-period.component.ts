@@ -23,11 +23,11 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
-import { EoExistingTransferAgreement } from '../eo-transfers.store';
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
 import { EoTransferFormPeriod } from './eo-transfers-form.component';
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 
 interface EoTransfersPeriodForm extends EoTransferFormPeriod {
   hasEndDate: FormControl<boolean>;
@@ -116,7 +116,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
       <fieldset class="start-date" [ngClass]="{ 'has-error': form.controls.startDate.errors }">
         <eo-transfers-datetime
           formControlName="startDate"
-          label="Start of period"
+          label="START"
           [min]="minStartDate"
           [existingTransferAgreements]="existingTransferAgreements"
         />
@@ -152,14 +152,14 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
         class="end-date"
         [ngClass]="{ 'has-error': form.controls.endDate.errors || form.controls.hasEndDate.errors }"
       >
-        <p class="watt-label end-date-label">End of period <span class="asterisk">*</span></p>
+        <p class="watt-label end-date-label">Stop <span class="asterisk">*</span></p>
         <div class="radio-buttons-container">
           <watt-radio group="has_enddate" formControlName="hasEndDate" [value]="false"
-            >No end date</watt-radio
+            >No specific end date</watt-radio
           >
           <div class="end-by-container">
             <watt-radio group="has_enddate" formControlName="hasEndDate" [value]="true"
-              >End by</watt-radio
+              >End on date</watt-radio
             >
             <eo-transfers-datetime
               formControlName="endDate"
