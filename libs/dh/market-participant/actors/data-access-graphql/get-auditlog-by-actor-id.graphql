@@ -1,10 +1,10 @@
 query GetAuditLogByActorId($actorId: UUID!) {
   actorAuditLogs(actorId: $actorId) {
-    changedByUserName
+    change
+    timestamp
+    isInitialAssignment
     currentValue
     previousValue
-    timestamp
-    type
-    contactCategory
+    auditedBy
   }
 }
