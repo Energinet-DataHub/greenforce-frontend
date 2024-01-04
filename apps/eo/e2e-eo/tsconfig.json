@@ -1,7 +1,7 @@
 {
   "extends": "../../../tsconfig.base.json",
   "files": [],
-  "include": ["cypress.config.js", "src/**/*.ts", "src/**/*.js"],
+  "include": ["cypress.config.ts", "src/**/*.ts", "src/**/*.js"],
   "references": [],
   "compilerOptions": {
     "sourceMap": false,
@@ -12,7 +12,12 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@badeball/cypress-cucumber-preprocessor/*": [
+        "./node_modules/@badeball/cypress-cucumber-preprocessor/dist/subpath-entrypoints/*"
+      ]
+    }
   },
   "exclude": []
 }
