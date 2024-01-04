@@ -31,11 +31,11 @@ import {
   mockUpdateOrganizationMutation,
   UpdateOrganizationMutation,
   mockGetAuditLogByOrganizationIdQuery,
-  OrganizationChangeType,
-  OrganizationAuditLog,
   mockGetAuditLogByActorIdQuery,
   mockGetGridAreaOverviewQuery,
   mockCreateMarketParticipantMutation,
+  OrganizationAuditedChangeAuditLogDto,
+  OrganizationAuditedChange,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import organizationsData from './data/marketParticipantOrganizations.json';
@@ -267,107 +267,28 @@ function updateOrganization() {
 
 function getAuditLogByOrganizationId() {
   return mockGetAuditLogByOrganizationIdQuery((req, res, ctx) => {
-    const guid = '3d6ac98a-d8b8-430e-aaad-ffde66c3e00e';
-    const auditLog: OrganizationAuditLog[] = [
+    const auditLog: OrganizationAuditedChangeAuditLogDto[] = [
       {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: guid,
-        value: 'Fredericia',
-        organizationChangeType: OrganizationChangeType.Name,
-        timestamp: new Date('2021-08-14T12:31:00'),
-        organizationId: guid,
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponse',
-          displayName: 'Jane Doe',
-        },
-      },
-      {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: '3d6ac98a-d8b8-430e-aaad-aade66c3e00e',
-        value: 'DK',
-        organizationChangeType: OrganizationChangeType.Name,
-        timestamp: new Date('2021-08-15T12:31:00'),
-        organizationId: '3d6ac98a-d8b8-430e-aaad-eade66c3e00e',
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponse',
-          displayName: 'Jane Doe',
-        },
-      },
-      {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: guid,
-        value: '10',
-        organizationChangeType: OrganizationChangeType.Name,
-        timestamp: new Date('2021-08-15T12:31:00'),
-        organizationId: guid,
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponse',
-          displayName: 'Jane Doe',
-        },
-      },
-      {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: guid,
-        value: 'Vejen',
-        organizationChangeType: OrganizationChangeType.Name,
-        timestamp: new Date('2021-09-02T10:00:00'),
-        organizationId: guid,
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponse',
-          displayName: 'Jane Doe',
-        },
-      },
-      {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: guid,
-        value: '7000',
-        organizationChangeType: OrganizationChangeType.Name,
-        timestamp: new Date('2021-09-03T10:00:00'),
-        organizationId: guid,
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponse',
-          displayName: 'Jane Doe',
-        },
-      },
-      {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: guid,
-        value: '12345678',
-        organizationChangeType: OrganizationChangeType.Name,
-        timestamp: new Date('2021-09-04T10:00:00'),
-        organizationId: guid,
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponse',
-          displayName: 'Jane Doe',
-        },
-      },
-      {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: guid,
-        value: 'energinet.dk',
-        organizationChangeType: OrganizationChangeType.DomainChange,
+        __typename: 'OrganizationAuditedChangeAuditLogDto',
+        auditedBy: 'Jane Doe',
+        isInitialAssignment: false,
+        currentValue: 'energinet.dk',
+        previousValue: null,
+        change: OrganizationAuditedChange.Domain,
         timestamp: new Date('2021-09-05T10:00:00'),
-        organizationId: guid,
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponse',
-          displayName: 'Jane Doe',
-        },
       },
       {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: guid,
-        value: 'Grøn Strøm',
-        organizationChangeType: OrganizationChangeType.Name,
+        __typename: 'OrganizationAuditedChangeAuditLogDto',
+        auditedBy: 'Jane Doe',
+        isInitialAssignment: false,
+        currentValue: 'Grøn Strøm',
+        previousValue: null,
+        change: OrganizationAuditedChange.Name,
         timestamp: new Date('2021-09-06T10:00:00'),
-        organizationId: guid,
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponse',
-          displayName: 'Jane Doe',
-        },
       },
     ];
 
-    return res(ctx.delay(300), ctx.data({ __typename: 'Query', organizationAuditLog: auditLog }));
+    return res(ctx.delay(300), ctx.data({ __typename: 'Query', organizationAuditLogs: auditLog }));
   });
 }
 
