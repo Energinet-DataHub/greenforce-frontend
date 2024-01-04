@@ -22,7 +22,7 @@ import { DhFeatureFlagsService } from './feature-flags.service';
 const featureFlagMocks: FeatureFlagConfig = {
   'dummy-feature': {
     created: new Date().toISOString(),
-    disabledEnvironments: [DhAppEnvironment.test001, DhAppEnvironment.preprod],
+    disabledEnvironments: [DhAppEnvironment.test_001, DhAppEnvironment.preprod],
   },
 };
 
@@ -48,16 +48,18 @@ describe('Feature flags service', () => {
   const existingFeatureFlagName = 'dummy-feature';
 
   const cases = [
-    [nonExistingFeatureFlagName, DhAppEnvironment.dev001, true, {}],
-    [nonExistingFeatureFlagName, DhAppEnvironment.dev002, true, {}],
-    [nonExistingFeatureFlagName, DhAppEnvironment.test001, true, {}],
-    [nonExistingFeatureFlagName, DhAppEnvironment.sandbox002, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.sandbox_002, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.dev_001, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.dev_002, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.test_001, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.test_002, true, {}],
     [nonExistingFeatureFlagName, DhAppEnvironment.preprod, true, {}],
 
-    [existingFeatureFlagName, DhAppEnvironment.dev001, true, featureFlagMocks],
-    [existingFeatureFlagName, DhAppEnvironment.dev002, true, featureFlagMocks],
-    [existingFeatureFlagName, DhAppEnvironment.test001, false, featureFlagMocks],
-    [existingFeatureFlagName, DhAppEnvironment.sandbox002, true, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.sandbox_002, true, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.dev_001, true, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.dev_002, true, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.test_001, false, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.test_002, false, featureFlagMocks],
     [existingFeatureFlagName, DhAppEnvironment.preprod, false, featureFlagMocks],
   ];
 
