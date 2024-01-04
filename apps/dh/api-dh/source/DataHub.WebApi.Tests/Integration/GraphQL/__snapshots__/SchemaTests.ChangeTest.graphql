@@ -61,6 +61,11 @@ type ApiErrorDescriptor {
   args: JSON!
 }
 
+type AssociatedActors {
+  email: String!
+  actors: [UUID!]!
+}
+
 type BalanceResponsiblePageResult {
   page: [BalanceResponsibleType!]!
   totalCount: Int!
@@ -264,6 +269,7 @@ type Query {
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   emailExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
+  associatedActors(email: String!): AssociatedActors!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
 }
 
