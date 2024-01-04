@@ -17,7 +17,7 @@
 import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {
   dhApiEnvironmentToken,
@@ -45,7 +45,7 @@ Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironmen
         { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
         { provide: dhB2CEnvironmentToken, useValue: dhB2CEnvironment },
         { provide: dhAppEnvironmentToken, useValue: dhAppEnvironment },
-        provideAnimations(),
+        provideAnimationsAsync(),
         provideHttpClient(withInterceptorsFromDi()),
         ...dhCoreShellProviders,
         provideRouter(
