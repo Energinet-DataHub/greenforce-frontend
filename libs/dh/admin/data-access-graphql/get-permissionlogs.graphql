@@ -1,8 +1,0 @@
-query GetPermissionLogs($id: Int!) {
-  permissionLogs(id: $id) {
-    changedByUserName
-    type
-    timestamp
-    value
-  }
-}
