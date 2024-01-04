@@ -124,7 +124,7 @@ class GranularCertificateHelperComponent {}
               toggleContract.emit({
                 checked: $event.checked,
                 gsrn: meteringPoint.gsrn,
-                type: meteringPoint.type,
+                type: meteringPoint.type
               })
             "
             [disabled]="meteringPoint.loadingContract"
@@ -165,7 +165,7 @@ export class EoMeteringPointsTableComponent {
     source: {
       accessor: (meteringPoint) => {
         return meteringPoint.type === 'production' ? meteringPoint.assetType : '';
-      }
+      },
     },
     gc: {
       accessor: (meteringPoint) => {
