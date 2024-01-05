@@ -40,7 +40,7 @@ export const eoShellRoutes: Routes = [
   { path: 'login', component: EoLoginComponent },
   {
     path: 'terms',
-    data: { title: 'Terms' },
+    title: 'Terms',
     loadChildren: () =>
       import('@energinet-datahub/eo/terms').then((esModule) => esModule.eoTermsRoutes),
   },
@@ -59,7 +59,7 @@ export const eoShellRoutes: Routes = [
       {
         path: eoDashboardRoutePath,
         canActivate: [EoScopeGuard],
-        data: { title: 'Dashboard' },
+        title: 'Dashboard',
         loadChildren: () =>
           import('@energinet-datahub/eo/dashboard/shell').then(
             (esModule) => esModule.eoDashboardRoutes
@@ -68,7 +68,7 @@ export const eoShellRoutes: Routes = [
       {
         path: eoMeteringPointsRoutePath,
         canActivate: [EoScopeGuard],
-        data: { title: 'Metering points' },
+        title: 'Metering points',
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
             (esModule) => esModule.eoMeteringPointsRoutes
@@ -77,20 +77,20 @@ export const eoShellRoutes: Routes = [
       {
         path: eoTransferRoutePath,
         canActivate: [EoScopeGuard],
-        data: { title: 'Transfers' },
+        title: 'Transfers',
         loadChildren: () =>
           import('@energinet-datahub/eo/transfers').then((esModule) => esModule.eoTransfersRoutes),
       },
       {
         path: eoClaimsRoutePath,
         canActivate: [EoScopeGuard],
-        data: { title: 'Claims' },
+        title: 'Claims',
         loadChildren: () =>
           import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),
       },
       {
         path: eoPrivacyPolicyRoutePath,
-        data: { title: 'Privacy Policy' },
+        title: 'Privacy Policy',
         loadChildren: () =>
           import('@energinet-datahub/eo/privacy-policy/shell').then(
             (esModule) => esModule.eoPrivacyPolicyRoutes

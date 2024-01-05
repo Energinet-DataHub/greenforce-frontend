@@ -23,22 +23,22 @@ import { EoIntroductionPageComponent } from './lib/eo-introduction-page.componen
 import { EoSimultaneityPageComponent } from './lib/eo-simultaneity-page.component';
 
 export const eoHelpRoutes: Routes = [
-  { path: '', component: EoHelpPageComponent, data: { title: 'Help' } },
-  { path: eoRoutes.faq, component: EoFaqPageComponent, data: { title: 'FAQ' } },
+  { path: '', component: EoHelpPageComponent, title: 'Help' },
+  { path: eoRoutes.faq, component: EoFaqPageComponent, title: 'FAQ' },
   {
     path: eoRoutes.introduction,
     component: EoIntroductionPageComponent,
-    data: { title: 'Introduktion til EnergiOprindelse' },
+    title: 'Introduktion til EnergiOprindelse',
   },
   {
     path: eoRoutes.simultaneity,
     component: EoSimultaneityPageComponent,
-    data: { title: 'Samtidighed' },
+    title: 'Samtidighed',
   },
   {
     path: eoRoutes.geography,
     component: EoGeographyPageComponent,
-    data: { title: 'Geografi' },
+    title: 'Geografi',
   },
   { path: '**', redirectTo: '' },
 ];

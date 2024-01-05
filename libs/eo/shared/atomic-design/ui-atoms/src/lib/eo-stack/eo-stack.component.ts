@@ -55,7 +55,7 @@ export type StackSize = 'XS' | 'S' | 'M' | 'L' | 'XL';
       }
     `,
   ],
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
 })
 export class EoStackComponent {
   @Input() size: StackSize = 'L';

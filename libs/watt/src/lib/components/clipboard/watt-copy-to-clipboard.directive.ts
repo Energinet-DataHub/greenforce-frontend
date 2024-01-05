@@ -25,6 +25,7 @@ import {
   Output,
 } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
+
 import { WattToastService } from '../toast';
 import { WattClipboardIntlService } from './watt-clipboard-intl.service';
 

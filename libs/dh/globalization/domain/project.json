@@ -9,8 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/globalization/domain"],
       "options": {
-        "jestConfig": "libs/dh/globalization/domain/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/globalization/domain/jest.config.ts"
       }
     },
     "lint": {
