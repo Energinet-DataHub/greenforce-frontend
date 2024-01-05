@@ -9,7 +9,7 @@ import { ActivatedRoute, Params, RouterLink } from '@angular/router';
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { AnimationOptions, LottieComponent } from 'ngx-lottie';
-import { Observable, take } from 'rxjs';
+import { Observable, take, tap } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { eovApiEnvironmentToken } from '@energinet-datahub/eov/shared/environments';
@@ -58,6 +58,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
           width: calc(100% - 20px);
           height: 300px;
           padding-top: var(--watt-space-m);
+          padding-bottom: var(--watt-space-m);
         }
 
         .loader-container {
@@ -102,8 +103,8 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
         <watt-badge size="large">{{ i | number:'2.0' }}</watt-badge>
         <watt-expandable-card-title>{{ meteringPoint.meteringPointAlias === null ? meteringPoint.address + ", " + meteringPoint.postcode + " " + meteringPoint.cityName + ": " + meteringPoint.meteringPointId : meteringPoint.meteringPointAlias }}</watt-expandable-card-title>
 
-        <div class="loader-container" *ngIf="isLoading">
-          <ng-lottie height="64px" width="64px" [options]="options" *ngIf="isLoading" />
+        <div class="loader-container" *ngIf="isLoading[i]">
+          <ng-lottie height="64px" width="64px" [options]="options" *ngIf="isLoading[i]" />
         </div>
 
         <ul class="legends">
@@ -148,33 +149,14 @@ export class EovOverviewShellComponent {
   http = inject(HttpClient);
   cd = inject(ChangeDetectorRef);
   token?: string;
-  isLoading = true;
+  isLoading: boolean[] = [];
   meteringPoints$?: Observable<MeteringPointDto[]>;
   protected options: AnimationOptions = {
     path: '/assets/animations/graph-loader.json',
   };
   private labels = ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'];
-  protected barChartData: Array<ChartConfiguration<'bar'>['data']> = [{
-    labels: this.labels,
-    datasets: [],
-  }];
-  protected barChartOptions: Array<ChartConfiguration<'bar'>['options']> = [{
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        stacked: true,
-        grid: { display: false },
-        ticks: {
-          maxRotation: 0,
-          autoSkipPadding: 12,
-        },
-      },
-      y: {
-        stacked: true,
-        title: { display: true, text: 'Wh', align: 'end' },
-      },
-    },
-  }];
+  protected barChartData: Array<ChartConfiguration<'bar'>['data']> = [];
+  protected barChartOptions: Array<ChartConfiguration<'bar'>['options']> = [];
 
   constructor() {
     this.route.queryParams.subscribe((params) => {
@@ -192,35 +174,38 @@ export class EovOverviewShellComponent {
         this.token = token.token;
         let params = new HttpHeaders();
         params = params.set('Authorization', 'Bearer ' + token.token);
-        this.meteringPoints$ = this.http.get<MeteringPointDto[]>(this.environment.customerApiUrl + '/api/MeteringPoint', { headers: params});
+        this.meteringPoints$ = this.http.get<MeteringPointDto[]>(this.environment.customerApiUrl + '/api/MeteringPoint', { headers: params}).pipe(
+          tap((meteringPoints) => meteringPoints.forEach((m, index) => {
+            this.isLoading[index] = false;
+            this.barChartData[index] = {
+              labels: this.labels,
+              datasets: [],
+            };
+            this.barChartOptions[index] = {
+              maintainAspectRatio: false,
+              scales: {
+                x: {
+                  stacked: true,
+                  grid: { display: false },
+                  ticks: {
+                    maxRotation: 0,
+                    autoSkipPadding: 12,
+                  },
+                },
+                y: {
+                  stacked: true,
+                  title: { display: true, text: 'Wh', align: 'end' },
+                },
+              },
+            };
+          }))
+        );
         this.cd.detectChanges();
       });
   }
 
   cardOpened(index: number) {
-    this.isLoading = true;
-    this.barChartData[index] = {
-      labels: this.labels,
-      datasets: [],
-    };
-    this.barChartOptions[index] = {
-      maintainAspectRatio: false,
-      responsive: true,
-      scales: {
-        x: {
-          stacked: true,
-          grid: { display: false },
-          ticks: {
-            maxRotation: 0,
-            autoSkipPadding: 12,
-          },
-        },
-        y: {
-          stacked: true,
-          title: { display: true, text: 'Wh', align: 'end' },
-        },
-      },
-    };
+    this.isLoading[index] = true;
   }
 
   afterOpened(id: string, index: number) {
@@ -273,7 +258,7 @@ export class EovOverviewShellComponent {
         ],
       };
 
-      this.isLoading = false;
+      this.isLoading[index] = false;
       this.cd.detectChanges();
     })
   };

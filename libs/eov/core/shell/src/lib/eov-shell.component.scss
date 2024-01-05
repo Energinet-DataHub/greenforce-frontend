@@ -23,6 +23,10 @@ nav {
   top: -1px;
   z-index: 10;
 
+  a {
+    font-weight: 700;
+  }
+
   .areas {
     .areas__end, .areas__start {
       font-size: 16px;

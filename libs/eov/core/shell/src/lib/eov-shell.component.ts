@@ -3,6 +3,7 @@ import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { eovApiEnvironmentToken } from '@energinet-datahub/eov/shared/environments';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -11,6 +12,7 @@ import { eovApiEnvironmentToken } from '@energinet-datahub/eov/shared/environmen
     RouterModule,
     OverlayModule,
     NgIf,
+    WattButtonComponent,
   ],
   selector: 'eov-shell',
   styleUrls: ['./eov-shell.component.scss'],
@@ -48,9 +50,9 @@ import { eovApiEnvironmentToken } from '@energinet-datahub/eov/shared/environmen
               cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
             >
               <ul class="login-overlay mat-elevation-z8">
-                <li matRipple (click)="loginAsCustomer()">Privat</li>
-                <li matRipple (click)="loginAsCorp()">Erhverv</li>
-                <li>Tredjepart</li>
+                <li><watt-button variant="text" (click)="loginAsCustomer()">Privat</watt-button></li>
+                <li><watt-button variant="text" (click)="loginAsCorp()">Erhverv</watt-button></li>
+                <li><watt-button variant="text" (click)="loginAsThirdparty()">Tredjepart</watt-button></li>
               </ul>
             </ng-template>
             <img src="/assets/images/hamburger.png" class="mobile-nav mobile-only hamburger button" (click)="isHamburgerOpen = !isHamburgerOpen" cdkOverlayOrigin #hamburgerTrigger="cdkOverlayOrigin">
@@ -65,9 +67,9 @@ import { eovApiEnvironmentToken } from '@energinet-datahub/eov/shared/environmen
                 <div class="login-menu">
                   <h2>LOG PÅ</h2>
                   <ul class="login-items">
-                    <li (click)="loginAsCustomer()">Privat</li>
-                    <li>Erhverv</li>
-                    <li>Tredjepart</li>
+                    <li><watt-button variant="text" (click)="loginAsCustomer()">Privat</watt-button></li>
+                    <li><watt-button variant="text" (click)="loginAsCorp()">Erhverv</watt-button></li>
+                    <li><watt-button variant="text" (click)="loginAsThirdparty()">Tredjepart</watt-button></li>
                   </ul>
                 </div>
                 <div class="bottom-menu">
@@ -152,6 +154,17 @@ export class EovShellComponent {
       `&language=da&scope=nemid+openid+ssn+userinfo_token+nemlogin` +
       `&idp_values=nemid+mitid_erhverv&idp_params=%7B%22nemid%22%3A%7B%22amr_values%22%3A%22nemid.keyfile%20nemid.otp%22%2C%22private_to_business%22%3Atrue%2C%22code_app_trans_ctx%22%3A%22TG9naW4gdGlsIEVsT3ZlcmJsaWs%3D%22%7D%7D` +
       `&state=${btoa(JSON.stringify({ webApp: 11, completionUri: 'http://localhost:4200/overview' }))}`;
+  }
+
+  loginAsThirdparty() {
+    window.location.href =
+      `${this.environment.netsBaseURL}/connect/authorize` +
+      `?response_type=code&client_id=${this.environment.clientId}` +
+      `&prompt=true` +
+      `&redirect_uri=${this.environment.thirdPartyApiUrl}/api/oidc/callback` +
+      `&language=da&scope=nemid+openid+ssn+userinfo_token+nemlogin` +
+      `&idp_values=nemid+mitid_erhverv&idp_params=%7B%22nemid%22%3A%7B%22amr_values%22%3A%22nemid.keyfile%20nemid.otp%22%2C%22private_to_business%22%3Atrue%2C%22code_app_trans_ctx%22%3A%22TG9naW4gdGlsIEVsT3ZlcmJsaWs%3D%22%7D%7D` +
+      `&state=${btoa(JSON.stringify({ webApp: 13, completionUri: 'http://localhost:4200/overview' }))}`;
   }
 
   @HostListener('window:scroll')
