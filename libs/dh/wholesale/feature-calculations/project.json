@@ -15,13 +15,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/wholesale/feature-calculations/src/**/*.ts",
-          "libs/dh/wholesale/feature-calculations/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "component-test": {
       "executor": "@nx/cypress:cypress",

@@ -13,13 +13,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/eo/dashboard/shell/src/**/*.ts",
-          "libs/eo/dashboard/shell/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:eo", "domain:dashboard", "type:shell"]

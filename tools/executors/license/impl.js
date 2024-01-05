@@ -86,8 +86,8 @@ var __generator =
                 op[0] & 2
                   ? y['return']
                   : op[0]
-                  ? y['throw'] || ((t = y['return']) && t.call(y), 0)
-                  : y.next) &&
+                    ? y['throw'] || ((t = y['return']) && t.call(y), 0)
+                    : y.next) &&
               !(t = t.call(y, op[1])).done)
           )
             return t;
@@ -146,7 +146,7 @@ var __generator =
       return { value: op[0] ? op[1] : void 0, done: true };
     }
   };
-exports.__esModule = true;
+Object.defineProperty(exports, '__esModule', { value: true });
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -166,6 +166,7 @@ exports.__esModule = true;
 var fs = require('fs');
 var glob_1 = require('glob');
 var path = require('path');
+// eslint-disable-next-line @nx/enforce-module-boundaries
 var config = require('../../../.licenserc.json');
 function addLicenseExecutor(options) {
   return __awaiter(this, void 0, void 0, function () {
@@ -205,7 +206,7 @@ function addLicenseExecutor(options) {
     });
   });
 }
-exports['default'] = addLicenseExecutor;
+exports.default = addLicenseExecutor;
 function getLicenseConfig(config, file) {
   var fileExt = path.extname(file).replace('.', '');
   var key = Object.keys(config).find(function (glob) {

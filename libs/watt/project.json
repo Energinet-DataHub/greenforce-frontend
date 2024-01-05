@@ -14,9 +14,6 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": ["libs/watt/src/**/*.ts", "libs/watt/src/**/*.html"]
-      },
       "outputs": ["{options.outputFile}"]
     },
     "storybook": {

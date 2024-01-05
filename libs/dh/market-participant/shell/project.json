@@ -13,13 +13,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/market-participant/shell/src/**/*.ts",
-          "libs/dh/market-participant/shell/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "domain:market-participant", "type:shell"]
