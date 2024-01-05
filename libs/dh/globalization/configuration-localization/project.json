@@ -15,13 +15,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/globalization/configuration-localization/src/**/*.ts",
-          "libs/dh/globalization/configuration-localization/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "domain:globalization", "type:configuration"]

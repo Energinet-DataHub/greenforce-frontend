@@ -31,6 +31,7 @@
             "output": "/"
           }
         ],
+        "allowedCommonJsDependencies": ["date-fns", "inputmask", "lottie-web"],
         "baseHref": "/",
         "index": "apps/eo/app-eo/src/index.html",
         "inlineStyleLanguage": "scss",
@@ -123,12 +124,6 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "apps/eo/app-eo/src/**/*.ts",
-          "apps/eo/app-eo/src/**/*.html"
-        ]
-      },
       "outputs": ["{options.outputFile}"]
     },
     "test": {

@@ -31,9 +31,6 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": ["apps/eo/e2e-eo/**/*.{js,ts}"]
-      },
       "outputs": ["{options.outputFile}"]
     }
   },

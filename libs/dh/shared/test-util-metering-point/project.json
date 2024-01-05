@@ -15,13 +15,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/shared/test-util-metering-point/src/**/*.ts",
-          "libs/dh/shared/test-util-metering-point/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "domain:shared", "type:test-util"]
