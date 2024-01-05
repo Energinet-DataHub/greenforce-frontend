@@ -14,12 +14,6 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/gf/test-util-matchers/src/**/*.ts",
-          "libs/gf/test-util-matchers/src/**/*.html"
-        ]
-      },
       "outputs": ["{options.outputFile}"]
     }
   },
