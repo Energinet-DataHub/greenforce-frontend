@@ -23,10 +23,12 @@ import { createEsbuildPlugin } from '@badeball/cypress-cucumber-preprocessor/esb
 export default defineConfig({
   e2e: {
     ...nxE2EPreset(__dirname),
+    chromeWebSecurity: false,
     specPattern: '**/*.feature',
     supportFile: false,
-    chromeWebSecurity: false,
     video: true,
+    viewportHeight: 800,
+    viewportWidth: 1280,
     async setupNodeEvents(
       on: Cypress.PluginEvents,
       config: Cypress.PluginConfigOptions
