@@ -24,7 +24,7 @@
           "watch": true
         },
         "watch-production": {
-          "devServerTarget": "app-eo:serve:e2e",
+          "devServerTarget": "app-eo:serve:mocked",
           "watch": true
         }
       }
