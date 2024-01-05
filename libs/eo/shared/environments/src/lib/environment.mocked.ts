@@ -35,7 +35,6 @@ export const environment: EoEnvironment = {
 /**
  * Mock Service Worker
  */
-/*
 import { setupServiceWorker } from '@energinet-datahub/gf/util-msw';
 import { loadEoApiEnvironment } from './api-environment/load-eo-api-environment';
 
@@ -45,4 +44,3 @@ import { mocks } from '@energinet-datahub/eo/shared/data-access-mocks';
 loadEoApiEnvironment('eo-api-environment.local.json').then((env) => {
   setupServiceWorker(env.apiBase, mocks);
 });
-*/
