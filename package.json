@@ -46,6 +46,7 @@
     "start": "nx serve",
     "dh:dev": "nx run app-dh:serve:development",
     "dh:mock": "nx run app-dh:serve:mock",
+    "eo:dev": "nx run app-eo:serve:development",
     "test": "nx run-many --target=test --parallel",
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
