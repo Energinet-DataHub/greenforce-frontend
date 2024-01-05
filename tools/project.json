@@ -9,6 +9,9 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["tools/**/*.ts"]
+      },
       "outputs": ["{options.outputFile}"]
     },
     "test": {
