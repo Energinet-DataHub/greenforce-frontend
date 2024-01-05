@@ -1,11 +1,10 @@
-query GetUserRoleAuditLogs($id: UUID!) {
-  userRoleAuditLogs(id: $id) {
+query GetPermissionAuditLogs($id: Int!) {
+  permissionAuditLogs(id: $id) {
     change
     timestamp
     isInitialAssignment
     currentValue
     previousValue
     auditedBy
-    affectedPermissionName
   }
 }

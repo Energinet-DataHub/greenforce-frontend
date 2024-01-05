@@ -287,6 +287,10 @@
           "organization": "Organisation"
         },
         "tabs": {
+          "shared": {
+            "error": "En fejl opstod",
+            "noData": "Ingen data"
+          },
           "masterData": {
             "tabLabel": "Information",
             "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
@@ -349,27 +353,30 @@
           },
           "history": {
             "tabLabel": "Historik",
+            "status": {
+              "New": "Ny",
+              "Active": "Aktiv",
+              "Inactive": "Inaktiv",
+              "Passive": "Passiv",
+              "Deleted": "Slettet"
+            },
             "changeTypes": {
-              "NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
-              "NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
-              "STATUS": "<b>{{ changedByUserName }}</b> ændrede status på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
-              "STATUS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede status på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
-              "CREATED": "<b>{{ changedByUserName }}</b> oprettede aktøren",
-              "CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> oprettede aktøren",
-              "CERTIFICATE_CREDENTIALS": "<b>{{ changedByUserName }}</b> fjernede certifikatet med thumbprint <b>{{ previousValue }}</b>",
-              "CERTIFICATE_CREDENTIALS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> tilføjede et certifikat med thumbprint <b>{{ currentValue }}</b>",
-              "CLIENT_SECRET_CREDENTIALS": "<b>{{ changedByUserName }}</b> fjernede client secret med udløbsdato d. <b>{{ previousValue }}</b>",
-              "CLIENT_SECRET_CREDENTIALS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> tilføjede en client secret som vil udløbe d. <b>{{ currentValue }}</b>",
-              "CONTACT_NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_EMAIL": "<b>{{ changedByUserName }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_PHONE": "<b>{{ changedByUserName }}</b> ændrede telefonnummer på kontakten fra <b>{{ currentValue }}</b> til <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b> fra <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b> fra <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede telefonnummer på kontakten fra <b>{{ currentValue }}</b> til <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_CREATED": "<b>{{ changedByUserName }}</b> oprettede en kontakt i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_DELETED": "<b>{{ changedByUserName }}</b> slettede en kontakt i kategorien <b>{{ contactCategory }}</b> category",
-              "CONTACT_CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> oprettede en kontakt i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_DELETED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> slettede en kontakt i kategorien <b>{{ contactCategory }}</b> category"
+              "NAME": "<b>{{ auditedBy }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b>.",
+              "NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> oprettede aktøren med navnet <b>{{ currentValue }}</b>.",
+              "STATUS": "<b>{{ auditedBy }}</b> ændrede status på aktøren til <b>{{ status }}</b>.",
+              "STATUS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> oprettede aktøren med status <b>{{ status }}</b>.",
+              "CERTIFICATE_CREDENTIALS": "<b>{{ auditedBy }}</b> fjernede certifikatet med thumbprint <b>{{ previousValue }}</b>.",
+              "CERTIFICATE_CREDENTIALS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> tilføjede et certifikat med thumbprint <b>{{ currentValue }}</b>.",
+              "CLIENT_SECRET_CREDENTIALS": "<b>{{ auditedBy }}</b> fjernede client secret med udløbsdato d. <b>{{ previousValue }}</b>.",
+              "CLIENT_SECRET_CREDENTIALS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> tilføjede en client secret som vil udløbe d. <b>{{ currentValue }}</b>.",
+              "CONTACT_CATEGORY_ADDED_NO_PREVIOUS": "<b>{{ auditedBy }}</b> oprettede kontaktkategorien <b>{{ currentValue }}</b>.",
+              "CONTACT_CATEGORY_REMOVED": "<b>{{ auditedBy }}</b> fjernede kontaktkategorien <b>{{ previousValue }}</b>.",
+              "CONTACT_NAME": "<b>{{ auditedBy }}</b> ændrede navnet på kontakten fra <b>{{ previousValue }}</b> til <b>{{ currentValue }}</b>.",
+              "CONTACT_EMAIL": "<b>{{ auditedBy }}</b> ændrede email på kontakten fra <b>{{ previousValue }}</b> til <b>{{ currentValue }}</b>.",
+              "CONTACT_PHONE": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten fra <b>{{ previousValue }}</b> til <b>{{ currentValue }}</b>.",
+              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b>.",
+              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b>.",
+              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten til <b>{{ currentValue }}</b>."
             }
           }
         }
@@ -428,14 +435,8 @@
           "history": {
             "tabLabel": "Historik",
             "changeTypes": {
-              "NAME": "<b>{{ identity }}</b> ændrede navnet til <b>{{ value }}</b>",
-              "DOMAIN_CHANGE": "<b>{{ identity }}</b> ændrede domænet til <b>{{ value }}</b>",
-              "BUSINESS_REGISTER_IDENTIFIER": "<b>{{ identity }}</b> ændrede CVR-nummeret til <b>{{ value }}</b>",
-              "ADDRESS_CITY": "<b>{{ identity }}</b> ændrede byen til <b>{{ value }}</b>",
-              "ADDRESS_COUNTRY": "<b>{{ identity }}</b> ændrede landet til <b>{{ value }}</b>",
-              "ADDRESS_NUMBER": "<b>{{ identity }}</b> ændrede vejnummeret til <b>{{ value }}</b>",
-              "ADDRESS_STREET_NAME": "<b>{{ identity }}</b> ændrede vejnavnet til <b>{{ value }}</b>",
-              "ADDRESS_ZIP_CODE": "<b>{{ identity }}</b> ændrede postnummeret til <b>{{ value }}</b>"
+              "NAME": "<b>{{ auditedBy }}</b> ændrede navnet til <b>{{ currentValue }}</b>.",
+              "DOMAIN": "<b>{{ auditedBy }}</b> ændrede domænet til <b>{{ currentValue }}</b>."
             }
           }
         }
@@ -963,7 +964,8 @@
         "serverErrors": {
           "invalidPhoneNumber": "Telefonnummeret er formatteret korrekt, men er ikke gyldigt."
         },
-        "unknowEmailInfoMessage": "For at acceptere invitationen skal brugeren allerede have adgang til DataHub, fordi brugeren ikke er en del af din organisation."
+        "unknowEmailInfoMessage": "For at acceptere invitationen skal brugeren allerede have adgang til DataHub, fordi brugeren ikke er en del af din organisation.",
+        "userAlreadyInvited": "Bruger er allerede oprettet."
       },
       "download": "Download",
       "drawer": {
@@ -1015,15 +1017,16 @@
                 "noEntries": "Ingen resultater"
               },
               "logs": {
+                "status": {
+                  "Active": "Aktiv",
+                  "Inactive": "Inaktiv"
+                },
                 "roles": {
-                  "CREATED": "<b>{{ changedByUserName }}</b> oprettede brugerrollen",
-                  "NAME_CHANGE": "<b>{{ changedByUserName }}</b> ændrede navn på brugerrollen til <b>{{ changedValueTo }}</b>",
-                  "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelse til <b>{{ changedValueTo }}</b>",
-                  "EIC_FUNCTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede markedsrollen til <b>{{ changedValueTo }}</b>",
-                  "STATUS_CHANGE": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
-                  "PERMISSIONS_CHANGE": "<b>{{ changedByUserName }}</b> ændrede rettighederne til <b>{{ changedValueTo }}</b>",
-                  "PERMISSION_ADDED": "<b>{{ changedByUserName }}</b> tilføjede rettigheder: <b>{{ changedValueTo }}</b>",
-                  "PERMISSION_REMOVED": "<b>{{ changedByUserName }}</b> fjernede rettigheder: <b>{{ changedValueTo }}</b>"
+                  "NAME": "<b>{{ auditedBy }}</b> ændrede navn på brugerrollen til <b>{{ currentValue }}</b>.",
+                  "DESCRIPTION": "<b>{{ auditedBy }}</b> ændrede beskrivelse til <b>{{ currentValue }}</b>.",
+                  "STATUS": "<b>{{ auditedBy }}</b> ændrede status til <b>{{ status }}</b>.",
+                  "PERMISSION_ADDED": "<b>{{ auditedBy }}</b> tilføjede rettigheden <b>{{ affectedPermissionName }}</b>.",
+                  "PERMISSION_REMOVED": "<b>{{ auditedBy }}</b> fjernede rettigheden <b>{{ affectedPermissionName }}</b>."
                 }
               }
             }
@@ -1052,29 +1055,31 @@
         },
         "history": {
           "tabLabel": "Historik",
-          "noEntries": "Ingen resultater",
           "changesSingular": "{{ auditLogCount }} ændring",
           "changesPlural": "{{ auditLogCount }} ændringer",
-          "columns": {
-            "timestamp": "Tid",
-            "entry": "Ændring"
+          "table": {
+            "noEntries": "Ingen resultater",
+            "columns": {
+              "timestamp": "Tid",
+              "entry": "Ændring"
+            }
           },
           "logs": {
             "permissionsDetails": {
               "auditLogType": {
-                "CREATED": "<b>{{ changedByUserName }}</b> tilføjede rettigheden til systemet",
-                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelsen på rettigheden til <b>{{ value }}</b>"
+                "CLAIM": "<b>{{ auditedBy }}</b> tilføjede rettigheden <b>{{ currentValue }}</b> til systemet.",
+                "DESCRIPTION": "<b>{{ auditedBy }}</b> ændrede beskrivelsen på rettigheden til <b>{{ currentValue }}</b>."
               }
             },
-            "auditLogType": {
-              "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede brugerrollen <b>{{ toValue }}</b>",
-              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b>",
-              "UserInvite": "<b>{{ changedByUserName }}</b> tilføjede brugeren til aktør <b>{{ toValue }}</b>",
-              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b> fordi rollen blev deaktiveret",
-              "UserFirstNameChanged": "<b>{{ changedByUserName }}</b> ændrede fornavn til <b>{{ toValue }}</b>",
-              "UserLastNameChanged": "<b>{{ changedByUserName }}</b> ændrede efternavn til <b>{{ toValue }}</b>",
-              "UserPhoneNumberChanged": "<b>{{ changedByUserName }}</b> ændrede telefonnummer til <b>{{ toValue }}</b>",
-              "UserStatusChanged": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ toValue }}</b>"
+            "audit": {
+              "FIRST_NAME": "<b>{{ auditedBy }}</b> ændrede brugerens fornavn til <b>{{ currentValue }}</b>.",
+              "LAST_NAME": "<b>{{ auditedBy }}</b> ændrede brugerens efternavn til <b>{{ currentValue }}</b>.",
+              "PHONE_NUMBER": "<b>{{ auditedBy }}</b> ændrede brugerens telefonnummer til <b>{{ currentValue }}</b>.",
+              "STATUS": "<b>{{ auditedBy }}</b> ændrede brugerens status til <b>{{ currentValue }}</b>.",
+              "INVITED_INTO_ACTOR": "<b>{{ auditedBy }}</b> inviterede brugeren ind i <b>{{ affectedActorName }}</b>.",
+              "USER_ROLE_ASSIGNED": "<b>{{ auditedBy }}</b> tildelte brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>.",
+              "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>.",
+              "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b>, da rollen blev deaktiveret."
             }
           },
           "generalError": {

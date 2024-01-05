@@ -32,6 +32,5 @@ public class AuditIdentityCacheDataLoader : CacheDataLoader<Guid, GetAuditIdenti
 
     protected override Task<GetAuditIdentityResponse> LoadSingleAsync(
         Guid key,
-        CancellationToken cancellationToken) =>
-        _client.AuditIdentityAsync(key);
+        CancellationToken cancellationToken) => _client.AuditIdentityAsync(key, cancellationToken);
 }

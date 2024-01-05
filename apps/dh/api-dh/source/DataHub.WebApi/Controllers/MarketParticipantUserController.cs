@@ -13,14 +13,10 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserAuditLogsDto = Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto.UserAuditLogsDto;
 
 namespace Energinet.DataHub.WebApi.Controllers
 {
@@ -80,85 +76,6 @@ namespace Energinet.DataHub.WebApi.Controllers
         public Task<ActionResult<GetActorsAssociatedWithUserResponse>> GetUserActorsByUserIdAsync(Guid userId)
         {
             return HandleExceptionAsync(() => _client.UserActorsGetAsync(userId));
-        }
-
-        /// <summary>
-        ///     Retrieves the audit log history for the specified user.
-        /// </summary>
-        [HttpGet]
-        [Route("GetUserAuditLogs")]
-        public Task<ActionResult<UserAuditLogsDto>> GetUserAuditLogsAsync(Guid userId)
-        {
-            return HandleExceptionAsync(async () =>
-            {
-                var auditLogs = await _client
-                    .UserAuditlogentryAsync(userId)
-                    .ConfigureAwait(false);
-
-                var userAuditLogs = new List<UserAuditLogDto>();
-
-                foreach (var auditLog in auditLogs.InviteAuditLogs)
-                {
-                    var changedByUserDto = await _client
-                        .AuditIdentityAsync(auditLog.AuditIdentityId)
-                        .ConfigureAwait(false);
-
-                    userAuditLogs.Add(new UserAuditLogDto(
-                        auditLog.ActorName,
-                        changedByUserDto.DisplayName,
-                        UserAuditLogType.UserInvite,
-                        auditLog.Timestamp));
-                }
-
-                foreach (var auditLog in auditLogs.UserRoleAssignmentAuditLogs)
-                {
-                    var changedByUserDto = await _client
-                        .AuditIdentityAsync(auditLog.AuditIdentityId)
-                        .ConfigureAwait(false);
-
-                    var userRoleDto = await _client
-                        .UserRolesGetAsync(auditLog.UserRoleId)
-                        .ConfigureAwait(false);
-
-                    var auditLogType = auditLog.AssignmentType switch
-                    {
-                        UserRoleAssignmentTypeAuditLog.Added => UserAuditLogType.UserRoleAdded,
-                        UserRoleAssignmentTypeAuditLog.Removed => UserAuditLogType.UserRoleRemoved,
-                        UserRoleAssignmentTypeAuditLog.RemovedDueToDeactivation => UserAuditLogType.UserRoleRemovedDueToDeactivation,
-                        _ => UserAuditLogType.UserRoleAdded,
-                    };
-
-                    userAuditLogs.Add(new UserAuditLogDto(
-                        userRoleDto.Name,
-                        changedByUserDto.DisplayName,
-                        auditLogType,
-                        auditLog.Timestamp));
-                }
-
-                foreach (var auditLog in auditLogs.IdentityAuditLogs)
-                {
-                    var changedByUserDto = await _client
-                        .AuditIdentityAsync(auditLog.AuditIdentityId)
-                        .ConfigureAwait(false);
-
-                    var auditLogType = auditLog.Field switch
-                    {
-                        UserIdentityAuditLogField.FirstName => UserAuditLogType.UserFirstNameChanged,
-                        UserIdentityAuditLogField.LastName => UserAuditLogType.UserLastNameChanged,
-                        UserIdentityAuditLogField.PhoneNumber => UserAuditLogType.UserPhoneNumberChanged,
-                        UserIdentityAuditLogField.Status => UserAuditLogType.UserStatusChanged,
-                        _ => throw new ArgumentOutOfRangeException(),
-                    };
-
-                    userAuditLogs.Add(new UserAuditLogDto(
-                        auditLog.NewValue,
-                        changedByUserDto.DisplayName,
-                        auditLogType,
-                        auditLog.Timestamp));
-                }
-
-                return new UserAuditLogsDto(userAuditLogs.OrderByDescending(l => l.Timestamp));
-            });
         }
 
         [HttpPut]

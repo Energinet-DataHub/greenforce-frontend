@@ -32,8 +32,8 @@ describe(DhFeatureFlagDirective, () => {
       created: '01-01-2022',
       disabledEnvironments: [
         DhAppEnvironment.local,
-        DhAppEnvironment.dev001,
-        DhAppEnvironment.test001,
+        DhAppEnvironment.dev_001,
+        DhAppEnvironment.test_001,
       ],
     },
   };
@@ -43,7 +43,7 @@ describe(DhFeatureFlagDirective, () => {
       providers: [
         {
           provide: dhAppEnvironmentToken,
-          useValue: { current: DhAppEnvironment.test001 },
+          useValue: { current: DhAppEnvironment.test_001 },
         },
         { provide: dhFeatureFlagsToken, useValue: featureFlagsConfigMock },
       ],
