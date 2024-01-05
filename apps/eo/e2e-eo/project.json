@@ -18,13 +18,13 @@
           "headed": false
         },
         "production": {
-          "devServerTarget": "app-eo:serve:mocked"
+          "devServerTarget": "app-eo:serve:e2e"
         },
         "watch": {
           "watch": true
         },
         "watch-production": {
-          "devServerTarget": "app-eo:serve:mocked",
+          "devServerTarget": "app-eo:serve:e2e",
           "watch": true
         }
       }

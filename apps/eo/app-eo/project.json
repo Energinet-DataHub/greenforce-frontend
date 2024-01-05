@@ -102,6 +102,60 @@
       },
       "defaultConfiguration": "production"
     },
+    "e2e": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "assets": [
+          {
+            "glob": "favicon.ico",
+            "input": "libs/eo/shared/assets/src",
+            "output": ""
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/eo/shared/assets/src/assets",
+            "output": "assets"
+          },
+          {
+            "input": "libs/watt/src/assets",
+            "glob": "**/*",
+            "output": "assets/watt"
+          },
+          {
+            "input": "libs/gf/msw/util-msw/src/assets",
+            "glob": "mockServiceWorker.js",
+            "output": "/"
+          }
+        ],
+        "baseHref": "/",
+        "commonChunk": false,
+        "index": "apps/eo/app-eo/src/index.html",
+        "inlineStyleLanguage": "scss",
+        "main": "apps/eo/app-eo/src/main.ts",
+        "outputPath": "dist/apps/eo/app-eo",
+        "polyfills": "zone.js",
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "libs/eo/shared/styles/src/lib",
+            "libs/watt/src/lib/styles"
+          ]
+        },
+        "styles": ["libs/eo/shared/styles/src/index.scss"],
+        "tsConfig": "apps/eo/app-eo/tsconfig.app.json",
+        "extractLicenses": false,
+        "namedChunks": true,
+        "optimization": false,
+        "sourceMap": true,
+        "fileReplacements": [
+          {
+            "replace": "libs/eo/shared/environments/src/lib/environment.ts",
+            "with": "libs/eo/shared/environments/src/lib/environment.mocked.ts"
+          }
+        ]
+      }
+    },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
@@ -117,6 +171,9 @@
         "mocked": {
           "buildTarget": "app-eo:build:mocked",
           "host": "0.0.0.0"
+        },
+        "e2e": {
+          "buildTarget": "app-eo:e2e"
         }
       },
       "defaultConfiguration": "development"
