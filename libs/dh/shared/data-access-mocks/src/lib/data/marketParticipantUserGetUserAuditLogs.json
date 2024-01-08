@@ -1,46 +1,60 @@
 {
   "userAuditLogs": [
     {
-      "toValue": "Adgang til CPR visning",
-      "changedByUserName": "Test User",
+      "currentValue": "Adgang til CPR visning",
+      "previousValue": null,
+      "isInitialAssignment": false,
+      "auditedBy": "Test User",
       "timestamp": "2023-01-03T12:48:38.0587304+00:00",
-      "auditLogType": "UserRoleRemoved"
+      "change": "USER_ROLE_REMOVED"
     },
     {
-      "toValue": "Adgang til CPR visning",
-      "changedByUserName": "Test User",
+      "currentValue": "Adgang til CPR visning",
+      "previousValue": null,
+      "isInitialAssignment": false,
+      "auditedBy": "Test User",
       "timestamp": "2023-01-02T12:47:03.4871748+00:00",
-      "auditLogType": "UserRoleAdded"
+      "change": "USER_ROLE_ASSIGNED"
     },
     {
-      "toValue": "Test name",
-      "changedByUserName": "Test User",
+      "currentValue": "Test name",
+      "previousValue": null,
+      "isInitialAssignment": false,
+      "auditedBy": "Test User",
       "timestamp": "2023-01-01T12:00:38.0587304+00:00",
-      "auditLogType": "UserInvite"
+      "change": "INVITED_INTO_ACTOR"
     },
     {
-      "toValue": "Invited",
-      "changedByUserName": "Test User",
+      "currentValue": "Invited",
+      "previousValue": null,
+      "isInitialAssignment": false,
+      "auditedBy": "Test User",
       "timestamp": "2023-01-01T12:00:38.0587304+00:00",
-      "auditLogType": "UserStatusChanged"
+      "change": "STATUS"
     },
     {
-      "toValue": "Active",
-      "changedByUserName": "Test User",
+      "currentValue": "Active",
+      "previousValue": null,
+      "isInitialAssignment": false,
+      "auditedBy": "Test User",
       "timestamp": "2023-01-01T12:00:38.0587304+00:00",
-      "auditLogType": "UserStatusChanged"
+      "change": "STATUS"
     },
     {
-      "toValue": "Inactive",
-      "changedByUserName": "Test User",
+      "currentValue": "Inactive",
+      "previousValue": null,
+      "isInitialAssignment": false,
+      "auditedBy": "Test User",
       "timestamp": "2023-01-01T12:00:38.0587304+00:00",
-      "auditLogType": "UserStatusChanged"
+      "change": "STATUS"
     },
     {
-      "toValue": "InviteExpired",
-      "changedByUserName": "Test User",
+      "currentValue": "InviteExpired",
+      "previousValue": null,
+      "isInitialAssignment": false,
+      "auditedBy": "Test User",
       "timestamp": "2023-01-01T12:00:38.0587304+00:00",
-      "auditLogType": "UserStatusChanged"
+      "change": "STATUS"
     }
   ]
 }

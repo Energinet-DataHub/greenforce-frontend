@@ -37,7 +37,6 @@ import {
   UpdateUserRoles,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
   MarketParticipantUserOverviewItemDto,
@@ -70,7 +69,6 @@ import {
     TranslocoModule,
     MatDividerModule,
     WattEmptyStateComponent,
-    WattCheckboxComponent,
     MatExpansionModule,
     DhEmDashFallbackPipe,
     FormsModule,

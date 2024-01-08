@@ -16,36 +16,31 @@
  */
 import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
-import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import { RouterModule } from '@angular/router';
-import { EoCookieBannerComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/shared/services';
-import { EoTitleStore } from '@energinet-datahub/eo/shared/utilities';
+import { Title } from '@angular/platform-browser';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
+
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
-import { RxPush } from '@rx-angular/template/push';
-import { Observable } from 'rxjs';
-import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+
+import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/shared/services';
+import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    RouterModule,
-    WattShellComponent,
-    MatDateFnsModule,
-    EoPrimaryNavigationComponent,
-    EoCookieBannerComponent,
-    EoProductLogoDirective,
     EoFooterComponent,
-    RxPush,
+    EoPrimaryNavigationComponent,
+    MatDateFnsModule,
     NgIf,
-    WattButtonComponent,
-    VaterStackComponent,
+    RouterModule,
     VaterSpacerComponent,
+    VaterStackComponent,
+    WattButtonComponent,
+    WattShellComponent,
   ],
   selector: 'eo-shell',
   styles: [
@@ -111,7 +106,7 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
     `,
   ],
   template: `
-    <eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getBannerStatus()" />
+    <!--<eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getBannerStatus()" />-->
     <watt-shell>
       <ng-container watt-shell-sidenav>
         <div class="logo-container">
@@ -122,7 +117,7 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
 
       <ng-container watt-shell-toolbar>
         <vater-stack direction="row" gap="s" style="width: 100%;">
-          <h2>{{ title$ | push }}</h2>
+          <h2>{{ titleService.getTitle() }}</h2>
 
           <vater-spacer />
           <watt-button variant="text" [routerLink]="['/help']" icon="help">Help</watt-button>
@@ -139,12 +134,11 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
   `,
 })
 export class EoShellComponent implements OnDestroy {
-  private titleStore = inject(EoTitleStore);
+  protected titleService = inject(Title);
   private idleTimerService = inject(IdleTimerService);
   private authService = inject(EoAuthService);
 
-  title$: Observable<string> = this.titleStore.routeTitle$;
-  cookiesSet: string | null = null;
+  protected cookiesSet: string | null = null;
 
   constructor() {
     this.idleTimerService.startMonitor();

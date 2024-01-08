@@ -31,6 +31,7 @@
             "output": "/"
           }
         ],
+        "allowedCommonJsDependencies": ["date-fns", "inputmask", "lottie-web"],
         "baseHref": "/",
         "commonChunk": false,
         "index": "apps/eo/app-eo/src/index.html",
@@ -110,17 +111,17 @@
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
-        "browserTarget": "app-eo:build:development"
+        "buildTarget": "app-eo:build:development"
       },
       "configurations": {
         "development": {
           "hmr": true
         },
         "production": {
-          "browserTarget": "app-eo:build:production"
+          "buildTarget": "app-eo:build:production"
         },
         "mocked": {
-          "browserTarget": "app-eo:build:mocked",
+          "buildTarget": "app-eo:build:mocked",
           "host": "0.0.0.0"
         }
       },
@@ -128,20 +129,13 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "apps/eo/app-eo/src/**/*.ts",
-          "apps/eo/app-eo/src/**/*.html"
-        ]
-      },
       "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/eo/app-eo"],
       "options": {
-        "jestConfig": "apps/eo/app-eo/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/eo/app-eo/jest.config.ts"
       }
     }
   },

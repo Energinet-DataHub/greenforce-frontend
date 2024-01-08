@@ -18,6 +18,7 @@ import * as fs from 'fs';
 import { globSync } from 'glob';
 import * as path from 'path';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import * as config from '../../../.licenserc.json';
 
 interface LicenseExecutorOptions {

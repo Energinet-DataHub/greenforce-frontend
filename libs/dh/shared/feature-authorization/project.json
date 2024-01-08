@@ -11,16 +11,12 @@
         "{workspaceRoot}/coverage/libs/dh/shared/feature-authorization"
       ],
       "options": {
-        "jestConfig": "libs/dh/shared/feature-authorization/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/shared/feature-authorization/jest.config.ts"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["libs/dh/shared/feature-authorization/**/*.ts"]
-      }
+      "outputs": ["{options.outputFile}"]
     }
   },
   "tags": ["product:dh", "domain:shared", "type:feature"]

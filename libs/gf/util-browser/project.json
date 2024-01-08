@@ -9,18 +9,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/gf/util-browser"],
       "options": {
-        "jestConfig": "libs/gf/util-browser/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/gf/util-browser/jest.config.ts"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/gf/util-browser/src/**/*.ts",
-          "libs/gf/util-browser/src/**/*.html"
-        ]
-      },
       "outputs": ["{options.outputFile}"]
     }
   },

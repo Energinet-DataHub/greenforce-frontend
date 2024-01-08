@@ -71,7 +71,7 @@ const selector = 'eo-inline-message';
       }
     `,
   ],
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
 })
 export class EoInlineMessageComponent {
   @HostBinding('className')

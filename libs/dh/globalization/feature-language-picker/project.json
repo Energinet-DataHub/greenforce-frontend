@@ -11,18 +11,11 @@
         "{workspaceRoot}/coverage/libs/dh/globalization/feature-language-picker"
       ],
       "options": {
-        "jestConfig": "libs/dh/globalization/feature-language-picker/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/globalization/feature-language-picker/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/globalization/feature-language-picker/src/**/*.ts",
-          "libs/dh/globalization/feature-language-picker/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "domain:globalization", "type:feature"]

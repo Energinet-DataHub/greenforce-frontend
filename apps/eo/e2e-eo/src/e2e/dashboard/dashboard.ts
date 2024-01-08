@@ -15,16 +15,14 @@
  * limitations under the License.
  */
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import { DashboardPo, LandingPagePO, LoginPo, SharedPO } from '../../page-objects';
+import { DashboardPo, LandingPagePO, LoginPo } from '../../page-objects';
 
 const dashboard = new DashboardPo();
 const landingPage = new LandingPagePO();
 const login = new LoginPo();
-const shared = new SharedPO();
 
 Given('I am logged in as Charlotte CSR', () => {
   landingPage.navigateTo();
-  shared.clickOnlyNecessaryButton(); // To get rid of Cookie Consent banner
   landingPage.clickLoginButton();
   login.clickCharlotteLogin();
 });

@@ -9,18 +9,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/gf/test-util-staging"],
       "options": {
-        "jestConfig": "libs/gf/test-util-staging/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/gf/test-util-staging/jest.config.ts"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/gf/test-util-staging/src/**/*.ts",
-          "libs/gf/test-util-staging/src/**/*.html"
-        ]
-      },
       "outputs": ["{options.outputFile}"]
     }
   },

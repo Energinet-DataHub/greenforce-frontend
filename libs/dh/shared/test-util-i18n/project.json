@@ -9,18 +9,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/test-util-i18n"],
       "options": {
-        "jestConfig": "libs/dh/shared/test-util-i18n/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/shared/test-util-i18n/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/shared/test-util-i18n/src/**/*.ts",
-          "libs/dh/shared/test-util-i18n/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "domain:shared", "type:test-util"]

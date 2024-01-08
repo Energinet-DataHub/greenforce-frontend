@@ -9,18 +9,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/environments"],
       "options": {
-        "jestConfig": "libs/dh/shared/environments/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/shared/environments/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/shared/environments/src/**/*.ts",
-          "libs/dh/shared/environments/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "domain:shared", "type:environments"]

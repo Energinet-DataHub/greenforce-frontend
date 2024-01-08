@@ -11,18 +11,11 @@
         "{workspaceRoot}/coverage/libs/dh/globalization/data-access-localization"
       ],
       "options": {
-        "jestConfig": "libs/dh/globalization/data-access-localization/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/globalization/data-access-localization/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/globalization/data-access-localization/src/**/*.ts",
-          "libs/dh/globalization/data-access-localization/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "domain:globalization", "type:data-access"]

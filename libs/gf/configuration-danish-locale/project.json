@@ -11,18 +11,11 @@
         "{workspaceRoot}/coverage/libs/gf/configuration-danish-locale"
       ],
       "options": {
-        "jestConfig": "libs/gf/configuration-danish-locale/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/gf/configuration-danish-locale/jest.config.ts"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/gf/configuration-danish-locale/src/**/*.ts",
-          "libs/gf/configuration-danish-locale/src/**/*.html"
-        ]
-      },
       "outputs": ["{options.outputFile}"]
     }
   },
