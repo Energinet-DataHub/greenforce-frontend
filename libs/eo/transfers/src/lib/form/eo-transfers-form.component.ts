@@ -126,6 +126,18 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
         display: flex;
         flex-direction: column;
       }
+
+      eo-transfers-form .recipient-company-name {
+        color: var(--watt-color-neutral-grey-700);
+        font-size: 14px;
+        left: 74px;
+        overflow: hidden;
+        position: absolute;
+        text-overflow: ellipsis;
+        top: 38px;
+        white-space: nowrap;
+        width: 250px;
+      }
     `,
   ],
 
@@ -263,9 +275,9 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           </watt-text-field>
 
           <div
-            style="position: absolute; top: 38px; left: 74px; font-size: 14px; color: var(--watt-color-neutral-grey-700);"
             *ngIf="selectedCompanyName()"
             (click)="recipientInput.setFocus()"
+            class="recipient-company-name"
           >
             &nbsp;- {{ selectedCompanyName() }}
           </div>
