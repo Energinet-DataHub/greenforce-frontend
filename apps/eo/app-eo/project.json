@@ -122,6 +122,14 @@
       },
       "defaultConfiguration": "development"
     },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options":{
+        "buildTarget": "app-eo:build:mocked",
+        "staticFilePath": "dist/apps/eo/app-eo/browser",
+        "spa": true
+      }
+    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]

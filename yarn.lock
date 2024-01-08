@@ -9742,13 +9742,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@scarf/scarf@npm:^1.1.1":
-  version: 1.3.0
-  resolution: "@scarf/scarf@npm:1.3.0"
-  checksum: 652c1248c8e1b5a4ba64333c1b2e9847e314d4cd78beb4bab51b3825bcd2b45dc20d185d3b99b11b18753a9e64113475067852ac898910ad73aa0559e24f0d6d
-  languageName: node
-  linkType: hard
-
 "@schematics/angular@npm:17.0.0":
   version: 17.0.0
   resolution: "@schematics/angular@npm:17.0.0"
@@ -19718,7 +19711,6 @@ __metadata:
     ng-mocks: 14.0.1
     ng2-charts: 5.0.3
     ngx-highlightjs: 10.0.0
-    ngx-lottie: ^10.0.0
     ngx-mat-select-search: 7.0.5
     nx: 17.2.8
     prettier: 3.1.0
@@ -29023,19 +29015,6 @@ __metadata:
     "@angular/core": ">=16.0.0"
     rxjs: ">=7.0.0"
   checksum: ea5d9f4b69a383c26ef4ca1abc8b62d24dc5baa20dcec9cfb03dac500a88b79166a0a4039362f4a91fb56cb89afc8a5e8e11b8c41dc4adc0e316e66dc56e5e8b
-  languageName: node
-  linkType: hard
-
-"ngx-lottie@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "ngx-lottie@npm:10.0.0"
-  dependencies:
-    "@scarf/scarf": ^1.1.1
-    tslib: ^2.3.0
-  peerDependencies:
-    "@angular/core": ">=15"
-    lottie-web: ">=5.9.2"
-  checksum: 1e7abd8baab02f3ae365bff90272ead63db9fc2b6a4c1775ad58ce7349300c14e824d294804ceb045c5dae6e07beceacbbbf7350eb3d5d52f71940c6ba24b997
   languageName: node
   linkType: hard
 
