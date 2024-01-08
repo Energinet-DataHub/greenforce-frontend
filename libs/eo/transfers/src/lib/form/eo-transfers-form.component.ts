@@ -23,8 +23,6 @@ import {
   ViewEncapsulation,
   OnChanges,
   SimpleChanges,
-  inject,
-  DestroyRef,
   ViewChild,
   signal,
 } from '@angular/core';
