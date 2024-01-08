@@ -109,7 +109,6 @@ export class DhInviteUserModalComponent implements AfterViewInit {
   emailExists = false;
   knownEmails: string[] = [];
   isLoadingEmails = true;
-  currentEmail = '';
 
   baseInfo = this.formBuilder.group({
     actorId: ['', Validators.required],
@@ -117,13 +116,13 @@ export class DhInviteUserModalComponent implements AfterViewInit {
       { value: '', disabled: true },
       [Validators.required, Validators.email],
       [
-        () => {
-          return this.currentEmail
+        (c) => {
+          return c.value
             ? this.apollo
                 .mutate({
                   mutation: GetAssociatedActorsDocument,
                   variables: {
-                    email: this.currentEmail,
+                    email:  c.value,
                   },
                 })
                 .pipe(
@@ -210,8 +209,6 @@ export class DhInviteUserModalComponent implements AfterViewInit {
           !!email &&
           this.baseInfo.controls.email.valid &&
           this.knownEmails.includes(email.toUpperCase());
-
-        this.currentEmail = email ?? '';
 
         this.changeDectorRef.detectChanges();
       });
