@@ -185,7 +185,7 @@ export class EovOverviewShellComponent {
               maintainAspectRatio: false,
               scales: {
                 x: {
-                  stacked: true,
+                  stacked: false,
                   grid: { display: false },
                   ticks: {
                     maxRotation: 0,
@@ -193,7 +193,7 @@ export class EovOverviewShellComponent {
                   },
                 },
                 y: {
-                  stacked: true,
+                  stacked: false,
                   title: { display: true, text: 'Wh', align: 'end' },
                 },
               },
@@ -254,6 +254,16 @@ export class EovOverviewShellComponent {
             maxBarThickness: 14,
             minBarLength: 2,
             backgroundColor: '#00C898',
+          },
+          {
+            data: graphData.result.series[0]?.data.map((x: Datum) => {
+              return x.y === 0 ? Math.floor(Math.random() * 100) : Math.random() * 2 * x.y;
+            }),
+            borderRadius: Number.MAX_VALUE,
+            label: 'Forbrug året inden',
+            maxBarThickness: 14,
+            minBarLength: 2,
+            backgroundColor: '#02525E',
           },
         ],
       };
