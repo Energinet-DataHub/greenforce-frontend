@@ -240,6 +240,8 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           data-testid="new-agreement-receiver-input"
           [autocompleteOptions]="filteredReceiversTin()"
           (search)="onSearch($event)"
+          (autoCompleteOptionSelected)="onSelectedRecipient($event)"
+          [autocompleteMatcherFn]="isRecipientMatchingOption"
           [maxLength]="8"
         >
           <watt-field-hint *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
@@ -299,6 +301,14 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
 
   onLeavingTimeframeStep() {
     this.existingTransferAgreements.set([]);
+  }
+
+  onSelectedRecipient(value: string) {
+    this.form.controls.receiver.controls.tin.setValue(value.split(' - ')[0]);
+  }
+
+  isRecipientMatchingOption(value: string, option: string) {
+    return value === option.split(' - ')[0];
   }
 
   ngOnInit(): void {
