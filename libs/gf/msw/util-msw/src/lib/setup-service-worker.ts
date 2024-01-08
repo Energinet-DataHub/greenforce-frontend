@@ -22,7 +22,7 @@ export function setupServiceWorker(apiBase: string, mocks: mocks) {
     setTimeout(() => {
       const worker = setupWorker(...handlers(apiBase, mocks));
       worker.start({ onUnhandledRequest });
-    }, 100);
+    }, 200);
     // eslint-disable-next-line no-empty
   } catch (error) {
     console.error(error);
