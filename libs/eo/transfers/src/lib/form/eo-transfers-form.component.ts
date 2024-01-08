@@ -230,33 +230,40 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           <p>Optional, but recommended for security reasons.</p>
         </ng-container>
 
-        <watt-text-field
-          label="Recipient"
-          placeholder="CVR / TIN"
-          type="text"
-          style="max-width: 330px;"
-          [formControl]="form.controls.receiver.controls.tin"
-          (keydown)="preventNonNumericInput($event)"
-          data-testid="new-agreement-receiver-input"
-          [autocompleteOptions]="filteredReceiversTin()"
-          (search)="onSearch($event)"
-          (autoCompleteOptionSelected)="onSelectedRecipient($event)"
-          [autocompleteMatcherFn]="isRecipientMatchingOption"
-          [maxLength]="8"
-        >
-          <watt-field-hint *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
-            >Enter new CVR number or choose from previous transfer agreements</watt-field-hint
+        <div style="position: relative;">
+          <watt-text-field
+            label="Recipient"
+            placeholder="CVR / TIN"
+            type="text"
+            style="max-width: 330px;"
+            [formControl]="form.controls.receiver.controls.tin"
+            (keydown)="preventNonNumericInput($event)"
+            data-testid="new-agreement-receiver-input"
+            [autocompleteOptions]="filteredReceiversTin()"
+            (search)="onSearch($event)"
+            (autocompleteOptionSelected)="onSelectedRecipient($event)"
+            (autocompleteOptionDeselected)="selectedCompanyName.set(undefined)"
+            [autocompleteMatcherFn]="isRecipientMatchingOption"
+            [maxLength]="8"
+            #recipientInput
           >
+            <watt-field-hint *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
+              >Enter new CVR number or choose from previous transfer agreements</watt-field-hint
+            >
 
-          <watt-field-error
-            *ngIf="form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin']"
-          >
-            The receiver cannot be your own TIN/CVR
-          </watt-field-error>
-          <watt-field-error *ngIf="form.controls.receiver.controls.tin.errors?.['pattern']">
-            An 8-digit TIN/CVR number is required
-          </watt-field-error>
-        </watt-text-field>
+            <watt-field-error
+              *ngIf="form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin']"
+            >
+              The receiver cannot be your own TIN/CVR
+            </watt-field-error>
+            <watt-field-error *ngIf="form.controls.receiver.controls.tin.errors?.['pattern']">
+              An 8-digit TIN/CVR number is required
+            </watt-field-error>
+
+          </watt-text-field>
+
+          <div style="position: absolute; top: 38px; left: 74px; font-size: 14px; color: var(--watt-color-neutral-grey-700);" *ngIf="selectedCompanyName()" (click)="recipientInput.setFocus()">&nbsp;- {{selectedCompanyName()}}</div>
+        </div>
       </div>
     </ng-template>
   `,
@@ -291,9 +298,9 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   protected form!: FormGroup<EoTransfersForm>;
   protected filteredReceiversTin = signal<string[]>([]);
   protected existingTransferAgreements = signal<EoExistingTransferAgreement[]>([]);
+  protected selectedCompanyName = signal<string | undefined>(undefined);
 
   private recipientTins = signal<string[]>([]);
-  private _destroyRef = inject(DestroyRef);
 
   onEnteringTimeframeStep() {
     this.setExistingTransferAgreements();
@@ -304,7 +311,9 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   }
 
   onSelectedRecipient(value: string) {
-    this.form.controls.receiver.controls.tin.setValue(value.split(' - ')[0]);
+    const [tin, companyName] = value.split(' - ');
+    this.selectedCompanyName.set(companyName);
+    this.form.controls.receiver.controls.tin.setValue(tin);
   }
 
   isRecipientMatchingOption(value: string, option: string) {

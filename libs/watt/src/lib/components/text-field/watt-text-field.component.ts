@@ -102,7 +102,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
       <mat-autocomplete
         #auto="matAutocomplete"
         class="watt-autocomplete-panel"
-        (optionSelected)="autoCompleteOptionSelected.emit($event.option.value)"
+        (optionSelected)="autocompleteOptionSelected.emit($event.option.value)"
       >
         <mat-option *ngFor="let option of autocompleteOptions" [value]="option">
           {{ option }}
@@ -137,7 +137,12 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   /**
    * Emits the value of the input field when an autocomplete option is selected.
    */
-  @Output() autoCompleteOptionSelected = new EventEmitter<string>();
+  @Output() autocompleteOptionSelected = new EventEmitter<string>();
+
+  /**
+   * Emits the value of the input field when an autocomplete option is selected.
+   */
+  @Output() autocompleteOptionDeselected = new EventEmitter<void>();
 
   private element = inject(ElementRef);
 
@@ -163,7 +168,14 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
         const isMatchingOption = this.autocompleteMatcherFn
           ? this.autocompleteMatcherFn(value, option.value)
           : option.value === value;
-        isMatchingOption ? option.select(false) : option.deselect(false);
+
+        if(isMatchingOption) {
+          option.select(false);
+          this.autocompleteOptionSelected.emit(option.value);
+        } else {
+          option.deselect(false);
+          this.autocompleteOptionDeselected.emit();
+        }
       });
     }
 
