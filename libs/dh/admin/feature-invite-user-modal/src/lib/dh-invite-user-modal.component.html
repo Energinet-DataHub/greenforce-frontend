@@ -29,11 +29,7 @@ limitations under the License.
     #stepper
     (completed)="inviteUser()"
   >
-    <watt-stepper-step
-      [label]="t('email')"
-      [stepControl]="baseInfo"
-      [nextButtonLabel]="t('next')"
-    >
+    <watt-stepper-step [label]="t('email')" [stepControl]="baseInfo" [nextButtonLabel]="t('next')">
       <form [formGroup]="userInfo" class="userInfoForm">
         <watt-dropdown
           *ngIf="(actors$ | push).length > 1"
