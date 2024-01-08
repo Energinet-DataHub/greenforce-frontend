@@ -33,7 +33,6 @@ limitations under the License.
       [label]="t('email')"
       [stepControl]="baseInfo"
       [nextButtonLabel]="t('next')"
-      [disableNextButton]="isLoadingAssociatedActors || isAlreadyAssociatedToActor"
     >
       <form [formGroup]="userInfo" class="userInfoForm">
         <watt-dropdown
@@ -48,11 +47,10 @@ limitations under the License.
           <watt-field-error *ngIf="baseInfo.controls.email.hasError('email')">
             {{ t("wrongEmailPattern") }}
           </watt-field-error>
+          <watt-field-error *ngIf="baseInfo.controls.email.hasError('userAlreadyAssignedActor')">
+            {{ t("userAlreadyAssignedActor") }}
+          </watt-field-error>
         </watt-text-field>
-        <div class="info-section" *ngIf="isAlreadyAssociatedToActor">
-          <watt-icon class="info-icon" name="info" />
-          <span class="info-text">{{ t("userAlreadyInvited") }}</span>
-        </div>
       </form>
     </watt-stepper-step>
     <watt-stepper-step
