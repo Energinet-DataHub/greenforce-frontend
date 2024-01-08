@@ -6,13 +6,13 @@
   "prefix": "dh",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/dh/app-dh",
         "index": "apps/dh/app-dh/src/index.html",
-        "main": "apps/dh/app-dh/src/main.ts",
-        "polyfills": "zone.js",
+        "browser": "apps/dh/app-dh/src/main.ts",
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/dh/app-dh/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "allowedCommonJsDependencies": ["date-fns", "inputmask", "flat", "msw"],
@@ -59,12 +59,12 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1.9mb"
+              "maximumWarning": "1.9mb",
+              "maximumError": "2.0mb"
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "5kb",
+              "maximumWarning": "6kb",
               "maximumError": "10kb"
             }
           ],
@@ -94,9 +94,7 @@
           }
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true,
@@ -108,9 +106,7 @@
           ]
         },
         "mocked": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true,

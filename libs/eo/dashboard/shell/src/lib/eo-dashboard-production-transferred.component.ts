@@ -25,7 +25,6 @@ import {
 } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
-import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
 import { NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -46,13 +45,14 @@ import {
 import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
 
 import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
+import { EoLottieComponent } from './eo-lottie.component';
+import { graphLoader } from '@energinet-datahub/eo/shared/assets';
 
 @Component({
   standalone: true,
   imports: [
     WATT_CARD,
     NgChartsModule,
-    LottieComponent,
     NgIf,
     NgFor,
     EnergyUnitPipe,
@@ -63,6 +63,7 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
     VaterStackComponent,
     RouterLink,
     WattIconComponent,
+    EoLottieComponent,
   ],
   providers: [EnergyUnitPipe],
   selector: 'eo-dashboard-production-transferred',
@@ -149,7 +150,7 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
     </watt-card-title>
 
     <div class="loader-container" *ngIf="isLoading || hasError">
-      <ng-lottie height="64px" width="64px" [options]="options" *ngIf="isLoading" />
+      <eo-lottie height="64px" width="64px" *ngIf="isLoading" [animationData]="lottieAnimation" />
       <watt-empty-state
         *ngIf="hasError"
         icon="custom-power"
@@ -213,9 +214,7 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
   protected productionTotal = 0;
   protected routes = eoRoutes;
 
-  protected options: AnimationOptions = {
-    path: '/assets/graph-loader.json',
-  };
+  protected lottieAnimation = graphLoader;
   protected isLoading = false;
   protected hasError = false;
 

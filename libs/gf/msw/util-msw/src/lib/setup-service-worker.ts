@@ -19,8 +19,12 @@ import { mocks, handlers, onUnhandledRequest } from './handlers';
 
 export function setupServiceWorker(apiBase: string, mocks: mocks) {
   try {
-    const worker = setupWorker(...handlers(apiBase, mocks));
-    worker.start({ onUnhandledRequest });
+    setTimeout(() => {
+      const worker = setupWorker(...handlers(apiBase, mocks));
+      worker.start({ onUnhandledRequest });
+    }, 200);
     // eslint-disable-next-line no-empty
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 }

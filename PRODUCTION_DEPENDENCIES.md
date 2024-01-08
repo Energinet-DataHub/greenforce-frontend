@@ -33,10 +33,8 @@
 | [inputmask](https://github.com/RobinHerbots/Inputmask) | 5.0.7 | MIT |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 3.1.2 | MIT |
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |
-| [ng-lottie](https://github.com/chenqingspring/ng-lottie) | 0.3.2 | MIT |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 5.0.3 | MIT |
 | [ngx-highlightjs](https://github.com/murhafsousli/ngx-highlightjs) | 10.0.0 | MIT |
-| [ngx-lottie](https://github.com/ngx-lottie/ngx-lottie) | 10.0.0 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 7.0.5 | MIT |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.0 | Apache-2.0 |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
