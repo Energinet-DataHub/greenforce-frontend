@@ -19,7 +19,6 @@ import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideLottieOptions } from 'ngx-lottie';
 
 import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { eoCoreShellProviders, eoShellRoutes } from '@energinet-datahub/eo/core/shell';
@@ -41,9 +40,6 @@ loadEoApiEnvironment()
         ...eoCoreShellProviders,
         provideRouter(eoShellRoutes, withComponentInputBinding()),
         provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
-        provideLottieOptions({
-          player: () => import(/* webpackChunkName: 'lottie-web' */ 'lottie-web'),
-        }),
       ],
     })
   )
