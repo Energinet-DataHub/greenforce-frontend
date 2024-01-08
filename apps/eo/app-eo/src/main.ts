@@ -42,6 +42,7 @@ loadEoApiEnvironment()
         provideRouter(eoShellRoutes, withComponentInputBinding()),
         provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
         provideLottieOptions({
+          useWebWorker: true,
           player: () => import(/* webpackChunkName: 'lottie-web' */ 'lottie-web'),
         }),
       ],
