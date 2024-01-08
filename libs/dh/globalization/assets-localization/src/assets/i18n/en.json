@@ -954,6 +954,7 @@
         "phoneNumber": "Phone number",
         "phoneNumberError": "Phone number format +45 12345678",
         "wrongEmailPattern": "Type a valid email",
+        "userAlreadyAssignedActor": "User is already assigned.",
         "noUserRolesError": "At least one user role must be selected.",
         "successMessage": "{{ email }} has been invited",
         "next": "Next",
@@ -965,8 +966,7 @@
         "serverErrors": {
           "invalidPhoneNumber": "The provided phone number is formatted properly, but is an invalid phone number."
         },
-        "unknowEmailInfoMessage": "In order to accept the invitation, the user must already have access to DataHub through another organisation.",
-        "userAlreadyInvited": "User is already associated with actor."
+        "unknowEmailInfoMessage": "In order to accept the invitation, the user must already have access to DataHub through another organisation."
       },
       "download": "Download",
       "drawer": {
