@@ -109,7 +109,7 @@ export class DhInviteUserModalComponent implements AfterViewInit {
   emailExists = false;
   knownEmails: string[] = [];
   isLoadingEmails = true;
-  currentEmail?: string;
+  currentEmail = '';
 
   baseInfo = this.formBuilder.group({
     actorId: ['', Validators.required],
@@ -132,12 +132,11 @@ export class DhInviteUserModalComponent implements AfterViewInit {
                   map((result) => {
                     const associatedActors = result.data?.associatedActors.actors ?? [];
 
-                    const isAlreadyAssociatedToActor: boolean =
-                      associatedActors &&
-                      associatedActors.includes(this.baseInfo.controls.actorId.value ?? '');
+                    const isAlreadyAssociatedToActor = associatedActors?.includes(
+                      this.baseInfo.controls.actorId.value ?? ''
+                    );
 
-                    if (isAlreadyAssociatedToActor) return { userAlreadyAssignedActor: true };
-                    return null;
+                    return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
                   })
                 )
             : null;
