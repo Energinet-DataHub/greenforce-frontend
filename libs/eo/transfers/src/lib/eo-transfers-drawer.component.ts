@@ -80,7 +80,7 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
       </watt-drawer-topbar>
 
       <watt-drawer-heading>
-        <h2>{{ transfer?.receiverTin }} - {{transfer?.receiverName || 'Unknown company'}}</h2>
+        <h2>{{ transfer?.receiverTin }} - {{ transfer?.receiverName || 'Unknown company' }}</h2>
         <p class="sub-header">
           <span class="watt-label">Period of agreement</span>
           {{ transfer?.startDate | wattDate: 'long' }}－{{ transfer?.endDate | wattDate: 'long' }}
@@ -103,7 +103,9 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
               <watt-description-list variant="stack">
                 <watt-description-list-item
                   label="Receiver"
-                  [value]="transfer?.receiverTin + ' - ' + (transfer?.receiverName || 'Unknown company')"
+                  [value]="
+                    transfer?.receiverTin + ' - ' + (transfer?.receiverName || 'Unknown company')
+                  "
                 />
                 <watt-description-list-item label="ID" value="{{ transfer?.id }}" />
               </watt-description-list>
