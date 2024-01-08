@@ -14,13 +14,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/shared/data-access-api/src/**/*.ts",
-          "libs/dh/shared/data-access-api/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "scope:shared", "type:data-access"]

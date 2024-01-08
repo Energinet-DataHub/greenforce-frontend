@@ -953,6 +953,7 @@
         "phoneNumber": "Telefonnr.",
         "phoneNumberError": "Telefonnr. format +45 12345678",
         "wrongEmailPattern": "Indtast en valid email",
+        "userAlreadyAssignedActor": "Bruger er allerede oprettet.",
         "noUserRolesError": "Mindst én brugerrolle skal vælges.",
         "successMessage": "{{ email }} blev inviteret",
         "next": "Næste",

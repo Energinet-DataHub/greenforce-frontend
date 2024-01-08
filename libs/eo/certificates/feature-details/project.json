@@ -6,13 +6,7 @@
   "prefix": "eo",
   "targets": {
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/eo/certificates/feature-details/**/*.ts",
-          "libs/eo/certificates/feature-details/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:eo", "domain:certificates", "type:feature"]

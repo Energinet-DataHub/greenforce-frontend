@@ -31,7 +31,7 @@ import { NgIf } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { take } from 'rxjs';
+import { distinctUntilChanged, filter, map, take } from 'rxjs';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -50,7 +50,10 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { dhDkPhoneNumberValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { Apollo } from 'apollo-angular';
-import { GetKnownEmailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetAssociatedActorsDocument,
+  GetKnownEmailsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -109,7 +112,36 @@ export class DhInviteUserModalComponent implements AfterViewInit {
 
   baseInfo = this.formBuilder.group({
     actorId: ['', Validators.required],
-    email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
+    email: [
+      { value: '', disabled: true },
+      [Validators.required, Validators.email],
+      [
+        (c) => {
+          return c.value
+            ? this.apollo
+                .mutate({
+                  mutation: GetAssociatedActorsDocument,
+                  variables: {
+                    email: c.value,
+                  },
+                })
+                .pipe(
+                  takeUntilDestroyed(this.destroyRef),
+                  filter((x) => !x.loading),
+                  map((result) => {
+                    const associatedActors = result.data?.associatedActors.actors ?? [];
+
+                    const isAlreadyAssociatedToActor = associatedActors?.includes(
+                      this.baseInfo.controls.actorId.value ?? ''
+                    );
+
+                    return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
+                  })
+                )
+            : null;
+        },
+      ],
+    ],
   });
 
   userInfo = this.formBuilder.group({
@@ -154,6 +186,8 @@ export class DhInviteUserModalComponent implements AfterViewInit {
 
         this.assignableUserRolesStore.getAssignableUserRoles(actorId);
         this.actorStore.getActorOrganization(actorId);
+        this.baseInfo.updateValueAndValidity();
+        this.changeDectorRef.detectChanges();
       });
 
     this.actorStore.organizationDomain$
@@ -163,7 +197,7 @@ export class DhInviteUserModalComponent implements AfterViewInit {
       });
 
     this.baseInfo.controls.email.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed(this.destroyRef), distinctUntilChanged())
       .subscribe((email) => {
         this.inOrganizationMailDomain =
           !!email &&

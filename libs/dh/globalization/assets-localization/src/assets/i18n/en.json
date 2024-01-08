@@ -954,6 +954,7 @@
         "phoneNumber": "Phone number",
         "phoneNumberError": "Phone number format +45 12345678",
         "wrongEmailPattern": "Type a valid email",
+        "userAlreadyAssignedActor": "User is already assigned.",
         "noUserRolesError": "At least one user role must be selected.",
         "successMessage": "{{ email }} has been invited",
         "next": "Next",
