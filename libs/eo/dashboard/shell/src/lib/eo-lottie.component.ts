@@ -20,10 +20,10 @@ import lottie, { AnimationItem } from 'lottie-web';
 @Component({
   selector: 'eo-lottie',
   standalone: true,
-  template: '<div #lottieContainer [style.width]="width" [style.height]="height"></div>'
+  template: '<div #lottieContainer [style.width]="width" [style.height]="height"></div>',
 })
 export class EoLottieComponent implements OnInit, OnDestroy {
-  @ViewChild('lottieContainer', {static: true}) lottieContainer!: ElementRef;
+  @ViewChild('lottieContainer', { static: true }) lottieContainer!: ElementRef;
   @Input() animationData!: unknown;
   @Input() width: string = '100%';
   @Input() height: string = '100%';

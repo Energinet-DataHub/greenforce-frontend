@@ -124,7 +124,7 @@
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
-      "options":{
+      "options": {
         "buildTarget": "app-eo:build:mocked",
         "staticFilePath": "dist/apps/eo/app-eo/browser",
         "spa": true
