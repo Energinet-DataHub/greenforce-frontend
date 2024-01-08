@@ -16,7 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { getUnixTime } from 'date-fns';
@@ -25,6 +25,7 @@ export interface EoTransfer {
   startDate: number;
   senderName?: string;
   endDate: number | null;
+  receiverName?: string;
   receiverTin: string;
 }
 
@@ -73,7 +74,34 @@ export class EoTransfersService {
   getTransfers() {
     return this.http
       .get<EoListedTransferResponse>(`${this.#apiBase}/transfer-agreements`)
-      .pipe(map((x) => x.result));
+      .pipe(
+        map((x) => x.result),
+        switchMap((transfers) => {
+          return this.getCompanyNames(transfers.map((transfer) => transfer.receiverTin)).pipe(
+            map((companyNames) => {
+              return transfers.map((transfer, index) => ({
+                ...transfer,
+                senderName: transfer.senderName ?? '',
+                senderTin: transfer.senderTin ?? '',
+                receiverName: companyNames[index],
+                startDate: transfer.startDate * 1000,
+                endDate: transfer.endDate ? transfer.endDate * 1000 : null,
+              }));
+            })
+          );
+        })
+      );
+  }
+
+  getCompanyNames(cvrNumbers: string[]) {
+    return this.http.post<{result: {companyCvr: string; companyName: string;}[]}>(`${this.#apiBase}/cvr`, {cvrNumbers}).pipe(
+      map((response) => response.result),
+      map((companysData) => {
+        return cvrNumbers.map((cvrNumber) => {
+          return companysData.find((company) => company.companyCvr === cvrNumber)?.companyName ?? '';
+        });
+      })
+    );
   }
 
   createAgreementProposal(transfer: EoTransfer) {

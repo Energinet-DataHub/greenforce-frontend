@@ -9,9 +9,13 @@ export class EoApiVersioningInterceptor implements HttpInterceptor {
   constructor(@Inject(eoApiEnvironmentToken) private apiEnvironment: EoApiEnvironment) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    if(request.url.includes('assets') || request.url.includes('wallet-api')) return next.handle(request);
+
     const apiVersions = this.apiEnvironment.apiVersions;
     const versionedPaths = Object.keys(apiVersions);
-    const isVersioned = versionedPaths.find((path) => request.url.includes(path));
+    const isVersioned = versionedPaths.find((path) => {
+      return request.url.includes(`/${path}`)
+    });
 
     if(isVersioned) {
       const modifiedRequest = request.clone({
