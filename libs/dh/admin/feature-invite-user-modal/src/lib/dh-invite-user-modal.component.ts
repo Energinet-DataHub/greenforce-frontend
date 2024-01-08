@@ -31,7 +31,7 @@ import { NgIf } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { distinctUntilChanged, filter, take } from 'rxjs';
+import { distinctUntilChanged, filter, map, take } from 'rxjs';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -97,16 +97,6 @@ export class DhInviteUserModalComponent implements AfterViewInit {
     query: GetKnownEmailsDocument,
   });
 
-  private readonly associatedActorsQuery = this.apollo.watchQuery({
-    returnPartialData: false,
-    useInitialLoading: false,
-    notifyOnNetworkStatusChange: true,
-    query: GetAssociatedActorsDocument,
-    variables: {
-      email: '',
-    },
-  });
-
   @ViewChild('inviteUserModal') inviteUserModal!: WattModalComponent;
   @Output() closed = new EventEmitter<void>();
 
@@ -119,13 +109,39 @@ export class DhInviteUserModalComponent implements AfterViewInit {
   emailExists = false;
   knownEmails: string[] = [];
   isLoadingEmails = true;
-  isLoadingAssociatedActors = false;
-  isAlreadyAssociatedToActor = false;
-  currentEmail?: string;
 
   baseInfo = this.formBuilder.group({
     actorId: ['', Validators.required],
-    email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
+    email: [
+      { value: '', disabled: true },
+      [Validators.required, Validators.email],
+      [
+        (c) => {
+          return c.value
+            ? this.apollo
+                .mutate({
+                  mutation: GetAssociatedActorsDocument,
+                  variables: {
+                    email: c.value,
+                  },
+                })
+                .pipe(
+                  takeUntilDestroyed(this.destroyRef),
+                  filter((x) => !x.loading),
+                  map((result) => {
+                    const associatedActors = result.data?.associatedActors.actors ?? [];
+
+                    const isAlreadyAssociatedToActor = associatedActors?.includes(
+                      this.baseInfo.controls.actorId.value ?? ''
+                    );
+
+                    return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
+                  })
+                )
+            : null;
+        },
+      ],
+    ],
   });
 
   userInfo = this.formBuilder.group({
@@ -156,21 +172,6 @@ export class DhInviteUserModalComponent implements AfterViewInit {
         this.changeDectorRef.detectChanges();
       });
 
-    this.associatedActorsQuery.valueChanges
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        filter((x) => !x.loading)
-      )
-      .subscribe((result) => {
-        if (result.data?.associatedActors.email !== this.currentEmail) return;
-
-        const associatedActors = result.data?.associatedActors.actors;
-        this.isAlreadyAssociatedToActor =
-          associatedActors && associatedActors.includes(this.baseInfo.controls.actorId.value ?? '');
-        this.isLoadingAssociatedActors = false;
-        this.changeDectorRef.detectChanges();
-      });
-
     this.baseInfo.controls.actorId.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((actorId) => {
@@ -180,14 +181,12 @@ export class DhInviteUserModalComponent implements AfterViewInit {
 
         if (actorId === null) {
           this.actorStore.resetOrganizationState();
-          this.isAlreadyAssociatedToActor = false;
           return;
         }
 
         this.assignableUserRolesStore.getAssignableUserRoles(actorId);
         this.actorStore.getActorOrganization(actorId);
-        this.checkActorAssociation();
-
+        this.baseInfo.updateValueAndValidity();
         this.changeDectorRef.detectChanges();
       });
 
@@ -211,8 +210,6 @@ export class DhInviteUserModalComponent implements AfterViewInit {
           this.baseInfo.controls.email.valid &&
           this.knownEmails.includes(email.toUpperCase());
 
-        this.checkActorAssociation();
-
         this.changeDectorRef.detectChanges();
       });
 
@@ -221,20 +218,6 @@ export class DhInviteUserModalComponent implements AfterViewInit {
         this.baseInfo.controls.actorId.setValue(actors[0].value);
       }
     });
-  }
-
-  checkActorAssociation() {
-    const valid = this.baseInfo.controls.email.valid;
-    const email = this.baseInfo.controls.email.value;
-
-    if (!valid || !email) {
-      this.isAlreadyAssociatedToActor = false;
-      return;
-    }
-
-    this.isLoadingAssociatedActors = true;
-    this.currentEmail = email;
-    this.associatedActorsQuery.refetch({ email });
   }
 
   inviteUser() {
