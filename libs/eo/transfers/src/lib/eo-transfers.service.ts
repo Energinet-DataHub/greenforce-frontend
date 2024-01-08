@@ -25,7 +25,7 @@ export interface EoTransfer {
   startDate: number;
   senderName?: string;
   endDate: number | null;
-  receiverName?: string;
+  receiverName?: string | null;
   receiverTin: string;
 }
 
@@ -101,7 +101,7 @@ export class EoTransfersService {
         map((companysData) => {
           return cvrNumbers.map((cvrNumber) => {
             return (
-              companysData.find((company) => company.companyCvr === cvrNumber)?.companyName ?? ''
+              companysData.find((company) => company.companyCvr === cvrNumber)?.companyName ?? null
             );
           });
         })
