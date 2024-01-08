@@ -118,28 +118,29 @@ export class DhInviteUserModalComponent implements AfterViewInit {
       [Validators.required, Validators.email],
       [
         () => {
-          return this.apollo
-            .mutate({
-              mutation: GetAssociatedActorsDocument,
-              variables: {
-                email: this.currentEmail ?? '',
-              },
-            })
-            .pipe(
-              takeUntilDestroyed(this.destroyRef),
-              filter((x) => !x.loading),
-              filter((x) => x.data?.associatedActors.email === this.currentEmail),
-              map((result) => {
-                const associatedActors = result.data?.associatedActors.actors ?? [];
+          return this.currentEmail
+            ? this.apollo
+                .mutate({
+                  mutation: GetAssociatedActorsDocument,
+                  variables: {
+                    email: this.currentEmail,
+                  },
+                })
+                .pipe(
+                  takeUntilDestroyed(this.destroyRef),
+                  filter((x) => !x.loading),
+                  map((result) => {
+                    const associatedActors = result.data?.associatedActors.actors ?? [];
 
-                const isAlreadyAssociatedToActor: boolean =
-                  associatedActors &&
-                  associatedActors.includes(this.baseInfo.controls.actorId.value ?? '');
+                    const isAlreadyAssociatedToActor: boolean =
+                      associatedActors &&
+                      associatedActors.includes(this.baseInfo.controls.actorId.value ?? '');
 
-                if (isAlreadyAssociatedToActor) return { userAlreadyAssignedActor: true };
-                return null;
-              })
-            );
+                    if (isAlreadyAssociatedToActor) return { userAlreadyAssignedActor: true };
+                    return null;
+                  })
+                )
+            : null;
         },
       ],
     ],
