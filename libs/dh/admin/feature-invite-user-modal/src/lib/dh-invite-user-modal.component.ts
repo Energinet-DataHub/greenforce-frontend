@@ -122,7 +122,7 @@ export class DhInviteUserModalComponent implements AfterViewInit {
                 .mutate({
                   mutation: GetAssociatedActorsDocument,
                   variables: {
-                    email:  c.value,
+                    email: c.value,
                   },
                 })
                 .pipe(
