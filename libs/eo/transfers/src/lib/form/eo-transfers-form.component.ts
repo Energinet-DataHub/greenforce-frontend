@@ -247,7 +247,8 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
             [maxLength]="8"
             #recipientInput
           >
-            <watt-field-hint *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
+            <watt-field-hint
+              *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
               >Enter new CVR number or choose from previous transfer agreements</watt-field-hint
             >
 
@@ -259,10 +260,15 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
             <watt-field-error *ngIf="form.controls.receiver.controls.tin.errors?.['pattern']">
               An 8-digit TIN/CVR number is required
             </watt-field-error>
-
           </watt-text-field>
 
-          <div style="position: absolute; top: 38px; left: 74px; font-size: 14px; color: var(--watt-color-neutral-grey-700);" *ngIf="selectedCompanyName()" (click)="recipientInput.setFocus()">&nbsp;- {{selectedCompanyName()}}</div>
+          <div
+            style="position: absolute; top: 38px; left: 74px; font-size: 14px; color: var(--watt-color-neutral-grey-700);"
+            *ngIf="selectedCompanyName()"
+            (click)="recipientInput.setFocus()"
+          >
+            &nbsp;- {{ selectedCompanyName() }}
+          </div>
         </div>
       </div>
     </ng-template>

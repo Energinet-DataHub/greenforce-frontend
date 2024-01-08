@@ -169,7 +169,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
           ? this.autocompleteMatcherFn(value, option.value)
           : option.value === value;
 
-        if(isMatchingOption) {
+        if (isMatchingOption) {
           option.select(false);
           this.autocompleteOptionSelected.emit(option.value);
         } else {
