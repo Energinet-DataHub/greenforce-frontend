@@ -185,12 +185,16 @@ export class EoTransfersTableComponent implements OnChanges {
   activeRow?: EoListedTransfer;
   dataSource = new WattTableDataSource<EoTransferTableElement>();
   columns = {
-    sender: { accessor: (transfer) => {
-      return `${transfer.senderTin} - ${transfer.senderName || 'Unknown company'}`;
-    } },
-    receiver: { accessor: (transfer) => {
-      return `${transfer.receiverTin} - ${transfer.receiverName || 'Unknown company'}`;
-    } },
+    sender: {
+      accessor: (transfer) => {
+        return `${transfer.senderTin} - ${transfer.senderName || 'Unknown company'}`;
+      },
+    },
+    receiver: {
+      accessor: (transfer) => {
+        return `${transfer.receiverTin} - ${transfer.receiverName || 'Unknown company'}`;
+      },
+    },
     startDate: { accessor: 'startDate', header: 'Start Date' },
     endDate: { accessor: 'endDate', header: 'End Date' },
     status: {
