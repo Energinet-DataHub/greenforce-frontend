@@ -187,12 +187,12 @@ export class EoTransfersTableComponent implements OnChanges {
   columns = {
     sender: {
       accessor: (transfer) => {
-        return `${transfer.senderTin} - ${transfer.senderName || 'Unknown company'}`;
+        return `${transfer.senderTin} - ${transfer.senderName ?? 'Unknown company'}`;
       },
     },
     receiver: {
       accessor: (transfer) => {
-        return `${transfer.receiverTin} - ${transfer.receiverName || 'Unknown company'}`;
+        return `${transfer.receiverTin} - ${transfer.receiverName ?? 'Unknown company'}`;
       },
     },
     startDate: { accessor: 'startDate', header: 'Start Date' },

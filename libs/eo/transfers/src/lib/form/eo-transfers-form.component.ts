@@ -420,10 +420,10 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
     const fallbackCompanyName = 'Unknown company';
     const tins = transferAgreements.reduce((acc, transfer) => {
       if (transfer.receiverTin !== this.senderTin) {
-        acc.push(`${transfer.receiverTin} - ${transfer.receiverName || fallbackCompanyName}`);
+        acc.push(`${transfer.receiverTin} - ${transfer.receiverName ?? fallbackCompanyName}`);
       }
       if (transfer.senderTin !== this.senderTin) {
-        acc.push(`${transfer.senderTin} - ${transfer.senderName || fallbackCompanyName}`);
+        acc.push(`${transfer.senderTin} - ${transfer.senderName ?? fallbackCompanyName}`);
       }
       return acc;
     }, [] as string[]);
