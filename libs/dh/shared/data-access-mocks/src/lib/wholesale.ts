@@ -365,7 +365,10 @@ const mockedActorsForSettlementReport: ActorFilter = [
   },
 ];
 
-export const mockedLatestBalanceFixing = { __typename: 'Calculation', period: { start: periodStart, end: periodEnd } };
+export const mockedLatestBalanceFixing = {
+  __typename: 'Calculation',
+  period: { start: periodStart, end: periodEnd },
+};
 
 function getFilteredActors() {
   return mockGetActorFilterQuery((req, res, ctx) => {
@@ -479,9 +482,7 @@ function getLatestBalanceFixing() {
       ctx.delay(300),
       ctx.data({
         __typename: 'Query',
-        calculations: [
-          mockedLatestBalanceFixing as Calculation,
-        ],
+        calculations: [mockedLatestBalanceFixing as Calculation],
       })
     );
   });
