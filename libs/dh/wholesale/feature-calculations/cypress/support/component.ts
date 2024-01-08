@@ -30,6 +30,7 @@
 // ***********************************************************
 
 // Import commands.ts using ES2015 syntax:
+import { mockedCalculations, mockedGridAreas, mockedLatestBalanceFixing } from '@energinet-datahub/dh/shared/data-access-mocks';
 import './commands';
 
 // Intercept assets
@@ -43,6 +44,42 @@ beforeEach(() => {
       headers: { 'content-type': 'text/javascript' },
       body: res.body,
     });
+  });
+
+  cy.intercept('/graphql?GetGridAreas', { hostname: 'localhost' }, {
+    statusCode: 200,
+    body: { data: { gridAreas: mockedGridAreas } }
+  });
+
+  cy.intercept('/graphql?GetCalculations', { hostname: 'localhost' }, {
+    statusCode: 200,
+    body: { data: { calculations: mockedCalculations } }
+  });
+
+  cy.intercept('/graphql?GetLatestBalanceFixing', { hostname: 'localhost' }, {
+    statusCode: 200,
+    body: {
+      "data": {
+          "__typename": "Query",
+          "calculations": [mockedLatestBalanceFixing]
+      }
+    }
+  });
+
+  cy.intercept('/graphql?CreateCalculation', { hostname: 'localhost' }, {
+    statusCode: 200,
+    body: {
+      "data": {
+        __typename: 'Mutation',
+        createCalculation: {
+          __typename: 'CreateCalculationPayload',
+          calculation: {
+            __typename: 'Calculation',
+            id: '779195a4-2505-4290-97a6-f3eba2b7d179',
+          },
+        },
+      }
+    }
   });
 
   cy.intercept('/assets/i18n/da.json', { hostname: 'localhost' }, (req) => {

@@ -105,7 +105,7 @@ export const mockedGridAreas: GridAreaDto[] = [
   },
 ];
 
-const mockedCalculations: Calculation[] = [
+export const mockedCalculations: Calculation[] = [
   {
     __typename: 'Calculation',
     id: '8ff516a1-95b0-4f07-9b58-3fb94791c63b',
@@ -365,6 +365,8 @@ const mockedActorsForSettlementReport: ActorFilter = [
   },
 ];
 
+export const mockedLatestBalanceFixing = { __typename: 'Calculation', period: { start: periodStart, end: periodEnd } };
+
 function getFilteredActors() {
   return mockGetActorFilterQuery((req, res, ctx) => {
     return res(
@@ -478,7 +480,7 @@ function getLatestBalanceFixing() {
       ctx.data({
         __typename: 'Query',
         calculations: [
-          { __typename: 'Calculation', period: { start: periodStart, end: periodEnd } },
+          mockedLatestBalanceFixing as Calculation,
         ],
       })
     );
