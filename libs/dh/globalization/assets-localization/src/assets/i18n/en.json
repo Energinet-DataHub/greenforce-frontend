@@ -57,6 +57,7 @@
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid areas",
       "eSett": "eSett",
+      "imbalancePrices": "Imbalance prices",
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",

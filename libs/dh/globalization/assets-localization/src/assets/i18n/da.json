@@ -57,6 +57,7 @@
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
+      "imbalancePrices": "Ubalancepriser",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "calculations": "Beregninger",
