@@ -36,7 +36,7 @@
     "generate-graphql-schema": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 graphql-codegen",
     "generate-graphql-schema:ci": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 graphql-codegen --config codegen.ci.ts",
     "help": "nx help",
-    "i18n:optimize:app-dh": "transloco-optimize dist/apps/dh/app-dh/assets/i18n",
+    "i18n:optimize:app-dh": "transloco-optimize dist/apps/dh/app-dh/browser/assets/i18n",
     "i18n:extract": "transloco-keys-manager extract",
     "i18n:find": "transloco-keys-manager find",
     "lint": "nx run-many --target=lint --max-warnings=0 --parallel",
