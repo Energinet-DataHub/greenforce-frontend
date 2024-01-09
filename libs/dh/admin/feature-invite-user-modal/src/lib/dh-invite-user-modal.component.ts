@@ -200,13 +200,9 @@ export class DhInviteUserModalComponent implements AfterViewInit {
       .pipe(takeUntilDestroyed(this.destroyRef), distinctUntilChanged())
       .subscribe((email) => {
         this.inOrganizationMailDomain =
-          !!email &&
-          !!this.domain &&
-          email.toUpperCase().endsWith(this.domain.toUpperCase());
+          !!email && !!this.domain && email.toUpperCase().endsWith(this.domain.toUpperCase());
 
-        this.emailExists =
-          !!email &&
-          this.knownEmails.includes(email.toUpperCase());
+        this.emailExists = !!email && this.knownEmails.includes(email.toUpperCase());
 
         this.changeDectorRef.detectChanges();
       });
