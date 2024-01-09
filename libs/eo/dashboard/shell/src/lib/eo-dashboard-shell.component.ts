@@ -117,6 +117,7 @@ export class EoDashboardShellComponent implements OnInit {
   meteringPointError$ = this.meteringPointStore.meteringPointError$;
 
   ngOnInit(): void {
+    console.log('Application started');
     this.meteringPointStore.loadMeteringPoints();
     this.aggregateService.clearCache();
   }
