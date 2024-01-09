@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@testing-library/cypress": "10.0.1",
-    "cypress": "13.2.0",
-    "typescript": "5.1.6"
+    "cypress": "13.6.2",
+    "typescript": "5.2.2"
   }
 }
