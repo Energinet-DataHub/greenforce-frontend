@@ -31,7 +31,7 @@ import { NgIf } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { distinctUntilChanged, filter, map, take } from 'rxjs';
+import { distinctUntilChanged, filter, map, of, take } from 'rxjs';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -138,7 +138,7 @@ export class DhInviteUserModalComponent implements AfterViewInit {
                     return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
                   })
                 )
-            : null;
+            : of(null);
         },
       ],
     ],
@@ -200,15 +200,9 @@ export class DhInviteUserModalComponent implements AfterViewInit {
       .pipe(takeUntilDestroyed(this.destroyRef), distinctUntilChanged())
       .subscribe((email) => {
         this.inOrganizationMailDomain =
-          !!email &&
-          !!this.domain &&
-          this.baseInfo.controls.email.valid &&
-          email.toUpperCase().endsWith(this.domain.toUpperCase());
+          !!email && !!this.domain && email.toUpperCase().endsWith(this.domain.toUpperCase());
 
-        this.emailExists =
-          !!email &&
-          this.baseInfo.controls.email.valid &&
-          this.knownEmails.includes(email.toUpperCase());
+        this.emailExists = !!email && this.knownEmails.includes(email.toUpperCase());
 
         this.changeDectorRef.detectChanges();
       });
