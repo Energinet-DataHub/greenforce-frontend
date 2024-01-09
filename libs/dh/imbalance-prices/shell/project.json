@@ -1,0 +1,21 @@
+{
+  "name": "dh-imbalance-prices-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/imbalance-prices/shell/src",
+  "prefix": "dh",
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/dh/imbalance-prices/shell/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:dh", "domain:imbalance-prices", "type:shell"]
+}
