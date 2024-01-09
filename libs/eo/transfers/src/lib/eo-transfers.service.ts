@@ -82,8 +82,8 @@ export class EoTransfersService {
               senderName: transfer.senderName ?? '',
               senderTin: transfer.senderTin ?? '',
               receiverName: companyNames[index],
-              startDate: transfer.startDate * 1000,
-              endDate: transfer.endDate ? transfer.endDate * 1000 : null,
+              startDate: transfer.startDate,
+              endDate: transfer.endDate ? transfer.endDate : null,
             }));
           })
         );
