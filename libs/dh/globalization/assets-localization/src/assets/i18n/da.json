@@ -735,6 +735,10 @@
       "errorMessage": "{{ shared.error.message }}"
     }
   },
+  "imbalancePrices": {
+    "topBarTitle": "Ubalancepriser",
+    "noImbalancePrices": "Ingen ubalancepriser fundet"
+  },
   "wholesale": {
     "shared": {
       "BALANCE_FIXING": "Balancefiksering",

@@ -1,0 +1,12 @@
+<watt-card vater inset="l" *transloco="let t; read: 'imbalancePrices'">
+  <vater-flex fill="vertical" gap="ml">
+    <vater-stack direction="row" gap="s">
+      <h3>{{ t("topBarTitle") }}</h3>
+      <span class="watt-chip-label">0</span>
+    </vater-stack>
+
+    <vater-flex fill="vertical">
+      <watt-empty-state icon="cancel" [title]="t('noImbalancePrices')" />
+    </vater-flex>
+  </vater-flex>
+</watt-card>

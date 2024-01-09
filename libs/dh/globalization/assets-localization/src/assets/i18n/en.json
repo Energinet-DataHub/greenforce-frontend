@@ -736,6 +736,10 @@
       "errorMessage": "{{ shared.error.message }}"
     }
   },
+  "imbalancePrices": {
+    "topBarTitle": "Imbalance prices",
+    "noImbalancePrices": "No imbalance prices found"
+  },
   "wholesale": {
     "shared": {
       "BALANCE_FIXING": "Balance fixing",
