@@ -16,18 +16,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using GreenDonut;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class ActorNameByMarketRoleDataLoader : BatchDataLoader<(string ActorNumber, EicFunction EicFunction), ActorNameDto?>
     {
-        private readonly IMarketParticipantClient _client;
+        private readonly IMarketParticipantClient_V1 _client;
 
         public ActorNameByMarketRoleDataLoader(
-            IMarketParticipantClient client,
+            IMarketParticipantClient_V1 client,
             IBatchScheduler batchScheduler,
             DataLoaderOptions? options = null)
             : base(batchScheduler, options) =>
@@ -38,7 +37,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
         {
             var actorNumbers = keys.Select(x => x.ActorNumber).ToHashSet();
 
-            var actors = await _client.GetActorsAsync().ConfigureAwait(false);
+            var actors = await _client.ActorGetAsync().ConfigureAwait(false);
             var dictionary = new Dictionary<(string, EicFunction), ActorNameDto?>();
 
             foreach (var actor in actors.Where(x => actorNumbers.Contains(x.ActorNumber.Value)))

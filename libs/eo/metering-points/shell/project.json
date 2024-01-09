@@ -9,18 +9,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/eo/metering-points/shell"],
       "options": {
-        "jestConfig": "libs/eo/metering-points/shell/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/eo/metering-points/shell/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/eo/metering-points/shell/src/**/*.ts",
-          "libs/eo/metering-points/shell/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:eo", "domain:metering-points", "type:shell"]

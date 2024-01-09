@@ -16,6 +16,7 @@
  */
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { map, tap } from 'rxjs';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -25,7 +26,6 @@ import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/s
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { NgIf } from '@angular/common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

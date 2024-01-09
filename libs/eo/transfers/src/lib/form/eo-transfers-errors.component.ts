@@ -47,7 +47,7 @@ import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core'
       }
     `,
   ],
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   encapsulation: ViewEncapsulation.None,
 })
 export class EoTransferErrorsComponent {

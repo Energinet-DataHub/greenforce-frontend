@@ -15,24 +15,22 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using GreenDonut;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
-public class AuditIdentityCacheDataLoader : CacheDataLoader<Guid, GetAuditIdentityResponseDto>
+public class AuditIdentityCacheDataLoader : CacheDataLoader<Guid, GetAuditIdentityResponse>
 {
-    private readonly IMarketParticipantAuditIdentityClient _client;
+    private readonly IMarketParticipantClient_V1 _client;
 
     public AuditIdentityCacheDataLoader(
-        IMarketParticipantAuditIdentityClient client,
+        IMarketParticipantClient_V1 client,
         DataLoaderOptions? options = null)
         : base(options) =>
         _client = client;
 
-    protected override Task<GetAuditIdentityResponseDto> LoadSingleAsync(
+    protected override Task<GetAuditIdentityResponse> LoadSingleAsync(
         Guid key,
-        CancellationToken cancellationToken) =>
-        _client.GetAsync(key);
+        CancellationToken cancellationToken) => _client.AuditIdentityAsync(key, cancellationToken);
 }

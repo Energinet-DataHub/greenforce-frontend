@@ -16,8 +16,8 @@ import { MarketParticipantActorMarketRoleDto } from './market-participant-actor-
 
 export interface MarketParticipantCreateActorDto { 
     organizationId: string;
-    actorNumber: MarketParticipantActorNumberDto;
     name: MarketParticipantActorNameDto;
+    actorNumber: MarketParticipantActorNumberDto;
     marketRoles: Array<MarketParticipantActorMarketRoleDto>;
 }
 

@@ -9,18 +9,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/dh/wholesale/domain/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/wholesale/domain/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/wholesale/domain/**/*.ts",
-          "libs/dh/wholesale/domain/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "domain:wholesale", "type:domain"]

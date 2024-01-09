@@ -21,7 +21,6 @@ export const marketParticipantOrganization: MarketParticipantOrganizationDto = {
   name: 'Energinet DataHub A/S',
   businessRegisterIdentifier: '39315041',
   domain: 'energinet.dk',
-  comment: '',
   status: 'Active',
   address: { streetName: null, number: null, zipCode: null, city: null, country: 'DK' },
 };

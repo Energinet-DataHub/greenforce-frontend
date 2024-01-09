@@ -19,20 +19,23 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.UserBatchDataLoader>();
             builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.UserCacheDataLoader>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.DateRangeType>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorAuditedChangeAuditLogDtoType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorStatusType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.BalanceResponsibleType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.CalculationType>();
-            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.Types.ContactCategoryType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.Types.EdiB2CProcessType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.EicFunctionType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.EsettExchangeEventType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ExchangeEventCalculationType>();
-            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.MarketPartEicFunctionType>();
-            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.OrganizationAuditLogType>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.GridAreaType>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.OrganizationAuditedChangeAuditLogDtoType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.OrganizationType>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.PermissionAuditedChangeAuditLogDtoType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.PermissionType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ProcessStatusType>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.UserAuditedChangeAuditLogDtoType>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.UserRoleAuditedChangeAuditLogDtoType>();
             return builder;
         }
 

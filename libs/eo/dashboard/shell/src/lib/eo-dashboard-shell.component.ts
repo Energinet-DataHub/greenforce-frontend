@@ -14,16 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+
+import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
 import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
-
+import { EoDashboardChoosePeriodComponent } from './eo-dashboard-choose-period.component';
 import { EoDashboardConsumptionComponent } from './eo-dashboard-consumption.component';
 import { EoDashboardProductionTransferredComponent } from './eo-dashboard-production-transferred.component';
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
-import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,6 +56,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
   imports: [
     EoDashboardConsumptionComponent,
     EoDashboardProductionTransferredComponent,
+    EoDashboardChoosePeriodComponent,
     NgIf,
     AsyncPipe,
     WattSpinnerComponent,
@@ -62,12 +65,20 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
   ],
   selector: 'eo-dashboard-shell',
   template: `
+    <eo-dashboard-choose-period (periodChanged)="onPeriodChanged($event)" />
+
     <ng-container *ngIf="(isLoadingMeteringPoints$ | async) === false; else loading">
       <ng-container *ngIf="productionMeteringPoints$ | async as productionMeteringPoints">
-        <eo-dashboard-production-transferred *ngIf="productionMeteringPoints.length > 0" />
+        <eo-dashboard-production-transferred
+          *ngIf="productionMeteringPoints.length > 0"
+          [period]="period()"
+        />
       </ng-container>
       <ng-container *ngIf="consumptionMeteringPoints$ | async as consumptionMeteringPoints">
-        <eo-dashboard-consumption *ngIf="consumptionMeteringPoints.length > 0" />
+        <eo-dashboard-consumption
+          *ngIf="consumptionMeteringPoints.length > 0"
+          [period]="period()"
+        />
       </ng-container>
       <ng-container *ngIf="productionAndConsumptionMeteringPoints$ | async as meteringPoints">
         <watt-empty-state
@@ -97,6 +108,7 @@ export class EoDashboardShellComponent implements OnInit {
   private meteringPointStore = inject(EoMeteringPointsStore);
   private aggregateService: EoAggregateService = inject(EoAggregateService);
 
+  period = signal<eoDashboardPeriod>(null);
   isLoadingMeteringPoints$ = this.meteringPointStore.loading$;
   productionMeteringPoints$ = this.meteringPointStore.productionMeteringPoints$;
   consumptionMeteringPoints$ = this.meteringPointStore.consumptionMeteringPoints$;
@@ -107,5 +119,9 @@ export class EoDashboardShellComponent implements OnInit {
   ngOnInit(): void {
     this.meteringPointStore.loadMeteringPoints();
     this.aggregateService.clearCache();
+  }
+
+  protected onPeriodChanged(period: eoDashboardPeriod): void {
+    this.period.set(period);
   }
 }

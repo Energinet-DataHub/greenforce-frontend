@@ -348,12 +348,12 @@
         }
       }
     },
-    "/actor/{actorId}/auditlogs": {
+    "/actor/{actorId}/audit": {
       "get": {
         "tags": [
           "Actor"
         ],
-        "operationId": "auditlogs",
+        "operationId": "audit",
         "parameters": [
           {
             "name": "actorId",
@@ -371,17 +371,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetActorAuditLogsResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActorAuditedChangeAuditLogDto"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetActorAuditLogsResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActorAuditedChangeAuditLogDto"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetActorAuditLogsResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActorAuditedChangeAuditLogDto"
+                  }
                 }
               }
             }
@@ -809,12 +818,12 @@
         }
       }
     },
-    "/GridArea/{gridAreaId}/auditlogentry": {
+    "/GridArea/{gridAreaId}/audit": {
       "get": {
         "tags": [
           "GridArea"
         ],
-        "operationId": "auditlogentryAll",
+        "operationId": "audit2",
         "parameters": [
           {
             "name": "gridAreaId",
@@ -834,7 +843,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GridAreaAuditLogEntryDto"
+                    "$ref": "#/components/schemas/GridAreaAuditedChangeAuditLogDto"
                   }
                 }
               },
@@ -842,7 +851,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GridAreaAuditLogEntryDto"
+                    "$ref": "#/components/schemas/GridAreaAuditedChangeAuditLogDto"
                   }
                 }
               },
@@ -850,7 +859,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GridAreaAuditLogEntryDto"
+                    "$ref": "#/components/schemas/GridAreaAuditedChangeAuditLogDto"
                   }
                 }
               }
@@ -1211,12 +1220,12 @@
         }
       }
     },
-    "/Organization/{organizationId}/auditlogs": {
+    "/Organization/{organizationId}/audit": {
       "get": {
         "tags": [
           "Organization"
         ],
-        "operationId": "auditlogsAll",
+        "operationId": "audit3",
         "parameters": [
           {
             "name": "organizationId",
@@ -1236,7 +1245,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/OrganizationAuditLogDto"
+                    "$ref": "#/components/schemas/OrganizationAuditedChangeAuditLogDto"
                   }
                 }
               },
@@ -1244,7 +1253,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/OrganizationAuditLogDto"
+                    "$ref": "#/components/schemas/OrganizationAuditedChangeAuditLogDto"
                   }
                 }
               },
@@ -1252,7 +1261,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/OrganizationAuditLogDto"
+                    "$ref": "#/components/schemas/OrganizationAuditedChangeAuditLogDto"
                   }
                 }
               }
@@ -1383,12 +1392,12 @@
         }
       }
     },
-    "/Permission/{permissionId}/auditlogs": {
+    "/Permission/{permissionId}/audit": {
       "get": {
         "tags": [
           "Permission"
         ],
-        "operationId": "auditlogsAll2",
+        "operationId": "audit4",
         "parameters": [
           {
             "name": "permissionId",
@@ -1408,7 +1417,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PermissionAuditLogDto"
+                    "$ref": "#/components/schemas/PermissionAuditedChangeAuditLogDto"
                   }
                 }
               },
@@ -1416,7 +1425,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PermissionAuditLogDto"
+                    "$ref": "#/components/schemas/PermissionAuditedChangeAuditLogDto"
                   }
                 }
               },
@@ -1424,7 +1433,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PermissionAuditLogDto"
+                    "$ref": "#/components/schemas/PermissionAuditedChangeAuditLogDto"
                   }
                 }
               }
@@ -1641,12 +1650,12 @@
         }
       }
     },
-    "/user/{userId}/auditlogentry": {
+    "/user/{userId}/audit": {
       "get": {
         "tags": [
           "User"
         ],
-        "operationId": "auditlogentry",
+        "operationId": "audit5",
         "parameters": [
           {
             "name": "userId",
@@ -1664,17 +1673,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserAuditLogsResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserAuditedChangeAuditLogDto"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserAuditLogsResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserAuditedChangeAuditLogDto"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserAuditLogsResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserAuditedChangeAuditLogDto"
+                  }
                 }
               }
             }
@@ -2134,12 +2152,12 @@
         }
       }
     },
-    "/user-roles/{userRoleId}/auditlogentry": {
+    "/user-roles/{userRoleId}/audit": {
       "get": {
         "tags": [
           "UserRole"
         ],
-        "operationId": "auditlogentryAll2",
+        "operationId": "audit6",
         "parameters": [
           {
             "name": "userRoleId",
@@ -2159,7 +2177,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/UserRoleAuditLogEntryDto"
+                    "$ref": "#/components/schemas/UserRoleAuditedChangeAuditLogDto"
                   }
                 }
               },
@@ -2167,7 +2185,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/UserRoleAuditLogEntryDto"
+                    "$ref": "#/components/schemas/UserRoleAuditedChangeAuditLogDto"
                   }
                 }
               },
@@ -2175,7 +2193,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/UserRoleAuditLogEntryDto"
+                    "$ref": "#/components/schemas/UserRoleAuditedChangeAuditLogDto"
                   }
                 }
               }
@@ -2483,34 +2501,55 @@
   },
   "components": {
     "schemas": {
-      "ActorAuditLogDto": {
+      "ActorAuditedChange": {
+        "type": "string",
+        "enum": [
+          "Name",
+          "Status",
+          "ContactName",
+          "ContactEmail",
+          "ContactPhone",
+          "ContactCategoryAdded",
+          "ContactCategoryRemoved",
+          "CertificateCredentials",
+          "ClientSecretCredentials"
+        ]
+      },
+      "ActorAuditedChangeAuditLogDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "actorId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "currentValue": {
-            "type": "string"
-          },
-          "previousValue": {
-            "type": "string"
-          },
-          "auditIdentityId": {
-            "type": "string",
-            "format": "uuid"
+          "change": {
+            "readOnly": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorAuditedChange"
+              }
+            ]
           },
           "timestamp": {
             "type": "string",
+            "readOnly": true,
             "format": "date-time"
           },
-          "actorChangeType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorChangeType"
-              }
-            ]
+          "auditIdentityId": {
+            "type": "string",
+            "readOnly": true,
+            "format": "uuid"
+          },
+          "isInitialAssignment": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "currentValue": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true
+          },
+          "previousValue": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true
           }
         }
       },
@@ -2526,16 +2565,6 @@
             "format": "date-time"
           }
         }
-      },
-      "ActorChangeType": {
-        "type": "string",
-        "enum": [
-          "Name",
-          "Created",
-          "Status",
-          "CertificateCredentials",
-          "SecretCredentials"
-        ]
       },
       "ActorClientSecretCredentialsDto": {
         "type": "object",
@@ -2559,54 +2588,6 @@
             "type": "string"
           }
         }
-      },
-      "ActorContactAuditLogDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "actorId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "currentValue": {
-            "type": "string"
-          },
-          "previousValue": {
-            "type": "string"
-          },
-          "auditIdentityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "contactCategory": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ContactCategory"
-              }
-            ]
-          },
-          "actorContactChangeType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorContactChangeType"
-              }
-            ]
-          }
-        }
-      },
-      "ActorContactChangeType": {
-        "type": "string",
-        "enum": [
-          "Name",
-          "Email",
-          "Phone",
-          "Created",
-          "Deleted"
-        ]
       },
       "ActorContactDto": {
         "type": "object",
@@ -2988,24 +2969,6 @@
           "SerialEnergyTrader"
         ]
       },
-      "GetActorAuditLogsResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "actorAuditLogs": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActorAuditLogDto"
-            }
-          },
-          "actorContactAuditLogs": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActorContactAuditLogDto"
-            }
-          }
-        }
-      },
       "GetActorsAssociatedWithExternalUserIdResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -3045,30 +3008,6 @@
           }
         }
       },
-      "GetUserAuditLogsResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "userRoleAssignmentAuditLogs": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UserRoleAssignmentAuditLogEntryDto"
-            }
-          },
-          "inviteAuditLogs": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UserInviteAuditLogEntryDto"
-            }
-          },
-          "identityAuditLogs": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UserIdentityAuditLogEntryDto"
-            }
-          }
-        }
-      },
       "GetUserOverviewResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -3094,42 +3033,49 @@
           }
         }
       },
-      "GridAreaAuditLogEntryDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "oldValue": {
-            "type": "string"
-          },
-          "newValue": {
-            "type": "string"
-          },
-          "gridAreaId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "auditIdentityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "field": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/GridAreaAuditLogEntryField"
-              }
-            ]
-          }
-        }
-      },
-      "GridAreaAuditLogEntryField": {
+      "GridAreaAuditedChange": {
         "type": "string",
         "enum": [
           "Name"
         ]
+      },
+      "GridAreaAuditedChangeAuditLogDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "change": {
+            "readOnly": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GridAreaAuditedChange"
+              }
+            ]
+          },
+          "timestamp": {
+            "type": "string",
+            "readOnly": true,
+            "format": "date-time"
+          },
+          "auditIdentityId": {
+            "type": "string",
+            "readOnly": true,
+            "format": "uuid"
+          },
+          "isInitialAssignment": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "currentValue": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true
+          },
+          "previousValue": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true
+          }
+        }
       },
       "GridAreaDto": {
         "type": "object",
@@ -3204,40 +3150,50 @@
           }
         }
       },
-      "OrganizationAuditLogDto": {
+      "OrganizationAuditedChange": {
+        "type": "string",
+        "enum": [
+          "Domain",
+          "Name"
+        ]
+      },
+      "OrganizationAuditedChangeAuditLogDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "organizationId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "value": {
-            "type": "string"
-          },
-          "auditIdentityId": {
-            "type": "string",
-            "format": "uuid"
+          "change": {
+            "readOnly": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrganizationAuditedChange"
+              }
+            ]
           },
           "timestamp": {
             "type": "string",
+            "readOnly": true,
             "format": "date-time"
           },
-          "organizationChangeType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/OrganizationChangeType"
-              }
-            ]
+          "auditIdentityId": {
+            "type": "string",
+            "readOnly": true,
+            "format": "uuid"
+          },
+          "isInitialAssignment": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "currentValue": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true
+          },
+          "previousValue": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true
           }
         }
-      },
-      "OrganizationChangeType": {
-        "type": "string",
-        "enum": [
-          "DomainChange",
-          "Name"
-        ]
       },
       "OrganizationDto": {
         "type": "object",
@@ -3268,39 +3224,50 @@
           }
         }
       },
-      "PermissionAuditLogDto": {
+      "PermissionAuditedChange": {
+        "type": "string",
+        "enum": [
+          "Claim",
+          "Description"
+        ]
+      },
+      "PermissionAuditedChangeAuditLogDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "permissionId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "value": {
-            "type": "string"
-          },
-          "auditIdentityId": {
-            "type": "string",
-            "format": "uuid"
+          "change": {
+            "readOnly": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PermissionAuditedChange"
+              }
+            ]
           },
           "timestamp": {
             "type": "string",
+            "readOnly": true,
             "format": "date-time"
           },
-          "permissionChangeType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/PermissionChangeType"
-              }
-            ]
+          "auditIdentityId": {
+            "type": "string",
+            "readOnly": true,
+            "format": "uuid"
+          },
+          "isInitialAssignment": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "currentValue": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true
+          },
+          "previousValue": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true
           }
         }
-      },
-      "PermissionChangeType": {
-        "type": "string",
-        "enum": [
-          "DescriptionChange"
-        ]
       },
       "PermissionDetailsDto": {
         "type": "object",
@@ -3455,45 +3422,56 @@
           }
         }
       },
-      "UserIdentityAuditLogEntryDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "userId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "newValue": {
-            "type": "string"
-          },
-          "oldValue": {
-            "type": "string"
-          },
-          "auditIdentityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "field": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/UserIdentityAuditLogField"
-              }
-            ]
-          }
-        }
-      },
-      "UserIdentityAuditLogField": {
+      "UserAuditedChange": {
         "type": "string",
         "enum": [
           "FirstName",
           "LastName",
           "PhoneNumber",
-          "Status"
+          "Status",
+          "InvitedIntoActor",
+          "UserRoleAssigned",
+          "UserRoleRemoved",
+          "UserRoleRemovedDueToDeactivation"
         ]
+      },
+      "UserAuditedChangeAuditLogDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "change": {
+            "readOnly": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserAuditedChange"
+              }
+            ]
+          },
+          "timestamp": {
+            "type": "string",
+            "readOnly": true,
+            "format": "date-time"
+          },
+          "auditIdentityId": {
+            "type": "string",
+            "readOnly": true,
+            "format": "uuid"
+          },
+          "isInitialAssignment": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "currentValue": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true
+          },
+          "previousValue": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true
+          }
+        }
       },
       "UserIdentityUpdateDto": {
         "type": "object",
@@ -3536,31 +3514,6 @@
               "type": "string",
               "format": "uuid"
             }
-          }
-        }
-      },
-      "UserInviteAuditLogEntryDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "userId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "actorId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "actorName": {
-            "type": "string"
-          },
-          "auditIdentityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
           }
         }
       },
@@ -3637,111 +3590,53 @@
           "Status"
         ]
       },
-      "UserRoleAssignmentAuditLogEntryDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "userId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "actorId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "userRoleId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "auditIdentityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "assignmentType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/UserRoleAssignmentTypeAuditLog"
-              }
-            ]
-          }
-        }
-      },
-      "UserRoleAssignmentTypeAuditLog": {
+      "UserRoleAuditedChange": {
         "type": "string",
         "enum": [
-          "Added",
-          "Removed",
-          "RemovedDueToDeactivation"
-        ]
-      },
-      "UserRoleAuditLogEntryDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "userRoleId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "auditIdentityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "permissions": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          "eicFunction": {
-            "nullable": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/EicFunction"
-              }
-            ]
-          },
-          "status": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/UserRoleStatus"
-              }
-            ]
-          },
-          "changeType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/UserRoleChangeType"
-              }
-            ]
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "UserRoleChangeType": {
-        "type": "string",
-        "enum": [
-          "Created",
-          "NameChange",
-          "DescriptionChange",
-          "StatusChange",
+          "Name",
+          "Description",
+          "Status",
           "PermissionAdded",
           "PermissionRemoved"
         ]
+      },
+      "UserRoleAuditedChangeAuditLogDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "change": {
+            "readOnly": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserRoleAuditedChange"
+              }
+            ]
+          },
+          "timestamp": {
+            "type": "string",
+            "readOnly": true,
+            "format": "date-time"
+          },
+          "auditIdentityId": {
+            "type": "string",
+            "readOnly": true,
+            "format": "uuid"
+          },
+          "isInitialAssignment": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "currentValue": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true
+          },
+          "previousValue": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true
+          }
+        }
       },
       "UserRoleDto": {
         "type": "object",

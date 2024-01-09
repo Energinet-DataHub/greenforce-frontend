@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 export const enum EoTimeAggregate {
-  None = 'none',
-  Hour = 'hour',
-  Day = 'day',
-  Week = 'week',
-  Month = 'month',
+  Actual = 'actual',
+  Total = 'total',
   Year = 'year',
+  Month = 'month',
+  Week = 'week',
+  Day = 'day',
+  Hour = 'hour',
+  QuarterHour = 'quarterHour',
 }

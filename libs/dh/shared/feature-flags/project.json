@@ -9,18 +9,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/feature-flags"],
       "options": {
-        "jestConfig": "libs/dh/shared/feature-flags/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/shared/feature-flags/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/shared/feature-flags/src/**/*.ts",
-          "libs/dh/shared/feature-flags/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "domain:shared", "type:feature"]

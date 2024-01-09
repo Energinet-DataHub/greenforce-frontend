@@ -16,18 +16,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using GreenDonut;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class ActorByOrganizationBatchDataLoader : BatchDataLoader<string, List<ActorDto>>
     {
-        private readonly IMarketParticipantClient _client;
+        private readonly IMarketParticipantClient_V1 _client;
 
         public ActorByOrganizationBatchDataLoader(
-            IMarketParticipantClient client,
+            IMarketParticipantClient_V1 client,
             IBatchScheduler batchScheduler,
             DataLoaderOptions? options = null)
             : base(batchScheduler, options) =>
@@ -38,7 +37,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             CancellationToken cancellationToken)
             {
                 return (await _client
-                    .GetActorsAsync())
+                    .ActorGetAsync())
                     .Where(x => keys.Contains<string>(x.OrganizationId.ToString()))
                     .GroupBy(x => x.OrganizationId)
                     .ToDictionary(x => x.Key.ToString(), y => y.ToList());

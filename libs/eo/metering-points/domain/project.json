@@ -6,13 +6,7 @@
   "prefix": "eo",
   "targets": {
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/eo/metering-points/domain/**/*.ts",
-          "libs/eo/metering-points/domain/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:eo", "domain:metering-points", "type:domain"]

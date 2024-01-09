@@ -84,15 +84,6 @@ mat-paginator:not(.watt-paginator) {
       display: none;
     }
 
-    &.mat-form-field-appearance-legacy .mat-form-field-wrapper {
-      padding: 0 var(--watt-space-xs);
-    }
-
-    &.mat-form-field-appearance-legacy .mat-form-field-infix {
-      padding: 0;
-      border: 0;
-    }
-
     & .mat-form-field-flex {
       height: 42px; // Standard field height minus 1px border
       align-items: center;

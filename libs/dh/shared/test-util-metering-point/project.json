@@ -11,18 +11,11 @@
         "{workspaceRoot}/coverage/libs/dh/shared/test-util-metering-point"
       ],
       "options": {
-        "jestConfig": "libs/dh/shared/test-util-metering-point/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/shared/test-util-metering-point/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/shared/test-util-metering-point/src/**/*.ts",
-          "libs/dh/shared/test-util-metering-point/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "domain:shared", "type:test-util"]

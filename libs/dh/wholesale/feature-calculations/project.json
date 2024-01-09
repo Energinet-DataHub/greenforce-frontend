@@ -11,18 +11,11 @@
         "{workspaceRoot}/coverage/libs/dh/wholesale/feature-calculations"
       ],
       "options": {
-        "jestConfig": "libs/dh/wholesale/feature-calculations/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/wholesale/feature-calculations/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/wholesale/feature-calculations/src/**/*.ts",
-          "libs/dh/wholesale/feature-calculations/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "component-test": {
       "executor": "@nx/cypress:cypress",
