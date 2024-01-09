@@ -31,11 +31,11 @@ export class CertificateDetailsTitleResolver {
   resolve(route: ActivatedRouteSnapshot) {
     return this.certificatesService.getCertificates().pipe(
       map((certs: EoCertificate[]) =>
-        certs.find((item) => item.federatedStreamId.streamId === route.params.id)
+        certs.find((item) => item.federatedStreamId.streamId === route.params['id'])
       ),
       map(
         (cert) =>
-          'Certificate details - ' + this.capitalizeFirstLetter(cert?.certificateType) ??
+          'Certificate details - ' + this.capitalizeFirstLetter(cert?.certificateType) ||
           'Certificate details'
       )
     );
