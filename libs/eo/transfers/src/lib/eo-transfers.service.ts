@@ -169,7 +169,7 @@ export class EoTransfersService {
               endDate: item.transferAgreement.endDate
                 ? item.transferAgreement.endDate * 1000
                 : null,
-            }
+            },
           }))
         )
       );

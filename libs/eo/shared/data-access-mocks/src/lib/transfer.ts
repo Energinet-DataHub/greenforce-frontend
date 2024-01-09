@@ -124,36 +124,36 @@ function getTransferAutomationStatus(apiBase: string) {
 function getTransferAgreementHistory(apiBase: string) {
   return rest.get(`${apiBase}/transfer-agreements/:id/history`, (req, res, ctx) => {
     const data = {
-      "totalCount": 2,
-      "items": [
-          {
-              "transferAgreement": {
-                  "id": "4f75771b-3c16-405a-99c4-4f555cf93325",
-                  "startDate": 1701867600,
-                  "endDate": null,
-                  "senderName": "Producent A/S",
-                  "senderTin": "11223344",
-                  "receiverTin": "39293595"
-              },
-              "createdAt": 1701866501,
-              "action": "Created",
-              "actorName": "Charlotte C.S. Rasmussen"
+      totalCount: 2,
+      items: [
+        {
+          transferAgreement: {
+            id: '4f75771b-3c16-405a-99c4-4f555cf93325',
+            startDate: 1701867600,
+            endDate: null,
+            senderName: 'Producent A/S',
+            senderTin: '11223344',
+            receiverTin: '39293595',
           },
-          {
-              "transferAgreement": {
-                  "id": "8c490c77-21e8-4f58-b101-4058b96236af",
-                  "startDate": 1701867600,
-                  "endDate": 1702299600,
-                  "senderName": "Producent A/S",
-                  "senderTin": "11223344",
-                  "receiverTin": "39293595"
-              },
-              "createdAt": 1701949899,
-              "action": "Updated",
-              "actorName": "Peter Producent"
+          createdAt: 1701866501,
+          action: 'Created',
+          actorName: 'Charlotte C.S. Rasmussen',
+        },
+        {
+          transferAgreement: {
+            id: '8c490c77-21e8-4f58-b101-4058b96236af',
+            startDate: 1701867600,
+            endDate: 1702299600,
+            senderName: 'Producent A/S',
+            senderTin: '11223344',
+            receiverTin: '39293595',
           },
-      ]
-  };
+          createdAt: 1701949899,
+          action: 'Updated',
+          actorName: 'Peter Producent',
+        },
+      ],
+    };
 
     return res(ctx.status(200), ctx.json(data), ctx.delay(1000));
   });
