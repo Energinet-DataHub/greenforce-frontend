@@ -1,12 +1,11 @@
 query GetUserRoleAuditLogs($id: UUID!) {
   userRoleAuditLogs(id: $id) {
-    changedByUserName
-    name
-    description
-    permissions
-    eicFunction
-    status
-    changeType
+    change
     timestamp
+    isInitialAssignment
+    currentValue
+    previousValue
+    auditedBy
+    affectedPermissionName
   }
 }

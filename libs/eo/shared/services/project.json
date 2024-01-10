@@ -14,12 +14,6 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/eo/shared/services/src/**/*.ts",
-          "libs/eo/shared/services/src/**/*.html"
-        ]
-      },
       "outputs": ["{options.outputFile}"]
     }
   },

@@ -6,13 +6,7 @@
   "prefix": "gf-test",
   "targets": {
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/gf/msw/test-util-msw/src/**/*.ts",
-          "libs/gf/msw/test-util-msw/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:gf", "domain:shared", "type:test-util"]

@@ -1,7 +1,7 @@
 {
   "extends": "../../../tsconfig.base.json",
   "files": [],
-  "include": ["cypress.config.js", "src/**/*.ts", "src/**/*.js"],
+  "include": ["cypress.config.ts", "src/**/*.ts", "src/**/*.js"],
   "references": [],
   "compilerOptions": {
     "sourceMap": false,
@@ -13,6 +13,12 @@
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "ESNext",
+      "moduleResolution": "Node"
+    }
   },
   "exclude": []
 }

@@ -24,12 +24,9 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { combineLatest, first, map, Observable, of, startWith, Subject, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import {
-  WattFieldErrorComponent,
-  WattFieldHintComponent,
-  WattFieldComponent,
-} from '@energinet-datahub/watt/field';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDatePipe, WattDateRange } from '@energinet-datahub/watt/date';
@@ -41,7 +38,7 @@ import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
-
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import {
   CreateCalculationDocument,
   GetGridAreasDocument,
@@ -53,7 +50,6 @@ import {
   GridArea,
   processTypes,
 } from '@energinet-datahub/dh/wholesale/domain';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface FormValues {
   processType: FormControl<ProcessType>;
@@ -83,7 +79,7 @@ interface FormValues {
     WattValidationMessageComponent,
     WattFieldErrorComponent,
     WattFieldHintComponent,
-    WattFieldComponent,
+    WattTextFieldComponent,
   ],
 })
 export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
@@ -99,7 +95,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
   loading = false;
 
-  confirmFormControl = new FormControl(null);
+  confirmFormControl = new FormControl('');
 
   monthOnly = [
     ProcessType.WholesaleFixing,
@@ -237,6 +233,8 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   onClose(accepted: boolean) {
     if (accepted) this.createCalculation();
     if (accepted || this.showPeriodWarning) this.reset();
+
+    this.confirmFormControl.reset();
   }
 
   reset() {

@@ -14,14 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnChanges } from '@angular/core';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
-import { Subscription } from 'rxjs';
-import { Apollo, QueryRef } from 'apollo-angular';
-import { ApolloError } from '@apollo/client';
+import { catchError, map, of, tap } from 'rxjs';
+import { Apollo } from 'apollo-angular';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -31,11 +30,8 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
 import {
   GetUserRoleAuditLogsDocument,
-  GetUserRoleAuditLogsQuery,
+  UserRoleAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { DhAuditChangeCellComponent } from './dh-audit-change-cell.component';
-import { UserRoleAuditLog } from '../../../../userRoleAuditLog';
 
 @Component({
   selector: 'dh-role-audit-logs',
@@ -69,53 +65,38 @@ import { UserRoleAuditLog } from '../../../../userRoleAuditLog';
     WattEmptyStateComponent,
     WATT_TABLE,
     WattDatePipe,
-    DhAuditChangeCellComponent,
   ],
 })
-export class DhRoleAuditLogsComponent implements OnInit, OnDestroy {
-  private apollo = inject(Apollo);
-  private getUserRoleAuditLogsQuery?: QueryRef<
-    GetUserRoleAuditLogsQuery,
-    {
-      id: string;
-    }
-  >;
-  private subscription?: Subscription;
+export class DhRoleAuditLogsComponent implements OnChanges {
+  private readonly apollo = inject(Apollo);
+  private readonly getUserRoleAuditLogsQuery = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetUserRoleAuditLogsDocument,
+    fetchPolicy: 'cache-and-network',
+  });
 
-  dataSource = new WattTableDataSource<UserRoleAuditLog>();
+  dataSource = new WattTableDataSource<UserRoleAuditedChangeAuditLogDto>();
 
-  isLoading = false;
-  error?: ApolloError;
+  hasFailed$ = this.getUserRoleAuditLogsQuery.valueChanges.pipe(
+    map((result) => !!result.error),
+    catchError(() => of(true))
+  );
 
-  columns: WattTableColumnDef<UserRoleAuditLog> = {
+  isLoading$ = this.getUserRoleAuditLogsQuery.valueChanges.pipe(
+    tap((result) => (this.dataSource.data = [...(result.data?.userRoleAuditLogs ?? [])].reverse())),
+    map((result) => result.loading),
+    catchError(() => of(false))
+  );
+
+  columns: WattTableColumnDef<UserRoleAuditedChangeAuditLogDto> = {
     timestamp: { accessor: 'timestamp' },
     entry: { accessor: null },
   };
 
   @Input({ required: true }) role!: MarketParticipantUserRoleWithPermissionsDto;
 
-  ngOnInit(): void {
-    this.getUserRoleAuditLogsQuery = this.apollo.watchQuery({
-      useInitialLoading: true,
-      notifyOnNetworkStatusChange: true,
-      query: GetUserRoleAuditLogsDocument,
-      variables: { id: this.role.id },
-      fetchPolicy: 'cache-and-network',
-    });
-
-    this.subscription = this.getUserRoleAuditLogsQuery.valueChanges.subscribe({
-      next: (result) => {
-        this.isLoading = result.loading;
-        this.error = result.error;
-        this.dataSource.data = result.data?.userRoleAuditLogs ?? [];
-      },
-      error: (error) => {
-        this.error = error;
-      },
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+  ngOnChanges(): void {
+    this.getUserRoleAuditLogsQuery?.refetch({ id: this.role?.id });
   }
 }

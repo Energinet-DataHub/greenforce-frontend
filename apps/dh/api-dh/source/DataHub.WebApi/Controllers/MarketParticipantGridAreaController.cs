@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -40,36 +38,6 @@ namespace Energinet.DataHub.WebApi.Controllers
         public Task<ActionResult<ICollection<GridAreaDto>>> GetAllGridAreasAsync()
         {
             return HandleExceptionAsync(() => _client.GridAreaGetAsync());
-        }
-
-        /// <summary>
-        /// Retrieves all grid area audit logs for the given grid area
-        /// </summary>
-        [HttpGet("GetGridAreaAuditLogEntries")]
-        public Task<ActionResult<IEnumerable<GridAreaAuditLogEntryWithNameDto>>> GetGridAreaAuditLogEntriesAsync(Guid gridAreaId)
-        {
-            return HandleExceptionAsync(async () =>
-            {
-                var auditLogs = await _client.GridAreaAuditlogentryAsync(gridAreaId).ConfigureAwait(false);
-                var updatedAuditLogs = new List<GridAreaAuditLogEntryWithNameDto>();
-
-                foreach (var auditLog in auditLogs)
-                {
-                    var auditIdentity = await _client
-                        .AuditIdentityAsync(auditLog.AuditIdentityId)
-                        .ConfigureAwait(false);
-
-                    updatedAuditLogs.Add(new GridAreaAuditLogEntryWithNameDto(
-                        auditLog.Timestamp,
-                        auditLog.OldValue,
-                        auditLog.NewValue,
-                        auditLog.GridAreaId,
-                        auditIdentity.DisplayName,
-                        auditLog.Field));
-                }
-
-                return (IEnumerable<GridAreaAuditLogEntryWithNameDto>)updatedAuditLogs;
-            });
         }
 
         [HttpPut]

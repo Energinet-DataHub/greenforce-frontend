@@ -14,22 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  Input,
-  OnInit,
-  OnDestroy,
-  inject,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
-import { NgIf } from '@angular/common';
+import { Component, Input, inject, OnChanges } from '@angular/core';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { Subscription } from 'rxjs';
-import { Apollo, QueryRef } from 'apollo-angular';
-import { ApolloError } from '@apollo/client';
+import { TranslocoModule } from '@ngneat/transloco';
+import { catchError, map, of, tap } from 'rxjs';
+import { Apollo } from 'apollo-angular';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -38,21 +29,35 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import {
-  GetPermissionLogsDocument,
-  GetPermissionLogsQuery,
+  GetPermissionAuditLogsDocument,
+  PermissionAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { PermissionAuditLog } from '../../permissionAuditLog';
 
 @Component({
   selector: 'dh-admin-permission-audit-logs',
   standalone: true,
   templateUrl: './dh-admin-permission-audit-logs.component.html',
-  styleUrls: ['./dh-admin-permission-audit-logs.component.scss'],
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      .no-results-text {
+        text-align: center;
+      }
+
+      .spinner {
+        display: flex;
+        justify-content: center;
+      }
+    `,
+  ],
   imports: [
     NgIf,
     RxLet,
     RxPush,
+    NgTemplateOutlet,
     TranslocoModule,
     WATT_CARD,
     WattSpinnerComponent,
@@ -61,69 +66,38 @@ import { PermissionAuditLog } from '../../permissionAuditLog';
     WattDatePipe,
   ],
 })
-export class DhPermissionAuditLogsComponent implements OnInit, OnChanges, OnDestroy {
-  private trans = inject(TranslocoService);
-  dataSource = new WattTableDataSource<PermissionAuditLog>();
+export class DhPermissionAuditLogsComponent implements OnChanges {
+  private readonly apollo = inject(Apollo);
+  private readonly getPermissionAuditLogsQuery = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetPermissionAuditLogsDocument,
+    fetchPolicy: 'cache-and-network',
+  });
 
-  @Input({ required: true }) selectedPermission!: PermissionDto;
+  dataSource = new WattTableDataSource<PermissionAuditedChangeAuditLogDto>();
 
-  auditLogs: PermissionAuditLog | null = null;
+  hasFailed$ = this.getPermissionAuditLogsQuery.valueChanges.pipe(
+    map((result) => !!result.error),
+    catchError(() => of(true))
+  );
 
-  private apollo = inject(Apollo);
-  private getPermissionLogsQuery?: QueryRef<
-    GetPermissionLogsQuery,
-    {
-      id: number;
-    }
-  >;
-  private subscription?: Subscription;
+  isLoading$ = this.getPermissionAuditLogsQuery.valueChanges.pipe(
+    tap(
+      (result) => (this.dataSource.data = [...(result.data?.permissionAuditLogs ?? [])].reverse())
+    ),
+    map((result) => result.loading),
+    catchError(() => of(false))
+  );
 
-  permissionLogs: PermissionAuditLog[] = [];
-  loading = false;
-  error?: ApolloError;
-
-  columns: WattTableColumnDef<PermissionAuditLog> = {
+  columns: WattTableColumnDef<PermissionAuditedChangeAuditLogDto> = {
     timestamp: { accessor: 'timestamp' },
     entry: { accessor: null },
   };
 
-  ngOnInit(): void {
-    this.getPermissionLogsQuery = this.apollo.watchQuery({
-      useInitialLoading: true,
-      notifyOnNetworkStatusChange: true,
-      query: GetPermissionLogsDocument,
-      variables: { id: this.selectedPermission.id },
-    });
+  @Input({ required: true }) selectedPermission!: PermissionDto;
 
-    this.subscription = this.getPermissionLogsQuery.valueChanges.subscribe({
-      next: (result) => {
-        this.permissionLogs = result.data?.permissionLogs ?? [];
-        this.loading = result.loading;
-        this.error = result.error;
-        this.dataSource.data = result.data?.permissionLogs ?? [];
-      },
-      error: (error) => {
-        this.error = error;
-      },
-    });
+  ngOnChanges(): void {
+    this.getPermissionAuditLogsQuery?.refetch({ id: this.selectedPermission?.id });
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes.selectedPermission.firstChange === false &&
-      changes.selectedPermission.currentValue
-    ) {
-      const id = changes.selectedPermission.currentValue.id;
-      this.getPermissionLogsQuery?.refetch({ id });
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-  }
-
-  translateHeader = (columnId: string): string => {
-    const baseKey = 'admin.userManagement.tabs.history.columns';
-    return this.trans.translate(`${baseKey}.${columnId}`);
-  };
 }
