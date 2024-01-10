@@ -738,7 +738,15 @@
   },
   "imbalancePrices": {
     "topBarTitle": "Ubalancepriser",
-    "noImbalancePrices": "Ingen ubalancepriser fundet"
+    "table": {
+      "columns": {
+        "timestamp": "Tidspunkt",
+        "priceAreaDk1": "DK1",
+        "priceAreaDk2": "DK2"
+      },
+      "emptyTitle": "Ingen ubalancepriser fundet",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger"
+    }
   },
   "wholesale": {
     "shared": {

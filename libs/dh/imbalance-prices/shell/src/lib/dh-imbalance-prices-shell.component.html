@@ -14,15 +14,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card vater inset="l" *transloco="let t; read: 'imbalancePrices'">
+<watt-card vater inset="ml" *transloco="let t; read: 'imbalancePrices'">
   <vater-flex fill="vertical" gap="ml">
     <vater-stack direction="row" gap="s">
       <h3>{{ t("topBarTitle") }}</h3>
-      <span class="watt-chip-label">0</span>
+      <span class="watt-chip-label">{{ totalCount }}</span>
     </vater-stack>
 
-    <vater-flex fill="vertical">
-      <watt-empty-state icon="cancel" [title]="t('noImbalancePrices')" />
-    </vater-flex>
+    <dh-imbalance-prices-table
+      [tableDataSource]="tableDataSource"
+      [isLoading]="isLoading"
+      [hasError]="hasError"
+    />
+
+    <watt-paginator [length]="totalCount" />
   </vater-flex>
 </watt-card>

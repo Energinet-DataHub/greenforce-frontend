@@ -23,21 +23,53 @@ import {
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+
+import { DhImbalancePricesTableComponent } from './table/dh-table.component';
+import { DhImbalancePrice } from './dh-imbalance-prices';
+
+import { dhImbalancePricesMock } from './dh-imbalance-prices.mock';
 
 @Component({
   selector: 'dh-imbalance-prices-shell',
   standalone: true,
   templateUrl: './dh-imbalance-prices-shell.component.html',
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      h3 {
+        margin: 0;
+      }
+
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
+      }
+    `,
+  ],
   imports: [
     TranslocoDirective,
 
     WATT_CARD,
-
     VaterFlexComponent,
     VaterStackComponent,
     VaterUtilityDirective,
-    WattEmptyStateComponent,
+    WattPaginatorComponent,
+
+    DhImbalancePricesTableComponent,
   ],
 })
-export class DhImbalancePricesShellComponent {}
+export class DhImbalancePricesShellComponent {
+  tableDataSource = new WattTableDataSource<DhImbalancePrice>(dhImbalancePricesMock);
+  totalCount = dhImbalancePricesMock.length;
+
+  isLoading = false;
+  hasError = false;
+}

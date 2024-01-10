@@ -739,7 +739,15 @@
   },
   "imbalancePrices": {
     "topBarTitle": "Imbalance prices",
-    "noImbalancePrices": "No imbalance prices found"
+    "table": {
+      "columns": {
+        "timestamp": "Time",
+        "priceAreaDk1": "DK1",
+        "priceAreaDk2": "DK2"
+      },
+      "emptyTitle": "No imbalance prices found",
+      "emptyMessage": "Try changing the search criteria"
+    }
   },
   "wholesale": {
     "shared": {
