@@ -163,6 +163,13 @@ export class EoTransfersService {
           items.map((item) => ({
             ...item,
             createdAt: item.createdAt * 1000,
+            transferAgreement: {
+              ...item.transferAgreement,
+              startDate: item.transferAgreement.startDate * 1000,
+              endDate: item.transferAgreement.endDate
+                ? item.transferAgreement.endDate * 1000
+                : null,
+            },
           }))
         )
       );
