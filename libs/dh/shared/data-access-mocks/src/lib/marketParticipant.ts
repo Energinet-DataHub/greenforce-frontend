@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { rest } from 'msw';
+import { http, delay, HttpResponse } from 'msw';
 
 import {
   Actor,
@@ -86,93 +86,92 @@ export function marketParticipantMocks(apiBase: string) {
 }
 
 function getOrganizations_REST(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizations`,
-    (req, res, ctx) => {
-      return res(ctx.json(organizationsData));
-    }
-  );
+  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizations`, () => {
+    return HttpResponse.json(organizationsData);
+  });
 }
 
 function getAllOrganizationsWithActors(apiBase: string) {
-  return rest.get(
+  return http.get(
     `${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizationsWithActors`,
-    (req, res, ctx) => {
-      return res(ctx.json(marketParticipantOrganizationsWithActors));
+    () => {
+      return HttpResponse.json(marketParticipantOrganizationsWithActors);
     }
   );
 }
 
 function getOrganization(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipant/Organization/GetOrganization`,
-    (req, res, ctx) => {
-      const { orgId } = req.params;
-      const organizationDataWithUpdatedId = {
-        ...organizationData,
-        orgId,
-      };
-      return res(ctx.json(organizationDataWithUpdatedId));
-    }
-  );
+  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetOrganization`, ({ params }) => {
+    const { orgId } = params;
+    const organizationDataWithUpdatedId = {
+      ...organizationData,
+      orgId,
+    };
+    return HttpResponse.json(organizationDataWithUpdatedId);
+  });
 }
 
 function getMarketParticipantGridArea(apiBase: string) {
-  return rest.get(`${apiBase}/v1/MarketParticipantGridArea/GetAllGridAreas`, (req, res, ctx) => {
-    return res(ctx.json(gridAreaData));
+  return http.get(`${apiBase}/v1/MarketParticipantGridArea/GetAllGridAreas`, () => {
+    return HttpResponse.json(gridAreaData);
   });
 }
 
 function getMarketParticipantGridAreaOverview(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipantGridAreaOverview/GetAllGridAreas`,
-    (req, res, ctx) => {
-      return res(ctx.json(gridAreaOverviewData));
-    }
-  );
+  return http.get(`${apiBase}/v1/MarketParticipantGridAreaOverview/GetAllGridAreas`, () => {
+    return HttpResponse.json(gridAreaOverviewData);
+  });
 }
 
 function getActor(apiBase: string) {
-  return rest.get(`${apiBase}/v1/MarketParticipant/Organization/GetActor`, (req, res, ctx) => {
-    const { actorId } = req.params;
+  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetActor`, ({ params }) => {
+    const { actorId } = params;
     const actorDataWithUpdatedId = {
       ...actorData,
       actorId,
     };
-    return res(ctx.json(actorDataWithUpdatedId));
+    return HttpResponse.json(actorDataWithUpdatedId);
   });
 }
 
 function getActorContact(apiBase: string) {
-  return rest.get(`${apiBase}/v1/MarketParticipant/Organization/GetContacts`, (req, res, ctx) => {
-    return res(ctx.json(actorContactsData));
+  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetContacts`, () => {
+    return HttpResponse.json(actorContactsData);
   });
 }
 
 function getUserRoles(apiBase: string) {
-  return rest.get(`${apiBase}/v1/MarketParticipantUserRoleTemplate/users`, (req, res, ctx) => {
-    return res(ctx.json(userRoleData));
+  return http.get(`${apiBase}/v1/MarketParticipantUserRoleTemplate/users`, () => {
+    return HttpResponse.json(userRoleData);
   });
 }
 
 function getActors() {
-  return mockGetActorsQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data({ __typename: 'Query', actors: marketParticipantActors }));
+  return mockGetActorsQuery(async () => {
+    await delay(300);
+    return HttpResponse.json({
+      data: { __typename: 'Query', actors: marketParticipantActors },
+    });
   });
 }
 
 function getActorById() {
-  return mockGetActorByIdQuery((req, res, ctx) => {
-    const { id } = req.variables;
+  return mockGetActorByIdQuery(async ({ variables }) => {
+    const { id } = variables;
 
     const actorById = marketParticipantActors.find((a) => a.id === id) as Actor;
 
-    return res(ctx.delay(300), ctx.data({ __typename: 'Query', actorById }));
+    await delay(300);
+    return HttpResponse.json({
+      data: { __typename: 'Query', actorById },
+    });
   });
 }
 
 function getActorEditableFields() {
-  return mockGetActorEditableFieldsQuery((req, res, ctx) => {
+  return mockGetActorEditableFieldsQuery(async () => {
+    await delay(300);
+
     const query: GetActorEditableFieldsQuery = {
       __typename: 'Query',
       actorById: {
@@ -191,31 +190,38 @@ function getActorEditableFields() {
       },
     };
 
-    return res(ctx.delay(300), ctx.data(query));
+    return HttpResponse.json({
+      data: query,
+    });
   });
 }
 
 function getOrganizations_GrahpQL() {
-  return mockGetOrganizationsQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data(getOrganizationsQueryMock));
+  return mockGetOrganizationsQuery(async () => {
+    await delay(300);
+    return HttpResponse.json({
+      data: getOrganizationsQueryMock,
+    });
   });
 }
 
 function getOrganizationById() {
-  return mockGetOrganizationByIdQuery((req, res, ctx) => {
-    const { id } = req.variables;
+  return mockGetOrganizationByIdQuery(async ({ variables }) => {
+    const { id } = variables;
 
     const organizationById = getOrganizationsQueryMock.organizations.find(
       (a) => a.organizationId === id
     ) as Organization;
-
-    return res(ctx.delay(300), ctx.data({ __typename: 'Query', organizationById }));
+    await delay(300);
+    return HttpResponse.json({
+      data: { __typename: 'Query', organizationById },
+    });
   });
 }
 
 function getActorByOrganizationId() {
-  return mockGetActorsByOrganizationIdQuery((req, res, ctx) => {
-    const { organizationId } = req.variables;
+  return mockGetActorsByOrganizationIdQuery(async ({ variables }) => {
+    const { organizationId } = variables;
 
     const actors: Actor[] = [
       {
@@ -248,12 +254,15 @@ function getActorByOrganizationId() {
       },
     ];
 
-    return res(ctx.delay(300), ctx.data({ __typename: 'Query', actorsByOrganizationId: actors }));
+    await delay(300);
+    return HttpResponse.json({
+      data: { __typename: 'Query', actorsByOrganizationId: actors },
+    });
   });
 }
 
 function updateOrganization() {
-  return mockUpdateOrganizationMutation((req, res, ctx) => {
+  return mockUpdateOrganizationMutation(async () => {
     const response: UpdateOrganizationMutation = {
       __typename: 'Mutation',
       updateOrganization: {
@@ -263,12 +272,15 @@ function updateOrganization() {
       },
     };
 
-    return res(ctx.delay(300), ctx.data(response));
+    await delay(300);
+    return HttpResponse.json({
+      data: response,
+    });
   });
 }
 
 function getAuditLogByOrganizationId() {
-  return mockGetAuditLogByOrganizationIdQuery((req, res, ctx) => {
+  return mockGetAuditLogByOrganizationIdQuery(async () => {
     const auditLog: OrganizationAuditedChangeAuditLogDto[] = [
       {
         __typename: 'OrganizationAuditedChangeAuditLogDto',
@@ -290,13 +302,19 @@ function getAuditLogByOrganizationId() {
       },
     ];
 
-    return res(ctx.delay(300), ctx.data({ __typename: 'Query', organizationAuditLogs: auditLog }));
+    await delay(300);
+    return HttpResponse.json({
+      data: { __typename: 'Query', organizationAuditLogs: auditLog },
+    });
   });
 }
 
 function getAuditLogByActorId() {
-  return mockGetAuditLogByActorIdQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data(getActorAuditLogsMock));
+  return mockGetAuditLogByActorIdQuery(async () => {
+    await delay(300);
+    return HttpResponse.json({
+      data: getActorAuditLogsMock,
+    });
   });
 }
 
@@ -309,79 +327,77 @@ function getMarketParticipantActorActorCredentials(apiBase: string) {
     },
   };
 
-  return rest.get(`${apiBase}/v1/MarketParticipantActor/GetActorCredentials`, (req, res, ctx) => {
-    return res(ctx.delay(300), ctx.json(response));
+  return http.get(`${apiBase}/v1/MarketParticipantActor/GetActorCredentials`, () => {
+    return HttpResponse.json(response);
   });
 }
 
 function marketParticipantActorAssignCertificateCredentials(apiBase: string) {
-  return rest.post(
-    `${apiBase}/v1/MarketParticipantActor/AssignCertificateCredentials`,
-    (req, res, ctx) => {
-      return res(ctx.delay(1000), ctx.status(200));
-    }
-  );
+  return http.post(`${apiBase}/v1/MarketParticipantActor/AssignCertificateCredentials`, () => {
+    return HttpResponse.json(null, { status: 200 });
+  });
 }
 
 function marketParticipantActorRemoveActorCredentials(apiBase: string) {
-  return rest.delete(
-    `${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`,
-    (req, res, ctx) => {
-      return res(ctx.delay(300), ctx.status(200));
-    }
-  );
+  return http.delete(`${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`, () => {
+    return HttpResponse.json(null, { status: 200 });
+  });
 }
 
 function marketParticipantActorRequestClientSecretCredentials(apiBase: string) {
-  return rest.post(
+  return http.post(
     `${apiBase}/v1/MarketParticipantActor/RequestClientSecretCredentials`,
-    (req, res, ctx) => {
+    async () => {
       const clientSecret = 'random-secret-XEi33WhFi8qwnCzrnlf';
 
       const response: MarketParticipantActorClientSecretDto = {
         secretText: clientSecret,
       };
+      await delay(300);
 
-      return res(ctx.delay(300), ctx.json(response));
+      return HttpResponse.json(response);
     }
   );
 }
 
 function getGridAreaOverview() {
-  return mockGetGridAreaOverviewQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data(getGridAreaOverviewMock));
+  return mockGetGridAreaOverviewQuery(async () => {
+    await delay(300);
+    return HttpResponse.json({
+      data: getGridAreaOverviewMock,
+    });
   });
 }
 
 function createMarketParticipant() {
-  return mockCreateMarketParticipantMutation((req, res, ctx) => {
-    return res(
-      ctx.delay(300),
-      ctx.data({
+  return mockCreateMarketParticipantMutation(async () => {
+    await delay(300);
+    return HttpResponse.json({
+      data: {
         __typename: 'Mutation',
         createMarketParticipant: {
           __typename: 'CreateMarketParticipantPayload',
           success: true,
           errors: [],
         },
-      })
-    );
+      },
+    });
   });
 }
 
 function getAssociatedActors() {
-  return mockGetAssociatedActorsQuery((req, res, ctx) => {
-    const email = req.variables.email;
-    return res(
-      ctx.delay(300),
-      ctx.data({
+  return mockGetAssociatedActorsQuery(async ({ variables }) => {
+    const email = variables.email;
+    await delay(300);
+    return HttpResponse.json({
+      data: {
         __typename: 'Query',
         associatedActors: {
           __typename: 'AssociatedActors',
           email: email,
           actors: email === 'testuser1@test.dk' ? ['00000000-0000-0000-0000-000000000001'] : [],
         },
-      })
-    );
+      },
+    });
   });
 }

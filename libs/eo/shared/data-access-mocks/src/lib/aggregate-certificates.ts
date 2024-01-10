@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { rest } from 'msw';
+import { http, delay, HttpResponse } from 'msw';
 import {
   aggregateConsumptionCertificatesResponse,
   aggregateProductionCertificatesResponse,
@@ -25,19 +25,15 @@ export function aggregateCertificatesMocks(apiBase: string) {
 }
 
 function getAggregateCertificates(apiBase: string) {
-  return rest.get(
+  return http.get(
     `${apiBase}/v1/aggregate-certificates`.replace('/api', '/wallet-api'),
-    (req, res, ctx) => {
-      const type = req.url.searchParams.get('type');
-      return res(
-        ctx.status(200),
-        ctx.json(
-          type === 'consumption'
+    async ({ request }) => {
+        const url = new URL(request.url);
+      const type = url.searchParams.get('type');
+        await delay(1000);
+        return HttpResponse.json(type === 'consumption'
             ? aggregateConsumptionCertificatesResponse
-            : aggregateProductionCertificatesResponse
-        ),
-        ctx.delay(1000)
-      );
+            : aggregateProductionCertificatesResponse, { status: 200 });
     }
   );
 }
