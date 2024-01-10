@@ -134,7 +134,9 @@ function getCertificatesContracts(apiBase: string) {
 
 function postCertificatesContracts(apiBase: string) {
   return http.post(`${apiBase}/certificates/contracts`, async ({ request }) => {
-    const requestBody = await request.json();
+    const requestBody = (await request.json()) as { gsrn: string } | null;
+
+    if (!requestBody) return HttpResponse.json(null, { status: 400 });
 
     const data = {
       id: 'ef38c770-a8c0-48ea-8f25-d9a38e84b01c',
