@@ -24,12 +24,12 @@ export function marketParticipantUserMocks(apiBase: string) {
 
 function getActors(apiBase: string) {
   return http.get(`${apiBase}/v1/MarketParticipantUser/GetUserActors`, () => {
-      return HttpResponse.json(marketParticipantUserActors, { status: 200 });
+    return HttpResponse.json(marketParticipantUserActors, { status: 200 });
   });
 }
 
 function postInitiateMitIdSignup(apiBase: string) {
   return http.post(`${apiBase}/v1/MarketParticipantUser/InitiateMitIdSignup`, () => {
-      return HttpResponse.json(null, { status: 200 });
+    return HttpResponse.json(null, { status: 200 });
   });
 }

@@ -29,7 +29,7 @@ export function certificatesMocks(apiBase: string) {
 function getCertificates(apiBase: string) {
   return http.get(`${apiBase}/certificates`, () => {
     const data = certificatesResponse;
-      return HttpResponse.json(data, { status: 200 });
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
@@ -128,7 +128,7 @@ function getCertificatesContracts(apiBase: string) {
       ],
     };
 
-      return HttpResponse.json(data, { status: 200 });
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
@@ -144,12 +144,12 @@ function postCertificatesContracts(apiBase: string) {
       created: 1698311589,
       meteringPointType: null,
     };
-      return HttpResponse.json(data, { status: 200 });
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
 function patchCertificatesContracts(apiBase: string) {
   return http.patch(`${apiBase}/certificates/contracts/:id`, () => {
-      return HttpResponse.json(null, { status: 200 });
+    return HttpResponse.json(null, { status: 200 });
   });
 }

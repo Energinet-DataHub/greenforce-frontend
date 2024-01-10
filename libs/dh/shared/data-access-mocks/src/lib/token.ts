@@ -45,8 +45,11 @@ function createJWT(headerKey: unknown, dataKey: unknown, secretKey: string) {
 
 function postToken(apiBase: string) {
   return http.post(`${apiBase}/v1/Token`, () => {
-      return HttpResponse.json({
-          token: createJWT({ alg: 'HS256' }, { role: permissions }, ''),
-      }, { status: 200 });
+    return HttpResponse.json(
+      {
+        token: createJWT({ alg: 'HS256' }, { role: permissions }, ''),
+      },
+      { status: 200 }
+    );
   });
 }

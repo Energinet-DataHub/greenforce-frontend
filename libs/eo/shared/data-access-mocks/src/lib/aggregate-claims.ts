@@ -22,10 +22,7 @@ export function aggregateClaimsMocks(apiBase: string) {
 }
 
 function getAggregateClaims(apiBase: string) {
-  return http.get(
-    `${apiBase}/v1/aggregate-claims`.replace('/api', '/wallet-api'),
-    () => {
-        return HttpResponse.json(aggregateClaimsResponse, { status: 200 });
-    }
-  );
+  return http.get(`${apiBase}/v1/aggregate-claims`.replace('/api', '/wallet-api'), () => {
+    return HttpResponse.json(aggregateClaimsResponse, { status: 200 });
+  });
 }

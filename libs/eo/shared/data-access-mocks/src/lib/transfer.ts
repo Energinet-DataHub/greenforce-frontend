@@ -98,15 +98,15 @@ function getTransferAgreements(apiBase: string) {
         },
       ],
     };
-      await delay(1000);
+    await delay(1000);
 
-      return HttpResponse.json(data, { status: 200 });
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
 function postTransferAgreementProposals(apiBase: string) {
   return http.post(`${apiBase}/transfer-agreement-proposals`, () => {
-      return HttpResponse.json({ id: '3fa85f64-5717-4562-b3fc-2c963f66afa6' }, { status: 200 });
+    return HttpResponse.json({ id: '3fa85f64-5717-4562-b3fc-2c963f66afa6' }, { status: 200 });
   });
 }
 
@@ -114,7 +114,7 @@ function getTransferAutomationStatus(apiBase: string) {
   return http.get(`${apiBase}/transfer-automation/status`, () => {
     const data = { healthy: false };
 
-      return HttpResponse.json(data, { status: 200 });
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
@@ -151,9 +151,9 @@ function getTransferAgreementHistory(apiBase: string) {
         },
       ],
     };
-      await delay(1000);
+    await delay(1000);
 
-      return HttpResponse.json(data, { status: 200 });
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
@@ -167,8 +167,8 @@ function putTransferAgreements(apiBase: string) {
       senderTin: '11223344',
       receiverTin: '28980671',
     };
-      await delay(1000);
+    await delay(1000);
 
-      return HttpResponse.json(data, { status: 200 });
+    return HttpResponse.json(data, { status: 200 });
   });
 }

@@ -25,12 +25,12 @@ export function marketParticipantUserRoleMocks(apiBase: string) {
 
 function GetUserRoleView(apiBase: string) {
   return http.get(`${apiBase}/v1/MarketParticipantUserRole/GetUserRoleView`, () => {
-      return HttpResponse.json(marketParticipantUserRoleView);
+    return HttpResponse.json(marketParticipantUserRoleView);
   });
 }
 
 function Permissions(apiBase: string) {
   return http.get(`${apiBase}/v1/MarketParticipantUserRole/Permissions`, () => {
-      return HttpResponse.json(marketParticipantUserRolePermissions);
+    return HttpResponse.json(marketParticipantUserRolePermissions);
   });
 }

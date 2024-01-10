@@ -85,7 +85,7 @@ function getMeteringPoints(apiBase: string) {
       ],
     };
 
-      return HttpResponse.json(data, { status: 200 });
+    return HttpResponse.json(data, { status: 200 });
     //return res(ctx.status(500), ctx.delay(2000));
   });
 }

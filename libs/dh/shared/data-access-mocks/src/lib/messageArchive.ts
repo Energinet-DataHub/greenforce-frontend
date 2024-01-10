@@ -26,18 +26,18 @@ export function messageArchiveMocks(apiBase: string) {
 
 export function archivedMessageSearch(apiBase: string) {
   return http.post(`${apiBase}/v1/MessageArchive/SearchRequestResponseLogs`, () => {
-      return HttpResponse.json(messageArchiveSearchResponseLogs, { status: 200 });
+    return HttpResponse.json(messageArchiveSearchResponseLogs, { status: 200 });
   });
 }
 
 export function getActors(apiBase: string) {
   return http.get(`${apiBase}/v1/MessageArchive/Actors`, () => {
-      return HttpResponse.json(actors, { status: 200 });
+    return HttpResponse.json(actors, { status: 200 });
   });
 }
 
 export function getDocument(apiBase: string) {
   return http.get(`${apiBase}/v1/MessageArchive/:id/Document`, async () => {
-      return HttpResponse.json(document, { status: 200 });
+    return HttpResponse.json(document, { status: 200 });
   });
 }

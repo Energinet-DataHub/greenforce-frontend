@@ -28,12 +28,15 @@ function getAggregateCertificates(apiBase: string) {
   return http.get(
     `${apiBase}/v1/aggregate-certificates`.replace('/api', '/wallet-api'),
     async ({ request }) => {
-        const url = new URL(request.url);
+      const url = new URL(request.url);
       const type = url.searchParams.get('type');
-        await delay(1000);
-        return HttpResponse.json(type === 'consumption'
-            ? aggregateConsumptionCertificatesResponse
-            : aggregateProductionCertificatesResponse, { status: 200 });
+      await delay(1000);
+      return HttpResponse.json(
+        type === 'consumption'
+          ? aggregateConsumptionCertificatesResponse
+          : aggregateProductionCertificatesResponse,
+        { status: 200 }
+      );
     }
   );
 }

@@ -28,13 +28,13 @@ function postStartClaimProcess(apiBase: string) {
       subjectId: id,
     };
 
-      return HttpResponse.json(data, { status: 200 });
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
 function delteStopClaimProcess(apiBase: string) {
   return http.delete(`${apiBase}/claim-automation/stop`, () => {
-      return HttpResponse.json(null, { status: 204 });
+    return HttpResponse.json(null, { status: 204 });
   });
 }
 
@@ -77,6 +77,6 @@ function getClaims(apiBase: string) {
       ],
     };
 
-      return HttpResponse.json(data, { status: 200 });
+    return HttpResponse.json(data, { status: 200 });
   });
 }

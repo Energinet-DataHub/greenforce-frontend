@@ -22,10 +22,7 @@ export function aggregateTransfersMocks(apiBase: string) {
 }
 
 function getAggregateTransfers(apiBase: string) {
-  return http.get(
-    `${apiBase}/v1/aggregate-transfers`.replace('/api', '/wallet-api'),
-    () => {
-        return HttpResponse.json(aggregateTransfersResponse, { status: 200 });
-    }
-  );
+  return http.get(`${apiBase}/v1/aggregate-transfers`.replace('/api', '/wallet-api'), () => {
+    return HttpResponse.json(aggregateTransfersResponse, { status: 200 });
+  });
 }
