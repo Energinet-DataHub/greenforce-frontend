@@ -21,6 +21,8 @@ import {
   mockGetBalanceResponsibleMessagesQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
+
 import { eSettExchangeEvents } from './data/esett-exchange-events';
 import { eSettDetailedExchangeEvents } from './data/esett-detailed-exchange-events';
 import { eSettBalanceResponsibleMessages } from './data/esett-balance-responsible-messages';
@@ -37,7 +39,8 @@ export function eSettMocks(apiBase: string) {
 }
 
 function getResponseDocument(apiBase: string) {
-  return http.get(`${apiBase}/v1/EsettExchange/ResponseDocument`, () => {
+  return http.get(`${apiBase}/v1/EsettExchange/ResponseDocument`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(
       Uint8Array.from(
         atob(
@@ -50,7 +53,8 @@ function getResponseDocument(apiBase: string) {
 }
 
 function getDispatchDocument(apiBase: string) {
-  return http.get(`${apiBase}/v1/EsettExchange/DispatchDocument`, () => {
+  return http.get(`${apiBase}/v1/EsettExchange/DispatchDocument`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(
       Uint8Array.from(
         atob(
@@ -63,7 +67,8 @@ function getDispatchDocument(apiBase: string) {
 }
 
 function getStorageDocumentLink(apiBase: string) {
-  return http.get(`${apiBase}/v1/EsettExchange/StorageDocument`, () => {
+  return http.get(`${apiBase}/v1/EsettExchange/StorageDocument`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(
       Uint8Array.from(
         atob(
@@ -79,7 +84,7 @@ function getOutgoingMessageByIdQuery() {
   return mockGetOutgoingMessageByIdQuery(async ({ variables }) => {
     const id = variables.documentId;
     const esettOutgoingMessageById = eSettDetailedExchangeEvents.find((x) => x.documentId === id);
-    await delay(300);
+    await delay(mswConfig.delay);
     return esettOutgoingMessageById
       ? HttpResponse.json({ data: { __typename: 'Query', esettOutgoingMessageById } })
       : HttpResponse.json({ data: null }, { status: 404 });
@@ -88,7 +93,7 @@ function getOutgoingMessageByIdQuery() {
 
 function getOutgoingMessagesQuery() {
   return mockGetOutgoingMessagesQuery(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',
@@ -104,7 +109,7 @@ function getOutgoingMessagesQuery() {
 
 function getBalanceResponsibleMessagesQuery() {
   return mockGetBalanceResponsibleMessagesQuery(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',

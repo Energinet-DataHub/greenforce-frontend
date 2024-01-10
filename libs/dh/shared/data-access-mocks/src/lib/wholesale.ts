@@ -17,6 +17,8 @@
 import { delay, http, HttpResponse } from 'msw';
 import parseISO from 'date-fns/parseISO';
 
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
+
 import {
   BatchState,
   Calculation,
@@ -61,7 +63,7 @@ export function wholesaleMocks(apiBase: string) {
 
 function createCalculation() {
   return mockCreateCalculationMutation(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',
@@ -367,14 +369,14 @@ const mockedActorsForSettlementReport: ActorFilter = [
 
 function getFilteredActors() {
   return mockGetActorFilterQuery(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({ data: { __typename: 'Query', actors: mockedFilteredActors } });
   });
 }
 
 function getActorsForSettlementReportQuery() {
   return mockGetActorsForSettlementReportQuery(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', actorsForEicFunction: mockedActorsForSettlementReport },
     });
@@ -383,7 +385,7 @@ function getActorsForSettlementReportQuery() {
 
 function getActorsForRequestCalculationQuery() {
   return mockGetActorsForRequestCalculationQuery(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', actorsForEicFunction: GetActorsForRequestCalculation },
     });
@@ -392,7 +394,7 @@ function getActorsForRequestCalculationQuery() {
 
 function getSelectedActorQuery() {
   return mockGetSelectedActorQuery(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',
@@ -411,7 +413,7 @@ function getCalculation() {
   return mockGetCalculationByIdQuery(async ({ variables }) => {
     const { id } = variables;
     const calculationById = mockedCalculations.find((c) => c.id === id);
-    await delay(300);
+    await delay(mswConfig.delay);
     return calculationById
       ? HttpResponse.json({
           data: { __typename: 'Query', calculationById },
@@ -422,6 +424,7 @@ function getCalculation() {
 
 function downloadSettlementReportData(apiBase: string) {
   return http.get(`${apiBase}/v1/WholesaleSettlementReport`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(null, { status: 500 });
 
     /*
@@ -444,7 +447,7 @@ function getCalculations() {
     if (!variables.executionTime) {
       return HttpResponse.json({ data: null }, { status: 500 });
     } else {
-      await delay(300);
+      await delay(mswConfig.delay);
       return HttpResponse.json({
         data: { __typename: 'Query', calculations: mockedCalculations },
       });
@@ -455,7 +458,7 @@ function getCalculations() {
 
 function getSettlementReports() {
   return mockGetSettlementReportsQuery(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', settlementReports: mockedSettlementReports },
     });
@@ -464,7 +467,7 @@ function getSettlementReports() {
 
 function getGridAreas() {
   return mockGetGridAreasQuery(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', gridAreas: mockedGridAreas },
     });
@@ -473,7 +476,7 @@ function getGridAreas() {
 
 function getLatestBalanceFixing() {
   return mockGetLatestBalanceFixingQuery(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',
@@ -487,7 +490,7 @@ function getLatestBalanceFixing() {
 
 function requestCalculationMutation() {
   return mockRequestCalculationMutation(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',

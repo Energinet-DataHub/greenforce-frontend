@@ -39,6 +39,8 @@ import {
   OrganizationAuditedChange,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
+
 import organizationsData from './data/marketParticipantOrganizations.json';
 import { marketParticipantOrganizationsWithActors } from './data/marketParticipantOrganizationsWithActors';
 import gridAreaData from './data/marketParticipantGridArea.json';
@@ -86,7 +88,8 @@ export function marketParticipantMocks(apiBase: string) {
 }
 
 function getOrganizations_REST(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizations`, () => {
+  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizations`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(organizationsData);
   });
 }
@@ -94,61 +97,71 @@ function getOrganizations_REST(apiBase: string) {
 function getAllOrganizationsWithActors(apiBase: string) {
   return http.get(
     `${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizationsWithActors`,
-    () => {
+    async () => {
+      await delay(mswConfig.delay);
       return HttpResponse.json(marketParticipantOrganizationsWithActors);
     }
   );
 }
 
 function getOrganization(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetOrganization`, ({ params }) => {
-    const { orgId } = params;
-    const organizationDataWithUpdatedId = {
-      ...organizationData,
-      orgId,
-    };
-    return HttpResponse.json(organizationDataWithUpdatedId);
-  });
+  return http.get(
+    `${apiBase}/v1/MarketParticipant/Organization/GetOrganization`,
+    async ({ params }) => {
+      const { orgId } = params;
+      const organizationDataWithUpdatedId = {
+        ...organizationData,
+        orgId,
+      };
+      await delay(mswConfig.delay);
+      return HttpResponse.json(organizationDataWithUpdatedId);
+    }
+  );
 }
 
 function getMarketParticipantGridArea(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantGridArea/GetAllGridAreas`, () => {
+  return http.get(`${apiBase}/v1/MarketParticipantGridArea/GetAllGridAreas`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(gridAreaData);
   });
 }
 
 function getMarketParticipantGridAreaOverview(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantGridAreaOverview/GetAllGridAreas`, () => {
+  return http.get(`${apiBase}/v1/MarketParticipantGridAreaOverview/GetAllGridAreas`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(gridAreaOverviewData);
   });
 }
 
 function getActor(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetActor`, ({ params }) => {
+  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetActor`, async ({ params }) => {
     const { actorId } = params;
     const actorDataWithUpdatedId = {
       ...actorData,
       actorId,
     };
+    await delay(mswConfig.delay);
     return HttpResponse.json(actorDataWithUpdatedId);
   });
 }
 
 function getActorContact(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetContacts`, () => {
+  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetContacts`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(actorContactsData);
   });
 }
 
 function getUserRoles(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantUserRoleTemplate/users`, () => {
+  return http.get(`${apiBase}/v1/MarketParticipantUserRoleTemplate/users`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(userRoleData);
   });
 }
 
 function getActors() {
   return mockGetActorsQuery(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', actors: marketParticipantActors },
     });
@@ -161,7 +174,7 @@ function getActorById() {
 
     const actorById = marketParticipantActors.find((a) => a.id === id) as Actor;
 
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', actorById },
     });
@@ -170,7 +183,7 @@ function getActorById() {
 
 function getActorEditableFields() {
   return mockGetActorEditableFieldsQuery(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
 
     const query: GetActorEditableFieldsQuery = {
       __typename: 'Query',
@@ -198,7 +211,7 @@ function getActorEditableFields() {
 
 function getOrganizations_GrahpQL() {
   return mockGetOrganizationsQuery(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: getOrganizationsQueryMock,
     });
@@ -212,7 +225,7 @@ function getOrganizationById() {
     const organizationById = getOrganizationsQueryMock.organizations.find(
       (a) => a.organizationId === id
     ) as Organization;
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', organizationById },
     });
@@ -254,7 +267,7 @@ function getActorByOrganizationId() {
       },
     ];
 
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', actorsByOrganizationId: actors },
     });
@@ -272,7 +285,7 @@ function updateOrganization() {
       },
     };
 
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: response,
     });
@@ -302,7 +315,7 @@ function getAuditLogByOrganizationId() {
       },
     ];
 
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', organizationAuditLogs: auditLog },
     });
@@ -311,7 +324,7 @@ function getAuditLogByOrganizationId() {
 
 function getAuditLogByActorId() {
   return mockGetAuditLogByActorIdQuery(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: getActorAuditLogsMock,
     });
@@ -327,19 +340,25 @@ function getMarketParticipantActorActorCredentials(apiBase: string) {
     },
   };
 
-  return http.get(`${apiBase}/v1/MarketParticipantActor/GetActorCredentials`, () => {
+  return http.get(`${apiBase}/v1/MarketParticipantActor/GetActorCredentials`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(response);
   });
 }
 
 function marketParticipantActorAssignCertificateCredentials(apiBase: string) {
-  return http.post(`${apiBase}/v1/MarketParticipantActor/AssignCertificateCredentials`, () => {
-    return HttpResponse.json(null, { status: 200 });
-  });
+  return http.post(
+    `${apiBase}/v1/MarketParticipantActor/AssignCertificateCredentials`,
+    async () => {
+      await delay(mswConfig.delay);
+      return HttpResponse.json(null, { status: 200 });
+    }
+  );
 }
 
 function marketParticipantActorRemoveActorCredentials(apiBase: string) {
-  return http.delete(`${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`, () => {
+  return http.delete(`${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(null, { status: 200 });
   });
 }
@@ -353,7 +372,7 @@ function marketParticipantActorRequestClientSecretCredentials(apiBase: string) {
       const response: MarketParticipantActorClientSecretDto = {
         secretText: clientSecret,
       };
-      await delay(300);
+      await delay(mswConfig.delay);
 
       return HttpResponse.json(response);
     }
@@ -362,7 +381,7 @@ function marketParticipantActorRequestClientSecretCredentials(apiBase: string) {
 
 function getGridAreaOverview() {
   return mockGetGridAreaOverviewQuery(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: getGridAreaOverviewMock,
     });
@@ -371,7 +390,7 @@ function getGridAreaOverview() {
 
 function createMarketParticipant() {
   return mockCreateMarketParticipantMutation(async () => {
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',
@@ -388,7 +407,7 @@ function createMarketParticipant() {
 function getAssociatedActors() {
   return mockGetAssociatedActorsQuery(async ({ variables }) => {
     const email = variables.email;
-    await delay(300);
+    await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',

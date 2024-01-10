@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
+
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import marketParticipantUserRoleView from './data/marketParticipantUserRoleView.json';
 import marketParticipantUserRolePermissions from './data/marketParticipantUserRolePermissions.json';
@@ -24,13 +26,15 @@ export function marketParticipantUserRoleMocks(apiBase: string) {
 }
 
 function GetUserRoleView(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantUserRole/GetUserRoleView`, () => {
+  return http.get(`${apiBase}/v1/MarketParticipantUserRole/GetUserRoleView`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(marketParticipantUserRoleView);
   });
 }
 
 function Permissions(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantUserRole/Permissions`, () => {
+  return http.get(`${apiBase}/v1/MarketParticipantUserRole/Permissions`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(marketParticipantUserRolePermissions);
   });
 }

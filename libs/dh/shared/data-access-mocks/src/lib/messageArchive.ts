@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
+
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import actors from './data/messageArchiveActors.json';
 import { messageArchiveSearchResponseLogs } from './data/messageArchiveSearchResponseLogs';
@@ -25,19 +27,22 @@ export function messageArchiveMocks(apiBase: string) {
 }
 
 export function archivedMessageSearch(apiBase: string) {
-  return http.post(`${apiBase}/v1/MessageArchive/SearchRequestResponseLogs`, () => {
+  return http.post(`${apiBase}/v1/MessageArchive/SearchRequestResponseLogs`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(messageArchiveSearchResponseLogs, { status: 200 });
   });
 }
 
 export function getActors(apiBase: string) {
-  return http.get(`${apiBase}/v1/MessageArchive/Actors`, () => {
+  return http.get(`${apiBase}/v1/MessageArchive/Actors`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(actors, { status: 200 });
   });
 }
 
 export function getDocument(apiBase: string) {
   return http.get(`${apiBase}/v1/MessageArchive/:id/Document`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(document, { status: 200 });
   });
 }

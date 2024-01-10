@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
+
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import { marketParticipantUserActors } from './data/marketParticipantUserActors';
 
@@ -23,13 +25,15 @@ export function marketParticipantUserMocks(apiBase: string) {
 }
 
 function getActors(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantUser/GetUserActors`, () => {
+  return http.get(`${apiBase}/v1/MarketParticipantUser/GetUserActors`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(marketParticipantUserActors, { status: 200 });
   });
 }
 
 function postInitiateMitIdSignup(apiBase: string) {
-  return http.post(`${apiBase}/v1/MarketParticipantUser/InitiateMitIdSignup`, () => {
+  return http.post(`${apiBase}/v1/MarketParticipantUser/InitiateMitIdSignup`, async () => {
+    await delay(mswConfig.delay);
     return HttpResponse.json(null, { status: 200 });
   });
 }
