@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { rest } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
 import parseISO from 'date-fns/parseISO';
 
 import {
@@ -60,10 +60,10 @@ export function wholesaleMocks(apiBase: string) {
 }
 
 function createCalculation() {
-  return mockCreateCalculationMutation((_req, res, ctx) => {
-    return res(
-      ctx.delay(500),
-      ctx.data({
+  return mockCreateCalculationMutation(async () => {
+    await delay(300);
+    return HttpResponse.json({
+      data: {
         __typename: 'Mutation',
         createCalculation: {
           __typename: 'CreateCalculationPayload',
@@ -72,8 +72,8 @@ function createCalculation() {
             id: '779195a4-2505-4290-97a6-f3eba2b7d179',
           },
         },
-      })
-    );
+      },
+    });
   });
 }
 
@@ -366,40 +366,35 @@ const mockedActorsForSettlementReport: ActorFilter = [
 ];
 
 function getFilteredActors() {
-  return mockGetActorFilterQuery((req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.data({ __typename: 'Query', actors: mockedFilteredActors }),
-      ctx.delay(300)
-    );
+  return mockGetActorFilterQuery(async () => {
+    await delay(300);
+    return HttpResponse.json({ data: { __typename: 'Query', actors: mockedFilteredActors } });
   });
 }
 
 function getActorsForSettlementReportQuery() {
-  return mockGetActorsForSettlementReportQuery((req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.data({ __typename: 'Query', actorsForEicFunction: mockedActorsForSettlementReport }),
-      ctx.delay(300)
-    );
+  return mockGetActorsForSettlementReportQuery(async () => {
+    await delay(300);
+    return HttpResponse.json({
+      data: { __typename: 'Query', actorsForEicFunction: mockedActorsForSettlementReport },
+    });
   });
 }
 
 function getActorsForRequestCalculationQuery() {
-  return mockGetActorsForRequestCalculationQuery((req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.data({ __typename: 'Query', actorsForEicFunction: GetActorsForRequestCalculation }),
-      ctx.delay(300)
-    );
+  return mockGetActorsForRequestCalculationQuery(async () => {
+    await delay(300);
+    return HttpResponse.json({
+      data: { __typename: 'Query', actorsForEicFunction: GetActorsForRequestCalculation },
+    });
   });
 }
 
 function getSelectedActorQuery() {
-  return mockGetSelectedActorQuery((req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.data({
+  return mockGetSelectedActorQuery(async () => {
+    await delay(300);
+    return HttpResponse.json({
+      data: {
         __typename: 'Query',
         selectedActor: {
           __typename: 'Actor',
@@ -407,25 +402,27 @@ function getSelectedActorQuery() {
           gridAreas: [{ __typename: 'GridAreaDto', code: '805', name: 'hello' }],
           marketRole: EicFunction.EnergySupplier,
         },
-      }),
-      ctx.delay(300)
-    );
+      },
+    });
   });
 }
 
 function getCalculation() {
-  return mockGetCalculationByIdQuery((req, res, ctx) => {
-    const id = req.variables.id;
+  return mockGetCalculationByIdQuery(async ({ variables }) => {
+    const { id } = variables;
     const calculationById = mockedCalculations.find((c) => c.id === id);
+    await delay(300);
     return calculationById
-      ? res(ctx.delay(300), ctx.data({ __typename: 'Query', calculationById }))
-      : res(ctx.status(404));
+      ? HttpResponse.json({
+          data: { __typename: 'Query', calculationById },
+        })
+      : HttpResponse.json({ data: null }, { status: 404 });
   });
 }
 
 function downloadSettlementReportData(apiBase: string) {
-  return rest.get(`${apiBase}/v1/WholesaleSettlementReport`, async (req, res, ctx) => {
-    return res(ctx.status(500));
+  return http.get(`${apiBase}/v1/WholesaleSettlementReport`, async () => {
+    return HttpResponse.json(null, { status: 500 });
 
     /*
       // Convert "base64" image to "ArrayBuffer".
@@ -443,59 +440,62 @@ function downloadSettlementReportData(apiBase: string) {
 }
 
 function getCalculations() {
-  return mockGetCalculationsQuery((req, res, ctx) => {
-    if (!req.variables.executionTime) {
-      return res(ctx.status(500), ctx.delay(300));
+  return mockGetCalculationsQuery(async ({ variables }) => {
+    if (!variables.executionTime) {
+      return HttpResponse.json({ data: null }, { status: 500 });
     } else {
-      return res(
-        ctx.delay(300),
-        ctx.data({ __typename: 'Query', calculations: mockedCalculations })
-      );
+      await delay(300);
+      return HttpResponse.json({
+        data: { __typename: 'Query', calculations: mockedCalculations },
+      });
       //return res(ctx.status(404), ctx.delay(300));
     }
   });
 }
 
 function getSettlementReports() {
-  return mockGetSettlementReportsQuery((req, res, ctx) => {
-    return res(
-      ctx.delay(300),
-      ctx.data({ __typename: 'Query', settlementReports: mockedSettlementReports })
-    );
+  return mockGetSettlementReportsQuery(async () => {
+    await delay(300);
+    return HttpResponse.json({
+      data: { __typename: 'Query', settlementReports: mockedSettlementReports },
+    });
   });
 }
 
 function getGridAreas() {
-  return mockGetGridAreasQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data({ __typename: 'Query', gridAreas: mockedGridAreas }));
+  return mockGetGridAreasQuery(async () => {
+    await delay(300);
+    return HttpResponse.json({
+      data: { __typename: 'Query', gridAreas: mockedGridAreas },
+    });
   });
 }
 
 function getLatestBalanceFixing() {
-  return mockGetLatestBalanceFixingQuery((req, res, ctx) => {
-    return res(
-      ctx.delay(300),
-      ctx.data({
+  return mockGetLatestBalanceFixingQuery(async () => {
+    await delay(300);
+    return HttpResponse.json({
+      data: {
         __typename: 'Query',
         calculations: [
           { __typename: 'Calculation', period: { start: periodStart, end: periodEnd } },
         ],
-      })
-    );
+      },
+    });
   });
 }
 
 function requestCalculationMutation() {
-  return mockRequestCalculationMutation((req, res, ctx) => {
-    return res(
-      ctx.delay(300),
-      ctx.data({
+  return mockRequestCalculationMutation(async () => {
+    await delay(300);
+    return HttpResponse.json({
+      data: {
         __typename: 'Mutation',
         createAggregatedMeasureDataRequest: {
           __typename: 'CreateAggregatedMeasureDataRequestPayload',
           success: true,
         },
-      })
-    );
+      },
+    });
   });
 }

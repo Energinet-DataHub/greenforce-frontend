@@ -14,15 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { setupWorker } from 'msw';
 import { mocks, handlers, onUnhandledRequest } from './handlers';
+import { setupWorker } from 'msw/browser';
 
 export function setupServiceWorker(apiBase: string, mocks: mocks) {
   try {
-    setTimeout(() => {
-      const worker = setupWorker(...handlers(apiBase, mocks));
-      worker.start({ onUnhandledRequest });
-    }, 200);
+    const worker = setupWorker(...handlers(apiBase, mocks));
+    worker.start({ onUnhandledRequest });
     // eslint-disable-next-line no-empty
   } catch (error) {
     console.error(error);
