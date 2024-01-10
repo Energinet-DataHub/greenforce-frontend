@@ -24,7 +24,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { DhImbalancePrice } from '../dh-imbalance-prices.mock';
+import { DhImbalancePrice } from '../dh-imbalance-prices';
 
 @Component({
   selector: 'dh-imbalance-prices-table',
