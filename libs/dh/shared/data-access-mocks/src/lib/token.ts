@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import hmacSHA256 from 'crypto-js/hmac-sha256';
 import encBase64 from 'crypto-js/enc-base64';
 import encUtf8 from 'crypto-js/enc-utf8';
@@ -44,12 +44,12 @@ function createJWT(headerKey: unknown, dataKey: unknown, secretKey: string) {
 }
 
 function postToken(apiBase: string) {
-  return rest.post(`${apiBase}/v1/Token`, (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
+  return http.post(`${apiBase}/v1/Token`, () => {
+    return HttpResponse.json(
+      {
         token: createJWT({ alg: 'HS256' }, { role: permissions }, ''),
-      })
+      },
+      { status: 200 }
     );
   });
 }

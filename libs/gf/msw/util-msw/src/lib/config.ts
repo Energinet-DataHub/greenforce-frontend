@@ -14,6 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { setupServiceWorker } from './lib/setup-service-worker';
-export { handlers, onUnhandledRequest, mocks } from './lib/handlers';
-export * as mswConfig from './lib/config';
+export const delay = 300;
