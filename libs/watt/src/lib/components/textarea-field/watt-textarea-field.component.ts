@@ -24,7 +24,8 @@ import {
   inject,
   ElementRef,
 } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+
 import { WattFieldComponent } from '../field/watt-field.component';
 
 @Component({
@@ -40,7 +41,7 @@ import { WattFieldComponent } from '../field/watt-field.component';
   selector: 'watt-textarea-field',
   styleUrls: ['./watt-textarea-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  template: `<watt-field [label]="label" [control]="null">
+  template: `<watt-field [label]="label" [control]="formControl">
     <textarea
       [attr.placeholder]="placeholder"
       [value]="value"
@@ -54,6 +55,7 @@ import { WattFieldComponent } from '../field/watt-field.component';
   </watt-field>`,
 })
 export class WattTextAreaFieldComponent implements ControlValueAccessor {
+  @Input() formControl!: FormControl;
   @Input() value!: string;
   @Input() placeholder?: string;
   @Input() required = false;
