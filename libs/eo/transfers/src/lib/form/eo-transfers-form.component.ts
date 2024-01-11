@@ -128,7 +128,6 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
       eo-transfers-form .descriptor {
         color: var(--watt-color-neutral-grey-700);
         font-size: 14px;
-        margin-left: var(--watt-space-s);
         font-weight: normal;
       }
 
