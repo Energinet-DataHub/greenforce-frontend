@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { LowerCasePipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, inject, signal } from '@angular/core';
 
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -143,7 +143,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     />
   `,
 })
-export class EoTransfersHistoryComponent implements OnInit {
+export class EoTransfersHistoryComponent implements OnChanges {
   @Input() transfer?: EoListedTransfer;
 
   private transferService = inject(EoTransfersService);
@@ -159,7 +159,8 @@ export class EoTransfersHistoryComponent implements OnInit {
     error: null,
   });
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if(!changes['transfer']?.currentValue) return;
     this.getHistory(this.transfer?.id);
   }
 
