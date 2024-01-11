@@ -1212,7 +1212,7 @@
           "masterData": {
             "tabLabel": "Stamdata",
             "descriptionInputLabel": "Beskrivelse",
-            "descriptionExceeedsMaxLength": "Maks {{requiredLength}} karakterer."
+            "descriptionExceedsMaxLength": "Maks {{requiredLength}} karakterer."
           }
         },
         "cancel": "Fortryd",

@@ -1231,7 +1231,7 @@
           "masterData": {
             "tabLabel": "Master data",
             "descriptionInputLabel": "Description",
-            "descriptionExceeedsMaxLength": "Max {{requiredLength}} characters."
+            "descriptionExceedsMaxLength": "Max {{requiredLength}} characters."
           }
         },
         "cancel": "Cancel",
