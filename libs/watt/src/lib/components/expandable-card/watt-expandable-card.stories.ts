@@ -39,7 +39,7 @@ export default {
 export const Overview: StoryFn<WattExpandableCardComponent> = (args) => ({
   props: args,
   template: `
-    <watt-expandable-card [expanded]="expanded">
+    <watt-expandable-card [expanded]="expanded" [variant]="variant">
       <watt-badge size="large">02</watt-badge>
       <watt-expandable-card-title>The Cosmos Awaits</watt-expandable-card-title>
       <p>
@@ -54,4 +54,5 @@ export const Overview: StoryFn<WattExpandableCardComponent> = (args) => ({
 
 Overview.args = {
   expanded: false,
+  variant: 'elevation',
 };
