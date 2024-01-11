@@ -257,7 +257,8 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           >
             <watt-field-hint
               *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
-              >Enter new CVR number or choose from previous<br /> transfer agreements</watt-field-hint
+              >Enter new CVR number or choose from previous<br />
+              transfer agreements</watt-field-hint
             >
 
             <watt-field-error
@@ -270,7 +271,6 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
             </watt-field-error>
 
             <div *ngIf="selectedCompanyName()" class="descriptor">{{ selectedCompanyName() }}</div>
-
           </watt-text-field>
         </div>
       </div>
