@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
+import { MeteringPointDto } from "@energinet-datahub/eov/shared/domain";
 import { EovApiEnvironment, eovApiEnvironmentToken } from "@energinet-datahub/eov/shared/environments";
-import { BaseResponse } from "@energinet-datahub/eov/shared/domain";
 
 
 
@@ -9,7 +9,6 @@ import { BaseResponse } from "@energinet-datahub/eov/shared/domain";
   providedIn: 'root',
 })
 export class EovOverviewService {
-
   #apiBase: string;
   constructor(
     private http: HttpClient,
@@ -19,29 +18,6 @@ export class EovOverviewService {
   }
 
   getMeteringPoints() {
-    return this.http.get<BaseResponse<MeteringPoint[]>>(`${this.#apiBase}/api/MeteringPoints`);
+    return this.http.get<MeteringPointDto[]>(`${this.#apiBase}/api/MeteringPoint`);
   }
-}
-
-export type MeteringPoint = {
-  address: string;
-  postcode: string;
-  cityName: string;
-  meteringPointId: string;
-  typeOfMP: string;
-  meteringPointAlias: string;
-  balanceSupplierName: string;
-  childMeteringPoints: ChildMeteringPoint[];
-  expanded: boolean;
-  authorization: boolean;
-  group: boolean;
-  consumerCVR: string;
-  dataAccessCVR: string;
-}
-
-export type ChildMeteringPoint = {
-  parentMeteringPointId: string;
-  meteringPointId: string;
-  typeOfMP: string;
-  authorization: boolean;
 }

@@ -10,9 +10,10 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { AnimationOptions, LottieComponent } from 'ngx-lottie';
-import { Observable, tap } from 'rxjs';
+import { Observable, filter, tap } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { EovOverviewStore } from '@energinet-datahub/eov/overview/data-access-api';
 import { BaseResponse, Datum, GraphData, MeteringPointDto } from '@energinet-datahub/eov/shared/domain';
 import { eovApiEnvironmentToken } from '@energinet-datahub/eov/shared/environments';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -148,8 +149,9 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 export class EovOverviewShellComponent implements OnInit {
   environment = inject(eovApiEnvironmentToken);
   route = inject(ActivatedRoute);
-  http = inject(HttpClient);
   cd = inject(ChangeDetectorRef);
+  store = inject(EovOverviewStore);
+  http = inject(HttpClient);
   token?: string;
   isLoading: boolean[] = [];
   meteringPoints$?: Observable<MeteringPointDto[]>;
@@ -161,7 +163,9 @@ export class EovOverviewShellComponent implements OnInit {
   protected barChartOptions: Array<ChartConfiguration<'bar'>['options']> = [];
 
   ngOnInit() {
-    this.meteringPoints$ = this.http.get<MeteringPointDto[]>(this.environment.customerApiUrl + '/api/MeteringPoint').pipe(
+    this.store.loadMeteringPoints();
+    this.meteringPoints$ = this.store.meteringPoints$.pipe(
+      filter((meteringPoints) => meteringPoints !== null && meteringPoints !== undefined),
       tap((meteringPoints) => meteringPoints.forEach((m, index) => {
         this.isLoading[index] = false;
         this.barChartData[index] = {

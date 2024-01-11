@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
+import { MeteringPointDto } from '@energinet-datahub/eov/shared/domain';
 import { ComponentStore } from '@ngrx/component-store';
-import { EovOverviewService, MeteringPoint } from './eov-overview.service';
+import { EovOverviewService } from './eov-overview.service';
 
 // Note: Remove the comment on the next line once the interface has properties
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 type OverviewState = {
   loading: boolean;
-  meteringPoints: MeteringPoint[];
+  meteringPoints: MeteringPointDto[];
   meteringPointError?: string | null;
 }
 
@@ -15,7 +16,9 @@ const initialState: OverviewState = {
   meteringPoints: [],
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EovOverviewStore extends ComponentStore<OverviewState> {
   constructor(
     private service: EovOverviewService
@@ -32,20 +35,20 @@ export class EovOverviewStore extends ComponentStore<OverviewState> {
 
   loadMeteringPoints() {
     this.setLoading(true);
-    this.service.getMeteringPoints().subscribe(
-      (meteringPointsResponse) => {
+    this.service.getMeteringPoints().subscribe({
+      next: (meteringPointsResponse) => {
         this.setLoading(false);
-        this.setMeteringPoints(meteringPointsResponse.result);
+        this.setMeteringPoints(meteringPointsResponse);
       },
-      (error) => {
+      error: (error) => {
         this.setLoading(false);
         this.patchState({ meteringPointError: error });
       },
-    );
+    });
   }
 
   private readonly setMeteringPoints = this.updater(
-    (state, meteringPoints: MeteringPoint[]): OverviewState => ({
+    (state, meteringPoints: MeteringPointDto[]): OverviewState => ({
       ...state,
       meteringPoints,
       meteringPointError: null,

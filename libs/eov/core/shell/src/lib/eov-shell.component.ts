@@ -43,7 +43,7 @@ import { EovLandingPageShellComponent } from '@energinet-datahub/eov/landing-pag
             <a href="#datadeling">Datadeling</a>
           </div>
           <div class="areas__end">
-            <span (click)="showBanner = !showBanner">Driftinfo</span>
+            <span (click)="showBanner = !showBanner" class="button">Driftinfo</span>
             <ng-container *ngIf="(isLoggedIn$ | async) === false">
               <span #logonButton class="mobile-nav button" (click)="isOpen = !isOpen" cdkOverlayOrigin #trigger="cdkOverlayOrigin">Log på</span>
               <ng-template
