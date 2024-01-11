@@ -141,7 +141,7 @@
           "ssl": true,
           "sslKey": "localhost.key",
           "sslCert": "localhost.crt",
-          "host": "127.0.0.1",
+          "host": "0.0.0.0",
           "buildTarget": "app-dh:build:development"
         },
         "mocked": {
@@ -149,7 +149,7 @@
           "ssl": true,
           "sslKey": "localhost.key",
           "sslCert": "localhost.crt",
-          "host": "127.0.0.1",
+          "host": "0.0.0.0",
           "buildTarget": "app-dh:build:mocked"
         }
       },
