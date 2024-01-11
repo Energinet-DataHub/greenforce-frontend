@@ -206,8 +206,8 @@
     "//yarn-comment": "Keep this in sync with GitHub actions pipelines",
     "yarn": "3.5.0"
   },
+  "packageManager": "yarn@3.5.0",
   "msw": {
-    "workerDirectory": "libs\\gf\\msw\\util-msw\\src\\assets"
-  },
-  "packageManager": "yarn@3.5.0"
+    "workerDirectory": "libs/gf/msw/util-msw/src/assets"
+  }
 }
