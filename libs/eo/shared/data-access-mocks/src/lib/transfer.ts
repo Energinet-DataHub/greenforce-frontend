@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { rest } from 'msw';
+import { http, delay, HttpResponse } from 'msw';
 
 export function transferMocks(apiBase: string) {
   return [
@@ -29,7 +29,7 @@ export function transferMocks(apiBase: string) {
 const senderName = 'Producent A/S';
 
 function getTransferAgreements(apiBase: string) {
-  return rest.get(`${apiBase}/transfer-agreements`, (req, res, ctx) => {
+  return http.get(`${apiBase}/transfer-agreements`, async () => {
     const data = {
       result: [
         {
@@ -98,56 +98,67 @@ function getTransferAgreements(apiBase: string) {
         },
       ],
     };
+    await delay(1000);
 
-    return res(ctx.status(200), ctx.delay(1000), ctx.json(data));
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
 function postTransferAgreementProposals(apiBase: string) {
-  return rest.post(`${apiBase}/transfer-agreement-proposals`, (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.delay(1000),
-      ctx.json({ id: '3fa85f64-5717-4562-b3fc-2c963f66afa6' })
-    );
+  return http.post(`${apiBase}/transfer-agreement-proposals`, () => {
+    return HttpResponse.json({ id: '3fa85f64-5717-4562-b3fc-2c963f66afa6' }, { status: 200 });
   });
 }
 
 function getTransferAutomationStatus(apiBase: string) {
-  return rest.get(`${apiBase}/transfer-automation/status`, (req, res, ctx) => {
+  return http.get(`${apiBase}/transfer-automation/status`, () => {
     const data = { healthy: false };
 
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
 function getTransferAgreementHistory(apiBase: string) {
-  return rest.get(`${apiBase}/transfer-agreements/:id/history`, (req, res, ctx) => {
+  return http.get(`${apiBase}/transfer-agreements/:id/history`, async () => {
     const data = {
-      totalCount: 1,
+      totalCount: 2,
       items: [
         {
           transferAgreement: {
-            id: 'd7786904-f78b-47ed-a8cf-f1861eeecae1',
-            startDate: 1701770400,
+            id: '4f75771b-3c16-405a-99c4-4f555cf93325',
+            startDate: 1701867600,
             endDate: null,
             senderName,
             senderTin: '11223344',
-            receiverTin: '28980671',
+            receiverTin: '39293595',
           },
-          createdAt: 1701767171,
+          createdAt: 1701866501,
           action: 'Created',
-          actorName: 'Erik Energinet',
+          actorName: 'Charlotte C.S. Rasmussen',
+        },
+        {
+          transferAgreement: {
+            id: '8c490c77-21e8-4f58-b101-4058b96236af',
+            startDate: 1701867600,
+            endDate: 1702299600,
+            senderName,
+            senderTin: '11223344',
+            receiverTin: '39293595',
+          },
+          createdAt: 1701949899,
+          action: 'Updated',
+          actorName: 'Peter Producent',
         },
       ],
     };
+    await delay(1000);
 
-    return res(ctx.status(200), ctx.json(data), ctx.delay(1000));
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
 function putTransferAgreements(apiBase: string) {
-  return rest.put(`${apiBase}/transfer-agreements/:id`, (req, res, ctx) => {
+  return http.put(`${apiBase}/transfer-agreements/:id`, async () => {
     const data = {
       id: '72395d38-50d9-4038-b39c-ef343ee11e93',
       startDate: 1701770400,
@@ -156,7 +167,8 @@ function putTransferAgreements(apiBase: string) {
       senderTin: '11223344',
       receiverTin: '28980671',
     };
+    await delay(1000);
 
-    return res(ctx.status(200), ctx.json(data), ctx.delay(1000));
+    return HttpResponse.json(data, { status: 200 });
   });
 }
