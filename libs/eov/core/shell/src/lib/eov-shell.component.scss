@@ -11,6 +11,11 @@ header {
   .container .container__content {
     padding: 0;
   }
+
+  a {
+    color: white;
+    line-height: 40px;
+  }
 }
 
 nav {
@@ -22,6 +27,9 @@ nav {
   position: sticky;
   top: -1px;
   z-index: 10;
+  &:has(.system-info-banner) {
+    height: 144px;
+  }
 
   a {
     font-weight: 700;

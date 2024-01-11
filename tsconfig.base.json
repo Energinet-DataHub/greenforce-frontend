@@ -294,6 +294,12 @@
         "libs/eo/wallet/data-access-api/index.ts"
       ],
       "@energinet-datahub/eov/core/shell": ["libs/eov/core/shell/src/index.ts"],
+      "@energinet-datahub/eov/help/feature-faq": [
+        "libs/eov/help/feature-faq/src/index.ts"
+      ],
+      "@energinet-datahub/eov/help/routing": [
+        "libs/eov/help/routing/src/index.ts"
+      ],
       "@energinet-datahub/eov/landing-page/shell": [
         "libs/eov/landing-page/shell/src/index.ts"
       ],

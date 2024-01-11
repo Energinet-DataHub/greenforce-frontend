@@ -3,15 +3,17 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnInit,
   inject
 } from '@angular/core';
-import { ActivatedRoute, Params, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { AnimationOptions, LottieComponent } from 'ngx-lottie';
-import { Observable, take, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BaseResponse, Datum, GraphData, MeteringPointDto } from '@energinet-datahub/eov/shared/domain';
 import { eovApiEnvironmentToken } from '@energinet-datahub/eov/shared/environments';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -143,7 +145,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
       WattExpandableCardTitleComponent
     ]
 })
-export class EovOverviewShellComponent {
+export class EovOverviewShellComponent implements OnInit {
   environment = inject(eovApiEnvironmentToken);
   route = inject(ActivatedRoute);
   http = inject(HttpClient);
@@ -158,50 +160,34 @@ export class EovOverviewShellComponent {
   protected barChartData: Array<ChartConfiguration<'bar'>['data']> = [];
   protected barChartOptions: Array<ChartConfiguration<'bar'>['options']> = [];
 
-  constructor() {
-    this.route.queryParams.subscribe((params) => {
-      if (params['link']) {
-        this.handleAfterLogin(params);
-      }
-    });
-  }
-
-  private handleAfterLogin(params: Params) {
-    this.http
-      .get<PortalTokenResponse>(decodeURIComponent(params['link']), )
-      .pipe(take(1))
-      .subscribe((token) => {
-        this.token = token.token;
-        let params = new HttpHeaders();
-        params = params.set('Authorization', 'Bearer ' + token.token);
-        this.meteringPoints$ = this.http.get<MeteringPointDto[]>(this.environment.customerApiUrl + '/api/MeteringPoint', { headers: params}).pipe(
-          tap((meteringPoints) => meteringPoints.forEach((m, index) => {
-            this.isLoading[index] = false;
-            this.barChartData[index] = {
-              labels: this.labels,
-              datasets: [],
-            };
-            this.barChartOptions[index] = {
-              maintainAspectRatio: false,
-              scales: {
-                x: {
-                  stacked: false,
-                  grid: { display: false },
-                  ticks: {
-                    maxRotation: 0,
-                    autoSkipPadding: 12,
-                  },
-                },
-                y: {
-                  stacked: false,
-                  title: { display: true, text: 'Wh', align: 'end' },
-                },
+  ngOnInit() {
+    this.meteringPoints$ = this.http.get<MeteringPointDto[]>(this.environment.customerApiUrl + '/api/MeteringPoint').pipe(
+      tap((meteringPoints) => meteringPoints.forEach((m, index) => {
+        this.isLoading[index] = false;
+        this.barChartData[index] = {
+          labels: this.labels,
+          datasets: [],
+        };
+        this.barChartOptions[index] = {
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              stacked: false,
+              grid: { display: false },
+              ticks: {
+                maxRotation: 0,
+                autoSkipPadding: 12,
               },
-            };
-          }))
-        );
+            },
+            y: {
+              stacked: false,
+              title: { display: true, text: 'Wh', align: 'end' },
+            },
+          },
+        };
         this.cd.detectChanges();
-      });
+      }))
+    );
   }
 
   cardOpened(index: number) {
@@ -272,92 +258,4 @@ export class EovOverviewShellComponent {
       this.cd.detectChanges();
     })
   };
-}
-
-export interface Datum {
-  name: number;
-  drilldown?: string;
-  y: number;
-}
-
-type Series = {
-  startDate: Date;
-  name: string;
-  data: Datum[];
-  // internals
-  color?: string;
-  colorByPoint?: boolean;
-}
-
-type GraphData = {
-  message?: string;
-  graphAggregation: GraphAggregation;
-  series: Series[];
-}
-
-enum GraphAggregation {
-  None,
-  Yearly,
-  Monthly,
-  Daily,
-  Hourly,
-}
-
-type PortalTokenResponse = {
-  token: string;
-  refreshToken: string;
-  expireTime: Date;
-  isSucceeded?: boolean;
-  validationError?: NemidValidationError;
-}
-
-type BaseResponse<T> = {
-  result: T;
-  success: boolean;
-  errorCode: number;
-  errorText: string;
-  id: string;
-}
-
-interface ChildMeteringPointDto {
-  parentMeteringPointId: string;
-  meteringPointId: string;
-  typeOfMP: string;
-  meteringPointAlias: string;
-  meterReadingOccurrence: string;
-  meterNumber: string;
-}
-
-interface MeteringPointBaseDto {
-  meteringPointId: string;
-  typeOfMP: string;
-  balanceSupplierName: string;
-  postcode: string;
-  cityName: string;
-  hasRelation: boolean;
-  consumerCVR: string;
-  dataAccessCVR: string;
-  childMeteringPoints: ChildMeteringPointDto[];
-}
-
-interface MeteringPointDto extends MeteringPointBaseDto {
-  meteringPointAlias: string;
-  address: string;
-  cvr: string;
-}
-
-interface NemidValidationError {
-  errorMessage: string;
-  userMessage: string;
-  flowErrorCode: string;
-  flowExpired: boolean;
-  status: FlowStatus;
-}
-
-enum FlowStatus {
-  Ok = 0,
-  UserCancel = 1,
-  ClientFlowError = 2,
-  FlowError = 3,
-  ValidationError = 4,
 }

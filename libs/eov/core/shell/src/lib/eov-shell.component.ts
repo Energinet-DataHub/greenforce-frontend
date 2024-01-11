@@ -1,9 +1,13 @@
 import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { eovApiEnvironmentToken } from '@energinet-datahub/eov/shared/environments';
+import { EovAuthService } from '@energinet-datahub/eov/shared/services';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+import { EovHelpContactComponent } from '@energinet-datahub/eov/help/feature-faq';
+import { EovLandingPageShellComponent } from '@energinet-datahub/eov/landing-page/shell';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,7 +16,9 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
     RouterModule,
     OverlayModule,
     NgIf,
+    AsyncPipe,
     WattButtonComponent,
+    EovHelpContactComponent
   ],
   selector: 'eov-shell',
   styleUrls: ['./eov-shell.component.scss'],
@@ -22,9 +28,9 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
           <div class="container__content areas">
             <div></div>
             <div class="areas__end">
-              <span>Hjælp</span>
-              <span>Kontakt</span>
-              <span>English</span>
+              <a routerLink="help">Hjælp</a>
+              <a (click)="openContactInfo()">Kontakt</a>
+              <a>English</a>
             </div>
           </div>
       </div>
@@ -33,13 +39,14 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       <div class="container">
         <div class="container__content areas">
           <div class="areas__start">
-            <img src="/assets/images/logo.svg" class="mobile-nav logo" (click)="scrollToTop()">
+            <img src="/assets/images/logo.svg" class="mobile-nav logo" (click)="handleLogoClick()">
             <a href="#datadeling">Datadeling</a>
           </div>
           <div class="areas__end">
             <span (click)="showBanner = !showBanner">Driftinfo</span>
-            <span #logonButton class="mobile-nav button" (click)="isOpen = !isOpen" cdkOverlayOrigin #trigger="cdkOverlayOrigin">Log på</span>
-            <ng-template
+            <ng-container *ngIf="(isLoggedIn$ | async) === false">
+              <span #logonButton class="mobile-nav button" (click)="isOpen = !isOpen" cdkOverlayOrigin #trigger="cdkOverlayOrigin">Log på</span>
+              <ng-template
               cdkConnectedOverlay
               [cdkConnectedOverlayOrigin]="trigger"
               [cdkConnectedOverlayOpen]="isOpen"
@@ -48,13 +55,15 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
               (backdropClick)="isOpen = false"
               (detach)="isOpen = false"
               cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
-            >
+              >
               <ul class="login-overlay mat-elevation-z8">
                 <li><watt-button variant="text" (click)="loginAsCustomer()">Privat</watt-button></li>
                 <li><watt-button variant="text" (click)="loginAsCorp()">Erhverv</watt-button></li>
-                <li><watt-button variant="text" (click)="loginAsThirdparty()">Tredjepart</watt-button></li>
+                <li><watt-button variant="text" (click)="loginAsThirdParty()">Tredjepart</watt-button></li>
               </ul>
             </ng-template>
+          </ng-container>
+          <span class="mobile-nav button" (click)="logout()" *ngIf="isLoggedIn$ | async">Log af</span>
             <img src="/assets/images/hamburger.png" class="mobile-nav mobile-only hamburger button" (click)="isHamburgerOpen = !isHamburgerOpen" cdkOverlayOrigin #hamburgerTrigger="cdkOverlayOrigin">
             <ng-template
               cdkConnectedOverlay
@@ -69,7 +78,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
                   <ul class="login-items">
                     <li><watt-button variant="text" (click)="loginAsCustomer()">Privat</watt-button></li>
                     <li><watt-button variant="text" (click)="loginAsCorp()">Erhverv</watt-button></li>
-                    <li><watt-button variant="text" (click)="loginAsThirdparty()">Tredjepart</watt-button></li>
+                    <li><watt-button variant="text" (click)="loginAsThirdParty()">Tredjepart</watt-button></li>
                   </ul>
                 </div>
                 <div class="bottom-menu">
@@ -120,6 +129,10 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 })
 export class EovShellComponent {
   environment = inject(eovApiEnvironmentToken);
+  authService = inject(EovAuthService);
+  modalService = inject(WattModalService);
+  route = inject(ActivatedRoute);
+  router = inject(Router);
   scrollUp = false;
   scrollDown = false;
   lastScroll = 0;
@@ -133,7 +146,9 @@ export class EovShellComponent {
     overlayX: 'end',
     overlayY: 'top',
   }]
+  isLoggedIn$ = this.authService.hasTokenObservable();
 
+  //todo get from auth service, use current route as completion uri
   loginAsCustomer() {
     window.location.href =
       `${this.environment.netsBaseURL}/connect/authorize` +
@@ -156,7 +171,7 @@ export class EovShellComponent {
       `&state=${btoa(JSON.stringify({ webApp: 11, completionUri: 'http://localhost:4200/overview' }))}`;
   }
 
-  loginAsThirdparty() {
+  loginAsThirdParty() {
     window.location.href =
       `${this.environment.netsBaseURL}/connect/authorize` +
       `?response_type=code&client_id=${this.environment.clientId}` +
@@ -165,6 +180,14 @@ export class EovShellComponent {
       `&language=da&scope=nemid+openid+ssn+userinfo_token+nemlogin` +
       `&idp_values=nemid+mitid_erhverv&idp_params=%7B%22nemid%22%3A%7B%22amr_values%22%3A%22nemid.keyfile%20nemid.otp%22%2C%22private_to_business%22%3Atrue%2C%22code_app_trans_ctx%22%3A%22TG9naW4gdGlsIEVsT3ZlcmJsaWs%3D%22%7D%7D` +
       `&state=${btoa(JSON.stringify({ webApp: 13, completionUri: 'http://localhost:4200/overview' }))}`;
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
+  openContactInfo() {
+    this.modalService.open({component: EovHelpContactComponent});
   }
 
   @HostListener('window:scroll')
@@ -191,9 +214,17 @@ export class EovShellComponent {
     this.reveal();
   }
 
-  scrollToTop() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+  handleLogoClick() {
+    if (this.authService.hasToken()) {
+      this.router.navigate(['overview']);
+      return;
+    }
+    if (this.route.component === EovLandingPageShellComponent) {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+      return;
+    }
+    this.router.navigate(['']);
   }
 
   reveal() {

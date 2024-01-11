@@ -20,6 +20,13 @@ export const eovShellRoutes: Routes = [
             (esModule) => esModule.eovOverviewRoutes
           ),
       },
+      {
+        path: 'help',
+        loadChildren: () =>
+          import('@energinet-datahub/eov/help/feature-faq').then(
+            (esModule) => esModule.eovHelpRoutes
+          ),
+      },
     ]
   },
   { path: '**', redirectTo: '' }, // Catch-all that can be used for 404 redirects in the future
