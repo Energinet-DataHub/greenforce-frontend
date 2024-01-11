@@ -14,13 +14,7 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/market-participant/grid-areas/shell/**/*.ts",
-          "libs/dh/market-participant/grid-areas/shell/**/*.html"
-        ]
-      }
+      "outputs": ["{options.outputFile}"]
     }
   },
   "tags": ["product:dh", "domain:market-participant", "type:shell"]

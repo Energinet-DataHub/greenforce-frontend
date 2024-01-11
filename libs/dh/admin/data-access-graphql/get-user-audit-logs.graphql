@@ -1,0 +1,12 @@
+query GetUserAuditLogs($id: UUID!) {
+  userAuditLogs(id: $id) {
+    change
+    timestamp
+    isInitialAssignment
+    currentValue
+    previousValue
+    auditedBy
+    affectedActorName
+    affectedUserRoleName
+  }
+}

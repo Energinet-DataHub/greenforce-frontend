@@ -48,4 +48,8 @@ beforeEach(() => {
   cy.intercept('/assets/i18n/da.json', { hostname: 'localhost' }, (req) => {
     req.redirect('/__cypress/src/assets/i18n/da.json');
   });
+
+  cy.intercept('/assets/watt/icons/power.svg', { hostname: 'localhost' }, (req) => {
+    req.redirect('/__cypress/src/assets/watt/icons/power.svg');
+  });
 });

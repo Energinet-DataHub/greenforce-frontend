@@ -14,13 +14,7 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/gf/test-util/**/*.ts",
-          "libs/gf/test-util/**/*.html"
-        ]
-      }
+      "outputs": ["{options.outputFile}"]
     }
   },
   "tags": ["product:gf", "domain:shared", "type:test-util"]

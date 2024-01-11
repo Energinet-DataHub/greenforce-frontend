@@ -23,8 +23,6 @@ import {
   ViewEncapsulation,
   OnChanges,
   SimpleChanges,
-  inject,
-  DestroyRef,
   ViewChild,
   signal,
 } from '@angular/core';
@@ -125,6 +123,18 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
         gap: var(--watt-space-l);
         display: flex;
         flex-direction: column;
+      }
+
+      eo-transfers-form .recipient-company-name {
+        color: var(--watt-color-neutral-grey-700);
+        font-size: 14px;
+        left: 74px;
+        overflow: hidden;
+        position: absolute;
+        text-overflow: ellipsis;
+        top: 38px;
+        white-space: nowrap;
+        width: 250px;
       }
     `,
   ],
@@ -230,31 +240,46 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           <p>Optional, but recommended for security reasons.</p>
         </ng-container>
 
-        <watt-text-field
-          label="Recipient"
-          placeholder="CVR / TIN"
-          type="text"
-          style="max-width: 330px;"
-          [formControl]="form.controls.receiver.controls.tin"
-          (keydown)="preventNonNumericInput($event)"
-          data-testid="new-agreement-receiver-input"
-          [autocompleteOptions]="filteredReceiversTin()"
-          (search)="onSearch($event)"
-          [maxLength]="8"
-        >
-          <watt-field-hint *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
-            >Enter new CVR number or choose from previous transfer agreements</watt-field-hint
+        <div style="position: relative;">
+          <watt-text-field
+            label="Recipient"
+            placeholder="CVR / TIN"
+            type="text"
+            style="max-width: 330px;"
+            [formControl]="form.controls.receiver.controls.tin"
+            (keydown)="preventNonNumericInput($event)"
+            data-testid="new-agreement-receiver-input"
+            [autocompleteOptions]="filteredReceiversTin()"
+            (search)="onSearch($event)"
+            (autocompleteOptionSelected)="onSelectedRecipient($event)"
+            (autocompleteOptionDeselected)="selectedCompanyName.set(undefined)"
+            [autocompleteMatcherFn]="isRecipientMatchingOption"
+            [maxLength]="8"
+            #recipientInput
           >
+            <watt-field-hint
+              *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
+              >Enter new CVR number or choose from previous transfer agreements</watt-field-hint
+            >
 
-          <watt-field-error
-            *ngIf="form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin']"
+            <watt-field-error
+              *ngIf="form.controls.receiver.controls.tin.errors?.['receiverTinEqualsSenderTin']"
+            >
+              The receiver cannot be your own TIN/CVR
+            </watt-field-error>
+            <watt-field-error *ngIf="form.controls.receiver.controls.tin.errors?.['pattern']">
+              An 8-digit TIN/CVR number is required
+            </watt-field-error>
+          </watt-text-field>
+
+          <div
+            *ngIf="selectedCompanyName()"
+            (click)="recipientInput.setFocus()"
+            class="recipient-company-name"
           >
-            The receiver cannot be your own TIN/CVR
-          </watt-field-error>
-          <watt-field-error *ngIf="form.controls.receiver.controls.tin.errors?.['pattern']">
-            An 8-digit TIN/CVR number is required
-          </watt-field-error>
-        </watt-text-field>
+            &nbsp;- {{ selectedCompanyName() }}
+          </div>
+        </div>
       </div>
     </ng-template>
   `,
@@ -289,9 +314,9 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   protected form!: FormGroup<EoTransfersForm>;
   protected filteredReceiversTin = signal<string[]>([]);
   protected existingTransferAgreements = signal<EoExistingTransferAgreement[]>([]);
+  protected selectedCompanyName = signal<string | undefined>(undefined);
 
   private recipientTins = signal<string[]>([]);
-  private _destroyRef = inject(DestroyRef);
 
   onEnteringTimeframeStep() {
     this.setExistingTransferAgreements();
@@ -299,6 +324,16 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
 
   onLeavingTimeframeStep() {
     this.existingTransferAgreements.set([]);
+  }
+
+  onSelectedRecipient(value: string) {
+    const [tin, companyName] = value.split(' - ');
+    this.selectedCompanyName.set(companyName);
+    this.form.controls.receiver.controls.tin.setValue(tin);
+  }
+
+  isRecipientMatchingOption(value: string, option: string) {
+    return value === option.split(' - ')[0];
   }
 
   ngOnInit(): void {
@@ -380,12 +415,13 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   }
 
   private getRecipientTins(transferAgreements: EoListedTransfer[]) {
+    const fallbackCompanyName = 'Unknown company';
     const tins = transferAgreements.reduce((acc, transfer) => {
       if (transfer.receiverTin !== this.senderTin) {
-        acc.push(transfer.receiverTin);
+        acc.push(`${transfer.receiverTin} - ${transfer.receiverName ?? fallbackCompanyName}`);
       }
       if (transfer.senderTin !== this.senderTin) {
-        acc.push(transfer.senderTin);
+        acc.push(`${transfer.senderTin} - ${transfer.senderName ?? fallbackCompanyName}`);
       }
       return acc;
     }, [] as string[]);

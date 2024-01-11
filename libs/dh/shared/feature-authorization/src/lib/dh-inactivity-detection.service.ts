@@ -32,6 +32,12 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhInactivityLogoutComponent } from './dh-inactivity-logout.component';
 
+enum ActivityState {
+  Inactive,
+  Active,
+  Overdue,
+}
+
 @Injectable({ providedIn: 'root' })
 export class DhInactivityDetectionService {
   private readonly ngZone = inject(NgZone);
@@ -39,6 +45,7 @@ export class DhInactivityDetectionService {
   private readonly msal = inject(MsalService);
 
   private readonly secondsUntilWarning = 115 * 60;
+  private readonly secondsUntilOverdue = 5 * 60;
 
   private readonly inputDetection$ = merge(
     fromEvent(document, 'mousedown'),
@@ -50,18 +57,31 @@ export class DhInactivityDetectionService {
 
   private readonly userInactive$ = this.inputDetection$.pipe(
     startWith(null),
-    switchMap(() => concat(of(1), timer(this.secondsUntilWarning * 1000))),
-    distinctUntilChanged(),
-    map((isActive) => !isActive)
+    switchMap(() => {
+      const suspendedAt = new Date();
+      return concat(
+        of(ActivityState.Active),
+        timer(this.secondsUntilWarning * 1000).pipe(
+          map(() => (this.isOverdue(suspendedAt) ? ActivityState.Overdue : ActivityState.Inactive))
+        )
+      );
+    }),
+    distinctUntilChanged()
   );
 
   public trackInactivity() {
     this.ngZone.runOutsideAngular(() => {
-      this.userInactive$.subscribe((isInactive) => {
-        if (isInactive) {
-          this.openModal();
-        } else {
-          this.modalService.close(false);
+      this.userInactive$.subscribe((activityState) => {
+        switch (activityState) {
+          case ActivityState.Active:
+            this.modalService.close(false);
+            break;
+          case ActivityState.Inactive:
+            this.openModal();
+            break;
+          case ActivityState.Overdue:
+            this.msal.logoutRedirect();
+            break;
         }
       });
     });
@@ -74,5 +94,9 @@ export class DhInactivityDetectionService {
         onClosed: (result) => result && this.msal.logoutRedirect(),
       });
     });
+  }
+
+  private isOverdue(suspendedAt: Date) {
+    return new Date().getTime() - suspendedAt.getTime() > 2 * 60 * 60 * 1000;
   }
 }

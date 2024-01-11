@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { InjectionToken } from '@angular/core';
+
 import { dhLocalAppEnvironment } from '@energinet-datahub/dh/shared/assets';
 
 import { environment } from '../environment';
@@ -28,11 +29,12 @@ export interface DhAppEnvironmentConfig {
 
 export enum DhAppEnvironment {
   local = 'localhost',
-  dev001 = 'd-001',
-  dev002 = 'd-002',
-  test001 = 't-001',
+  sandbox_002 = 's-002',
+  dev_001 = 'd-001',
+  dev_002 = 'd-002',
+  test_001 = 't-001',
+  test_002 = 't-002',
   preprod = 'b-001',
-  sandbox002 = 's-002',
 }
 
 export const dhAppEnvironmentToken = new InjectionToken<DhAppEnvironmentConfig>(

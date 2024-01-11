@@ -43,6 +43,9 @@ limitations under the License.
           <watt-field-error *ngIf="baseInfo.controls.email.hasError('email')">
             {{ t("wrongEmailPattern") }}
           </watt-field-error>
+          <watt-field-error *ngIf="baseInfo.controls.email.hasError('userAlreadyAssignedActor')">
+            {{ t("userAlreadyAssignedActor") }}
+          </watt-field-error>
         </watt-text-field>
       </form>
     </watt-stepper-step>
