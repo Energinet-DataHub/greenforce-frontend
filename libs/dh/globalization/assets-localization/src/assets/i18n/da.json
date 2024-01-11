@@ -1224,7 +1224,8 @@
         "tab": {
           "masterData": {
             "tabLabel": "Stamdata",
-            "descriptionInputLabel": "Beskrivelse"
+            "descriptionInputLabel": "Beskrivelse",
+            "descriptionExceedsMaxLength": "Maks {{requiredLength}} karakterer."
           }
         },
         "cancel": "Fortryd",

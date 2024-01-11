@@ -1243,7 +1243,8 @@
         "tab": {
           "masterData": {
             "tabLabel": "Master data",
-            "descriptionInputLabel": "Description"
+            "descriptionInputLabel": "Description",
+            "descriptionExceedsMaxLength": "Max {{requiredLength}} characters."
           }
         },
         "cancel": "Cancel",
