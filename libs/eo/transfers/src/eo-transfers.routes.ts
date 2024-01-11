@@ -21,7 +21,7 @@ import { EoTransfersComponent } from './lib/eo-transfers.component';
 export const eoTransfersRoutes: Routes = [
   {
     path: '',
-    data: { title: 'Transfers' },
+    title: 'Transfers',
     component: EoTransfersComponent,
   },
 ];

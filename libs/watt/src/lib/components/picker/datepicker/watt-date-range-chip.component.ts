@@ -17,7 +17,16 @@
 
 import { NgIf } from '@angular/common';
 import { FormControl } from '@angular/forms';
-import { Component, EventEmitter, Injectable, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostBinding,
+  Injectable,
+  Input,
+  Output,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
 
 import {
   DateRange,
@@ -32,18 +41,41 @@ import { WattDatePipe, WattRange } from '../../../utils/date';
 import { WattButtonComponent } from '../../button/watt-button.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 import { WattFieldComponent } from '../../field/watt-field.component';
+import { DateAdapter } from '@angular/material/core';
 
-@Injectable()
-export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<Date> {
+type customSelectionStrategy = (date: Date | null) => DateRange<Date>;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrategy<Date> {
+  private customSelectionStrategy!: customSelectionStrategy;
+
+  setCustomSelectionStrategy(strategy: customSelectionStrategy) {
+    this.customSelectionStrategy = strategy;
+  }
+
   override selectionFinished(date: Date, currentRange: DateRange<Date>): DateRange<Date> {
-    const range = super.selectionFinished(date, currentRange);
+    let range: DateRange<Date> = super.selectionFinished(date, currentRange);
+
+    if (this.customSelectionStrategy) {
+      range = this.customSelectionStrategy(date);
+    }
+
     return range.end ? new DateRange(range.start, endOfDay(range.end)) : range;
+  }
+
+  override createPreview(activeDate: Date | null, currentRange: DateRange<Date>): DateRange<Date> {
+    if (!this.customSelectionStrategy) {
+      return super.createPreview(activeDate, currentRange);
+    } else {
+      return this.customSelectionStrategy(activeDate);
+    }
   }
 }
 
 @Component({
   standalone: true,
-  providers: [{ provide: MAT_DATE_RANGE_SELECTION_STRATEGY, useClass: EndOfDaySelectionStrategy }],
   imports: [
     NgIf,
     MatDatepickerModule,
@@ -53,18 +85,39 @@ export class EndOfDaySelectionStrategy extends DefaultMatCalendarRangeStrategy<D
     WattFieldComponent,
     WattButtonComponent,
   ],
+  providers: [
+    {
+      provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
+      useFactory: (comp: WattDateRangeChipComponent) => comp.selectionStrategy(),
+      deps: [WattDateRangeChipComponent],
+    },
+  ],
+  providers: [
+    {
+      provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
+      useFactory: (comp: WattDateRangeChipComponent) => comp.selectionStrategy(),
+      deps: [WattDateRangeChipComponent],
+    },
+  ],
   selector: 'watt-date-range-chip',
+  encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      mat-date-range-input {
-        top: 0;
-        bottom: 0;
-        height: auto;
-        visibility: hidden;
-      }
+      watt-date-range-chip {
+        mat-date-range-input {
+          top: 0;
+          bottom: 0;
+          height: auto;
+          visibility: hidden;
+        }
 
-      .value::before {
-        content: ':';
+        &.has-placeholder .value::before {
+          content: ':';
+        }
+
+        watt-field label .watt-field-wrapper {
+          background-color: transparent;
+        }
       }
     `,
   ],
@@ -115,7 +168,23 @@ export class WattDateRangeChipComponent {
   @Input() label?: string;
   @Input() value?: WattRange<Date>;
   @Input({ required: true }) formControl!: FormControl;
+  @Input() placeholder = true;
+  @Input() customSelectionStrategy!: (date: Date | null) => DateRange<Date>;
+
+  @HostBinding('class.has-placeholder')
+  get hasPlaceholderClass(): boolean {
+    return this.placeholder;
+  }
+
   @Output() selectionChange = new EventEmitter<WattRange<Date> | null>();
+
+  private _dateAdapter = inject(DateAdapter);
+
+  selectionStrategy() {
+    const strategy = new WattDateRangeSelectionStrategy(this._dateAdapter);
+    strategy.setCustomSelectionStrategy(this.customSelectionStrategy);
+    return strategy;
+  }
 
   clearInput(): void {
     this.value = undefined;

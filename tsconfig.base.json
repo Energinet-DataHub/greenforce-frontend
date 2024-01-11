@@ -9,7 +9,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2015",
-    "module": "esnext",
+    "module": "ESNext",
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
@@ -85,6 +85,9 @@
       ],
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/src/index.ts"
+      ],
+      "@energinet-datahub/dh/imbalance-prices/shell": [
+        "libs/dh/imbalance-prices/shell/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/actors/data-access-api": [
         "libs/dh/market-participant/actors/data-access-api/src/index.ts"
@@ -238,6 +241,9 @@
         "libs/eo/consumption-page/shell/src/index.ts"
       ],
       "@energinet-datahub/eo/core/shell": ["libs/eo/core/shell/src/index.ts"],
+      "@energinet-datahub/eo/dashboard/domain": [
+        "libs/eo/dashboard/domain/index.ts"
+      ],
       "@energinet-datahub/eo/dashboard/shell": [
         "libs/eo/dashboard/shell/src/index.ts"
       ],
@@ -434,10 +440,8 @@
       "@energinet-datahub/watt/vater": [
         "libs/watt/src/lib/components/vater/index.ts"
       ],
-      "@energinet-datahub/workspace-plugin": [
-        "tools/workspace-plugin/src/index.ts"
-      ],
-      "rxjs": ["./node_modules/rxjs"]
+      "rxjs": ["./node_modules/rxjs"],
+      "workspace-tools": ["workspace-tools/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

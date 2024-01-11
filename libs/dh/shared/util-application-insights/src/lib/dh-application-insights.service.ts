@@ -16,9 +16,9 @@
  */
 import { ErrorHandler, Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AngularPlugin } from '@microsoft/applicationinsights-angularplugin-js';
+import type { AngularPlugin } from '@microsoft/applicationinsights-angularplugin-js';
 import {
-  ApplicationInsights,
+  type ApplicationInsights,
   DistributedTracingModes,
   SeverityLevel,
 } from '@microsoft/applicationinsights-web';
@@ -30,21 +30,8 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class DhApplicationInsights {
-  private angularPlugin = new AngularPlugin();
-  private appInsights = new ApplicationInsights({
-    config: {
-      instrumentationKey: this.dhAppConfig.applicationInsights.instrumentationKey,
-      enableCorsCorrelation: true,
-      distributedTracingMode: DistributedTracingModes.W3C,
-      extensions: [this.angularPlugin],
-      extensionConfig: {
-        [this.angularPlugin.identifier]: {
-          router: this.router,
-          errorServices: [new ErrorHandler()],
-        },
-      },
-    },
-  });
+  private angularPlugin!: AngularPlugin;
+  private appInsights!: ApplicationInsights;
 
   constructor(
     private router: Router,
@@ -55,10 +42,36 @@ export class DhApplicationInsights {
   /**
    * Initialize Application Insights
    */
-  init(): void {
-    if (this.appInsights.appInsights.isInitialized()) {
+  async init() {
+    if (this.appInsights?.appInsights.isInitialized()) {
       return;
     }
+
+    const { ApplicationInsights } = await import(
+      /* webpackChunkName: "application-insights" */
+      '@microsoft/applicationinsights-web'
+    );
+
+    const { AngularPlugin } = await import(
+      /* webpackChunkName: "application-insights-angular-plugin" */
+      '@microsoft/applicationinsights-angularplugin-js'
+    );
+
+    this.angularPlugin = new AngularPlugin();
+    this.appInsights = new ApplicationInsights({
+      config: {
+        instrumentationKey: this.dhAppConfig.applicationInsights.instrumentationKey,
+        enableCorsCorrelation: true,
+        distributedTracingMode: DistributedTracingModes.W3C,
+        extensions: [this.angularPlugin],
+        extensionConfig: {
+          [this.angularPlugin.identifier]: {
+            router: this.router,
+            errorServices: [new ErrorHandler()],
+          },
+        },
+      },
+    });
 
     this.appInsights.loadAppInsights();
   }

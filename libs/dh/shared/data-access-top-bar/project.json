@@ -11,18 +11,11 @@
         "{workspaceRoot}/coverage/libs/dh/shared/data-access-top-bar"
       ],
       "options": {
-        "jestConfig": "libs/dh/shared/data-access-top-bar/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/shared/data-access-top-bar/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/shared/data-access-top-bar/**/*.ts",
-          "libs/dh/shared/data-access-top-bar/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "domain:shared", "type:data-access"]

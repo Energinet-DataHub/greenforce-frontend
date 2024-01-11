@@ -7,18 +7,19 @@
     "e2e": {
       "executor": "@nx/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/eo/e2e-eo/cypress.config.js",
+        "cypressConfig": "apps/eo/e2e-eo/cypress.config.ts",
         "devServerTarget": "app-eo:serve:mocked",
         "headed": true,
         "testingType": "e2e"
       },
       "configurations": {
         "ci": {
-          "cypressConfig": "apps/eo/e2e-eo/cypress.config.js",
+          "cypressConfig": "apps/eo/e2e-eo/cypress.config.ts",
+          "devServerTarget": "app-eo:serve-static",
           "headed": false
         },
         "production": {
-          "devServerTarget": "app-eo:serve:mocked"
+          "devServerTarget": "app-eo:serve:e2e"
         },
         "watch": {
           "watch": true
@@ -31,9 +32,6 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": ["apps/eo/e2e-eo/**/*.{js,ts}"]
-      },
       "outputs": ["{options.outputFile}"]
     }
   },

@@ -75,7 +75,10 @@ export class DhEditPermissionModalComponent implements AfterViewInit, OnChanges 
   private readonly transloco = inject(TranslocoService);
 
   readonly userPermissionsForm = this.formBuilder.group({
-    description: this.formBuilder.nonNullable.control('', [Validators.required]),
+    description: this.formBuilder.nonNullable.control('', [
+      Validators.required,
+      Validators.maxLength(1000),
+    ]),
   });
   readonly isSaving$ = this.store.isSaving$;
 

@@ -20,7 +20,7 @@ import {
   mockGetGridAreasForCreateActorQuery,
   mockGetKnownEmailsQuery,
   mockGetPermissionDetailsQuery,
-  mockGetPermissionLogsQuery,
+  mockGetPermissionAuditLogsQuery,
   mockGetPermissionsQuery,
   mockGetUserRoleAuditLogsQuery,
   mockGetUserRolesByEicfunctionQuery,
@@ -32,7 +32,7 @@ import marketParticipantUserGetUserAuditLogs from './data/marketParticipantUserG
 import marketParticipantUserRoleGetUserRoleWithPermissions from './data/marketParticipantUserRoleGetUserRoleWithPermissions.json';
 import { getUserRoleAuditLogsMock } from './data/get-user-role-audit-logs';
 import { adminPermissionsMock } from './data/admin-get-permissions';
-import { adminPermissionPermissionLogsMock } from './data/admin-get-permissionlogs';
+import { adminPermissionAuditLogsMock } from './data/admin-get-permission-audit-logs';
 import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
 import { marketParticipantUserRoles } from './data/admin-get-marketParticipantUserRoles';
 import { marketParticipantOrganization } from './data/admin-get-actorOrganization';
@@ -157,10 +157,10 @@ function getAdminPermissionDetails() {
 }
 
 function getAdminPermissionLogs() {
-  return mockGetPermissionLogsQuery((req, res, ctx) => {
+  return mockGetPermissionAuditLogsQuery((req, res, ctx) => {
     const permId = req.variables.id;
-    const permissionLogs = [adminPermissionPermissionLogsMock[permId]];
-    return res(ctx.delay(300), ctx.data({ __typename: 'Query', permissionLogs }));
+    const permissionAuditLogs = [adminPermissionAuditLogsMock[permId]];
+    return res(ctx.delay(300), ctx.data({ __typename: 'Query', permissionAuditLogs }));
   });
 }
 

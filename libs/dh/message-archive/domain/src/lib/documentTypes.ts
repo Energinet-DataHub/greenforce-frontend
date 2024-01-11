@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+/* eslint-disable @typescript-eslint/no-duplicate-enum-values */
 export enum DocumentTypes {
   ConfirmRequestChangeOfSupplier = 'RSM-001',
   RejectRequestChangeOfSupplier = 'RSM-001',

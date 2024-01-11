@@ -25,6 +25,7 @@ watt-dropdown {
 
   watt-field label .watt-field-wrapper {
     padding: 0;
+    position: relative;
   }
 
   &.watt-chip-mode.ng-dirty.ng-invalid .watt-field-wrapper watt-chip label {
@@ -85,16 +86,21 @@ watt-dropdown {
   .watt-field--chip .mat-mdc-select {
     visibility: hidden;
     position: absolute;
-    width: 100px;
+    width: 100%;
   }
 
   .mat-mdc-select-placeholder {
     color: var(--watt-input-placeholder-color);
   }
+
+  watt-field label .watt-field-wrapper {
+    background-color: transparent;
+  }
 }
 
 .watt-dropdown-panel {
   --watt-input-color: var(--watt-typography-text-color);
+
   // Add 2px because watt-form-field has 1px border on each side
   &:not(.watt-dropdown-panel-chip-mode) {
     min-width: calc(100% + 2px) !important;
@@ -113,7 +119,7 @@ watt-dropdown {
   }
 
   &.watt-dropdown-panel-chip-mode {
-    margin-top: 0;
+    margin-top: 4px;
   }
 
   &.mat-mdc-select-search-panel {

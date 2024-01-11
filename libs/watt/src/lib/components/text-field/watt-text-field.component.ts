@@ -99,7 +99,11 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         #inputField
       />
 
-      <mat-autocomplete #auto="matAutocomplete" class="watt-autocomplete-panel">
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        class="watt-autocomplete-panel"
+        (optionSelected)="autocompleteOptionSelected.emit($event.option.value)"
+      >
         <mat-option *ngFor="let option of autocompleteOptions" [value]="option">
           {{ option }}
         </mat-option>
@@ -121,6 +125,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   @Input() maxLength: string | number | null = null;
   @Input() formControl!: FormControl;
   @Input() autocompleteOptions!: string[];
+  @Input() autocompleteMatcherFn!: (value: string, option: string) => boolean;
 
   @ViewChild(MatAutocomplete) autocompleteRef!: MatAutocomplete;
 
@@ -128,6 +133,16 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
    * Emits the value of the input field when it changes.
    */
   @Output() search = new EventEmitter<string>();
+
+  /**
+   * Emits the value of the input field when an autocomplete option is selected.
+   */
+  @Output() autocompleteOptionSelected = new EventEmitter<string>();
+
+  /**
+   * Emits the value of the input field when an autocomplete option is selected.
+   */
+  @Output() autocompleteOptionDeselected = new EventEmitter<void>();
 
   private element = inject(ElementRef);
 
@@ -148,9 +163,19 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
     const value = (event.target as HTMLInputElement).value;
 
     if (this.autocompleteRef) {
-      // Reset the autocomplete selection if the value is not matching anymore, and auto-select if the value has an exact match
+      // Reset the autocomplete selection if the value is not matching anymore, and auto-select if the value has a match
       this.autocompleteRef.options.forEach((option) => {
-        option.value === value ? option.select(false) : option.deselect(false);
+        const isMatchingOption = this.autocompleteMatcherFn
+          ? this.autocompleteMatcherFn(value, option.value)
+          : option.value === value;
+
+        if (isMatchingOption) {
+          option.select(false);
+          this.autocompleteOptionSelected.emit(option.value);
+        } else {
+          option.deselect(false);
+          this.autocompleteOptionDeselected.emit();
+        }
       });
     }
 
