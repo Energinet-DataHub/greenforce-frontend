@@ -207,7 +207,7 @@
     "yarn": "3.5.0"
   },
   "msw": {
-    "workerDirectory": "libs/gf/msw/util-msw/src/assets"
+    "workerDirectory": "libs\\gf\\msw\\util-msw\\src\\assets"
   },
   "packageManager": "yarn@3.5.0"
 }
