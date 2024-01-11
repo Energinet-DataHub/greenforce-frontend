@@ -125,16 +125,15 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
         flex-direction: column;
       }
 
-      eo-transfers-form .recipient-company-name {
+      eo-transfers-form .descriptor {
         color: var(--watt-color-neutral-grey-700);
         font-size: 14px;
-        left: 74px;
-        overflow: hidden;
-        position: absolute;
-        text-overflow: ellipsis;
-        top: 38px;
-        white-space: nowrap;
-        width: 250px;
+        margin-left: var(--watt-space-s);
+        font-weight: normal;
+      }
+
+      eo-transfers-form .receiver .watt-field-wrapper {
+        max-width: 330px;
       }
     `,
   ],
@@ -240,12 +239,11 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           <p>Optional, but recommended for security reasons.</p>
         </ng-container>
 
-        <div style="position: relative;">
+        <div style="display: flex; align-items: center;">
           <watt-text-field
             label="Recipient"
             placeholder="CVR / TIN"
             type="text"
-            style="max-width: 330px;"
             [formControl]="form.controls.receiver.controls.tin"
             (keydown)="preventNonNumericInput($event)"
             data-testid="new-agreement-receiver-input"
@@ -259,7 +257,7 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
           >
             <watt-field-hint
               *ngIf="!form.controls.receiver.controls.tin.errors && mode === 'create'"
-              >Enter new CVR number or choose from previous transfer agreements</watt-field-hint
+              >Enter new CVR number or choose from previous<br /> transfer agreements</watt-field-hint
             >
 
             <watt-field-error
@@ -270,15 +268,10 @@ type FormField = 'receiverTin' | 'base64EncodedWalletDepositEndpoint' | 'startDa
             <watt-field-error *ngIf="form.controls.receiver.controls.tin.errors?.['pattern']">
               An 8-digit TIN/CVR number is required
             </watt-field-error>
-          </watt-text-field>
 
-          <div
-            *ngIf="selectedCompanyName()"
-            (click)="recipientInput.setFocus()"
-            class="recipient-company-name"
-          >
-            &nbsp;- {{ selectedCompanyName() }}
-          </div>
+            <div *ngIf="selectedCompanyName()" class="descriptor">{{ selectedCompanyName() }}</div>
+
+          </watt-text-field>
         </div>
       </div>
     </ng-template>
