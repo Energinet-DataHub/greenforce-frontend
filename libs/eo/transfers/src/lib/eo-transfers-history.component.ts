@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { LowerCasePipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, inject, signal } from '@angular/core';
 
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
