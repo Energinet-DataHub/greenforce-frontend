@@ -57,6 +57,7 @@
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid areas",
       "eSett": "eSett",
+      "imbalancePrices": "Imbalance prices",
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
@@ -734,6 +735,18 @@
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
+    }
+  },
+  "imbalancePrices": {
+    "topBarTitle": "Imbalance prices",
+    "table": {
+      "columns": {
+        "timestamp": "Time",
+        "priceAreaDk1": "DK1",
+        "priceAreaDk2": "DK2"
+      },
+      "emptyTitle": "No imbalance prices found",
+      "emptyMessage": "Try changing the search criteria"
     }
   },
   "wholesale": {

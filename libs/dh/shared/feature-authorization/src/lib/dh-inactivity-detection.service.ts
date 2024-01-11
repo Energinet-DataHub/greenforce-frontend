@@ -45,7 +45,6 @@ export class DhInactivityDetectionService {
   private readonly msal = inject(MsalService);
 
   private readonly secondsUntilWarning = 115 * 60;
-  private readonly secondsUntilOverdue = 5 * 60;
 
   private readonly inputDetection$ = merge(
     fromEvent(document, 'mousedown'),
