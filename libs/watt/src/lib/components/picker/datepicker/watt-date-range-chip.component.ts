@@ -92,13 +92,6 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
       deps: [WattDateRangeChipComponent],
     },
   ],
-  providers: [
-    {
-      provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
-      useFactory: (comp: WattDateRangeChipComponent) => comp.selectionStrategy(),
-      deps: [WattDateRangeChipComponent],
-    },
-  ],
   selector: 'watt-date-range-chip',
   encapsulation: ViewEncapsulation.None,
   styles: [
