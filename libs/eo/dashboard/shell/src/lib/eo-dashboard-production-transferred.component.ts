@@ -174,8 +174,8 @@ interface Totals {
       <div *ngIf="totals.production > 0 || isLoading; else noData">
         <h5>{{ totals.transferred | percentageOf: totals.production }} transferred</h5>
         <small
-          >{{ totals.transferred | energyUnit }} of {{ totals.production | energyUnit }} certified green
-          production was transferred</small
+          >{{ totals.transferred | energyUnit }} of {{ totals.production | energyUnit }} certified
+          green production was transferred</small
         >
       </div>
 
@@ -194,8 +194,12 @@ interface Totals {
       <ul class="legends">
         <li *ngFor="let item of barChartData.datasets" class="legend-item">
           <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
-          @if(item.label) {
-            <span class="legend-label">{{ item.label | titlecase }} ({{ totals[item.label] | percentageOf: totals.production }})</span>
+          @if (item.label) {
+            <span class="legend-label"
+              >{{ item.label | titlecase }} ({{
+                totals[item.label] | percentageOf: totals.production
+              }})</span
+            >
           }
         </li>
       </ul>
@@ -295,22 +299,18 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
       .subscribe((data) => {
         const { transfers, claims, certificates } = data;
 
-
         const consumedTotal = claims.reduce((a: number, b: number) => a + b, 0);
         const unusedTotal = certificates.reduce((a: number, b: number) => a + b, 0);
         const transferredTotal = transfers.reduce((a: number, b: number) => a + b, 0);
 
-        const productionTotal =
-        consumedTotal+
-        unusedTotal +
-        transferredTotal;
+        const productionTotal = consumedTotal + unusedTotal + transferredTotal;
 
         this.totals = {
           production: productionTotal,
           transferred: transferredTotal,
           consumed: consumedTotal,
           unused: unusedTotal,
-        }
+        };
 
         const unit = findNearestUnit(
           productionTotal /
@@ -342,9 +342,9 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
                   const type = context.dataset.label?.toLowerCase();
                   let amount: number;
 
-                  if(type === 'transferred') {
+                  if (type === 'transferred') {
                     amount = transfers[context.dataIndex];
-                  } else if(type === 'consumed') {
+                  } else if (type === 'consumed') {
                     amount = claims[context.dataIndex];
                   } else {
                     amount = certificates[context.dataIndex];
