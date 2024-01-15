@@ -26,7 +26,7 @@ import {
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -47,6 +47,13 @@ import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
 import { EoLottieComponent } from './eo-lottie.component';
 import { graphLoader } from '@energinet-datahub/eo/shared/assets';
 
+interface Totals {
+  green: number;
+  other: number;
+  consumption: number;
+  [key: string]: number;
+}
+
 @Component({
   standalone: true,
   imports: [
@@ -63,6 +70,7 @@ import { graphLoader } from '@energinet-datahub/eo/shared/assets';
     VaterStackComponent,
     WattIconComponent,
     EoLottieComponent,
+    TitleCasePipe,
   ],
   providers: [EnergyUnitPipe],
   selector: 'eo-dashboard-consumption',
@@ -161,10 +169,10 @@ import { graphLoader } from '@energinet-datahub/eo/shared/assets';
     </div>
 
     <vater-stack direction="row" gap="s">
-      <div *ngIf="consumptionTotal > 0 || isLoading; else noData">
-        <h5>{{ claimedTotal | percentageOf: consumptionTotal }} green energy</h5>
+      <div *ngIf="totals.consumption > 0 || isLoading; else noData">
+        <h5>{{ totals.green | percentageOf: totals.consumption }} green energy</h5>
         <small
-          >{{ claimedTotal | energyUnit }} of {{ consumptionTotal | energyUnit }} is certified green
+          >{{ totals.green | energyUnit }} of {{ totals.consumption | energyUnit }} is certified green
           energy</small
         >
       </div>
@@ -184,7 +192,13 @@ import { graphLoader } from '@energinet-datahub/eo/shared/assets';
       <ul class="legends">
         <li *ngFor="let item of barChartData.datasets" class="legend-item">
           <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
-          <span class="legend-label">{{ item.label }}</span>
+          @if (item.label) {
+            <span class="legend-label"
+              >{{ item.label | titlecase }} ({{
+                totals[item.label] | percentageOf: totals.consumption
+              }})</span
+            >
+          }
         </li>
       </ul>
     </vater-stack>
@@ -209,8 +223,12 @@ export class EoDashboardConsumptionComponent implements OnChanges {
 
   private labels = this.generateLabels();
 
-  protected claimedTotal = 0;
-  protected consumptionTotal = 0;
+  protected totals: Totals = {
+    green: 0,
+    other: 0,
+    consumption: 0,
+  };
+
   protected routes = eoRoutes;
 
   protected lottieAnimation = graphLoader;
@@ -275,12 +293,18 @@ export class EoDashboardConsumptionComponent implements OnChanges {
       .subscribe((data) => {
         const { claims, certificates } = data;
 
-        this.claimedTotal = claims.reduce((a: number, b: number) => a + b, 0);
-        this.consumptionTotal =
-          certificates.reduce((a: number, b: number) => a + b, 0) + this.claimedTotal;
+        const claimedTotal = claims.reduce((a: number, b: number) => a + b, 0);
+        const consumptionTotal =
+          certificates.reduce((a: number, b: number) => a + b, 0) + claimedTotal;
+
+        this.totals = {
+          green: claimedTotal,
+          other: consumptionTotal - claimedTotal,
+          consumption: consumptionTotal,
+        }
 
         const unit = findNearestUnit(
-          this.consumptionTotal /
+          consumptionTotal /
             Math.max(
               claims.filter((x: number) => x > 0).length,
               certificates.filter((x: number) => x > 0).length
@@ -321,7 +345,7 @@ export class EoDashboardConsumptionComponent implements OnChanges {
               data: claims.map((x: number) => {
                 return x > 0 ? fromWh(x, unit) : null;
               }),
-              label: 'Green',
+              label: 'green',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
               minBarLength: 8,
@@ -331,7 +355,7 @@ export class EoDashboardConsumptionComponent implements OnChanges {
               data: certificates.map((x: number) => {
                 return x > 0 ? fromWh(x, unit) : null;
               }),
-              label: 'Other',
+              label: 'other',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
               minBarLength: 8,

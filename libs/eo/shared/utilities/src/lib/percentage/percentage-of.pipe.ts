@@ -26,8 +26,8 @@ export class PercentageOfPipe implements PipeTransform {
     if (!value || total === 0) {
       return 0 + '%';
     }
-    const result = Math.floor((value / total) * 100);
-    if (result >= 1) {
+    const result = Math.round((value / total) * 100);
+    if(result >= 1) {
       return result + '%';
     } else {
       return '<1%';
