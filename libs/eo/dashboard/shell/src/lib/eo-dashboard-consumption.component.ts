@@ -172,8 +172,8 @@ interface Totals {
       <div *ngIf="totals.consumption > 0 || isLoading; else noData">
         <h5>{{ totals.green | percentageOf: totals.consumption }} green energy</h5>
         <small
-          >{{ totals.green | energyUnit }} of {{ totals.consumption | energyUnit }} is certified green
-          energy</small
+          >{{ totals.green | energyUnit }} of {{ totals.consumption | energyUnit }} is certified
+          green energy</small
         >
       </div>
 
@@ -301,7 +301,7 @@ export class EoDashboardConsumptionComponent implements OnChanges {
           green: claimedTotal,
           other: consumptionTotal - claimedTotal,
           consumption: consumptionTotal,
-        }
+        };
 
         const unit = findNearestUnit(
           consumptionTotal /
