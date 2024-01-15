@@ -1,5 +1,5 @@
 {
-  "apiBase": "/api",
+  "apiBase": "https://demo.energioprindelse.dk/api",
   "apiVersions": {
     "certificates": "20230101",
     "cvr": "20240103",
