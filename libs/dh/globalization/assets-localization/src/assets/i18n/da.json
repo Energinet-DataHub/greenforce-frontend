@@ -740,9 +740,9 @@
     "topBarTitle": "Ubalancepriser",
     "table": {
       "columns": {
-        "timestamp": "Tidspunkt",
-        "priceAreaDk1": "DK1",
-        "priceAreaDk2": "DK2"
+        "period": "Periode",
+        "priceArea": "Område",
+        "status": "Status"
       },
       "emptyTitle": "Ingen ubalancepriser fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger"
