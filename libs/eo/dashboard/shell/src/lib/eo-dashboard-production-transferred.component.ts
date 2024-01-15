@@ -26,7 +26,7 @@ import {
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -48,6 +48,14 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
 import { EoLottieComponent } from './eo-lottie.component';
 import { graphLoader } from '@energinet-datahub/eo/shared/assets';
 
+interface Totals {
+  transferred: number;
+  consumed: number;
+  unused: number;
+  production: number;
+  [key: string]: number;
+}
+
 @Component({
   standalone: true,
   imports: [
@@ -64,6 +72,7 @@ import { graphLoader } from '@energinet-datahub/eo/shared/assets';
     RouterLink,
     WattIconComponent,
     EoLottieComponent,
+    TitleCasePipe,
   ],
   providers: [EnergyUnitPipe],
   selector: 'eo-dashboard-production-transferred',
@@ -162,10 +171,10 @@ import { graphLoader } from '@energinet-datahub/eo/shared/assets';
     </div>
 
     <vater-stack direction="row" gap="s">
-      <div *ngIf="productionTotal > 0 || isLoading; else noData">
-        <h5>{{ transferredTotal | percentageOf: productionTotal }} transferred</h5>
+      <div *ngIf="totals.production > 0 || isLoading; else noData">
+        <h5>{{ totals.transferred | percentageOf: totals.production }} transferred</h5>
         <small
-          >{{ transferredTotal | energyUnit }} of {{ productionTotal | energyUnit }} certified green
+          >{{ totals.transferred | energyUnit }} of {{ totals.production | energyUnit }} certified green
           production was transferred</small
         >
       </div>
@@ -185,7 +194,9 @@ import { graphLoader } from '@energinet-datahub/eo/shared/assets';
       <ul class="legends">
         <li *ngFor="let item of barChartData.datasets" class="legend-item">
           <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
-          <span class="legend-label">{{ item.label }}</span>
+          @if(item.label) {
+            <span class="legend-label">{{ item.label | titlecase }} ({{ totals[item.label] | percentageOf: totals.production }})</span>
+          }
         </li>
       </ul>
     </vater-stack>
@@ -210,8 +221,13 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
 
   private labels = this.generateLabels();
 
-  protected transferredTotal = 0;
-  protected productionTotal = 0;
+  protected totals: Totals = {
+    transferred: 0,
+    consumed: 0,
+    unused: 0,
+    production: 0,
+  };
+
   protected routes = eoRoutes;
 
   protected lottieAnimation = graphLoader;
@@ -256,7 +272,7 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
 
     const transfers$ = this.aggregateService.getAggregatedTransfers(timeAggregate, start, end);
     const claims$ = this.aggregateService.getAggregatedClaims(timeAggregate, start, end);
-    const certificates$ = this.aggregateService.getAggregatedCertificates(
+    const productionCertificates$ = this.aggregateService.getAggregatedCertificates(
       timeAggregate,
       start,
       end,
@@ -266,7 +282,7 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
     forkJoin({
       transfers: transfers$,
       claims: claims$,
-      certificates: certificates$,
+      certificates: productionCertificates$,
     })
       .pipe(
         catchError(() => {
@@ -279,16 +295,25 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
       .subscribe((data) => {
         const { transfers, claims, certificates } = data;
 
-        this.transferredTotal = transfers.reduce((a: number, b: number) => a + b, 0);
 
-        const claimedTotal = claims.reduce((a: number, b: number) => a + b, 0);
-        this.productionTotal =
-          certificates.reduce((a: number, b: number) => a + b, 0) +
-          claimedTotal +
-          this.transferredTotal;
+        const consumedTotal = claims.reduce((a: number, b: number) => a + b, 0);
+        const unusedTotal = certificates.reduce((a: number, b: number) => a + b, 0);
+        const transferredTotal = transfers.reduce((a: number, b: number) => a + b, 0);
+
+        const productionTotal =
+        consumedTotal+
+        unusedTotal +
+        transferredTotal;
+
+        this.totals = {
+          production: productionTotal,
+          transferred: transferredTotal,
+          consumed: consumedTotal,
+          unused: unusedTotal,
+        }
 
         const unit = findNearestUnit(
-          this.productionTotal /
+          productionTotal /
             Math.max(
               claims.filter((x: number) => x > 0).length,
               certificates.filter((x: number) => x > 0).length,
@@ -314,36 +339,54 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
             tooltip: {
               callbacks: {
                 label: (context) => {
-                  const text = context.dataset.label;
-                  return `${Number(context.parsed.y).toFixed(2)} ${unit} ${text?.toLowerCase()}`;
+                  const type = context.dataset.label?.toLowerCase();
+                  let amount: number;
+
+                  if(type === 'transferred') {
+                    amount = transfers[context.dataIndex];
+                  } else if(type === 'consumed') {
+                    amount = claims[context.dataIndex];
+                  } else {
+                    amount = certificates[context.dataIndex];
+                  }
+
+                  const unit = findNearestUnit(amount)[1];
+                  return `${fromWh(amount, unit).toFixed(2)} ${unit} ${type}`;
                 },
               },
             },
           },
         };
 
-        const produced = certificates.map((x, index) => {
-          const production = x + claims[index];
-          return production > 0 ? fromWh(production, unit) : null;
-        });
-
         this.barChartData = {
           ...this.barChartData,
           labels: this.generateLabels(),
           datasets: [
             {
+              data: claims.map((x: number) => {
+                return x > 0 ? fromWh(x, unit) : null;
+              }),
+              label: 'consumed',
+              borderRadius: Number.MAX_VALUE,
+              maxBarThickness: 8,
+              minBarLength: 8,
+              backgroundColor: '#f8ad3c',
+            },
+            {
               data: transfers.map((x: number) => {
                 return x > 0 ? fromWh(x, unit) : null;
               }),
-              label: 'Transferred',
+              label: 'transferred',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
               minBarLength: 8,
               backgroundColor: '#00C898',
             },
             {
-              data: produced,
-              label: 'Not transferred',
+              data: certificates.map((x) => {
+                return x > 0 ? fromWh(x, unit) : null;
+              }),
+              label: 'unused',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
               minBarLength: 8,
