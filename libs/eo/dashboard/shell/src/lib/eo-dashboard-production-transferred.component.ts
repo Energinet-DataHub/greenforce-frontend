@@ -302,10 +302,7 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
         const consumedTotal = claims.reduce((a: number, b: number) => a + b, 0);
         const unusedTotal = certificates.reduce((a: number, b: number) => a + b, 0);
         const transferredTotal = transfers.reduce((a: number, b: number) => a + b, 0);
-        const productionTotal =
-        consumedTotal+
-        unusedTotal +
-        transferredTotal;
+        const productionTotal = consumedTotal + unusedTotal + transferredTotal;
 
         this.totals = {
           production: productionTotal,
