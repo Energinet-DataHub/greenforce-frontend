@@ -315,6 +315,16 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public async Task<IEnumerable<GridAreaOverviewItemDto>> GetGridAreaOverviewAsync([Service] IMarketParticipantClient_V1 client) =>
             await client.GridAreaOverviewAsync();
 
+        public Task<ImbalancePricesOverview> GetImbalancePricesOverviewAsync()
+        {
+            return Task.FromResult(new ImbalancePricesOverview());
+        }
+
+        public Task<IEnumerable<ImbalancePriceDay>> GetImbalancePricesForMonthAsync()
+        {
+            return Task.FromResult(Enumerable.Empty<ImbalancePriceDay>());
+        }
+
         private static Task<GetUserOverviewResponse> GetUserOverviewAsync(IMarketParticipantClient_V1 client)
         {
             return client.UserOverviewUsersSearchAsync(
