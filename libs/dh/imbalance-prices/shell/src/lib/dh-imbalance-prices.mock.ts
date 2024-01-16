@@ -14,13 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { ImbalancePriceStatus, PriceAreaCode } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { DhImbalancePrice } from './dh-imbalance-prices';
 
 export const dhImbalancePricesMock: DhImbalancePrice[] = [
   {
-    id: '1',
-    timestamp: '2023-07-01T00:00:00.000Z',
-    priceAreaDk1: '566',
-    priceAreaDk2: '566',
+    name: '2024-01-01T00:00+01:00',
+    priceAreaCode: PriceAreaCode.Dk1,
+    status: ImbalancePriceStatus.Complete,
+  },
+  {
+    name: '2024-01-01T00:00+01:00',
+    priceAreaCode: PriceAreaCode.Dk2,
+    status: ImbalancePriceStatus.MissingPrices,
+  },
+  {
+    name: '2023-12-01T00:00+01:00',
+    priceAreaCode: PriceAreaCode.Dk1,
+    status: ImbalancePriceStatus.Complete,
+  },
+  {
+    name: '2023-12-01T00:00+01:00',
+    priceAreaCode: PriceAreaCode.Dk2,
+    status: ImbalancePriceStatus.MissingPrices,
   },
 ];

@@ -210,6 +210,8 @@ type Query {
   knownEmails: [String!]!
   associatedActors(email: String!): AssociatedActors!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
+  imbalancePricesOverview: ImbalancePricesOverview!
+  imbalancePricesForMonth: [ImbalancePriceDay!]!
 }
 
 type Mutation {
@@ -402,6 +404,17 @@ input UpdatePermissionDtoInput {
   description: String!
 }
 
+type ImbalancePriceDay {
+  date: DateTime!
+  status: ImbalancePriceStatus!
+  priceDays: [ImbalancePrice!]!
+}
+
+type ImbalancePricesOverview {
+  pricePeriods: [ImbalancePricePeriod!]!
+  totalCount: Int!
+}
+
 type GridAreaOverviewItemDto {
   id: UUID!
   code: String!
@@ -490,6 +503,23 @@ type MeteringGridAreaImbalanceSearchResult {
   storageId: String!
 }
 
+type ImbalancePricePeriod {
+  name: DateTime!
+  priceAreaCode: PriceAreaCode!
+  status: ImbalancePriceStatus!
+}
+
+type ImbalancePrice {
+  timestampStart: DateTime!
+  timestampEnd: DateTime!
+  value: Decimal!
+}
+
+enum ImbalancePriceStatus {
+  COMPLETE
+  MISSING_PRICES
+}
+
 input CreateActorContactDtoInput {
   name: String!
   category: ContactCategory!
@@ -534,6 +564,9 @@ input ActorNumberDtoInput {
 input ActorNameDtoInput {
   value: String!
 }
+
+"""The built-in `Decimal` scalar type."""
+scalar Decimal
 
 type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!
