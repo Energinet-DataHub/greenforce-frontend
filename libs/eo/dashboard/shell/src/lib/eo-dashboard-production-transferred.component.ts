@@ -310,7 +310,11 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
       });
   }
 
-  private getUnit(data: { transfers: number[]; claims: number[]; certificates: number[] }): energyUnit {
+  private getUnit(data: {
+    transfers: number[];
+    claims: number[];
+    certificates: number[];
+  }): energyUnit {
     const { transfers, claims, certificates } = data;
 
     return findNearestUnit(
@@ -323,8 +327,10 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
     )[1];
   }
 
-
-  private setChartOptions(data: { transfers: number[]; claims: number[]; certificates: number[] }, unit: energyUnit) {
+  private setChartOptions(
+    data: { transfers: number[]; claims: number[]; certificates: number[] },
+    unit: energyUnit
+  ) {
     const { transfers, claims, certificates } = data;
 
     this.barChartOptions = {
@@ -365,7 +371,10 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
     };
   }
 
-  private setCharData(data: { transfers: number[]; claims: number[]; certificates: number[] }, unit: energyUnit) {
+  private setCharData(
+    data: { transfers: number[]; claims: number[]; certificates: number[] },
+    unit: energyUnit
+  ) {
     const { transfers, claims, certificates } = data;
 
     this.barChartData = {
