@@ -14,8 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { Apollo } from 'apollo-angular';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
@@ -25,11 +27,10 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { GetImbalancePricesOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhImbalancePricesTableComponent } from './table/dh-table.component';
 import { DhImbalancePrice } from './dh-imbalance-prices';
-
-import { dhImbalancePricesMock } from './dh-imbalance-prices.mock';
 
 @Component({
   selector: 'dh-imbalance-prices-shell',
@@ -66,10 +67,36 @@ import { dhImbalancePricesMock } from './dh-imbalance-prices.mock';
     DhImbalancePricesTableComponent,
   ],
 })
-export class DhImbalancePricesShellComponent {
-  tableDataSource = new WattTableDataSource<DhImbalancePrice>(dhImbalancePricesMock);
-  totalCount = dhImbalancePricesMock.length;
+export class DhImbalancePricesShellComponent implements OnInit {
+  private readonly apollo = inject(Apollo);
+  private readonly destroyRef = inject(DestroyRef);
+
+  private readonly getImbalancePricesOverview$ = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetImbalancePricesOverviewDocument,
+  });
+
+  tableDataSource = new WattTableDataSource<DhImbalancePrice>([]);
+  totalCount = 0;
 
   isLoading = false;
   hasError = false;
+
+  ngOnInit(): void {
+    this.getImbalancePricesOverview$.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (result) => {
+          this.isLoading = result.loading;
+
+          this.tableDataSource.data = result.data?.imbalancePricesOverview.pricePeriods ?? [];
+          this.totalCount = result.data?.imbalancePricesOverview.pricePeriods.length ?? 0;
+        },
+        error: () => {
+          this.hasError = true;
+          this.isLoading = false;
+        },
+      });
+  }
 }
