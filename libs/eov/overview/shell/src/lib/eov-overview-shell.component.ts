@@ -9,8 +9,8 @@ import {
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
-import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 import { Observable, filter, tap } from 'rxjs';
+import { GfAnimationUiLottieComponent } from '@energinet-datahub/gf/animation/ui-lottie';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EovOverviewStore } from '@energinet-datahub/eov/overview/data-access-api';
@@ -21,6 +21,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattExpandableCardComponent, WattExpandableCardTitleComponent } from '@energinet-datahub/watt/expandable-card';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { graphLoader } from '@energinet-datahub/eov/shared/assets';
 
 
 @Component({
@@ -107,7 +108,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
         <watt-expandable-card-title>{{ meteringPoint.meteringPointAlias === null ? meteringPoint.address + ", " + meteringPoint.postcode + " " + meteringPoint.cityName + ": " + meteringPoint.meteringPointId : meteringPoint.meteringPointAlias }}</watt-expandable-card-title>
 
         <div class="loader-container" *ngIf="isLoading[i]">
-          <ng-lottie height="64px" width="64px" [options]="options" *ngIf="isLoading[i]" />
+          <gf-animation-ui-lottie height="64px" width="64px" *ngIf="isLoading[i]" [animationData]="lottieAnimation"/>
         </div>
 
         <ul class="legends">
@@ -133,7 +134,6 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
     imports: [
       WATT_CARD,
       NgChartsModule,
-      LottieComponent,
       NgIf,
       NgFor,
       AsyncPipe,
@@ -143,7 +143,8 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
       WattIconComponent,
       WattBadgeComponent,
       WattExpandableCardComponent,
-      WattExpandableCardTitleComponent
+      WattExpandableCardTitleComponent,
+      GfAnimationUiLottieComponent,
     ]
 })
 export class EovOverviewShellComponent implements OnInit {
@@ -154,10 +155,8 @@ export class EovOverviewShellComponent implements OnInit {
   http = inject(HttpClient);
   token?: string;
   isLoading: boolean[] = [];
+  protected lottieAnimation = graphLoader;
   meteringPoints$?: Observable<MeteringPointDto[]>;
-  protected options: AnimationOptions = {
-    path: '/assets/animations/graph-loader.json',
-  };
   private labels = ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'];
   protected barChartData: Array<ChartConfiguration<'bar'>['data']> = [];
   protected barChartOptions: Array<ChartConfiguration<'bar'>['options']> = [];

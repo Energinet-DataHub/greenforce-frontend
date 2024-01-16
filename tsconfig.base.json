@@ -324,6 +324,9 @@
       "@energinet-datahub/eov/shared/services": [
         "libs/eov/shared/services/src/index.ts"
       ],
+      "@energinet-datahub/gf/animation/ui-lottie": [
+        "libs/gf/animation/ui-lottie/src/index.ts"
+      ],
       "@energinet-datahub/gf/configuration-danish-locale": [
         "libs/gf/configuration-danish-locale/src/index.ts"
       ],

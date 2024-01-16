@@ -1,8 +1,7 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideLottieOptions } from 'ngx-lottie';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 import { eovCoreShellProviders, eovShellRoutes } from '@energinet-datahub/eov/core/shell';
 import { environment, eovApiEnvironmentToken } from '@energinet-datahub/eov/shared/environments';
@@ -20,14 +19,11 @@ loadEovApiEnvironment()
     bootstrapApplication(EnergyOverviewAppComponent, {
       providers: [
         { provide: eovApiEnvironmentToken, useValue: eovApiEnvironment },
-        provideAnimations(),
+        provideAnimationsAsync(),
         provideHttpClient(withInterceptorsFromDi()),
         ...eovCoreShellProviders,
         provideRouter(eovShellRoutes, withComponentInputBinding()),
         provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
-        provideLottieOptions({
-          player: () => import(/* webpackChunkName: 'lottie-web' */ 'lottie-web'),
-        }),
       ],
     })
   )
