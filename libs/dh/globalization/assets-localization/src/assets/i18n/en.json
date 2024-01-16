@@ -746,7 +746,9 @@
         "status": "Status"
       },
       "emptyTitle": "No imbalance prices found",
-      "emptyMessage": "Try changing the search criteria"
+      "emptyMessage": "Try changing the search criteria",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
     }
   },
   "wholesale": {
