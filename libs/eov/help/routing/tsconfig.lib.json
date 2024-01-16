@@ -13,5 +13,5 @@
     "jest.config.ts",
     "src/**/*.test.ts"
   ],
-  "include": ["src/**/*.ts", "../routing/src/lib/eov-help.routes.ts"]
+  "include": ["src/**/*.ts"]
 }

@@ -23,7 +23,7 @@ export const eovShellRoutes: Routes = [
       {
         path: 'help',
         loadChildren: () =>
-          import('@energinet-datahub/eov/help/feature-faq').then(
+          import('@energinet-datahub/eov/help/routing').then(
             (esModule) => esModule.eovHelpRoutes
           ),
       },

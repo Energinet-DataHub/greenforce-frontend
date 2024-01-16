@@ -12,9 +12,25 @@ header {
     padding: 0;
   }
 
+  .areas .areas__end {
+    gap: 0;
+  }
+
   a {
     color: white;
     line-height: 40px;
+    padding: 0 12px;
+    transition: all 0.3s ease;
+    background-color: var(--watt-color-primary);
+
+    &:last-of-type {
+      padding-right: 0;
+    }
+
+    &.active-link {
+      color: var(--watt-color-primary);
+      background-color: white;
+    }
   }
 }
 

@@ -1,103 +1,122 @@
 <div class="container__content">
   <h1 class="site-header">Hjælp</h1>
-  <p class="site-header-paragraph">
-    På denne side finder du information og vejledninger vedrørende kunde- og tredjepartsportalen ElOverblik
-    <br><br>
-    ElOverblik er en kundeportal, der giver dig adgang til de data, som din netvirksomhed og din elleverandør har registreret på dit målepunkt i DataHub. Portalen giver dig også mulighed for at dele dine data med en tredjepart.
-  </p>
+  <p class="site-header-paragraph" [innerHTML]="'Customer.Help.Text' | transloco"></p>
 
   <h1>Tekniske spørgsmål</h1>
   <watt-expandable-card>
-    <watt-expandable-card-title>Hvordan logger jeg på ElOverblik</watt-expandable-card-title>
-    <p>
-      Private elkunder logger på ElOverblik med deres MitID.
-    </p>
-    <p>
-      Virksomheder logger på ElOverblik med MitID Erhverv eller Loal IdP.
-    </p>
+    <watt-expandable-card-title>{{ 'Customer.FAQ.Question.10' | transloco }}</watt-expandable-card-title>
+    <span [innerHTML]="'Customer.FAQ.Answer.10' | transloco"></span>
   </watt-expandable-card>
   <watt-expandable-card>
-    <watt-expandable-card-title>Hvordan tilmelder jeg mine målere til ElOverblik</watt-expandable-card-title>
-    <p>
-      Som privat elkunde kan du give ElOverblik tilladelse til at foretage en CPR-nummer søgning. Hvis din elleverandør har registreret dig som elkunde med dit navn og dit CPR-nummer, vil dit målepunkt automatisk blive indlæst i ElOverblik.
-    </p>
-    <p>
-      Hvis du ikke ønsker at give tilladelse til en CPR-nummer søgning, eller du ikke får noget resultat af søgningen, kan du tilmelde dit målepunkt manuelt. Du skal bruge dit målepunktsID og den tilhørende webadgangskode for at tilmelde din måler manuelt. Oplysningerne står måske på din elregning, og ellers kan du få dem oplyst af din elleverandør.
-    </p>
-    <p>
-      Medarbejdere i en virksomhed, der logger på ElOverblik med deres MitID Erhverv eller Lokal IdP, får automatisk adgang til alle de målepunkter, som er registreret i virksomhedens CVR-nummer.
-    </p>
-    <p>
-      Du finder videovejledninger på vores hjemmeside: <a href="https://energinet.dk/Energidata/DataHub/Eloverblik">Klik her</a>
-    </p>
+    <watt-expandable-card-title>{{ 'Customer.FAQ.Question.11' | transloco }}</watt-expandable-card-title>
+    <span [innerHTML]="'Customer.FAQ.Answer.11' | transloco"></span>
   </watt-expandable-card>
   <watt-expandable-card>
-    <watt-expandable-card-title>Hvor finder jeg mit målepunktsID og min webadgangskode</watt-expandable-card-title>
-    <p>
-      Dit målepunktsID er et nummer på 18 cifre, og det fremgår typisk af din regning fra din elleverandør. Det kan også være angivet som "aftagenummer."
-    </p>
-    <p>
-      Bemærk venligst at nogle elleverandører kun angiver de sidste 11 cifre i nummeret. Er det tilfældet, skal du selv tilføje 5713131 foran.
-    </p>
-    <p>
-    <br>
-      Der er til hvert målepunktsID knyttet en unik webadgangskode. Koden består af 8 tegn.
-    </p>
-    <p>
-    <br>
-      Oplysningerne står måske på din elregning og ellers kan du få dem oplyst af din elleverandør.
-    </p>
+    <watt-expandable-card-title>{{ 'Customer.FAQ.Question.12' | transloco }}</watt-expandable-card-title>
+    <span [innerHTML]="'Customer.FAQ.Answer.12' | transloco"></span>
   </watt-expandable-card>
   <watt-expandable-card>
-    <watt-expandable-card-title>Jeg kan ikke tilmelde min måler. Jeg får beskeden "Ukendt kombination af målepunktsID og webadgangskode"</watt-expandable-card-title>
+    <watt-expandable-card-title>{{ 'Customer.FAQ.Question.13' | transloco }}</watt-expandable-card-title>
+    <span [innerHTML]="'Customer.FAQ.Answer.13' | transloco"></span>
   </watt-expandable-card>
   <watt-expandable-card>
-    <watt-expandable-card-title>Jeg kan ikke søge måledata frem i den ønskede periode. Hvad gør jeg?</watt-expandable-card-title>
+    <watt-expandable-card-title>{{ 'Customer.FAQ.Question.9' | transloco }}</watt-expandable-card-title>
+    <span [innerHTML]="'Customer.FAQ.Answer.9' | transloco"></span>
   </watt-expandable-card>
   <watt-expandable-card>
-    <watt-expandable-card-title>Der er fejl i mine oplysninger på ElOverblik</watt-expandable-card-title>
+    <watt-expandable-card-title>{{ 'Customer.FAQ.Question.8' | transloco }}</watt-expandable-card-title>
+    <span [innerHTML]="'Customer.FAQ.Answer.8' | transloco"></span>
   </watt-expandable-card>
   <watt-expandable-card>
-    <watt-expandable-card-title>Jeg ønsker at dele min data med andre. Hvilke muligheder har jeg?</watt-expandable-card-title>
+    <watt-expandable-card-title>{{ 'Customer.FAQ.Question.3' | transloco }}</watt-expandable-card-title>
+    <span [innerHTML]="'Customer.FAQ.Answer.3' | transloco"></span>
   </watt-expandable-card>
   <watt-expandable-card>
-    <watt-expandable-card-title>Jeg ønsker adgang til andres eldata. Hvilke muligheder har jeg?=</watt-expandable-card-title>
+    <watt-expandable-card-title>{{ 'Customer.FAQ.Question.4' | transloco }}</watt-expandable-card-title>
+    <span [innerHTML]="'Customer.FAQ.Answer.4' | transloco"></span>
   </watt-expandable-card>
   <watt-expandable-card>
-    <watt-expandable-card-title>Jeg har et elvarmemålepunkt på ElOverblik. Hvad betyder det?</watt-expandable-card-title>
+    <watt-expandable-card-title>{{ 'Customer.FAQ.Question.5' | transloco }}</watt-expandable-card-title>
+    <span [innerHTML]="'Customer.FAQ.Answer.5' | transloco"></span>
   </watt-expandable-card>
   <watt-expandable-card>
-    <watt-expandable-card-title>Jeg har et solcelleanlæg. Hvad dækker mine målepunkter over?</watt-expandable-card-title>
+    <watt-expandable-card-title>{{ 'Customer.FAQ.Question.6' | transloco }}</watt-expandable-card-title>
+    <span [innerHTML]="'Customer.FAQ.Answer.6' | transloco"></span>
   </watt-expandable-card>
 
   <h1>Din elleverandør</h1>
   <watt-expandable-card>
-    <watt-expandable-card-title>Valg af elleverandør</watt-expandable-card-title>
+    <watt-expandable-card-title>{{ 'Customer.FAQ.Question.2' | transloco }}</watt-expandable-card-title>
+    <span [innerHTML]="'Customer.FAQ.Answer.2' | transloco"></span>
   </watt-expandable-card>
   <watt-expandable-card>
-    <watt-expandable-card-title>Hvem er min elleverandør</watt-expandable-card-title>
+    <watt-expandable-card-title>{{ 'Customer.FAQ.Question.15' | transloco }}</watt-expandable-card-title>
+    <span [innerHTML]="'Customer.FAQ.Answer.15' | transloco"></span>
   </watt-expandable-card>
   <watt-expandable-card>
     <watt-expandable-card-title>Jeg har spørgsmål til min elregning</watt-expandable-card-title>
+    <p>
+      Hvis du har spørgsmål vedrørende din elregning, skal du kontakte din elleverandør.
+      <br>
+      Du finder mere information om elleverandører <a href="https://energinet.dk/energidata/private-husstande-og-virksomheder/din-elleverandoer/">her</a>.
+    </p>
   </watt-expandable-card>
   <watt-expandable-card>
-    <watt-expandable-card-title>Jeg har ikke noget strøm. Hvad kan jeg gøre?</watt-expandable-card-title>
+    <watt-expandable-card-title>{{ 'Customer.FAQ.Question.7' | transloco }}</watt-expandable-card-title>
+    <span [innerHTML]="'Customer.FAQ.Answer.7' | transloco"></span>
   </watt-expandable-card>
 
   <h1>Ofte stillede spørgsmål</h1>
   <watt-expandable-card>
     <watt-expandable-card-title>Hvorfor findes mine data i ElOverblik</watt-expandable-card-title>
+    <p>
+      Når du er elkunde, behandler Energinet dine kunde- og målepunksstamdata i DataHub. De bruges blandt andet til at danne grundlaget for afregning hos din elleverandør.
+      <br>
+      Du kan læse mere om vores anvendelse af dine data i DataHub og dine rettigheder i forhold til vores registrering af dine data i DataHub <a href="https://energinet.dk/energidata/datahub/">her</a>.
+    </p>
   </watt-expandable-card>
   <watt-expandable-card>
     <watt-expandable-card-title>Hvem har ansvar for mine data i ElOverblik</watt-expandable-card-title>
+    <p>
+      Via ElOverblik har du adgang til de data, som din elleverandør og din netvirksomhed har registreret i DataHub.
+      <br>
+      Din lokale netvirksomhed har ansvar for målepunktsstamdata, herunder korrekt registrering af din adresse samt registrering af dit forbrug.
+      <br>
+      Din elleverandør har ansvar for kundestamdata, herunder korrekt registrering af dit navn.
+      <br>
+      Kontakt venligst din elleverandør, hvis du finder fejl i dine data på ElOverblik eller har spørgsmål vedrørende de registrerede data. Din elleverandør varetager al kundekontakten og er dit bindeled til din netvirksomhed.
+      <br>
+      <br>
+      Er du i tvivl om, hvem din elleverandør er? <a href="https://energinet.dk/energidata/private-husstande-og-virksomheder/din-elleverandoer/">Læs mere her</a>.
+      <br>
+      Vil du vide mere om rollerne i elmarkedet? <a href="https://energinet.dk/El/Elmarkedet/Roller-paa-elmarkedet">Læs mere her</a>.
+    </p>
   </watt-expandable-card>
   <watt-expandable-card>
     <watt-expandable-card-title>Hvordan vises mine data i ElOverblik</watt-expandable-card-title>
+    <p>
+      ElOverblik tilbyder forskellige visninger af dit elforbrug.
+      <br><br>
+      Grafvisning<br>
+      Et søjlediagram giver dig et hurtigt overblik over dit elforbrug. Du kan sammenligne flere års elforbrug på års- og månedsniveau, eller få vist et enkelt års elforbrug på dags- eller timeniveau.
+      <br><br>
+      Excel<br>
+      Du kan eksportere dine måledata til Excel, hvis du ønsker at se dit forbrug i tal for en selvvalgt periode.
+      <br><br>
+      API-kald<br>
+      Ved hjælp af API-kald kan du omsætte dine data til ønsket visning i eget system, men det forudsætter at du har kendskab til programmering.
+    </p>
   </watt-expandable-card>
   <watt-expandable-card>
     <watt-expandable-card-title>Hvad er en tredjepart?</watt-expandable-card-title>
+    <p>
+      En tredjepart tilbyder energiydelser til kunder baseret på kundernes eget forbrug og produktion. Kunderne giver tredjeparten adgang til deres data i DataHub via en elektronisk fuldmagt.
+      <br><br>
+      <a href="https://energinet.dk/El/Elmarkedet/Saadan-bliver-du-tredjepart">Læs her hvad du skal gøre for at blive tredjepart på det danske elmarked</a>.
+    </p>
   </watt-expandable-card>
   <watt-expandable-card>
-    <watt-expandable-card-title>Nyttige hjemmesider</watt-expandable-card-title>
+    <watt-expandable-card-title>{{ 'Customer.FAQ.Question.20' | transloco }}</watt-expandable-card-title>
+    <span [innerHTML]="'Customer.FAQ.Answer.20' | transloco"></span>
   </watt-expandable-card>
 </div>

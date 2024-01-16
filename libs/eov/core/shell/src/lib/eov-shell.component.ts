@@ -1,13 +1,14 @@
 import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { eovApiEnvironmentToken } from '@energinet-datahub/eov/shared/environments';
-import { EovAuthService } from '@energinet-datahub/eov/shared/services';
+import { DisplayLanguage, EovAuthService } from '@energinet-datahub/eov/shared/services';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
-import { EovHelpContactComponent } from '@energinet-datahub/eov/help/feature-faq';
 import { EovLandingPageShellComponent } from '@energinet-datahub/eov/landing-page/shell';
+import { EovHelpContactComponent } from '@energinet-datahub/eov/help/feature-faq';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,9 +29,9 @@ import { EovLandingPageShellComponent } from '@energinet-datahub/eov/landing-pag
           <div class="container__content areas">
             <div></div>
             <div class="areas__end">
-              <a routerLink="help">Hjælp</a>
+              <a routerLink="help" routerLinkActive="active-link" matRipple>Hjælp</a>
               <a (click)="openContactInfo()">Kontakt</a>
-              <a>English</a>
+              <a (click)="changeLanguage()">{{ activeLanguage }}</a>
             </div>
           </div>
       </div>
@@ -127,10 +128,11 @@ import { EovLandingPageShellComponent } from '@energinet-datahub/eov/landing-pag
     </footer>
     `,
 })
-export class EovShellComponent {
+export class EovShellComponent implements OnInit {
   environment = inject(eovApiEnvironmentToken);
   authService = inject(EovAuthService);
   modalService = inject(WattModalService);
+  translocoService = inject(TranslocoService);
   route = inject(ActivatedRoute);
   router = inject(Router);
   scrollUp = false;
@@ -147,6 +149,7 @@ export class EovShellComponent {
     overlayY: 'top',
   }]
   isLoggedIn$ = this.authService.hasTokenObservable();
+  activeLanguage?: string;
 
   //todo get from auth service, use current route as completion uri
   loginAsCustomer() {
@@ -182,12 +185,25 @@ export class EovShellComponent {
       `&state=${btoa(JSON.stringify({ webApp: 13, completionUri: 'http://localhost:4200/overview' }))}`;
   }
 
+  ngOnInit(): void {
+    this.setActiveLanguageString();
+  }
+
+  setActiveLanguageString(): void {
+    this.activeLanguage = this.translocoService.getActiveLang() === DisplayLanguage.Danish ? "English" : "Dansk";
+  }
+
   logout() {
     this.authService.logout();
   }
 
   openContactInfo() {
     this.modalService.open({component: EovHelpContactComponent});
+  }
+
+  changeLanguage() {
+    this.translocoService.setActiveLang(this.translocoService.getActiveLang() === DisplayLanguage.Danish ? DisplayLanguage.English : DisplayLanguage.Danish);
+    this.setActiveLanguageString();
   }
 
   @HostListener('window:scroll')
