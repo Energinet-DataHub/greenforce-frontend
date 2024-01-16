@@ -33,7 +33,7 @@
 import './commands';
 
 declare const window: {
-  cypressMockServiceWorkerIntercept: Promise<unknown>;
+  cypressMockServiceWorkerIntercept: Promise<unknown> | undefined;
 } & Window;
 
 window.cypressMockServiceWorkerIntercept = new Promise((resolve) => {

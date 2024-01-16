@@ -18,7 +18,7 @@ import { mocks, handlers, onUnhandledRequest } from './handlers';
 import { setupWorker } from 'msw/browser';
 
 declare const window: {
-  cypressMockServiceWorkerIntercept: Promise<unknown>;
+  cypressMockServiceWorkerIntercept: Promise<unknown> | undefined;
 } & Window;
 
 export async function setupServiceWorker(apiBase: string, mocks: mocks) {
