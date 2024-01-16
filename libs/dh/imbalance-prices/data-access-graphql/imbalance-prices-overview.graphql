@@ -1,0 +1,9 @@
+query GetImbalancePricesOverview {
+  imbalancePricesOverview {
+    pricePeriods {
+      name
+      priceAreaCode
+      status
+    }
+  }
+}
