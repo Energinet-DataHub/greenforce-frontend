@@ -108,10 +108,10 @@ export class ImbalancePricesHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1ImbalancePricesAssignCertificateCredentialsPost(csvFile?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1ImbalancePricesAssignCertificateCredentialsPost(csvFile?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1ImbalancePricesAssignCertificateCredentialsPost(csvFile?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1ImbalancePricesAssignCertificateCredentialsPost(csvFile?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public v1ImbalancePricesUploadImbalanceCSVPost(csvFile?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1ImbalancePricesUploadImbalanceCSVPost(csvFile?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1ImbalancePricesUploadImbalanceCSVPost(csvFile?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1ImbalancePricesUploadImbalanceCSVPost(csvFile?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -172,7 +172,7 @@ export class ImbalancePricesHttp {
             }
         }
 
-        let localVarPath = `/v1/ImbalancePrices/AssignCertificateCredentials`;
+        let localVarPath = `/v1/ImbalancePrices/UploadImbalanceCSV`;
         return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
