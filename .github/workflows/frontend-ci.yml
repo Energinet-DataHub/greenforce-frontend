@@ -70,12 +70,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
-
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
 
       - name: "PR: Production build of affected products"
         if: ${{ env.is-pull-request == 'true' }}
@@ -130,12 +129,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
-
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
 
       - name: "PR: End-to-end test affected products"
         if: ${{ env.is-pull-request == 'true' }}
@@ -171,12 +169,11 @@ jobs:
         run: git fetch --no-tags origin $BASE_BRANCH
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
-
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
 
       - name: Revert postinstall changes
         run: git reset --hard
@@ -219,12 +216,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
-
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
 
       - name: Revert postinstall changes
         run: git reset --hard
@@ -269,12 +265,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
-
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
 
       - name: "PR: Test affected projects"
         if: ${{ env.is-pull-request == 'true' }}
@@ -307,12 +302,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
-
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
 
       - name: "PR: Test affected projects"
         if: ${{ env.is-pull-request == 'true' }}

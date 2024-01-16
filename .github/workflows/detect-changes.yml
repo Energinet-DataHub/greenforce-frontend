@@ -78,12 +78,11 @@ jobs:
         run: git fetch --no-tags origin ${{ env.BASE_BRANCH }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
 
       - name: Is DH affected?
         id: dh_affected

@@ -33,12 +33,11 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
-
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
 
       - name: Run healthchecks
         run: npx nx run e2e-dh:e2e:health
