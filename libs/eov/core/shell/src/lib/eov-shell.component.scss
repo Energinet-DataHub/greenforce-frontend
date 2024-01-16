@@ -27,7 +27,7 @@ header {
       padding-right: 0;
     }
 
-    &.active-link {
+    &.active-link, &:hover {
       color: var(--watt-color-primary);
       background-color: white;
     }

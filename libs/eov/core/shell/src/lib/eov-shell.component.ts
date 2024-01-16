@@ -2,12 +2,11 @@ import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostListener, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { eovApiEnvironmentToken } from '@energinet-datahub/eov/shared/environments';
+import { EovHelpContactComponent } from '@energinet-datahub/eov/help/feature-faq';
+import { EovLandingPageShellComponent } from '@energinet-datahub/eov/landing-page/shell';
 import { DisplayLanguage, EovAuthService } from '@energinet-datahub/eov/shared/services';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
-import { EovLandingPageShellComponent } from '@energinet-datahub/eov/landing-page/shell';
-import { EovHelpContactComponent } from '@energinet-datahub/eov/help/feature-faq';
 import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
@@ -29,7 +28,7 @@ import { TranslocoService } from '@ngneat/transloco';
           <div class="container__content areas">
             <div></div>
             <div class="areas__end">
-              <a routerLink="help" routerLinkActive="active-link" matRipple>Hjælp</a>
+              <a routerLink="help" routerLinkActive="active-link">Hjælp</a>
               <a (click)="openContactInfo()">Kontakt</a>
               <a (click)="changeLanguage()">{{ activeLanguage }}</a>
             </div>
@@ -129,7 +128,6 @@ import { TranslocoService } from '@ngneat/transloco';
     `,
 })
 export class EovShellComponent implements OnInit {
-  environment = inject(eovApiEnvironmentToken);
   authService = inject(EovAuthService);
   modalService = inject(WattModalService);
   translocoService = inject(TranslocoService);
@@ -151,46 +149,24 @@ export class EovShellComponent implements OnInit {
   isLoggedIn$ = this.authService.hasTokenObservable();
   activeLanguage?: string;
 
-  //todo get from auth service, use current route as completion uri
-  loginAsCustomer() {
-    window.location.href =
-      `${this.environment.netsBaseURL}/connect/authorize` +
-      `?response_type=code&client_id=${this.environment.clientId}` +
-      `&prompt=true` +
-      `&redirect_uri=${this.environment.customerApiUrl}/api/oidc/callback` +
-      `&language=da&scope=mitid+openid+userinfo_token+ssn` +
-      `&idp_values=mitid&idp_params=%7B%22mitid%22%3A%7B%22reference_text%22%3A%22TG9naW4gdGlsIEVsT3ZlcmJsaWs%3D%22%7D%7D` +
-      `&state=${btoa(JSON.stringify({ webApp: 11, completionUri: 'http://localhost:4200/overview' }))}`;
-  }
-
-  loginAsCorp() {
-    window.location.href =
-      `${this.environment.netsBaseURL}/connect/authorize` +
-      `?response_type=code&client_id=${this.environment.clientId}` +
-      `&prompt=true` +
-      `&redirect_uri=${this.environment.customerApiUrl}/api/oidc/callback` +
-      `&language=da&scope=nemid+openid+ssn+userinfo_token+nemlogin` +
-      `&idp_values=nemid+mitid_erhverv&idp_params=%7B%22nemid%22%3A%7B%22amr_values%22%3A%22nemid.keyfile%20nemid.otp%22%2C%22private_to_business%22%3Atrue%2C%22code_app_trans_ctx%22%3A%22TG9naW4gdGlsIEVsT3ZlcmJsaWs%3D%22%7D%7D` +
-      `&state=${btoa(JSON.stringify({ webApp: 11, completionUri: 'http://localhost:4200/overview' }))}`;
-  }
-
-  loginAsThirdParty() {
-    window.location.href =
-      `${this.environment.netsBaseURL}/connect/authorize` +
-      `?response_type=code&client_id=${this.environment.clientId}` +
-      `&prompt=true` +
-      `&redirect_uri=${this.environment.thirdPartyApiUrl}/api/oidc/callback` +
-      `&language=da&scope=nemid+openid+ssn+userinfo_token+nemlogin` +
-      `&idp_values=nemid+mitid_erhverv&idp_params=%7B%22nemid%22%3A%7B%22amr_values%22%3A%22nemid.keyfile%20nemid.otp%22%2C%22private_to_business%22%3Atrue%2C%22code_app_trans_ctx%22%3A%22TG9naW4gdGlsIEVsT3ZlcmJsaWs%3D%22%7D%7D` +
-      `&state=${btoa(JSON.stringify({ webApp: 13, completionUri: 'http://localhost:4200/overview' }))}`;
-  }
-
   ngOnInit(): void {
     this.setActiveLanguageString();
   }
 
   setActiveLanguageString(): void {
     this.activeLanguage = this.translocoService.getActiveLang() === DisplayLanguage.Danish ? "English" : "Dansk";
+  }
+
+  loginAsCustomer() {
+   this.authService.loginAsCustomer();
+  }
+
+  loginAsCorp() {
+    this.authService.loginAsCorp();
+  }
+
+  loginAsThirdParty() {
+    this.authService.loginAsThirdParty();
   }
 
   logout() {
