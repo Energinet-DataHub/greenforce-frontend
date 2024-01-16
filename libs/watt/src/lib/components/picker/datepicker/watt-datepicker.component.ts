@@ -56,6 +56,7 @@ const danishLocaleCode = 'da';
 export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 /**
+ * @deprecated Use WattDatepickerV2Component instead
  * Usage:
  * `import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';`
  *
@@ -77,8 +78,8 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
   imports: [NgIf, MatDatepickerModule, MatInputModule, WattButtonComponent, WattFieldComponent],
 })
 export class WattDatepickerComponent extends WattPickerBase {
-  protected override inputMaskService = inject(WattInputMaskService);
-  protected override rangeInputService = inject(WattRangeInputService);
+  protected inputMaskService = inject(WattInputMaskService);
+  protected rangeInputService = inject(WattRangeInputService);
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });
   private locale = inject(LOCALE_ID);
