@@ -14,10 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { ResultOf } from '@graphql-typed-document-node/core';
+import { mockGetImbalancePricesOverviewQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import { imbalancePricesOverviewQueryMock } from './data/imbalance-prices/imbalance-prices-overview-query';
 
-import { GetImbalancePricesOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+export function imbalancePricesMocks() {
+  return [getImbalancePricesOverviewQuery()];
+}
 
-export type DhImbalancePrice = ResultOf<
-  typeof GetImbalancePricesOverviewDocument
->['imbalancePricesOverview']['pricePeriods'][0];
+function getImbalancePricesOverviewQuery() {
+  return mockGetImbalancePricesOverviewQuery((req, res, ctx) => {
+    return res(ctx.delay(300), ctx.data(imbalancePricesOverviewQueryMock));
+  });
+}

@@ -22,6 +22,7 @@ import { marketParticipantUserMocks } from './lib/marketParticipantUser';
 import { marketParticipantUserRoleMocks } from './lib/marketParticipantUserRole';
 import { tokenMocks } from './lib/token';
 import { eSettMocks } from './lib/esett-mocks';
+import { imbalancePricesMocks } from './lib/imbalance-prices-mocks';
 
 export const mocks = [
   wholesaleMocks,
@@ -32,4 +33,5 @@ export const mocks = [
   marketParticipantUserRoleMocks,
   tokenMocks,
   eSettMocks,
+  imbalancePricesMocks,
 ];
