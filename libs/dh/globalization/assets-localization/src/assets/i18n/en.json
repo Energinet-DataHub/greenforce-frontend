@@ -741,9 +741,9 @@
     "topBarTitle": "Imbalance prices",
     "table": {
       "columns": {
-        "timestamp": "Time",
-        "priceAreaDk1": "DK1",
-        "priceAreaDk2": "DK2"
+        "period": "Period",
+        "priceArea": "Area",
+        "status": "Status"
       },
       "emptyTitle": "No imbalance prices found",
       "emptyMessage": "Try changing the search criteria"

@@ -31,7 +31,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/backend/opengeh-wholesale/source/dotnet/Services/WebApi/WebApi.csproj",
+        "${workspaceFolder}/backend/opengeh-wholesale/source/dotnet/wholesale-api/WebApi/WebApi.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
