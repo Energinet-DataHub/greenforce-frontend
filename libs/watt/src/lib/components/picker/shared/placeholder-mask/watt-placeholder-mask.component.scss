@@ -14,8 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattDatepickerComponent } from './watt-datepicker.component';
-export { WattDatepickerV2Component } from './watt-datepicker-v2.component';
-export { WattDateRangeChipComponent } from './watt-date-range-chip.component';
-export { WattDateChipComponent } from './watt-date-chip.component';
-export { danishTimeZoneIdentifier } from './watt-datepicker.component';
+@use "@energinet-datahub/watt/utils" as watt;
+
+watt-placeholder-mask {
+  position: absolute;
+  font-family: watt.$typography-monospace-font-family;
+  box-sizing: content-box;
+  width: 100%;
+  line-height: 20px;
+  padding: 1px 2px;
+  letter-spacing: -0.03em;
+  pointer-events: none;
+  display: block;
+}
+
+.ghost {
+  color: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.filler {
+  color: var(--watt-color-neutral-grey-300);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}

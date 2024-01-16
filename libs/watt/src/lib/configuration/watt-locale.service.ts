@@ -18,14 +18,18 @@ import { Injectable } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 
 import { WattDateAdapter, WattSupportedLocales } from './watt-date-adapter';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WattLocaleService {
+  onLocaleChange$ = new Subject<WattSupportedLocales>();
+
   constructor(private dateAdapter: DateAdapter<unknown>) {}
 
   setActiveLocale(locale: WattSupportedLocales): void {
     (this.dateAdapter as WattDateAdapter).setActiveLocale(locale);
+    this.onLocaleChange$.next(locale);
   }
 }

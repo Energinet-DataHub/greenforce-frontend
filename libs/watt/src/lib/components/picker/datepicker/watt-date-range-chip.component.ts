@@ -36,8 +36,9 @@ import {
 } from '@angular/material/datepicker';
 import endOfDay from 'date-fns/endOfDay';
 
-import { WattDatePipe, WattRange } from '../../../utils/date';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
+import { WattDatePipe, WattRange } from '../../../utils/date';
+import { WattButtonComponent } from '../../button/watt-button.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 import { WattFieldComponent } from '../../field/watt-field.component';
 import { DateAdapter } from '@angular/material/core';
@@ -82,6 +83,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
     WattDatePipe,
     WattIconComponent,
     WattFieldComponent,
+    WattButtonComponent,
   ],
   providers: [
     {
@@ -113,7 +115,12 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
     `,
   ],
   template: `
-    <mat-date-range-picker #picker />
+    <mat-date-range-picker #picker>
+      <mat-date-range-picker-actions>
+        <watt-button variant="text" (click)="clearInput()" icon="remove">Ryd</watt-button>
+        <watt-button variant="primary" matDateRangePickerApply>Vælg</watt-button>
+      </mat-date-range-picker-actions>
+    </mat-date-range-picker>
     <watt-field [control]="formControl" [chipMode]="true">
       <watt-menu-chip
         hasPopup="dialog"
@@ -170,5 +177,10 @@ export class WattDateRangeChipComponent {
     const strategy = new WattDateRangeSelectionStrategy(this._dateAdapter);
     strategy.setCustomSelectionStrategy(this.customSelectionStrategy);
     return strategy;
+  }
+
+  clearInput(): void {
+    this.value = undefined;
+    this.selectionChange.emit(null);
   }
 }
