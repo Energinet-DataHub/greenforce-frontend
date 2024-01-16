@@ -38,6 +38,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import {
   EnergyUnitPipe,
   PercentageOfPipe,
+  energyUnit,
   eoRoutes,
   findNearestUnit,
   fromWh,
@@ -298,105 +299,125 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
       )
       .subscribe((data) => {
         const { transfers, claims, certificates } = data;
+        this.setTotals(transfers, claims, certificates);
 
-        const consumedTotal = claims.reduce((a: number, b: number) => a + b, 0);
-        const unusedTotal = certificates.reduce((a: number, b: number) => a + b, 0);
-        const transferredTotal = transfers.reduce((a: number, b: number) => a + b, 0);
-        const productionTotal = consumedTotal + unusedTotal + transferredTotal;
-
-        this.totals = {
-          production: productionTotal,
-          transferred: transferredTotal,
-          consumed: consumedTotal,
-          unused: unusedTotal,
-        };
-
-        const unit = findNearestUnit(
-          productionTotal /
-            Math.max(
-              claims.filter((x: number) => x > 0).length,
-              certificates.filter((x: number) => x > 0).length,
-              transfers.filter((x: number) => x > 0).length
-            )
-        )[1];
-
-        this.barChartOptions = {
-          ...this.barChartOptions,
-          scales: {
-            ...this.barChartOptions?.scales,
-            y: {
-              ...this.barChartOptions?.scales?.y,
-              title: {
-                ...this.barChartOptions?.scales?.y?.title,
-                display: true,
-                text: unit,
-                align: 'end',
-              },
-            },
-          },
-          plugins: {
-            tooltip: {
-              callbacks: {
-                label: (context) => {
-                  const type = context.dataset.label?.toLowerCase();
-                  let amount: number;
-
-                  if (type === 'transferred') {
-                    amount = transfers[context.dataIndex];
-                  } else if (type === 'consumed') {
-                    amount = claims[context.dataIndex];
-                  } else {
-                    amount = certificates[context.dataIndex];
-                  }
-
-                  const unit = findNearestUnit(amount)[1];
-                  return `${fromWh(amount, unit).toFixed(2)} ${unit} ${type}`;
-                },
-              },
-            },
-          },
-        };
-
-        this.barChartData = {
-          ...this.barChartData,
-          labels: this.generateLabels(),
-          datasets: [
-            {
-              data: claims.map((x: number) => {
-                return x > 0 ? fromWh(x, unit) : null;
-              }),
-              label: 'consumed',
-              borderRadius: Number.MAX_VALUE,
-              maxBarThickness: 8,
-              minBarLength: 8,
-              backgroundColor: '#f8ad3c',
-            },
-            {
-              data: transfers.map((x: number) => {
-                return x > 0 ? fromWh(x, unit) : null;
-              }),
-              label: 'transferred',
-              borderRadius: Number.MAX_VALUE,
-              maxBarThickness: 8,
-              minBarLength: 8,
-              backgroundColor: '#00C898',
-            },
-            {
-              data: certificates.map((x) => {
-                return x > 0 ? fromWh(x, unit) : null;
-              }),
-              label: 'unused',
-              borderRadius: Number.MAX_VALUE,
-              maxBarThickness: 8,
-              minBarLength: 8,
-              backgroundColor: '#02525E',
-            },
-          ],
-        };
+        const unit = this.getUnit(data);
+        this.setChartOptions(data, unit);
+        this.setCharData(data, unit);
 
         this.isLoading = false;
         this.cd.detectChanges();
       });
+  }
+
+  private getUnit(data: { transfers: number[]; claims: number[]; certificates: number[] }): energyUnit {
+    const { transfers, claims, certificates } = data;
+
+    return findNearestUnit(
+      this.totals.production /
+        Math.max(
+          claims.filter((x: number) => x > 0).length,
+          certificates.filter((x: number) => x > 0).length,
+          transfers.filter((x: number) => x > 0).length
+        )
+    )[1];
+  }
+
+
+  private setChartOptions(data: { transfers: number[]; claims: number[]; certificates: number[] }, unit: energyUnit) {
+    const { transfers, claims, certificates } = data;
+
+    this.barChartOptions = {
+      ...this.barChartOptions,
+      scales: {
+        ...this.barChartOptions?.scales,
+        y: {
+          ...this.barChartOptions?.scales?.y,
+          title: {
+            ...this.barChartOptions?.scales?.y?.title,
+            display: true,
+            text: unit,
+            align: 'end',
+          },
+        },
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: (context) => {
+              const type = context.dataset.label?.toLowerCase();
+              let amount: number;
+
+              if (type === 'transferred') {
+                amount = transfers[context.dataIndex];
+              } else if (type === 'consumed') {
+                amount = claims[context.dataIndex];
+              } else {
+                amount = certificates[context.dataIndex];
+              }
+
+              const unit = findNearestUnit(amount)[1];
+              return `${fromWh(amount, unit).toFixed(2)} ${unit} ${type}`;
+            },
+          },
+        },
+      },
+    };
+  }
+
+  private setCharData(data: { transfers: number[]; claims: number[]; certificates: number[] }, unit: energyUnit) {
+    const { transfers, claims, certificates } = data;
+
+    this.barChartData = {
+      ...this.barChartData,
+      labels: this.generateLabels(),
+      datasets: [
+        {
+          data: claims.map((x: number) => {
+            return x > 0 ? fromWh(x, unit) : null;
+          }),
+          label: 'consumed',
+          borderRadius: Number.MAX_VALUE,
+          maxBarThickness: 8,
+          minBarLength: 8,
+          backgroundColor: '#f8ad3c',
+        },
+        {
+          data: transfers.map((x: number) => {
+            return x > 0 ? fromWh(x, unit) : null;
+          }),
+          label: 'transferred',
+          borderRadius: Number.MAX_VALUE,
+          maxBarThickness: 8,
+          minBarLength: 8,
+          backgroundColor: '#00C898',
+        },
+        {
+          data: certificates.map((x) => {
+            return x > 0 ? fromWh(x, unit) : null;
+          }),
+          label: 'unused',
+          borderRadius: Number.MAX_VALUE,
+          maxBarThickness: 8,
+          minBarLength: 8,
+          backgroundColor: '#02525E',
+        },
+      ],
+    };
+  }
+
+  private setTotals(transfers: number[], claims: number[], certificates: number[]) {
+    const consumedTotal = claims.reduce((a: number, b: number) => a + b, 0);
+    const unusedTotal = certificates.reduce((a: number, b: number) => a + b, 0);
+    const transferredTotal = transfers.reduce((a: number, b: number) => a + b, 0);
+    const productionTotal = consumedTotal + unusedTotal + transferredTotal;
+
+    this.totals = {
+      production: productionTotal,
+      transferred: transferredTotal,
+      consumed: consumedTotal,
+      unused: unusedTotal,
+    };
   }
 
   private generateLabels() {
