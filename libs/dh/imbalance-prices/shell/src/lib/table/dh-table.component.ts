@@ -16,7 +16,6 @@
  */
 import { Component, Input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { CurrencyPipe } from '@angular/common';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -39,7 +38,6 @@ import { DhImbalancePrice } from '../dh-imbalance-prices';
   ],
   imports: [
     TranslocoDirective,
-    CurrencyPipe,
 
     WATT_TABLE,
     WattPaginatorComponent,
@@ -51,9 +49,9 @@ import { DhImbalancePrice } from '../dh-imbalance-prices';
 })
 export class DhImbalancePricesTableComponent {
   columns: WattTableColumnDef<DhImbalancePrice> = {
-    timestamp: { accessor: 'timestamp' },
-    priceAreaDk1: { accessor: 'priceAreaDk1' },
-    priceAreaDk2: { accessor: 'priceAreaDk2' },
+    period: { accessor: 'name' },
+    priceArea: { accessor: 'priceAreaCode' },
+    status: { accessor: 'status' },
   };
 
   @Input() isLoading!: boolean;
