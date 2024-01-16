@@ -35,7 +35,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Uploads a CSV file with imbalancePrices
         /// </summary>
         [HttpPost]
-        [Route("AssignCertificateCredentials")]
+        [Route("UploadImbalanceCSV")]
         [RequestSizeLimit(10485760)]
         public async Task<ActionResult> UploadImbalancePricesAsync(IFormFile csvFile)
         {
