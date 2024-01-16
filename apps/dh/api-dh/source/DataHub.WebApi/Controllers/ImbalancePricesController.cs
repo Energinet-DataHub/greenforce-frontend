@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.IO;
 using System.Threading.Tasks;
-using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,9 +23,9 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public sealed class ImbalancePricesController : ControllerBase
     {
-        private readonly IESettExchangeClient_V1 _client;
+        private readonly IImbalancePricesClient_V1 _client;
 
-        public ImbalancePricesController(IESettExchangeClient_V1 client)
+        public ImbalancePricesController(IImbalancePricesClient_V1 client)
         {
             _client = client;
         }
@@ -42,6 +41,7 @@ namespace Energinet.DataHub.WebApi.Controllers
             try
             {
                 await using var openReadStream = csvFile.OpenReadStream();
+                await _client.UploadAsync(new FileParameter(openReadStream));
                 return Ok();
             }
             catch (ApiException ex)
