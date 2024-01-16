@@ -93,10 +93,12 @@ describe(DhUsersTabComponent, () => {
     };
   }
 
-  it('displays user data', async () => {
+  it('displays user data', fakeAsync(async () => {
     await setup(users);
 
     const [testUser] = users;
+
+    tick(250);
 
     const firstName = screen.getByRole('gridcell', {
       name: new RegExp(testUser.firstName, 'i'),
@@ -119,7 +121,7 @@ describe(DhUsersTabComponent, () => {
     expect(email).toBeInTheDocument();
     expect(phone).toBeInTheDocument();
     expect(status).toBeInTheDocument();
-  });
+  }));
 
   it('forwards search input value to store', fakeAsync(async () => {
     const { store } = await setup();
