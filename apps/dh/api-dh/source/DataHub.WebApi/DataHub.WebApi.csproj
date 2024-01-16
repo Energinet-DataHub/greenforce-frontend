@@ -40,6 +40,7 @@ limitations under the License.
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net70) run Clients/ESettExchange/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/ESettExchange/V1/swagger.json')" />
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net70) run Clients/MarketParticipant/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/MarketParticipant/V1/swagger.json')" />
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net70) run Clients/EDI/B2CWebApi/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/EDI/B2CWebApi/V1/swagger.json')" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net70) run Clients/ImbalancePrices/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/ImbalancePrices/V1/swagger.json')" />
   </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
