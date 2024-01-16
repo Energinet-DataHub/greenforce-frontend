@@ -57,6 +57,7 @@
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
+      "imbalancePrices": "Ubalancepriser",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "calculations": "Beregninger",
@@ -735,6 +736,18 @@
       "errorMessage": "{{ shared.error.message }}"
     }
   },
+  "imbalancePrices": {
+    "topBarTitle": "Ubalancepriser",
+    "table": {
+      "columns": {
+        "period": "Periode",
+        "priceArea": "Område",
+        "status": "Status"
+      },
+      "emptyTitle": "Ingen ubalancepriser fundet",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger"
+    }
+  },
   "wholesale": {
     "shared": {
       "BALANCE_FIXING": "Balancefiksering",
@@ -1211,7 +1224,8 @@
         "tab": {
           "masterData": {
             "tabLabel": "Stamdata",
-            "descriptionInputLabel": "Beskrivelse"
+            "descriptionInputLabel": "Beskrivelse",
+            "descriptionExceedsMaxLength": "Maks {{requiredLength}} karakterer."
           }
         },
         "cancel": "Fortryd",

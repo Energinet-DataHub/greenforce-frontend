@@ -7994,6 +7994,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@maskito/angular@npm:^1.8.1":
+  version: 1.8.1
+  resolution: "@maskito/angular@npm:1.8.1"
+  dependencies:
+    tslib: 2.6.2
+  peerDependencies:
+    "@angular/common": ">=12.0.0"
+    "@angular/core": ">=12.0.0"
+    "@angular/forms": ">=12.0.0"
+    "@maskito/core": ^1.8.1
+    rxjs: ">=6.0.0"
+  checksum: 87848fdfeceb5fd8cc13b2b5ea77a5fcb6a5ea008e3c8d3127a08f7e4c54376ede8564db5d454b8f1b9df05fd4cbb1ee1608703eb30753e4b1c8dac5a605c388
+  languageName: node
+  linkType: hard
+
+"@maskito/core@npm:^1.8.1":
+  version: 1.8.1
+  resolution: "@maskito/core@npm:1.8.1"
+  checksum: 9863ec44093864db45a0f0f48056abe1c1953d454f49cc5e824512842164c13e3ee13cab080cee24165ac26333d8fcaa18685869ef96df449d8197b551ec7d01
+  languageName: node
+  linkType: hard
+
+"@maskito/kit@npm:^1.8.1":
+  version: 1.8.1
+  resolution: "@maskito/kit@npm:1.8.1"
+  peerDependencies:
+    "@maskito/core": ^1.8.1
+  checksum: c0939186b99214259c44949d496d9ca199dfa1bb24162253c54ab8796718aa16c75625267aaf72dd88509c0fdfd6d7c29336a6286302f5391acc8ea00f142e34
+  languageName: node
+  linkType: hard
+
 "@material/animation@npm:15.0.0-canary.a246a4439.0":
   version: 15.0.0-canary.a246a4439.0
   resolution: "@material/animation@npm:15.0.0-canary.a246a4439.0"
@@ -20556,6 +20587,9 @@ __metadata:
     "@graphql-codegen/typescript-msw": ^2.1.0
     "@graphql-codegen/typescript-operations": 4.0.1
     "@homebound/graphql-typescript-scalar-type-policies": 2.11.0
+    "@maskito/angular": ^1.8.1
+    "@maskito/core": ^1.8.1
+    "@maskito/kit": ^1.8.1
     "@microsoft/applicationinsights-angularplugin-js": 3.0.2
     "@microsoft/applicationinsights-web": 2.8.12
     "@ngneat/transloco": 5.0.7

@@ -57,6 +57,7 @@
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid areas",
       "eSett": "eSett",
+      "imbalancePrices": "Imbalance prices",
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
@@ -736,6 +737,18 @@
       "errorMessage": "{{ shared.error.message }}"
     }
   },
+  "imbalancePrices": {
+    "topBarTitle": "Imbalance prices",
+    "table": {
+      "columns": {
+        "period": "Period",
+        "priceArea": "Area",
+        "status": "Status"
+      },
+      "emptyTitle": "No imbalance prices found",
+      "emptyMessage": "Try changing the search criteria"
+    }
+  },
   "wholesale": {
     "shared": {
       "BALANCE_FIXING": "Balance fixing",
@@ -1230,7 +1243,8 @@
         "tab": {
           "masterData": {
             "tabLabel": "Master data",
-            "descriptionInputLabel": "Description"
+            "descriptionInputLabel": "Description",
+            "descriptionExceedsMaxLength": "Max {{requiredLength}} characters."
           }
         },
         "cancel": "Cancel",
