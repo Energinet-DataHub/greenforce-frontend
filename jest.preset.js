@@ -6,6 +6,7 @@ module.exports = {
   ...nxPreset,
   testEnvironment: path.join(__dirname, 'scripts/gf/test-util', 'jsdom-lax-ssl-environment.ts'),
   testURL: 'https://localhost:5001',
+  setupFiles: [path.join(__dirname, 'jest.polyfills.js')],
   /* TODO: Update to latest Jest snapshotFormat
    * By default Nx has kept the older style of Jest Snapshot formats
    * to prevent breaking of any existing tests with snapshots.

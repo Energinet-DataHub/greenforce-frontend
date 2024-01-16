@@ -30,6 +30,7 @@ class JsdomLaxSslEnvironment extends JSDOMEnvironment {
           ...config.projectConfig,
           testEnvironmentOptions: {
             ...config.projectConfig.testEnvironmentOptions,
+            customExportConditions: [''],
             resources: new ResourceLoader({
               // this is all we want to change
               // allow self-signed certificates

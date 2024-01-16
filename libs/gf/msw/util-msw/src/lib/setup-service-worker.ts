@@ -17,13 +17,19 @@
 import { mocks, handlers, onUnhandledRequest } from './handlers';
 import { setupWorker } from 'msw/browser';
 
-export function setupServiceWorker(apiBase: string, mocks: mocks) {
+declare const window: {
+  cypressMockServiceWorkerIntercept: Promise<unknown>;
+} & Window;
+
+export async function setupServiceWorker(apiBase: string, mocks: mocks) {
   try {
+    if (window.cypressMockServiceWorkerIntercept) {
+      await window.cypressMockServiceWorkerIntercept;
+    }
+
     const worker = setupWorker(...handlers(apiBase, mocks));
-    return worker.start({ onUnhandledRequest });
-    // eslint-disable-next-line no-empty
+    await worker.start({ onUnhandledRequest });
   } catch (error) {
-    console.error(error);
+    console.error('setupServiceWorker', error);
   }
-  return null;
 }
