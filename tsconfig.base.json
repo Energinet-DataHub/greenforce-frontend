@@ -9,7 +9,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2015",
-    "module": "esnext",
+    "module": "ESNext",
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
@@ -85,6 +85,9 @@
       ],
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/src/index.ts"
+      ],
+      "@energinet-datahub/dh/imbalance-prices/shell": [
+        "libs/dh/imbalance-prices/shell/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/actors/data-access-api": [
         "libs/dh/market-participant/actors/data-access-api/src/index.ts"

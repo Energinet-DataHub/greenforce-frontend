@@ -19,8 +19,8 @@ import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angu
 import { NgIf } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
-import { WattDatePipe } from '../../../utils/date';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
+import { WattDatePipe } from '../../../utils/date';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 import { WattFieldComponent } from '../../field/watt-field.component';
 import { FormControl } from '@angular/forms';

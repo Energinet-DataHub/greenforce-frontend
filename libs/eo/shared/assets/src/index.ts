@@ -15,5 +15,7 @@
  * limitations under the License.
  */
 import * as eoLocalApiEnvironment from './assets/configuration/eo-api-environment.local.json';
+import graphLoader from './assets/graph-loader.json';
 
 export { eoLocalApiEnvironment };
+export { graphLoader };

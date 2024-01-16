@@ -15,38 +15,57 @@
  * limitations under the License.
  */
 watt-slider {
-  display: block;
   display: flex;
   flex-direction: column;
-  height: var(--watt-space-s);
   margin: var(--watt-space-m) 0;
 
   .controls {
     position: relative;
   }
 
-  input[type="range"]::-moz-range-thumb,
   input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    pointer-events: all;
+    width: var(--watt-space-ml);
+    height: var(--watt-space-ml);
+    background-color: var(--watt-color-primary-dark);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px var(--watt-color-primary);
+    cursor: pointer;
+  }
+
+  input[type="range"]::-moz-range-thumb {
     pointer-events: all;
     width: 24px;
     height: 24px;
     background-color: var(--watt-color-primary-dark);
-    border-radius: 16px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px var(--watt-color-primary);
     cursor: pointer;
   }
 
+  input[type="range"]::-webkit-slider-thumb:active {
+    box-shadow:
+      inset 0 0 3px var(--watt-color-primary-dark),
+      0 0 9px var(--watt-color-primary-dark);
+    -webkit-box-shadow:
+      inset 0 0 3px var(--watt-color-primary-dark),
+      0 0 9px var(--watt-color-primary-dark);
+    cursor: ew-resize;
+  }
+
   input[type="range"] {
-    height: var(--watt-space-s);
+    -webkit-appearance: none;
+    appearance: none;
     width: 100%;
+    height: var(--watt-space-s);
+    top: (var(--watt-space-s) / 2);
+    left: 0;
+    right: 0;
     position: absolute;
+    transform: translate(0, -50%);
     background-color: var(--watt-color-secondary-light);
     pointer-events: none;
     border-radius: var(--watt-space-s);
-  }
-
-  #min {
-    height: 0;
-    z-index: 1;
-    margin-top: 7px;
   }
 }

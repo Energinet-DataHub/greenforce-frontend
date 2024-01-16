@@ -6,7 +6,7 @@
   "prefix": "eo",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "assets": [
@@ -33,12 +33,11 @@
         ],
         "allowedCommonJsDependencies": ["date-fns", "inputmask", "lottie-web"],
         "baseHref": "/",
-        "commonChunk": false,
         "index": "apps/eo/app-eo/src/index.html",
         "inlineStyleLanguage": "scss",
-        "main": "apps/eo/app-eo/src/main.ts",
+        "browser": "apps/eo/app-eo/src/main.ts",
         "outputPath": "dist/apps/eo/app-eo",
-        "polyfills": "zone.js",
+        "polyfills": ["zone.js"],
         "scripts": [],
         "stylePreprocessorOptions": {
           "includePaths": [
@@ -51,20 +50,16 @@
       },
       "configurations": {
         "development": {
-          "buildOptimizer": false,
           "extractLicenses": false,
           "namedChunks": true,
           "optimization": false,
-          "sourceMap": true,
-          "vendorChunk": true
+          "sourceMap": true
         },
         "mocked": {
-          "buildOptimizer": false,
           "extractLicenses": false,
           "namedChunks": true,
           "optimization": false,
           "sourceMap": true,
-          "vendorChunk": true,
           "fileReplacements": [
             {
               "replace": "libs/eo/shared/environments/src/lib/environment.ts",
@@ -76,12 +71,12 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
+              "maximumWarning": "1.1mb",
               "maximumError": "1.5mb"
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "5kb",
+              "maximumWarning": "6kb",
               "maximumError": "10kb"
             }
           ],
@@ -126,6 +121,14 @@
         }
       },
       "defaultConfiguration": "development"
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "app-eo:build:mocked",
+        "staticFilePath": "dist/apps/eo/app-eo/browser",
+        "spa": true
+      }
     },
     "lint": {
       "executor": "@nx/eslint:lint",

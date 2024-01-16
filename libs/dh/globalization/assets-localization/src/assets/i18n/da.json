@@ -57,6 +57,7 @@
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
+      "imbalancePrices": "Ubalancepriser",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "calculations": "Beregninger",
@@ -735,6 +736,18 @@
       "errorMessage": "{{ shared.error.message }}"
     }
   },
+  "imbalancePrices": {
+    "topBarTitle": "Ubalancepriser",
+    "table": {
+      "columns": {
+        "timestamp": "Tidspunkt",
+        "priceAreaDk1": "DK1",
+        "priceAreaDk2": "DK2"
+      },
+      "emptyTitle": "Ingen ubalancepriser fundet",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger"
+    }
+  },
   "wholesale": {
     "shared": {
       "BALANCE_FIXING": "Balancefiksering",
@@ -953,6 +966,7 @@
         "phoneNumber": "Telefonnr.",
         "phoneNumberError": "Telefonnr. format +45 12345678",
         "wrongEmailPattern": "Indtast en valid email",
+        "userAlreadyAssignedActor": "Bruger er allerede oprettet.",
         "noUserRolesError": "Mindst én brugerrolle skal vælges.",
         "successMessage": "{{ email }} blev inviteret",
         "next": "Næste",
@@ -964,8 +978,7 @@
         "serverErrors": {
           "invalidPhoneNumber": "Telefonnummeret er formatteret korrekt, men er ikke gyldigt."
         },
-        "unknowEmailInfoMessage": "For at acceptere invitationen skal brugeren allerede have adgang til DataHub, fordi brugeren ikke er en del af din organisation.",
-        "userAlreadyInvited": "Bruger er allerede oprettet."
+        "unknowEmailInfoMessage": "For at acceptere invitationen skal brugeren allerede have adgang til DataHub, fordi brugeren ikke er en del af din organisation."
       },
       "download": "Download",
       "drawer": {
@@ -1211,7 +1224,8 @@
         "tab": {
           "masterData": {
             "tabLabel": "Stamdata",
-            "descriptionInputLabel": "Beskrivelse"
+            "descriptionInputLabel": "Beskrivelse",
+            "descriptionExceedsMaxLength": "Maks {{requiredLength}} karakterer."
           }
         },
         "cancel": "Fortryd",

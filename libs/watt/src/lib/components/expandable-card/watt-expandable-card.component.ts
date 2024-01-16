@@ -19,6 +19,7 @@ import {
   Component,
   ContentChild,
   Directive,
+  HostBinding,
   EventEmitter,
   inject,
   Input,
@@ -56,6 +57,12 @@ export class WattExpandableCardComponent {
 
   @ContentChild(WattExpandableCardContentDirective)
   _content?: WattExpandableCardContentDirective;
+  /** Whether the card is elevated or has solid border */
+  @Input() variant: 'solid' | 'elevation' = 'elevation';
+  @HostBinding('class')
+  get cssClass() {
+    return `watt-expandable-card watt-${this.variant}`;
+  }
 
   opened() {
     this.cardOpened.emit();

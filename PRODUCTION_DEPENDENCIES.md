@@ -2,20 +2,23 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@angular/animations](https://github.com/angular/angular) | 17.0.2 | MIT |
+  | [@angular/animations](https://github.com/angular/angular) | 17.0.8 | MIT |
 | [@angular/cdk](https://github.com/angular/components) | 17.0.4 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 17.0.2 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 17.0.2 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 17.0.2 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 17.0.2 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 17.0.8 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 17.0.8 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 17.0.8 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 17.0.8 | MIT |
 | [@angular/material-date-fns-adapter](https://github.com/angular/components) | 17.0.4 | MIT |
 | [@angular/material](https://github.com/angular/components) | 17.0.4 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.0.2 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 17.0.2 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 17.0.2 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.0.8 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 17.0.8 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 17.0.8 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.8 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.5.0 | MIT |
+| [@maskito/angular](https://github.com/taiga-family/maskito) | 1.8.1 | Apache-2.0 |
+| [@maskito/core](https://github.com/taiga-family/maskito) | 1.8.1 | Apache-2.0 |
+| [@maskito/kit](https://github.com/taiga-family/maskito) | 1.8.1 | Apache-2.0 |
 | [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 3.0.2 | MIT |
 | [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.12 | MIT |
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
@@ -33,10 +36,8 @@
 | [inputmask](https://github.com/RobinHerbots/Inputmask) | 5.0.7 | MIT |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 3.1.2 | MIT |
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |
-| [ng-lottie](https://github.com/chenqingspring/ng-lottie) | 0.3.2 | MIT |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 5.0.3 | MIT |
 | [ngx-highlightjs](https://github.com/murhafsousli/ngx-highlightjs) | 10.0.0 | MIT |
-| [ngx-lottie](https://github.com/ngx-lottie/ngx-lottie) | 10.0.0 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 7.0.5 | MIT |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.0 | Apache-2.0 |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
