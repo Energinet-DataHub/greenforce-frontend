@@ -66,9 +66,9 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build wholesale",
-      "program": "${workspaceFolder}/backend/opengeh-wholesale/source/dotnet/Services/WebApi/bin/Debug/net7.0/Energinet.DataHub.Wholesale.WebApi.dll",
+      "program": "${workspaceFolder}/backend/opengeh-wholesale/source/dotnet/wholesale-api/WebApi/bin/Debug/net7.0/Energinet.DataHub.Wholesale.WebApi.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/backend/opengeh-wholesale/source/dotnet/Services/WebApi",
+      "cwd": "${workspaceFolder}/backend/opengeh-wholesale/source/dotnet/wholesale-api/WebAPI",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",
