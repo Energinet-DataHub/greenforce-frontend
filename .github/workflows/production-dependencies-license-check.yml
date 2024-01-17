@@ -31,17 +31,18 @@ jobs:
           token: ${{ secrets.internal_github_pat }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
+          cache: yarn
 
       - name: Check if dependencies have changed
         id: dependencies_have_changed
         uses: ./.github/actions/dependencies-have-changed
 
-      - name: 📥 Monorepo install
+      - name: 📥 Yarn install
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
-        uses: ./.github/actions/yarn-nm-install
+        run: yarn install --immutable
 
       - name: Read .allowed-licenses.json
         id: allowed-licenses

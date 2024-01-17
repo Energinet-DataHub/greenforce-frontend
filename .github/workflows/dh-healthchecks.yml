@@ -33,12 +33,13 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Run healthchecks
         run: npx nx run e2e-dh:e2e:health
@@ -54,10 +55,7 @@ jobs:
   # Send notification to teams channel if healthchecks failed
   #
   dispatch_failed:
-    needs:
-      [
-        healthchecks
-      ]
+    needs: [healthchecks]
     if: |
       always() &&
       contains(needs.*.result, 'failure')
