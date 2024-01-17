@@ -26,11 +26,12 @@ import {
   mockGetPermissionsQuery,
   mockGetUserRoleAuditLogsQuery,
   mockGetUserRolesByEicfunctionQuery,
+  mockGetUserAuditLogsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import marketParticipantActorQuerySelectionActors from './data/marketParticipantActorQuerySelectionActors.json';
 import marketParticipantUserRoleGetAll from './data/marketParticipantUserRoleGetAll.json';
-import marketParticipantUserGetUserAuditLogs from './data/marketParticipantUserGetUserAuditLogs.json';
+import { marketParticipantUserGetUserAuditLogs } from './data/marketParticipantUserGetUserAuditLogs';
 import marketParticipantUserRoleGetUserRoleWithPermissions from './data/marketParticipantUserRoleGetUserRoleWithPermissions.json';
 import { getUserRoleAuditLogsMock } from './data/get-user-role-audit-logs';
 import { adminPermissionsMock } from './data/admin-get-permissions';
@@ -48,7 +49,7 @@ export function adminMocks(apiBase: string) {
     getMarketParticipantUserSearchUsers(apiBase),
     getMarketParticipantActorQuerySelectionActors(apiBase),
     getMarketParticipantUserRoleGetAll(apiBase),
-    getMarketParticipantUserGetUserAuditLogs(apiBase),
+    getMarketParticipantUserGetUserAuditLogs(),
     getMarketParticipantUserRoleGetUserRoleWithPermissions(apiBase),
     putMarketParticipantUserRoleUpdate(apiBase),
     getMarketParticipantOrganizationGetFilteredActors(apiBase),
@@ -103,10 +104,10 @@ function getMarketParticipantUserRoleGetAll(apiBase: string) {
   });
 }
 
-function getMarketParticipantUserGetUserAuditLogs(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantUser/GetUserAuditLogs`, async () => {
+function getMarketParticipantUserGetUserAuditLogs() {
+  return mockGetUserAuditLogsQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantUserGetUserAuditLogs);
+    return HttpResponse.json({ data: marketParticipantUserGetUserAuditLogs });
   });
 }
 
