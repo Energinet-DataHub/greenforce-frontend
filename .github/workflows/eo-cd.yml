@@ -53,7 +53,7 @@ jobs:
         with:
           fetch-depth: 0
       # needed for nx affected command
-      - name: 'PR: Fetch base branch Git history'
+      - name: "PR: Fetch base branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
 

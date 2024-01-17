@@ -32,8 +32,7 @@ README.md
 
 # Ignore .github
 
-.github/**/*.*
-!**/*.yml
+.github/**/*
 
 # Ignore .mdx files due to issues formatting mdx vers. 2 comments
 **/*.mdx

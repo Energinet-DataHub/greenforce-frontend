@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # needed for Nx affected command
-      - name: 'PR: Check out source code with current branch Git history'
+      - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v3
         with:
@@ -61,7 +61,7 @@ jobs:
           ref: ${{ github.head_ref }}
 
       # needed for Nx affected command
-      - name: 'PR: Fetch base branch Git history'
+      - name: "PR: Fetch base branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
 
@@ -78,11 +78,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: 'PR: Production build of affected products'
+      - name: "PR: Production build of affected products"
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:build --base=origin/$BASE_BRANCH
 
-      - name: 'Merge: Production build of all products'
+      - name: "Merge: Production build of all products"
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn build
 
@@ -114,7 +114,7 @@ jobs:
 
     steps:
       # needed for Nx affected command
-      - name: 'PR: Check out source code with current branch Git history'
+      - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v3
         with:
@@ -122,11 +122,11 @@ jobs:
           ref: ${{ github.head_ref }}
 
       # needed for Nx affected command
-      - name: 'PR: Fetch base branch Git history'
+      - name: "PR: Fetch base branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: 'Merge: Check out source code'
+      - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v3
 
@@ -139,7 +139,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: 'PR: End-to-end test affected products'
+      - name: "PR: End-to-end test affected products"
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
 
@@ -155,7 +155,7 @@ jobs:
         run: yarn e2e --configuration=ci
 
   format:
-    name: 'PR: Format'
+    name: "PR: Format"
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
@@ -204,7 +204,7 @@ jobs:
 
     steps:
       # needed for Nx affected command
-      - name: 'PR: Check out source code with current branch Git history'
+      - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v3
         with:
@@ -213,11 +213,11 @@ jobs:
           token: ${{ secrets.internal_github_pat }}
 
       # needed for Nx affected command
-      - name: 'PR: Fetch base branch Git history'
+      - name: "PR: Fetch base branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: 'Merge: Check out source code'
+      - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v3
 
@@ -233,11 +233,11 @@ jobs:
       - name: Revert postinstall changes
         run: git reset --hard
 
-      - name: 'PR: Fix affected projects using lint rules'
+      - name: "PR: Fix affected projects using lint rules"
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:lint:fix --base=origin/$BASE_BRANCH
 
-      - name: 'PR: Commit fixed files'
+      - name: "PR: Commit fixed files"
         if: ${{ env.is-pull-request == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
@@ -246,7 +246,7 @@ jobs:
           git commit -m "style: lint" || cd .
           git push origin --force-with-lease || cd .
 
-      - name: 'Merge: Lint workspace and all projects'
+      - name: "Merge: Lint workspace and all projects"
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn lint
 
@@ -256,7 +256,7 @@ jobs:
 
     steps:
       # needed for Nx affected command
-      - name: 'PR: Check out source code with current branch Git history'
+      - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v3
         with:
@@ -264,11 +264,11 @@ jobs:
           ref: ${{ github.head_ref }}
 
       # needed for Nx affected command
-      - name: 'PR: Fetch base branch Git history'
+      - name: "PR: Fetch base branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: 'Merge: Check out source code'
+      - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v3
 
@@ -281,11 +281,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: 'PR: Test affected projects'
+      - name: "PR: Test affected projects"
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:test --base=origin/$BASE_BRANCH
 
-      - name: 'Merge: Test all projects'
+      - name: "Merge: Test all projects"
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn test
 
@@ -295,7 +295,7 @@ jobs:
 
     steps:
       # needed for Nx affected command
-      - name: 'PR: Check out source code with current branch Git history'
+      - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v3
         with:
@@ -303,11 +303,11 @@ jobs:
           ref: ${{ github.head_ref }}
 
       # needed for Nx affected command
-      - name: 'PR: Fetch base branch Git history'
+      - name: "PR: Fetch base branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: 'Merge: Check out source code'
+      - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v3
 
@@ -320,11 +320,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: 'PR: Test affected projects'
+      - name: "PR: Test affected projects"
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected -t component-test --base=origin/$BASE_BRANCH
 
-      - name: 'Merge: Test all projects'
+      - name: "Merge: Test all projects"
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn nx run-many -t component-test
 
