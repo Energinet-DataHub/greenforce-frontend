@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { HttpResponse, delay, http } from 'msw';
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import { mockGetImbalancePricesOverviewQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { imbalancePricesOverviewQueryMock } from './data/imbalance-prices/imbalance-prices-overview-query';
-import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 export function imbalancePricesMocks(apiBase: string) {
   return [getImbalancePricesOverviewQuery(), imbalancePricesUploadImbalanceCSV(apiBase)];
@@ -35,8 +35,8 @@ function getImbalancePricesOverviewQuery() {
 }
 
 function imbalancePricesUploadImbalanceCSV(apiBase: string) {
-  return http.get(`${apiBase}/v1/ImbalancePrices/UploadImbalanceCSV`, async () => {
+  return http.post(`${apiBase}/v1/ImbalancePrices/UploadImbalanceCSV`, async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(null, { status: 200 });
+    return new HttpResponse(null, { status: 200 });
   });
 }
