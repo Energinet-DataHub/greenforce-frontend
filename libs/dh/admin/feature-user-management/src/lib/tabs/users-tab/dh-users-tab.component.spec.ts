@@ -34,7 +34,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
-import { DhUsersTabComponent } from './dh-users-tab.component';
+import { DhUsersTabComponent, debounceTimeValue } from './dh-users-tab.component';
 
 const users: MarketParticipantUserOverviewItemDto[] = [
   {
@@ -98,7 +98,7 @@ describe(DhUsersTabComponent, () => {
 
     const [testUser] = users;
 
-    tick(250);
+    tick(debounceTimeValue);
 
     const firstName = screen.getByRole('gridcell', {
       name: new RegExp(testUser.firstName, 'i'),
@@ -130,7 +130,7 @@ describe(DhUsersTabComponent, () => {
     const searchInput = screen.getByRole('searchbox');
 
     userEvent.type(searchInput, inputValue);
-    tick(250);
+    tick(debounceTimeValue);
 
     expect(store.updateSearchText).toHaveBeenCalledWith(inputValue);
   }));
@@ -149,7 +149,7 @@ describe(DhUsersTabComponent, () => {
       await option.click();
     }
 
-    tick(250);
+    tick(debounceTimeValue);
 
     const allOptions = Object.keys(MarketParticipantUserStatus);
     expect(store.updateStatusFilter).toHaveBeenCalledWith(allOptions);
