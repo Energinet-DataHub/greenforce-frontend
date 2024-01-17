@@ -37,7 +37,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
-          cache: 'yarn'
+          cache: yarn
       - run: yarn install --frozen-lockfile
 
       - name: Production build

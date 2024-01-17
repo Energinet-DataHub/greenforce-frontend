@@ -53,10 +53,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
-          cache: 'yarn'
+          cache: yarn
       - run: yarn install --frozen-lockfile
 
-        # 👇 Adds Chromatic as a step in the workflow
+      # 👇 Adds Chromatic as a step in the workflow
       - name: Publish to Chromatic
         uses: chromaui/action@v1
         # Chromatic GitHub Action options

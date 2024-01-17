@@ -61,7 +61,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
-          cache: 'yarn'
+          cache: yarn
       - run: yarn install --frozen-lockfile
 
       - name: Is affected?
@@ -84,7 +84,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
-          cache: 'yarn'
+          cache: yarn
       - run: yarn install --frozen-lockfile
 
       - name: Production build
