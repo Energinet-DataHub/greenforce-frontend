@@ -26,5 +26,6 @@ export const permissions = [
   'esett-exchange:manage',
   'request-aggregated-measured-data:view',
   'actor-credentials:manage',
+  'imbalance-prices:manage',
 ] as const;
 export type Permission = (typeof permissions)[number];

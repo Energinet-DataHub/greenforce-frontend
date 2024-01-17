@@ -746,7 +746,16 @@
         "status": "Status"
       },
       "emptyTitle": "No imbalance prices found",
-      "emptyMessage": "Try changing the search criteria"
+      "emptyMessage": "Try changing the search criteria",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
+    },
+    "uploadButton": "Upload file",
+    "uploadSuccess": "Upload successful",
+    "uploadError": "An error occurred while uploading the file. Please try again",
+    "status": {
+      "MISSING_PRICES": "Missing prices",
+      "COMPLETE": "Complete"
     }
   },
   "wholesale": {

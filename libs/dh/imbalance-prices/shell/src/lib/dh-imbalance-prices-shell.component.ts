@@ -14,22 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { Apollo } from 'apollo-angular';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
   VaterFlexComponent,
+  VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { GetImbalancePricesOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhImbalancePricesTableComponent } from './table/dh-table.component';
 import { DhImbalancePrice } from './dh-imbalance-prices';
-
-import { dhImbalancePricesMock } from './dh-imbalance-prices.mock';
+import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance-prices-uploader.component';
 
 @Component({
   selector: 'dh-imbalance-prices-shell',
@@ -61,15 +65,53 @@ import { dhImbalancePricesMock } from './dh-imbalance-prices.mock';
     VaterFlexComponent,
     VaterStackComponent,
     VaterUtilityDirective,
+    VaterSpacerComponent,
     WattPaginatorComponent,
 
     DhImbalancePricesTableComponent,
+    DhImbalancePricesUploaderComponent,
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhImbalancePricesShellComponent {
-  tableDataSource = new WattTableDataSource<DhImbalancePrice>(dhImbalancePricesMock);
-  totalCount = dhImbalancePricesMock.length;
+  private readonly apollo = inject(Apollo);
+  private readonly destroyRef = inject(DestroyRef);
+
+  private readonly getImbalancePricesOverview$ = this.apollo.query({
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'network-only',
+    query: GetImbalancePricesOverviewDocument,
+  });
+
+  tableDataSource = new WattTableDataSource<DhImbalancePrice>([]);
+  totalCount = 0;
 
   isLoading = false;
   hasError = false;
+
+  constructor() {
+    this.fetchData();
+  }
+
+  onUploadSuccess(): void {
+    this.tableDataSource.data = [];
+    this.fetchData();
+  }
+
+  private fetchData(): void {
+    this.isLoading = true;
+
+    this.getImbalancePricesOverview$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: ({ loading, data }) => {
+        this.isLoading = loading;
+
+        this.tableDataSource.data = data.imbalancePricesOverview.pricePeriods;
+        this.totalCount = data.imbalancePricesOverview.pricePeriods.length;
+      },
+      error: () => {
+        this.hasError = true;
+        this.isLoading = false;
+      },
+    });
+  }
 }

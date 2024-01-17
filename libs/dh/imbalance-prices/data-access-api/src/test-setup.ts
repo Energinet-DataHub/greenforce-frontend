@@ -14,10 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { ResultOf } from '@graphql-typed-document-node/core';
+import 'jest-preset-angular/setup-jest';
 
-import { GetImbalancePricesOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-export type DhImbalancePrice = ResultOf<
-  typeof GetImbalancePricesOverviewDocument
->['imbalancePricesOverview']['pricePeriods'][0];
+setUpTestbed();

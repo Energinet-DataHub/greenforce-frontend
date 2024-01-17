@@ -14,10 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { ResultOf } from '@graphql-typed-document-node/core';
-
-import { GetImbalancePricesOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-export type DhImbalancePrice = ResultOf<
-  typeof GetImbalancePricesOverviewDocument
->['imbalancePricesOverview']['pricePeriods'][0];
+export { DhImbalancePricesDataAccessApiStore } from './lib/dh-imbalance-prices-data-access-api.store';
