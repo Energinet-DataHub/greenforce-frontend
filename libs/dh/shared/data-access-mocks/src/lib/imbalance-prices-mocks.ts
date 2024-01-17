@@ -36,7 +36,7 @@ function getImbalancePricesOverviewQuery() {
 }
 
 function imbalancePricesUploadImbalanceCSV(apiBase: string) {
-  return http.get(`${apiBase}/vv1/ImbalancePrices/UploadImbalanceCSV`, async () => {
+  return http.get(`${apiBase}/v1/ImbalancePrices/UploadImbalanceCSV`, async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json(null, { status: 200 });
   });
