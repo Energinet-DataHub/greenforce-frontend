@@ -86,6 +86,9 @@
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/src/index.ts"
       ],
+      "@energinet-datahub/dh/imbalance-prices/data-access-api": [
+        "libs/dh/imbalance-prices/data-access-api/src/index.ts"
+      ],
       "@energinet-datahub/dh/imbalance-prices/shell": [
         "libs/dh/imbalance-prices/shell/src/index.ts"
       ],

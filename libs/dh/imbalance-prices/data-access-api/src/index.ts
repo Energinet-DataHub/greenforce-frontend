@@ -14,18 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const permissions = [
-  'organizations:manage',
-  'grid-areas:manage',
-  'actors:manage',
-  'users:manage',
-  'user-roles:manage',
-  'permissions:manage',
-  'calculations:manage',
-  'settlement-reports:manage',
-  'esett-exchange:manage',
-  'request-aggregated-measured-data:view',
-  'actor-credentials:manage',
-  'imbalance-prices:manage',
-] as const;
-export type Permission = (typeof permissions)[number];
+export { DhImbalancePricesDataAccessApiStore } from './lib/dh-imbalance-prices-data-access-api.store';
