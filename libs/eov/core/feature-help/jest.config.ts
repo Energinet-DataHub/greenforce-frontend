@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'eov-help-routing',
+  displayName: 'eov-core-feature-help',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/eov/help/routing',
+  coverageDirectory: '../../../../coverage/libs/eov/core/feature-help',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

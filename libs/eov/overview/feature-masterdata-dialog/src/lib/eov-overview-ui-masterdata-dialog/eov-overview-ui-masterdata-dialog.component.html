@@ -1,0 +1,99 @@
+<watt-modal #modal title="{{ 'Customer.MasterData.Masterdata' | transloco }}" size="large">
+  <h3>
+    {{ "Customer.MasterData.Masterdata.Title" | transloco }}
+  </h3>
+  <p>{{ "Customer.MasterData.Masterdata.Text" | transloco }}</p>
+     <table>
+      <tr>
+        <td>{{ "Customer.MasterData.Masterdata.ParentMeteringPointId" | transloco }}</td>
+        <td>
+          <p>
+            {{
+              details?.meteringPointMainDetails.parentMeteringPointId !== ""
+                ? details?.meteringPointMainDetails.parentMeteringPointId
+                : ("Customer.MasterData.MasterData.NoParentId" | transloco)
+            }}
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ "Customer.MasterData.Masterdata.MeteringPointAlias" | transloco }}</td>
+        <td>
+          <p>
+            {{ details?.meteringPointMainDetails.meteringPointAlias }}
+            <img src="assets/Blyant.png" (click)="edit()" class="iconpen" />
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ "Customer.MasterData.Masterdata.TypeOfMP" | transloco }}</td>
+        <td>
+          <p>
+            {{ "TypeOfMP." + details?.meteringPointMainDetails.typeOfMP | transloco }}
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ "Customer.MasterData.Masterdata.EnergyTimeSeriesMeasureUnit" | transloco }}</td>
+        <td>
+          <p>
+            {{ details?.meteringPointMainDetails.energyTimeSeriesMeasureUnit }}
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ "Customer.MasterData.Masterdata.BalanceSupplierName" | transloco }}</td>
+        <td>
+          <p>
+            {{ details?.meteringPointMainDetails.balanceSupplierName }}
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ "Customer.MasterData.Masterdata.EstimatedAnnualVolume" | transloco }}</td>
+        <td>
+          <p>
+            {{ details?.meteringPointMainDetails.estimatedAnnualVolume }}
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ "Customer.MasterData.Masterdata.SettlementMethod" | transloco }}</td>
+        <td>
+          <p *ngIf="details?.meteringPointMainDetails.settlementMethod">
+            {{ "SettlementMethod." + details.meteringPointMainDetails.settlementMethod | transloco }}
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ "Customer.MasterData.Masterdata.MeterNumber" | transloco }}</td>
+        <td>
+          <p>
+            {{ details?.meteringPointMainDetails.meterNumber }}
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ "Customer.MasterData.Masterdata.PowerLimitA" | transloco }}</td>
+        <td>
+          <p *ngIf="details?.meteringPointMainDetails.powerLimitA">
+            {{ details?.meteringPointMainDetails.powerLimitA }}
+          </p>
+          <p *ngIf="!details?.meteringPointMainDetails.powerLimitA">
+            {{ "Customer.MasterData.Masterdata.PowerLimitA.NotAvailable" | transloco }}
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ "Customer.MasterData.Masterdata.PowerLimitKw" | transloco }}</td>
+        <td>
+          <p *ngIf="details?.meteringPointMainDetails.powerLimitKw">
+            {{ details?.meteringPointMainDetails.powerLimitKw }}
+          </p>
+          <p *ngIf="!details?.meteringPointMainDetails.powerLimitKw">
+            {{ "Customer.MasterData.Masterdata.PowerLimitKw.NotAvailable" | transloco }}
+          </p>
+        </td>
+      </tr>
+    </table>
+</watt-modal>

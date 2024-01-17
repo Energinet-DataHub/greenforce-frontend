@@ -2,8 +2,8 @@ import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostListener, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { EovHelpContactComponent } from '@energinet-datahub/eov/help/feature-faq';
 import { EovLandingPageShellComponent } from '@energinet-datahub/eov/landing-page/shell';
+import { EovCoreFeatureHelpComponent, EovCoreFeatureHelpContactComponent } from '@energinet-datahub/eov/core/feature-help';
 import { DisplayLanguage, EovAuthService } from '@energinet-datahub/eov/shared/services';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
@@ -18,7 +18,8 @@ import { TranslocoService } from '@ngneat/transloco';
     NgIf,
     AsyncPipe,
     WattButtonComponent,
-    EovHelpContactComponent
+    EovCoreFeatureHelpComponent,
+    EovCoreFeatureHelpContactComponent,
   ],
   selector: 'eov-shell',
   styleUrls: ['./eov-shell.component.scss'],
@@ -174,7 +175,7 @@ export class EovShellComponent implements OnInit {
   }
 
   openContactInfo() {
-    this.modalService.open({component: EovHelpContactComponent});
+    this.modalService.open({component: EovCoreFeatureHelpContactComponent});
   }
 
   changeLanguage() {

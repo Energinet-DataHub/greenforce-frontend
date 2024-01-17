@@ -1,16 +1,16 @@
 {
-  "name": "eov-help-feature-faq",
+  "name": "eov-core-feature-help",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/eov/help/feature-faq/src",
+  "sourceRoot": "libs/eov/core/feature-help/src",
   "prefix": "eov",
-  "tags": ["product:eov", "domain:help", "type:feature"],
+  "tags": ["product:eov", "domain:core", "type:feature"],
   "projectType": "library",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/eov/help/feature-faq/jest.config.ts"
+        "jestConfig": "libs/eov/core/feature-help/jest.config.ts"
       }
     },
     "lint": {

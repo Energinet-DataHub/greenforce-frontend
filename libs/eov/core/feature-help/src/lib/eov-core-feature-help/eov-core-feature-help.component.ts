@@ -4,7 +4,7 @@ import { WattExpandableCardComponent, WattExpandableCardTitleComponent } from '@
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
-  selector: 'eov-eov-help-feature-faq',
+  selector: 'eov-eov-core-feature-help',
   standalone: true,
   imports: [
     CommonModule,
@@ -12,9 +12,7 @@ import { TranslocoModule } from '@ngneat/transloco';
     WattExpandableCardTitleComponent,
     TranslocoModule,
   ],
-  templateUrl: './eov-help-feature-faq.component.html',
-  styleUrl: './eov-help-feature-faq.component.scss',
+  templateUrl: './eov-core-feature-help.component.html',
+  styleUrl: './eov-core-feature-help.component.scss',
 })
-export class EovHelpFeatureFaqComponent {
-
-}
+export class EovCoreFeatureHelpComponent {}

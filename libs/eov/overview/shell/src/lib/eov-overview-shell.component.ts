@@ -22,115 +22,16 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattExpandableCardComponent, WattExpandableCardTitleComponent } from '@energinet-datahub/watt/expandable-card';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { graphLoader } from '@energinet-datahub/eov/shared/assets';
+import { TranslocoModule } from '@ngneat/transloco';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 
 @Component({
     selector: 'eov-overview-shell',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styles: [`
-      @use '@energinet-datahub/watt/utils' as watt;
-
-      div.container__content {
-        padding: 10px 0 0 0;
-      }
-
-      watt-expandable-card {
-        padding: var(--watt-space-s);
-      }
-
-      :host {
-
-        h5 {
-          font-size: 30px;
-          line-height: 28px;
-          color: var(--watt-on-light-high-emphasis);
-          font-weight: 300;
-          margin-bottom: var(--watt-space-s);
-        }
-
-        small {
-          color: var(--watt-on-light-low-emphasis);
-        }
-
-        a {
-          display: flex;
-          align-items: center;
-        }
-
-        .chart-container {
-          position: relative;
-          width: calc(100% - 20px);
-          height: 300px;
-          padding-top: var(--watt-space-m);
-          padding-bottom: var(--watt-space-m);
-        }
-
-        .loader-container {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(255, 255, 255, 0.8);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 1;
-        }
-
-        .legend-item {
-          display: flex;
-          align-items: center;
-          font-size: 12px;
-          margin-bottom: var(--watt-space-xs);
-
-          &::before {
-            display: none;
-          }
-
-          .legend-color {
-            width: 8px;
-            min-width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: var(--watt-space-s);
-          }
-        }
-      }
-    `],
+    styleUrl: './eov-overview-shell.component.scss',
     standalone: true,
-    template: `
-    <div class="container__content">
-      <h2>Målepunkter</h2>
-      <watt-expandable-card *ngFor="let meteringPoint of meteringPoints$ | async; index as i" (cardOpened)="cardOpened(i)" (afterExpanded)="afterOpened(meteringPoint.meteringPointId, i)">
-        <watt-badge size="large">{{ i | number:'2.0' }}</watt-badge>
-        <watt-expandable-card-title>{{ meteringPoint.meteringPointAlias === null ? meteringPoint.address + ", " + meteringPoint.postcode + " " + meteringPoint.cityName + ": " + meteringPoint.meteringPointId : meteringPoint.meteringPointAlias }}</watt-expandable-card-title>
-
-        <div class="loader-container" *ngIf="isLoading[i]">
-          <gf-animation-ui-lottie height="64px" width="64px" *ngIf="isLoading[i]" [animationData]="lottieAnimation"/>
-        </div>
-
-        <ul class="legends">
-          <li *ngFor="let item of barChartData[i]?.datasets" class="legend-item">
-            <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
-            <span class="legend-label">{{ item.label }}</span>
-          </li>
-        </ul>
-
-        <div class="chart-container">
-          <canvas
-            baseChart
-            [data]="barChartData[i]"
-            [options]="barChartOptions[i]"
-            [legend]="false"
-            [type]="'bar'"
-          >
-          </canvas>
-        </div>
-      </watt-expandable-card>
-    </div>
-  `,
+    templateUrl: './eov-overview-shell.component.html',
     imports: [
       WATT_CARD,
       NgChartsModule,
@@ -144,7 +45,9 @@ import { graphLoader } from '@energinet-datahub/eov/shared/assets';
       WattBadgeComponent,
       WattExpandableCardComponent,
       WattExpandableCardTitleComponent,
+      WattButtonComponent,
       GfAnimationUiLottieComponent,
+      TranslocoModule,
     ]
 })
 export class EovOverviewShellComponent implements OnInit {

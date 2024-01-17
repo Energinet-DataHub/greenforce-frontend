@@ -296,13 +296,10 @@
       "@energinet-datahub/eo/wallet/data-access-api": [
         "libs/eo/wallet/data-access-api/index.ts"
       ],
+      "@energinet-datahub/eov/core/feature-help": [
+        "libs/eov/core/feature-help/src/index.ts"
+      ],
       "@energinet-datahub/eov/core/shell": ["libs/eov/core/shell/src/index.ts"],
-      "@energinet-datahub/eov/help/feature-faq": [
-        "libs/eov/help/feature-faq/src/index.ts"
-      ],
-      "@energinet-datahub/eov/help/routing": [
-        "libs/eov/help/routing/src/index.ts"
-      ],
       "@energinet-datahub/eov/landing-page/shell": [
         "libs/eov/landing-page/shell/src/index.ts"
       ],
@@ -311,6 +308,9 @@
       ],
       "@energinet-datahub/eov/overview/shell": [
         "libs/eov/overview/shell/src/index.ts"
+      ],
+      "@energinet-datahub/eov/overview/ui-masterdata-dialog": [
+        "libs/eov/overview/ui-masterdata-dialog/src/index.ts"
       ],
       "@energinet-datahub/eov/shared/assets": [
         "libs/eov/shared/assets/src/index.ts"

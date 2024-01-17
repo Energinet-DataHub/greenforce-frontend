@@ -16,6 +16,6 @@ import { WATT_MODAL } from "@energinet-datahub/watt/modal";
     </watt-modal>
   `,
 })
-export class EovHelpContactComponent {
+export class EovCoreFeatureHelpContactComponent {
 
 }

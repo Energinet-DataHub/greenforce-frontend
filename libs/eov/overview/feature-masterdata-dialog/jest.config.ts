@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'eov-help-feature-faq',
+  displayName: 'eov-overview-ui-masterdata-dialog',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/eov/help/feature-faq',
+  coverageDirectory: '../../../../coverage/libs/eov/overview/ui-masterdata-dialog',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
