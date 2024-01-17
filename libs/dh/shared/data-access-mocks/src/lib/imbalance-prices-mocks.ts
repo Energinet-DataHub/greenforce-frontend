@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { http } from 'msw';
+import { HttpResponse, delay, http } from 'msw';
 
 import { mockGetImbalancePricesOverviewQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { imbalancePricesOverviewQueryMock } from './data/imbalance-prices/imbalance-prices-overview-query';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import { HttpResponse, delay } from 'msw';
 
 export function imbalancePricesMocks(apiBase: string) {
   return [getImbalancePricesOverviewQuery(), imbalancePricesUploadImbalanceCSV(apiBase)];
