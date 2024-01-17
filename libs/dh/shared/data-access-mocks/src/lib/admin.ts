@@ -173,7 +173,7 @@ function getAdminPermissionLogs() {
 function putMarketParticipantPermissionsUpdate(apiBase: string) {
   return http.put(`${apiBase}/v1/MarketParticipantPermissions/Update`, async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(null, { status: 200 });
+    return new HttpResponse(null, { status: 200 });
   });
 }
 
