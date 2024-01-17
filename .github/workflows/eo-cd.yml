@@ -53,7 +53,7 @@ jobs:
         with:
           fetch-depth: 0
       # needed for nx affected command
-      - name: "PR: Fetch base branch Git history"
+      - name: 'PR: Fetch base branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
 
@@ -62,7 +62,9 @@ jobs:
         with:
           node-version-file: ${{ env.node-version-file }}
           cache: yarn
-      - run: yarn install --immutable
+
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Is affected?
         id: affected
@@ -85,7 +87,9 @@ jobs:
         with:
           node-version-file: ${{ env.node-version-file }}
           cache: yarn
-      - run: yarn install --immutable
+
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Production build
         run: yarn nx build ${{ env.app-name }}

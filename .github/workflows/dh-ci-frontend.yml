@@ -44,7 +44,9 @@ jobs:
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
           cache: yarn
-      - run: yarn install --immutable
+
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Production build
         run: yarn nx build ${{ env.APP_NAME }}
@@ -87,7 +89,7 @@ jobs:
       output-path: libs/dh/shared/domain/src/lib/generated/v1/
     steps:
       # needed to push to origin
-      - name: "PR: Check out source code with current branch Git history"
+      - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.IS_PULL_REQUEST == 'true' }}
         uses: actions/checkout@v3
         with:
@@ -95,7 +97,7 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.internal_github_pat }}
 
-      - name: "Merge: Check out source code"
+      - name: 'Merge: Check out source code'
         if: ${{ env.IS_MAIN_BRANCH == 'true' }}
         uses: actions/checkout@v3
 
@@ -104,12 +106,14 @@ jobs:
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
           cache: yarn
-      - run: yarn install --immutable
+
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Generate API client
         run: yarn nx run api-dh:build-client
 
-      - name: "PR: Commit generated files"
+      - name: 'PR: Commit generated files'
         if: ${{ env.IS_PULL_REQUEST == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
@@ -118,7 +122,7 @@ jobs:
           git commit -m 'feat(dh): generate DataHub API v1 client' || cd .
           git push origin --force-with-lease || cd .
 
-      - name: "Merge: Verify no changes"
+      - name: 'Merge: Verify no changes'
         if: ${{ env.IS_MAIN_BRANCH == 'true' }}
         run: |
           git diff ${{ env.output-path }} --exit-code || (echo '❌ DataHub API v1 client is out-of-sync. Run the `build-client` Nx target and merge the changes.' && exit 1)

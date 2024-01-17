@@ -73,7 +73,7 @@ jobs:
             - 'docs/diagrams/c4-model/model.dsl'
 
       # needed for nx affected command
-      - name: "PR: Fetch base branch Git history"
+      - name: 'PR: Fetch base branch Git history'
         if: ${{ env.IS_PULL_REQUEST == 'true' }}
         run: git fetch --no-tags origin ${{ env.BASE_BRANCH }}
 
@@ -82,7 +82,9 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: yarn
-      - run: yarn install --immutable
+
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Is DH affected?
         id: dh_affected
