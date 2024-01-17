@@ -16,13 +16,18 @@
  */
 import { mockGetImbalancePricesOverviewQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 import { imbalancePricesOverviewQueryMock } from './data/imbalance-prices/imbalance-prices-overview-query';
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
+import { HttpResponse, delay } from 'msw';
 
 export function imbalancePricesMocks() {
   return [getImbalancePricesOverviewQuery()];
 }
 
 function getImbalancePricesOverviewQuery() {
-  return mockGetImbalancePricesOverviewQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data(imbalancePricesOverviewQueryMock));
+  return mockGetImbalancePricesOverviewQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: imbalancePricesOverviewQueryMock,
+    });
   });
 }
