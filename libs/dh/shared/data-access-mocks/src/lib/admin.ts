@@ -187,7 +187,7 @@ function postMarketParticipantUserRoleCreate(apiBase: string) {
 function putMarketParticipantUserUpdateUserIdentity(apiBase: string) {
   return http.put(`${apiBase}/v1/MarketParticipantUser/UpdateUserIdentity`, async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(null, { status: 200 });
+    return new HttpResponse(null, { status: 200 });
   });
 }
 
