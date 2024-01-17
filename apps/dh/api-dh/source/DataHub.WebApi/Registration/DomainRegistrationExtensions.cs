@@ -44,7 +44,7 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddEdiWebAppClient(
                     GetBaseUri(apiClientSettings.EdiB2CWebApiBaseUrl))
                 .AddImbalancePricesClient(
-                    GetBaseUri(apiClientSettings.ESettExchangeBaseUrl))
+                    GetBaseUri(apiClientSettings.ImbalancePricesBaseUrl))
                 .AddSingleton(apiClientSettings);
         }
 
