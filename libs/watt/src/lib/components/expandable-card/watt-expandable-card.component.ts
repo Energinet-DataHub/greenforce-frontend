@@ -19,14 +19,12 @@ import {
   Component,
   ContentChild,
   Directive,
-  HostBinding,
-  inject,
   Input,
   TemplateRef,
   ViewEncapsulation,
+  inject
 } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
-
 @Directive({
   standalone: true,
   selector: '[wattExpandableCardContent]',
