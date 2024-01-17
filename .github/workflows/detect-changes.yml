@@ -82,7 +82,7 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: yarn
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
 
       - name: Is DH affected?
         id: dh_affected

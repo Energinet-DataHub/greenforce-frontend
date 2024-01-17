@@ -62,7 +62,7 @@ jobs:
         with:
           node-version-file: ${{ env.node-version-file }}
           cache: yarn
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
 
       - name: Is affected?
         id: affected
@@ -85,7 +85,7 @@ jobs:
         with:
           node-version-file: ${{ env.node-version-file }}
           cache: yarn
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
 
       - name: Production build
         run: yarn nx build ${{ env.app-name }}

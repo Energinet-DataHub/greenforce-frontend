@@ -42,7 +42,7 @@ jobs:
 
       - name: 📥 Yarn install
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Read .allowed-licenses.json
         id: allowed-licenses

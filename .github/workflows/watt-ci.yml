@@ -38,7 +38,7 @@ jobs:
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
           cache: yarn
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
 
       - name: Production build
         run: yarn ${{ env.APP_NAME }}:build
