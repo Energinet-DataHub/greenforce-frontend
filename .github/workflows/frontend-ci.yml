@@ -65,7 +65,7 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: 'Merge: Check out source code'
+      - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v3
 
@@ -150,7 +150,7 @@ jobs:
           name: cypress-e2e
           path: dist/cypress/apps/
 
-      - name: 'Merge: End-to-end test all products'
+      - name: "Merge: End-to-end test all products"
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn e2e --configuration=ci
 
