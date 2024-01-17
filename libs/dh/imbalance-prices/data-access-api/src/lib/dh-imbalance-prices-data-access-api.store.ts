@@ -20,7 +20,7 @@ export class DhImbalancePricesDataAccessApiStore extends ComponentStore<Imbalanc
 
   readonly uploadInProgress$ = this.select((state) => state.uploadInProgress);
 
-  readonly uploadCertificate = this.effect(
+  readonly uploadCSV = this.effect(
     (
       trigger$: Observable<{
         file: File;
