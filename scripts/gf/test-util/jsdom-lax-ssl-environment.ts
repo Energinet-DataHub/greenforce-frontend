@@ -30,6 +30,8 @@ class JsdomLaxSslEnvironment extends JSDOMEnvironment {
           ...config.projectConfig,
           testEnvironmentOptions: {
             ...config.projectConfig.testEnvironmentOptions,
+            // Taken from https://mswjs.io/docs/migrations/1.x-to-2.x#cannot-find-module-mswnode-jsdom
+            customExportConditions: [''],
             resources: new ResourceLoader({
               // this is all we want to change
               // allow self-signed certificates
