@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { rest } from 'msw';
+import { http } from 'msw';
 
 import { mockGetImbalancePricesOverviewQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -36,7 +36,8 @@ function getImbalancePricesOverviewQuery() {
 }
 
 function imbalancePricesUploadImbalanceCSV(apiBase: string) {
-  return rest.post(`${apiBase}/v1/ImbalancePrices/UploadImbalanceCSV`, (req, res, ctx) => {
-    return res(ctx.delay(300), ctx.status(200));
+  return http.get(`${apiBase}/vv1/ImbalancePrices/UploadImbalanceCSV`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json(null, { status: 200 });
   });
 }
