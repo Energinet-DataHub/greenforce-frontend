@@ -24,6 +24,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhImbalancePrice } from '../dh-imbalance-prices';
+import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
 
 @Component({
   selector: 'dh-imbalance-prices-table',
@@ -45,6 +46,8 @@ import { DhImbalancePrice } from '../dh-imbalance-prices';
     WattDatePipe,
     VaterFlexComponent,
     VaterStackComponent,
+
+    DhStatusBadgeComponent,
   ],
 })
 export class DhImbalancePricesTableComponent {

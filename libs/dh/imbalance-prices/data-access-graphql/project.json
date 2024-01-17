@@ -1,0 +1,8 @@
+{
+  "name": "dh-imbalance-prices-data-access-graphql",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/imbalance-prices/data-access-graphql/src",
+  "prefix": "dh",
+  "tags": ["product:dh", "domain:imbalance-prices", "type:data-access"]
+}

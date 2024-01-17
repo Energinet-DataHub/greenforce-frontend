@@ -14,29 +14,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ImbalancePriceStatus, PriceAreaCode } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetImbalancePricesOverviewQuery,
+  ImbalancePricePeriod,
+  ImbalancePriceStatus,
+  PriceAreaCode,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhImbalancePrice } from './dh-imbalance-prices';
-
-export const dhImbalancePricesMock: DhImbalancePrice[] = [
+const pricePeriods: ImbalancePricePeriod[] = [
   {
-    name: '2024-01-01T00:00+01:00',
+    __typename: 'ImbalancePricePeriod',
+    name: new Date('2024-01-01T00:00+01:00'),
     priceAreaCode: PriceAreaCode.Dk1,
     status: ImbalancePriceStatus.Complete,
   },
   {
-    name: '2024-01-01T00:00+01:00',
+    __typename: 'ImbalancePricePeriod',
+    name: new Date('2024-01-01T00:00+01:00'),
     priceAreaCode: PriceAreaCode.Dk2,
     status: ImbalancePriceStatus.MissingPrices,
   },
   {
-    name: '2023-12-01T00:00+01:00',
+    __typename: 'ImbalancePricePeriod',
+    name: new Date('2023-12-01T00:00+01:00'),
     priceAreaCode: PriceAreaCode.Dk1,
     status: ImbalancePriceStatus.Complete,
   },
   {
-    name: '2023-12-01T00:00+01:00',
+    __typename: 'ImbalancePricePeriod',
+    name: new Date('2023-12-01T00:00+01:00'),
     priceAreaCode: PriceAreaCode.Dk2,
     status: ImbalancePriceStatus.MissingPrices,
   },
 ];
+
+export const imbalancePricesOverviewQueryMock: GetImbalancePricesOverviewQuery = {
+  __typename: 'Query',
+  imbalancePricesOverview: {
+    __typename: 'ImbalancePricesOverview',
+    pricePeriods,
+  },
+};
