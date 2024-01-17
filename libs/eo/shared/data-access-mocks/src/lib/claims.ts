@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 export function claimsMocks(apiBase: string) {
   return [getClaims(apiBase), postStartClaimProcess(apiBase), delteStopClaimProcess(apiBase)];
@@ -23,23 +23,23 @@ export function claimsMocks(apiBase: string) {
 const id = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
 
 function postStartClaimProcess(apiBase: string) {
-  return rest.post(`${apiBase}/claim-automation/start`, (req, res, ctx) => {
+  return http.post(`${apiBase}/claim-automation/start`, () => {
     const data = {
       subjectId: id,
     };
 
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
 function delteStopClaimProcess(apiBase: string) {
-  return rest.delete(`${apiBase}/claim-automation/stop`, (req, res, ctx) => {
-    return res(ctx.status(204));
+  return http.delete(`${apiBase}/claim-automation/stop`, () => {
+    return new HttpResponse(null, { status: 204 });
   });
 }
 
 function getClaims(apiBase: string) {
-  return rest.get(`${apiBase}/v1/claims`.replace('/api', '/wallet-api'), (req, res, ctx) => {
+  return http.get(`${apiBase}/v1/claims`.replace('/api', '/wallet-api'), () => {
     const data = {
       result: [
         {
@@ -77,6 +77,6 @@ function getClaims(apiBase: string) {
       ],
     };
 
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data, { status: 200 });
   });
 }

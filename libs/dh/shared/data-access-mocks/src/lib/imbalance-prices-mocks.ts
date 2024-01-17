@@ -14,24 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { rest } from 'msw';
+import { HttpResponse, delay, http } from 'msw';
 
 import { mockGetImbalancePricesOverviewQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { imbalancePricesOverviewQueryMock } from './data/imbalance-prices/imbalance-prices-overview-query';
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 export function imbalancePricesMocks(apiBase: string) {
   return [getImbalancePricesOverviewQuery(), imbalancePricesUploadImbalanceCSV(apiBase)];
 }
 
 function getImbalancePricesOverviewQuery() {
-  return mockGetImbalancePricesOverviewQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data(imbalancePricesOverviewQueryMock));
+  return mockGetImbalancePricesOverviewQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: imbalancePricesOverviewQueryMock,
+    });
   });
 }
 
 function imbalancePricesUploadImbalanceCSV(apiBase: string) {
-  return rest.post(`${apiBase}/v1/ImbalancePrices/UploadImbalanceCSV`, (req, res, ctx) => {
-    return res(ctx.delay(300), ctx.status(200));
+  return http.get(`${apiBase}/v1/ImbalancePrices/UploadImbalanceCSV`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json(null, { status: 200 });
   });
 }

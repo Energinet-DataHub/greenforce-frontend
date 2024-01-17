@@ -123,7 +123,7 @@
     "@graphql-codegen/schema-ast": "4.0.0",
     "@graphql-codegen/typed-document-node": "5.0.1",
     "@graphql-codegen/typescript": "4.0.1",
-    "@graphql-codegen/typescript-msw": "2.0.0",
+    "@graphql-codegen/typescript-msw": "^2.1.0",
     "@graphql-codegen/typescript-operations": "4.0.1",
     "@homebound/graphql-typescript-scalar-type-policies": "2.11.0",
     "@ngneat/transloco-keys-manager": "3.8.0",
@@ -190,7 +190,7 @@
     "jest-preview": "0.3.1",
     "jsonc-eslint-parser": "2.1.0",
     "kill-port-process": "3.1.0",
-    "msw": "1.3.1",
+    "msw": "2.0.13",
     "ng-mocks": "14.0.1",
     "nx": "17.2.8",
     "prettier": "3.1.0",
@@ -209,8 +209,8 @@
     "//yarn-comment": "Keep this in sync with GitHub actions pipelines",
     "yarn": "3.5.0"
   },
+  "packageManager": "yarn@3.5.0",
   "msw": {
-    "workerDirectory": "libs\\dh\\shared\\data-access-msw\\src\\assets"
-  },
-  "packageManager": "yarn@3.5.0"
+    "workerDirectory": "libs/gf/msw/util-msw/src/assets"
+  }
 }
