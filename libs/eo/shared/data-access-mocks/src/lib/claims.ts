@@ -34,7 +34,7 @@ function postStartClaimProcess(apiBase: string) {
 
 function delteStopClaimProcess(apiBase: string) {
   return http.delete(`${apiBase}/claim-automation/stop`, () => {
-    return HttpResponse.json(null, { status: 204 });
+    return new HttpResponse(null, { status: 204 });
   });
 }
 
