@@ -14,15 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { rest } from 'msw';
+
 import { mockGetImbalancePricesOverviewQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { imbalancePricesOverviewQueryMock } from './data/imbalance-prices/imbalance-prices-overview-query';
 
-export function imbalancePricesMocks() {
-  return [getImbalancePricesOverviewQuery()];
+export function imbalancePricesMocks(apiBase: string) {
+  return [getImbalancePricesOverviewQuery(), imbalancePricesUploadImbalanceCSV(apiBase)];
 }
 
 function getImbalancePricesOverviewQuery() {
   return mockGetImbalancePricesOverviewQuery((req, res, ctx) => {
     return res(ctx.delay(300), ctx.data(imbalancePricesOverviewQueryMock));
+  });
+}
+
+function imbalancePricesUploadImbalanceCSV(apiBase: string) {
+  return rest.post(`${apiBase}/v1/ImbalancePrices/UploadImbalanceCSV`, (req, res, ctx) => {
+    return res(ctx.delay(300), ctx.status(200));
   });
 }
