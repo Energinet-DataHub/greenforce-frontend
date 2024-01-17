@@ -359,7 +359,7 @@ function marketParticipantActorAssignCertificateCredentials(apiBase: string) {
 function marketParticipantActorRemoveActorCredentials(apiBase: string) {
   return http.delete(`${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`, async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(null, { status: 200 });
+    return new HttpResponse(null, { status: 200 });
   });
 }
 
