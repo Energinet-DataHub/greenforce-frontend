@@ -1,0 +1,21 @@
+{
+  "name": "dh-imbalance-prices-data-access-api",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/imbalance-prices/data-access-api/src",
+  "prefix": "dh",
+  "tags": ["product:dh", "domain:imbalance-prices", "type:data-access"],
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/dh/imbalance-prices/data-access-api/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}
