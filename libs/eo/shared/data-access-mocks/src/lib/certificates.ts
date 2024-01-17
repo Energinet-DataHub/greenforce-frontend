@@ -152,6 +152,6 @@ function postCertificatesContracts(apiBase: string) {
 
 function patchCertificatesContracts(apiBase: string) {
   return http.patch(`${apiBase}/certificates/contracts/:id`, () => {
-    return HttpResponse.json(null, { status: 200 });
+    return new HttpResponse(null, { status: 200 });
   });
 }
