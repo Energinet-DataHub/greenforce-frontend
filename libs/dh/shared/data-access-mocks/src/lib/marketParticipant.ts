@@ -351,7 +351,7 @@ function marketParticipantActorAssignCertificateCredentials(apiBase: string) {
     `${apiBase}/v1/MarketParticipantActor/AssignCertificateCredentials`,
     async () => {
       await delay(mswConfig.delay);
-      return HttpResponse.json(null, { status: 200 });
+      return new HttpResponse(null, { status: 200 });
     }
   );
 }
