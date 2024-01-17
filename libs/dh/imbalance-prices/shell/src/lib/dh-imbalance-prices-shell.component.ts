@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
@@ -73,7 +73,7 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
     DhPermissionRequiredDirective,
   ],
 })
-export class DhImbalancePricesShellComponent implements OnInit {
+export class DhImbalancePricesShellComponent {
   private readonly apollo = inject(Apollo);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -89,7 +89,7 @@ export class DhImbalancePricesShellComponent implements OnInit {
   isLoading = false;
   hasError = false;
 
-  ngOnInit(): void {
+  constructor() {
     this.fetchData();
   }
 
