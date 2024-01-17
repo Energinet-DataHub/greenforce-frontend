@@ -749,6 +749,9 @@
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
     },
+    "uploadButton": "Indlæs fil",
+    "uploadSuccess": "Filen er blevet uploadet",
+    "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen",
     "status": {
       "MISSING_PRICES": "Mangler priser",
       "COMPLETE": "Komplet"

@@ -19,6 +19,10 @@ limitations under the License.
     <vater-stack direction="row" gap="s">
       <h3>{{ t("topBarTitle") }}</h3>
       <span class="watt-chip-label">{{ totalCount }}</span>
+
+      <vater-spacer />
+
+      <dh-imbalance-prices-uploader (uploadSuccess)="onUploadSuccess()" />
     </vater-stack>
 
     <dh-imbalance-prices-table
