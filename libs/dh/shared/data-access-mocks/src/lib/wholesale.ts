@@ -425,7 +425,7 @@ function getCalculation() {
 function downloadSettlementReportData(apiBase: string) {
   return http.get(`${apiBase}/v1/WholesaleSettlementReport`, async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(null, { status: 500 });
+    return new HttpResponse(null, { status: 500 });
 
     /*
       // Convert "base64" image to "ArrayBuffer".
