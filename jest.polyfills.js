@@ -6,6 +6,9 @@
  *
  * Consider migrating to a more modern test runner if
  * you don't want to deal with this.
+ *
+ * Taken from
+ * https://mswjs.io/docs/migrations/1.x-to-2.x#requestresponsetextencoder-is-not-defined-jest
  */
 
 const { TextDecoder, TextEncoder } = require('node:util');
