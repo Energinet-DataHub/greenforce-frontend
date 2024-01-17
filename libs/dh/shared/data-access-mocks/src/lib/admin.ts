@@ -196,7 +196,7 @@ function putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase: string
     `${apiBase}/v1/MarketParticipantUserRoleAssignment/UpdateAssignments`,
     async () => {
       await delay(mswConfig.delay);
-      return HttpResponse.json(null, { status: 200 });
+      return new HttpResponse(null, { status: 200 });
     }
   );
 }
