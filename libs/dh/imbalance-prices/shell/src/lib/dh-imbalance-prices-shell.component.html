@@ -22,7 +22,10 @@ limitations under the License.
 
       <vater-spacer />
 
-      <dh-imbalance-prices-uploader (uploadSuccess)="onUploadSuccess()" />
+      <dh-imbalance-prices-uploader
+        *dhPermissionRequired="['imbalance-prices:manage']"
+        (uploadSuccess)="onUploadSuccess()"
+      />
     </vater-stack>
 
     <dh-imbalance-prices-table
