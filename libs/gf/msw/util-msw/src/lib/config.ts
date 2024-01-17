@@ -14,22 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { mocks, handlers, onUnhandledRequest } from './handlers';
-import { setupWorker } from 'msw/browser';
-
-declare const window: {
-  cypressMockServiceWorkerIntercept: Promise<unknown> | undefined;
-} & Window;
-
-export async function setupServiceWorker(apiBase: string, mocks: mocks) {
-  try {
-    if (window.cypressMockServiceWorkerIntercept) {
-      await window.cypressMockServiceWorkerIntercept;
-    }
-
-    const worker = setupWorker(...handlers(apiBase, mocks));
-    await worker.start({ onUnhandledRequest });
-  } catch (error) {
-    console.error('setupServiceWorker', error);
-  }
-}
+export const delay = 300;

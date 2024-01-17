@@ -2,3 +2,4 @@
 
 **/*.spec.ts
 **/datahub-bookmarks.html
+libs/gf/msw/util-msw/src/assets/mockServiceWorker.js
