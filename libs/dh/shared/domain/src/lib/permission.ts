@@ -20,7 +20,6 @@ export const permissions = [
   'actors:manage',
   'users:manage',
   'user-roles:manage',
-  'permissions:manage',
   'calculations:manage',
   'settlement-reports:manage',
   'esett-exchange:manage',
