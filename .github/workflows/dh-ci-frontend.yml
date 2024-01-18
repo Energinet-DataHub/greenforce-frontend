@@ -38,6 +38,8 @@ jobs:
       RELEASE_FOLDER_PATH: ${{ github.workspace }}/ui_frontend_${{ github.event.number }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
