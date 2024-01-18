@@ -53,6 +53,8 @@ import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.co
 import { DhUsersTabActorFilterComponent } from './dh-users-tab-actor-filter.component';
 import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filter.component';
 
+export const debounceTimeValue = 250;
+
 @Component({
   selector: 'dh-users-tab',
   standalone: true,
@@ -174,7 +176,7 @@ export class DhUsersTabComponent {
 
   private onSearchInput(): void {
     this.searchInput$
-      .pipe(debounceTime(250), takeUntilDestroyed(this.destroyRef))
+      .pipe(debounceTime(debounceTimeValue), takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => this.store.updateSearchText(value));
   }
 }

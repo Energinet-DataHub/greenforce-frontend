@@ -3,7 +3,8 @@
     "**/api-*/**/*",
     "**/generated/**/*",
     "apps/dh/api-dh/source/DataHub.WebApi/Clients/",
-    "apps/dh/api-dh/source/DataHub.WebApi/Generated/"
+    "apps/dh/api-dh/source/DataHub.WebApi/Generated/",
+    "libs/gf/msw/util-msw/src/assets/*"
   ],
   "**/*.cs": [
     "// Copyright 2020 Energinet DataHub A/S",

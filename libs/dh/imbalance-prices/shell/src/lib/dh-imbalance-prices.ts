@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export type DhImbalancePrice = {
-  id: string;
-  timestamp: string;
-  priceAreaDk1: string;
-  priceAreaDk2: string;
-};
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+import { GetImbalancePricesOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type DhImbalancePrice = ResultOf<
+  typeof GetImbalancePricesOverviewDocument
+>['imbalancePricesOverview']['pricePeriods'][0];

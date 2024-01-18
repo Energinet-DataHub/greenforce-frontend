@@ -20,23 +20,19 @@ limitations under the License.
     [columns]="columns"
     [loading]="isLoading"
     [sortClear]="false"
-    sortBy="timestamp"
+    sortBy="period"
     sortDirection="desc"
   >
-    <ng-container *wattTableCell="columns['timestamp']; header: t('columns.timestamp'); let entry">
-      {{ entry.timestamp | wattDate: "long" }}
+    <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let entry">
+      {{ entry.name | wattDate: "monthYear" }}
     </ng-container>
 
-    <ng-container
-      *wattTableCell="columns['priceAreaDk1']; header: t('columns.priceAreaDk1'); let entry"
-    >
-      {{ entry.priceAreaDk1 | currency: undefined : "code" }}
+    <ng-container *wattTableCell="columns['priceArea']; header: t('columns.priceArea'); let entry">
+      {{ entry.priceAreaCode }}
     </ng-container>
 
-    <ng-container
-      *wattTableCell="columns['priceAreaDk2']; header: t('columns.priceAreaDk2'); let entry"
-    >
-      {{ entry.priceAreaDk2 | currency: undefined : "code" }}
+    <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
+      <dh-status-badge [status]="entry.status" />
     </ng-container>
   </watt-table>
 

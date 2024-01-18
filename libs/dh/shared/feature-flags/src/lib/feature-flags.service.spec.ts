@@ -22,7 +22,11 @@ import { DhFeatureFlagsService } from './feature-flags.service';
 const featureFlagMocks: FeatureFlagConfig = {
   'dummy-feature': {
     created: new Date().toISOString(),
-    disabledEnvironments: [DhAppEnvironment.test_001, DhAppEnvironment.preprod],
+    disabledEnvironments: [
+      DhAppEnvironment.test_001,
+      DhAppEnvironment.preprod,
+      DhAppEnvironment.prod,
+    ],
   },
 };
 
@@ -54,6 +58,7 @@ describe('Feature flags service', () => {
     [nonExistingFeatureFlagName, DhAppEnvironment.test_001, true, {}],
     [nonExistingFeatureFlagName, DhAppEnvironment.test_002, true, {}],
     [nonExistingFeatureFlagName, DhAppEnvironment.preprod, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.prod, true, {}],
 
     [existingFeatureFlagName, DhAppEnvironment.sandbox_002, true, featureFlagMocks],
     [existingFeatureFlagName, DhAppEnvironment.dev_001, true, featureFlagMocks],
@@ -61,6 +66,7 @@ describe('Feature flags service', () => {
     [existingFeatureFlagName, DhAppEnvironment.test_001, false, featureFlagMocks],
     [existingFeatureFlagName, DhAppEnvironment.test_002, true, featureFlagMocks],
     [existingFeatureFlagName, DhAppEnvironment.preprod, false, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.prod, false, featureFlagMocks],
   ];
 
   test.each(cases)(

@@ -740,12 +740,21 @@
     "topBarTitle": "Ubalancepriser",
     "table": {
       "columns": {
-        "timestamp": "Tidspunkt",
-        "priceAreaDk1": "DK1",
-        "priceAreaDk2": "DK2"
+        "period": "Periode",
+        "priceArea": "Område",
+        "status": "Status"
       },
       "emptyTitle": "Ingen ubalancepriser fundet",
-      "emptyMessage": "Prøv at ændre dine søgeindstillinger"
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
+    },
+    "uploadButton": "Indlæs fil",
+    "uploadSuccess": "Filen er blevet uploadet",
+    "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen",
+    "status": {
+      "MISSING_PRICES": "Mangler priser",
+      "COMPLETE": "Komplet"
     }
   },
   "wholesale": {

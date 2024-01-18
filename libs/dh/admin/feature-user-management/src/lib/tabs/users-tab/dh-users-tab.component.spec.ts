@@ -34,7 +34,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
-import { DhUsersTabComponent } from './dh-users-tab.component';
+import { DhUsersTabComponent, debounceTimeValue } from './dh-users-tab.component';
 
 const users: MarketParticipantUserOverviewItemDto[] = [
   {
@@ -93,10 +93,12 @@ describe(DhUsersTabComponent, () => {
     };
   }
 
-  it('displays user data', async () => {
+  it('displays user data', fakeAsync(async () => {
     await setup(users);
 
     const [testUser] = users;
+
+    tick(debounceTimeValue);
 
     const firstName = screen.getByRole('gridcell', {
       name: new RegExp(testUser.firstName, 'i'),
@@ -119,7 +121,7 @@ describe(DhUsersTabComponent, () => {
     expect(email).toBeInTheDocument();
     expect(phone).toBeInTheDocument();
     expect(status).toBeInTheDocument();
-  });
+  }));
 
   it('forwards search input value to store', fakeAsync(async () => {
     const { store } = await setup();
@@ -128,12 +130,12 @@ describe(DhUsersTabComponent, () => {
     const searchInput = screen.getByRole('searchbox');
 
     userEvent.type(searchInput, inputValue);
-    tick(250);
+    tick(debounceTimeValue);
 
     expect(store.updateSearchText).toHaveBeenCalledWith(inputValue);
   }));
 
-  it('forwards status filter value to store', async () => {
+  it('forwards status filter value to store', fakeAsync(async () => {
     const { store, matSelect, statusFilterBtn } = await setup();
 
     userEvent.click(statusFilterBtn);
@@ -147,7 +149,9 @@ describe(DhUsersTabComponent, () => {
       await option.click();
     }
 
+    tick(debounceTimeValue);
+
     const allOptions = Object.keys(MarketParticipantUserStatus);
     expect(store.updateStatusFilter).toHaveBeenCalledWith(allOptions);
-  });
+  }));
 });
