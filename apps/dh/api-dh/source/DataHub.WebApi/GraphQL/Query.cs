@@ -17,9 +17,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate;
 using Microsoft.AspNetCore.Http;
 using NodaTime;
@@ -320,9 +322,13 @@ namespace Energinet.DataHub.WebApi.GraphQL
             return Task.FromResult(new ImbalancePricesOverview());
         }
 
-        public Task<IEnumerable<ImbalancePriceDay>> GetImbalancePricesForMonthAsync()
+        public async Task<IEnumerable<ImbalancePricesDailyDto>> GetImbalancePricesForMonthAsync(
+            int year,
+            int month,
+            PriceAreaCode areaCode,
+            [Service] IImbalancePricesClient_V1 client)
         {
-            return Task.FromResult(Enumerable.Empty<ImbalancePriceDay>());
+            return await client.GetByMonthAsync(year, month, areaCode).ConfigureAwait(false);
         }
 
         private static Task<GetUserOverviewResponse> GetUserOverviewAsync(IMarketParticipantClient_V1 client)

@@ -38,7 +38,7 @@
         }
       }
     },
-    "/download": {
+    "/imbalance-prices/download": {
       "get": {
         "tags": [
           "Imbalance"
@@ -65,6 +65,74 @@
         "responses": {
           "200": {
             "description": "Success"
+          }
+        }
+      }
+    },
+    "/imbalance-prices/getByMonth": {
+      "get": {
+        "tags": [
+          "Imbalance"
+        ],
+        "operationId": "getByMonth",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "priceAreaCode",
+            "in": "query",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/PriceAreaCode"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImbalancePricesDailyDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImbalancePricesDailyDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImbalancePricesDailyDto"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -97,6 +165,67 @@
     }
   },
   "components": {
+    "schemas": {
+      "ImbalancePriceDailyCompletenessStatus": {
+        "type": "string",
+        "enum": [
+          "NoData",
+          "InComplete",
+          "Complete"
+        ]
+      },
+      "ImbalancePriceDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "priceAreaCode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PriceAreaCode"
+              }
+            ]
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ImbalancePricesDailyDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ImbalancePriceDailyCompletenessStatus"
+              }
+            ]
+          },
+          "timeStamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "imbalancePrices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImbalancePriceDto"
+            }
+          }
+        }
+      },
+      "PriceAreaCode": {
+        "type": "string",
+        "enum": [
+          "AreaCode1",
+          "AreaCode2"
+        ]
+      }
+    },
     "securitySchemes": {
       "Bearer": {
         "type": "http",

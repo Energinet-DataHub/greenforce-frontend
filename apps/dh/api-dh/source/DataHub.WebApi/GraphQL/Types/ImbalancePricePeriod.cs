@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
@@ -22,7 +21,5 @@ public class ImbalancePricePeriod
 {
     public DateTimeOffset Name { get; set; } = DateTimeOffset.UtcNow;
 
-    public PriceAreaCode PriceAreaCode { get; set; } = PriceAreaCode.Dk1;
-
-    public ImbalancePriceStatus Status { get; set; } = ImbalancePriceStatus.MissingPrices;
+    public ImbalancePriceStatus Status { get; set; } = ImbalancePriceStatus.Complete;
 }
