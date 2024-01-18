@@ -39,6 +39,10 @@ const environments = [
     name: 'preprod',
     url: 'https://preprod.datahub3.dk/',
   },
+  {
+    name: 'prod',
+    url: 'https://datahub3.dk/',
+  },
 ];
 
 environments.forEach((env) => {
