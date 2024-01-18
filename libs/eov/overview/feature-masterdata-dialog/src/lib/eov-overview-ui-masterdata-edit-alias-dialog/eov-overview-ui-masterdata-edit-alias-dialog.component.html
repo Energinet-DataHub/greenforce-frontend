@@ -1,0 +1,18 @@
+<watt-modal #modal title="Navngiv målepunkt" size="small">
+  <form [formGroup]="editAliasForm" id="edit-alias-form" (ngSubmit)="save()"></form>
+  <watt-text-field
+    label="{{ 'Customer.Dialog.UpdateAlias.Hint' | transloco }}"
+    required="true"
+    type="text"
+    placeholder="{{ 'Customer.Dialog.UpdateAlias.Hint' | transloco }}"
+    [formControl]="editAliasForm.controls.alias"
+  />
+  <watt-modal-actions>
+    <watt-button variant="secondary" (click)="closeModal()">
+      {{ 'Customer.Dialog.UpdateAlias.Cancel' | transloco }}
+    </watt-button>
+    <watt-button type="submit" formId="edit-alias-form">
+      {{ 'Customer.Dialog.UpdateAlias.Save' | transloco }}
+    </watt-button>
+  </watt-modal-actions>
+</watt-modal>

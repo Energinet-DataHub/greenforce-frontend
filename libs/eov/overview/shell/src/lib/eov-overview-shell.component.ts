@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Injector,
   OnInit,
   inject
 } from '@angular/core';
@@ -24,6 +25,8 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { graphLoader } from '@energinet-datahub/eov/shared/assets';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+import { EovOverviewUiMasterdataAliasEditDialogComponent } from 'libs/eov/overview/feature-masterdata-dialog/src';
 
 
 @Component({
@@ -52,10 +55,12 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 })
 export class EovOverviewShellComponent implements OnInit {
   environment = inject(eovApiEnvironmentToken);
+  injector = inject(Injector);
   route = inject(ActivatedRoute);
   cd = inject(ChangeDetectorRef);
   store = inject(EovOverviewStore);
   http = inject(HttpClient);
+  modalService = inject(WattModalService);
   token?: string;
   isLoading: boolean[] = [];
   protected lottieAnimation = graphLoader;
@@ -94,6 +99,20 @@ export class EovOverviewShellComponent implements OnInit {
         this.cd.detectChanges();
       }))
     );
+  }
+
+  editAlias(meteringPointId: string, currentAlias?: string) {
+    this.modalService.open({
+      component: EovOverviewUiMasterdataAliasEditDialogComponent,
+      injector: this.injector,
+      data: { meteringPointId, currentAlias },
+      disableClose: true,
+      onClosed: (result) => {
+        if (result) {
+          this.store.loadMeteringPoints();
+        }
+      },
+    });
   }
 
   cardOpened(index: number) {

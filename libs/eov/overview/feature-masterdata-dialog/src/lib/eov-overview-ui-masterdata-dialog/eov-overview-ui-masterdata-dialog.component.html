@@ -9,8 +9,8 @@
         <td>
           <p>
             {{
-              details?.meteringPointMainDetails.parentMeteringPointId !== ""
-                ? details?.meteringPointMainDetails.parentMeteringPointId
+              details?.meteringPointMainDetails?.parentMeteringPointId !== ""
+                ? details?.meteringPointMainDetails?.parentMeteringPointId
                 : ("Customer.MasterData.MasterData.NoParentId" | transloco)
             }}
           </p>
@@ -20,8 +20,8 @@
         <td>{{ "Customer.MasterData.Masterdata.MeteringPointAlias" | transloco }}</td>
         <td>
           <p>
-            {{ details?.meteringPointMainDetails.meteringPointAlias }}
-            <img src="assets/Blyant.png" (click)="edit()" class="iconpen" />
+            {{ details?.meteringPointMainDetails?.meteringPointAlias }}
+            <!-- <img src="assets/Blyant.png" (click)="edit()" class="iconpen" /> -->
           </p>
         </td>
       </tr>
@@ -29,7 +29,7 @@
         <td>{{ "Customer.MasterData.Masterdata.TypeOfMP" | transloco }}</td>
         <td>
           <p>
-            {{ "TypeOfMP." + details?.meteringPointMainDetails.typeOfMP | transloco }}
+            {{ "TypeOfMP." + details?.meteringPointMainDetails?.typeOfMP | transloco }}
           </p>
         </td>
       </tr>
@@ -37,7 +37,7 @@
         <td>{{ "Customer.MasterData.Masterdata.EnergyTimeSeriesMeasureUnit" | transloco }}</td>
         <td>
           <p>
-            {{ details?.meteringPointMainDetails.energyTimeSeriesMeasureUnit }}
+            {{ details?.meteringPointMainDetails?.energyTimeSeriesMeasureUnit }}
           </p>
         </td>
       </tr>
@@ -45,7 +45,7 @@
         <td>{{ "Customer.MasterData.Masterdata.BalanceSupplierName" | transloco }}</td>
         <td>
           <p>
-            {{ details?.meteringPointMainDetails.balanceSupplierName }}
+            {{ details?.meteringPointMainDetails?.balanceSupplierName }}
           </p>
         </td>
       </tr>
@@ -53,15 +53,15 @@
         <td>{{ "Customer.MasterData.Masterdata.EstimatedAnnualVolume" | transloco }}</td>
         <td>
           <p>
-            {{ details?.meteringPointMainDetails.estimatedAnnualVolume }}
+            {{ details?.meteringPointMainDetails?.estimatedAnnualVolume }}
           </p>
         </td>
       </tr>
       <tr>
         <td>{{ "Customer.MasterData.Masterdata.SettlementMethod" | transloco }}</td>
         <td>
-          <p *ngIf="details?.meteringPointMainDetails.settlementMethod">
-            {{ "SettlementMethod." + details.meteringPointMainDetails.settlementMethod | transloco }}
+          <p *ngIf="details?.meteringPointMainDetails?.settlementMethod">
+            {{ "SettlementMethod." + details?.meteringPointMainDetails?.settlementMethod | transloco }}
           </p>
         </td>
       </tr>
@@ -69,17 +69,17 @@
         <td>{{ "Customer.MasterData.Masterdata.MeterNumber" | transloco }}</td>
         <td>
           <p>
-            {{ details?.meteringPointMainDetails.meterNumber }}
+            {{ details?.meteringPointMainDetails?.meterNumber }}
           </p>
         </td>
       </tr>
       <tr>
         <td>{{ "Customer.MasterData.Masterdata.PowerLimitA" | transloco }}</td>
         <td>
-          <p *ngIf="details?.meteringPointMainDetails.powerLimitA">
-            {{ details?.meteringPointMainDetails.powerLimitA }}
+          <p *ngIf="details?.meteringPointMainDetails?.powerLimitA">
+            {{ details?.meteringPointMainDetails?.powerLimitA }}
           </p>
-          <p *ngIf="!details?.meteringPointMainDetails.powerLimitA">
+          <p *ngIf="!details?.meteringPointMainDetails?.powerLimitA">
             {{ "Customer.MasterData.Masterdata.PowerLimitA.NotAvailable" | transloco }}
           </p>
         </td>
@@ -87,10 +87,10 @@
       <tr>
         <td>{{ "Customer.MasterData.Masterdata.PowerLimitKw" | transloco }}</td>
         <td>
-          <p *ngIf="details?.meteringPointMainDetails.powerLimitKw">
-            {{ details?.meteringPointMainDetails.powerLimitKw }}
+          <p *ngIf="details?.meteringPointMainDetails?.powerLimitKW">
+            {{ details?.meteringPointMainDetails?.powerLimitKW }}
           </p>
-          <p *ngIf="!details?.meteringPointMainDetails.powerLimitKw">
+          <p *ngIf="!details?.meteringPointMainDetails?.powerLimitKW">
             {{ "Customer.MasterData.Masterdata.PowerLimitKw.NotAvailable" | transloco }}
           </p>
         </td>

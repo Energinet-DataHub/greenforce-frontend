@@ -309,8 +309,8 @@
       "@energinet-datahub/eov/overview/shell": [
         "libs/eov/overview/shell/src/index.ts"
       ],
-      "@energinet-datahub/eov/overview/ui-masterdata-dialog": [
-        "libs/eov/overview/ui-masterdata-dialog/src/index.ts"
+      "@energinet-datahub/eov/overview/feature-masterdata-dialog": [
+        "libs/eov/overview/feature-masterdata-dialog/src/index.ts"
       ],
       "@energinet-datahub/eov/shared/assets": [
         "libs/eov/shared/assets/src/index.ts"

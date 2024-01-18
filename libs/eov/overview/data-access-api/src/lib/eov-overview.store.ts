@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MeteringPointDto } from '@energinet-datahub/eov/shared/domain';
-import { ComponentStore } from '@ngrx/component-store';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { EovOverviewService } from './eov-overview.service';
+import { Observable, exhaustMap, tap } from 'rxjs';
 
 // Note: Remove the comment on the next line once the interface has properties
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -45,6 +46,41 @@ export class EovOverviewStore extends ComponentStore<OverviewState> {
         this.patchState({ meteringPointError: error });
       },
     });
+  }
+
+  readonly saveAlias = this.effect(
+    (
+      trigger$: Observable<{
+        meteringPointId: string;
+        alias: string;
+        onSuccessFn: () => void;
+        onErrorFn: () => void;
+      }>
+    ) => {
+      return trigger$.pipe(
+        tap(() => {
+          this.setLoading(true);
+        }),
+        exhaustMap(({ meteringPointId, alias, onSuccessFn, onErrorFn }) =>
+          this.updateAlias(meteringPointId, alias).pipe(
+            tapResponse(
+              () => {
+                this.setLoading(false);
+                onSuccessFn();
+              },
+              () => {
+                this.setLoading(false);
+                onErrorFn();
+              }
+            )
+          )
+        )
+      );
+    }
+  );
+
+  private updateAlias(meteringPointId: string, alias: string) {
+    return this.service.updateAlias(meteringPointId, alias);
   }
 
   private readonly setMeteringPoints = this.updater(

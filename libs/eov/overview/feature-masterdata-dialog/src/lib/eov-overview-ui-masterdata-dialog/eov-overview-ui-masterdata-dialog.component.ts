@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WattModalComponent } from '@energinet-datahub/watt/modal';
 import { TranslocoModule } from '@ngneat/transloco';
+import { MeteringPointDetails } from '@energinet-datahub/eov/shared/domain';
 
 @Component({
   selector: 'eov-eov-overview-ui-masterdata-dialog',
@@ -12,8 +13,8 @@ import { TranslocoModule } from '@ngneat/transloco';
     TranslocoModule
   ],
   templateUrl: './eov-overview-ui-masterdata-dialog.component.html',
-  styleUrl: './eov-overview-ui-masterdata-dialog.component.css',
+  styleUrl: './eov-overview-ui-masterdata-dialog.component.scss',
 })
 export class EovOverviewUiMasterdataDialogComponent {
-  details;
+  details?: MeteringPointDetails;
 }
