@@ -755,6 +755,11 @@
     "status": {
       "MISSING_PRICES": "Mangler priser",
       "COMPLETE": "Komplet"
+    },
+    "drawer": {
+      "areaLabel": "Område",
+      "uploadedLabel": "Indlæst",
+      "pricesNote": "Priser angivet i DKK for kWh"
     }
   },
   "wholesale": {
