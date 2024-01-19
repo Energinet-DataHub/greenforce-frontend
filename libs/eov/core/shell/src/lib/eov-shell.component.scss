@@ -37,12 +37,12 @@ header {
 nav {
   height: 80px;
   line-height: 80px;
-  box-shadow: 0px 2px 4px 0px #00000014;
-  background-color: white;
+  background-color: transparent;
   transition: all 0.3s ease;
-  position: sticky;
+  position: fixed;
   top: -1px;
   z-index: 10;
+  width: 100%;
   &:has(.system-info-banner) {
     height: 144px;
   }
@@ -86,11 +86,6 @@ nav {
     cursor: pointer;
   }
 
-  .hamburger {
-    width: 24px;
-    height: 16px;
-  }
-
   .system-info-banner {
     p {
       margin-block-start: 0;
@@ -109,12 +104,26 @@ nav {
       font-size: 20px;
     }
   }
+
+  .areas__start > *,
+  .areas__end > *:not(.menu-button) {
+    opacity: 0;
+  }
+
+  &.show-header {
+    box-shadow: 0px 2px 4px 0px #00000014;
+    background-color: white;
+    .areas__end > *, .areas__start > * {
+      opacity: 1;
+    }
+  }
+
 }
 
 footer {
-  background: var(--watt-color-primary);
+  box-shadow: 0px -4px 4px 0px #00000014;
   min-height: 350px;
-  color: white;
+  color: var(--watt-color-primary);
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;

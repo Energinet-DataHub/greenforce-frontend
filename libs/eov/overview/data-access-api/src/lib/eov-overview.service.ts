@@ -22,7 +22,7 @@ export class EovOverviewService {
   }
 
   getMeteringPoint(meteringPointId: string) {
-    return this.http.get(this.#apiBase + '/api/MeteringPoint/' + meteringPointId);
+    return this.http.get<MeteringPointDto>(this.#apiBase + '/api/MeteringPoint/' + meteringPointId);
   }
 
   updateAlias(meteringPointId: string, alias: string) {

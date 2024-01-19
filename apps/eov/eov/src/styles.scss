@@ -34,8 +34,6 @@ strong {
   .container__full-width {
     padding: 96px 0;
     grid-column: full-width;
-    background: #FAFAFA;
-    ;
   }
 
   .container__full-width:has(.hero) {
@@ -63,11 +61,6 @@ strong {
 
     img, video {
       width: 100%;
-      //box-shadow: 0px 32px 64px 3px #2E323433, 0px 16px 16px 0px #00000033;
-    }
-
-    video {
-      box-shadow: 0px 32px 64px 3px #2E323433, 0px 16px 16px 0px #00000033;
     }
   }
 }
