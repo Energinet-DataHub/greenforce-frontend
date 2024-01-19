@@ -758,7 +758,7 @@
     },
     "drawer": {
       "areaLabel": "Område",
-      "uploadedLabel": "Indlæst",
+      "updatedLabel": "Indlæst",
       "pricesNote": "Priser angivet i DKK for kWh"
     }
   },

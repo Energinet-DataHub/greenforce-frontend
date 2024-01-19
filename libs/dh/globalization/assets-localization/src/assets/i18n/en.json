@@ -759,7 +759,7 @@
     },
     "drawer": {
       "areaLabel": "Area",
-      "uploadedLabel": "Uploaded",
+      "updatedLabel": "Updated",
       "pricesNote": "Prices are shown in DKK for kWh"
     }
   },
