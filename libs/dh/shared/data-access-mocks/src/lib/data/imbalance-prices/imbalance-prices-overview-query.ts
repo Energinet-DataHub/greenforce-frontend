@@ -32,7 +32,7 @@ const pricePeriods: ImbalancePricePeriod[] = [
     __typename: 'ImbalancePricePeriod',
     name: new Date('2024-01-01T00:00+01:00'),
     priceAreaCode: PriceAreaCode.Dk2,
-    status: ImbalancePriceStatus.MissingPrices,
+    status: ImbalancePriceStatus.InComplete,
   },
   {
     __typename: 'ImbalancePricePeriod',
@@ -44,7 +44,7 @@ const pricePeriods: ImbalancePricePeriod[] = [
     __typename: 'ImbalancePricePeriod',
     name: new Date('2023-12-01T00:00+01:00'),
     priceAreaCode: PriceAreaCode.Dk2,
-    status: ImbalancePriceStatus.MissingPrices,
+    status: ImbalancePriceStatus.InComplete,
   },
 ];
 
