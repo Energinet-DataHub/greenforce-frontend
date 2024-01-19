@@ -13,17 +13,16 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
+using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
-public class ImbalancePriceDay
+public class ImbalancePriceDaily : ObjectType<ImbalancePricesDailyDto>
 {
-    public DateTimeOffset Date { get; set; } = DateTimeOffset.Now;
-
-    public ImbalancePriceStatus Status { get; set; } = ImbalancePriceStatus.MissingPrices;
-
-    public IEnumerable<ImbalancePrice> PriceDays { get; set; } = Enumerable.Empty<ImbalancePrice>();
+    protected override void Configure(IObjectTypeDescriptor<ImbalancePricesDailyDto> descriptor)
+    {
+        descriptor.Name("ImbalancePriceDaily");
+        descriptor.Description("Imbalance price for a given date");
+    }
 }
