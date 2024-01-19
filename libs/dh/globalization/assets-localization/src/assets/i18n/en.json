@@ -756,6 +756,11 @@
     "status": {
       "MISSING_PRICES": "Missing prices",
       "COMPLETE": "Complete"
+    },
+    "drawer": {
+      "areaLabel": "Area",
+      "updatedLabel": "Updated",
+      "pricesNote": "Prices are shown in DKK for kWh"
     }
   },
   "wholesale": {

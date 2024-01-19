@@ -25,7 +25,7 @@ env:
   NODE_OPTIONS: --max-old-space-size=6144
   NODE_VERSION_FILE: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  YARN_VERSION: 3.5.0
+  YARN_VERSION: 4.0.2
 
 jobs:
   #
@@ -37,7 +37,7 @@ jobs:
       RELEASE_VERSION: ui_frontend_${{ github.event.number }}
       RELEASE_FOLDER_PATH: ${{ github.workspace }}/ui_frontend_${{ github.event.number }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -91,7 +91,7 @@ jobs:
       # needed to push to origin
       - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.IS_PULL_REQUEST == 'true' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -99,7 +99,7 @@ jobs:
 
       - name: "Merge: Check out source code"
         if: ${{ env.IS_MAIN_BRANCH == 'true' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4

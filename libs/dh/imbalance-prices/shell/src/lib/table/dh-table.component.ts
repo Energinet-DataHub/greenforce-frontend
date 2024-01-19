@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -25,6 +25,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 
 import { DhImbalancePrice } from '../dh-imbalance-prices';
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
+import { DhImbalancePricesDrawerComponent } from '../drawer/dh-drawer.component';
 
 @Component({
   selector: 'dh-imbalance-prices-table',
@@ -48,6 +49,7 @@ import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.componen
     VaterStackComponent,
 
     DhStatusBadgeComponent,
+    DhImbalancePricesDrawerComponent,
   ],
 })
 export class DhImbalancePricesTableComponent {
@@ -57,8 +59,18 @@ export class DhImbalancePricesTableComponent {
     status: { accessor: 'status' },
   };
 
+  activeRow = signal<DhImbalancePrice | undefined>(undefined);
+
   @Input() isLoading!: boolean;
   @Input() hasError!: boolean;
 
   @Input({ required: true }) tableDataSource!: WattTableDataSource<DhImbalancePrice>;
+
+  onRowClick(entry: DhImbalancePrice): void {
+    this.activeRow.set(entry);
+  }
+
+  onClose(): void {
+    this.activeRow.set(undefined);
+  }
 }
