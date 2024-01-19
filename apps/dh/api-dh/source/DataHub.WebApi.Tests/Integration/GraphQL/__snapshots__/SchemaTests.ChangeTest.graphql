@@ -162,16 +162,18 @@ type GridAreaOverviewItemDto {
   fullFlexDate: DateTime
 }
 
+"Imbalance price"
 type ImbalancePrice {
-  timestampStart: DateTime!
-  timestampEnd: DateTime!
-  value: Decimal!
+  priceAreaCode: PriceAreaCode!
+  timestamp: DateTime!
+  price: Float!
 }
 
-type ImbalancePriceDay {
-  date: DateTime!
-  status: ImbalancePriceStatus!
-  priceDays: [ImbalancePrice!]!
+"Imbalance price for a given date"
+type ImbalancePriceDaily {
+  status: ImbalancePriceDailyCompletenessStatus!
+  timeStamp: DateTime!
+  imbalancePrices: [ImbalancePrice!]!
 }
 
 type ImbalancePricePeriod {
@@ -182,7 +184,6 @@ type ImbalancePricePeriod {
 
 type ImbalancePricesOverview {
   pricePeriods: [ImbalancePricePeriod!]!
-  totalCount: Int!
 }
 
 type KeyValuePairOfStringAndIEnumerableOfString {
@@ -295,7 +296,7 @@ type Query {
   associatedActors(email: String!): AssociatedActors!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
-  imbalancePricesForMonth: [ImbalancePriceDay!]!
+  imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
 }
 
 type SettlementReport {
@@ -538,9 +539,16 @@ enum ExchangeEventCalculationType {
   AGGREGATION
 }
 
-enum ImbalancePriceStatus {
+enum ImbalancePriceDailyCompletenessStatus {
+  NO_DATA
+  IN_COMPLETE
   COMPLETE
-  MISSING_PRICES
+}
+
+enum ImbalancePriceStatus {
+  NO_DATA
+  IN_COMPLETE
+  COMPLETE
 }
 
 enum MeteringPointType {
@@ -626,9 +634,6 @@ scalar DateRange
 
 "The `DateTime` scalar represents an ISO-8601 compliant date time type."
 scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
-
-"The built-in `Decimal` scalar type."
-scalar Decimal
 
 scalar JSON
 

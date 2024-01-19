@@ -25,10 +25,8 @@ public class ImbalancePrice : ObjectType<ImbalancePriceDto>
         descriptor.Name("ImbalancePrice");
         descriptor.Description("Imbalance price");
 
-        descriptor.Field(x => x.PriceAreaCode)
-            .Name("priceAreaCode")
-            .Description("Imbalance price period")
-            .Resolve(context =>
+        descriptor.Field("priceAreaCode")
+        .Resolve(context =>
                 {
                     return context.Parent<ImbalancePriceDto>().PriceAreaCode switch
                     {

@@ -21,7 +21,6 @@ using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate;
 using Microsoft.AspNetCore.Http;
 using NodaTime;
@@ -325,10 +324,20 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public async Task<IEnumerable<ImbalancePricesDailyDto>> GetImbalancePricesForMonthAsync(
             int year,
             int month,
-            PriceAreaCode areaCode,
+            Controllers.MarketParticipant.Dto.PriceAreaCode areaCode,
             [Service] IImbalancePricesClient_V1 client)
         {
-            return await client.GetByMonthAsync(year, month, areaCode).ConfigureAwait(false);
+            var parsedAreaCode = areaCode switch {
+                    Controllers.MarketParticipant.Dto.PriceAreaCode.Dk1 => PriceAreaCode.AreaCode1,
+                    Controllers.MarketParticipant.Dto.PriceAreaCode.Dk2 => PriceAreaCode.AreaCode2,
+                    _ => throw new ArgumentOutOfRangeException(nameof(areaCode)),
+                };
+
+            return await client.GetByMonthAsync(
+                year,
+                month,
+                parsedAreaCode)
+                .ConfigureAwait(false);
         }
 
         private static Task<GetUserOverviewResponse> GetUserOverviewAsync(IMarketParticipantClient_V1 client)
