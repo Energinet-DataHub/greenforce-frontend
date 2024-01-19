@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild, inject } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -47,15 +47,15 @@ const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
       type="file"
       class="upload-input"
       [accept]="csvExt"
-      (change)="onFileSelected(fileUpload.files)"
-      #fileUpload
+      (change)="onFileSelected(uploadInput.files)"
+      #uploadInput
     />
 
     <watt-button
       icon="upload"
       variant="secondary"
       [loading]="uploadInProgress()"
-      (click)="fileUpload.click()"
+      (click)="uploadInput.click()"
     >
       {{ 'imbalancePrices.uploadButton' | transloco }}
     </watt-button>`,
@@ -70,6 +70,9 @@ export class DhImbalancePricesUploaderComponent {
   csvExt = csvExt;
 
   uploadInProgress = toSignal(this.store.uploadInProgress$, { requireSync: true });
+
+  @ViewChild('uploadInput')
+  uploadInput!: ElementRef<HTMLInputElement>;
 
   @Output() uploadSuccess = new EventEmitter<void>();
 
@@ -102,6 +105,7 @@ export class DhImbalancePricesUploaderComponent {
 
     this.toastService.open({ type: 'success', message });
 
+    this.resetUploadInput();
     this.uploadSuccess.emit();
   };
 
@@ -112,5 +116,11 @@ export class DhImbalancePricesUploaderComponent {
         : this.transloco.translate('imbalancePrices.uploadError');
 
     this.toastService.open({ type: 'danger', message });
+
+    this.resetUploadInput();
   };
+
+  private resetUploadInput(): void {
+    this.uploadInput.nativeElement.value = '';
+  }
 }
