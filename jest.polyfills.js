@@ -10,12 +10,13 @@
  * Taken from
  * https://mswjs.io/docs/migrations/1.x-to-2.x#requestresponsetextencoder-is-not-defined-jest
  */
-
 const { TextDecoder, TextEncoder } = require('node:util');
+const { ReadableStream } = require('node:stream/web');
 
 Object.defineProperties(globalThis, {
   TextDecoder: { value: TextDecoder },
   TextEncoder: { value: TextEncoder },
+  ReadableStream: { value: ReadableStream },
 });
 
 const { Blob, File } = require('node:buffer');
