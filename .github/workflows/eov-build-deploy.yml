@@ -94,6 +94,13 @@ jobs:
       - name: Production build
         run: yarn nx build app-${{ env.APP_NAME }}
 
+      - name: Upload web app build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-${{ env.APP_NAME }}
+          path: ./dist/apps/eov/app-${{ env.APP_NAME }}/browser/
+          if-no-files-found: error
+
       - name: Build image
         uses: Energinet-DataHub/energy-origin/.github/actions/docker-build-and-push@main
         with:
