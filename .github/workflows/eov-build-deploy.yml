@@ -95,13 +95,6 @@ jobs:
           mkdir ./app
           mv ./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/* ./app/
 
-      # - name: Upload web app build artifact
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: app-${{ env.APP_NAME }}
-      #     path: ./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/
-      #     if-no-files-found: error
-
       - name: Build image
         uses: Energinet-DataHub/energy-origin/.github/actions/docker-build-and-push@main
         with:
@@ -112,10 +105,10 @@ jobs:
           dry-run: ${{ env.DRY_RUN }}
           build-args: APP_FOLDER=app
 
-      # - name: Update environment
-      #   uses: Energinet-DataHub/energy-origin/.github/actions/update-base-environment@main
-      #   with:
-      #     branch: ${{ env.BASE_DEPLOY_BRANCH }}
-      #     configuration: ${{ env.CONFIG }}
-      #     deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}
-      #     dry_run: ${{ env.DRY_RUN }}
+      - name: Update environment
+        uses: Energinet-DataHub/energy-origin/.github/actions/update-base-environment@main
+        with:
+          branch: ${{ env.BASE_DEPLOY_BRANCH }}
+          configuration: ${{ env.CONFIG }}
+          deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}
+          dry_run: ${{ env.DRY_RUN }}
