@@ -14,19 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
   Directive,
-  HostBinding,
-  inject,
   Input,
   TemplateRef,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
-
 @Directive({
   standalone: true,
   selector: '[wattExpandableCardContent]',
@@ -41,7 +39,7 @@ export class WattExpandableCardContentDirective {
  */
 @Component({
   standalone: true,
-  imports: [NgIf, NgTemplateOutlet, MatExpansionModule],
+  imports: [NgIf, NgTemplateOutlet, MatExpansionModule, CommonModule],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-expandable-card',
   styleUrls: ['./watt-expandable-card.component.scss'],
@@ -55,10 +53,6 @@ export class WattExpandableCardComponent {
   _content?: WattExpandableCardContentDirective;
   /** Whether the card is elevated or has solid border */
   @Input() variant: 'solid' | 'elevation' = 'elevation';
-  @HostBinding('class')
-  get cssClass() {
-    return `watt-expandable-card watt-${this.variant}`;
-  }
 }
 
 @Component({
