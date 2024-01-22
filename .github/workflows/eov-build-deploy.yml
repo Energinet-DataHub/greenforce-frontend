@@ -76,11 +76,6 @@ jobs:
           echo "version=${version}" >> $GITHUB_ENV
           echo "version: $version"
 
-      - name: Echo version
-        shell: bash
-        run: |
-          echo "${{ env.version }}"
-
 
 
       - name: Set up Node.js
@@ -98,7 +93,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: app-${{ env.APP_NAME }}
-          path: ./dist/apps/eov/app-${{ env.APP_NAME }}/browser/
+          path: ./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/browser/
           if-no-files-found: error
 
       - name: Build image
