@@ -26,7 +26,7 @@ import { ImbalancePriceStatus } from '@energinet-datahub/dh/shared/domain/graphq
   template: `
     <ng-container *transloco="let t; read: 'imbalancePrices.status'">
       @switch (status) {
-        @case ('MISSING_PRICES') {
+        @case ('IN_COMPLETE') {
           <watt-badge type="danger">{{ t(status) }}</watt-badge>
         }
         @case ('COMPLETE') {
