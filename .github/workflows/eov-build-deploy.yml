@@ -54,10 +54,26 @@ jobs:
           echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
           echo "CONFIG=$CONFIG" >> $GITHUB_ENV
 
-      - name: Resolve version
-        uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
-        with:
-          allow-dispatch: true
+      # - name: Resolve version
+      #   uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
+      #   with:
+      #     allow-dispatch: true
+
+      # TODO: Replace with 'docker-image-version' action when done testing.
+      - name: Generate version
+        id: output
+        shell: bash
+        run: |
+          if [ "${{ github.ref_name }}" = 'main' ]; then
+            version="$(git rev-parse --short ${{ github.sha }})"
+          else
+            sanitized_branch=$(printf '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9]//g') 
+            version="${{ github.sha }}.${sanitized_branch}"
+          fi
+
+          echo "version=${version}" >> $GITHUB_OUTPUT
+          echo "version=${version}" >> $GITHUB_ENV
+          echo "version: $version"
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
