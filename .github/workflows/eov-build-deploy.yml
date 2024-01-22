@@ -54,6 +54,8 @@ jobs:
           echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
           echo "CONFIG=$CONFIG" >> $GITHUB_ENV
 
+
+
       # - name: Resolve version
       #   uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
       #   with:
@@ -61,7 +63,6 @@ jobs:
 
       # TODO: Replace with 'docker-image-version' action when done testing.
       - name: Generate version
-        id: output
         shell: bash
         run: |
           if [ "${{ github.ref_name }}" = 'main' ]; then
@@ -75,6 +76,13 @@ jobs:
           echo "version=${version}" >> $GITHUB_ENV
           echo "version: $version"
 
+      - name: Echo version
+        shell: bash
+        run: |
+          echo "${{ env.version }}""
+
+
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -84,7 +92,7 @@ jobs:
         uses: ./.github/actions/yarn-nm-install
 
       - name: Production build
-        run: yarn nx build ${{ env.APP_NAME }}
+        run: yarn nx build app-eov
 
       # - name: Build image
       #   uses: Energinet-DataHub/energy-origin/.github/actions/docker-build-and-push@main
