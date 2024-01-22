@@ -47,9 +47,9 @@
   & watt-badge {
     margin-right: var(--watt-space-m);
   }
-}
 
-watt-expandable-card.watt-solid .mat-expansion-panel {
-  border: 1px solid var(--watt-color-neutral-grey-300);
-  box-shadow: none;
+  &.watt-solid {
+    border: 1px solid var(--watt-color-neutral-grey-300);
+    box-shadow: none;
+  }
 }
