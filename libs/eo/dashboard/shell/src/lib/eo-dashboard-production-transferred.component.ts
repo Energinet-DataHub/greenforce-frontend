@@ -345,7 +345,7 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
             text: unit,
             align: 'end',
           },
-        }
+        },
       },
       plugins: {
         tooltip: {
