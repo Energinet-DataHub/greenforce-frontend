@@ -93,7 +93,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p ./artifacts/app-${{ env.APP_NAME }}
-          mv ./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/ ./artifacts/app-${{ env.APP_NAME }}/
+          mv ./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/ ./artifacts/app-${{ env.APP_NAME }}
 
       # - name: Upload web app build artifact
       #   uses: actions/upload-artifact@v3
