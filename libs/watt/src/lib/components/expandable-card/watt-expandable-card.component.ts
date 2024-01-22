@@ -43,7 +43,7 @@ export class WattExpandableCardContentDirective {
   imports: [NgTemplateOutlet, MatExpansionModule],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-expandable-card',
-  styleUrls: ['./watt-expandable-card.component.scss'],
+  styleUrl: './watt-expandable-card.component.scss',
   templateUrl: './watt-expandable-card.component.html',
 })
 export class WattExpandableCardComponent {
