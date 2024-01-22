@@ -24,7 +24,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { MatAccordionTogglePosition, MatExpansionModule } from '@angular/material/expansion';
 
 @Directive({
   standalone: true,
@@ -55,6 +55,9 @@ export class WattExpandableCardComponent {
 
   /** Whether the card is expanded. */
   @Input() expanded = false;
+
+  /** The position of the expansion indicator. */
+  @Input() togglePosition: MatAccordionTogglePosition = 'before';
 
   /** Whether the card is elevated or has solid border */
   @Input() variant: 'solid' | 'elevation' = 'elevation';
