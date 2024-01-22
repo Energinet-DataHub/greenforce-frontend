@@ -53,7 +53,7 @@
     padding: 0 var(--watt-space-m);
   }
 
-  watt-badge {
+  .mat-expansion-panel-header-title > watt-badge {
     margin-right: var(--watt-space-m);
   }
 
