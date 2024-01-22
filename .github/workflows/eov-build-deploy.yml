@@ -1,18 +1,19 @@
 name: EOV Build/Deploy Acorn
 
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        type: choice
-        description: Environment
-        required: true
-        default: development
-        options:
-          - development
-          - test
-          - production
-          - all
+  push:
+  # workflow_dispatch:
+  #   inputs:
+  #     environment:
+  #       type: choice
+  #       description: Environment
+  #       required: true
+  #       default: development
+  #       options:
+  #         - development
+  #         - test
+  #         - production
+  #         - all
 
 env:
   BASE_DEPLOY_BRANCH: preview/elo-frontend-beta
@@ -21,6 +22,7 @@ env:
   node-version-file: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
   yarn-version: 3.5.0
+  environment: development # TODO: Change all env.environment references back to inputs.environment when done testing.
 
 jobs:
   build-deploy:
@@ -30,43 +32,43 @@ jobs:
       - name: Set DRY_RUN
         shell: bash
         run: |
-          if [[ '${{ github.ref_name }}' != 'main' && ! '${{ github.ref_name }}' =~ ^release/.+ && ( '${{ inputs.environment }}' == 'all' || '${{ inputs.environment }}' == 'production' ) ]]; then 
+          if [[ '${{ github.ref_name }}' != 'main' && ! '${{ github.ref_name }}' =~ ^release/.+ && ( '${{ env.environment }}' == 'all' || '${{ env.environment }}' == 'production' ) ]]; then 
             DRY_RUN=true
           else 
             DRY_RUN=false
           fi
           echo "DRY_RUN=$DRY_RUN" >> $GITHUB_ENV
       
-      # - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # - name: Set CONFIG
-      #   shell: bash
-      #   run: |
-      #     if [[ "${{ inputs.environment }}" == "all" ]]; then
-      #       CONFIG="build/infrastructure/${{ env.APP_NAME }}/acorn-k8s-config/configuration.yaml"
-      #     else
-      #       CONFIG="build/infrastructure/${{ env.APP_NAME }}/acorn-k8s-config/configuration.${{ inputs.environment }}.yaml"
-      #     fi
+      - name: Set CONFIG
+        shell: bash
+        run: |
+          if [[ "${{ env.environment }}" == "all" ]]; then
+            CONFIG="build/infrastructure/${{ env.APP_NAME }}/acorn-k8s-config/configuration.yaml"
+          else
+            CONFIG="build/infrastructure/${{ env.APP_NAME }}/acorn-k8s-config/configuration.${{ env.environment }}.yaml"
+          fi
 
-      #     IMAGE_NAME=$(yq -r '.name' "$CONFIG")
-      #     echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
-      #     echo "CONFIG=$CONFIG" >> $GITHUB_ENV
+          IMAGE_NAME=$(yq -r '.name' "$CONFIG")
+          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
+          echo "CONFIG=$CONFIG" >> $GITHUB_ENV
 
-      # - name: Resolve version
-      #   uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
-      #   with:
-      #     allow-dispatch: true
+      - name: Resolve version
+        uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
+        with:
+          allow-dispatch: true
 
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version-file: ${{ env.node-version-file }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ${{ env.node-version-file }}
 
-      # - name: 📥 Monorepo install
-      #   uses: ./.github/actions/yarn-nm-install
+      - name: 📥 Monorepo install
+        uses: ./.github/actions/yarn-nm-install
 
-      # - name: Production build
-      #   run: yarn nx build ${{ env.APP_NAME }}
+      - name: Production build
+        run: yarn nx build ${{ env.APP_NAME }}
 
       # - name: Build image
       #   uses: Energinet-DataHub/energy-origin/.github/actions/docker-build-and-push@main
