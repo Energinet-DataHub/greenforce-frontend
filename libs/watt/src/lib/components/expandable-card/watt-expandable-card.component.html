@@ -24,9 +24,9 @@ limitations under the License.
 
   <ng-content />
 
-  <ng-container *ngIf="_content">
+  @if (_content) {
     <ng-template matExpansionPanelContent>
       <ng-container *ngTemplateOutlet="_content.templateRef" />
     </ng-template>
-  </ng-container>
+  }
 </mat-expansion-panel>

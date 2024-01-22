@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -39,7 +39,7 @@ export class WattExpandableCardContentDirective {
  */
 @Component({
   standalone: true,
-  imports: [NgIf, NgTemplateOutlet, MatExpansionModule, CommonModule],
+  imports: [NgTemplateOutlet, MatExpansionModule, CommonModule],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-expandable-card',
   styleUrls: ['./watt-expandable-card.component.scss'],
