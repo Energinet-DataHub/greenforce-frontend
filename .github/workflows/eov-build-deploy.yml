@@ -92,8 +92,8 @@ jobs:
       - name: Generate version
         shell: bash
         run: |
-          mkdir -p ./artifacts/app-${{ env.APP_NAME }}
-          mv "./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/" "./artifacts/app-${{ env.APP_NAME }}/"
+          mkdir ./app
+          mv ./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/* ./app/
 
       # - name: Upload web app build artifact
       #   uses: actions/upload-artifact@v3
@@ -110,6 +110,7 @@ jobs:
           image-name: ${{ env.IMAGE_NAME }}
           image-tag: ${{ env.version }}
           dry-run: ${{ env.DRY_RUN }}
+          build-args: FOLDER=app
 
       # - name: Update environment
       #   uses: Energinet-DataHub/energy-origin/.github/actions/update-base-environment@main

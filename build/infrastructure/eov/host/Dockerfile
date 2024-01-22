@@ -1,6 +1,6 @@
 FROM nginx:stable-alpine
 
-ARG APP_FOLDER=./artifacts/app-eov/
+ARG APP_FOLDER
 
 COPY $APP_FOLDER /usr/share/nginx/html/
 COPY ./build/infrastructure/eov/host/nginx.conf /etc/nginx/conf.d/default.conf
