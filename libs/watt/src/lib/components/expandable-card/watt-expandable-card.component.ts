@@ -50,6 +50,9 @@ export class WattExpandableCardComponent {
   /** Whether the card is expanded. */
   @Input() expanded = false;
 
+  /**
+   * @ignore
+   */
   @ContentChild(WattExpandableCardContentDirective)
   _content?: WattExpandableCardContentDirective;
 
