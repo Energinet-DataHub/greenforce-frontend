@@ -29,6 +29,8 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.EsettExchangeEventType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ExchangeEventCalculationType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.GridAreaType>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ImbalancePrice>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ImbalancePriceDaily>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.OrganizationAuditedChangeAuditLogDtoType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.OrganizationType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.PermissionAuditedChangeAuditLogDtoType>();

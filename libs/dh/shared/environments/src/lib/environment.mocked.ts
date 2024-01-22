@@ -27,7 +27,9 @@ import { setupServiceWorker } from '@energinet-datahub/gf/util-msw';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
 
-setupServiceWorker(dhLocalApiEnvironment.apiBase, mocks);
+(async () => {
+  await setupServiceWorker(dhLocalApiEnvironment.apiBase, mocks);
+})();
 
 /*
  * For easier debugging in development mode, you can import the following file

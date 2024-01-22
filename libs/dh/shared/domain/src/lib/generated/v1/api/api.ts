@@ -1,5 +1,7 @@
 export * from './esett-exchange-http.service';
 import { EsettExchangeHttp } from './esett-exchange-http.service';
+export * from './imbalance-prices-http.service';
+import { ImbalancePricesHttp } from './imbalance-prices-http.service';
 export * from './market-participant-http.service';
 import { MarketParticipantHttp } from './market-participant-http.service';
 export * from './market-participant-actor-http.service';
@@ -24,4 +26,4 @@ export * from './token-http.service';
 import { TokenHttp } from './token-http.service';
 export * from './wholesale-settlement-report-http.service';
 import { WholesaleSettlementReportHttp } from './wholesale-settlement-report-http.service';
-export const APIS = [EsettExchangeHttp, MarketParticipantHttp, MarketParticipantActorHttp, MarketParticipantActorQueryHttp, MarketParticipantGridAreaHttp, MarketParticipantPermissionsHttp, MarketParticipantUserHttp, MarketParticipantUserOverviewHttp, MarketParticipantUserRoleHttp, MarketParticipantUserRoleAssignmentHttp, MessageArchiveHttp, TokenHttp, WholesaleSettlementReportHttp];
+export const APIS = [EsettExchangeHttp, ImbalancePricesHttp, MarketParticipantHttp, MarketParticipantActorHttp, MarketParticipantActorQueryHttp, MarketParticipantGridAreaHttp, MarketParticipantPermissionsHttp, MarketParticipantUserHttp, MarketParticipantUserOverviewHttp, MarketParticipantUserRoleHttp, MarketParticipantUserRoleAssignmentHttp, MessageArchiveHttp, TokenHttp, WholesaleSettlementReportHttp];
