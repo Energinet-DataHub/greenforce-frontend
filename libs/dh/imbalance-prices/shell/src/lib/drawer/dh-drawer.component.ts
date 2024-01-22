@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, Output, ViewChild, signal } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, input, effect, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
@@ -93,23 +93,20 @@ export class DhImbalancePricesDrawerComponent {
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
 
-  entry: DhImbalancePrice | null = null;
+  imbalancePrice = input<DhImbalancePrice | undefined>(undefined);
   monthView = signal(monthViewMock);
-
-  @Input() set imbalancePrice(value: DhImbalancePrice | undefined) {
-    if (value) {
-      this.drawer?.open();
-      this.entry = value;
-    } else {
-      this.onClose();
-    }
-  }
 
   @Output() closed = new EventEmitter<void>();
 
-  onClose(): void {
-    this.entry = null;
+  constructor() {
+    effect(() => {
+      if (this.imbalancePrice()) {
+        this.drawer?.open();
+      }
+    });
+  }
 
+  onClose(): void {
     this.closed.emit();
   }
 }
