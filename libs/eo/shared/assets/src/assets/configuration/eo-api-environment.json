@@ -1,5 +1,5 @@
 {
-  "apiBase": "https://demo.energioprindelse.dk/api",
+  "apiBase": "https://eo-u-allowcorsfromp.westeurope.cloudapp.azure.com/api",
   "apiVersions": {
     "certificates": "20230101",
     "cvr": "20240103",
