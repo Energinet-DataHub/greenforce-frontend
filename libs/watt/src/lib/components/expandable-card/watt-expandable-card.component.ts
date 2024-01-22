@@ -57,7 +57,7 @@ export class WattExpandableCardComponent {
   @Input() expanded = false;
 
   /** The position of the expansion indicator. */
-  @Input() togglePosition: MatAccordionTogglePosition = 'before';
+  @Input() togglePosition: MatAccordionTogglePosition = 'after';
 
   /** Whether the card is elevated or has solid border */
   @Input() variant: 'solid' | 'elevation' = 'elevation';
