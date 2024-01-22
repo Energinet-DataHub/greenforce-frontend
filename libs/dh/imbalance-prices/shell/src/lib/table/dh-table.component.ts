@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { CurrencyPipe } from '@angular/common';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -25,6 +24,8 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhImbalancePrice } from '../dh-imbalance-prices';
+import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
+import { DhImbalancePricesDrawerComponent } from '../drawer/dh-drawer.component';
 
 @Component({
   selector: 'dh-imbalance-prices-table',
@@ -39,7 +40,6 @@ import { DhImbalancePrice } from '../dh-imbalance-prices';
   ],
   imports: [
     TranslocoDirective,
-    CurrencyPipe,
 
     WATT_TABLE,
     WattPaginatorComponent,
@@ -47,17 +47,30 @@ import { DhImbalancePrice } from '../dh-imbalance-prices';
     WattDatePipe,
     VaterFlexComponent,
     VaterStackComponent,
+
+    DhStatusBadgeComponent,
+    DhImbalancePricesDrawerComponent,
   ],
 })
 export class DhImbalancePricesTableComponent {
   columns: WattTableColumnDef<DhImbalancePrice> = {
-    timestamp: { accessor: 'timestamp' },
-    priceAreaDk1: { accessor: 'priceAreaDk1' },
-    priceAreaDk2: { accessor: 'priceAreaDk2' },
+    period: { accessor: 'name' },
+    priceArea: { accessor: 'priceAreaCode' },
+    status: { accessor: 'status' },
   };
+
+  activeRow = signal<DhImbalancePrice | undefined>(undefined);
 
   @Input() isLoading!: boolean;
   @Input() hasError!: boolean;
 
   @Input({ required: true }) tableDataSource!: WattTableDataSource<DhImbalancePrice>;
+
+  onRowClick(entry: DhImbalancePrice): void {
+    this.activeRow.set(entry);
+  }
+
+  onClose(): void {
+    this.activeRow.set(undefined);
+  }
 }

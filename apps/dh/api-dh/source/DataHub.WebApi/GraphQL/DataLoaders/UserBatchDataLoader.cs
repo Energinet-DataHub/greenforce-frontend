@@ -39,8 +39,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
             {
                 ActorId = null,
                 SearchText = null,
-                UserRoleIds = (ICollection<Guid>)Enumerable.Empty<Guid>(),
-                UserStatus = (ICollection<UserStatus>)Enumerable.Empty<UserStatus>(),
+                UserRoleIds = (ICollection<Guid>)Array.Empty<Guid>(),
+                UserStatus = (ICollection<UserStatus>)Array.Empty<UserStatus>(),
             };
             var result = await _client.UserOverviewUsersSearchAsync(1, int.MaxValue, UserOverviewSortProperty.Email, SortDirection.Asc, filters);
             return result.Users.ToDictionary(x => x.Id);

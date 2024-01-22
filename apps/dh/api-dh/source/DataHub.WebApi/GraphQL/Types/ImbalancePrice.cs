@@ -13,14 +13,27 @@
 // limitations under the License.
 
 using System;
+using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
+using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
-public class ImbalancePrice
+public class ImbalancePrice : ObjectType<ImbalancePriceDto>
 {
-    public DateTimeOffset TimestampStart { get; set; } = DateTimeOffset.UtcNow;
+    protected override void Configure(IObjectTypeDescriptor<ImbalancePriceDto> descriptor)
+    {
+        descriptor.Name("ImbalancePrice");
+        descriptor.Description("Imbalance price");
 
-    public DateTimeOffset TimestampEnd { get; set; } = DateTimeOffset.UtcNow;
-
-    public decimal Value { get; set; } = 0;
+        descriptor.Field("priceAreaCode")
+        .Resolve(context =>
+                {
+                    return context.Parent<ImbalancePriceDto>().PriceAreaCode switch
+                    {
+                        PriceAreaCode.AreaCode1 => Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto.PriceAreaCode.Dk1,
+                        PriceAreaCode.AreaCode2 => Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto.PriceAreaCode.Dk2,
+                        _ => throw new ArgumentOutOfRangeException(nameof(ImbalancePriceDto.PriceAreaCode)),
+                };
+            });
+    }
 }

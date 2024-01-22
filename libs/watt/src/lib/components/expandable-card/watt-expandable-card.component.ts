@@ -22,7 +22,7 @@ import {
   Input,
   TemplateRef,
   ViewEncapsulation,
-  inject
+  inject,
 } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 @Directive({

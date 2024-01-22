@@ -20,6 +20,4 @@ namespace Energinet.DataHub.WebApi.GraphQL;
 public class ImbalancePricesOverview
 {
     public IEnumerable<ImbalancePricePeriod> PricePeriods { get; set; } = Enumerable.Empty<ImbalancePricePeriod>();
-
-    public int TotalCount { get; set; } = 0;
 }
