@@ -53,7 +53,6 @@ export class WattExpandableCardComponent {
   _content?: WattExpandableCardContentDirective;
   /** Whether the card is elevated or has solid border */
   @Input() variant: 'solid' | 'elevation' = 'elevation';
-  variantClass = `watt-${this.variant}`;
 }
 
 @Component({
