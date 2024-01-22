@@ -25,6 +25,7 @@ import {
   inject,
 } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
+
 @Directive({
   standalone: true,
   selector: '[wattExpandableCardContent]',
@@ -51,6 +52,7 @@ export class WattExpandableCardComponent {
 
   @ContentChild(WattExpandableCardContentDirective)
   _content?: WattExpandableCardContentDirective;
+
   /** Whether the card is elevated or has solid border */
   @Input() variant: 'solid' | 'elevation' = 'elevation';
 }
