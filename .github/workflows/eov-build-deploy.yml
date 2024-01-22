@@ -92,7 +92,7 @@ jobs:
         uses: ./.github/actions/yarn-nm-install
 
       - name: Production build
-        run: yarn nx build app-eov
+        run: yarn nx build app-${{ env.APP_NAME }}
 
       # - name: Build image
       #   uses: Energinet-DataHub/energy-origin/.github/actions/docker-build-and-push@main
