@@ -1,19 +1,18 @@
 name: EOV Build/Deploy Acorn
 
 on:
-  push:
-  # workflow_dispatch:
-  #   inputs:
-  #     environment:
-  #       type: choice
-  #       description: Environment
-  #       required: true
-  #       default: development
-  #       options:
-  #         - development
-  #         - test
-  #         - production
-  #         - all
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Environment
+        required: true
+        default: development
+        options:
+          - development
+          - test
+          - production
+          - all
 
 env:
   BASE_DEPLOY_BRANCH: preview/elo-frontend-beta
