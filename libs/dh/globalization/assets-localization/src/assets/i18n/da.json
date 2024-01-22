@@ -753,8 +753,13 @@
     "uploadSuccess": "Filen er blevet uploadet",
     "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen",
     "status": {
-      "MISSING_PRICES": "Mangler priser",
+      "IN_COMPLETE": "Mangler priser",
       "COMPLETE": "Komplet"
+    },
+    "drawer": {
+      "areaLabel": "Område",
+      "updatedLabel": "Indlæst",
+      "pricesNote": "Priser angivet i DKK for kWh"
     }
   },
   "wholesale": {

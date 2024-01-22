@@ -22,6 +22,8 @@ limitations under the License.
     [sortClear]="false"
     sortBy="period"
     sortDirection="desc"
+    [activeRow]="activeRow()"
+    (rowClick)="onRowClick($event)"
   >
     <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let entry">
       {{ entry.name | wattDate: "monthYear" }}
@@ -46,3 +48,5 @@ limitations under the License.
     </vater-stack>
   }
 </vater-flex>
+
+<dh-imbalance-prices-drawer [imbalancePrice]="activeRow()" (closed)="onClose()" />
