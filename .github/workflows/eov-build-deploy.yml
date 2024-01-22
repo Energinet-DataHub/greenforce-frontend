@@ -110,7 +110,7 @@ jobs:
           image-name: ${{ env.IMAGE_NAME }}
           image-tag: ${{ env.version }}
           dry-run: ${{ env.DRY_RUN }}
-          build-args: FOLDER=app
+          build-args: APP_FOLDER=app
 
       # - name: Update environment
       #   uses: Energinet-DataHub/energy-origin/.github/actions/update-base-environment@main
