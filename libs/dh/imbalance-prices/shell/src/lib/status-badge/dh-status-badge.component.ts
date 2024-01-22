@@ -32,6 +32,9 @@ import {
         @case ('IN_COMPLETE') {
           <watt-badge type="danger">{{ t(status) }}</watt-badge>
         }
+        @case ('NO_DATA') {
+          <watt-badge type="danger">{{ t(status) }}</watt-badge>
+        }
         @case ('COMPLETE') {
           <watt-badge type="neutral">{{ t(status) }}</watt-badge>
         }
