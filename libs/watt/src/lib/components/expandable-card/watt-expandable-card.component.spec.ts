@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
+
 import {
   WattExpandableCardComponent,
   WATT_EXPANDABLE_CARD_COMPONENTS,
@@ -27,7 +28,7 @@ const template = `
   </watt-expandable-card>
 `;
 
-describe(WattExpandableCardComponent.name, () => {
+describe(WattExpandableCardComponent, () => {
   async function setup(args: Partial<WattExpandableCardComponent>) {
     await render(template, {
       componentProperties: args,
