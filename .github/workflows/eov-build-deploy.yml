@@ -79,7 +79,7 @@ jobs:
       - name: Echo version
         shell: bash
         run: |
-          echo "${{ env.version }}""
+          echo "${{ env.version }}"
 
 
 
