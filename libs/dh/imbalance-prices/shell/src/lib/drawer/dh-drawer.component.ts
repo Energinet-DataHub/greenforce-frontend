@@ -14,15 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
 import { DhImbalancePrice } from '../dh-imbalance-prices';
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
+import { monthViewMock } from './dh-month-view.mock';
 
 @Component({
   selector: 'dh-imbalance-prices-drawer',
@@ -51,14 +53,38 @@ import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.componen
 
       .prices-note {
         color: var(--watt-color-neutral-grey-700);
-        margin-left: var(--watt-space-ml);
+        margin-top: 0;
+      }
+
+      watt-drawer-content {
+        padding-right: var(--watt-space-ml);
+        padding-left: var(--watt-space-ml);
+      }
+
+      watt-expandable-card {
+        display: block;
+
+        &:not(:first-of-type) {
+          margin-top: var(--watt-space-s);
+        }
+      }
+
+      watt-expandable-card-title {
+        display: contents;
+
+        dh-status-badge {
+          margin-left: auto;
+        }
       }
     `,
   ],
   imports: [
     TranslocoDirective,
+
     WATT_DRAWER,
     WattDatePipe,
+    WATT_EXPANDABLE_CARD_COMPONENTS,
+
     DhStatusBadgeComponent,
     DhEmDashFallbackPipe,
   ],
@@ -68,6 +94,7 @@ export class DhImbalancePricesDrawerComponent {
   drawer: WattDrawerComponent | undefined;
 
   entry: DhImbalancePrice | null = null;
+  monthView = signal(monthViewMock);
 
   @Input() set imbalancePrice(value: DhImbalancePrice | undefined) {
     if (value) {

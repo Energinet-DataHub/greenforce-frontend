@@ -41,6 +41,20 @@ limitations under the License.
     @if (drawer.isOpen) {
       <watt-drawer-content>
         <p class="prices-note">{{ t("pricesNote") }}</p>
+
+        @for (day of monthView(); track $index) {
+          <watt-expandable-card variant="solid" togglePosition="before">
+            <watt-expandable-card-title>
+              {{ day.timeStamp | wattDate: "short" }}
+
+              @if (day.status !== "COMPLETE") {
+                <dh-status-badge [status]="day.status" />
+              }
+            </watt-expandable-card-title>
+
+            {{ day.imbalancePrices }}
+          </watt-expandable-card>
+        }
       </watt-drawer-content>
     }
   </watt-drawer>
