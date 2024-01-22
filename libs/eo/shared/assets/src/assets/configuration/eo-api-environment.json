@@ -1,5 +1,5 @@
 {
-  "apiBase": "https://eo-u-allowcorsfromp.westeurope.cloudapp.azure.com/api",
+  "apiBase": "/api",
   "apiVersions": {
     "certificates": "20230101",
     "cvr": "20240103",
