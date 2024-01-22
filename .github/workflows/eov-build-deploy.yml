@@ -93,7 +93,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p ./artifacts/app-${{ env.APP_NAME }}
-          mv ./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/ ./artifacts/app-${{ env.APP_NAME }}
+          mv "./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/" "./artifacts/app-${{ env.APP_NAME }}/"
 
       # - name: Upload web app build artifact
       #   uses: actions/upload-artifact@v3
@@ -106,6 +106,7 @@ jobs:
         uses: Energinet-DataHub/energy-origin/.github/actions/docker-build-and-push@main
         with:
           dockerfile: build/infrastructure/${{ env.APP_NAME }}/host/Dockerfile
+          docker-context: .
           image-name: ${{ env.IMAGE_NAME }}
           image-tag: ${{ env.version }}
           dry-run: ${{ env.DRY_RUN }}
