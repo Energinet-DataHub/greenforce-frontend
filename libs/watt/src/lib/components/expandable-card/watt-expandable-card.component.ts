@@ -47,14 +47,14 @@ export class WattExpandableCardContentDirective {
   templateUrl: './watt-expandable-card.component.html',
 })
 export class WattExpandableCardComponent {
-  /** Whether the card is expanded. */
-  @Input() expanded = false;
-
   /**
    * @ignore
    */
   @ContentChild(WattExpandableCardContentDirective)
   _content?: WattExpandableCardContentDirective;
+
+  /** Whether the card is expanded. */
+  @Input() expanded = false;
 
   /** Whether the card is elevated or has solid border */
   @Input() variant: 'solid' | 'elevation' = 'elevation';
