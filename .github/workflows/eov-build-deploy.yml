@@ -89,12 +89,18 @@ jobs:
       - name: Production build
         run: yarn nx build app-${{ env.APP_NAME }}
 
-      - name: Upload web app build artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-${{ env.APP_NAME }}
-          path: ./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/
-          if-no-files-found: error
+      - name: Generate version
+        shell: bash
+        run: |
+          mkdir -p ./artifacts/app-${{ env.APP_NAME }}
+          mv ./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/ ./artifacts/app-${{ env.APP_NAME }}/
+
+      # - name: Upload web app build artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: app-${{ env.APP_NAME }}
+      #     path: ./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/
+      #     if-no-files-found: error
 
       - name: Build image
         uses: Energinet-DataHub/energy-origin/.github/actions/docker-build-and-push@main
