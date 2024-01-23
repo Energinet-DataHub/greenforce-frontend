@@ -31,14 +31,27 @@ watt-tabs {
       border-bottom: none;
     }
 
-    .mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
-      --mat-tab-header-active-focus-indicator-color: var(--watt-color-secondary);
-      --mat-tab-header-active-focus-label-text-color: var(--watt-color-neutral-black);
-      --mat-tab-header-active-hover-indicator-color: var(--watt-color-secondary);
-      --mat-tab-header-active-hover-indicator-color: var(--watt-color-secondary);
-      --mat-tab-header-active-hover-label-text-color: var(--watt-color-neutral-black);
+    .mat-mdc-tab-group,
+    .mat-mdc-tab-nav-bar {
+      --mat-tab-header-active-focus-indicator-color: var(
+        --watt-color-secondary
+      );
+      --mat-tab-header-active-focus-label-text-color: var(
+        --watt-color-neutral-black
+      );
+      --mat-tab-header-active-hover-indicator-color: var(
+        --watt-color-secondary
+      );
+      --mat-tab-header-active-hover-indicator-color: var(
+        --watt-color-secondary
+      );
+      --mat-tab-header-active-hover-label-text-color: var(
+        --watt-color-neutral-black
+      );
       --mat-tab-header-active-label-text-color: var(--watt-color-neutral-black);
-      --mat-tab-header-inactive-label-text-color: var(--watt-on-light-low-emphasis);
+      --mat-tab-header-inactive-label-text-color: var(
+        --watt-on-light-low-emphasis
+      );
       --mat-tab-header-inactive-ripple-color: none;
       --mdc-tab-indicator-active-indicator-color: var(--watt-color-secondary);
     }
@@ -61,7 +74,8 @@ watt-tabs {
     &.mat-mdc-tab-disabled {
       opacity: 1;
     }
-    &.mat-mdc-tab-disabled, .mdc-tab__content {
+    &.mat-mdc-tab-disabled,
+    .mdc-tab__content {
       pointer-events: initial;
     }
 

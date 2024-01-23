@@ -68,21 +68,17 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
   ],
   selector: 'eo-dashboard-shell',
   template: `
-    @if((isLoadingMeteringPoints$ | async) === false) {
+    @if ((isLoadingMeteringPoints$ | async) === false) {
       <watt-tabs variant="secondary">
-        @if(productionMeteringPoints$ | async) {
+        @if (productionMeteringPoints$ | async) {
           <watt-tab label="Production">
-              <eo-dashboard-production-transferred
-              [period]="period()"
-              />
+            <eo-dashboard-production-transferred [period]="period()" />
           </watt-tab>
         }
 
-        @if(consumptionMeteringPoints$ | async) {
+        @if (consumptionMeteringPoints$ | async) {
           <watt-tab label="Consumption">
-              <eo-dashboard-consumption
-              [period]="period()"
-              />
+            <eo-dashboard-consumption [period]="period()" />
           </watt-tab>
         }
 
@@ -94,20 +90,20 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
       </div>
     }
 
-    @if((productionAndConsumptionMeteringPoints$ | async)?.length === 0) {
+    @if ((productionAndConsumptionMeteringPoints$ | async)?.length === 0) {
       <watt-empty-state
-          icon="custom-power"
-          title="No data to visualize"
-          message="We have no data to visualize because you have no production or consumption metering point(s). "
-        />
+        icon="custom-power"
+        title="No data to visualize"
+        message="We have no data to visualize because you have no production or consumption metering point(s). "
+      />
     }
 
-    @if((meteringPointError$ | async) !== null) {
+    @if ((meteringPointError$ | async) !== null) {
       <watt-empty-state
-      icon="custom-power"
-      title="An unexpected error occured"
-      message="Try again by reloading the page or contacting your system administrator if you keep getting this error."
-    />
+        icon="custom-power"
+        title="An unexpected error occured"
+        message="Try again by reloading the page or contacting your system administrator if you keep getting this error."
+      />
     }
   `,
 })
