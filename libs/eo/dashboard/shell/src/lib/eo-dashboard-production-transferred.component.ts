@@ -160,7 +160,13 @@ interface Totals {
   template: `<watt-card>
     <watt-card-title>
       <h4>Overview</h4>
-      <watt-icon name="info" state="default" size="s" wattTooltip="Only active metering points" wattTooltipPosition="right" />
+      <watt-icon
+        name="info"
+        state="default"
+        size="s"
+        wattTooltip="Only active metering points"
+        wattTooltipPosition="right"
+      />
     </watt-card-title>
 
     <div class="loader-container" *ngIf="isLoading || hasError">
