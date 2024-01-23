@@ -54,6 +54,9 @@ watt-tabs {
       );
       --mat-tab-header-inactive-ripple-color: none;
       --mdc-tab-indicator-active-indicator-color: var(--watt-color-secondary);
+      --mdc-tab-indicator-active-indicator-height: 3px;
+      --mdc-tab-indicator-active-indicator-shape: 99999px;
+
     }
 
     .mat-mdc-tab-header {
@@ -63,6 +66,10 @@ watt-tabs {
 
     .mat-mdc-tab-labels {
       flex-wrap: wrap;
+    }
+
+    .mdc-tab-indicator__content--underline {
+      width: 43px;
     }
   }
 
