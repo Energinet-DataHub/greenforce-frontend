@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as eovLocalApiEnvironment from './assets/configuration/eov-api-environment.local.json';
+import * as eovApiEnvironment from './assets/configuration/eov-api-environment.json';
 
-export { eovLocalApiEnvironment };
+export { eovApiEnvironment };
 import graphLoader from './assets/animations/graph-loader.json';
 
 export { graphLoader };
