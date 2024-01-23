@@ -172,14 +172,15 @@ interface Totals {
         @if (isLoading) {
           <eo-lottie height="64px" width="64px" [animationData]="lottieAnimation" />
         }
-        <watt-empty-state
-          *ngIf="hasError"
-          icon="custom-power"
-          title="An unexpected error occured"
-          message="Try again or contact your system administrator if you keep getting this error."
-        >
-          <watt-button variant="primary" size="normal" (click)="getData()">Reload</watt-button>
-        </watt-empty-state>
+        @if (hasError) {
+          <watt-empty-state
+            icon="custom-power"
+            title="An unexpected error occured"
+            message="Try again or contact your system administrator if you keep getting this error."
+          >
+            <watt-button variant="primary" size="normal" (click)="getData()">Reload</watt-button>
+          </watt-empty-state>
+        }
       </div>
     }
 
