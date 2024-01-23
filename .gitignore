@@ -24,6 +24,7 @@
 **/configuration/**/*.json
 !**/configuration/**/*.local.json
 !**/configuration/**/eo-*.json
+!**/configuration/**/eov-*.json
 
 # User-specific files
 *.rsuser

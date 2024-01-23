@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { eovLocalApiEnvironment } from '@energinet-datahub/eov/shared/assets';
+import { eovApiEnvironment } from '@energinet-datahub/eov/shared/assets';
 
 import { environment } from '../environment';
 
@@ -17,7 +17,7 @@ export const eovApiEnvironmentToken = new InjectionToken<EovApiEnvironment>('eov
     }
 
     // Used for unit and integration tests
-    return eovLocalApiEnvironment;
+    return eovApiEnvironment;
   },
   providedIn: 'platform',
 });
