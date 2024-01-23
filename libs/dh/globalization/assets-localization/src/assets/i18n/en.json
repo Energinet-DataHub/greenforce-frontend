@@ -755,6 +755,7 @@
     "uploadError": "An error occurred while uploading the file. Please try again",
     "status": {
       "IN_COMPLETE": "Missing prices",
+      "NO_DATA": "No prices",
       "COMPLETE": "Complete"
     },
     "drawer": {
