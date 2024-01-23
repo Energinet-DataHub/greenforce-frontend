@@ -17,6 +17,8 @@ limitations under the License.
 <mat-expansion-panel
   [togglePosition]="togglePosition"
   [expanded]="expanded"
+  (opened)="opened()"
+  (afterExpand)="afterExpand()"
   class="watt-expandable-card watt-{{ variant }}"
 >
   <mat-expansion-panel-header>
