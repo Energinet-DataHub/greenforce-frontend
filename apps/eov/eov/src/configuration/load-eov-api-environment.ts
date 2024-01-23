@@ -15,15 +15,11 @@
  * limitations under the License.
  */
 import {
-  environment,
   EovApiEnvironment,
-  loadEovApiEnvironment as _loadEovApiEnvironment,
+  loadEovApiEnvironment as _loadEovApiEnvironment
 } from '@energinet-datahub/eov/shared/environments';
 
 export function loadEovApiEnvironment(): Promise<EovApiEnvironment> {
-  const configurationFilename = environment.production
-    ? 'eov-api-environment.json'
-    : 'eov-api-environment.local.json';
-
+  const configurationFilename = 'eov-api-environment.json';
   return _loadEovApiEnvironment(configurationFilename);
 }
