@@ -31,6 +31,11 @@ watt-tabs {
       border-bottom: none;
     }
 
+    .mdc-tab {
+      padding-left: var(--watt-space-m);
+      padding-right: var(--watt-space-m);
+    }
+
     .mat-mdc-tab-group,
     .mat-mdc-tab-nav-bar {
       --mat-tab-header-active-focus-indicator-color: var(
