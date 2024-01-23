@@ -1,7 +1,6 @@
 name: EOV Build/Deploy Acorn
 
 on:
-  # push:
   workflow_dispatch:
     inputs:
       environment:
@@ -22,7 +21,6 @@ env:
   node-version-file: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
   yarn-version: 3.5.0
-  # environment: development # TODO: Change all env.environment references back to inputs.environment when done testing.
 
 jobs:
   build-deploy:
@@ -54,29 +52,10 @@ jobs:
           echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
           echo "CONFIG=$CONFIG" >> $GITHUB_ENV
 
-
-
       - name: Resolve version
         uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
         with:
           allow-dispatch: true
-
-      # TODO: Replace with 'docker-image-version' action when done testing.
-      # - name: Generate version
-      #   shell: bash
-      #   run: |
-      #     if [ "${{ github.ref_name }}" = 'main' ]; then
-      #       version="$(git rev-parse --short ${{ github.sha }})"
-      #     else
-      #       sanitized_branch=$(printf '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9]//g') 
-      #       version="${{ github.sha }}.${sanitized_branch}"
-      #     fi
-
-      #     echo "version=${version}" >> $GITHUB_OUTPUT
-      #     echo "version=${version}" >> $GITHUB_ENV
-      #     echo "version: $version"
-
-
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -87,9 +66,6 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      # - name: 📥 Monorepo install
-      #   uses: ./.github/actions/yarn-nm-install
-
       - name: Production build
         run: yarn nx build app-${{ env.APP_NAME }}
 
@@ -99,20 +75,20 @@ jobs:
           mkdir ./app
           mv ./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/* ./app/
 
-      # - name: Build image
-      #   uses: Energinet-DataHub/energy-origin/.github/actions/docker-build-and-push@main
-      #   with:
-      #     dockerfile: build/infrastructure/${{ env.APP_NAME }}/host/Dockerfile
-      #     docker-context: .
-      #     image-name: ${{ env.IMAGE_NAME }}
-      #     image-tag: ${{ env.version }}
-      #     dry-run: ${{ env.DRY_RUN }}
-      #     build-args: APP_FOLDER=app
+      - name: Build image
+        uses: Energinet-DataHub/energy-origin/.github/actions/docker-build-and-push@main
+        with:
+          dockerfile: build/infrastructure/${{ env.APP_NAME }}/host/Dockerfile
+          docker-context: .
+          image-name: ${{ env.IMAGE_NAME }}
+          image-tag: ${{ env.version }}
+          dry-run: ${{ env.DRY_RUN }}
+          build-args: APP_FOLDER=app
 
-      # - name: Update environment
-      #   uses: Energinet-DataHub/energy-origin/.github/actions/update-base-environment@main
-      #   with:
-      #     branch: ${{ env.BASE_DEPLOY_BRANCH }}
-      #     configuration: ${{ env.CONFIG }}
-      #     deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}
-      #     dry_run: ${{ env.DRY_RUN }}
+      - name: Update environment
+        uses: Energinet-DataHub/energy-origin/.github/actions/update-base-environment@main
+        with:
+          branch: ${{ env.BASE_DEPLOY_BRANCH }}
+          configuration: ${{ env.CONFIG }}
+          deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}
+          dry_run: ${{ env.DRY_RUN }}
