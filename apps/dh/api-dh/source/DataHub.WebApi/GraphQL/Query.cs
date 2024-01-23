@@ -21,6 +21,7 @@ using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate;
 using Microsoft.AspNetCore.Http;
 using NodaTime;
@@ -316,9 +317,49 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public async Task<IEnumerable<GridAreaOverviewItemDto>> GetGridAreaOverviewAsync([Service] IMarketParticipantClient_V1 client) =>
             await client.GridAreaOverviewAsync();
 
-        public Task<ImbalancePricesOverview> GetImbalancePricesOverviewAsync()
+        public async Task<ImbalancePricesOverview> GetImbalancePricesOverviewAsync([Service] IImbalancePricesClient_V1 client)
         {
-            return Task.FromResult(new ImbalancePricesOverview());
+            var from = new DateTimeOffset(2021, 1, 1, 0, 0, 0, TimeSpan.Zero);
+            var stop = new DateTimeOffset(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1, 0, 0, 0, TimeSpan.Zero);
+
+            var tasks = new List<Task<ImbalancePricePeriod>>();
+
+            while (from < stop)
+            {
+                var to = from.AddMonths(1);
+                tasks.Add(GetPricesAsync(from, to, PriceAreaCode.AreaCode1, client));
+                tasks.Add(GetPricesAsync(from, to, PriceAreaCode.AreaCode2, client));
+                from = to;
+            }
+
+            var imbalancePricePeriods = await Task.WhenAll(tasks);
+
+            return new ImbalancePricesOverview
+            {
+                PricePeriods = imbalancePricePeriods.OrderByDescending(x => x.Name).ThenBy(x => x.PriceAreaCode),
+            };
+
+            static async Task<ImbalancePricePeriod> GetPricesAsync(DateTimeOffset from, DateTimeOffset to, PriceAreaCode priceAreaCode, IImbalancePricesClient_V1 client)
+            {
+                var status = await client.StatusAsync(from, to, priceAreaCode);
+                return new ImbalancePricePeriod
+                {
+                    PriceAreaCode = priceAreaCode switch
+                    {
+                        PriceAreaCode.AreaCode1 => Controllers.MarketParticipant.Dto.PriceAreaCode.Dk1,
+                        PriceAreaCode.AreaCode2 => Controllers.MarketParticipant.Dto.PriceAreaCode.Dk2,
+                        _ => throw new ArgumentOutOfRangeException(nameof(priceAreaCode)),
+                    },
+                    Name = from,
+                    Status = status switch
+                    {
+                        ImbalancePricePeriodStatus.NoPrices => ImbalancePriceStatus.NoData,
+                        ImbalancePricePeriodStatus.Incomplete => ImbalancePriceStatus.InComplete,
+                        ImbalancePricePeriodStatus.Complete => ImbalancePriceStatus.Complete,
+                        _ => throw new ArgumentOutOfRangeException(nameof(status)),
+                    },
+                };
+            }
         }
 
         public async Task<IEnumerable<ImbalancePricesDailyDto>> GetImbalancePricesForMonthAsync(
