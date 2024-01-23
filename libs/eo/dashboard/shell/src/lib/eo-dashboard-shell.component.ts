@@ -26,6 +26,7 @@ import { EoDashboardChoosePeriodComponent } from './eo-dashboard-choose-period.c
 import { EoDashboardConsumptionComponent } from './eo-dashboard-consumption.component';
 import { EoDashboardProductionTransferredComponent } from './eo-dashboard-production-transferred.component';
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -62,46 +63,52 @@ import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/dat
     WattSpinnerComponent,
     WattEmptyStateComponent,
     JsonPipe,
+    WattTabsComponent,
+    WattTabComponent,
   ],
   selector: 'eo-dashboard-shell',
   template: `
-    <eo-dashboard-choose-period (periodChanged)="onPeriodChanged($event)" />
+    @if((isLoadingMeteringPoints$ | async) === false) {
+      <watt-tabs variant="secondary">
+        @if(productionMeteringPoints$ | async) {
+          <watt-tab label="Production">
+              <eo-dashboard-production-transferred
+              [period]="period()"
+              />
+          </watt-tab>
+        }
 
-    <ng-container *ngIf="(isLoadingMeteringPoints$ | async) === false; else loading">
-      <ng-container *ngIf="productionMeteringPoints$ | async as productionMeteringPoints">
-        <eo-dashboard-production-transferred
-          *ngIf="productionMeteringPoints.length > 0"
-          [period]="period()"
-        />
-      </ng-container>
-      <ng-container *ngIf="consumptionMeteringPoints$ | async as consumptionMeteringPoints">
-        <eo-dashboard-consumption
-          *ngIf="consumptionMeteringPoints.length > 0"
-          [period]="period()"
-        />
-      </ng-container>
-      <ng-container *ngIf="productionAndConsumptionMeteringPoints$ | async as meteringPoints">
-        <watt-empty-state
-          *ngIf="meteringPoints.length === 0"
+        @if(consumptionMeteringPoints$ | async) {
+          <watt-tab label="Consumption">
+              <eo-dashboard-consumption
+              [period]="period()"
+              />
+          </watt-tab>
+        }
+
+        <eo-dashboard-choose-period (periodChanged)="onPeriodChanged($event)" />
+      </watt-tabs>
+    } @else {
+      <div class="loading-container">
+        <watt-spinner />
+      </div>
+    }
+
+    @if((productionAndConsumptionMeteringPoints$ | async)?.length === 0) {
+      <watt-empty-state
           icon="custom-power"
           title="No data to visualize"
           message="We have no data to visualize because you have no production or consumption metering point(s). "
         />
-      </ng-container>
-    </ng-container>
+    }
 
-    <ng-template #loading>
-      <div class="loading-container">
-        <watt-spinner />
-      </div>
-    </ng-template>
-
-    <watt-empty-state
-      *ngIf="(meteringPointError$ | async) !== null"
+    @if((meteringPointError$ | async) !== null) {
+      <watt-empty-state
       icon="custom-power"
       title="An unexpected error occured"
       message="Try again by reloading the page or contacting your system administrator if you keep getting this error."
     />
+    }
   `,
 })
 export class EoDashboardShellComponent implements OnInit {

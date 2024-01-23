@@ -26,6 +26,53 @@ watt-drawer {
 }
 
 watt-tabs {
+  &.watt-tabs-secondary {
+    .mat-mdc-tab.mat-mdc-tab:hover {
+      border-bottom: none;
+    }
+
+    .mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
+      --mat-tab-header-active-focus-indicator-color: var(--watt-color-secondary);
+      --mat-tab-header-active-focus-label-text-color: var(--watt-color-neutral-black);
+      --mat-tab-header-active-hover-indicator-color: var(--watt-color-secondary);
+      --mat-tab-header-active-hover-indicator-color: var(--watt-color-secondary);
+      --mat-tab-header-active-hover-label-text-color: var(--watt-color-neutral-black);
+      --mat-tab-header-active-label-text-color: var(--watt-color-neutral-black);
+      --mat-tab-header-inactive-label-text-color: var(--watt-on-light-low-emphasis);
+      --mat-tab-header-inactive-ripple-color: none;
+      --mdc-tab-indicator-active-indicator-color: var(--watt-color-secondary);
+    }
+
+    .mat-mdc-tab-header {
+      background: none;
+      box-shadow: none;
+    }
+
+    .mat-mdc-tab-labels {
+      flex-wrap: wrap;
+    }
+  }
+
+  .mat-mdc-tab.mdc-tab.watt-tabs-actions {
+    flex-grow: 1;
+    justify-content: flex-end;
+    cursor: default;
+
+    &.mat-mdc-tab-disabled {
+      opacity: 1;
+    }
+    &.mat-mdc-tab-disabled, .mdc-tab__content {
+      pointer-events: initial;
+    }
+
+    &:hover {
+      border-bottom: none;
+      .mdc-tab__ripple {
+        display: none;
+      }
+    }
+  }
+
   .mat-mdc-tab-group,
   .mat-mdc-tab-body-wrapper {
     height: 100%;
