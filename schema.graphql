@@ -110,6 +110,20 @@ type GridAreaDto {
   validTo: DateTime
 }
 
+"""Imbalance price"""
+type ImbalancePrice {
+  priceAreaCode: PriceAreaCode!
+  timestamp: DateTime!
+  price: Float!
+}
+
+"""Imbalance price for a given date"""
+type ImbalancePriceDaily {
+  status: ImbalancePriceDailyCompletenessStatus!
+  timeStamp: DateTime!
+  imbalancePrices: [ImbalancePrice!]!
+}
+
 type OrganizationAuditedChangeAuditLogDto {
   auditedBy: String
   change: OrganizationAuditedChange!
@@ -211,7 +225,7 @@ type Query {
   associatedActors(email: String!): AssociatedActors!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
-  imbalancePricesForMonth: [ImbalancePriceDay!]!
+  imbalancePricesForMonth(year: Int!, month: Int!, areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
 }
 
 type Mutation {
@@ -291,6 +305,12 @@ enum DocumentStatus {
 enum PriceAreaCode {
   DK1
   DK2
+}
+
+enum ImbalancePriceDailyCompletenessStatus {
+  NO_DATA
+  IN_COMPLETE
+  COMPLETE
 }
 
 enum OrganizationAuditedChange {
@@ -404,15 +424,8 @@ input UpdatePermissionDtoInput {
   description: String!
 }
 
-type ImbalancePriceDay {
-  date: DateTime!
-  status: ImbalancePriceStatus!
-  priceDays: [ImbalancePrice!]!
-}
-
 type ImbalancePricesOverview {
   pricePeriods: [ImbalancePricePeriod!]!
-  totalCount: Int!
 }
 
 type GridAreaOverviewItemDto {
@@ -509,17 +522,6 @@ type ImbalancePricePeriod {
   status: ImbalancePriceStatus!
 }
 
-type ImbalancePrice {
-  timestampStart: DateTime!
-  timestampEnd: DateTime!
-  value: Decimal!
-}
-
-enum ImbalancePriceStatus {
-  COMPLETE
-  MISSING_PRICES
-}
-
 input CreateActorContactDtoInput {
   name: String!
   category: ContactCategory!
@@ -565,8 +567,11 @@ input ActorNameDtoInput {
   value: String!
 }
 
-"""The built-in `Decimal` scalar type."""
-scalar Decimal
+enum ImbalancePriceStatus {
+  NO_DATA
+  IN_COMPLETE
+  COMPLETE
+}
 
 type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!

@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ImbalancePriceStatus, PriceAreaCode } from '@energinet-datahub/dh/shared/domain/graphql';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
-export type DhImbalancePrice = {
-  name: string;
-  priceAreaCode: PriceAreaCode;
-  status: ImbalancePriceStatus;
-};
+import { GetImbalancePricesOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type DhImbalancePrice = ResultOf<
+  typeof GetImbalancePricesOverviewDocument
+>['imbalancePricesOverview']['pricePeriods'][0];

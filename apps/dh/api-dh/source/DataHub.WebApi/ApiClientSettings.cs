@@ -25,5 +25,7 @@ namespace Energinet.DataHub.WebApi
         public string ESettExchangeBaseUrl { get; set; } = string.Empty;
 
         public string EdiB2CWebApiBaseUrl { get; set; } = string.Empty;
+
+        public string ImbalancePricesBaseUrl { get; set; } = string.Empty;
     }
 }
