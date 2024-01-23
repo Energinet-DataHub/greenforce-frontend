@@ -156,7 +156,7 @@ interface Totals {
   ],
   template: `<watt-card>
     <watt-card-title>
-      <h4>Production (Activated Metering Points)</h4>
+      <h4>Overview (Activated Metering Points)</h4>
     </watt-card-title>
 
     <div class="loader-container" *ngIf="isLoading || hasError">
