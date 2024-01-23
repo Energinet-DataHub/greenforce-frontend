@@ -26,7 +26,7 @@ import {
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
-import { NgFor, NgIf, TitleCasePipe } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -63,8 +63,6 @@ interface Totals {
   imports: [
     WATT_CARD,
     NgChartsModule,
-    NgIf,
-    NgFor,
     EnergyUnitPipe,
     WattEmptyStateComponent,
     WattButtonComponent,
@@ -169,50 +167,54 @@ interface Totals {
       />
     </watt-card-title>
 
-    <div class="loader-container" *ngIf="isLoading || hasError">
-      <eo-lottie height="64px" width="64px" *ngIf="isLoading" [animationData]="lottieAnimation" />
-      <watt-empty-state
-        *ngIf="hasError"
-        icon="custom-power"
-        title="An unexpected error occured"
-        message="Try again or contact your system administrator if you keep getting this error."
-      >
-        <watt-button variant="primary" size="normal" (click)="getData()">Reload</watt-button>
-      </watt-empty-state>
-    </div>
+    @if (isLoading || hasError) {
+      <div class="loader-container">
+        @if (isLoading) {
+          <eo-lottie height="64px" width="64px" [animationData]="lottieAnimation" />
+        }
+        <watt-empty-state
+          *ngIf="hasError"
+          icon="custom-power"
+          title="An unexpected error occured"
+          message="Try again or contact your system administrator if you keep getting this error."
+        >
+          <watt-button variant="primary" size="normal" (click)="getData()">Reload</watt-button>
+        </watt-empty-state>
+      </div>
+    }
 
     <vater-stack direction="row" gap="s">
-      <div *ngIf="totals.production > 0 || isLoading; else noData">
-        <h5>{{ totals.transferred | percentageOf: totals.production }} transferred</h5>
-        <small
-          >{{ totals.transferred | energyUnit }} of {{ totals.production | energyUnit }} certified
-          green production was transferred</small
-        >
-      </div>
-
-      <ng-template #noData>
-        <div>
+      <div>
+        @if (totals.production > 0 || isLoading) {
+          <h5>{{ totals.transferred | percentageOf: totals.production }} transferred</h5>
+          <small
+            >{{ totals.transferred | energyUnit }} of {{ totals.production | energyUnit }} certified
+            green production was transferred</small
+          >
+        } @else {
           <h5>No data</h5>
           <small
             ><a [routerLink]="'../' + routes.meteringpoints"
               >Activate metering points <watt-icon name="openInNew" size="xs" /></a
           ></small>
-        </div>
-      </ng-template>
+        }
+      </div>
 
       <vater-spacer />
 
       <ul class="legends">
-        <li *ngFor="let item of barChartData.datasets" class="legend-item">
-          <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
-          @if (item.label) {
-            <span class="legend-label"
-              >{{ item.label | titlecase }} ({{
-                totals[item.label] | percentageOf: totals.production
-              }})</span
-            >
-          }
-        </li>
+        @for (item of barChartData.datasets.slice().reverse(); track item.label) {
+          <li class="legend-item">
+            <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
+            @if (item.label) {
+              <span class="legend-label"
+                >{{ item.label | titlecase }} ({{
+                  totals[item.label] | percentageOf: totals.production
+                }})</span
+              >
+            }
+          </li>
+        }
       </ul>
     </vater-stack>
 
