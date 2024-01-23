@@ -319,8 +319,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public async Task<ImbalancePricesOverview> GetImbalancePricesOverviewAsync([Service] IImbalancePricesClient_V1 client)
         {
-            var from = new DateTimeOffset(2021, 1, 1, 0, 0, 0, TimeSpan.Zero);
-            var stop = new DateTimeOffset(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1, 0, 0, 0, TimeSpan.Zero);
+            var tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
+
+            var f = new DateTime(2021, 1, 1, 0, 0, 0);
+            var s = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1, 0, 0, 0);
+            var from = TimeZoneInfo.ConvertTime(new DateTimeOffset(f, tz.GetUtcOffset(f)), tz);
+            var stop = TimeZoneInfo.ConvertTime(new DateTimeOffset(s, tz.GetUtcOffset(s)), tz);
 
             var tasks = new List<Task<ImbalancePricePeriod>>();
 
