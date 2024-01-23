@@ -28,9 +28,9 @@ import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.componen
 import { DhImbalancePricesDrawerComponent } from '../drawer/dh-drawer.component';
 
 @Component({
-  selector: 'dh-imbalance-prices-table',
+  selector: 'dh-table-month-view',
   standalone: true,
-  templateUrl: './dh-table.component.html',
+  templateUrl: './dh-table-month-view.component.html',
   styles: [
     `
       :host {
@@ -52,7 +52,7 @@ import { DhImbalancePricesDrawerComponent } from '../drawer/dh-drawer.component'
     DhImbalancePricesDrawerComponent,
   ],
 })
-export class DhImbalancePricesTableComponent {
+export class DhTableMonthViewComponent {
   columns: WattTableColumnDef<DhImbalancePrice> = {
     period: { accessor: 'name' },
     priceArea: { accessor: 'priceAreaCode' },
