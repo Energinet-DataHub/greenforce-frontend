@@ -85,9 +85,7 @@ jobs:
           cache: yarn
 
       - name: Install dependencies
-        run: |
-          yarn set version ${{ env.yarn-version }}
-          yarn install --immutable
+        run: yarn install --immutable
 
       # - name: 📥 Monorepo install
       #   uses: ./.github/actions/yarn-nm-install
