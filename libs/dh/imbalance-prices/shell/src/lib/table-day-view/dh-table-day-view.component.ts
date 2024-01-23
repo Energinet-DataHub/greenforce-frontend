@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, input, effect } from '@angular/core';
+import { Component, input, effect, ChangeDetectionStrategy } from '@angular/core';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -22,6 +22,7 @@ import { ImbalancePrice } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-table-day-view',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   template: `
     <watt-table
