@@ -74,6 +74,7 @@ jobs:
         run: |
           mkdir ./app
           mv ./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/* ./app/
+          rm ./app/assets/configuration/eov-api-environment.json
 
       - name: Build image
         uses: Energinet-DataHub/energy-origin/.github/actions/docker-build-and-push@main
