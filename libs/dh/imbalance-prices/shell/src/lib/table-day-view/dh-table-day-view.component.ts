@@ -21,6 +21,8 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { ImbalancePrice } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { DhPriceColorDirective } from './dh-price-color.directive';
+
 @Component({
   selector: 'dh-table-day-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,11 +43,11 @@ import { ImbalancePrice } from '@energinet-datahub/dh/shared/domain/graphql';
       </ng-container>
 
       <ng-container *wattTableCell="columns['price']; let entry">
-        {{ entry.price | number: '1.5-6' }}
+        <span [dhPriceColor]="entry.price">{{ entry.price | number: '1.5-6' }}</span>
       </ng-container>
     </watt-table>
   `,
-  imports: [DecimalPipe, WATT_TABLE, WattDatePipe],
+  imports: [DecimalPipe, WATT_TABLE, WattDatePipe, DhPriceColorDirective],
 })
 export class DhTableDayViewComponent {
   columns: WattTableColumnDef<ImbalancePrice> = {
