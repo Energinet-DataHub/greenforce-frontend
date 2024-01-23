@@ -22,7 +22,7 @@ public class ImbalancePricePeriod
 {
     public DateTimeOffset Name { get; set; } = DateTimeOffset.UtcNow;
 
-    public PriceAreaCode PriceAreaCode { get; set; } = PriceAreaCode.Dk1;
+    public PriceAreaCode PriceAreaCode { get; set; } = default!;
 
-    public ImbalancePriceStatus Status { get; set; } = ImbalancePriceStatus.MissingPrices;
+    public ImbalancePriceStatus Status { get; set; } = ImbalancePriceStatus.Complete;
 }

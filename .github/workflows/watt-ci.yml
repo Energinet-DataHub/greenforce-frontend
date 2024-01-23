@@ -22,7 +22,7 @@ env:
   APP_NAME: designsystem
   NODE_VERSION_FILE: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  YARN_VERSION: 3.5.0
+  YARN_VERSION: 4.0.2
 
 jobs:
   #
@@ -31,15 +31,16 @@ jobs:
   frontend_ci_build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Production build
         run: yarn ${{ env.APP_NAME }}:build

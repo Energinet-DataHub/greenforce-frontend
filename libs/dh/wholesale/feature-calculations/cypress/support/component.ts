@@ -32,19 +32,27 @@
 // Import commands.ts using ES2015 syntax:
 import './commands';
 
-// Intercept assets
-beforeEach(() => {
-  /**
-   * We need to intercept the mockServiceWorker.js file and serve it like this,
-   * because the script is not allowed to be behind a redirect
-   */
-  cy.request('/__cypress/src/mockServiceWorker.js').then((res) => {
-    cy.intercept('/mockServiceWorker.js', {
-      headers: { 'content-type': 'text/javascript' },
-      body: res.body,
+declare const window: {
+  cypressMockServiceWorkerIntercept: Promise<unknown> | undefined;
+} & Window;
+
+window.cypressMockServiceWorkerIntercept = new Promise((resolve) => {
+  before(() => {
+    /**
+     * We need to intercept the mockServiceWorker.js file and serve it like this,
+     * because the script is not allowed to be behind a redirect
+     */
+    cy.request('/__cypress/src/mockServiceWorker.js').then((res) => {
+      cy.intercept('/mockServiceWorker.js', {
+        headers: { 'content-type': 'text/javascript' },
+        body: res.body,
+      }).then(resolve);
     });
   });
+});
 
+// Intercept assets
+beforeEach(() => {
   cy.intercept('/assets/i18n/da.json', { hostname: 'localhost' }, (req) => {
     req.redirect('/__cypress/src/assets/i18n/da.json');
   });

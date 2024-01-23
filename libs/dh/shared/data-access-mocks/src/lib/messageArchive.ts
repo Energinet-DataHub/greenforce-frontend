@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { rest } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
+
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import actors from './data/messageArchiveActors.json';
 import { messageArchiveSearchResponseLogs } from './data/messageArchiveSearchResponseLogs';
@@ -25,19 +27,22 @@ export function messageArchiveMocks(apiBase: string) {
 }
 
 export function archivedMessageSearch(apiBase: string) {
-  return rest.post(`${apiBase}/v1/MessageArchive/SearchRequestResponseLogs`, (req, res, ctx) => {
-    return res(ctx.delay(300), ctx.status(200), ctx.json(messageArchiveSearchResponseLogs));
+  return http.post(`${apiBase}/v1/MessageArchive/SearchRequestResponseLogs`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json(messageArchiveSearchResponseLogs, { status: 200 });
   });
 }
 
 export function getActors(apiBase: string) {
-  return rest.get(`${apiBase}/v1/MessageArchive/Actors`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(actors));
+  return http.get(`${apiBase}/v1/MessageArchive/Actors`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json(actors, { status: 200 });
   });
 }
 
 export function getDocument(apiBase: string) {
-  return rest.get(`${apiBase}/v1/MessageArchive/:id/Document`, async (req, res, ctx) => {
-    return res(ctx.delay(300), ctx.status(200), ctx.body(document));
+  return http.get(`${apiBase}/v1/MessageArchive/:id/Document`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json(document, { status: 200 });
   });
 }
