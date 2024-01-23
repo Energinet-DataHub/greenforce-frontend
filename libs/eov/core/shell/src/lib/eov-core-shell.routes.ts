@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { EovShellComponent } from './eov-shell.component';
-import { EovCoreFeatureHelpComponent } from 'libs/eov/core/feature-help/src';
 
 export const eovShellRoutes: Routes = [
   {
@@ -10,7 +9,7 @@ export const eovShellRoutes: Routes = [
       {
         path: '',
         loadChildren: () =>
-        import('@energinet-datahub/eov/landing-page/shell').then(
+        import('@energinet-datahub/eov/landing-page/routes').then(
           (esModule) => esModule.eovLandingPageRoutes
         ),
       },
@@ -23,7 +22,7 @@ export const eovShellRoutes: Routes = [
       },
       {
         path: 'help',
-        component: EovCoreFeatureHelpComponent
+        loadComponent: () => import('@energinet-datahub/eov/core/feature-help').then(mod => mod.EovCoreFeatureHelpComponent)
       },
     ]
   },

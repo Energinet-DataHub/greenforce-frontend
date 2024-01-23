@@ -43,7 +43,7 @@ export class EovAuthService {
     @Inject(eovApiEnvironmentToken) private apiEnvironment: EovApiEnvironment
   ) {
     this.http = new HttpClient(httpBackend);
-    this.#authApiBase = `${apiEnvironment.customerApiUrl}/auth`;
+    this.#authApiBase = `${apiEnvironment.apiUrl}/customer/auth`;
     route.queryParams.subscribe((params) => {
       const link = params['link'];
       if (link) {
@@ -98,7 +98,7 @@ export class EovAuthService {
       `${this.apiEnvironment.netsBaseURL}/connect/authorize` +
       `?response_type=code&client_id=${this.apiEnvironment.clientId}` +
       `&prompt=true` +
-      `&redirect_uri=${this.apiEnvironment.customerApiUrl}/api/oidc/callback` +
+      `&redirect_uri=${this.apiEnvironment.apiUrl}/customer/api/oidc/callback` +
       `&language=da&scope=mitid+openid+userinfo_token+ssn` +
       `&idp_values=mitid&idp_params=%7B%22mitid%22%3A%7B%22reference_text%22%3A%22TG9naW4gdGlsIEVsT3ZlcmJsaWs%3D%22%7D%7D` +
       `&state=${btoa(JSON.stringify({ webApp: 11, completionUri: 'http://localhost:4200/overview' }))}`;
@@ -109,7 +109,7 @@ export class EovAuthService {
       `${this.apiEnvironment.netsBaseURL}/connect/authorize` +
       `?response_type=code&client_id=${this.apiEnvironment.clientId}` +
       `&prompt=true` +
-      `&redirect_uri=${this.apiEnvironment.customerApiUrl}/api/oidc/callback` +
+      `&redirect_uri=${this.apiEnvironment.apiUrl}/customer/api/oidc/callback` +
       `&language=da&scope=nemid+openid+ssn+userinfo_token+nemlogin` +
       `&idp_values=nemid+mitid_erhverv&idp_params=%7B%22nemid%22%3A%7B%22amr_values%22%3A%22nemid.keyfile%20nemid.otp%22%2C%22private_to_business%22%3Atrue%2C%22code_app_trans_ctx%22%3A%22TG9naW4gdGlsIEVsT3ZlcmJsaWs%3D%22%7D%7D` +
       `&state=${btoa(JSON.stringify({ webApp: 11, completionUri: 'http://localhost:4200/overview' }))}`;
@@ -120,7 +120,7 @@ export class EovAuthService {
       `${this.apiEnvironment.netsBaseURL}/connect/authorize` +
       `?response_type=code&client_id=${this.apiEnvironment.clientId}` +
       `&prompt=true` +
-      `&redirect_uri=${this.apiEnvironment.thirdPartyApiUrl}/api/oidc/callback` +
+      `&redirect_uri=${this.apiEnvironment.apiUrl}/thirdparty/api/oidc/callback` +
       `&language=da&scope=nemid+openid+ssn+userinfo_token+nemlogin` +
       `&idp_values=nemid+mitid_erhverv&idp_params=%7B%22nemid%22%3A%7B%22amr_values%22%3A%22nemid.keyfile%20nemid.otp%22%2C%22private_to_business%22%3Atrue%2C%22code_app_trans_ctx%22%3A%22TG9naW4gdGlsIEVsT3ZlcmJsaWs%3D%22%7D%7D` +
       `&state=${btoa(JSON.stringify({ webApp: 13, completionUri: 'http://localhost:4200/overview' }))}`;

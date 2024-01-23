@@ -303,6 +303,9 @@
       "@energinet-datahub/eov/landing-page/shell": [
         "libs/eov/landing-page/shell/src/index.ts"
       ],
+      "@energinet-datahub/eov/landing-page/routes": [
+        "libs/eov/landing-page/shell/src/lib/routes/index.ts"
+      ],
       "@energinet-datahub/eov/overview/data-access-api": [
         "libs/eov/overview/data-access-api/src/index.ts"
       ],

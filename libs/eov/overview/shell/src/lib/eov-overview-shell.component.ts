@@ -10,7 +10,7 @@ import {
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
-import { Observable, filter, tap } from 'rxjs';
+import { Observable, filter, take, tap } from 'rxjs';
 import { GfAnimationUiLottieComponent } from '@energinet-datahub/gf/animation/ui-lottie';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -26,7 +26,8 @@ import { graphLoader } from '@energinet-datahub/eov/shared/assets';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
-import { EovOverviewUiMasterdataAliasEditDialogComponent } from 'libs/eov/overview/feature-masterdata-dialog/src';
+import { EovOverviewUiMasterdataAliasEditDialogComponent, EovOverviewUiMasterdataDialogComponent } from 'libs/eov/overview/feature-masterdata-dialog/src';
+import { EovOverviewService } from 'libs/eov/overview/data-access-api/src/lib/eov-overview.service';
 
 
 @Component({
@@ -61,6 +62,7 @@ export class EovOverviewShellComponent implements OnInit {
   store = inject(EovOverviewStore);
   http = inject(HttpClient);
   modalService = inject(WattModalService);
+  overviewService = inject(EovOverviewService);
   token?: string;
   isLoading: boolean[] = [];
   protected lottieAnimation = graphLoader;
@@ -115,6 +117,17 @@ export class EovOverviewShellComponent implements OnInit {
     });
   }
 
+  showDetails(meteringPointId: string) {
+    this.overviewService.getMeteringPoint(meteringPointId).pipe(take(1)).subscribe((meteringPointDetails) => {
+      this.modalService.open({
+        component: EovOverviewUiMasterdataDialogComponent,
+        injector: this.injector,
+        data: { details: meteringPointDetails },
+        disableClose: true,
+      });
+    })
+  }
+
   cardOpened(index: number) {
     this.isLoading[index] = true;
   }
@@ -126,7 +139,7 @@ export class EovOverviewShellComponent implements OnInit {
   fetchDataForGraph(id: string, index: number) {
     let params = new HttpHeaders();
     params = params.set('Authorization', 'Bearer ' + this.token);
-    this.http.get<BaseResponse<GraphData>>(this.environment.customerApiUrl + '/api/MeterData/GetMonthlyGraphData/' + id, { headers: params }).subscribe((graphData) => {
+    this.http.get<BaseResponse<GraphData>>(this.environment.apiUrl + '/customer/api/MeterData/GetMonthlyGraphData/' + id, { headers: params }).subscribe((graphData) => {
       this.barChartOptions[index] = {
         ...this.barChartOptions[index],
         scales: {
