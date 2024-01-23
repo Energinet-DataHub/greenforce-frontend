@@ -754,6 +754,7 @@
     "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen",
     "status": {
       "IN_COMPLETE": "Mangler priser",
+      "NO_DATA": "Ingen priser",
       "COMPLETE": "Komplet"
     },
     "drawer": {
