@@ -15,7 +15,7 @@ on:
           - all
 
 env:
-  BASE_DEPLOY_BRANCH: preview/elo-frontend-beta
+  BASE_DEPLOY_BRANCH: main
   APP_NAME: eov
   NODE_OPTIONS: --max-old-space-size=6144
   node-version-file: .nvmrc
