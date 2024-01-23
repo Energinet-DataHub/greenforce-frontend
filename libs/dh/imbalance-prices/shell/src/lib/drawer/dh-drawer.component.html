@@ -42,19 +42,21 @@ limitations under the License.
       <watt-drawer-content>
         <p class="prices-note">{{ t("pricesNote") }}</p>
 
-        @for (day of monthData(); track $index) {
-          <watt-expandable-card variant="solid" togglePosition="before">
-            <watt-expandable-card-title>
-              {{ day.timeStamp | wattDate: "short" }}
+        <ng-container *dhFeatureFlag="'imbalance-prices-table-day-view'">
+          @for (day of monthData(); track $index) {
+            <watt-expandable-card variant="solid" togglePosition="before">
+              <watt-expandable-card-title>
+                {{ day.timeStamp | wattDate: "short" }}
 
-              @if (day.status !== "COMPLETE") {
-                <dh-status-badge [status]="day.status" />
-              }
-            </watt-expandable-card-title>
+                @if (day.status !== "COMPLETE") {
+                  <dh-status-badge [status]="day.status" />
+                }
+              </watt-expandable-card-title>
 
-            <dh-table-day-view [data]="toSignal(day.imbalancePrices)()" />
-          </watt-expandable-card>
-        }
+              <dh-table-day-view [data]="toSignal(day.imbalancePrices)()" />
+            </watt-expandable-card>
+          }
+        </ng-container>
       </watt-drawer-content>
     }
   </watt-drawer>

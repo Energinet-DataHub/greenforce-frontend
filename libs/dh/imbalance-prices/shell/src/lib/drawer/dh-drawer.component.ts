@@ -22,6 +22,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { ImbalancePrice } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhImbalancePrice } from '../dh-imbalance-prices';
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
@@ -90,6 +91,7 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
     DhStatusBadgeComponent,
     DhEmDashFallbackPipe,
     DhTableDayViewComponent,
+    DhFeatureFlagDirective,
   ],
 })
 export class DhImbalancePricesDrawerComponent {
