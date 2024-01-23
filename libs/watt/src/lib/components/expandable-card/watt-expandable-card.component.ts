@@ -19,6 +19,7 @@ import {
   Component,
   ContentChild,
   Directive,
+  EventEmitter,
   Input,
   Output,
   TemplateRef,
@@ -64,6 +65,14 @@ export class WattExpandableCardComponent {
 
   /** Whether the card is elevated or has solid border */
   @Input() variant: 'solid' | 'elevation' = 'elevation';
+
+  opened() {
+    this.cardOpened.emit();
+  }
+
+  afterExpand() {
+    this.afterExpanded.emit();
+  }
 }
 
 @Component({

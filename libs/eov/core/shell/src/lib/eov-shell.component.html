@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<nav [class.scroll-up]="scrollUp" [class.scroll-down]="scrollDown" [class.show-header]="showHeader">
+<nav [class.scroll-up]="scrollUp" [class.scroll-down]="scrollDown" [class.show-header]="showHeader" [style.position]="isLandingPage() ? 'fixed' : 'sticky'">
   <div class="container">
     <div class="container__content areas">
       <div class="areas__start">
@@ -41,7 +41,7 @@ limitations under the License.
           </ul>
         </ng-template>
       </ng-container>
-      <span class="mobile-nav button" (click)="logout()" *ngIf="isLoggedIn$ | async">Log af</span>
+      <watt-button class="mobile-nav" variant="primary" icon="logout" (click)="logout()" *ngIf="isLoggedIn$ | async">Log af</watt-button>
       <watt-button class="mobile-nav menu-button" variant="secondary" icon="menu" (click)="isHamburgerOpen = !isHamburgerOpen" cdkOverlayOrigin #hamburgerTrigger="cdkOverlayOrigin">Menu</watt-button>
       <ng-template
         cdkConnectedOverlay
@@ -60,9 +60,9 @@ limitations under the License.
             </ul>
           </div>
           <div class="bottom-menu">
-            <span>Hjælp</span>
-            <span>Kontakt</span>
-            <span>English</span>
+            <a (click)="navigateToHelp()">Hjælp</a>
+            <a (click)="openContactInfo()">Kontakt</a>
+            <a (click)="changeLanguage()">{{ activeLanguage }}</a>
           </div>
         </div>
       </ng-template>

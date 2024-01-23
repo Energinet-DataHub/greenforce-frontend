@@ -23,8 +23,8 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class EovTranslocoHttpLoader implements TranslocoLoader {
   private http = inject(HttpClient);
-  #apiBase = inject(eovApiEnvironmentToken).customerApiUrl;
+  #apiBase = inject(eovApiEnvironmentToken).apiUrl;
   getTranslation(lang: string): Observable<Translation> {
-    return this.http.get<Translation>(`${this.#apiBase}/api/translation/get/${lang}`);
+    return this.http.get<Translation>(`${this.#apiBase}/customer/api/translation/get/${lang}`);
   }
 }

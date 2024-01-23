@@ -4,9 +4,8 @@ import { eovLocalApiEnvironment } from '@energinet-datahub/eov/shared/assets';
 import { environment } from '../environment';
 
 export type EovApiEnvironment = {
-  readonly adminApiUrl: string;
-  readonly customerApiUrl: string;
-  readonly thirdPartyApiUrl: string;
+  readonly apiUrl: string;
+  readonly isProduction: boolean;
   readonly netsBaseURL: string;
   readonly clientId: string;
 }

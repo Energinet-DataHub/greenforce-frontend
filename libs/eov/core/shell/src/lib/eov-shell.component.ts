@@ -18,7 +18,6 @@ import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostListener, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { EovLandingPageShellComponent } from '@energinet-datahub/eov/landing-page/shell';
 import { EovCoreFeatureHelpComponent, EovCoreFeatureHelpContactComponent } from '@energinet-datahub/eov/core/feature-help';
 import { DisplayLanguage, EovAuthService } from '@energinet-datahub/eov/shared/services';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -66,6 +65,7 @@ export class EovShellComponent implements OnInit {
 
   ngOnInit(): void {
     this.setActiveLanguageString();
+    this.showHeader = !this.isLandingPage();
   }
 
   setActiveLanguageString(): void {
@@ -88,11 +88,18 @@ export class EovShellComponent implements OnInit {
     this.authService.logout();
   }
 
+  navigateToHelp() {
+    this.isHamburgerOpen = false;
+    this.router.navigateByUrl('help');
+  }
+
   openContactInfo() {
+    this.isHamburgerOpen = false;
     this.modalService.open({component: EovCoreFeatureHelpContactComponent});
   }
 
   changeLanguage() {
+    this.isHamburgerOpen = false;
     this.translocoService.setActiveLang(this.translocoService.getActiveLang() === DisplayLanguage.Danish ? DisplayLanguage.English : DisplayLanguage.Danish);
     this.setActiveLanguageString();
   }
@@ -102,10 +109,12 @@ export class EovShellComponent implements OnInit {
     const currentScroll = window.pageYOffset;
     this.isOpen = false
     this.isHamburgerOpen = false;
-    if (currentScroll > 100) {
-      this.showHeader = true;
-    } else {
-      this.showHeader = false;
+    if (this.isLandingPage()) {
+      if (currentScroll > 100) {
+        this.showHeader = true;
+      } else {
+        this.showHeader = false;
+      }
     }
     if (currentScroll <= 68) {
       this.scrollUp = false;
@@ -131,12 +140,16 @@ export class EovShellComponent implements OnInit {
       this.router.navigate(['overview']);
       return;
     }
-    if (this.router.url === '') {
+    if (this.isLandingPage()) {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
       return;
     }
     this.router.navigate(['']);
+  }
+
+  isLandingPage() {
+    return this.router.url === '/';
   }
 
   reveal() {
