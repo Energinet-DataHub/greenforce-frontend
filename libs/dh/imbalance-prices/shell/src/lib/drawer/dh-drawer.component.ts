@@ -21,10 +21,12 @@ import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
+import { ImbalancePrice } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhImbalancePrice } from '../dh-imbalance-prices';
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
 import { monthViewMock } from './dh-month-view.mock';
+import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
 
 @Component({
   selector: 'dh-imbalance-prices-drawer',
@@ -87,6 +89,7 @@ import { monthViewMock } from './dh-month-view.mock';
 
     DhStatusBadgeComponent,
     DhEmDashFallbackPipe,
+    DhTableDayViewComponent,
   ],
 })
 export class DhImbalancePricesDrawerComponent {
@@ -94,7 +97,7 @@ export class DhImbalancePricesDrawerComponent {
   drawer: WattDrawerComponent | undefined;
 
   imbalancePrice = input<DhImbalancePrice>();
-  monthView = signal(monthViewMock);
+  monthData = signal(monthViewMock);
 
   @Output() closed = new EventEmitter<void>();
 
@@ -108,5 +111,9 @@ export class DhImbalancePricesDrawerComponent {
 
   onClose(): void {
     this.closed.emit();
+  }
+
+  toSignal(prices: ImbalancePrice[]) {
+    return signal(prices);
   }
 }

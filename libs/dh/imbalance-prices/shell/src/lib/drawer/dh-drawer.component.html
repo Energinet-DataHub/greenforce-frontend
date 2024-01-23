@@ -42,7 +42,7 @@ limitations under the License.
       <watt-drawer-content>
         <p class="prices-note">{{ t("pricesNote") }}</p>
 
-        @for (day of monthView(); track $index) {
+        @for (day of monthData(); track $index) {
           <watt-expandable-card variant="solid" togglePosition="before">
             <watt-expandable-card-title>
               {{ day.timeStamp | wattDate: "short" }}
@@ -52,7 +52,7 @@ limitations under the License.
               }
             </watt-expandable-card-title>
 
-            {{ day.imbalancePrices }}
+            <dh-table-day-view [data]="toSignal(day.imbalancePrices)()" />
           </watt-expandable-card>
         }
       </watt-drawer-content>
