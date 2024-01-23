@@ -1,19 +1,19 @@
 name: EOV Build/Deploy Acorn
 
 on:
-  push:
-  # workflow_dispatch:
-  #   inputs:
-  #     environment:
-  #       type: choice
-  #       description: Environment
-  #       required: true
-  #       default: development
-  #       options:
-  #         - development
-  #         - test
-  #         - production
-  #         - all
+  # push:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Environment
+        required: true
+        default: development
+        options:
+          - development
+          - test
+          - production
+          - all
 
 env:
   BASE_DEPLOY_BRANCH: preview/elo-frontend-beta
@@ -56,40 +56,44 @@ jobs:
 
 
 
-      # - name: Resolve version
-      #   uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
-      #   with:
-      #     allow-dispatch: true
+      - name: Resolve version
+        uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
+        with:
+          allow-dispatch: true
 
       # TODO: Replace with 'docker-image-version' action when done testing.
-      - name: Generate version
-        shell: bash
-        run: |
-          if [ "${{ github.ref_name }}" = 'main' ]; then
-            version="$(git rev-parse --short ${{ github.sha }})"
-          else
-            sanitized_branch=$(printf '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9]//g') 
-            version="${{ github.sha }}.${sanitized_branch}"
-          fi
+      # - name: Generate version
+      #   shell: bash
+      #   run: |
+      #     if [ "${{ github.ref_name }}" = 'main' ]; then
+      #       version="$(git rev-parse --short ${{ github.sha }})"
+      #     else
+      #       sanitized_branch=$(printf '${{ github.ref_name }}' | sed 's/[^a-zA-Z0-9]//g') 
+      #       version="${{ github.sha }}.${sanitized_branch}"
+      #     fi
 
-          echo "version=${version}" >> $GITHUB_OUTPUT
-          echo "version=${version}" >> $GITHUB_ENV
-          echo "version: $version"
+      #     echo "version=${version}" >> $GITHUB_OUTPUT
+      #     echo "version=${version}" >> $GITHUB_ENV
+      #     echo "version: $version"
 
 
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      # - name: 📥 Monorepo install
+      #   uses: ./.github/actions/yarn-nm-install
 
       - name: Production build
         run: yarn nx build app-${{ env.APP_NAME }}
 
-      - name: Generate version
+      - name: Move build files
         shell: bash
         run: |
           mkdir ./app
