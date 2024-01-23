@@ -17,18 +17,18 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'imbalancePrices.drawer'">
   <watt-drawer #drawer (closed)="onClose()" size="small">
     <watt-drawer-topbar>
-      @if (entry) {
-        <dh-status-badge [status]="entry.status" />
+      @if (imbalancePrice()) {
+        <dh-status-badge [status]="imbalancePrice()!.status" />
       }
     </watt-drawer-topbar>
 
     <watt-drawer-heading>
-      <h2>{{ entry?.name | wattDate: "monthYear" }}</h2>
+      <h2>{{ imbalancePrice()?.name | wattDate: "monthYear" }}</h2>
 
       <div class="entry-metadata">
         <div class="entry-metadata__item">
           <span class="watt-label">{{ t("areaLabel") }}</span>
-          <span>{{ entry?.priceAreaCode | dhEmDashFallback }}</span>
+          <span>{{ imbalancePrice()?.priceAreaCode | dhEmDashFallback }}</span>
         </div>
 
         <div class="entry-metadata__item">
@@ -41,6 +41,22 @@ limitations under the License.
     @if (drawer.isOpen) {
       <watt-drawer-content>
         <p class="prices-note">{{ t("pricesNote") }}</p>
+
+        <ng-container *dhFeatureFlag="'imbalance-prices-table-day-view'">
+          @for (day of monthData(); track $index) {
+            <watt-expandable-card variant="solid" togglePosition="before">
+              <watt-expandable-card-title>
+                {{ day.timeStamp | wattDate: "short" }}
+
+                @if (day.status !== "COMPLETE") {
+                  <dh-status-badge [status]="day.status" />
+                }
+              </watt-expandable-card-title>
+
+              <dh-table-day-view [data]="toSignal(day.imbalancePrices)()" />
+            </watt-expandable-card>
+          }
+        </ng-container>
       </watt-drawer-content>
     }
   </watt-drawer>
