@@ -16,7 +16,8 @@ namespace Energinet.DataHub.WebApi.GraphQL.Enums
 {
     public enum ImbalancePriceStatus
     {
+        NoData,
+        InComplete,
         Complete,
-        MissingPrices,
     }
 }

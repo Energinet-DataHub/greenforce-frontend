@@ -49,7 +49,7 @@ jobs:
     steps:
       # needed for nx affected command
       - name: Check out source code with current branch Git history
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       # needed for nx affected command
@@ -58,12 +58,13 @@ jobs:
         run: git fetch --no-tags origin $BASE_BRANCH
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Is affected?
         id: affected
@@ -79,15 +80,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Production build
         run: yarn nx build ${{ env.app-name }}
@@ -106,7 +108,7 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Generate version
         id: version
         uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
@@ -117,7 +119,7 @@ jobs:
     needs: affected
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
@@ -140,7 +142,7 @@ jobs:
       - define_build
       - app
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Build and push container image
         id: docker_build

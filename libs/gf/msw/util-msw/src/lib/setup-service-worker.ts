@@ -14,17 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { setupWorker } from 'msw';
 import { mocks, handlers, onUnhandledRequest } from './handlers';
+import { setupWorker } from 'msw/browser';
 
-export function setupServiceWorker(apiBase: string, mocks: mocks) {
+declare const window: {
+  cypressMockServiceWorkerIntercept: Promise<unknown> | undefined;
+} & Window;
+
+export async function setupServiceWorker(apiBase: string, mocks: mocks) {
   try {
-    setTimeout(() => {
-      const worker = setupWorker(...handlers(apiBase, mocks));
-      worker.start({ onUnhandledRequest });
-    }, 200);
-    // eslint-disable-next-line no-empty
+    if (window.cypressMockServiceWorkerIntercept) {
+      await window.cypressMockServiceWorkerIntercept;
+    }
+
+    const worker = setupWorker(...handlers(apiBase, mocks));
+    await worker.start({ onUnhandledRequest });
   } catch (error) {
-    console.error(error);
+    console.error('setupServiceWorker', error);
   }
 }

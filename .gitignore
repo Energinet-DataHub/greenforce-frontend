@@ -452,6 +452,7 @@ documentation.json
 .yarnrc
 !.yarn/[Rr]eleases/
 .yarn/install-state.gz
+.yarn/cache
 .yarn/ci-cache/install-state.gz
 
 #Poor man monorepo
