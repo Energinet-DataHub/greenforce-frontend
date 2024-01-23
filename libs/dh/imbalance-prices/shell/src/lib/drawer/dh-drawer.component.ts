@@ -93,7 +93,7 @@ export class DhImbalancePricesDrawerComponent {
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
 
-  imbalancePrice = input<DhImbalancePrice | undefined>(undefined);
+  imbalancePrice = input<DhImbalancePrice>();
   monthView = signal(monthViewMock);
 
   @Output() closed = new EventEmitter<void>();
