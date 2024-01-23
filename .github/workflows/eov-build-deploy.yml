@@ -1,0 +1,25 @@
+name: EOV Build/Deploy Acorn
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Environment
+        required: true
+        default: development
+        options:
+          - development
+          - test
+          - production
+          - all
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Echo Environment
+        shell: bash
+        run: |
+          echo "${{ inputs.environment }}"
