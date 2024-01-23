@@ -84,26 +84,26 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
 
         <eo-dashboard-choose-period (periodChanged)="onPeriodChanged($event)" />
       </watt-tabs>
+
+      @if ((productionAndConsumptionMeteringPoints$ | async)?.length === 0) {
+        <watt-empty-state
+          icon="custom-power"
+          title="No data to visualize"
+          message="We have no data to visualize because you have no production or consumption metering point(s). "
+        />
+      }
+
+      @if ((meteringPointError$ | async) !== null) {
+        <watt-empty-state
+          icon="custom-power"
+          title="An unexpected error occured"
+          message="Try again by reloading the page or contacting your system administrator if you keep getting this error."
+        />
+      }
     } @else {
       <div class="loading-container">
         <watt-spinner />
       </div>
-    }
-
-    @if ((productionAndConsumptionMeteringPoints$ | async)?.length === 0) {
-      <watt-empty-state
-        icon="custom-power"
-        title="No data to visualize"
-        message="We have no data to visualize because you have no production or consumption metering point(s). "
-      />
-    }
-
-    @if ((meteringPointError$ | async) !== null) {
-      <watt-empty-state
-        icon="custom-power"
-        title="An unexpected error occured"
-        message="Try again by reloading the page or contacting your system administrator if you keep getting this error."
-      />
     }
   `,
 })
