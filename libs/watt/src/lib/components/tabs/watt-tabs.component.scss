@@ -34,6 +34,7 @@ watt-tabs {
     .mdc-tab {
       padding-left: var(--watt-space-m);
       padding-right: var(--watt-space-m);
+      height: 32px;
     }
 
     .mat-mdc-tab-group,
@@ -71,10 +72,16 @@ watt-tabs {
 
     .mat-mdc-tab-labels {
       flex-wrap: wrap;
+      padding-left: 0;
     }
 
     .mdc-tab-indicator__content--underline {
       width: 43px;
+    }
+
+    .mat-mdc-tab-body-wrapper {
+      padding: var(--watt-space-s);
+      padding-top: var(--watt-space-m);
     }
   }
 

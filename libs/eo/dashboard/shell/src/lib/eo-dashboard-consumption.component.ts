@@ -34,6 +34,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 import {
   EnergyUnitPipe,
@@ -71,6 +72,7 @@ interface Totals {
     WattIconComponent,
     EoLottieComponent,
     TitleCasePipe,
+    WattTooltipDirective,
   ],
   providers: [EnergyUnitPipe],
   selector: 'eo-dashboard-consumption',
@@ -110,6 +112,11 @@ interface Totals {
           @include watt.media('>=Large') {
             width: calc(100vw - 372px);
           }
+        }
+
+        watt-card-title {
+          display: flex;
+          gap: var(--watt-space-xs);
         }
 
         .loader-container {
@@ -153,7 +160,8 @@ interface Totals {
   ],
   template: `<watt-card>
     <watt-card-title>
-      <h4>Overview (Activated Metering Points)</h4>
+      <h4>Overview</h4>
+      <watt-icon name="info" state="default" size="s" wattTooltip="Only active metering points" wattTooltipPosition="right" />
     </watt-card-title>
 
     <div class="loader-container" *ngIf="isLoading || hasError">
