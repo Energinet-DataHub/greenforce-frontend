@@ -1,0 +1,9 @@
+query GetImbalancePriceByMonthAndYear($month: Int!, $year: Int!, $areaCode: PriceAreaCode!) {
+  imbalancePricesForMonth(month: $month, year: $year, areaCode: $areaCode) {
+    imbalancePrices {
+      price
+      timestamp
+      priceAreaCode
+    }
+  }
+}

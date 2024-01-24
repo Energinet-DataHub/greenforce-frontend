@@ -17,12 +17,13 @@
 import { HttpResponse, delay, http } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
-import { mockGetImbalancePricesOverviewQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import { mockGetImbalancePriceByMonthAndYearQuery, mockGetImbalancePricesOverviewQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { imbalancePricesOverviewQueryMock } from './data/imbalance-prices/imbalance-prices-overview-query';
+import { imbalancePricesByMonthAndYearQueryMock } from './data/imbalance-prices/imbalance-prices-by-month-and-year-query';
 
 export function imbalancePricesMocks(apiBase: string) {
-  return [getImbalancePricesOverviewQuery(), imbalancePricesUploadImbalanceCSV(apiBase)];
+  return [getImbalancePricesOverviewQuery(), imbalancePricesUploadImbalanceCSV(apiBase), getImbalancePricesByMonthAndYearQuery()];
 }
 
 function getImbalancePricesOverviewQuery() {
@@ -38,5 +39,14 @@ function imbalancePricesUploadImbalanceCSV(apiBase: string) {
   return http.post(`${apiBase}/v1/ImbalancePrices/UploadImbalanceCSV`, async () => {
     await delay(mswConfig.delay);
     return new HttpResponse(null, { status: 200 });
+  });
+}
+
+function getImbalancePricesByMonthAndYearQuery() {
+  return mockGetImbalancePriceByMonthAndYearQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: imbalancePricesByMonthAndYearQueryMock,
+    });
   });
 }

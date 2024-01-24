@@ -38,6 +38,14 @@ limitations under the License.
       </div>
     </watt-drawer-heading>
 
+    <watt-drawer-actions>
+      <watt-button
+        variant="secondary"
+        (click)="downloadCSV()"
+        >{{ t("download") }}</watt-button
+      >
+    </watt-drawer-actions>
+
     @if (drawer.isOpen) {
       <watt-drawer-content>
         <p class="prices-note">{{ t("pricesNote") }}</p>

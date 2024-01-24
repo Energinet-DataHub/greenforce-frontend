@@ -760,7 +760,13 @@
     "drawer": {
       "areaLabel": "Område",
       "updatedLabel": "Indlæst",
-      "pricesNote": "Priser angivet i DKK for kWh"
+      "pricesNote": "Priser angivet i DKK for kWh",
+      "download": "Download"
+    },
+    "columns": {
+      "date": "Dato",
+      "priceAreaCode": "Område",
+      "price": "Pris"
     }
   },
   "wholesale": {
