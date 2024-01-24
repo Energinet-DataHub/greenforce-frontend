@@ -78,14 +78,18 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
     @if ((isLoadingMeteringPoints$ | async) === false) {
       <watt-tabs variant="secondary">
         @if (productionMeteringPoints$ | async) {
-          <watt-tab label="Production">
-            <eo-dashboard-production-transferred [period]="period()" />
+          <watt-tab label="Production" (changed)="activeTab = 'production'">
+            @if(activeTab === 'production') {
+              <eo-dashboard-production-transferred [period]="period()" />
+            }
           </watt-tab>
         }
 
         @if (consumptionMeteringPoints$ | async) {
-          <watt-tab label="Consumption">
-            <eo-dashboard-consumption [period]="period()" />
+          <watt-tab label="Consumption" (changed)="activeTab = 'consumption'">
+            @if(activeTab === 'consumption') {
+              <eo-dashboard-consumption [period]="period()" />
+            }
           </watt-tab>
         }
 
@@ -125,6 +129,8 @@ export class EoDashboardShellComponent implements OnInit {
   productionAndConsumptionMeteringPoints$ =
     this.meteringPointStore.productionAndConsumptionMeteringPoints$;
   meteringPointError$ = this.meteringPointStore.meteringPointError$;
+
+  protected activeTab = 'production';
 
   ngOnInit(): void {
     this.meteringPointStore.loadMeteringPoints();

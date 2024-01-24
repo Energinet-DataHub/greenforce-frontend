@@ -37,6 +37,10 @@ watt-tabs {
       height: 32px;
     }
 
+    .mat-mdc-tab-group.mat-primary .mdc-tab.cdk-focused.cdk-keyboard-focused:focus {
+      background-color: transparent;
+    }
+
     .mat-mdc-tab-group,
     .mat-mdc-tab-nav-bar {
       --mat-tab-header-active-focus-indicator-color: var(
@@ -59,6 +63,7 @@ watt-tabs {
         --watt-on-light-low-emphasis
       );
       --mat-tab-header-inactive-ripple-color: none;
+      --mat-tab-header-disabled-ripple-color: none;
       --mdc-tab-indicator-active-indicator-color: var(--watt-color-secondary);
       --mdc-tab-indicator-active-indicator-height: 3px;
       --mdc-tab-indicator-active-indicator-shape: 99999px;
