@@ -37,7 +37,8 @@ watt-tabs {
       height: 32px;
     }
 
-    .mat-mdc-tab-group.mat-primary .mdc-tab.cdk-focused.cdk-keyboard-focused:focus {
+    .mat-mdc-tab-group.mat-primary
+      .mdc-tab.cdk-focused.cdk-keyboard-focused:focus {
       background-color: transparent;
     }
 

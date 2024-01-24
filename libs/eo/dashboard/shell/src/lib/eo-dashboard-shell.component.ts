@@ -79,7 +79,7 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
       <watt-tabs variant="secondary">
         @if (productionMeteringPoints$ | async) {
           <watt-tab label="Production" (changed)="activeTab = 'production'">
-            @if(activeTab === 'production') {
+            @if (activeTab === 'production') {
               <eo-dashboard-production-transferred [period]="period()" />
             }
           </watt-tab>
@@ -87,7 +87,7 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
 
         @if (consumptionMeteringPoints$ | async) {
           <watt-tab label="Consumption" (changed)="activeTab = 'consumption'">
-            @if(activeTab === 'consumption') {
+            @if (activeTab === 'consumption') {
               <eo-dashboard-consumption [period]="period()" />
             }
           </watt-tab>
