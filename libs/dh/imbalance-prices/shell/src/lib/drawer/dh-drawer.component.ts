@@ -149,11 +149,11 @@ export class DhImbalancePricesDrawerComponent {
         this.wattDatePipe.transform(this.imbalancePrice()?.name, 'monthYear') || 'imbalance-prices',
       type: 'text/csv',
     };
-    const from = this.monthData()[0].timeStamp;
-    const to = this.monthData()[this.monthData().length - 1].timeStamp;
+    const year = this.monthData()[0].timeStamp.getFullYear();
+    const month = this.monthData()[0].timeStamp.getMonth();
 
     this.httpClient
-      .v1ImbalancePricesDownloadImbalanceCSVGet(from.toUTCString(), to.toUTCString())
+      .v1ImbalancePricesDownloadImbalanceCSVGet(month, year)
       .pipe(
         tap(() => console.log('downloaded')),
         switchMap(streamToFile(fileOptions))

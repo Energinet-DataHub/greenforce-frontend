@@ -48,6 +48,6 @@ function imbalancePricesUploadImbalanceCSV(apiBase: string) {
 function imbalancePricesDownloadImbalanceCSV(apiBase: string) {
   return http.get(`${apiBase}/v1/ImbalancePrices/DownloadImbalanceCSV`, async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.text('test', { status: 200, headers: { 'Content-Type': 'text/plain' } });
+    return HttpResponse.text('test', { status: 200 });
   });
 }

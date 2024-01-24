@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using System;
+using System.IO;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Microsoft.AspNetCore.Http;
@@ -56,8 +58,8 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// </summary>
         [HttpGet]
         [Route("DownloadImbalanceCSV")]
-        [Produces("text/csv")]
-        public async Task<ActionResult> DownloadImbalancePricesAsync(int month, int year)
+        [Produces(MediaTypeNames.Text.Plain)]
+        public async Task<ActionResult<Stream>> DownloadImbalancePricesAsync(int month, int year)
         {
             try
             {
@@ -67,7 +69,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                 var from = TimeZoneInfo.ConvertTime(new DateTimeOffset(f, tz.GetUtcOffset(f)), tz);
                 var to = TimeZoneInfo.ConvertTime(new DateTimeOffset(t, tz.GetUtcOffset(t)), tz);
                 await _client.DownloadAsync(from, to);
-                return File(Response.Body, "text/csv");
+                return File(Response.Body, MediaTypeNames.Text.Plain);
             }
             catch (ApiException ex)
             {
