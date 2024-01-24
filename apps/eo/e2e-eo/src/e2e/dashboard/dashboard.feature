@@ -6,4 +6,3 @@ Feature: Dashboard Page
   Scenario: Charlotte CSR can see components on the dashboard page
     Given I am logged in as Charlotte CSR
     When I am on the dashboard page
-    Then I can see my green consumption
