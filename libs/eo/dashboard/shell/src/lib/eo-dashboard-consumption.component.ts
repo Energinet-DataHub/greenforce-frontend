@@ -341,7 +341,7 @@ export class EoDashboardConsumptionComponent implements OnChanges {
                 text: unit,
                 align: 'end',
               },
-              suggestedMax: findNearestUnit(this.totals.consumption)[0],
+              suggestedMax: findNearestUnit(this.findLargestNumberInDatasets([claims, certificates]))[0] * 1.1,
             },
           },
           plugins: {
@@ -386,6 +386,15 @@ export class EoDashboardConsumptionComponent implements OnChanges {
         this.isLoading = false;
         this.cd.detectChanges();
       });
+  }
+
+  private findLargestNumberInDatasets(dataSets: number[][]) {
+    const mergedArray = this.sumArrays(dataSets);
+    return Math.max(...mergedArray);
+  }
+
+  private sumArrays(arrays: number[][]): number[] {
+    return arrays[0].map((_, i) => arrays.reduce((sum, arr) => sum + arr[i], 0));
   }
 
   private generateLabels() {

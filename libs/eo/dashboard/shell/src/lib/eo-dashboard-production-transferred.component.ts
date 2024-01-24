@@ -331,13 +331,21 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
     const { transfers, claims, certificates } = data;
 
     return findNearestUnit(
-      this.totals.production /
-        Math.max(
-          claims.filter((x: number) => x > 0).length,
-          certificates.filter((x: number) => x > 0).length,
-          transfers.filter((x: number) => x > 0).length
-        )
+      this.totals.production / Math.max(
+        claims.filter((x: number) => x > 0).length,
+        certificates.filter((x: number) => x > 0).length,
+        transfers.filter((x: number) => x > 0).length
+      )
     )[1];
+  }
+
+  private findLargestNumberInDatasets(dataSets: number[][]) {
+    const mergedArray = this.sumArrays(dataSets);
+    return Math.max(...mergedArray);
+  }
+
+  private sumArrays(arrays: number[][]): number[] {
+    return arrays[0].map((_, i) => arrays.reduce((sum, arr) => sum + arr[i], 0));
   }
 
   private setChartOptions(
@@ -358,7 +366,7 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
             text: unit,
             align: 'end',
           },
-          suggestedMax: findNearestUnit(this.totals.production)[0],
+          suggestedMax: findNearestUnit(this.findLargestNumberInDatasets([transfers, claims, certificates]))[0] * 1.1,
         },
       },
       plugins: {
