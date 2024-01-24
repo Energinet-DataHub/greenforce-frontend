@@ -214,11 +214,11 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/imbalance-prices/download?");
             if (fromDate != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("fromDate") + "=").Append(System.Uri.EscapeDataString(fromDate.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(System.Uri.EscapeDataString("fromDate") + "=").Append(System.Uri.EscapeDataString(fromDate.Value.ToString("o", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             }
             if (toDate != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("toDate") + "=").Append(System.Uri.EscapeDataString(toDate.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(System.Uri.EscapeDataString("toDate") + "=").Append(System.Uri.EscapeDataString(toDate.Value.ToString("o", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -378,11 +378,11 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/imbalance-prices/status?");
             if (fromDate != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("fromDate") + "=").Append(System.Uri.EscapeDataString(fromDate.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(System.Uri.EscapeDataString("fromDate") + "=").Append(System.Uri.EscapeDataString(fromDate.Value.ToString("o", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             }
             if (toDate != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("toDate") + "=").Append(System.Uri.EscapeDataString(toDate.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(System.Uri.EscapeDataString("toDate") + "=").Append(System.Uri.EscapeDataString(toDate.Value.ToString("o", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             }
             if (priceAreaCode != null)
             {

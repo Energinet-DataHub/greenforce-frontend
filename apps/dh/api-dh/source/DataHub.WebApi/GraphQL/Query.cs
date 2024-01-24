@@ -322,18 +322,23 @@ namespace Energinet.DataHub.WebApi.GraphQL
             var tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
 
             var f = new DateTime(2021, 1, 1, 0, 0, 0);
+            var t = new DateTime(2021, 2, 1, 0, 0, 0);
             var s = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1, 0, 0, 0);
+
             var from = TimeZoneInfo.ConvertTime(new DateTimeOffset(f, tz.GetUtcOffset(f)), tz);
+            var to = TimeZoneInfo.ConvertTime(new DateTimeOffset(t, tz.GetUtcOffset(t)), tz);
             var stop = TimeZoneInfo.ConvertTime(new DateTimeOffset(s, tz.GetUtcOffset(s)), tz);
 
             var tasks = new List<Task<ImbalancePricePeriod>>();
 
             while (from < stop)
             {
-                var to = from.AddMonths(1);
                 tasks.Add(GetPricesAsync(from, to, PriceAreaCode.AreaCode1, client));
                 tasks.Add(GetPricesAsync(from, to, PriceAreaCode.AreaCode2, client));
-                from = to;
+                f = f.AddMonths(1);
+                t = t.AddMonths(1);
+                from = TimeZoneInfo.ConvertTime(new DateTimeOffset(f, tz.GetUtcOffset(f)), tz);
+                to = TimeZoneInfo.ConvertTime(new DateTimeOffset(t, tz.GetUtcOffset(t)), tz);
             }
 
             var imbalancePricePeriods = await Task.WhenAll(tasks);
