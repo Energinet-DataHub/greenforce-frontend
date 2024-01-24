@@ -89,6 +89,7 @@ watt-tabs {
     flex-grow: 1;
     justify-content: flex-end;
     cursor: default;
+    height: auto;
 
     &.mat-mdc-tab-disabled {
       opacity: 1;
@@ -104,6 +105,10 @@ watt-tabs {
         display: none;
       }
     }
+  }
+
+  .mat-mdc-tab-body {
+    width: 100%;
   }
 
   .mat-mdc-tab-group,

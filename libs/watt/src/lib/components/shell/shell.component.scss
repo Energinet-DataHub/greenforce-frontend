@@ -78,3 +78,11 @@
   height: var(--watt-space-xl);
   z-index: var(--watt-toolbar-z-index);
 }
+
+.watt-main-content,
+.watt-toolbar {
+  width: 100vw;
+  @include watt.media(">=Large") {
+    width: calc(100vw - 244px);
+  }
+}

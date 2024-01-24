@@ -52,6 +52,13 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
         justify-content: center;
         align-items: center;
       }
+
+      eo-dashboard-choose-period {
+        margin-top: var(--watt-space-s);
+        @include watt.media('>=Large') {
+          margin-top: 0;
+        }
+      }
     `,
   ],
   imports: [
