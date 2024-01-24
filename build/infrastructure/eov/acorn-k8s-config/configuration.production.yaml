@@ -1,0 +1,5 @@
+name: elo-frontend-web
+repo: ghcr.io/energinet-datahub
+references:
+  - file: k8s/eloverblik-apps/frontend-web/production/deployment-patch.yaml
+    path: .spec.template.spec.containers[] | select(.name == "frontend-web") | .image

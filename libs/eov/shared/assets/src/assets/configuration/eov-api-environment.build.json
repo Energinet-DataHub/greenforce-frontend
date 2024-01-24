@@ -1,0 +1,6 @@
+{
+  "apiUrl": "${API_URL}",
+  "isProduction": "${IS_PRODUCTION}",
+  "netsBaseURL": "${NETS_BASE_URL}",
+  "clientId": "${CLIENT_ID}"
+}

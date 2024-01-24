@@ -14,12 +14,82 @@ on:
           - production
           - all
 
+env:
+  BASE_DEPLOY_BRANCH: main
+  APP_NAME: eov
+  NODE_OPTIONS: --max-old-space-size=6144
+  node-version-file: .nvmrc
+  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
+  yarn-version: 3.5.0
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Echo Environment
+      - name: Set DRY_RUN
         shell: bash
         run: |
-          echo "${{ inputs.environment }}"
+          if [[ '${{ github.ref_name }}' != 'main' && ! '${{ github.ref_name }}' =~ ^release/.+ && ( '${{ inputs.environment }}' == 'all' || '${{ inputs.environment }}' == 'production' ) ]]; then 
+            DRY_RUN=true
+          else 
+            DRY_RUN=false
+          fi
+          echo "DRY_RUN=$DRY_RUN" >> $GITHUB_ENV
+      
+      - uses: actions/checkout@v4
+
+      - name: Set CONFIG
+        shell: bash
+        run: |
+          if [[ "${{ inputs.environment }}" == "all" ]]; then
+            CONFIG="build/infrastructure/${{ env.APP_NAME }}/acorn-k8s-config/configuration.yaml"
+          else
+            CONFIG="build/infrastructure/${{ env.APP_NAME }}/acorn-k8s-config/configuration.${{ inputs.environment }}.yaml"
+          fi
+
+          IMAGE_NAME=$(yq -r '.name' "$CONFIG")
+          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
+          echo "CONFIG=$CONFIG" >> $GITHUB_ENV
+
+      - name: Resolve version
+        uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
+        with:
+          allow-dispatch: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ${{ env.node-version-file }}
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Production build
+        run: yarn nx build app-${{ env.APP_NAME }}
+
+      - name: Move build files
+        shell: bash
+        run: |
+          mkdir ./app
+          mv ./dist/apps/${{ env.APP_NAME }}/${{ env.APP_NAME }}/* ./app/
+          rm ./app/assets/configuration/eov-api-environment.json
+
+      - name: Build image
+        uses: Energinet-DataHub/energy-origin/.github/actions/docker-build-and-push@main
+        with:
+          dockerfile: build/infrastructure/${{ env.APP_NAME }}/host/Dockerfile
+          docker-context: .
+          image-name: ${{ env.IMAGE_NAME }}
+          image-tag: ${{ env.version }}
+          dry-run: ${{ env.DRY_RUN }}
+          build-args: APP_FOLDER=app
+
+      - name: Update environment
+        uses: Energinet-DataHub/energy-origin/.github/actions/update-base-environment@main
+        with:
+          branch: ${{ env.BASE_DEPLOY_BRANCH }}
+          configuration: ${{ env.CONFIG }}
+          deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}
+          dry_run: ${{ env.DRY_RUN }}
