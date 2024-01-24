@@ -761,7 +761,9 @@
       "areaLabel": "Område",
       "updatedLabel": "Indlæst",
       "pricesNote": "Priser angivet i DKK for kWh",
-      "download": "Download"
+      "download": "Download",
+      "downloadStart": "Starter download...",
+      "downloadFailed": "Download fejlede"
     },
     "columns": {
       "date": "Dato",

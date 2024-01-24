@@ -28,12 +28,9 @@ import { TranslocoDirective, translate } from '@ngneat/transloco';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
-import {
-  GetImbalancePriceByMonthAndYearDocument,
-  ImbalancePrice,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { ImbalancePrice } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhImbalancePrice } from '../dh-imbalance-prices';
@@ -42,7 +39,9 @@ import { monthViewMock } from './dh-month-view.mock';
 import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { Apollo } from 'apollo-angular';
+import { ImbalancePricesHttp } from '@energinet-datahub/dh/shared/domain';
+import { switchMap, tap } from 'rxjs';
+import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
   selector: 'dh-imbalance-prices-drawer',
@@ -112,7 +111,7 @@ import { Apollo } from 'apollo-angular';
 })
 export class DhImbalancePricesDrawerComponent {
   private readonly toastService = inject(WattToastService);
-  private readonly apollo = inject(Apollo);
+  private readonly httpClient = inject(ImbalancePricesHttp);
   private readonly wattDatePipe = inject(WattDatePipe);
 
   @ViewChild(WattDrawerComponent)
@@ -145,48 +144,25 @@ export class DhImbalancePricesDrawerComponent {
       message: translate('imbalancePrices.drawer.downloadStart'),
     });
 
-    const month = this.monthData()[0].timeStamp.getMonth();
-    const year = this.monthData()[0].timeStamp.getFullYear();
-    const filename =
-      this.wattDatePipe.transform(this.imbalancePrice()?.name, 'monthYear') || 'imbalance-prices';
+    const fileOptions = { name: this.wattDatePipe.transform(this.imbalancePrice()?.name, 'monthYear') || 'imbalance-prices', type: 'text/csv' };
+    const from = this.monthData()[0].timeStamp;
+    const to = this.monthData()[this.monthData().length -1].timeStamp;
 
-    this.apollo
-      .query({
-        query: GetImbalancePriceByMonthAndYearDocument,
-        variables: {
-          month,
-          year,
-          areaCode: this.imbalancePrice()!.priceAreaCode,
-        },
-      })
-      .subscribe((result) => {
-        if (result.data?.imbalancePricesForMonth) {
-          this.toastService.dismiss();
-          const basePath = 'imbalancePrices.columns.';
-
-          const headers = [
-            `"${translate(basePath + 'date')}"`,
-            `"${translate(basePath + 'price')}"`,
-            `"${translate(basePath + 'priceAreaCode')}"`,
-          ];
-
-          const lines = result.data?.imbalancePricesForMonth
-            .map((x) =>
-              x.imbalancePrices.map((y) => [
-                `"${y.timestamp}"`,
-                `"${y.price}"`,
-                `"${y.priceAreaCode}"`,
-              ])
-            )
-            .flat();
-
-          exportToCSV({ headers, lines, fileName: filename });
-        } else {
-          this.toastService.open({
-            type: 'danger',
-            message: translate('imbalancePrices.drawer.downloadFailed'),
-          });
-        }
+    this.httpClient
+    .v1ImbalancePricesDownloadImbalanceCSVGet(from.toUTCString(), to.toUTCString())
+    .pipe(tap(() => console.log('downloaded')),
+      switchMap(streamToFile(fileOptions)))
+    .subscribe({
+      complete: () => this.toastService.dismiss(),
+      error: (ex) =>
+      {
+        console.log(ex);
+        this.toastService.open({
+          type: 'danger',
+          message: translate('imbalancePrices.drawer.downloadFailed'),
+        })
+      }
+      ,
       });
   }
 }

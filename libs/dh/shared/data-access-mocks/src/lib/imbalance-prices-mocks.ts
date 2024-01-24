@@ -18,7 +18,6 @@ import { HttpResponse, delay, http } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import {
-  mockGetImbalancePriceByMonthAndYearQuery,
   mockGetImbalancePricesOverviewQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -28,6 +27,7 @@ export function imbalancePricesMocks(apiBase: string) {
   return [
     getImbalancePricesOverviewQuery(),
     imbalancePricesUploadImbalanceCSV(apiBase),
+    imbalancePricesDownloadImbalanceCSV(apiBase),
   ];
 }
 
@@ -44,6 +44,13 @@ function imbalancePricesUploadImbalanceCSV(apiBase: string) {
   return http.post(`${apiBase}/v1/ImbalancePrices/UploadImbalanceCSV`, async () => {
     await delay(mswConfig.delay);
     return new HttpResponse(null, { status: 200 });
+  });
+}
+
+function imbalancePricesDownloadImbalanceCSV(apiBase: string) {
+  return http.get(`${apiBase}/v1/ImbalancePrices/DownloadImbalanceCSV`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.text('test', { status: 200, headers: { 'Content-Type': 'text/plain' } });
   });
 }
 

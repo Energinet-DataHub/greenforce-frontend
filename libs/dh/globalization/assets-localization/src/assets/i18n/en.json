@@ -762,7 +762,9 @@
       "areaLabel": "Area",
       "updatedLabel": "Updated",
       "pricesNote": "Prices are shown in DKK for kWh",
-      "download": "Download"
+      "download": "Download",
+      "downloadStart": "Starting download...",
+      "downloadFailed": "Download failed"
     },
     "columns": {
       "date": "Date",
