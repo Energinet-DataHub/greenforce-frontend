@@ -31,7 +31,10 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhPermissionRequiredDirective, PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhPermissionRequiredDirective,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
