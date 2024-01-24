@@ -1190,6 +1190,7 @@
           },
           "permissions": {
             "label": "Tildel rettigheder",
+            "required": "Vælg minimum én rettighed.",
             "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
           }
         }
