@@ -63,8 +63,8 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             try
             {
-                var f = new DateTime(year, month, 1);
-                var t = new DateTime(year, month, DateTime.DaysInMonth(year, month), 23, 59, 59);
+                var f = new DateTime(year, month, 1, 0, 0, 0);
+                var t = f.AddMonths(1);
                 var tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 var from = TimeZoneInfo.ConvertTime(new DateTimeOffset(f, tz.GetUtcOffset(f)), tz);
                 var to = TimeZoneInfo.ConvertTime(new DateTimeOffset(t, tz.GetUtcOffset(t)), tz);
