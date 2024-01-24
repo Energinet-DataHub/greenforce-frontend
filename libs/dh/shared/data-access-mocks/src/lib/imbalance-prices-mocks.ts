@@ -17,13 +17,20 @@
 import { HttpResponse, delay, http } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
-import { mockGetImbalancePriceByMonthAndYearQuery, mockGetImbalancePricesOverviewQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  mockGetImbalancePriceByMonthAndYearQuery,
+  mockGetImbalancePricesOverviewQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { imbalancePricesOverviewQueryMock } from './data/imbalance-prices/imbalance-prices-overview-query';
 import { imbalancePricesByMonthAndYearQueryMock } from './data/imbalance-prices/imbalance-prices-by-month-and-year-query';
 
 export function imbalancePricesMocks(apiBase: string) {
-  return [getImbalancePricesOverviewQuery(), imbalancePricesUploadImbalanceCSV(apiBase), getImbalancePricesByMonthAndYearQuery()];
+  return [
+    getImbalancePricesOverviewQuery(),
+    imbalancePricesUploadImbalanceCSV(apiBase),
+    getImbalancePricesByMonthAndYearQuery(),
+  ];
 }
 
 function getImbalancePricesOverviewQuery() {

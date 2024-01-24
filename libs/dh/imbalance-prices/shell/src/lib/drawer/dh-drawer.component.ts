@@ -14,14 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Output, ViewChild, input, effect, signal, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  ViewChild,
+  input,
+  effect,
+  signal,
+  inject,
+} from '@angular/core';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
-import { GetImbalancePriceByMonthAndYearDocument, ImbalancePrice } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetImbalancePriceByMonthAndYearDocument,
+  ImbalancePrice,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhImbalancePrice } from '../dh-imbalance-prices';
@@ -109,7 +121,6 @@ export class DhImbalancePricesDrawerComponent {
   imbalancePrice = input<DhImbalancePrice>();
   monthData = signal(monthViewMock);
 
-
   @Output() closed = new EventEmitter<void>();
 
   constructor() {
@@ -136,19 +147,20 @@ export class DhImbalancePricesDrawerComponent {
 
     const month = this.monthData()[0].timeStamp.getMonth();
     const year = this.monthData()[0].timeStamp.getFullYear();
-    const filename = this.wattDatePipe.transform(this.imbalancePrice()?.name, "monthYear") || "imbalance-prices";
+    const filename =
+      this.wattDatePipe.transform(this.imbalancePrice()?.name, 'monthYear') || 'imbalance-prices';
 
-    this.apollo.query({
-      query: GetImbalancePriceByMonthAndYearDocument,
-      variables: {
-        month,
-        year,
-        areaCode: this.imbalancePrice()!.priceAreaCode,
-      },
-    })
-    .subscribe((result) => {
-        if (result.data?.imbalancePricesForMonth)
-        {
+    this.apollo
+      .query({
+        query: GetImbalancePriceByMonthAndYearDocument,
+        variables: {
+          month,
+          year,
+          areaCode: this.imbalancePrice()!.priceAreaCode,
+        },
+      })
+      .subscribe((result) => {
+        if (result.data?.imbalancePricesForMonth) {
           this.toastService.dismiss();
           const basePath = 'imbalancePrices.columns.';
 
@@ -158,21 +170,23 @@ export class DhImbalancePricesDrawerComponent {
             `"${translate(basePath + 'priceAreaCode')}"`,
           ];
 
-          const lines = result.data?.imbalancePricesForMonth.map((x) =>
-            x.imbalancePrices.map((y) => [
-            `"${y.timestamp}"`,
-            `"${y.price}"`,
-            `"${y.priceAreaCode}"`,
-          ])).flat();
+          const lines = result.data?.imbalancePricesForMonth
+            .map((x) =>
+              x.imbalancePrices.map((y) => [
+                `"${y.timestamp}"`,
+                `"${y.price}"`,
+                `"${y.priceAreaCode}"`,
+              ])
+            )
+            .flat();
 
           exportToCSV({ headers, lines, fileName: filename });
-        }
-        else {
+        } else {
           this.toastService.open({
             type: 'danger',
             message: translate('imbalancePrices.drawer.downloadFailed'),
           });
         }
-    });
+      });
   }
 }
