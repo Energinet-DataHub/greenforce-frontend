@@ -104,24 +104,24 @@ export class ImbalancePricesHttp {
 
     /**
      * Download a CSV file with imbalancePrices
-     * @param fromInput 
-     * @param toInput 
+     * @param month 
+     * @param year 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1ImbalancePricesDownloadImbalanceCSVGet(fromInput?: string, toInput?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1ImbalancePricesDownloadImbalanceCSVGet(fromInput?: string, toInput?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1ImbalancePricesDownloadImbalanceCSVGet(fromInput?: string, toInput?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1ImbalancePricesDownloadImbalanceCSVGet(fromInput?: string, toInput?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public v1ImbalancePricesDownloadImbalanceCSVGet(month?: number, year?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1ImbalancePricesDownloadImbalanceCSVGet(month?: number, year?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1ImbalancePricesDownloadImbalanceCSVGet(month?: number, year?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1ImbalancePricesDownloadImbalanceCSVGet(month?: number, year?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (fromInput !== undefined && fromInput !== null) {
+        if (month !== undefined && month !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>fromInput, 'fromInput');
+            <any>month, 'month');
         }
-        if (toInput !== undefined && toInput !== null) {
+        if (year !== undefined && year !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>toInput, 'toInput');
+            <any>year, 'year');
         }
 
         let localVarHeaders = this.defaultHeaders;
