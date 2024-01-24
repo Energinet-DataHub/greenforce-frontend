@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, input, effect } from '@angular/core';
+import { Component, input, effect, ChangeDetectionStrategy } from '@angular/core';
+import { DecimalPipe, NgClass } from '@angular/common';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -22,7 +23,19 @@ import { ImbalancePrice } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-table-day-view',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      .negative-price {
+        color: var(--watt-color-state-danger);
+      }
+    `,
+  ],
   template: `
     <watt-table
       [dataSource]="tableDataSource"
@@ -39,11 +52,13 @@ import { ImbalancePrice } from '@energinet-datahub/dh/shared/domain/graphql';
       </ng-container>
 
       <ng-container *wattTableCell="columns['price']; let entry">
-        {{ entry.price }}
+        <span [ngClass]="{ 'negative-price': entry.price < 0 }">
+          {{ entry.price | number: '1.5-6' }}
+        </span>
       </ng-container>
     </watt-table>
   `,
-  imports: [WATT_TABLE, WattDatePipe],
+  imports: [DecimalPipe, NgClass, WATT_TABLE, WattDatePipe],
 })
 export class DhTableDayViewComponent {
   columns: WattTableColumnDef<ImbalancePrice> = {
