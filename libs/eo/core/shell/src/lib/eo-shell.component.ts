@@ -97,10 +97,12 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
       }
 
       .content {
+        width: 100vw;
         padding: var(--watt-space-m);
 
         @include watt.media('>=Large') {
           padding: var(--watt-space-l);
+          width: calc(100vw - 244px);
         }
       }
     `,

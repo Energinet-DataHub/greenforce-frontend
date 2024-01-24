@@ -26,7 +26,7 @@ import {
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
-import { NgFor, NgIf } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -34,10 +34,12 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 import {
   EnergyUnitPipe,
   PercentageOfPipe,
+  energyUnit,
   eoRoutes,
   findNearestUnit,
   fromWh,
@@ -48,13 +50,19 @@ import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api
 import { EoLottieComponent } from './eo-lottie.component';
 import { graphLoader } from '@energinet-datahub/eo/shared/assets';
 
+interface Totals {
+  transferred: number;
+  consumed: number;
+  unused: number;
+  production: number;
+  [key: string]: number;
+}
+
 @Component({
   standalone: true,
   imports: [
     WATT_CARD,
     NgChartsModule,
-    NgIf,
-    NgFor,
     EnergyUnitPipe,
     WattEmptyStateComponent,
     WattButtonComponent,
@@ -64,6 +72,8 @@ import { graphLoader } from '@energinet-datahub/eo/shared/assets';
     RouterLink,
     WattIconComponent,
     EoLottieComponent,
+    TitleCasePipe,
+    WattTooltipDirective,
   ],
   providers: [EnergyUnitPipe],
   selector: 'eo-dashboard-production-transferred',
@@ -118,8 +128,9 @@ import { graphLoader } from '@energinet-datahub/eo/shared/assets';
           z-index: 1;
         }
 
-        watt-card {
-          position: relative;
+        watt-card-title {
+          display: flex;
+          gap: var(--watt-space-xs);
         }
 
         .legend-item {
@@ -146,47 +157,65 @@ import { graphLoader } from '@energinet-datahub/eo/shared/assets';
   ],
   template: `<watt-card>
     <watt-card-title>
-      <h4>Production (Activated Metering Points)</h4>
+      <h4>Overview</h4>
+      <watt-icon
+        name="info"
+        state="default"
+        size="s"
+        wattTooltip="Only active metering points"
+        wattTooltipPosition="right"
+      />
     </watt-card-title>
 
-    <div class="loader-container" *ngIf="isLoading || hasError">
-      <eo-lottie height="64px" width="64px" *ngIf="isLoading" [animationData]="lottieAnimation" />
-      <watt-empty-state
-        *ngIf="hasError"
-        icon="custom-power"
-        title="An unexpected error occured"
-        message="Try again or contact your system administrator if you keep getting this error."
-      >
-        <watt-button variant="primary" size="normal" (click)="getData()">Reload</watt-button>
-      </watt-empty-state>
-    </div>
+    @if (isLoading || hasError) {
+      <div class="loader-container">
+        @if (isLoading) {
+          <eo-lottie height="64px" width="64px" [animationData]="lottieAnimation" />
+        }
+        @if (hasError) {
+          <watt-empty-state
+            icon="custom-power"
+            title="An unexpected error occured"
+            message="Try again or contact your system administrator if you keep getting this error."
+          >
+            <watt-button variant="primary" size="normal" (click)="getData()">Reload</watt-button>
+          </watt-empty-state>
+        }
+      </div>
+    }
 
     <vater-stack direction="row" gap="s">
-      <div *ngIf="productionTotal > 0 || isLoading; else noData">
-        <h5>{{ transferredTotal | percentageOf: productionTotal }} transferred</h5>
-        <small
-          >{{ transferredTotal | energyUnit }} of {{ productionTotal | energyUnit }} certified green
-          production was transferred</small
-        >
-      </div>
-
-      <ng-template #noData>
-        <div>
+      <div>
+        @if (totals.production > 0 || isLoading) {
+          <h5>{{ totals.transferred | percentageOf: totals.production }} transferred</h5>
+          <small
+            >{{ totals.transferred | energyUnit }} of {{ totals.production | energyUnit }} certified
+            green production was transferred</small
+          >
+        } @else {
           <h5>No data</h5>
           <small
             ><a [routerLink]="'../' + routes.meteringpoints"
               >Activate metering points <watt-icon name="openInNew" size="xs" /></a
           ></small>
-        </div>
-      </ng-template>
+        }
+      </div>
 
       <vater-spacer />
 
       <ul class="legends">
-        <li *ngFor="let item of barChartData.datasets" class="legend-item">
-          <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
-          <span class="legend-label">{{ item.label }}</span>
-        </li>
+        @for (item of barChartData.datasets.slice().reverse(); track item.label) {
+          <li class="legend-item">
+            <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
+            @if (item.label) {
+              <span class="legend-label"
+                >{{ item.label | titlecase }} ({{
+                  totals[item.label] | percentageOf: totals.production
+                }})</span
+              >
+            }
+          </li>
+        }
       </ul>
     </vater-stack>
 
@@ -210,8 +239,13 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
 
   private labels = this.generateLabels();
 
-  protected transferredTotal = 0;
-  protected productionTotal = 0;
+  protected totals: Totals = {
+    transferred: 0,
+    consumed: 0,
+    unused: 0,
+    production: 0,
+  };
+
   protected routes = eoRoutes;
 
   protected lottieAnimation = graphLoader;
@@ -256,7 +290,7 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
 
     const transfers$ = this.aggregateService.getAggregatedTransfers(timeAggregate, start, end);
     const claims$ = this.aggregateService.getAggregatedClaims(timeAggregate, start, end);
-    const certificates$ = this.aggregateService.getAggregatedCertificates(
+    const productionCertificates$ = this.aggregateService.getAggregatedCertificates(
       timeAggregate,
       start,
       end,
@@ -266,7 +300,7 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
     forkJoin({
       transfers: transfers$,
       claims: claims$,
-      certificates: certificates$,
+      certificates: productionCertificates$,
     })
       .pipe(
         catchError(() => {
@@ -278,83 +312,147 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
       )
       .subscribe((data) => {
         const { transfers, claims, certificates } = data;
+        this.setTotals(transfers, claims, certificates);
 
-        this.transferredTotal = transfers.reduce((a: number, b: number) => a + b, 0);
-
-        const claimedTotal = claims.reduce((a: number, b: number) => a + b, 0);
-        this.productionTotal =
-          certificates.reduce((a: number, b: number) => a + b, 0) +
-          claimedTotal +
-          this.transferredTotal;
-
-        const unit = findNearestUnit(
-          this.productionTotal /
-            Math.max(
-              claims.filter((x: number) => x > 0).length,
-              certificates.filter((x: number) => x > 0).length,
-              transfers.filter((x: number) => x > 0).length
-            )
-        )[1];
-
-        this.barChartOptions = {
-          ...this.barChartOptions,
-          scales: {
-            ...this.barChartOptions?.scales,
-            y: {
-              ...this.barChartOptions?.scales?.y,
-              title: {
-                ...this.barChartOptions?.scales?.y?.title,
-                display: true,
-                text: unit,
-                align: 'end',
-              },
-            },
-          },
-          plugins: {
-            tooltip: {
-              callbacks: {
-                label: (context) => {
-                  const text = context.dataset.label;
-                  return `${Number(context.parsed.y).toFixed(2)} ${unit} ${text?.toLowerCase()}`;
-                },
-              },
-            },
-          },
-        };
-
-        const produced = certificates.map((x, index) => {
-          const production = x + claims[index];
-          return production > 0 ? fromWh(production, unit) : null;
-        });
-
-        this.barChartData = {
-          ...this.barChartData,
-          labels: this.generateLabels(),
-          datasets: [
-            {
-              data: transfers.map((x: number) => {
-                return x > 0 ? fromWh(x, unit) : null;
-              }),
-              label: 'Transferred',
-              borderRadius: Number.MAX_VALUE,
-              maxBarThickness: 8,
-              minBarLength: 8,
-              backgroundColor: '#00C898',
-            },
-            {
-              data: produced,
-              label: 'Not transferred',
-              borderRadius: Number.MAX_VALUE,
-              maxBarThickness: 8,
-              minBarLength: 8,
-              backgroundColor: '#02525E',
-            },
-          ],
-        };
+        const unit = this.getUnit(data);
+        this.setChartOptions(data, unit);
+        this.setCharData(data, unit);
 
         this.isLoading = false;
         this.cd.detectChanges();
       });
+  }
+
+  private getUnit(data: {
+    transfers: number[];
+    claims: number[];
+    certificates: number[];
+  }): energyUnit {
+    const { transfers, claims, certificates } = data;
+
+    return findNearestUnit(
+      this.totals.production /
+        Math.max(
+          claims.filter((x: number) => x > 0).length,
+          certificates.filter((x: number) => x > 0).length,
+          transfers.filter((x: number) => x > 0).length
+        )
+    )[1];
+  }
+
+  private findLargestNumberInDatasets(dataSets: number[][]) {
+    const mergedArray = this.sumArrays(dataSets);
+    return Math.max(...mergedArray);
+  }
+
+  private sumArrays(arrays: number[][]): number[] {
+    return arrays[0].map((_, i) => arrays.reduce((sum, arr) => sum + arr[i], 0));
+  }
+
+  private setChartOptions(
+    data: { transfers: number[]; claims: number[]; certificates: number[] },
+    unit: energyUnit
+  ) {
+    const { transfers, claims, certificates } = data;
+
+    this.barChartOptions = {
+      ...this.barChartOptions,
+      scales: {
+        ...this.barChartOptions?.scales,
+        y: {
+          ...this.barChartOptions?.scales?.y,
+          title: {
+            ...this.barChartOptions?.scales?.y?.title,
+            display: true,
+            text: unit,
+            align: 'end',
+          },
+          suggestedMax:
+            findNearestUnit(
+              this.findLargestNumberInDatasets([transfers, claims, certificates])
+            )[0] * 1.1,
+        },
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: (context) => {
+              const type = context.dataset.label?.toLowerCase();
+              let amount: number;
+
+              if (type === 'transferred') {
+                amount = transfers[context.dataIndex];
+              } else if (type === 'consumed') {
+                amount = claims[context.dataIndex];
+              } else {
+                amount = certificates[context.dataIndex];
+              }
+
+              const unit = findNearestUnit(amount)[1];
+              return `${fromWh(amount, unit).toFixed(2)} ${unit} ${type}`;
+            },
+          },
+        },
+      },
+    };
+  }
+
+  private setCharData(
+    data: { transfers: number[]; claims: number[]; certificates: number[] },
+    unit: energyUnit
+  ) {
+    const { transfers, claims, certificates } = data;
+
+    this.barChartData = {
+      ...this.barChartData,
+      labels: this.generateLabels(),
+      datasets: [
+        {
+          data: claims.map((x: number) => {
+            return x > 0 ? fromWh(x, unit) : null;
+          }),
+          label: 'consumed',
+          borderRadius: Number.MAX_VALUE,
+          maxBarThickness: 8,
+          minBarLength: 8,
+          backgroundColor: '#f8ad3c',
+        },
+        {
+          data: transfers.map((x: number) => {
+            return x > 0 ? fromWh(x, unit) : null;
+          }),
+          label: 'transferred',
+          borderRadius: Number.MAX_VALUE,
+          maxBarThickness: 8,
+          minBarLength: 8,
+          backgroundColor: '#00C898',
+        },
+        {
+          data: certificates.map((x) => {
+            return x > 0 ? fromWh(x, unit) : null;
+          }),
+          label: 'unused',
+          borderRadius: Number.MAX_VALUE,
+          maxBarThickness: 8,
+          minBarLength: 8,
+          backgroundColor: '#02525E',
+        },
+      ],
+    };
+  }
+
+  private setTotals(transfers: number[], claims: number[], certificates: number[]) {
+    const consumedTotal = claims.reduce((a: number, b: number) => a + b, 0);
+    const unusedTotal = certificates.reduce((a: number, b: number) => a + b, 0);
+    const transferredTotal = transfers.reduce((a: number, b: number) => a + b, 0);
+    const productionTotal = consumedTotal + unusedTotal + transferredTotal;
+
+    this.totals = {
+      production: productionTotal,
+      transferred: transferredTotal,
+      consumed: consumedTotal,
+      unused: unusedTotal,
+    };
   }
 
   private generateLabels() {
