@@ -31,7 +31,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhPermissionRequiredDirective, PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -98,6 +98,7 @@ import { DhActorAuditLogService } from './dh-actor-audit-log.service';
 export class DhActorDrawerComponent {
   private readonly apollo = inject(Apollo);
   private readonly auditLogService = inject(DhActorAuditLogService);
+  private readonly permissionService = inject(PermissionService);
 
   private subscription?: Subscription;
   private actorAuditLogSubscription?: Subscription;
@@ -111,6 +112,8 @@ export class DhActorDrawerComponent {
   });
 
   actor: DhActorExtended | undefined = undefined;
+  hasActorAccess: boolean = false;
+
   isLoadingAuditLog = false;
   auditLogFailedToLoad = false;
 
@@ -165,6 +168,11 @@ export class DhActorDrawerComponent {
           this.actor = result.data?.actorById;
         },
       });
+
+    this.permissionService
+      .hasActorAccess(id)
+      .pipe(takeUntil(this.closed))
+      .subscribe((hasAccess) => (this.hasActorAccess = hasAccess));
   }
 
   private loadAuditLog(actorId: string): void {
