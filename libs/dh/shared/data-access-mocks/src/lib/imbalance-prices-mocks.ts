@@ -17,9 +17,7 @@
 import { HttpResponse, delay, http } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
-import {
-  mockGetImbalancePricesOverviewQuery,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { mockGetImbalancePricesOverviewQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { imbalancePricesOverviewQueryMock } from './data/imbalance-prices/imbalance-prices-overview-query';
 
@@ -53,4 +51,3 @@ function imbalancePricesDownloadImbalanceCSV(apiBase: string) {
     return HttpResponse.text('test', { status: 200, headers: { 'Content-Type': 'text/plain' } });
   });
 }
-

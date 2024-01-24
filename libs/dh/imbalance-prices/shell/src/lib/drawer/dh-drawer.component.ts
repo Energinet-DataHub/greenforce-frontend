@@ -144,25 +144,29 @@ export class DhImbalancePricesDrawerComponent {
       message: translate('imbalancePrices.drawer.downloadStart'),
     });
 
-    const fileOptions = { name: this.wattDatePipe.transform(this.imbalancePrice()?.name, 'monthYear') || 'imbalance-prices', type: 'text/csv' };
+    const fileOptions = {
+      name:
+        this.wattDatePipe.transform(this.imbalancePrice()?.name, 'monthYear') || 'imbalance-prices',
+      type: 'text/csv',
+    };
     const from = this.monthData()[0].timeStamp;
-    const to = this.monthData()[this.monthData().length -1].timeStamp;
+    const to = this.monthData()[this.monthData().length - 1].timeStamp;
 
     this.httpClient
-    .v1ImbalancePricesDownloadImbalanceCSVGet(from.toUTCString(), to.toUTCString())
-    .pipe(tap(() => console.log('downloaded')),
-      switchMap(streamToFile(fileOptions)))
-    .subscribe({
-      complete: () => this.toastService.dismiss(),
-      error: (ex) =>
-      {
-        console.log(ex);
-        this.toastService.open({
-          type: 'danger',
-          message: translate('imbalancePrices.drawer.downloadFailed'),
-        })
-      }
-      ,
+      .v1ImbalancePricesDownloadImbalanceCSVGet(from.toUTCString(), to.toUTCString())
+      .pipe(
+        tap(() => console.log('downloaded')),
+        switchMap(streamToFile(fileOptions))
+      )
+      .subscribe({
+        complete: () => this.toastService.dismiss(),
+        error: (ex) => {
+          console.log(ex);
+          this.toastService.open({
+            type: 'danger',
+            message: translate('imbalancePrices.drawer.downloadFailed'),
+          });
+        },
       });
   }
 }
