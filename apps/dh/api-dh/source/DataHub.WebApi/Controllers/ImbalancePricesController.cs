@@ -57,13 +57,15 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpGet]
         [Route("DownloadImbalanceCSV")]
         [Produces("text/csv")]
-        public async Task<ActionResult> DownloadImbalancePricesAsync(DateTime fromInput, DateTime toInput)
+        public async Task<ActionResult> DownloadImbalancePricesAsync(int month, int year)
         {
             try
             {
+                var f = new DateTime(year, month, 1);
+                var t = new DateTime(year, month, DateTime.DaysInMonth(year, month), 23, 59, 59);
                 var tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
-                var from = TimeZoneInfo.ConvertTime(new DateTimeOffset(fromInput, tz.GetUtcOffset(fromInput)), tz);
-                var to = TimeZoneInfo.ConvertTime(new DateTimeOffset(toInput, tz.GetUtcOffset(toInput)), tz);
+                var from = TimeZoneInfo.ConvertTime(new DateTimeOffset(f, tz.GetUtcOffset(f)), tz);
+                var to = TimeZoneInfo.ConvertTime(new DateTimeOffset(t, tz.GetUtcOffset(t)), tz);
                 await _client.DownloadAsync(from, to);
                 return File(Response.Body, "text/csv");
             }
