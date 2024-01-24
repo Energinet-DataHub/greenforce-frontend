@@ -341,7 +341,8 @@ export class EoDashboardConsumptionComponent implements OnChanges {
                 text: unit,
                 align: 'end',
               },
-              suggestedMax: findNearestUnit(this.findLargestNumberInDatasets([claims, certificates]))[0] * 1.1,
+              suggestedMax:
+                findNearestUnit(this.findLargestNumberInDatasets([claims, certificates]))[0] * 1.1,
             },
           },
           plugins: {

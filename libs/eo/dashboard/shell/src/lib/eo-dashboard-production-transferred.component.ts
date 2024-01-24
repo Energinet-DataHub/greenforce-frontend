@@ -331,11 +331,12 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
     const { transfers, claims, certificates } = data;
 
     return findNearestUnit(
-      this.totals.production / Math.max(
-        claims.filter((x: number) => x > 0).length,
-        certificates.filter((x: number) => x > 0).length,
-        transfers.filter((x: number) => x > 0).length
-      )
+      this.totals.production /
+        Math.max(
+          claims.filter((x: number) => x > 0).length,
+          certificates.filter((x: number) => x > 0).length,
+          transfers.filter((x: number) => x > 0).length
+        )
     )[1];
   }
 
@@ -366,7 +367,10 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
             text: unit,
             align: 'end',
           },
-          suggestedMax: findNearestUnit(this.findLargestNumberInDatasets([transfers, claims, certificates]))[0] * 1.1,
+          suggestedMax:
+            findNearestUnit(
+              this.findLargestNumberInDatasets([transfers, claims, certificates])
+            )[0] * 1.1,
         },
       },
       plugins: {
