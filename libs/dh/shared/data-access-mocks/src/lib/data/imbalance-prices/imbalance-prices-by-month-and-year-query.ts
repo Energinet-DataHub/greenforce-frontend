@@ -25,25 +25,25 @@ const dailyPrices: ImbalancePrice[] = [
     __typename: 'ImbalancePrice',
     price: 4.321,
     priceAreaCode: PriceAreaCode.Dk1,
-    timestamp: new Date('2024-01-01T00:00+01:00')
+    timestamp: new Date('2024-01-01T00:00+01:00'),
   },
   {
     __typename: 'ImbalancePrice',
     price: 3.321,
     priceAreaCode: PriceAreaCode.Dk1,
-    timestamp: new Date('2024-01-01T00:00+02:00')
+    timestamp: new Date('2024-01-01T00:00+02:00'),
   },
   {
     __typename: 'ImbalancePrice',
     price: 2.321,
     priceAreaCode: PriceAreaCode.Dk2,
-    timestamp: new Date('2024-01-01T00:00+03:00')
+    timestamp: new Date('2024-01-01T00:00+03:00'),
   },
   {
     __typename: 'ImbalancePrice',
     price: 1.321,
     priceAreaCode: PriceAreaCode.Dk2,
-    timestamp: new Date('2024-01-01T00:00+04:00')
+    timestamp: new Date('2024-01-01T00:00+04:00'),
   },
 ];
 
@@ -53,6 +53,6 @@ export const imbalancePricesByMonthAndYearQueryMock: GetImbalancePriceByMonthAnd
     {
       __typename: 'ImbalancePriceDaily',
       imbalancePrices: dailyPrices,
-    }
-    ],
-  };
+    },
+  ],
+};
