@@ -74,7 +74,7 @@ limitations under the License.
           (isSubmitted || selectedPermissions.touched) && selectedPermissions.hasError('required')
         "
       >
-        {{ "shared.fieldRequiredErrorText" | transloco }}
+        {{ t("steps.permissions.required") }}
       </watt-field-error>
       <ng-container *rxLet="permissions$ as permissions">
         <dh-permissions-table
