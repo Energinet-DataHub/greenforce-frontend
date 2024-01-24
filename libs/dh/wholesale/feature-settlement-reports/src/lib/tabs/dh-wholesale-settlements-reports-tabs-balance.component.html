@@ -17,104 +17,112 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'wholesale.settlementReports'">
   <watt-card>
     <watt-card-title>
-      <h3>
-        {{ t("results") }}
-        <span class="watt-chip-label">{{ dataSource.data.length }}</span>
-      </h3>
+      @if (!loadingGridAreas()) {
+        <h3>
+          {{ t("results") }}
+          <span class="watt-chip-label">{{ dataSource.data.length }}</span>
+        </h3>
+      }
     </watt-card-title>
 
-    <form [formGroup]="searchForm" class="form-grid watt-space-stack-m">
-      <watt-date-range-chip [formControl]="searchForm.controls.period">{{
-        "shared.form.filters.period" | transloco
-      }}</watt-date-range-chip>
+    @if (!loadingGridAreas()) {
+      <form [formGroup]="searchForm" class="form-grid watt-space-stack-m">
+        <watt-date-range-chip [formControl]="searchForm.controls.period">{{
+          "shared.form.filters.period" | transloco
+        }}</watt-date-range-chip>
 
-      <watt-dropdown
-        formControlName="gridAreas"
-        [chipMode]="true"
-        [multiple]="true"
-        [options]="gridAreas"
-        [placeholder]="
-          searchForm.controls.gridAreas.disabled
-            ? t('filters.loadingGridAreas')
-            : t('filters.gridAreasPlaceholder')
-        "
-      />
-
-      <watt-dropdown
-        formControlName="actor"
-        [chipMode]="true"
-        [options]="actors"
-        [placeholder]="
-          searchForm.controls.actor.disabled
-            ? t('filters.loadingActors')
-            : t('filters.actorPlaceholder')
-        "
-      />
-
-      <watt-button variant="text" icon="undo" type="reset">
-        {{ "shared.form.reset" | transloco }}
-      </watt-button>
-    </form>
-
-    <watt-table
-      [dataSource]="dataSource"
-      [columns]="columns"
-      [selectable]="true"
-      sortBy="gridAreaCode"
-      sortDirection="asc"
-    >
-      <!-- Grid Area Name -->
-      <ng-container
-        *wattTableCell="columns.gridAreaName; header: t('table.gridAreaName'); let gridArea"
-      >
-        {{ gridArea.name }} ({{ gridArea.code }})
-      </ng-container>
-
-      <!-- Grid Area Code -->
-      <ng-container
-        *wattTableCell="columns.gridAreaCode; header: t('table.gridAreaCode'); let gridArea"
-      >
-        {{ gridArea.code }}
-      </ng-container>
-
-      <!-- Download -->
-      <ng-container *wattTableCell="columns.download; header: ''; let gridArea">
-        <watt-button
-          variant="icon"
-          title="{{ t('download') }}"
-          icon="download"
-          [disabled]="!searchForm.valid"
-          (click)="downloadClicked([gridArea])"
+        <watt-dropdown
+          formControlName="gridAreas"
+          [chipMode]="true"
+          [multiple]="true"
+          [options]="gridAreas"
+          [placeholder]="
+            searchForm.controls.gridAreas.disabled
+              ? t('filters.loadingGridAreas')
+              : t('filters.gridAreasPlaceholder')
+          "
         />
-      </ng-container>
-      <ng-container *wattTableToolbar="let selection">
-        <ng-container *ngIf="selection.length === 1">
-          {{ t("selectedRows.singular", { selectedCount: selection.length }) }}
-        </ng-container>
-        <ng-container *ngIf="selection.length !== 1">
-          {{ t("selectedRows.plural", { selectedCount: selection.length }) }}
-        </ng-container>
-        <watt-table-toolbar-spacer />
-        <watt-button
-          icon="download"
-          (click)="downloadClicked(selection)"
-          [disabled]="!searchForm.valid"
-          >{{ t("downloadNoBasisData") }}
+
+        <watt-dropdown
+          formControlName="actor"
+          [chipMode]="true"
+          [options]="actors"
+          [placeholder]="
+            searchForm.controls.actor.disabled
+              ? t('filters.loadingActors')
+              : t('filters.actorPlaceholder')
+          "
+        />
+
+        <watt-button variant="text" icon="undo" type="reset">
+          {{ "shared.form.reset" | transloco }}
         </watt-button>
-      </ng-container>
-    </watt-table>
+      </form>
 
-    <watt-empty-state
-      *ngIf="error"
-      icon="custom-power"
-      [title]="'shared.error.title' | transloco"
-      [message]="'shared.error.message' | transloco"
-    />
+      <watt-table
+        [dataSource]="dataSource"
+        [columns]="columns"
+        [selectable]="true"
+        sortBy="gridAreaCode"
+        sortDirection="asc"
+      >
+        <!-- Grid Area Name -->
+        <ng-container
+          *wattTableCell="columns.gridAreaName; header: t('table.gridAreaName'); let gridArea"
+        >
+          {{ gridArea.name }} ({{ gridArea.code }})
+        </ng-container>
 
-    <ng-container>
-      <h4 *ngIf="gridAreas.length === 0" class="no-results-text">
-        {{ t("noEntries") }}
-      </h4>
-    </ng-container>
+        <!-- Grid Area Code -->
+        <ng-container
+          *wattTableCell="columns.gridAreaCode; header: t('table.gridAreaCode'); let gridArea"
+        >
+          {{ gridArea.code }}
+        </ng-container>
+
+        <!-- Download -->
+        <ng-container *wattTableCell="columns.download; header: ''; let gridArea">
+          <watt-button
+            variant="icon"
+            title="{{ t('download') }}"
+            icon="download"
+            [disabled]="!searchForm.valid"
+            (click)="downloadClicked([gridArea])"
+          />
+        </ng-container>
+        <ng-container *wattTableToolbar="let selection">
+          @if (selection.length === 1) {
+            {{ t("selectedRows.singular", { selectedCount: selection.length }) }}
+          } @else {
+            {{ t("selectedRows.plural", { selectedCount: selection.length }) }}
+          }
+          <watt-table-toolbar-spacer />
+          <watt-button
+            icon="download"
+            (click)="downloadClicked(selection)"
+            [disabled]="!searchForm.valid"
+            >{{ t("downloadNoBasisData") }}
+          </watt-button>
+        </ng-container>
+      </watt-table>
+
+      @if (error) {
+        <watt-empty-state
+          icon="custom-power"
+          [title]="'shared.error.title' | transloco"
+          [message]="'shared.error.message' | transloco"
+        />
+      }
+
+      @if (gridAreas.length === 0) {
+        <h4 class="no-results-text">
+          {{ t("noEntries") }}
+        </h4>
+      }
+    } @else {
+      <div class="loading-container">
+        <watt-spinner />
+      </div>
+    }
   </watt-card>
 </ng-container>

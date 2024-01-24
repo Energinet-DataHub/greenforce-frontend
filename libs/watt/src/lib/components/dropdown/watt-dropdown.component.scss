@@ -20,8 +20,9 @@ watt-dropdown {
   --watt-input-color: var(--watt-typography-text-color);
   --watt-input-placeholder-color: var(--watt-on-light-high-emphasis);
 
-  display: block;
+  display: inline-block;
   width: auto;
+  overflow: hidden;
 
   watt-field label .watt-field-wrapper {
     padding: 0;

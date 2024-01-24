@@ -16,6 +16,11 @@
  */
 watt-card {
   display: grid;
+  height: 100%;
+}
+
+watt-table {
+  max-height: 100%;
 }
 
 watt-card-title {
@@ -40,4 +45,10 @@ watt-card-title {
 
 .date-picker {
   width: 300px;
+}
+
+.loading-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
