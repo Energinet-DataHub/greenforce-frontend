@@ -25,10 +25,7 @@ import {
 import { imbalancePricesOverviewQueryMock } from './data/imbalance-prices/imbalance-prices-overview-query';
 
 export function imbalancePricesMocks(apiBase: string) {
-  return [
-    getImbalancePricesOverviewQuery(),
-    imbalancePricesUploadImbalanceCSV(apiBase),
-  ];
+  return [getImbalancePricesOverviewQuery(), imbalancePricesUploadImbalanceCSV(apiBase)];
 }
 
 function getImbalancePricesOverviewQuery() {
@@ -46,4 +43,3 @@ function imbalancePricesUploadImbalanceCSV(apiBase: string) {
     return new HttpResponse(null, { status: 200 });
   });
 }
-
