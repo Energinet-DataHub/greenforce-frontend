@@ -35,6 +35,7 @@ export enum DhAppEnvironment {
   test_001 = 't-001',
   test_002 = 't-002',
   preprod = 'b-001',
+  prod = 'p-001',
 }
 
 export const dhAppEnvironmentToken = new InjectionToken<DhAppEnvironmentConfig>(

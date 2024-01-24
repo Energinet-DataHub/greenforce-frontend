@@ -23,7 +23,16 @@ limitations under the License.
             <watt-textarea-field
               [label]="t('tab.masterData.descriptionInputLabel')"
               [formControl]="userPermissionsForm.controls.description"
-            />
+            >
+              <watt-field-error
+                *ngIf="
+                  userPermissionsForm.controls.description.errors?.['maxlength'] as maxLengthError
+                "
+                >{{
+                  t("tab.masterData.descriptionExceedsMaxLength", maxLengthError)
+                }}</watt-field-error
+              >
+            </watt-textarea-field>
           </div>
         </watt-tab>
       </watt-tabs>

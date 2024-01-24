@@ -16,21 +16,8 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
-.watt-expandable-card.mat-expansion-panel {
-  border-radius: 4px !important;
-
-  & .mat-expansion-panel-header {
-    @include watt.typography-watt-headline-4;
-    height: var(--watt-space-xl);
-    padding: 0 var(--watt-space-m);
-    user-select: none;
-
-    &:hover:not([aria-disabled="true"]) {
-      background: var(--watt-color-neutral-white);
-    }
-  }
-
-  & .mat-expansion-indicator {
+@mixin expansion-indicator {
+  .mat-expansion-indicator {
     margin-top: -6px; // align vertically with text
     transform-origin: center 15px; // modify origin to match visual center
 
@@ -38,18 +25,44 @@
       border-color: var(--watt-color-primary);
     }
   }
+}
 
-  & .mat-expansion-panel-body {
+.watt-expandable-card.mat-expansion-panel {
+  border-radius: 4px !important;
+
+  .mat-expansion-panel-header {
+    @include watt.typography-watt-headline-4;
+
+    height: var(--watt-space-xl);
+    padding: 0 var(--watt-space-m);
+    user-select: none;
+
+    &:hover:not([aria-disabled="true"]) {
+      background: var(--watt-color-neutral-white);
+    }
+
+    &.mat-expansion-toggle-indicator-before {
+      @include expansion-indicator;
+
+      .mat-expansion-panel-header-title {
+        margin-right: 0;
+      }
+    }
+  }
+
+  @include expansion-indicator;
+
+  .mat-expansion-panel-body {
     border-top: 1px solid var(--watt-color-neutral-grey-300);
     padding: 0 var(--watt-space-m);
   }
 
-  & watt-badge {
+  .mat-expansion-panel-header-title > watt-badge {
     margin-right: var(--watt-space-m);
   }
-}
 
-watt-expandable-card.watt-solid .mat-expansion-panel {
-  border: 1px solid var(--watt-color-neutral-grey-300);
-  box-shadow: none;
+  &.watt-solid {
+    border: 1px solid var(--watt-color-neutral-grey-300);
+    box-shadow: none;
+  }
 }

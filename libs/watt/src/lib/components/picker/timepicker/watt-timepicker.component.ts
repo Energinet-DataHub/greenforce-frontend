@@ -79,6 +79,7 @@ const getTruthyAt =
     array[index] || undefined;
 
 /**
+ * @deprecated Use WattTimepickerV2Component instead
  * Usage:
  * `import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';`
  *
@@ -108,8 +109,8 @@ const getTruthyAt =
   ],
 })
 export class WattTimepickerComponent extends WattPickerBase {
-  protected override inputMaskService = inject(WattInputMaskService);
-  protected override rangeInputService = inject(WattRangeInputService);
+  protected inputMaskService = inject(WattInputMaskService);
+  protected rangeInputService = inject(WattRangeInputService);
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected override changeDetectionRef = inject(ChangeDetectorRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });

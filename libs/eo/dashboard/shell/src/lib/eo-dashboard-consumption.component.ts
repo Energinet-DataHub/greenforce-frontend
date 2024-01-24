@@ -26,7 +26,7 @@ import {
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
-import { NgFor, NgIf } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -34,6 +34,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 import {
   EnergyUnitPipe,
@@ -47,13 +48,18 @@ import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
 import { EoLottieComponent } from './eo-lottie.component';
 import { graphLoader } from '@energinet-datahub/eo/shared/assets';
 
+interface Totals {
+  green: number;
+  other: number;
+  consumption: number;
+  [key: string]: number;
+}
+
 @Component({
   standalone: true,
   imports: [
     WATT_CARD,
     NgChartsModule,
-    NgIf,
-    NgFor,
     RouterLink,
     EnergyUnitPipe,
     WattEmptyStateComponent,
@@ -63,6 +69,8 @@ import { graphLoader } from '@energinet-datahub/eo/shared/assets';
     VaterStackComponent,
     WattIconComponent,
     EoLottieComponent,
+    TitleCasePipe,
+    WattTooltipDirective,
   ],
   providers: [EnergyUnitPipe],
   selector: 'eo-dashboard-consumption',
@@ -102,6 +110,11 @@ import { graphLoader } from '@energinet-datahub/eo/shared/assets';
           @include watt.media('>=Large') {
             width: calc(100vw - 372px);
           }
+        }
+
+        watt-card-title {
+          display: flex;
+          gap: var(--watt-space-xs);
         }
 
         .loader-container {
@@ -145,47 +158,66 @@ import { graphLoader } from '@energinet-datahub/eo/shared/assets';
   ],
   template: `<watt-card>
     <watt-card-title>
-      <h4>Consumption (Activated Metering Points)</h4>
+      <h4>Overview</h4>
+      <watt-icon
+        name="info"
+        state="default"
+        size="s"
+        wattTooltip="Only active metering points"
+        wattTooltipPosition="right"
+      />
     </watt-card-title>
 
-    <div class="loader-container" *ngIf="isLoading || hasError">
-      <eo-lottie height="64px" width="64px" *ngIf="isLoading" [animationData]="lottieAnimation" />
-      <watt-empty-state
-        *ngIf="hasError"
-        icon="custom-power"
-        title="An unexpected error occured"
-        message="Try again or contact your system administrator if you keep getting this error."
-      >
-        <watt-button variant="primary" size="normal" (click)="getData()">Reload</watt-button>
-      </watt-empty-state>
-    </div>
+    @if (isLoading || hasError) {
+      <div class="loader-container">
+        @if (isLoading) {
+          <eo-lottie height="64px" width="64px" [animationData]="lottieAnimation" />
+        }
+
+        @if (hasError) {
+          <watt-empty-state
+            icon="custom-power"
+            title="An unexpected error occured"
+            message="Try again or contact your system administrator if you keep getting this error."
+          >
+            <watt-button variant="primary" size="normal" (click)="getData()">Reload</watt-button>
+          </watt-empty-state>
+        }
+      </div>
+    }
 
     <vater-stack direction="row" gap="s">
-      <div *ngIf="consumptionTotal > 0 || isLoading; else noData">
-        <h5>{{ claimedTotal | percentageOf: consumptionTotal }} green energy</h5>
-        <small
-          >{{ claimedTotal | energyUnit }} of {{ consumptionTotal | energyUnit }} is certified green
-          energy</small
-        >
-      </div>
-
-      <ng-template #noData>
-        <div>
+      <div>
+        @if (totals.consumption > 0 || isLoading) {
+          <h5>{{ totals.green | percentageOf: totals.consumption }} green energy</h5>
+          <small
+            >{{ totals.green | energyUnit }} of {{ totals.consumption | energyUnit }} is certified
+            green energy</small
+          >
+        } @else {
           <h5>No data</h5>
           <small
             ><a [routerLink]="'../' + routes.meteringpoints"
               >Activate metering points <watt-icon name="openInNew" size="xs" /></a
           ></small>
-        </div>
-      </ng-template>
+        }
+      </div>
 
       <vater-spacer />
 
       <ul class="legends">
-        <li *ngFor="let item of barChartData.datasets" class="legend-item">
-          <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
-          <span class="legend-label">{{ item.label }}</span>
-        </li>
+        @for (item of barChartData.datasets.slice().reverse(); track item.label) {
+          <li class="legend-item">
+            <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
+            @if (item.label) {
+              <span class="legend-label"
+                >{{ item.label | titlecase }} ({{
+                  totals[item.label] | percentageOf: totals.consumption
+                }})</span
+              >
+            }
+          </li>
+        }
       </ul>
     </vater-stack>
 
@@ -209,8 +241,12 @@ export class EoDashboardConsumptionComponent implements OnChanges {
 
   private labels = this.generateLabels();
 
-  protected claimedTotal = 0;
-  protected consumptionTotal = 0;
+  protected totals: Totals = {
+    green: 0,
+    other: 0,
+    consumption: 0,
+  };
+
   protected routes = eoRoutes;
 
   protected lottieAnimation = graphLoader;
@@ -275,12 +311,18 @@ export class EoDashboardConsumptionComponent implements OnChanges {
       .subscribe((data) => {
         const { claims, certificates } = data;
 
-        this.claimedTotal = claims.reduce((a: number, b: number) => a + b, 0);
-        this.consumptionTotal =
-          certificates.reduce((a: number, b: number) => a + b, 0) + this.claimedTotal;
+        const claimedTotal = claims.reduce((a: number, b: number) => a + b, 0);
+        const consumptionTotal =
+          certificates.reduce((a: number, b: number) => a + b, 0) + claimedTotal;
+
+        this.totals = {
+          green: claimedTotal,
+          other: consumptionTotal - claimedTotal,
+          consumption: consumptionTotal,
+        };
 
         const unit = findNearestUnit(
-          this.consumptionTotal /
+          consumptionTotal /
             Math.max(
               claims.filter((x: number) => x > 0).length,
               certificates.filter((x: number) => x > 0).length
@@ -299,6 +341,8 @@ export class EoDashboardConsumptionComponent implements OnChanges {
                 text: unit,
                 align: 'end',
               },
+              suggestedMax:
+                findNearestUnit(this.findLargestNumberInDatasets([claims, certificates]))[0] * 1.1,
             },
           },
           plugins: {
@@ -321,7 +365,7 @@ export class EoDashboardConsumptionComponent implements OnChanges {
               data: claims.map((x: number) => {
                 return x > 0 ? fromWh(x, unit) : null;
               }),
-              label: 'Green',
+              label: 'green',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
               minBarLength: 8,
@@ -331,7 +375,7 @@ export class EoDashboardConsumptionComponent implements OnChanges {
               data: certificates.map((x: number) => {
                 return x > 0 ? fromWh(x, unit) : null;
               }),
-              label: 'Other',
+              label: 'other',
               borderRadius: Number.MAX_VALUE,
               maxBarThickness: 8,
               minBarLength: 8,
@@ -343,6 +387,15 @@ export class EoDashboardConsumptionComponent implements OnChanges {
         this.isLoading = false;
         this.cd.detectChanges();
       });
+  }
+
+  private findLargestNumberInDatasets(dataSets: number[][]) {
+    const mergedArray = this.sumArrays(dataSets);
+    return Math.max(...mergedArray);
+  }
+
+  private sumArrays(arrays: number[][]): number[] {
+    return arrays[0].map((_, i) => arrays.reduce((sum, arr) => sum + arr[i], 0));
   }
 
   private generateLabels() {

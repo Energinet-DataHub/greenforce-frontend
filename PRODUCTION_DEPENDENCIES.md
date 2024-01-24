@@ -2,20 +2,23 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@angular/animations](https://github.com/angular/angular) | 17.0.8 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 17.0.4 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 17.0.8 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 17.0.8 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 17.0.8 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 17.0.8 | MIT |
-| [@angular/material-date-fns-adapter](https://github.com/angular/components) | 17.0.4 | MIT |
-| [@angular/material](https://github.com/angular/components) | 17.0.4 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.0.8 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 17.0.8 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 17.0.8 | MIT |
+  | [@angular/animations](https://github.com/angular/angular) | 17.1.0 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 17.1.0 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 17.1.0 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 17.1.0 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 17.1.0 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 17.1.0 | MIT |
+| [@angular/material-date-fns-adapter](https://github.com/angular/components) | 17.1.0 | MIT |
+| [@angular/material](https://github.com/angular/components) | 17.1.0 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.1.0 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 17.1.0 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 17.1.0 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.8 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.5.0 | MIT |
+| [@maskito/angular](https://github.com/taiga-family/maskito) | 1.8.1 | Apache-2.0 |
+| [@maskito/core](https://github.com/taiga-family/maskito) | 1.8.1 | Apache-2.0 |
+| [@maskito/kit](https://github.com/taiga-family/maskito) | 1.8.1 | Apache-2.0 |
 | [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 3.0.2 | MIT |
 | [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.12 | MIT |
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |

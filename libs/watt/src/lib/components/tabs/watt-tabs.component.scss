@@ -26,6 +26,97 @@ watt-drawer {
 }
 
 watt-tabs {
+  &.watt-tabs-secondary {
+    .mat-mdc-tab.mat-mdc-tab:hover {
+      border-bottom: none;
+    }
+
+    .mdc-tab {
+      padding-left: var(--watt-space-m);
+      padding-right: var(--watt-space-m);
+      height: 32px;
+    }
+
+    .mat-mdc-tab-group.mat-primary
+      .mdc-tab.cdk-focused.cdk-keyboard-focused:focus {
+      background-color: transparent;
+    }
+
+    .mat-mdc-tab-group,
+    .mat-mdc-tab-nav-bar {
+      --mat-tab-header-active-focus-indicator-color: var(
+        --watt-color-secondary
+      );
+      --mat-tab-header-active-focus-label-text-color: var(
+        --watt-color-neutral-black
+      );
+      --mat-tab-header-active-hover-indicator-color: var(
+        --watt-color-secondary
+      );
+      --mat-tab-header-active-hover-indicator-color: var(
+        --watt-color-secondary
+      );
+      --mat-tab-header-active-hover-label-text-color: var(
+        --watt-color-neutral-black
+      );
+      --mat-tab-header-active-label-text-color: var(--watt-color-neutral-black);
+      --mat-tab-header-inactive-label-text-color: var(
+        --watt-on-light-low-emphasis
+      );
+      --mat-tab-header-inactive-ripple-color: none;
+      --mat-tab-header-disabled-ripple-color: none;
+      --mdc-tab-indicator-active-indicator-color: var(--watt-color-secondary);
+      --mdc-tab-indicator-active-indicator-height: 3px;
+      --mdc-tab-indicator-active-indicator-shape: 99999px;
+      --mat-tab-header-active-ripple-color: transparent;
+    }
+
+    .mat-mdc-tab-header {
+      background: none;
+      box-shadow: none;
+    }
+
+    .mat-mdc-tab-labels {
+      flex-wrap: wrap;
+      padding-left: 0;
+    }
+
+    .mdc-tab-indicator__content--underline {
+      width: 43px;
+    }
+
+    .mat-mdc-tab-body-wrapper {
+      padding: var(--watt-space-s);
+      padding-top: var(--watt-space-m);
+    }
+  }
+
+  .mat-mdc-tab.mdc-tab.watt-tabs-actions {
+    flex-grow: 1;
+    justify-content: flex-end;
+    cursor: default;
+    height: auto;
+
+    &.mat-mdc-tab-disabled {
+      opacity: 1;
+    }
+    &.mat-mdc-tab-disabled,
+    .mdc-tab__content {
+      pointer-events: initial;
+    }
+
+    &:hover {
+      border-bottom: none;
+      .mdc-tab__ripple {
+        display: none;
+      }
+    }
+  }
+
+  .mat-mdc-tab-body {
+    width: 100%;
+  }
+
   .mat-mdc-tab-group,
   .mat-mdc-tab-body-wrapper {
     height: 100%;

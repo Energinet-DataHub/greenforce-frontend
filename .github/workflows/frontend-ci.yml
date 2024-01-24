@@ -55,7 +55,7 @@ jobs:
       # needed for Nx affected command
       - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -67,15 +67,16 @@ jobs:
 
       - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: "PR: Production build of affected products"
         if: ${{ env.is-pull-request == 'true' }}
@@ -89,7 +90,7 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
@@ -115,7 +116,7 @@ jobs:
       # needed for Nx affected command
       - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -127,15 +128,16 @@ jobs:
 
       - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: "PR: End-to-end test affected products"
         if: ${{ env.is-pull-request == 'true' }}
@@ -160,7 +162,7 @@ jobs:
     steps:
       # needed for Nx affected command
       - name: Check out source code with current branch Git history
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -171,12 +173,13 @@ jobs:
         run: git fetch --no-tags origin $BASE_BRANCH
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Revert postinstall changes
         run: git reset --hard
@@ -203,7 +206,7 @@ jobs:
       # needed for Nx affected command
       - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -216,15 +219,16 @@ jobs:
 
       - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Revert postinstall changes
         run: git reset --hard
@@ -254,7 +258,7 @@ jobs:
       # needed for Nx affected command
       - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -266,15 +270,16 @@ jobs:
 
       - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: "PR: Test affected projects"
         if: ${{ env.is-pull-request == 'true' }}
@@ -292,7 +297,7 @@ jobs:
       # needed for Nx affected command
       - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -304,15 +309,16 @@ jobs:
 
       - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: "PR: Test affected projects"
         if: ${{ env.is-pull-request == 'true' }}

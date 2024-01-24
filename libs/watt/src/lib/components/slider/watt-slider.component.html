@@ -16,8 +16,10 @@ limitations under the License.
 -->
 <div class="controls">
   <input
-    id="min"
     #minRange
+    class="min-range"
+    [style.z-index]="1"
+    [style.height]="0"
     type="range"
     [max]="max"
     [min]="min"
@@ -25,8 +27,8 @@ limitations under the License.
     [value]="value.min"
   />
   <input
-    id="max"
     #maxRange
+    class="max-range"
     type="range"
     [max]="max"
     [min]="min"

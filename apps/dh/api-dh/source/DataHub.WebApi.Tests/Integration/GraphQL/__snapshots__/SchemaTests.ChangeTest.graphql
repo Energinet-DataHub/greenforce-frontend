@@ -162,6 +162,30 @@ type GridAreaOverviewItemDto {
   fullFlexDate: DateTime
 }
 
+"Imbalance price"
+type ImbalancePrice {
+  priceAreaCode: PriceAreaCode!
+  timestamp: DateTime!
+  price: Float!
+}
+
+"Imbalance price for a given date"
+type ImbalancePriceDaily {
+  status: ImbalancePriceDailyCompletenessStatus!
+  timeStamp: DateTime!
+  imbalancePrices: [ImbalancePrice!]!
+}
+
+type ImbalancePricePeriod {
+  name: DateTime!
+  priceAreaCode: PriceAreaCode!
+  status: ImbalancePriceStatus!
+}
+
+type ImbalancePricesOverview {
+  pricePeriods: [ImbalancePricePeriod!]!
+}
+
 type KeyValuePairOfStringAndIEnumerableOfString {
   key: String!
   value: [String!]!
@@ -271,6 +295,8 @@ type Query {
   knownEmails: [String!]!
   associatedActors(email: String!): AssociatedActors!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
+  imbalancePricesOverview: ImbalancePricesOverview!
+  imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
 }
 
 type SettlementReport {
@@ -511,6 +537,18 @@ enum EicFunction {
 enum ExchangeEventCalculationType {
   BALANCE_FIXING
   AGGREGATION
+}
+
+enum ImbalancePriceDailyCompletenessStatus {
+  NO_DATA
+  IN_COMPLETE
+  COMPLETE
+}
+
+enum ImbalancePriceStatus {
+  NO_DATA
+  IN_COMPLETE
+  COMPLETE
 }
 
 enum MeteringPointType {
