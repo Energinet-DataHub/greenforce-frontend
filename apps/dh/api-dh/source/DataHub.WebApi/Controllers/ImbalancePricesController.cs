@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Microsoft.AspNetCore.Http;
@@ -43,6 +44,27 @@ namespace Energinet.DataHub.WebApi.Controllers
                 await using var openReadStream = csvFile.OpenReadStream();
                 await _client.UploadAsync(new FileParameter(openReadStream));
                 return Ok();
+            }
+            catch (ApiException ex)
+            {
+                return StatusCode(ex.StatusCode, ex.Response);
+            }
+        }
+
+        /// <summary>
+        /// Download a CSV file with imbalancePrices
+        /// </summary>
+        [HttpGet]
+        [Route("DownloadImbalanceCSV")]
+        public async Task<ActionResult> DownloadImbalancePricesAsync(DateTime fromInput, DateTime toInput)
+        {
+            try
+            {
+                var tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
+                var from = TimeZoneInfo.ConvertTime(new DateTimeOffset(fromInput, tz.GetUtcOffset(fromInput)), tz);
+                var to = TimeZoneInfo.ConvertTime(new DateTimeOffset(toInput, tz.GetUtcOffset(toInput)), tz);
+                await _client.DownloadAsync(from, to);
+                return File(Response.Body, "text/csv");
             }
             catch (ApiException ex)
             {
