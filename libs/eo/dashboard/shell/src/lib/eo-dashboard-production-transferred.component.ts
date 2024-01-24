@@ -358,6 +358,7 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
             text: unit,
             align: 'end',
           },
+          suggestedMax: findNearestUnit(this.totals.production)[0],
         },
       },
       plugins: {

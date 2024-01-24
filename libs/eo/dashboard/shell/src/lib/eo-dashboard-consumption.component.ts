@@ -341,6 +341,7 @@ export class EoDashboardConsumptionComponent implements OnChanges {
                 text: unit,
                 align: 'end',
               },
+              suggestedMax: findNearestUnit(this.totals.consumption)[0],
             },
           },
           plugins: {
