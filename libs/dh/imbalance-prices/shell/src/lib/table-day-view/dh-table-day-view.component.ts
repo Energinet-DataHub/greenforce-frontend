@@ -19,7 +19,8 @@ import { DecimalPipe, NgClass } from '@angular/common';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { ImbalancePrice } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { DhImbalancePricesForDay } from '../dh-imbalance-prices';
 
 @Component({
   selector: 'dh-table-day-view',
@@ -61,14 +62,14 @@ import { ImbalancePrice } from '@energinet-datahub/dh/shared/domain/graphql';
   imports: [DecimalPipe, NgClass, WATT_TABLE, WattDatePipe],
 })
 export class DhTableDayViewComponent {
-  columns: WattTableColumnDef<ImbalancePrice> = {
+  columns: WattTableColumnDef<DhImbalancePricesForDay> = {
     period: { accessor: null },
     price: { accessor: null },
   };
 
-  tableDataSource = new WattTableDataSource<ImbalancePrice>([]);
+  tableDataSource = new WattTableDataSource<DhImbalancePricesForDay>([]);
 
-  data = input.required<ImbalancePrice[]>();
+  data = input.required<DhImbalancePricesForDay[]>();
 
   constructor() {
     effect(() => {

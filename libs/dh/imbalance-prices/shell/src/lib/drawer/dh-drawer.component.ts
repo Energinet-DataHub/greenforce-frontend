@@ -14,19 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Output, ViewChild, input, effect, signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  ViewChild,
+  input,
+  effect,
+  signal,
+  inject,
+} from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { Apollo } from 'apollo-angular';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
-import { ImbalancePrice } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
-import { DhImbalancePrice } from '../dh-imbalance-prices';
+import {
+  DhImbalancePrice,
+  DhImbalancePricesForDay,
+  DhImbalancePricesForMonth,
+} from '../dh-imbalance-prices';
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
-import { monthViewMock } from './dh-month-view.mock';
 import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
 
 @Component({
@@ -87,6 +102,8 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
     WATT_DRAWER,
     WattDatePipe,
     WATT_EXPANDABLE_CARD_COMPONENTS,
+    WattSpinnerComponent,
+    VaterFlexComponent,
 
     DhStatusBadgeComponent,
     DhEmDashFallbackPipe,
@@ -95,18 +112,38 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
   ],
 })
 export class DhImbalancePricesDrawerComponent {
+  private readonly apollo = inject(Apollo);
+
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
 
   imbalancePrice = input<DhImbalancePrice>();
-  monthData = signal(monthViewMock);
+  imbalancePricesForMonth = signal<DhImbalancePricesForMonth[]>([]);
+  isLoading = signal(false);
 
   @Output() closed = new EventEmitter<void>();
 
+  query = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetImbalancePricesMonthOverviewDocument,
+    variables: undefined,
+  });
+
   constructor() {
-    effect(() => {
+    effect((onCleanup) => {
       if (this.imbalancePrice()) {
         this.drawer?.open();
+
+        this.query.setVariables({
+          year: this.imbalancePrice()!.name.getFullYear(),
+          month: this.imbalancePrice()!.name.getMonth(),
+          areaCode: this.imbalancePrice()!.priceAreaCode,
+        });
+
+        const subscription = this.fetchData();
+
+        onCleanup(() => subscription.unsubscribe());
       }
     });
   }
@@ -115,7 +152,20 @@ export class DhImbalancePricesDrawerComponent {
     this.closed.emit();
   }
 
-  toSignal(prices: ImbalancePrice[]) {
+  toSignal(prices: DhImbalancePricesForDay[]) {
     return signal(prices);
+  }
+
+  private fetchData() {
+    return this.query.valueChanges.subscribe({
+      next: (result) => {
+        this.isLoading.set(result.loading);
+
+        this.imbalancePricesForMonth.set(result.data?.imbalancePricesForMonth ?? []);
+      },
+      error: () => {
+        this.isLoading.set(false);
+      },
+    });
   }
 }

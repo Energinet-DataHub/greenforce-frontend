@@ -28,3 +28,5 @@ export type DhImbalancePrice = ResultOf<
 export type DhImbalancePricesForMonth = ResultOf<
   typeof GetImbalancePricesMonthOverviewDocument
 >['imbalancePricesForMonth'][0];
+
+export type DhImbalancePricesForDay = DhImbalancePricesForMonth['imbalancePrices'][0];
