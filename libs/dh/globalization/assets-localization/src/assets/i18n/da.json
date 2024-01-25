@@ -742,7 +742,7 @@
     "table": {
       "columns": {
         "period": "Periode",
-        "priceArea": "Område",
+        "priceArea": "Prisområde",
         "status": "Status"
       },
       "emptyTitle": "Ingen ubalancepriser fundet",
@@ -759,7 +759,7 @@
       "COMPLETE": "Komplet"
     },
     "drawer": {
-      "areaLabel": "Område",
+      "priceAreaLabel": "Prisområde",
       "updatedLabel": "Indlæst",
       "pricesNote": "Priser angivet i DKK for kWh"
     }

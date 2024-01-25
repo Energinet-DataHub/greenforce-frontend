@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
+  MarketParticipantEicFunction,
   MarketParticipantFilteredActorDto,
   MarketParticipantHttp,
   MarketParticipantOrganizationDto,
@@ -24,6 +25,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
 import { Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { TranslocoService } from '@ngneat/transloco';
 
 interface ActorsResultState {
   readonly actorResult: MarketParticipantFilteredActorDto[] | null;
@@ -41,6 +43,8 @@ const initialState: ActorsResultState = {
 
 @Injectable()
 export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultState> {
+  private readonly translocoService = inject(TranslocoService);
+
   isInit$ = this.select((state) => state.loadingState === LoadingState.INIT);
   isLoading$ = this.select((state) => state.loadingState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.loadingState === ErrorState.GENERAL_ERROR);
@@ -52,10 +56,9 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
   actors$ = this.select((state) =>
     (state.actorResult ?? []).map((actor: MarketParticipantFilteredActorDto) => ({
       value: actor.actorId,
-      displayValue:
-        actor.name.value === ''
-          ? actor.actorNumber.value
-          : actor.actorNumber.value + ' - ' + actor.name.value,
+      displayValue: `${actor.actorNumber.value} - ${actor.name.value} (${this.translateEicFunctions(
+        actor.marketRoles
+      )})`,
     }))
   );
 
@@ -168,6 +171,12 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
   private handleOrganizationError = () => {
     this.updateOrganization(null);
     this.patchState({ organizationLoadingState: ErrorState.GENERAL_ERROR });
+  };
+
+  private translateEicFunctions = (eicFunctions: MarketParticipantEicFunction[]) => {
+    return eicFunctions
+      .map((eic) => this.translocoService.translate('marketParticipant.marketRoles.' + eic))
+      .join(', ');
   };
 
   readonly resetState = () => this.setState(initialState);
