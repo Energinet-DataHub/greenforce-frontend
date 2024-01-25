@@ -31,7 +31,7 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { GetImbalancePricesOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhImbalancePricesTableComponent } from './table/dh-table.component';
+import { DhTableMonthViewComponent } from './table-month-view/dh-table-month-view.component';
 import { DhImbalancePrice } from './dh-imbalance-prices';
 import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance-prices-uploader.component';
 
@@ -68,7 +68,7 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
     VaterSpacerComponent,
     WattPaginatorComponent,
 
-    DhImbalancePricesTableComponent,
+    DhTableMonthViewComponent,
     DhImbalancePricesUploaderComponent,
     DhPermissionRequiredDirective,
   ],

@@ -5,7 +5,7 @@
   "private": true,
   "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file.",
   "engines": {
-    "node": "18.18.2",
+    "node": "20.11.0",
     "npm": "Please use Yarn instead of npm to install dependencies.",
     "yarn": "4.0.2"
   },
@@ -168,7 +168,7 @@
     "@types/inquirer": "9.0.3",
     "@types/jest": "29.4.4",
     "@types/jest-dev-server": "5.0.0",
-    "@types/node": "18.16.9",
+    "@types/node": "20.11.0",
     "@types/vimeo__player": "2.16.3",
     "@typescript-eslint/eslint-plugin": "6.9.1",
     "@typescript-eslint/parser": "6.9.1",
@@ -207,7 +207,7 @@
   },
   "volta": {
     "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",
-    "node": "18.18.2",
+    "node": "20.11.0",
     "//yarn-comment": "Keep this in sync with GitHub actions pipelines",
     "yarn": "4.0.2"
   },

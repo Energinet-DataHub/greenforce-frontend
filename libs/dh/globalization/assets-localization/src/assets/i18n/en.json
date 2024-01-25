@@ -756,6 +756,7 @@
     "uploadError": "An error occurred while uploading the file. Please try again",
     "status": {
       "IN_COMPLETE": "Missing prices",
+      "NO_DATA": "No prices",
       "COMPLETE": "Complete"
     },
     "drawer": {
@@ -1209,6 +1210,7 @@
           },
           "permissions": {
             "label": "Assign permissions",
+            "required": "Select at least one permission.",
             "noPermissions": "No permissions found for the selected market role"
           }
         }
