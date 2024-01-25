@@ -97,7 +97,7 @@ import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities
         <ng-content />
       </div>
 
-      <div>
+      <div class="watt-space-stack-m">
         <h5 class="watt-space-stack-s">Address</h5>
         <p>
           Tonne Kjærsvej 65<br />
