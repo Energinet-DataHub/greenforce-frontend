@@ -742,7 +742,7 @@
     "table": {
       "columns": {
         "period": "Period",
-        "priceArea": "Area",
+        "priceArea": "Price area",
         "status": "Status"
       },
       "emptyTitle": "No imbalance prices found",
@@ -759,7 +759,7 @@
       "COMPLETE": "Complete"
     },
     "drawer": {
-      "areaLabel": "Area",
+      "priceAreaLabel": "Price area",
       "updatedLabel": "Updated",
       "pricesNote": "Prices are shown in DKK for kWh"
     }
