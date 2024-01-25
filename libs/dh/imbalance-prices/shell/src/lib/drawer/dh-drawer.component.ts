@@ -24,9 +24,8 @@ import {
   signal,
   inject,
 } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
-
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -43,6 +42,12 @@ import {
 } from '../dh-imbalance-prices';
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
 import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { ImbalancePricesHttp } from '@energinet-datahub/dh/shared/domain';
+import { switchMap } from 'rxjs';
+import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'dh-imbalance-prices-drawer',
@@ -101,9 +106,9 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
     WATT_DRAWER,
     WattDatePipe,
     WATT_EXPANDABLE_CARD_COMPONENTS,
+    WattButtonComponent,
     WattSpinnerComponent,
     VaterFlexComponent,
-
     DhStatusBadgeComponent,
     DhEmDashFallbackPipe,
     DhTableDayViewComponent,
@@ -111,6 +116,8 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
   ],
 })
 export class DhImbalancePricesDrawerComponent {
+  private readonly toastService = inject(WattToastService);
+  private readonly httpClient = inject(ImbalancePricesHttp);
   private readonly apollo = inject(Apollo);
 
   @ViewChild(WattDrawerComponent)
@@ -154,6 +161,33 @@ export class DhImbalancePricesDrawerComponent {
 
   toSignal(prices: DhImbalancePricesForDay[]) {
     return signal(prices);
+  }
+
+  downloadCSV() {
+    this.toastService.open({
+      type: 'loading',
+      message: translate('imbalancePrices.drawer.downloadStart'),
+    });
+
+    const fileOptions = {
+      name: 'imbalance-prices-' + format(this.imbalancePrice()!.name, 'MMMM-yyyy'),
+      type: 'text/csv',
+    };
+    const year = this.imbalancePricesForMonth()[0].timeStamp.getFullYear();
+    const month = this.imbalancePricesForMonth()[0].timeStamp.getMonth() + 1;
+
+    this.httpClient
+      .v1ImbalancePricesDownloadImbalanceCSVGet(month, year)
+      .pipe(switchMap(streamToFile(fileOptions)))
+      .subscribe({
+        complete: () => this.toastService.dismiss(),
+        error: () => {
+          this.toastService.open({
+            type: 'danger',
+            message: translate('imbalancePrices.drawer.downloadFailed'),
+          });
+        },
+      });
   }
 
   private fetchData() {
