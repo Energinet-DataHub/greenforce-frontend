@@ -24,27 +24,27 @@ import {
   inject
 } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { GfAnimationUiLottieComponent } from '@energinet-datahub/gf/animation/ui-lottie';
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { Observable, filter, take, tap } from 'rxjs';
-import { GfAnimationUiLottieComponent } from '@energinet-datahub/gf/animation/ui-lottie';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EovOverviewStore } from '@energinet-datahub/eov/overview/data-access-api';
+import { graphLoader } from '@energinet-datahub/eov/shared/assets';
 import { BaseResponse, Datum, GraphData, MeteringPointDto } from '@energinet-datahub/eov/shared/domain';
 import { eovApiEnvironmentToken } from '@energinet-datahub/eov/shared/environments';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattExpandableCardComponent, WattExpandableCardTitleComponent } from '@energinet-datahub/watt/expandable-card';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { graphLoader } from '@energinet-datahub/eov/shared/assets';
-import { TranslocoModule } from '@ngneat/transloco';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
-import { EovOverviewUiMasterdataAliasEditDialogComponent, EovOverviewUiMasterdataDialogComponent } from 'libs/eov/overview/feature-masterdata-dialog/src';
-import { EovOverviewService } from 'libs/eov/overview/data-access-api/src/lib/eov-overview.service';
-
+import { TranslocoModule } from '@ngneat/transloco';
+import { MasterdataAliasEditDialogComponent } from './masterdata-edit-alias-dialog/masterdata-edit-alias-dialog.component';
+import { EovOverviewService } from '@energinet-datahub/eov/overview/data-access-api';
+import { MasterdataDialogComponent } from './masterdata-dialog/masterdata-dialog.component';
 
 @Component({
     selector: 'eov-overview-shell',
@@ -121,7 +121,7 @@ export class EovOverviewShellComponent implements OnInit {
 
   editAlias(meteringPointId: string, currentAlias?: string) {
     this.modalService.open({
-      component: EovOverviewUiMasterdataAliasEditDialogComponent,
+      component: MasterdataAliasEditDialogComponent,
       injector: this.injector,
       data: { meteringPointId, currentAlias },
       disableClose: true,
@@ -136,7 +136,7 @@ export class EovOverviewShellComponent implements OnInit {
   showDetails(meteringPointId: string) {
     this.overviewService.getMeteringPoint(meteringPointId).pipe(take(1)).subscribe((meteringPointDetails) => {
       this.modalService.open({
-        component: EovOverviewUiMasterdataDialogComponent,
+        component: MasterdataDialogComponent,
         injector: this.injector,
         data: { details: meteringPointDetails },
         disableClose: true,

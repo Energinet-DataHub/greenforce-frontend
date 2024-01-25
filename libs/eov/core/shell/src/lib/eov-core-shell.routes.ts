@@ -25,7 +25,7 @@ export const eovShellRoutes: Routes = [
       {
         path: '',
         loadChildren: () =>
-        import('@energinet-datahub/eov/landing-page/routes').then(
+        import('@energinet-datahub/eov/landing-page/shell').then(
           (esModule) => esModule.eovLandingPageRoutes
         ),
       },
@@ -38,7 +38,7 @@ export const eovShellRoutes: Routes = [
       },
       {
         path: 'help',
-        loadComponent: () => import('@energinet-datahub/eov/core/feature-help').then(mod => mod.EovCoreFeatureHelpComponent)
+        loadComponent: () => import('./help/help.component').then(mod => mod.HelpComponent)
       },
     ]
   },

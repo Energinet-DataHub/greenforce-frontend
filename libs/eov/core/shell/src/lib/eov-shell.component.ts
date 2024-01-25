@@ -18,11 +18,11 @@ import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostListener, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { EovCoreFeatureHelpComponent, EovCoreFeatureHelpContactComponent } from '@energinet-datahub/eov/core/feature-help';
 import { DisplayLanguage, EovAuthService } from '@energinet-datahub/eov/shared/services';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { TranslocoService } from '@ngneat/transloco';
+import { ContactComponent } from './contact/contact.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,8 +33,7 @@ import { TranslocoService } from '@ngneat/transloco';
     NgIf,
     AsyncPipe,
     WattButtonComponent,
-    EovCoreFeatureHelpComponent,
-    EovCoreFeatureHelpContactComponent,
+    ContactComponent,
   ],
   selector: 'eov-shell',
   styleUrls: ['./eov-shell.component.scss'],
@@ -97,7 +96,7 @@ export class EovShellComponent implements OnInit {
 
   openContactInfo() {
     this.isHamburgerOpen = false;
-    this.modalService.open({component: EovCoreFeatureHelpContactComponent});
+    this.modalService.open({component: ContactComponent});
   }
 
   changeLanguage() {

@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/eov-landing-page-shell.component';
+export * from './lib/eov-landing-page-shell.routes';

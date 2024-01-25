@@ -299,24 +299,15 @@
       "@energinet-datahub/eo/wallet/data-access-api": [
         "libs/eo/wallet/data-access-api/index.ts"
       ],
-      "@energinet-datahub/eov/core/feature-help": [
-        "libs/eov/core/feature-help/src/index.ts"
-      ],
       "@energinet-datahub/eov/core/shell": ["libs/eov/core/shell/src/index.ts"],
       "@energinet-datahub/eov/landing-page/shell": [
         "libs/eov/landing-page/shell/src/index.ts"
-      ],
-      "@energinet-datahub/eov/landing-page/routes": [
-        "libs/eov/landing-page/shell/src/lib/routes/index.ts"
       ],
       "@energinet-datahub/eov/overview/data-access-api": [
         "libs/eov/overview/data-access-api/src/index.ts"
       ],
       "@energinet-datahub/eov/overview/shell": [
         "libs/eov/overview/shell/src/index.ts"
-      ],
-      "@energinet-datahub/eov/overview/feature-masterdata-dialog": [
-        "libs/eov/overview/feature-masterdata-dialog/src/index.ts"
       ],
       "@energinet-datahub/eov/shared/assets": [
         "libs/eov/shared/assets/src/index.ts"

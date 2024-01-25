@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/eov-overview.store';
+export * from './lib/eov-overview.service';

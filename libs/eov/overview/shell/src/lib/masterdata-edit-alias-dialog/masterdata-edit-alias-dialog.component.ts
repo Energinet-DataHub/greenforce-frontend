@@ -16,8 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild, inject } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EovOverviewStore } from '@energinet-datahub/eov/overview/data-access-api';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_DIALOG_DATA, WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -25,7 +24,7 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
-  selector: 'eov-eov-overview-ui-masterdata-dialog',
+  selector: 'eov-masterdata-dialog',
   standalone: true,
   imports: [
     CommonModule,
@@ -36,10 +35,10 @@ import { TranslocoModule } from '@ngneat/transloco';
     ReactiveFormsModule,
     TranslocoModule
   ],
-  templateUrl: './eov-overview-ui-masterdata-edit-alias-dialog.component.html',
-  styleUrl: './eov-overview-ui-masterdata-edit-alias-dialog.component.scss',
+  templateUrl: './masterdata-edit-alias-dialog.component.html',
+  styleUrl: './masterdata-edit-alias-dialog.component.scss',
 })
-export class EovOverviewUiMasterdataAliasEditDialogComponent {
+export class MasterdataAliasEditDialogComponent {
   private readonly formBuilder = inject(FormBuilder);
   private store = inject(EovOverviewStore);
   private meteringPointId = inject(WATT_DIALOG_DATA).meteringPointId;

@@ -14,24 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { WattButtonComponent } from "@energinet-datahub/watt/button";
-import { WATT_MODAL } from "@energinet-datahub/watt/modal";
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { WattExpandableCardComponent, WattExpandableCardTitleComponent } from '@energinet-datahub/watt/expandable-card';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [WattButtonComponent, WATT_MODAL],
+  selector: 'eov-help',
   standalone: true,
-  template: `
-    <watt-modal #modal title="Kontakt" size="large">
-      Don't call us, we'll call you!
-
-      <watt-modal-actions>
-        <watt-button (click)="modal.close(false)">Luk</watt-button>
-      </watt-modal-actions>
-    </watt-modal>
-  `,
+  imports: [
+    CommonModule,
+    WattExpandableCardComponent,
+    WattExpandableCardTitleComponent,
+    TranslocoModule,
+  ],
+  templateUrl: './help.component.html',
+  styleUrl: './help.component.scss',
 })
-export class EovCoreFeatureHelpContactComponent {
-
-}
+export class HelpComponent {}

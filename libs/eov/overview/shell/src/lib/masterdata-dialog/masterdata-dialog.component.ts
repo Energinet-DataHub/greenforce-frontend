@@ -14,21 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WattExpandableCardComponent, WattExpandableCardTitleComponent } from '@energinet-datahub/watt/expandable-card';
+import { WATT_DIALOG_DATA, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { TranslocoModule } from '@ngneat/transloco';
+import { MeteringPointDetails } from '@energinet-datahub/eov/shared/domain';
 
 @Component({
-  selector: 'eov-eov-core-feature-help',
+  selector: 'eov-masterdata-dialog',
   standalone: true,
   imports: [
     CommonModule,
-    WattExpandableCardComponent,
-    WattExpandableCardTitleComponent,
-    TranslocoModule,
+    WattModalComponent,
+    TranslocoModule
   ],
-  templateUrl: './eov-core-feature-help.component.html',
-  styleUrl: './eov-core-feature-help.component.scss',
+  templateUrl: './masterdata-dialog.component.html',
+  styleUrl: './masterdata-dialog.component.scss',
 })
-export class EovCoreFeatureHelpComponent {}
+export class MasterdataDialogComponent {
+  details?: MeteringPointDetails = inject(WATT_DIALOG_DATA).details;
+  @ViewChild(WattModalComponent)
+  private modal!: WattModalComponent;
+
+  closeModal(): void {
+    this.modal.close(false);
+  }
+}
