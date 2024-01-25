@@ -154,14 +154,10 @@ export class DhImbalancePricesDrawerComponent {
 
     this.httpClient
       .v1ImbalancePricesDownloadImbalanceCSVGet(month, year)
-      .pipe(
-        tap(() => console.log('downloaded')),
-        switchMap(streamToFile(fileOptions))
-      )
+      .pipe(switchMap(streamToFile(fileOptions)))
       .subscribe({
         complete: () => this.toastService.dismiss(),
-        error: (ex) => {
-          console.log(ex);
+        error: () => {
           this.toastService.open({
             type: 'danger',
             message: translate('imbalancePrices.drawer.downloadFailed'),
