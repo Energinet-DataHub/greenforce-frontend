@@ -24,7 +24,8 @@
       "previous": "Previous"
     },
     "fieldValidation": {
-      "required": "Field is required"
+      "required": "Field is required",
+      "invalidPhoneNumber": "Invalid phone number"
     },
     "paginator": {
       "itemsPerPageLabel": "Results per page",

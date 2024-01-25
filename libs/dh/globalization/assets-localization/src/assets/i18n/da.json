@@ -24,7 +24,8 @@
       "previous": "Forrige"
     },
     "fieldValidation": {
-      "required": "Feltet er påkrævet."
+      "required": "Feltet er påkrævet.",
+      "invalidPhoneNumber": "Ugyldigt telefonnummer"
     },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
