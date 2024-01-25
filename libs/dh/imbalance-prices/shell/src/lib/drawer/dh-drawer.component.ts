@@ -170,7 +170,7 @@ export class DhImbalancePricesDrawerComponent {
     });
 
     const fileOptions = {
-      name: 'imbalance-prices-' + format(this.imbalancePrice()!.name, 'yyyy-MMMM'),
+      name: 'imbalance-prices-' + format(this.imbalancePrice()!.name, 'MMMM-yyyy'),
       type: 'text/csv',
     };
     const year = this.imbalancePricesForMonth()[0].timeStamp.getFullYear();
