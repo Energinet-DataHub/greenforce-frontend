@@ -102,7 +102,7 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
 
         @include watt.media('>=Large') {
           padding: var(--watt-space-l);
-          width: calc(100vw - 244px);
+          width: calc(100vw - 245px);
         }
       }
     `,
