@@ -67,7 +67,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
       multi: true,
     },
   ],
-  template: `<watt-field [label]="label()" [control]="control()">
+  template: `<watt-field [label]="label()" [control]="formControl()">
     <div class="watt-phone-field__prefix-container">
       <mat-select
         panelWidth=""
@@ -90,7 +90,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
         autocomplete="tel"
         inputmode="tel"
         [value]="value"
-        [formControl]="control()"
+        [formControl]="formControl()"
         (blur)="onTouched()"
         (input)="onChanged($event)"
         [maskito]="mask"
@@ -99,7 +99,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
     </div>
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
-    @if (control().hasError('invalidPhone')) {
+    @if (formControl().hasError('invalidPhone')) {
       <watt-field-error> {{ intl.invalidPhoneNumber }} </watt-field-error>
     }
   </watt-field>`,
@@ -151,7 +151,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
     { countryIsoCode: 'DE', prefix: '+49', icon: 'custom-flag-de' },
   ] as PhonePrefix[];
 
-  control = input.required<FormControl>();
+  formControl = input.required<FormControl>();
   label = input<string>();
 
   choosenPrefix = signal<PhonePrefix>(this.phonePrefixes[0]);
@@ -212,7 +212,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
 
     this.choosenPrefix.set(choosenPrefix);
 
-    this.control().reset();
+    this.formControl().reset();
     this.setup();
   }
 
@@ -242,6 +242,6 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
 
   private setValidator() {
     const countryCode = this.choosenPrefix().countryIsoCode;
-    this.control().setValidators(phoneValidator(countryCode));
+    this.formControl().setValidators(phoneValidator(countryCode));
   }
 }

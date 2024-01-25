@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WattPhoneFieldComponent } from './';
+import { FormControl } from '@angular/forms';
+import { input } from '@angular/core';
 
 describe(WattPhoneFieldComponent, () => {
   let component: WattPhoneFieldComponent;
@@ -12,6 +14,7 @@ describe(WattPhoneFieldComponent, () => {
 
     fixture = TestBed.createComponent(WattPhoneFieldComponent);
     component = fixture.componentInstance;
+    component.formControl = input(new FormControl());
     fixture.detectChanges();
   });
 
