@@ -61,7 +61,7 @@ export class WattFieldComponent implements OnChanges {
   private _formGroupDirective = inject(FormGroupDirective, { optional: true });
   intl = inject(WattFieldIntlService);
 
-  @Input() label!: string;
+  @Input() label: string | undefined;
   @Input({ required: true }) control!: FormControl | null;
   @Input() id!: string;
   @Input() chipMode = false;

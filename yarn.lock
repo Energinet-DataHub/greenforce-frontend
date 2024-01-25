@@ -7411,34 +7411,43 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@maskito/angular@npm:1.8.1":
-  version: 1.8.1
-  resolution: "@maskito/angular@npm:1.8.1"
+"@maskito/angular@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@maskito/angular@npm:2.0.0"
   dependencies:
     tslib: "npm:2.6.2"
   peerDependencies:
-    "@angular/common": ">=12.0.0"
-    "@angular/core": ">=12.0.0"
-    "@angular/forms": ">=12.0.0"
-    "@maskito/core": ^1.8.1
-    rxjs: ">=6.0.0"
-  checksum: 9450614f4455d4403825f26c3fe77e9afe08a14c316949f0108d66829bc1eefbe37bbc9ea123625e271960c66a4af1151c13cd023d29b5f6e662886139f58349
+    "@angular/core": ">=15.0.0"
+    "@angular/forms": ">=15.0.0"
+    "@maskito/core": ^2.0.0
+  checksum: cea821135eb3290e0da360ebc74e394ee8943b96e2a84b46b4b5c7fcceea004a1b6ec648b84abda8483c38eeb1cbaccaaa0bf520f3bf14c5dd304cbd6f0745b4
   languageName: node
   linkType: hard
 
-"@maskito/core@npm:1.8.1":
-  version: 1.8.1
-  resolution: "@maskito/core@npm:1.8.1"
-  checksum: 05f206d1a340c2a6b00d673a865a79e023c408a8ddcaf3bb0bd312414d56ee25badc0eac0e49a294030d693780183215ce8b78cb7ee38b32578aa18af9fe671a
+"@maskito/core@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@maskito/core@npm:2.0.0"
+  checksum: 790767a419033466f136c0065779c05b7de59eb12cccbe734b82a05192d2cd848973108673ace4e79222d69f4729506f8b93306078a8f98e635c61e934275281
   languageName: node
   linkType: hard
 
-"@maskito/kit@npm:1.8.1":
-  version: 1.8.1
-  resolution: "@maskito/kit@npm:1.8.1"
+"@maskito/kit@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@maskito/kit@npm:2.0.0"
   peerDependencies:
-    "@maskito/core": ^1.8.1
-  checksum: e2b8294ab1de8730dff4b946463f83c1555081b5f428c5f1b9cdafd6dbaf3ef290ea1782fabf88dfd1c4c07bf12440cd81bf6efe59dc2907808df86306a7548a
+    "@maskito/core": ^2.0.0
+  checksum: 5a0769e8b97139503a75ae70e1c58e5b6e852d2e950286f75c2c225333adda52c230070d02333e98c153171224ddb7e6d3f458094023577c98053a51a35b48d3
+  languageName: node
+  linkType: hard
+
+"@maskito/phone@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@maskito/phone@npm:2.0.0"
+  peerDependencies:
+    "@maskito/core": ^2.0.0
+    "@maskito/kit": ^2.0.0
+    libphonenumber-js: ">=1.0.0"
+  checksum: a0f6e66ad963837a29aa78127b2b6a5df1aaa0db5d76c7522ce746290071a1e05527d425d16818759fb1b637b50ba6e184ce66eb294e8b17ccf5540561a964d5
   languageName: node
   linkType: hard
 
@@ -19874,9 +19883,10 @@ __metadata:
     "@graphql-codegen/typescript-msw": "npm:2.1.0"
     "@graphql-codegen/typescript-operations": "npm:4.0.1"
     "@homebound/graphql-typescript-scalar-type-policies": "npm:2.11.0"
-    "@maskito/angular": "npm:1.8.1"
-    "@maskito/core": "npm:1.8.1"
-    "@maskito/kit": "npm:1.8.1"
+    "@maskito/angular": "npm:2.0.0"
+    "@maskito/core": "npm:2.0.0"
+    "@maskito/kit": "npm:^2.0.0"
+    "@maskito/phone": "npm:^2.0.0"
     "@microsoft/applicationinsights-angularplugin-js": "npm:3.0.2"
     "@microsoft/applicationinsights-web": "npm:2.8.12"
     "@ngneat/transloco": "npm:5.0.7"
@@ -19957,6 +19967,7 @@ __metadata:
     jsonc-eslint-parser: "npm:2.1.0"
     jwt-decode: "npm:3.1.2"
     kill-port-process: "npm:3.1.0"
+    libphonenumber-js: "npm:^1.10.54"
     lottie-web: "npm:5.12.2"
     msw: "npm:2.0.13"
     ng-mocks: "npm:14.0.1"
@@ -26866,6 +26877,13 @@ __metadata:
     prelude-ls: "npm:~1.1.2"
     type-check: "npm:~0.3.2"
   checksum: e440df9de4233da0b389cd55bd61f0f6aaff766400bebbccd1231b81801f6dbc1d816c676ebe8d70566394b749fa624b1ed1c68070e9c94999f0bdecc64cb676
+  languageName: node
+  linkType: hard
+
+"libphonenumber-js@npm:^1.10.54":
+  version: 1.10.54
+  resolution: "libphonenumber-js@npm:1.10.54"
+  checksum: 685f4510d392b2b6dc5d6171d250ff9f0aa7b1c73160e1518fca8a2c453d854a4785aa625fd6f06d910856578b2c15468febe55b2cec7ea14526a1989247b993
   languageName: node
   linkType: hard
 

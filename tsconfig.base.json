@@ -377,6 +377,9 @@
       "@energinet-datahub/watt/field": [
         "libs/watt/src/lib/components/field/index.ts"
       ],
+      "@energinet-datahub/watt/phone-field": [
+        "libs/watt/src/lib/components/phone-field/index.ts"
+      ],
       "@energinet-datahub/watt/icon": [
         "libs/watt/src/lib/foundations/icon/index.ts"
       ],
