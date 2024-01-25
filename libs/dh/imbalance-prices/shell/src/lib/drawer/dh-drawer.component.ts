@@ -190,7 +190,7 @@ export class DhImbalancePricesDrawerComponent {
           });
         },
       });
-    }
+  }
 
   private fetchData() {
     return this.query.valueChanges.subscribe({
