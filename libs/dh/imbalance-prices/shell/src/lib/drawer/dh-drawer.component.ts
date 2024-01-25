@@ -176,7 +176,7 @@ export class DhImbalancePricesDrawerComponent {
       type: 'text/csv',
     };
     const year = this.imbalancePricesForMonth()[0].timeStamp.getFullYear();
-    const month = this.imbalancePricesForMonth()[0].timeStamp.getMonth();
+    const month = this.imbalancePricesForMonth()[0].timeStamp.getMonth() + 1;
 
     this.httpClient
       .v1ImbalancePricesDownloadImbalanceCSVGet(month, year)
