@@ -764,11 +764,6 @@
       "download": "Download",
       "downloadStart": "Starter download...",
       "downloadFailed": "Download fejlede"
-    },
-    "columns": {
-      "date": "Dato",
-      "priceAreaCode": "Område",
-      "price": "Pris"
     }
   },
   "wholesale": {

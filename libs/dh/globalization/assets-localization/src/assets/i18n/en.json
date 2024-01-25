@@ -765,11 +765,6 @@
       "download": "Download",
       "downloadStart": "Starting download...",
       "downloadFailed": "Download failed"
-    },
-    "columns": {
-      "date": "Date",
-      "priceAreaCode": "Area",
-      "price": "Price"
     }
   },
   "wholesale": {
