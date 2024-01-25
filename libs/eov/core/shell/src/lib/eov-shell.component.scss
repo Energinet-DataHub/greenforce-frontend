@@ -63,6 +63,7 @@ nav {
     height: 144px;
   }
 
+
   a {
     font-weight: 700;
   }
@@ -91,7 +92,7 @@ nav {
   }
 
   .container.container__full-width:has(.system-info-banner) {
-    background: var(--watt-color-secondary);
+    background: var(--watt-color-state-warning);
     box-shadow: 0px 2px 4px 0px #00000014;
     gap: 24px;
   }
@@ -160,6 +161,10 @@ footer {
       }
     }
   }
+}
+
+::ng-deep body:has(.hamburger-overlay) {
+  overflow: hidden;
 }
 
 .hamburger-overlay {

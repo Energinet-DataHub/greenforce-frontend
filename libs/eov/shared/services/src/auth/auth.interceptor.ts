@@ -44,7 +44,7 @@ export class EovAuthorizationInterceptor implements HttpInterceptor {
     const tokenRefreshTrigger = this.TokenRefreshCalls.includes(req.method);
     this.authService.checkForExistingToken();
     const authorizedRequest = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${this.authStore.token.getValue()}`),
+      headers: this.authStore.token.getValue() ? req.headers.set('Authorization', `Bearer ${this.authStore.token.getValue()}`) : req.headers,
     });
 
     // if (tokenRefreshTrigger) {

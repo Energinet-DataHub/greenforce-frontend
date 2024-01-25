@@ -65,7 +65,9 @@ export class EovShellComponent implements OnInit {
 
   ngOnInit(): void {
     this.setActiveLanguageString();
-    this.showHeader = !this.isLandingPage();
+    this.router.events.subscribe(() => {
+      this.showHeader = !this.isLandingPage();
+    });
   }
 
   setActiveLanguageString(): void {
