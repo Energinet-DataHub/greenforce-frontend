@@ -137,7 +137,8 @@ export class DhImbalancePricesDrawerComponent {
 
         this.query.setVariables({
           year: this.imbalancePrice()!.name.getFullYear(),
-          month: this.imbalancePrice()!.name.getMonth(),
+          // Add 1 because months in the backend start at 1
+          month: this.imbalancePrice()!.name.getMonth() + 1,
           areaCode: this.imbalancePrice()!.priceAreaCode,
         });
 
