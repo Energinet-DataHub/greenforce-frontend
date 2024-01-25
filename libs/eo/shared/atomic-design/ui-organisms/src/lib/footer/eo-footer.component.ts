@@ -31,6 +31,7 @@ import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities
         position: relative;
         z-index: 100;
         background: var(--watt-color-neutral-white);
+        overflow: hidden;
       }
 
       .content {
@@ -96,14 +97,15 @@ import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities
         <ng-content />
       </div>
 
-      <div class="watt-space-stack-m">
+      <div>
+        <!--
         <h5 class="watt-space-stack-s">Address</h5>
         <p>
           Tonne Kjærsvej 65<br />
           7000 Fredericia<br />
           Danmark<br />
           CVR: 39315041
-        </p>
+        </p>-->
       </div>
 
       <div>
