@@ -113,7 +113,7 @@ import { format } from 'date-fns';
     DhEmDashFallbackPipe,
     DhTableDayViewComponent,
     DhFeatureFlagDirective,
-  ]
+  ],
 })
 export class DhImbalancePricesDrawerComponent {
   private readonly toastService = inject(WattToastService);
@@ -170,7 +170,7 @@ export class DhImbalancePricesDrawerComponent {
     });
 
     const fileOptions = {
-      name: "imbalance-prices-" + format(this.imbalancePrice()!.name, "yyyy-MMMM"),
+      name: 'imbalance-prices-' + format(this.imbalancePrice()!.name, 'yyyy-MMMM'),
       type: 'text/csv',
     };
     const year = this.imbalancePricesForMonth()[0].timeStamp.getFullYear();
