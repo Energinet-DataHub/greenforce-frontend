@@ -75,8 +75,7 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
       }
 
       watt-drawer-content {
-        padding-right: var(--watt-space-ml);
-        padding-left: var(--watt-space-ml);
+        padding: 0 var(--watt-space-ml) var(--watt-space-ml);
       }
 
       watt-expandable-card {
@@ -137,7 +136,8 @@ export class DhImbalancePricesDrawerComponent {
 
         this.query.setVariables({
           year: this.imbalancePrice()!.name.getFullYear(),
-          month: this.imbalancePrice()!.name.getMonth(),
+          // Add 1 because months in the backend start at 1
+          month: this.imbalancePrice()!.name.getMonth() + 1,
           areaCode: this.imbalancePrice()!.priceAreaCode,
         });
 
