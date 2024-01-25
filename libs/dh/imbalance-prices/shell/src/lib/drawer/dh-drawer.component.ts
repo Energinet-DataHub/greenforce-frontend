@@ -47,6 +47,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { ImbalancePricesHttp } from '@energinet-datahub/dh/shared/domain';
 import { switchMap } from 'rxjs';
 import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'dh-imbalance-prices-drawer',
@@ -112,13 +113,11 @@ import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
     DhEmDashFallbackPipe,
     DhTableDayViewComponent,
     DhFeatureFlagDirective,
-  ],
-  providers: [WattDatePipe],
+  ]
 })
 export class DhImbalancePricesDrawerComponent {
   private readonly toastService = inject(WattToastService);
   private readonly httpClient = inject(ImbalancePricesHttp);
-  private readonly wattDatePipe = inject(WattDatePipe);
   private readonly apollo = inject(Apollo);
 
   @ViewChild(WattDrawerComponent)
@@ -171,8 +170,7 @@ export class DhImbalancePricesDrawerComponent {
     });
 
     const fileOptions = {
-      name:
-        this.wattDatePipe.transform(this.imbalancePrice()?.name, 'monthYear') || 'imbalance-prices',
+      name: "imbalance-prices-" + format(this.imbalancePrice()!.name, "yyyy-MMMM"),
       type: 'text/csv',
     };
     const year = this.imbalancePricesForMonth()[0].timeStamp.getFullYear();
