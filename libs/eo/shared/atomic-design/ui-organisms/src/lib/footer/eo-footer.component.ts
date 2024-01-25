@@ -98,14 +98,13 @@ import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities
       </div>
 
       <div>
-        <!--
         <h5 class="watt-space-stack-s">Address</h5>
         <p>
           Tonne Kjærsvej 65<br />
           7000 Fredericia<br />
           Danmark<br />
           CVR: 39315041
-        </p>-->
+        </p>
       </div>
 
       <div>
