@@ -1,14 +1,17 @@
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+
+import { importProvidersFrom } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+
 import {
   WattFieldComponent,
   WattFieldErrorComponent,
   WattFieldHintComponent,
 } from '@energinet-datahub/watt/field';
+
 import { WattPhoneFieldComponent } from '../watt-phone-field.component';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { importProvidersFrom } from '@angular/core';
 
 const meta: Meta<WattPhoneFieldComponent> = {
   title: 'Components/Phone Field',

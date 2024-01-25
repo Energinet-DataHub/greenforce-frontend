@@ -17,10 +17,10 @@
 import { Injectable, makeEnvironmentProviders } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
 import { WattDataIntlService } from '@energinet-datahub/watt/data';
-import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
 import { WattFieldIntlService } from '@energinet-datahub/watt/field';
+import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
+import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
 import { WattPhoneFieldIntlService } from '@energinet-datahub/watt/phone-field';
 
 @Injectable()
