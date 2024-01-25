@@ -30,6 +30,10 @@ strong {
   font-weight: 700;
 }
 
+span[wattTooltip] {
+  color: var(--watt-color-primary);
+}
+
 .container, eov-shell router-outlet + *  {
   display: grid;
   grid-template-columns: [full-width-start] minmax(24px, 1fr) [breakout-start] 50px [content-start] minmax(716px, 1184px) [content-end] 50px [breakout-end] minmax(24px, 1fr) [full-width-end];

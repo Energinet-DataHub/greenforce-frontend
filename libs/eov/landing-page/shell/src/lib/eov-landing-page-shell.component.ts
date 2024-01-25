@@ -16,12 +16,14 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     WattButtonComponent,
+    WattTooltipDirective,
   ],
   selector: 'eov-landing-page-shell',
   templateUrl: './eov-landing-page-shell.component.html',
