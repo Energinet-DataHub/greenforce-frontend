@@ -75,8 +75,7 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
       }
 
       watt-drawer-content {
-        padding-right: var(--watt-space-ml);
-        padding-left: var(--watt-space-ml);
+        padding: 0 var(--watt-space-ml) var(--watt-space-ml);
       }
 
       watt-expandable-card {
