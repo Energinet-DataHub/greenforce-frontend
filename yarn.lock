@@ -7431,7 +7431,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@maskito/kit@npm:^2.0.0":
+"@maskito/kit@npm:2.0.0":
   version: 2.0.0
   resolution: "@maskito/kit@npm:2.0.0"
   peerDependencies:
@@ -7440,7 +7440,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@maskito/phone@npm:^2.0.0":
+"@maskito/phone@npm:2.0.0":
   version: 2.0.0
   resolution: "@maskito/phone@npm:2.0.0"
   peerDependencies:
@@ -19885,8 +19885,8 @@ __metadata:
     "@homebound/graphql-typescript-scalar-type-policies": "npm:2.11.0"
     "@maskito/angular": "npm:2.0.0"
     "@maskito/core": "npm:2.0.0"
-    "@maskito/kit": "npm:^2.0.0"
-    "@maskito/phone": "npm:^2.0.0"
+    "@maskito/kit": "npm:2.0.0"
+    "@maskito/phone": "npm:2.0.0"
     "@microsoft/applicationinsights-angularplugin-js": "npm:3.0.2"
     "@microsoft/applicationinsights-web": "npm:2.8.12"
     "@ngneat/transloco": "npm:5.0.7"
