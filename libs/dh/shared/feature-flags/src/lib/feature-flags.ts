@@ -32,16 +32,10 @@ export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
  * },
  */
 
-const created = '27-11-2023';
-
 export const dhFeatureFlagsConfig = {
-  charges_price_date_chips_feature_flag: {
-    created,
-    disabledEnvironments: [],
-  },
-  charge_prices_download_button_feature_flag: {
-    created,
-    disabledEnvironments: [],
+  'imbalance-prices-table-day-view': {
+    created: '23-01-2024',
+    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
 } satisfies FeatureFlagConfig;
 

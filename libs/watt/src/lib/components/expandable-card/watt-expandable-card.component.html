@@ -14,7 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-expansion-panel [expanded]="expanded" class="watt-expandable-card watt-{{ variant }}">
+<mat-expansion-panel
+  [togglePosition]="togglePosition"
+  [expanded]="expanded"
+  class="watt-expandable-card watt-{{ variant }}"
+>
   <mat-expansion-panel-header>
     <mat-panel-title>
       <ng-content select="watt-badge" />
@@ -24,9 +28,9 @@ limitations under the License.
 
   <ng-content />
 
-  <ng-container *ngIf="_content">
+  @if (_content) {
     <ng-template matExpansionPanelContent>
       <ng-container *ngTemplateOutlet="_content.templateRef" />
     </ng-template>
-  </ng-container>
+  }
 </mat-expansion-panel>

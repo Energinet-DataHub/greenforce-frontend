@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -24,7 +24,8 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { MatAccordionTogglePosition, MatExpansionModule } from '@angular/material/expansion';
+
 @Directive({
   standalone: true,
   selector: '[wattExpandableCardContent]',
@@ -39,18 +40,25 @@ export class WattExpandableCardContentDirective {
  */
 @Component({
   standalone: true,
-  imports: [NgIf, NgTemplateOutlet, MatExpansionModule, CommonModule],
+  imports: [NgTemplateOutlet, MatExpansionModule],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-expandable-card',
-  styleUrls: ['./watt-expandable-card.component.scss'],
+  styleUrl: './watt-expandable-card.component.scss',
   templateUrl: './watt-expandable-card.component.html',
 })
 export class WattExpandableCardComponent {
+  /**
+   * @ignore
+   */
+  @ContentChild(WattExpandableCardContentDirective)
+  _content?: WattExpandableCardContentDirective;
+
   /** Whether the card is expanded. */
   @Input() expanded = false;
 
-  @ContentChild(WattExpandableCardContentDirective)
-  _content?: WattExpandableCardContentDirective;
+  /** The position of the expansion indicator. */
+  @Input() togglePosition: MatAccordionTogglePosition = 'after';
+
   /** Whether the card is elevated or has solid border */
   @Input() variant: 'solid' | 'elevation' = 'elevation';
 }

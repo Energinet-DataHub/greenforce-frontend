@@ -755,6 +755,7 @@
     "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen",
     "status": {
       "IN_COMPLETE": "Mangler priser",
+      "NO_DATA": "Ingen priser",
       "COMPLETE": "Komplet"
     },
     "drawer": {
@@ -1190,6 +1191,7 @@
           },
           "permissions": {
             "label": "Tildel rettigheder",
+            "required": "Vælg minimum én rettighed.",
             "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
           }
         }

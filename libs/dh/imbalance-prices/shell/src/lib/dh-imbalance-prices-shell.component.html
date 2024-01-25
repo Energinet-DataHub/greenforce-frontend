@@ -28,12 +28,12 @@ limitations under the License.
       />
     </vater-stack>
 
-    <dh-imbalance-prices-table
+    <dh-table-month-view
       [tableDataSource]="tableDataSource"
       [isLoading]="isLoading"
       [hasError]="hasError"
     />
 
-    <watt-paginator [length]="totalCount" />
+    <watt-paginator [for]="tableDataSource" />
   </vater-flex>
 </watt-card>

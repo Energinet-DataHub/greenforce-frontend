@@ -14,15 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  ViewChild,
+  input,
+  effect,
+  signal,
+  inject,
+} from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { Apollo } from 'apollo-angular';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
+import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
-import { DhImbalancePrice } from '../dh-imbalance-prices';
+import {
+  DhImbalancePrice,
+  DhImbalancePricesForDay,
+  DhImbalancePricesForMonth,
+} from '../dh-imbalance-prices';
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
+import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
 
 @Component({
   selector: 'dh-imbalance-prices-drawer',
@@ -51,38 +71,101 @@ import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.componen
 
       .prices-note {
         color: var(--watt-color-neutral-grey-700);
-        margin-left: var(--watt-space-ml);
+        margin-top: 0;
+      }
+
+      watt-drawer-content {
+        padding-right: var(--watt-space-ml);
+        padding-left: var(--watt-space-ml);
+      }
+
+      watt-expandable-card {
+        display: block;
+
+        &:not(:first-of-type) {
+          margin-top: var(--watt-space-s);
+        }
+      }
+
+      watt-expandable-card-title {
+        display: contents;
+
+        dh-status-badge {
+          margin-left: auto;
+        }
       }
     `,
   ],
   imports: [
     TranslocoDirective,
+
     WATT_DRAWER,
     WattDatePipe,
+    WATT_EXPANDABLE_CARD_COMPONENTS,
+    WattSpinnerComponent,
+    VaterFlexComponent,
+
     DhStatusBadgeComponent,
     DhEmDashFallbackPipe,
+    DhTableDayViewComponent,
+    DhFeatureFlagDirective,
   ],
 })
 export class DhImbalancePricesDrawerComponent {
+  private readonly apollo = inject(Apollo);
+
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
 
-  entry: DhImbalancePrice | null = null;
-
-  @Input() set imbalancePrice(value: DhImbalancePrice | undefined) {
-    if (value) {
-      this.drawer?.open();
-      this.entry = value;
-    } else {
-      this.onClose();
-    }
-  }
+  imbalancePrice = input<DhImbalancePrice>();
+  imbalancePricesForMonth = signal<DhImbalancePricesForMonth[]>([]);
+  isLoading = signal(false);
 
   @Output() closed = new EventEmitter<void>();
 
-  onClose(): void {
-    this.entry = null;
+  query = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetImbalancePricesMonthOverviewDocument,
+    variables: undefined,
+  });
 
+  constructor() {
+    effect((onCleanup) => {
+      if (this.imbalancePrice()) {
+        this.drawer?.open();
+
+        this.query.setVariables({
+          year: this.imbalancePrice()!.name.getFullYear(),
+          month: this.imbalancePrice()!.name.getMonth(),
+          areaCode: this.imbalancePrice()!.priceAreaCode,
+        });
+
+        const subscription = this.fetchData();
+
+        onCleanup(() => subscription.unsubscribe());
+      }
+    });
+  }
+
+  onClose(): void {
     this.closed.emit();
+  }
+
+  toSignal(prices: DhImbalancePricesForDay[]) {
+    return signal(prices);
+  }
+
+  private fetchData() {
+    return this.query.valueChanges.subscribe({
+      next: (result) => {
+        this.isLoading.set(result.loading);
+
+        this.imbalancePricesForMonth.set(result.data?.imbalancePricesForMonth ?? []);
+      },
+      error: () => {
+        this.isLoading.set(false);
+      },
+    });
   }
 }
