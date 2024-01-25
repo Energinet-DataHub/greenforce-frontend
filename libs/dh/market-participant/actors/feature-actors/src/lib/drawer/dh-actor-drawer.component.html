@@ -82,12 +82,14 @@ limitations under the License.
           </watt-card>
         </watt-tab>
 
-        <watt-tab
-          [label]="t('tabs.b2bAccess.tabLabel')"
-          *dhPermissionRequired="['actor-credentials:manage']"
-        >
-          <dh-b2b-access-tab [actorId]="actor?.id" />
-        </watt-tab>
+        @if (hasActorAccess) {
+          <watt-tab
+            [label]="t('tabs.b2bAccess.tabLabel')"
+            *dhPermissionRequired="['actor-credentials:manage']"
+          >
+            <dh-b2b-access-tab [actorId]="actor?.id" />
+          </watt-tab>
+        }
 
         <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
           <vater-stack [fill]="'horizontal'" [align]="'center'">

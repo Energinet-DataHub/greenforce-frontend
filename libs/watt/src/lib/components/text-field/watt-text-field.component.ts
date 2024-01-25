@@ -111,6 +111,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
     </ng-template>
 
     <ng-content />
+    <ng-content ngProjectAs="watt-field-descriptor" select=".descriptor" />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
   </watt-field>`,

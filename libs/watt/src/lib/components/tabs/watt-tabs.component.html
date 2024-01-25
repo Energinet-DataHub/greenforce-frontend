@@ -24,4 +24,9 @@ limitations under the License.
   <mat-tab [label]="tab.label" *ngFor="let tab of tabElements">
     <ng-container *ngTemplateOutlet="tab.templateRef" />
   </mat-tab>
+  <mat-tab labelClass="watt-tabs-actions" [disabled]="true">
+    <ng-template mat-tab-label>
+      <ng-content />
+    </ng-template>
+  </mat-tab>
 </mat-tab-group>
