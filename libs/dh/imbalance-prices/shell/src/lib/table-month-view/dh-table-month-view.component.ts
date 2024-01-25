@@ -18,7 +18,6 @@ import { Component, Input, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -42,7 +41,6 @@ import { DhImbalancePricesDrawerComponent } from '../drawer/dh-drawer.component'
     TranslocoDirective,
 
     WATT_TABLE,
-    WattPaginatorComponent,
     WattEmptyStateComponent,
     WattDatePipe,
     VaterFlexComponent,

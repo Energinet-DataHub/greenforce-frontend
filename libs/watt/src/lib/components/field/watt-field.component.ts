@@ -45,8 +45,11 @@ import { WattFieldIntlService } from './watt-field-intl.service';
         {{ label }}
         <watt-icon name="info" *ngIf="tooltip" wattTooltipPosition="top" [wattTooltip]="tooltip" />
       </span>
-      <div class="watt-field-wrapper" #wrapper>
-        <ng-content />
+      <div style="display: flex;align-items: center; gap: var(--watt-space-s);">
+        <div class="watt-field-wrapper" #wrapper>
+          <ng-content />
+        </div>
+        <ng-content select="watt-field-descriptor" />
       </div>
       <ng-content select="watt-field-hint" />
       <ng-content select="watt-field-error" />

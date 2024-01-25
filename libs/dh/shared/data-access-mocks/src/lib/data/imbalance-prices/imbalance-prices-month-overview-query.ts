@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {
+  GetImbalancePricesMonthOverviewQuery,
   ImbalancePrice,
   ImbalancePriceDaily,
   ImbalancePriceDailyCompletenessStatus,
@@ -42,7 +43,7 @@ const imbalancePrices: ImbalancePrice[] = [
   },
 ];
 
-export const monthViewMock: ImbalancePriceDaily[] = [
+export const imbalancePricesForMonth: ImbalancePriceDaily[] = [
   {
     __typename: 'ImbalancePriceDaily',
     timeStamp: new Date('2024-01-01'),
@@ -62,3 +63,8 @@ export const monthViewMock: ImbalancePriceDaily[] = [
     imbalancePrices,
   },
 ];
+
+export const imbalancePricesMonthOverviewQueryMock: GetImbalancePricesMonthOverviewQuery = {
+  __typename: 'Query',
+  imbalancePricesForMonth,
+};
