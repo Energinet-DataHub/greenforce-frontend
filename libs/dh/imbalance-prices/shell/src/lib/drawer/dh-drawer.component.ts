@@ -40,7 +40,7 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { ImbalancePricesHttp } from '@energinet-datahub/dh/shared/domain';
-import { switchMap, tap } from 'rxjs';
+import { switchMap } from 'rxjs';
 import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
