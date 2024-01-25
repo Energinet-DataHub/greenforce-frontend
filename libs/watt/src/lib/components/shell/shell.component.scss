@@ -83,6 +83,6 @@
 .watt-toolbar {
   width: 100vw;
   @include watt.media(">=Large") {
-    width: calc(100vw - 244px);
+    width: calc(100vw - 245px);
   }
 }
