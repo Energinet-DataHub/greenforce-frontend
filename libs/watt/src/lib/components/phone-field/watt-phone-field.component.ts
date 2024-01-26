@@ -160,6 +160,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
   `,
 })
 export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
+  /** @ignore */
   readonly phonePrefixes = [
     { countryIsoCode: 'DK', prefix: '+45', icon: 'custom-flag-da' },
     { countryIsoCode: 'SE', prefix: '+46', icon: 'custom-flag-se' },
@@ -170,57 +171,66 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   formControl = input.required<FormControl>();
   label = input<string>();
 
+  /** @ignore */
   choosenPrefix = signal<PhonePrefix>(this.phonePrefixes[0]);
 
+  /** @ignore */
   mask = MASKITO_DEFAULT_OPTIONS;
+
+  /** @ignore */
   intl = inject(WattPhoneFieldIntlService);
 
+  /** @ignore */
   @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
+
+  /** @ignore */
   value: string | null = null;
 
+  /** @ignore */
   private _metadata: MetadataJson | null = null;
+
+  /** @ignore */
   @ViewChild('phoneNumberInput') phoneNumberInput!: ElementRef<HTMLInputElement>;
 
-  async ngOnInit(): Promise<void> {
-    this._metadata = await import('libphonenumber-js/min/metadata').then((m) => m.default);
+  /** @ignore */
 
     if (!this._metadata) return Promise.reject('Metadata not loaded');
 
     this.setup();
   }
 
-  /* @ignore */
+  /** @ignore */
   writeValue(value: string): void {
     this.value = value;
   }
 
-  /* @ignore */
+  /** @ignore */
   onChange: (value: string) => void = () => {
     /* noop function */
   };
 
-  /* @ignore */
+  /** @ignore */
   onTouched: () => void = () => {
     /* noop function */
   };
 
-  /* @ignore */
+  /** @ignore */
   registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
 
-  /* @ignore */
+  /** @ignore */
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
-  /* @ignore */
+  /** @ignore */
   setDisabledState(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
   }
 
-  /* @ignore */
+  /** @ignore */
   async selectedPrefix(event: MatSelectChange): Promise<void> {
     const choosenPrefix = this.phonePrefixes.find((prefix) => prefix.prefix === event.value);
 
@@ -232,12 +242,13 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
     this.setup();
   }
 
-  /* @ignore */
+  /** @ignore */
   onChanged(event: Event): void {
     const value = (event.target as HTMLSelectElement)?.value;
     this.onChange(value);
   }
 
+  /** @ignore */
   private generatePhoneOptions(): void {
     const phoneOptions = maskitoPhoneOptionsGenerator({
       countryIsoCode: this.choosenPrefix().countryIsoCode,
@@ -248,6 +259,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
     this.mask = phoneOptions;
   }
 
+  /** @ignore */
   private setup(): void {
     this.generatePhoneOptions();
     this.setValidator();
@@ -256,6 +268,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
     }, 100);
   }
 
+  /** @ignore */
   private setValidator() {
     const countryCode = this.choosenPrefix().countryIsoCode;
     this.formControl().setValidators(phoneValidator(countryCode));
