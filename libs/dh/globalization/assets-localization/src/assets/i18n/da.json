@@ -760,7 +760,10 @@
     "drawer": {
       "priceAreaLabel": "Prisområde",
       "updatedLabel": "Indlæst",
-      "pricesNote": "Priser angivet i DKK for kWh"
+      "pricesNote": "Priser angivet i DKK for kWh",
+      "download": "Download",
+      "downloadStart": "Starter download...",
+      "downloadFailed": "Download fejlede"
     }
   },
   "wholesale": {
