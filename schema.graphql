@@ -119,9 +119,10 @@ type ImbalancePrice {
 
 """Imbalance price for a given date"""
 type ImbalancePriceDaily {
-  status: ImbalancePriceDailyCompletenessStatus!
+  status: ImbalancePriceStatus!
   timeStamp: DateTime!
   imbalancePrices: [ImbalancePrice!]!
+  importedAt: DateTime
 }
 
 type OrganizationAuditedChangeAuditLogDto {
@@ -307,7 +308,7 @@ enum PriceAreaCode {
   DK2
 }
 
-enum ImbalancePriceDailyCompletenessStatus {
+enum ImbalancePriceStatus {
   NO_DATA
   IN_COMPLETE
   COMPLETE
@@ -565,12 +566,6 @@ input ActorNumberDtoInput {
 
 input ActorNameDtoInput {
   value: String!
-}
-
-enum ImbalancePriceStatus {
-  NO_DATA
-  IN_COMPLETE
-  COMPLETE
 }
 
 type MeteringGridAreaImbalancePerDayDto {
