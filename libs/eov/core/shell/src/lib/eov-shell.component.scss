@@ -296,19 +296,11 @@ footer {
 }
 
 @include watt.media("<Medium") {
-  header {
-    height: 0;
-    .container {
-      display: none;
-    }
-  }
-
   nav {
     height: 68px;
     line-height: 68px;
     position: relative;
-    top: unset;
-    z-index: 1;
+    z-index: 2;
 
     .areas {
       .areas__end, .areas__start {
@@ -331,10 +323,6 @@ footer {
       gap: 0;
     }
 
-    span:not(.mobile-nav), a:not(.mobile-nav) {
-      display: none;
-    }
-
     &.scroll-up {
       top: 0;
       position: fixed;
@@ -346,6 +334,20 @@ footer {
 
     &.scroll-down {
       transform: translateY(-100%);
+    }
+
+    &.animate-header {
+      .areas__end > *:not(.menu-button), .areas__start > * {
+        animation: unset;
+        animation-timeline: unset;
+        opacity: 1;
+      }
+      & {
+        animation: unset;
+        animation-timeline: unset;
+        background-color: #FFFFFF;
+        box-shadow: 0px 2px 4px 0px #00000014;
+      }
     }
   }
 

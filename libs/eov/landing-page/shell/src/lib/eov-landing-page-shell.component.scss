@@ -23,6 +23,10 @@ main {
   &.container {
     padding: 0;
   }
+
+  .container__content.first {
+    padding-top: 10px;
+  }
 }
 
 .hero {
@@ -35,20 +39,21 @@ main {
     left: 50%;
     top: 50%;
     position: absolute;
-    min-height: 100vh;
+    height: 100vh;
     z-index: 0;
     transform: translate(-50%, -50%);
   }
   .gradient-overlay {
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(360deg, #FFFFFF 4.88%, rgba(217, 217, 217, 0) 45.43%),
-                linear-gradient(180deg, #FFFFFF 4.88%, rgba(217, 217, 217, 0) 45.43%),
-                linear-gradient(270deg, #FFFFFF 4.88%, rgba(217, 217, 217, 0) 45.43%),
-                linear-gradient(90deg, #FFFFFF 4.88%, rgba(217, 217, 217, 0) 45.43%);
+    left: 50%;
+    top: 50%;
     position: absolute;
-    top: 0;
-    right: 0;
+    min-width: calc(100vh * (16 / 9) + 2px);
+    overflow: hidden;
+    height: 100vh;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(360deg, #FFFFFF 4.88%, rgba(217, 217, 217, 0) 45.43%),
+                linear-gradient(180deg, #FFFFFF 4.88%, rgba(217, 217, 217, 0) 45.43%);
   }
 
   .hero__text {
@@ -124,12 +129,22 @@ main {
   }
 }
 
+@include watt.media(">XLarge") {
+  .hero .gradient-overlay {
+    background: linear-gradient(360deg, #FFFFFF 4.88%, rgba(217, 217, 217, 0) 45.43%),
+                linear-gradient(180deg, #FFFFFF 4.88%, rgba(217, 217, 217, 0) 45.43%),
+                linear-gradient(270deg, #FFFFFF 4.88%, rgba(217, 217, 217, 0) 45.43%),
+                linear-gradient(90deg, #FFFFFF 4.88%, rgba(217, 217, 217, 0) 45.43%);
+  }
+}
+
 @include watt.media("<Medium") {
   .hero {
-    height: calc(100vh - 68px);
     display: flex;
     align-content: center;
     justify-content: center;
+    height: calc(100vh - 68px);
+    top: 68px;
 
     .hero__text {
       text-align: center;

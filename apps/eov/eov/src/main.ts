@@ -22,7 +22,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { eovCoreShellProviders, eovShellRoutes } from '@energinet-datahub/eov/core/shell';
 import { environment, eovApiEnvironmentToken } from '@energinet-datahub/eov/shared/environments';
 
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { EnergyOverviewAppComponent } from './app/energy-overview-app.component';
 import { loadEovApiEnvironment } from './configuration/load-eov-api-environment';
 
@@ -38,7 +38,7 @@ loadEovApiEnvironment()
         provideAnimationsAsync(),
         provideHttpClient(withInterceptorsFromDi()),
         ...eovCoreShellProviders,
-        provideRouter(eovShellRoutes, withComponentInputBinding()),
+        provideRouter(eovShellRoutes, {...withComponentInputBinding(), ...withInMemoryScrolling({scrollPositionRestoration: 'top'})}),
         provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
       ],
     })
