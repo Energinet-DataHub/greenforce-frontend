@@ -27,10 +27,11 @@ import {
   inject,
 } from '@angular/core';
 import { ControlContainer, FormControl, FormGroupDirective, Validators } from '@angular/forms';
-import { WattIconComponent } from '../../foundations/icon/icon.component';
+
 import { WattTooltipDirective } from '../tooltip';
-import { WattFieldErrorComponent } from './watt-field-error.component';
 import { WattFieldIntlService } from './watt-field-intl.service';
+import { WattFieldErrorComponent } from './watt-field-error.component';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
   selector: 'watt-field',
@@ -64,7 +65,7 @@ export class WattFieldComponent implements OnChanges {
   private _formGroupDirective = inject(FormGroupDirective, { optional: true });
   intl = inject(WattFieldIntlService);
 
-  @Input() label!: string;
+  @Input() label: string | undefined;
   @Input({ required: true }) control!: FormControl | null;
   @Input() id!: string;
   @Input() chipMode = false;

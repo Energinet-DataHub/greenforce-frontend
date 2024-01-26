@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { MASKITO_DEFAULT_OPTIONS, MaskitoOptions } from '@maskito/core';
-import { ElementState } from '@maskito/core/lib/types';
+import { ElementState } from '@maskito/core/src/lib/types';
 
 const TIME_FIXED_CHARACTERS = [':', '.'];
 
