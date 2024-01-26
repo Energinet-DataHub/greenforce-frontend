@@ -59,6 +59,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpGet]
         [Route("DownloadImbalanceCSV")]
         [Produces(MediaTypeNames.Text.Plain)]
+        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
         public async Task<ActionResult> DownloadImbalancePricesAsync(int month, int year)
         {
             try
