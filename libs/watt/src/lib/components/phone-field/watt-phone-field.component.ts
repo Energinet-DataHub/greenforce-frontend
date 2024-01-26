@@ -239,6 +239,11 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
     this.choosenPrefix.set(choosenPrefix);
 
     this.formControl().reset();
+
+    setTimeout(() => {
+      this.phoneNumberInput.nativeElement.focus();
+    }, 100);
+
     this.setup();
   }
 
@@ -263,9 +268,6 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   private setup(): void {
     this.generatePhoneOptions();
     this.setValidator();
-    setTimeout(() => {
-      this.phoneNumberInput.nativeElement.focus();
-    }, 100);
   }
 
   /** @ignore */
