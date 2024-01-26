@@ -127,6 +127,11 @@ export class DhImbalancePricesDrawerComponent {
 
   imbalancePricesForMonth = signal<DhImbalancePricesForMonth[]>([]);
   isLoading = signal(false);
+  lastUpdated = computed(() => {
+    const [firstDay] = this.imbalancePricesForMonth();
+
+    return firstDay?.importedAt;
+  });
 
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
@@ -183,6 +188,7 @@ export class DhImbalancePricesDrawerComponent {
 
   private fetchData() {
     this.isLoading.set(true);
+    this.imbalancePricesForMonth.set([]);
 
     return this.apollo
       .query({
