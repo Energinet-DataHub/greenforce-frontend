@@ -53,9 +53,9 @@
     "test": "nx run-many --target=test --parallel",
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
-    "take": "ts-node --esm --project ./tools/github/tsconfig.json ./tools/github/create-branch-from-issue.ts",
-    "branch": "ts-node --esm --project ./tools/github/tsconfig.json ./tools/github/create-branch.ts",
-    "pr": "ts-node --esm --project ./tools/github/tsconfig.json ./tools/github/create-pr.ts",
+    "take": "node --import tsx ./tools/github/create-branch-from-issue.ts",
+    "branch": "node --import tsx ./tools/github/create-branch.ts",
+    "pr": "node --import tsx ./tools/github/create-pr.ts",
     "task": "yarn run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)"
   },
   "dependencies": {
@@ -202,7 +202,7 @@
     "source-map-explorer": "2.5.3",
     "storybook-addon-pseudo-states": "2.1.0",
     "ts-jest": "29.1.1",
-    "ts-node": "10.9.1",
+    "tsx": "^4.7.0",
     "typescript": "5.2.2"
   },
   "volta": {

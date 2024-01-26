@@ -31,6 +31,7 @@ import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities
         position: relative;
         z-index: 100;
         background: var(--watt-color-neutral-white);
+        overflow: hidden;
       }
 
       .content {

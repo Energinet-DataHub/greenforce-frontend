@@ -762,7 +762,10 @@
     "drawer": {
       "priceAreaLabel": "Price area",
       "updatedLabel": "Updated",
-      "pricesNote": "Prices are shown in DKK for kWh"
+      "pricesNote": "Prices are shown in DKK for kWh",
+      "download": "Download",
+      "downloadStart": "Starting download...",
+      "downloadFailed": "Download failed"
     }
   },
   "wholesale": {
