@@ -18,8 +18,6 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-// @ts-ignore
-import { Stream } from '../model/stream';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -111,9 +109,9 @@ export class ImbalancePricesHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1ImbalancePricesDownloadImbalanceCSVGet(month?: number, year?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext}): Observable<Stream>;
-    public v1ImbalancePricesDownloadImbalanceCSVGet(month?: number, year?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext}): Observable<HttpResponse<Stream>>;
-    public v1ImbalancePricesDownloadImbalanceCSVGet(month?: number, year?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext}): Observable<HttpEvent<Stream>>;
+    public v1ImbalancePricesDownloadImbalanceCSVGet(month?: number, year?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext}): Observable<Blob>;
+    public v1ImbalancePricesDownloadImbalanceCSVGet(month?: number, year?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext}): Observable<HttpResponse<Blob>>;
+    public v1ImbalancePricesDownloadImbalanceCSVGet(month?: number, year?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext}): Observable<HttpEvent<Blob>>;
     public v1ImbalancePricesDownloadImbalanceCSVGet(month?: number, year?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -153,23 +151,12 @@ export class ImbalancePricesHttp {
         }
 
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
         let localVarPath = `/v1/ImbalancePrices/DownloadImbalanceCSV`;
-        return this.httpClient.request<Stream>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
-                responseType: <any>responseType_,
+                responseType: "blob",
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
