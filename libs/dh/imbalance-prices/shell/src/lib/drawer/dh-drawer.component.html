@@ -52,7 +52,7 @@ limitations under the License.
               <watt-spinner />
             </vater-flex>
           } @else {
-            @for (day of imbalancePricesForMonth(); track $index) {
+            @for (day of imbalancePricesForMonth(); track day.timeStamp) {
               <watt-expandable-card variant="solid" togglePosition="before">
                 <watt-expandable-card-title>
                   {{ day.timeStamp | wattDate: "short" }}
