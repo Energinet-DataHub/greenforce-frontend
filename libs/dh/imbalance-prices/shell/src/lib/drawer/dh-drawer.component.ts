@@ -125,7 +125,7 @@ export class DhImbalancePricesDrawerComponent {
   private readonly month = computed(() => Number(format(this.imbalancePrice()!.name, 'M')));
 
   imbalancePrice = input<DhImbalancePrice>();
-  isImbalancePrice = input<boolean>(false);
+
   imbalancePricesForMonth = signal<DhImbalancePricesForMonth[]>([]);
   isLoading = signal(false);
 
