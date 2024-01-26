@@ -23,6 +23,7 @@ import {
 } from '@energinet-datahub/eov/shared/environments';
 import { Subscription, combineLatest, map, switchMap, take, timer } from 'rxjs';
 import { EovAuthStore } from './auth.store';
+import jwt_decode from 'jwt-decode';
 
 export interface AuthLogoutResponse {
   readonly success: boolean;
@@ -91,6 +92,20 @@ export class EovAuthService {
     if (redirectionPath) href += `?redirectionPath=${redirectionPath}`;
 
     window.location.href = href;
+  }
+
+  getUserName() {
+    this.checkForExistingToken();
+    if (!this.authStore.token.getValue()) {
+      return '';
+    }
+    const decodedToken: { given_name?: string } = jwt_decode(this.authStore.token.getValue());
+    return decodedToken.given_name ?? '';
+  }
+
+  getUserType() {
+    // const decodedToken: { company?: string } = jwt_decode(this.authStore.token.getValue());
+    // return !!decodedToken.company;
   }
 
   loginAsCustomer() {

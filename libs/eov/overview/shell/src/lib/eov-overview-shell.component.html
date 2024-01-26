@@ -15,9 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <div class="container__content">
+  <h1>Hej {{ username$ | async }}!</h1>
   <h2>{{ 'Customer.Overview.Title' | transloco }}</h2>
   <div innerHTML="{{ 'Customer.Overview.Text' | transloco }}"></div>
-  <watt-expandable-card *ngFor="let meteringPoint of meteringPoints$ | async; index as i" (cardOpened)="cardOpened(i)" (afterExpanded)="afterOpened(meteringPoint.meteringPointId, i)">
+  <watt-expandable-card *ngFor="let meteringPoint of meteringPoints$ | async; index as i" (cardOpened)="cardOpened(i)" [expanded]="isExpanded[i]" (afterExpanded)="afterOpened(meteringPoint.meteringPointId, i)">
     <watt-badge size="large">{{ i | number:'2.0' }}</watt-badge>
     <watt-expandable-card-title>
       {{ meteringPoint.meteringPointAlias === null ? meteringPoint.address + ", " + meteringPoint.postcode + " " + meteringPoint.cityName + ": " + meteringPoint.meteringPointId : meteringPoint.meteringPointAlias }}

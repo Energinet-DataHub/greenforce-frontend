@@ -19,6 +19,7 @@ import { MeteringPointDto } from '@energinet-datahub/eov/shared/domain';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { EovOverviewService } from './eov-overview.service';
 import { Observable, exhaustMap, take, tap } from 'rxjs';
+import { EovAuthService } from '@energinet-datahub/eov/shared/services';
 
 // Note: Remove the comment on the next line once the interface has properties
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -28,6 +29,7 @@ type OverviewState = {
   openGraph: boolean[];
   meteringPoints: MeteringPointDto[];
   meteringPointError?: string | null;
+  username: string;
 }
 
 const initialState: OverviewState = {
@@ -35,6 +37,7 @@ const initialState: OverviewState = {
   loadingGraph: [],
   openGraph: [],
   meteringPoints: [],
+  username: ' med dig!',
 };
 
 @Injectable({
@@ -42,9 +45,11 @@ const initialState: OverviewState = {
 })
 export class EovOverviewStore extends ComponentStore<OverviewState> {
   constructor(
-    private service: EovOverviewService
+    private service: EovOverviewService,
+    authService: EovAuthService,
   ) {
     super(initialState);
+    this.setUsername(authService.getUserName());
   }
 
   readonly loading$ = this.select((state) => state.loading);
@@ -53,8 +58,12 @@ export class EovOverviewStore extends ComponentStore<OverviewState> {
   private readonly setLoading = this.updater(
     (state, loading: boolean): OverviewState => ({ ...state, loading })
   );
+  private readonly setUsername = this.updater(
+    (state, username: string): OverviewState => ({ ...state, username })
+  );
 
   readonly meteringPoints$ = this.select((state) => state.meteringPoints);
+  readonly username$ = this.select((state) => state.username);
 
   loadMeteringPoints() {
     this.setLoading(true);
@@ -104,14 +113,6 @@ export class EovOverviewStore extends ComponentStore<OverviewState> {
   private updateAlias(meteringPointId: string, alias: string) {
     return this.service.updateAlias(meteringPointId, alias);
   }
-
-  private readonly setMeteringPoint = this.updater(
-    (state, meteringPoint: MeteringPointDto): OverviewState => ({
-      ...state,
-      meteringPoints: state.meteringPoints.map((m) => m.meteringPointId === meteringPoint.meteringPointId ? meteringPoint : m),
-      meteringPointError: null,
-    })
-  );
 
   private readonly setMeteringPoints = this.updater(
     (state, meteringPoints: MeteringPointDto[]): OverviewState => ({

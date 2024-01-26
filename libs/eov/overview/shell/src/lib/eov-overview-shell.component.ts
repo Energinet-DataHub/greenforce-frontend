@@ -81,41 +81,51 @@ export class EovOverviewShellComponent implements OnInit {
   overviewService = inject(EovOverviewService);
   token?: string;
   isLoading: boolean[] = [];
+  isExpanded: boolean[] = [];
   protected lottieAnimation = graphLoader;
   meteringPoints$?: Observable<MeteringPointDto[]>;
+  username$?: Observable<string>;
   private labels = ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'];
   protected barChartData: Array<ChartConfiguration<'bar'>['data']> = [];
   protected barChartOptions: Array<ChartConfiguration<'bar'>['options']> = [];
 
   ngOnInit() {
     this.store.loadMeteringPoints();
+    this.username$ = this.store.username$;
     this.meteringPoints$ = this.store.meteringPoints$.pipe(
       filter((meteringPoints) => meteringPoints !== null && meteringPoints !== undefined),
-      tap((meteringPoints) => meteringPoints.forEach((m, index) => {
-        this.isLoading[index] = false;
-        this.barChartData[index] = {
-          labels: this.labels,
-          datasets: [],
-        };
-        this.barChartOptions[index] = {
-          maintainAspectRatio: false,
-          scales: {
-            x: {
-              stacked: false,
-              grid: { display: false },
-              ticks: {
-                maxRotation: 0,
-                autoSkipPadding: 12,
+      tap((meteringPoints) => {
+        meteringPoints.forEach((m, index) => {
+          this.isLoading[index] = false;
+          this.barChartData[index] = {
+            labels: this.labels,
+            datasets: [],
+          };
+          this.barChartOptions[index] = {
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                stacked: false,
+                grid: { display: false },
+                ticks: {
+                  maxRotation: 0,
+                  autoSkipPadding: 12,
+                },
+              },
+              y: {
+                stacked: false,
+                title: { display: true, text: 'Wh', align: 'end' },
               },
             },
-            y: {
-              stacked: false,
-              title: { display: true, text: 'Wh', align: 'end' },
-            },
-          },
-        };
+          };
+        });
+        if (meteringPoints.length > 0) {
+          this.isExpanded[0] = true;
+          this.cardOpened(0);
+          this.afterOpened(meteringPoints[0].meteringPointId, 0);
+        }
         this.cd.detectChanges();
-      }))
+      })
     );
   }
 
@@ -153,9 +163,7 @@ export class EovOverviewShellComponent implements OnInit {
   }
 
   fetchDataForGraph(id: string, index: number) {
-    let params = new HttpHeaders();
-    params = params.set('Authorization', 'Bearer ' + this.token);
-    this.http.get<BaseResponse<GraphData>>(this.environment.apiUrl + '/customer/api/MeterData/GetMonthlyGraphData/' + id, { headers: params }).subscribe((graphData) => {
+    this.overviewService.getGraphData(id).subscribe((graphData) => {
       this.barChartOptions[index] = {
         ...this.barChartOptions[index],
         scales: {

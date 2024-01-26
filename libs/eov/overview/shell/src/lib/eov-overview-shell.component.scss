@@ -20,6 +20,11 @@ div.container__content {
   padding: 10px 0 0 0;
 }
 
+h1 {
+  color: var(--watt-color-primary);
+  font-size: 50px;
+}
+
 watt-expandable-card {
   padding: var(--watt-space-s);
 }

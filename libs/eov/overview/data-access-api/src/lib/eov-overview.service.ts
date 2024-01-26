@@ -16,7 +16,7 @@
  */
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { MeteringPointDetails, MeteringPointDto } from "@energinet-datahub/eov/shared/domain";
+import { BaseResponse, GraphData, MeteringPointDetails, MeteringPointDto } from "@energinet-datahub/eov/shared/domain";
 import { EovApiEnvironment, eovApiEnvironmentToken } from "@energinet-datahub/eov/shared/environments";
 
 
@@ -43,5 +43,9 @@ export class EovOverviewService {
 
   updateAlias(meteringPointId: string, alias: string) {
     return this.http.patch(this.#apiBase + '/customer/api/MeteringPoint/' + meteringPointId, { MeteringPointAlias: alias });
+  }
+
+  getGraphData(meteringPointId: string) {
+    return this.http.get<BaseResponse<GraphData>>(this.#apiBase + '/customer/api/MeterData/GetMonthlyGraphData/' + meteringPointId);
   }
 }
