@@ -1,0 +1,116 @@
+.login-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  z-index: 1000;
+  animation: slideUp 0.7s ease;
+
+  .container__content.areas {
+    height: 80px;
+    padding: 0;
+    display: flex;
+  }
+
+  .container__content {
+    height: calc(100vh - 80px - 24px);
+    display: grid;
+    padding: 30px 0;
+  }
+
+  .login-menu {
+    justify-self: flex-start;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .logo-container {
+      width: 100%;
+      display: grid;
+      margin-bottom: 60px;
+      .logo {
+        width: 60%;
+        justify-self: center;
+      }
+    }
+
+    .login-menu__header {
+      display: table;
+      white-space: nowrap;
+      font-size: 28px;
+      text-align: center;
+      font-weight: 600;
+      line-height: 28px;
+      color: var(--color-primary-500);
+      width: 100%;
+      &:before, &:after {
+        border-top: 3px solid #00847C40;
+        content: '';
+        display: table-cell;
+        position: relative;
+        top: 0.5em;
+        width: 35%;
+      }
+    }
+
+    .login-items {
+      width: 100%;
+      justify-self: center;
+      margin-top: 80px;
+      padding-inline-start: 0;
+
+      li {
+        list-style-type: none;
+        border-bottom: dashed 1px var(--watt-color-primary);
+        padding: 8px 0;
+        padding-left: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        cursor: pointer;
+
+        h3 {
+          color: var(--color-primary-500);
+          font-size: 24px;
+          font-weight: 600;
+          line-height: 36px;
+          margin-bottom: 0;
+          text-transform: uppercase;
+        }
+
+        p {
+          margin-top: 0;
+        }
+
+        .status {
+          align-self: center;
+          display: block;
+          justify-self: end;
+        }
+      }
+    }
+  }
+
+  .bottom-menu {
+    justify-self: center;
+    align-self: flex-end;
+    padding-bottom: 12px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    width: 345px;
+    color: var(--color-primary-500);
+    border-bottom: dashed 1px var(--watt-color-primary);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

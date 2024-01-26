@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<nav [class.scroll-up]="scrollUp" [class.scroll-down]="scrollDown" [class.show-header]="showHeader" [style.position]="isLandingPage() ? 'fixed' : 'sticky'">
+<nav [class.scroll-up]="scrollUp" [class.scroll-down]="scrollDown" [class.animate-header]="isLandingPage()" [style.position]="isLandingPage() ? 'fixed' : 'sticky'">
   <div class="container">
     <div class="container__content areas">
       <div class="areas__start">
@@ -23,46 +23,36 @@ limitations under the License.
       <div class="areas__end">
         <span (click)="showBanner = !showBanner" class="button">Driftinfo</span>
         <ng-container *ngIf="(isLoggedIn$ | async) === false">
-          <watt-button #logonButton class="mobile-nav" variant="primary" icon="login" (click)="isOpen = !isOpen" cdkOverlayOrigin #trigger="cdkOverlayOrigin">Log på</watt-button>
-          <ng-template
-          cdkConnectedOverlay
-          [cdkConnectedOverlayOrigin]="trigger"
-          [cdkConnectedOverlayOpen]="isOpen"
-          [cdkConnectedOverlayPositions]="loginOverlayPosition"
-          [cdkConnectedOverlayHasBackdrop]="true"
-          (backdropClick)="isOpen = false"
-          (detach)="isOpen = false"
-          cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
-          >
-          <ul class="login-overlay mat-elevation-z8">
-            <li><watt-button variant="text" (click)="loginAsCustomer()">Privat</watt-button></li>
-            <li><watt-button variant="text" (click)="loginAsCorp()">Erhverv</watt-button></li>
-            <li><watt-button variant="text" (click)="loginAsThirdParty()">Tredjepart</watt-button></li>
-          </ul>
-        </ng-template>
+          <watt-button #logonButton class="mobile-nav" variant="primary" icon="login" (click)="openLoginOverlay()" cdkOverlayOrigin #trigger="cdkOverlayOrigin">Log på</watt-button>
+          <eov-login-overlay [isOverlayOpen]="isLoginOverlayOpen" (isOverlayOpenChange)="isLoginOverlayOpenChanged($event)" [trigger]="trigger"/>
       </ng-container>
       <watt-button class="mobile-nav" variant="primary" icon="logout" (click)="logout()" *ngIf="isLoggedIn$ | async">Log af</watt-button>
-      <watt-button class="mobile-nav menu-button" variant="secondary" icon="menu" (click)="isHamburgerOpen = !isHamburgerOpen" cdkOverlayOrigin #hamburgerTrigger="cdkOverlayOrigin">Menu</watt-button>
+      <watt-button class="mobile-nav menu-button" variant="secondary" icon="menu" (click)="isMenuOverlayOpen = !isMenuOverlayOpen" cdkOverlayOrigin #hamburgerTrigger="cdkOverlayOrigin">Menu</watt-button>
       <ng-template
         cdkConnectedOverlay
         [cdkConnectedOverlayOrigin]="hamburgerTrigger"
-        [cdkConnectedOverlayOpen]="isHamburgerOpen"
+        [cdkConnectedOverlayOpen]="isMenuOverlayOpen"
+        [cdk]
       >
-        <div class="hamburger-overlay">
-          <span (click)="isHamburgerOpen = false" class="close-icon"></span>
-          <img src="/assets/images/logo.svg" class="logo"/>
-          <div class="login-menu">
-            <h2>LOG PÅ</h2>
-            <ul class="login-items">
-              <li><watt-button variant="text" (click)="loginAsCustomer()">Privat</watt-button></li>
-              <li><watt-button variant="text" (click)="loginAsCorp()">Erhverv</watt-button></li>
-              <li><watt-button variant="text" (click)="loginAsThirdParty()">Tredjepart</watt-button></li>
-            </ul>
+        <div class="hamburger-overlay container">
+          <div class="container__content areas">
+            <div class="areas__start"></div>
+            <div class="areas__end">
+              <watt-button (click)="isMenuOverlayOpen = false" variant="secondary" icon="close">Luk</watt-button>
+            </div>
           </div>
-          <div class="bottom-menu">
-            <a (click)="navigateToHelp()">Hjælp</a>
-            <a (click)="openContactInfo()">Kontakt</a>
-            <a (click)="changeLanguage()">{{ activeLanguage }}</a>
+          <div class="container__content">
+            <div class="menu">
+              <div class="logo-container">
+                <img src="/assets/images/logo.svg" class="logo"/>
+              </div>
+              <a routerLink="data-sharing" class="menu__header">DATADELING</a>
+            </div>
+            <div class="bottom-menu">
+              <a (click)="navigateToHelp()">Hjælp</a>
+              <a (click)="openContactInfo()">Kontakt</a>
+              <a (click)="changeLanguage()">{{ activeLanguage }}</a>
+            </div>
           </div>
         </div>
       </ng-template>

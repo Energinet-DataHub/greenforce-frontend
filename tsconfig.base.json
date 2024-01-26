@@ -318,6 +318,9 @@
       "@energinet-datahub/eov/shared/environments": [
         "libs/eov/shared/environments/src/index.ts"
       ],
+      "@energinet-datahub/eov/shared/feature-login": [
+        "libs/eov/shared/feature-login/src/index.ts"
+      ],
       "@energinet-datahub/eov/shared/services": [
         "libs/eov/shared/services/src/index.ts"
       ],

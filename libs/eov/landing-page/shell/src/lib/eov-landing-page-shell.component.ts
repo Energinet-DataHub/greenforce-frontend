@@ -16,7 +16,9 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { LoginOverlayComponent } from '@energinet-datahub/eov/shared/feature-login';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,11 +26,21 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
   imports: [
     WattButtonComponent,
     WattTooltipDirective,
+    LoginOverlayComponent,
+    OverlayModule,
   ],
   selector: 'eov-landing-page-shell',
   templateUrl: './eov-landing-page-shell.component.html',
   styleUrls: ['./eov-landing-page-shell.component.scss']
 })
 export class EovLandingPageShellComponent {
+  isLoginOverlayOpen = false;
 
+  isLoginOverlayOpenChanged(isOpen: boolean) {
+    this.isLoginOverlayOpen = isOpen;
+  }
+
+  openLoginOverlay() {
+    this.isLoginOverlayOpen = true;
+  }
 }

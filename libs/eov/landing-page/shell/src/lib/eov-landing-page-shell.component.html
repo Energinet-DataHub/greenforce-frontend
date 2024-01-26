@@ -31,7 +31,7 @@ limitations under the License.
           Som elkunde har du adgang til at se oplysninger om dit<br> <span class="bold">historiske</span> elforbrug via eloverblik.dk.<br><br>
           Disse oplysninger er gjort tilgængelig af den offentlige<br> platform kaldet DataHub
         </p>
-        <watt-button class="huge-button">Log på</watt-button>
+        <watt-button class="huge-button" (click)="openLoginOverlay()" cdkOverlayOrigin #trigger="cdkOverlayOrigin">Log på</watt-button>
       </span>
     </div>
   </div>
@@ -85,4 +85,5 @@ limitations under the License.
     </div>
   </div>
 </main>
+<eov-login-overlay [isOverlayOpen]="isLoginOverlayOpen" (isOverlayOpenChange)="isLoginOverlayOpenChanged($event)" [trigger]="trigger"/>
 

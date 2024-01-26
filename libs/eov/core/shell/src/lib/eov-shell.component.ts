@@ -17,12 +17,12 @@
 import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostListener, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { DisplayLanguage, EovAuthService } from '@energinet-datahub/eov/shared/services';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { TranslocoService } from '@ngneat/transloco';
-import { ContactComponent } from './contact/contact.component';
+import { ContactComponent, LoginOverlayComponent } from '@energinet-datahub/eov/shared/feature-login';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,6 +34,7 @@ import { ContactComponent } from './contact/contact.component';
     AsyncPipe,
     WattButtonComponent,
     ContactComponent,
+    LoginOverlayComponent,
   ],
   selector: 'eov-shell',
   styleUrls: ['./eov-shell.component.scss'],
@@ -45,78 +46,55 @@ export class EovShellComponent implements OnInit {
   translocoService = inject(TranslocoService);
   route = inject(ActivatedRoute);
   router = inject(Router);
-  showHeader = false;
   scrollUp = false;
   scrollDown = false;
   lastScroll = 0;
-  isOpen = false;
-  isHamburgerOpen = false;
+  isLoginOverlayOpen = false;
   showBanner = false;
   meteringPoints = '';
-  loginOverlayPosition: ConnectedPosition[] = [{
-    originX: 'end',
-    originY: 'bottom',
-    overlayX: 'end',
-    overlayY: 'top',
-  }]
   isLoggedIn$ = this.authService.hasTokenObservable();
   activeLanguage?: string;
+  isMenuOverlayOpen = false;
 
   ngOnInit(): void {
     this.setActiveLanguageString();
-    this.router.events.subscribe(() => {
-      this.showHeader = !this.isLandingPage();
-    });
+  }
+
+  isLoginOverlayOpenChanged(isOpen: boolean) {
+    this.isLoginOverlayOpen = isOpen;
+  }
+
+  openLoginOverlay() {
+    this.isLoginOverlayOpen = true;
+  }
+
+  navigateToHelp() {
+    this.isMenuOverlayOpen = false;
+    this.router.navigateByUrl('help');
+  }
+
+  openContactInfo() {
+    this.isMenuOverlayOpen = false;
+    this.modalService.open({component: ContactComponent});
+  }
+
+  changeLanguage() {
+    this.isMenuOverlayOpen = false;
+    this.translocoService.setActiveLang(this.translocoService.getActiveLang() === DisplayLanguage.Danish ? DisplayLanguage.English : DisplayLanguage.Danish);
+    this.setActiveLanguageString();
   }
 
   setActiveLanguageString(): void {
     this.activeLanguage = this.translocoService.getActiveLang() === DisplayLanguage.Danish ? "English" : "Dansk";
   }
 
-  loginAsCustomer() {
-   this.authService.loginAsCustomer();
-  }
-
-  loginAsCorp() {
-    this.authService.loginAsCorp();
-  }
-
-  loginAsThirdParty() {
-    this.authService.loginAsThirdParty();
-  }
-
   logout() {
     this.authService.logout();
-  }
-
-  navigateToHelp() {
-    this.isHamburgerOpen = false;
-    this.router.navigateByUrl('help');
-  }
-
-  openContactInfo() {
-    this.isHamburgerOpen = false;
-    this.modalService.open({component: ContactComponent});
-  }
-
-  changeLanguage() {
-    this.isHamburgerOpen = false;
-    this.translocoService.setActiveLang(this.translocoService.getActiveLang() === DisplayLanguage.Danish ? DisplayLanguage.English : DisplayLanguage.Danish);
-    this.setActiveLanguageString();
   }
 
   @HostListener('window:scroll')
   handleStickyTopMenu() {
     const currentScroll = window.pageYOffset;
-    this.isOpen = false
-    this.isHamburgerOpen = false;
-    if (this.isLandingPage()) {
-      if (currentScroll > 100) {
-        this.showHeader = true;
-      } else {
-        this.showHeader = false;
-      }
-    }
     if (currentScroll <= 68) {
       this.scrollUp = false;
       this.scrollDown = false;

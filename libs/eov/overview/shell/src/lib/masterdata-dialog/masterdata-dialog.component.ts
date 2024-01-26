@@ -16,17 +16,17 @@
  */
 import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WATT_DIALOG_DATA, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MeteringPointDetails } from '@energinet-datahub/eov/shared/domain';
+import { WATT_DIALOG_DATA, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 @Component({
   selector: 'eov-masterdata-dialog',
   standalone: true,
   imports: [
     CommonModule,
+    TranslocoModule,
     WattModalComponent,
-    TranslocoModule
   ],
   templateUrl: './masterdata-dialog.component.html',
   styleUrl: './masterdata-dialog.component.scss',

@@ -1,0 +1,57 @@
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isOverlayOpen"
+  [cdk]
+  >
+  <div class="login-overlay container">
+    <div class="container__content areas">
+      <div class="areas__start"></div>
+      <div class="areas__end">
+        <watt-button (click)="closeOverlay()" variant="secondary" icon="close">Luk</watt-button>
+      </div>
+    </div>
+    <div class="container__content">
+      <div class="login-menu">
+        <div class="logo-container">
+          <img src="/assets/images/logo.svg" class="logo"/>
+        </div>
+        <h2 class="login-menu__header">LOG PÅ</h2>
+        <ul class="login-items">
+          <li (click)="loginAsCustomer()" matRipple>
+            <span>
+              <h3>Privat</h3>
+              <p>For den private borger der ønsker overblik over sit elforbrug</p>
+            </span>
+            <span class="status">
+              Status:&nbsp;
+            </span>
+          </li>
+          <li (click)="loginAsCorp()" matRipple>
+            <span>
+              <h3>Erhverv</h3>
+              <p>For virksomheder der ønsker overblik over elforbruget på tværs af lokationer</p>
+            </span>
+            <span class="status">
+              Status:&nbsp;
+            </span>
+          </li>
+          <li (click)="loginAsThirdParty()" matRipple>
+            <span>
+              <h3>Tredjepart</h3>
+              <p>For virksomheder der ønsker at tilbyde diverse services til deres brugere</p>
+            </span>
+            <span class="status">
+              Status:&nbsp;
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div class="bottom-menu">
+        <a (click)="navigateToHelp()">Hjælp</a>
+        <a (click)="openContactInfo()">Kontakt</a>
+        <a (click)="changeLanguage()">{{ activeLanguage }}</a>
+      </div>
+    </div>
+  </div>
+</ng-template>
