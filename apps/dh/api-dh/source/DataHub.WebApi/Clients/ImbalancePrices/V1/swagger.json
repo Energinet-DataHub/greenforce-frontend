@@ -64,7 +64,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
           }
         }
       }
@@ -225,14 +233,6 @@
   },
   "components": {
     "schemas": {
-      "ImbalancePriceDailyCompletenessStatus": {
-        "type": "string",
-        "enum": [
-          "NoData",
-          "InComplete",
-          "Complete"
-        ]
-      },
       "ImbalancePriceDto": {
         "type": "object",
         "additionalProperties": false,
@@ -269,7 +269,7 @@
           "status": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ImbalancePriceDailyCompletenessStatus"
+                "$ref": "#/components/schemas/ImbalancePricePeriodStatus"
               }
             ]
           },
@@ -282,6 +282,11 @@
             "items": {
               "$ref": "#/components/schemas/ImbalancePriceDto"
             }
+          },
+          "importedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },
