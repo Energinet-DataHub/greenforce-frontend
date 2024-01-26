@@ -18,10 +18,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import {
-  ImbalancePricePeriodStatus,
-  ImbalancePriceStatus,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { ImbalancePriceStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-status-badge',
@@ -45,5 +42,5 @@ import {
   imports: [TranslocoDirective, WattBadgeComponent],
 })
 export class DhStatusBadgeComponent {
-  @Input({ required: true }) status!: ImbalancePriceStatus | ImbalancePricePeriodStatus;
+  @Input({ required: true }) status!: ImbalancePriceStatus;
 }
