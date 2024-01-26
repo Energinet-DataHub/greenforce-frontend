@@ -69,7 +69,7 @@ namespace Energinet.DataHub.WebApi.Controllers
                 var from = TimeZoneInfo.ConvertTime(new DateTimeOffset(f, tz.GetUtcOffset(f)), tz);
                 var to = TimeZoneInfo.ConvertTime(new DateTimeOffset(t, tz.GetUtcOffset(t)), tz);
                 var result = await _client.DownloadAsync(from, to);
-                return File(result, MediaTypeNames.Text.Plain);
+                return File(result.Stream, MediaTypeNames.Text.Plain);
             }
             catch (ApiException ex)
             {
