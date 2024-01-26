@@ -39,7 +39,9 @@ limitations under the License.
     </watt-drawer-heading>
 
     <watt-drawer-actions>
-      <watt-button icon="download" (click)="downloadCSV()">{{ t("download") }}</watt-button>
+      <watt-button icon="download" variant="secondary" (click)="downloadCSV()">
+        {{ t("download") }}
+      </watt-button>
     </watt-drawer-actions>
 
     @if (drawer.isOpen) {
