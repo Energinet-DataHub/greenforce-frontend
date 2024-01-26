@@ -61,7 +61,7 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
       }
 
       h2 {
-        margin-bottom: var(--watt-space-s);
+        margin-block: var(--watt-space-s);
       }
 
       .entry-metadata {
@@ -77,7 +77,6 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
 
       .prices-note {
         color: var(--watt-color-neutral-grey-700);
-        margin-top: 0;
       }
 
       watt-drawer-content {

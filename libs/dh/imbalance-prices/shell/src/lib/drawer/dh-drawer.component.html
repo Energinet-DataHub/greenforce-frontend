@@ -24,18 +24,6 @@ limitations under the License.
 
     <watt-drawer-heading>
       <h2>{{ imbalancePrice()?.name | wattDate: "monthYear" }}</h2>
-
-      <div class="entry-metadata">
-        <div class="entry-metadata__item">
-          <span class="watt-label">{{ t("priceAreaLabel") }}</span>
-          <span>{{ imbalancePrice()?.priceAreaCode | dhEmDashFallback }}</span>
-        </div>
-
-        <div class="entry-metadata__item">
-          <span class="watt-label">{{ t("updatedLabel") }}</span>
-          <span>{{ null | dhEmDashFallback }}</span>
-        </div>
-      </div>
     </watt-drawer-heading>
 
     <watt-drawer-actions>
@@ -46,6 +34,18 @@ limitations under the License.
 
     @if (drawer.isOpen) {
       <watt-drawer-content>
+        <div class="entry-metadata">
+          <div class="entry-metadata__item">
+            <span class="watt-label">{{ t("priceAreaLabel") }}</span>
+            <span>{{ imbalancePrice()?.priceAreaCode | dhEmDashFallback }}</span>
+          </div>
+
+          <div class="entry-metadata__item">
+            <span class="watt-label">{{ t("updatedLabel") }}</span>
+            <span>{{ null | dhEmDashFallback }}</span>
+          </div>
+        </div>
+
         <p class="prices-note">{{ t("pricesNote") }}</p>
 
         @if (isLoading()) {
