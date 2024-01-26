@@ -14,6 +14,7 @@
 
 using System;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
@@ -24,5 +25,14 @@ public class ImbalancePriceDaily : ObjectType<ImbalancePricesDailyDto>
     {
         descriptor.Name("ImbalancePriceDaily");
         descriptor.Description("Imbalance price for a given date");
+
+        descriptor.Field("status")
+            .Resolve(context => context.Parent<ImbalancePricesDailyDto>().Status switch
+            {
+                ImbalancePricePeriodStatus.NoPrices=> ImbalancePriceStatus.NoData,
+                ImbalancePricePeriodStatus.Incomplete=> ImbalancePriceStatus.InComplete,
+                ImbalancePricePeriodStatus.Complete => ImbalancePriceStatus.Complete,
+                _ => throw new ArgumentOutOfRangeException(nameof(ImbalancePricesDailyDto.Status)),
+            });
     }
 }
