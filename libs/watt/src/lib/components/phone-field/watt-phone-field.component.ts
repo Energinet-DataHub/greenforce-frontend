@@ -194,6 +194,8 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   @ViewChild('phoneNumberInput') phoneNumberInput!: ElementRef<HTMLInputElement>;
 
   /** @ignore */
+  async ngOnInit(): Promise<void> {
+    this._metadata = await import('libphonenumber-js/min/metadata').then((m) => m.default);
 
     if (!this._metadata) return Promise.reject('Metadata not loaded');
 
