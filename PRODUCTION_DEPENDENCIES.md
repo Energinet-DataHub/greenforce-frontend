@@ -24,10 +24,10 @@
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
 | [@ngrx/component-store](https://github.com/ngrx/platform) | 17.0.1 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.7 | MIT |
-| [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 16.0.0 | MIT |
-| [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 16.1.0 | MIT |
+| [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 17.0.0 | MIT |
+| [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.0.1 | MIT |
 | [@vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
-| [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 5.0.2 | MIT |
+| [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 6.0.0 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 4.4.0 | MIT |
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
