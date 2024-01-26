@@ -48,13 +48,14 @@ import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domai
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { dhDkPhoneNumberValidator } from '@energinet-datahub/dh/shared/ui-validators';
+
 import { Apollo } from 'apollo-angular';
 import {
   GetAssociatedActorsDocument,
   GetKnownEmailsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -77,6 +78,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     WATT_STEPPER,
     WattTextFieldComponent,
     WattFieldErrorComponent,
+    WattPhoneFieldComponent,
   ],
 })
 export class DhInviteUserModalComponent implements AfterViewInit {
@@ -147,15 +149,7 @@ export class DhInviteUserModalComponent implements AfterViewInit {
   userInfo = this.formBuilder.group({
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
-    phoneNumber: [
-      '',
-      [
-        Validators.required,
-        Validators.maxLength(12),
-        Validators.minLength(12),
-        dhDkPhoneNumberValidator,
-      ],
-    ],
+    phoneNumber: ['', [Validators.required]],
   });
   userRoles = this.formBuilder.group({
     selectedUserRoles: [[] as string[], Validators.required],
