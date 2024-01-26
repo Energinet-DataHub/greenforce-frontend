@@ -693,21 +693,6 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum ImbalancePriceDailyCompletenessStatus
-    {
-
-        [System.Runtime.Serialization.EnumMember(Value = @"NoData")]
-        NoData = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"InComplete")]
-        InComplete = 1,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"Complete")]
-        Complete = 2,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ImbalancePriceDto
     {
         [Newtonsoft.Json.JsonProperty("timestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -742,13 +727,16 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
     {
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public ImbalancePriceDailyCompletenessStatus Status { get; set; } = default!;
+        public ImbalancePricePeriodStatus Status { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("timeStamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset TimeStamp { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("imbalancePrices", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<ImbalancePriceDto> ImbalancePrices { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("importedAt", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? ImportedAt { get; set; } = default!;
 
     }
 

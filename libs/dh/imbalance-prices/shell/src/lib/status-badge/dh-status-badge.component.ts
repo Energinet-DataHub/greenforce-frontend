@@ -19,7 +19,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import {
-  ImbalancePriceDailyCompletenessStatus,
+  ImbalancePricePeriodStatus,
   ImbalancePriceStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -45,5 +45,5 @@ import {
   imports: [TranslocoDirective, WattBadgeComponent],
 })
 export class DhStatusBadgeComponent {
-  @Input({ required: true }) status!: ImbalancePriceStatus | ImbalancePriceDailyCompletenessStatus;
+  @Input({ required: true }) status!: ImbalancePriceStatus | ImbalancePricePeriodStatus;
 }

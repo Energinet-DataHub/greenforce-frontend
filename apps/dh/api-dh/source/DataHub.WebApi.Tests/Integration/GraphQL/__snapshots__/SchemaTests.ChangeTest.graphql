@@ -171,9 +171,10 @@ type ImbalancePrice {
 
 "Imbalance price for a given date"
 type ImbalancePriceDaily {
-  status: ImbalancePriceDailyCompletenessStatus!
+  status: ImbalancePricePeriodStatus!
   timeStamp: DateTime!
   imbalancePrices: [ImbalancePrice!]!
+  importedAt: DateTime
 }
 
 type ImbalancePricePeriod {
@@ -539,9 +540,9 @@ enum ExchangeEventCalculationType {
   AGGREGATION
 }
 
-enum ImbalancePriceDailyCompletenessStatus {
-  NO_DATA
-  IN_COMPLETE
+enum ImbalancePricePeriodStatus {
+  NO_PRICES
+  INCOMPLETE
   COMPLETE
 }
 

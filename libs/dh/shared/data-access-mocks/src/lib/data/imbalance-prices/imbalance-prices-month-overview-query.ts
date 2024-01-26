@@ -18,7 +18,7 @@ import {
   GetImbalancePricesMonthOverviewQuery,
   ImbalancePrice,
   ImbalancePriceDaily,
-  ImbalancePriceDailyCompletenessStatus,
+  ImbalancePricePeriodStatus,
   PriceAreaCode,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -47,19 +47,19 @@ export const imbalancePricesForMonth: ImbalancePriceDaily[] = [
   {
     __typename: 'ImbalancePriceDaily',
     timeStamp: new Date('2024-01-01'),
-    status: ImbalancePriceDailyCompletenessStatus.Complete,
+    status: ImbalancePricePeriodStatus.Complete,
     imbalancePrices,
   },
   {
     __typename: 'ImbalancePriceDaily',
     timeStamp: new Date('2024-01-02'),
-    status: ImbalancePriceDailyCompletenessStatus.InComplete,
+    status: ImbalancePricePeriodStatus.Incomplete,
     imbalancePrices,
   },
   {
     __typename: 'ImbalancePriceDaily',
     timeStamp: new Date('2024-01-03'),
-    status: ImbalancePriceDailyCompletenessStatus.NoData,
+    status: ImbalancePricePeriodStatus.NoPrices,
     imbalancePrices,
   },
 ];
