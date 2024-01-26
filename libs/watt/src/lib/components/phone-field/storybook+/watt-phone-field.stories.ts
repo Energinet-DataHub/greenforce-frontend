@@ -54,7 +54,7 @@ export const Default: StoryFn<WattPhoneFieldComponent> = () => ({
     label: 'Phone number',
     exampleFormControl: new FormControl(null),
   },
-  template: `<watt-phone-field [label]="label" [control]="exampleFormControl" />`,
+  template: `<watt-phone-field [label]="label" [formControl]="exampleFormControl" />`,
 });
 
 export const WithRequired: StoryFn<WattPhoneFieldComponent> = () => ({
@@ -62,7 +62,7 @@ export const WithRequired: StoryFn<WattPhoneFieldComponent> = () => ({
     label: 'Required Phone number',
     exampleFormControl: new FormControl(null, Validators.required),
   },
-  template: `<watt-phone-field [label]="label" [control]="exampleFormControl" />`,
+  template: `<watt-phone-field [label]="label" [formControl]="exampleFormControl" />`,
 });
 
 export const WithHint: StoryFn<WattPhoneFieldComponent> = () => ({
@@ -70,7 +70,7 @@ export const WithHint: StoryFn<WattPhoneFieldComponent> = () => ({
     label: 'Phone number with hint',
     exampleFormControl: new FormControl(null, Validators.required),
   },
-  template: `<watt-phone-field [label]="label" [control]="exampleFormControl">
+  template: `<watt-phone-field [label]="label" [formControl]="exampleFormControl">
               <watt-field-hint>This is a hint</watt-field-hint>
             </watt-phone-field>`,
 });
