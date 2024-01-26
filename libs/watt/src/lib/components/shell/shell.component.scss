@@ -53,8 +53,8 @@
       opacity: 0;
       transition: opacity 50ms linear;
 
-      ::ng-deep .watt-button--icon {
-        color: white;
+      ::ng-deep .mat-mdc-button.mat-icon {
+        color: var(--watt-color-neutral-white);
       }
     }
   }
@@ -82,6 +82,7 @@
 .watt-main-content,
 .watt-toolbar {
   width: 100vw;
+
   @include watt.media(">=Large") {
     width: calc(100vw - 245px);
   }
