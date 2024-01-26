@@ -45,6 +45,10 @@ export class WattIconService {
     this.addSvgIcon('custom-map-marker', '/assets/watt/icons/map-marker.svg');
     this.addSvgIcon('custom-primary-info', '/assets/watt/icons/primary-info.svg');
     this.addSvgIcon('custom-no-results', '/assets/watt/icons/noResults.svg');
+    this.addSvgIcon('custom-flag-da', '/assets/watt/icons/flags/da.svg');
+    this.addSvgIcon('custom-flag-se', '/assets/watt/icons/flags/se.svg');
+    this.addSvgIcon('custom-flag-de', '/assets/watt/icons/flags/de.svg');
+    this.addSvgIcon('custom-flag-no', '/assets/watt/icons/flags/no.svg');
   }
 
   private addSvgIcon(icon: WattCustomIcon, url: string) {
