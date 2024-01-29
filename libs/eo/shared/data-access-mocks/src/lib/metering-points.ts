@@ -22,70 +22,69 @@ export function meteringPointsMocks(apiBase: string) {
 
 function getMeteringPoints(apiBase: string) {
   return http.get(`${apiBase}/meteringpoints`, () => {
+    const state = localStorage.getItem('metering-points');
     const city = 'Dummy city';
+    const productionMeteringPoints = [
+      {
+        gsrn: '571313130083531004',
+        gridArea: 'DK1',
+        type: 'production',
+        subMeterType: 'Virtual',
+        assetType: 'Solar',
+        address: {
+          address1: 'Dummy street 3',
+          address2: '',
+          city,
+          postalCode: '9999',
+          country: 'DK',
+        },
+      },
+    ];
+    const consumptionMeteringPoints = [
+      {
+        gsrn: '571313171355435420',
+        gridArea: 'DK1',
+        type: 'consumption',
+        subMeterType: 'Virtual',
+        assetType: 'Solar',
+        address: {
+          address1: 'Dummy street 2',
+          address2: '1 11A',
+          city,
+          postalCode: '9999',
+          country: 'DK',
+        },
+      },
+      {
+        gsrn: '571313171355411111',
+        gridArea: 'DK1',
+        type: 'consumption',
+        subMeterType: 'Virtual',
+        assetType: 'Solar',
+        address: {
+          address1: 'Dummy street 2',
+          address2: '1 11A',
+          city,
+          postalCode: '9999',
+          country: 'DK',
+        },
+      },
+    ];
 
-    const data = {
-      meteringPoints: [
-        {
-          gsrn: '571313130083535430',
-          gridArea: 'DK1',
-          type: 'production',
-          subMeterType: 'Virtual',
-          assetType: 'Wind',
-          address: {
-            address1: 'Dummy street 1',
-            address2: '',
-            city,
-            postalCode: '9999',
-            country: 'DK',
-          },
-        },
-        {
-          gsrn: '571313171355435420',
-          gridArea: 'DK1',
-          type: 'consumption',
-          subMeterType: 'Virtual',
-          assetType: 'Solar',
-          address: {
-            address1: 'Dummy street 2',
-            address2: '1 11A',
-            city,
-            postalCode: '9999',
-            country: 'DK',
-          },
-        },
-        {
-          gsrn: '571313171355411111',
-          gridArea: 'DK1',
-          type: 'consumption',
-          subMeterType: 'Virtual',
-          assetType: 'Solar',
-          address: {
-            address1: 'Dummy street 2',
-            address2: '1 11A',
-            city,
-            postalCode: '9999',
-            country: 'DK',
-          },
-        },
-        {
-          gsrn: '571313130083531004',
-          gridArea: 'DK1',
-          type: 'production',
-          subMeterType: 'Virtual',
-          assetType: 'Other',
-          address: {
-            address1: 'Dummy street 3',
-            address2: '',
-            city,
-            postalCode: '9999',
-            country: 'DK',
-          },
-        },
-      ],
-    };
+    let data: unknown[];
 
-    return HttpResponse.json(data, { status: 200 });
-    //return res(ctx.status(500), ctx.delay(2000));
+    if (state === 'no-metering-points') {
+      data = [];
+    } else if (state === 'only-consumption-metering-points') {
+      data = [...consumptionMeteringPoints];
+    } else if (state === 'only-production-metering-points') {
+      data = [...productionMeteringPoints];
+    } else if (state === 'metering-points-error') {
+      return HttpResponse.error();
+    } else {
+      data = [...consumptionMeteringPoints, ...productionMeteringPoints];
+    }
+
+    return HttpResponse.json({ meteringPoints: data }, { status: 200 });
   });
 }

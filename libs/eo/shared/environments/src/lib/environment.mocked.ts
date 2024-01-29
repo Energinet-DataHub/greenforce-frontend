@@ -43,4 +43,6 @@ import { mocks } from '@energinet-datahub/eo/shared/data-access-mocks';
 
 loadEoApiEnvironment('eo-api-environment.local.json').then((env) => {
   setupServiceWorker(env.apiBase, mocks);
+}).catch(() => {
+  setupServiceWorker('https://demo.energioprindelse.dk/api', mocks);
 });

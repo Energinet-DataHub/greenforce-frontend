@@ -117,6 +117,7 @@
     "@badeball/cypress-cucumber-preprocessor": "20.0.0",
     "@bahmutov/cypress-esbuild-preprocessor": "2.2.0",
     "@compodoc/compodoc": "1.1.21",
+    "@cypress/webpack-dev-server": "2.0.0",
     "@graphql-codegen/add": "5.0.0",
     "@graphql-codegen/cli": "5.0.0",
     "@graphql-codegen/introspection": "4.0.0",
