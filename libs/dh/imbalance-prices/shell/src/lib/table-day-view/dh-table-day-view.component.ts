@@ -81,6 +81,10 @@ export class DhTableDayViewComponent {
   private processImbalancePricesForDay(
     data: DhImbalancePricesForDay[]
   ): DhImbalancePricesForDayProcessed[] {
+    if (data.length === 0) {
+      return [];
+    }
+
     const [firstEntry, secondEntry] = data;
     const resolution = differenceInMinutes(secondEntry.timestamp, firstEntry.timestamp);
 
