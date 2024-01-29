@@ -25,6 +25,8 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { MarketParticipantPermissionsHttp } from '@energinet-datahub/dh/shared/domain';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
@@ -38,6 +40,8 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
+import { switchMap } from 'rxjs';
+import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
   selector: 'dh-admin-permission-overview',
@@ -77,6 +81,8 @@ import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-que
 })
 export class DhAdminPermissionOverviewComponent implements OnInit {
   private _destroyRef = inject(DestroyRef);
+  private readonly toastService = inject(WattToastService);
+  private readonly httpClient = inject(MarketParticipantPermissionsHttp);
 
   query = getPermissionsWatchQuery();
   loading = false;
@@ -140,5 +146,30 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
 
       exportToCSV({ headers, lines });
     }
+  }
+
+  downloadRelationCSV() {
+    this.toastService.open({
+      type: 'loading',
+      message: translate('admin.userManagement.permissionsTab.downloadStart'),
+    });
+
+    const fileOptions = {
+      name: 'permission-relation-report',
+      type: 'text/csv',
+    };
+
+    this.httpClient
+      .v1MarketParticipantPermissionsGetPermissionsGet()
+      .pipe(switchMap(streamToFile(fileOptions)))
+      .subscribe({
+        complete: () => this.toastService.dismiss(),
+        error: () => {
+          this.toastService.open({
+            type: 'danger',
+            message: translate('admin.userManagement.permissionsTab.downloadFailed'),
+          });
+        },
+      });
   }
 }
