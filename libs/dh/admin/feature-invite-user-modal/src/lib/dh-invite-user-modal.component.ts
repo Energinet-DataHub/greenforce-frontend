@@ -28,7 +28,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { distinctUntilChanged, filter, map, of, take } from 'rxjs';
@@ -85,7 +85,7 @@ export class DhInviteUserModalComponent implements AfterViewInit {
   private readonly actorStore = inject(DhUserActorsDataAccessApiStore);
   private readonly assignableUserRolesStore = inject(DhAdminAssignableUserRolesStore);
   private readonly inviteUserStore = inject(DhAdminInviteUserStore);
-  private readonly formBuilder = inject(FormBuilder);
+  private readonly nonNullableFormBuilder = inject(NonNullableFormBuilder);
   private readonly toastService = inject(WattToastService);
   private readonly translocoService = inject(TranslocoService);
   private readonly apollo = inject(Apollo);
@@ -112,7 +112,7 @@ export class DhInviteUserModalComponent implements AfterViewInit {
   knownEmails: string[] = [];
   isLoadingEmails = true;
 
-  baseInfo = this.formBuilder.group({
+  baseInfo = this.nonNullableFormBuilder.group({
     actorId: ['', Validators.required],
     email: [
       { value: '', disabled: true },
@@ -146,12 +146,12 @@ export class DhInviteUserModalComponent implements AfterViewInit {
     ],
   });
 
-  userInfo = this.formBuilder.group({
+  userInfo = this.nonNullableFormBuilder.group({
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
     phoneNumber: ['', [Validators.required]],
   });
-  userRoles = this.formBuilder.group({
+  userRoles = this.nonNullableFormBuilder.group({
     selectedUserRoles: [[] as string[], Validators.required],
   });
 
@@ -216,14 +216,18 @@ export class DhInviteUserModalComponent implements AfterViewInit {
     const { firstname, lastname, phoneNumber } = this.userInfo.controls;
     const { email, actorId } = this.baseInfo.controls;
 
+    const phoneParts = phoneNumber.value.split(' ');
+    const [prefix, ...rest] = phoneParts;
+    const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
+
     this.inviteUserStore.inviteUser({
       invitation: {
-        firstName: firstname.value ? firstname.value : 'J',
-        lastName: lastname.value ? lastname.value : 'D',
-        email: email.value ?? '',
-        phoneNumber: phoneNumber.value ? phoneNumber.value : '+45 12345678',
-        assignedActor: actorId.value ?? '',
-        assignedRoles: this.userRoles.controls.selectedUserRoles.value ?? [],
+        firstName: firstname.value,
+        lastName: lastname.value,
+        email: email.value,
+        phoneNumber: formattedPhoneNumber,
+        assignedActor: actorId.value,
+        assignedRoles: this.userRoles.controls.selectedUserRoles.value,
       },
       onSuccess: () => this.onInviteSuccess(email.value),
       onError: (e) => this.onInviteError(e),
