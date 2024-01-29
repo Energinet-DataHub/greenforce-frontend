@@ -22,7 +22,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { MarketParticipantPermissionsHttp, PermissionDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantPermissionsHttp,
+  PermissionDto,
+} from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
