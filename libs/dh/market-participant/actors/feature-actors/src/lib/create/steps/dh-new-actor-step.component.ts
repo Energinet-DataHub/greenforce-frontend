@@ -31,6 +31,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 
@@ -46,6 +47,7 @@ import { ActorForm } from '../dh-actor-form.model';
     WattFieldErrorComponent,
     WattFieldHintComponent,
     WattDropdownComponent,
+    WattPhoneFieldComponent,
     ReactiveFormsModule,
     NgIf,
     DhDropdownTranslatorDirective,
@@ -121,15 +123,10 @@ import { ActorForm } from '../dh-actor-form.model';
           {{ t('wrongEmailPattern') }}
         </watt-field-error>
       </watt-text-field>
-      <watt-text-field
+      <watt-phone-field
         [formControl]="newActorForm.controls.contact.controls.phone"
         [label]="t('phone')"
-      >
-        <watt-field-hint>{{ t('phoneHint') }}</watt-field-hint>
-        <watt-field-error *ngIf="newActorForm.controls.contact.controls.phone.hasError('pattern')">
-          {{ t('phoneInvalid') }}
-        </watt-field-error>
-      </watt-text-field>
+      />
     </vater-stack>
   </vater-stack>`,
 })
