@@ -14,6 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Validators } from '@angular/forms';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
-export const dhDkPhoneNumberValidator = Validators.pattern(/^\+45 \d{8}$/);
+@Injectable({ providedIn: 'root' })
+export class WattPhoneFieldIntlService {
+  readonly changes: Subject<void> = new Subject<void>();
+  invalidPhoneNumber = 'Invalid phone number';
+}

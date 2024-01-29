@@ -24,49 +24,49 @@ limitations under the License.
 
     <watt-drawer-heading>
       <h2>{{ imbalancePrice()?.name | wattDate: "monthYear" }}</h2>
-
-      <div class="entry-metadata">
-        <div class="entry-metadata__item">
-          <span class="watt-label">{{ t("priceAreaLabel") }}</span>
-          <span>{{ imbalancePrice()?.priceAreaCode | dhEmDashFallback }}</span>
-        </div>
-
-        <div class="entry-metadata__item">
-          <span class="watt-label">{{ t("updatedLabel") }}</span>
-          <span>{{ null | dhEmDashFallback }}</span>
-        </div>
-      </div>
     </watt-drawer-heading>
 
     <watt-drawer-actions>
-      <watt-button icon="download" (click)="downloadCSV()">{{ t("download") }}</watt-button>
+      <watt-button icon="download" variant="secondary" (click)="downloadCSV()">
+        {{ t("download") }}
+      </watt-button>
     </watt-drawer-actions>
 
     @if (drawer.isOpen) {
       <watt-drawer-content>
+        <div class="entry-metadata">
+          <div class="entry-metadata__item">
+            <span class="watt-label">{{ t("priceAreaLabel") }}</span>
+            <span>{{ imbalancePrice()?.priceAreaCode | dhEmDashFallback }}</span>
+          </div>
+
+          <div class="entry-metadata__item">
+            <span class="watt-label">{{ t("updatedLabel") }}</span>
+            <span>{{ lastUpdated() | wattDate: "short" | dhEmDashFallback }}</span>
+          </div>
+        </div>
+
         <p class="prices-note">{{ t("pricesNote") }}</p>
 
-        <ng-container *dhFeatureFlag="'imbalance-prices-table-day-view'">
-          @if (isLoading()) {
-            <vater-flex direction="row" justify="center">
-              <watt-spinner />
-            </vater-flex>
-          } @else {
-            @for (day of imbalancePricesForMonth(); track $index) {
-              <watt-expandable-card variant="solid" togglePosition="before">
-                <watt-expandable-card-title>
-                  {{ day.timeStamp | wattDate: "short" }}
+        @if (isLoading()) {
+          <vater-flex direction="row" justify="center">
+            <watt-spinner />
+          </vater-flex>
+        } @else {
+          @for (day of imbalancePricesForMonth(); track day.timeStamp) {
+            <watt-expandable-card variant="solid" togglePosition="before">
+              <watt-expandable-card-title>
+                {{ day.timeStamp | wattDate: "short" }}
 
-                  @if (day.status !== "COMPLETE") {
-                    <dh-status-badge [status]="day.status" />
-                  }
-                </watt-expandable-card-title>
+                @if (day.status !== "COMPLETE") {
+                  <dh-status-badge [status]="day.status" />
+                }
+              </watt-expandable-card-title>
 
-                <dh-table-day-view [data]="toSignal(day.imbalancePrices)()" />
-              </watt-expandable-card>
-            }
+              <dh-table-day-view [data]="toSignal(day.imbalancePrices)()" />
+            </watt-expandable-card>
           }
-        </ng-container>
+        }
       </watt-drawer-content>
     }
   </watt-drawer>

@@ -392,6 +392,9 @@
       "@energinet-datahub/watt/paginator": [
         "libs/watt/src/lib/components/paginator/index.ts"
       ],
+      "@energinet-datahub/watt/phone-field": [
+        "libs/watt/src/lib/components/phone-field/index.ts"
+      ],
       "@energinet-datahub/watt/radio": [
         "libs/watt/src/lib/components/radio/index.ts"
       ],

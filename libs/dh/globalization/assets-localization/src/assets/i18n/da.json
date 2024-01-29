@@ -24,7 +24,8 @@
       "previous": "Forrige"
     },
     "fieldValidation": {
-      "required": "Feltet er påkrævet."
+      "required": "Feltet er påkrævet.",
+      "invalidPhoneNumber": "Ugyldigt telefonnummer"
     },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
@@ -42,6 +43,7 @@
       }
     },
     "download": "Download",
+    "downloadreport": "Download rapport",
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
     "processType": "Beregningstype"
@@ -1262,7 +1264,9 @@
       "permissionsTab": {
         "headline": "Rettigheder",
         "permissionName": "Navn",
-        "permissionDescription": "Beskrivelse"
+        "permissionDescription": "Beskrivelse",
+        "downloadStart": "Starter download...",
+        "downloadFailed": "Download fejlede"
       },
       "permissionDetail": {
         "edit": "Rediger rettighed",

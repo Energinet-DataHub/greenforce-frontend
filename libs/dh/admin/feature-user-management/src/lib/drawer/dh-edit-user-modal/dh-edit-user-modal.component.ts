@@ -26,21 +26,23 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { RxPush } from '@rx-angular/template/push';
+import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { RxPush } from '@rx-angular/template/push';
+
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
+import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import { UpdateUserRoles, DhAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { HttpStatusCode } from '@angular/common/http';
-import { dhDkPhoneNumberValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 
 @Component({
   selector: 'dh-edit-user-modal',
@@ -57,6 +59,7 @@ import { dhDkPhoneNumberValidator } from '@energinet-datahub/dh/shared/ui-valida
     ReactiveFormsModule,
     WattFieldErrorComponent,
     WattTextFieldComponent,
+    WattPhoneFieldComponent,
   ],
   templateUrl: './dh-edit-user-modal.component.html',
   styles: [
@@ -90,7 +93,7 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   userInfoForm = this.formBuilder.nonNullable.group({
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
-    phoneNumber: ['', [Validators.required, dhDkPhoneNumberValidator]],
+    phoneNumber: ['', Validators.required],
   });
 
   @ViewChild('editUserModal') editUserModal!: WattModalComponent;
@@ -180,12 +183,16 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
       }
     };
 
+    const phoneParts = phoneNumber.split(' ');
+    const [prefix, ...rest] = phoneParts;
+    const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
+
     if (this.user) {
       this.editUserStore.editUser({
         userId: this.user.id,
         firstName,
         lastName,
-        phoneNumber,
+        phoneNumber: formattedPhoneNumber,
         updateUserRoles,
         onSuccessFn,
         onErrorFn,

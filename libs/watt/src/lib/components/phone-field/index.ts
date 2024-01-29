@@ -14,7 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { dhCvrValidator } from './lib/dh-cvr.validator';
-export { dhDomainValidator } from './lib/dh-domain.validator';
-export { dhGlnOrEicValidator } from './lib/dh-gln-or-eic.validator';
-export { dhFirstPartEmailValidator } from './lib/dh-first-part-mail.validator';
+export { WattPhoneFieldComponent } from './watt-phone-field.component';
+export { WattPhoneFieldIntlService } from './watt-phone-field-intl.service';

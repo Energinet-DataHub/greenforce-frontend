@@ -59,7 +59,8 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpGet]
         [Route("DownloadImbalanceCSV")]
         [Produces(MediaTypeNames.Text.Plain)]
-        public async Task<ActionResult<Stream>> DownloadImbalancePricesAsync(int month, int year)
+        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
+        public async Task<ActionResult> DownloadImbalancePricesAsync(int month, int year)
         {
             try
             {
@@ -68,8 +69,8 @@ namespace Energinet.DataHub.WebApi.Controllers
                 var tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
                 var from = TimeZoneInfo.ConvertTime(new DateTimeOffset(f, tz.GetUtcOffset(f)), tz);
                 var to = TimeZoneInfo.ConvertTime(new DateTimeOffset(t, tz.GetUtcOffset(t)), tz);
-                await _client.DownloadAsync(from, to);
-                return File(Response.Body, MediaTypeNames.Text.Plain);
+                var result = await _client.DownloadAsync(from, to);
+                return File(result.Stream, MediaTypeNames.Text.Plain);
             }
             catch (ApiException ex)
             {

@@ -81,6 +81,10 @@ export const customIcons = {
   'custom-map-marker': 'map-marker',
   'custom-primary-info': 'primary-info',
   'custom-no-results': 'no-results',
+  'custom-flag-da': 'flag-da',
+  'custom-flag-de': 'flag-de',
+  'custom-flag-se': 'flag-se',
+  'custom-flag-no': 'flag-no',
 };
 
 export const allIcons = { ...materialIcons, ...customIcons };

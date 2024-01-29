@@ -17,10 +17,11 @@
 import { Injectable, makeEnvironmentProviders } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
 import { WattDataIntlService } from '@energinet-datahub/watt/data';
-import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
 import { WattFieldIntlService } from '@energinet-datahub/watt/field';
+import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
+import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
+import { WattPhoneFieldIntlService } from '@energinet-datahub/watt/phone-field';
 
 @Injectable()
 export class DhClipboardIntlService extends WattClipboardIntlService {
@@ -62,6 +63,18 @@ export class DhFieldIntlService extends WattFieldIntlService {
 }
 
 @Injectable()
+export class DhPhoneFieldIntlService extends WattPhoneFieldIntlService {
+  constructor(transloco: TranslocoService) {
+    super();
+
+    transloco.selectTranslateObject('shared.fieldValidation').subscribe((translations) => {
+      this.invalidPhoneNumber = translations.invalidPhoneNumber;
+      this.changes.next();
+    });
+  }
+}
+
+@Injectable()
 export class DhPaginatorIntlService extends WattPaginatorIntlService {
   constructor(transloco: TranslocoService) {
     super();
@@ -95,5 +108,9 @@ export const dhWattTranslationsProviders = makeEnvironmentProviders([
   {
     provide: WattFieldIntlService,
     useClass: DhFieldIntlService,
+  },
+  {
+    provide: WattPhoneFieldIntlService,
+    useClass: DhPhoneFieldIntlService,
   },
 ]);
