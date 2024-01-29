@@ -28,6 +28,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -70,6 +71,7 @@ import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
     VaterSpacerComponent,
     VaterUtilityDirective,
     WattButtonComponent,
+    DhPermissionRequiredDirective,
     WattEmptyStateComponent,
     WATT_CARD,
     WATT_TABLE,
