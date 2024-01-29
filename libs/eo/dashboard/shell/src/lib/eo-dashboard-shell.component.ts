@@ -108,7 +108,10 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
         </watt-tabs>
       }
 
-      @if ((productionAndConsumptionMeteringPoints$ | async)?.length === 0 && !(meteringPointError$ | async)) {
+      @if (
+        (productionAndConsumptionMeteringPoints$ | async)?.length === 0 &&
+        !(meteringPointError$ | async)
+      ) {
         <watt-empty-state
           data-testid="no-data"
           icon="custom-power"
@@ -153,11 +156,13 @@ export class EoDashboardShellComponent implements OnInit {
     this.meteringPointStore.loadMeteringPoints();
     this.aggregateService.clearCache();
 
-    this.productionAndConsumptionMeteringPoints$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((meteringPoints) => {
-      meteringPoints.find((mp) => mp.type === 'production')
-        ? (this.activeTab = 'production')
-        : (this.activeTab = 'consumption');
-    });
+    this.productionAndConsumptionMeteringPoints$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((meteringPoints) => {
+        meteringPoints.find((mp) => mp.type === 'production')
+          ? (this.activeTab = 'production')
+          : (this.activeTab = 'consumption');
+      });
   }
 
   protected onPeriodChanged(period: eoDashboardPeriod): void {

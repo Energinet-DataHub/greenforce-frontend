@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 /// <reference types="cypress" />
-import '@testing-library/cypress/add-commands'
+import '@testing-library/cypress/add-commands';

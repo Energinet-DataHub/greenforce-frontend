@@ -35,7 +35,12 @@ describe('EO - Dashboard', () => {
   const getError = () => cy.findByTestId('error');
 
   const meteringPointsConfigKey = 'metering-points';
-  type meteringPointsConfigValue = 'no-metering-points' | 'only-consumption-metering-points' | 'only-production-metering-points' | 'all-metering-points' | 'metering-points-error';
+  type meteringPointsConfigValue =
+    | 'no-metering-points'
+    | 'only-consumption-metering-points'
+    | 'only-production-metering-points'
+    | 'all-metering-points'
+    | 'metering-points-error';
 
   function setup(meteringPointsScenario: meteringPointsConfigValue = 'all-metering-points') {
     cy.mount(EoDashboardShellComponent, {
@@ -50,7 +55,6 @@ describe('EO - Dashboard', () => {
 
     localStorage.setItem(meteringPointsConfigKey, meteringPointsScenario);
   }
-
 
   it('should handle no metering points', () => {
     setup('no-metering-points');
