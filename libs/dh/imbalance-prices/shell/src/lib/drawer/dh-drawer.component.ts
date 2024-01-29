@@ -23,18 +23,24 @@ import {
   effect,
   signal,
   inject,
+  computed,
 } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
+import { format } from 'date-fns';
+import { switchMap } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { ImbalancePricesHttp } from '@energinet-datahub/dh/shared/domain';
+import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
 
 import {
   DhImbalancePrice,
@@ -55,7 +61,7 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
       }
 
       h2 {
-        margin-bottom: var(--watt-space-s);
+        margin-block: var(--watt-space-s);
       }
 
       .entry-metadata {
@@ -71,12 +77,10 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
 
       .prices-note {
         color: var(--watt-color-neutral-grey-700);
-        margin-top: 0;
       }
 
       watt-drawer-content {
-        padding-right: var(--watt-space-ml);
-        padding-left: var(--watt-space-ml);
+        padding: 0 var(--watt-space-ml) var(--watt-space-ml);
       }
 
       watt-expandable-card {
@@ -102,50 +106,49 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
     WATT_DRAWER,
     WattDatePipe,
     WATT_EXPANDABLE_CARD_COMPONENTS,
+    WattButtonComponent,
     WattSpinnerComponent,
     VaterFlexComponent,
 
     DhStatusBadgeComponent,
     DhEmDashFallbackPipe,
     DhTableDayViewComponent,
-    DhFeatureFlagDirective,
   ],
 })
 export class DhImbalancePricesDrawerComponent {
+  private readonly toastService = inject(WattToastService);
+  private readonly httpClient = inject(ImbalancePricesHttp);
   private readonly apollo = inject(Apollo);
+
+  private readonly year = computed(() => Number(format(this.imbalancePrice()!.name, 'yyyy')));
+  private readonly month = computed(() => Number(format(this.imbalancePrice()!.name, 'M')));
+
+  imbalancePrice = input<DhImbalancePrice>();
+
+  imbalancePricesForMonth = signal<DhImbalancePricesForMonth[]>([]);
+  isLoading = signal(false);
+  lastUpdated = computed(() => {
+    const [firstDay] = this.imbalancePricesForMonth();
+
+    return firstDay?.importedAt;
+  });
 
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
 
-  imbalancePrice = input<DhImbalancePrice>();
-  imbalancePricesForMonth = signal<DhImbalancePricesForMonth[]>([]);
-  isLoading = signal(false);
-
   @Output() closed = new EventEmitter<void>();
 
-  query = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
-    query: GetImbalancePricesMonthOverviewDocument,
-    variables: undefined,
-  });
-
   constructor() {
-    effect((onCleanup) => {
-      if (this.imbalancePrice()) {
-        this.drawer?.open();
+    effect(
+      () => {
+        if (this.imbalancePrice()) {
+          this.drawer?.open();
 
-        this.query.setVariables({
-          year: this.imbalancePrice()!.name.getFullYear(),
-          month: this.imbalancePrice()!.name.getMonth(),
-          areaCode: this.imbalancePrice()!.priceAreaCode,
-        });
-
-        const subscription = this.fetchData();
-
-        onCleanup(() => subscription.unsubscribe());
-      }
-    });
+          this.fetchData();
+        }
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   onClose(): void {
@@ -156,16 +159,54 @@ export class DhImbalancePricesDrawerComponent {
     return signal(prices);
   }
 
-  private fetchData() {
-    return this.query.valueChanges.subscribe({
-      next: (result) => {
-        this.isLoading.set(result.loading);
-
-        this.imbalancePricesForMonth.set(result.data?.imbalancePricesForMonth ?? []);
-      },
-      error: () => {
-        this.isLoading.set(false);
-      },
+  downloadCSV() {
+    this.toastService.open({
+      type: 'loading',
+      message: translate('imbalancePrices.drawer.downloadStart'),
     });
+
+    const fileOptions = {
+      name: 'imbalance-prices-' + format(this.imbalancePrice()!.name, 'MMMM-yyyy'),
+      type: 'text/csv',
+    };
+
+    this.httpClient
+      .v1ImbalancePricesDownloadImbalanceCSVGet(this.month(), this.year())
+      .pipe(switchMap(streamToFile(fileOptions)))
+      .subscribe({
+        complete: () => this.toastService.dismiss(),
+        error: () => {
+          this.toastService.open({
+            type: 'danger',
+            message: translate('imbalancePrices.drawer.downloadFailed'),
+          });
+        },
+      });
+  }
+
+  private fetchData() {
+    this.isLoading.set(true);
+    this.imbalancePricesForMonth.set([]);
+
+    return this.apollo
+      .query({
+        notifyOnNetworkStatusChange: true,
+        query: GetImbalancePricesMonthOverviewDocument,
+        variables: {
+          year: this.year(),
+          month: this.month(),
+          areaCode: this.imbalancePrice()!.priceAreaCode,
+        },
+      })
+      .subscribe({
+        next: (result) => {
+          this.isLoading.set(result.loading);
+
+          this.imbalancePricesForMonth.set(result.data.imbalancePricesForMonth);
+        },
+        error: () => {
+          this.isLoading.set(false);
+        },
+      });
   }
 }

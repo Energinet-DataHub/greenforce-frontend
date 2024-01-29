@@ -26,10 +26,10 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { dhDkPhoneNumberValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { DhMarketParticipantActorsEditActorDataAccessApiStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 
 import { DhActorExtended } from '../dh-actor';
+import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 
 @Component({
   standalone: true,
@@ -65,6 +65,7 @@ import { DhActorExtended } from '../dh-actor';
     WattButtonComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
+    WattPhoneFieldComponent,
   ],
 })
 export class DhActorsEditActorModalComponent {
@@ -82,7 +83,7 @@ export class DhActorsEditActorModalComponent {
     name: ['', Validators.required],
     departmentName: ['', Validators.required],
     departmentEmail: ['', [Validators.required, Validators.email]],
-    departmentPhone: ['', [Validators.required, dhDkPhoneNumberValidator]],
+    departmentPhone: ['', Validators.required],
   });
 
   isLoading = true;

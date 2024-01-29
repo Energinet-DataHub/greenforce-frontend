@@ -24,7 +24,8 @@
       "previous": "Forrige"
     },
     "fieldValidation": {
-      "required": "Feltet er påkrævet."
+      "required": "Feltet er påkrævet.",
+      "invalidPhoneNumber": "Ugyldigt telefonnummer"
     },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
@@ -741,7 +742,7 @@
     "table": {
       "columns": {
         "period": "Periode",
-        "priceArea": "Område",
+        "priceArea": "Prisområde",
         "status": "Status"
       },
       "emptyTitle": "Ingen ubalancepriser fundet",
@@ -758,9 +759,12 @@
       "COMPLETE": "Komplet"
     },
     "drawer": {
-      "areaLabel": "Område",
+      "priceAreaLabel": "Prisområde",
       "updatedLabel": "Indlæst",
-      "pricesNote": "Priser angivet i DKK for kWh"
+      "pricesNote": "Priser angivet i DKK for kWh",
+      "download": "Download",
+      "downloadStart": "Starter download...",
+      "downloadFailed": "Download fejlede"
     }
   },
   "wholesale": {
