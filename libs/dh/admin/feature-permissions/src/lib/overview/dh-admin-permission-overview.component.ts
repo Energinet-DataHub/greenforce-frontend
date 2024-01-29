@@ -22,11 +22,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantPermissionsHttp, PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { MarketParticipantPermissionsHttp } from '@energinet-datahub/dh/shared/domain';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
@@ -155,12 +154,12 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
     });
 
     const fileOptions = {
-      name: 'permission-relation-report',
+      name: 'permissions-relation-report',
       type: 'text/csv',
     };
 
     this.httpClient
-      .v1MarketParticipantPermissionsGetPermissionsGet()
+      .v1MarketParticipantPermissionsGetPermissionRelationsCSVGet()
       .pipe(switchMap(streamToFile(fileOptions)))
       .subscribe({
         complete: () => this.toastService.dismiss(),
