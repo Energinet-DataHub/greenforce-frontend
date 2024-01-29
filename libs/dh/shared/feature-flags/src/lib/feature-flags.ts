@@ -32,11 +32,6 @@ export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
  * },
  */
 
-export const dhFeatureFlagsConfig = {
-  'imbalance-prices-table-day-view': {
-    created: '23-01-2024',
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
-  },
-} satisfies FeatureFlagConfig;
+export const dhFeatureFlagsConfig = {} satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
