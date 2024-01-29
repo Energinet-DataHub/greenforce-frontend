@@ -140,13 +140,11 @@ export class DhImbalancePricesDrawerComponent {
 
   constructor() {
     effect(
-      (onCleanup) => {
+      () => {
         if (this.imbalancePrice()) {
           this.drawer?.open();
 
-          const subscription = this.fetchData();
-
-          onCleanup(() => subscription.unsubscribe());
+          this.fetchData();
         }
       },
       { allowSignalWrites: true }
