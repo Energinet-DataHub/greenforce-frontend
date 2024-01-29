@@ -86,9 +86,9 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
   selector: 'eo-dashboard-shell',
   template: `
     @if ((isLoadingMeteringPoints$ | async) === false) {
-      @if ((productionAndConsumptionMeteringPoints$ | async)?.length > 0) {
+      @if (((productionAndConsumptionMeteringPoints$ | async) || []).length > 0) {
         <watt-tabs variant="secondary">
-          @if ((productionMeteringPoints$ | async).length > 0) {
+          @if (((productionMeteringPoints$ | async) || []).length > 0) {
             <watt-tab label="Production" (changed)="activeTab = 'production'">
               @if (activeTab === 'production') {
                 <eo-dashboard-production-transferred [period]="period()" />
@@ -96,7 +96,7 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
             </watt-tab>
           }
 
-          @if ((consumptionMeteringPoints$ | async).length > 0) {
+          @if (((consumptionMeteringPoints$ | async) || []).length > 0) {
             <watt-tab label="Consumption" (changed)="activeTab = 'consumption'">
               @if (activeTab === 'consumption') {
                 <eo-dashboard-consumption [period]="period()" />
@@ -159,9 +159,8 @@ export class EoDashboardShellComponent implements OnInit {
     this.productionAndConsumptionMeteringPoints$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((meteringPoints) => {
-        meteringPoints.find((mp) => mp.type === 'production')
-          ? (this.activeTab = 'production')
-          : (this.activeTab = 'consumption');
+        const hasProductionMeteringPoint = meteringPoints.find((mp) => mp.type === 'production');
+        this.activeTab = hasProductionMeteringPoint ? 'production' : 'consumption';
       });
   }
 
