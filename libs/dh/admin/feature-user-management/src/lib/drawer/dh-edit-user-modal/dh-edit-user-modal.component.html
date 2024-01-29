@@ -38,16 +38,11 @@ limitations under the License.
             type="text"
           />
 
-          <watt-text-field
+          <watt-phone-field
             [label]="t('masterData.phone')"
             class="phone-field"
             [formControl]="userInfoForm.controls.phoneNumber"
-            type="text"
-          >
-            <watt-field-error *ngIf="phoneNumberControl.hasError('pattern')">
-              {{ t("phoneNumberError") }}
-            </watt-field-error>
-          </watt-text-field>
+          />
         </watt-tab>
 
         <watt-tab [label]="t('tab.roles')">

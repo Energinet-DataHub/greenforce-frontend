@@ -71,23 +71,11 @@ limitations under the License.
           [formControl]="userInfo.controls.lastname"
           type="text"
         />
-
-        <watt-text-field
+        <watt-phone-field
           [formControl]="userInfo.controls.phoneNumber"
-          type="tel"
-          [label]="t('phoneNumber')"
           class="phoneNumber"
-        >
-          <watt-field-error
-            *ngIf="
-              userInfo.controls.phoneNumber.hasError('pattern') ||
-              userInfo.controls.phoneNumber.hasError('maxlength') ||
-              userInfo.controls.phoneNumber.hasError('minlength')
-            "
-          >
-            {{ t("phoneNumberError") }}
-          </watt-field-error>
-        </watt-text-field>
+          [label]="t('phoneNumber')"
+        />
       </form>
     </watt-stepper-step>
 

@@ -37,7 +37,6 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   dhCvrValidator,
-  dhDkPhoneNumberValidator,
   dhDomainValidator,
   dhGlnOrEicValidator,
 } from '@energinet-datahub/dh/shared/ui-validators';
@@ -98,7 +97,7 @@ export class DhActorsCreateActorModalComponent {
     contact: this._fb.group({
       departmentOrName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, dhDkPhoneNumberValidator]],
+      phone: ['', Validators.required],
     }),
   });
 
