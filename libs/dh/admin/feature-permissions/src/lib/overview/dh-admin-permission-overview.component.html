@@ -28,7 +28,12 @@ limitations under the License.
         {{ t("shared.download") }}
       </watt-button>
 
-      <watt-button *transloco="let t" icon="download" variant="text" (click)="downloadRelationCSV()">
+      <watt-button
+        *transloco="let t"
+        icon="download"
+        variant="text"
+        (click)="downloadRelationCSV()"
+      >
         {{ t("shared.downloadreport") }}
       </watt-button>
     </vater-stack>
