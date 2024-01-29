@@ -55,17 +55,11 @@ limitations under the License.
         </watt-field-error>
       </watt-text-field>
 
-      <watt-text-field
+      <watt-phone-field
         class="phone-field"
-        type="tel"
-        [required]="true"
         [label]="t('departmentPhone')"
         [formControl]="actorForm.controls.departmentPhone"
-      >
-        <watt-field-error *ngIf="actorForm.controls.departmentPhone.hasError('pattern')">
-          {{ t("phoneInvalid") }}
-        </watt-field-error>
-      </watt-text-field>
+      />
     </form>
 
     <watt-modal-actions>
