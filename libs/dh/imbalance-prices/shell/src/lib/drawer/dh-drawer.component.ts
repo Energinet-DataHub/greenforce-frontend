@@ -23,17 +23,24 @@ import {
   effect,
   signal,
   inject,
+  computed,
 } from '@angular/core';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
+import { format } from 'date-fns';
+import { switchMap } from 'rxjs';
+
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { ImbalancePricesHttp } from '@energinet-datahub/dh/shared/domain';
+import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
 
 import {
   DhImbalancePrice,
@@ -42,12 +49,6 @@ import {
 } from '../dh-imbalance-prices';
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
 import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { ImbalancePricesHttp } from '@energinet-datahub/dh/shared/domain';
-import { switchMap } from 'rxjs';
-import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
-import { format } from 'date-fns';
 
 @Component({
   selector: 'dh-imbalance-prices-drawer',
@@ -60,7 +61,7 @@ import { format } from 'date-fns';
       }
 
       h2 {
-        margin-bottom: var(--watt-space-s);
+        margin-block: var(--watt-space-s);
       }
 
       .entry-metadata {
@@ -76,7 +77,6 @@ import { format } from 'date-fns';
 
       .prices-note {
         color: var(--watt-color-neutral-grey-700);
-        margin-top: 0;
       }
 
       watt-drawer-content {
@@ -109,10 +109,10 @@ import { format } from 'date-fns';
     WattButtonComponent,
     WattSpinnerComponent,
     VaterFlexComponent,
+
     DhStatusBadgeComponent,
     DhEmDashFallbackPipe,
     DhTableDayViewComponent,
-    DhFeatureFlagDirective,
   ],
 })
 export class DhImbalancePricesDrawerComponent {
@@ -120,39 +120,35 @@ export class DhImbalancePricesDrawerComponent {
   private readonly httpClient = inject(ImbalancePricesHttp);
   private readonly apollo = inject(Apollo);
 
+  private readonly year = computed(() => Number(format(this.imbalancePrice()!.name, 'yyyy')));
+  private readonly month = computed(() => Number(format(this.imbalancePrice()!.name, 'M')));
+
+  imbalancePrice = input<DhImbalancePrice>();
+
+  imbalancePricesForMonth = signal<DhImbalancePricesForMonth[]>([]);
+  isLoading = signal(false);
+  lastUpdated = computed(() => {
+    const [firstDay] = this.imbalancePricesForMonth();
+
+    return firstDay?.importedAt;
+  });
+
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
 
-  imbalancePrice = input<DhImbalancePrice>();
-  imbalancePricesForMonth = signal<DhImbalancePricesForMonth[]>([]);
-  isLoading = signal(false);
-
   @Output() closed = new EventEmitter<void>();
 
-  query = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
-    query: GetImbalancePricesMonthOverviewDocument,
-    variables: undefined,
-  });
-
   constructor() {
-    effect((onCleanup) => {
-      if (this.imbalancePrice()) {
-        this.drawer?.open();
+    effect(
+      () => {
+        if (this.imbalancePrice()) {
+          this.drawer?.open();
 
-        this.query.setVariables({
-          year: this.imbalancePrice()!.name.getFullYear(),
-          // Add 1 because months in the backend start at 1
-          month: this.imbalancePrice()!.name.getMonth() + 1,
-          areaCode: this.imbalancePrice()!.priceAreaCode,
-        });
-
-        const subscription = this.fetchData();
-
-        onCleanup(() => subscription.unsubscribe());
-      }
-    });
+          this.fetchData();
+        }
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   onClose(): void {
@@ -173,11 +169,9 @@ export class DhImbalancePricesDrawerComponent {
       name: 'imbalance-prices-' + format(this.imbalancePrice()!.name, 'MMMM-yyyy'),
       type: 'text/csv',
     };
-    const year = this.imbalancePricesForMonth()[0].timeStamp.getFullYear();
-    const month = this.imbalancePricesForMonth()[0].timeStamp.getMonth() + 1;
 
     this.httpClient
-      .v1ImbalancePricesDownloadImbalanceCSVGet(month, year)
+      .v1ImbalancePricesDownloadImbalanceCSVGet(this.month(), this.year())
       .pipe(switchMap(streamToFile(fileOptions)))
       .subscribe({
         complete: () => this.toastService.dismiss(),
@@ -191,15 +185,28 @@ export class DhImbalancePricesDrawerComponent {
   }
 
   private fetchData() {
-    return this.query.valueChanges.subscribe({
-      next: (result) => {
-        this.isLoading.set(result.loading);
+    this.isLoading.set(true);
+    this.imbalancePricesForMonth.set([]);
 
-        this.imbalancePricesForMonth.set(result.data?.imbalancePricesForMonth ?? []);
-      },
-      error: () => {
-        this.isLoading.set(false);
-      },
-    });
+    return this.apollo
+      .query({
+        notifyOnNetworkStatusChange: true,
+        query: GetImbalancePricesMonthOverviewDocument,
+        variables: {
+          year: this.year(),
+          month: this.month(),
+          areaCode: this.imbalancePrice()!.priceAreaCode,
+        },
+      })
+      .subscribe({
+        next: (result) => {
+          this.isLoading.set(result.loading);
+
+          this.imbalancePricesForMonth.set(result.data.imbalancePricesForMonth);
+        },
+        error: () => {
+          this.isLoading.set(false);
+        },
+      });
   }
 }

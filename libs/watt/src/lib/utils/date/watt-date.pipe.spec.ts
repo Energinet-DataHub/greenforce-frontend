@@ -35,8 +35,8 @@ describe(WattDatePipe, () => {
     expect(pipe.transform('2015-09-21T03:14:15Z', 'long')).toBe('21-09-2015, 05:14');
   });
 
-  it('transforms "2024-01-01T00:00Z" to "month, year"', () => {
-    expect(pipe.transform('2024-01-01T00:00Z', 'monthYear')).toBe('January, 2024');
+  it('transforms "2024-01-01T00:00Z" to "month year"', () => {
+    expect(pipe.transform('2024-01-01T00:00Z', 'monthYear')).toBe('January 2024');
   });
 
   it('transforms date range in short format', () => {

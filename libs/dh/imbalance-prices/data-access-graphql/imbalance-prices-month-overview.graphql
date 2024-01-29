@@ -6,6 +6,7 @@ query GetImbalancePricesMonthOverview(
   imbalancePricesForMonth(year: $year, month: $month, areaCode: $areaCode) {
     status
     timeStamp
+    importedAt
     imbalancePrices {
       timestamp
       price
