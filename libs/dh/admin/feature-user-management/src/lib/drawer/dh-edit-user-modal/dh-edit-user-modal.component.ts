@@ -183,12 +183,16 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
       }
     };
 
+    const phoneParts = phoneNumber.split(' ');
+    const [prefix, ...rest] = phoneParts;
+    const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
+
     if (this.user) {
       this.editUserStore.editUser({
         userId: this.user.id,
         firstName,
         lastName,
-        phoneNumber,
+        phoneNumber: formattedPhoneNumber,
         updateUserRoles,
         onSuccessFn,
         onErrorFn,
