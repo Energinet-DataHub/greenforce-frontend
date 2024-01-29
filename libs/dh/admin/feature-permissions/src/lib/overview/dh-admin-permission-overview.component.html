@@ -29,12 +29,12 @@ limitations under the License.
       </watt-button>
 
       <watt-button
-        *transloco="let t"
+        *dhPermissionRequired="['user-roles:manage']"
         icon="download"
         variant="text"
         (click)="downloadRelationCSV()"
       >
-        {{ t("shared.downloadreport") }}
+        {{ "shared.downloadreport" | transloco }}
       </watt-button>
     </vater-stack>
 
