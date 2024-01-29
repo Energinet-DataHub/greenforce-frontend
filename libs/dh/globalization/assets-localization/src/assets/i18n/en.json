@@ -43,6 +43,7 @@
       }
     },
     "download": "Download",
+    "downloadreport": "Download report",
     "search": "Search",
     "selectedValues": "{{count}} selected",
     "processType": "Calculation type"
@@ -1282,7 +1283,9 @@
       "permissionsTab": {
         "headline": "Permissions",
         "permissionName": "Name",
-        "permissionDescription": "Description"
+        "permissionDescription": "Description",
+        "downloadStart": "Starter download...",
+        "downloadFailed": "Download fejlede"
       },
       "permissionDetail": {
         "edit": "Edit permission",
