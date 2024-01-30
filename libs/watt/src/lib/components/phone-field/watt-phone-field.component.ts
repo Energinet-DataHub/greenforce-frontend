@@ -88,11 +88,11 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
         panelWidth=""
         panelClass="watt-phone-field__select"
         hideSingleSelectionIndicator="true"
-        [value]="choosenContry().countryIsoCode"
+        [value]="choosenCountry().countryIsoCode"
         (selectionChange)="selectedContry($event)"
       >
         <mat-select-trigger>
-          <watt-icon [name]="choosenContry().icon" />
+          <watt-icon [name]="choosenCountry().icon" />
         </mat-select-trigger>
         @for (contry of countries; track contry; let index = $index) {
           <mat-option value="{{ contry.countryIsoCode }}">
@@ -185,7 +185,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   label = input<string>();
 
   /** @ignore */
-  choosenContry = signal<Contry>(this.countries[0]);
+  choosenCountry = signal<Contry>(this.countries[0]);
 
   /** @ignore */
   mask = MASKITO_DEFAULT_OPTIONS;
@@ -251,7 +251,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
 
     if (!choosenContry) return Promise.reject('Prefix not found');
 
-    this.choosenContry.set(choosenContry);
+    this.choosenCountry.set(choosenContry);
 
     this.formControl().reset();
 
@@ -271,7 +271,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
   private generatePhoneOptions(): void {
     const phoneOptions = maskitoPhoneOptionsGenerator({
-      countryIsoCode: this.choosenContry().countryIsoCode,
+      countryIsoCode: this.choosenCountry().countryIsoCode,
       metadata: this._metadata!,
       separator: ' ',
     });
@@ -287,7 +287,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
 
   /** @ignore */
   private setValidator() {
-    const countryCode = this.choosenContry().countryIsoCode;
+    const countryCode = this.choosenCountry().countryIsoCode;
     this.formControl().setValidators(phoneValidator(countryCode));
   }
 
