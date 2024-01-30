@@ -23,6 +23,13 @@ export function aggregateTransfersMocks(apiBase: string) {
 
 function getAggregateTransfers(apiBase: string) {
   return http.get(`${apiBase}/v1/aggregate-transfers`.replace('/api', '/wallet-api'), () => {
-    return HttpResponse.json(aggregateTransfersResponse, { status: 200 });
+    const state = localStorage.getItem('aggregate-transfers');
+    if(state === 'has-error') {
+      return HttpResponse.error();
+    } else if(state === 'no-data') {
+      return HttpResponse.json({result: []}, { status: 200 });
+    } else {
+      return HttpResponse.json(aggregateTransfersResponse, { status: 200 });
+    }
   });
 }
