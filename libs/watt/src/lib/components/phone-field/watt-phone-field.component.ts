@@ -97,7 +97,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
         @for (contry of countries; track contry; let index = $index) {
           <mat-option value="{{ contry.countryIsoCode }}">
             <watt-icon [name]="contry.icon" />
-            <div>{{ getContryName(contry.countryIsoCode) }}</div>
+            <div>{{ getCountryName(contry.countryIsoCode) }}</div>
           </mat-option>
         }
       </mat-select>
@@ -291,7 +291,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
     this.formControl().setValidators(phoneValidator(countryCode));
   }
 
-  getContryName(countryIsoCode: CountryCode) {
+  getCountryName(countryIsoCode: CountryCode) {
     return this.intl[countryIsoCode as keyof WattPhoneFieldIntlService];
   }
 }
