@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
-import { EoDashboardProductionTransferredComponent } from "./eo-dashboard-production-transferred.component";
-import { provideRouter } from "@angular/router";
-import { EoTimeAggregate } from "@energinet-datahub/eo/shared/domain";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { EoDashboardProductionTransferredComponent } from './eo-dashboard-production-transferred.component';
+import { provideRouter } from '@angular/router';
+import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 
 describe('EO - Dashboard', () => {
   type configKey = 'aggregate-claims' | 'aggregate-certificates' | 'aggregate-transfers';
@@ -38,13 +38,10 @@ describe('EO - Dashboard', () => {
 
   function initComponent() {
     cy.mount(EoDashboardProductionTransferredComponent, {
-      providers: [
-        provideHttpClient(withInterceptorsFromDi()),
-        provideRouter([]),
-      ],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideRouter([])],
       componentProperties: {
-        period: {timeAggregate: EoTimeAggregate.Day, start: 1698303600, end: 1700222400},
-      }
+        period: { timeAggregate: EoTimeAggregate.Day, start: 1698303600, end: 1700222400 },
+      },
     });
   }
 

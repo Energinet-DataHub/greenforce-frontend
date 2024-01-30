@@ -34,8 +34,8 @@ function getAggregateCertificates(apiBase: string) {
 
       if (state === 'has-error') {
         return HttpResponse.error();
-      } else if(state === 'no-data') {
-        return HttpResponse.json({result: []}, { status: 200 });
+      } else if (state === 'no-data') {
+        return HttpResponse.json({ result: [] }, { status: 200 });
       } else {
         await delay(1000);
         return HttpResponse.json(

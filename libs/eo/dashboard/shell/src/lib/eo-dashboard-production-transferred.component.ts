@@ -188,7 +188,9 @@ interface Totals {
     <vater-stack direction="row" gap="s">
       <div>
         @if (totals.production > 0 || isLoading) {
-          <h5 data-testid="headline">{{ totals.transferred | percentageOf: totals.production }} transferred</h5>
+          <h5 data-testid="headline">
+            {{ totals.transferred | percentageOf: totals.production }} transferred
+          </h5>
           <small
             >{{ totals.transferred | energyUnit }} of {{ totals.production | energyUnit }} certified
             green production was transferred</small

@@ -24,10 +24,10 @@ export function aggregateClaimsMocks(apiBase: string) {
 function getAggregateClaims(apiBase: string) {
   return http.get(`${apiBase}/v1/aggregate-claims`.replace('/api', '/wallet-api'), () => {
     const state = localStorage.getItem('aggregate-claims');
-    if(state === 'has-error') {
+    if (state === 'has-error') {
       return HttpResponse.error();
-    } else if(state === 'no-data') {
-      return HttpResponse.json({result: []}, { status: 200 });
+    } else if (state === 'no-data') {
+      return HttpResponse.json({ result: [] }, { status: 200 });
     } else {
       return HttpResponse.json(aggregateClaimsResponse, { status: 200 });
     }
