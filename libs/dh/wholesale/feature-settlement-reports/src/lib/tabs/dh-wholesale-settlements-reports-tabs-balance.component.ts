@@ -24,6 +24,7 @@ import {
   ViewChild,
   inject,
   signal,
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -67,6 +68,17 @@ export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
   standalone: true,
   selector: 'dh-wholesale-settlements-reports-tabs-balance',
   templateUrl: './dh-wholesale-settlements-reports-tabs-balance.component.html',
+  styles: [`
+    dh-wholesale-settlements-reports-tabs-balance .filters {
+      vater-stack > * {
+        min-height: 74px;
+      }
+
+      watt-field-error {
+        position: absolute;
+      }
+    }
+  `],
   imports: [
     WATT_TABS,
     WATT_TABLE,
@@ -82,6 +94,7 @@ export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
     VaterSpacerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class DhWholesaleSettlementsReportsTabsBalanceComponent
   implements OnInit, AfterViewInit, OnDestroy

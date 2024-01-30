@@ -20,7 +20,7 @@ limitations under the License.
       {{ t("results") }}
     </h3>
     <watt-data-filters>
-      <form [formGroup]="searchForm">
+      <form [formGroup]="searchForm" class="filters">
         <vater-stack fill="vertical" gap="s" direction="row">
           <watt-date-range-chip [formControl]="searchForm.controls.period">{{
             "shared.form.filters.period" | transloco
