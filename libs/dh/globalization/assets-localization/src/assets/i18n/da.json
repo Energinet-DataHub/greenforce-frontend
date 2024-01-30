@@ -27,6 +27,14 @@
       "required": "Feltet er påkrævet.",
       "invalidPhoneNumber": "Ugyldigt telefonnummer"
     },
+    "countries": {
+      "DK": "Danmark",
+      "SE": "Sverige",
+      "NO": "Norge",
+      "FI": "Finland",
+      "DE": "Tyskland",
+      "PL": "Polen"
+    },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
       "of": "af",
