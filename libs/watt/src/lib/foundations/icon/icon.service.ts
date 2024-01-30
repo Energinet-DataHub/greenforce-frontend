@@ -49,6 +49,8 @@ export class WattIconService {
     this.addSvgIcon('custom-flag-se', '/assets/watt/icons/flags/se.svg');
     this.addSvgIcon('custom-flag-de', '/assets/watt/icons/flags/de.svg');
     this.addSvgIcon('custom-flag-no', '/assets/watt/icons/flags/no.svg');
+    this.addSvgIcon('custom-flag-fi', '/assets/watt/icons/flags/fi.svg');
+    this.addSvgIcon('custom-flag-pl', '/assets/watt/icons/flags/pl.svg');
   }
 
   private addSvgIcon(icon: WattCustomIcon, url: string) {

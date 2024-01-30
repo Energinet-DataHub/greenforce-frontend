@@ -51,7 +51,6 @@ import { WattPhoneFieldIntlService } from './watt-phone-field-intl.service';
 
 type Contry = {
   countryIsoCode: CountryCode;
-  prefix: string;
   icon: WattIcon;
 };
 
@@ -89,15 +88,16 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
         panelWidth=""
         panelClass="watt-phone-field__select"
         hideSingleSelectionIndicator="true"
-        [value]="choosenContry().prefix"
+        [value]="choosenContry().countryIsoCode"
         (selectionChange)="selectedContry($event)"
       >
         <mat-select-trigger>
           <watt-icon [name]="choosenContry().icon" />
         </mat-select-trigger>
         @for (contry of countries; track contry; let index = $index) {
-          <mat-option value="{{ contry.prefix }}">
+          <mat-option value="{{ contry.countryIsoCode }}">
             <watt-icon [name]="contry.icon" />
+            <div>{{ getContryName(contry.countryIsoCode) }}</div>
           </mat-option>
         }
       </mat-select>
@@ -120,10 +120,21 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
     }
   </watt-field>`,
   styles: `
-     .watt-phone-field__select {
+     .watt-phone-field__select.mat-mdc-select-panel {
+      --mat-option-label-text-size: 14px;
+        overflow-y: scroll;
         watt-icon {
+          margin-right: var(--watt-space-s);
           .mat-icon {
             margin-right:0;
+          }
+        }
+        .mat-mdc-option.mdc-list-item {
+          .mdc-list-item__primary-text {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            gap: var(--watt-space-xs);
           }
         }
      }
@@ -162,10 +173,12 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
 export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
   readonly countries = [
-    { countryIsoCode: 'DK', prefix: '+45', icon: 'custom-flag-da' },
-    { countryIsoCode: 'SE', prefix: '+46', icon: 'custom-flag-se' },
-    { countryIsoCode: 'NO', prefix: '+47', icon: 'custom-flag-no' },
-    { countryIsoCode: 'DE', prefix: '+49', icon: 'custom-flag-de' },
+    { countryIsoCode: 'DK', icon: 'custom-flag-da' },
+    { countryIsoCode: 'SE', icon: 'custom-flag-se' },
+    { countryIsoCode: 'NO', icon: 'custom-flag-no' },
+    { countryIsoCode: 'DE', icon: 'custom-flag-de' },
+    { countryIsoCode: 'FI', icon: 'custom-flag-fi' },
+    { countryIsoCode: 'PL', icon: 'custom-flag-pl' },
   ] as Contry[];
 
   formControl = input.required<FormControl>();
@@ -234,7 +247,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
 
   /** @ignore */
   async selectedContry(event: MatSelectChange): Promise<void> {
-    const choosenContry = this.countries.find((contry) => contry.prefix === event.value);
+    const choosenContry = this.countries.find((contry) => contry.countryIsoCode === event.value);
 
     if (!choosenContry) return Promise.reject('Prefix not found');
 
@@ -276,5 +289,9 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   private setValidator() {
     const countryCode = this.choosenContry().countryIsoCode;
     this.formControl().setValidators(phoneValidator(countryCode));
+  }
+
+  getContryName(countryIsoCode: CountryCode) {
+    return this.intl[countryIsoCode as keyof WattPhoneFieldIntlService];
   }
 }

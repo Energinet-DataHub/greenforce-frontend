@@ -27,6 +27,14 @@
       "required": "Field is required",
       "invalidPhoneNumber": "Invalid phone number"
     },
+    "countries": {
+      "DK": "Denmark",
+      "SE": "Sweden",
+      "NO": "Norway",
+      "FI": "Finland",
+      "DE": "Germany",
+      "PL": "Poland"
+    },
     "paginator": {
       "itemsPerPageLabel": "Results per page",
       "of": "of",
