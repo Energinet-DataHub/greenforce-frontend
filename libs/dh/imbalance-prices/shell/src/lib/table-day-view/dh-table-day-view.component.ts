@@ -16,11 +16,12 @@
  */
 import { Component, input, effect, ChangeDetectionStrategy } from '@angular/core';
 import { DecimalPipe, NgClass } from '@angular/common';
+import { add, differenceInMinutes } from 'date-fns';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
-import { DhImbalancePricesForDay } from '../dh-imbalance-prices';
+import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../dh-imbalance-prices';
 
 @Component({
   selector: 'dh-table-day-view',
@@ -48,8 +49,8 @@ import { DhImbalancePricesForDay } from '../dh-imbalance-prices';
       [hideColumnHeaders]="true"
     >
       <ng-container *wattTableCell="columns['period']; let entry">
-        {{ entry.timestamp | wattDate: 'time' }} -
-        {{ entry.timestamp | wattDate: 'time' }}
+        {{ entry.timestampFrom | wattDate: 'time' }} -
+        {{ entry.timestampTo | wattDate: 'time' }}
       </ng-container>
 
       <ng-container *wattTableCell="columns['price']; let entry">
@@ -62,18 +63,49 @@ import { DhImbalancePricesForDay } from '../dh-imbalance-prices';
   imports: [DecimalPipe, NgClass, WATT_TABLE, WattDatePipe],
 })
 export class DhTableDayViewComponent {
-  columns: WattTableColumnDef<DhImbalancePricesForDay> = {
+  columns: WattTableColumnDef<DhImbalancePricesForDayProcessed> = {
     period: { accessor: null },
     price: { accessor: null },
   };
 
-  tableDataSource = new WattTableDataSource<DhImbalancePricesForDay>([]);
+  tableDataSource = new WattTableDataSource<DhImbalancePricesForDayProcessed>([]);
 
   data = input.required<DhImbalancePricesForDay[]>();
 
   constructor() {
     effect(() => {
-      this.tableDataSource.data = this.data();
+      this.tableDataSource.data = this.processImbalancePricesForDay(this.data());
     });
+  }
+
+  private processImbalancePricesForDay(
+    data: DhImbalancePricesForDay[]
+  ): DhImbalancePricesForDayProcessed[] {
+    if (data.length === 0) {
+      return [];
+    }
+
+    const resolutionInMinutes = this.getResolutionInMinutes(data);
+
+    return data.map((day) => ({
+      ...day,
+      timestampFrom: day.timestamp,
+      timestampTo: add(day.timestamp, { minutes: resolutionInMinutes }),
+    }));
+  }
+
+  private getResolutionInMinutes(data: DhImbalancePricesForDay[]) {
+    const _60_min = 60;
+    const _15_min = 15;
+
+    if (data.length === 1) {
+      return _60_min;
+    }
+
+    const [firstEntry, secondEntry] = data;
+
+    return differenceInMinutes(secondEntry.timestamp, firstEntry.timestamp) === _15_min
+      ? _15_min
+      : _60_min;
   }
 }
