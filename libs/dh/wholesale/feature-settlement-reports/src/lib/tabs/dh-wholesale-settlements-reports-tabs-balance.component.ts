@@ -33,7 +33,6 @@ import { Apollo } from 'apollo-angular';
 import { addDays } from 'date-fns';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
@@ -51,8 +50,8 @@ import {
   WattTableComponent,
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import {
   EicFunction,
@@ -68,10 +67,8 @@ export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
   standalone: true,
   selector: 'dh-wholesale-settlements-reports-tabs-balance',
   templateUrl: './dh-wholesale-settlements-reports-tabs-balance.component.html',
-  styleUrls: ['./dh-wholesale-settlements-reports-tabs-balance.component.scss'],
   imports: [
     WATT_TABS,
-    WATT_CARD,
     WATT_TABLE,
     TranslocoModule,
     WattButtonComponent,
@@ -79,8 +76,10 @@ export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
     WattFormChipDirective,
     ReactiveFormsModule,
     WattDropdownComponent,
-    WattEmptyStateComponent,
-    WattSpinnerComponent,
+    WattDataTableComponent,
+    WattDataFiltersComponent,
+    VaterStackComponent,
+    VaterSpacerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
