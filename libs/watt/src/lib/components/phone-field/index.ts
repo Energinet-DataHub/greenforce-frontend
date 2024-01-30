@@ -14,30 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-card {
-  display: grid;
-}
-
-watt-card-title {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-
-  h3 {
-    margin-right: auto;
-  }
-}
-
-.form-grid {
-  display: flex;
-  align-items: center;
-  gap: var(--watt-space-m);
-
-  watt-button {
-    margin-left: auto;
-  }
-}
-
-.date-picker {
-  width: 300px;
-}
+export { WattPhoneFieldComponent } from './watt-phone-field.component';
+export { WattPhoneFieldIntlService } from './watt-phone-field-intl.service';

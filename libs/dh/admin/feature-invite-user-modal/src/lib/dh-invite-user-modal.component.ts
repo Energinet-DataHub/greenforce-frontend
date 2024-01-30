@@ -28,7 +28,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { distinctUntilChanged, filter, map, of, take } from 'rxjs';
@@ -48,13 +48,14 @@ import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domai
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { dhDkPhoneNumberValidator } from '@energinet-datahub/dh/shared/ui-validators';
+
 import { Apollo } from 'apollo-angular';
 import {
   GetAssociatedActorsDocument,
   GetKnownEmailsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -77,13 +78,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     WATT_STEPPER,
     WattTextFieldComponent,
     WattFieldErrorComponent,
+    WattPhoneFieldComponent,
   ],
 })
 export class DhInviteUserModalComponent implements AfterViewInit {
   private readonly actorStore = inject(DhUserActorsDataAccessApiStore);
   private readonly assignableUserRolesStore = inject(DhAdminAssignableUserRolesStore);
   private readonly inviteUserStore = inject(DhAdminInviteUserStore);
-  private readonly formBuilder = inject(FormBuilder);
+  private readonly nonNullableFormBuilder = inject(NonNullableFormBuilder);
   private readonly toastService = inject(WattToastService);
   private readonly translocoService = inject(TranslocoService);
   private readonly apollo = inject(Apollo);
@@ -110,7 +112,7 @@ export class DhInviteUserModalComponent implements AfterViewInit {
   knownEmails: string[] = [];
   isLoadingEmails = true;
 
-  baseInfo = this.formBuilder.group({
+  baseInfo = this.nonNullableFormBuilder.group({
     actorId: ['', Validators.required],
     email: [
       { value: '', disabled: true },
@@ -144,20 +146,12 @@ export class DhInviteUserModalComponent implements AfterViewInit {
     ],
   });
 
-  userInfo = this.formBuilder.group({
+  userInfo = this.nonNullableFormBuilder.group({
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
-    phoneNumber: [
-      '',
-      [
-        Validators.required,
-        Validators.maxLength(12),
-        Validators.minLength(12),
-        dhDkPhoneNumberValidator,
-      ],
-    ],
+    phoneNumber: ['', [Validators.required]],
   });
-  userRoles = this.formBuilder.group({
+  userRoles = this.nonNullableFormBuilder.group({
     selectedUserRoles: [[] as string[], Validators.required],
   });
 
@@ -222,14 +216,18 @@ export class DhInviteUserModalComponent implements AfterViewInit {
     const { firstname, lastname, phoneNumber } = this.userInfo.controls;
     const { email, actorId } = this.baseInfo.controls;
 
+    const phoneParts = phoneNumber.value.split(' ');
+    const [prefix, ...rest] = phoneParts;
+    const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
+
     this.inviteUserStore.inviteUser({
       invitation: {
-        firstName: firstname.value ? firstname.value : 'J',
-        lastName: lastname.value ? lastname.value : 'D',
-        email: email.value ?? '',
-        phoneNumber: phoneNumber.value ? phoneNumber.value : '+45 12345678',
-        assignedActor: actorId.value ?? '',
-        assignedRoles: this.userRoles.controls.selectedUserRoles.value ?? [],
+        firstName: firstname.value,
+        lastName: lastname.value,
+        email: email.value,
+        phoneNumber: formattedPhoneNumber,
+        assignedActor: actorId.value,
+        assignedRoles: this.userRoles.controls.selectedUserRoles.value,
       },
       onSuccess: () => this.onInviteSuccess(email.value),
       onError: (e) => this.onInviteError(e),

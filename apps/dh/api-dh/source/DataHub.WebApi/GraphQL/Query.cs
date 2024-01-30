@@ -21,6 +21,7 @@ using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate;
 using Microsoft.AspNetCore.Http;
 using NodaTime;
@@ -316,9 +317,58 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public async Task<IEnumerable<GridAreaOverviewItemDto>> GetGridAreaOverviewAsync([Service] IMarketParticipantClient_V1 client) =>
             await client.GridAreaOverviewAsync();
 
-        public Task<ImbalancePricesOverview> GetImbalancePricesOverviewAsync()
+        public async Task<ImbalancePricesOverview> GetImbalancePricesOverviewAsync([Service] IImbalancePricesClient_V1 client)
         {
-            return Task.FromResult(new ImbalancePricesOverview());
+            var tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
+
+            var f = new DateTime(2021, 1, 1, 0, 0, 0);
+            var t = new DateTime(2021, 2, 1, 0, 0, 0);
+            var s = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1, 0, 0, 0);
+
+            var from = TimeZoneInfo.ConvertTime(new DateTimeOffset(f, tz.GetUtcOffset(f)), tz);
+            var to = TimeZoneInfo.ConvertTime(new DateTimeOffset(t, tz.GetUtcOffset(t)), tz);
+            var stop = TimeZoneInfo.ConvertTime(new DateTimeOffset(s, tz.GetUtcOffset(s)), tz);
+
+            var tasks = new List<Task<ImbalancePricePeriod>>();
+
+            while (from < stop)
+            {
+                tasks.Add(GetPricesAsync(from, to, PriceAreaCode.AreaCode1, client));
+                tasks.Add(GetPricesAsync(from, to, PriceAreaCode.AreaCode2, client));
+                f = f.AddMonths(1);
+                t = t.AddMonths(1);
+                from = TimeZoneInfo.ConvertTime(new DateTimeOffset(f, tz.GetUtcOffset(f)), tz);
+                to = TimeZoneInfo.ConvertTime(new DateTimeOffset(t, tz.GetUtcOffset(t)), tz);
+            }
+
+            var imbalancePricePeriods = await Task.WhenAll(tasks);
+
+            return new ImbalancePricesOverview
+            {
+                PricePeriods = imbalancePricePeriods.OrderByDescending(x => x.Name).ThenBy(x => x.PriceAreaCode),
+            };
+
+            static async Task<ImbalancePricePeriod> GetPricesAsync(DateTimeOffset from, DateTimeOffset to, PriceAreaCode priceAreaCode, IImbalancePricesClient_V1 client)
+            {
+                var status = await client.StatusAsync(from, to, priceAreaCode);
+                return new ImbalancePricePeriod
+                {
+                    PriceAreaCode = priceAreaCode switch
+                    {
+                        PriceAreaCode.AreaCode1 => Controllers.MarketParticipant.Dto.PriceAreaCode.Dk1,
+                        PriceAreaCode.AreaCode2 => Controllers.MarketParticipant.Dto.PriceAreaCode.Dk2,
+                        _ => throw new ArgumentOutOfRangeException(nameof(priceAreaCode)),
+                    },
+                    Name = from,
+                    Status = status switch
+                    {
+                        ImbalancePricePeriodStatus.NoPrices => ImbalancePriceStatus.NoData,
+                        ImbalancePricePeriodStatus.Incomplete => ImbalancePriceStatus.InComplete,
+                        ImbalancePricePeriodStatus.Complete => ImbalancePriceStatus.Complete,
+                        _ => throw new ArgumentOutOfRangeException(nameof(status)),
+                    },
+                };
+            }
         }
 
         public async Task<IEnumerable<ImbalancePricesDailyDto>> GetImbalancePricesForMonthAsync(

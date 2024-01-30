@@ -64,7 +64,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
           }
         }
       }
@@ -137,6 +145,65 @@
         }
       }
     },
+    "/imbalance-prices/status": {
+      "get": {
+        "tags": [
+          "Imbalance"
+        ],
+        "operationId": "status",
+        "parameters": [
+          {
+            "name": "fromDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "priceAreaCode",
+            "in": "query",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/PriceAreaCode"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImbalancePricePeriodStatus"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImbalancePricePeriodStatus"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImbalancePricePeriodStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/ping-imbalance-prices/ping": {
       "get": {
         "tags": [
@@ -166,14 +233,6 @@
   },
   "components": {
     "schemas": {
-      "ImbalancePriceDailyCompletenessStatus": {
-        "type": "string",
-        "enum": [
-          "NoData",
-          "InComplete",
-          "Complete"
-        ]
-      },
       "ImbalancePriceDto": {
         "type": "object",
         "additionalProperties": false,
@@ -195,6 +254,14 @@
           }
         }
       },
+      "ImbalancePricePeriodStatus": {
+        "type": "string",
+        "enum": [
+          "NoPrices",
+          "Incomplete",
+          "Complete"
+        ]
+      },
       "ImbalancePricesDailyDto": {
         "type": "object",
         "additionalProperties": false,
@@ -202,7 +269,7 @@
           "status": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ImbalancePriceDailyCompletenessStatus"
+                "$ref": "#/components/schemas/ImbalancePricePeriodStatus"
               }
             ]
           },
@@ -215,6 +282,11 @@
             "items": {
               "$ref": "#/components/schemas/ImbalancePriceDto"
             }
+          },
+          "importedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },

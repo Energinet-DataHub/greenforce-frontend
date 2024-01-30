@@ -24,7 +24,16 @@
       "previous": "Forrige"
     },
     "fieldValidation": {
-      "required": "Feltet er påkrævet."
+      "required": "Feltet er påkrævet.",
+      "invalidPhoneNumber": "Ugyldigt telefonnummer"
+    },
+    "countries": {
+      "DK": "Danmark",
+      "SE": "Sverige",
+      "NO": "Norge",
+      "FI": "Finland",
+      "DE": "Tyskland",
+      "PL": "Polen"
     },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
@@ -42,6 +51,7 @@
       }
     },
     "download": "Download",
+    "downloadreport": "Download rapport",
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
     "processType": "Beregningstype"
@@ -741,7 +751,7 @@
     "table": {
       "columns": {
         "period": "Periode",
-        "priceArea": "Område",
+        "priceArea": "Prisområde",
         "status": "Status"
       },
       "emptyTitle": "Ingen ubalancepriser fundet",
@@ -754,12 +764,16 @@
     "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen",
     "status": {
       "IN_COMPLETE": "Mangler priser",
+      "NO_DATA": "Ingen priser",
       "COMPLETE": "Komplet"
     },
     "drawer": {
-      "areaLabel": "Område",
+      "priceAreaLabel": "Prisområde",
       "updatedLabel": "Indlæst",
-      "pricesNote": "Priser angivet i DKK for kWh"
+      "pricesNote": "Priser angivet i DKK for kWh",
+      "download": "Download",
+      "downloadStart": "Starter download...",
+      "downloadFailed": "Download fejlede"
     }
   },
   "wholesale": {
@@ -1189,6 +1203,7 @@
           },
           "permissions": {
             "label": "Tildel rettigheder",
+            "required": "Vælg minimum én rettighed.",
             "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
           }
         }
@@ -1257,7 +1272,9 @@
       "permissionsTab": {
         "headline": "Rettigheder",
         "permissionName": "Navn",
-        "permissionDescription": "Beskrivelse"
+        "permissionDescription": "Beskrivelse",
+        "downloadStart": "Starter download...",
+        "downloadFailed": "Download fejlede"
       },
       "permissionDetail": {
         "edit": "Rediger rettighed",

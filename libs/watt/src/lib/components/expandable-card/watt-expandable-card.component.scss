@@ -43,6 +43,10 @@
 
     &.mat-expansion-toggle-indicator-before {
       @include expansion-indicator;
+
+      .mat-expansion-panel-header-title {
+        margin-right: 0;
+      }
     }
   }
 
@@ -53,7 +57,7 @@
     padding: 0 var(--watt-space-m);
   }
 
-  watt-badge {
+  .mat-expansion-panel-header-title > watt-badge {
     margin-right: var(--watt-space-m);
   }
 

@@ -32,17 +32,6 @@ export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
  * },
  */
 
-const created = '27-11-2023';
-
-export const dhFeatureFlagsConfig = {
-  charges_price_date_chips_feature_flag: {
-    created,
-    disabledEnvironments: [],
-  },
-  charge_prices_download_button_feature_flag: {
-    created,
-    disabledEnvironments: [],
-  },
-} satisfies FeatureFlagConfig;
+export const dhFeatureFlagsConfig = {} satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;

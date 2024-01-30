@@ -18,7 +18,6 @@ import { Component, Input, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -28,9 +27,9 @@ import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.componen
 import { DhImbalancePricesDrawerComponent } from '../drawer/dh-drawer.component';
 
 @Component({
-  selector: 'dh-imbalance-prices-table',
+  selector: 'dh-table-month-view',
   standalone: true,
-  templateUrl: './dh-table.component.html',
+  templateUrl: './dh-table-month-view.component.html',
   styles: [
     `
       :host {
@@ -42,7 +41,6 @@ import { DhImbalancePricesDrawerComponent } from '../drawer/dh-drawer.component'
     TranslocoDirective,
 
     WATT_TABLE,
-    WattPaginatorComponent,
     WattEmptyStateComponent,
     WattDatePipe,
     VaterFlexComponent,
@@ -52,7 +50,7 @@ import { DhImbalancePricesDrawerComponent } from '../drawer/dh-drawer.component'
     DhImbalancePricesDrawerComponent,
   ],
 })
-export class DhImbalancePricesTableComponent {
+export class DhTableMonthViewComponent {
   columns: WattTableColumnDef<DhImbalancePrice> = {
     period: { accessor: 'name' },
     priceArea: { accessor: 'priceAreaCode' },
