@@ -71,6 +71,16 @@ export class DhPhoneFieldIntlService extends WattPhoneFieldIntlService {
       this.invalidPhoneNumber = translations.invalidPhoneNumber;
       this.changes.next();
     });
+
+    transloco.selectTranslateObject('shared.countries').subscribe((translations) => {
+      this.DK = translations.DK;
+      this.NO = translations.NO;
+      this.SE = translations.SE;
+      this.DE = translations.DE;
+      this.FI = translations.FI;
+      this.PL = translations.PL;
+      this.changes.next();
+    });
   }
 }
 
