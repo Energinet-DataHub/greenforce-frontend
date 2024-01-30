@@ -263,6 +263,8 @@ export class DhWholesaleRequestCalculationComponent {
       balanceResponsibleId,
       processType: processtType,
     } = this.form.getRawValue();
+
+    console.log(this.form.getRawValue());
     if (!gridarea || !meteringPointType || !processtType || !period.start || !period.end) return;
 
     const meteringPoint = meteringPointType as MeteringPointType;

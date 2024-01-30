@@ -14,26 +14,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ChangeDetectionStrategy, Input, ViewEncapsulation } from '@angular/core';
-import { HighlightModule } from 'ngx-highlightjs';
-
-type languages = 'xml' | 'json';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  ViewEncapsulation,
+  OnInit,
+  signal,
+} from '@angular/core';
 
 @Component({
   selector: 'watt-code',
   template: `
     <pre>
-        <code [highlight]="code" [lineNumbers]="lineNumbers" [languages]="languages"></code>
+        <code>{{ formattedCode() }}</code>
       </pre>
   `,
   styleUrls: ['./watt-code.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [HighlightModule],
 })
-export class WattCodeComponent {
+export class WattCodeComponent implements OnInit {
   @Input({ required: true }) code: string | null = null;
-  @Input() languages!: languages[];
   @Input() lineNumbers = true;
+
+  formattedCode = signal<string>('');
+
+  ngOnInit(): void {
+    const worker = new Worker(new URL('./watt-code.worker.ts', import.meta.url));
+    worker.onmessage = (event) => {
+      this.formattedCode.set(event.data);
+    };
+    worker.postMessage(this.code);
+  }
 }
