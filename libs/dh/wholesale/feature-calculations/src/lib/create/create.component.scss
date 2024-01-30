@@ -31,6 +31,10 @@ watt-validation-message {
   margin-top: var(--watt-space-s);
   padding: var(--watt-space-m) 0;
   overflow: hidden;
+
+  > * {
+    width: 100%;
+  }
 }
 
 .chips {

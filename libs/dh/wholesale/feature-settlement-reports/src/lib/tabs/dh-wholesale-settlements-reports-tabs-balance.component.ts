@@ -23,8 +23,9 @@ import {
   AfterViewInit,
   ViewChild,
   inject,
+  signal,
+  ViewEncapsulation,
 } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { ApolloError } from '@apollo/client/errors';
@@ -33,7 +34,6 @@ import { Apollo } from 'apollo-angular';
 import { addDays } from 'date-fns';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
@@ -51,7 +51,9 @@ import {
   WattTableComponent,
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+
 import {
   EicFunction,
   GetActorsForSettlementReportDocument,
@@ -66,11 +68,21 @@ export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
   standalone: true,
   selector: 'dh-wholesale-settlements-reports-tabs-balance',
   templateUrl: './dh-wholesale-settlements-reports-tabs-balance.component.html',
-  styleUrls: ['./dh-wholesale-settlements-reports-tabs-balance.component.scss'],
+  styles: [
+    `
+      dh-wholesale-settlements-reports-tabs-balance .filters {
+        vater-stack > * {
+          min-height: 74px;
+        }
+
+        watt-field-error {
+          position: absolute;
+        }
+      }
+    `,
+  ],
   imports: [
-    NgIf,
     WATT_TABS,
-    WATT_CARD,
     WATT_TABLE,
     TranslocoModule,
     WattButtonComponent,
@@ -78,9 +90,13 @@ export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
     WattFormChipDirective,
     ReactiveFormsModule,
     WattDropdownComponent,
-    WattEmptyStateComponent,
+    WattDataTableComponent,
+    WattDataFiltersComponent,
+    VaterStackComponent,
+    VaterSpacerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class DhWholesaleSettlementsReportsTabsBalanceComponent
   implements OnInit, AfterViewInit, OnDestroy
@@ -137,6 +153,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
   gridAreas: WattDropdownOption[] = [];
   selectedGridAreas?: string[];
   error?: ApolloError;
+  loadingGridAreas = signal<boolean>(false);
   dataSource = new WattTableDataSource<settlementReportsTableColumns>();
 
   ngOnInit(): void {
@@ -156,6 +173,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
 
     this.subscriptionGridAreas = this.gridAreasQuery.valueChanges.subscribe({
       next: (result) => {
+        this.loadingGridAreas.set(result.loading);
         this.error = result.error;
         this.dataSource.data =
           result.data?.gridAreas
@@ -175,6 +193,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
             })) ?? [];
       },
       error: (error) => {
+        this.loadingGridAreas.set(false);
         this.error = error;
       },
     });
@@ -204,7 +223,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
     this.subscriptionGridAreaSelected = this.searchForm.controls.gridAreas.valueChanges.subscribe(
       (value) => {
         this.selectedGridAreas = value ?? [];
-        this.resultTable.clearSelection();
+        this.resultTable?.clearSelection();
         this.gridAreasQuery.refetch();
       }
     );
