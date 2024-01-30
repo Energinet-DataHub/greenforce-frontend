@@ -68,17 +68,19 @@ export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
   standalone: true,
   selector: 'dh-wholesale-settlements-reports-tabs-balance',
   templateUrl: './dh-wholesale-settlements-reports-tabs-balance.component.html',
-  styles: [`
-    dh-wholesale-settlements-reports-tabs-balance .filters {
-      vater-stack > * {
-        min-height: 74px;
-      }
+  styles: [
+    `
+      dh-wholesale-settlements-reports-tabs-balance .filters {
+        vater-stack > * {
+          min-height: 74px;
+        }
 
-      watt-field-error {
-        position: absolute;
+        watt-field-error {
+          position: absolute;
+        }
       }
-    }
-  `],
+    `,
+  ],
   imports: [
     WATT_TABS,
     WATT_TABLE,
