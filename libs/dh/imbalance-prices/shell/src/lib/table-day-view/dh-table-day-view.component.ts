@@ -85,13 +85,27 @@ export class DhTableDayViewComponent {
       return [];
     }
 
-    const [firstEntry, secondEntry] = data;
-    const resolution = differenceInMinutes(secondEntry.timestamp, firstEntry.timestamp);
+    const resolutionInMinutes = this.getResolutionInMinutes(data);
 
     return data.map((day) => ({
       ...day,
       timestampFrom: day.timestamp,
-      timestampTo: add(day.timestamp, { minutes: resolution }),
+      timestampTo: add(day.timestamp, { minutes: resolutionInMinutes }),
     }));
+  }
+
+  private getResolutionInMinutes(data: DhImbalancePricesForDay[]) {
+    const _60_min = 60;
+    const _15_min = 15;
+
+    if (data.length === 1) {
+      return _60_min;
+    }
+
+    const [firstEntry, secondEntry] = data;
+
+    return differenceInMinutes(secondEntry.timestamp, firstEntry.timestamp) === _15_min
+      ? _15_min
+      : _60_min;
   }
 }
