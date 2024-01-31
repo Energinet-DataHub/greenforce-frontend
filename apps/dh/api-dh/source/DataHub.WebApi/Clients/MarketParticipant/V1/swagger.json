@@ -3171,6 +3171,21 @@
           }
         }
       },
+      "InvitationUserDetailsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        }
+      },
       "OrganizationAuditedChange": {
         "type": "string",
         "enum": [
@@ -3516,14 +3531,13 @@
           "email": {
             "type": "string"
           },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "phoneNumber": {
-            "type": "string"
+          "invitationUserDetails": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/InvitationUserDetailsDto"
+              }
+            ]
           },
           "assignedActor": {
             "type": "string",
