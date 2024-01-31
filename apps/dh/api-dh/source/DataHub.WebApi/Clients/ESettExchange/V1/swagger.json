@@ -320,6 +320,45 @@
           }
         }
       }
+    },
+    "/status": {
+      "get": {
+        "tags": [
+          "Status"
+        ],
+        "operationId": "status",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReadinessStatusDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReadinessStatusDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReadinessStatusDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -401,6 +440,15 @@
           "AwaitingReply",
           "Accepted",
           "Rejected"
+        ]
+      },
+      "ESettStageComponent": {
+        "type": "string",
+        "enum": [
+          "Ingestion",
+          "Converter",
+          "Sender",
+          "Receiver"
         ]
       },
       "ExchangeEventSearchFilter": {
@@ -659,6 +707,22 @@
           },
           "storageId": {
             "type": "string"
+          }
+        }
+      },
+      "ReadinessStatusDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "component": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ESettStageComponent"
+              }
+            ]
+          },
+          "isReady": {
+            "type": "boolean"
           }
         }
       },

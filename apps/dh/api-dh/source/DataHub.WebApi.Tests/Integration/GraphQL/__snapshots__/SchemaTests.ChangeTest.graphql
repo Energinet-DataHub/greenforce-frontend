@@ -287,6 +287,7 @@ type Query {
   actorById(id: UUID!): Actor!
   actors: [Actor!]!
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
+  esettServiceStatus: [ReadinessStatusDto!]!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int! pageSize: Int! periodFrom: DateTime periodTo: DateTime gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String): ExchangeEventSearchResponse!
   meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime gridAreaCode: String documentId: String): MeteringGridAreaImbalanceSearchResponse!
@@ -298,6 +299,11 @@ type Query {
   gridAreaOverview: [GridAreaOverviewItemDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
+}
+
+type ReadinessStatusDto {
+  component: ESettStageComponent!
+  isReady: Boolean!
 }
 
 type SettlementReport {
@@ -507,6 +513,13 @@ enum DocumentStatus {
   AWAITING_REPLY
   ACCEPTED
   REJECTED
+}
+
+enum ESettStageComponent {
+  INGESTION
+  CONVERTER
+  SENDER
+  RECEIVER
 }
 
 enum EdiB2CProcessType {
