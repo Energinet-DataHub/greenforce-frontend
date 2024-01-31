@@ -20124,6 +20124,7 @@ __metadata:
     eslint-plugin-storybook: "npm:0.6.13"
     glob: "npm:10.2.4"
     graphql: "npm:16.8.1"
+    highlight.js: "npm:^11.9.0"
     html-webpack-plugin: "npm:5.5.3"
     husky: "npm:8.0.3"
     include-media: "npm:2.0.0"
@@ -20143,7 +20144,6 @@ __metadata:
     msw: "npm:2.0.13"
     ng-mocks: "npm:14.0.1"
     ng2-charts: "npm:5.0.3"
-    ngx-highlightjs: "npm:10.0.0"
     ngx-mat-select-search: "npm:7.0.5"
     nx: "npm:17.2.8"
     prettier: "npm:3.1.0"
@@ -23817,7 +23817,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"highlight.js@npm:*, highlight.js@npm:^11.8.0":
+"highlight.js@npm:*":
   version: 11.8.0
   resolution: "highlight.js@npm:11.8.0"
   checksum: ab48cb4fa2b0bc8bc897a129dc498e5df4ec0ca7c699299d22fafb8883e3bb4c81626b896214f94627fccdadbe46eabab6afc8f7ce36a55bd2164b9aa1b3c2c6
@@ -23828,6 +23828,13 @@ __metadata:
   version: 10.7.3
   resolution: "highlight.js@npm:10.7.3"
   checksum: 073837eaf816922427a9005c56c42ad8786473dc042332dfe7901aa065e92bc3d94ebf704975257526482066abb2c8677cc0326559bb8621e046c21c5991c434
+  languageName: node
+  linkType: hard
+
+"highlight.js@npm:^11.9.0":
+  version: 11.9.0
+  resolution: "highlight.js@npm:11.9.0"
+  checksum: 27cfa8717dc9d200aecbdb383eb122d5f45ce715d2f468583785d36fbfe5076ce033abb02486dc13b407171721cda6f474ed3f3a5a8e8c3d91367fa5f51ee374
   languageName: node
   linkType: hard
 
@@ -29288,20 +29295,6 @@ __metadata:
     chart.js: ^3.4.0 || ^4.0.0
     rxjs: ^6.5.3 || ^7.4.0
   checksum: 7f161a9493c68f5210d0d7ff288fdec1eded55e3579866b7697c798c5ef42a6d1621c55e4fac7cc4ca8fc09eb0da124764f12cdfb88f419c6d82bec4d5ffe8ab
-  languageName: node
-  linkType: hard
-
-"ngx-highlightjs@npm:10.0.0":
-  version: 10.0.0
-  resolution: "ngx-highlightjs@npm:10.0.0"
-  dependencies:
-    highlight.js: "npm:^11.8.0"
-    tslib: "npm:^2.0.0"
-  peerDependencies:
-    "@angular/common": ">=16.0.0"
-    "@angular/core": ">=16.0.0"
-    rxjs: ">=7.0.0"
-  checksum: f562e1a6d4676b025f9d745ed8abc8d1496d78eb2e9769f16892b038aa815f87a3b714c4f33885d365f9547ce64279648129a307356c1abad8c7f48fd5adc58b
   languageName: node
   linkType: hard
 
