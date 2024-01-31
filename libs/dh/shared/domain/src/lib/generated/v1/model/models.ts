@@ -29,6 +29,7 @@ export * from './market-participant-get-actors-associated-with-external-user-id-
 export * from './market-participant-get-actors-associated-with-user-response';
 export * from './market-participant-get-user-overview-response';
 export * from './market-participant-grid-area-dto';
+export * from './market-participant-invitation-user-details-dto';
 export * from './market-participant-organization-dto';
 export * from './market-participant-organization-with-actors-dto';
 export * from './market-participant-permission-details-dto';
