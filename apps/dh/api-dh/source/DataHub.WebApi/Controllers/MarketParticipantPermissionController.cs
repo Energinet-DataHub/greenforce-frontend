@@ -13,8 +13,10 @@
 // limitations under the License.
 
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -45,6 +47,16 @@ namespace Energinet.DataHub.WebApi.Controllers
         public Task<ActionResult> UpdateAsync(UpdatePermissionDto permissionDto)
         {
             return HandleExceptionAsync(() => _client.PermissionPutAsync(permissionDto));
+        }
+
+        [HttpGet]
+        [Route("GetPermissionRelationsCSV")]
+        [Produces(MediaTypeNames.Text.Plain)]
+        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ICollection<PermissionDto>>> GetPermissionRelationsAsync()
+        {
+            var result = await _client.PermissionRelationAsync();
+            return File(result.Stream, MediaTypeNames.Text.Plain);
         }
     }
 }

@@ -85,6 +85,8 @@ export const customIcons = {
   'custom-flag-de': 'flag-de',
   'custom-flag-se': 'flag-se',
   'custom-flag-no': 'flag-no',
+  'custom-flag-fi': 'flag-fi',
+  'custom-flag-pl': 'flag-pl',
 };
 
 export const allIcons = { ...materialIcons, ...customIcons };
