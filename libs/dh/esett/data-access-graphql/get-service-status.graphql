@@ -1,0 +1,6 @@
+query getServiceStatus {
+  esettServiceStatus {
+    component
+    isReady
+  }
+}
