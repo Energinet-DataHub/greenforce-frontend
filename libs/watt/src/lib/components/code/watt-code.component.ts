@@ -26,6 +26,8 @@ import {
 import { WattSpinnerComponent } from '../spinner';
 import { VaterStackComponent } from '../vater';
 
+import { createWorker } from './watt-code.worker-factory';
+
 @Component({
   selector: 'watt-code',
   template: `
@@ -53,10 +55,10 @@ export class WattCodeComponent implements OnInit {
 
   /** @ignore */
   ngOnInit(): void {
-    console.log(this.code());
     if (this.code() === null) return;
 
-    const worker = new Worker(new URL('./watt-code.worker.ts', import.meta.url));
+    const worker = createWorker();
+
     worker.onmessage = (event) => {
       this.formattedCode.set(event.data);
       this.loading.set(false);
