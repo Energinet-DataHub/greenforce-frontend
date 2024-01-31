@@ -222,10 +222,15 @@ export class DhInviteUserModalComponent implements AfterViewInit {
 
     this.inviteUserStore.inviteUser({
       invitation: {
-        firstName: firstname.value,
-        lastName: lastname.value,
+        invitationUserDetails:
+          firstname.value && lastname.value && phoneNumber.value
+            ? {
+                firstName: firstname.value,
+                lastName: lastname.value,
+                phoneNumber: formattedPhoneNumber,
+              }
+            : undefined,
         email: email.value,
-        phoneNumber: formattedPhoneNumber,
         assignedActor: actorId.value,
         assignedRoles: this.userRoles.controls.selectedUserRoles.value,
       },

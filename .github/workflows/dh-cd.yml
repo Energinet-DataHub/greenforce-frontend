@@ -86,7 +86,7 @@ jobs:
         id: find_pull_request
 
       - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.internal_github_pat }}
           repository: ${{ vars.environment_repository_path }}
