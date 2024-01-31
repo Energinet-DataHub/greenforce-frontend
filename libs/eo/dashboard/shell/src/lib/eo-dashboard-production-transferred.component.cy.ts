@@ -19,7 +19,7 @@ import { EoDashboardProductionTransferredComponent } from './eo-dashboard-produc
 import { provideRouter } from '@angular/router';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 
-describe('EO - Dashboard', () => {
+describe('EO - Transferred Chart', () => {
   type configKey = 'aggregate-claims' | 'aggregate-certificates' | 'aggregate-transfers';
   type configValue = 'has-error' | 'no-data';
 
