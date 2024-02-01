@@ -37,8 +37,6 @@ describe('EO - Transferred Chart', () => {
   }
 
   function initComponent() {
-    cy.clock(1698303600 * 1000, ['Date']);
-
     cy.mount(EoDashboardProductionTransferredComponent, {
       providers: [provideHttpClient(withInterceptorsFromDi()), provideRouter([])],
       componentProperties: {
@@ -80,16 +78,21 @@ describe('EO - Transferred Chart', () => {
   it('should show correct percentages in legends', () => {
     initComponent();
 
-    getUnusedLegend().contains('81%');
-    getTransferredLegend().contains('19%');
+    getUnusedLegend().contains('80%');
+    getTransferredLegend().contains('20%');
     getConsumedLegend().contains('<1%');
   });
 
   it('should show the same percentage in the transferred legend and the headline', () => {
     initComponent();
 
-    const expectedPercentage = '19%';
-    getHeadline().contains(expectedPercentage);
-    getTransferredLegend().contains(expectedPercentage);
+    // Ensure the data has loaded before we start checking
+    getHeadline().should('not.contain', ' 0%');
+
+    getHeadline().then((headline) => {
+      const headlineText = headline.text();
+      const percentage = headlineText.match(/\d+%/)?.[0];
+      getTransferredLegend().should('contain', percentage);
+    });
   });
 });

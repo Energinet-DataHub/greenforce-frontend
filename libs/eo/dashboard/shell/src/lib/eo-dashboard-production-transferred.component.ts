@@ -167,9 +167,6 @@ interface Totals {
       />
     </watt-card-title>
 
-    <p>current timestamp: {{ currentTimestamp }}</p>
-    <p>current timezone: {{ currentTimezone }}</p>
-
     @if (isLoading || hasError) {
       <div class="loader-container">
         @if (isLoading) {
