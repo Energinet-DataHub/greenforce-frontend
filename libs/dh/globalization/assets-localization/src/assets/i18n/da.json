@@ -776,7 +776,7 @@
     "drawer": {
       "priceAreaLabel": "Prisområde",
       "updatedLabel": "Indlæst",
-      "pricesNote": "Priser angivet i DKK for kWh",
+      "pricesNote": "Prisen er angivet i DKK/kWh",
       "download": "Download",
       "downloadStart": "Starter download...",
       "downloadFailed": "Download fejlede"
