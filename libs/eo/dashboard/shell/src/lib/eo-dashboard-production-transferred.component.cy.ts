@@ -37,6 +37,8 @@ describe('EO - Transferred Chart', () => {
   }
 
   function initComponent() {
+    cy.clock(1698303600 * 1000, ['Date']);
+
     cy.mount(EoDashboardProductionTransferredComponent, {
       providers: [provideHttpClient(withInterceptorsFromDi()), provideRouter([])],
       componentProperties: {
@@ -77,6 +79,7 @@ describe('EO - Transferred Chart', () => {
 
   it('should show correct percentages in legends', () => {
     initComponent();
+
     getUnusedLegend().contains('81%');
     getTransferredLegend().contains('19%');
     getConsumedLegend().contains('<1%');
