@@ -14,31 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-watt-tabs watt-code pre code.hljs {
-  padding: 0;
-}
-
-watt-code {
-  display: block;
-  overflow: auto;
-
-  pre {
-    display: flex;
-    margin-top: 0;
-    margin-bottom: 0;
-    word-wrap: break-word;
-
-    code {
-      flex: 1;
-      line-height: 1.8em;
-      font-size: 14px;
-      min-height: 100%;
-      padding: 1em 1.2em;
-
-      span.hljs-tag span.hljs-attr::before {
-        content: "\a";
-      }
-    }
-  }
+export function createWorker() {
+  return new Worker(new URL('./watt-code.worker.ts', ''));
 }

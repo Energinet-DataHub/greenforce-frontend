@@ -14,26 +14,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ChangeDetectionStrategy, Input, ViewEncapsulation } from '@angular/core';
-import { HighlightModule } from 'ngx-highlightjs';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  OnInit,
+  signal,
+  input,
+} from '@angular/core';
 
-type languages = 'xml' | 'json';
+import { WattSpinnerComponent } from '../spinner';
+import { VaterStackComponent } from '../vater';
+
+import { createWorker } from './watt-code.worker-factory';
 
 @Component({
   selector: 'watt-code',
   template: `
-    <pre>
-        <code [highlight]="code" [lineNumbers]="lineNumbers" [languages]="languages"></code>
+    @if (loading()) {
+      <vater-stack [fill]="'horizontal'" [align]="'center'"><watt-spinner /></vater-stack>
+    } @else {
+      <pre>
+        <code class="hljs" [innerHTML]="formattedCode()"></code>
       </pre>
+    }
   `,
   styleUrls: ['./watt-code.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  imports: [WattSpinnerComponent, VaterStackComponent],
   standalone: true,
-  imports: [HighlightModule],
 })
-export class WattCodeComponent {
-  @Input({ required: true }) code: string | null = null;
-  @Input() languages!: languages[];
-  @Input() lineNumbers = true;
+export class WattCodeComponent implements OnInit {
+  code = input.required<string | null>();
+
+  /** @ignore */
+  formattedCode = signal<string>('');
+  /** @ignore */
+  loading = signal<boolean>(false);
+
+  /** @ignore */
+  ngOnInit(): void {
+    if (this.code() === null) return;
+
+    const worker = createWorker();
+
+    worker.onmessage = (event) => {
+      this.formattedCode.set(event.data);
+      this.loading.set(false);
+    };
+    worker.postMessage(this.code());
+    this.loading.set(true);
+  }
 }

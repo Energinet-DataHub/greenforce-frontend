@@ -24,7 +24,7 @@ env:
   NODE_OPTIONS: --max_old_space_size=6144
   node-version-file: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  yarn-version: 3.5.0
+  yarn-version: 4.0.2
 
   # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
