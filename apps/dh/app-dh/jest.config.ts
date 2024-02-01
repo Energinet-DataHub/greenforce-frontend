@@ -21,6 +21,9 @@ export default {
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: { crypto: require('crypto') },
   coverageDirectory: '../../coverage/apps/dh/app-dh',
+  moduleNameMapper: {
+    '.*watt-code.worker-factory': './watt-code.worker-mock-factory.ts',
+  },
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

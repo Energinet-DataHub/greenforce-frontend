@@ -64,11 +64,7 @@ limitations under the License.
           <watt-spinner *ngIf="isLoading; else documentContentTmpl" />
 
           <ng-template #documentContentTmpl>
-            <watt-code
-              [code]="documentContent()"
-              [languages]="['xml', 'json']"
-              [lineNumbers]="true"
-            />
+            <watt-code [code]="documentContent()" />
           </ng-template>
         </div>
       </ng-container>

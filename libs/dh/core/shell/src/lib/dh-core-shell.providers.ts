@@ -29,7 +29,6 @@ import {
 } from '@azure/msal-angular';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormGroupDirective } from '@angular/forms';
-import { HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
 
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhWattTranslationsProviders } from '@energinet-datahub/dh/globalization/configuration-watt-translation';
@@ -94,15 +93,4 @@ export const dhCoreShellProviders = [
   WattModalService,
   interceptors,
   msalProviders,
-  {
-    provide: HIGHLIGHT_OPTIONS,
-    useValue: <HighlightOptions>{
-      coreLibraryLoader: () => import('highlight.js/lib/core'),
-      lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
-      languages: {
-        xml: () => import('highlight.js/lib/languages/xml'),
-        json: () => import('highlight.js/lib/languages/json'),
-      },
-    },
-  },
 ];
