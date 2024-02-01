@@ -51,7 +51,6 @@ export class EovShellComponent implements OnInit {
   lastScroll = 0;
   isLoginOverlayOpen = false;
   showBanner = false;
-  meteringPoints = '';
   isLoggedIn$ = this.authService.hasTokenObservable();
   activeLanguage?: string;
   isMenuOverlayOpen = false;

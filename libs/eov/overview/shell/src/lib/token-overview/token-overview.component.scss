@@ -1,0 +1,9 @@
+watt-expandable-card {
+  padding: var(--watt-space-s);
+}
+
+.button-container {
+  display: grid;
+  justify-content: end;
+  padding: var(--watt-space-s);
+}

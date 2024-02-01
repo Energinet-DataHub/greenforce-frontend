@@ -100,12 +100,16 @@ export class EovAuthService {
       return '';
     }
     const decodedToken: { given_name?: string } = jwt_decode(this.authStore.token.getValue());
-    return decodedToken.given_name ?? '';
+    return decodedToken.given_name ? decodedToken.given_name.split(' ')[0] : '';
   }
 
   getUserType() {
-    // const decodedToken: { company?: string } = jwt_decode(this.authStore.token.getValue());
-    // return !!decodedToken.company;
+    this.checkForExistingToken();
+    if (!this.authStore.token.getValue()) {
+      return '';
+    }
+    const decodedToken: { company?: string } = jwt_decode(this.authStore.token.getValue());
+    return decodedToken.company ? 'company' : 'customer';
   }
 
   loginAsCustomer() {

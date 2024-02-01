@@ -14,11 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
-import { BaseResponse, GraphData, MeteringPointDetails, MeteringPointDto } from "@energinet-datahub/eov/shared/domain";
-import { EovApiEnvironment, eovApiEnvironmentToken } from "@energinet-datahub/eov/shared/environments";
-
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import {
+  ApplicationEnum,
+  ConsentDtoArrayResponse,
+  GraphDTOResponse,
+  MeteringPointDetails,
+  MeteringPointDto,
+  PowerOfAttorneyWithThirdPartyInfoDto,
+  SupplierSwitchHistory, TokenRegistrationDto, TokenRegistrationDtoListResponse,
+} from '@energinet-datahub/eov/shared/domain';
+import {
+  EovApiEnvironment,
+  eovApiEnvironmentToken,
+} from '@energinet-datahub/eov/shared/environments';
+import { map } from 'rxjs';
 
 
 @Injectable({
@@ -46,6 +57,82 @@ export class EovOverviewService {
   }
 
   getGraphData(meteringPointId: string) {
-    return this.http.get<BaseResponse<GraphData>>(this.#apiBase + '/customer/api/MeterData/GetMonthlyGraphData/' + meteringPointId);
+    return this.http.get<GraphDTOResponse>(this.#apiBase + '/customer/api/MeterData/GetMonthlyGraphData/' + meteringPointId);
+  }
+
+  getSupplierSwitchHistory(meteringPointId: string) {
+    return this.http.get<SupplierSwitchHistory>(this.#apiBase + '/customer/api/MeteringPoint/history/' + meteringPointId);
+  }
+
+  getConsents(language: string) {
+    return this.http.get<ConsentDtoArrayResponse>(this.#apiBase + '/customer/api/cpr/getconsents/' + language).pipe(map((result) => result.result ?? []));
+  }
+
+  deleteConsent(applicationId: ApplicationEnum) {
+    return this.http.post<Response>(this.#apiBase + '/customer/api/cpr/revokeconsent/' + applicationId, null);
+  }
+
+  getTokens() {
+    return this.http.get<TokenRegistrationDtoListResponse>(`${this.#apiBase}/customer/api/TokenRegistration`);
+  }
+
+  activateToken(t: TokenRegistrationDto) {
+    return this.http.get(`${this.#apiBase}/customer/api/TokenRegistration/activate/${t.tokenId}`);
+  }
+
+  deactivateToken(t: TokenRegistrationDto) {
+    return this.http.get(`${this.#apiBase}/customer/api/TokenRegistration/deactivate/${t.tokenId}`);
+  }
+
+  addToken(t: TokenRegistrationDto) {
+    return this.http.post(`${this.#apiBase}/customer/api/TokenRegistration`, t);
+  }
+
+  deleteToken(t: TokenRegistrationDto) {
+    return this.http.delete(`${this.#apiBase}/customer/api/TokenRegistration/${t.tokenId}`);
+  }
+
+  getAuthorizations() {
+    return this.http.get<PowerOfAttorneyWithThirdPartyInfoDto[]>(this.#apiBase + '/customer/api/PowerOfAttorney');
+  }
+
+  getAuthorizationPrint(authorizationId: string) {
+    const filename = 'Authorization.pdf';
+
+    return this.http
+      .get(this.#apiBase + '/customer/api/PowerOfAttorney/' + authorizationId, {
+        responseType: 'blob' as 'json',
+      })
+      .subscribe(
+        (response: any) => {
+          this.downloadFile(response, filename);
+        },
+        // (error) => {
+        //   if (error.status === 410) {
+        //     this.dialog.open(ConfirmDialogComponent, {
+        //       data: {
+        //         title: this.translate.instant('Customer.Authorization.Unavailable.Title'),
+        //         message: this.translate.instant('Customer.Authorization.Unavailable.Message'),
+        //       },
+        //     });
+        //   } else {
+        //     this.snackBar.open(this.translate.instant('Error.Generic'), 'OK', {
+        //       duration: 4000,
+        //     });
+        //   }
+        // }
+      );
+  }
+
+  private downloadFile(response: any, filename: string) {
+    const dataType = response.type;
+    const binaryData = [];
+    binaryData.push(response);
+    const downloadLink = document.createElement('a');
+    downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, { type: dataType }));
+    downloadLink.setAttribute('download', filename);
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
   }
 }

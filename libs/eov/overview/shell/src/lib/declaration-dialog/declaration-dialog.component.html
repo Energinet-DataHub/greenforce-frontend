@@ -1,0 +1,126 @@
+<watt-modal title="{{ 'Customer.Declaration.Profile.Title' | transloco }} for {{ this.year }}">
+  <watt-button variant="primary" (click)="print()" class="print-button">
+    {{ "Customer.Declaration.Print.Button" | transloco }}
+  </watt-button>
+  <div class="profile">
+    <div class="text-center">
+      <h3>{{ "Customer.Declaration.Profile.SustainableEnergy" | transloco }}</h3>
+<!--      <renewable-share-chart [value]="renewableShare"></renewable-share-chart>-->
+    </div>
+    <div class="text-center">
+      <h3>{{ "Customer.Declaration.Profile.Emission.Title" | transloco }}</h3>
+      <div class="emission-numbers">
+        <div [innerHTML]="'Customer.Declaration.Profile.Emission.Total.Consumption' | transloco"></div>
+<!--        <div>{{ fuelStats.totalKWH | number: "1.0-0" }} kWh</div>-->
+        <div [innerHTML]="'Customer.Declaration.Profile.Emission.Total.Emission' | transloco"></div>
+<!--        <div>{{ emissionShare.totalCO2Emitted }}</div>-->
+        <div [innerHTML]="'Customer.Declaration.Profile.Emission.Total.Declaration' | transloco"></div>
+<!--        <div>{{ emissionShare.totalCO2GramPerkWh }} g/kWh</div>-->
+        <div [innerHTML]="'Customer.Declaration.Profile.Emission.Average.Declaration' | transloco"></div>
+<!--        <div>{{ declarations("air")[0].reference }} g/kWh</div>-->
+      </div>
+    </div>
+    <div class="text-center">
+      <h3>{{ "Customer.Declaration.Profile.HourProfile" | transloco }}</h3>
+<!--      <hour-profile-chart [value]="hourProfileShare"></hour-profile-chart>-->
+    </div>
+  </div>
+  <div class="energy-origin-production">
+    <h2>{{ "Customer.Declaration.Fuels.Title" | transloco }}</h2>
+<!--    <consumption-chart [value]="fuelConsumptionShare"></consumption-chart>-->
+    <div class="energy-origin-production-table">
+      <div>
+        <div></div>
+        <div>{{ "Customer.Declaration.Fuels.Fuelstype" | transloco }}</div>
+        <div class="text-center">{{ "Customer.Declaration.Fuels.Usage" | transloco }}</div>
+        <div class="text-center">{{ "Customer.Declaration.Fuels.Percent" | transloco }}</div>
+        <div class="text-center">{{ "Customer.Declaration.Fuels.Reference" | transloco }}</div>
+      </div>
+<!--      <div *ngFor="let energySource of productionTableObject">-->
+<!--        <div [className]="energySource.class"><img [src]="energySource.image" /></div>-->
+<!--        <div>{{ energySource.type }}</div>-->
+<!--        <div class="text-right">{{ energySource.consumption | number: "1.0-0" }} kWh</div>-->
+<!--        <div class="text-right">{{ energySource.percent | percent: "1.2-2" }}</div>-->
+<!--        <div class="text-right">{{ energySource.reference | percent: "1.2-2" }}</div>-->
+<!--      </div>-->
+      <div>
+        <div></div>
+        <div class="cell-span-2">{{ "Customer.Declaration.Fuels.TotalUsage" | transloco }}</div>
+<!--        <div class="cell-span-2">{{ fuelStats.totalKWH | number: "1.0-0" }} kWh</div>-->
+      </div>
+    </div>
+  </div>
+  <div>
+    <h2>{{ "Customer.Declaration.Origin.Title" | transloco }}</h2>
+    <div class="energy-origin-fuels-table">
+      <div>
+        <div></div>
+        <div>{{ "Customer.Declaration.Origin.FuelType" | transloco }}</div>
+        <div class="text-right">{{ "Customer.Declaration.Origin.DK1" | transloco }}</div>
+        <div class="text-right">{{ "Customer.Declaration.Origin.DK2" | transloco }}</div>
+        <div class="text-right">{{ "Customer.Declaration.Origin.GE" | transloco }}</div>
+        <div class="text-right">{{ "Customer.Declaration.Origin.NL" | transloco }}</div>
+        <div class="text-right">{{ "Customer.Declaration.Origin.NO" | transloco }}</div>
+        <div class="text-right">{{ "Customer.Declaration.Origin.SE" | transloco }}</div>
+        <div class="text-right">{{ "Customer.Declaration.Origin.Percent" | transloco }}</div>
+      </div>
+<!--      <div *ngFor="let energySource of consumptionTableObject">-->
+<!--        <div [className]="energySource.class">-->
+<!--          <img [src]="energySource.image" />-->
+<!--        </div>-->
+<!--        <div>{{ energySource.type }}</div>-->
+<!--        <div *ngFor="let area of energySource.areas | keyvalue" class="text-right">-->
+<!--          {{ area.value / fuelStats.totalKWH | percent: "1.0-2" }}-->
+<!--        </div>-->
+<!--        <div class="text-right">{{ energySource.percentage | percent: "1.0-2" }}</div>-->
+<!--      </div>-->
+      <div>
+        <div></div>
+        <div style="text-transform: capitalize">{{ "Common.Total" | transloco }}</div>
+<!--        <div class="text-right">{{ fuelstatTotal("DK1") / fuelStats.totalKWH | percent: "1.0-2" }}</div>-->
+<!--        <div class="text-right">{{ fuelstatTotal("DK2") / fuelStats.totalKWH | percent: "1.0-2" }}</div>-->
+<!--        <div class="text-right">{{ fuelstatTotal("GE") / fuelStats.totalKWH | percent: "1.0-2" }}</div>-->
+<!--        <div class="text-right">{{ fuelstatTotal("NL") / fuelStats.totalKWH | percent: "1.0-2" }}</div>-->
+<!--        <div class="text-right">{{ fuelstatTotal("NO") / fuelStats.totalKWH | percent: "1.0-2" }}</div>-->
+<!--        <div class="text-right">{{ fuelstatTotal("SE") / fuelStats.totalKWH | percent: "1.0-2" }}</div>-->
+        <div class="text-right">{{ 1 | percent }}</div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div style="page-break-before: always; break-before: page">
+    <h2>{{ "Customer.Declaration.Emissions.Title" | transloco }}</h2>
+    <div class="declaration-table">
+      <div>
+        <div>{{ "Customer.Declaration.Emissions.Header.Emission" | transloco }}</div>
+        <div class="center">{{ "Customer.Declaration.Emissions.Header.Individual" | transloco }}</div>
+        <div class="center">{{ "Customer.Declaration.Emissions.Header.Reference" | transloco }}</div>
+      </div>
+      <div class="subheader">
+        <div>{{ "Customer.Declaration.Emissions.Air" | transloco }}</div>
+        <div class="center">g/kWh</div>
+        <div class="center">g/kWh</div>
+      </div>
+<!--      <div *ngFor="let emission of declarations('air')">-->
+<!--        <div>-->
+<!--          <span [innerHTML]="emission.html"></span>-->
+<!--        </div>-->
+<!--        <div class="center">{{ emission.individual }}</div>-->
+<!--        <div class="center">{{ emission.reference }}</div>-->
+<!--      </div>-->
+
+      <div class="subheader">
+        <div>{{ "Customer.Declaration.Emissions.Residual" | transloco }}</div>
+        <div class="center">g/kWh</div>
+        <div class="center">g/kWh</div>
+      </div>
+<!--      <div *ngFor="let emission of declarations('residual')">-->
+<!--        <div>-->
+<!--          <span [innerHTML]="emission.html"></span>-->
+<!--        </div>-->
+<!--        <div class="center">{{ emission.individual }}</div>-->
+<!--        <div class="center">{{ emission.reference }}</div>-->
+<!--      </div>-->
+    </div>
+  </div>
+</watt-modal>

@@ -14,3 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+watt-tab {
+  overflow: auto;
+}
+
+.wrapper {
+  display: grid;
+  align-content: start;
+  margin-bottom: 16px;
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    & > p {
+      font-weight: 600;
+      margin: 5px 0;
+    }
+  }
+}

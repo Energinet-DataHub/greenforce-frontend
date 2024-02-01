@@ -1,0 +1,35 @@
+<h2>Fuldmagter</h2>
+<watt-expandable-card *ngFor="let authorization of authorizations$ | async">
+  <watt-expandable-card-title>
+    {{'Customer.Authorizations.Card.GrantedTo' | transloco }}: {{authorization.thirdPartyName}} {{ !authorization.isActive ? '(Inaktiv)' : ''}}
+<!--    <watt-icon-->
+<!--      *ngIf="authorization.isActive"-->
+<!--      class="pointer"-->
+<!--      wattTooltip="{{ 'Customer.Authorizations.Card.Delete' | transloco }}"-->
+<!--      (click)="openDeleteDialog()"-->
+<!--    >-->
+<!--      delete_outline-->
+<!--    </watt-icon>-->
+  </watt-expandable-card-title>
+  <div>
+    <div>
+      <p>{{authorization.thirdPartyName}}</p>
+      <p>{{authorization.thirdPartyAddress?.street}}</p>
+      <p>{{authorization.thirdPartyAddress?.postcode}} {{authorization.thirdPartyAddress?.city}}</p>
+      <p>{{authorization.thirdPartyAddress?.country}}</p>
+    </div>
+    <p><strong>CVR</strong> {{authorization.thirdPartyCVR}}</p>
+  </div>
+  <div>
+    <p>
+      {{'Customer.Authorizations.Card.SignedAt' | transloco}} {{authorization.signedDate ?? '' | date: 'dd - MM - yy'}}
+    </p>
+    <p>
+      {{(authorization.isActive ? 'Customer.Authorizations.Card.Active' : 'Customer.Authorizations.Card.Inactive') |
+      transloco}} <span *ngIf="authorization.isSingleUse">({{'Customer.Authorizations.Card.SingleUse' | transloco}})</span>
+    </p>
+    <p>
+      <a (click)="downloadDocument(authorization.id!)">{{'Customer.Authorizations.Card.ViewDocument' | transloco}}</a>
+    </p>
+  </div>
+</watt-expandable-card>

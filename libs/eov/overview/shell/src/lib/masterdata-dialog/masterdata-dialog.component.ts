@@ -17,8 +17,25 @@
 import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
-import { MeteringPointDetails } from '@energinet-datahub/eov/shared/domain';
-import { WATT_DIALOG_DATA, WattModalComponent } from '@energinet-datahub/watt/modal';
+import {
+  MeteringPointDetails,
+  SupplierHistory,
+  SupplierSwitchHistory,
+} from '@energinet-datahub/eov/shared/domain';
+import {
+  WATT_DIALOG_DATA,
+  WattModalActionsComponent,
+  WattModalComponent,
+} from '@energinet-datahub/watt/modal';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
+import {
+  WattTableColumnDef,
+  WattTableComponent,
+  WattTableDataSource,
+} from '@energinet-datahub/watt/table';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattBreadcrumbComponent } from '@energinet-datahub/watt/breadcrumbs';
 
 @Component({
   selector: 'eov-masterdata-dialog',
@@ -27,15 +44,28 @@ import { WATT_DIALOG_DATA, WattModalComponent } from '@energinet-datahub/watt/mo
     CommonModule,
     TranslocoModule,
     WattModalComponent,
+    WattModalActionsComponent,
+    WattTabsComponent,
+    WattTabComponent,
+    WattTableComponent,
+    WattTooltipDirective,
+    WattButtonComponent,
+    WattBreadcrumbComponent,
   ],
   templateUrl: './masterdata-dialog.component.html',
   styleUrl: './masterdata-dialog.component.scss',
 })
 export class MasterdataDialogComponent {
   details?: MeteringPointDetails = inject(WATT_DIALOG_DATA).details;
+  supplierHistory: WattTableDataSource<SupplierHistory> = new WattTableDataSource<SupplierHistory>(inject(WATT_DIALOG_DATA).supplierHistory);
+  displayedColumns: WattTableColumnDef<SupplierHistory> = {
+    icon: { accessor: 'status', size: 'min-content' },
+    startDate: { accessor: 'startDate' },
+    symbol: { accessor: 'endDate', sort: false },
+    supplierName: { accessor: 'balanceSupplier'}
+  };
   @ViewChild(WattModalComponent)
   private modal!: WattModalComponent;
-
   closeModal(): void {
     this.modal.close(false);
   }

@@ -1,0 +1,38 @@
+<h2>{{ 'Customer.Overview.Title' | transloco }}</h2>
+<div innerHTML="{{ 'Customer.Overview.Text' | transloco }}"></div>
+<watt-expandable-card *ngFor="let meteringPoint of meteringPoints$ | async; index as i" (cardOpened)="cardOpened(i)" [expanded]="isExpanded[i]" (afterExpanded)="afterOpened(meteringPoint.meteringPointId!, i)">
+  <watt-badge size="large">{{ i | number:'2.0' }}</watt-badge>
+  <watt-expandable-card-title>
+    {{ meteringPoint.meteringPointAlias === null ? meteringPoint.address + ", " + meteringPoint.postcode + " " + meteringPoint.cityName + ": " + meteringPoint.meteringPointId : meteringPoint.meteringPointAlias }}
+  </watt-expandable-card-title>
+
+  <div class="loader-container" *ngIf="isLoading[i]">
+    <gf-animation-ui-lottie height="64px" width="64px" *ngIf="isLoading[i]" [animationData]="lottieAnimation"/>
+  </div>
+
+  <ul class="legends">
+    <li *ngFor="let item of barChartData[i]?.datasets" class="legend-item">
+      <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
+      <span class="legend-label">{{ item.label }}</span>
+    </li>
+  </ul>
+
+  <div class="chart-container">
+    <canvas
+      baseChart
+      [data]="barChartData[i]"
+      [options]="barChartOptions[i]"
+      [legend]="false"
+      [type]="'bar'"
+    >
+    </canvas>
+  </div>
+
+  <div class="button-container">
+    <div>
+      <watt-button variant="icon" icon="power" (click)="showDeclaration(meteringPoint.meteringPointId!)"/>
+      <watt-button variant="icon" icon="edit" (click)="editAlias(meteringPoint.meteringPointId!, meteringPoint.meteringPointAlias)"/>
+      <watt-button variant="icon" icon="info" (click)="showDetails(meteringPoint.meteringPointId!)"/>
+    </div>
+  </div>
+</watt-expandable-card>

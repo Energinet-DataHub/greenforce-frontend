@@ -14,99 +14,258 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-modal #modal title="{{ 'Customer.MasterData.Masterdata' | transloco }}" size="large">
-  <p>{{ "Customer.MasterData.Masterdata.Text" | transloco }}</p>
-     <table>
-      <tr>
-        <td>{{ "Customer.MasterData.Masterdata.ParentMeteringPointId" | transloco }}</td>
-        <td>
-          <p>
-            {{
-              details?.meteringPointMainDetails?.parentMeteringPointId !== ""
-                ? details?.meteringPointMainDetails?.parentMeteringPointId
-                : ("Customer.MasterData.MasterData.NoParentId" | transloco)
-            }}
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td>{{ "Customer.MasterData.Masterdata.MeteringPointAlias" | transloco }}</td>
-        <td>
-          <p>
-            {{ details?.meteringPointMainDetails?.meteringPointAlias }}
-            <!-- <img src="assets/Blyant.png" (click)="edit()" class="iconpen" /> -->
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td>{{ "Customer.MasterData.Masterdata.TypeOfMP" | transloco }}</td>
-        <td>
-          <p>
-            {{ "TypeOfMP." + details?.meteringPointMainDetails?.typeOfMP | transloco }}
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td>{{ "Customer.MasterData.Masterdata.EnergyTimeSeriesMeasureUnit" | transloco }}</td>
-        <td>
-          <p>
-            {{ details?.meteringPointMainDetails?.energyTimeSeriesMeasureUnit }}
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td>{{ "Customer.MasterData.Masterdata.BalanceSupplierName" | transloco }}</td>
-        <td>
-          <p>
-            {{ details?.meteringPointMainDetails?.balanceSupplierName }}
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td>{{ "Customer.MasterData.Masterdata.EstimatedAnnualVolume" | transloco }}</td>
-        <td>
-          <p>
-            {{ details?.meteringPointMainDetails?.estimatedAnnualVolume }}
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td>{{ "Customer.MasterData.Masterdata.SettlementMethod" | transloco }}</td>
-        <td>
-          <p *ngIf="details?.meteringPointMainDetails?.settlementMethod">
-            {{ "SettlementMethod." + details?.meteringPointMainDetails?.settlementMethod | transloco }}
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td>{{ "Customer.MasterData.Masterdata.MeterNumber" | transloco }}</td>
-        <td>
-          <p>
-            {{ details?.meteringPointMainDetails?.meterNumber }}
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td>{{ "Customer.MasterData.Masterdata.PowerLimitA" | transloco }}</td>
-        <td>
-          <p *ngIf="details?.meteringPointMainDetails?.powerLimitA">
-            {{ details?.meteringPointMainDetails?.powerLimitA }}
-          </p>
-          <p *ngIf="!details?.meteringPointMainDetails?.powerLimitA">
-            {{ "Customer.MasterData.Masterdata.PowerLimitA.NotAvailable" | transloco }}
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td>{{ "Customer.MasterData.Masterdata.PowerLimitKw" | transloco }}</td>
-        <td>
-          <p *ngIf="details?.meteringPointMainDetails?.powerLimitKW">
-            {{ details?.meteringPointMainDetails?.powerLimitKW }}
-          </p>
-          <p *ngIf="!details?.meteringPointMainDetails?.powerLimitKW">
-            {{ "Customer.MasterData.Masterdata.PowerLimitKw.NotAvailable" | transloco }}
-          </p>
-        </td>
-      </tr>
-    </table>
+<watt-modal title="Detaljer" size="large">
+  <watt-tabs variant="secondary">
+    <watt-tab label="Stamdata">
+      <p>{{ "Customer.MasterData.Masterdata.Text" | transloco }}</p>
+      <div class="wrapper">
+        <div class="row">
+          <p>{{ "Customer.MasterData.General.MeteringpointId" | transloco }}</p>
+          <span>
+            <p>{{ details?.meteringPointId }}</p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.General.Address" | transloco }}</p>
+          <span>
+            <p>{{ details?.address }} {{ details?.postcode }} {{ details?.cityName }}</p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.Masterdata.ParentMeteringPointId" | transloco }}</p>
+          <span>
+            <p>
+              {{
+                details?.meteringPointMainDetails?.parentMeteringPointId !== ""
+                  ? details?.meteringPointMainDetails?.parentMeteringPointId
+                  : ("Customer.MasterData.MasterData.NoParentId" | transloco)
+              }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.Masterdata.MeteringPointAlias" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointMainDetails?.meteringPointAlias }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.Masterdata.TypeOfMP" | transloco }}</p>
+          <span>
+            <p>
+              {{ "TypeOfMP." + details?.meteringPointMainDetails?.typeOfMP | transloco }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.Masterdata.EnergyTimeSeriesMeasureUnit" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointMainDetails?.energyTimeSeriesMeasureUnit }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.Masterdata.BalanceSupplierName" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointMainDetails?.balanceSupplierName }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.Masterdata.EstimatedAnnualVolume" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointMainDetails?.estimatedAnnualVolume }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.Masterdata.SettlementMethod" | transloco }}</p>
+          <span>
+            <p *ngIf="details?.meteringPointMainDetails?.settlementMethod">
+              {{ "SettlementMethod." + details?.meteringPointMainDetails?.settlementMethod | transloco }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.Masterdata.MeterNumber" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointMainDetails?.meterNumber }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.Masterdata.PowerLimitA" | transloco }}</p>
+          <span>
+            <p *ngIf="details?.meteringPointMainDetails?.powerLimitA">
+              {{ details?.meteringPointMainDetails?.powerLimitA }}
+            </p>
+            <p *ngIf="!details?.meteringPointMainDetails?.powerLimitA">
+              {{ "Customer.MasterData.Masterdata.PowerLimitA.NotAvailable" | transloco }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.Masterdata.PowerLimitKw" | transloco }}</p>
+          <span>
+            <p *ngIf="details?.meteringPointMainDetails?.powerLimitKW">
+              {{ details?.meteringPointMainDetails?.powerLimitKW }}
+            </p>
+            <p *ngIf="!details?.meteringPointMainDetails?.powerLimitKW">
+              {{ "Customer.MasterData.Masterdata.PowerLimitKw.NotAvailable" | transloco }}
+            </p>
+          </span>
+        </div>
+      </div>
+    </watt-tab>
+    <watt-tab label="Leverandørhistorik">
+      <watt-table [dataSource]="supplierHistory" [columns]="displayedColumns">
+
+      </watt-table>
+    </watt-tab>
+    <watt-tab label="Kontaktoplysninger">
+      <h3>{{ 'Customer.MasterData.Technical.Contact.Title' | transloco }}</h3>
+      <div class="wrapper">
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.ContactName1" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D01?.contactName1 }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.ContactName2" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D01?.contactName2 }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.StreetName" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D01?.street }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.City" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D01?.city }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.Country" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D01?.countryName }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.ContactPhoneNumber" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D01?.contactPhoneNumber }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.ContactMobileNumber" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D01?.contactMobileNumber }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.ContactEmailAddress" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D01?.contactEmailAddress }}
+            </p>
+          </span>
+        </div>
+        <h3>{{ "Customer.MasterData.Legal.Contact.Title" | transloco }}</h3>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.ContactName1" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D04?.contactName1 }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.ContactName2" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D04?.contactName2 }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.StreetName" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D04?.street }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.City" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D04?.city }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.Country" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D04?.countryName }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.ContactPhoneNumber" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D04?.contactPhoneNumber }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.ContactMobileNumber" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D04?.contactMobileNumber }}
+            </p>
+          </span>
+        </div>
+        <div class="row">
+          <p>{{ "Customer.MasterData.ContactAddress.ContactEmailAddress" | transloco }}</p>
+          <span>
+            <p>
+              {{ details?.meteringPointContactDetails?.contactAddresses?.D04?.contactEmailAddress }}
+            </p>
+          </span>
+        </div>
+      </div>
+    </watt-tab>
+  </watt-tabs>
+  <watt-modal-actions>
+    <watt-button variant="primary" (click)="closeModal()">
+      Luk
+    </watt-button>
+  </watt-modal-actions>
 </watt-modal>

@@ -1,0 +1,13 @@
+<h2>Tokens</h2>
+<watt-expandable-card *ngFor="let token of tokens$ | async">
+  <watt-expandable-card-title>
+    {{ token.name }} - {{'Customer.TokenOverview.Table.ExpireDate' | transloco }}: {{token.expireDate ?? '' | date: 'dd.MM.yyyy'}} ({{ !!token.deactivatedDate ? 'Inaktiv' : 'Aktiv' }})
+  </watt-expandable-card-title>
+  <div class="button-container">
+    <div>
+
+      <watt-button variant="secondary" [icon]="getIcon(token)" (click)="deactivateToken(token)">{{ !!token.deactivatedDate ? 'Aktiver' : 'Inaktiver' }}</watt-button>
+      <watt-button variant="icon" icon="remove" (click)="deleteToken(token)"/>
+    </div>
+  </div>
+</watt-expandable-card>

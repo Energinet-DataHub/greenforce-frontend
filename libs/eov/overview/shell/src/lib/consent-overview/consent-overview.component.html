@@ -1,0 +1,13 @@
+<h2>Samtykker</h2>
+<span *ngFor="let availableConsent of availableConsents$ | async">
+  {{ 'CprConsent.Card.' + getApplicationName(availableConsent?.applicationId!) + '.Title' | transloco }}
+</span>
+<watt-expandable-card *ngFor="let consent of consents$ | async">
+  <watt-expandable-card-title>
+    {{ 'CprConsent.Card.' + getApplicationName(consent.applicationId!) + '.Title' | transloco }} - {{'CprConsent.Card.CustomerApp.Date' | transloco }} {{ consent.consentDate ?? '' | date:'dd-MM-yyyy' }}
+  </watt-expandable-card-title>
+  <p [innerHTML]="consent.consentText"></p>
+  <div class="button-container">
+    <watt-button variant="icon" icon="remove" (click)="deleteConsent(consent.applicationId!)"/>
+  </div>
+</watt-expandable-card>
