@@ -23,25 +23,21 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
+import { FormsModule } from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider';
+
 import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import {
   DhAdminUserRolesStore,
   UpdateUserRoles,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import { MatDividerModule } from '@angular/material/divider';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { FormsModule } from '@angular/forms';
-import {
-  FilterUserRolesPipe,
-  UserRolesIntoTablePipe,
-} from './dh-filter-user-roles-into-table.pipe';
 import {
   MarketParticipantUserOverviewItemDto,
   MarketParticipantUserRoleViewDto,
@@ -51,6 +47,11 @@ import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 
+import {
+  FilterUserRolesPipe,
+  UserRolesIntoTablePipe,
+} from './dh-filter-user-roles-into-table.pipe';
+
 @Component({
   selector: 'dh-user-roles',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,7 +59,8 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
   templateUrl: './dh-user-roles.component.html',
   styleUrls: ['./dh-user-roles.component.scss'],
   imports: [
-    CommonModule,
+    NgFor,
+    NgIf,
     RxLet,
     RxPush,
     WattSpinnerComponent,
@@ -67,7 +69,6 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
     TranslocoModule,
     MatDividerModule,
     WattEmptyStateComponent,
-    WattCheckboxComponent,
     MatExpansionModule,
     DhEmDashFallbackPipe,
     FormsModule,

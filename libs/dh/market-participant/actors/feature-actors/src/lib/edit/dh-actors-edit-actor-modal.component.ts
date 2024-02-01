@@ -16,9 +16,8 @@
  */
 import { tap } from 'rxjs';
 import { RxLet } from '@rx-angular/template/let';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-
-import { CommonModule } from '@angular/common';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { NgIf } from '@angular/common';
 import { Component, Input, ViewChild, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -27,10 +26,10 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { dhFirstPartEmailValidator } from '@energinet-datahub/dh/shared/ui-validators';
-import { DhMarketParticipantActorsEditActorDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { DhMarketParticipantActorsEditActorDataAccessApiStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 
 import { DhActorExtended } from '../dh-actor';
+import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 
 @Component({
   standalone: true,
@@ -57,14 +56,16 @@ import { DhActorExtended } from '../dh-actor';
     `,
   ],
   imports: [
-    WATT_MODAL,
+    RxLet,
+    NgIf,
     ReactiveFormsModule,
+    TranslocoDirective,
+
+    WATT_MODAL,
     WattButtonComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
-    RxLet,
-    CommonModule,
-    TranslocoModule,
+    WattPhoneFieldComponent,
   ],
 })
 export class DhActorsEditActorModalComponent {
@@ -81,12 +82,11 @@ export class DhActorsEditActorModalComponent {
   actorForm = this.formBuilder.group({
     name: ['', Validators.required],
     departmentName: ['', Validators.required],
-    departmentEmail: ['', [Validators.required, dhFirstPartEmailValidator]],
-    departmentPhone: ['', [Validators.required]],
+    departmentEmail: ['', [Validators.required, Validators.email]],
+    departmentPhone: ['', Validators.required],
   });
 
   isLoading = true;
-  emailDomain = '';
 
   formInitialValues$ = this.dataAccessStore.actorEditableFields$.pipe(
     tap((queryResult) => {
@@ -94,16 +94,12 @@ export class DhActorsEditActorModalComponent {
 
       if (!queryResult.data || queryResult.loading) return;
 
-      this.emailDomain = queryResult.data.actorById.organization.domain;
       this.actorForm.markAsUntouched();
       this.actorForm.patchValue({
         name: queryResult.data.actorById.name,
         departmentName: queryResult.data.actorById.contact?.name,
         departmentPhone: queryResult.data.actorById.contact?.phone,
-        departmentEmail: queryResult.data.actorById.contact?.email.replace(
-          `@${queryResult.data.actorById.organization.domain}`,
-          ''
-        ),
+        departmentEmail: queryResult.data.actorById.contact?.email,
       });
     })
   );
@@ -120,7 +116,8 @@ export class DhActorsEditActorModalComponent {
       !this.actorForm.value.name ||
       !this.actorForm.value.departmentName ||
       !this.actorForm.value.departmentPhone ||
-      !this.actorForm.value.departmentEmail
+      !this.actorForm.value.departmentEmail ||
+      !this.actorForm.valid
     )
       return;
 
@@ -130,7 +127,7 @@ export class DhActorsEditActorModalComponent {
         actorName: this.actorForm.value.name,
         departmentName: this.actorForm.value.departmentName,
         departmentPhone: this.actorForm.value.departmentPhone,
-        departmentEmail: `${this.actorForm.value.departmentEmail}@${this.emailDomain}`,
+        departmentEmail: this.actorForm.value.departmentEmail,
       })
       .subscribe((queryResult) => {
         this.isLoading = queryResult.loading;

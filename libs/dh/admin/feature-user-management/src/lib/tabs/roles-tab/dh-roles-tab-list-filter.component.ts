@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 import { Component, OnInit, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
   MarketParticipantEicFunction,
   MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
   selector: 'dh-roles-tab-list-filter',
@@ -36,27 +36,19 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styles: [
     `
       :host {
-        display: flex;
-        gap: var(--watt-space-m);
-
-        .marketRole {
-          width: 17rem;
-        }
-
-        .status {
-          width: 7rem;
-        }
+        display: block;
       }
     `,
   ],
   imports: [
-    CommonModule,
     RxLet,
     RxPush,
-    TranslocoModule,
-    WattDropdownComponent,
+    TranslocoDirective,
     ReactiveFormsModule,
-    DhSharedUiSearchComponent,
+
+    VaterStackComponent,
+    WattDropdownComponent,
+    DhDropdownTranslatorDirective,
   ],
 })
 export class DhRolesTabListFilterComponent implements OnInit {
@@ -65,33 +57,30 @@ export class DhRolesTabListFilterComponent implements OnInit {
 
   @Output() statusChanged = new EventEmitter<MarketParticipantUserRoleStatus | null>();
   @Output() eicFunctionChanged = new EventEmitter<MarketParticipantEicFunction[] | null>();
-  @Output() searchTermChanged = new EventEmitter<string | null>();
 
-  statusFormControl = new FormControl<MarketParticipantUserRoleStatus | null>(null);
-  eicFunctionFormControl = new FormControl<MarketParticipantEicFunction[] | null>(null);
+  statusControl = new FormControl<MarketParticipantUserRoleStatus | null>(null);
+  marketRolesControl = new FormControl<MarketParticipantEicFunction[] | null>(null);
 
-  statusListOptions: WattDropdownOption[] = [];
-  eicFunctionListListOptions: WattDropdownOption[] = [];
+  statusOptions: WattDropdownOption[] = [];
+  marketRolesOptions: WattDropdownOption[] = Object.keys(MarketParticipantEicFunction).map(
+    (entry) => ({
+      value: entry,
+      displayValue: entry,
+    })
+  );
 
   ngOnInit(): void {
     this.buildStatusListOptions();
-    this.buildMarketRoleListOptions();
 
-    this.statusFormControl.valueChanges
+    this.statusControl.valueChanges
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((e) => this.statusChanged.emit(e));
 
-    this.eicFunctionFormControl.valueChanges
+    this.marketRolesControl.valueChanges
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((e) => this.eicFunctionChanged.emit(e));
 
-    this.statusFormControl.setValue(
-      this.statusListOptions[0].value as MarketParticipantUserRoleStatus
-    );
-  }
-
-  search(searchTerm: string | null): void {
-    this.searchTermChanged.emit(searchTerm);
+    this.statusControl.setValue(this.statusOptions[0].value as MarketParticipantUserRoleStatus);
   }
 
   private buildStatusListOptions() {
@@ -100,30 +89,12 @@ export class DhRolesTabListFilterComponent implements OnInit {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (keys) => {
-          this.statusListOptions = Object.keys(MarketParticipantUserRoleStatus).map((entry) => {
+          this.statusOptions = Object.keys(MarketParticipantUserRoleStatus).map((entry) => {
             return {
               value: entry,
               displayValue: keys[entry.toLowerCase()],
             };
           });
-        },
-      });
-  }
-
-  private buildMarketRoleListOptions() {
-    this._translocoService
-      .selectTranslateObject('marketParticipant.marketRoles')
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe({
-        next: (keys) => {
-          this.eicFunctionListListOptions = Object.keys(MarketParticipantEicFunction).map(
-            (entry) => {
-              return {
-                value: entry,
-                displayValue: keys[entry],
-              };
-            }
-          );
         },
       });
   }

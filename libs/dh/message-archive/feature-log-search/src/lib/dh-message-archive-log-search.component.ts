@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf, AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -60,7 +60,8 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     WattDatepickerComponent,
     WattTimepickerComponent,
     FormsModule,
-    CommonModule,
+    NgIf,
+    AsyncPipe,
     RxLet,
     TranslocoModule,
     DhMessageArchiveLogSearchResultComponent,
@@ -116,7 +117,10 @@ export class DhMessageArchiveLogSearchComponent {
   searching = false;
   maxItemCount = 100;
 
-  searchCriteria: ArchivedMessageSearchCriteria = {};
+  searchCriteria: ArchivedMessageSearchCriteria = {
+    dateTimeFrom: '',
+    dateTimeTo: '',
+  };
 
   constructor() {
     this.actorStore.getActors();

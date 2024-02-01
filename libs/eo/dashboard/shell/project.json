@@ -9,18 +9,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/eo/dashboard/shell"],
       "options": {
-        "jestConfig": "libs/eo/dashboard/shell/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/eo/dashboard/shell/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/eo/dashboard/shell/src/**/*.ts",
-          "libs/eo/dashboard/shell/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:eo", "domain:dashboard", "type:shell"]

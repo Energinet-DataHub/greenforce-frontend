@@ -14,30 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { rest } from 'msw';
+import { DefaultBodyType, delay, http, HttpResponse, StrictResponse } from 'msw';
+
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import actors from './data/messageArchiveActors.json';
 import { messageArchiveSearchResponseLogs } from './data/messageArchiveSearchResponseLogs';
-import { document } from './data/message-archived-document';
+import { document, documentJson } from './data/message-archived-document';
 
 export function messageArchiveMocks(apiBase: string) {
   return [archivedMessageSearch(apiBase), getActors(apiBase), getDocument(apiBase)];
 }
 
 export function archivedMessageSearch(apiBase: string) {
-  return rest.post(`${apiBase}/v1/MessageArchive/SearchRequestResponseLogs`, (req, res, ctx) => {
-    return res(ctx.delay(300), ctx.status(200), ctx.json(messageArchiveSearchResponseLogs));
+  return http.post(`${apiBase}/v1/MessageArchive/SearchRequestResponseLogs`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json(messageArchiveSearchResponseLogs, { status: 200 });
   });
 }
 
 export function getActors(apiBase: string) {
-  return rest.get(`${apiBase}/v1/MessageArchive/Actors`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(actors));
+  return http.get(`${apiBase}/v1/MessageArchive/Actors`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json(actors, { status: 200 });
   });
 }
 
 export function getDocument(apiBase: string) {
-  return rest.get(`${apiBase}/v1/MessageArchive/:id/Document`, async (req, res, ctx) => {
-    return res(ctx.delay(300), ctx.status(200), ctx.body(document));
-  });
+  return http.get(
+    `${apiBase}/v1/MessageArchive/:id/Document`,
+    async (): Promise<StrictResponse<DefaultBodyType>> => {
+      await delay(mswConfig.delay);
+      const random = Math.floor(Math.random() * 1000);
+
+      console.log(random);
+      return random % 2 === 0
+        ? HttpResponse.text(document, { headers: { 'Content-Type': 'text/xml' } })
+        : HttpResponse.json(documentJson, { headers: { 'Content-Type': 'application/json' } });
+    }
+  );
 }

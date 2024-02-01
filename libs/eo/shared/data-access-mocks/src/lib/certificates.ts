@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { certificatesResponse } from './data/certificates';
 
 export function certificatesMocks(apiBase: string) {
@@ -27,14 +27,14 @@ export function certificatesMocks(apiBase: string) {
 }
 
 function getCertificates(apiBase: string) {
-  return rest.get(`${apiBase}/certificates`, (req, res, ctx) => {
+  return http.get(`${apiBase}/certificates`, () => {
     const data = certificatesResponse;
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
 function getCertificatesContracts(apiBase: string) {
-  return rest.get(`${apiBase}/certificates/contracts`, (req, res, ctx) => {
+  return http.get(`${apiBase}/certificates/contracts`, () => {
     const data = {
       result: [
         {
@@ -117,16 +117,26 @@ function getCertificatesContracts(apiBase: string) {
           created: 1698303526,
           meteringPointType: 'Consumption',
         },
+        {
+          id: '2e12b637-a87d-4415-b28e-af1acef11111',
+          gsrn: '571313171355411111',
+          startDate: 1698303525,
+          endDate: null,
+          created: 1698303526,
+          meteringPointType: 'Consumption',
+        },
       ],
     };
 
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
 function postCertificatesContracts(apiBase: string) {
-  return rest.post(`${apiBase}/certificates/contracts`, async (req, res, ctx) => {
-    const requestBody = await req.json();
+  return http.post(`${apiBase}/certificates/contracts`, async ({ request }) => {
+    const requestBody = (await request.json()) as { gsrn: string } | null;
+
+    if (!requestBody) return new HttpResponse(null, { status: 400 });
 
     const data = {
       id: 'ef38c770-a8c0-48ea-8f25-d9a38e84b01c',
@@ -136,12 +146,12 @@ function postCertificatesContracts(apiBase: string) {
       created: 1698311589,
       meteringPointType: null,
     };
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
 function patchCertificatesContracts(apiBase: string) {
-  return rest.patch(`${apiBase}/certificates/contracts/:id`, (req, res, ctx) => {
-    return res(ctx.status(200));
+  return http.patch(`${apiBase}/certificates/contracts/:id`, () => {
+    return new HttpResponse(null, { status: 200 });
   });
 }

@@ -9,13 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { MarketParticipantInvitationUserDetailsDto } from './market-participant-invitation-user-details-dto';
 
 
 export interface MarketParticipantUserInvitationDto { 
     email: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
+    invitationUserDetails?: MarketParticipantInvitationUserDetailsDto;
     assignedActor: string;
     assignedRoles: Array<string>;
 }

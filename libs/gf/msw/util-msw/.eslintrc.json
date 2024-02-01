@@ -1,6 +1,6 @@
 {
   "extends": ["../../../../.eslintrc.json"],
-  "ignorePatterns": ["!**/*", "**/generated/**/*"],
+  "ignorePatterns": ["!**/*", "**/generated/**/*", "mockServiceWorker.js"],
   "overrides": [
     {
       "files": ["*.ts"],

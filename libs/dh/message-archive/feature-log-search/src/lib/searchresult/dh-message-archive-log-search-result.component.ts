@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -26,8 +26,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { RxLet } from '@rx-angular/template/let';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { TranslocoModule } from '@ngneat/transloco';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -35,6 +36,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+
 import {
   WattTableComponent,
   WattTableColumnDef,
@@ -44,12 +46,11 @@ import {
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMessageArchiveDrawerComponent } from '../drawer/dh-message-archive-drawer.component';
-
 import { ActorNamePipe } from '../shared/dh-message-archive-actor.pipe';
 import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeName.pipe';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-status.component';
 
 @Component({
@@ -60,8 +61,9 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
   styleUrls: ['./dh-message-archive-log-search-result.component.scss'],
   imports: [
     WattTableCellDirective,
-    CommonModule,
-    TranslocoModule,
+    NgIf,
+    TranslocoDirective,
+    TranslocoPipe,
     RxLet,
     MatSortModule,
     WattIconComponent,
@@ -81,50 +83,45 @@ import { DhMessageArchiveStatusComponent } from '../shared/dh-message-archive-st
 })
 export class DhMessageArchiveLogSearchResultComponent implements AfterViewInit, OnChanges {
   activeRow: ArchivedMessage | undefined;
+
+  columns: WattTableColumnDef<ArchivedMessage> = {
+    messageId: {
+      accessor: 'messageId',
+    },
+    documentType: {
+      accessor: 'documentType',
+    },
+    senderGln: {
+      accessor: 'senderGln',
+    },
+    receiverGln: {
+      accessor: 'receiverGln',
+    },
+    createdDate: {
+      accessor: 'createdDate',
+    },
+  };
+
+  sortMetadata: Sort = {
+    active: 'createdDate',
+    direction: 'desc',
+  };
+
+  readonly dataSource = new WattTableDataSource<ArchivedMessage>();
+
   @ViewChild(MatSort) matSort!: MatSort;
+
   @ViewChild(DhMessageArchiveDrawerComponent)
   messageDrawer!: DhMessageArchiveDrawerComponent;
+
   @Input() searchResult: Array<ArchivedMessage> = [];
-  @Output() showLogDownloadPage = new EventEmitter<ArchivedMessage>();
-  @Output() downloadLogFile = new EventEmitter<ArchivedMessage>();
   @Input() isSearching = false;
-
-  columns: WattTableColumnDef<ArchivedMessage>;
-
   @Input() hasSearchError = false;
   @Input() isInit = false;
   @Input() actors!: WattDropdownOptions;
 
-  readonly dataSource = new WattTableDataSource<ArchivedMessage>();
-
-  constructor() {
-    this.columns = {
-      messageId: {
-        accessor: 'messageId',
-      },
-      documentType: {
-        accessor: 'documentType',
-      },
-      senderGln: {
-        accessor: 'senderGln',
-      },
-      receiverGln: {
-        accessor: 'receiverGln',
-      },
-      createdDate: {
-        accessor: 'createdDate',
-      },
-    };
-  }
-
-  onRowClick(row: ArchivedMessage) {
-    this.activeRow = row;
-    this.messageDrawer.open(row);
-  }
-
-  onScroll() {
-    console.log('get more data');
-  }
+  @Output() showLogDownloadPage = new EventEmitter<ArchivedMessage>();
+  @Output() downloadLogFile = new EventEmitter<ArchivedMessage>();
 
   ngOnChanges() {
     this.dataSource.data = this.searchResult;
@@ -133,5 +130,18 @@ export class DhMessageArchiveLogSearchResultComponent implements AfterViewInit, 
   ngAfterViewInit() {
     this.dataSource.sort = this.matSort;
     this.dataSource.sortingDataAccessor = ToLowerSort();
+  }
+
+  onRowClick(row: ArchivedMessage) {
+    this.activeRow = row;
+    this.messageDrawer.open(row);
+  }
+
+  onClosed(): void {
+    this.activeRow = undefined;
+  }
+
+  onSortChange(sort: Sort): void {
+    this.sortMetadata = sort;
   }
 }

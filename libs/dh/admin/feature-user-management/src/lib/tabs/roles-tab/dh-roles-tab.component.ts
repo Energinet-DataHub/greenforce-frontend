@@ -14,19 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, DestroyRef } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
-import { translate, TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { take } from 'rxjs';
+import { translate, TranslocoDirective, TranslocoService, TranslocoPipe } from '@ngneat/transloco';
+import { take, BehaviorSubject, debounceTime } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import {
   MarketParticipantEicFunction,
   MarketParticipantUserRoleDto,
@@ -34,40 +34,67 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-create-user-role';
-import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
 import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.component';
-import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
 
 @Component({
   selector: 'dh-roles-tab',
-  templateUrl: './dh-roles-tab.component.html',
-  styleUrls: ['./dh-roles-tab.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './dh-roles-tab.component.html',
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+
+      h3 {
+        margin: 0;
+      }
+
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
+      }
+    `,
+  ],
   providers: [provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore)],
   imports: [
-    CommonModule,
-    TranslocoModule,
-    WattButtonComponent,
-    WATT_CARD,
-    WattSpinnerComponent,
+    NgIf,
+    TranslocoDirective,
+    TranslocoPipe,
     RxPush,
+    RxLet,
+
+    VaterStackComponent,
+    VaterFlexComponent,
+    VaterSpacerComponent,
+    VaterUtilityDirective,
+    WATT_CARD,
+    WattSearchComponent,
+    WattButtonComponent,
+    WattPaginatorComponent,
+
     DhRolesTabTableComponent,
     DhRolesTabListFilterComponent,
-    DhTabDataGeneralErrorComponent,
-    RxLet,
     DhPermissionRequiredDirective,
     DhCreateUserRoleModalComponent,
-    WattPaginatorComponent,
-    WATT_MODAL,
   ],
 })
 export class DhUserRolesTabComponent {
-  @Input() roles: MarketParticipantUserRoleDto[] = [];
-
+  private readonly destroyRef = inject(DestroyRef);
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
   private readonly trans = inject(TranslocoService);
 
@@ -75,7 +102,12 @@ export class DhUserRolesTabComponent {
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
+  searchInput$ = new BehaviorSubject<string>('');
   isCreateUserRoleModalVisible = false;
+
+  constructor() {
+    this.onSearchInput();
+  }
 
   updateFilterStatus(status: MarketParticipantUserRoleStatus | null) {
     this.store.setFilterStatus(status);
@@ -83,10 +115,6 @@ export class DhUserRolesTabComponent {
 
   updateFilterEicFunction(eicFunctions: MarketParticipantEicFunction[] | null) {
     this.store.setFilterEicFunction(eicFunctions);
-  }
-
-  updateSearchTerm(searchTerm: string | null) {
-    this.store.setSearchTerm(searchTerm);
   }
 
   reloadRoles(): void {
@@ -122,5 +150,11 @@ export class DhUserRolesTabComponent {
 
         exportToCSV({ headers, lines });
       });
+  }
+
+  private onSearchInput(): void {
+    this.searchInput$
+      .pipe(debounceTime(250), takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => this.store.setSearchTerm(value));
   }
 }

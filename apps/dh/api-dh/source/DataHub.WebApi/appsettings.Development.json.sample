@@ -12,9 +12,9 @@
     "ChargesBaseUrl": "https://localhost:5001",
     "WholesaleBaseUrl": "https://localhost:7133",
     "MarketParticipantBaseUrl": "https://localhost:5001",
-    "MessageArchiveBaseUrl": "https://localhost:5001"
-    "ESettExchangeBaseUrl": "https://localhost:5001"
-    "EdiB2CWebApiBaseUrl": "https://localhost:5091"
+    "ESettExchangeBaseUrl": "https://localhost:5001",
+    "EdiB2CWebApiBaseUrl": "https://localhost:5091",
+    "ImbalancePricesBaseUrl": "https://localhost:5091"
   },
 
   "B2C_TENANT_ID" : "B2C_TENANT_ID",

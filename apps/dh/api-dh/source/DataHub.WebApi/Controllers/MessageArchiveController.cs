@@ -60,8 +60,8 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         [HttpGet("{id}/Document")]
-        [Produces("application/xml")]
-        public async Task<ActionResult<Stream>> GetDocumentAsync(string id, CancellationToken cancellationToken)
+        [Produces("text/plain")]
+        public async Task<ActionResult<string>> GetDocumentAsync(string id, CancellationToken cancellationToken)
         {
             var document = await _archivedMessagesSearch.GetDocumentAsync(id, cancellationToken);
             return Ok(document);

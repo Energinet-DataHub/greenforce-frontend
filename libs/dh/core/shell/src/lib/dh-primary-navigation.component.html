@@ -24,16 +24,16 @@ limitations under the License.
       transloco("marketParticipantActors")
     }}</watt-nav-list-item>
 
-    <watt-nav-list-item link="/market-participant/organizations">{{
-      transloco("marketParticipantOrganizations")
-    }}</watt-nav-list-item>
-
     <watt-nav-list-item link="/market-participant/gridareas">{{
       transloco("marketParticipantGridAreas")
     }}</watt-nav-list-item>
 
     <watt-nav-list-item *dhPermissionRequired="['esett-exchange:manage']" link="/esett">{{
       transloco("eSett")
+    }}</watt-nav-list-item>
+
+    <watt-nav-list-item link="/imbalance-prices">{{
+      transloco("imbalancePrices")
     }}</watt-nav-list-item>
   </watt-nav-list>
 

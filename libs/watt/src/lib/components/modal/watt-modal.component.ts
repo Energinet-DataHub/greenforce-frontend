@@ -25,14 +25,13 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
 import { WattButtonComponent } from '../button';
 import { WattSpinnerComponent } from '../spinner';
-
 import { WattModalModule, WattModalService } from './watt-modal.service';
-import { MatDialogRef } from '@angular/material/dialog';
 
 export type WattModalSize = 'small' | 'medium' | 'large';
 
@@ -51,7 +50,8 @@ export type WattModalSize = 'small' | 'medium' | 'large';
   templateUrl: './watt-modal.component.html',
   standalone: true,
   imports: [
-    CommonModule,
+    NgClass,
+    NgIf,
     WattResizeObserverDirective,
     WattButtonComponent,
     WattSpinnerComponent,
@@ -74,6 +74,9 @@ export class WattModalComponent {
 
   /** Disable ESC, close button and backdrop click as methods of closing. */
   @Input() disableClose = false;
+
+  /** Disable ESC, backdrop click as methods of closing. */
+  @Input() disableEscAndBackdropClose = false;
 
   /** The aria-label for the close button. */
   @Input() closeLabel = 'Close';
@@ -99,9 +102,10 @@ export class WattModalComponent {
    */
   open() {
     this.modalService.open({
-      disableClose: this.disableClose,
+      disableClose: this.disableEscAndBackdropClose || this.disableClose,
       templateRef: this.modal,
       onClosed: this.closed,
+      minHeight: this.minHeight,
     });
   }
 

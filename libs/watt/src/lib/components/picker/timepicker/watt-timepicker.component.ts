@@ -27,15 +27,15 @@ import {
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BehaviorSubject, distinctUntilChanged, EMPTY, map } from 'rxjs';
 
 import { WattButtonComponent } from '../../button';
 import { WattSliderComponent } from '../../slider';
-import { BehaviorSubject, distinctUntilChanged, EMPTY, map } from 'rxjs';
-
 import { WattInputMaskService, WattMaskedInput } from '../shared/watt-input-mask.service';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattDateRange } from '../../../utils/date';
@@ -43,7 +43,6 @@ import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattSliderValue } from '../../slider/watt-slider.component';
 import { WattPickerValue } from '../shared/watt-picker-value';
 import { WattFieldComponent } from '../../field/watt-field.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /**
  * Note: `Inputmask` package uses upper case `MM` for "minutes" and
@@ -80,6 +79,7 @@ const getTruthyAt =
     array[index] || undefined;
 
 /**
+ * @deprecated Use WattTimepickerV2Component instead
  * Usage:
  * `import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';`
  *
@@ -99,18 +99,18 @@ const getTruthyAt =
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
+    NgIf,
     MatDatepickerModule,
     WattButtonComponent,
     WattSliderComponent,
     MatInputModule,
     OverlayModule,
-    CommonModule,
     WattFieldComponent,
   ],
 })
 export class WattTimepickerComponent extends WattPickerBase {
-  protected override inputMaskService = inject(WattInputMaskService);
-  protected override rangeInputService = inject(WattRangeInputService);
+  protected inputMaskService = inject(WattInputMaskService);
+  protected rangeInputService = inject(WattRangeInputService);
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected override changeDetectionRef = inject(ChangeDetectorRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });

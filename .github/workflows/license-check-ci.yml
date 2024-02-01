@@ -24,7 +24,7 @@ env:
   NODE_OPTIONS: --max_old_space_size=6144
   node-version-file: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  yarn-version: 3.5.0
+  yarn-version: 4.0.2
 
   # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
@@ -44,21 +44,22 @@ jobs:
 
     steps:
       - name: Check out source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.internal_github_pat }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Add license to all projects
-        run: yarn nx run workspace-tools:add-license
+        run: yarn nx run tools:add-license
 
       - name: Commit licensed files
         run: |
@@ -74,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Check License Lines
         uses: kt3k/license_checker@v1.0.3

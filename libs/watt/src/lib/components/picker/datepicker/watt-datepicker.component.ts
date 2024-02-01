@@ -25,7 +25,7 @@ import {
   inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { FormatWidth, getLocaleDateFormat, CommonModule } from '@angular/common';
+import { FormatWidth, getLocaleDateFormat, NgIf } from '@angular/common';
 import {
   MatDatepickerInput,
   MatEndDate,
@@ -40,6 +40,8 @@ import { MatInputModule } from '@angular/material/input';
 import { combineLatest, map, merge, startWith, tap } from 'rxjs';
 import { parse, isValid, parseISO, endOfDay, startOfMonth, endOfMonth } from 'date-fns';
 import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { WattFieldComponent } from '@energinet-datahub/watt/field';
 
 import { WattButtonComponent } from '../../button';
@@ -48,13 +50,13 @@ import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattDateRange } from '../../../utils/date';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const dateShortFormat = 'dd-MM-yyyy';
 const danishLocaleCode = 'da';
 export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 /**
+ * @deprecated Use WattDatepickerV2Component instead
  * Usage:
  * `import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';`
  *
@@ -73,17 +75,11 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
   ],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [
-    MatDatepickerModule,
-    MatInputModule,
-    WattButtonComponent,
-    CommonModule,
-    WattFieldComponent,
-  ],
+  imports: [NgIf, MatDatepickerModule, MatInputModule, WattButtonComponent, WattFieldComponent],
 })
 export class WattDatepickerComponent extends WattPickerBase {
-  protected override inputMaskService = inject(WattInputMaskService);
-  protected override rangeInputService = inject(WattRangeInputService);
+  protected inputMaskService = inject(WattInputMaskService);
+  protected rangeInputService = inject(WattRangeInputService);
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });
   private locale = inject(LOCALE_ID);

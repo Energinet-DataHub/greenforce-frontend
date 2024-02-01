@@ -9,19 +9,12 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/dh/admin/feature-create-user-role/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/admin/feature-create-user-role/jest.config.ts"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/admin/feature-create-user-role/**/*.ts",
-          "libs/dh/admin/feature-create-user-role/**/*.html"
-        ]
-      }
+      "outputs": ["{options.outputFile}"]
     }
   },
   "tags": ["product:dh", "domain:admin", "type:feature"]

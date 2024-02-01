@@ -33,7 +33,7 @@ watt-field watt-field-error,
   display: none;
 }
 
-.ng-invalid:not(form) watt-field watt-field-hint {
+watt-field.watt-field--invalid watt-field-hint {
   display: none;
 }
 
@@ -103,7 +103,7 @@ watt-field {
     .watt-field-wrapper {
       @include watt.typography-watt-text-s;
       display: flex;
-      min-height: 44px;
+      min-height: 46px;
       padding-left: var(--watt-space-s);
       width: 100%;
       border-radius: var(--watt-input-border-radius);

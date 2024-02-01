@@ -20,16 +20,34 @@ limitations under the License.
       <h3>{{ t("tabHeading") }}</h3>
       <span class="watt-chip-label">{{ totalCount }}</span>
 
+      <div class="health-icons" *rxLet="serviceStatus$ as serviceStatus">
+        @for (status of serviceStatus; track status) {
+          @if (status.isReady) {
+            <watt-icon name="success" [title]="t('status.' + status.component)" />
+          } @else {
+            <watt-icon name="danger" [title]="t('status.' + status.component)" />
+          }
+        }
+      </div>
+
       <vater-spacer />
 
-      <watt-search [label]="t('filters.documentId')" (search)="documentIdSearch$.next($event)" />
+      <watt-search
+        #searchComponent
+        [label]="t('filters.documentId')"
+        (search)="documentIdSearch$.next($event)"
+      />
 
       <watt-button icon="download" variant="text" (click)="download()">{{
         "shared.download" | transloco
       }}</watt-button>
     </vater-stack>
 
-    <dh-outgoing-messages-filters [initial]="filter$.value" (filter)="filter$.next($event)" />
+    <dh-outgoing-messages-filters
+      [initial]="filter$.value"
+      (filter)="filter$.next($event)"
+      (formReset)="searchComponent.clear()"
+    />
 
     <dh-outgoing-messages-table
       [tableDataSource]="tableDataSource"

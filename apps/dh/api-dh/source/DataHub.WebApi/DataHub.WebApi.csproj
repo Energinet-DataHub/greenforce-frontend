@@ -40,6 +40,7 @@ limitations under the License.
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net70) run Clients/ESettExchange/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/ESettExchange/V1/swagger.json')" />
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net70) run Clients/MarketParticipant/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/MarketParticipant/V1/swagger.json')" />
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net70) run Clients/EDI/B2CWebApi/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/EDI/B2CWebApi/V1/swagger.json')" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net70) run Clients/ImbalancePrices/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/ImbalancePrices/V1/swagger.json')" />
   </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
@@ -67,15 +68,11 @@ limitations under the License.
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
-    <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="6.1.0" />
-    <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="8.1.0" />
     <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="8.1.0" />
-    <PackageReference Condition="!Exists('$(MarketingParticipantProjectReference)')" Include="Energinet.DataHub.MarketParticipant.Client" Version="2.36.0" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
-    <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="3.0.1" />
-    <PackageReference Include="Energinet.DataHub.MeteringPoints.Client.Abstractions" Version="3.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

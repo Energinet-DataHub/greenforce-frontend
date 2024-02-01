@@ -61,7 +61,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   ],
   template: `
     <div class="content">
-      <ng-content></ng-content>
+      <ng-content />
     </div>
   `,
 })

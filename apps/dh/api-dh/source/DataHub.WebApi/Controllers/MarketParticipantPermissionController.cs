@@ -12,13 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -27,14 +25,10 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class MarketParticipantPermissionsController : MarketParticipantControllerBase
     {
-        private readonly IMarketParticipantAuditIdentityClient _marketParticipantAuditIdentityClient;
-        private readonly IMarketParticipantPermissionsClient _client;
+        private readonly IMarketParticipantClient_V1 _client;
 
-        public MarketParticipantPermissionsController(
-            IMarketParticipantAuditIdentityClient marketParticipantAuditIdentityClient,
-            IMarketParticipantPermissionsClient client)
+        public MarketParticipantPermissionsController(IMarketParticipantClient_V1 client)
         {
-            _marketParticipantAuditIdentityClient = marketParticipantAuditIdentityClient;
             _client = client;
         }
 
@@ -43,65 +37,26 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// </summary>
         [HttpGet]
         [Route("GetPermissions")]
-        public Task<ActionResult<IEnumerable<PermissionDetailsDto>>> GetPermissionsAsync()
+        public Task<ActionResult<ICollection<PermissionDto>>> GetPermissionsAsync()
         {
-            return HandleExceptionAsync(() => _client.GetPermissionsAsync());
+            return HandleExceptionAsync(() => _client.PermissionGetAsync());
         }
 
         [HttpPut]
         [Route("Update")]
         public Task<ActionResult> UpdateAsync(UpdatePermissionDto permissionDto)
         {
-            return HandleExceptionAsync(() => _client.UpdatePermissionAsync(permissionDto));
+            return HandleExceptionAsync(() => _client.PermissionPutAsync(permissionDto));
         }
 
-        /// <summary>
-        /// Retrieves permissions auditLogs
-        /// </summary>
         [HttpGet]
-        [Route("GetPermissionAuditLogs")]
-        public Task<ActionResult<PermissionAuditLogsViewDto>> GetPermissionAuditLogsAsync(int permissionId)
+        [Route("GetPermissionRelationsCSV")]
+        [Produces(MediaTypeNames.Text.Plain)]
+        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ICollection<PermissionDto>>> GetPermissionRelationsAsync()
         {
-            return HandleExceptionAsync(async () =>
-            {
-                var permissionAuditLogs = await _client
-                    .GetAuditLogsAsync(permissionId)
-                    .ConfigureAwait(false);
-
-                var permissionAuditLogWithUser = new List<PermissionAuditLogViewDto>();
-                var userLookup = new Dictionary<Guid, GetAuditIdentityResponseDto>();
-                var permission = (await _client.GetPermissionsAsync()).FirstOrDefault(x => x.Id == permissionId) ?? throw new InvalidOperationException($"Permission {permissionId} was not found");
-
-                permissionAuditLogWithUser.Add(new PermissionAuditLogViewDto(
-                    permissionId,
-                    Guid.Empty,
-                    "DataHub",
-                    PermissionAuditLogType.Created,
-                    permission.Created,
-                    string.Empty));
-
-                foreach (var auditLog in permissionAuditLogs)
-                {
-                    var userFoundInCache = userLookup.ContainsKey(auditLog.AuditIdentityId);
-                    if (!userFoundInCache)
-                    {
-                        var auditIdentityResponseDto = await _marketParticipantAuditIdentityClient.GetAsync(auditLog.AuditIdentityId);
-                        userLookup.Add(auditLog.AuditIdentityId, auditIdentityResponseDto);
-                    }
-
-                    userLookup.TryGetValue(auditLog.AuditIdentityId, out var userDtoCache);
-
-                    permissionAuditLogWithUser.Add(new PermissionAuditLogViewDto(
-                        auditLog.PermissionId,
-                        auditLog.AuditIdentityId,
-                        userDtoCache?.DisplayName ?? throw new KeyNotFoundException("User not found"),
-                        auditLog.PermissionChangeType == PermissionChangeType.DescriptionChange ? PermissionAuditLogType.DescriptionChange : PermissionAuditLogType.Unknown,
-                        auditLog.Timestamp,
-                        auditLog.Value));
-                }
-
-                return new PermissionAuditLogsViewDto(permissionAuditLogWithUser);
-            });
+            var result = await _client.PermissionRelationAsync();
+            return File(result.Stream, MediaTypeNames.Text.Plain);
         }
     }
 }

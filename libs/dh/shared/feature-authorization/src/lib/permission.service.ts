@@ -14,34 +14,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
-import { ActorTokenService } from './actor-token.service';
+
 import { Permission } from '@energinet-datahub/dh/shared/domain';
+
+import { DhActorTokenService } from './dh-actor-token.service';
+
+type Claims = { [name: string]: unknown };
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
-  constructor(private actorTokenService: ActorTokenService) {}
+  constructor(private actorTokenService: DhActorTokenService) {}
 
   public hasPermission(permission: Permission) {
     return this.actorTokenService.acquireToken().pipe(
       map((internalToken) => {
-        const roles = this.acquireClaimsFromAccessToken(internalToken);
+        const claims = this.parseClaims(internalToken);
+        const roles = this.acquireRoles(claims);
         return roles.includes(permission);
       })
     );
   }
 
-  private acquireClaimsFromAccessToken(accessToken: string): Permission[] {
+  public hasActorAccess(actorId: string) {
+    return this.actorTokenService.acquireToken().pipe(
+      map((internalToken) => {
+        const claims = this.parseClaims(internalToken);
+        const tokenActorId = this.acquireActorId(claims);
+        const multitenancy = this.acquireMultiTenancy(claims);
+        return tokenActorId === actorId || multitenancy;
+      })
+    );
+  }
+
+  private acquireRoles(claims: Claims): Permission[] {
+    const roles = claims['role'] as Permission[];
+    return roles || [];
+  }
+
+  private acquireActorId(claims: Claims): string {
+    return claims['azp'] as string;
+  }
+
+  private acquireMultiTenancy(claims: Claims): boolean {
+    return claims['multitenancy'] as boolean;
+  }
+
+  private parseClaims(accessToken: string) {
     const jwtParts = accessToken.split('.');
     const jwtPayload = jwtParts[1];
-
     const claims = window.atob(jwtPayload);
-
-    const jwtJson = JSON.parse(claims);
-    const roles = jwtJson['role'] as Permission[];
-
-    return roles || [];
+    return JSON.parse(claims);
   }
 }

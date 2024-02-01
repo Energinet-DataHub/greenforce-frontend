@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import {
   concat,
   distinctUntilChanged,
@@ -26,16 +26,27 @@ import {
   switchMap,
   timer,
 } from 'rxjs';
-import { WattModalService } from '@energinet-datahub/watt/modal';
-import { DhInactivityLogoutComponent } from './dh-inactivity-logout.component';
 import { MsalService } from '@azure/msal-angular';
+
+import { WattModalService } from '@energinet-datahub/watt/modal';
+
+import { DhInactivityLogoutComponent } from './dh-inactivity-logout.component';
+
+enum ActivityState {
+  Inactive,
+  Active,
+  Overdue,
+}
 
 @Injectable({ providedIn: 'root' })
 export class DhInactivityDetectionService {
+  private readonly ngZone = inject(NgZone);
+  private readonly modalService = inject(WattModalService);
+  private readonly msal = inject(MsalService);
+
   private readonly secondsUntilWarning = 115 * 60;
 
   private readonly inputDetection$ = merge(
-    fromEvent(document, 'mousemove'),
     fromEvent(document, 'mousedown'),
     fromEvent(document, 'keydown'),
     fromEvent(document, 'wheel'),
@@ -45,26 +56,46 @@ export class DhInactivityDetectionService {
 
   private readonly userInactive$ = this.inputDetection$.pipe(
     startWith(null),
-    switchMap(() => concat(of(1), timer(this.secondsUntilWarning * 1000))),
-    distinctUntilChanged(),
-    map((isActive) => !isActive)
+    switchMap(() => {
+      const suspendedAt = new Date();
+      return concat(
+        of(ActivityState.Active),
+        timer(this.secondsUntilWarning * 1000).pipe(
+          map(() => (this.isOverdue(suspendedAt) ? ActivityState.Overdue : ActivityState.Inactive))
+        )
+      );
+    }),
+    distinctUntilChanged()
   );
 
-  constructor(
-    private readonly modalService: WattModalService,
-    private readonly msal: MsalService
-  ) {}
-
   public trackInactivity() {
-    this.userInactive$.subscribe((isInactive) => {
-      if (isInactive) {
-        this.modalService.open({
-          component: DhInactivityLogoutComponent,
-          onClosed: (result) => result && this.msal.logout(),
-        });
-      } else {
-        this.modalService.close(false);
-      }
+    this.ngZone.runOutsideAngular(() => {
+      this.userInactive$.subscribe((activityState) => {
+        switch (activityState) {
+          case ActivityState.Active:
+            this.modalService.close(false);
+            break;
+          case ActivityState.Inactive:
+            this.openModal();
+            break;
+          case ActivityState.Overdue:
+            this.msal.logoutRedirect();
+            break;
+        }
+      });
     });
+  }
+
+  private openModal() {
+    this.ngZone.run(() => {
+      this.modalService.open({
+        component: DhInactivityLogoutComponent,
+        onClosed: (result) => result && this.msal.logoutRedirect(),
+      });
+    });
+  }
+
+  private isOverdue(suspendedAt: Date) {
+    return new Date().getTime() - suspendedAt.getTime() > 2 * 60 * 60 * 1000;
   }
 }

@@ -14,11 +14,9 @@
 
 using System;
 using System.Net.Http;
-using Energinet.DataHub.Charges.Clients.Registration.Charges.ServiceCollectionExtensions;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using Energinet.DataHub.MarketParticipant.Client.Extensions;
-using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Microsoft.AspNetCore.Http;
@@ -36,13 +34,7 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddHttpClient()
                 .AddHttpContextAccessor()
                 .AddAuthorizedHttpClient()
-                .RegisterEDIServices(apiClientSettings.MessageArchiveBaseUrl)
-                .AddChargesClient(
-                    GetBaseUri(apiClientSettings.ChargesBaseUrl))
-                .AddMeteringPointClient(
-                    GetBaseUri(apiClientSettings.MeteringPointBaseUrl))
-                .AddMarketParticipantClient(
-                    GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
+                .RegisterEDIServices(apiClientSettings.EdiB2CWebApiBaseUrl)
                 .AddMarketParticipantGeneratedClient(
                     GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
                 .AddWholesaleClient(
@@ -51,6 +43,8 @@ namespace Energinet.DataHub.WebApi.Registration
                     GetBaseUri(apiClientSettings.ESettExchangeBaseUrl))
                 .AddEdiWebAppClient(
                     GetBaseUri(apiClientSettings.EdiB2CWebApiBaseUrl))
+                .AddImbalancePricesClient(
+                    GetBaseUri(apiClientSettings.ImbalancePricesBaseUrl))
                 .AddSingleton(apiClientSettings);
         }
 
@@ -97,6 +91,14 @@ namespace Energinet.DataHub.WebApi.Registration
         {
             return serviceCollection.AddScoped<IEdiB2CWebAppClient_V1, EdiB2CWebAppClient_V1>(
                 provider => new EdiB2CWebAppClient_V1(
+                    baseUri.ToString(),
+                    provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
+        }
+
+        private static IServiceCollection AddImbalancePricesClient(this IServiceCollection serviceCollection, Uri baseUri)
+        {
+            return serviceCollection.AddScoped<IImbalancePricesClient_V1, ImbalancePricesClient_V1>(
+                provider => new ImbalancePricesClient_V1(
                     baseUri.ToString(),
                     provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
         }

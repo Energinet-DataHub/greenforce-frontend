@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { rest } from 'msw';
+import { http, delay, HttpResponse } from 'msw';
 
 import {
   Actor,
@@ -31,11 +31,15 @@ import {
   mockUpdateOrganizationMutation,
   UpdateOrganizationMutation,
   mockGetAuditLogByOrganizationIdQuery,
-  OrganizationChangeType,
-  OrganizationAuditLog,
   mockGetAuditLogByActorIdQuery,
   mockGetGridAreaOverviewQuery,
+  mockCreateMarketParticipantMutation,
+  mockGetAssociatedActorsQuery,
+  OrganizationAuditedChangeAuditLogDto,
+  OrganizationAuditedChange,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import organizationsData from './data/marketParticipantOrganizations.json';
 import { marketParticipantOrganizationsWithActors } from './data/marketParticipantOrganizationsWithActors';
@@ -78,97 +82,109 @@ export function marketParticipantMocks(apiBase: string) {
     marketParticipantActorRemoveActorCredentials(apiBase),
     marketParticipantActorRequestClientSecretCredentials(apiBase),
     getGridAreaOverview(),
+    createMarketParticipant(),
+    getAssociatedActors(),
   ];
 }
 
 function getOrganizations_REST(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizations`,
-    (req, res, ctx) => {
-      return res(ctx.json(organizationsData));
-    }
-  );
+  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizations`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json(organizationsData);
+  });
 }
 
 function getAllOrganizationsWithActors(apiBase: string) {
-  return rest.get(
+  return http.get(
     `${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizationsWithActors`,
-    (req, res, ctx) => {
-      return res(ctx.json(marketParticipantOrganizationsWithActors));
+    async () => {
+      await delay(mswConfig.delay);
+      return HttpResponse.json(marketParticipantOrganizationsWithActors);
     }
   );
 }
 
 function getOrganization(apiBase: string) {
-  return rest.get(
+  return http.get(
     `${apiBase}/v1/MarketParticipant/Organization/GetOrganization`,
-    (req, res, ctx) => {
-      const { orgId } = req.params;
+    async ({ params }) => {
+      const { orgId } = params;
       const organizationDataWithUpdatedId = {
         ...organizationData,
         orgId,
       };
-      return res(ctx.json(organizationDataWithUpdatedId));
+      await delay(mswConfig.delay);
+      return HttpResponse.json(organizationDataWithUpdatedId);
     }
   );
 }
 
 function getMarketParticipantGridArea(apiBase: string) {
-  return rest.get(`${apiBase}/v1/MarketParticipantGridArea/GetAllGridAreas`, (req, res, ctx) => {
-    return res(ctx.json(gridAreaData));
+  return http.get(`${apiBase}/v1/MarketParticipantGridArea/GetAllGridAreas`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json(gridAreaData);
   });
 }
 
 function getMarketParticipantGridAreaOverview(apiBase: string) {
-  return rest.get(
-    `${apiBase}/v1/MarketParticipantGridAreaOverview/GetAllGridAreas`,
-    (req, res, ctx) => {
-      return res(ctx.json(gridAreaOverviewData));
-    }
-  );
+  return http.get(`${apiBase}/v1/MarketParticipantGridAreaOverview/GetAllGridAreas`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json(gridAreaOverviewData);
+  });
 }
 
 function getActor(apiBase: string) {
-  return rest.get(`${apiBase}/v1/MarketParticipant/Organization/GetActor`, (req, res, ctx) => {
-    const { actorId } = req.params;
+  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetActor`, async ({ params }) => {
+    const { actorId } = params;
     const actorDataWithUpdatedId = {
       ...actorData,
       actorId,
     };
-    return res(ctx.json(actorDataWithUpdatedId));
+    await delay(mswConfig.delay);
+    return HttpResponse.json(actorDataWithUpdatedId);
   });
 }
 
 function getActorContact(apiBase: string) {
-  return rest.get(`${apiBase}/v1/MarketParticipant/Organization/GetContacts`, (req, res, ctx) => {
-    return res(ctx.json(actorContactsData));
+  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetContacts`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json(actorContactsData);
   });
 }
 
 function getUserRoles(apiBase: string) {
-  return rest.get(`${apiBase}/v1/MarketParticipantUserRoleTemplate/users`, (req, res, ctx) => {
-    return res(ctx.json(userRoleData));
+  return http.get(`${apiBase}/v1/MarketParticipantUserRoleTemplate/users`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json(userRoleData);
   });
 }
 
 function getActors() {
-  return mockGetActorsQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data({ __typename: 'Query', actors: marketParticipantActors }));
+  return mockGetActorsQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: { __typename: 'Query', actors: marketParticipantActors },
+    });
   });
 }
 
 function getActorById() {
-  return mockGetActorByIdQuery((req, res, ctx) => {
-    const { id } = req.variables;
+  return mockGetActorByIdQuery(async ({ variables }) => {
+    const { id } = variables;
 
     const actorById = marketParticipantActors.find((a) => a.id === id) as Actor;
 
-    return res(ctx.delay(300), ctx.data({ __typename: 'Query', actorById }));
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: { __typename: 'Query', actorById },
+    });
   });
 }
 
 function getActorEditableFields() {
-  return mockGetActorEditableFieldsQuery((req, res, ctx) => {
+  return mockGetActorEditableFieldsQuery(async () => {
+    await delay(mswConfig.delay);
+
     const query: GetActorEditableFieldsQuery = {
       __typename: 'Query',
       actorById: {
@@ -187,31 +203,38 @@ function getActorEditableFields() {
       },
     };
 
-    return res(ctx.delay(300), ctx.data(query));
+    return HttpResponse.json({
+      data: query,
+    });
   });
 }
 
 function getOrganizations_GrahpQL() {
-  return mockGetOrganizationsQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data(getOrganizationsQueryMock));
+  return mockGetOrganizationsQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: getOrganizationsQueryMock,
+    });
   });
 }
 
 function getOrganizationById() {
-  return mockGetOrganizationByIdQuery((req, res, ctx) => {
-    const { id } = req.variables;
+  return mockGetOrganizationByIdQuery(async ({ variables }) => {
+    const { id } = variables;
 
     const organizationById = getOrganizationsQueryMock.organizations.find(
       (a) => a.organizationId === id
     ) as Organization;
-
-    return res(ctx.delay(300), ctx.data({ __typename: 'Query', organizationById }));
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: { __typename: 'Query', organizationById },
+    });
   });
 }
 
 function getActorByOrganizationId() {
-  return mockGetActorsByOrganizationIdQuery((req, res, ctx) => {
-    const { organizationId } = req.variables;
+  return mockGetActorsByOrganizationIdQuery(async ({ variables }) => {
+    const { organizationId } = variables;
 
     const actors: Actor[] = [
       {
@@ -244,12 +267,15 @@ function getActorByOrganizationId() {
       },
     ];
 
-    return res(ctx.delay(300), ctx.data({ __typename: 'Query', actorsByOrganizationId: actors }));
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: { __typename: 'Query', actorsByOrganizationId: actors },
+    });
   });
 }
 
 function updateOrganization() {
-  return mockUpdateOrganizationMutation((req, res, ctx) => {
+  return mockUpdateOrganizationMutation(async () => {
     const response: UpdateOrganizationMutation = {
       __typename: 'Mutation',
       updateOrganization: {
@@ -259,119 +285,49 @@ function updateOrganization() {
       },
     };
 
-    return res(ctx.delay(300), ctx.data(response));
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: response,
+    });
   });
 }
 
 function getAuditLogByOrganizationId() {
-  return mockGetAuditLogByOrganizationIdQuery((req, res, ctx) => {
-    const guid = '3d6ac98a-d8b8-430e-aaad-ffde66c3e00e';
-    const auditLog: OrganizationAuditLog[] = [
+  return mockGetAuditLogByOrganizationIdQuery(async () => {
+    const auditLog: OrganizationAuditedChangeAuditLogDto[] = [
       {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: guid,
-        value: 'Fredericia',
-        organizationChangeType: OrganizationChangeType.AddressCity,
-        timestamp: new Date('2021-08-14T12:31:00'),
-        organizationId: guid,
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
-          displayName: 'Jane Doe',
-        },
-      },
-      {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: '3d6ac98a-d8b8-430e-aaad-aade66c3e00e',
-        value: 'DK',
-        organizationChangeType: OrganizationChangeType.AddressCountry,
-        timestamp: new Date('2021-08-15T12:31:00'),
-        organizationId: '3d6ac98a-d8b8-430e-aaad-eade66c3e00e',
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
-          displayName: 'Jane Doe',
-        },
-      },
-      {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: guid,
-        value: '10',
-        organizationChangeType: OrganizationChangeType.AddressNumber,
-        timestamp: new Date('2021-08-15T12:31:00'),
-        organizationId: guid,
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
-          displayName: 'Jane Doe',
-        },
-      },
-      {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: guid,
-        value: 'Vejen',
-        organizationChangeType: OrganizationChangeType.AddressStreetName,
-        timestamp: new Date('2021-09-02T10:00:00'),
-        organizationId: guid,
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
-          displayName: 'Jane Doe',
-        },
-      },
-      {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: guid,
-        value: '7000',
-        organizationChangeType: OrganizationChangeType.AddressZipCode,
-        timestamp: new Date('2021-09-03T10:00:00'),
-        organizationId: guid,
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
-          displayName: 'Jane Doe',
-        },
-      },
-      {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: guid,
-        value: '12345678',
-        organizationChangeType: OrganizationChangeType.BusinessRegisterIdentifier,
-        timestamp: new Date('2021-09-04T10:00:00'),
-        organizationId: guid,
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
-          displayName: 'Jane Doe',
-        },
-      },
-      {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: guid,
-        value: 'energinet.dk',
-        organizationChangeType: OrganizationChangeType.DomainChange,
+        __typename: 'OrganizationAuditedChangeAuditLogDto',
+        auditedBy: 'Jane Doe',
+        isInitialAssignment: false,
+        currentValue: 'energinet.dk',
+        previousValue: null,
+        change: OrganizationAuditedChange.Domain,
         timestamp: new Date('2021-09-05T10:00:00'),
-        organizationId: guid,
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
-          displayName: 'Jane Doe',
-        },
       },
       {
-        __typename: 'OrganizationAuditLog',
-        auditIdentityId: guid,
-        value: 'Grøn Strøm',
-        organizationChangeType: OrganizationChangeType.Name,
+        __typename: 'OrganizationAuditedChangeAuditLogDto',
+        auditedBy: 'Jane Doe',
+        isInitialAssignment: false,
+        currentValue: 'Grøn Strøm',
+        previousValue: null,
+        change: OrganizationAuditedChange.Name,
         timestamp: new Date('2021-09-06T10:00:00'),
-        organizationId: guid,
-        identityWithName: {
-          __typename: 'GetAuditIdentityResponseDto',
-          displayName: 'Jane Doe',
-        },
       },
     ];
 
-    return res(ctx.delay(300), ctx.data({ __typename: 'Query', organizationAuditLog: auditLog }));
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: { __typename: 'Query', organizationAuditLogs: auditLog },
+    });
   });
 }
 
 function getAuditLogByActorId() {
-  return mockGetAuditLogByActorIdQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data(getActorAuditLogsMock));
+  return mockGetAuditLogByActorIdQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: getActorAuditLogsMock,
+    });
   });
 }
 
@@ -384,46 +340,83 @@ function getMarketParticipantActorActorCredentials(apiBase: string) {
     },
   };
 
-  return rest.get(`${apiBase}/v1/MarketParticipantActor/GetActorCredentials`, (req, res, ctx) => {
-    return res(ctx.delay(300), ctx.json(response));
+  return http.get(`${apiBase}/v1/MarketParticipantActor/GetActorCredentials`, async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json(response);
   });
 }
 
 function marketParticipantActorAssignCertificateCredentials(apiBase: string) {
-  return rest.post(
+  return http.post(
     `${apiBase}/v1/MarketParticipantActor/AssignCertificateCredentials`,
-    (req, res, ctx) => {
-      return res(ctx.delay(1000), ctx.status(200));
+    async () => {
+      await delay(mswConfig.delay);
+      return new HttpResponse(null, { status: 200 });
     }
   );
 }
 
 function marketParticipantActorRemoveActorCredentials(apiBase: string) {
-  return rest.delete(
-    `${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`,
-    (req, res, ctx) => {
-      return res(ctx.delay(300), ctx.status(200));
-    }
-  );
+  return http.delete(`${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`, async () => {
+    await delay(mswConfig.delay);
+    return new HttpResponse(null, { status: 200 });
+  });
 }
 
 function marketParticipantActorRequestClientSecretCredentials(apiBase: string) {
-  return rest.post(
+  return http.post(
     `${apiBase}/v1/MarketParticipantActor/RequestClientSecretCredentials`,
-    (req, res, ctx) => {
+    async () => {
       const clientSecret = 'random-secret-XEi33WhFi8qwnCzrnlf';
 
       const response: MarketParticipantActorClientSecretDto = {
         secretText: clientSecret,
       };
+      await delay(mswConfig.delay);
 
-      return res(ctx.delay(300), ctx.json(response));
+      return HttpResponse.json(response);
     }
   );
 }
 
 function getGridAreaOverview() {
-  return mockGetGridAreaOverviewQuery((req, res, ctx) => {
-    return res(ctx.delay(300), ctx.data(getGridAreaOverviewMock));
+  return mockGetGridAreaOverviewQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: getGridAreaOverviewMock,
+    });
+  });
+}
+
+function createMarketParticipant() {
+  return mockCreateMarketParticipantMutation(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        createMarketParticipant: {
+          __typename: 'CreateMarketParticipantPayload',
+          success: true,
+          errors: [],
+        },
+      },
+    });
+  });
+}
+
+function getAssociatedActors() {
+  return mockGetAssociatedActorsQuery(async ({ variables }) => {
+    const email = variables.email;
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        associatedActors: {
+          __typename: 'AssociatedActors',
+          email: email,
+          actors: email === 'testuser1@test.dk' ? ['00000000-0000-0000-0000-000000000001'] : [],
+        },
+      },
+    });
   });
 }

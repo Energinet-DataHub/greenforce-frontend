@@ -19,12 +19,9 @@ import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
   eoCertificatesRoutePath,
   eoClaimsRoutePath,
-  eoConnectionsRoutePath,
   eoDashboardRoutePath,
-  eoEmissionsRoutePath,
   eoHelpRoutePath,
   eoMeteringPointsRoutePath,
-  eoOriginOfEnergyRoutePath,
   eoPrivacyPolicyRoutePath,
   eoTransferRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
@@ -43,7 +40,7 @@ export const eoShellRoutes: Routes = [
   { path: 'login', component: EoLoginComponent },
   {
     path: 'terms',
-    data: { title: 'Terms' },
+    title: 'Terms',
     loadChildren: () =>
       import('@energinet-datahub/eo/terms').then((esModule) => esModule.eoTermsRoutes),
   },
@@ -62,65 +59,38 @@ export const eoShellRoutes: Routes = [
       {
         path: eoDashboardRoutePath,
         canActivate: [EoScopeGuard],
-        data: { title: 'Dashboard' },
+        title: 'Dashboard',
         loadChildren: () =>
           import('@energinet-datahub/eo/dashboard/shell').then(
             (esModule) => esModule.eoDashboardRoutes
           ),
       },
       {
-        path: eoOriginOfEnergyRoutePath,
-        canActivate: [EoScopeGuard],
-        data: { title: 'Renewable Share' },
-        loadChildren: () =>
-          import('@energinet-datahub/eo/origin-of-energy/shell').then(
-            (esModule) => esModule.eoOriginOfEnergyRoutes
-          ),
-      },
-      {
         path: eoMeteringPointsRoutePath,
         canActivate: [EoScopeGuard],
-        data: { title: 'Metering points' },
+        title: 'Metering points',
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
             (esModule) => esModule.eoMeteringPointsRoutes
           ),
       },
       {
-        path: eoEmissionsRoutePath,
-        canActivate: [EoScopeGuard],
-        data: { title: 'Emissions' },
-        loadChildren: () =>
-          import('@energinet-datahub/eo/emissions/shell').then(
-            (esModule) => esModule.eoEmissionsRoutes
-          ),
-      },
-      {
         path: eoTransferRoutePath,
         canActivate: [EoScopeGuard],
-        data: { title: 'Transfers' },
+        title: 'Transfers',
         loadChildren: () =>
           import('@energinet-datahub/eo/transfers').then((esModule) => esModule.eoTransfersRoutes),
       },
       {
         path: eoClaimsRoutePath,
         canActivate: [EoScopeGuard],
-        data: { title: 'Claims' },
+        title: 'Claims',
         loadChildren: () =>
           import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),
       },
       {
-        path: eoConnectionsRoutePath,
-        canActivate: [EoScopeGuard],
-        data: { title: 'Connections' },
-        loadChildren: () =>
-          import('@energinet-datahub/eo/connections/shell').then(
-            (esModule) => esModule.eoConnectionsRoutes
-          ),
-      },
-      {
         path: eoPrivacyPolicyRoutePath,
-        data: { title: 'Privacy Policy' },
+        title: 'Privacy Policy',
         loadChildren: () =>
           import('@energinet-datahub/eo/privacy-policy/shell').then(
             (esModule) => esModule.eoPrivacyPolicyRoutes

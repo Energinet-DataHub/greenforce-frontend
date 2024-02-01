@@ -34,6 +34,7 @@ const materialIcons = {
   date: 'calendar_today',
   time: 'schedule',
   email: 'email',
+  markEmailUnread: 'mark_email_unread',
   link: 'link',
   openInNew: 'open_in_new',
   monetization: 'monetization_on',
@@ -44,17 +45,20 @@ const materialIcons = {
   login: 'lock_open',
   help: 'help',
   alternateEmail: 'alternate_email',
+  refresh: 'refresh',
   // Navigation
   left: 'navigate_before',
   right: 'navigate_next',
   up: 'expand_less',
   down: 'expand_more',
   arrowDropDown: 'arrow_drop_down',
+  arrowRightAlt: 'arrow_right_alt',
   // Alerts
   danger: 'dangerous',
   warning: 'report_problem',
   success: 'check_circle',
   info: 'info',
+  feedback: 'feedback',
   // Files
   save: 'save_alt',
   upload: 'cloud_upload',
@@ -77,6 +81,12 @@ export const customIcons = {
   'custom-map-marker': 'map-marker',
   'custom-primary-info': 'primary-info',
   'custom-no-results': 'no-results',
+  'custom-flag-da': 'flag-da',
+  'custom-flag-de': 'flag-de',
+  'custom-flag-se': 'flag-se',
+  'custom-flag-no': 'flag-no',
+  'custom-flag-fi': 'flag-fi',
+  'custom-flag-pl': 'flag-pl',
 };
 
 export const allIcons = { ...materialIcons, ...customIcons };

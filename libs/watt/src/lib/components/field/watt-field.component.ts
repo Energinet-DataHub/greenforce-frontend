@@ -17,21 +17,26 @@
 import { NgIf, NgClass } from '@angular/common';
 import {
   Component,
+  ElementRef,
   HostBinding,
   Input,
   OnChanges,
   SimpleChanges,
+  ViewChild,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
 import { ControlContainer, FormControl, FormGroupDirective, Validators } from '@angular/forms';
-import { WattIconComponent } from '../../foundations/icon/icon.component';
+
 import { WattTooltipDirective } from '../tooltip';
+import { WattFieldIntlService } from './watt-field-intl.service';
+import { WattFieldErrorComponent } from './watt-field-error.component';
+import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
   selector: 'watt-field',
   standalone: true,
-  imports: [NgIf, NgClass, WattIconComponent, WattTooltipDirective],
+  imports: [NgIf, NgClass, WattIconComponent, WattTooltipDirective, WattFieldErrorComponent],
   encapsulation: ViewEncapsulation.None,
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
   styleUrls: ['./watt-field.component.scss'],
@@ -41,21 +46,33 @@ import { WattTooltipDirective } from '../tooltip';
         {{ label }}
         <watt-icon name="info" *ngIf="tooltip" wattTooltipPosition="top" [wattTooltip]="tooltip" />
       </span>
-      <div class="watt-field-wrapper">
-        <ng-content />
+      <div style="display: flex;align-items: center; gap: var(--watt-space-s);">
+        <div class="watt-field-wrapper" #wrapper>
+          <ng-content />
+        </div>
+        <ng-content select="watt-field-descriptor" />
       </div>
       <ng-content select="watt-field-hint" />
       <ng-content select="watt-field-error" />
+      <watt-field-error
+        *ngIf="control?.errors?.['required'] || control?.errors?.['rangeRequired']"
+        >{{ intl.required }}</watt-field-error
+      >
     </label>
   `,
 })
 export class WattFieldComponent implements OnChanges {
   private _formGroupDirective = inject(FormGroupDirective, { optional: true });
-  @Input() label!: string;
+  intl = inject(WattFieldIntlService);
+
+  @Input() label: string | undefined;
   @Input({ required: true }) control!: FormControl | null;
   @Input() id!: string;
   @Input() chipMode = false;
   @Input() tooltip?: string;
+
+  // Used for text fields with autocomplete
+  @ViewChild('wrapper', { static: true }) wrapper!: ElementRef<HTMLDivElement>;
 
   @HostBinding('class.watt-field--chip')
   get _chip() {
@@ -65,7 +82,7 @@ export class WattFieldComponent implements OnChanges {
   @HostBinding('class.watt-field--invalid')
   get _hasError() {
     return (
-      (this.control?.status === 'INVALID' && (!!this.control?.dirty || !!this.control?.touched)) ||
+      (this.control?.status === 'INVALID' && !!this.control?.touched) ||
       (this._formGroupDirective?.submitted && this.control?.status === 'INVALID')
     );
   }

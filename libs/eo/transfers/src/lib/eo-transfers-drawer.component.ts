@@ -23,6 +23,7 @@ import {
   Output,
   ViewChild,
   inject,
+  signal,
 } from '@angular/core';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -40,6 +41,7 @@ import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.component';
 import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
+import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -78,7 +80,7 @@ import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
       </watt-drawer-topbar>
 
       <watt-drawer-heading>
-        <h2>{{ transfer?.receiverTin }}</h2>
+        <h2>{{ transfer?.receiverTin }} - {{ transfer?.receiverName || 'Unknown company' }}</h2>
         <p class="sub-header">
           <span class="watt-label">Period of agreement</span>
           {{ transfer?.startDate | wattDate: 'long' }}－{{ transfer?.endDate | wattDate: 'long' }}
@@ -86,7 +88,10 @@ import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
       </watt-drawer-heading>
 
       <watt-drawer-actions>
-        <watt-button variant="secondary" *ngIf="isEditable" (click)="transfersEditModal.open()"
+        <watt-button
+          variant="secondary"
+          *ngIf="isEditable && ownTin() === transfer?.senderTin"
+          (click)="transfersEditModal.open()"
           >Edit</watt-button
         >
       </watt-drawer-actions>
@@ -97,8 +102,10 @@ import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
             <watt-card variant="solid">
               <watt-description-list variant="stack">
                 <watt-description-list-item
-                  label="Receiver TIN/CVR"
-                  [value]="transfer?.receiverTin"
+                  label="Receiver"
+                  [value]="
+                    transfer?.receiverTin + ' - ' + (transfer?.receiverName || 'Unknown company')
+                  "
                 />
                 <watt-description-list-item label="ID" value="{{ transfer?.id }}" />
               </watt-description-list>
@@ -106,24 +113,33 @@ import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
           </watt-tab>
           <watt-tab label="History">
             <watt-card variant="solid">
-              <eo-transfers-history *ngIf="tabs.activeTabIndex === 1" />
+              <eo-transfers-history *ngIf="tabs.activeTabIndex === 1" [transfer]="transfer" />
             </watt-card>
           </watt-tab>
         </watt-tabs>
       </watt-drawer-content>
     </watt-drawer>
 
-    <eo-transfers-edit-modal [transfer]="transfer" />
+    <eo-transfers-edit-modal
+      [transfer]="transfer"
+      [transferAgreements]="transferAgreements"
+      (save)="saveTransferAgreement.emit($event)"
+    />
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
   `,
 })
 export class EoTransfersDrawerComponent {
-  utils = inject(SharedUtilities);
+  private utils = inject(SharedUtilities);
+  protected authStore = inject(EoAuthStore);
+
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
   @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
 
   isActive!: boolean;
   isEditable = false;
+
+  @Input() transferAgreements: EoListedTransfer[] = [];
+  @Output() saveTransferAgreement = new EventEmitter();
 
   private _transfer?: EoListedTransfer;
 
@@ -139,11 +155,17 @@ export class EoTransfersDrawerComponent {
     return this._transfer;
   }
 
+  protected ownTin = signal<string | undefined>(undefined);
+
   @Output()
   closed = new EventEmitter<void>();
 
   open() {
     this.drawer.open();
+
+    this.authStore.getTin$.subscribe((tin) => {
+      this.ownTin.set(tin);
+    });
   }
 
   onClose() {

@@ -47,6 +47,11 @@ export const dhCoreShellRoutes: Routes = [
         canActivate: [MsalGuard],
       },
       {
+        path: 'imbalance-prices',
+        loadChildren: () => import('@energinet-datahub/dh/imbalance-prices/shell'),
+        canActivate: [MsalGuard],
+      },
+      {
         path: dhMarketParticipantPath,
         loadChildren: () =>
           import('@energinet-datahub/dh/market-participant/shell').then(
@@ -72,6 +77,4 @@ export const dhCoreShellRoutes: Routes = [
       },
     ],
   },
-  // Used by MSAL (B2C)
-  { path: 'state', redirectTo: '', pathMatch: 'full' },
 ];

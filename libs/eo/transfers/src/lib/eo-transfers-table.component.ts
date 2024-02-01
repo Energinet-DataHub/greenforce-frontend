@@ -39,7 +39,6 @@ import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.component';
 import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
-import { EoTransfersWalletModalComponent } from './eo-transfers-wallet-modal-component';
 
 interface EoTransferTableElement extends EoListedTransfer {
   period?: string;
@@ -59,7 +58,6 @@ interface EoTransferTableElement extends EoListedTransfer {
     ReactiveFormsModule,
     EoTransfersDrawerComponent,
     EoTransfersCreateModalComponent,
-    EoTransfersWalletModalComponent,
     WattDatePipe,
     NgIf,
   ],
@@ -77,25 +75,14 @@ interface EoTransferTableElement extends EoListedTransfer {
         }
       }
 
-      .search-filters {
-        watt-form-field {
-          margin-top: 0;
-        }
-
-        ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
-          padding-bottom: 0;
-        }
-
-        ::ng-deep
-          .mat-form-field-type-mat-select:not(.mat-form-field-disabled)
-          .mat-form-field-flex {
-          margin-top: 0;
-        }
-      }
-
       .no-data {
         text-align: center;
         padding: var(--watt-space-m);
+      }
+
+      watt-paginator {
+        display: block;
+        margin: -8px -24px -24px -24px;
       }
     `,
   ],
@@ -111,18 +98,9 @@ interface EoTransferTableElement extends EoListedTransfer {
         >
           New transfer agreement
         </watt-button>
-
-        <watt-button
-          data-testid="create-wallet-endpoint-button"
-          icon="plus"
-          variant="secondary"
-          (click)="transfersWalletModalComponent.open()"
-        >
-          Create Wallet Endpoint
-        </watt-button>
       </div>
     </div>
-    <div class="search-filters watt-space-stack-s">
+    <div class="watt-space-stack-s">
       <form [formGroup]="filterForm">
         <watt-dropdown
           [chipMode]="true"
@@ -181,11 +159,12 @@ interface EoTransferTableElement extends EoListedTransfer {
     />
     <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
 
-    <eo-transfers-create-modal />
-    <eo-transfers-wallet-modal />
+    <eo-transfers-create-modal [transferAgreements]="transfers" />
     <eo-transfers-drawer
+      [transferAgreements]="transfers"
       [transfer]="selectedTransfer"
       (closed)="transferSelected.emit(undefined)"
+      (saveTransferAgreement)="saveTransferAgreement.emit($event)"
     />
   `,
 })
@@ -194,11 +173,10 @@ export class EoTransfersTableComponent implements OnChanges {
   @Input() loading = false;
   @Input() selectedTransfer?: EoListedTransfer;
   @Output() transferSelected = new EventEmitter<EoListedTransfer>();
+  @Output() saveTransferAgreement = new EventEmitter();
 
   @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
   @ViewChild(EoTransfersCreateModalComponent) transfersModal!: EoTransfersCreateModalComponent;
-  @ViewChild(EoTransfersWalletModalComponent)
-  transfersWalletModalComponent!: EoTransfersWalletModalComponent;
 
   utils = inject(SharedUtilities);
   private fb = inject(FormBuilder);
@@ -207,7 +185,16 @@ export class EoTransfersTableComponent implements OnChanges {
   activeRow?: EoListedTransfer;
   dataSource = new WattTableDataSource<EoTransferTableElement>();
   columns = {
-    receiver: { accessor: 'receiverTin' },
+    sender: {
+      accessor: (transfer) => {
+        return `${transfer.senderName ?? 'Unknown company'} (${transfer.senderTin})`;
+      },
+    },
+    receiver: {
+      accessor: (transfer) => {
+        return `${transfer.receiverName ?? 'Unknown company'} (${transfer.receiverTin})`;
+      },
+    },
     startDate: { accessor: 'startDate', header: 'Start Date' },
     endDate: { accessor: 'endDate', header: 'End Date' },
     status: {

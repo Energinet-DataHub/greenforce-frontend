@@ -30,15 +30,6 @@
   right: 0px;
 }
 
-.button-padding {
-  position: relative;
-  height: 100%;
-
-  @include watt.media("<Large") {
-    padding-right: 44px; // Added closing button width
-  }
-}
-
 .mat-drawer {
   overflow-y: visible;
 }
@@ -62,8 +53,8 @@
       opacity: 0;
       transition: opacity 50ms linear;
 
-      ::ng-deep .watt-button--icon {
-        color: white;
+      ::ng-deep .mat-mdc-button.mat-icon {
+        color: var(--watt-color-neutral-white);
       }
     }
   }
@@ -86,4 +77,13 @@
   border-bottom: 1px solid var(--watt-color-neutral-grey-300);
   height: var(--watt-space-xl);
   z-index: var(--watt-toolbar-z-index);
+}
+
+.watt-main-content,
+.watt-toolbar {
+  width: 100vw;
+
+  @include watt.media(">=Large") {
+    width: calc(100vw - 245px);
+  }
 }

@@ -15,19 +15,20 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
-import { WattDatePipe } from '../../../utils/date';
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
+import { WattDatePipe } from '../../../utils/date';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 import { WattFieldComponent } from '../../field/watt-field.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
     MatDatepickerModule,
     WattMenuChipComponent,
     WattFieldComponent,
@@ -35,19 +36,26 @@ import { WattFieldComponent } from '../../field/watt-field.component';
     WattIconComponent,
   ],
   selector: 'watt-date-chip',
+  encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      input {
-        top: 0;
-        bottom: 0;
-        height: auto;
-        visibility: hidden;
+      watt-date-chip {
+        input {
+          top: 0;
+          bottom: 0;
+          height: auto;
+          visibility: hidden;
+        }
+
+        watt-field label .watt-field-wrapper {
+          background-color: transparent;
+        }
       }
     `,
   ],
   template: `
     <mat-datepicker #picker />
-    <watt-field [control]="null" [chipMode]="true">
+    <watt-field [control]="formControl" [chipMode]="true">
       <watt-menu-chip
         hasPopup="dialog"
         [disabled]="disabled"
@@ -65,7 +73,9 @@ import { WattFieldComponent } from '../../field/watt-field.component';
           (dateChange)="selectionChange.emit($event.value)"
         />
         <ng-content />
-        <ng-container *ngIf="value">: {{ value | wattDate }}</ng-container>
+        <ng-container *ngIf="value"
+          ><ng-container *ngIf="placeholder">:</ng-container> {{ value | wattDate }}</ng-container
+        >
       </watt-menu-chip>
       <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
       <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
@@ -75,6 +85,8 @@ import { WattFieldComponent } from '../../field/watt-field.component';
 export class WattDateChipComponent {
   @Input() disabled = false;
   @Input() label?: string;
+  @Input() placeholder = true;
   @Input() value?: string;
+  @Input({ required: true }) formControl!: FormControl;
   @Output() selectionChange = new EventEmitter<Date>();
 }

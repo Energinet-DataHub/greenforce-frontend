@@ -18,4 +18,3 @@ export * from './lib/generated/v1';
 export * from './lib/permission';
 export * from './lib/permission-dto';
 export * from './lib/range';
-export * as graphql from './lib/generated/graphql';

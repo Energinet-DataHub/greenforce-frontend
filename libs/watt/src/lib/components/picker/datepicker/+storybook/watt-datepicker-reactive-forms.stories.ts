@@ -27,6 +27,7 @@ import { WattRangeValidators } from '../../shared/validators';
 
 import { WattDateChipComponent } from '../watt-date-chip.component';
 import { WattDateRangeChipComponent } from '../watt-date-range-chip.component';
+import { WattDatepickerV2Component } from '../watt-datepicker-v2.component';
 
 export const initialValueSingle = '2022-09-02T22:00:00.000Z';
 export const initialValueRangeStart = initialValueSingle;
@@ -51,6 +52,7 @@ export default {
         WattDateChipComponent,
         WattDateRangeChipComponent,
         WattFieldErrorComponent,
+        WattDatepickerV2Component,
       ],
     }),
   ],
@@ -65,31 +67,28 @@ export default {
 
 const template = `
 
-  <watt-datepicker label="Single date" [formControl]="exampleFormControlSingle">
+  <watt-datepicker-v2 label="Single date" [formControl]="exampleFormControlSingle">
     <watt-field-error *ngIf="exampleFormControlSingle?.errors?.required">
       Date is required
     </watt-field-error>
-  </watt-datepicker>
+  </watt-datepicker-v2>
 
 <p>Value: <code>{{ exampleFormControlSingle.value | json }}</code></p>
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlSingle?.errors | json }}</code></p>
 
 <br />
 
-<watt-datepicker label="Date range" [formControl]="exampleFormControlRange" [range]="true">
+<watt-datepicker-v2 label="Date range" [formControl]="exampleFormControlRange" [range]="true">
   <watt-field-error *ngIf="exampleFormControlRange?.errors?.rangeRequired">
     Date range is required
   </watt-field-error>
-</watt-datepicker>
+</watt-datepicker-v2>
 
 <p>Selected range: <code data-testid="rangeValue">{{ exampleFormControlRange.value | json }}</code></p>
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
 
 <watt-date-chip [formControl]="exampleChipFormControlSingle">
   Single date
-  <watt-field-error *ngIf="exampleChipFormControlSingle?.touched && exampleChipFormControlSingle?.errors?.required">
-    Date is required
-  </watt-field-error>
 </watt-date-chip>
 
 
@@ -98,9 +97,6 @@ const template = `
 
 <watt-date-range-chip [formControl]="exampleChipFormControlRange">
   Date range
-  <watt-field-error *ngIf="exampleChipFormControlRange?.touched && exampleChipFormControlRange?.errors?.rangeRequired">
-    Date range is required
-  </watt-field-error>
 </watt-date-range-chip>
 
 <p>Selected range: <code data-testid="rangeValue">{{ exampleChipFormControlRange.value | json }}</code></p>
@@ -167,8 +163,14 @@ WithValidations.play = async ({ canvasElement }) => {
 
 export const WithFormControlDisabled: StoryFn<WattDatepickerStoryConfig> = (args) => ({
   props: {
-    exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
-    exampleFormControlRange: new FormControl({ value: null, disabled: true }),
+    exampleFormControlSingle: new FormControl({ value: initialValueSingle, disabled: true }),
+    exampleFormControlRange: new FormControl({
+      value: {
+        start: initialValueRangeStart,
+        end: initialValueRangeEnd_EndOfDay,
+      },
+      disabled: true,
+    }),
     exampleChipFormControlSingle: new FormControl({ value: null, disabled: true }),
     exampleChipFormControlRange: new FormControl({ value: null, disabled: true }),
     ...args,

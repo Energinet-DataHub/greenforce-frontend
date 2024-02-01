@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 export function meteringPointsMocks(apiBase: string) {
   return [getMeteringPoints(apiBase)];
 }
 
 function getMeteringPoints(apiBase: string) {
-  return rest.get(`${apiBase}/meteringpoints`, (req, res, ctx) => {
+  return http.get(`${apiBase}/meteringpoints`, () => {
     const city = 'Dummy city';
 
     const data = {
@@ -55,6 +55,20 @@ function getMeteringPoints(apiBase: string) {
           },
         },
         {
+          gsrn: '571313171355411111',
+          gridArea: 'DK1',
+          type: 'consumption',
+          subMeterType: 'Virtual',
+          assetType: 'Solar',
+          address: {
+            address1: 'Dummy street 2',
+            address2: '1 11A',
+            city,
+            postalCode: '9999',
+            country: 'DK',
+          },
+        },
+        {
           gsrn: '571313130083531004',
           gridArea: 'DK1',
           type: 'production',
@@ -71,6 +85,7 @@ function getMeteringPoints(apiBase: string) {
       ],
     };
 
-    return res(ctx.status(200), ctx.json(data));
+    return HttpResponse.json(data, { status: 200 });
+    //return res(ctx.status(500), ctx.delay(2000));
   });
 }

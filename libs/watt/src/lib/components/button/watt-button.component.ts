@@ -21,12 +21,10 @@ import {
   Input,
   ViewEncapsulation,
 } from '@angular/core';
-
-import { CommonModule } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 import { WattIcon } from '../../foundations/icon';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-
 import { WattIconComponent } from './../../foundations/icon/icon.component';
 import { WattSpinnerComponent } from '../spinner';
 
@@ -40,9 +38,9 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
   template: `
     <button
       mat-button
-      class="watt-button--{{ variant }}"
       [disabled]="disabled"
       [type]="type"
+      [color]="variant"
       [attr.form]="type === 'submit' ? formId : null"
     >
       <watt-spinner *ngIf="loading" [diameter]="18" />
@@ -60,7 +58,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
   styleUrls: ['./watt-button.component.scss'],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [CommonModule, WattIconComponent, WattSpinnerComponent, MatButtonModule],
+  imports: [NgIf, NgClass, WattIconComponent, WattSpinnerComponent, MatButtonModule],
 })
 export class WattButtonComponent {
   @Input() icon?: WattIcon;
@@ -76,6 +74,14 @@ export class WattButtonComponent {
   @HostBinding('class.watt-button--disabled')
   get buttonDisabledState() {
     return this.disabled;
+  }
+
+  /**
+   * @ignore
+   */
+  @HostBinding('class')
+  get cssClass() {
+    return `watt-button--${this.variant}`;
   }
 
   /**

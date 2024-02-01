@@ -21,14 +21,15 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   Output,
   ViewChild,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Subscription, fromEvent } from 'rxjs';
+
 import { WattColorHelperService } from '../../foundations/color/color-helper.service';
 import { WattColor } from '../../foundations/color/colors';
 
@@ -47,9 +48,8 @@ export interface WattSliderValue {
   styleUrls: ['./watt-slider.component.scss'],
   templateUrl: './watt-slider.component.html',
   standalone: true,
-  imports: [CommonModule],
 })
-export class WattSliderComponent implements AfterViewInit, OnDestroy {
+export class WattSliderComponent implements AfterViewInit, OnDestroy, OnChanges {
   private _colorService = inject(WattColorHelperService);
   /** The lowest permitted value. */
   @Input() min = 0;
@@ -110,6 +110,16 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  isElementRefsPopulated(): boolean {
+    return !!this.maxRange && !!this.minRange;
+  }
+
+  ngOnChanges(): void {
+    if (this.isElementRefsPopulated()) {
+      this.updateRange(this.value.min, this.value.max);
+    }
+  }
+
   ngOnDestroy(): void {
     this._maxChangeSubscription.unsubscribe();
     this._minChangeSubscription.unsubscribe();
@@ -123,6 +133,8 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy {
     const sliderColor = this._colorService.getColor(WattColor.secondaryLight);
     const rangeColor = this._colorService.getColor(WattColor.primary);
 
+    this.maxRange.nativeElement.valueAsNumber = this.value.max;
+    this.minRange.nativeElement.valueAsNumber = this.value.min;
     this.maxRange.nativeElement.style.background = `linear-gradient(
       to right,
       ${sliderColor} 0%,

@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'admin.userManagement.tabs.users.table.columns'">
+<vater-flex fill="vertical" scrollable *transloco="let t; read: 'admin.userManagement.tabs.users'">
   <watt-table
     [dataSource]="dataSource"
     [columns]="columns"
@@ -22,28 +22,40 @@ limitations under the License.
     [activeRow]="activeRow"
     sortBy="email"
     sortDirection="asc"
+    [loading]="isLoading"
     [sortClear]="false"
   >
-    <ng-container *wattTableCell="columns.firstName; header: t('firstName'); let element">
+    <ng-container *wattTableCell="columns.firstName; header: t('columns.firstName'); let element">
       {{ element.firstName | dhEmDashFallback }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns.lastName; header: t('lastName'); let element">
+    <ng-container *wattTableCell="columns.lastName; header: t('columns.lastName'); let element">
       {{ element.lastName | dhEmDashFallback }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns.email; header: t('email'); let element">
+    <ng-container *wattTableCell="columns.email; header: t('columns.email'); let element">
       {{ element.email }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns.phoneNumber; header: t('phone'); let element">
+    <ng-container *wattTableCell="columns.phoneNumber; header: t('columns.phone'); let element">
       {{ element.phoneNumber | dhEmDashFallback }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns.status; header: t('status'); let element">
+    <ng-container *wattTableCell="columns.status; header: t('columns.status'); let element">
       <dh-user-status [status]="element.status" />
     </ng-container>
   </watt-table>
-</ng-container>
+
+  <vater-stack fill="vertical" justify="center" *ngIf="!isLoading && dataSource.data.length === 0">
+    <dh-tab-data-general-error
+      *ngIf="hasGeneralError; else emptyStateTmpl"
+      (reload)="reload.emit()"
+    />
+
+    <ng-template #emptyStateTmpl>
+      <watt-empty-state icon="cancel" [title]="t('emptyTitle')" [message]="t('emptyMessage')" />
+    </ng-template>
+  </vater-stack>
+</vater-flex>
 
 <dh-user-drawer (closed)="onClosed()" />

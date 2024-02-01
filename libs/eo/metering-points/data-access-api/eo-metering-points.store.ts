@@ -56,6 +56,24 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   );
 
   readonly meteringPoints$ = this.select((state) => state.meteringPoints);
+  readonly consumptionMeteringPoints$ = this.select((state) =>
+    state.meteringPoints.filter(
+      (mp) => mp.type === 'consumption' && (mp.assetType === 'Wind' || mp.assetType === 'Solar')
+    )
+  );
+  readonly productionMeteringPoints$ = this.select((state) =>
+    state.meteringPoints.filter(
+      (mp) => mp.type === 'production' && (mp.assetType === 'Wind' || mp.assetType === 'Solar')
+    )
+  );
+  readonly productionAndConsumptionMeteringPoints$ = this.select((state) =>
+    state.meteringPoints.filter(
+      (mp) =>
+        (mp.type === 'production' || mp.type === 'consumption') &&
+        (mp.assetType === 'Wind' || mp.assetType === 'Solar')
+    )
+  );
+
   readonly consumptionMeteringPointsWithContract$ = this.select((state) =>
     state.meteringPoints.filter((mp) => mp.type === 'consumption' && !!mp.contract)
   );
@@ -178,7 +196,9 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     const deactivateConsumptionContract$ = this.consumptionMeteringPointsWithContract$.pipe(
       take(1),
       switchMap((consumptionMeteringPointsWithContract) => {
-        return consumptionMeteringPointsWithContract.length <= 1 ? this.service.stopClaim() : EMPTY;
+        return consumptionMeteringPointsWithContract.length <= 1
+          ? this.service.stopClaim()
+          : of(EMPTY);
       })
     );
 

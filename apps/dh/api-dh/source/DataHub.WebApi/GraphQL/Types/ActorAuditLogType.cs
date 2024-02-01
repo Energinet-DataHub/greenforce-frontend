@@ -12,34 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client.Models;
-using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
-using HotChocolate;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public sealed class ActorAuditedChangeAuditLogDtoType : ObjectType<ActorAuditedChangeAuditLogDto>
 {
-    public class ActorAuditLog
+    protected override void Configure(IObjectTypeDescriptor<ActorAuditedChangeAuditLogDto> descriptor)
     {
-        [GraphQLIgnore]
-        public Guid? ChangedByUserId { get; set; }
+        descriptor
+            .Field(f => f.AuditIdentityId)
+            .Name("auditedBy")
+            .Resolve(async (ctx, ct) =>
+            {
+                var parent = ctx.Parent<ActorAuditedChangeAuditLogDto>();
+                var auditIdentity = await ctx
+                    .Service<IMarketParticipantClient_V1>()
+                    .AuditIdentityAsync(parent.AuditIdentityId, ct)
+                    .ConfigureAwait(false);
 
-        public string? CurrentValue { get; set; }
-
-        public string? PreviousValue { get; set; }
-
-        public DateTimeOffset Timestamp { get; set; }
-
-        public ActorAuditLogType Type { get; set; }
-
-        public ContactCategory ContactCategory { get; set; }
-
-        public async Task<string> GetChangedByUserNameAsync(AuditIdentityCacheDataLoader dataLoader)
-        {
-            return ChangedByUserId is null
-                ? "DataHub"
-                : await dataLoader.LoadAsync(ChangedByUserId.Value).Then(x => x.DisplayName);
-        }
+                return auditIdentity.DisplayName;
+            });
     }
 }

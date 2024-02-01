@@ -15,63 +15,55 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, inject } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
-  AbstractControl,
   FormControl,
-  FormGroup,
-  FormGroupDirective,
   FormsModule,
   NonNullableFormBuilder,
   ReactiveFormsModule,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { Apollo, MutationResult } from 'apollo-angular';
+import { subYears } from 'date-fns';
+import { catchError, of } from 'rxjs';
+
 import {
   MeteringPointType,
   EdiB2CProcessType,
   RequestCalculationDocument,
   EicFunction,
+  GetSelectedActorDocument,
+  GetActorsForRequestCalculationDocument,
+  RequestCalculationMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { VaterStackComponent, VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { Apollo, MutationResult } from 'apollo-angular';
-import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { differenceInDays, parseISO, subDays, subYears } from 'date-fns';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange } from '@energinet-datahub/watt/date';
-import { JsonPipe, NgIf } from '@angular/common';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { catchError, of } from 'rxjs';
-
-const maxOneMonthDateRangeValidator =
-  () =>
-  (control: AbstractControl): ValidationErrors | null => {
-    const range = control.value as WattRange<string>;
-
-    if (!range) return null;
-
-    const rangeInDays = differenceInDays(parseISO(range.end), parseISO(range.start));
-    if (rangeInDays > 31) {
-      return { maxOneMonthDateRange: true };
-    }
-
-    return null;
-  };
+import {
+  maxOneMonthDateRangeValidator,
+  startAndEndDateCannotBeInTheFutureValidator,
+  startDateCannotBeAfterEndDateValidator,
+  startDateCannotBeOlderThan3YearsValidator,
+} from './dh-whole-request-calculation-validators';
 
 const label = (key: string) => `wholesale.requestCalculation.${key}`;
 
 const ExtendMeteringPoint = { ...MeteringPointType, All: 'All' } as const;
 type ExtendMeteringPointType = (typeof ExtendMeteringPoint)[keyof typeof ExtendMeteringPoint];
+
+type SelectedEicFunctionType = EicFunction | null | undefined;
 
 type FormType = {
   processType: FormControl<EdiB2CProcessType | null>;
@@ -115,7 +107,6 @@ type FormType = {
     TranslocoDirective,
     WattDatepickerComponent,
     WattFieldErrorComponent,
-    JsonPipe,
     NgIf,
   ],
 })
@@ -125,10 +116,12 @@ export class DhWholesaleRequestCalculationComponent {
   private _transloco = inject(TranslocoService);
   private _toastService = inject(WattToastService);
   private _destroyRef = inject(DestroyRef);
-  private _selectedEicFunction: EicFunction | null | undefined;
+  private _selectedEicFunction: SelectedEicFunctionType;
 
-  maxDate = subDays(new Date(), 5);
+  maxDate = new Date();
   minDate = subYears(new Date(), 3);
+
+  isLoading = false;
 
   form = this._fb.group<FormType>({
     processType: this._fb.control(null, Validators.required),
@@ -136,6 +129,9 @@ export class DhWholesaleRequestCalculationComponent {
       Validators.required,
       WattRangeValidators.required(),
       maxOneMonthDateRangeValidator(),
+      startAndEndDateCannotBeInTheFutureValidator(),
+      startDateCannotBeAfterEndDateValidator(),
+      startDateCannotBeOlderThan3YearsValidator(),
     ]),
     energySupplierId: this._fb.control(null),
     balanceResponsibleId: this._fb.control(null),
@@ -147,18 +143,18 @@ export class DhWholesaleRequestCalculationComponent {
   energySupplierOptions: WattDropdownOptions = [];
 
   meteringPointOptions: WattDropdownOptions = [];
-  progressTypeOptions = dhEnumToWattDropdownOptions(EdiB2CProcessType);
+  progressTypeOptions: WattDropdownOptions = [];
 
   selectedActorQuery = this._apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
-    query: graphql.GetSelectedActorDocument,
+    query: GetSelectedActorDocument,
   });
 
   energySupplierQuery = this._apollo.watchQuery({
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
-    query: graphql.GetActorsForRequestCalculationDocument,
+    query: GetActorsForRequestCalculationDocument,
     variables: {
       eicFunctions: [EicFunction.EnergySupplier, EicFunction.BalanceResponsibleParty],
     },
@@ -189,11 +185,21 @@ export class DhWholesaleRequestCalculationComponent {
 
         this.form.controls.meteringPointType.setValue(ExtendMeteringPoint.All);
 
-        const exclude = this.getExcludedMeterpointTypes(this._selectedEicFunction);
+        const excludedMeteringpointTypes = this.getExcludedMeterpointTypes(
+          this._selectedEicFunction
+        );
+
+        const excludeProcessTypes = this.getExcludedProcessTypes(this._selectedEicFunction);
 
         this.meteringPointOptions = dhEnumToWattDropdownOptions(
           ExtendMeteringPoint,
-          exclude,
+          excludedMeteringpointTypes,
+          'asc'
+        );
+
+        this.progressTypeOptions = dhEnumToWattDropdownOptions(
+          EdiB2CProcessType,
+          excludeProcessTypes,
           'asc'
         );
 
@@ -219,7 +225,7 @@ export class DhWholesaleRequestCalculationComponent {
     });
   }
 
-  handleResponse(queryResult: MutationResult<graphql.RequestCalculationMutation> | null): void {
+  handleResponse(queryResult: MutationResult<RequestCalculationMutation> | null): void {
     if (queryResult === null) {
       this.showErrorToast();
       return;
@@ -248,7 +254,7 @@ export class DhWholesaleRequestCalculationComponent {
     return this._selectedEicFunction === EicFunction.EnergySupplier;
   }
 
-  requestCalculation(form: FormGroup, formGroupDirective: FormGroupDirective): void {
+  requestCalculation(): void {
     const {
       gridarea,
       meteringPointType,
@@ -257,12 +263,10 @@ export class DhWholesaleRequestCalculationComponent {
       balanceResponsibleId,
       processType: processtType,
     } = this.form.getRawValue();
+
     if (!gridarea || !meteringPointType || !processtType || !period.start || !period.end) return;
 
     const meteringPoint = meteringPointType as MeteringPointType;
-
-    form.reset();
-    formGroupDirective.resetForm();
 
     this._apollo
       .mutate({
@@ -282,13 +286,29 @@ export class DhWholesaleRequestCalculationComponent {
         takeUntilDestroyed(this._destroyRef),
         catchError(() => of(null))
       )
-      .subscribe((res) => this.handleResponse(res));
+      .subscribe((res) => {
+        this.isLoading = res?.loading ?? false;
+
+        this.handleResponse(res);
+      });
   }
 
-  private getExcludedMeterpointTypes(selectedEicFunction: EicFunction | null | undefined) {
+  private getExcludedMeterpointTypes(selectedEicFunction: SelectedEicFunctionType) {
     return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
       selectedEicFunction === EicFunction.EnergySupplier
       ? [MeteringPointType.Exchange, MeteringPointType.TotalConsumption]
+      : [];
+  }
+
+  private getExcludedProcessTypes(selectedEicFunction: SelectedEicFunctionType) {
+    return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
+      selectedEicFunction === EicFunction.EnergySupplier
+      ? [
+          EdiB2CProcessType.Firstcorrection,
+          EdiB2CProcessType.Secondcorrection,
+          EdiB2CProcessType.Thirdcorrection,
+          EdiB2CProcessType.Wholesalefixing,
+        ]
       : [];
   }
 }

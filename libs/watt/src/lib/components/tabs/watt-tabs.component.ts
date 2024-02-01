@@ -23,17 +23,14 @@ import {
   AfterViewInit,
   ViewEncapsulation,
   inject,
+  Input,
+  HostBinding,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { NgFor, NgTemplateOutlet } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { WattTabComponent } from './watt-tab.component';
-export { WattTabComponent } from './watt-tab.component';
 
-/**
- * Usage:
- * `import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';`
- */
 @Component({
   standalone: true,
   selector: 'watt-tabs',
@@ -41,13 +38,18 @@ export { WattTabComponent } from './watt-tab.component';
   templateUrl: './watt-tabs.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Default,
-  imports: [CommonModule, MatTabsModule],
+  imports: [NgFor, NgTemplateOutlet, MatTabsModule],
 })
 export class WattTabsComponent implements AfterViewInit {
+  @Input() variant!: string;
+
+  @HostBinding('class')
+  get hostClass() {
+    return this.variant ? `watt-tabs-${this.variant}` : '';
+  }
+
   private readonly cdr = inject(ChangeDetectorRef);
-  /**
-   * @ignore
-   */
+
   @ContentChildren(WattTabComponent)
   public readonly tabElements: QueryList<WattTabComponent> = new QueryList<WattTabComponent>();
   activeTabIndex = 0;
@@ -66,5 +68,3 @@ export class WattTabsComponent implements AfterViewInit {
     this.emitSelectedTabChange(this.activeTabIndex);
   }
 }
-
-export const WATT_TABS = [WattTabsComponent, WattTabComponent];

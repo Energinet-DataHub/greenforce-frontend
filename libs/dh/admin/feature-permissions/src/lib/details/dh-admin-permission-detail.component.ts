@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { map, Subscription } from 'rxjs';
 
@@ -42,7 +42,7 @@ import { DhAdminPermissionMarketRolesComponent } from './tabs/dh-admin-permissio
   encapsulation: ViewEncapsulation.None,
   templateUrl: './dh-admin-permission-detail.component.html',
   imports: [
-    CommonModule,
+    NgIf,
     WATT_DRAWER,
     TranslocoModule,
     WattCardComponent,
@@ -101,8 +101,8 @@ export class DhAdminPermissionDetailComponent {
         )
       )
       .subscribe({
-        next: (result) => {
-          this.selectedPermission = result ? { ...result } : null;
+        next: (permission) => {
+          this.selectedPermission = permission ? { ...permission } : null;
         },
       });
   }

@@ -112,9 +112,6 @@ limitations under the License.
             [min]="minDate"
             [max]="maxDate"
           >
-            <watt-field-error *ngIf="formGroup.controls.dateRange.errors?.rangeRequired">
-              {{ t("create.period.required") }}
-            </watt-field-error>
             <watt-field-error
               *ngIf="
                 formGroup.controls.dateRange.errors?.invalidPeriod &&
@@ -180,16 +177,17 @@ limitations under the License.
       />
       <p>{{ t("body") }}</p>
       <p>{{ t("confirmation") }}</p>
-      <watt-field [control]="confirmFormControl">
-        <input #input [formControl]="confirmFormControl" value="" autocomplete="off" />
+
+      <watt-text-field [formControl]="confirmFormControl">
         <watt-field-hint>{{ t("hint") }}</watt-field-hint>
-      </watt-field>
+      </watt-text-field>
+
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t("cancel") }}
         </watt-button>
         <watt-button
-          [disabled]="input.value.toUpperCase() !== t('validation')"
+          [disabled]="confirmFormControl.value?.toUpperCase() !== t('validation')"
           (click)="modal.close(true)"
         >
           {{ t("confirm") }}

@@ -20,6 +20,7 @@ limitations under the License.
   [loading]="(isInvitingUser$ | push) || isLoadingEmails"
   [title]="t('title')"
   (closed)="closeModal($event)"
+  [disableEscAndBackdropClose]="true"
   *transloco="let t; read: 'admin.userManagement.inviteUser'"
 >
   <watt-stepper
@@ -37,17 +38,13 @@ limitations under the License.
           [formControl]="baseInfo.controls.actorId"
           [options]="(actors$ | push) ?? []"
           name="actorId"
-        >
-          <watt-field-error *ngIf="baseInfo.controls.actorId.hasError('required')">
-            {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
-        </watt-dropdown>
+        />
         <watt-text-field [label]="t('email')" class="email" [formControl]="baseInfo.controls.email">
-          <watt-field-error *ngIf="baseInfo.controls.email.hasError('required')">
-            {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
           <watt-field-error *ngIf="baseInfo.controls.email.hasError('email')">
             {{ t("wrongEmailPattern") }}
+          </watt-field-error>
+          <watt-field-error *ngIf="baseInfo.controls.email.hasError('userAlreadyAssignedActor')">
+            {{ t("userAlreadyAssignedActor") }}
           </watt-field-error>
         </watt-text-field>
       </form>
@@ -66,42 +63,19 @@ limitations under the License.
           class="firstname"
           [formControl]="userInfo.controls.firstname"
           type="text"
-        >
-          <watt-field-error *ngIf="userInfo.controls.firstname.hasError('required')">
-            {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
-        </watt-text-field>
+        />
 
         <watt-text-field
           [label]="t('lastname')"
           class="lastname"
           [formControl]="userInfo.controls.lastname"
           type="text"
-        >
-          <watt-field-error *ngIf="userInfo.controls.lastname.hasError('required')">
-            {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
-        </watt-text-field>
-
-        <watt-text-field
+        />
+        <watt-phone-field
           [formControl]="userInfo.controls.phoneNumber"
-          type="tel"
-          [label]="t('phoneNumber')"
           class="phoneNumber"
-        >
-          <watt-field-error *ngIf="userInfo.controls.phoneNumber.hasError('required')">
-            {{ "shared.fieldRequiredErrorText" | transloco }}
-          </watt-field-error>
-          <watt-field-error
-            *ngIf="
-              userInfo.controls.phoneNumber.hasError('pattern') ||
-              userInfo.controls.phoneNumber.hasError('maxlength') ||
-              userInfo.controls.phoneNumber.hasError('minlength')
-            "
-          >
-            {{ t("phoneNumberError") }}
-          </watt-field-error>
-        </watt-text-field>
+          [label]="t('phoneNumber')"
+        />
       </form>
     </watt-stepper-step>
 

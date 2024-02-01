@@ -12,29 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using HotChocolate;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class MarketParticipantResolvers
     {
-        public Task<IEnumerable<UserRoleDto>> GetAssignedPermissionAsync(
-            [Parent] PermissionDetailsDto permission,
-            [Service] IMarketParticipantUserRoleClient client) =>
-            client.GetAssignedToPermissionAsync(permission.Id);
+        public Task<ICollection<UserRoleDto>> GetAssignedPermissionAsync(
+            [Parent] PermissionDto permission,
+            [Service] IMarketParticipantClient_V1 client) =>
+            client.UserRolesAssignedtopermissionAsync(permission.Id);
 
         public async Task<ActorContactDto?> GetContactAsync(
             [Parent] ActorDto actor,
-            [Service] IMarketParticipantClient client)
+            [Service] IMarketParticipantClient_V1 client)
         {
             var allContacts = await client
-                .GetContactsAsync(actor.ActorId)
+                .ActorContactGetAsync(actor.ActorId)
                 .ConfigureAwait(false);
 
             return allContacts.SingleOrDefault(c => c.Category == ContactCategory.Default);
@@ -51,17 +49,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public Task<OrganizationDto> GetOrganizationAsync(
             [Parent] ActorDto actor,
-            [Service] IMarketParticipantClient client) =>
-            client.GetOrganizationAsync(actor.OrganizationId);
+            [Service] IMarketParticipantClient_V1 client) =>
+            client.OrganizationGetAsync(actor.OrganizationId);
 
         public async Task<List<ActorDto>?> GetActorsForOrganizationAsync(
             [Parent] OrganizationDto organization,
             ActorByOrganizationBatchDataLoader dataLoader) =>
             await dataLoader.LoadAsync(organization.OrganizationId.ToString());
-
-        public Task<GetAuditIdentityResponseDto> GetIdentityAsync(
-            [Parent] OrganizationAuditLogDto identityId,
-            AuditIdentityCacheDataLoader dataLoader) =>
-            dataLoader.LoadAsync(identityId.AuditIdentityId);
     }
 }

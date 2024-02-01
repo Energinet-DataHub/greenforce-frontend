@@ -21,6 +21,7 @@ import {
   DestroyRef,
   Directive,
   ElementRef,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -29,17 +30,13 @@ import {
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 
-import { WattInputMaskService } from './watt-input-mask.service';
-import { WattPickerValue } from './watt-picker-value';
 import { WattDateRange } from '../../../utils/date';
-import { WattRangeInputService } from './watt-range-input.service';
+import { WattPickerValue } from './watt-picker-value';
 
 @Directive()
 export abstract class WattPickerBase
   implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor
 {
-  protected inputMaskService = inject(WattInputMaskService);
-  protected rangeInputService = inject(WattRangeInputService);
   protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected changeDetectionRef = inject(ChangeDetectorRef);
   protected ngControl = inject(NgControl, { optional: true });
@@ -192,6 +189,7 @@ export abstract class WattPickerBase
   /**
    * @ignore
    */
+  @HostBinding('attr.watt-field-disabled')
   @Input()
   get disabled(): boolean {
     return this._disabled;

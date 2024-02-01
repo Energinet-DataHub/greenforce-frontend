@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -54,19 +54,14 @@ export type WattToastRef = MatSnackBarRef<WattToastComponent>;
   styleUrls: ['./watt-toast.component.scss'],
   templateUrl: './watt-toast.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatSnackBarModule,
-    WattButtonComponent,
-    WattIconComponent,
-    WattSpinnerComponent,
-  ],
+  imports: [NgIf, MatSnackBarModule, WattButtonComponent, WattIconComponent, WattSpinnerComponent],
 })
 export class WattToastComponent {
   private _config = inject(MAT_SNACK_BAR_DATA);
   private cd = inject(ChangeDetectorRef);
   private _matSnackBarRef = inject<MatSnackBarRef<WattToastComponent>>(MatSnackBarRef);
   private elementRef = inject(ElementRef);
+
   @HostBinding('class')
   get class() {
     this.cd.detectChanges(); // Make sure changes to the config will be detected
@@ -109,6 +104,7 @@ export class WattToastComponent {
       this.dissmissToastSubscription.unsubscribe();
     }
     this.initDuration();
+    this.cd.detectChanges();
   }
 
   /**

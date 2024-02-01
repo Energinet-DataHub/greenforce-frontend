@@ -16,31 +16,31 @@
  */
 import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
-import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import { RouterModule } from '@angular/router';
-import { EoCookieBannerComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { IdleTimerService } from '@energinet-datahub/eo/shared/services';
-import { EoTitleStore } from '@energinet-datahub/eo/shared/utilities';
+import { Title } from '@angular/platform-browser';
+import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
+
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
-import { RxPush } from '@rx-angular/template/push';
-import { Observable } from 'rxjs';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+
+import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/shared/services';
 import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    RouterModule,
-    WattShellComponent,
-    MatDateFnsModule,
-    EoPrimaryNavigationComponent,
-    EoCookieBannerComponent,
-    EoProductLogoDirective,
     EoFooterComponent,
-    RxPush,
+    EoPrimaryNavigationComponent,
+    MatDateFnsModule,
     NgIf,
+    RouterModule,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    WattButtonComponent,
+    WattShellComponent,
   ],
   selector: 'eo-shell',
   styles: [
@@ -59,7 +59,7 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
         height: var(--watt-space-xl);
         display: flex;
         align-items: center;
-        justify-content: center;
+        padding: 0 var(--watt-space-m);
       }
 
       .logo {
@@ -90,35 +90,25 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
 
       ::ng-deep .watt-main-content {
         --top-app-bar-height: var(--watt-space-xl);
-
         min-height: calc(100% - var(--top-app-bar-height));
         padding: 0 !important; // We remove the padding, so we can stretch the footer out in full width
-
-        /**
-         * We have 3 items in the content area:
-         * 1) The Angular router-outlet
-         * 2) The page/component being rendered below the router outlet
-         * 3) The footer
-         *
-         * Display grid considers the above 3 elements, when positioning them on the screen
-         * This allows us to set the router outlet height = 0, the page content to what ever height it might have, the footer to the height it has
-        */
         display: grid;
-        grid-template-rows: 0 1fr auto;
+        grid-template-rows: 1fr auto;
       }
 
-      // This is the feature/page component
-      ::ng-deep .watt-main-content.watt-main-content > :nth-child(2) {
-        padding: var(--watt-space-l);
+      .content {
+        width: 100vw;
+        padding: var(--watt-space-m);
 
-        @include watt.media('<Large') {
-          padding: var(--watt-space-m);
+        @include watt.media('>=Large') {
+          padding: var(--watt-space-l);
+          width: calc(100vw - 245px);
         }
       }
     `,
   ],
   template: `
-    <eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getBannerStatus()" />
+    <!--<eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getBannerStatus()" />-->
     <watt-shell>
       <ng-container watt-shell-sidenav>
         <div class="logo-container">
@@ -128,24 +118,37 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
       </ng-container>
 
       <ng-container watt-shell-toolbar>
-        <h2>{{ title$ | push }}</h2>
+        <vater-stack direction="row" gap="s" style="width: 100%;">
+          <h2>{{ titleService.getTitle() }}</h2>
+
+          <vater-spacer />
+          <watt-button variant="text" [routerLink]="['/help']" icon="help">Help</watt-button>
+          <watt-button variant="text" (click)="onLogout()" icon="logout">Log out</watt-button>
+        </vater-stack>
       </ng-container>
 
-      <router-outlet />
+      <div class="content">
+        <router-outlet />
+      </div>
 
       <eo-footer />
     </watt-shell>
   `,
 })
 export class EoShellComponent implements OnDestroy {
-  private titleStore = inject(EoTitleStore);
+  protected titleService = inject(Title);
   private idleTimerService = inject(IdleTimerService);
-  title$: Observable<string> = this.titleStore.routeTitle$;
-  cookiesSet: string | null = null;
+  private authService = inject(EoAuthService);
+
+  protected cookiesSet: string | null = null;
 
   constructor() {
     this.idleTimerService.startMonitor();
     this.getBannerStatus();
+  }
+
+  onLogout() {
+    this.authService.logout();
   }
 
   getBannerStatus() {

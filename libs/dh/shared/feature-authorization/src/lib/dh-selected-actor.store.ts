@@ -16,10 +16,12 @@
  */
 
 import { Inject, Injectable } from '@angular/core';
-import { MarketParticipantActorQueryHttp } from '@energinet-datahub/dh/shared/domain';
 import { ComponentStore } from '@ngrx/component-store';
 import { filter, Observable, switchMap, tap } from 'rxjs';
-import { ActorStorage, actorStorageToken } from './actor-storage';
+
+import { MarketParticipantActorQueryHttp } from '@energinet-datahub/dh/shared/domain';
+
+import { DhActorStorage } from './dh-actor-storage';
 import { windowLocationToken } from './window-location';
 
 export type SelectedActorState = {
@@ -60,7 +62,7 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
 
   constructor(
     private client: MarketParticipantActorQueryHttp,
-    @Inject(actorStorageToken) private actorStorage: ActorStorage,
+    private actorStorage: DhActorStorage,
     @Inject(windowLocationToken) private windowLocation: Location
   ) {
     super(initialState);

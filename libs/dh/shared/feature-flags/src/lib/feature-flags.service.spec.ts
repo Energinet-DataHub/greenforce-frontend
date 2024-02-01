@@ -22,7 +22,11 @@ import { DhFeatureFlagsService } from './feature-flags.service';
 const featureFlagMocks: FeatureFlagConfig = {
   'dummy-feature': {
     created: new Date().toISOString(),
-    disabledEnvironments: [DhAppEnvironment.test],
+    disabledEnvironments: [
+      DhAppEnvironment.test_001,
+      DhAppEnvironment.preprod,
+      DhAppEnvironment.prod,
+    ],
   },
 };
 
@@ -48,10 +52,21 @@ describe('Feature flags service', () => {
   const existingFeatureFlagName = 'dummy-feature';
 
   const cases = [
-    [nonExistingFeatureFlagName, DhAppEnvironment.dev, true, {}],
-    [nonExistingFeatureFlagName, DhAppEnvironment.test, true, {}],
-    [existingFeatureFlagName, DhAppEnvironment.dev, true, featureFlagMocks],
-    [existingFeatureFlagName, DhAppEnvironment.test, false, featureFlagMocks],
+    [nonExistingFeatureFlagName, DhAppEnvironment.sandbox_002, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.dev_001, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.dev_002, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.test_001, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.test_002, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.preprod, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.prod, true, {}],
+
+    [existingFeatureFlagName, DhAppEnvironment.sandbox_002, true, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.dev_001, true, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.dev_002, true, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.test_001, false, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.test_002, true, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.preprod, false, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.prod, false, featureFlagMocks],
   ];
 
   test.each(cases)(

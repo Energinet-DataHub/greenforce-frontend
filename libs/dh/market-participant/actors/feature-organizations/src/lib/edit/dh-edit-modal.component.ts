@@ -25,10 +25,11 @@ import {
   inject,
   DestroyRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { Apollo, MutationResult } from 'apollo-angular';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -42,10 +43,9 @@ import {
   UpdateOrganizationMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 import { DhOrganizationDetails } from '../dh-organization';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 @Component({
   standalone: true,
@@ -59,7 +59,7 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
     `,
   ],
   imports: [
-    CommonModule,
+    NgIf,
     TranslocoDirective,
     FormsModule,
     ReactiveFormsModule,

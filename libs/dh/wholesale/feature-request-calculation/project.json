@@ -11,18 +11,11 @@
         "{workspaceRoot}/coverage/libs/dh/wholesale/feature-request-calculation"
       ],
       "options": {
-        "jestConfig": "libs/dh/wholesale/feature-request-calculation/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/wholesale/feature-request-calculation/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/wholesale/feature-request-calculation/src/**/*.ts",
-          "libs/dh/wholesale/feature-request-calculation/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "domain:wholesale", "type:feature"]

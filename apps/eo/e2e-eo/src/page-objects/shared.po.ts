@@ -15,20 +15,11 @@
  * limitations under the License.
  */
 export class SharedPO {
-  private onlyNecessaryButton = '[data-testid="button-only-necessary"]';
-  private cookieBanner = 'eo-cookie-banner';
-  private acceptAllButton = '[data-testid="button-accept-all"]';
   private navListItem = 'watt-nav-list-item';
-
-  // Visibility
-  cookieBannerIsVisible = () => cy.get(this.cookieBanner).should('be.visible');
-  onlyNecessaryButtonIsVisible = () => cy.get(this.onlyNecessaryButton).should('be.visible');
-  acceptAllButtonIsVisible = () => cy.get(this.acceptAllButton).should('be.visible');
-  cookieBannerIsNotVisible = () => cy.get(this.cookieBanner).should('not.exist');
+  private topbarActions = '.watt-toolbar button';
 
   // Interaction
-  clickOnlyNecessaryButton = () => cy.get(this.onlyNecessaryButton).click();
-  clickLogoutMenuItem = () => cy.get(this.navListItem).contains('Log out').click();
+  clickLogoutMenuItem = () => cy.get(this.topbarActions).contains('Log out').click();
   clickTransfersMenuItem = () => cy.get(this.navListItem).contains('Transfers').click();
   clickConnectionsMenuItem = () => cy.get(this.navListItem).contains('Connections').click();
 }

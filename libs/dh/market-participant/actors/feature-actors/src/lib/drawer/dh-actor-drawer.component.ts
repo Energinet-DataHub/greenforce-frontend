@@ -16,7 +16,7 @@
  */
 import { NgIf } from '@angular/common';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
-import { TranslocoModule, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { Subscription, takeUntil } from 'rxjs';
 
@@ -28,10 +28,13 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhPermissionRequiredDirective,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -73,7 +76,8 @@ import { DhActorAuditLogService } from './dh-actor-audit-log.service';
   viewProviders: [DhActorAuditLogService],
   imports: [
     NgIf,
-    TranslocoModule,
+    TranslocoDirective,
+    TranslocoPipe,
 
     WATT_DRAWER,
     WATT_TABS,
@@ -97,6 +101,7 @@ import { DhActorAuditLogService } from './dh-actor-audit-log.service';
 export class DhActorDrawerComponent {
   private readonly apollo = inject(Apollo);
   private readonly auditLogService = inject(DhActorAuditLogService);
+  private readonly permissionService = inject(PermissionService);
 
   private subscription?: Subscription;
   private actorAuditLogSubscription?: Subscription;
@@ -110,6 +115,8 @@ export class DhActorDrawerComponent {
   });
 
   actor: DhActorExtended | undefined = undefined;
+  hasActorAccess: boolean = false;
+
   isLoadingAuditLog = false;
   auditLogFailedToLoad = false;
 
@@ -143,8 +150,13 @@ export class DhActorDrawerComponent {
     return emDash;
   }
 
+  get isGridAccessProvider(): boolean {
+    return this.actor?.marketRole === EicFunction.GridAccessProvider;
+  }
+
   get gridAreaOrFallback() {
-    return this.actor?.gridAreas?.[0]?.code ?? emDash;
+    const stringList = this.actor?.gridAreas?.map((gridArea) => gridArea.code).join(', ');
+    return stringList ?? emDash;
   }
 
   private loadActor(id: string): void {
@@ -159,6 +171,11 @@ export class DhActorDrawerComponent {
           this.actor = result.data?.actorById;
         },
       });
+
+    this.permissionService
+      .hasActorAccess(id)
+      .pipe(takeUntil(this.closed))
+      .subscribe((hasAccess) => (this.hasActorAccess = hasAccess));
   }
 
   private loadAuditLog(actorId: string): void {
@@ -174,7 +191,7 @@ export class DhActorDrawerComponent {
           this.auditLogFailedToLoad =
             !result.loading && (!!result.error || !!result.errors?.length);
 
-          this.auditLog.data = result.data?.actorAuditLogs;
+          this.auditLog.data = [...(result.data?.actorAuditLogs ?? [])].reverse();
         },
         error: () => {
           this.auditLogFailedToLoad = true;

@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'marketParticipant.marketRoles'">
+<vater-flex fill="vertical" scrollable *transloco="let t; read: 'marketParticipant.marketRoles'">
   <watt-table
     #table
     description="user roles"
@@ -27,14 +27,33 @@ limitations under the License.
     [activeRow]="activeRow"
     [activeRowComparator]="activeRowComparator"
     [sortClear]="false"
+    [loading]="isLoading"
   >
     <ng-container *wattTableCell="columns['marketRole']; let mr">
       {{ t(mr.eicFunction) }}
     </ng-container>
+
     <ng-container *wattTableCell="columns['status']; let role">
       <dh-role-status [status]="role.status" />
     </ng-container>
   </watt-table>
-</ng-container>
+
+  <ng-container *ngIf="!isLoading && roles.length === 0">
+    <vater-stack
+      fill="vertical"
+      justify="center"
+      *transloco="let t; read: 'admin.userManagement.tabs.roles'"
+    >
+      <dh-tab-data-general-error
+        *ngIf="hasGeneralError; else emptyStateTmpl"
+        (reload)="reload.emit()"
+      />
+
+      <ng-template #emptyStateTmpl>
+        <watt-empty-state icon="cancel" [title]="t('emptyTitle')" [message]="t('emptyMessage')" />
+      </ng-template>
+    </vater-stack>
+  </ng-container>
+</vater-flex>
 
 <dh-role-drawer (closed)="onClosed()" (userRoleDeactivated)="onDeActivated()" />

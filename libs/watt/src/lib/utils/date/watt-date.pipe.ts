@@ -20,8 +20,9 @@ import { formatInTimeZone } from 'date-fns-tz';
 import { WattRange } from './watt-date-range';
 
 const formatStrings = {
+  monthYear: 'MMMM yyyy',
   short: 'dd-MM-yyyy',
-  long: 'dd-MM-yyyy HH:mm',
+  long: 'dd-MM-yyyy, HH:mm',
   longAbbr: 'dd-MMM-yyy HH:mm',
   time: 'HH:mm',
 };
@@ -44,7 +45,7 @@ export class WattDatePipe implements PipeTransform {
     return input instanceof Date || typeof input === 'string'
       ? formatInTimeZone(input, timeZone, formatStrings[format])
       : typeof input === 'number'
-      ? formatInTimeZone(new Date(input), timeZone, formatStrings[format])
-      : `${this.transform(input.start, format)} ― ${this.transform(input.end, format)}`;
+        ? formatInTimeZone(new Date(input), timeZone, formatStrings[format])
+        : `${this.transform(input.start, format)} ― ${this.transform(input.end, format)}`;
   }
 }

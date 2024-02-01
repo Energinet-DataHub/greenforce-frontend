@@ -17,18 +17,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using GreenDonut;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
     public class UserBatchDataLoader : BatchDataLoader<Guid, UserOverviewItemDto>
     {
-        private readonly IMarketParticipantClient _client;
+        private readonly IMarketParticipantClient_V1 _client;
 
         public UserBatchDataLoader(
-            IMarketParticipantClient client,
+            IMarketParticipantClient_V1 client,
             IBatchScheduler batchScheduler,
             DataLoaderOptions? options = null)
             : base(batchScheduler, options) =>
@@ -36,8 +35,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         protected override async Task<IReadOnlyDictionary<Guid, UserOverviewItemDto>> LoadBatchAsync(IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
         {
-            var filters = new UserOverviewFilterDto(null, null, Enumerable.Empty<Guid>(), Enumerable.Empty<UserStatus>());
-            var result = await _client.SearchUsersAsync(1, int.MaxValue, UserOverviewSortProperty.Email, SortDirection.Asc, filters);
+            var filters = new UserOverviewFilterDto()
+            {
+                ActorId = null,
+                SearchText = null,
+                UserRoleIds = (ICollection<Guid>)Array.Empty<Guid>(),
+                UserStatus = (ICollection<UserStatus>)Array.Empty<UserStatus>(),
+            };
+            var result = await _client.UserOverviewUsersSearchAsync(1, int.MaxValue, UserOverviewSortProperty.Email, SortDirection.Asc, filters);
             return result.Users.ToDictionary(x => x.Id);
         }
     }

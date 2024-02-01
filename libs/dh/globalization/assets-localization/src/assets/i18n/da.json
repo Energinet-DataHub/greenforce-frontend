@@ -19,10 +19,21 @@
       "title": "Ingen resultater fundet",
       "message": "Prøv at ændre dine søgeindstillinger"
     },
-    "fieldRequiredErrorText": "Feltet er påkrævet.",
     "navigation": {
       "next": "Næste",
       "previous": "Forrige"
+    },
+    "fieldValidation": {
+      "required": "Feltet er påkrævet.",
+      "invalidPhoneNumber": "Ugyldigt telefonnummer"
+    },
+    "countries": {
+      "DK": "Danmark",
+      "SE": "Sverige",
+      "NO": "Norge",
+      "FI": "Finland",
+      "DE": "Tyskland",
+      "PL": "Polen"
     },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
@@ -40,6 +51,7 @@
       }
     },
     "download": "Download",
+    "downloadreport": "Download rapport",
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
     "processType": "Beregningstype"
@@ -50,17 +62,12 @@
   },
   "sidebar": {
     "navigation": {
-      "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantActors": "Aktører",
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
-      "chargePrices": {
-        "menuGroupLabel": "Priser",
-        "search": "Søg priser",
-        "create": "Opret priser"
-      },
+      "imbalancePrices": "Ubalancepriser",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "calculations": "Beregninger",
@@ -72,393 +79,6 @@
         "menuGroupLabel": "Opsætning",
         "userManagement": "Brugeradministration"
       }
-    }
-  },
-  "meteringPoint": {
-    "search": {
-      "title": "Søg målepunkter",
-      "searchLabel": "Indtast et Målepunkts ID for at fremsøge et målepunkt",
-      "searchPlaceholder": "Søg på Målepunkts ID",
-      "searchButton": "Søg",
-      "clearSearchButton": "Nulstil søgning",
-      "searchInvalidLength": "Målepunkts ID’et skal være 18 cifre",
-      "noMeteringPointFoundTitle": "Vi fandt desværre intet målepunkt",
-      "noMeteringPointFoundMessage": "Tjek for eventuelle tastefejl og prøv igen"
-    },
-    "overview": {
-      "breadcrumb": {
-        "meteringPoints": "Målepunkt"
-      },
-      "meteringPointType": "Målepunktstype",
-      "meteringMethod": "Målepunktsart",
-      "gsrnNumber": "Målepunkts ID",
-      "connectionState": "Tilslutningsstatus",
-      "settlementMethod": "Afregningsform",
-      "readingOccurrence": "Aflæsningsfrevens",
-      "meteringPointNotFound": {
-        "title": "Vi fandt desværre intet målepunkt",
-        "message": "Tjek for eventuelle tastefejl og prøv igen eller gå til søgning.",
-        "button": "Gå til søgning"
-      },
-      "primaryMasterData": {
-        "address": "Adresse",
-        "actualAddress": "Faktisk adresse",
-        "notActualAddress": "Ikke faktisk adresse",
-        "locationDescription": "Målepunktskommentar",
-        "geoInfoReference": "DAR reference",
-        "hasElectricitySupplier": "Har elleverandør?",
-        "since": "Fra {{date}}",
-        "meterNumber": "Målernummer"
-      },
-      "tabs": {
-        "processes": "Processer",
-        "prices": "Priser",
-        "childMeteringPoints": "Child Målepunkter ({{ count }})"
-      },
-      "childMeteringPointsTab": {
-        "headers": {
-          "childMeteringPoint": "Child Målepunkt",
-          "effectivePeriod": "Gyldighedsperiode",
-          "status": "Tilslutningsstatus"
-        },
-        "noChildMeteringPointsTitle": "Ingen child målepunkter",
-        "noChildMeteringPointsText": "Vi fandt ingen child målepunkter til dette målepunkt"
-      },
-      "processesTab": {
-        "headers": {
-          "name": "Beskrivelse",
-          "createdDate": "Indsendt",
-          "effectiveDate": "Skæringsdato",
-          "status": "Status"
-        },
-        "sortDescription": {
-          "name": "Sorter efter beskrivelse",
-          "createdDate": "Sorter efter indsendelsesdato",
-          "effectiveDate": "Sorter efter skæringsdato",
-          "status": "Sorter efter status"
-        },
-        "noProcessesFound": "Ingen processer.",
-        "noProcessesText": "Vi fandt ingen processer til dette målepunkt",
-        "processRejected": "Afvist"
-      }
-    },
-    "secondaryMasterData": {
-      "technicalSpecificationTitle": "Tekniske specifikationer",
-      "netSettlementGroup": "Nettoafregningsgruppe",
-      "disconnectionType": "Afbrydelsesart",
-      "productionObligation": "Aftagepligt",
-      "connectionType": "Tilslutningstype",
-      "gridAreaName": "Netområde",
-      "gridAreaCode": "Netområde ID",
-      "inAreaCode": "Til net",
-      "outAreaCode": "Fra net",
-      "capacity": "Anlægskapacitet",
-      "capacityFormatted": "{{ capacity }} KW",
-      "assetType": "Anlægsteknologi",
-      "ratedCapacity": "Effektgrænse KW",
-      "ratedCapacityFormatted": "{{ capacity }} KW",
-      "ratedCurrent": "Effektgrænse A",
-      "ratedCurrentFormatted": "{{ current }} A",
-      "powerPlantGsrnNumber": "Værks GSRN",
-      "productId": "Produkt",
-      "unit": "Energienhed",
-      "effectiveDate": "Gyldighedsdato",
-      "locationDetailTitle": "Øvrige lokationsdetaljer",
-      "streetCode": "Vejkode",
-      "municipalityCode": "Kommunekode",
-      "countryCode": "Landekode",
-      "expansion": {
-        "openLabel": "Se flere detaljer",
-        "closeLabel": "Se færre detaljer"
-      },
-      "units": {
-        "kilowatt": "KW",
-        "ampere": "A"
-      }
-    },
-    "disconnectionType": {
-      "D01": "Fjern afbrydelig",
-      "D02": "Manual afbrydelig"
-    },
-    "connectionType": {
-      "D01": "Direkte tilsluttet",
-      "D02": "Installationstilsluttet"
-    },
-    "assetType": {
-      "D01": "Dampturbine med modtryksdrift",
-      "D02": "Gasturbine",
-      "D03": "Combined cycle",
-      "D04": "Forbrændingsmotor gas",
-      "D05": "Dampturbine med kondens/damp",
-      "D06": "Kedel",
-      "D07": "Stirlingmotor",
-      "D08": "Permanent tilsluttede elektriske energilageranlæg",
-      "D09": "Temporært tilsluttede elektriske energilageranlæg",
-      "D10": "Brændselsceller",
-      "D11": "Solceller",
-      "D12": "Vindmøller",
-      "D13": "Vandkraft",
-      "D14": "Bølgekraft",
-      "D15": "Blandet produktion",
-      "D16": "Produktion med elektriske energilageranlæg",
-      "D17": "Power-to-X",
-      "D18": "Regenerative forbrugsanlæg",
-      "D19": "Forbrændingsmotor dieselmotor",
-      "D20": "Bioforbrændingsmotor",
-      "D98": "Ingen teknologi",
-      "D99": "Ukendt teknologi"
-    },
-    "productId": {
-      "Tariff": "Tarif",
-      "FuelQuantity": "Brændselsmængde",
-      "PowerActive": "Aktiv effekt",
-      "PowerReactive": "Reaktiv effekt",
-      "EnergyActive": "Aktiv energi",
-      "EnergyReactive": "Reaktiv energi"
-    },
-    "unit": {
-      "AMP": "Ampere",
-      "H87": "STK",
-      "K3": "kVArh",
-      "KWH": "kWh",
-      "KWT": "kW",
-      "MAW": "MW",
-      "MWH": "MWh",
-      "TNE": "Tons",
-      "Z03": "MVAr",
-      "Z14": "KT Tarifkode"
-    },
-    "meteringPointTypeCode": {
-      "D01": "VE produktion",
-      "D02": "Analysemålepunkt",
-      "D03": "Anvendes ikke",
-      "D04": "Overskudsproduktion gruppe 6",
-      "D05": "Nettoproduktion",
-      "D06": "Leveret til net",
-      "D07": "Forbrugt fra net",
-      "D08": "Afregningsgrundlag / Information",
-      "D09": "Egenproduktion",
-      "D10": "Netto fra net",
-      "D11": "Netto til net",
-      "D12": "Brutto forbrug",
-      "D13": "Nettabskorrektion",
-      "D14": "Elvarme",
-      "D15": "Netto forbrug",
-      "D16": "Reserveret til senere brug",
-      "D17": "Reserveret til senere brug",
-      "D18": "Reserveret til senere brug",
-      "D19": "Reserveret til senere brug",
-      "D20": "Udveksling – Reaktiv energi",
-      "D21": "Reserveret til senere brug",
-      "D22": "Reserveret til senere brug",
-      "D23": "Reserveret til senere brug",
-      "D24": "Reserveret til senere brug",
-      "D25": "Reserveret til senere brug",
-      "D26": "Reserveret til senere brug",
-      "D27": "Reserveret til senere brug",
-      "D28": "Reserveret til senere brug",
-      "D29": "Reserveret til senere brug",
-      "D30": "Reserveret til senere brug",
-      "D99": "Intern brug",
-      "E17": "Forbrug",
-      "E18": "Produktion",
-      "E20": "Udveksling"
-    },
-    "meteringPointSubTypeCode": {
-      "D01": "Fysisk",
-      "D02": "Virtuel",
-      "D03": "Beregnet"
-    },
-    "physicalStatusCode": {
-      "D02": "Nedlagt",
-      "D03": "Nyoprettet",
-      "E22": "Tilsluttet",
-      "E23": "Afbrudt"
-    },
-    "settlementMethodCode": {
-      "D01": "Flex afregnet",
-      "E01": "Skabelon afregnet",
-      "E02": "Time afregnet"
-    },
-    "readingOccurrenceCode": {
-      "PT15M": "Aflæses pr. kvarter",
-      "PT1H": "Aflæses pr. time",
-      "P1M": "Aflæses pr. måned",
-      "P1Y": "Aflæses pr. år"
-    }
-  },
-  "charges": {
-    "tariffsTitle": "Tariffer",
-    "subscriptionsTitle": "Abonnementer",
-    "feesTitle": "Gebyrer",
-    "back": "Tilbage",
-    "sender": "Afsender",
-    "resolution": "Opløsning",
-    "effectiveDate": "Skæringsdato",
-    "senderProvidedChargeIdMaxLengthErrorText": "Maksimalt 10 tegn.",
-    "chargeNameMaxLengthErrorText": "Maksimalt 132 tegn.",
-    "descriptionMaxLengthErrorText": "Maksimalt 2048 tegn.",
-    "topBarTitles": {
-      "prices": "Søg pris",
-      "createPrices": "Opret pris"
-    },
-    "messageType": {
-      "D18": "Opdatering af pris stamdata",
-      "D08": "Opdatering af prisserie"
-    },
-    "messageTypeAbbreviation": {
-      "D18": "RSM-033",
-      "D08": "RSM-033"
-    },
-    "chargeType": {
-      "D01": "Abonnement",
-      "D02": "Gebyr",
-      "D03": "Tarif"
-    },
-    "resolutionType": {
-      "PT15M": "15 minutter",
-      "PT1H": "Time",
-      "P1D": "Dag",
-      "P1M": "Måned"
-    },
-    "vatClassificationType": {
-      "Vat25": "Ja",
-      "NoVat": "Nej"
-    },
-    "transparentInvoicingType": {
-      "true": "Ja",
-      "false": "Nej"
-    },
-    "taxIndicatorType": {
-      "true": "Ja",
-      "false": "Nej"
-    },
-    "chargeOwner": "Ejer",
-    "startDate": "Dato",
-    "quantity": "Antal",
-    "noActive": "Ingen aktive {{title}}",
-    "noActiveMessage": "Vi fandt ingen aktive {{title}} på dette målepunkt",
-    "validityPeriod": "Gyldighedsperiode",
-    "transparentInvoicing": "Viderefakturering",
-    "taxIndicator": "Afgift",
-    "vatClassification": "Moms",
-    "chargesNotFound": {
-      "title": "Vi fandt desværre ingen priser tilknyttet dette målepunkt"
-    },
-    "createPrices": {
-      "title": "Opret pris",
-      "create": "Opret",
-      "priceId": "Pris id",
-      "priceName": "Pris navn",
-      "priceDescription": "Beskrivelse",
-      "priceOwner": "Pris Ejer",
-      "selectResolution": "Vælg opløsning",
-      "selectChargeType": "Vælg type",
-      "createPriceError": "Noget gik galt. Prisen blev ikke oprettet. Prøv igen.",
-      "createPriceSuccess": "Succes! Prisen er indsendt.",
-      "loadingRequestText": "Indsender pris.",
-      "validFromDateTime": "Gyldig fra",
-      "maxDateValidationErrorText": "Dato skal være inden for 3 år."
-    },
-    "prices": {
-      "prices": "Priser",
-      "price": "Pris",
-      "priceTab": {
-        "fromDateTime": "Gyldig fra",
-        "toDateTime": "Gyldig til",
-        "time": "Tid"
-      },
-      "search": {
-        "idOrName": "Pris ID/Navn",
-        "enterIdOrName": "Indtast dele af eller hele id eller navn",
-        "owner": "Ejer",
-        "enterOwner": "Indtast ejer",
-        "selectChargeType": "Vælg type",
-        "selectValidity": "Vælg gyldighed",
-        "chargeType": "Type",
-        "validity": "Gyldighed",
-        "dateValidFrom": "Gyldig fra",
-        "dateValidTo": "Gyldig til",
-        "clearSearch": "Ryd",
-        "startSearch": "Søg"
-      },
-      "chargeId": "Pris ID",
-      "chargeName": "Navn",
-      "chargeOwnerName": "Ejer",
-      "chargeType": "Type",
-      "resolution": "Opløsning",
-      "validFromDateTime": "Gyldig fra",
-      "validToDateTime": "Gyldig til",
-      "resultLength": "Søgeresultat",
-      "resultsLength": "Søgeresultater",
-      "Download": "Download",
-      "noResultsFound": "Intet resultat",
-      "noResultsHelperText": "Prøv at ændre dine søgeindstillinger",
-      "taxIndicator": "Afgift",
-      "transparentInvoicing": "Viderefakturering",
-      "startSearch": "Start søgning",
-      "startSearchText": "Dine resultater vil fremgå her",
-      "noPricesForCharge": "Ingen priser",
-      "noPricesForChargeText": "Der findes ingen prisserier for denne pris.",
-      "noChargePriceResultsHelperText": "Ingen priser er indsendt for denne periode.",
-      "paginator": {
-        "itemsPerPageLabel": "Priser pr. side",
-        "of": "af",
-        "first": "Første side",
-        "last": "Sidste side",
-        "next": "Næste side",
-        "previous": "Forrige side"
-      },
-      "chargeTypes": {
-        "Unknown": "Ukendt",
-        "Subscription": "Abonnement",
-        "Fee": "Gebyr",
-        "Tariff": "Tarif"
-      },
-      "validityOptions": {
-        "Now": "Gyldig nu",
-        "Planned": "Fremtidige priser",
-        "ThisWeek": "Denne uge",
-        "ThisMonth": "Denne måned",
-        "ThisQuarter": "Dette kvartal",
-        "ThisYear": "Dette år"
-      },
-      "drawer": {
-        "prices": "Priser",
-        "messages": "Beskeder",
-        "message": "Besked",
-        "dateChips": {
-          "day": "Dag",
-          "week": "Uge",
-          "month": "Måned",
-          "quarter": "Kvartal",
-          "year": "År"
-        },
-        "history": "Historik",
-        "stop": "Stop",
-        "edit": "Rediger",
-        "showDescriptionLabel": "Se beskrivelse",
-        "hideDescriptionLabel": "Luk beskrivelse",
-        "messageId": "Besked Id",
-        "messageType": "Type",
-        "date": "Dato",
-        "unknownMessageError": "Ukendt fejl"
-      },
-      "csvHeader": {
-        "id": "PRIS ID",
-        "name": "NAVN",
-        "description": "BESKRIVELSE",
-        "owner": "EJER",
-        "ownerName": "EJER NAVN",
-        "taxIndicator": "AFGIFT",
-        "vat": "MOMS",
-        "transparentInvoicing": "VIDEREFAKTURERING",
-        "type": "TYPE",
-        "resolution": "OPLØSNING",
-        "validFromDate": "GYLDIG FRA",
-        "validToDate": "GYLDIG TIL"
-      },
-      "downloadFileName": "Prisinformationer"
     }
   },
   "messageArchive": {
@@ -510,8 +130,56 @@
     }
   },
   "marketParticipant": {
-    "apiErrorCodes": {
-      "globalLocationNumberValidation": "'Aktørnummer' skal være et gyldigt GLN eller EIC nummer"
+    "market_participant": {
+      "error_fallback": "Computeren blev bedt om at udføre en handling, men gjorde det ikke. Årsagen var: {{ message }}",
+      "bad_argument": {
+        "missing_required_value": "Feltet '{{ param }}' kræver en værdi, men denne er ikke blevet angivet.",
+        "invalid_gln": "Værdien '{{ value.value }}' er ikke et gyldigt GLN- eller EIC-nummer.",
+        "invalid_length": "Indholdet af '{{ param }}' opfylder ikke krav til længden. Teksten skal være mellem {{ min }} og {{ max }} tegn.",
+        "invalid_enum": "Værdien '{{ value }}' er ikke tilladt for feltet '{{ param }}'."
+      },
+      "validation": {
+        "organization": {
+          "business_register_identifier": {
+            "reserved": "Det indtastede CVR-nummer {{ identifier }} er allerede i brug."
+          },
+          "domain": {
+            "reserved": "Det indtastede organisationsdomæne er allerede i brug.",
+            "invalid": "Det indtastede organisationsdomæne er ikke et gyldigt domæne."
+          }
+        },
+        "actor": {
+          "number": {
+            "reserved": "Det valge aktørnummer er allerede i brug."
+          },
+          "grid_area": {
+            "reserved": "Det valge netområde er allerede tildelt til en anden aktør."
+          },
+          "market_role": {
+            "reserved": "Kan ikke tildele markedsrollen, da denne allerede er tildelt til en anden aktør i organisationen.",
+            "forbidden": "Den valgte markedsrolle kan ikke bruges i denne organisation."
+          },
+          "credentials": {
+            "invalid": "Det givne certifikat er ikke gyldigt.",
+            "expired": "Det givne certifikat er udløbet.",
+            "invalid_state": "Aktørens B2B adgang kan ændres, da aktøren enten er deaktiveret eller er ved at blive gjort klar.",
+            "still_active": "Aktøren kan ikke deaktiveres, da aktøren stadig har B2B adgang opsat.",
+            "thumbprint_reserved": "Certifikatet er allerede i brug."
+          }
+        },
+        "market_role": {
+          "reserved": "Det valgte navn på brugerrollen er allerede i brug."
+        },
+        "user": {
+          "authentication": {
+            "invalid_phone": "Det indtastede telefonnummer kan ikke bruges til 2-faktor godkendelse.",
+            "email_domain_mismatch": "Det indtastede e-mail tilhører ikke organisationsdomænet."
+          },
+          "invite": {
+            "not_expired": "Brugerens invitation er endnu ikke udløbet og kan derfor ikke fornys."
+          }
+        }
+      }
     },
     "actors": {
       "topBarTitle": "Aktører",
@@ -532,26 +200,21 @@
         "steps": {
           "actor": "Aktør",
           "organization": "Organisation",
-          "invite": "Inviter bruger",
           "create": "Opret aktør"
         },
-        "columns": {
-          "name": "Navn",
-          "description": "Beskrivelse"
-        },
         "gridArea": "Netområde",
-        "firstname": "Fornavn",
-        "lastname": "Efternavn",
-        "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktør navn.",
+        "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktørnavn.",
         "glnOrEicInvalid": "Ugyldigt GLN/EIC nummer",
         "wrongEmailPattern": "Indtast en valid email",
-        "phoneInvalid": "Ugyldigt telefonnummer",
+        "phoneInvalid": "Telefonnr. format +45 12345678",
         "domainInvalid": "Ugyldigt domæne",
         "companyName": "Virksomhedsnavn",
         "domain": "Domæne",
         "cvrInvalid": "Ugyldigt CVR nummer",
         "cvrNumber": "CVR-Nr.",
         "country": "Land",
+        "phoneHint": "Telefonnr. format +45 12345678",
+        "glnOrEicHint": "GLN er 13 cifre og EIC er 16 cifre",
         "counties": {
           "DK": "Danmark",
           "SE": "Sverige",
@@ -565,7 +228,7 @@
         "departmentOrName": "Afdeling/Navn",
         "email": "E-mail",
         "phone": "Telefonnr.",
-        "searchDatahub": "Søg datahub",
+        "chooseOrganization": "Vælg organisation",
         "newOrganization": "Ny organisation",
         "marketParty": "Aktør",
         "createHeader": "Ny aktør",
@@ -635,6 +298,10 @@
           "organization": "Organisation"
         },
         "tabs": {
+          "shared": {
+            "error": "En fejl opstod",
+            "noData": "Ingen data"
+          },
           "masterData": {
             "tabLabel": "Information",
             "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
@@ -697,27 +364,30 @@
           },
           "history": {
             "tabLabel": "Historik",
+            "status": {
+              "New": "Ny",
+              "Active": "Aktiv",
+              "Inactive": "Inaktiv",
+              "Passive": "Passiv",
+              "Deleted": "Slettet"
+            },
             "changeTypes": {
-              "NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
-              "NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
-              "STATUS": "<b>{{ changedByUserName }}</b> ændrede status på aktøren til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b>",
-              "STATUS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede status på aktøren til <b>{{ currentValue }}</b> fra <b>\"\"</b>",
-              "CREATED": "<b>{{ changedByUserName }}</b> oprettede aktøren",
-              "CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> oprettede aktøren",
-              "CERTIFICATE_CREDENTIALS": "<b>{{ changedByUserName }}</b> fjernede certifikatet med thumbprint <b>{{ previousValue }}</b>",
-              "CERTIFICATE_CREDENTIALS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> tilføjede et certifikat med thumbprint <b>{{ currentValue }}</b>",
-              "CLIENT_SECRET_CREDENTIALS": "<b>{{ changedByUserName }}</b> fjernede client secret med udløbsdato d. <b>{{ previousValue }}</b>",
-              "CLIENT_SECRET_CREDENTIALS_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> tilføjede en client secret som vil udløbe d. <b>{{ currentValue }}</b>",
-              "CONTACT_NAME": "<b>{{ changedByUserName }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_EMAIL": "<b>{{ changedByUserName }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b> fra <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_PHONE": "<b>{{ changedByUserName }}</b> ændrede telefonnummer på kontakten fra <b>{{ currentValue }}</b> til <b>{{ previousValue }}</b> i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b> fra <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b> fra <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> ændrede telefonnummer på kontakten fra <b>{{ currentValue }}</b> til <b>\"\"</b> i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_CREATED": "<b>{{ changedByUserName }}</b> oprettede en kontakt i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_DELETED": "<b>{{ changedByUserName }}</b> slettede en kontakt i kategorien <b>{{ contactCategory }}</b> category",
-              "CONTACT_CREATED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> oprettede en kontakt i kategorien <b>{{ contactCategory }}</b>",
-              "CONTACT_DELETED_NO_PREVIOUS": "<b>{{ changedByUserName }}</b> slettede en kontakt i kategorien <b>{{ contactCategory }}</b> category"
+              "NAME": "<b>{{ auditedBy }}</b> ændrede navnet på aktøren til <b>{{ currentValue }}</b>.",
+              "NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> oprettede aktøren med navnet <b>{{ currentValue }}</b>.",
+              "STATUS": "<b>{{ auditedBy }}</b> ændrede status på aktøren til <b>{{ status }}</b>.",
+              "STATUS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> oprettede aktøren med status <b>{{ status }}</b>.",
+              "CERTIFICATE_CREDENTIALS": "<b>{{ auditedBy }}</b> fjernede certifikatet med thumbprint <b>{{ previousValue }}</b>.",
+              "CERTIFICATE_CREDENTIALS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> tilføjede et certifikat med thumbprint <b>{{ currentValue }}</b>.",
+              "CLIENT_SECRET_CREDENTIALS": "<b>{{ auditedBy }}</b> fjernede client secret med udløbsdato d. <b>{{ previousValue }}</b>.",
+              "CLIENT_SECRET_CREDENTIALS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> tilføjede en client secret som vil udløbe d. <b>{{ currentValue }}</b>.",
+              "CONTACT_CATEGORY_ADDED_NO_PREVIOUS": "<b>{{ auditedBy }}</b> oprettede kontaktkategorien <b>{{ currentValue }}</b>.",
+              "CONTACT_CATEGORY_REMOVED": "<b>{{ auditedBy }}</b> fjernede kontaktkategorien <b>{{ previousValue }}</b>.",
+              "CONTACT_NAME": "<b>{{ auditedBy }}</b> ændrede navnet på kontakten fra <b>{{ previousValue }}</b> til <b>{{ currentValue }}</b>.",
+              "CONTACT_EMAIL": "<b>{{ auditedBy }}</b> ændrede email på kontakten fra <b>{{ previousValue }}</b> til <b>{{ currentValue }}</b>.",
+              "CONTACT_PHONE": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten fra <b>{{ previousValue }}</b> til <b>{{ currentValue }}</b>.",
+              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b>.",
+              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b>.",
+              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten til <b>{{ currentValue }}</b>."
             }
           }
         }
@@ -730,6 +400,7 @@
         "departmentPhone": "Telefonnr.",
         "required": "Feltet er påkrævet",
         "invalidEmail": "Ugyldig email",
+        "phoneInvalid": "Telefonnr. format +45 12345678",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {
@@ -775,14 +446,8 @@
           "history": {
             "tabLabel": "Historik",
             "changeTypes": {
-              "NAME": "<b>{{ identity }}</b> ændrede navnet til <b>{{ value }}</b>",
-              "DOMAIN_CHANGE": "<b>{{ identity }}</b> ændrede domænet til <b>{{ value }}</b>",
-              "BUSINESS_REGISTER_IDENTIFIER": "<b>{{ identity }}</b> ændrede CVR-nummeret til <b>{{ value }}</b>",
-              "ADDRESS_CITY": "<b>{{ identity }}</b> ændrede byen til <b>{{ value }}</b>",
-              "ADDRESS_COUNTRY": "<b>{{ identity }}</b> ændrede landet til <b>{{ value }}</b>",
-              "ADDRESS_NUMBER": "<b>{{ identity }}</b> ændrede vejnummeret til <b>{{ value }}</b>",
-              "ADDRESS_STREET_NAME": "<b>{{ identity }}</b> ændrede vejnavnet til <b>{{ value }}</b>",
-              "ADDRESS_ZIP_CODE": "<b>{{ identity }}</b> ændrede postnummeret til <b>{{ value }}</b>"
+              "NAME": "<b>{{ auditedBy }}</b> ændrede navnet til <b>{{ currentValue }}</b>.",
+              "DOMAIN": "<b>{{ auditedBy }}</b> ændrede domænet til <b>{{ currentValue }}</b>."
             }
           }
         }
@@ -816,6 +481,7 @@
       "MeteredDataAdministrator": "Beskedsadministrator - aggregeringer",
       "MeteredDataResponsible": "Måledataansvarlig",
       "MeteringPointAdministrator": "Beskedadministrator",
+      "MeterOperator": "Måleoperatør",
       "SystemOperator": "Systemoperatør",
       "DanishEnergyAgency": "Energistyrelsen",
       "DataHubAdministrator": "DataHub systemadministrator",
@@ -831,6 +497,7 @@
       "MeteredDataAdministrator": "En part, der er ansvarlig for lagring og distribution af aggregerede data.",
       "MeteredDataResponsible": "En part, der er ansvarlig for etablering og validering af målte data baseret på de indsamlede data modtaget fra måledataindsamleren. Parten er ansvarlig for historikken for målte data for et målepunkt.",
       "MeteringPointAdministrator": "En part, der er ansvarlig for at administrere og stille målepunktets karakteristika til rådighed, herunder registrere de parter, der er knyttet til målepunktet. DDZ ift. modtagelse af meddelelser.",
+      "MeterOperator": "Skal bruges til delegering af meddelelser ind/ud af DataHub",
       "SystemOperator": "Ansvarlig for håndteringen af Energinets priselementer.",
       "DanishEnergyAgency": "Energistyrelsens adgang til forvaltningsretlige opgaver.",
       "DataHubAdministrator": "DataHub adgang til drift og support.",
@@ -981,6 +648,12 @@
     },
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
+      "status": {
+        "INGESTION": "Status på indlæsning af beskeder.",
+        "CONVERTER": "Status på konvertering til NBS beskeder.",
+        "SENDER": "Status på afsendelse til eSett.",
+        "RECEIVER": "Status på modtagelse fra eSett."
+      },
       "shared": {
         "calculationType": {
           "BALANCE_FIXING": "Balancefiksering",
@@ -1077,6 +750,36 @@
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
+    }
+  },
+  "imbalancePrices": {
+    "topBarTitle": "Ubalancepriser",
+    "table": {
+      "columns": {
+        "period": "Periode",
+        "priceArea": "Prisområde",
+        "status": "Status"
+      },
+      "emptyTitle": "Ingen ubalancepriser fundet",
+      "emptyMessage": "Prøv at ændre dine søgeindstillinger",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}"
+    },
+    "uploadButton": "Indlæs fil",
+    "uploadSuccess": "Filen er blevet uploadet",
+    "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen",
+    "status": {
+      "IN_COMPLETE": "Mangler priser",
+      "NO_DATA": "Ingen priser",
+      "COMPLETE": "Komplet"
+    },
+    "drawer": {
+      "priceAreaLabel": "Prisområde",
+      "updatedLabel": "Indlæst",
+      "pricesNote": "Prisen er angivet i DKK/kWh",
+      "download": "Download",
+      "downloadStart": "Starter download...",
+      "downloadFailed": "Download fejlede"
     }
   },
   "wholesale": {
@@ -1203,6 +906,9 @@
       "energySupplier": "Elleverandør",
       "balanceResponsible": "Balanceansvarlig",
       "error": "Der opstod desværre en fejl, under anmodingen om beregning",
+      "startDateCannotBeAfterEndDate": "Startdato kan ikke være efter slutdato",
+      "startDateCannotBeOlderThan3Years": "Startdato kan ikke være ældre end 3 år",
+      "startAndEndDateCannotBeInTheFuture": "Startdato og slutdato kan ikke være i fremtiden",
       "success": "Din anmoding er startet.",
       "topBarTitle": "Anmod om beregning",
       "processType": "{{shared.processType}}",
@@ -1294,6 +1000,7 @@
         "phoneNumber": "Telefonnr.",
         "phoneNumberError": "Telefonnr. format +45 12345678",
         "wrongEmailPattern": "Indtast en valid email",
+        "userAlreadyAssignedActor": "Bruger er allerede oprettet.",
         "noUserRolesError": "Mindst én brugerrolle skal vælges.",
         "successMessage": "{{ email }} blev inviteret",
         "next": "Næste",
@@ -1317,10 +1024,10 @@
         "deactivateError": "Noget gik galt. Brugeren blev ikke deaktiveret. Prøv igen",
         "deactivateSuccess": "Brugeren blev deaktiveret",
         "deactivateConfirmation": {
-          "title": "Deaktiver bruger",
-          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret og login vil blive spærret.",
-          "important": "Hvis brugeren er allerede logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
-          "confirm": "Deaktiver {{email}}",
+          "title": "Deaktiver bruger?",
+          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret, og login vil blive spærret.",
+          "important": "Hvis brugeren allerede er logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
+          "confirm": "Deaktiver bruger",
           "reject": "Fortryd"
         },
         "editRole": "Rediger rolle",
@@ -1357,15 +1064,16 @@
                 "noEntries": "Ingen resultater"
               },
               "logs": {
+                "status": {
+                  "Active": "Aktiv",
+                  "Inactive": "Inaktiv"
+                },
                 "roles": {
-                  "CREATED": "<b>{{ changedByUserName }}</b> oprettede brugerrollen",
-                  "NAME_CHANGE": "<b>{{ changedByUserName }}</b> ændrede navn på brugerrollen til <b>{{ changedValueTo }}</b>",
-                  "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelse til <b>{{ changedValueTo }}</b>",
-                  "EIC_FUNCTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede markedsrollen til <b>{{ changedValueTo }}</b>",
-                  "STATUS_CHANGE": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ changedValueTo }}</b>",
-                  "PERMISSIONS_CHANGE": "<b>{{ changedByUserName }}</b> ændrede rettighederne til <b>{{ changedValueTo }}</b>",
-                  "PERMISSION_ADDED": "<b>{{ changedByUserName }}</b> tilføjede rettigheder: <b>{{ changedValueTo }}</b>",
-                  "PERMISSION_REMOVED": "<b>{{ changedByUserName }}</b> fjernede rettigheder: <b>{{ changedValueTo }}</b>"
+                  "NAME": "<b>{{ auditedBy }}</b> ændrede navn på brugerrollen til <b>{{ currentValue }}</b>.",
+                  "DESCRIPTION": "<b>{{ auditedBy }}</b> ændrede beskrivelse til <b>{{ currentValue }}</b>.",
+                  "STATUS": "<b>{{ auditedBy }}</b> ændrede status til <b>{{ status }}</b>.",
+                  "PERMISSION_ADDED": "<b>{{ auditedBy }}</b> tilføjede rettigheden <b>{{ affectedPermissionName }}</b>.",
+                  "PERMISSION_REMOVED": "<b>{{ auditedBy }}</b> fjernede rettigheden <b>{{ affectedPermissionName }}</b>."
                 }
               }
             }
@@ -1374,10 +1082,10 @@
       },
       "topBarTitle": "Brugeradministration",
       "userStatus": {
-        "active": "Aktiv",
-        "inactive": "Deaktiveret",
-        "invited": "Afventer aktivering",
-        "inviteExpired": "Aktivering udløbet"
+        "Active": "Aktiv",
+        "Inactive": "Deaktiveret",
+        "Invited": "Afventer aktivering",
+        "InviteExpired": "Aktivering udløbet"
       },
       "roleStatus": {
         "active": "Aktiv",
@@ -1394,29 +1102,31 @@
         },
         "history": {
           "tabLabel": "Historik",
-          "noEntries": "Ingen resultater",
           "changesSingular": "{{ auditLogCount }} ændring",
           "changesPlural": "{{ auditLogCount }} ændringer",
-          "columns": {
-            "timestamp": "Tid",
-            "entry": "Ændring"
+          "table": {
+            "noEntries": "Ingen resultater",
+            "columns": {
+              "timestamp": "Tid",
+              "entry": "Ændring"
+            }
           },
           "logs": {
             "permissionsDetails": {
               "auditLogType": {
-                "CREATED": "<b>{{ changedByUserName }}</b> tilføjede rettigheden til systemet",
-                "DESCRIPTION_CHANGE": "<b>{{ changedByUserName }}</b> ændrede beskrivelsen på rettigheden til <b>{{ value }}</b>"
+                "CLAIM": "<b>{{ auditedBy }}</b> tilføjede rettigheden <b>{{ currentValue }}</b> til systemet.",
+                "DESCRIPTION": "<b>{{ auditedBy }}</b> ændrede beskrivelsen på rettigheden til <b>{{ currentValue }}</b>."
               }
             },
-            "auditLogType": {
-              "UserRoleAdded": "<b>{{ changedByUserName }}</b> tilføjede brugerrollen <b>{{ toValue }}</b>",
-              "UserRoleRemoved": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b>",
-              "UserInvite": "<b>{{ changedByUserName }}</b> tilføjede brugeren til aktør <b>{{ toValue }}</b>",
-              "UserRoleRemovedDueToDeactivation": "<b>{{ changedByUserName }}</b> fjernede brugerrollen <b>{{ toValue }}</b> fordi rollen blev deaktiveret",
-              "UserFirstNameChanged": "<b>{{ changedByUserName }}</b> ændrede fornavn til <b>{{ toValue }}</b>",
-              "UserLastNameChanged": "<b>{{ changedByUserName }}</b> ændrede efternavn til <b>{{ toValue }}</b>",
-              "UserPhoneNumberChanged": "<b>{{ changedByUserName }}</b> ændrede telefonnummer til <b>{{ toValue }}</b>",
-              "UserStatusChanged": "<b>{{ changedByUserName }}</b> ændrede status til <b>{{ toValue }}</b>"
+            "audit": {
+              "FIRST_NAME": "<b>{{ auditedBy }}</b> ændrede brugerens fornavn til <b>{{ currentValue }}</b>.",
+              "LAST_NAME": "<b>{{ auditedBy }}</b> ændrede brugerens efternavn til <b>{{ currentValue }}</b>.",
+              "PHONE_NUMBER": "<b>{{ auditedBy }}</b> ændrede brugerens telefonnummer til <b>{{ currentValue }}</b>.",
+              "STATUS": "<b>{{ auditedBy }}</b> ændrede brugerens status til <b>{{ currentValue }}</b>.",
+              "INVITED_INTO_ACTOR": "<b>{{ auditedBy }}</b> inviterede brugeren ind i <b>{{ affectedActorName }}</b>.",
+              "USER_ROLE_ASSIGNED": "<b>{{ auditedBy }}</b> tildelte brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>.",
+              "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>.",
+              "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b>, da rollen blev deaktiveret."
             }
           },
           "generalError": {
@@ -1427,26 +1137,19 @@
         "users": {
           "inviteUser": "Inviter bruger",
           "tabLabel": "Brugere",
+          "emptyTitle": "Ingen brugere fundet",
+          "emptyMessage": "Prøv at ændre dine søgeindstillinger",
           "filter": {
             "status": "Status",
-            "actor": "Aktør",
-            "userrole": "Brugerrolle"
+            "marketPartyPlaceholder": "Aktør",
+            "userRolePlaceholder": "Brugerrolle"
           },
-          "searchPlaceholder": "Søg brugere",
-          "searchActorPlaceHolder": "Vælg aktør",
-          "searchUserRolePlaceHolder": "Vælg brugerrolle",
-          "usersHeadline": {
-            "singular": "{{ usersCount }} bruger",
-            "plural": "{{ usersCount }} brugere"
-          },
-          "table": {
-            "columns": {
-              "firstName": "Fornavn",
-              "lastName": "Efternavn",
-              "email": "Email",
-              "phone": "Telefon",
-              "status": "Status"
-            }
+          "columns": {
+            "firstName": "Fornavn",
+            "lastName": "Efternavn",
+            "email": "Email",
+            "phone": "Telefon",
+            "status": "Status"
           }
         },
         "roles": {
@@ -1454,6 +1157,8 @@
           "roles": "Brugerroller",
           "role": "Brugerrolle",
           "rolesHeadline": "Brugerroller",
+          "emptyTitle": "Ingen brugerroller fundet",
+          "emptyMessage": "Prøv at ændre dine søgeindstillinger",
           "filter": {
             "status": "Status",
             "marketRole": "Markedsrolle",
@@ -1504,6 +1209,7 @@
           },
           "permissions": {
             "label": "Tildel rettigheder",
+            "required": "Vælg minimum én rettighed.",
             "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
           }
         }
@@ -1553,13 +1259,14 @@
         "tab": {
           "masterData": {
             "tabLabel": "Stamdata",
-            "descriptionInputLabel": "Beskrivelse"
+            "descriptionInputLabel": "Beskrivelse",
+            "descriptionExceedsMaxLength": "Maks {{requiredLength}} karakterer."
           }
         },
         "cancel": "Fortryd",
         "save": "Gem",
         "validationErrors": {
-          "required": "{{ shared.fieldRequiredErrorText }}"
+          "required": "{{ shared.fieldValidation.required }}"
         }
       },
       "permissionsTable": {
@@ -1569,9 +1276,11 @@
         }
       },
       "permissionsTab": {
-        "headline": "{{ numberOfPermissions }} rettigheder",
+        "headline": "Rettigheder",
         "permissionName": "Navn",
-        "permissionDescription": "Beskrivelse"
+        "permissionDescription": "Beskrivelse",
+        "downloadStart": "Starter download...",
+        "downloadFailed": "Download fejlede"
       },
       "permissionDetail": {
         "edit": "Rediger rettighed",

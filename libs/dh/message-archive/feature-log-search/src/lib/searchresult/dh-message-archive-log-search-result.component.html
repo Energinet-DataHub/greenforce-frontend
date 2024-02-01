@@ -24,17 +24,19 @@ limitations under the License.
         {{ t("searchResult") }}
       </h3>
     </watt-card-title>
+
     <ng-container *ngIf="!hasSearchError && !isInit && searchResult && searchResult.length > 0">
       <watt-table
         #table
         description="Search result"
-        sortBy="createdDate"
-        sortDirection="asc"
+        [sortBy]="sortMetadata.active"
+        [sortDirection]="sortMetadata.direction"
         [dataSource]="dataSource"
         [resolveHeader]="t"
         [columns]="columns"
         [activeRow]="activeRow"
         (rowClick)="onRowClick($event)"
+        (sortChange)="onSortChange($event)"
       >
         <ng-container *wattTableCell="columns.messageId; let element">
           {{ element.messageId }}
@@ -110,5 +112,5 @@ limitations under the License.
     </ng-container>
   </watt-card>
 
-  <dh-message-archive-drawer [actors]="actors" />
+  <dh-message-archive-drawer [actors]="actors" (closed)="onClosed()" />
 </ng-container>

@@ -15,7 +15,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using HotChocolate;
 
@@ -30,7 +30,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
             [Parent] BatchDto batch,
-            GridAreaByCodeBatchDataLoader dataLoader) =>
-            await Task.WhenAll(batch.GridAreaCodes.Select(async c => await dataLoader.LoadAsync(c)));
+            GridAreaByCodeBatchDataLoader dataLoader)
+        {
+            var gridAreas = await Task.WhenAll(batch.GridAreaCodes.Select(async c => await dataLoader.LoadAsync(c)));
+            return gridAreas.Where(g => g != null);
+        }
     }
 }

@@ -9,18 +9,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/dh/admin/routing/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/admin/routing/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/admin/routing/**/*.ts",
-          "libs/dh/admin/routing/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "domain:admin", "type:routing"]

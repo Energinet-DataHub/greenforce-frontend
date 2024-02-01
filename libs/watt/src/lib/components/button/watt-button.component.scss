@@ -54,127 +54,139 @@
 
 watt-button {
   display: inline-block;
-}
-
-.mat-button {
-  @include watt.typography-font-weight("semi-bold");
-  @include watt.typography-font-size("m");
-  @include watt.space-inset-squish-m;
-
-  &.mat-button {
-    min-width: 44px; // Magic UX width
-    height: 44px; // Magic UX normal height
-  }
-
-  watt-spinner {
-    position: absolute;
-  }
-
-  .mat-button-focus-overlay {
-    background: transparent; // Remove the overlay background color from Material Design
-  }
-
-  .mat-button-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .content-wrapper {
-      display: flex;
-      gap: var(--watt-space-s);
-    }
-
-    .content-wrapper--loading {
-      visibility: hidden;
-    }
-
-    watt-icon {
-      margin: -5px; // to offset the icons inherent padding of 5px
-    }
-  }
 
   &.watt-button--primary {
-    background-color: var(--watt-color-primary);
-    color: var(--watt-color-primary-contrast);
-
-    &:focus-visible {
-      @include primary-focus;
-    }
-
-    &:hover,
-    &:focus-visible {
-      @include primary-hover;
-    }
-
-    &.mat-button.mat-button-disabled {
+    &.watt-button--disabled .mat-mdc-button.mat-primary {
       background-color: transparent;
       color: var(--watt-color-neutral-grey-500);
     }
 
-    .mat-spinner circle {
-      stroke: var(--watt-color-neutral-white);
+    watt-spinner {
+      --watt-spinner-circle-color: var(--watt-color-neutral-white);
+    }
+
+    .mat-mdc-button.mat-primary {
+      color: var(--watt-color-primary-contrast);
+      background-color: var(--watt-color-primary);
+      --mdc-text-button-label-text-color: var(--watt-color-primary-contrast);
+
+      &:focus-visible {
+        @include primary-focus;
+      }
+
+      &:hover,
+      &:focus-visible {
+        @include primary-hover;
+      }
     }
   }
 
   &.watt-button--secondary {
-    border: 1px solid var(--watt-color-primary);
-    color: var(--watt-color-primary);
-
-    &:focus-visible {
-      @include secondary-focus;
-    }
-
-    &:hover,
-    &:focus-visible {
-      @include secondary-hover;
-    }
-
-    &.mat-button.mat-button-disabled {
+    &.watt-button--disabled .mat-mdc-button.mat-secondary {
       background-color: transparent;
       border-color: var(--watt-color-neutral-grey-300);
       color: var(--watt-color-neutral-grey-500);
     }
+
+    .mat-mdc-button.mat-secondary {
+      border: 1px solid var(--watt-color-primary);
+      color: var(--watt-color-primary);
+
+      &:focus-visible {
+        @include secondary-focus;
+      }
+
+      &:hover,
+      &:focus-visible {
+        @include secondary-hover;
+      }
+    }
   }
 
   &.watt-button--text {
-    color: var(--watt-color-primary);
-    outline: 2px solid transparent;
-
-    &:focus-visible {
-      @include text-focus;
-    }
-
-    &:hover,
-    &:focus-visible {
-      @include text-hover;
-    }
-
-    &.mat-button.mat-button-disabled {
+    &.watt-button--disabled .mat-mdc-button.mat-text {
       background-color: transparent;
       color: var(--watt-color-neutral-grey-500);
+    }
+
+    .mat-mdc-button.mat-text {
+      color: var(--watt-color-primary);
+      outline: 2px solid transparent;
+
+      &:focus-visible {
+        @include text-focus;
+      }
+
+      &:hover,
+      &:focus-visible {
+        @include text-hover;
+      }
     }
   }
 
   &.watt-button--icon {
-    color: var(--watt-color-primary);
-    @include watt.space-inset-s;
-
-    &:focus-visible {
-      @include icon-focus;
-    }
-
-    &:hover,
-    &:focus-visible {
-      @include icon-hover;
-    }
-
-    &.mat-button {
-      min-width: 44px;
-    }
-
-    &.mat-button.mat-button-disabled {
+    &.watt-button--disabled .mat-mdc-button.mat-icon {
       background-color: transparent;
       color: var(--watt-color-neutral-grey-500);
+    }
+
+    .mat-mdc-button.mat-icon {
+      color: var(--watt-color-primary);
+      @include watt.space-inset-s;
+
+      &:focus-visible {
+        @include icon-focus;
+      }
+
+      &:hover,
+      &:focus-visible {
+        @include icon-hover;
+      }
+
+      &.mat-button {
+        min-width: 44px;
+      }
+    }
+  }
+
+  .mdc-button {
+    @include watt.typography-font-weight("semi-bold");
+    @include watt.typography-font-size("m");
+    @include watt.space-inset-squish-m;
+
+    &.mat-mdc-button {
+      min-width: 44px; // Magic UX width
+      height: 44px; // Magic UX normal height
+      --mdc-text-button-label-text-tracking: 0;
+      --mat-text-button-state-layer-color: var(--watt-ripple-color);
+      --mat-text-button-ripple-color: var(--watt-ripple-color);
+    }
+
+    watt-spinner {
+      position: absolute;
+    }
+
+    .mat-button-focus-overlay {
+      background: transparent; // Remove the overlay background color from Material Design
+    }
+
+    .mdc-button__label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .content-wrapper {
+        display: flex;
+        gap: var(--watt-space-s);
+      }
+
+      .content-wrapper--loading {
+        visibility: hidden;
+      }
+
+      watt-icon {
+        margin: -5px; // to offset the icons inherent padding of 5px
+      }
     }
   }
 }

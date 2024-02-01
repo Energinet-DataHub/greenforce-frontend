@@ -15,14 +15,22 @@
  * limitations under the License.
  */
 export interface EoCertificate {
-  dateFrom: number;
-  dateTo: number;
+  federatedStreamId: {
+    registry: string;
+    streamId: string;
+  };
   quantity: number;
-  gsrn: string;
-  techCode: string;
-  fuelCode: string;
-  id: string;
+  start: number;
+  end: number;
   gridArea: string;
+  certificateType: 'Production' | 'Consumption';
+  attributes: {
+    assetId: string;
+    fuelCode: string;
+    techCode: string;
+  };
+  time?: string;
+  amount?: string;
 }
 
 export interface EoCertificateContract {

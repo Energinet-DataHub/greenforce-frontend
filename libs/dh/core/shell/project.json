@@ -8,18 +8,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/core/shell"],
       "options": {
-        "jestConfig": "libs/dh/core/shell/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/core/shell/jest.config.ts"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/core/shell/src/**/*.ts",
-          "libs/dh/core/shell/src/**/*.html"
-        ]
-      },
       "outputs": ["{options.outputFile}"]
     }
   },

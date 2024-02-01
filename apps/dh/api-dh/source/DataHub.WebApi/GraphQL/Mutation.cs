@@ -17,56 +17,49 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using HotChocolate;
 using HotChocolate.Types;
 using NodaTime;
-using ActorNameDto = Energinet.DataHub.MarketParticipant.Client.Models.ActorNameDto;
-using ChangeActorDto = Energinet.DataHub.MarketParticipant.Client.Models.ChangeActorDto;
-using ChangeOrganizationDto = Energinet.DataHub.MarketParticipant.Client.Models.ChangeOrganizationDto;
-using ContactCategory = Energinet.DataHub.MarketParticipant.Client.Models.ContactCategory;
-using CreateActorContactDto = Energinet.DataHub.MarketParticipant.Client.Models.CreateActorContactDto;
 using EdiB2CWebAppProcessType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType;
-using PermissionDetailsDto = Energinet.DataHub.MarketParticipant.Client.Models.PermissionDetailsDto;
 using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
-using UpdatePermissionDto = Energinet.DataHub.MarketParticipant.Client.Models.UpdatePermissionDto;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
 public class Mutation
 {
     [UseMutationConvention(Disable = true)]
-    public Task<PermissionDetailsDto> UpdatePermissionAsync(
+    public Task<PermissionDto> UpdatePermissionAsync(
         UpdatePermissionDto input,
-        [Service] IMarketParticipantPermissionsClient client) =>
+        [Service] IMarketParticipantClient_V1 client) =>
         client
-            .UpdatePermissionAsync(input)
-            .Then(() => client.GetPermissionAsync(input.Id));
+            .PermissionPutAsync(input)
+            .Then(() => client.PermissionGetAsync(input.Id));
 
-    [Error(typeof(MarketParticipantBadRequestException))]
+    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
     public async Task<bool> UpdateActorAsync(
         Guid actorId,
         string actorName,
         string departmentName,
         string departmentEmail,
         string departmentPhone,
-        [Service] IMarketParticipantClient client)
+        [Service] IMarketParticipantClient_V1 client)
     {
-        var actor = await client.GetActorAsync(actorId).ConfigureAwait(false);
+        var actor = await client.ActorGetAsync(actorId).ConfigureAwait(false);
         if (!string.Equals(actor.Name.Value, actorName, StringComparison.Ordinal))
         {
-            var changes = new ChangeActorDto(
-                actor.Status,
-                new ActorNameDto(actorName),
-                actor.MarketRoles);
+            var changes = new ChangeActorDto()
+            {
+                Status = actor.Status,
+                Name = new ActorNameDto() { Value = actorName },
+                MarketRoles = actor.MarketRoles,
+            };
 
-            await client.UpdateActorAsync(actorId, changes).ConfigureAwait(false);
+            await client.ActorPutAsync(actorId, changes).ConfigureAwait(false);
         }
 
-        var allContacts = await client.GetContactsAsync(actorId).ConfigureAwait(false);
+        var allContacts = await client.ActorContactGetAsync(actorId).ConfigureAwait(false);
         var defaultContact = allContacts.SingleOrDefault(c => c.Category == ContactCategory.Default);
         if (defaultContact == null ||
             !string.Equals(defaultContact.Name, departmentName, StringComparison.Ordinal) ||
@@ -76,18 +69,20 @@ public class Mutation
             if (defaultContact != null)
             {
                 await client
-                    .DeleteContactAsync(actorId, defaultContact.ContactId)
+                    .ActorContactDeleteAsync(actorId, defaultContact.ContactId)
                     .ConfigureAwait(false);
             }
 
-            var newDefaultContact = new CreateActorContactDto(
-                departmentName,
-                ContactCategory.Default,
-                departmentEmail,
-                departmentPhone);
+            var newDefaultContact = new CreateActorContactDto
+            {
+                Name = departmentName,
+                Email = departmentEmail,
+                Phone = departmentPhone,
+                Category = ContactCategory.Default,
+            };
 
             await client
-                .CreateContactAsync(actorId, newDefaultContact)
+                .ActorContactPostAsync(actorId, newDefaultContact)
                 .ConfigureAwait(false);
         }
 
@@ -156,52 +151,45 @@ public class Mutation
         return true;
     }
 
-    [Error(typeof(MarketParticipantBadRequestException))]
+    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
     public async Task<bool> UpdateOrganizationAsync(
         Guid orgId,
         string domain,
-        [Service] IMarketParticipantClient client)
+        [Service] IMarketParticipantClient_V1 client)
     {
-        var organization = await client.GetOrganizationAsync(orgId).ConfigureAwait(false);
+        var organization = await client.OrganizationGetAsync(orgId).ConfigureAwait(false);
         if (!string.Equals(organization.Domain, domain, StringComparison.Ordinal))
         {
-            var changes = new ChangeOrganizationDto(
-                organization.Name,
-                organization.BusinessRegisterIdentifier,
-                organization.Address,
-                organization.Comment,
-                organization.Status,
-                domain);
+            var changes = new ChangeOrganizationDto()
+            {
+                Name = organization.Name,
+                Domain = domain,
+                Status = organization.Status,
+            };
 
-            await client.UpdateOrganizationAsync(orgId, changes).ConfigureAwait(false);
+            await client.OrganizationPutAsync(orgId, changes).ConfigureAwait(false);
         }
 
         return true;
     }
 
-    [Error(typeof(MarketParticipantBadRequestException))]
+    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
     public async Task<bool> CreateMarketParticipantAsync(
             CreateMarketParticipantInput input,
             [Service] IMarketParticipantClient_V1 client)
     {
         var organizationId =
             input.OrganizationId ??
-            await client.OrganizationPOSTAsync(input.Organization!).ConfigureAwait(false);
+            await client.OrganizationPostAsync(input.Organization!).ConfigureAwait(false);
 
         input.Actor.OrganizationId = organizationId;
 
         var actorId = await client
-            .ActorPOSTAsync(input.Actor)
-            .ConfigureAwait(false);
-
-        input.UserInvite.AssignedActor = actorId;
-
-        await client
-            .ContactPOSTAsync(actorId, input.ActorContact)
+            .ActorPostAsync(input.Actor)
             .ConfigureAwait(false);
 
         await client
-            .InviteAsync(input.UserInvite)
+            .ActorContactPostAsync(actorId, input.ActorContact)
             .ConfigureAwait(false);
 
         return true;

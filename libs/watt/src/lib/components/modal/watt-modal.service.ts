@@ -34,6 +34,7 @@ export interface WattModalConfig {
   data?: unknown;
   disableClose?: boolean;
   onClosed?: EventEmitter<boolean> | ((result: boolean) => void);
+  minHeight?: string;
   injector?: Injector;
 }
 
@@ -65,6 +66,15 @@ export class WattModalService {
           maxWidth: 'none',
           injector: config.injector,
         });
+
+        if (config.minHeight) {
+          setTimeout(() => {
+            document
+              ?.getElementById(dialog.id)
+              ?.querySelector('.watt-modal')
+              ?.setAttribute('style', `--watt-modal-min-height: ${config.minHeight}`);
+          });
+        }
 
         return this.closeSubject.pipe(
           tap((result) => dialog.close(result)),

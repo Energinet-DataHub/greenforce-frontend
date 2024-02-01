@@ -11,18 +11,11 @@
         "{workspaceRoot}/coverage/libs/eo/shared/atomic-design/feature-molecules"
       ],
       "options": {
-        "jestConfig": "libs/eo/shared/atomic-design/feature-molecules/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/eo/shared/atomic-design/feature-molecules/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/eo/shared/atomic-design/feature-molecules/src/**/*.ts",
-          "libs/eo/shared/atomic-design/feature-molecules/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:eo", "domain:shared", "type:feature"]

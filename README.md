@@ -5,7 +5,6 @@
 
 [![GitHub Workflow Status (event)](https://img.shields.io/github/actions/workflow/status/Energinet-DataHub/greenforce-frontend/dh-cd.yml?branch=main)](https://github.com/Energinet-DataHub/greenforce-frontend/actions/workflows/dh-cd.yml)
 [![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/geh-frontend-app/main?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=geh-frontend-app)
-[![Codecov](https://img.shields.io/codecov/c/github/Energinet-DataHub/greenforce-frontend)](https://app.codecov.io/gh/Energinet-DataHub/greenforce-frontend)
 [![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/Energinet-DataHub/greenforce-frontend/@angular/core?label=angular)](https://github.com/angular/angular/blob/main/CHANGELOG.md)
 
 Monorepo for the [DataHub](https://en.energinet.dk/Energy-data/DataHub) and
@@ -56,19 +55,19 @@ over the Angular CLI._
 
 ## DataHub
 
-The application is deployed to five different environments as listed below:
+The application is deployed to the following environments:
 
-| Development       | Development\*     | Test              |
-| ----------------- | ----------------- | ----------------- |
-| [U-001][dh-u-001] | [U-002][dh-u-002] | [T-001][dh-t-001] |
+| Sandbox 002                   | Development 001       | Development 002       | Test 001                | Test 002                | PreProd               | Prod            |
+|-------------------------------|-----------------------|-----------------------|-------------------------|-------------------------|-----------------------|-----------------|
+| [sandbox_002][dh-sandbox-002] | [dev_001][dh-dev_001] | [dev_002][dh-dev_002] | [test_001][dh-test_001] | [test_002][dh-test_002] | [preprod][dh-preprod] | [prod][dh-prod] |
 
-[dh-u-001]: https://jolly-sand-03f839703.azurestaticapps.net
-[dh-u-002]: https://wonderful-field-057109603.1.azurestaticapps.net
-[dh-t-001]: https://ashy-forest-09ecf8003.2.azurestaticapps.net
-
-> This is identical to **U-001**, except it also hosts
-> [B2C](https://learn.microsoft.com/en-us/azure/active-directory-b2c/overview).
-> This service can be accessed from **localhost**, **U-001** and **U-002**.
+[dh-sandbox-002]: https://sandbox.datahub3.dk
+[dh-dev_001]: https://dev.datahub3.dk
+[dh-dev_002]: https://dev002.datahub3.dk
+[dh-test_001]: https://test.datahub3.dk
+[dh-test_002]: https://test002.datahub3.dk
+[dh-preprod]: https://preprod.datahub3.dk
+[dh-prod]: https://datahub3.dk
 
 ### Documentation
 
@@ -122,7 +121,7 @@ libraries of type `assets` and `styles`**._
 To generate a new library, run the below command\* and follow the instructions:
 
 ```sh
-yarn nx workspace-generator dh-library-generator
+yarn nx g workspace-tools:library-generator
 ```
 
 While rarely needed, it is also possible to generate an entirely new domain.
@@ -130,7 +129,7 @@ Running the following command\* will create a new domain with
 `data-access-api`, `feature`, `routing` and `shell` libraries included:
 
 ```sh
-yarn nx workspace-generator dh-domain-generator
+yarn nx g workspace-tools:domain-generator
 ```
 
 > Also available in [Nx Console](https://nx.dev/core-features/integrate-with-editors).

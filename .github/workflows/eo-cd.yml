@@ -25,7 +25,7 @@ env:
   NODE_OPTIONS: --max-old-space-size=6144
   node-version-file: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  yarn-version: 3.5.0
+  yarn-version: 4.0.2
 
   # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
@@ -49,7 +49,7 @@ jobs:
     steps:
       # needed for nx affected command
       - name: Check out source code with current branch Git history
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       # needed for nx affected command
@@ -58,12 +58,13 @@ jobs:
         run: git fetch --no-tags origin $BASE_BRANCH
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Is affected?
         id: affected
@@ -79,15 +80,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.node-version-file }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Production build
         run: yarn nx build ${{ env.app-name }}
@@ -96,7 +98,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.app-name }}
-          path: ./dist/apps/eo/${{ env.app-name }}/
+          path: ./dist/apps/eo/${{ env.app-name }}/browser/
           if-no-files-found: error
 
   define_build:
@@ -104,14 +106,12 @@ jobs:
     needs: affected
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.version.outputs.semver }}
+      version: ${{ steps.version.outputs.version }}
     steps:
-      - name: Get version
+      - uses: actions/checkout@v4
+      - name: Generate version
         id: version
-        uses: Energinet-DataHub/energy-origin/.github/actions/yaml-semver@main
-        with:
-          yaml-file: build/infrastructure/eo/configuration.yaml
-          yaml-path: version
+        uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
 
   sonarcloud:
     name: SonarCloud
@@ -119,18 +119,18 @@ jobs:
     needs: affected
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2.0.0
+        uses: SonarSource/sonarcloud-github-action@v2
         with:
           args: >
             -Dsonar.projectKey=energinet-datahub_energy-origin-frontend
             -Dsonar.organization=energinet-datahub
             -Dsonar.sources=apps/eo/app-eo,libs/eo
-            -Dsonar.exclusions=**/*.spec.ts,jest.config.ts,test-setup.ts
+            -Dsonar.exclusions=**/*.spec.ts,jest.config.ts,test-setup.ts,libs/eo/shared/data-access-mocks/src/lib/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.EO_SONAR_TOKEN }}
@@ -142,7 +142,7 @@ jobs:
       - define_build
       - app
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Build and push container image
         id: docker_build
@@ -165,19 +165,3 @@ jobs:
           configuration: build/infrastructure/eo/configuration.yaml
           deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}
           dry_run: ${{ !(github.event_name == 'push' && github.ref_name == 'main' || github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'preview/')) }}
-
-  bump_configuration_version:
-    runs-on: ubuntu-latest
-    name: Bump configuration version
-    if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
-    needs:
-      - affected
-      - update-environment
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: ./.github/actions/yaml-increment-version
-        with:
-          yaml-file: build/infrastructure/eo/configuration.yaml
-          yaml-path: version
-          token: ${{ secrets.internal_github_pat }}

@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 import { Component, Input, OnChanges } from '@angular/core';
-import { TranslocoModule, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { NgIf } from '@angular/common';
+
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -25,13 +27,11 @@ import {
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
-
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { CommonModule } from '@angular/common';
 
 export interface GridAreaOverviewRow {
   id: string;
@@ -60,8 +60,9 @@ export interface GridAreaOverviewRow {
     `,
   ],
   imports: [
-    CommonModule,
-    TranslocoModule,
+    NgIf,
+    TranslocoDirective,
+    TranslocoPipe,
 
     WATT_CARD,
     WATT_TABLE,

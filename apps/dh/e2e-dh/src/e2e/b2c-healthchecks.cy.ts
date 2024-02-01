@@ -16,16 +16,32 @@
  */
 const environments = [
   {
-    name: 'U001',
-    url: 'https://jolly-sand-03f839703.azurestaticapps.net/',
+    name: 'sandbox_002',
+    url: 'https://sandbox.datahub3.dk/',
   },
   {
-    name: 'U002',
-    url: 'https://wonderful-field-057109603.1.azurestaticapps.net/',
+    name: 'dev_001',
+    url: 'https://dev.datahub3.dk/',
   },
   {
-    name: 'T001',
-    url: 'https://ashy-forest-09ecf8003.2.azurestaticapps.net/',
+    name: 'dev_002',
+    url: 'https://dev002.datahub3.dk/',
+  },
+  {
+    name: 'test_001',
+    url: 'https://test.datahub3.dk/',
+  },
+  {
+    name: 'test_002',
+    url: 'https://test002.datahub3.dk/',
+  },
+  {
+    name: 'preprod',
+    url: 'https://preprod.datahub3.dk/',
+  },
+  {
+    name: 'prod',
+    url: 'https://datahub3.dk/',
   },
 ];
 

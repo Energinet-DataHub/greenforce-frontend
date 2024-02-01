@@ -18,10 +18,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnInit,
   ViewEncapsulation,
-  inject,
 } from '@angular/core';
-import { DecimalPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -32,7 +32,6 @@ import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent, NgIf],
-  providers: [DecimalPipe],
   standalone: true,
   selector: 'eo-claims-table',
   styles: [
@@ -51,10 +50,17 @@ import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
-    <watt-table #table [loading]="loading" [columns]="columns" [dataSource]="dataSource" />
+    <watt-table
+      #table
+      [loading]="loading"
+      [columns]="columns"
+      [dataSource]="dataSource"
+      sortBy="start"
+      sortDirection="desc"
+    />
 
     <watt-empty-state
-      *ngIf="loading === false && dataSource.data.length === 0 && !hasError"
+      *ngIf="loading === false && dataSource.filteredData.length === 0 && !hasError"
       icon="custom-power"
       title="No claims found"
       message="You do not have any claims."
@@ -70,15 +76,7 @@ import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
     <watt-paginator [for]="dataSource" />
   `,
 })
-export class EoClaimsTableComponent {
-  private decimalPipe = inject(DecimalPipe);
-
-  dataSource: WattTableDataSource<Claim> = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<Claim> = {
-    claimId: { accessor: (x) => x.claimId, header: 'Claim Id' },
-    quantity: { accessor: (x) => `${this.decimalPipe.transform(x.quantity, '1.0-0')} Wh` },
-  };
-
+export class EoClaimsTableComponent implements OnInit {
   @Input() loading = false;
   @Input() hasError = false;
 
@@ -90,5 +88,53 @@ export class EoClaimsTableComponent {
   @Input()
   set filter(value: string) {
     this.dataSource.filter = value;
+  }
+
+  dataSource: WattTableDataSource<Claim> = new WattTableDataSource(undefined);
+
+  protected columns: WattTableColumnDef<Claim> = {
+    claimId: { accessor: (x) => x.claimId, header: 'Claim Id' },
+    amount: { accessor: (x) => x.amount },
+    start: {
+      accessor: (x) => x.start,
+      header: 'Start',
+    },
+    end: {
+      accessor: (x) => x.end,
+      header: 'End',
+    },
+  };
+
+  ngOnInit(): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.dataSource.sortData = (data: any[], sort: any) => {
+      const isAsc = sort.direction === 'asc';
+
+      if (!sort.active || sort.direction === '') {
+        return data;
+      } else if (sort.active === 'start' || sort.active === 'end') {
+        return data.sort((a, b) => {
+          return this.compare(
+            a.consumptionCertificate[sort.active],
+            b.consumptionCertificate[sort.active],
+            isAsc
+          );
+        });
+      } else {
+        return data.sort((a, b) => {
+          return this.compare(a[sort.active], b[sort.active], isAsc);
+        });
+      }
+    };
+  }
+
+  compare(a: number, b: number, isAsc: boolean): number {
+    if (a < b) {
+      return isAsc ? -1 : 1;
+    } else if (a > b) {
+      return isAsc ? 1 : -1;
+    } else {
+      return 0;
+    }
   }
 }

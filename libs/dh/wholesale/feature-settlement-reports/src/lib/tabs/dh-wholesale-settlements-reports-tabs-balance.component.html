@@ -15,51 +15,54 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'wholesale.settlementReports'">
-  <watt-card>
-    <watt-card-title>
-      <h3>
-        {{ t("results") }}
-        <span class="watt-chip-label">{{ dataSource.data.length }}</span>
-      </h3>
-    </watt-card-title>
+  <watt-data-table [error]="error">
+    <h3>
+      {{ t("results") }}
+    </h3>
+    <watt-data-filters>
+      <form [formGroup]="searchForm" class="filters">
+        <vater-stack fill="vertical" gap="s" direction="row">
+          <watt-date-range-chip [formControl]="searchForm.controls.period">{{
+            "shared.form.filters.period" | transloco
+          }}</watt-date-range-chip>
 
-    <form [formGroup]="searchForm" class="form-grid watt-space-stack-m">
-      <watt-date-range-chip formControlName="period">{{
-        "shared.form.filters.period" | transloco
-      }}</watt-date-range-chip>
+          <watt-dropdown
+            formControlName="gridAreas"
+            [chipMode]="true"
+            [multiple]="true"
+            [options]="gridAreas"
+            [placeholder]="
+              searchForm.controls.gridAreas.disabled
+                ? t('filters.loadingGridAreas')
+                : t('filters.gridAreasPlaceholder')
+            "
+          />
 
-      <watt-dropdown
-        formControlName="gridAreas"
-        [chipMode]="true"
-        [multiple]="true"
-        [options]="gridAreas"
-        [placeholder]="
-          searchForm.controls.gridAreas.disabled
-            ? t('filters.loadingGridAreas')
-            : t('filters.gridAreasPlaceholder')
-        "
-      />
+          <watt-dropdown
+            formControlName="actor"
+            [chipMode]="true"
+            [options]="actors"
+            [placeholder]="
+              searchForm.controls.actor.disabled
+                ? t('filters.loadingActors')
+                : t('filters.actorPlaceholder')
+            "
+          />
 
-      <watt-dropdown
-        formControlName="actor"
-        [chipMode]="true"
-        [options]="actors"
-        [placeholder]="
-          searchForm.controls.actor.disabled
-            ? t('filters.loadingActors')
-            : t('filters.actorPlaceholder')
-        "
-      />
+          <vater-spacer />
 
-      <watt-button variant="text" icon="undo" type="reset">
-        {{ "shared.form.reset" | transloco }}
-      </watt-button>
-    </form>
+          <watt-button variant="text" icon="undo" type="reset">
+            {{ "shared.form.reset" | transloco }}
+          </watt-button>
+        </vater-stack>
+      </form>
+    </watt-data-filters>
 
     <watt-table
       [dataSource]="dataSource"
       [columns]="columns"
       [selectable]="true"
+      [loading]="loadingGridAreas()"
       sortBy="gridAreaCode"
       sortDirection="asc"
     >
@@ -88,12 +91,11 @@ limitations under the License.
         />
       </ng-container>
       <ng-container *wattTableToolbar="let selection">
-        <ng-container *ngIf="selection.length === 1">
+        @if (selection.length === 1) {
           {{ t("selectedRows.singular", { selectedCount: selection.length }) }}
-        </ng-container>
-        <ng-container *ngIf="selection.length !== 1">
+        } @else {
           {{ t("selectedRows.plural", { selectedCount: selection.length }) }}
-        </ng-container>
+        }
         <watt-table-toolbar-spacer />
         <watt-button
           icon="download"
@@ -103,18 +105,5 @@ limitations under the License.
         </watt-button>
       </ng-container>
     </watt-table>
-
-    <watt-empty-state
-      *ngIf="error"
-      icon="custom-power"
-      [title]="'shared.error.title' | transloco"
-      [message]="'shared.error.message' | transloco"
-    />
-
-    <ng-container>
-      <h4 *ngIf="gridAreas.length === 0" class="no-results-text">
-        {{ t("noEntries") }}
-      </h4>
-    </ng-container>
-  </watt-card>
+  </watt-data-table>
 </ng-container>

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -26,6 +25,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
@@ -55,7 +55,7 @@ import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-fie
   ],
   providers: [DhAdminEditPermissionStore],
   imports: [
-    CommonModule,
+    NgIf,
     TranslocoModule,
     ReactiveFormsModule,
     RxPush,
@@ -75,7 +75,10 @@ export class DhEditPermissionModalComponent implements AfterViewInit, OnChanges 
   private readonly transloco = inject(TranslocoService);
 
   readonly userPermissionsForm = this.formBuilder.group({
-    description: this.formBuilder.nonNullable.control('', [Validators.required]),
+    description: this.formBuilder.nonNullable.control('', [
+      Validators.required,
+      Validators.maxLength(1000),
+    ]),
   });
   readonly isSaving$ = this.store.isSaving$;
 

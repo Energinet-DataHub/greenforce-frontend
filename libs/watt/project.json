@@ -9,15 +9,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/watt"],
       "options": {
-        "jestConfig": "libs/watt/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/watt/jest.config.ts"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": ["libs/watt/src/**/*.ts", "libs/watt/src/**/*.html"]
-      },
       "outputs": ["{options.outputFile}"]
     },
     "storybook": {

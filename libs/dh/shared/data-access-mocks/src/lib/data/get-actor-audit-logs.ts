@@ -14,82 +14,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { graphql } from '@energinet-datahub/dh/shared/domain';
-import { ActorAuditLogType, ContactCategory } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ActorAuditedChange,
+  GetAuditLogByActorIdQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const getActorAuditLogsMock: graphql.GetAuditLogByActorIdQuery = {
+export const getActorAuditLogsMock: GetAuditLogByActorIdQuery = {
   __typename: 'Query',
   actorAuditLogs: [
     {
-      __typename: 'ActorAuditLog',
-      changedByUserName: 'John Doe',
-      currentValue: '',
-      previousValue: '',
-      type: ActorAuditLogType.Created,
-      contactCategory: ContactCategory.Default,
-      timestamp: new Date('2021-08-14T12:30:00'),
-    },
-    {
-      __typename: 'ActorAuditLog',
-      changedByUserName: 'John Doe',
+      __typename: 'ActorAuditedChangeAuditLogDto',
+      auditedBy: 'John Doe',
       currentValue: 'Aktørnavn2',
       previousValue: 'Aktørnavn',
-      type: ActorAuditLogType.Name,
-      contactCategory: ContactCategory.Default,
+      change: ActorAuditedChange.Name,
+      isInitialAssignment: false,
       timestamp: new Date('2021-08-14T12:30:01'),
     },
     {
-      __typename: 'ActorAuditLog',
-      changedByUserName: 'John Doe',
+      __typename: 'ActorAuditedChangeAuditLogDto',
+      auditedBy: 'John Doe',
       currentValue: 'Active',
       previousValue: 'InActive',
-      type: ActorAuditLogType.Status,
-      contactCategory: ContactCategory.Default,
+      change: ActorAuditedChange.Status,
+      isInitialAssignment: false,
       timestamp: new Date('2021-08-14T12:30:02'),
     },
     {
-      __typename: 'ActorAuditLog',
-      changedByUserName: 'John Doe',
-      currentValue: '',
-      previousValue: '',
-      type: ActorAuditLogType.ContactCreated,
-      contactCategory: ContactCategory.Default,
-      timestamp: new Date('2021-08-14T12:31:00'),
-    },
-    {
-      __typename: 'ActorAuditLog',
-      changedByUserName: 'John Doe',
-      currentValue: '',
-      previousValue: '',
-      type: ActorAuditLogType.ContactCreated,
-      contactCategory: ContactCategory.Charges,
-      timestamp: new Date('2021-08-14T12:32:00'),
-    },
-    {
-      __typename: 'ActorAuditLog',
-      changedByUserName: 'John Doe',
+      __typename: 'ActorAuditedChangeAuditLogDto',
+      auditedBy: 'John Doe',
       currentValue: 'MyAndMe',
       previousValue: 'MeAndMy',
-      type: ActorAuditLogType.ContactName,
-      contactCategory: ContactCategory.Charges,
+      change: ActorAuditedChange.ContactName,
+      isInitialAssignment: false,
       timestamp: new Date('2021-08-14T12:32:04'),
     },
     {
-      __typename: 'ActorAuditLog',
-      changedByUserName: 'John Doe',
-      currentValue: '',
-      previousValue: '',
-      type: ActorAuditLogType.ContactDeleted,
-      contactCategory: ContactCategory.Charges,
-      timestamp: new Date('2021-08-14T12:32:05'),
-    },
-    {
-      __typename: 'ActorAuditLog',
-      changedByUserName: 'John Doe',
+      __typename: 'ActorAuditedChangeAuditLogDto',
+      auditedBy: 'John Doe',
       currentValue: 'Aktør kontakt 2',
       previousValue: 'Aktør kontakt 1',
-      type: ActorAuditLogType.ContactName,
-      contactCategory: ContactCategory.Default,
+      change: ActorAuditedChange.ContactName,
+      isInitialAssignment: false,
       timestamp: new Date('2021-08-14T12:32:06'),
     },
   ],

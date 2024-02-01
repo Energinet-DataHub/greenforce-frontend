@@ -14,8 +14,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Energinet.DataHub.MarketParticipant.Client;
-using Energinet.DataHub.MarketParticipant.Client.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -24,9 +23,9 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class MarketParticipantActorQueryController : MarketParticipantControllerBase
     {
-        private readonly IMarketParticipantClient _client;
+        private readonly IMarketParticipantClient_V1 _client;
 
-        public MarketParticipantActorQueryController(IMarketParticipantClient client)
+        public MarketParticipantActorQueryController(IMarketParticipantClient_V1 client)
         {
             _client = client;
         }
@@ -35,9 +34,9 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Retrieves all actors available for selection by the user
         /// </summary>
         [HttpGet("GetSelectionActors")]
-        public Task<ActionResult<IEnumerable<SelectionActorDto>>> GetSelectionActorsAsync()
+        public Task<ActionResult<ICollection<SelectionActorDto>>> GetSelectionActorsAsync()
         {
-            return HandleExceptionAsync(() => _client.GetSelectionActorsAsync());
+            return HandleExceptionAsync(() => _client.QuerySelectionActorsAsync());
         }
     }
 }

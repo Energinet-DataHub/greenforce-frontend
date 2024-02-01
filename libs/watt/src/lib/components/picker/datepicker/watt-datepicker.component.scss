@@ -16,11 +16,19 @@
  */
 @use "../shared/picker" as *;
 
-watt-datepicker {
+watt-datepicker,
+watt-datepicker-v2 {
   @extend %datepicker;
 
   watt-button .mat-button {
     background: transparent;
+  }
+}
+
+watt-datepicker {
+  .mat-date-range-input-separator-hidden,
+  .mat-date-range-input-separator {
+    opacity: 1 !important;
   }
 }
 

@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
-import { WATT_STEPPER } from '..';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+
+import { WATT_STEPPER } from '..';
 import { WattButtonComponent } from '../../button';
 import { WattIconComponent } from '../../../foundations/icon';
 import { WattTextFieldComponent } from '../../text-field/watt-text-field.component';
 import { WattFieldErrorComponent } from '../../field/watt-field-error.component';
-import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
 import { WattModalComponent } from '../../modal/watt-modal.component';
 import { StepperExampleComponent } from './stepper.example.component';
 
@@ -40,7 +40,6 @@ import { StepperExampleComponent } from './stepper.example.component';
     WattModalComponent,
     StepperExampleComponent,
     MatButtonModule,
-    CommonModule,
   ],
 })
 export class StepperModalExampleComponent {

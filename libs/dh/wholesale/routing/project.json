@@ -9,18 +9,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/wholesale/routing"],
       "options": {
-        "jestConfig": "libs/dh/wholesale/routing/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/dh/wholesale/routing/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/dh/wholesale/routing/src/**/*.ts",
-          "libs/dh/wholesale/routing/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["product:dh", "domain:wholesale", "type:routing"]

@@ -31,6 +31,7 @@ import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities
         position: relative;
         z-index: 100;
         background: var(--watt-color-neutral-white);
+        overflow: hidden;
       }
 
       .content {
@@ -93,7 +94,7 @@ import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities
           </a>
         </p>
 
-        <ng-content></ng-content>
+        <ng-content />
       </div>
 
       <div class="watt-space-stack-m">
@@ -113,7 +114,7 @@ import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities
         </p>
         <p class="watt-space-stack-s">
           <a href="mailto:datahub@energinet.dk" aria-label="email" class="contact-link">
-            datahub@energinet.dk
+            datahub&#64;energinet.dk
           </a>
         </p>
       </div>

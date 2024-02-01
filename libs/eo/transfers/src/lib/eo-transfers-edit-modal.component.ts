@@ -24,19 +24,20 @@ import {
   inject,
   OnChanges,
   SimpleChanges,
+  EventEmitter,
+  Output,
+  signal,
 } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
-import { EoListedTransfer } from './eo-transfers.service';
+import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
 import {
   EoTransfersFormComponent,
   EoTransfersFormInitialValues,
 } from './form/eo-transfers-form.component';
-import { EoExistingTransferAgreement, EoTransfersStore } from './eo-transfers.store';
-import { Observable, of } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,12 +50,12 @@ import { Observable, of } from 'rxjs';
       title="Edit transfer agreement"
       size="small"
       closeLabel="Close modal"
-      [loading]="patchingTransfer$ | push"
+      [loading]="editTransferAgreementState().loading"
       (closed)="onClosed()"
       *ngIf="opened"
     >
       <watt-validation-message
-        *ngIf="patchingTransferError$ | push"
+        *ngIf="editTransferAgreementState().error"
         label="Oops!"
         message="Something went wrong. Please try again."
         icon="danger"
@@ -65,10 +66,11 @@ import { Observable, of } from 'rxjs';
       <eo-transfers-form
         submitButtonText="Save"
         mode="edit"
+        [transferId]="transfer?.id"
+        [transferAgreements]="transferAgreements"
         [editableFields]="['endDate']"
-        [existingTransferAgreements]="existingTransferAgreements$ | push"
         [initialValues]="initialValues"
-        (submitted)="saveTransferAgreement($event)"
+        (submitted)="onSubmit($event)"
         (canceled)="modal.close(false)"
       />
     </watt-modal>
@@ -78,16 +80,20 @@ export class EoTransfersEditModalComponent implements OnChanges {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
   @Input() transfer?: EoListedTransfer;
+  @Input() transferAgreements: EoListedTransfer[] = [];
+
+  @Output() save = new EventEmitter();
 
   protected opened = false;
   protected initialValues!: EoTransfersFormInitialValues;
-  protected existingTransferAgreements$: Observable<EoExistingTransferAgreement[]> = of([]);
 
-  private store = inject(EoTransfersStore);
+  private transfersService = inject(EoTransfersService);
   private cd = inject(ChangeDetectorRef);
 
-  protected patchingTransfer$ = this.store.patchingTransfer$;
-  protected patchingTransferError$ = this.store.patchingTransferError$;
+  protected editTransferAgreementState = signal<{ loading: boolean; error: boolean }>({
+    loading: false,
+    error: false,
+  });
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['transfer'] && this.transfer) {
@@ -107,26 +113,27 @@ export class EoTransfersEditModalComponent implements OnChanges {
     this.opened = true;
     this.cd.detectChanges();
     this.modal.open();
+  }
 
+  onSubmit(values: { period: { endDate: number | null; hasEndDate: boolean } }) {
     if (!this.transfer) return;
-    this.existingTransferAgreements$ = this.store.getExistingTransferAgreements$(
-      this.transfer.receiverTin,
-      this.transfer.id
-    );
+
+    this.editTransferAgreementState.set({ loading: true, error: false });
+
+    const { endDate } = values.period;
+    this.transfersService.updateAgreement(this.transfer.id, endDate).subscribe({
+      next: () => {
+        this.modal.close(true);
+        this.editTransferAgreementState.set({ loading: false, error: false });
+        this.save.emit({ ...values, id: this.transfer?.id });
+      },
+      error: () => {
+        this.editTransferAgreementState.set({ loading: false, error: true });
+      },
+    });
   }
 
   onClosed() {
     this.opened = false;
-    this.store.setPatchingTransferError(null);
-  }
-
-  saveTransferAgreement(values: { period: { endDate: number | null; hasEndDate: boolean } }) {
-    const { endDate } = values.period;
-    this.store.patchSelectedTransfer({
-      endDate,
-      onSuccess: () => {
-        this.modal.close(true);
-      },
-    });
   }
 }

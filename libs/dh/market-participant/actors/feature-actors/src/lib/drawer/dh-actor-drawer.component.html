@@ -69,6 +69,7 @@ limitations under the License.
               />
 
               <watt-description-list-item
+                *ngIf="isGridAccessProvider"
                 [label]="t('tabs.masterData.gridArea')"
                 [value]="gridAreaOrFallback"
               />
@@ -81,12 +82,14 @@ limitations under the License.
           </watt-card>
         </watt-tab>
 
-        <watt-tab
-          [label]="t('tabs.b2bAccess.tabLabel')"
-          *dhPermissionRequired="['actor-credentials:manage']"
-        >
-          <dh-b2b-access-tab [actorId]="actor?.id" />
-        </watt-tab>
+        @if (hasActorAccess) {
+          <watt-tab
+            [label]="t('tabs.b2bAccess.tabLabel')"
+            *dhPermissionRequired="['actor-credentials:manage']"
+          >
+            <dh-b2b-access-tab [actorId]="actor?.id" />
+          </watt-tab>
+        }
 
         <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
           <vater-stack [fill]="'horizontal'" [align]="'center'">
@@ -112,25 +115,39 @@ limitations under the License.
               </ng-container>
               <ng-container *wattTableCell="auditLogColumns['currentValue']; let entry">
                 <div
-                  *ngIf="entry.type !== 'CLIENT_SECRET_CREDENTIALS'"
+                  *ngIf="entry.change !== 'CLIENT_SECRET_CREDENTIALS' && entry.change !== 'STATUS'"
                   [innerHTML]="
                     t(
                       'tabs.history.changeTypes.' +
-                        entry.type +
+                        entry.change +
                         (entry.previousValue ? '' : '_NO_PREVIOUS'),
                       entry
                     )
                   "
                 ></div>
                 <div
-                  *ngIf="entry.type === 'CLIENT_SECRET_CREDENTIALS'"
+                  *ngIf="entry.change === 'STATUS'"
                   [innerHTML]="
                     t(
                       'tabs.history.changeTypes.' +
-                        entry.type +
+                        entry.change +
                         (entry.previousValue ? '' : '_NO_PREVIOUS'),
                       {
-                        changedByUserName: entry.changedByUserName,
+                        auditedBy: entry.auditedBy,
+                        status: t('tabs.history.status.' + entry.currentValue)
+                      }
+                    )
+                  "
+                ></div>
+                <div
+                  *ngIf="entry.change === 'CLIENT_SECRET_CREDENTIALS'"
+                  [innerHTML]="
+                    t(
+                      'tabs.history.changeTypes.' +
+                        entry.change +
+                        (entry.previousValue ? '' : '_NO_PREVIOUS'),
+                      {
+                        auditedBy: entry.auditedBy,
                         currentValue: entry.currentValue | wattDate,
                         previousValue: entry.previousValue | wattDate
                       }

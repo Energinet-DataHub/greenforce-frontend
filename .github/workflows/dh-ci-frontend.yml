@@ -25,7 +25,7 @@ env:
   NODE_OPTIONS: --max-old-space-size=6144
   NODE_VERSION_FILE: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  YARN_VERSION: 3.5.0
+  YARN_VERSION: 4.0.2
 
 jobs:
   #
@@ -37,15 +37,16 @@ jobs:
       RELEASE_VERSION: ui_frontend_${{ github.event.number }}
       RELEASE_FOLDER_PATH: ${{ github.workspace }}/ui_frontend_${{ github.event.number }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Production build
         run: yarn nx build ${{ env.APP_NAME }}
@@ -56,8 +57,9 @@ jobs:
       - name: Setup Release
         shell: bash
         run: |
-          mkdir -p ${{ env.RELEASE_FOLDER_PATH }}
-          cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }} ${{ env.RELEASE_FOLDER_PATH }}
+          mkdir -p ${{ env.RELEASE_FOLDER_PATH }}/${{ env.APP_NAME }}
+          cp ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/3rdpartylicenses.txt ${{ env.RELEASE_FOLDER_PATH }}/${{ env.APP_NAME }}
+          cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/browser/* ${{ env.RELEASE_FOLDER_PATH }}/${{ env.APP_NAME }}
           cp -R ${{ github.workspace }}/apps/dh/e2e-dh ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Zip artifact
@@ -89,7 +91,7 @@ jobs:
       # needed to push to origin
       - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.IS_PULL_REQUEST == 'true' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -97,15 +99,16 @@ jobs:
 
       - name: "Merge: Check out source code"
         if: ${{ env.IS_MAIN_BRANCH == 'true' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ${{ env.NODE_VERSION_FILE }}
+          cache: yarn
 
-      - name: 📥 Monorepo install
-        uses: ./.github/actions/yarn-nm-install
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Generate API client
         run: yarn nx run api-dh:build-client

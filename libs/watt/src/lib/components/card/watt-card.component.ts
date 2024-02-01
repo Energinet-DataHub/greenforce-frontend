@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { WattCardTitleComponent } from './watt-card-title.component';
 /**
  * Usage:
@@ -43,7 +43,6 @@ import { WattCardTitleComponent } from './watt-card-title.component';
 
     <ng-content />
   `,
-  imports: [CommonModule],
   standalone: true,
 })
 export class WattCardComponent {
