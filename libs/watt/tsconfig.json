@@ -10,6 +10,9 @@
       "path": "./tsconfig.spec.json"
     },
     {
+      "path": "./tsconfig.webworker.json"
+    },
+    {
       "path": "./.storybook/tsconfig.json"
     }
   ],
