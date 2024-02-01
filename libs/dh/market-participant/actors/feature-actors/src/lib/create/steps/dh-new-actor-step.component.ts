@@ -79,6 +79,7 @@ import { ActorForm } from '../dh-actor-form.model';
       <watt-text-field
         [formControl]="newActorForm.controls.glnOrEicNumber"
         [label]="t('glnOrEicNumber')"
+        [trimOutput]="true"
       >
         <watt-field-hint>{{ t('glnOrEicHint') }}</watt-field-hint>
         <watt-field-error *ngIf="newActorForm.controls.glnOrEicNumber.hasError('invalidGlnOrEic')">
@@ -90,6 +91,7 @@ import { ActorForm } from '../dh-actor-form.model';
         [formControl]="newActorForm.controls.name"
         [label]="t('name')"
         [tooltip]="t('tooltip')"
+        [trimOutput]="true"
       />
       <watt-dropdown
         translate="marketParticipant.marketRoles"
@@ -114,10 +116,12 @@ import { ActorForm } from '../dh-actor-form.model';
       <watt-text-field
         [formControl]="newActorForm.controls.contact.controls.departmentOrName"
         [label]="t('departmentOrName')"
+        [trimOutput]="true"
       />
       <watt-text-field
         [formControl]="newActorForm.controls.contact.controls.email"
         [label]="t('email')"
+        [trimOutput]="true"
       >
         <watt-field-error *ngIf="newActorForm.controls.contact.controls.email.hasError('pattern')">
           {{ t('wrongEmailPattern') }}

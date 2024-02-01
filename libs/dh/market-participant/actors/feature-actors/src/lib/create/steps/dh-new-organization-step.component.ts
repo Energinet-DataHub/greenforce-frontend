@@ -77,6 +77,7 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
       <watt-text-field
         [formControl]="newOrganizationForm.controls.cvrNumber"
         [label]="t('cvrNumber')"
+        [trimOutput]="true"
       >
         <watt-field-error
           *ngIf="newOrganizationForm.controls.cvrNumber.hasError('invalidCvrNumber')"
@@ -89,11 +90,13 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
       <watt-text-field
         [formControl]="newOrganizationForm.controls.companyName"
         [label]="t('companyName')"
+        [trimOutput]="true"
       />
       <watt-text-field
         [prefix]="'alternateEmail'"
         [formControl]="newOrganizationForm.controls.domain"
         [label]="t('domain')"
+        [trimOutput]="true"
       >
         <watt-field-error *ngIf="newOrganizationForm.controls.domain.hasError('pattern')">
           {{ t('domainInvalid') }}

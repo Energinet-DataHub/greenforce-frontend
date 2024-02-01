@@ -127,6 +127,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   @Input() formControl!: FormControl;
   @Input() autocompleteOptions!: string[];
   @Input() autocompleteMatcherFn!: (value: string, option: string) => boolean;
+  @Input() trimOutput = false;
 
   @ViewChild(MatAutocomplete) autocompleteRef!: MatAutocomplete;
 
@@ -153,11 +154,20 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
 
+  onTouchedCallbacks: (() => void)[] = [];
+
   ngAfterViewInit(): void {
     const attrName = 'data-testid';
     const testIdAttribute = this.element.nativeElement.getAttribute(attrName);
     this.element.nativeElement.removeAttribute(attrName);
     this.inputField.nativeElement.setAttribute(attrName, testIdAttribute);
+    if (this.trimOutput) {
+      this.registerOnTouched(() => {
+        const trimmedValue = this.inputField.nativeElement.value.trim();
+        this.inputField.nativeElement.value = trimmedValue;
+        this.formControl.setValue(trimmedValue);
+      });
+    }
   }
 
   onChanged(event: Event): void {
@@ -190,7 +200,9 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   };
 
   onTouched: () => void = () => {
-    /* noop function */
+    for (const callback of this.onTouchedCallbacks) {
+      callback();
+    }
   };
 
   /* @ignore */
@@ -205,7 +217,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
 
   /* @ignore */
   registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
+    this.onTouchedCallbacks.push(fn);
   }
 
   /* @ignore */
