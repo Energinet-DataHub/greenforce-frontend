@@ -91,7 +91,8 @@ describe('EO - Transferred Chart', () => {
 
     getHeadline().then((headline) => {
       const headlineText = headline.text();
-      const percentage = headlineText.match(/\d+%/)?.[0];
+      const percentageMatch = headlineText.match(/\d+%$/);
+      const percentage = percentageMatch ? percentageMatch[0] : '';
       getTransferredLegend().should('contain', percentage);
     });
   });
