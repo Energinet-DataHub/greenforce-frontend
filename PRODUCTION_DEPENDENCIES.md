@@ -20,8 +20,8 @@
 | [@maskito/core](https://github.com/taiga-family/maskito) | 2.0.0 | Apache-2.0 |
 | [@maskito/kit](https://github.com/taiga-family/maskito) | 2.0.0 | Apache-2.0 |
 | [@maskito/phone](https://github.com/taiga-family/maskito) | 2.0.0 | Apache-2.0 |
-| [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 3.0.2 | MIT |
-| [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.12 | MIT |
+| [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 15.0.1 | MIT |
+| [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 3.0.7 | MIT |
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
 | [@ngrx/component-store](https://github.com/ngrx/platform) | 17.0.1 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.7 | MIT |
