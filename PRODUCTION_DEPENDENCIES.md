@@ -30,7 +30,6 @@
 | [@vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 5.0.2 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 4.4.0 | MIT |
-| [comlink](https://github.com/GoogleChromeLabs/comlink) | 4.4.1 | Apache-2.0 |
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.8.1 | MIT |
