@@ -127,7 +127,6 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   @Input() formControl!: FormControl;
   @Input() autocompleteOptions!: string[];
   @Input() autocompleteMatcherFn!: (value: string, option: string) => boolean;
-  @Input() trimOutput = false;
 
   @ViewChild(MatAutocomplete) autocompleteRef!: MatAutocomplete;
 
@@ -161,13 +160,11 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
     const testIdAttribute = this.element.nativeElement.getAttribute(attrName);
     this.element.nativeElement.removeAttribute(attrName);
     this.inputField.nativeElement.setAttribute(attrName, testIdAttribute);
-    if (this.trimOutput) {
-      this.registerOnTouched(() => {
-        const trimmedValue = this.inputField.nativeElement.value.trim();
-        this.inputField.nativeElement.value = trimmedValue;
-        this.formControl.setValue(trimmedValue);
-      });
-    }
+    this.registerOnTouched(() => {
+      const trimmedValue = this.inputField.nativeElement.value.trim();
+      this.inputField.nativeElement.value = trimmedValue;
+      this.formControl.setValue(trimmedValue);
+    });
   }
 
   onChanged(event: Event): void {
