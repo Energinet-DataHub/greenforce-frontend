@@ -19,6 +19,8 @@ import {
   mockGetOutgoingMessagesQuery,
   mockGetOutgoingMessageByIdQuery,
   mockGetBalanceResponsibleMessagesQuery,
+  mockGetServiceStatusQuery,
+  mockGetMeteringGridAreaImbalanceQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -26,6 +28,8 @@ import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import { eSettExchangeEvents } from './data/esett-exchange-events';
 import { eSettDetailedExchangeEvents } from './data/esett-detailed-exchange-events';
 import { eSettBalanceResponsibleMessages } from './data/esett-balance-responsible-messages';
+import { mgaImbalanceSearchResponseQueryMock } from './data/esett/mga-imbalance-search-response-query';
+import { serviceStatusQueryMock } from './data/esett/service-status-query';
 
 export function eSettMocks(apiBase: string) {
   return [
@@ -34,7 +38,9 @@ export function eSettMocks(apiBase: string) {
     getResponseDocument(apiBase),
     getDispatchDocument(apiBase),
     getBalanceResponsibleMessagesQuery(),
+    getMeteringGridAreaImbalanceQuery(),
     getStorageDocumentLink(apiBase),
+    getServiceStatusQuery(),
   ];
 }
 
@@ -119,6 +125,26 @@ function getBalanceResponsibleMessagesQuery() {
           page: eSettBalanceResponsibleMessages,
         },
       },
+    });
+  });
+}
+
+function getMeteringGridAreaImbalanceQuery() {
+  return mockGetMeteringGridAreaImbalanceQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: mgaImbalanceSearchResponseQueryMock,
+    });
+  });
+}
+
+function getServiceStatusQuery() {
+  return mockGetServiceStatusQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: serviceStatusQueryMock,
     });
   });
 }
