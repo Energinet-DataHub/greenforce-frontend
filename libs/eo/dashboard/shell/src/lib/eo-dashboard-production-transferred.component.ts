@@ -167,6 +167,9 @@ interface Totals {
       />
     </watt-card-title>
 
+    <p>current timestamp: {{ currentTimestamp }}</p>
+    <p>current timezone: {{ currentTimezone }}</p>
+
     @if (isLoading || hasError) {
       <div class="loader-container">
         @if (isLoading) {
@@ -241,6 +244,9 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
   private aggregateService = inject(EoAggregateService);
 
   private labels = this.generateLabels();
+
+  protected currentTimestamp: string = new Date().toISOString();
+  protected currentTimezone: string = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   protected totals: Totals = {
     transferred: 0,
