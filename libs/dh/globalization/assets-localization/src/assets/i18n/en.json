@@ -649,6 +649,12 @@
     },
     "outgoingMessages": {
       "tabHeading": "Outgoing messages",
+      "status": {
+        "INGESTION": "Status for ingestion of messages.",
+        "CONVERTER": "Status for conversion of messages.",
+        "SENDER": "Status for sending messages to eSett.",
+        "RECEIVER": "Status for receiving messages from eSett."
+      },
       "shared": {
         "calculationType": {
           "BALANCE_FIXING": "Balance fixing",

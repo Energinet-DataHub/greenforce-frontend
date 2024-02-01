@@ -20,6 +20,16 @@ limitations under the License.
       <h3>{{ t("tabHeading") }}</h3>
       <span class="watt-chip-label">{{ totalCount }}</span>
 
+      <div class="health-icons" *rxLet="serviceStatus$ as serviceStatus">
+        @for (status of serviceStatus; track status) {
+          @if (status.isReady) {
+            <watt-icon name="success" [title]="t('status.' + status.component)" />
+          } @else {
+            <watt-icon name="danger" [title]="t('status.' + status.component)" />
+          }
+        }
+      </div>
+
       <vater-spacer />
 
       <watt-search

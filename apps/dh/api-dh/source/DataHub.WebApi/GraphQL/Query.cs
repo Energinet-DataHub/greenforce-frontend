@@ -213,6 +213,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
             return actors.Where(x => x.MarketRoles.Any(y => eicFunctions.Contains(y.EicFunction)));
         }
 
+        public async Task<IEnumerable<ReadinessStatusDto>> GetEsettServiceStatusAsync(
+            [Service] IESettExchangeClient_V1 client) => await client.StatusAsync();
+
         public Task<ExchangeEventTrackingResult> GetEsettOutgoingMessageByIdAsync(
             string documentId,
             [Service] IESettExchangeClient_V1 client) =>
@@ -377,11 +380,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
             Controllers.MarketParticipant.Dto.PriceAreaCode areaCode,
             [Service] IImbalancePricesClient_V1 client)
         {
-            var parsedAreaCode = areaCode switch {
-                    Controllers.MarketParticipant.Dto.PriceAreaCode.Dk1 => PriceAreaCode.AreaCode1,
-                    Controllers.MarketParticipant.Dto.PriceAreaCode.Dk2 => PriceAreaCode.AreaCode2,
-                    _ => throw new ArgumentOutOfRangeException(nameof(areaCode)),
-                };
+            var parsedAreaCode = areaCode switch
+            {
+                Controllers.MarketParticipant.Dto.PriceAreaCode.Dk1 => PriceAreaCode.AreaCode1,
+                Controllers.MarketParticipant.Dto.PriceAreaCode.Dk2 => PriceAreaCode.AreaCode2,
+                _ => throw new ArgumentOutOfRangeException(nameof(areaCode)),
+            };
 
             return await client.GetByMonthAsync(
                 year,
