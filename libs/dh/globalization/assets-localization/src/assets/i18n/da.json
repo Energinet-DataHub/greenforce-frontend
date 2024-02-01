@@ -648,6 +648,12 @@
     },
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
+      "status": {
+        "INGESTION": "Status på indlæsning af beskeder.",
+        "CONVERTER": "Status på konvertering til NBS beskeder.",
+        "SENDER": "Status på afsendelse til eSett.",
+        "RECEIVER": "Status på modtagelse fra eSett."
+      },
       "shared": {
         "calculationType": {
           "BALANCE_FIXING": "Balancefiksering",
@@ -770,7 +776,7 @@
     "drawer": {
       "priceAreaLabel": "Prisområde",
       "updatedLabel": "Indlæst",
-      "pricesNote": "Priser angivet i DKK for kWh",
+      "pricesNote": "Prisen er angivet i DKK/kWh",
       "download": "Download",
       "downloadStart": "Starter download...",
       "downloadFailed": "Download fejlede"

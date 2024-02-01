@@ -24,7 +24,10 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { GetOutgoingMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetOutgoingMessagesDocument,
+  GetServiceStatusDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
@@ -41,6 +44,8 @@ import { DhOutgoingMessage } from './dh-outgoing-message';
 import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { RxLet } from '@rx-angular/template/let';
 
 @Component({
   standalone: true,
@@ -56,6 +61,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         margin: 0;
       }
 
+      .health-icons {
+        display: flex;
+        flex-direction: row;
+      }
+
       watt-paginator {
         --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
 
@@ -69,11 +79,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     TranslocoDirective,
     TranslocoPipe,
     RxPush,
+    RxLet,
 
     WATT_CARD,
     WattPaginatorComponent,
     WattButtonComponent,
     WattSearchComponent,
+    WattIconComponent,
     VaterFlexComponent,
     VaterSpacerComponent,
     VaterStackComponent,
@@ -106,6 +118,18 @@ export class DhOutgoingMessagesComponent implements OnInit {
       end: endOfDay(new Date()),
     },
   });
+
+  serviceStatus$ = this._apollo
+    .watchQuery({
+      useInitialLoading: true,
+      notifyOnNetworkStatusChange: true,
+      fetchPolicy: 'cache-and-network',
+      query: GetServiceStatusDocument,
+    })
+    .valueChanges.pipe(
+      takeUntilDestroyed(),
+      map(({ data }) => data?.esettServiceStatus ?? [])
+    );
 
   documentIdSearch$ = new BehaviorSubject<string>('');
 
