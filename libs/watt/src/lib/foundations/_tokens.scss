@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Thu, 01 Feb 2024 12:11:44 GMT
+ * Generated on Thu, 01 Feb 2024 12:20:54 GMT
  */
 
 :root {
@@ -10,15 +10,18 @@
   --action-border-radius: 2.5rem;
   --action-typography-font-size: 0.875rem;
   --action-typography-font-family: 'Open Sans', sans-serif;
-  --size-100: 0.875rem;
-  --size-150: 1.5rem;
-  --size-250: 2.5rem;
-  --size-300: 3rem;
-  --spacing-150: 1.5rem;
-  --color-primary-500: #00847c;
-  --border-radius-250: 2.5rem;
-  --font-size-100: 0.875rem;
-  --font-family-body: 'Open Sans', sans-serif;
+  --action-typography-font-weight: 600;
+  --core-size-100: 0.875rem;
+  --core-size-150: 1.5rem;
+  --core-size-250: 2.5rem;
+  --core-size-300: 3rem;
+  --core-spacing-150: 1.5rem;
+  --core-color-primary-500: #00847C;
+  --core-border-radius-250: 2.5rem;
+  --core-font-size-100: 0.875rem;
+  --core-font-family-body: 'Open Sans', sans-serif;
+  --core-typography-body-font-family: Open Sans;
+  --core-font-weight-400: 600;
   --token-set-order-0: core;
   --token-set-order-1: semantic;
 }
