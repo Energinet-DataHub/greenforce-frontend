@@ -25,7 +25,7 @@ using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate;
 using Microsoft.AspNetCore.Http;
 using NodaTime;
-using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
+using WholesaleCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -116,34 +116,34 @@ namespace Energinet.DataHub.WebApi.GraphQL
             [Service] IMarketParticipantClient_V1 client) =>
             client.GridAreaGetAsync();
 
-        public Task<BatchDto> GetCalculationByIdAsync(
+        public Task<CalculationDto> GetCalculationByIdAsync(
             Guid id,
             [Service] IWholesaleClient_V3 client) =>
-            client.GetBatchAsync(id);
+            client.GetCalculationAsync(id);
 
-        public async Task<IEnumerable<BatchDto>> GetCalculationsAsync(
+        public async Task<IEnumerable<CalculationDto>> GetCalculationsAsync(
             Interval? executionTime,
-            BatchState[]? executionStates,
-            ProcessType[]? processTypes,
+            CalculationState[]? executionStates,
+            WholesaleCalculationType[]? processTypes,
             string[]? gridAreaCodes,
             Interval? period,
             int? first,
             [Service] IWholesaleClient_V3 client)
         {
-            executionStates ??= Array.Empty<BatchState>();
-            processTypes ??= Array.Empty<ProcessType>();
+            executionStates ??= Array.Empty<CalculationState>();
+            processTypes ??= Array.Empty<WholesaleCalculationType>();
             var minExecutionTime = executionTime?.Start.ToDateTimeOffset();
             var maxExecutionTime = executionTime?.End.ToDateTimeOffset();
             var periodStart = period?.Start.ToDateTimeOffset();
             var periodEnd = period?.End.ToDateTimeOffset();
 
             // The API only allows for a single execution state to be specified
-            BatchState? executionState = executionStates.Length == 1 ? executionStates[0] : null;
+            CalculationState? executionState = executionStates.Length == 1 ? executionStates[0] : null;
 
-            var batches = (await client.SearchBatchesAsync(gridAreaCodes, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd))
+            var batches = (await client.SearchCalculationsAsync(gridAreaCodes, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd))
                 .OrderByDescending(x => x.ExecutionTimeStart)
                 .Where(x => executionStates.Length <= 1 || executionStates.Contains(x.ExecutionState))
-                .Where(x => processTypes.Length == 0 || processTypes.Contains(x.ProcessType));
+                .Where(x => processTypes.Length == 0 || processTypes.Contains(x.CalculationType));
 
             return first is not null ? batches.Take(first.Value) : batches;
         }
@@ -163,7 +163,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             var periodEnd = period?.HasEnd == true ? period?.End.ToDateTimeOffset() : null;
 
             var gridAreasTask = marketParticipantClient.GridAreaGetAsync();
-            var batchesTask = wholesaleClient.SearchBatchesAsync(gridAreaCodes, BatchState.Completed, minExecutionTime, maxExecutionTime, periodStart, periodEnd);
+            var batchesTask = wholesaleClient.SearchCalculationsAsync(gridAreaCodes, CalculationState.Completed, minExecutionTime, maxExecutionTime, periodStart, periodEnd);
             var batches = await batchesTask;
             var gridAreas = await gridAreasTask;
 
@@ -172,8 +172,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 var settlementReports = batch.GridAreaCodes
                     .Where(gridAreaCode => gridAreaCodes.Length == 0 || gridAreaCodes.Contains(gridAreaCode))
                     .Select(gridAreaCode => new SettlementReport(
-                        batch.BatchId,
-                        ProcessType.BalanceFixing,
+                        batch.CalculationId,
+                        WholesaleCalculationType.BalanceFixing,
                         gridAreas.First(gridArea => gridArea.Code == gridAreaCode),
                         new Interval(
                             Instant.FromDateTimeOffset(batch.PeriodStart),
