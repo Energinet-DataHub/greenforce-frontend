@@ -15,7 +15,7 @@ name: DH UI Frontend Healthchecks
 env:
   node-version-file: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  yarn-version: 3.5.0
+  yarn-version: 4.0.2
   # See https://github.com/cypress-io/cypress/issues/25357
   ELECTRON_EXTRA_LAUNCH_ARGS: --disable-gpu
 on:

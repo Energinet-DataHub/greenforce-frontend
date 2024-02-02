@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { delay, http, HttpResponse } from 'msw';
+import { DefaultBodyType, delay, http, HttpResponse, StrictResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import actors from './data/messageArchiveActors.json';
 import { messageArchiveSearchResponseLogs } from './data/messageArchiveSearchResponseLogs';
-import { document } from './data/message-archived-document';
+import { document, documentJson } from './data/message-archived-document';
 
 export function messageArchiveMocks(apiBase: string) {
   return [archivedMessageSearch(apiBase), getActors(apiBase), getDocument(apiBase)];
@@ -41,8 +41,16 @@ export function getActors(apiBase: string) {
 }
 
 export function getDocument(apiBase: string) {
-  return http.get(`${apiBase}/v1/MessageArchive/:id/Document`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(document, { status: 200 });
-  });
+  return http.get(
+    `${apiBase}/v1/MessageArchive/:id/Document`,
+    async (): Promise<StrictResponse<DefaultBodyType>> => {
+      await delay(mswConfig.delay);
+      const random = Math.floor(Math.random() * 1000);
+
+      console.log(random);
+      return random % 2 === 0
+        ? HttpResponse.text(document, { headers: { 'Content-Type': 'text/xml' } })
+        : HttpResponse.json(documentJson, { headers: { 'Content-Type': 'application/json' } });
+    }
+  );
 }

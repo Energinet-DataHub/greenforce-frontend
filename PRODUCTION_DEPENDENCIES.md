@@ -20,8 +20,8 @@
 | [@maskito/core](https://github.com/taiga-family/maskito) | 2.0.0 | Apache-2.0 |
 | [@maskito/kit](https://github.com/taiga-family/maskito) | 2.0.0 | Apache-2.0 |
 | [@maskito/phone](https://github.com/taiga-family/maskito) | 2.0.0 | Apache-2.0 |
-| [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 3.0.2 | MIT |
-| [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.12 | MIT |
+| [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 15.0.1 | MIT |
+| [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 3.0.7 | MIT |
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
 | [@ngrx/component-store](https://github.com/ngrx/platform) | 17.0.1 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.7 | MIT |
@@ -33,13 +33,13 @@
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.8.1 | MIT |
+| [highlight.js](https://github.com/highlightjs/highlight.js) | 11.9.0 | BSD-3-Clause |
 | [include-media](https://github.com/eduardoboucas/include-media) | 2.0.0 | MIT |
 | [inputmask](https://github.com/RobinHerbots/Inputmask) | 5.0.7 | MIT |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 3.1.2 | MIT |
 | [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.10.54 | MIT |
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 5.0.3 | MIT |
-| [ngx-highlightjs](https://github.com/murhafsousli/ngx-highlightjs) | 10.0.0 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 7.0.5 | MIT |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.0 | Apache-2.0 |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
