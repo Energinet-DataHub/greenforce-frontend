@@ -215,6 +215,9 @@
       "@energinet-datahub/dh/wholesale/shell": [
         "libs/dh/wholesale/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/activity-log/shell": [
+        "libs/eo/activity-log/shell/src/index.ts"
+      ],
       "@energinet-datahub/eo/auth/routing-security": [
         "libs/eo/auth/routing-security/src/index.ts"
       ],

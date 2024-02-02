@@ -84,6 +84,9 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       <watt-nav-list-item link="{{ routes.transfer }}" onFeatureFlag="certificates">
         Transfers
       </watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.activityLog }}">
+        Activity Log
+      </watt-nav-list-item>
     </watt-nav-list>
 
     <section class="userinfo">
