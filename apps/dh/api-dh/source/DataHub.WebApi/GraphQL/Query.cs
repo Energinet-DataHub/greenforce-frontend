@@ -124,14 +124,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public async Task<IEnumerable<CalculationDto>> GetCalculationsAsync(
             Interval? executionTime,
             CalculationState[]? executionStates,
-            WholesaleCalculationType[]? processTypes,
+            WholesaleCalculationType[]? calculationTypes,
             string[]? gridAreaCodes,
             Interval? period,
             int? first,
             [Service] IWholesaleClient_V3 client)
         {
             executionStates ??= Array.Empty<CalculationState>();
-            processTypes ??= Array.Empty<WholesaleCalculationType>();
+            calculationTypes ??= Array.Empty<WholesaleCalculationType>();
             var minExecutionTime = executionTime?.Start.ToDateTimeOffset();
             var maxExecutionTime = executionTime?.End.ToDateTimeOffset();
             var periodStart = period?.Start.ToDateTimeOffset();
@@ -140,12 +140,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
             // The API only allows for a single execution state to be specified
             CalculationState? executionState = executionStates.Length == 1 ? executionStates[0] : null;
 
-            var batches = (await client.SearchCalculationsAsync(gridAreaCodes, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd))
+            var calculations = (await client.SearchCalculationsAsync(gridAreaCodes, executionState, minExecutionTime, maxExecutionTime, periodStart, periodEnd))
                 .OrderByDescending(x => x.ExecutionTimeStart)
                 .Where(x => executionStates.Length <= 1 || executionStates.Contains(x.ExecutionState))
-                .Where(x => processTypes.Length == 0 || processTypes.Contains(x.CalculationType));
+                .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.CalculationType));
 
-            return first is not null ? batches.Take(first.Value) : batches;
+            return first is not null ? calculations.Take(first.Value) : calculations;
         }
 
         public async Task<IEnumerable<SettlementReport>> GetSettlementReportsAsync(
@@ -163,22 +163,22 @@ namespace Energinet.DataHub.WebApi.GraphQL
             var periodEnd = period?.HasEnd == true ? period?.End.ToDateTimeOffset() : null;
 
             var gridAreasTask = marketParticipantClient.GridAreaGetAsync();
-            var batchesTask = wholesaleClient.SearchCalculationsAsync(gridAreaCodes, CalculationState.Completed, minExecutionTime, maxExecutionTime, periodStart, periodEnd);
-            var batches = await batchesTask;
+            var calculationsTask = wholesaleClient.SearchCalculationsAsync(gridAreaCodes, CalculationState.Completed, minExecutionTime, maxExecutionTime, periodStart, periodEnd);
+            var calculations = await calculationsTask;
             var gridAreas = await gridAreasTask;
 
-            return batches.Aggregate(new List<SettlementReport>(), (accumulator, batch) =>
+            return calculations.Aggregate(new List<SettlementReport>(), (accumulator, calculation) =>
             {
-                var settlementReports = batch.GridAreaCodes
+                var settlementReports = calculation.GridAreaCodes
                     .Where(gridAreaCode => gridAreaCodes.Length == 0 || gridAreaCodes.Contains(gridAreaCode))
                     .Select(gridAreaCode => new SettlementReport(
-                        batch.CalculationId,
+                        calculation.CalculationId,
                         WholesaleCalculationType.BalanceFixing,
                         gridAreas.First(gridArea => gridArea.Code == gridAreaCode),
                         new Interval(
-                            Instant.FromDateTimeOffset(batch.PeriodStart),
-                            Instant.FromDateTimeOffset(batch.PeriodEnd)),
-                        batch.ExecutionTimeStart));
+                            Instant.FromDateTimeOffset(calculation.PeriodStart),
+                            Instant.FromDateTimeOffset(calculation.PeriodEnd)),
+                        calculation.ExecutionTimeStart));
 
                 accumulator.AddRange(settlementReports);
                 return accumulator;
