@@ -37,6 +37,7 @@ import {
   GetSelectedActorDocument,
   GetActorsForRequestCalculationDocument,
   RequestCalculationMutation,
+  GetGridAreasDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -160,12 +161,24 @@ export class DhWholesaleRequestCalculationComponent {
     },
   });
 
+  gridAreaQuery = this._apollo.query({
+    query: GetGridAreasDocument,
+  });
+
   constructor() {
+    this.gridAreaQuery.subscribe({
+      next: ({ data: { gridAreas } }) => {
+        this.gridAreaOptions = gridAreas.map((gridArea) => ({
+          displayValue: `${gridArea.name} - ${gridArea.name}`,
+          value: gridArea.code,
+        }));
+      },
+    });
     this.selectedActorQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe({
       next: (result) => {
         if (result.loading || result.error) return;
 
-        const { glnOrEicNumber, gridAreas, marketRole } = result.data.selectedActor;
+        const { glnOrEicNumber, marketRole } = result.data.selectedActor;
 
         if (!glnOrEicNumber || !marketRole) return;
 
@@ -177,10 +190,6 @@ export class DhWholesaleRequestCalculationComponent {
 
         if (this._selectedEicFunction === EicFunction.EnergySupplier) {
           this.form.controls.energySupplierId.setValue(glnOrEicNumber);
-        }
-
-        if (gridAreas.length === 1) {
-          this.form.controls.gridarea.setValue(gridAreas[0].code);
         }
 
         this.form.controls.meteringPointType.setValue(ExtendMeteringPoint.All);
@@ -202,11 +211,6 @@ export class DhWholesaleRequestCalculationComponent {
           excludeProcessTypes,
           'asc'
         );
-
-        this.gridAreaOptions = gridAreas.map((gridArea) => ({
-          displayValue: `${gridArea.name} - ${gridArea.name}`,
-          value: gridArea.code,
-        }));
       },
     });
 
