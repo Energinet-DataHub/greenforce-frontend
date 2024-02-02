@@ -44,6 +44,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 import { DhOrganizationDetails } from '../dh-organization';
 
@@ -132,7 +133,7 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
           return;
         }
 
-        this.showNotification(queryResult);
+        this.handleEditOrganizationResponse(queryResult);
 
         this.onCloseModal();
       });
@@ -144,21 +145,29 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
     this.closed.emit();
   }
 
-  private showNotification(queryResult: MutationResult<UpdateOrganizationMutation>): void {
-    const basePath = 'marketParticipant.organizationsOverview.edit.updateRequest';
-
-    if (this.isUpdateSuccessful(queryResult.data)) {
-      const message = this.transloco.translate(`${basePath}.success`);
-      this.toastService.open({ message, type: 'success' });
-    } else {
-      const message = this.transloco.translate(`${basePath}.error`);
-      this.toastService.open({ message, type: 'danger' });
-    }
-  }
-
   private isUpdateSuccessful(
     mutationResult: MutationResult<UpdateOrganizationMutation>['data']
   ): boolean {
     return !mutationResult?.updateOrganization.errors?.length;
+  }
+
+  private handleEditOrganizationResponse(response: MutationResult<UpdateOrganizationMutation>) {
+    if (
+      response.data?.updateOrganization?.errors &&
+      response.data?.updateOrganization?.errors.length > 0
+    ) {
+      this.toastService.open({
+        type: 'danger',
+        message: readApiErrorResponse(response.data?.updateOrganization?.errors),
+      });
+    }
+
+    if (response.data?.updateOrganization?.boolean) {
+      const message = this.transloco.translate(
+        `marketParticipant.organizationsOverview.edit.updateRequest.success`
+      );
+
+      this.toastService.open({ message, type: 'success' });
+    }
   }
 }
