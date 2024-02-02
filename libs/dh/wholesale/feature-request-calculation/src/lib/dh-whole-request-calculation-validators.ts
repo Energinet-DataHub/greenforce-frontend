@@ -16,7 +16,7 @@
  */
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { WattRange } from '@energinet-datahub/watt/date';
-import { differenceInDays, getDate, parseISO, subYears } from 'date-fns';
+import { differenceInDays, parseISO, subYears } from 'date-fns';
 
 export const maxOneMonthDateRangeValidator =
   () =>
@@ -73,8 +73,9 @@ export const startAndEndDateCannotBeInTheFutureValidator =
 
     const endDate = parseISO(range.end);
     const startDate = parseISO(range.start);
+    const now = new Date();
 
-    if (getDate(endDate) > getDate(new Date()) || getDate(startDate) > getDate(new Date())) {
+    if (endDate > now || startDate > now) {
       return { startAndEndDateCannotBeInTheFuture: true };
     }
 
