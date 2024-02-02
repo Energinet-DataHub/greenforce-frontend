@@ -190,7 +190,9 @@ interface Totals {
     <vater-stack direction="row" gap="s">
       <div>
         @if (totals.consumption > 0 || isLoading) {
-          <h5 data-testid="headline">{{ totals.green | percentageOf: totals.consumption }} green energy</h5>
+          <h5 data-testid="headline">
+            {{ totals.green | percentageOf: totals.consumption }} green energy
+          </h5>
           <small
             >{{ totals.green | energyUnit }} of {{ totals.consumption | energyUnit }} is certified
             green energy</small
