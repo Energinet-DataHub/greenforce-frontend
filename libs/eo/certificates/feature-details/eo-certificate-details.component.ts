@@ -106,7 +106,9 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-
         <watt-card>
           <eo-stack size="M">
             <h4><b>Bidding Zone</b></h4>
-            <p><b>{{cert?.gridArea}}</b></p>
+            <p>
+              <b>{{ cert?.gridArea }}</b>
+            </p>
             <img
               alt="Grid Area DK1"
               src="/assets/images/certificates/dk1grid.png"
