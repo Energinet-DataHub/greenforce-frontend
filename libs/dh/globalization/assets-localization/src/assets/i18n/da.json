@@ -459,8 +459,7 @@
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {
-          "success": "Ændringerne af organisationen er blevet gemt.",
-          "error": "Der opstod desværre en fejl, da vi skulle gemme organisationen."
+          "success": "Ændringerne af organisationen er blevet gemt."
         }
       }
     },
