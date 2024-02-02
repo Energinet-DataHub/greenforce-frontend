@@ -37,6 +37,8 @@ import {
   mockGetAssociatedActorsQuery,
   OrganizationAuditedChangeAuditLogDto,
   OrganizationAuditedChange,
+  mockUpdateActorMutation,
+  UpdateActorMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -75,6 +77,7 @@ export function marketParticipantMocks(apiBase: string) {
     getOrganizationById(),
     getActorByOrganizationId(),
     updateOrganization(),
+    updateActor(),
     getAuditLogByOrganizationId(),
     getAuditLogByActorId(),
     getMarketParticipantActorActorCredentials(apiBase),
@@ -198,7 +201,7 @@ function getActorEditableFields() {
           __typename: 'ActorContactDto',
           name: 'Test Department',
           email: 'test-actor@fake-domain.dk',
-          phone: '11223344',
+          phone: '+45 22334455',
         },
       },
     };
@@ -280,12 +283,32 @@ function updateOrganization() {
       __typename: 'Mutation',
       updateOrganization: {
         __typename: 'UpdateOrganizationPayload',
-        errors: [],
+        errors: null,
         boolean: true,
       },
     };
 
     await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: response,
+    });
+  });
+}
+
+function updateActor() {
+  return mockUpdateActorMutation(async () => {
+    const response: UpdateActorMutation = {
+      __typename: 'Mutation',
+      updateActor: {
+        __typename: 'UpdateActorPayload',
+        errors: null,
+        boolean: true,
+      },
+    };
+
+    await delay(mswConfig.delay);
+
     return HttpResponse.json({
       data: response,
     });

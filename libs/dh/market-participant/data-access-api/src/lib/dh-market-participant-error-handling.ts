@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { flatten, translate } from '@ngneat/transloco';
 
 import { ApiError, ApiErrorDescriptor } from '@energinet-datahub/dh/shared/domain/graphql';
-import { flatten, translate } from '@ngneat/transloco';
 
 export type ApiErrorCollection = Pick<ApiError, 'apiErrors'>;
 
