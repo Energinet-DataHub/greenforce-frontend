@@ -75,25 +75,14 @@ describe('EO - Transferred Chart', () => {
     getTransferredLegend().contains('0%');
   });
 
-  it('should show correct percentages in legends', () => {
+  it('should show correct percentages in legends and header', () => {
     initComponent();
 
     getUnusedLegend().contains('80%');
-    getTransferredLegend().contains('20%');
     getConsumedLegend().contains('<1%');
-  });
 
-  it('should show the same percentage in the transferred legend and the headline', () => {
-    initComponent();
-
-    // Ensure the data has loaded before we start checking
-    getHeadline().should('not.contain', ' 0%');
-
-    getHeadline().then((headline) => {
-      const headlineText = headline.text();
-      const percentageMatch = headlineText.match(/\d+%$/u); // Updated regex to include 'u' flag for Unicode
-      const percentage = percentageMatch ? percentageMatch[0] : '';
-      getTransferredLegend().should('contain', percentage);
-    });
+    const transferredPercentage = '20%';
+    getTransferredLegend().contains(transferredPercentage);
+    getHeadline().contains(transferredPercentage);
   });
 });
