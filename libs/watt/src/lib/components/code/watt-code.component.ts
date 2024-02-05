@@ -18,7 +18,6 @@ import {
   Component,
   ChangeDetectionStrategy,
   ViewEncapsulation,
-  OnInit,
   signal,
   input,
   OnChanges,
