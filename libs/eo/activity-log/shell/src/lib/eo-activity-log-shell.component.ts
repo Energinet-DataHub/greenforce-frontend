@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattTableComponent, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
+import { EoActivityLogService } from '@energinet-datahub/eo/activity-log/data-access-api';
 @Component({
   selector: 'eo-activity-log-shell',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,17 +37,26 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
     JsonPipe,
   ],
   encapsulation: ViewEncapsulation.None,
-  styles: [`
-    eo-activity-log-shell .watt-data-table--empty-state {
-      margin-bottom: var(--watt-space-xl);
-    }
-  `],
+  styles: [
+    `
+      eo-activity-log-shell .watt-data-table--empty-state {
+        margin-bottom: var(--watt-space-xl);
+      }
+    `,
+  ],
   template: `
     <watt-data-table vater inset="m">
       <h3>Results</h3>
       <watt-data-filters>
         <vater-stack fill="vertical" gap="s" direction="row">
-          <watt-dropdown label="Filter by" [options]="eventTypes" [chipMode]="true" [formControl]="eventTypesControl" [multiple]="true" placeholder="Event type" />
+          <watt-dropdown
+            label="Filter by"
+            [options]="eventTypes"
+            [chipMode]="true"
+            [formControl]="eventTypesControl"
+            [multiple]="true"
+            placeholder="Event type"
+          />
         </vater-stack>
       </watt-data-filters>
 
@@ -55,11 +64,17 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
     </watt-data-table>
   `,
 })
-export class EoActivityLogShellComponent {
+export class EoActivityLogShellComponent implements OnInit {
   protected dataSource: WattTableDataSource<unknown> = new WattTableDataSource(undefined);
   protected eventTypes: WattDropdownOption[] = [
     { value: 'transfer-agreement', displayValue: 'Transfer agreement' },
     { value: 'metering-points', displayValue: 'Metering point' },
   ];
   protected eventTypesControl = new FormControl(this.eventTypes.map((option) => option.value));
+
+  private activityLogService = inject(EoActivityLogService);
+
+  ngOnInit(): void {
+      this.activityLogService.getLogs({ start: '2021-01-01', end: '2021-12-31', entityType: 'TransferAgreement'});
+  }
 }

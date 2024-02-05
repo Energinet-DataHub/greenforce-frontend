@@ -218,6 +218,9 @@
       "@energinet-datahub/eo/activity-log/shell": [
         "libs/eo/activity-log/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/activity-log/data-access-api": [
+        "libs/eo/activity-log/data-access-api/index.ts"
+      ],
       "@energinet-datahub/eo/auth/routing-security": [
         "libs/eo/auth/routing-security/src/index.ts"
       ],
