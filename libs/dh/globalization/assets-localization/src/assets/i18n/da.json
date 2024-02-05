@@ -55,7 +55,7 @@
     "downloadreport": "Download rapport",
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
-    "processType": "Beregningstype"
+    "calculationType": "Beregningstype"
   },
   "clipboard": {
     "success": "Kopieret til udklipsholder",
@@ -810,8 +810,8 @@
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
         "scheduling": "Kørsel",
-        "processType": {
-          "label": "{{shared.processType}}",
+        "calculationType": {
+          "label": "{{shared.calculationType}}",
           "error": "Procestype påkrævet"
         },
         "summation": "Månedlige summer",
@@ -846,7 +846,7 @@
           "error": "{{shared.error.title}}"
         }
       },
-      "processTypes": {
+      "calculationTypes": {
         "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
         "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
         "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
@@ -876,7 +876,7 @@
         "executionStates": "Status",
         "executionTime": "Eksekveringstid",
         "gridAreas": "Netområder",
-        "processType": "{{shared.processType}}",
+        "calculationType": "{{shared.calculationType}}",
         "reset": "{{shared.form.reset}}",
         "period": "{{shared.form.filters.period}}"
       },
@@ -885,7 +885,7 @@
         "periodFrom": "Periode fra",
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
-        "processType": "{{shared.processType}}",
+        "calculationType": "{{shared.calculationType}}",
         "status": "Status"
       },
       "details": {
@@ -911,13 +911,13 @@
       "startAndEndDateCannotBeInTheFuture": "Startdato og slutdato kan ikke være i fremtiden",
       "success": "Din anmoding er startet.",
       "topBarTitle": "Anmod om beregning",
-      "processType": "{{shared.processType}}",
+      "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
       "period": "Periode",
       "gridAreas": "Netområder",
       "request": "Anmod",
       "maxPeriodLength": "Perioden må max være en måned",
-      "processTypes": {
+      "calculationTypes": {
         "preliminaryaggregation": "Aggregering",
         "balancefixing": "Balancefiksering",
         "wholesalefixing": "Engrosfiksering",
@@ -954,7 +954,7 @@
       },
       "table": {
         "title": "Processer",
-        "processType": "{{shared.processType}}",
+        "calculationType": "{{shared.calculationType}}",
         "gridAreaName": "Netområde",
         "gridAreaCode": "Netområde ID",
         "periodStart": "Periode fra",
@@ -964,12 +964,12 @@
         "emptyHelperText": "Prøv at ændre dine søgeindstillinger",
         "download": "—"
       },
-      "processTypes": {
+      "calculationTypes": {
         "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
         "AGGREGATION": "{{wholesale.shared.AGGREGATION}}"
       },
       "filters": {
-        "processType": "{{shared.processType}}",
+        "calculationType": "{{shared.calculationType}}",
         "gridArea": "Netområde",
         "period": "Periode",
         "executionTime": "Kørsel tid",
@@ -978,7 +978,7 @@
         "loadingActors": "Henter elleverandører...",
         "loadingGridAreas": "Henter netområder...",
         "actorPlaceholder": "Vælg elleverandør",
-        "processTypePlaceholder": "Vælg {{shared.processType}}",
+        "calculationTypePlaceholder": "Vælg {{shared.calculationType}}",
         "gridAreasPlaceholder": "Vælg netområde(r)"
       }
     }
