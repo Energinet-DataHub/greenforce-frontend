@@ -9,7 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { WholesaleCalculationType } from './wholesale-process-type';
+import { WholesaleCalculationType } from './wholesale-calculation-type';
 
 
 /**
