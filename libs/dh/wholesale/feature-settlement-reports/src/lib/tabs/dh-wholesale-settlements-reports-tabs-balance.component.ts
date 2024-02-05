@@ -99,7 +99,8 @@ export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
   encapsulation: ViewEncapsulation.None,
 })
 export class DhWholesaleSettlementsReportsTabsBalanceComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private fb: FormBuilder = inject(FormBuilder);
   private apollo = inject(Apollo);
   private transloco = inject(TranslocoService);
