@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import { Component, ViewChild, Output, EventEmitter, inject, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
@@ -57,7 +56,6 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
     `,
   ],
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
     RxPush,

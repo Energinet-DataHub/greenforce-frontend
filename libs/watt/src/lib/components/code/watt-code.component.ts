@@ -66,7 +66,11 @@ export class WattCodeComponent implements OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const { currentValue } = changes['code'];
 
-    if (currentValue === undefined || currentValue === null) return;
+    if (currentValue === undefined || currentValue === null) {
+      this.formattedCode.set('');
+      this.loading.set(false);
+      return;
+    }
 
     this._worker.onmessage = (event) => {
       this.formattedCode.set(event.data);
