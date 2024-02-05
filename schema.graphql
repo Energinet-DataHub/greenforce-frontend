@@ -54,9 +54,9 @@ type Calculation {
   unit: String
   executionTimeStart: DateTime
   executionTimeEnd: DateTime
-  executionState: BatchState!
+  executionState: CalculationState!
   areSettlementReportsCreated: Boolean!
-  processType: ProcessType!
+  calculationType: CalculationType!
 }
 
 enum EdiB2CProcessType {
@@ -210,7 +210,7 @@ type Query {
   organizations: [Organization!]!
   gridAreas: [GridAreaDto!]!
   calculationById(id: UUID!): Calculation!
-  calculations(executionTime: DateRange, executionStates: [BatchState!], processTypes: [ProcessType!], gridAreaCodes: [String!], period: DateRange, first: Int): [Calculation!]!
+  calculations(executionTime: DateRange, executionStates: [CalculationState!], calculationTypes: [CalculationType!], gridAreaCodes: [String!], period: DateRange, first: Int): [Calculation!]!
   settlementReports(gridAreaCodes: [String!], period: DateRange, executionTime: DateRange): [SettlementReport!]!
   selectedActor: Actor!
   actorById(id: UUID!): Actor!
@@ -279,15 +279,15 @@ The `Long` scalar type represents non-fractional signed whole 64-bit numeric val
 """
 scalar Long
 
-enum BatchState {
+enum CalculationState {
   PENDING
   EXECUTING
   COMPLETED
   FAILED
 }
 
-"""Defines the wholesale process type"""
-enum ProcessType {
+"""Defines the wholesale calculation type"""
+enum CalculationType {
   BALANCE_FIXING
   AGGREGATION
   WHOLESALE_FIXING
@@ -480,8 +480,8 @@ type ReadinessStatusDto {
 }
 
 type SettlementReport {
-  batchNumber: UUID!
-  processType: ProcessType!
+  calculationId: UUID!
+  calculationType: CalculationType!
   gridArea: GridAreaDto!
   period: DateRange!
   executionTime: DateTime
@@ -610,7 +610,7 @@ type UpdateActorPayload {
 input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
-  processType: ProcessType!
+  calculationType: CalculationType!
 }
 
 type CreateCalculationPayload {

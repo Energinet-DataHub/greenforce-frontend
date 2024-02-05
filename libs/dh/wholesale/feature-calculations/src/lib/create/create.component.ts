@@ -43,16 +43,16 @@ import {
   CreateCalculationDocument,
   GetGridAreasDocument,
   GetLatestBalanceFixingDocument,
-  ProcessType,
+  CalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   filterValidGridAreas,
   GridArea,
-  processTypes,
+  calculationTypes,
 } from '@energinet-datahub/dh/wholesale/domain';
 
 interface FormValues {
-  processType: FormControl<ProcessType>;
+  calculationType: FormControl<CalculationType>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<WattDateRange | null>;
 }
@@ -98,14 +98,14 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   confirmFormControl = new FormControl('');
 
   monthOnly = [
-    ProcessType.WholesaleFixing,
-    ProcessType.FirstCorrectionSettlement,
-    ProcessType.SecondCorrectionSettlement,
-    ProcessType.ThirdCorrectionSettlement,
+    CalculationType.WholesaleFixing,
+    CalculationType.FirstCorrectionSettlement,
+    CalculationType.SecondCorrectionSettlement,
+    CalculationType.ThirdCorrectionSettlement,
   ];
 
   formGroup = new FormGroup<FormValues>({
-    processType: new FormControl<ProcessType>(ProcessType.BalanceFixing, {
+    calculationType: new FormControl<CalculationType>(CalculationType.BalanceFixing, {
       nonNullable: true,
       validators: Validators.required,
     }),
@@ -127,13 +127,13 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
   onDateRangeChange$ = this.formGroup.controls.dateRange.valueChanges.pipe(startWith(null));
 
-  processTypes: Observable<WattDropdownOption[]> = this._transloco
-    .selectTranslateObject('wholesale.calculations.processTypes')
+  calculationTypes: Observable<WattDropdownOption[]> = this._transloco
+    .selectTranslateObject('wholesale.calculations.calculationTypes')
     .pipe(
       map((translations) =>
-        processTypes.map((processType) => ({
-          displayValue: this._transloco.translate(translations[processType].replace(/{{|}}/g, '')),
-          value: processType,
+        calculationTypes.map((calculationType) => ({
+          displayValue: this._transloco.translate(translations[calculationType].replace(/{{|}}/g, '')),
+          value: calculationType,
         }))
       )
     );
@@ -182,9 +182,9 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   }
 
   createCalculation() {
-    const { processType, gridAreas, dateRange } = this.formGroup.getRawValue();
+    const { calculationType, gridAreas, dateRange } = this.formGroup.getRawValue();
 
-    if (this.formGroup.invalid || gridAreas === null || dateRange === null || processType === null)
+    if (this.formGroup.invalid || gridAreas === null || dateRange === null || calculationType === null)
       return;
 
     this._apollo
@@ -195,7 +195,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
           input: {
             gridAreaCodes: gridAreas,
             period: { start: parseISO(dateRange.start), end: parseISO(dateRange.end) },
-            processType: processType,
+            calculationType: calculationType,
           },
         },
       })
@@ -243,7 +243,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     this.formGroup.reset();
 
     // This is apparently neccessary to reset the dropdown validity state
-    this.formGroup.controls.processType.setErrors(null);
+    this.formGroup.controls.calculationType.setErrors(null);
   }
 
   private selectGridAreas(gridAreas: WattDropdownOption[]) {

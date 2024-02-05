@@ -38,7 +38,7 @@ import {
   GetCalculationsQueryVariables,
   GetGridAreasDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { executionStates, processTypes } from '@energinet-datahub/dh/wholesale/domain';
+import { executionStates, calculationTypes } from '@energinet-datahub/dh/wholesale/domain';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -81,11 +81,11 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
         t('period')
       }}</watt-date-range-chip>
       <watt-dropdown
-        formControlName="processTypes"
+        formControlName="calculationTypes"
         [chipMode]="true"
         [multiple]="true"
-        [options]="_processTypeOptions | push"
-        [placeholder]="t('processType')"
+        [options]="_calculationTypeOptions | push"
+        [placeholder]="t('calculationType')"
       />
       <watt-dropdown
         formControlName="gridAreaCodes"
@@ -118,13 +118,13 @@ export class DhCalculationsFiltersComponent implements OnInit {
 
   _formGroup!: FormGroup<Filters>;
 
-  _processTypeOptions = this.transloco
-    .selectTranslateObject('wholesale.calculations.processTypes')
+  _calculationTypeOptions = this.transloco
+    .selectTranslateObject('wholesale.calculations.calculationTypes')
     .pipe(
       map((translations) =>
-        processTypes.map((processType) => ({
-          displayValue: this.transloco.translate(translations[processType].replace(/{{|}}/g, '')),
-          value: processType,
+        calculationTypes.map((calculationType) => ({
+          displayValue: this.transloco.translate(translations[calculationType].replace(/{{|}}/g, '')),
+          value: calculationType,
         }))
       )
     );
@@ -149,7 +149,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
       executionTime: dhMakeFormControl(this.initial?.executionTime),
       period: dhMakeFormControl(this.initial?.period),
       gridAreaCodes: dhMakeFormControl(this.initial?.gridAreaCodes),
-      processTypes: dhMakeFormControl(this.initial?.processTypes),
+      calculationTypes: dhMakeFormControl(this.initial?.calculationTypes),
       executionStates: dhMakeFormControl(this.initial?.executionStates),
     });
 
