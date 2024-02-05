@@ -123,7 +123,9 @@ export class DhCalculationsFiltersComponent implements OnInit {
     .pipe(
       map((translations) =>
         calculationTypes.map((calculationType) => ({
-          displayValue: this.transloco.translate(translations[calculationType].replace(/{{|}}/g, '')),
+          displayValue: this.transloco.translate(
+            translations[calculationType].replace(/{{|}}/g, '')
+          ),
           value: calculationType,
         }))
       )

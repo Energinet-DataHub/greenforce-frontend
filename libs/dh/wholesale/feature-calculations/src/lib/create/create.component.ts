@@ -132,7 +132,9 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     .pipe(
       map((translations) =>
         calculationTypes.map((calculationType) => ({
-          displayValue: this._transloco.translate(translations[calculationType].replace(/{{|}}/g, '')),
+          displayValue: this._transloco.translate(
+            translations[calculationType].replace(/{{|}}/g, '')
+          ),
           value: calculationType,
         }))
       )
@@ -184,7 +186,12 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   createCalculation() {
     const { calculationType, gridAreas, dateRange } = this.formGroup.getRawValue();
 
-    if (this.formGroup.invalid || gridAreas === null || dateRange === null || calculationType === null)
+    if (
+      this.formGroup.invalid ||
+      gridAreas === null ||
+      dateRange === null ||
+      calculationType === null
+    )
       return;
 
     this._apollo
