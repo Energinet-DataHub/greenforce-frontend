@@ -18,16 +18,16 @@ using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public class CalculationType : ObjectType<BatchDto>
+    public class CalculationType : ObjectType<CalculationDto>
     {
-        protected override void Configure(IObjectTypeDescriptor<BatchDto> descriptor)
+        protected override void Configure(IObjectTypeDescriptor<CalculationDto> descriptor)
         {
             descriptor
                 .Name("Calculation")
                 .Description("An immutable calculation.");
 
             descriptor
-                .Field(x => x.BatchId)
+                .Field(x => x.CalculationId)
                 .Name("id");
 
             descriptor
@@ -48,12 +48,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             descriptor
                 .Field("statusType")
-                .Resolve(context => context.Parent<BatchDto>().ExecutionState switch
+                .Resolve(context => context.Parent<CalculationDto>().ExecutionState switch
                 {
-                    BatchState.Pending => ProcessStatus.Warning,
-                    BatchState.Completed => ProcessStatus.Success,
-                    BatchState.Failed => ProcessStatus.Danger,
-                    BatchState.Executing => ProcessStatus.Info,
+                    CalculationState.Pending => ProcessStatus.Warning,
+                    CalculationState.Completed => ProcessStatus.Success,
+                    CalculationState.Failed => ProcessStatus.Danger,
+                    CalculationState.Executing => ProcessStatus.Info,
                     _ => ProcessStatus.Info,
                 });
         }

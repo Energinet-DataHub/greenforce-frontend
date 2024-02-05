@@ -5,28 +5,28 @@
     "version": "3.0"
   },
   "paths": {
-    "/v3/batches": {
+    "/v3/calculations": {
       "post": {
         "tags": [
-          "Batch"
+          "Calculation"
         ],
-        "summary": "Create a batch.",
-        "operationId": "CreateBatch",
+        "summary": "Create a calculation.",
+        "operationId": "CreateCalculation",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BatchRequestDto"
+                "$ref": "#/components/schemas/CalculationRequestDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/BatchRequestDto"
+                "$ref": "#/components/schemas/CalculationRequestDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/BatchRequestDto"
+                "$ref": "#/components/schemas/CalculationRequestDto"
               }
             }
           },
@@ -48,10 +48,10 @@
       },
       "get": {
         "tags": [
-          "Batch"
+          "Calculation"
         ],
-        "summary": "Get batches that matches the criteria specified",
-        "operationId": "SearchBatches",
+        "summary": "Get calculations that matches the criteria specified",
+        "operationId": "SearchCalculations",
         "parameters": [
           {
             "name": "gridAreaCodes",
@@ -69,7 +69,7 @@
             "in": "query",
             "description": "",
             "schema": {
-              "$ref": "#/components/schemas/BatchState"
+              "$ref": "#/components/schemas/CalculationState"
             }
           },
           {
@@ -117,7 +117,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BatchDto"
+                    "$ref": "#/components/schemas/CalculationDto"
                   }
                 }
               }
@@ -126,19 +126,19 @@
         }
       }
     },
-    "/v3/batches/{batchId}": {
+    "/v3/calculations/{calculationId}": {
       "get": {
         "tags": [
-          "Batch"
+          "Calculation"
         ],
-        "summary": "Returns a batch matching batchId.",
-        "operationId": "GetBatch",
+        "summary": "Returns a calculation matching calculationId.",
+        "operationId": "GetCalculation",
         "parameters": [
           {
-            "name": "batchId",
+            "name": "calculationId",
             "in": "path",
             "required": true,
-            "description": "BatchId",
+            "description": "CalculationId",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -151,7 +151,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BatchDto"
+                  "$ref": "#/components/schemas/CalculationDto"
                 }
               }
             }
@@ -180,12 +180,12 @@
             }
           },
           {
-            "name": "processType",
+            "name": "calculationType",
             "in": "query",
             "required": true,
             "description": "Currently expects BalanceFixing only.",
             "schema": {
-              "$ref": "#/components/schemas/ProcessType"
+              "$ref": "#/components/schemas/CalculationType"
             }
           },
           {
@@ -245,14 +245,14 @@
         "tags": [
           "SettlementReport"
         ],
-        "summary": "Returns a stream containing the settlement report for batch with batchId and gridAreaCode.",
+        "summary": "Returns a stream containing the settlement report for calculation with calculationId and gridAreaCode.",
         "operationId": "GetSettlementReportAsStreamAsync",
         "parameters": [
           {
-            "name": "batchId",
+            "name": "calculationId",
             "in": "query",
             "required": true,
-            "description": "BatchId",
+            "description": "CalculationId",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -288,14 +288,14 @@
         "tags": [
           "SettlementReport"
         ],
-        "summary": "Returns a stream containing the settlement report for a batch matching batchId",
+        "summary": "Returns a stream containing the settlement report for a calculation matching calculationId",
         "operationId": "ZippedBasisDataStream",
         "parameters": [
           {
-            "name": "batchId",
+            "name": "calculationId",
             "in": "query",
             "required": true,
-            "description": "BatchId",
+            "description": "CalculationId",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -320,9 +320,9 @@
   },
   "components": {
     "schemas": {
-      "BatchDto": {
+      "CalculationDto": {
         "type": "object",
-        "description": "An immutable batch.",
+        "description": "An immutable calculation.",
         "additionalProperties": false,
         "properties": {
           "runId": {
@@ -330,7 +330,7 @@
             "format": "int64",
             "nullable": true
           },
-          "batchId": {
+          "calculationId": {
             "type": "string",
             "format": "uuid"
           },
@@ -359,7 +359,7 @@
             "nullable": true
           },
           "executionState": {
-            "$ref": "#/components/schemas/BatchState"
+            "$ref": "#/components/schemas/CalculationState"
           },
           "areSettlementReportsCreated": {
             "type": "boolean"
@@ -370,8 +370,8 @@
               "type": "string"
             }
           },
-          "processType": {
-            "$ref": "#/components/schemas/ProcessType"
+          "calculationType": {
+            "$ref": "#/components/schemas/CalculationType"
           },
           "createdByUserId": {
             "type": "string",
@@ -379,13 +379,13 @@
           }
         }
       },
-      "BatchRequestDto": {
+      "CalculationRequestDto": {
         "type": "object",
-        "description": "An immutable request to create a batch.",
+        "description": "An immutable request to create a calculation.",
         "additionalProperties": false,
         "properties": {
-          "processType": {
-            "$ref": "#/components/schemas/ProcessType"
+          "calculationType": {
+            "$ref": "#/components/schemas/CalculationType"
           },
           "gridAreaCodes": {
             "type": "array",
@@ -403,7 +403,7 @@
           }
         }
       },
-      "BatchState": {
+      "CalculationState": {
         "type": "string",
         "enum": [
           "Pending",
@@ -412,9 +412,9 @@
           "Failed"
         ]
       },
-      "ProcessType": {
+      "CalculationType": {
         "type": "string",
-        "description": "Defines the wholesale process type",
+        "description": "Defines the wholesale calculation type",
         "enum": [
           "BalanceFixing",
           "Aggregation",

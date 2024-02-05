@@ -40,14 +40,14 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         public async Task CreateAsync_ReturnsOk()
         {
             // arrange
-            var batchId = Guid.NewGuid();
+            var calculationId = Guid.NewGuid();
             const string gridAreaCode = "123";
 
-            WholesaleClientV3Mock.Setup(x => x.GetSettlementReportAsStreamAsync(batchId, gridAreaCode, CancellationToken.None))
+            WholesaleClientV3Mock.Setup(x => x.GetSettlementReportAsStreamAsync(calculationId, gridAreaCode, CancellationToken.None))
                 .ReturnsAsync(new FileResponse(0, null, new MemoryStream(), null, null));
 
             // act
-            var actual = await BffClient.GetAsync($"/v1/WholesaleSettlementReport?batchId={batchId}&gridAreaCode={gridAreaCode}");
+            var actual = await BffClient.GetAsync($"/v1/WholesaleSettlementReport?calculationId={calculationId}&gridAreaCode={gridAreaCode}");
 
             // assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
