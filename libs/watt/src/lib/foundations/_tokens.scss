@@ -1,137 +1,28 @@
 /**
- * @license
- * Copyright 2020 Energinet DataHub A/S
- *
- * Licensed under the Apache License, Version 2.0 (the "License2");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
  * Do not edit directly
- * Generated on Thu, 23 Mar 2023 09:53:46 GMT
+ * Generated on Mon, 05 Feb 2024 09:07:37 GMT
  */
 
 :root {
-  --bg-button-high-emphasis: #00847c;
-  --bg-button-medium-emphasis: #ffffff;
-  --bg-badge-success: #dfebda;
-  --bg-card: #ffffff;
-  --bg-tab: #ffffff;
-  --bg-table: #ffffff;
-  --bg-table-column-header: #dfebda;
-  --bg-default: #ffffff;
-  --bg-cta: #00847c;
-  --bg-success: #dfebda;
-  --fg-button-high-emphasis: #ffffff;
-  --fg-button-medium-emphasis: #00847c;
-  --fg-badge-success: #005d5c;
-  --fg-tab-enabled: #0000009e;
-  --fg-tab-active: #00847c;
-  --fg-table: #000000de;
-  --fg-table-column-header: #000000de;
-  --fg-default: #000000de;
-  --fg-muted: #0000009e;
-  --fg-primary: #00847c;
-  --border-radius-0: 0px;
-  --border-radius-50: 2px;
-  --border-radius-100: 4px;
-  --border-radius-200: 8px;
-  --border-radius-button: 4px;
-  --border-radius-badge: 4px;
-  --border-radius-card: 4px;
-  --spacing-0: 0px;
-  --spacing-50: 4px;
-  --spacing-100: 8px;
-  --spacing-200: 16px;
-  --spacing-300: 24px;
-  --spacing-400: 32px;
-  --spacing-500: 40px;
-  --spacing-button-padding: 16px;
-  --spacing-table-padding: 8px;
-  --spacing-badge-padding: 4px;
-  --box-shadow-300-x: 0;
-  --box-shadow-300-y: 1;
-  --box-shadow-300-blur: 6;
-  --box-shadow-300-spread: 0;
-  --box-shadow-300-color: #0b3c5d26;
-  --box-shadow-300-type: dropShadow;
-  --box-shadow-card-x: 0;
-  --box-shadow-card-y: 1;
-  --box-shadow-card-blur: 6;
-  --box-shadow-card-spread: 0;
-  --box-shadow-card-color: #0b3c5d26;
-  --box-shadow-card-type: dropShadow;
-  --size-300: 24rem;
-  --size-500: 56rem;
-  --size-table-cell: 56rem;
-  --size-tab: 56rem;
-  --size-button: 44rem;
-  --size-badge: 24rem;
-  --border-button-medium-emphasis-color: #00847c;
-  --border-button-medium-emphasis-width: 1px;
-  --border-button-medium-emphasis-style: solid;
-  --border-table-cell-color: #e0e0e0;
-  --border-table-cell-width: 1px;
-  --border-table-cell-style: solid;
-  --border-tab-active-color: #00847c;
-  --border-tab-active-width: 3px;
-  --border-tab-active-style: solid;
-  --typography-h1-font-family: Open Sans;
-  --typography-h1-font-weight: 600;
-  --typography-h1-font-size: 28px;
-  --typography-h3-font-family: Open Sans;
-  --typography-h3-font-weight: 600;
-  --typography-h3-font-size: 20px;
-  --typography-button-font-family: Open Sans;
-  --typography-button-font-weight: 600;
-  --typography-button-font-size: 16px;
-  --typography-label-font-family: Open Sans;
-  --typography-label-font-weight: 600;
-  --typography-label-font-size: 14px;
-  --typography-label-text-case: uppercase;
-  --typography-body-font-family: Open Sans;
-  --typography-body-font-weight: 400;
-  --typography-body-font-size: 14px;
-  --typography-body-text-case: As typed;
-  --sizing-interactive-element: 44px;
-  --color-primary-100: #ebf5f5;
-  --color-primary-300: #b2d0d2;
+  --action-size-height: 3rem;
+  --action-spacing-inline-padding: 1.5rem;
+  --action-color-background-primary-enabled: #00847C;
+  --action-border-radius: 2.5rem;
+  --action-typography-font-size: 0.875rem;
+  --action-typography-font-family: Open Sans;
+  --size-100: 0.875rem;
+  --size-150: 1.5rem;
+  --size-250: 2.5rem;
+  --size-300: 3rem;
+  --spacing-150: 1.5rem;
+  --color-primary-200: #ffffff;
   --color-primary-500: #00847c;
-  --color-primary-700: #005d5c;
-  --color-primary-900: #02525e;
-  --color-black: #000000;
-  --color-white: #ffffff;
-  --color-secondary-500: #f8ad3c;
-  --color-secondary-700: #ee9331;
-  --color-green-200: #dfebda;
-  --color-green-500: #7fb069;
-  --color-blue-500: #0b3c5d;
-  --color-neutral-300: #e0e0e0;
-  --font-family-sans-serif: Open Sans;
-  --font-weight-regular: 400;
-  --font-weight-semibold: 600;
-  --font-size-100: 12px;
-  --font-size-200: 14px;
-  --font-size-300: 16px;
-  --font-size-400: 20px;
-  --font-size-500: 24px;
-  --font-size-600: 28px;
-  --border-width-none: 0px;
-  --border-width-xs: 1px;
-  --border-width-md: 3px;
-  --opacity-100: 87%;
-  --opacity-200: 62%;
-  --text-case-uppercase: uppercase;
-  --text-case-none: As typed;
+  --color-blue: #0500ef;
+  --color-yellow: #0500ef;
+  --color-green: #0500ef;
+  --border-radius-250: 2.5rem;
+  --font-size-100: 0.875rem;
+  --font-family-body: Open Sans;
   --token-set-order-0: core;
   --token-set-order-1: semantic;
-  --token-set-order-2: component;
 }
