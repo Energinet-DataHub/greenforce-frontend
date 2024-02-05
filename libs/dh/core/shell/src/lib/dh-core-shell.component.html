@@ -36,8 +36,20 @@ limitations under the License.
     </h2>
 
     <div class="toolbar__actions">
-      <dh-profile-avatar />
+      @if (dhFeatureFlagsService.isEnabled("avatar-feature-flag")) {
+        <dh-profile-avatar />
+      } @else {
+        <dh-language-picker />
+      }
     </div>
+
+    @if (!dhFeatureFlagsService.isEnabled("avatar-feature-flag")) {
+      <ng-container *transloco="let transloco; read: 'shell'">
+        <watt-button class="toolbar__logout" variant="text" (click)="logout()" icon="logout">{{
+          transloco("logout")
+        }}</watt-button>
+      </ng-container>
+    }
   </ng-container>
 
   <router-outlet />

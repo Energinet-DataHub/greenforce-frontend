@@ -17,14 +17,17 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { MsalService } from '@azure/msal-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { ApolloModule } from 'apollo-angular';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
-import { DhProfileAvatarComponent } from '@energinet-datahub/dh/profile/feature-avatar';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhLanguagePickerComponent } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhProfileAvatarComponent } from '@energinet-datahub/dh/profile/feature-avatar';
+import { DhLanguagePickerComponent } from '@energinet-datahub/dh/globalization/feature-language-picker';
+
 import {
   DhInactivityDetectionService,
   DhSelectedActorComponent,
@@ -46,8 +49,8 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
     RxPush,
 
     DhLanguagePickerComponent,
-    DhProfileAvatarComponent,
     DhPrimaryNavigationComponent,
+    DhProfileAvatarComponent,
     WattShellComponent,
     WattButtonComponent,
     DhSelectedActorComponent,
@@ -55,10 +58,17 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
   ],
 })
 export class DhCoreShellComponent {
+  private readonly authService = inject(MsalService);
   private readonly dhTopBarStore = inject(DhTopBarStore);
+  public readonly dhFeatureFlagsService = inject(DhFeatureFlagsService);
+
   titleTranslationKey$ = this.dhTopBarStore.titleTranslationKey$;
 
   constructor(inactivityDetection: DhInactivityDetectionService) {
     inactivityDetection.trackInactivity();
+  }
+
+  logout() {
+    this.authService.logoutRedirect();
   }
 }
