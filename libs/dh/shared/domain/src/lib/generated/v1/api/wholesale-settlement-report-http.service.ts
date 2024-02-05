@@ -21,7 +21,7 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { Stream } from '../model/stream';
 // @ts-ignore
-import { WholesaleProcessType } from '../model/wholesale-process-type';
+import { WholesaleCalculationType } from '../model/wholesale-calculation-type';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -95,7 +95,7 @@ export class WholesaleSettlementReportHttp {
 
     /**
      * @param gridAreaCodes 
-     * @param processType 
+     * @param calculationType 
      * @param periodStart 
      * @param periodEnd 
      * @param energySupplier 
@@ -103,10 +103,10 @@ export class WholesaleSettlementReportHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, processType?: WholesaleProcessType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<Stream>;
-    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, processType?: WholesaleProcessType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<HttpResponse<Stream>>;
-    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, processType?: WholesaleProcessType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<HttpEvent<Stream>>;
-    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, processType?: WholesaleProcessType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<any> {
+    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, calculationType?: WholesaleCalculationType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<Stream>;
+    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, calculationType?: WholesaleCalculationType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<HttpResponse<Stream>>;
+    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, calculationType?: WholesaleCalculationType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<HttpEvent<Stream>>;
+    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, calculationType?: WholesaleCalculationType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (gridAreaCodes) {
@@ -115,9 +115,9 @@ export class WholesaleSettlementReportHttp {
                   <any>element, 'gridAreaCodes');
             })
         }
-        if (processType !== undefined && processType !== null) {
+        if (calculationType !== undefined && calculationType !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>processType, 'processType');
+            <any>calculationType, 'calculationType');
         }
         if (periodStart !== undefined && periodStart !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -189,20 +189,20 @@ export class WholesaleSettlementReportHttp {
     }
 
     /**
-     * @param batchId 
+     * @param calculationId 
      * @param gridAreaCode 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleSettlementReportGet(batchId?: string, gridAreaCode?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<Stream>;
-    public v1WholesaleSettlementReportGet(batchId?: string, gridAreaCode?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<HttpResponse<Stream>>;
-    public v1WholesaleSettlementReportGet(batchId?: string, gridAreaCode?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<HttpEvent<Stream>>;
-    public v1WholesaleSettlementReportGet(batchId?: string, gridAreaCode?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<any> {
+    public v1WholesaleSettlementReportGet(calculationId?: string, gridAreaCode?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<Stream>;
+    public v1WholesaleSettlementReportGet(calculationId?: string, gridAreaCode?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<HttpResponse<Stream>>;
+    public v1WholesaleSettlementReportGet(calculationId?: string, gridAreaCode?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<HttpEvent<Stream>>;
+    public v1WholesaleSettlementReportGet(calculationId?: string, gridAreaCode?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (batchId !== undefined && batchId !== null) {
+        if (calculationId !== undefined && calculationId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>batchId, 'batchId');
+            <any>calculationId, 'calculationId');
         }
         if (gridAreaCode !== undefined && gridAreaCode !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
