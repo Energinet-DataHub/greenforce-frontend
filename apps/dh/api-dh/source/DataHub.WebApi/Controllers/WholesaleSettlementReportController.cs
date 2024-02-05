@@ -35,9 +35,9 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         [HttpGet]
         [Produces("application/zip")]
-        public async Task<ActionResult<Stream>> GetAsync(Guid batchId, string gridAreaCode)
+        public async Task<ActionResult<Stream>> GetAsync(Guid calculationId, string gridAreaCode)
         {
-            var fileResponse = await _client.GetSettlementReportAsStreamAsync(batchId, gridAreaCode).ConfigureAwait(false);
+            var fileResponse = await _client.GetSettlementReportAsStreamAsync(calculationId, gridAreaCode).ConfigureAwait(false);
             return File(
                 fileResponse.Stream,
                 MediaTypeNames.Application.Zip);
@@ -47,14 +47,14 @@ namespace Energinet.DataHub.WebApi.Controllers
         [Produces("application/zip")]
         public async Task<ActionResult<Stream>> DownloadAsync(
             [FromQuery] string[] gridAreaCodes,
-            [FromQuery] ProcessType processType,
+            [FromQuery] CalculationType calculationType,
             [FromQuery] DateTimeOffset periodStart,
             [FromQuery] DateTimeOffset periodEnd,
             [FromQuery] string? energySupplier,
             [FromQuery] string? csvLanguage)
         {
             var fileResponse = await _client
-                .DownloadAsync(gridAreaCodes, processType, periodStart, periodEnd, energySupplier, csvLanguage)
+                .DownloadAsync(gridAreaCodes, calculationType, periodStart, periodEnd, energySupplier, csvLanguage)
                 .ConfigureAwait(false);
 
             var fileName = "SettlementReport.zip";
