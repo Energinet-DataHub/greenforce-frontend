@@ -54,4 +54,4 @@ export * from './market-participant-user-role-with-permissions-dto';
 export * from './market-participant-user-status';
 export * from './search-result';
 export * from './stream';
-export * from './wholesale-process-type';
+export * from './wholesale-calculation-type';

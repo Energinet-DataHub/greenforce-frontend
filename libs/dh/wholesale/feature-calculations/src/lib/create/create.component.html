@@ -29,14 +29,14 @@ limitations under the License.
           novalidate
           [formGroup]="formGroup"
           (ngSubmit)="
-            latestPeriodEnd && formGroup.controls.processType.value === 'BALANCE_FIXING'
+            latestPeriodEnd && formGroup.controls.calculationType.value === 'BALANCE_FIXING'
               ? (showPeriodWarning = true)
               : modal.close(true)
           "
         >
           <!-- Period Warning-->
           <watt-validation-message
-            *ngIf="latestPeriodEnd && formGroup.controls.processType.value === 'BALANCE_FIXING'"
+            *ngIf="latestPeriodEnd && formGroup.controls.calculationType.value === 'BALANCE_FIXING'"
             size="normal"
             type="warning"
             icon="warning"
@@ -81,14 +81,14 @@ limitations under the License.
 
           <!-- Process type -->
           <watt-dropdown
-            [label]="t('create.processType.label')"
-            formControlName="processType"
-            [options]="processTypes | push"
+            [label]="t('create.calculationType.label')"
+            formControlName="calculationType"
+            [options]="calculationTypes | push"
             [showResetOption]="false"
             [multiple]="false"
           >
-            <watt-field-error *ngIf="formGroup.controls.processType.errors?.required">
-              {{ t("create.processType.error") }}
+            <watt-field-error *ngIf="formGroup.controls.calculationType.errors?.required">
+              {{ t("create.calculationType.error") }}
             </watt-field-error>
           </watt-dropdown>
 
@@ -107,7 +107,7 @@ limitations under the License.
           <watt-datepicker
             [label]="t('create.period.label')"
             formControlName="dateRange"
-            [rangeMonthOnlyMode]="monthOnly.includes(formGroup.controls.processType.value)"
+            [rangeMonthOnlyMode]="monthOnly.includes(formGroup.controls.calculationType.value)"
             [range]="true"
             [min]="minDate"
             [max]="maxDate"

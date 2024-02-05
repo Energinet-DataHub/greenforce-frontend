@@ -23,7 +23,7 @@ using HotChocolate;
 using HotChocolate.Types;
 using NodaTime;
 using EdiB2CWebAppProcessType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType;
-using ProcessType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.ProcessType;
+using WholesaleCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
@@ -89,10 +89,10 @@ public class Mutation
         return true;
     }
 
-    public Task<BatchDto> CreateCalculationAsync(
+    public Task<CalculationDto> CreateCalculationAsync(
         Interval period,
         string[] gridAreaCodes,
-        ProcessType processType,
+        WholesaleCalculationType calculationType,
         [Service] IWholesaleClient_V3 client)
     {
         if (!period.HasEnd || !period.HasStart)
@@ -100,27 +100,27 @@ public class Mutation
             throw new Exception("Period cannot be open-ended");
         }
 
-        var batchRequestDto = new BatchRequestDto
+        var calculationRequestDto = new CalculationRequestDto
         {
             StartDate = period.Start.ToDateTimeOffset(),
             EndDate = period.End.ToDateTimeOffset(),
             GridAreaCodes = gridAreaCodes,
-            ProcessType = processType,
+            CalculationType = calculationType,
         };
 
         return client
-            .CreateBatchAsync(batchRequestDto)
-            .Then(batchId => new BatchDto
+            .CreateCalculationAsync(calculationRequestDto)
+            .Then(calculationId => new CalculationDto
             {
-                BatchId = batchId,
-                ExecutionState = BatchState.Pending,
-                PeriodStart = batchRequestDto.StartDate,
-                PeriodEnd = batchRequestDto.EndDate,
+                CalculationId = calculationId,
+                ExecutionState = CalculationState.Pending,
+                PeriodStart = calculationRequestDto.StartDate,
+                PeriodEnd = calculationRequestDto.EndDate,
                 ExecutionTimeEnd = null,
                 ExecutionTimeStart = null,
                 AreSettlementReportsCreated = false,
                 GridAreaCodes = gridAreaCodes,
-                ProcessType = processType,
+                CalculationType = calculationType,
             });
     }
 

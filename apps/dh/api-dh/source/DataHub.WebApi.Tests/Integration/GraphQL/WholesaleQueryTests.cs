@@ -38,11 +38,11 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL
         public async Task GetPendingCalculation()
         {
             GraphQLTestService.WholesaleClientV3Mock
-                .Setup(x => x.GetBatchAsync(_batchId, default))
-                .ReturnsAsync(new BatchDto()
+                .Setup(x => x.GetCalculationAsync(_batchId, default))
+                .ReturnsAsync(new CalculationDto()
                 {
-                    BatchId = _batchId,
-                    ExecutionState = BatchState.Pending,
+                    CalculationId = _batchId,
+                    ExecutionState = CalculationState.Pending,
                 });
 
             var result = await GraphQLTestService
@@ -55,11 +55,11 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL
         public async Task GetExecutingCalculation()
         {
             GraphQLTestService.WholesaleClientV3Mock
-                .Setup(x => x.GetBatchAsync(_batchId, default))
-                .ReturnsAsync(new BatchDto()
+                .Setup(x => x.GetCalculationAsync(_batchId, default))
+                .ReturnsAsync(new CalculationDto()
                 {
-                    BatchId = _batchId,
-                    ExecutionState = BatchState.Executing,
+                    CalculationId = _batchId,
+                    ExecutionState = CalculationState.Executing,
                 });
 
             var result = await GraphQLTestService
@@ -72,11 +72,11 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL
         public async Task GetCompletedCalculation()
         {
             GraphQLTestService.WholesaleClientV3Mock
-                .Setup(x => x.GetBatchAsync(_batchId, default))
-                .ReturnsAsync(new BatchDto()
+                .Setup(x => x.GetCalculationAsync(_batchId, default))
+                .ReturnsAsync(new CalculationDto()
                 {
-                    BatchId = _batchId,
-                    ExecutionState = BatchState.Completed,
+                    CalculationId = _batchId,
+                    ExecutionState = CalculationState.Completed,
                 });
 
             var result = await GraphQLTestService
@@ -89,11 +89,11 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL
         public async Task GetFailedCalculation()
         {
             GraphQLTestService.WholesaleClientV3Mock
-                .Setup(x => x.GetBatchAsync(_batchId, default))
-                .ReturnsAsync(new BatchDto()
+                .Setup(x => x.GetCalculationAsync(_batchId, default))
+                .ReturnsAsync(new CalculationDto()
                 {
-                    BatchId = _batchId,
-                    ExecutionState = BatchState.Failed,
+                    CalculationId = _batchId,
+                    ExecutionState = CalculationState.Failed,
                 });
 
             var result = await GraphQLTestService

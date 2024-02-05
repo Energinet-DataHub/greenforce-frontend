@@ -24,12 +24,12 @@ namespace Energinet.DataHub.WebApi.GraphQL
     public class WholesaleResolvers
     {
         public async Task<string?> GetCreatedByUserNameAsync(
-            [Parent] BatchDto batch,
+            [Parent] CalculationDto batch,
             UserBatchDataLoader dataLoader) =>
             (await dataLoader.LoadAsync(batch.CreatedByUserId)).Email;
 
         public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
-            [Parent] BatchDto batch,
+            [Parent] CalculationDto batch,
             GridAreaByCodeBatchDataLoader dataLoader)
         {
             var gridAreas = await Task.WhenAll(batch.GridAreaCodes.Select(async c => await dataLoader.LoadAsync(c)));

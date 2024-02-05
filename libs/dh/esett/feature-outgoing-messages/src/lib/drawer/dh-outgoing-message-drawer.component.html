@@ -26,13 +26,13 @@ limitations under the License.
     <watt-drawer-heading>
       <h2 class="message-heading">
         {{ outgoingMessage?.documentId }}
-        <ng-container *ngIf="outgoingMessage?.calculationType">
+        @if (outgoingMessage?.calculationType) {
           -
           {{
             "eSett.outgoingMessages.shared.calculationType." + outgoingMessage?.calculationType
               | transloco
           }}
-        </ng-container>
+        }
       </h2>
 
       <watt-description-list [groupsPerRow]="4" variant="flow">
@@ -59,15 +59,19 @@ limitations under the License.
       </watt-description-list>
     </watt-drawer-heading>
 
-    <watt-drawer-content *ngIf="drawer.isOpen">
-      <watt-tabs>
-        <watt-tab *ngIf="dispatchDocument" [label]="t('tabs.message')">
-          <watt-code [code]="dispatchDocument | push" />
-        </watt-tab>
-        <watt-tab *ngIf="responseDocument" [label]="t('tabs.receipt')">
-          <watt-code [code]="responseDocument | push" />
-        </watt-tab>
-      </watt-tabs>
-    </watt-drawer-content>
+    @if (drawer.isOpen) {
+      <watt-drawer-content>
+        <watt-tabs>
+          <watt-tab [label]="t('tabs.message')">
+            <watt-code [code]="dispatchDocument()" />
+          </watt-tab>
+          @if (responseDocument()) {
+            <watt-tab [label]="t('tabs.receipt')">
+              <watt-code [code]="responseDocument()" />
+            </watt-tab>
+          }
+        </watt-tabs>
+      </watt-drawer-content>
+    }
   </watt-drawer>
 </ng-container>
