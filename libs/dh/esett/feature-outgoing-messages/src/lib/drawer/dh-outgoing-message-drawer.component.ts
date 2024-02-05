@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, inject, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -85,8 +85,8 @@ export class DhOutgoingMessageDrawerComponent {
 
   @Output() closed = new EventEmitter<void>();
 
-  dispatchDocument: Observable<string> | undefined;
-  responseDocument: Observable<string> | undefined;
+  dispatchDocument = signal<string | undefined>(undefined);
+  responseDocument = signal<string | undefined>(undefined);
 
   get messageTypeValue(): string {
     if (this.outgoingMessage?.calculationType) {
@@ -111,8 +111,8 @@ export class DhOutgoingMessageDrawerComponent {
   private loadOutgoingMessage(id: string): void {
     this.subscription?.unsubscribe();
 
-    this.dispatchDocument = undefined;
-    this.responseDocument = undefined;
+    this.dispatchDocument.set(undefined);
+    this.responseDocument.set(undefined);
 
     this.subscription = this.apollo
       .watchQuery({
@@ -135,7 +135,9 @@ export class DhOutgoingMessageDrawerComponent {
             this.outgoingMessage.documentId &&
             this.outgoingMessage.documentStatus !== DocumentStatus.Received
           ) {
-            this.dispatchDocument = this.loadDispatchDocument(this.outgoingMessage.documentId);
+            this.loadDispatchDocument(this.outgoingMessage.documentId).subscribe((res) =>
+              this.dispatchDocument.set(res)
+            );
           }
 
           if (
@@ -144,7 +146,9 @@ export class DhOutgoingMessageDrawerComponent {
               this.outgoingMessage.documentStatus === DocumentStatus.Accepted) ||
               this.outgoingMessage.documentStatus === DocumentStatus.Rejected)
           ) {
-            this.responseDocument = this.loadResponseDocument(this.outgoingMessage.documentId);
+            this.loadResponseDocument(this.outgoingMessage.documentId).subscribe((res) =>
+              this.responseDocument.set(res)
+            );
           }
         },
       });
@@ -153,8 +157,7 @@ export class DhOutgoingMessageDrawerComponent {
   private loadResponseDocument(documentLink: string): Observable<string> {
     return this.esettHttp.v1EsettExchangeResponseDocumentGet(documentLink).pipe(
       switchMap((res) => {
-        const blobPart = res as unknown as BlobPart;
-        const blob = new Blob([blobPart]);
+        const blob = res as unknown as Blob;
         return new Response(blob).text();
       }),
       takeUntil(this.closed)
@@ -164,8 +167,7 @@ export class DhOutgoingMessageDrawerComponent {
   private loadDispatchDocument(documentLink: string): Observable<string> {
     return this.esettHttp.v1EsettExchangeDispatchDocumentGet(documentLink).pipe(
       switchMap((res) => {
-        const blobPart = res as unknown as BlobPart;
-        const blob = new Blob([blobPart]);
+        const blob = res as unknown as Blob;
         return new Response(blob).text();
       }),
       takeUntil(this.closed)
