@@ -61,10 +61,10 @@ limitations under the License.
 
     <watt-drawer-content *ngIf="drawer.isOpen">
       <watt-tabs>
-        <watt-tab *ngIf="dispatchDocument" [label]="t('tabs.message')">
+        <watt-tab *ngIf="dispatchDocument()" [label]="t('tabs.message')">
           <watt-code [code]="dispatchDocument()" />
         </watt-tab>
-        <watt-tab *ngIf="responseDocument" [label]="t('tabs.receipt')">
+        <watt-tab *ngIf="responseDocument()" [label]="t('tabs.receipt')">
           <watt-code [code]="responseDocument()" />
         </watt-tab>
       </watt-tabs>
