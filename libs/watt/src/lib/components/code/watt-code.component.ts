@@ -18,9 +18,11 @@ import {
   Component,
   ChangeDetectionStrategy,
   ViewEncapsulation,
-  OnInit,
   signal,
   input,
+  OnChanges,
+  SimpleChanges,
+  OnDestroy,
 } from '@angular/core';
 
 import { WattSpinnerComponent } from '../spinner';
@@ -45,25 +47,37 @@ import { createWorker } from './watt-code.worker-factory';
   imports: [WattSpinnerComponent, VaterStackComponent],
   standalone: true,
 })
-export class WattCodeComponent implements OnInit {
-  code = input.required<string | null>();
+export class WattCodeComponent implements OnDestroy, OnChanges {
+  code = input.required<string | null | undefined>();
 
   /** @ignore */
   formattedCode = signal<string>('');
   /** @ignore */
   loading = signal<boolean>(false);
 
+  private _worker: Worker = createWorker();
+
   /** @ignore */
-  ngOnInit(): void {
-    if (this.code() === null) return;
+  ngOnDestroy(): void {
+    this._worker.terminate();
+  }
 
-    const worker = createWorker();
+  /** @ignore */
+  ngOnChanges(changes: SimpleChanges): void {
+    const { currentValue } = changes['code'];
 
-    worker.onmessage = (event) => {
+    if (currentValue === undefined || currentValue === null) {
+      this.formattedCode.set('');
+      this.loading.set(false);
+      return;
+    }
+
+    this._worker.onmessage = (event) => {
       this.formattedCode.set(event.data);
       this.loading.set(false);
     };
-    worker.postMessage(this.code());
+
+    this._worker.postMessage(currentValue);
     this.loading.set(true);
   }
 }
