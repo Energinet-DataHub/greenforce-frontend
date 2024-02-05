@@ -38,7 +38,7 @@ import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import {
-  WholesaleProcessType,
+  WholesaleCalculationType,
   WholesaleSettlementReportHttp,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
@@ -99,8 +99,7 @@ export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
   encapsulation: ViewEncapsulation.None,
 })
 export class DhWholesaleSettlementsReportsTabsBalanceComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+  implements OnInit, AfterViewInit, OnDestroy {
   private fb: FormBuilder = inject(FormBuilder);
   private apollo = inject(Apollo);
   private transloco = inject(TranslocoService);
@@ -251,7 +250,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
     this.httpClient
       .v1WholesaleSettlementReportDownloadGet(
         gridAreas.map((g) => g.id),
-        WholesaleProcessType.BalanceFixing,
+        WholesaleCalculationType.BalanceFixing,
         startDate.toISOString().slice(0, 10),
         endDate.toISOString().slice(0, 10),
         this.searchForm.controls.actor.value ?? undefined,
