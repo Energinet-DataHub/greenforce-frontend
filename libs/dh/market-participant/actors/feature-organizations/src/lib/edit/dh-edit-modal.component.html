@@ -18,6 +18,7 @@ limitations under the License.
   size="small"
   [title]="organization.name"
   (closed)="onCloseModal()"
+  [loading]="isLoading"
   *transloco="let t; read: 'marketParticipant.organizationsOverview.edit'"
 >
   <form id="editForm" (ngSubmit)="save()">
