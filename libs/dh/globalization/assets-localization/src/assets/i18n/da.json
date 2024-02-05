@@ -7,7 +7,8 @@
   "sessionExpirationContentPartA": "Du har været inaktiv i 2 timer.",
   "sessionExpirationContentPartB": "Af sikkerhedsmæssige årsager vil du blive logget af om",
   "shell": {
-    "logout": "Log ud"
+    "logout": "Log ud",
+    "profile": "Profile"
   },
   "shared": {
     "error": {

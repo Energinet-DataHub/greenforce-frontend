@@ -14,13 +14,15 @@ import { TranslocoDirective } from '@ngneat/transloco';
   template: `<button [matMenuTriggerFor]="menu" class="watt-text-m">D</button>
     <mat-menu #menu="matMenu" xPosition="before" class="dh-profile__menu">
       <ng-container *transloco="let transloco; read: 'shell'">
+        <button mat-menu-item>
+          <watt-icon name="account" class="watt-icon--small" />
+          <span>{{ transloco('profile') }}</span>
+        </button>
         <button mat-menu-item (click)="logout()">
           <watt-icon name="logout" class="watt-icon--small" />
           <span>{{ transloco('logout') }}</span>
         </button>
       </ng-container>
-      <button mat-menu-item>Item 1</button>
-      <button mat-menu-item>Item 2</button>
     </mat-menu>`,
   styles: `
   .dh-profile__menu {
@@ -29,6 +31,9 @@ import { TranslocoDirective } from '@ngneat/transloco';
     watt-button.watt-button--text.toolbar__logout .mat-mdc-button.mat-text {
         color: var(--typography-color-enabled, #212121);
       }
+    .mat-mdc-menu-item-text {
+      display: flex;
+    }
   }
   dh-profile-avatar {
     display: block;
