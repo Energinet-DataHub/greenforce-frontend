@@ -2,7 +2,7 @@ query GetLatestBalanceFixing($period: DateRange) {
   calculations(
     first: 1
     period: $period
-    processTypes: BALANCE_FIXING
+    calculationTypes: BALANCE_FIXING
     executionStates: COMPLETED
   ) {
     period
