@@ -25,7 +25,6 @@ import { dhFeatureFlagsConfig, DhFeatureFlags, FeatureFlagConfig } from './featu
 
 export const dhFeatureFlagsToken = new InjectionToken<FeatureFlagConfig>('dhFeatureFlagsToken', {
   factory: (): FeatureFlagConfig => {
-    console.log('dhFeatureFlagsConfig', dhFeatureFlagsConfig);
     return dhFeatureFlagsConfig;
   },
 });
