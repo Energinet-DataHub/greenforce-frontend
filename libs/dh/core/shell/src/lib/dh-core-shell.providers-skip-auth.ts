@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { of, tap } from 'rxjs';
+import { of } from 'rxjs';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -52,12 +52,10 @@ import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { IPublicClientApplication } from '@azure/msal-browser';
 
-MsalGuard.prototype.canActivate = () => of(true).pipe(tap(() => console.log('MsalGuard')));
+MsalGuard.prototype.canActivate = () => of(true);
 
 MsalInterceptor.prototype.intercept = (req, next) => {
-  console.log('MsalInterceptor');
   const access = localStorage.getItem('access_token');
-  console.log('access', access);
   req = req.clone({
     setHeaders: {
       Authorization: `Bearer ${access}`,
@@ -68,7 +66,6 @@ MsalInterceptor.prototype.intercept = (req, next) => {
 
 MsalService.prototype.instance = {
   getActiveAccount: () => {
-    console.log('getActiveAccount');
     return { username: 'Test' };
   },
 } as IPublicClientApplication;
