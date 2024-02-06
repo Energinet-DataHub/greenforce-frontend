@@ -103,6 +103,12 @@
             "inputmask",
             "flat",
             "msw"
+          ],
+          "fileReplacements": [
+            {
+              "replace": "libs/dh/core/shell/src/lib/dh-core-shell.providers.ts",
+              "with": "libs/dh/core/shell/src/lib/dh-core-shell.providers-skip-auth.ts"
+            }
           ]
         },
         "mocked": {
