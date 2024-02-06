@@ -38,6 +38,14 @@ if (environment.production) {
   enableProdMode();
 }
 
+if (!environment.production) {
+  const searchParams = new URLSearchParams(window.location.search);
+  const debugToken = searchParams.get('debugToken');
+  if (debugToken) {
+    localStorage.setItem('access_token', debugToken);
+  }
+}
+
 Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironment()])
   .then(([dhApiEnvironment, dhB2CEnvironment, dhAppEnvironment]) => {
     bootstrapApplication(DataHubAppComponent, {
