@@ -10,13 +10,7 @@
         "cypressConfig": "apps/dh/e2e-dh/cypress.config.ts",
         "devServerTarget": "app-dh:serve:mocked",
         "testingType": "e2e",
-        "baseUrl": "https://localhost:4200",
-        "fileReplacements": [
-          {
-            "replace": "libs/dh/core/shell/src/lib/dh-core-shell.component.ts",
-            "with": "libs/dh/core/shell/src/lib/dh-core-shell.providers-skip-auth.ts"
-          }
-        ]
+        "baseUrl": "https://localhost:4200"
       },
       "configurations": {
         "ci": {
