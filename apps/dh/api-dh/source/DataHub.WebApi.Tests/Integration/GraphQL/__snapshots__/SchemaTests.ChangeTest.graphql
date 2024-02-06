@@ -97,9 +97,9 @@ type Calculation {
   unit: String
   executionTimeStart: DateTime
   executionTimeEnd: DateTime
-  executionState: BatchState!
+  executionState: CalculationState!
   areSettlementReportsCreated: Boolean!
-  processType: ProcessType!
+  calculationType: CalculationType!
 }
 
 type CreateAggregatedMeasureDataRequestPayload {
@@ -281,7 +281,7 @@ type Query {
   organizations: [Organization!]!
   gridAreas: [GridAreaDto!]!
   calculationById(id: UUID!): Calculation!
-  calculations(executionTime: DateRange executionStates: [BatchState!] processTypes: [ProcessType!] gridAreaCodes: [String!] period: DateRange first: Int): [Calculation!]!
+  calculations(executionTime: DateRange executionStates: [CalculationState!] calculationTypes: [CalculationType!] gridAreaCodes: [String!] period: DateRange first: Int): [Calculation!]!
   settlementReports(gridAreaCodes: [String!] period: DateRange executionTime: DateRange): [SettlementReport!]!
   selectedActor: Actor!
   actorById(id: UUID!): Actor!
@@ -307,8 +307,8 @@ type ReadinessStatusDto {
 }
 
 type SettlementReport {
-  batchNumber: UUID!
-  processType: ProcessType!
+  calculationId: UUID!
+  calculationType: CalculationType!
   gridArea: GridAreaDto!
   period: DateRange!
   executionTime: DateTime
@@ -422,7 +422,7 @@ input CreateAggregatedMeasureDataRequestInput {
 input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
-  processType: ProcessType!
+  calculationType: CalculationType!
 }
 
 input CreateMarketParticipantInput {
@@ -482,11 +482,21 @@ enum BalanceResponsibleSortProperty {
   RECEIVED_DATE
 }
 
-enum BatchState {
+enum CalculationState {
   PENDING
   EXECUTING
   COMPLETED
   FAILED
+}
+
+"Defines the wholesale calculation type"
+enum CalculationType {
+  BALANCE_FIXING
+  AGGREGATION
+  WHOLESALE_FIXING
+  FIRST_CORRECTION_SETTLEMENT
+  SECOND_CORRECTION_SETTLEMENT
+  THIRD_CORRECTION_SETTLEMENT
 }
 
 enum ContactCategory {
@@ -587,16 +597,6 @@ enum ProcessStatus {
   success
   danger
   info
-}
-
-"Defines the wholesale process type"
-enum ProcessType {
-  BALANCE_FIXING
-  AGGREGATION
-  WHOLESALE_FIXING
-  FIRST_CORRECTION_SETTLEMENT
-  SECOND_CORRECTION_SETTLEMENT
-  THIRD_CORRECTION_SETTLEMENT
 }
 
 enum SortDirection {

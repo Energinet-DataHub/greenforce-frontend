@@ -55,7 +55,7 @@
     "downloadreport": "Download report",
     "search": "Search",
     "selectedValues": "{{count}} selected",
-    "processType": "Calculation type"
+    "calculationType": "Calculation type"
   },
   "clipboard": {
     "success": "Copied to clipboard",
@@ -811,8 +811,8 @@
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",
         "scheduling": "Execution",
-        "processType": {
-          "label": "{{shared.processType}}",
+        "calculationType": {
+          "label": "{{shared.calculationType}}",
           "error": "Process type is required"
         },
         "summation": "Monthly summation",
@@ -847,7 +847,7 @@
           "error": "{{shared.error.title}}"
         }
       },
-      "processTypes": {
+      "calculationTypes": {
         "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
         "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
         "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
@@ -877,7 +877,7 @@
         "executionStates": "Status",
         "executionTime": "Execution time",
         "gridAreas": "Grid areas",
-        "processType": "{{shared.processType}}",
+        "calculationType": "{{shared.calculationType}}",
         "reset": "{{shared.form.reset}}",
         "period": "{{shared.form.filters.period}}"
       },
@@ -886,7 +886,7 @@
         "periodFrom": "Period from",
         "periodTo": "Period to",
         "executionTime": "Execution time",
-        "processType": "{{shared.processType}}",
+        "calculationType": "{{shared.calculationType}}",
         "status": "Status"
       },
       "details": {
@@ -912,13 +912,13 @@
       "startAndEndDateCannotBeInTheFuture": "Start and end date cannot be in the future",
       "success": "The calculation has been requested",
       "topBarTitle": "Request calculation",
-      "processType": "{{shared.processType}}",
+      "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Type of metering point",
       "period": "Period",
       "gridareas": "Grid areas",
       "request": "Request",
       "maxPeriodLength": "Period must be less than one month",
-      "processTypes": {
+      "calculationTypes": {
         "preliminaryaggregation": "Aggregation",
         "balancefixing": "Balance fixing",
         "wholesalefixing": "Wholesale fixing",
@@ -955,7 +955,7 @@
       },
       "table": {
         "title": "Processes",
-        "processType": "{{shared.processType}}",
+        "calculationType": "{{shared.calculationType}}",
         "gridAreaName": "Grid area",
         "gridAreaCode": "Grid Area Code",
         "periodStart": "Period from",
@@ -965,12 +965,12 @@
         "emptyHelperText": "Try changing the search criteria",
         "download": "—"
       },
-      "processTypes": {
+      "calculationTypes": {
         "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
         "AGGREGATION": "{{wholesale.shared.AGGREGATION}}"
       },
       "filters": {
-        "processType": "{{shared.processType}}",
+        "calculationType": "{{shared.calculationType}}",
         "gridArea": "Grid area",
         "period": "Period",
         "executionTime": "Execution time",
@@ -979,7 +979,7 @@
         "loadingActors": "Loading energy suppliers...",
         "loadingGridAreas": "Loading grid areas...",
         "actorPlaceholder": "Select energy supplier",
-        "processTypePlaceholder": "Select {{shared.processType}}",
+        "calculationTypePlaceholder": "Select {{shared.calculationType}}",
         "gridAreasPlaceholder": "Select grid area(s)"
       }
     }
