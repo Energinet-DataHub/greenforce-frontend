@@ -40,6 +40,7 @@ import { WattButtonComponent } from '../../button/watt-button.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 import { WattFieldComponent } from '../../field/watt-field.component';
 import { DateAdapter } from '@angular/material/core';
+import { WattDatepickerIntlService } from './watt-datepicker-intl.service';
 
 type customSelectionStrategy = (date: Date | null) => DateRange<Date>;
 
@@ -115,8 +116,8 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
     <mat-date-range-picker #picker>
       @if (showActions) {
         <mat-date-range-picker-actions>
-          <watt-button variant="text" (click)="clearInput()" icon="remove">Ryd</watt-button>
-          <watt-button variant="primary" matDateRangePickerApply>Vælg</watt-button>
+          <watt-button variant="text" (click)="clearInput()" icon="remove">{{intl.clear}}</watt-button>
+          <watt-button variant="primary" matDateRangePickerApply>{{intl.select}}</watt-button>
         </mat-date-range-picker-actions>
       }
     </mat-date-range-picker>
@@ -174,6 +175,7 @@ export class WattDateRangeChipComponent {
   @Output() selectionChange = new EventEmitter<WattRange<Date> | null>();
 
   private _dateAdapter = inject(DateAdapter);
+  protected intl = inject(WattDatepickerIntlService);
 
   selectionStrategy() {
     const strategy = new WattDateRangeSelectionStrategy(this._dateAdapter);
