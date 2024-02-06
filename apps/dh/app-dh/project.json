@@ -114,6 +114,10 @@
             {
               "replace": "libs/dh/shared/environments/src/lib/environment.ts",
               "with": "libs/dh/shared/environments/src/lib/environment.mocked.ts"
+            },
+            {
+              "replace": "libs/dh/core/shell/src/lib/dh-core-shell.providers.ts",
+              "with": "libs/dh/core/shell/src/lib/dh-core-shell.providers-skip-auth.ts"
             }
           ],
           "allowedCommonJsDependencies": [
