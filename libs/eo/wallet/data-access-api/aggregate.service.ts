@@ -16,7 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { EMPTY, ReplaySubject, catchError, map, shareReplay, tap } from 'rxjs';
+import { EMPTY, ReplaySubject, catchError, map, of, shareReplay, tap } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
@@ -86,7 +86,7 @@ export class EoAggregateService {
           catchError((error) => {
             this.#cache.delete(cacheKey);
             subject.error(error);
-            return error;
+            return of(error);
           }),
           shareReplay(1)
         )
