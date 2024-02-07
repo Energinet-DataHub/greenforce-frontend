@@ -194,4 +194,13 @@ public class Mutation
 
         return true;
     }
+
+    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
+    public async Task<bool> UpdateUserProfileAsync(
+           UserProfileUpdateDto userProfileUpdateDto,
+           [Service] IMarketParticipantClient_V1 client)
+    {
+        await client.UserUserprofilePutAsync(userProfileUpdateDto).ConfigureAwait(false);
+        return true;
+    }
 }
