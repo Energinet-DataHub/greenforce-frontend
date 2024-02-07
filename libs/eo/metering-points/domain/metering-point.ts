@@ -42,14 +42,14 @@ export interface MeteringPoint {
   technology: {
     aibFueldCode: string;
     aibTechCode: AibTechCode;
-  }
+  };
   subMeterType: 'Virtual' | 'Physical';
 }
 
 export enum AibTechCode {
   Solar = 'T010000',
   Wind = 'T020000',
-  Other = 'T070000'
+  Other = 'T070000',
 }
 
 export interface EoMeteringPoint extends MeteringPoint {

@@ -60,24 +60,32 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   readonly consumptionMeteringPoints$ = this.select(
     (state) =>
       state.meteringPoints?.filter(
-        (mp) => mp.type === 'Consumption' && (mp.technology.aibTechCode === AibTechCode.Wind || mp.technology.aibTechCode === AibTechCode.Solar)
+        (mp) =>
+          mp.type === 'Consumption' &&
+          (mp.technology.aibTechCode === AibTechCode.Wind ||
+            mp.technology.aibTechCode === AibTechCode.Solar)
       ) ?? []
   );
   readonly productionMeteringPoints$ = this.select(
     (state) =>
       state.meteringPoints?.filter(
-        (mp) => mp.type === 'Production' && (mp.technology.aibTechCode === AibTechCode.Wind || mp.technology.aibTechCode === AibTechCode.Solar)
+        (mp) =>
+          mp.type === 'Production' &&
+          (mp.technology.aibTechCode === AibTechCode.Wind ||
+            mp.technology.aibTechCode === AibTechCode.Solar)
       ) ?? []
   );
-  readonly productionAndConsumptionMeteringPoints$ = this.select(
-    (state) => {
-      console.log(state);
-      return state.meteringPoints?.filter(
+  readonly productionAndConsumptionMeteringPoints$ = this.select((state) => {
+    console.log(state);
+    return (
+      state.meteringPoints?.filter(
         (mp) =>
           (mp.type === 'Production' || mp.type === 'Consumption') &&
-          (mp.technology.aibTechCode === AibTechCode.Wind || mp.technology.aibTechCode === AibTechCode.Solar)
+          (mp.technology.aibTechCode === AibTechCode.Wind ||
+            mp.technology.aibTechCode === AibTechCode.Solar)
       ) ?? []
-      });
+    );
+  });
 
   readonly consumptionMeteringPointsWithContract$ = this.select(
     (state) =>
