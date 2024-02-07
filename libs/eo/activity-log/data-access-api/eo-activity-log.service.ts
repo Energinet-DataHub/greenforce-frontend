@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable, inject } from '@angular/core';
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { Injectable, inject } from '@angular/core';
+import { Observable, forkJoin, map, of } from 'rxjs';
 
-type entityType =
-  |'TransferAgreement'
+import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+
+export type activityLogEntityType =
+  | 'TransferAgreement'
   | 'MeteringPoint'
   | 'TransferAgreementProposal';
 
@@ -31,13 +33,7 @@ type actionType =
   | 'Deactivated'
   | 'ChangeEndDate';
 
-interface ActivityLogEntryFilterRequest {
-  start: string;
-  end: string;
-  entityType: entityType;
-}
-
-interface ActivityLogEntryResponse {
+export interface ActivityLogEntryResponse {
   id: string;
   timestamp: string;
   actorId: string;
@@ -45,7 +41,7 @@ interface ActivityLogEntryResponse {
   actorName: string;
   organizationTin: string;
   organizationName: string;
-  entityType: entityType;
+  entityType: activityLogEntityType;
   actionType: actionType;
   entityId: string;
 }
@@ -62,10 +58,47 @@ export class EoActivityLogService {
   private http = inject(HttpClient);
   private apiBase: string = inject(eoApiEnvironmentToken).apiBase;
 
-  getLogs(options: ActivityLogEntryFilterRequest) {
+  getLogs(options: {
+    period: { start: number; end: number };
+    eventTypes: activityLogEntityType[];
+  }): Observable<ActivityLogEntryResponse[]> {
+    return forkJoin({
+      transfers: options.eventTypes.includes('TransferAgreement')
+        ? this.getTransferLogs(options.period)
+        : of({ activityLogEntries: [], hasMore: false } as ActivityLogListEntryResponse),
+      certificates: options.eventTypes.includes('MeteringPoint')
+        ? this.getCertificateLogs(options.period)
+        : of({ activityLogEntries: [], hasMore: false } as ActivityLogListEntryResponse),
+    }).pipe(
+      // Merge the logs
+      map((logs) => {
+        return logs.transfers.activityLogEntries.concat(logs.certificates.activityLogEntries);
+      }),
+      // Sort by timestamp
+      map((logs) => {
+        return logs.sort((a, b) => {
+          return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+        });
+      })
+    );
+  }
+
+  getTransferLogs(period: { start: number; end: number }): Observable<ActivityLogListEntryResponse> {
+    return this.http.post<ActivityLogListEntryResponse>(`${this.apiBase}/transfer/activity-log`, {
+      start: period.start / 1000,
+      end: period.end / 1000,
+      entityType: null,
+    });
+  }
+
+  getCertificateLogs(period: { start: number; end: number }): Observable<ActivityLogListEntryResponse> {
     return this.http.post<ActivityLogListEntryResponse>(
-      `${this.apiBase}/transfer/activity-log`,
-      options
+      `${this.apiBase}/certificates/activity-log`,
+      {
+        start: period.start / 1000,
+        end: period.end / 1000,
+        entityType: 'MeteringPoint',
+      }
     );
   }
 }

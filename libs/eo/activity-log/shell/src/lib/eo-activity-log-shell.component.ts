@@ -15,14 +15,36 @@
  * limitations under the License.
  */
 
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  OnInit,
+  ViewEncapsulation,
+  inject,
+  signal,
+} from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { WattTableComponent, WattTableDataSource } from '@energinet-datahub/watt/table';
+import {
+  WattTableColumnDef,
+  WattTableComponent,
+  WattTableDataSource,
+} from '@energinet-datahub/watt/table';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { EoActivityLogService } from '@energinet-datahub/eo/activity-log/data-access-api';
+import {
+  ActivityLogEntryResponse,
+  EoActivityLogService,
+  activityLogEntityType,
+} from '@energinet-datahub/eo/activity-log/data-access-api';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
+import { endOfToday, getUnixTime, startOfToday, subDays } from 'date-fns';
+import { WattFormChipDirective } from '@energinet-datahub/watt/field';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { distinctUntilChanged } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'eo-activity-log-shell',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,10 +54,12 @@ import { EoActivityLogService } from '@energinet-datahub/eo/activity-log/data-ac
     WattDataFiltersComponent,
     WattDropdownComponent,
     VaterStackComponent,
+    WattDateRangeChipComponent,
     WattTableComponent,
     ReactiveFormsModule,
-    JsonPipe,
+    WattFormChipDirective,
   ],
+  providers: [WattDatePipe],
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
@@ -45,36 +69,105 @@ import { EoActivityLogService } from '@energinet-datahub/eo/activity-log/data-ac
     `,
   ],
   template: `
-    <watt-data-table vater inset="m">
+    <watt-data-table vater inset="m" [error]="state().hasError">
       <h3>Results</h3>
       <watt-data-filters>
-        <vater-stack fill="vertical" gap="s" direction="row">
-          <watt-dropdown
-            label="Filter by"
-            [options]="eventTypes"
-            [chipMode]="true"
-            [formControl]="eventTypesControl"
-            [multiple]="true"
-            placeholder="Event type"
-          />
-        </vater-stack>
+        <form [formGroup]="form">
+          <vater-stack fill="vertical" gap="s" direction="row">
+            <watt-dropdown
+              label="Filter by"
+              [options]="eventTypes"
+              [chipMode]="true"
+              formControlName="eventTypes"
+              [multiple]="true"
+              placeholder="Event type"
+            />
+            <watt-date-range-chip [formControl]="form.controls.period" [placeholder]="false" />
+          </vater-stack>
+        </form>
       </watt-data-filters>
 
-      <watt-table [dataSource]="dataSource" />
+      <watt-table
+        [dataSource]="dataSource"
+        [columns]="columns"
+        sortBy="timestamp"
+        sortDirection="desc"
+        [loading]="state().isLoading"
+      />
     </watt-data-table>
   `,
 })
 export class EoActivityLogShellComponent implements OnInit {
-  protected dataSource: WattTableDataSource<unknown> = new WattTableDataSource(undefined);
-  protected eventTypes: WattDropdownOption[] = [
-    { value: 'transfer-agreement', displayValue: 'Transfer agreement' },
-    { value: 'metering-points', displayValue: 'Metering point' },
-  ];
-  protected eventTypesControl = new FormControl(this.eventTypes.map((option) => option.value));
+  protected dataSource: WattTableDataSource<{ timestamp: string; event: string }> =
+    new WattTableDataSource(undefined);
+  protected columns: WattTableColumnDef<{ timestamp: string; event: string }> = {
+    timestamp: { accessor: (x) => x.timestamp },
+    event: { accessor: (x) => x.event },
+  };
 
+  protected eventTypes: WattDropdownOption[] = [
+    { value: 'TransferAgreement', displayValue: 'Transfer agreement' },
+    { value: 'MeteringPoint', displayValue: 'Metering point' },
+  ];
+  protected form = new FormGroup({
+    period: new FormControl(this.last30Days(), { nonNullable: true }),
+    eventTypes: new FormControl<activityLogEntityType[]>(
+      this.eventTypes.map((option) => option.value as activityLogEntityType),
+      { nonNullable: true }
+    ),
+  });
+  protected state = signal<{ hasError: boolean; isLoading: boolean }>({
+    hasError: false,
+    isLoading: false,
+  });
+
+  private destroyRef = inject(DestroyRef);
   private activityLogService = inject(EoActivityLogService);
+  private datePipe: WattDatePipe = inject(WattDatePipe);
 
   ngOnInit(): void {
-      this.activityLogService.getLogs({ start: '2021-01-01', end: '2021-12-31', entityType: 'TransferAgreement'});
+    this.getLogs();
+
+    this.form.valueChanges
+      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.getLogs();
+      });
+  }
+
+  private getLogs() {
+    this.state.set({ ...this.state(), isLoading: true });
+    this.setDataSource([]);
+    this.activityLogService.getLogs(this.form.getRawValue()).subscribe({
+      next: (response) => {
+        this.state.set({
+          hasError: false,
+          isLoading: false,
+        });
+        this.setDataSource(response);
+      },
+      error: () => {
+        this.state.set({
+          hasError: true,
+          isLoading: false,
+        });
+      },
+    });
+  }
+
+  private setDataSource(data: ActivityLogEntryResponse[]) {
+    this.dataSource.data = data.map((x) => {
+      return {
+        timestamp: this.datePipe.transform(x.timestamp, 'longAbbrWithSeconds') as string,
+        event: `${x.organizationName} (${x.organizationTin}) has ${x.actionType} a ${x.entityType} with ID ${x.entityId}`,
+      };
+    });
+  }
+
+  private last30Days(): { start: number; end: number } {
+    return {
+      start: getUnixTime(subDays(startOfToday(), 30)) * 1000, // 30 days ago at 00:00
+      end: getUnixTime(endOfToday()) * 1000, // Today at 23:59:59
+    };
   }
 }
