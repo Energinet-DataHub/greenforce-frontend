@@ -125,27 +125,6 @@
             "flat",
             "crypto-js"
           ]
-        },
-        "auth-disabled": {
-          "optimization": false,
-          "extractLicenses": false,
-          "sourceMap": true,
-          "namedChunks": true,
-          "fileReplacements": [
-            {
-              "replace": "libs/dh/shared/environments/src/lib/environment.ts",
-              "with": "libs/dh/shared/environments/src/lib/environment.auth-disabled.ts"
-            }
-          ],
-          "allowedCommonJsDependencies": [
-            "date-fns",
-            "@mswjs/cookies",
-            "@mswjs/interceptors",
-            "msw",
-            "inputmask",
-            "flat",
-            "crypto-js"
-          ]
         }
       },
       "defaultConfiguration": "production"
@@ -172,14 +151,6 @@
           "sslCert": "localhost.crt",
           "host": "0.0.0.0",
           "buildTarget": "app-dh:build:mocked"
-        },
-        "auth-disabled": {
-          "hmr": true,
-          "ssl": true,
-          "sslKey": "localhost.key",
-          "sslCert": "localhost.crt",
-          "host": "0.0.0.0",
-          "buildTarget": "app-dh:build:auth-disabled"
         }
       },
       "defaultConfiguration": "mocked"
