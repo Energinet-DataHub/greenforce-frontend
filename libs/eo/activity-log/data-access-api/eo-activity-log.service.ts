@@ -68,8 +68,8 @@ export class EoActivityLogService {
   }): Observable<ActivityLogEntryResponse[]> {
     const period = {
       start: getUnixTime(options.period.start),
-      end: getUnixTime(options.period.end)
-    }
+      end: getUnixTime(options.period.end),
+    };
     return forkJoin({
       transfers: options.eventTypes.includes('TransferAgreement')
         ? this.getTransferLogs(period)

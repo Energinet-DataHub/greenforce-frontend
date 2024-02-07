@@ -133,7 +133,7 @@ export class EoActivityLogShellComponent implements OnInit {
       .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         const { period } = this.form.getRawValue();
-        if(period && period.start && period.end) {
+        if (period && period.start && period.end) {
           this.getLogs();
         }
       });
