@@ -96,6 +96,7 @@ export class StorybookIconOverviewComponent {
     {
       name: 'navigation',
       icons: [
+        { name: 'Account', icon: 'account' },
         { name: 'Left', icon: 'left' },
         { name: 'Right', icon: 'right' },
         { name: 'Up', icon: 'up' },

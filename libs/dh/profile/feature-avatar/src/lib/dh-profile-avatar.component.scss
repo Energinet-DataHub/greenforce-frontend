@@ -14,40 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-}
-
-.sidenav-container {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-}
-
-.sidenav {
-  display: flex;
-  justify-content: center;
-}
-
-.selected-actor-container {
-  margin-top: auto;
-  padding: var(--watt-space-m);
-}
-
-.logo--sidenav {
-  margin: var(--watt-space-m) 0;
-}
-
-.toolbar {
-  &__heading {
-    margin-left: var(--watt-space-m);
+.dh-profile__menu {
+  width: 200px;
+  margin-top: var(--watt-space-s);
+  watt-button.watt-button--text.toolbar__logout .mat-mdc-button.mat-text {
+    color: var(--typography-color-enabled, #212121);
   }
-
-  &__actions {
-    align-items: center;
+  .mat-mdc-menu-item-text {
     display: flex;
-    gap: 1rem;
-    margin-left: auto;
-    margin-right: var(--watt-space-s);
+  }
+}
+
+dh-profile-avatar {
+  display: block;
+  button {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: #424242;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+    cursor: pointer;
+    border: none;
   }
 }
