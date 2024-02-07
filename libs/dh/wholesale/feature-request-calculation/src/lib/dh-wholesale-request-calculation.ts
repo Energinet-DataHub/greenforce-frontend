@@ -46,7 +46,7 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange } from '@energinet-datahub/watt/date';
@@ -90,7 +90,7 @@ type FormType = {
         }
 
         watt-dropdown,
-        watt-datepicker {
+        watt-datepicker-v2 {
           width: 50%;
         }
       }
@@ -106,7 +106,7 @@ type FormType = {
     ReactiveFormsModule,
     FormsModule,
     TranslocoDirective,
-    WattDatepickerComponent,
+    WattDatepickerV2Component,
     WattFieldErrorComponent,
     NgIf,
   ],

@@ -119,6 +119,7 @@
     "@badeball/cypress-cucumber-preprocessor": "20.0.0",
     "@bahmutov/cypress-esbuild-preprocessor": "2.2.0",
     "@compodoc/compodoc": "1.1.21",
+    "@cypress/webpack-dev-server": "2.0.0",
     "@graphql-codegen/add": "5.0.0",
     "@graphql-codegen/cli": "5.0.0",
     "@graphql-codegen/introspection": "4.0.0",
@@ -202,6 +203,7 @@
     "source-map-explorer": "2.5.3",
     "storybook-addon-pseudo-states": "2.1.0",
     "ts-jest": "29.1.2",
+    "ts-node": "10.9.1",
     "tsx": "^4.7.0",
     "typescript": "5.2.2"
   },

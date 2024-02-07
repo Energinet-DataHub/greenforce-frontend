@@ -53,6 +53,7 @@ const materialIcons = {
   down: 'expand_more',
   arrowDropDown: 'arrow_drop_down',
   arrowRightAlt: 'arrow_right_alt',
+  account: 'account_circle',
   // Alerts
   danger: 'dangerous',
   warning: 'report_problem',

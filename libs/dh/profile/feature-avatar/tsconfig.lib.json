@@ -8,16 +8,10 @@
     "types": []
   },
   "exclude": [
+    "src/**/*.spec.ts",
     "src/test-setup.ts",
-    "**/*.spec.ts",
-    "**/*.test.ts",
     "jest.config.ts",
-    "cypress/**/*",
-    "cypress.config.ts",
-    "**/*.cy.ts",
-    "**/*.cy.js",
-    "**/*.cy.tsx",
-    "**/*.cy.jsx"
+    "src/**/*.test.ts"
   ],
-  "include": ["**/*.ts"]
+  "include": ["src/**/*.ts"]
 }
