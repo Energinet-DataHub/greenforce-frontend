@@ -113,7 +113,7 @@ export class DhCalculationsTableComponent implements OnInit {
     periodFrom: { accessor: (calculation) => calculation.period?.start },
     periodTo: { accessor: (calculation) => calculation.period?.end },
     executionTime: { accessor: 'executionTimeStart' },
-    processType: { accessor: 'processType' },
+    calculationType: { accessor: 'calculationType' },
     status: { accessor: 'executionState' },
   };
 

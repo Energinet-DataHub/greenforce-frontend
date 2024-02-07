@@ -14,14 +14,13 @@
 
 using System;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
     public record SettlementReport(
-        Guid BatchNumber,
-        ProcessType ProcessType,
+        Guid CalculationId,
+        Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType CalculationType,
         GridAreaDto GridArea,
         Interval Period,
         DateTimeOffset? ExecutionTime);
