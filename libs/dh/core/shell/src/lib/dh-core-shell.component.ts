@@ -16,15 +16,12 @@
  */
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { MsalService } from '@azure/msal-angular';
+import { TranslocoPipe } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
 import { ApolloModule } from 'apollo-angular';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhProfileAvatarComponent } from '@energinet-datahub/dh/profile/feature-avatar';
 import { DhLanguagePickerComponent } from '@energinet-datahub/dh/globalization/feature-language-picker';
 
@@ -42,7 +39,6 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
   templateUrl: './dh-core-shell.component.html',
   standalone: true,
   imports: [
-    TranslocoDirective,
     TranslocoPipe,
     ApolloModule,
     RouterOutlet,
@@ -52,23 +48,16 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
     DhPrimaryNavigationComponent,
     DhProfileAvatarComponent,
     WattShellComponent,
-    WattButtonComponent,
     DhSelectedActorComponent,
     DhSignupMitIdComponent,
   ],
 })
 export class DhCoreShellComponent {
-  private readonly authService = inject(MsalService);
   private readonly dhTopBarStore = inject(DhTopBarStore);
-  public readonly dhFeatureFlagsService = inject(DhFeatureFlagsService);
 
   titleTranslationKey$ = this.dhTopBarStore.titleTranslationKey$;
 
   constructor(inactivityDetection: DhInactivityDetectionService) {
     inactivityDetection.trackInactivity();
-  }
-
-  logout() {
-    this.authService.logoutRedirect();
   }
 }
