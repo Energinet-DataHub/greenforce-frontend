@@ -16,7 +16,7 @@
  */
 import { EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
 
-export type MeteringPointType = 'consumption' | 'production';
+export type MeteringPointType = 'Consumption' | 'Production';
 
 export interface MeteringPoint {
   /** Unique ID of the metering point - Global Service Relation Number */
@@ -39,8 +39,17 @@ export interface MeteringPoint {
     /** Country-code, ie. 'DE' */
     country: string;
   };
-  assetType: 'Wind' | 'Solar' | 'Other';
+  technology: {
+    aibFueldCode: string;
+    aibTechCode: AibTechCode;
+  }
   subMeterType: 'Virtual' | 'Physical';
+}
+
+export enum AibTechCode {
+  Solar = 'T010000',
+  Wind = 'T020000',
+  Other = 'T070000'
 }
 
 export interface EoMeteringPoint extends MeteringPoint {
