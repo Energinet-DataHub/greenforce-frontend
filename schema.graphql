@@ -228,6 +228,7 @@ type Query {
   gridAreaOverview: [GridAreaOverviewItemDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int!, month: Int!, areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
+  userProfile: GetUserProfileResponse!
 }
 
 type Mutation {
@@ -237,6 +238,7 @@ type Mutation {
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
+  updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
 }
 
 enum ActorAuditedChange {
@@ -406,6 +408,12 @@ enum ContactCategory {
   REMINDER
 }
 
+input UserProfileUpdateDtoInput {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+}
+
 input CreateMarketParticipantInput {
   organizationId: UUID
   organization: CreateOrganizationDtoInput
@@ -424,6 +432,12 @@ enum MeteringPointType {
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
+}
+
+type GetUserProfileResponse {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
 }
 
 type ImbalancePricesOverview {
@@ -648,4 +662,15 @@ union CreateMarketParticipantError = ApiError
 type CreateMarketParticipantPayload {
   boolean: Boolean
   errors: [CreateMarketParticipantError!]
+}
+
+input UpdateUserProfileInput {
+  userProfileUpdateDto: UserProfileUpdateDtoInput!
+}
+
+union UpdateUserProfileError = ApiError
+
+type UpdateUserProfilePayload {
+  boolean: Boolean
+  errors: [UpdateUserProfileError!]
 }

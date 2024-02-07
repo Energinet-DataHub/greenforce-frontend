@@ -394,6 +394,11 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .ConfigureAwait(false);
         }
 
+        public async Task<GetUserProfileResponse> GetUserProfileAsync([Service] IMarketParticipantClient_V1 client)
+        {
+            return await client.UserUserprofileGetAsync().ConfigureAwait(false);
+        }
+
         private static Task<GetUserOverviewResponse> GetUserOverviewAsync(IMarketParticipantClient_V1 client)
         {
             return client.UserOverviewUsersSearchAsync(
