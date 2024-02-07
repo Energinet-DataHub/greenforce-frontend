@@ -16,6 +16,8 @@
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DhProfileAvatarComponent } from './dh-profile-avatar.component';
+import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 describe('DhProfileAvatarComponent', () => {
   let component: DhProfileAvatarComponent;
@@ -23,7 +25,8 @@ describe('DhProfileAvatarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DhProfileAvatarComponent],
+      imports: [getTranslocoTestingModule(), DhProfileAvatarComponent],
+      providers: [MsalServiceMock],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DhProfileAvatarComponent);

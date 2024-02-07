@@ -40,31 +40,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
         </button>
       </ng-container>
     </mat-menu>`,
-  styles: `
-  .dh-profile__menu {
-    width: 200px;
-    margin-top: var(--watt-space-s);
-    watt-button.watt-button--text.toolbar__logout .mat-mdc-button.mat-text {
-        color: var(--typography-color-enabled, #212121);
-      }
-    .mat-mdc-menu-item-text {
-      display: flex;
-    }
-  }
-  dh-profile-avatar {
-    display: block;
-    button {
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      background-color: #424242;
-      text-align: center;
-      line-height: 40px;
-      color:#fff;
-      cursor: pointer;
-      border:none;
-    }
-  }`,
+  styleUrls: ['./dh-profile-avatar.component.scss'],
 })
 export class DhProfileAvatarComponent {
   private readonly _authService = inject(MsalService);
