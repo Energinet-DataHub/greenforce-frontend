@@ -116,8 +116,10 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
     <mat-date-range-picker #picker>
       @if (showActions) {
         <mat-date-range-picker-actions>
-          <watt-button variant="text" (click)="clearInput()" icon="remove">{{intl.clear}}</watt-button>
-          <watt-button variant="primary" matDateRangePickerApply>{{intl.select}}</watt-button>
+          <watt-button variant="text" (click)="clearInput()" icon="remove">{{
+            intl.clear
+          }}</watt-button>
+          <watt-button variant="primary" matDateRangePickerApply>{{ intl.select }}</watt-button>
         </mat-date-range-picker-actions>
       }
     </mat-date-range-picker>

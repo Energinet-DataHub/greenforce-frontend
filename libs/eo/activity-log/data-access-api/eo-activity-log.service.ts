@@ -79,7 +79,7 @@ export class EoActivityLogService {
       }),
       // Format the timestamp
       map((logs) => {
-        return logs.map((log) => ({...log, timestamp: log.timestamp * 1000}))
+        return logs.map((log) => ({ ...log, timestamp: log.timestamp * 1000 }));
       }),
       // Sort by timestamp
       map((logs) => {
@@ -90,7 +90,10 @@ export class EoActivityLogService {
     );
   }
 
-  getTransferLogs(period: { start: number; end: number }): Observable<ActivityLogListEntryResponse> {
+  getTransferLogs(period: {
+    start: number;
+    end: number;
+  }): Observable<ActivityLogListEntryResponse> {
     return this.http.post<ActivityLogListEntryResponse>(`${this.apiBase}/transfer/activity-log`, {
       start: period.start / 1000,
       end: period.end / 1000,
@@ -98,7 +101,10 @@ export class EoActivityLogService {
     });
   }
 
-  getCertificateLogs(period: { start: number; end: number }): Observable<ActivityLogListEntryResponse> {
+  getCertificateLogs(period: {
+    start: number;
+    end: number;
+  }): Observable<ActivityLogListEntryResponse> {
     return this.http.post<ActivityLogListEntryResponse>(
       `${this.apiBase}/certificates/activity-log`,
       {
