@@ -14,40 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-}
+import 'jest-preset-angular/setup-jest';
 
-.sidenav-container {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-}
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
+import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
 
-.sidenav {
-  display: flex;
-  justify-content: center;
-}
-
-.selected-actor-container {
-  margin-top: auto;
-  padding: var(--watt-space-m);
-}
-
-.logo--sidenav {
-  margin: var(--watt-space-m) 0;
-}
-
-.toolbar {
-  &__heading {
-    margin-left: var(--watt-space-m);
-  }
-
-  &__actions {
-    align-items: center;
-    display: flex;
-    gap: 1rem;
-    margin-left: auto;
-    margin-right: var(--watt-space-s);
-  }
-}
+setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
