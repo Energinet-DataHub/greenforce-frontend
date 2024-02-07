@@ -104,5 +104,25 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             return HandleExceptionAsync(() => _client.UserDeactivateAsync(userId));
         }
+
+        /// <summary>
+        /// Returns current user profile.
+        /// </summary>
+        [HttpGet]
+        [Route("GetUserProfile")]
+        public Task<ActionResult<GetUserProfileResponse>> GetUserProfileAsync()
+        {
+            return HandleExceptionAsync(() => _client.UserUserprofileGetAsync());
+        }
+
+        /// <summary>
+        /// Updates current user profile.
+        /// </summary>
+        [HttpPut]
+        [Route("UpdateUserProfile")]
+        public Task<ActionResult> UpdateUserProfileAsync(UserProfileUpdateDto userProfileUpdateDto)
+        {
+            return HandleExceptionAsync(() => _client.UserUserprofilePutAsync(userProfileUpdateDto));
+        }
     }
 }
