@@ -25,24 +25,27 @@ export type activityLogEntityType =
   | 'MeteringPoint'
   | 'TransferAgreementProposal';
 
-type actionType =
+export type activityLogActionType =
   | 'Created'
   | 'Accepted'
   | 'Declined'
   | 'Activated'
   | 'Deactivated'
-  | 'ChangeEndDate';
+  | 'EndDateChanged'
+  | 'Expired';
+
+export type activityLogActorType = 'User' | 'System';
 
 export interface ActivityLogEntryResponse {
   id: string;
-  timestamp: string;
+  timestamp: number;
   actorId: string;
   actorType: string;
   actorName: string;
   organizationTin: string;
   organizationName: string;
   entityType: activityLogEntityType;
-  actionType: actionType;
+  actionType: activityLogActionType;
   entityId: string;
 }
 
@@ -73,6 +76,10 @@ export class EoActivityLogService {
       // Merge the logs
       map((logs) => {
         return logs.transfers.activityLogEntries.concat(logs.certificates.activityLogEntries);
+      }),
+      // Format the timestamp
+      map((logs) => {
+        return logs.map((log) => ({...log, timestamp: log.timestamp * 1000}))
       }),
       // Sort by timestamp
       map((logs) => {
