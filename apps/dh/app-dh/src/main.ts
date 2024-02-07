@@ -38,9 +38,10 @@ if (environment.production) {
   enableProdMode();
 }
 
-if (!environment.production) {
+if (environment.authDisabled) {
   const searchParams = new URLSearchParams(window.location.search);
   const debugToken = searchParams.get('debugToken');
+
   if (debugToken) {
     localStorage.setItem('access_token', debugToken);
   }

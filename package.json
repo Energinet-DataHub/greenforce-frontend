@@ -45,7 +45,7 @@
     "nx": "nx",
     "start": "nx serve",
     "dh:dev": "nx run app-dh:serve:development",
-    "dh:mock": "nx run app-dh:serve:mocked",
+    "dh:mock": "nx run app-dh:serve:auth-disabled",
     "dh:build": "nx run app-dh:build:production",
     "eo:dev": "nx run app-eo:serve:development",
     "eo:mock": "nx run app-eo:serve:mocked",

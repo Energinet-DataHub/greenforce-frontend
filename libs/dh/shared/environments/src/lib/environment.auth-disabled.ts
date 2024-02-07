@@ -18,6 +18,18 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `workspace.json`.
 import { DhEnvironment } from './dh-environment';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
+
+/**
+ * Mock Service Worker
+ */
+import { setupServiceWorker } from '@energinet-datahub/gf/util-msw';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
+
+(async () => {
+  await setupServiceWorker(dhLocalApiEnvironment.apiBase, mocks);
+})();
 
 /*
  * For easier debugging in development mode, you can import the following file
@@ -33,5 +45,5 @@ import 'zone.js/plugins/zone-error';
  */
 export const environment: DhEnvironment = {
   production: false,
-  authDisabled: false,
+  authDisabled: true,
 };
