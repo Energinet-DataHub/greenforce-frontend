@@ -17,6 +17,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, forkJoin, map, of } from 'rxjs';
+import { getUnixTime } from 'date-fns';
 
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
@@ -65,12 +66,16 @@ export class EoActivityLogService {
     period: { start: number; end: number };
     eventTypes: activityLogEntityType[];
   }): Observable<ActivityLogEntryResponse[]> {
+    const period = {
+      start: getUnixTime(options.period.start),
+      end: getUnixTime(options.period.end)
+    }
     return forkJoin({
       transfers: options.eventTypes.includes('TransferAgreement')
-        ? this.getTransferLogs(options.period)
+        ? this.getTransferLogs(period)
         : of({ activityLogEntries: [], hasMore: false } as ActivityLogListEntryResponse),
       certificates: options.eventTypes.includes('MeteringPoint')
-        ? this.getCertificateLogs(options.period)
+        ? this.getCertificateLogs(period)
         : of({ activityLogEntries: [], hasMore: false } as ActivityLogListEntryResponse),
     }).pipe(
       // Merge the logs
@@ -95,8 +100,8 @@ export class EoActivityLogService {
     end: number;
   }): Observable<ActivityLogListEntryResponse> {
     return this.http.post<ActivityLogListEntryResponse>(`${this.apiBase}/transfer/activity-log`, {
-      start: period.start / 1000,
-      end: period.end / 1000,
+      start: period?.start,
+      end: period?.end,
       entityType: null,
     });
   }
@@ -108,8 +113,8 @@ export class EoActivityLogService {
     return this.http.post<ActivityLogListEntryResponse>(
       `${this.apiBase}/certificates/activity-log`,
       {
-        start: period.start / 1000,
-        end: period.end / 1000,
+        start: period.start,
+        end: period.end,
         entityType: 'MeteringPoint',
       }
     );

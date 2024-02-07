@@ -38,7 +38,6 @@ import {
   ActivityLogEntryResponse,
   EoActivityLogService,
   activityLogActionType,
-  activityLogActorType,
   activityLogEntityType,
 } from '@energinet-datahub/eo/activity-log/data-access-api';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
@@ -133,7 +132,10 @@ export class EoActivityLogShellComponent implements OnInit {
     this.form.valueChanges
       .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        this.getLogs();
+        const { period } = this.form.getRawValue();
+        if(period && period.start && period.end) {
+          this.getLogs();
+        }
       });
   }
 
