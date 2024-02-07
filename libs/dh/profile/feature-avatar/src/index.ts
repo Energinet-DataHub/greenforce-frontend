@@ -14,40 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-}
-
-.sidenav-container {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-}
-
-.sidenav {
-  display: flex;
-  justify-content: center;
-}
-
-.selected-actor-container {
-  margin-top: auto;
-  padding: var(--watt-space-m);
-}
-
-.logo--sidenav {
-  margin: var(--watt-space-m) 0;
-}
-
-.toolbar {
-  &__heading {
-    margin-left: var(--watt-space-m);
-  }
-
-  &__actions {
-    align-items: center;
-    display: flex;
-    gap: 1rem;
-    margin-left: auto;
-    margin-right: var(--watt-space-s);
-  }
-}
+export * from './lib/dh-profile-avatar.component';
