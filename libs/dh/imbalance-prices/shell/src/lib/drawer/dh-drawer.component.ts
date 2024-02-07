@@ -42,11 +42,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { ImbalancePricesHttp } from '@energinet-datahub/dh/shared/domain';
 import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
 
-import {
-  DhImbalancePrice,
-  DhImbalancePricesForDay,
-  DhImbalancePricesForMonth,
-} from '../dh-imbalance-prices';
+import { DhImbalancePrice, DhImbalancePricesForMonth } from '../dh-imbalance-prices';
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
 import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
 
@@ -153,10 +149,6 @@ export class DhImbalancePricesDrawerComponent {
 
   onClose(): void {
     this.closed.emit();
-  }
-
-  toSignal(prices: DhImbalancePricesForDay[]) {
-    return signal(prices);
   }
 
   downloadCSV() {

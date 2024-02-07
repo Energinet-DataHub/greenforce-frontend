@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "@energinet-datahub/watt/utils" as watt;
-
 :host {
   display: block;
 }
@@ -46,13 +44,10 @@
   }
 
   &__actions {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
     margin-left: auto;
-    margin-right: var(--watt-space-m);
-  }
-
-  @include watt.media(">Large") {
-    &__logout {
-      margin-right: var(--watt-space-m);
-    }
+    margin-right: var(--watt-space-s);
   }
 }

@@ -1,14 +1,14 @@
 query GetCalculations(
   $executionTime: DateRange
   $period: DateRange
-  $processTypes: [ProcessType!]
+  $calculationTypes: [CalculationType!]
   $gridAreaCodes: [String!]
-  $executionStates: [BatchState!]
+  $executionStates: [CalculationState!]
 ) {
   calculations(
     executionTime: $executionTime
     period: $period
-    processTypes: $processTypes
+    calculationTypes: $calculationTypes
     gridAreaCodes: $gridAreaCodes
     executionStates: $executionStates
   ) {
@@ -18,7 +18,7 @@ query GetCalculations(
     executionTimeStart
     period
     statusType
-    processType
+    calculationType
     createdByUserName
     gridAreas {
       code

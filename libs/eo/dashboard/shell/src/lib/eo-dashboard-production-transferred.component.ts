@@ -174,6 +174,7 @@ interface Totals {
         }
         @if (hasError) {
           <watt-empty-state
+            data-testid="error"
             icon="custom-power"
             title="An unexpected error occured"
             message="Try again or contact your system administrator if you keep getting this error."
@@ -187,13 +188,15 @@ interface Totals {
     <vater-stack direction="row" gap="s">
       <div>
         @if (totals.production > 0 || isLoading) {
-          <h5>{{ totals.transferred | percentageOf: totals.production }} transferred</h5>
+          <h5 data-testid="headline">
+            {{ totals.transferred | percentageOf: totals.production }} transferred
+          </h5>
           <small
             >{{ totals.transferred | energyUnit }} of {{ totals.production | energyUnit }} certified
             green production was transferred</small
           >
         } @else {
-          <h5>No data</h5>
+          <h5 data-testid="no-data">No data</h5>
           <small
             ><a [routerLink]="'../' + routes.meteringpoints"
               >Activate metering points <watt-icon name="openInNew" size="xs" /></a
@@ -208,7 +211,7 @@ interface Totals {
           <li class="legend-item">
             <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
             @if (item.label) {
-              <span class="legend-label"
+              <span class="legend-label" [attr.data-testid]="item.label + '-legend'"
                 >{{ item.label | titlecase }} ({{
                   totals[item.label] | percentageOf: totals.production
                 }})</span
@@ -238,6 +241,9 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
   private aggregateService = inject(EoAggregateService);
 
   private labels = this.generateLabels();
+
+  protected currentTimestamp: string = new Date().toISOString();
+  protected currentTimezone: string = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   protected totals: Totals = {
     transferred: 0,

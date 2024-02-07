@@ -14,8 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  OnInit,
+  QueryList,
+  ViewChildren,
+  inject,
+  signal,
+} from '@angular/core';
 import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -76,28 +86,34 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
   selector: 'eo-dashboard-shell',
   template: `
     @if ((isLoadingMeteringPoints$ | async) === false) {
-      <watt-tabs variant="secondary">
-        @if (productionMeteringPoints$ | async) {
-          <watt-tab label="Production" (changed)="activeTab = 'production'">
-            @if (activeTab === 'production') {
-              <eo-dashboard-production-transferred [period]="period()" />
-            }
-          </watt-tab>
-        }
+      @if (((productionAndConsumptionMeteringPoints$ | async) || []).length > 0) {
+        <watt-tabs variant="secondary">
+          @if (((productionMeteringPoints$ | async) || []).length > 0) {
+            <watt-tab label="Production" (changed)="activeTab = 'production'">
+              @if (activeTab === 'production') {
+                <eo-dashboard-production-transferred [period]="period()" />
+              }
+            </watt-tab>
+          }
 
-        @if (consumptionMeteringPoints$ | async) {
-          <watt-tab label="Consumption" (changed)="activeTab = 'consumption'">
-            @if (activeTab === 'consumption') {
-              <eo-dashboard-consumption [period]="period()" />
-            }
-          </watt-tab>
-        }
+          @if (((consumptionMeteringPoints$ | async) || []).length > 0) {
+            <watt-tab label="Consumption" (changed)="activeTab = 'consumption'">
+              @if (activeTab === 'consumption') {
+                <eo-dashboard-consumption [period]="period()" />
+              }
+            </watt-tab>
+          }
 
-        <eo-dashboard-choose-period (periodChanged)="onPeriodChanged($event)" />
-      </watt-tabs>
+          <eo-dashboard-choose-period (periodChanged)="onPeriodChanged($event)" />
+        </watt-tabs>
+      }
 
-      @if ((productionAndConsumptionMeteringPoints$ | async)?.length === 0) {
+      @if (
+        (productionAndConsumptionMeteringPoints$ | async)?.length === 0 &&
+        !(meteringPointError$ | async)
+      ) {
         <watt-empty-state
+          data-testid="no-data"
           icon="custom-power"
           title="No data to visualize"
           message="We have no data to visualize because you have no production or consumption metering point(s). "
@@ -106,6 +122,7 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
 
       @if ((meteringPointError$ | async) !== null) {
         <watt-empty-state
+          data-testid="error"
           icon="custom-power"
           title="An unexpected error occured"
           message="Try again by reloading the page or contacting your system administrator if you keep getting this error."
@@ -121,6 +138,7 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
 export class EoDashboardShellComponent implements OnInit {
   private meteringPointStore = inject(EoMeteringPointsStore);
   private aggregateService: EoAggregateService = inject(EoAggregateService);
+  private destroyRef = inject(DestroyRef);
 
   period = signal<eoDashboardPeriod>(null);
   isLoadingMeteringPoints$ = this.meteringPointStore.loading$;
@@ -130,11 +148,20 @@ export class EoDashboardShellComponent implements OnInit {
     this.meteringPointStore.productionAndConsumptionMeteringPoints$;
   meteringPointError$ = this.meteringPointStore.meteringPointError$;
 
+  @ViewChildren(WattTabComponent) tabs!: QueryList<WattTabComponent>;
+
   protected activeTab = 'production';
 
   ngOnInit(): void {
     this.meteringPointStore.loadMeteringPoints();
     this.aggregateService.clearCache();
+
+    this.productionAndConsumptionMeteringPoints$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((meteringPoints) => {
+        const hasProductionMeteringPoint = meteringPoints.find((mp) => mp.type === 'production');
+        this.activeTab = hasProductionMeteringPoint ? 'production' : 'consumption';
+      });
   }
 
   protected onPeriodChanged(period: eoDashboardPeriod): void {
