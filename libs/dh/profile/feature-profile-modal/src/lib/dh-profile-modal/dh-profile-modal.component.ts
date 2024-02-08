@@ -34,6 +34,7 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
+import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
 
 type UserPreferencesForm = FormGroup<{
   email: FormControl<string>;
