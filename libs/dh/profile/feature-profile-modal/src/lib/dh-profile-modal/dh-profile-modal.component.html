@@ -1,0 +1,37 @@
+<watt-modal *transloco="let t; read: 'shared.profile'" [title]="t('title')">
+  <form [formGroup]="userPreferencesForm" id="userPreferencesForm" (ngSubmit)="save()">
+    <vater-flex fill="vertical" gap="m">
+      <vater-stack class="names" align="flex-start" direction="column" gap="s">
+        <h4>{{ t("myInformation") }}</h4>
+        <vater-stack align="flex-start" direction="row" gap="s">
+          <watt-text-field
+            [label]="t('name')"
+            [formControl]="userPreferencesForm.controls.firstname"
+          />
+          <watt-text-field
+            [label]="t('lastname')"
+            [formControl]="userPreferencesForm.controls.lastname"
+          />
+        </vater-stack>
+
+        <watt-text-field [label]="t('email')" [formControl]="userPreferencesForm.controls.email" />
+        <watt-phone-field [label]="t('phone')" [formControl]="userPreferencesForm.controls.phone" />
+        <h4>{{ t("general") }}</h4>
+        <watt-dropdown
+          [label]="t('language')"
+          [formControl]="userPreferencesForm.controls.language"
+          [options]="languages"
+          dhDropdownTranslator
+          translate="shared.profile.languages"
+          [showResetOption]="false"
+        />
+      </vater-stack>
+    </vater-flex>
+  </form>
+  <watt-modal-actions>
+    <watt-button variant="secondary" (click)="closeModal(false)">{{ t("cancel") }}</watt-button>
+    <watt-button variant="secondary" type="submit" formId="userPreferencesForm">{{
+      t("save")
+    }}</watt-button>
+  </watt-modal-actions>
+</watt-modal>

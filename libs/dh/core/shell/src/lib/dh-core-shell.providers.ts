@@ -46,6 +46,7 @@ import {
   dhB2CEnvironmentToken,
   environment,
 } from '@energinet-datahub/dh/shared/environments';
+import { dhLanguageServiceInitializer } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -115,4 +116,5 @@ export const dhCoreShellProviders = [
   WattModalService,
   interceptors,
   msalProviders,
+  dhLanguageServiceInitializer,
 ];
