@@ -14,9 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhEnvironment } from './dh-environment';
+import { environment } from './environment.prod';
 
-export const environment: DhEnvironment = {
-  production: true,
-  authDisabled: false,
-};
+describe('Production environment config', () => {
+  it('should have production set to true', () => {
+    expect(environment.production).toBe(true);
+  });
+
+  it('should have authDisabled set to false', () => {
+    expect(environment.authDisabled).toBe(false);
+  });
+});
