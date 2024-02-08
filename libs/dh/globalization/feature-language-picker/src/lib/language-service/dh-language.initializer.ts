@@ -14,6 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/language-picker/dh-language-picker.component';
-export { DhLanguageService } from './lib/language-service/dh-language.service';
-export { dhLanguageServiceInitializer } from './lib/language-service/dh-language.initializer';
+import { APP_INITIALIZER, FactoryProvider } from '@angular/core';
+
+import { DhLanguageService } from './dh-language.service';
+
+export const dhLanguageServiceInitializer: FactoryProvider = {
+  multi: true,
+  provide: APP_INITIALIZER,
+  useFactory: (dhLangaugeService: DhLanguageService) => () => dhLangaugeService.init(),
+  deps: [DhLanguageService],
+};

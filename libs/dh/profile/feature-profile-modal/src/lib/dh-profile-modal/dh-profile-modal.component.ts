@@ -34,6 +34,7 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
+import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
 
 type UserPreferencesForm = FormGroup<{
@@ -47,9 +48,6 @@ type UserPreferencesForm = FormGroup<{
 @Component({
   selector: 'dh-profile-modal',
   standalone: true,
-  styles: `.names {
-    width:75%;
-  }`,
   imports: [
     WATT_MODAL,
     WattTextFieldComponent,
@@ -62,52 +60,17 @@ type UserPreferencesForm = FormGroup<{
     DhDropdownTranslatorDirective,
     ReactiveFormsModule,
   ],
-  template: `<watt-modal *transloco="let t; read: 'shared.profile'" [title]="t('title')">
-    <form [formGroup]="userPreferencesForm" id="userPreferencesForm" (ngSubmit)="save()">
-      <vater-flex fill="vertical" gap="m">
-        <vater-stack class="names" align="flex-start" direction="column" gap="s">
-          <h4>{{ t('myInformation') }}</h4>
-          <vater-stack align="flex-start" direction="row" gap="s">
-            <watt-text-field
-              [label]="t('name')"
-              [formControl]="userPreferencesForm.controls.firstname"
-            />
-            <watt-text-field
-              [label]="t('lastname')"
-              [formControl]="userPreferencesForm.controls.lastname"
-            />
-          </vater-stack>
-
-          <watt-text-field
-            [label]="t('email')"
-            [formControl]="userPreferencesForm.controls.email"
-          />
-          <watt-phone-field
-            [label]="t('phone')"
-            [formControl]="userPreferencesForm.controls.phone"
-          />
-          <h4>{{ t('general') }}</h4>
-          <watt-dropdown
-            [label]="t('language')"
-            [formControl]="userPreferencesForm.controls.language"
-            [options]="languages"
-            dhDropdownTranslator
-            translate="shared.profile.languages"
-          />
-        </vater-stack>
-      </vater-flex>
-    </form>
-    <watt-modal-actions>
-      <watt-button variant="secondary" (click)="closeModal(false)">{{ t('cancel') }}</watt-button>
-      <watt-button variant="secondary" type="submit" formId="userPreferencesForm">{{
-        t('save')
-      }}</watt-button>
-    </watt-modal-actions>
-  </watt-modal>`,
+  styles: `
+    .names {
+      width:75%;
+    }
+  `,
+  templateUrl: './dh-profile-modal.component.html',
 })
 export class DhProfileModalComponent {
   private readonly _formBuilder = inject(NonNullableFormBuilder);
   private readonly _toastService = inject(WattToastService);
+  private readonly _languageService = inject(DhLanguageService);
 
   @ViewChild(WattModalComponent)
   private _profileModal!: WattModalComponent;
@@ -117,7 +80,7 @@ export class DhProfileModalComponent {
   userPreferencesForm: UserPreferencesForm = this._formBuilder.group({
     email: ['', Validators.required],
     phone: ['', Validators.required],
-    language: ['da', Validators.required],
+    language: [this._languageService.selectedLanguage],
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
   });
@@ -131,6 +94,10 @@ export class DhProfileModalComponent {
       type: 'success',
       message: translate('shared.profile.success'),
     });
+
+    const { language } = this.userPreferencesForm.getRawValue();
+
+    this._languageService.selectedLanguage = language;
     console.log('save user preferences');
     // save user preferences
   }
