@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhEnvironment } from './dh-environment';
+import { trigger, style, animate, transition } from '@angular/animations';
 
-export const environment: DhEnvironment = {
-  production: true,
-  authDisabled: false,
-};
+export const dhValueChangeAnimationTrigger = [
+  trigger('valueChange', [
+    transition('* => *', [style({ transform: 'translateX(30px)', opacity: 0 }), animate(250)]),
+  ]),
+];

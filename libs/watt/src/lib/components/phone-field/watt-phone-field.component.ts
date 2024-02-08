@@ -119,7 +119,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
       <watt-field-error> {{ intl.invalidPhoneNumber }} </watt-field-error>
     }
   </watt-field>`,
-  styleUrls: ['./watt-phone-field.component.scss'],
+  styleUrl: './watt-phone-field.component.scss',
 })
 export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
