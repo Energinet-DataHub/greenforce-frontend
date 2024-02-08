@@ -17,10 +17,9 @@ limitations under the License.
 <a (click)="redirectToMitIdSignup()">
   <div class="mitid-icon-link" alt="mitid-login">
     <ng-container *ngIf="!isLoading(); else waitSpinner">
-      <label class="mit-id-label" *transloco="let t; read: 'admin.userManagement'">{{
+      <span class="mit-id-label" *transloco="let t; read: 'admin.userManagement'">{{
         t("connect")
-      }}</label>
-      <div class="mit-id-image"></div>
+      }}</span>
     </ng-container>
   </div>
 </a>

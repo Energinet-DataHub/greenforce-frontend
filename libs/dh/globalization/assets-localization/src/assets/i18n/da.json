@@ -54,6 +54,7 @@
     "profile": {
       "myInformation": "Mine oplysninger",
       "general": "Generelt",
+      "login": "Login",
       "title": "Profil",
       "name": "Navn",
       "lastname": "Efternavn",
@@ -1003,7 +1004,7 @@
   },
   "admin": {
     "userManagement": {
-      "connect": "Tilknyt",
+      "connect": "Tilknyt MitID",
       "inviteUser": {
         "title": "Inviter bruger",
         "informations": "Information",
