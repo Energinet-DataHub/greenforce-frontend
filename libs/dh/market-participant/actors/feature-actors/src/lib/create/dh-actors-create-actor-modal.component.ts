@@ -34,6 +34,7 @@ import {
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
   EicFunction,
+  GetOrganizationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   dhCvrValidator,
@@ -178,6 +179,7 @@ export class DhActorsCreateActorModalComponent {
             },
           },
         },
+        refetchQueries: [GetOrganizationsDocument],
       })
       .subscribe((result) => this.handleCreateMarketParticipentResponse(result));
   }
