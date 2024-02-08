@@ -14,9 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhEnvironment } from './dh-environment';
+import { environment } from './environment.mocked';
 
-export const environment: DhEnvironment = {
-  production: true,
-  authDisabled: false,
-};
+describe('Mocked environment config', () => {
+  it('should have production set to false', () => {
+    expect(environment.production).toBe(false);
+  });
+
+  it('should have authDisabled set to false', () => {
+    expect(environment.authDisabled).toBe(false);
+  });
+});
