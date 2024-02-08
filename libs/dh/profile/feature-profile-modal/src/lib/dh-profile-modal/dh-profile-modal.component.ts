@@ -27,7 +27,9 @@ type UserPreferencesForm = FormGroup<{
 @Component({
   selector: 'dh-profile-modal',
   standalone: true,
-  styles: `vater-flex { width:75%; }`,
+  styles: `.names {
+    width:75%;
+  }`,
   imports: [
     WATT_MODAL,
     WattTextFieldComponent,
@@ -43,7 +45,7 @@ type UserPreferencesForm = FormGroup<{
   template: `<watt-modal *transloco="let t; read: 'shared.profile'" [title]="t('title')">
     <form [formGroup]="userPreferencesForm" id="userPreferencesForm" (ngSubmit)="save()">
       <vater-flex fill="vertical" gap="m">
-        <vater-stack align="flex-start" direction="column" gap="s">
+        <vater-stack class="names" align="flex-start" direction="column" gap="s">
           <h4>{{ t('myInformation') }}</h4>
           <vater-stack align="flex-start" direction="row" gap="s">
             <watt-text-field
