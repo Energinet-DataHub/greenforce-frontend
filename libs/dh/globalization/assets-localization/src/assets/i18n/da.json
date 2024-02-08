@@ -51,6 +51,24 @@
         "period": "Periode"
       }
     },
+    "profile": {
+      "myInformation": "Mine oplysninger",
+      "general": "Generelt",
+      "title": "Profil",
+      "name": "Navn",
+      "lastname": "Efternavn",
+      "email": "E-mail",
+      "phone": "Telefon",
+      "language": "Sprog",
+      "save": "Gem ændringer",
+      "cancel": "Fortryd",
+      "success": "Profilen er blevet opdateret",
+      "error": "Der opstod desværre en fejl, da vi skulle opdatere din profil",
+      "languages": {
+        "da": "Dansk",
+        "en": "Engelsk"
+      }
+    },
     "download": "Download",
     "downloadreport": "Download rapport",
     "search": "Søg",
