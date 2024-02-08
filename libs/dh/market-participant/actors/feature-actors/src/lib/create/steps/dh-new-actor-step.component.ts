@@ -150,7 +150,7 @@ export class DhNewActorStepComponent {
         if (result.data?.gridAreas) {
           this.gridAreaOptions = result.data.gridAreas.map((gridArea) => ({
             value: gridArea.id,
-            displayValue: gridArea.name,
+            displayValue: gridArea.code,
           }));
         }
       });
