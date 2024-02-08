@@ -65,8 +65,8 @@
       "success": "Profile updated successfully",
       "error": "An error occurred while updating the profile",
       "languages": {
-        "da": "Dansk",
-        "en": "Engelsk"
+        "da": "Danish",
+        "en": "English"
       }
     },
     "download": "Download",
