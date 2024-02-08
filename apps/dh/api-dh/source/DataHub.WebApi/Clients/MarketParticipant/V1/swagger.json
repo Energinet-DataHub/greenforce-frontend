@@ -1776,6 +1776,78 @@
         }
       }
     },
+    "/user/userprofile": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "userprofileGET",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserProfileResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserProfileResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserProfileResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "userprofilePUT",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UserProfileUpdateDto"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UserProfileUpdateDto"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UserProfileUpdateDto"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/user/initiate-mitid-signup": {
       "post": {
         "tags": [
@@ -3045,6 +3117,21 @@
           }
         }
       },
+      "GetUserProfileResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        }
+      },
       "GetUserResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -3624,6 +3711,21 @@
           "CreatedDate",
           "Status"
         ]
+      },
+      "UserProfileUpdateDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        }
       },
       "UserRoleAuditedChange": {
         "type": "string",
