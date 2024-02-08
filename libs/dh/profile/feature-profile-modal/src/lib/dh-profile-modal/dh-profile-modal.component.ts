@@ -22,7 +22,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -108,10 +111,7 @@ export class DhProfileModalComponent {
   @ViewChild(WattModalComponent)
   private _profileModal!: WattModalComponent;
 
-  languages: WattDropdownOptions = [
-    { value: 'en', displayValue: 'English' },
-    { value: 'da', displayValue: 'Danish' },
-  ];
+  languages: WattDropdownOptions = dhEnumToWattDropdownOptions(DisplayLanguage);
 
   userPreferencesForm: UserPreferencesForm = this._formBuilder.group({
     email: ['', Validators.required],
