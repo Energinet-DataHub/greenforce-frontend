@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Apollo } from 'apollo-angular';
+
 import { Component, ViewChild, inject } from '@angular/core';
 import {
   FormControl,
@@ -38,12 +40,14 @@ import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-l
 import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
 import { DhSignupMitIdComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 
+import { GetUserProfileDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
 type UserPreferencesForm = FormGroup<{
   email: FormControl<string>;
-  phone: FormControl<string>;
+  phoneNumber: FormControl<string>;
   language: FormControl<string>;
-  firstname: FormControl<string>;
-  lastname: FormControl<string>;
+  firstName: FormControl<string>;
+  lastName: FormControl<string>;
 }>;
 
 @Component({
@@ -83,6 +87,13 @@ export class DhProfileModalComponent {
   private readonly _formBuilder = inject(NonNullableFormBuilder);
   private readonly _toastService = inject(WattToastService);
   private readonly _languageService = inject(DhLanguageService);
+  private readonly _apollo = inject(Apollo);
+  private readonly _getUserProfileQuery = this._apollo.watchQuery({
+    returnPartialData: true,
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetUserProfileDocument,
+  });
 
   @ViewChild(WattModalComponent)
   private _profileModal!: WattModalComponent;
@@ -91,11 +102,18 @@ export class DhProfileModalComponent {
 
   userPreferencesForm: UserPreferencesForm = this._formBuilder.group({
     email: ['', Validators.required],
-    phone: ['', Validators.required],
+    phoneNumber: ['', Validators.required],
     language: [this._languageService.selectedLanguage],
-    firstname: ['', Validators.required],
-    lastname: ['', Validators.required],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
   });
+
+  constructor() {
+    this._getUserProfileQuery.valueChanges.subscribe((result) => {
+      const { firstName, lastName, phoneNumber } = result.data.userProfile;
+      this.userPreferencesForm.patchValue({ phoneNumber, firstName, lastName });
+    });
+  }
 
   closeModal(saveSuccess: boolean) {
     this._profileModal.close(saveSuccess);

@@ -22,22 +22,20 @@ limitations under the License.
         <vater-stack align="flex-start" direction="row" gap="s">
           <watt-text-field
             [label]="t('name')"
-            [formControl]="userPreferencesForm.controls.firstname"
+            [formControl]="userPreferencesForm.controls.firstName"
           />
           <watt-text-field
             [label]="t('lastname')"
-            [formControl]="userPreferencesForm.controls.lastname"
+            [formControl]="userPreferencesForm.controls.lastName"
           />
         </vater-stack>
 
         <watt-text-field [label]="t('email')" [formControl]="userPreferencesForm.controls.email" />
         <watt-phone-field
           [label]="t('phone')"
-          [formControl]="userPreferencesForm.controls.phone"
-          class="phone-field"
+          [formControl]="userPreferencesForm.controls.phoneNumber"
         />
-
-        <h3>{{ t("general") }}</h3>
+        <h4>{{ t("general") }}</h4>
         <watt-dropdown
           class="lang-field"
           [label]="t('language')"

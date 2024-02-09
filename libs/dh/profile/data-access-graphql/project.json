@@ -1,0 +1,8 @@
+{
+  "name": "dh-profile-data-access-graphql",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/profile/data-access-graphql",
+  "prefix": "dh",
+  "tags": ["product:dh", "domain:profile", "type:data-access"]
+}
