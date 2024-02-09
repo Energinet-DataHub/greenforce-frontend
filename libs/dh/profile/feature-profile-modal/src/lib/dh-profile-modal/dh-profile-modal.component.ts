@@ -63,6 +63,11 @@ type UserPreferencesForm = FormGroup<{
     ReactiveFormsModule,
   ],
   styles: `
+
+    h3 {
+      margin-bottom: var(--watt-space-s);
+    }
+
     .names {
       width: 75%;
     }

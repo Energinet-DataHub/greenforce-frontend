@@ -18,7 +18,7 @@ limitations under the License.
   <form [formGroup]="userPreferencesForm" id="userPreferencesForm" (ngSubmit)="save()">
     <vater-flex fill="vertical" gap="m">
       <vater-stack class="names" align="flex-start" direction="column" gap="s">
-        <h4>{{ t("myInformation") }}</h4>
+        <h3>{{ t("myInformation") }}</h3>
         <vater-stack align="flex-start" direction="row" gap="s">
           <watt-text-field
             [label]="t('name')"
@@ -31,9 +31,13 @@ limitations under the License.
         </vater-stack>
 
         <watt-text-field [label]="t('email')" [formControl]="userPreferencesForm.controls.email" />
-        <watt-phone-field [label]="t('phone')" [formControl]="userPreferencesForm.controls.phone" class="phone-field" />
+        <watt-phone-field
+          [label]="t('phone')"
+          [formControl]="userPreferencesForm.controls.phone"
+          class="phone-field"
+        />
 
-        <h4>{{ t("general") }}</h4>
+        <h3>{{ t("general") }}</h3>
         <watt-dropdown
           class="lang-field"
           [label]="t('language')"
@@ -44,7 +48,7 @@ limitations under the License.
           [showResetOption]="false"
         />
 
-        <h4>{{ t("login") }}</h4>
+        <h3>{{ t("login") }}</h3>
         <dh-signup-mitid class="mitid-field" />
       </vater-stack>
     </vater-flex>
