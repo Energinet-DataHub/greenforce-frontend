@@ -229,6 +229,7 @@ type Query {
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int!, month: Int!, areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   userProfile: GetUserProfileResponse!
+  searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
 }
 
 type Mutation {
@@ -432,6 +433,11 @@ enum MeteringPointType {
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
+}
+
+type CVROrganizationResult {
+  name: String!
+  hasResult: Boolean!
 }
 
 type GetUserProfileResponse {
