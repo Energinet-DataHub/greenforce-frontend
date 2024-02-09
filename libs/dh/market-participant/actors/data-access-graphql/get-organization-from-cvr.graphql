@@ -1,0 +1,6 @@
+query GetOrganizationFromCVR($cvr: String!) {
+  searchOrganizationInCVR(cvr: $cvr) {
+    name
+    hasResult
+  }
+}
