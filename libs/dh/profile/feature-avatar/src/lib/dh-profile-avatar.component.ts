@@ -53,15 +53,20 @@ export class DhProfileAvatarComponent {
   }
 
   name() {
-    return this._authService.instance.getAllAccounts()[0].username.charAt(0).toUpperCase();
+    return this.getAccount().username.charAt(0).toUpperCase();
   }
 
   openProfileModal() {
     this._modalService.open({
       component: DhProfileModalComponent,
+      data: { email: this.getAccount().username },
       onClosed: (result) => {
         console.log('Modal closed with result:', result);
       },
     });
+  }
+
+  private getAccount() {
+    return this._authService.instance.getAllAccounts()[0];
   }
 }
