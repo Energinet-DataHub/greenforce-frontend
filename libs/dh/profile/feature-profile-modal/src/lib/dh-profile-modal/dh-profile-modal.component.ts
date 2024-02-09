@@ -64,11 +64,12 @@ type UserPreferencesForm = FormGroup<{
   ],
   styles: `
     .names {
-      width:75%;
+      width: 75%;
     }
 
-    .mitid-container {
-      width:50%;
+    .phone-field, .lang-field, .mitid-field {
+      width: 50%;
+      display: block;
     }
   `,
   templateUrl: './dh-profile-modal.component.html',

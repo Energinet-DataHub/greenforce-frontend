@@ -31,10 +31,11 @@ limitations under the License.
         </vater-stack>
 
         <watt-text-field [label]="t('email')" [formControl]="userPreferencesForm.controls.email" />
-        <watt-phone-field [label]="t('phone')" [formControl]="userPreferencesForm.controls.phone" />
+        <watt-phone-field [label]="t('phone')" [formControl]="userPreferencesForm.controls.phone" class="phone-field" />
 
         <h4>{{ t("general") }}</h4>
         <watt-dropdown
+          class="lang-field"
           [label]="t('language')"
           [formControl]="userPreferencesForm.controls.language"
           [options]="languages"
@@ -44,9 +45,7 @@ limitations under the License.
         />
 
         <h4>{{ t("login") }}</h4>
-        <div class="mitid-container">
-          <dh-signup-mitid />
-        </div>
+        <dh-signup-mitid class="mitid-field" />
       </vater-stack>
     </vater-flex>
   </form>
