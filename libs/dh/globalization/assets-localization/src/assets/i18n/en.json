@@ -64,7 +64,6 @@
       "save": "Save changes",
       "cancel": "Cancel",
       "success": "Profile updated successfully",
-      "error": "An error occurred while updating the profile",
       "languages": {
         "da": "Danish",
         "en": "English"

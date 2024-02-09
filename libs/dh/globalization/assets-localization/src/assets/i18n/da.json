@@ -64,7 +64,6 @@
       "save": "Gem ændringer",
       "cancel": "Fortryd",
       "success": "Profilen er blevet opdateret",
-      "error": "Der opstod desværre en fejl, da vi skulle opdatere din profil",
       "languages": {
         "da": "Dansk",
         "en": "Engelsk"
