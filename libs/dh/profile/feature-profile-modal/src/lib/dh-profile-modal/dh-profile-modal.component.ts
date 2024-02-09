@@ -36,6 +36,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
+import { DhSignupMitIdComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 
 type UserPreferencesForm = FormGroup<{
   email: FormControl<string>;
@@ -58,11 +59,22 @@ type UserPreferencesForm = FormGroup<{
     VaterStackComponent,
     VaterFlexComponent,
     DhDropdownTranslatorDirective,
+    DhSignupMitIdComponent,
     ReactiveFormsModule,
   ],
   styles: `
+
+    h3 {
+      margin-bottom: var(--watt-space-s);
+    }
+
     .names {
-      width:75%;
+      width: 75%;
+    }
+
+    .phone-field, .lang-field, .mitid-field {
+      width: 50%;
+      display: block;
     }
   `,
   templateUrl: './dh-profile-modal.component.html',
