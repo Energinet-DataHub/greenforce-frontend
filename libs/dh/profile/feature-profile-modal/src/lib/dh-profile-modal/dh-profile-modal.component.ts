@@ -71,7 +71,8 @@ type UserPreferencesForm = FormGroup<{
   ],
   styles: `
 
-    h3 {
+    h4 {
+      margin:0;
       margin-bottom: var(--watt-space-s);
     }
 
