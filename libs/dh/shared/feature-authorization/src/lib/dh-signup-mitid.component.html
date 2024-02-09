@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<a (click)="redirectToMitIdSignup()">
+<a (click)="redirectToMitIdSignup()" tabindex="0">
   <div class="mitid-icon-link" alt="mitid-login">
     <ng-container *ngIf="!isLoading(); else waitSpinner">
       <span class="mit-id-label" *transloco="let t; read: 'admin.userManagement'">{{

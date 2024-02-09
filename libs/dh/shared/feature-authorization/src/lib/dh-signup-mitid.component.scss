@@ -23,11 +23,7 @@
   border-radius: 4px;
   border: none;
   height: 40px;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
   cursor: pointer;
-  outline: none;
   margin-bottom: var(--watt-space-m);
 }
 
@@ -42,6 +38,9 @@
 
 .mit-id-label {
   color: var(--watt-on-dark-high-emphasis);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
   margin-bottom: 0;
   margin-right: 1em;
   cursor: pointer;
