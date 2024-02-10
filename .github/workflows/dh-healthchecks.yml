@@ -46,7 +46,7 @@ jobs:
 
       - name: Upload artifact
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: healthchecks
           path: dist/cypress/apps/dh/e2e-dh/videos/b2c-healthchecks.cy.ts.mp4
