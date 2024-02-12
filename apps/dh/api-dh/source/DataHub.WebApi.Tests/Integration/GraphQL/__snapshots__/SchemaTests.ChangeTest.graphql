@@ -85,6 +85,11 @@ type BalanceResponsibleType {
   gridArea: String!
 }
 
+type CVROrganizationResult {
+  name: String!
+  hasResult: Boolean!
+}
+
 "An immutable calculation."
 type Calculation {
   id: UUID!
@@ -307,6 +312,7 @@ type Query {
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   userProfile: GetUserProfileResponse!
+  searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
 }
 
 type ReadinessStatusDto {
