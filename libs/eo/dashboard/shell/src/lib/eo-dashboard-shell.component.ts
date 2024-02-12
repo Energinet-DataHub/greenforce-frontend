@@ -24,7 +24,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -79,7 +79,6 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
     AsyncPipe,
     WattSpinnerComponent,
     WattEmptyStateComponent,
-    JsonPipe,
     WattTabsComponent,
     WattTabComponent,
   ],
@@ -159,7 +158,7 @@ export class EoDashboardShellComponent implements OnInit {
     this.productionAndConsumptionMeteringPoints$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((meteringPoints) => {
-        const hasProductionMeteringPoint = meteringPoints.find((mp) => mp.type === 'production');
+        const hasProductionMeteringPoint = meteringPoints.find((mp) => mp.type === 'Production');
         this.activeTab = hasProductionMeteringPoint ? 'production' : 'consumption';
       });
   }

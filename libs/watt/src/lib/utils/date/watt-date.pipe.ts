@@ -25,6 +25,7 @@ const formatStrings = {
   long: 'dd-MM-yyyy, HH:mm',
   longAbbr: 'dd-MMM-yyy HH:mm',
   time: 'HH:mm',
+  longAbbrWithSeconds: 'dd-MMM-yyy HH:mm:ss',
 };
 
 @Pipe({

@@ -19,7 +19,7 @@ import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 interface MeteringPointsResponse {
-  meteringPoints: [];
+  result: [];
 }
 
 interface StartClaimResponse {
@@ -33,7 +33,7 @@ export class EoMeteringPointsService {
   #apiBase: string;
 
   getMeteringPoints() {
-    return this.http.get<MeteringPointsResponse>(`${this.#apiBase}/meteringpoints`);
+    return this.http.get<MeteringPointsResponse>(`${this.#apiBase}/measurements/meteringpoints`);
   }
 
   startClaim() {

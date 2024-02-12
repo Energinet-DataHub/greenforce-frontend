@@ -26,6 +26,7 @@ import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
 import { MeteringPoint, MeteringPointType } from '@energinet-datahub/eo/metering-points/domain';
 
 import { EoMeteringPointsService } from './eo-metering-points.service';
+import { AibTechCode } from '../domain/metering-point';
 
 interface EoMeteringPointsState {
   loading: boolean;
@@ -59,27 +60,36 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   readonly consumptionMeteringPoints$ = this.select(
     (state) =>
       state.meteringPoints?.filter(
-        (mp) => mp.type === 'consumption' && (mp.assetType === 'Wind' || mp.assetType === 'Solar')
+        (mp) =>
+          mp.type === 'Consumption' &&
+          (mp.technology.aibTechCode === AibTechCode.Wind ||
+            mp.technology.aibTechCode === AibTechCode.Solar)
       ) ?? []
   );
   readonly productionMeteringPoints$ = this.select(
     (state) =>
       state.meteringPoints?.filter(
-        (mp) => mp.type === 'production' && (mp.assetType === 'Wind' || mp.assetType === 'Solar')
+        (mp) =>
+          mp.type === 'Production' &&
+          (mp.technology.aibTechCode === AibTechCode.Wind ||
+            mp.technology.aibTechCode === AibTechCode.Solar)
       ) ?? []
   );
-  readonly productionAndConsumptionMeteringPoints$ = this.select(
-    (state) =>
+  readonly productionAndConsumptionMeteringPoints$ = this.select((state) => {
+    console.log(state);
+    return (
       state.meteringPoints?.filter(
         (mp) =>
-          (mp.type === 'production' || mp.type === 'consumption') &&
-          (mp.assetType === 'Wind' || mp.assetType === 'Solar')
+          (mp.type === 'Production' || mp.type === 'Consumption') &&
+          (mp.technology.aibTechCode === AibTechCode.Wind ||
+            mp.technology.aibTechCode === AibTechCode.Solar)
       ) ?? []
-  );
+    );
+  });
 
   readonly consumptionMeteringPointsWithContract$ = this.select(
     (state) =>
-      state.meteringPoints?.filter((mp) => mp.type === 'consumption' && !!mp.contract) ?? []
+      state.meteringPoints?.filter((mp) => mp.type === 'Consumption' && !!mp.contract) ?? []
   );
 
   private readonly setMeteringPoints = this.updater(
@@ -149,9 +159,10 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     this.setLoading(true);
     forkJoin([this.certService.getContracts(), this.service.getMeteringPoints()]).subscribe({
       next: ([contractList, mpList]) => {
+        console.log('result', mpList.result);
         this.setLoading(false);
         this.setMeteringPoints(
-          mpList.meteringPoints?.map((mp: MeteringPoint) => ({
+          mpList.result?.map((mp: MeteringPoint) => ({
             ...mp,
             contract: contractList?.result.find(
               (contract) => contract.gsrn === mp.gsrn && this.isActiveContract(contract)
@@ -178,7 +189,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     this.toggleContractLoading(gsrn);
 
     const createContract$ =
-      meteringPointType === 'consumption' ? this.service.startClaim() : of(EMPTY);
+      meteringPointType === 'Consumption' ? this.service.startClaim() : of(EMPTY);
     (createContract$ as Observable<unknown>)
       .pipe(switchMap(() => this.certService.createContract(gsrn)))
       .subscribe({
@@ -207,7 +218,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     );
 
     const deactivateContract$ =
-      meteringPointType === 'consumption' ? deactivateConsumptionContract$ : of(EMPTY);
+      meteringPointType === 'Consumption' ? deactivateConsumptionContract$ : of(EMPTY);
     deactivateContract$
       .pipe(
         switchMap(() => this.getContractIdForGsrn(gsrn)),

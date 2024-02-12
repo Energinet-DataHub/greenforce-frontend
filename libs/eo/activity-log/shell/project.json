@@ -1,0 +1,20 @@
+{
+  "name": "eo-activity-log-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/activity-log/shell/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/activity-log/shell"],
+      "options": {
+        "jestConfig": "libs/eo/activity-log/shell/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:eo", "domain:activity-log", "type:shell"]
+}
