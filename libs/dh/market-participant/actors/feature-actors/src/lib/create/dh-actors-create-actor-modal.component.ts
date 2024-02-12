@@ -50,6 +50,7 @@ import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
 import { ActorForm } from './dh-actor-form.model';
 import { concat, distinctUntilChanged, map, merge, of, switchMap, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -87,7 +88,7 @@ export class DhActorsCreateActorModalComponent {
 
   newOrganizationForm = this._fb.group({
     country: ['', Validators.required],
-    cvrNumber: ['', { validators: [Validators.required, dhCvrValidator()] }],
+    cvrNumber: ['', { validators: [Validators.required] }],
     companyName: [{ value: '', disabled: true }, Validators.required],
     domain: ['', [Validators.required, dhDomainValidator]],
   });
@@ -103,6 +104,23 @@ export class DhActorsCreateActorModalComponent {
       phone: ['', Validators.required],
     }),
   });
+
+  constructor() {
+    this.newOrganizationForm.controls.country.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => {
+        if (value === 'DK') {
+          this.newOrganizationForm.controls.cvrNumber.setValidators([
+            Validators.required,
+            dhCvrValidator(),
+          ]);
+        } else {
+          this.newOrganizationForm.controls.cvrNumber.setValidators(Validators.required);
+        }
+
+        this.newOrganizationForm.controls.cvrNumber.updateValueAndValidity();
+      });
+  }
 
   cvrLookup$ = merge(
     this.newOrganizationForm.controls.country.valueChanges,
