@@ -33,9 +33,7 @@ export class EoMeteringPointsService {
   #apiBase: string;
 
   getMeteringPoints() {
-    return this.http.get<MeteringPointsResponse>(
-      `${this.#apiBase}/measurements/meteringpoints`
-    );
+    return this.http.get<MeteringPointsResponse>(`${this.#apiBase}/measurements/meteringpoints`);
   }
 
   startClaim() {

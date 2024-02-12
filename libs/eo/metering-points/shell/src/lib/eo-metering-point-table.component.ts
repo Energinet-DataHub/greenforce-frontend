@@ -116,7 +116,8 @@ class GranularCertificateHelperComponent {}
           *ngIf="
             meteringPoint.type === 'Consumption' ||
             (meteringPoint.type === 'Production' &&
-              (meteringPoint.technology.aibTechCode === techCodes.Wind || meteringPoint.technology.aibTechCode === techCodes.Solar))
+              (meteringPoint.technology.aibTechCode === techCodes.Wind ||
+                meteringPoint.technology.aibTechCode === techCodes.Solar))
           "
           style="display: flex; align-items: center;"
         >
@@ -165,9 +166,9 @@ export class EoMeteringPointsTableComponent {
     unit: { accessor: (meteringPoint) => meteringPoint.type },
     source: {
       accessor: (meteringPoint) => {
-        if(meteringPoint.type !== 'Production') return '';
+        if (meteringPoint.type !== 'Production') return '';
 
-        switch(meteringPoint.technology.aibTechCode) {
+        switch (meteringPoint.technology.aibTechCode) {
           case AibTechCode.Solar:
             return 'Solar';
           case AibTechCode.Wind:
@@ -190,7 +191,6 @@ export class EoMeteringPointsTableComponent {
     },
   };
   techCodes = AibTechCode;
-
 
   @Input() set meteringPoints(data: EoMeteringPoint[] | null) {
     this.dataSource.data = data || [];
