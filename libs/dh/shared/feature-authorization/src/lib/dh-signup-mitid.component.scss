@@ -23,19 +23,7 @@
   border-radius: 4px;
   border: none;
   height: 40px;
-  width: 100%;
-  font-family: "Open Sans", sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 16px;
-  letter-spacing: 1.25px;
-  text-transform: uppercase;
   cursor: pointer;
-  outline: none;
-  box-shadow:
-    0px 4px 4px rgba(0, 0, 0, 0.25),
-    0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-bottom: var(--watt-space-m);
 }
 
@@ -48,21 +36,13 @@
   background-color: var(--mitid-color);
 }
 
-.mit-id-image {
-  padding-top: 0.5em;
-  padding-bottom: 0.7em;
-  width: 4.4em;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-image: url(/assets/mitid-icon-white.png);
-}
-
 .mit-id-label {
   color: var(--watt-on-dark-high-emphasis);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
   margin-bottom: 0;
   margin-right: 1em;
-  font-size: 14px;
-  line-height: 16px;
   cursor: pointer;
 }
 

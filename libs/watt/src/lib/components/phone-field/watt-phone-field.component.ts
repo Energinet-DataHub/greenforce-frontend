@@ -119,56 +119,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
       <watt-field-error> {{ intl.invalidPhoneNumber }} </watt-field-error>
     }
   </watt-field>`,
-  styles: `
-     .watt-phone-field__select.mat-mdc-select-panel {
-      --mat-option-label-text-size: 14px;
-        overflow-y: scroll;
-        watt-icon {
-          margin-right: var(--watt-space-s);
-          .mat-icon {
-            margin-right:0;
-          }
-        }
-        .mat-mdc-option.mdc-list-item {
-          .mdc-list-item__primary-text {
-            display: flex;
-            width: 100%;
-            align-items: center;
-            gap: var(--watt-space-xs);
-          }
-        }
-     }
-     watt-phone-field {
-      display: block;
-
-      .watt-phone-field__prefix-container {
-        width:100%;
-        display: flex;
-        align-items: center;
-        gap: var(--watt-space-xs);
-      }
-
-      input {
-        width: 100%;
-        border: none;
-        &:focus-visible,
-        &:focus-within {
-          border: none;
-          outline: none;
-        }
-      }
-
-      .mat-mdc-select {
-        width:auto;
-        height:24px;
-
-        .mat-mdc-select-arrow-wrapper {
-          width: 24px;
-          justify-content: center;
-        }
-      }
-    }
-  `,
+  styleUrl: './watt-phone-field.component.scss',
 })
 export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */

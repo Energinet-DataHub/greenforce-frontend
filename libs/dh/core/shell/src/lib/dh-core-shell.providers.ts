@@ -29,6 +29,8 @@ import {
 } from '@azure/msal-angular';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormGroupDirective } from '@angular/forms';
+import { IPublicClientApplication } from '@azure/msal-browser';
+import { of } from 'rxjs';
 
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhWattTranslationsProviders } from '@energinet-datahub/dh/globalization/configuration-watt-translation';
@@ -44,11 +46,32 @@ import {
   dhB2CEnvironmentToken,
   environment,
 } from '@energinet-datahub/dh/shared/environments';
+import { dhLanguageServiceInitializer } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
 import { WattModalService } from '@energinet-datahub/watt/modal';
+
+if (environment.authDisabled) {
+  MsalGuard.prototype.canActivate = () => of(true);
+
+  MsalInterceptor.prototype.intercept = (req, next) => {
+    const access = localStorage.getItem('access_token');
+    req = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${access}`,
+      },
+    });
+    return next.handle(req);
+  };
+
+  MsalService.prototype.instance = {
+    getActiveAccount: () => {
+      return { username: 'Test' };
+    },
+  } as IPublicClientApplication;
+}
 
 const interceptors = [
   {
@@ -93,4 +116,5 @@ export const dhCoreShellProviders = [
   WattModalService,
   interceptors,
   msalProviders,
+  dhLanguageServiceInitializer,
 ];

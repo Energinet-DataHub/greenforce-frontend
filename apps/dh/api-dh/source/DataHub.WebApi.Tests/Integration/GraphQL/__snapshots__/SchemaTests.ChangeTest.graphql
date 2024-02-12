@@ -85,6 +85,11 @@ type BalanceResponsibleType {
   gridArea: String!
 }
 
+type CVROrganizationResult {
+  name: String!
+  hasResult: Boolean!
+}
+
 "An immutable calculation."
 type Calculation {
   id: UUID!
@@ -138,6 +143,12 @@ type ExchangeEventSearchResult {
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
+}
+
+type GetUserProfileResponse {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
 }
 
 type GridAreaDto {
@@ -221,6 +232,7 @@ type Mutation {
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
+  updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
 }
 
 type Organization {
@@ -299,6 +311,8 @@ type Query {
   gridAreaOverview: [GridAreaOverviewItemDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
+  userProfile: GetUserProfileResponse!
+  searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
 }
 
 type ReadinessStatusDto {
@@ -322,6 +336,11 @@ type UpdateActorPayload {
 type UpdateOrganizationPayload {
   boolean: Boolean
   errors: [UpdateOrganizationError!]
+}
+
+type UpdateUserProfilePayload {
+  boolean: Boolean
+  errors: [UpdateUserProfileError!]
 }
 
 type UserAuditedChangeAuditLogDto {
@@ -367,6 +386,8 @@ union CreateMarketParticipantError = ApiError
 union UpdateActorError = ApiError
 
 union UpdateOrganizationError = ApiError
+
+union UpdateUserProfileError = ApiError
 
 input ActorGridAreaDtoInput {
   id: UUID!
@@ -455,6 +476,16 @@ input UpdateOrganizationInput {
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
+}
+
+input UpdateUserProfileInput {
+  userProfileUpdateDto: UserProfileUpdateDtoInput!
+}
+
+input UserProfileUpdateDtoInput {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
 }
 
 enum ActorAuditedChange {

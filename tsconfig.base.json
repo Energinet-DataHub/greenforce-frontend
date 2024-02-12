@@ -137,6 +137,9 @@
       "@energinet-datahub/dh/profile/feature-avatar": [
         "libs/dh/profile/feature-avatar/src/index.ts"
       ],
+      "@energinet-datahub/dh/profile/feature-profile-modal": [
+        "libs/dh/profile/feature-profile-modal/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/assets": [
         "libs/dh/shared/assets/src/index.ts"
       ],

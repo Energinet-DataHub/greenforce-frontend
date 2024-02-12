@@ -18,12 +18,14 @@ limitations under the License.
   <watt-drawer #drawer (closed)="onClose()" size="small">
     <watt-drawer-topbar>
       @if (imbalancePrice()) {
-        <dh-status-badge [status]="imbalancePrice()!.status" />
+        <dh-status-badge [@valueChange]="imbalancePrice()" [status]="imbalancePrice()!.status" />
       }
     </watt-drawer-topbar>
 
     <watt-drawer-heading>
-      <h2>{{ imbalancePrice()?.name | wattDate: "monthYear" }}</h2>
+      <h2 [@valueChange]="imbalancePrice()">
+        {{ imbalancePrice()?.name | wattDate: "monthYear" }}
+      </h2>
     </watt-drawer-heading>
 
     <watt-drawer-actions>
@@ -33,7 +35,7 @@ limitations under the License.
     </watt-drawer-actions>
 
     @if (drawer.isOpen) {
-      <watt-drawer-content>
+      <watt-drawer-content [@valueChange]="imbalancePrice()">
         <div class="entry-metadata">
           <div class="entry-metadata__item">
             <span class="watt-label">{{ t("priceAreaLabel") }}</span>

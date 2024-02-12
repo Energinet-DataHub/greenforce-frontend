@@ -26,5 +26,6 @@ export const permissions = [
   'request-aggregated-measured-data:view',
   'actor-credentials:manage',
   'imbalance-prices:manage',
+  'actor-master-data:manage',
 ] as const;
 export type Permission = (typeof permissions)[number];
