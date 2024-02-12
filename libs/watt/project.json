@@ -39,7 +39,7 @@
       "options": {
         "styles": ["libs/watt/.storybook/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/watt/src/lib/styles"]
+          "includePaths": ["libs/watt/core/styles"]
         },
         "outputDir": "dist/designsystem",
         "configDir": "libs/watt/.storybook",
@@ -51,6 +51,33 @@
         "ci": {
           "quiet": true
         }
+      }
+    },
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/watt/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/watt/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/watt/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "pack": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": ".",
+        "commands": [
+          "nx build watt",
+          "cd dist/watt && npm pack --pack-destination ~"
+        ],
+        "parallel": false
       }
     }
   },

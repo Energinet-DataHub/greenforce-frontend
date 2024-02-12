@@ -19,8 +19,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/c
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattTableDataSource, WattTableColumnDef, WATT_TABLE, WattPaginatorComponent } from '@energinet-datahub/watt/table';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';

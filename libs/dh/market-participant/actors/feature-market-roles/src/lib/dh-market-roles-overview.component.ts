@@ -23,7 +23,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/table';
 import {
   VaterFlexComponent,
   VaterSpacerComponent,

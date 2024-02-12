@@ -21,10 +21,9 @@ import { RouterModule } from '@angular/router';
 
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource, WattPaginatorComponent } from '@energinet-datahub/watt/table';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';

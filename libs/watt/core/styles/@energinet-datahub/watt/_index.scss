@@ -1,0 +1,54 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@use "./theming/light-theme.scss";
+@use "./theming/material-overwrites/datepicker";
+@use "./theming/material-overwrites/snack-bar";
+
+@use "variables";
+@use "tokens";
+@use "box-sizing";
+@use "../../../typography";
+@use "../../../spacing";
+@use "table";
+@use "tooltip";
+@use "elevation";
+@use "chips";
+@use "vater";
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+}
+
+input,
+textarea {
+  font: inherit;
+}
+
+/**
+  * Fix dropdown overlay positioning
+  * We use the attribute selector to make sure we only target the dropdowns
+  * ex. time- and datepicker has other classes appended to the '.cdk-overlay-pane' element
+  * and therefore won't be hitted by this selector.
+  */
+.cdk-overlay-pane[class="cdk-overlay-pane"] {
+  transform: none !important;
+}

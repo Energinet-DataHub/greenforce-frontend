@@ -35,10 +35,10 @@ import {
   WattTableColumnDef,
   WATT_TABLE,
   WattTableComponent,
+  WattPaginatorComponent
 } from '@energinet-datahub/watt/table';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';

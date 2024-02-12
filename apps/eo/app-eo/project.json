@@ -21,7 +21,7 @@
             "output": "assets"
           },
           {
-            "input": "libs/watt/src/assets",
+            "input": "libs/watt/core/assets",
             "glob": "**/*",
             "output": "assets/watt"
           },
@@ -42,7 +42,7 @@
         "stylePreprocessorOptions": {
           "includePaths": [
             "libs/eo/shared/styles/src/lib",
-            "libs/watt/src/lib/styles"
+            "libs/watt/core/styles"
           ]
         },
         "styles": ["libs/eo/shared/styles/src/index.scss"],

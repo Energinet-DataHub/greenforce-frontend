@@ -1,0 +1,73 @@
+{
+  "name": "@energinet-datahub/watt",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "The units of power",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Energinet-DataHub/greenforce-frontend.git"
+  },
+  "keywords": [
+    "DataHub design system"
+  ],
+  "author": "Energinet DataHub",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Energinet-DataHub/greenforce-frontend/issues"
+  },
+  "homepage": "https://github.com/Energinet-DataHub/greenforce-frontend#readme",
+  "peerDependencies": {
+    "@angular/common": "^17.1.0",
+    "@angular/core": "^17.1.0",
+    "@angular/material": "^17.1.0",
+    "date-fns": "2.29.2",
+    "date-fns-tz": "2.0.0",
+    "@angular/material-date-fns-adapter": "^17.1.0",
+    "@maskito/angular": "2.0.0",
+    "@maskito/core": "2.0.0",
+    "@maskito/kit": "2.0.0",
+    "@maskito/phone": "2.0.0",
+    "@popperjs/core": "2.11.7",
+    "inputmask": "5.0.7"
+  },
+  "exports": {
+    ".": {
+      "sass": "./core/styles/@energinet-datahub/watt/_index.scss"
+    },
+    "./utils": {
+      "sass": "./core/styles/@energinet-datahub/watt/_utils.scss"
+    },
+    "./datepicker": {
+      "types": "./picker/datepicker/index.d.ts",
+      "esm2022": "./esm2022/picker/datepicker/energinet-datahub-watt-picker-datepicker.mjs",
+      "esm": "./esm2022/picker/datepicker/energinet-datahub-watt-picker-datepicker.mjs",
+      "default": "./fesm2022/energinet-datahub-watt-picker-datepicker.mjs"
+    },
+    "./timepicker": {
+      "types": "./picker/timepicker/index.d.ts",
+      "esm2022": "./esm2022/picker/timepicker/energinet-datahub-watt-picker-timepicker.mjs",
+      "esm": "./esm2022/picker/timepicker/energinet-datahub-watt-picker-timepicker.mjs",
+      "default": "./fesm2022/energinet-datahub-watt-picker-timepicker.mjs"
+    },
+    "./breakpoints": {
+      "types": "./core/breakpoints/index.d.ts",
+      "esm2022": "./esm2022/core/breakpoints/energinet-datahub-watt-picker-breakpoints.mjs",
+      "esm": "./esm2022/core/breakpoints/energinet-datahub-watt-picker-breakpoints.mjs",
+      "default": "./fesm2022/energinet-datahub-watt-picker-breakpoints.mjs"
+    },
+    "./color": {
+      "types": "./core/color/index.d.ts",
+      "esm2022": "./esm2022/core/color/energinet-datahub-watt-core-color.mjs",
+      "esm": "./esm2022/core/color/energinet-datahub-watt-core-color.mjs",
+      "default": "./fesm2022/energinet-datahub-watt-core-color.mjs"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "datepicker": ["./picker/datepicker/index.d.ts"],
+      "timepicker": ["./picker/timepicker/index.d.ts"],
+      "breakpoints": ["./core/breakpoints/index.d.ts"],
+      "color": ["./core/color/index.d.ts"]
+    }
+  },
+  "sideEffects": false
+}

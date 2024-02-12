@@ -19,7 +19,7 @@ import { FormControl, ReactiveFormsModule, FormGroup, FormGroupDirective } from 
 import { add, isAfter } from 'date-fns';
 import { CommonModule, NgClass, NgIf, NgSwitch } from '@angular/common';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 

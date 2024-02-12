@@ -43,7 +43,7 @@ import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard'
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 
 import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.service';
 

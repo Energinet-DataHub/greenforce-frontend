@@ -29,7 +29,7 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   DhPermissionRequiredDirective,

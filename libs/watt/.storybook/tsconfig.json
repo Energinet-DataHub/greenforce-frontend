@@ -4,5 +4,9 @@
     "emitDecoratorMetadata": true
   },
   "exclude": ["../**/*.spec.ts", "jest.config.ts"],
-  "include": ["../src/**/*", "*.js", "preview.ts"]
+  "include": [
+    "../**/*",
+    "*.js",
+    "preview.ts",
+  ]
 }

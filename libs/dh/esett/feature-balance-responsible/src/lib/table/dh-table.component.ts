@@ -23,7 +23,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 
 import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
 import { DhBalanceResponsibleDrawerComponent } from '../drawer/dh-drawer.component';

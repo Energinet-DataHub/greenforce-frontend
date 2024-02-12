@@ -19,7 +19,7 @@ import { DecimalPipe, NgClass } from '@angular/common';
 import { add, differenceInMinutes } from 'date-fns';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 
 import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../dh-imbalance-prices';
 

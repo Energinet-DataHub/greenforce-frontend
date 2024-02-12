@@ -20,7 +20,7 @@ import { NgIf } from '@angular/common';
 import { map, tap } from 'rxjs';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';

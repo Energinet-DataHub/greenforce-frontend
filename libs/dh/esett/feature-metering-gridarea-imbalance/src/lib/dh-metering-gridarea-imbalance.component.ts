@@ -23,7 +23,7 @@ import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/table';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   VaterFlexComponent,

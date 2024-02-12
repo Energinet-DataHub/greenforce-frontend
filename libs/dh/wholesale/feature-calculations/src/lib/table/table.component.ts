@@ -28,7 +28,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';

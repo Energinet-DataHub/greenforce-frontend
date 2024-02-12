@@ -25,7 +25,7 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';

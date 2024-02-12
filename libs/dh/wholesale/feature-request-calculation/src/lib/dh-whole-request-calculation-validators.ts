@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { WattRange } from '@energinet-datahub/watt/date';
+import { WattRange } from '@energinet-datahub/watt/utils/date';
 import { differenceInDays, parseISO, subYears } from 'date-fns';
 
 export const maxOneMonthDateRangeValidator =

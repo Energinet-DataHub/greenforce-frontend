@@ -27,7 +27,7 @@ import {
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/table';
 import { GetImbalancePricesOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 

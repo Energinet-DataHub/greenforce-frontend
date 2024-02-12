@@ -33,7 +33,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattModalActionsComponent } from '@energinet-datahub/watt/modal';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WATT_STEPPER, WattStep } from '@energinet-datahub/watt/stepper';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';

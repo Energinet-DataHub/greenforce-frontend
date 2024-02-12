@@ -28,7 +28,7 @@ import {
   GetOutgoingMessagesDocument,
   GetServiceStatusDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/table';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import {

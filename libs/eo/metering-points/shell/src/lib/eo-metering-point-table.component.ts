@@ -26,9 +26,8 @@ import {
 } from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import { WATT_TABLE, WattTableDataSource, WattTableColumnDef, WattPaginatorComponent } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';

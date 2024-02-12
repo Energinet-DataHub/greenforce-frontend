@@ -23,8 +23,7 @@ import {
 } from '@angular/core';
 import { NgIf } from '@angular/common';
 
-import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WATT_TABLE, WattTableDataSource, WattTableColumnDef, WattPaginatorComponent } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { Claim } from '@energinet-datahub/eo/claims/data-access-api';

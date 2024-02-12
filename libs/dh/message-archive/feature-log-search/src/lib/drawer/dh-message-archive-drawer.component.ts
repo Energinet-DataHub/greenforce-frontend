@@ -34,7 +34,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattDrawerComponent, WATT_DRAWER, WattDrawerSize } from '@energinet-datahub/watt/drawer';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
