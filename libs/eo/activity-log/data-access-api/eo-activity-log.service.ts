@@ -71,10 +71,10 @@ export class EoActivityLogService {
       end: getUnixTime(options.period.end),
     };
     return forkJoin({
-      transfers: options.eventTypes.includes('TransferAgreement')
+      transfers: options.eventTypes?.includes('TransferAgreement')
         ? this.getTransferLogs(period)
         : of({ activityLogEntries: [], hasMore: false } as ActivityLogListEntryResponse),
-      certificates: options.eventTypes.includes('MeteringPoint')
+      certificates: options.eventTypes?.includes('MeteringPoint')
         ? this.getCertificateLogs(period)
         : of({ activityLogEntries: [], hasMore: false } as ActivityLogListEntryResponse),
     }).pipe(
