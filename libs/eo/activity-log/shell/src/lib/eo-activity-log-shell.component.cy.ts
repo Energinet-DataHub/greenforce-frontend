@@ -17,6 +17,7 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { endOfToday, format } from 'date-fns';
 
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
@@ -40,19 +41,19 @@ describe('EO - Activity Log', () => {
   const findNoLogEntries = () => cy.findByText('No results found');
   const findAmountOfLogEntries = (amount: number) => cy.findByText(amount);
   const findErrorMessage = () => cy.findByText('An unexpected error occured');
-  const findTransferLogEntry = () =>
-    cy.findByText(
-      'ORGANIZATION_NAME (11223344) has created a proposal of a transfer agreement with ID 9475a256-d71e-4d59-97a8-01875d05e3fe'
-    );
-  const findCertificateLogEntry = () =>
-    cy.findByText(
-      'ORGANIZATION_NAME (11223344) has activated the metering point with ID 00a01f0e-92f0-46ba-8c4c-88f47bd5dea5'
-    );
+  const findTransferLogEntry = () => cy.findByText('ORGANIZATION_NAME (11223344) has created a proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd');
+  const findCertificateLogEntry = () => cy.findByText('ORGANIZATION_NAME (11223344) has activated the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd');
   const findEventTypeFilter = () => cy.findByText('Event type');
   const findTransferEventTypeFilter = () =>
     cy.findByRole('option', { name: /Transfer agreement/i });
   const findCertificateEventTypeFilter = () => cy.findByRole('option', { name: /Metering point/i });
   const findCorrectlyFormattedTimestamp = () => cy.findByText('07-Feb-2024 14:12:21');
+  const findTimestamps = () => cy.get('td.mat-column-timestamp');
+
+
+  const amountOfTransferLogEntries = 28;
+  const amountOfCertificatesLogEntries = 14;
+  const totalLogEntries = amountOfTransferLogEntries + amountOfCertificatesLogEntries;
 
   function setup(activityLogScenario: ActivityLogScenario = {}) {
     cy.mount(EoActivityLogShellComponent, {
@@ -86,7 +87,7 @@ describe('EO - Activity Log', () => {
       findNoLogEntries().should('not.exist');
       findTransferLogEntry().should('not.exist');
       findCertificateLogEntry().should('exist');
-      findAmountOfLogEntries(12).should('exist');
+      findAmountOfLogEntries(amountOfCertificatesLogEntries).should('exist');
     });
 
     it('should handle no certificates log entries', () => {
@@ -94,7 +95,7 @@ describe('EO - Activity Log', () => {
       findNoLogEntries().should('not.exist');
       findCertificateLogEntry().should('not.exist');
       findTransferLogEntry().should('exist');
-      findAmountOfLogEntries(7).should('exist');
+      findAmountOfLogEntries(amountOfTransferLogEntries).should('exist');
     });
   });
 
@@ -143,7 +144,7 @@ describe('EO - Activity Log', () => {
     // DEFAULT - ALL LOG ENTRIES SHOULD BE VISIBLE
     findTransferLogEntry().should('exist');
     findCertificateLogEntry().should('exist');
-    findAmountOfLogEntries(19).should('exist');
+    findAmountOfLogEntries(totalLogEntries).should('exist');
     findNoLogEntries().should('not.exist');
     findErrorMessage().should('not.exist');
 
@@ -154,25 +155,25 @@ describe('EO - Activity Log', () => {
     findTransferEventTypeFilter().click();
     findTransferLogEntry().should('not.exist');
     findCertificateLogEntry().should('exist');
-    findAmountOfLogEntries(12).should('exist');
+    findAmountOfLogEntries(amountOfCertificatesLogEntries).should('exist');
 
     // TURN BACK ON TRANSFER LOG ENTRIES
     findTransferEventTypeFilter().click();
     findTransferLogEntry().should('exist');
     findCertificateLogEntry().should('exist');
-    findAmountOfLogEntries(19).should('exist');
+    findAmountOfLogEntries(totalLogEntries).should('exist');
 
     // TURN OFF CERTIFICATE LOG ENTRIES
     findCertificateEventTypeFilter().click();
     findTransferLogEntry().should('exist');
     findCertificateLogEntry().should('not.exist');
-    findAmountOfLogEntries(7).should('exist');
+    findAmountOfLogEntries(amountOfTransferLogEntries).should('exist');
 
     // TURN BACK ON CERTIFICATE LOG ENTRIES
     findCertificateEventTypeFilter().click();
     findTransferLogEntry().should('exist');
     findCertificateLogEntry().should('exist');
-    findAmountOfLogEntries(19).should('exist');
+    findAmountOfLogEntries(totalLogEntries).should('exist');
 
     // TURN OFF ALL LOG ENTRIES
     findTransferEventTypeFilter().click();
@@ -185,6 +186,21 @@ describe('EO - Activity Log', () => {
 
   it('should show correctly formatted timestamps', () => {
     setup();
-    findCorrectlyFormattedTimestamp().should('exist');
+    const formattedDate = format(endOfToday(), 'dd-MMM-yyyy HH:mm:ss');
+    cy.findAllByText(formattedDate).should('exist');
+  });
+
+  it('should sort log entries by timestamp (newest first)', () => {
+    setup();
+    findTimestamps().then((timestamps) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      timestamps = Array.from(timestamps).map((timestamp: any) => new Date(timestamp.textContent).getTime());
+
+      timestamps.reverse().forEach((timestamp, index) => {
+        if(index === timestamps.length - 1) return;
+        cy.log(`Comparing ${new Date(timestamp)} to be less than or equal to ${new Date(timestamps[index + 1])}`)
+        cy.wrap(timestamp).should('be.lte', timestamps[index + 1]);
+      });
+    });
   });
 });

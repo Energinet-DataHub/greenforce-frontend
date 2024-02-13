@@ -16,7 +16,7 @@
  */
 import { http, HttpResponse } from 'msw';
 import { certificatesResponse } from './data/certificates';
-import { certificatesActivityLogResponse } from './data/certificates-activity-log';
+import { certificatesActivityLogResponse } from './data/activity-logs';
 
 export function certificatesMocks(apiBase: string) {
   return [

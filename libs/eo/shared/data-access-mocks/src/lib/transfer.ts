@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { http, delay, HttpResponse } from 'msw';
-import { transferActivityLogResponse } from './data/transfer-activity-log';
+import { transferActivityLogResponse } from './data/activity-logs';
 
 export function transferMocks(apiBase: string) {
   return [

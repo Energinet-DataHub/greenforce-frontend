@@ -128,6 +128,7 @@ export class EoActivityLogShellComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLogs();
+    this.sortData();
 
     this.form.valueChanges
       .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
@@ -168,6 +169,35 @@ export class EoActivityLogShellComponent implements OnInit {
         )} ${this.formatEntityType(x.entityType)} with ID ${x.entityId}`,
       };
     });
+  }
+
+  private sortData() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.dataSource.sortData = (data: any[], sort: any) => {
+      const isAsc = sort.direction === 'asc';
+
+      if (!sort.active || sort.direction === '') {
+        return data;
+      } else if (sort.active === 'timestamp') {
+        return data.sort((a, b) => {
+          return this.compare(new Date(a.timestamp).getTime(), new Date(b.timestamp).getTime(), isAsc);
+        });
+      } else {
+        return data.sort((a, b) => {
+          return this.compare(a[sort.active], b[sort.active], isAsc);
+        });
+      }
+    };
+  }
+
+  private compare(a: number, b: number, isAsc: boolean): number {
+    if (a < b) {
+      return isAsc ? -1 : 1;
+    } else if (a > b) {
+      return isAsc ? 1 : -1;
+    } else {
+      return 0;
+    }
   }
 
   private last30Days(): { start: number; end: number } {
