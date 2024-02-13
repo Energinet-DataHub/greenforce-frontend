@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const actorId = "ACTOR_ID";
-const actorName = "ACTOR_NAME";
-const organizationName = "ORGANIZATION_NAME";
+const actorId = 'ACTOR_ID';
+const actorName = 'ACTOR_NAME';
+const organizationName = 'ORGANIZATION_NAME';
 
 export const transferActivityLogResponse = {
   activityLogEntries: [

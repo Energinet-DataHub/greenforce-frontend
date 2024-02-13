@@ -179,7 +179,7 @@ function postTransferActivityLog(apiBase: string) {
   const state = localStorage.getItem('transfer-activity-log');
 
   return http.post(`${apiBase}/transfer/activity-log`, () => {
-    if(state === 'no-log-entries') {
+    if (state === 'no-log-entries') {
       return HttpResponse.json({ activityLogEntries: [] });
     } else if (state === 'activity-log-has-error') {
       return HttpResponse.error();
@@ -188,4 +188,3 @@ function postTransferActivityLog(apiBase: string) {
     }
   });
 }
-
