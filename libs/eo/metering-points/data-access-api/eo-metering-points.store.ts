@@ -75,7 +75,6 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       ) ?? []
   );
   readonly productionAndConsumptionMeteringPoints$ = this.select((state) => {
-    console.log(state);
     return (
       state.meteringPoints?.filter(
         (mp) =>
@@ -158,7 +157,6 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     this.setLoading(true);
     forkJoin([this.certService.getContracts(), this.service.getMeteringPoints()]).subscribe({
       next: ([contractList, mpList]) => {
-        console.log('result', mpList.result);
         this.setLoading(false);
         this.setMeteringPoints(
           mpList.result?.map((mp: MeteringPoint) => ({
