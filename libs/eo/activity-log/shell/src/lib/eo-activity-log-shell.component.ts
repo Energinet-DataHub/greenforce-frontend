@@ -25,6 +25,10 @@ import {
   signal,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { distinctUntilChanged } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { endOfToday, getUnixTime, startOfToday, subDays } from 'date-fns';
+
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import {
@@ -33,6 +37,9 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
+import { WattFormChipDirective } from '@energinet-datahub/watt/field';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import {
   ActivityLogEntryResponse,
@@ -40,12 +47,7 @@ import {
   activityLogActionType,
   activityLogEntityType,
 } from '@energinet-datahub/eo/activity-log/data-access-api';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
-import { endOfToday, getUnixTime, startOfToday, subDays } from 'date-fns';
-import { WattFormChipDirective } from '@energinet-datahub/watt/field';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { distinctUntilChanged } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'eo-activity-log-shell',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -131,13 +133,13 @@ export class EoActivityLogShellComponent implements OnInit {
     this.sortData();
 
     this.form.valueChanges
-      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        const { period } = this.form.getRawValue();
-        if (period && period.start && period.end) {
-          this.getLogs();
-        }
-      });
+    .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+    .subscribe(() => {
+      const { period } = this.form.getRawValue();
+      if (period?.start && period?.end) {
+        this.getLogs();
+      }
+    });
   }
 
   private getLogs() {
