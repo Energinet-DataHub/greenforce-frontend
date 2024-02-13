@@ -21,7 +21,7 @@ export function meteringPointsMocks(apiBase: string) {
 }
 
 function getMeteringPoints(apiBase: string) {
-  return http.get(`${apiBase}/meteringpoints`, () => {
+  return http.get(`${apiBase}/measurements/meteringpoints`, () => {
     const state = localStorage.getItem('metering-points');
     const city = 'Dummy city';
     const productionMeteringPoints = [
