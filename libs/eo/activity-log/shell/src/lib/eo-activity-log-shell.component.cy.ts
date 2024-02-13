@@ -185,7 +185,7 @@ describe('EO - Activity Log', () => {
       setup();
       formattedLogEntries.forEach((logEntry) => {
         cy.findByText(logEntry).should('exist');
-      }
+      });
     });
   });
 

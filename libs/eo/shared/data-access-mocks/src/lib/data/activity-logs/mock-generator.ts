@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { endOfToday, format, getUnixTime, startOfToday, subDays } from 'date-fns';
+import { endOfToday, getUnixTime, startOfToday, subDays } from 'date-fns';
 
 const actorId = 'ACTOR_ID';
 const actorName = 'ACTOR_NAME';
