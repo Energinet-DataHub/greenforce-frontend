@@ -37,6 +37,51 @@ interface ActivityLogScenario {
   certificates?: ConfigValue;
 }
 
+const formattedLogEntries = [
+  'System has created a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has created a metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has deactivated or changed the end date of the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has deactivated the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has accepted the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has created a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has activated the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has deactivated or changed the end date of the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has accepted the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has activated the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has expired the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has deactivated the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has expired the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has accepted the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has deactivated the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has expired the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has activated the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has activated the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has deactivated or changed the end date of the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has expired the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has accepted the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has created a proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has accepted the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has expired the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has deactivated the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has declined the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has created a proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has declined the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has deactivated or changed the end date of the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has deactivated the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has deactivated the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has activated the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has declined the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has deactivated or changed the end date of the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has activated the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has expired the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has declined the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has declined the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has accepted the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has deactivated or changed the end date of the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has created a metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has declined the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd'
+];
+
 describe('EO - Activity Log', () => {
   const findNoLogEntries = () => cy.findByText('No results found');
   const findAmountOfLogEntries = (amount: number) => cy.findByText(amount);
@@ -136,9 +181,11 @@ describe('EO - Activity Log', () => {
   });
 
   describe('Message formatting', () => {
-    it('should format transfer log entry', () => {
+    it('should format log entries correctly', () => {
       setup();
-      findTransferLogEntry().should('exist');
+      formattedLogEntries.forEach((logEntry) => {
+        cy.findByText(logEntry).should('exist');
+      }
     });
   });
 
