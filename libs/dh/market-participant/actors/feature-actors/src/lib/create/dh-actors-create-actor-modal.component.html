@@ -41,6 +41,7 @@ limitations under the License.
         [label]="t('newOrganization')"
       >
         <dh-new-organization-step
+          [isCvrBusy$]="cvrLookup$"
           [newOrganizationForm]="newOrganizationForm"
           (toggleShowCreateNewOrganization)="toggleShowCreateNewOrganization()"
         />
