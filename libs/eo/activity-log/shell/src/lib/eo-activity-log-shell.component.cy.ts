@@ -47,7 +47,6 @@ describe('EO - Activity Log', () => {
   const findTransferEventTypeFilter = () =>
     cy.findByRole('option', { name: /Transfer agreement/i });
   const findCertificateEventTypeFilter = () => cy.findByRole('option', { name: /Metering point/i });
-  const findCorrectlyFormattedTimestamp = () => cy.findByText('07-Feb-2024 14:12:21');
   const findTimestamps = () => cy.get('td.mat-column-timestamp');
 
 
