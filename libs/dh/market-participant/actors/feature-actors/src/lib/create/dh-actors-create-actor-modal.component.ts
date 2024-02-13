@@ -34,6 +34,7 @@ import {
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
   EicFunction,
+  GetOrganizationFromCvrDocument,
   GetOrganizationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
@@ -48,6 +49,8 @@ import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organizatio
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
 import { ActorForm } from './dh-actor-form.model';
+import { concat, distinctUntilChanged, map, merge, of, switchMap, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -85,8 +88,8 @@ export class DhActorsCreateActorModalComponent {
 
   newOrganizationForm = this._fb.group({
     country: ['', Validators.required],
-    cvrNumber: ['', { validators: [Validators.required, dhCvrValidator()] }],
-    companyName: ['', Validators.required],
+    cvrNumber: ['', { validators: [Validators.required] }],
+    companyName: [{ value: '', disabled: true }, Validators.required],
     domain: ['', [Validators.required, dhDomainValidator]],
   });
 
@@ -101,6 +104,69 @@ export class DhActorsCreateActorModalComponent {
       phone: ['', Validators.required],
     }),
   });
+
+  constructor() {
+    this.newOrganizationForm.controls.country.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => {
+        if (value === 'DK') {
+          this.newOrganizationForm.controls.cvrNumber.setValidators([
+            Validators.required,
+            dhCvrValidator(),
+          ]);
+        } else {
+          this.newOrganizationForm.controls.cvrNumber.setValidators(Validators.required);
+        }
+
+        this.newOrganizationForm.controls.cvrNumber.updateValueAndValidity();
+      });
+  }
+
+  cvrLookup$ = merge(
+    this.newOrganizationForm.controls.country.valueChanges,
+    this.newOrganizationForm.controls.cvrNumber.valueChanges
+  ).pipe(
+    distinctUntilChanged(),
+    switchMap(() => {
+      const country = this.newOrganizationForm.controls.country.value;
+      const cvrNumber = this.newOrganizationForm.controls.cvrNumber.value;
+
+      if (country === '' || (country === 'DK' && cvrNumber.length !== 8)) {
+        return of({ isLoading: false, isReadOnly: true });
+      }
+
+      if (country === 'DK') {
+        const cvrQuery = this._apollo
+          .query({
+            query: GetOrganizationFromCvrDocument,
+            variables: { cvr: cvrNumber },
+          })
+          .pipe(
+            map((cvrResult) => {
+              const foundOrg = cvrResult.data?.searchOrganizationInCVR;
+              if (foundOrg && foundOrg.hasResult) {
+                this.newOrganizationForm.controls.companyName.setValue(foundOrg.name);
+                return { isLoading: false, isReadOnly: true };
+              }
+
+              return { isLoading: false, isReadOnly: false };
+            })
+          );
+
+        return concat(of({ isLoading: true, isReadOnly: true }), cvrQuery);
+      }
+
+      return of({ isLoading: false, isReadOnly: false });
+    }),
+    tap((state) => {
+      if (state.isReadOnly) {
+        this.newOrganizationForm.controls.companyName.disable();
+      } else {
+        this.newOrganizationForm.controls.companyName.enable();
+      }
+    }),
+    map((result) => result.isLoading)
+  );
 
   getChoosenOrganizationDomain(): string {
     return this.newOrganizationForm.controls.domain.value
