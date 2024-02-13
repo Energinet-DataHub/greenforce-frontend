@@ -21,12 +21,11 @@ import { Injectable } from '@angular/core';
 
 import { EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
-import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
+import { EoMeteringPoint, AibTechCode } from '@energinet-datahub/eo/metering-points/domain';
 
 import { MeteringPoint, MeteringPointType } from '@energinet-datahub/eo/metering-points/domain';
 
 import { EoMeteringPointsService } from './eo-metering-points.service';
-import { AibTechCode } from '../domain/metering-point';
 
 interface EoMeteringPointsState {
   loading: boolean;
