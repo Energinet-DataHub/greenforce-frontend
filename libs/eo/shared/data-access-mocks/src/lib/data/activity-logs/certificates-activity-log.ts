@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { generateCombinations } from "./mock-generator";
+import { generateCombinations } from './mock-generator';
 
 export const certificatesActivityLogResponse = {
   activityLogEntries: generateCombinations(['MeteringPoint']),

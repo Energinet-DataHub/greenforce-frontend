@@ -14,13 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { endOfToday, format, getUnixTime, startOfToday, subDays } from "date-fns";
+import { endOfToday, format, getUnixTime, startOfToday, subDays } from 'date-fns';
 
 const actorId = 'ACTOR_ID';
 const actorName = 'ACTOR_NAME';
 const organizationName = 'ORGANIZATION_NAME';
 const actorTypes = ['System', 'User'];
-const actionTypes = ['Created', 'Accepted', 'Declined', 'Activated', 'Deactivated', 'EndDateChanged', 'Expired'];
+const actionTypes = [
+  'Created',
+  'Accepted',
+  'Declined',
+  'Activated',
+  'Deactivated',
+  'EndDateChanged',
+  'Expired',
+];
 
 export type entityType = 'MeteringPoint' | 'TransferAgreementProposal' | 'TransferAgreement';
 export function generateCombinations(entityTypes: entityType[] = []) {
@@ -48,7 +56,7 @@ export function generateCombinations(entityTypes: entityType[] = []) {
   }
 
   return combinations.map((x, index) => {
-    if(index !== 0) return x;
+    if (index !== 0) return x;
     return {
       ...x,
       timestamp: last30Days().end,
@@ -69,5 +77,7 @@ function last30Days(): { start: number; end: number } {
 
 function generateTimestamp(): number {
   const last30DaysRange = last30Days();
-  return Math.floor(Math.random() * (last30DaysRange.end - last30DaysRange.start) + last30DaysRange.start);
+  return Math.floor(
+    Math.random() * (last30DaysRange.end - last30DaysRange.start) + last30DaysRange.start
+  );
 }

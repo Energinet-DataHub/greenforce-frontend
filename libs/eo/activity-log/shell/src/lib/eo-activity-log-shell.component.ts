@@ -180,7 +180,11 @@ export class EoActivityLogShellComponent implements OnInit {
         return data;
       } else if (sort.active === 'timestamp') {
         return data.sort((a, b) => {
-          return this.compare(new Date(a.timestamp).getTime(), new Date(b.timestamp).getTime(), isAsc);
+          return this.compare(
+            new Date(a.timestamp).getTime(),
+            new Date(b.timestamp).getTime(),
+            isAsc
+          );
         });
       } else {
         return data.sort((a, b) => {

@@ -41,14 +41,19 @@ describe('EO - Activity Log', () => {
   const findNoLogEntries = () => cy.findByText('No results found');
   const findAmountOfLogEntries = (amount: number) => cy.findByText(amount);
   const findErrorMessage = () => cy.findByText('An unexpected error occured');
-  const findTransferLogEntry = () => cy.findByText('ORGANIZATION_NAME (11223344) has created a proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd');
-  const findCertificateLogEntry = () => cy.findByText('ORGANIZATION_NAME (11223344) has activated the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd');
+  const findTransferLogEntry = () =>
+    cy.findByText(
+      'ORGANIZATION_NAME (11223344) has created a proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd'
+    );
+  const findCertificateLogEntry = () =>
+    cy.findByText(
+      'ORGANIZATION_NAME (11223344) has activated the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd'
+    );
   const findEventTypeFilter = () => cy.findByText('Event type');
   const findTransferEventTypeFilter = () =>
     cy.findByRole('option', { name: /Transfer agreement/i });
   const findCertificateEventTypeFilter = () => cy.findByRole('option', { name: /Metering point/i });
   const findTimestamps = () => cy.get('td.mat-column-timestamp');
-
 
   const amountOfTransferLogEntries = 28;
   const amountOfCertificatesLogEntries = 14;
@@ -193,11 +198,17 @@ describe('EO - Activity Log', () => {
     setup();
     findTimestamps().then((timestamps) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      timestamps = Array.from(timestamps).map((timestamp: any) => new Date(timestamp.textContent).getTime());
+      timestamps = Array.from(timestamps).map((timestamp: any) =>
+        new Date(timestamp.textContent).getTime()
+      );
 
       timestamps.reverse().forEach((timestamp, index) => {
-        if(index === timestamps.length - 1) return;
-        cy.log(`Comparing ${new Date(timestamp)} to be less than or equal to ${new Date(timestamps[index + 1])}`)
+        if (index === timestamps.length - 1) return;
+        cy.log(
+          `Comparing ${new Date(timestamp)} to be less than or equal to ${new Date(
+            timestamps[index + 1]
+          )}`
+        );
         cy.wrap(timestamp).should('be.lte', timestamps[index + 1]);
       });
     });
