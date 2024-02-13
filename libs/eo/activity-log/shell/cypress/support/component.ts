@@ -45,3 +45,29 @@ declare global {
 }
 
 Cypress.Commands.add('mount', mount);
+
+declare const window: {
+  cypressMockServiceWorkerIntercept: Promise<unknown> | undefined;
+} & Window;
+
+window.cypressMockServiceWorkerIntercept = new Promise((resolve) => {
+  before(() => {
+    /**
+     * We need to intercept the mockServiceWorker.js file and serve it like this,
+     * because the script is not allowed to be behind a redirect
+     */
+    cy.request('/__cypress/src/mockServiceWorker.js').then((res) => {
+      cy.intercept('/mockServiceWorker.js', {
+        headers: { 'content-type': 'text/javascript' },
+        body: res.body,
+      }).then(resolve);
+    });
+  });
+});
+
+// Intercept assets
+beforeEach(() => {
+  cy.intercept('/assets/watt/icons/power.svg', { hostname: 'localhost' }, (req) => {
+    req.redirect('/__cypress/src/assets/watt/icons/power.svg');
+  });
+});

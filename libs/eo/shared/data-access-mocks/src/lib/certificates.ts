@@ -159,9 +159,9 @@ function patchCertificatesContracts(apiBase: string) {
 }
 
 function postCertificatesActivityLog(apiBase: string) {
-  const state = localStorage.getItem('certificates-activity-log');
-
   return http.post(`${apiBase}/certificates/activity-log`, () => {
+    const state = localStorage.getItem('certificates-activity-log');
+
     if (state === 'no-log-entries') {
       return HttpResponse.json({ activityLogEntries: [] });
     } else if (state === 'activity-log-has-error') {

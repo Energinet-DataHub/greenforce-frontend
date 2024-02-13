@@ -176,9 +176,9 @@ function putTransferAgreements(apiBase: string) {
 }
 
 function postTransferActivityLog(apiBase: string) {
-  const state = localStorage.getItem('transfer-activity-log');
-
   return http.post(`${apiBase}/transfer/activity-log`, () => {
+    const state = localStorage.getItem('transfer-activity-log');
+
     if (state === 'no-log-entries') {
       return HttpResponse.json({ activityLogEntries: [] });
     } else if (state === 'activity-log-has-error') {
