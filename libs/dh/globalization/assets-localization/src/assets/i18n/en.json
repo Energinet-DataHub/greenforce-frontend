@@ -51,6 +51,25 @@
         "period": "Period"
       }
     },
+    "profile": {
+      "myInformation": "My information",
+      "general": "General",
+      "login": "Login",
+      "title": "Profile",
+      "name": "Name",
+      "lastname": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "language": "Language",
+      "save": "Save changes",
+      "cancel": "Cancel",
+      "success": "Profile updated successfully",
+      "error": "An error occurred while updating the profile",
+      "languages": {
+        "da": "Danish",
+        "en": "English"
+      }
+    },
     "download": "Download",
     "downloadreport": "Download report",
     "search": "Search",
@@ -986,7 +1005,7 @@
   },
   "admin": {
     "userManagement": {
-      "connect": "Connect",
+      "connect": "Connect MitID",
       "inviteUser": {
         "title": "Invite user",
         "informations": "Information",

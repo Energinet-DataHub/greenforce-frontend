@@ -49,14 +49,7 @@ public class Mutation
         var actor = await client.ActorGetAsync(actorId).ConfigureAwait(false);
         if (!string.Equals(actor.Name.Value, actorName, StringComparison.Ordinal))
         {
-            var changes = new ChangeActorDto()
-            {
-                Status = actor.Status,
-                Name = new ActorNameDto() { Value = actorName },
-                MarketRoles = actor.MarketRoles,
-            };
-
-            await client.ActorPutAsync(actorId, changes).ConfigureAwait(false);
+            await client.ActorNameAsync(actorId, new ActorNameDto { Value = actorName }).ConfigureAwait(false);
         }
 
         var allContacts = await client.ActorContactGetAsync(actorId).ConfigureAwait(false);
@@ -192,6 +185,15 @@ public class Mutation
             .ActorContactPostAsync(actorId, input.ActorContact)
             .ConfigureAwait(false);
 
+        return true;
+    }
+
+    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
+    public async Task<bool> UpdateUserProfileAsync(
+           UserProfileUpdateDto userProfileUpdateDto,
+           [Service] IMarketParticipantClient_V1 client)
+    {
+        await client.UserUserprofilePutAsync(userProfileUpdateDto).ConfigureAwait(false);
         return true;
     }
 }

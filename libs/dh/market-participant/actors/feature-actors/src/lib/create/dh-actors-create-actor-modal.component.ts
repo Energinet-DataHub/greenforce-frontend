@@ -34,6 +34,7 @@ import {
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
   EicFunction,
+  GetOrganizationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   dhCvrValidator,
@@ -47,6 +48,7 @@ import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organizatio
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
 import { ActorForm } from './dh-actor-form.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -84,7 +86,7 @@ export class DhActorsCreateActorModalComponent {
 
   newOrganizationForm = this._fb.group({
     country: ['', Validators.required],
-    cvrNumber: ['', { validators: [Validators.required, dhCvrValidator()] }],
+    cvrNumber: ['', { validators: [Validators.required] }],
     companyName: ['', Validators.required],
     domain: ['', [Validators.required, dhDomainValidator]],
   });
@@ -100,6 +102,23 @@ export class DhActorsCreateActorModalComponent {
       phone: ['', Validators.required],
     }),
   });
+
+  constructor() {
+    this.newOrganizationForm.controls.country.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => {
+        if (value === 'DK') {
+          this.newOrganizationForm.controls.cvrNumber.setValidators([
+            Validators.required,
+            dhCvrValidator(),
+          ]);
+        } else {
+          this.newOrganizationForm.controls.cvrNumber.setValidators(Validators.required);
+        }
+
+        this.newOrganizationForm.controls.cvrNumber.updateValueAndValidity();
+      });
+  }
 
   getChoosenOrganizationDomain(): string {
     return this.newOrganizationForm.controls.domain.value
@@ -178,6 +197,7 @@ export class DhActorsCreateActorModalComponent {
             },
           },
         },
+        refetchQueries: [GetOrganizationsDocument],
       })
       .subscribe((result) => this.handleCreateMarketParticipentResponse(result));
   }

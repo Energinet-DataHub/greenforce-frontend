@@ -394,6 +394,21 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .ConfigureAwait(false);
         }
 
+        public async Task<GetUserProfileResponse> GetUserProfileAsync([Service] IMarketParticipantClient_V1 client)
+        {
+            return await client.UserUserprofileGetAsync().ConfigureAwait(false);
+        }
+
+        public async Task<CVROrganizationResult> SearchOrganizationInCVRAsync(string cvr)
+        {
+            if (string.Equals(cvr, "12345674", StringComparison.OrdinalIgnoreCase))
+            {
+                return await Task.FromResult(new CVROrganizationResult() { HasResult = false });
+            }
+
+            return await Task.FromResult(new CVROrganizationResult() { Name = "Virksomhedsnavn fra CVR", HasResult = true });
+        }
+
         private static Task<GetUserOverviewResponse> GetUserOverviewAsync(IMarketParticipantClient_V1 client)
         {
             return client.UserOverviewUsersSearchAsync(

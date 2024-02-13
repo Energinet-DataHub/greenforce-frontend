@@ -45,11 +45,13 @@ import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
 import { DhImbalancePrice, DhImbalancePricesForMonth } from '../dh-imbalance-prices';
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
 import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
+import { dhValueChangeAnimationTrigger } from './dh-value-change-animation-trigger';
 
 @Component({
   selector: 'dh-imbalance-prices-drawer',
   standalone: true,
   templateUrl: './dh-drawer.component.html',
+  animations: [dhValueChangeAnimationTrigger],
   styles: [
     `
       :host {
