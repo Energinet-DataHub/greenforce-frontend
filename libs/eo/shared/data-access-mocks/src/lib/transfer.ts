@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { http, delay, HttpResponse } from 'msw';
+import { transferActivityLogResponse } from './data/activity-logs';
 
 export function transferMocks(apiBase: string) {
   return [
@@ -23,6 +24,7 @@ export function transferMocks(apiBase: string) {
     postTransferAgreementProposals(apiBase),
     getTransferAgreementHistory(apiBase),
     putTransferAgreements(apiBase),
+    postTransferActivityLog(apiBase),
   ];
 }
 
@@ -170,5 +172,19 @@ function putTransferAgreements(apiBase: string) {
     await delay(1000);
 
     return HttpResponse.json(data, { status: 200 });
+  });
+}
+
+function postTransferActivityLog(apiBase: string) {
+  return http.post(`${apiBase}/transfer/activity-log`, () => {
+    const state = localStorage.getItem('transfer-activity-log');
+
+    if (state === 'no-log-entries') {
+      return HttpResponse.json({ activityLogEntries: [] });
+    } else if (state === 'activity-log-has-error') {
+      return HttpResponse.error();
+    } else {
+      return HttpResponse.json(transferActivityLogResponse);
+    }
   });
 }

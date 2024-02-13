@@ -14,4 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './metering-point';
+import { generateCombinations } from './mock-generator';
+
+export const transferActivityLogResponse = {
+  activityLogEntries: generateCombinations(['TransferAgreement', 'TransferAgreementProposal']),
+  hasMore: false,
+};

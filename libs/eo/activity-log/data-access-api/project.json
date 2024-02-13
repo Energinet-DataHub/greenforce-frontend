@@ -1,0 +1,13 @@
+{
+  "name": "eo-activity-log-data-access-api",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/activity-log/data-access-api",
+  "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:eo", "domain:activity-log", "type:data-access"]
+}
