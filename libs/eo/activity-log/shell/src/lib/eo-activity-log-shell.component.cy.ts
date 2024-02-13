@@ -79,7 +79,7 @@ const formattedLogEntries = [
   'System has accepted the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'System has deactivated or changed the end date of the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'ORGANIZATION_NAME (11223344) has created a metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
-  'ORGANIZATION_NAME (11223344) has declined the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd'
+  'ORGANIZATION_NAME (11223344) has declined the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
 ];
 
 describe('EO - Activity Log', () => {
