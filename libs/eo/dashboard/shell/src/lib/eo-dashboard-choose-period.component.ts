@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { JsonPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, DestroyRef, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -53,7 +53,6 @@ import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
     WattDateChipComponent,
     WattDateRangeChipComponent,
     WattFormChipDirective,
-    JsonPipe,
   ],
   selector: 'eo-dashboard-choose-period',
   styles: [

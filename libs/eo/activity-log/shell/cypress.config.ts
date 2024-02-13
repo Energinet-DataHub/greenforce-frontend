@@ -14,4 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './metering-point';
+import { nxComponentTestingPreset } from '@nx/angular/plugins/component-testing';
+import { defineConfig } from 'cypress';
+
+export default defineConfig({
+  component: nxComponentTestingPreset(__filename),
+});

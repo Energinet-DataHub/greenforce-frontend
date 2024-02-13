@@ -29,6 +29,7 @@ export const eoGeographyRoutePath = 'geography';
 export const eoTermsRoutePath = 'terms';
 export const eoTransferRoutePath = 'transfers';
 export const eoClaimsRoutePath = 'claims';
+export const eoActivityLogRoutePath = 'activity-log';
 
 export const eoRoutes = {
   certificates: eoCertificatesRoutePath,
@@ -46,4 +47,5 @@ export const eoRoutes = {
   terms: eoTermsRoutePath,
   transfer: eoTransferRoutePath,
   claims: eoClaimsRoutePath,
+  activityLog: eoActivityLogRoutePath,
 };
