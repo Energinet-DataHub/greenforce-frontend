@@ -133,13 +133,13 @@ export class EoActivityLogShellComponent implements OnInit {
     this.sortData();
 
     this.form.valueChanges
-    .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
-    .subscribe(() => {
-      const { period } = this.form.getRawValue();
-      if (period?.start && period?.end) {
-        this.getLogs();
-      }
-    });
+      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        const { period } = this.form.getRawValue();
+        if (period?.start && period?.end) {
+          this.getLogs();
+        }
+      });
   }
 
   private getLogs() {
