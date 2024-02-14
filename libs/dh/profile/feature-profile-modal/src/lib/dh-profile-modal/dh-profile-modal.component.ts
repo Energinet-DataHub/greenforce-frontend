@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { filter } from 'rxjs';
+import { filter, tap } from 'rxjs';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, signal } from '@angular/core';
 import { Apollo, ApolloModule, MutationResult } from 'apollo-angular';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
@@ -108,6 +108,8 @@ export class DhProfileModalComponent {
     notifyOnNetworkStatusChange: true,
     query: GetUserProfileDocument,
   });
+  protected loadingUserProfile = signal<boolean>(false);
+  protected updatingUserProfile = signal<boolean>(false);
 
   @ViewChild(WattModalComponent)
   private _profileModal!: WattModalComponent;
@@ -124,11 +126,14 @@ export class DhProfileModalComponent {
 
   constructor() {
     this._getUserProfileQuery.valueChanges
-      .pipe(filter((result) => result.data?.userProfile !== undefined))
       .subscribe((result) => {
+        this.loadingUserProfile.set(result.loading);
+        if(result.data?.userProfile === undefined) return;
+
         const { firstName, lastName, phoneNumber } = result.data.userProfile;
         this.userPreferencesForm.patchValue({ phoneNumber, firstName, lastName });
       });
+
   }
 
   closeModal(saveSuccess: boolean) {
@@ -154,8 +159,7 @@ export class DhProfileModalComponent {
               phoneNumber,
             },
           },
-        },
-        refetchQueries: [GetUserProfileDocument],
+        }
       })
       .subscribe((result) => this.handleUpdateUserProfileResponse(result, language));
   }
@@ -164,6 +168,8 @@ export class DhProfileModalComponent {
     response: MutationResult<UpdateUserProfileMutation>,
     selectedLanguage: string
   ) {
+    this.updatingUserProfile.set(response.loading);
+
     if (
       response.data?.updateUserProfile?.errors &&
       response.data?.updateUserProfile?.errors.length > 0
@@ -176,10 +182,9 @@ export class DhProfileModalComponent {
 
     if (response.data?.updateUserProfile?.saved) {
       this._toastService.open({ message: translate('shared.profile.success'), type: 'success' });
+      this.closeModal(true);
     }
 
     this._languageService.selectedLanguage = selectedLanguage;
-
-    this.closeModal(true);
   }
 }
