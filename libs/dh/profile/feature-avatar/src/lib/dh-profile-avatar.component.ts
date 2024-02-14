@@ -59,7 +59,7 @@ export class DhProfileAvatarComponent {
   openProfileModal() {
     this._modalService.open({
       component: DhProfileModalComponent,
-      data: { email: this.getAccount().username }
+      data: { email: this.getAccount().username },
     });
   }
 

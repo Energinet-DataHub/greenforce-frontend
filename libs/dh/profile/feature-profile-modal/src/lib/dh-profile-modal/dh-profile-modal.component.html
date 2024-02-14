@@ -14,7 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-modal *transloco="let t; read: 'shared.profile'" [title]="t('title')" [loading]="loadingUserProfile() || updatingUserProfile()">
+<watt-modal
+  *transloco="let t; read: 'shared.profile'"
+  [title]="t('title')"
+  [loading]="loadingUserProfile() || updatingUserProfile()"
+>
   <form [formGroup]="userPreferencesForm" id="userPreferencesForm" (ngSubmit)="save()">
     <vater-flex fill="vertical" gap="m">
       <vater-stack class="names" align="flex-start" direction="column" gap="s">
@@ -52,9 +56,18 @@ limitations under the License.
     </vater-flex>
   </form>
   <watt-modal-actions>
-    <watt-button variant="secondary" (click)="closeModal(false)" [disabled]="updatingUserProfile()">{{ t("cancel") }}</watt-button>
-    <watt-button variant="secondary" type="submit" formId="userPreferencesForm" [disabled]="loadingUserProfile() || updatingUserProfile()">{{
-      t("save")
-    }}</watt-button>
+    <watt-button
+      variant="secondary"
+      (click)="closeModal(false)"
+      [disabled]="updatingUserProfile()"
+      >{{ t("cancel") }}</watt-button
+    >
+    <watt-button
+      variant="secondary"
+      type="submit"
+      formId="userPreferencesForm"
+      [disabled]="loadingUserProfile() || updatingUserProfile()"
+      >{{ t("save") }}</watt-button
+    >
   </watt-modal-actions>
 </watt-modal>

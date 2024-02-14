@@ -125,15 +125,13 @@ export class DhProfileModalComponent {
   });
 
   constructor() {
-    this._getUserProfileQuery.valueChanges
-      .subscribe((result) => {
-        this.loadingUserProfile.set(result.loading);
-        if(result.data?.userProfile === undefined) return;
+    this._getUserProfileQuery.valueChanges.subscribe((result) => {
+      this.loadingUserProfile.set(result.loading);
+      if (result.data?.userProfile === undefined) return;
 
-        const { firstName, lastName, phoneNumber } = result.data.userProfile;
-        this.userPreferencesForm.patchValue({ phoneNumber, firstName, lastName });
-      });
-
+      const { firstName, lastName, phoneNumber } = result.data.userProfile;
+      this.userPreferencesForm.patchValue({ phoneNumber, firstName, lastName });
+    });
   }
 
   closeModal(saveSuccess: boolean) {
@@ -159,7 +157,7 @@ export class DhProfileModalComponent {
               phoneNumber,
             },
           },
-        }
+        },
       })
       .subscribe((result) => this.handleUpdateUserProfileResponse(result, language));
   }
