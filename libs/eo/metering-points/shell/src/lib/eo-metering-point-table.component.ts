@@ -34,7 +34,11 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { EoMeteringPoint, MeteringPointType } from '@energinet-datahub/eo/metering-points/domain';
+import {
+  EoMeteringPoint,
+  MeteringPointType,
+  AibTechCode,
+} from '@energinet-datahub/eo/metering-points/domain';
 
 @Component({
   standalone: true,
@@ -113,9 +117,10 @@ class GranularCertificateHelperComponent {}
       <ng-container *wattTableCell="columns.gc; let meteringPoint">
         <div
           *ngIf="
-            meteringPoint.type === 'consumption' ||
-            (meteringPoint.type === 'production' &&
-              (meteringPoint.assetType === 'Wind' || meteringPoint.assetType === 'Solar'))
+            meteringPoint.type === 'Consumption' ||
+            (meteringPoint.type === 'Production' &&
+              (meteringPoint.technology.aibTechCode === techCodes.Wind ||
+                meteringPoint.technology.aibTechCode === techCodes.Solar))
           "
           style="display: flex; align-items: center;"
         >
@@ -164,19 +169,31 @@ export class EoMeteringPointsTableComponent {
     unit: { accessor: (meteringPoint) => meteringPoint.type },
     source: {
       accessor: (meteringPoint) => {
-        return meteringPoint.type === 'production' ? meteringPoint.assetType : '';
+        if (meteringPoint.type !== 'Production') return '';
+
+        switch (meteringPoint.technology.aibTechCode) {
+          case AibTechCode.Solar:
+            return 'Solar';
+          case AibTechCode.Wind:
+            return 'Wind';
+          case AibTechCode.Other:
+            return 'Other';
+          default:
+            return '';
+        }
       },
     },
     gc: {
       accessor: (meteringPoint) => {
         const itemHasActiveContract = meteringPoint.contract ? 'active' : 'enable';
-        return meteringPoint.type === 'production' ? itemHasActiveContract : '';
+        return meteringPoint.type === 'Production' ? itemHasActiveContract : '';
       },
       header: 'On/Off',
       align: 'center',
       helperAction: () => this.onToggleGranularCertificatesHelperText(),
     },
   };
+  techCodes = AibTechCode;
 
   @Input() set meteringPoints(data: EoMeteringPoint[] | null) {
     this.dataSource.data = data || [];

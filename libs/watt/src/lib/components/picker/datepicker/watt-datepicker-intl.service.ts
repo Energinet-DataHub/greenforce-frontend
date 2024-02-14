@@ -14,4 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './metering-point';
+import { Injectable } from '@angular/core';
+
+@Injectable({ providedIn: 'root' })
+export class WattDatepickerIntlService {
+  clear = 'Clear';
+  select = 'OK';
+}
