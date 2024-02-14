@@ -399,14 +399,20 @@ namespace Energinet.DataHub.WebApi.GraphQL
             return await client.UserUserprofileGetAsync().ConfigureAwait(false);
         }
 
-        public async Task<CVROrganizationResult> SearchOrganizationInCVRAsync(string cvr)
+        public async Task<CVROrganizationResult> SearchOrganizationInCVRAsync([Service] IMarketParticipantClient_V1 client, string cvr)
         {
-            if (string.Equals(cvr, "12345674", StringComparison.OrdinalIgnoreCase))
-            {
-                return await Task.FromResult(new CVROrganizationResult() { HasResult = false });
-            }
+            var organizationIdentity = await client.OrganizationIdentityAsync(cvr).ConfigureAwait(false);
 
-            return await Task.FromResult(new CVROrganizationResult() { Name = "Virksomhedsnavn fra CVR", HasResult = true });
+            return organizationIdentity.OrganizationFound
+                ? new CVROrganizationResult
+                {
+                    HasResult = true,
+                    Name = organizationIdentity.OrganizationIdentity!.Name,
+                }
+                : new CVROrganizationResult
+                {
+                    HasResult = false,
+                };
         }
 
         private static Task<GetUserOverviewResponse> GetUserOverviewAsync(IMarketParticipantClient_V1 client)
