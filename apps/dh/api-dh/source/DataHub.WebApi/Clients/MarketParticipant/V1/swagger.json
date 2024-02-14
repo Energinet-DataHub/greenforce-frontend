@@ -1325,6 +1325,46 @@
         }
       }
     },
+    "/Organization/{businessRegisterIdentifier}/identity": {
+      "get": {
+        "tags": [
+          "Organization"
+        ],
+        "operationId": "identity",
+        "parameters": [
+          {
+            "name": "businessRegisterIdentifier",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrganizationIdentityResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrganizationIdentityResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrganizationIdentityResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Permission/{permissionId}": {
       "get": {
         "tags": [
@@ -3156,6 +3196,23 @@
           }
         }
       },
+      "GetOrganizationIdentityResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organizationFound": {
+            "type": "boolean"
+          },
+          "organizationIdentity": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrganizationIdentityDto"
+              }
+            ]
+          }
+        }
+      },
       "GetUserOverviewResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -3399,6 +3456,15 @@
                 "$ref": "#/components/schemas/AddressDto"
               }
             ]
+          }
+        }
+      },
+      "OrganizationIdentityDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
           }
         }
       },
