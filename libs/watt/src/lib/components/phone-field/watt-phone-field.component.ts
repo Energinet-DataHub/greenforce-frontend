@@ -239,7 +239,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
   private setValidator() {
     const countryCode = this.choosenCountry().countryIsoCode;
-    this.formControl().setValidators(phoneValidator(countryCode));
+    this.formControl().addValidators(phoneValidator(countryCode));
   }
 
   /** @ignore */

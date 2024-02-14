@@ -60,9 +60,6 @@ export class DhProfileAvatarComponent {
     this._modalService.open({
       component: DhProfileModalComponent,
       data: { email: this.getAccount().username },
-      onClosed: (result) => {
-        console.log('Modal closed with result:', result);
-      },
     });
   }
 
