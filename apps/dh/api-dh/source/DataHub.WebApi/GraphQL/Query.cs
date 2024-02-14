@@ -401,18 +401,28 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         public async Task<CVROrganizationResult> SearchOrganizationInCVRAsync([Service] IMarketParticipantClient_V1 client, string cvr)
         {
-            var organizationIdentity = await client.OrganizationIdentityAsync(cvr).ConfigureAwait(false);
+            try
+            {
+                var organizationIdentity = await client.OrganizationIdentityAsync(cvr).ConfigureAwait(false);
 
-            return organizationIdentity.OrganizationFound
-                ? new CVROrganizationResult
-                {
-                    HasResult = true,
-                    Name = organizationIdentity.OrganizationIdentity!.Name,
-                }
-                : new CVROrganizationResult
+                return organizationIdentity.OrganizationFound
+                    ? new CVROrganizationResult
+                    {
+                        HasResult = true,
+                        Name = organizationIdentity.OrganizationIdentity!.Name,
+                    }
+                    : new CVROrganizationResult
+                    {
+                        HasResult = false,
+                    };
+            }
+            catch (Exception)
+            {
+                return new CVROrganizationResult
                 {
                     HasResult = false,
                 };
+            }
         }
 
         private static Task<GetUserOverviewResponse> GetUserOverviewAsync(IMarketParticipantClient_V1 client)
