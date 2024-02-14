@@ -180,6 +180,7 @@ export class DhProfileModalComponent {
     if (response.data?.updateUserProfile?.saved) {
       this._toastService.open({ message: translate('shared.profile.success'), type: 'success' });
       this.closeModal(true);
+      this._getUserProfileQuery.refetch();
     }
 
     this._languageService.selectedLanguage = selectedLanguage;
