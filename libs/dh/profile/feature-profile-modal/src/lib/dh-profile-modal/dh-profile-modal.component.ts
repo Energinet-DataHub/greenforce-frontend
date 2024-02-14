@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { filter, tap } from 'rxjs';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 
 import { Component, ViewChild, inject, signal } from '@angular/core';
