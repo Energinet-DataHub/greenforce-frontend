@@ -32,13 +32,6 @@ export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
  * },
  */
 
-export const dhFeatureFlagsConfig = {
-  'avatar-feature-flag': {
-    created: '05-02-2024',
-    disabledEnvironments: Object.values(DhAppEnvironment).filter(
-      (x) => x !== DhAppEnvironment.sandbox_002 && x !== DhAppEnvironment.local
-    ),
-  },
-} satisfies FeatureFlagConfig;
+export const dhFeatureFlagsConfig = {} satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
