@@ -21,6 +21,7 @@ import {
   FormControl,
   NonNullableFormBuilder,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, inject, signal, ViewChild } from '@angular/core';
@@ -109,10 +110,17 @@ export class DhActorsCreateActorModalComponent {
     this.newOrganizationForm.controls.country.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe((value) => {
+        const internalCvrValidator: ValidatorFn = (control) =>
+          (control.value as string).startsWith('ENDK') ? null : { invalidCvrNumber: true };
+
         if (value === 'DK') {
           this.newOrganizationForm.controls.cvrNumber.setValidators([
             Validators.required,
-            dhCvrValidator(),
+            Validators.maxLength(64),
+            (control) =>
+              dhCvrValidator()(control) && internalCvrValidator(control)
+                ? { invalidCvrNumber: true }
+                : null,
           ]);
         } else {
           this.newOrganizationForm.controls.cvrNumber.setValidators(Validators.required);
