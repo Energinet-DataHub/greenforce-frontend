@@ -27,6 +27,7 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import {
   GetOutgoingMessagesDocument,
   GetServiceStatusDocument,
+  GetStatusReportDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -64,6 +65,13 @@ import { RxLet } from '@rx-angular/template/let';
       .health-icons {
         display: flex;
         flex-direction: row;
+      }
+
+      .resend-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .watt-chip-label { padding: 10px }
       }
 
       watt-paginator {
@@ -129,6 +137,16 @@ export class DhOutgoingMessagesComponent implements OnInit {
     .valueChanges.pipe(
       takeUntilDestroyed(),
       map(({ data }) => data?.esettServiceStatus ?? [])
+    );
+
+  statusReport$ = this._apollo
+    .query({
+      notifyOnNetworkStatusChange: true,
+      query: GetStatusReportDocument,
+    })
+    .pipe(
+      takeUntilDestroyed(),
+      map(({ data }) => data?.esettExchangeStatusReport ?? 0)
     );
 
   documentIdSearch$ = new BehaviorSubject<string>('');
@@ -219,5 +237,10 @@ export class DhOutgoingMessagesComponent implements OnInit {
     ]);
 
     exportToCSV({ headers, lines, fileName: 'eSett-outgoing-messages' });
+  }
+
+  resend(): void {
+    alert('Resend not implemented');
+    this._apollo.client.query({ query: GetStatusReportDocument });
   }
 }

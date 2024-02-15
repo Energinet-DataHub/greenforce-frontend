@@ -43,6 +43,13 @@ limitations under the License.
       }}</watt-button>
     </vater-stack>
 
+    <div class="resend-container" *rxLet="statusReport$ as report">
+      @if (report.waitingForExternalResponse > 0) {
+        <span class="watt-chip-label">{{report.waitingForExternalResponse}} messages waiting for response</span>
+        <watt-button variant="secondary" icon="arrowRightAlt" (click)="resend()">Resend messages</watt-button>
+      }
+    </div>
+
     <dh-outgoing-messages-filters
       [initial]="filter$.value"
       (filter)="filter$.next($event)"
