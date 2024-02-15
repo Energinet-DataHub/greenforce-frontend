@@ -1,0 +1,6 @@
+mutation ResendExchangeMessages {
+  resendWaitingEsettExchangeMessages
+  {
+    success: boolean
+  }
+}

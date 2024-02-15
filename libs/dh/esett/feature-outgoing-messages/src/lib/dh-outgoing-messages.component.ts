@@ -28,6 +28,7 @@ import {
   GetOutgoingMessagesDocument,
   GetServiceStatusDocument,
   GetStatusReportDocument,
+  ResendExchangeMessagesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -140,11 +141,12 @@ export class DhOutgoingMessagesComponent implements OnInit {
     );
 
   statusReport$ = this._apollo
-    .query({
+    .watchQuery({
+      useInitialLoading: true,
       notifyOnNetworkStatusChange: true,
       query: GetStatusReportDocument,
     })
-    .pipe(
+    .valueChanges.pipe(
       takeUntilDestroyed(),
       map(({ data }) => data?.esettExchangeStatusReport ?? 0)
     );
@@ -240,7 +242,15 @@ export class DhOutgoingMessagesComponent implements OnInit {
   }
 
   resend(): void {
-    alert('Resend not implemented');
-    this._apollo.client.query({ query: GetStatusReportDocument });
+    if (!this.isLoading) {
+      this.isLoading = true;
+      this._apollo
+        .mutate(
+        {
+          mutation: ResendExchangeMessagesDocument,
+          refetchQueries: [GetStatusReportDocument]
+        })
+        .subscribe(() => this.isLoading = false);
+    }
   }
 }
