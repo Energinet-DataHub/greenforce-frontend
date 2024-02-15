@@ -247,12 +247,11 @@ export class DhOutgoingMessagesComponent implements OnInit {
     if (!this.isLoading) {
       this.isLoading = true;
       this._apollo
-        .mutate(
-        {
+        .mutate({
           mutation: ResendExchangeMessagesDocument,
-          refetchQueries: [GetStatusReportDocument]
+          refetchQueries: [GetStatusReportDocument],
         })
-        .subscribe(() => this.isLoading = false);
+        .subscribe(() => (this.isLoading = false));
     }
   }
 }

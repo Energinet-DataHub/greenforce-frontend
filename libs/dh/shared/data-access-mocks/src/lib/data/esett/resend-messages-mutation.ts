@@ -14,14 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ResendExchangeMessagesMutation,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { ResendExchangeMessagesMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const resendMessageMutationMock: ResendExchangeMessagesMutation = {
   __typename: 'Mutation',
-  resendWaitingEsettExchangeMessages:
-  {
+  resendWaitingEsettExchangeMessages: {
     __typename: 'ResendWaitingEsettExchangeMessagesPayload',
     success: true,
   },

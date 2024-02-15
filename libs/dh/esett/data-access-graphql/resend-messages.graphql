@@ -1,6 +1,5 @@
 mutation ResendExchangeMessages {
-  resendWaitingEsettExchangeMessages
-  {
+  resendWaitingEsettExchangeMessages {
     success: boolean
   }
 }
