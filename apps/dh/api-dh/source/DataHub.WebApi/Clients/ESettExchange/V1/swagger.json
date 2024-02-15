@@ -321,6 +321,49 @@
         }
       }
     },
+    "/esett/statusReport": {
+      "get": {
+        "tags": [
+          "ESett"
+        ],
+        "operationId": "statusReport",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeEventStatusReportResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeEventStatusReportResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeEventStatusReportResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/esett/resendMessagesWithoutResponse": {
+      "get": {
+        "tags": [
+          "ESett"
+        ],
+        "operationId": "resendMessagesWithoutResponse",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/status": {
       "get": {
         "tags": [
@@ -557,6 +600,16 @@
                 "$ref": "#/components/schemas/DocumentStatus"
               }
             ]
+          }
+        }
+      },
+      "ExchangeEventStatusReportResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "waitingForExternalResponse": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

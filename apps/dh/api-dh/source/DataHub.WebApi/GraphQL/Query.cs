@@ -216,6 +216,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public async Task<IEnumerable<ReadinessStatusDto>> GetEsettServiceStatusAsync(
             [Service] IESettExchangeClient_V1 client) => await client.StatusAsync();
 
+        public async Task<ExchangeEventStatusReportResponse> GetEsettExchangeStatusReportAsync(
+            [Service] IESettExchangeClient_V1 client) => await client.StatusReportAsync();
+
         public Task<ExchangeEventTrackingResult> GetEsettOutgoingMessageByIdAsync(
             string documentId,
             [Service] IESettExchangeClient_V1 client) =>

@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using HotChocolate;
@@ -194,6 +195,12 @@ public class Mutation
            [Service] IMarketParticipantClient_V1 client)
     {
         await client.UserUserprofilePutAsync(userProfileUpdateDto).ConfigureAwait(false);
+        return true;
+    }
+
+    public async Task<bool> ResendWaitingEsettExchangeMessagesAsync([Service] IESettExchangeClient_V1 client)
+    {
+        await client.ResendMessagesWithoutResponseAsync();
         return true;
     }
 }
