@@ -88,7 +88,7 @@ export class DhActorsCreateActorModalComponent {
   });
 
   newOrganizationForm = this._fb.group({
-    country: ['', Validators.required],
+    country: ['DK', Validators.required],
     cvrNumber: ['', { validators: [Validators.required] }],
     companyName: [{ value: '', disabled: true }, Validators.required],
     domain: ['', [Validators.required, dhDomainValidator]],
@@ -111,7 +111,7 @@ export class DhActorsCreateActorModalComponent {
       .pipe(takeUntilDestroyed())
       .subscribe((value) => {
         const internalCvrValidator: ValidatorFn = (control) =>
-          (control.value as string).startsWith('ENDK') ? null : { invalidCvrNumber: true };
+          this.isInternalCvr(control.value as string) ? null : { invalidCvrNumber: true };
 
         if (value === 'DK') {
           this.newOrganizationForm.controls.cvrNumber.setValidators([
@@ -139,30 +139,20 @@ export class DhActorsCreateActorModalComponent {
       const country = this.newOrganizationForm.controls.country.value;
       const cvrNumber = this.newOrganizationForm.controls.cvrNumber.value;
 
-      if (country === '' || (country === 'DK' && cvrNumber.length !== 8)) {
+      if (country === '') {
         return of({ isLoading: false, isReadOnly: true });
       }
 
       if (country === 'DK') {
-        const cvrQuery = this._apollo
-          .query({
-            query: GetOrganizationFromCvrDocument,
-            fetchPolicy: 'network-only',
-            variables: { cvr: cvrNumber },
-          })
-          .pipe(
-            map((cvrResult) => {
-              const foundOrg = cvrResult.data?.searchOrganizationInCVR;
-              if (foundOrg && foundOrg.hasResult) {
-                this.newOrganizationForm.controls.companyName.setValue(foundOrg.name);
-                return { isLoading: false, isReadOnly: true };
-              }
+        if (this.isInternalCvr(cvrNumber)) {
+          return of({ isLoading: false, isReadOnly: false });
+        }
 
-              return { isLoading: false, isReadOnly: false };
-            })
-          );
-
-        return concat(of({ isLoading: true, isReadOnly: true }), cvrQuery);
+        if (cvrNumber.length === 8) {
+          return this.callCvrLookup(cvrNumber);
+        } else {
+          return of({ isLoading: false, isReadOnly: true });
+        }
       }
 
       return of({ isLoading: false, isReadOnly: false });
@@ -176,6 +166,32 @@ export class DhActorsCreateActorModalComponent {
     }),
     map((result) => result.isLoading)
   );
+
+  isInternalCvr(cvrNumber: string): boolean {
+    return cvrNumber.startsWith('ENDK');
+  }
+
+  callCvrLookup(cvrNumber: string) {
+    const cvrQuery = this._apollo
+      .query({
+        query: GetOrganizationFromCvrDocument,
+        fetchPolicy: 'network-only',
+        variables: { cvr: cvrNumber },
+      })
+      .pipe(
+        map((cvrResult) => {
+          const foundOrg = cvrResult.data?.searchOrganizationInCVR;
+          if (foundOrg && foundOrg.hasResult) {
+            this.newOrganizationForm.controls.companyName.setValue(foundOrg.name);
+            return { isLoading: false, isReadOnly: true };
+          }
+
+          return { isLoading: false, isReadOnly: false };
+        })
+      );
+
+    return concat(of({ isLoading: true, isReadOnly: true }), cvrQuery);
+  }
 
   getChoosenOrganizationDomain(): string {
     return this.newOrganizationForm.controls.domain.value
