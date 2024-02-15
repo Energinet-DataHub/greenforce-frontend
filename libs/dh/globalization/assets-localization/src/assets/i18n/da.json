@@ -711,6 +711,8 @@
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
+      "messagesNotSent": "{{number}} meddelelser blev ikke sendt",
+      "resendMessages": "Send igen",
       "drawer": {
         "tabs": {
           "message": "Meddelelse",
