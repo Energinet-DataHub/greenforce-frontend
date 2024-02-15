@@ -406,7 +406,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
         {
             try
             {
-                var organizationIdentity = await client.OrganizationIdentityAsync(cvr).ConfigureAwait(false);
+                using var cts = new System.Threading.CancellationTokenSource();
+                cts.CancelAfter(15000);
+
+                var organizationIdentity = await client.OrganizationIdentityAsync(cvr, cts.Token).ConfigureAwait(false);
 
                 return organizationIdentity.OrganizationFound
                     ? new CVROrganizationResult
