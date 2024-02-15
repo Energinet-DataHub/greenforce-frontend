@@ -83,7 +83,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
     WattTabsComponent,
     WattTabComponent,
     TranslocoModule,
-    JsonPipe
+    JsonPipe,
   ],
   selector: 'eo-dashboard-shell',
   template: `
@@ -156,13 +156,15 @@ export class EoDashboardShellComponent implements OnInit {
   @ViewChildren(WattTabComponent) tabs!: QueryList<WattTabComponent>;
 
   protected activeTab = 'production';
-  protected translations = toSignal(this.transloco.selectTranslateObject('shared'))
+  protected translations = toSignal(this.transloco.selectTranslateObject('shared'));
 
   ngOnInit(): void {
     this.meteringPointStore.loadMeteringPoints();
     this.aggregateService.clearCache();
 
-    setTimeout(() => { this.transloco.setActiveLang('da') }, 2000);
+    setTimeout(() => {
+      this.transloco.setActiveLang('da');
+    }, 2000);
 
     this.productionAndConsumptionMeteringPoints$
       .pipe(takeUntilDestroyed(this.destroyRef))
