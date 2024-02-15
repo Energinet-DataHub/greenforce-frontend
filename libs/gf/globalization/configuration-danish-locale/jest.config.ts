@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* eslint-disable */
-export default {
-  displayName: 'dh-globalization-data-access-localization',
+module.exports = {
+  displayName: 'gf-configuration-danish-locale',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../../../coverage/libs/dh/globalization/data-access-localization',
+  coverageDirectory: '../../../../coverage/libs/gf/globalization/configuration-danish-locale',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

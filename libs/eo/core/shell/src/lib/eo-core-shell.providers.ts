@@ -17,12 +17,13 @@
 import { importProvidersFrom } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
 
 import {
   eoApiVersioningInterceptorProvider,
   eoAuthorizationInterceptorProvider,
 } from '@energinet-datahub/eo/shared/services';
-import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
+import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { WattModalService } from '@energinet-datahub/watt/modal';
@@ -35,4 +36,5 @@ export const eoCoreShellProviders = [
   eoAuthorizationInterceptorProvider,
   eoApiVersioningInterceptorProvider,
   WattModalService,
+  translocoProviders,
 ];

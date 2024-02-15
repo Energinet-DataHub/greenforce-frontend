@@ -1,0 +1,9 @@
+{
+  "name": "eo-globalization-assets-localization",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/core/globalization/assets-localization",
+  "prefix": "eo",
+  "targets": {},
+  "tags": ["product:eo", "domain:globalization", "type:assets"]
+}

@@ -16,11 +16,11 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-globalization-domain',
+  displayName: 'gf-globalization-data-access-localization',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../../../coverage/libs/dh/globalization/domain',
+  coverageDirectory: '../../../../coverage/libs/gf/globalization/data-access-localization',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

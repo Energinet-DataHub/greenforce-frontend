@@ -77,12 +77,6 @@
       "@energinet-datahub/dh/globalization/configuration-watt-translation": [
         "libs/dh/globalization/configuration-watt-translation/src/index.ts"
       ],
-      "@energinet-datahub/dh/globalization/data-access-localization": [
-        "libs/dh/globalization/data-access-localization/src/index.ts"
-      ],
-      "@energinet-datahub/dh/globalization/domain": [
-        "libs/dh/globalization/domain/src/index.ts"
-      ],
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/src/index.ts"
       ],
@@ -256,6 +250,10 @@
         "libs/eo/consumption-page/shell/src/index.ts"
       ],
       "@energinet-datahub/eo/core/shell": ["libs/eo/core/shell/src/index.ts"],
+      "@energinet-datahub/eo/globalization/assets-localization": ["libs/eo/core/globalization/assets-localization/index.ts"],
+      "@energinet-datahub/eo/globalization/configuration-localization": [
+        "libs/eo/core/globalization/configuration-localization/src/index.ts"
+      ],
       "@energinet-datahub/eo/dashboard/domain": [
         "libs/eo/dashboard/domain/index.ts"
       ],
@@ -311,8 +309,14 @@
       "@energinet-datahub/eo/wallet/data-access-api": [
         "libs/eo/wallet/data-access-api/index.ts"
       ],
-      "@energinet-datahub/gf/configuration-danish-locale": [
-        "libs/gf/configuration-danish-locale/src/index.ts"
+      "@energinet-datahub/gf/globalization/data-access-localization": [
+        "libs/gf/globalization/data-access-localization/src/index.ts"
+      ],
+      "@energinet-datahub/gf/globalization/domain": [
+        "libs/gf/globalization/domain/src/index.ts"
+      ],
+      "@energinet-datahub/gf/globalization/configuration-danish-locale": [
+        "libs/gf/globalization/configuration-danish-locale/src/index.ts"
       ],
       "@energinet-datahub/gf/test-util": ["libs/gf/test-util/src/index.ts"],
       "@energinet-datahub/gf/test-util-matchers": [

@@ -19,12 +19,12 @@ import { provideTransloco, translocoConfig } from '@ngneat/transloco';
 
 import { TranslocoHttpLoader } from '@energinet-datahub/gf/globalization/data-access-localization';
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
-import { environment } from '@energinet-datahub/dh/shared/environments';
+import { environment } from '@energinet-datahub/eo/shared/environments';
 
-export const dhTranslocoConfig = translocoConfig({
-  availableLangs: [DisplayLanguage.Danish, DisplayLanguage.English],
-  defaultLang: DisplayLanguage.Danish,
-  fallbackLang: [DisplayLanguage.Danish, DisplayLanguage.English],
+export const eoTranslocoConfig = translocoConfig({
+  availableLangs: [DisplayLanguage.English, DisplayLanguage.Danish],
+  defaultLang: DisplayLanguage.English,
+  fallbackLang: [DisplayLanguage.English, DisplayLanguage.Danish],
   flatten: {
     aot: environment.production,
   },
@@ -37,6 +37,6 @@ export const dhTranslocoConfig = translocoConfig({
 });
 
 export const translocoProviders: EnvironmentProviders[] = provideTransloco({
-  config: dhTranslocoConfig,
+  config: eoTranslocoConfig,
   loader: TranslocoHttpLoader,
 });

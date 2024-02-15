@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module.exports = {
-  displayName: 'gf-configuration-danish-locale',
-  preset: '../../../jest.preset.js',
+/* eslint-disable */
+export default {
+  displayName: 'eo-globalization-configuration-localization',
+  preset: '../../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../../coverage/libs/gf/configuration-danish-locale',
+  coverageDirectory: '../../../../../coverage/libs/eo/core/globalization/configuration-localization',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

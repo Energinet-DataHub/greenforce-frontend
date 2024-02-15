@@ -14,16 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Translation, TranslocoLoader } from '@ngneat/transloco';
-import { Observable } from 'rxjs';
+import da from './i18n/da.json';
+import en from './i18n/en.json';
 
-@Injectable()
-export class DhTranslocoHttpLoader implements TranslocoLoader {
-  constructor(private http: HttpClient) {}
-
-  getTranslation(lang: string): Observable<Translation> {
-    return this.http.get<Translation>(`/assets/i18n/${lang}.json`);
-  }
-}
+export { da, en };
