@@ -147,6 +147,7 @@ export class DhActorsCreateActorModalComponent {
         const cvrQuery = this._apollo
           .query({
             query: GetOrganizationFromCvrDocument,
+            fetchPolicy: 'network-only',
             variables: { cvr: cvrNumber },
           })
           .pipe(
