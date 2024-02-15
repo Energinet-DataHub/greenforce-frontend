@@ -72,7 +72,9 @@ import { RxLet } from '@rx-angular/template/let';
         display: flex;
         flex-direction: row;
         align-items: center;
-        .watt-chip-label { padding: 10px }
+        .watt-chip-label {
+          padding: 10px;
+        }
       }
 
       watt-paginator {
