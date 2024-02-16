@@ -88,7 +88,7 @@ export class DhActorsCreateActorModalComponent {
   });
 
   newOrganizationForm = this._fb.group({
-    country: ['DK', Validators.required],
+    country: ['', Validators.required],
     cvrNumber: ['', { validators: [Validators.required] }],
     companyName: [{ value: '', disabled: true }, Validators.required],
     domain: ['', [Validators.required, dhDomainValidator]],
@@ -128,6 +128,8 @@ export class DhActorsCreateActorModalComponent {
 
         this.newOrganizationForm.controls.cvrNumber.updateValueAndValidity();
       });
+
+    this.newOrganizationForm.controls.country.setValue('DK');
   }
 
   cvrLookup$ = merge(
