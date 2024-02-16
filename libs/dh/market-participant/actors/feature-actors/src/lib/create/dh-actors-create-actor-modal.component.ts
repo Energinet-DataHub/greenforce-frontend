@@ -24,7 +24,14 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, inject, signal, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  signal,
+  ViewChild,
+} from '@angular/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
@@ -52,6 +59,7 @@ import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
 import { ActorForm } from './dh-actor-form.model';
 import { concat, distinctUntilChanged, map, merge, of, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   standalone: true,
@@ -61,6 +69,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
+    RxPush,
 
     WATT_CARD,
     WATT_MODAL,
@@ -75,6 +84,7 @@ export class DhActorsCreateActorModalComponent {
   private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
   private _toastService = inject(WattToastService);
   private _apollo = inject(Apollo);
+  private _changeDetection = inject(ChangeDetectorRef);
 
   showCreateNewOrganization = signal(false);
   choosenOrganizationDomain = signal('');
@@ -165,6 +175,8 @@ export class DhActorsCreateActorModalComponent {
       } else {
         this.newOrganizationForm.controls.companyName.enable();
       }
+
+      this._changeDetection.detectChanges();
     }),
     map((result) => result.isLoading)
   );

@@ -39,6 +39,7 @@ limitations under the License.
         [nextButtonLabel]="t('steps.actor')"
         [stepControl]="newOrganizationForm"
         [label]="t('newOrganization')"
+        [disableNextButton]="cvrLookup$ | push"
       >
         <dh-new-organization-step
           [isCvrBusy$]="cvrLookup$"
