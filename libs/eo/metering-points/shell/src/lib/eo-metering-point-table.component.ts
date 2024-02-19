@@ -17,7 +17,6 @@
 
 import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
