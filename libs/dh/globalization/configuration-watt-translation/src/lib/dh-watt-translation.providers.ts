@@ -45,7 +45,6 @@ export class DhDatepickerIntlService extends WattDatepickerIntlService {
   }
 }
 
-
 @Injectable()
 export class DhDataIntlService extends WattDataIntlService {
   constructor(transloco: TranslocoService) {
