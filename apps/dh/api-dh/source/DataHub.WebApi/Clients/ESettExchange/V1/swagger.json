@@ -826,7 +826,7 @@
           "sortProperty": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/MeteringGridImbalanceSortProperty"
+                "$ref": "#/components/schemas/MeteringGridAreaImbalanceSortProperty"
               }
             ]
           },
@@ -889,7 +889,7 @@
           }
         }
       },
-      "MeteringGridImbalanceSortProperty": {
+      "MeteringGridAreaImbalanceSortProperty": {
         "type": "string",
         "enum": [
           "DocumentDateTime",

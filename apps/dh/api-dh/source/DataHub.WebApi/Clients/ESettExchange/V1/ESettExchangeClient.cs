@@ -1486,7 +1486,7 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
 
         [Newtonsoft.Json.JsonProperty("sortProperty", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public MeteringGridImbalanceSortProperty SortProperty { get; set; } = default!;
+        public MeteringGridAreaImbalanceSortProperty SortProperty { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("sortDirection", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
@@ -1532,7 +1532,7 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum MeteringGridImbalanceSortProperty
+    public enum MeteringGridAreaImbalanceSortProperty
     {
 
         [System.Runtime.Serialization.EnumMember(Value = @"DocumentDateTime")]

@@ -257,7 +257,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             DateTimeOffset? createdTo,
             string? gridAreaCode,
             string? documentId,
-            MeteringGridImbalanceSortProperty sortProperty,
+            MeteringGridAreaImbalanceSortProperty sortProperty,
             Clients.ESettExchange.v1.SortDirection sortDirection,
             [Service] IESettExchangeClient_V1 client) =>
             client.Search2Async(new MeteringGridAreaImbalanceSearchFilter
