@@ -24,6 +24,7 @@ limitations under the License.
     sortDirection="desc"
     [activeRow]="activeRow"
     (rowClick)="onRowClick($event)"
+    (sortChange)="sortChange.emit($event)"
   >
     <ng-container
       *wattTableCell="
@@ -32,7 +33,7 @@ limitations under the License.
         let imbalance
       "
     >
-      {{ imbalance.documentDateTime | wattDate : "long" }}
+      {{ imbalance.documentDateTime | wattDate: "long" }}
     </ng-container>
 
     <ng-container
@@ -42,7 +43,7 @@ limitations under the License.
         let imbalance
       "
     >
-      {{ imbalance.receivedDateTime | wattDate : "long" }}
+      {{ imbalance.receivedDateTime | wattDate: "long" }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let imbalance">
@@ -56,8 +57,8 @@ limitations under the License.
     </ng-container>
 
     <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let imbalance">
-      {{ imbalance.periodStart | wattDate : "short" }} -
-      {{ imbalance.periodEnd | wattDate : "short" }}
+      {{ imbalance.periodStart | wattDate: "short" }} -
+      {{ imbalance.periodEnd | wattDate: "short" }}
     </ng-container>
   </watt-table>
 

@@ -219,8 +219,8 @@ type Query {
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String): ExchangeEventSearchResponse!
-  meteringGridAreaImbalance(pageNumber: Int!, pageSize: Int!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String): MeteringGridAreaImbalanceSearchResponse!
+  esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String, sortProperty: ExchangeEventSortProperty!, sortDirection: SortDirection!): ExchangeEventSearchResponse!
+  meteringGridAreaImbalance(pageNumber: Int!, pageSize: Int!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String, sortProperty: MeteringGridAreaImbalanceSortProperty!, sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   emailExists(emailAddress: String!): Boolean!
@@ -378,17 +378,6 @@ interface Error {
   message: String!
 }
 
-type KeyValuePairOfStringAndIEnumerableOfString {
-  key: String!
-  value: [String!]!
-}
-
-type ApiErrorDescriptor {
-  message: String!
-  code: String!
-  args: JSON!
-}
-
 enum UserRoleStatus {
   ACTIVE
   INACTIVE
@@ -471,11 +460,6 @@ type AssociatedActors {
   actors: [UUID!]!
 }
 
-enum SortDirection {
-  ASCENDING
-  DESCENDING
-}
-
 enum BalanceResponsibleSortProperty {
   VALID_FROM
   VALID_TO
@@ -487,9 +471,30 @@ type BalanceResponsiblePageResult {
   totalCount: Int!
 }
 
+enum MeteringGridAreaImbalanceSortProperty {
+  DOCUMENT_DATE_TIME
+  GRID_AREA_CODE
+  DOCUMENT_ID
+  RECEIVED_DATE_TIME
+}
+
 type MeteringGridAreaImbalanceSearchResponse {
   items: [MeteringGridAreaImbalanceSearchResult!]!
   totalCount: Int!
+}
+
+enum SortDirection {
+  ASCENDING
+  DESCENDING
+}
+
+enum ExchangeEventSortProperty {
+  CALCULATION_TYPE
+  CREATED
+  DOCUMENT_ID
+  DOCUMENT_STATUS
+  GRID_AREA_CODE
+  TIME_SERIES_TYPE
 }
 
 type ExchangeEventSearchResponse {
@@ -522,6 +527,19 @@ type UserRoleWithPermissionsDto {
   status: UserRoleStatus!
   permissions: [PermissionDetailsDto!]!
 }
+
+type ApiErrorDescriptor {
+  message: String!
+  code: String!
+  args: JSON!
+}
+
+type KeyValuePairOfStringAndIEnumerableOfString {
+  key: String!
+  value: [String!]!
+}
+
+scalar JSON
 
 type PermissionDetailsDto {
   id: Int!
@@ -582,8 +600,6 @@ input CreateOrganizationDtoInput {
   address: AddressDtoInput!
   domain: String!
 }
-
-scalar JSON
 
 input AddressDtoInput {
   streetName: String
