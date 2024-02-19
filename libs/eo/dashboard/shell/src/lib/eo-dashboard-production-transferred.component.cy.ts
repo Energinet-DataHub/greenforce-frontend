@@ -41,7 +41,11 @@ describe('EO - Transferred Chart', () => {
 
   function initComponent() {
     cy.mount(EoDashboardProductionTransferredComponent, {
-      providers: [provideHttpClient(withInterceptorsFromDi()), provideRouter([]), ...translocoProviders],
+      providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter([]),
+        ...translocoProviders,
+      ],
       componentProperties: {
         period: { timeAggregate: EoTimeAggregate.Day, start: 1698303600, end: 1700222400 },
       },
