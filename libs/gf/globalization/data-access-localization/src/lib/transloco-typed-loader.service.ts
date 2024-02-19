@@ -14,16 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Translation, TranslocoLoader } from '@ngneat/transloco';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
+
+export const TRANSLOCO_TYPED_TRANSLATION_PATH = new InjectionToken<string>('TRANSLOCO_TYPED_TRANSLATION_PATH');
 
 @Injectable()
-export class TranslocoHttpLoader implements TranslocoLoader {
-  constructor(private http: HttpClient) {}
+export class TranslocoTypedLoader implements TranslocoLoader {
+  constructor(@Inject(TRANSLOCO_TYPED_TRANSLATION_PATH) private path: Record<string, () => Promise<string>>) {}
 
   getTranslation(lang: string): Observable<Translation> {
-    return this.http.get<Translation>(`/assets/i18n/${lang}.json`);
+    console.log('TranslocoTypedLoader.getTranslation', lang);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return from(this.path[lang]().then((m: any) => m[`${lang.toUpperCase()}_TRANSLATIONS`]));
   }
 }

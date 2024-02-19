@@ -22,6 +22,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
 
@@ -31,7 +32,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattNavListComponent, WattNavListItemComponent, EoFeatureFlagDirective],
+  imports: [WattNavListComponent, WattNavListItemComponent, EoFeatureFlagDirective, TranslocoPipe],
   selector: 'eo-primary-navigation',
   styles: [
     `
@@ -72,24 +73,26 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
   template: `
     <watt-nav-list>
       <watt-nav-list-item link="{{ routes.dashboard }}" onFeatureFlag="dashboard">
-        Dashboard
+        {{ 'sidebar.dashboard' | transloco }}
       </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.meteringpoints }}" onFeatureFlag="meters">
-        Metering Points
+        {{ 'sidebar.metering-points' | transloco }}
       </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.claims }}"> Claims </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.certificates }}" onFeatureFlag="certificates">
-        Certificates
+        {{ 'sidebar.certificates' | transloco }}
       </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.transfer }}" onFeatureFlag="certificates">
-        Transfers
+        {{ 'sidebar.transfers' | transloco }}
       </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.activityLog }}"> Activity Log </watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.activityLog }}">{{
+        'sidebar.activity-log' | transloco
+      }}</watt-nav-list-item>
     </watt-nav-list>
 
     <section class="userinfo">
       <p class="watt-label company-name">{{ userInfo()?.cpn }}</p>
-      <p class="watt-label">CVR / TIN: {{ userInfo()?.tin }}</p>
+      <p class="watt-label">{{ 'user-information.tin' | transloco: { tin: userInfo()?.tin } }}</p>
       <p class="watt-label">{{ userInfo()?.name }}</p>
     </section>
   `,

@@ -256,8 +256,11 @@
       "@energinet-datahub/eo/dashboard/shell": [
         "libs/eo/dashboard/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/globalization/assets-localization": [
-        "libs/eo/core/globalization/assets-localization/index.ts"
+      "@energinet-datahub/eo/globalization/assets-localization/i18n/da": [
+        "libs/eo/core/globalization/assets-localization/i18n/da.ts"
+      ],
+      "@energinet-datahub/eo/globalization/assets-localization/i18n/en": [
+        "libs/eo/core/globalization/assets-localization/i18n/en.ts"
       ],
       "@energinet-datahub/eo/globalization/configuration-localization": [
         "libs/eo/core/globalization/configuration-localization/src/index.ts"

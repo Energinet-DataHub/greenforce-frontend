@@ -19,6 +19,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/
 import { RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -41,6 +42,7 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
     VaterStackComponent,
     WattButtonComponent,
     WattShellComponent,
+    TranslocoPipe,
   ],
   selector: 'eo-shell',
   styles: [
@@ -122,8 +124,12 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
           <h2>{{ titleService.getTitle() }}</h2>
 
           <vater-spacer />
-          <watt-button variant="text" [routerLink]="['/help']" icon="help">Help</watt-button>
-          <watt-button variant="text" (click)="onLogout()" icon="logout">Log out</watt-button>
+          <watt-button variant="text" [routerLink]="['/help']" icon="help">{{
+            'topbar.help' | transloco
+          }}</watt-button>
+          <watt-button variant="text" (click)="onLogout()" icon="logout">{{
+            'topbar.logout' | transloco
+          }}</watt-button>
         </vater-stack>
       </ng-container>
 

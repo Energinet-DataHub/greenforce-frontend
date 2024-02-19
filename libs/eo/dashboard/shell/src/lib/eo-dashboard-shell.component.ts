@@ -24,8 +24,8 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -37,7 +37,7 @@ import { EoDashboardConsumptionComponent } from './eo-dashboard-consumption.comp
 import { EoDashboardProductionTransferredComponent } from './eo-dashboard-production-transferred.component';
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -82,18 +82,15 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
     WattEmptyStateComponent,
     WattTabsComponent,
     WattTabComponent,
-    TranslocoModule,
-    JsonPipe,
+    TranslocoPipe,
   ],
   selector: 'eo-dashboard-shell',
   template: `
-    {{ translations() | json }}
-
     @if ((isLoadingMeteringPoints$ | async) === false) {
       @if (((productionAndConsumptionMeteringPoints$ | async) || []).length > 0) {
         <watt-tabs variant="secondary">
           @if (((productionMeteringPoints$ | async) || []).length > 0) {
-            <watt-tab label="Production" (changed)="activeTab = 'production'">
+            <watt-tab [label]="'dashboard.tabs.producer' | transloco" (changed)="activeTab = 'production'">
               @if (activeTab === 'production') {
                 <eo-dashboard-production-transferred [period]="period()" />
               }
@@ -101,7 +98,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
           }
 
           @if (((consumptionMeteringPoints$ | async) || []).length > 0) {
-            <watt-tab label="Consumption" (changed)="activeTab = 'consumption'">
+            <watt-tab [label]="'dashboard.tabs.consumer' | transloco" (changed)="activeTab = 'consumption'">
               @if (activeTab === 'consumption') {
                 <eo-dashboard-consumption [period]="period()" />
               }
@@ -119,8 +116,8 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
         <watt-empty-state
           data-testid="no-data"
           icon="custom-power"
-          title="No data to visualize"
-          message="We have no data to visualize because you have no production or consumption metering point(s). "
+          [title]="'dashboard.no-data.title' | transloco"
+          [message]="'dashboard.no-data.message' | transloco"
         />
       }
 
@@ -128,8 +125,8 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
         <watt-empty-state
           data-testid="error"
           icon="custom-power"
-          title="An unexpected error occured"
-          message="Try again by reloading the page or contacting your system administrator if you keep getting this error."
+          [title]="'dashboard.error.title' | transloco"
+          [message]="'dashboard.error.message' | transloco"
         />
       }
     } @else {
@@ -143,7 +140,6 @@ export class EoDashboardShellComponent implements OnInit {
   private meteringPointStore = inject(EoMeteringPointsStore);
   private aggregateService: EoAggregateService = inject(EoAggregateService);
   private destroyRef = inject(DestroyRef);
-  private transloco = inject(TranslocoService);
 
   period = signal<eoDashboardPeriod>(null);
   isLoadingMeteringPoints$ = this.meteringPointStore.loading$;
@@ -156,15 +152,10 @@ export class EoDashboardShellComponent implements OnInit {
   @ViewChildren(WattTabComponent) tabs!: QueryList<WattTabComponent>;
 
   protected activeTab = 'production';
-  protected translations = toSignal(this.transloco.selectTranslateObject('shared'));
 
   ngOnInit(): void {
     this.meteringPointStore.loadMeteringPoints();
     this.aggregateService.clearCache();
-
-    setTimeout(() => {
-      this.transloco.setActiveLang('da');
-    }, 2000);
 
     this.productionAndConsumptionMeteringPoints$
       .pipe(takeUntilDestroyed(this.destroyRef))
