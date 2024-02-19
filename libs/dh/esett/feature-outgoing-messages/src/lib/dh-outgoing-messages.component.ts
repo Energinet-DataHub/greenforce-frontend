@@ -169,7 +169,12 @@ export class DhOutgoingMessagesComponent implements OnInit {
     sortMetadata: this.sortMetadata$.pipe(dhExchangeSortMetadataMapper),
   }).pipe(
     map(({ filters, pageMetaData, documentIdSearch, sortMetadata }) => {
-      return { filters: documentIdSearch ? {} : filters, pageMetaData, documentIdSearch, sortMetadata };
+      return {
+        filters: documentIdSearch ? {} : filters,
+        pageMetaData,
+        documentIdSearch,
+        sortMetadata,
+      };
     })
   );
 
@@ -194,7 +199,7 @@ export class DhOutgoingMessagesComponent implements OnInit {
             periodTo: filters.period?.end,
             documentId: documentIdSearch,
             sortProperty: sortMetadata.sortProperty,
-            sortDirection: sortMetadata.sortDirection
+            sortDirection: sortMetadata.sortDirection,
           },
         }).valueChanges
     ),

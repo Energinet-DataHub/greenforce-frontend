@@ -121,7 +121,12 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
     sortMetadata: this.sortMetadata$.pipe(dhMGASortMetadataMapper),
   }).pipe(
     map(({ filters, pageMetaData, documentIdSearch, sortMetadata }) => {
-      return { filters: documentIdSearch ? {} : filters, pageMetaData, documentIdSearch, sortMetadata };
+      return {
+        filters: documentIdSearch ? {} : filters,
+        pageMetaData,
+        documentIdSearch,
+        sortMetadata,
+      };
     })
   );
 
@@ -143,7 +148,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
             periodTo: filters.period?.end,
             documentId: documentIdSearch,
             sortProperty: sortMetadata.sortProperty,
-            sortDirection: sortMetadata.sortDirection
+            sortDirection: sortMetadata.sortDirection,
           },
         }).valueChanges
     ),
