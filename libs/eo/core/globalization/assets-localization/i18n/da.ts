@@ -252,4 +252,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     timeTableHeader: 'Tidsstempel',
     eventTableHeader: 'Begivenhed',
   },
+  privacyPolicy: {
+    title: 'Privatlivspolitik',
+  },
 };

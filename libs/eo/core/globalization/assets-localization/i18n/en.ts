@@ -252,4 +252,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     timeTableHeader: 'Timestamp',
     eventTableHeader: 'Event',
   },
+  privacyPolicy: {
+    title: 'Privacy Policy',
+  },
 };

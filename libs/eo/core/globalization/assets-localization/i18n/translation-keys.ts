@@ -224,4 +224,7 @@ export interface TranslationKeys {
     timeTableHeader: string;
     eventTableHeader: string;
   };
+  privacyPolicy: {
+    title: string;
+  };
 }
