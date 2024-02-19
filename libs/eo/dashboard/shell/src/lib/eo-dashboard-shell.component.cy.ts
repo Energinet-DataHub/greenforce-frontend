@@ -22,6 +22,7 @@ import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-tim
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 
 import { EoDashboardShellComponent } from './eo-dashboard-shell.component';
+import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
 
 describe('EO - Dashboard', () => {
   const getProductionTab = () => cy.findByRole('tab', { name: /Production/i });
@@ -50,6 +51,7 @@ describe('EO - Dashboard', () => {
         provideRouter([], withComponentInputBinding()),
         danishLocalProviders,
         danishDatetimeProviders,
+        ...translocoProviders,
       ],
     });
 

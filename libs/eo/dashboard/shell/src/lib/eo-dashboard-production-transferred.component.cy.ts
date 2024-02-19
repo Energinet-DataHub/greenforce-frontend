@@ -15,9 +15,12 @@
  * limitations under the License.
  */
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { EoDashboardProductionTransferredComponent } from './eo-dashboard-production-transferred.component';
 import { provideRouter } from '@angular/router';
+
+import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
+
+import { EoDashboardProductionTransferredComponent } from './eo-dashboard-production-transferred.component';
 
 describe('EO - Transferred Chart', () => {
   type configKey = 'aggregate-claims' | 'aggregate-certificates' | 'aggregate-transfers';
@@ -38,7 +41,7 @@ describe('EO - Transferred Chart', () => {
 
   function initComponent() {
     cy.mount(EoDashboardProductionTransferredComponent, {
-      providers: [provideHttpClient(withInterceptorsFromDi()), provideRouter([])],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideRouter([]), ...translocoProviders],
       componentProperties: {
         period: { timeAggregate: EoTimeAggregate.Day, start: 1698303600, end: 1700222400 },
       },
