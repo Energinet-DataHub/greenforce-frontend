@@ -229,5 +229,5 @@ export interface TranslationKeys {
   };
   transfers: {
     title: string;
-  }
+  };
 }

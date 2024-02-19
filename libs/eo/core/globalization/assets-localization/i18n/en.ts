@@ -257,5 +257,5 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   },
   transfers: {
     title: 'Transfers',
-  }
+  },
 };

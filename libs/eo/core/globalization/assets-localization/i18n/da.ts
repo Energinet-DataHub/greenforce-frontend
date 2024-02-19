@@ -257,5 +257,5 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   transfers: {
     title: 'Overførsler',
-  }
+  },
 };
