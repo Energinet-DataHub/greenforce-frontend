@@ -376,6 +376,11 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
       );
     }
 
+    this.onSelectableChanges(changes);
+  }
+
+  /** @ignore */
+  private onSelectableChanges(changes: SimpleChanges) {
     if (changes['selectable']?.currentValue && !this.isInitialSelectionSet) {
       // Note: The reason for having a flag here is because we want the initial selection
       // to be set only once when `selectable` Input is `true`.
