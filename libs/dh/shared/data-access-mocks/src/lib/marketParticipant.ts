@@ -39,6 +39,7 @@ import {
   OrganizationAuditedChange,
   mockUpdateActorMutation,
   UpdateActorMutation,
+  mockGetOrganizationFromCvrQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -75,6 +76,7 @@ export function marketParticipantMocks(apiBase: string) {
     getActorEditableFields(),
     getOrganizations_GrahpQL(),
     getOrganizationById(),
+    getOrganizationFromCvr(),
     getActorByOrganizationId(),
     updateOrganization(),
     updateActor(),
@@ -231,6 +233,23 @@ function getOrganizationById() {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', organizationById },
+    });
+  });
+}
+
+function getOrganizationFromCvr() {
+  return mockGetOrganizationFromCvrQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        searchOrganizationInCVR: {
+          __typename: 'CVROrganizationResult',
+          name: 'Test Organization',
+          hasResult: true,
+        },
+      },
     });
   });
 }
