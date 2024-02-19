@@ -4,8 +4,8 @@ query getMeteringGridAreaImbalance(
   $periodFrom: DateTime
   $periodTo: DateTime
   $gridAreaCode: String
-  $documentId: String,
-  $sortProperty: MeteringGridImbalanceSortProperty!,
+  $documentId: String
+  $sortProperty: MeteringGridImbalanceSortProperty!
   $sortDirection: SortDirection!
 ) {
   meteringGridAreaImbalance(
@@ -14,9 +14,9 @@ query getMeteringGridAreaImbalance(
     createdFrom: $periodFrom
     createdTo: $periodTo
     gridAreaCode: $gridAreaCode
-    documentId: $documentId,
-    sortProperty: $sortProperty,
-    sortDirection: $sortDirection,
+    documentId: $documentId
+    sortProperty: $sortProperty
+    sortDirection: $sortDirection
   ) {
     items {
       id
