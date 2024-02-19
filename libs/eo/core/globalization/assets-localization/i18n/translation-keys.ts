@@ -193,4 +193,18 @@ export interface TranslationKeys {
     consumptionType: string;
     certificateDetailsLink: string;
   };
+  certificateDetails: {
+    title: string;
+    staticDataHeadline: string;
+    energyLabel: string;
+    startTimeLabel: string;
+    endTimeLabel: string;
+    gsrnLabel: string;
+    certificateIdLabel: string;
+    technologyHeadline: string;
+    technologyCodeLabel: string;
+    fuelCodeLabel: string;
+    backToCertificatesLink: string;
+    biddingZoneHeadline: string;
+  };
 }

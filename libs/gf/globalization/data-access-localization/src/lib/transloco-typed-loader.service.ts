@@ -29,7 +29,6 @@ export class TranslocoTypedLoader implements TranslocoLoader {
   ) {}
 
   getTranslation(lang: string): Observable<Translation> {
-    console.log('TranslocoTypedLoader.getTranslation', lang);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return from(this.path[lang]().then((m: any) => m[`${lang.toUpperCase()}_TRANSLATIONS`]));
   }

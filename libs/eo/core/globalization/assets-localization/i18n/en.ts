@@ -219,6 +219,20 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     typeTableHeader: 'Type',
     productionType: 'production',
     consumptionType: 'consumption',
-    certificateDetailsLink: 'View certificate',
+    certificateDetailsLink: 'View certificate'
   },
+  certificateDetails: {
+    title: 'Certificate Details - {{certificateType}}',
+    staticDataHeadline: 'Static data',
+    energyLabel: 'Energy',
+    startTimeLabel: 'Start time',
+    endTimeLabel: 'End time',
+    gsrnLabel: 'GSRN',
+    certificateIdLabel: 'Certificate ID',
+    technologyHeadline: 'Technology',
+    technologyCodeLabel: 'Technology code',
+    fuelCodeLabel: 'Fuel code',
+    backToCertificatesLink: '<< Back to Certificates',
+    biddingZoneHeadline: 'Bidding Zone'
+  }
 };

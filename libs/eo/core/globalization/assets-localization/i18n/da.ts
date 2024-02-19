@@ -221,4 +221,18 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     consumptionType: 'forbrug',
     certificateDetailsLink: 'Se certifikat',
   },
+  certificateDetails: {
+    title: "Certifikatdetaljer - {{certificateType}}",
+    staticDataHeadline: "Statisk data",
+    energyLabel: "Energi",
+    startTimeLabel: "Starttid",
+    endTimeLabel: "Sluttid",
+    gsrnLabel: "GSRN",
+    certificateIdLabel: "Certifikat-ID",
+    technologyHeadline: "Teknologi",
+    technologyCodeLabel: "Teknologikode",
+    fuelCodeLabel: "Brændstofkode",
+    backToCertificatesLink: "<< Tilbage til certifikater",
+    biddingZoneHeadline: "Budzone"
+  },
 };

@@ -17,7 +17,8 @@
 
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
-import { map } from 'rxjs';
+import { map, switchMap } from 'rxjs';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { EoCertificateDetailsComponent } from '@energinet-datahub/eo/certificates/feature-details';
 import { EoCertificatesOverviewComponent } from '@energinet-datahub/eo/certificates/feature-overview';
@@ -28,17 +29,22 @@ import { translations } from '@energinet-datahub/eo/translations';
 @Injectable({ providedIn: 'root' })
 export class CertificateDetailsTitleResolver {
   private certificatesService: EoCertificatesService = inject(EoCertificatesService);
+  private transloco = inject(TranslocoService);
+  private translations = translations;
 
   resolve(route: ActivatedRouteSnapshot) {
-    return this.certificatesService.getCertificates().pipe(
+    return this.transloco.selectTranslation().pipe(
+      switchMap(() => {
+        return this.certificatesService.getCertificates();
+      }),
       map((certs: EoCertificate[]) =>
         certs.find((item) => item.federatedStreamId.streamId === route.params['id'])
       ),
-      map(
-        (cert) =>
-          'Certificate details - ' + this.capitalizeFirstLetter(cert?.certificateType) ||
-          'Certificate details'
-      )
+      map((cert) => {
+        return this.transloco.translate(this.translations.certificateDetails.title, {
+          certificateType: this.capitalizeFirstLetter(cert?.certificateType),
+        });
+      })
     );
   }
 
