@@ -685,9 +685,10 @@
         "documentStatus": {
           "RECEIVED": "Modtaget",
           "AWAITING_DISPATCH": "Afventer afsendelse",
-          "AWAITING_REPLY": "Afventer svar",
+          "AWAITING_REPLY": "Afventer svar (leveret til ECP)",
           "ACCEPTED": "Accepteret",
-          "REJECTED": "Afvist"
+          "REJECTED": "Afvist",
+          "BIZ_TALK_ACCEPTED": "Afventer svar (leveret til BizTalk)"
         }
       },
       "filters": {

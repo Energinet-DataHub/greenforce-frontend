@@ -571,7 +571,8 @@
           "AwaitingDispatch",
           "AwaitingReply",
           "Accepted",
-          "Rejected"
+          "Rejected",
+          "BizTalkAccepted"
         ]
       },
       "ESettStageComponent": {
