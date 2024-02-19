@@ -145,7 +145,7 @@ jobs:
 
       - name: Upload artifact
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-e2e
           path: dist/cypress/apps/
@@ -330,7 +330,7 @@ jobs:
 
       - name: Upload artifact
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-component-tests
           path: dist/cypress/libs/

@@ -307,6 +307,7 @@ enum DocumentStatus {
   AWAITING_REPLY
   ACCEPTED
   REJECTED
+  BIZ_TALK_ACCEPTED
 }
 
 enum PriceAreaCode {
@@ -553,7 +554,6 @@ type MeteringGridAreaImbalanceSearchResult {
   periodStart: DateTime!
   periodEnd: DateTime!
   imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
-  storageId: String!
 }
 
 type ImbalancePricePeriod {
