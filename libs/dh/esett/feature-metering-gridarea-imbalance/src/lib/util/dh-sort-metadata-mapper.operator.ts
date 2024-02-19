@@ -18,14 +18,14 @@ import { Sort } from '@angular/material/sort';
 import { Observable, map, pipe } from 'rxjs';
 
 import {
-  MeteringGridImbalanceSortProperty,
+  MeteringGridAreaImbalanceSortProperty,
   SortDirection,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 type InType = Observable<Sort>;
 
 type OutType = Observable<{
-  sortProperty: MeteringGridImbalanceSortProperty;
+  sortProperty: MeteringGridAreaImbalanceSortProperty;
   sortDirection: SortDirection;
 }>;
 
@@ -33,21 +33,21 @@ export const dhMGASortMetadataMapper = pipe<InType, OutType>(
   map(({ active, direction }) => {
     const sortDirection = direction === 'asc' ? SortDirection.Ascending : SortDirection.Descending;
 
-    let sortProperty: MeteringGridImbalanceSortProperty;
+    let sortProperty: MeteringGridAreaImbalanceSortProperty;
 
     switch (active) {
       case 'documentDateTime':
-        sortProperty = MeteringGridImbalanceSortProperty.DocumentDateTime;
+        sortProperty = MeteringGridAreaImbalanceSortProperty.DocumentDateTime;
         break;
       case 'receivedDateTime':
-        sortProperty = MeteringGridImbalanceSortProperty.ReceivedDateTime;
+        sortProperty = MeteringGridAreaImbalanceSortProperty.ReceivedDateTime;
         break;
       case 'gridArea':
-        sortProperty = MeteringGridImbalanceSortProperty.GridAreaCode;
+        sortProperty = MeteringGridAreaImbalanceSortProperty.GridAreaCode;
         break;
       case 'id':
       default:
-        sortProperty = MeteringGridImbalanceSortProperty.DocumentId;
+        sortProperty = MeteringGridAreaImbalanceSortProperty.DocumentId;
         break;
     }
 
