@@ -40,6 +40,8 @@ import { DhMeteringGridAreaImbalanceFiltersComponent } from './filters/dh-filter
 import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
 import { GetMeteringGridAreaImbalanceDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Sort } from '@angular/material/sort';
+import { dhMGASortMetadataMapper } from './util/dh-sort-metadata-mapper.operator';
 
 @Component({
   standalone: true,
@@ -95,6 +97,11 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
 
   pageSize$ = this.pageMetaData$.pipe(map(({ pageSize }) => pageSize));
 
+  sortMetadata$ = new BehaviorSubject<Sort>({
+    active: 'received',
+    direction: 'desc',
+  });
+
   isLoading = false;
   hasError = false;
 
@@ -111,15 +118,21 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
     filters: this.filter$,
     pageMetaData: this.pageMetaData$,
     documentIdSearch: this.documentIdSearch$.pipe(debounceTime(750)),
+    sortMetadata: this.sortMetadata$.pipe(dhMGASortMetadataMapper),
   }).pipe(
-    map(({ filters, pageMetaData, documentIdSearch }) => {
-      return { filters: documentIdSearch ? {} : filters, pageMetaData, documentIdSearch };
+    map(({ filters, pageMetaData, documentIdSearch, sortMetadata }) => {
+      return {
+        filters: documentIdSearch ? {} : filters,
+        pageMetaData,
+        documentIdSearch,
+        sortMetadata,
+      };
     })
   );
 
   meteringGridAreaImbalance$ = this.queryVariables$.pipe(
     switchMap(
-      ({ filters, pageMetaData, documentIdSearch }) =>
+      ({ filters, pageMetaData, documentIdSearch, sortMetadata }) =>
         this._apollo.watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
@@ -134,6 +147,8 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
             periodFrom: filters.period?.start,
             periodTo: filters.period?.end,
             documentId: documentIdSearch,
+            sortProperty: sortMetadata.sortProperty,
+            sortDirection: sortMetadata.sortDirection,
           },
         }).valueChanges
     ),

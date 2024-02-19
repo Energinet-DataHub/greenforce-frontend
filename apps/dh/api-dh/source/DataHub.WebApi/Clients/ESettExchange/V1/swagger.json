@@ -637,6 +637,20 @@
           "documentId": {
             "type": "string",
             "nullable": true
+          },
+          "sortProperty": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExchangeEventSortProperty"
+              }
+            ]
+          },
+          "sortDirection": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SortDirection"
+              }
+            ]
           }
         }
       },
@@ -692,6 +706,17 @@
             ]
           }
         }
+      },
+      "ExchangeEventSortProperty": {
+        "type": "string",
+        "enum": [
+          "CalculationType",
+          "Created",
+          "DocumentId",
+          "DocumentStatus",
+          "GridAreaCode",
+          "TimeSeriesType"
+        ]
       },
       "ExchangeEventStatusReportResponse": {
         "type": "object",
@@ -797,6 +822,20 @@
           "documentId": {
             "type": "string",
             "nullable": true
+          },
+          "sortProperty": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringGridAreaImbalanceSortProperty"
+              }
+            ]
+          },
+          "sortDirection": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SortDirection"
+              }
+            ]
           }
         }
       },
@@ -849,6 +888,15 @@
             }
           }
         }
+      },
+      "MeteringGridAreaImbalanceSortProperty": {
+        "type": "string",
+        "enum": [
+          "DocumentDateTime",
+          "GridAreaCode",
+          "DocumentId",
+          "ReceivedDateTime"
+        ]
       },
       "ReadinessStatusDto": {
         "type": "object",
