@@ -358,6 +358,8 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['columns'] || changes['displayedColumns'] || changes['selectable']) {
       const { displayedColumns } = this;
+
+      if(!changes['columns']) return;
       const sizing = Object.keys(this.columns)
         .filter((key) => !displayedColumns || displayedColumns.includes(key))
         .map((key) => this.columns[key].size)

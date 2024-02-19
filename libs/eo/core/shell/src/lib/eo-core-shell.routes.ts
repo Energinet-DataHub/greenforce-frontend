@@ -28,6 +28,7 @@ import {
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoLoginComponent } from './eo-login.component';
 import { EoShellComponent } from './eo-shell.component';
+import { translations } from '@energinet-datahub/eo/translations';
 
 export const eoShellRoutes: Routes = [
   {
@@ -60,7 +61,7 @@ export const eoShellRoutes: Routes = [
       {
         path: eoDashboardRoutePath,
         canActivate: [EoScopeGuard],
-        title: 'Dashboard',
+        title: translations.dashboard.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/dashboard/shell').then(
             (esModule) => esModule.eoDashboardRoutes
@@ -69,7 +70,7 @@ export const eoShellRoutes: Routes = [
       {
         path: eoMeteringPointsRoutePath,
         canActivate: [EoScopeGuard],
-        title: 'Metering points',
+        title: translations.meteringPoints.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
             (esModule) => esModule.eoMeteringPointsRoutes

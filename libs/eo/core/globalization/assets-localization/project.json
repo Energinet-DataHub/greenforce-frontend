@@ -4,6 +4,14 @@
   "projectType": "library",
   "sourceRoot": "libs/eo/core/globalization/assets-localization",
   "prefix": "eo",
-  "targets": {},
+  "targets": {
+    "generate-translation-keys": {
+      "executor": "workspace-tools:generate-translation-keys",
+      "options": {
+        "path": "libs/eo/core/globalization/assets-localization/i18n/translation-keys.ts",
+        "dest": "libs/eo/core/globalization/assets-localization/translations.ts"
+      }
+    }
+  },
   "tags": ["product:eo", "domain:globalization", "type:assets"]
 }

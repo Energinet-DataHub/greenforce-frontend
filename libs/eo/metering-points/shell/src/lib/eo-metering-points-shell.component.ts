@@ -17,11 +17,13 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
+import { translations } from '@energinet-datahub/eo/translations';
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
 import { MeteringPointType } from '@energinet-datahub/eo/metering-points/domain';
 
@@ -36,6 +38,7 @@ import { EoMeteringPointsTableComponent } from './eo-metering-point-table.compon
     EoMeteringPointsTableComponent,
     WATT_CARD,
     WattValidationMessageComponent,
+    TranslocoPipe,
   ],
   selector: 'eo-metering-points-shell',
   styles: [
@@ -49,35 +52,16 @@ import { EoMeteringPointsTableComponent } from './eo-metering-point-table.compon
   ],
   template: `
     <watt-validation-message
-      label="You have the option to switch your metering points ON and OFF."
+      label="{{ translations.meteringPoints.infoBoxTitle | transloco }}"
       size="normal"
       icon="info"
-      [autoScrollIntoView]="false"
-    >
-      <p>For Production metering points:</p>
-
-      <ul>
-        <li>Turning it 'ON' means the metering point is actively issuing certificates of power.</li>
-        <li>Switching it 'OFF' will stop the metering point from issuing certificates.</li>
-      </ul>
-
-      <br />
-      <p>For Consumption metering points:</p>
-
-      <ul>
-        <li>
-          'ON' indicates that the Consumption metering point actively issues consumption
-          certificates.
-        </li>
-        <li>
-          'OFF' indicates that the Consumption metering point will source its electricity from
-          elsewhere.
-        </li>
-      </ul>
+      [autoScrollIntoView]="false">
+      <span [innerHTML]="translations.meteringPoints.infoBoxContent | transloco"></span>
     </watt-validation-message>
+
     <watt-card>
       <watt-card-title>
-        <h3 class="watt-on-light--high-emphasis">Results</h3>
+        <h3 class="watt-on-light--high-emphasis">{{ translations.meteringPoints.tableTitle | transloco }}</h3>
       </watt-card-title>
       <eo-metering-points-table
         [meteringPoints]="meteringPoints$ | async"
@@ -92,11 +76,13 @@ export class EoMeteringPointsShellComponent implements OnInit {
   private meteringPointStore = inject(EoMeteringPointsStore);
   private toastService = inject(WattToastService);
   private destroyRef = inject(DestroyRef);
+  private transloco = inject(TranslocoService);
 
-  isLoading$ = this.meteringPointStore.loading$;
-  meteringPoints$ = this.meteringPointStore.meteringPoints$;
-  contractError$ = this.meteringPointStore.contractError$;
-  meteringPointError$ = this.meteringPointStore.meteringPointError$;
+  protected isLoading$ = this.meteringPointStore.loading$;
+  protected meteringPoints$ = this.meteringPointStore.meteringPoints$;
+  protected contractError$ = this.meteringPointStore.contractError$;
+  protected meteringPointError$ = this.meteringPointStore.meteringPointError$;
+  protected translations = translations
 
   ngOnInit(): void {
     this.meteringPointStore.loadMeteringPoints();
@@ -104,7 +90,7 @@ export class EoMeteringPointsShellComponent implements OnInit {
     this.contractError$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((error: unknown) => {
       if (error) {
         this.toastService.open({
-          message: 'Issue encountered. Please try again or reload the page.',
+          message: this.transloco.translate(this.translations.meteringPoints.contractError),
           type: 'danger',
         });
       }

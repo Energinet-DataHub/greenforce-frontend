@@ -25,6 +25,7 @@ import {
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
+import { translations } from "@energinet-datahub/eo/translations";
 
 import { EoAuthStore, EoFeatureFlagDirective } from '@energinet-datahub/eo/shared/services';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
@@ -73,26 +74,28 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
   template: `
     <watt-nav-list>
       <watt-nav-list-item link="{{ routes.dashboard }}" onFeatureFlag="dashboard">
-        {{ 'sidebar.dashboard' | transloco }}
+        {{ translations.sidebar.dashboard | transloco }}
       </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.meteringpoints }}" onFeatureFlag="meters">
-        {{ 'sidebar.metering-points' | transloco }}
+        {{ translations.sidebar.meteringPoints | transloco }}
       </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.claims }}"> Claims </watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.claims }}">
+        {{ translations.sidebar.claims | transloco }}
+      </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.certificates }}" onFeatureFlag="certificates">
-        {{ 'sidebar.certificates' | transloco }}
+        {{ translations.sidebar.certificates | transloco }}
       </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.transfer }}" onFeatureFlag="certificates">
-        {{ 'sidebar.transfers' | transloco }}
+        {{ translations.sidebar.transfers | transloco }}
       </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.activityLog }}">{{
-        'sidebar.activity-log' | transloco
-      }}</watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.activityLog }}">
+        {{ translations.sidebar.activityLog | transloco }}
+      </watt-nav-list-item>
     </watt-nav-list>
 
     <section class="userinfo">
       <p class="watt-label company-name">{{ userInfo()?.cpn }}</p>
-      <p class="watt-label">{{ 'user-information.tin' | transloco: { tin: userInfo()?.tin } }}</p>
+      <p class="watt-label">{{ translations.userInformation.tin | transloco: { tin: userInfo()?.tin } }}</p>
       <p class="watt-label">{{ userInfo()?.name }}</p>
     </section>
   `,
@@ -102,6 +105,7 @@ export class EoPrimaryNavigationComponent implements OnInit {
 
   protected routes = eoRoutes;
   protected userInfo = signal<{ name: string; cpn: string; tin: string } | null>(null);
+  protected translations = translations;
 
   @HostBinding('attr.aria-label')
   get ariaLabelAttribute(): string {

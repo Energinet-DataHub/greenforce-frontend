@@ -38,6 +38,7 @@ import { EoDashboardProductionTransferredComponent } from './eo-dashboard-produc
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { TranslocoPipe } from '@ngneat/transloco';
+import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -90,7 +91,10 @@ import { TranslocoPipe } from '@ngneat/transloco';
       @if (((productionAndConsumptionMeteringPoints$ | async) || []).length > 0) {
         <watt-tabs variant="secondary">
           @if (((productionMeteringPoints$ | async) || []).length > 0) {
-            <watt-tab [label]="'dashboard.tabs.producer' | transloco" (changed)="activeTab = 'production'">
+            <watt-tab
+              [label]="translations.dashboard.tabs.producer | transloco"
+              (changed)="activeTab = 'production'"
+            >
               @if (activeTab === 'production') {
                 <eo-dashboard-production-transferred [period]="period()" />
               }
@@ -98,7 +102,10 @@ import { TranslocoPipe } from '@ngneat/transloco';
           }
 
           @if (((consumptionMeteringPoints$ | async) || []).length > 0) {
-            <watt-tab [label]="'dashboard.tabs.consumer' | transloco" (changed)="activeTab = 'consumption'">
+            <watt-tab
+              [label]="translations.dashboard.tabs.consumer | transloco"
+              (changed)="activeTab = 'consumption'"
+            >
               @if (activeTab === 'consumption') {
                 <eo-dashboard-consumption [period]="period()" />
               }
@@ -116,8 +123,8 @@ import { TranslocoPipe } from '@ngneat/transloco';
         <watt-empty-state
           data-testid="no-data"
           icon="custom-power"
-          [title]="'dashboard.no-data.title' | transloco"
-          [message]="'dashboard.no-data.message' | transloco"
+          [title]="'dashboard.noData.title' | transloco"
+          [message]="'dashboard.noData.message' | transloco"
         />
       }
 
@@ -151,6 +158,7 @@ export class EoDashboardShellComponent implements OnInit {
 
   @ViewChildren(WattTabComponent) tabs!: QueryList<WattTabComponent>;
 
+  protected translations = translations;
   protected activeTab = 'production';
 
   ngOnInit(): void {

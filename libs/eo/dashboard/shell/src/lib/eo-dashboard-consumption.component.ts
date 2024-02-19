@@ -160,12 +160,12 @@ interface Totals {
   ],
   template: `<watt-card>
     <watt-card-title>
-      <h4>{{ 'consumer-chart.title' | transloco }}</h4>
+      <h4>{{ 'consumerChart.title' | transloco }}</h4>
       <watt-icon
         name="info"
         state="default"
         size="s"
-        [wattTooltip]="'consumer-chart.title-tooltip' | transloco"
+        [wattTooltip]="'consumerChart.title-tooltip' | transloco"
         wattTooltipPosition="right"
       />
     </watt-card-title>
@@ -180,11 +180,11 @@ interface Totals {
           <watt-empty-state
             data-testid="error"
             icon="custom-power"
-            [title]="'consumer-chart.error.title' | transloco"
-            [message]="'consumer-chart.error.message' | transloco"
+            [title]="'consumerChart.error.title' | transloco"
+            [message]="'consumerChart.error.message' | transloco"
           >
             <watt-button variant="primary" size="normal" (click)="getData()">{{
-              'consumer-chart.error.retry' | transloco
+              'consumerChart.error.retry' | transloco
             }}</watt-button>
           </watt-empty-state>
         }
@@ -196,7 +196,7 @@ interface Totals {
         @if (totals.consumption > 0 || isLoading) {
           <h5 data-testid="headline">
             {{
-              'consumer-chart.headline.default'
+              'consumerChart.headline.default'
                 | transloco
                   : {
                       greenEnergyInPercentage: totals.green | percentageOf: totals.consumption
@@ -204,7 +204,7 @@ interface Totals {
             }}
           </h5>
           <small>{{
-            'consumer-chart.sub-headline'
+            'consumerChart.subHeadline'
               | transloco
                 : {
                     greenConsumption: totals.green | energyUnit,
@@ -212,10 +212,10 @@ interface Totals {
                   }
           }}</small>
         } @else {
-          <h5 data-testid="no-data">{{ 'consumer-chart.headline.no-data' | transloco }}</h5>
+          <h5 data-testid="no-data">{{ 'consumerChart.headline.noData' | transloco }}</h5>
           <small
             ><a [routerLink]="'../' + routes.meteringpoints"
-              >{{ 'consumer-chart.activate-metering-points-action' | transloco
+              >{{ 'consumerChart.activateMeteringPointsAction' | transloco
               }}<watt-icon name="openInNew" size="xs" /></a
           ></small>
         }
@@ -229,7 +229,7 @@ interface Totals {
             <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
             @if (item.label) {
               <span class="legend-label" [attr.data-testid]="item.label + '-legend'">{{
-                'consumer-chart.legends.' + item.label
+                'consumerChart.legends.' + item.label
                   | transloco: { percentage: totals[item.label] | percentageOf: totals.consumption }
               }}</span>
             }
@@ -368,7 +368,7 @@ export class EoDashboardConsumptionComponent implements OnChanges {
               callbacks: {
                 label: (context) => {
                   const type = context.dataset.label?.toLocaleLowerCase();
-                  return this.transloco.translate('consumer-chart.tooltips.' + type, {
+                  return this.transloco.translate('consumerChart.tooltips.' + type, {
                     amount: Number(context.parsed.y).toFixed(2),
                     unit,
                   });

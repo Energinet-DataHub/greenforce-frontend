@@ -14,7 +14,7 @@ export class PageTitleStrategy extends TitleStrategy {
   override updateTitle(routerState: RouterStateSnapshot) {
     const title = this.buildTitle(routerState);
     if (title !== undefined) {
-      this.#transloco.selectTranslate(title.toLowerCase() + '.title').subscribe((title: string) => {
+      this.#transloco.selectTranslate(title).subscribe((title: string) => {
         this.title.setTitle(title);
       });
     }

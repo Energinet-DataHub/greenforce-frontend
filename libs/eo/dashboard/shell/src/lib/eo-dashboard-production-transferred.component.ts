@@ -159,12 +159,12 @@ interface Totals {
   ],
   template: `<watt-card>
     <watt-card-title>
-      <h4>{{ 'producer-chart.title' | transloco }}</h4>
+      <h4>{{ 'producerChart.title' | transloco }}</h4>
       <watt-icon
         name="info"
         state="default"
         size="s"
-        [wattTooltip]="'producer-chart.title-tooltip' | transloco"
+        [wattTooltip]="'producerChart.title-tooltip' | transloco"
         wattTooltipPosition="right"
       />
     </watt-card-title>
@@ -178,11 +178,11 @@ interface Totals {
           <watt-empty-state
             data-testid="error"
             icon="custom-power"
-            [title]="'producer-chart.error.title' | transloco"
-            [message]="'producer-chart.error.message' | transloco"
+            [title]="'producerChart.error.title' | transloco"
+            [message]="'producerChart.error.message' | transloco"
           >
             <watt-button variant="primary" size="normal" (click)="getData()">{{
-              'producer-chart.error.retry' | transloco
+              'producerChart.error.retry' | transloco
             }}</watt-button>
           </watt-empty-state>
         }
@@ -194,7 +194,7 @@ interface Totals {
         @if (totals.production > 0 || isLoading) {
           <h5 data-testid="headline">
             {{
-              'producer-chart.headline.default'
+              'producerChart.headline.default'
                 | transloco
                   : {
                       transferredInPercentage: totals.transferred | percentageOf: totals.production
@@ -202,7 +202,7 @@ interface Totals {
             }}
           </h5>
           <small>{{
-            'producer-chart.sub-headline'
+            'producerChart.subHeadline'
               | transloco
                 : {
                     totalTransferred: totals.transferred | energyUnit,
@@ -210,10 +210,10 @@ interface Totals {
                   }
           }}</small>
         } @else {
-          <h5 data-testid="no-data">{{ 'producer-chart.headline.no-data' | transloco }}</h5>
+          <h5 data-testid="no-data">{{ 'producerChart.headline.noData' | transloco }}</h5>
           <small
             ><a [routerLink]="'../' + routes.meteringpoints"
-              >{{ 'producer-chart.activate-metering-points-action' | transloco }}
+              >{{ 'producerChart.activateMeteringPointsAction' | transloco }}
               <watt-icon name="openInNew" size="xs" /></a
           ></small>
         }
@@ -227,7 +227,7 @@ interface Totals {
             <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
             @if (item.label) {
               <span class="legend-label" [attr.data-testid]="item.label + '-legend'">{{
-                'producer-chart.legends.' + item.label
+                'producerChart.legends.' + item.label
                   | transloco: { percentage: totals[item.label] | percentageOf: totals.production }
               }}</span>
             }
@@ -409,7 +409,7 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
                 amount = certificates[context.dataIndex];
               }
 
-              return this.transloco.translate('producer-chart.tooltips.' + type, {
+              return this.transloco.translate('producerChart.tooltips.' + type, {
                 amount: fromWh(amount, unit).toFixed(2),
                 unit: findNearestUnit(amount)[1],
               });

@@ -150,7 +150,7 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
 
       // Set months
       this.months = [
-        { value: 'last30days', displayValue: translations['last30days'] },
+        { value: 'last30days', displayValue: translations['last30Days'] },
         ...this.generateMonths(),
       ];
     });
