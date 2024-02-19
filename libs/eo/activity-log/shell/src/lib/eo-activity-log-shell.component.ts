@@ -25,7 +25,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Form, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { distinctUntilChanged } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { endOfToday, getUnixTime, startOfToday, subDays } from 'date-fns';
@@ -50,6 +50,11 @@ import {
   activityLogActionType,
   activityLogEntityType,
 } from '@energinet-datahub/eo/activity-log/data-access-api';
+
+interface ActivityLogForm {
+  period: FormControl<{start: number, end: number}>;
+  eventTypes: FormControl<activityLogEntityType[]>;
+}
 
 @Component({
   selector: 'eo-activity-log-shell',
@@ -116,7 +121,7 @@ export class EoActivityLogShellComponent implements OnInit {
 
   protected eventTypes!: WattDropdownOption[];
 
-  protected form!: FormGroup;
+  protected form!: FormGroup<ActivityLogForm>;
   protected state = signal<{ hasError: boolean; isLoading: boolean }>({
     hasError: false,
     isLoading: false,
