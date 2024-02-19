@@ -79,6 +79,10 @@
     "success": "Copied to clipboard",
     "error": "Failed to copy"
   },
+  "datepicker": {
+    "clear": "Clear",
+    "select": "OK"
+  },
   "sidebar": {
     "navigation": {
       "messageArchive": "Request/Response messages",
