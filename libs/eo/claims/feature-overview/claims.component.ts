@@ -16,6 +16,7 @@
  */
 import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { fromUnixTime } from 'date-fns';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 import {
   VaterFlexComponent,
@@ -26,10 +27,11 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
-
 import { EnergyUnitPipe } from '@energinet-datahub/eo/shared/utilities';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoClaimsService, Claim } from '@energinet-datahub/eo/claims/data-access-api';
+import { translations } from '@energinet-datahub/eo/translations';
+
 import { EoClaimsTableComponent } from './claims-table.component';
 
 @Component({
@@ -43,6 +45,7 @@ import { EoClaimsTableComponent } from './claims-table.component';
     WATT_CARD,
     WattButtonComponent,
     WattSearchComponent,
+    TranslocoPipe,
   ],
   providers: [WattDatePipe, EnergyUnitPipe],
   styles: [
@@ -68,12 +71,12 @@ import { EoClaimsTableComponent } from './claims-table.component';
     <watt-card>
       <watt-card-title>
         <vater-stack direction="row" gap="s">
-          <h3 class="watt-on-light--high-emphasis">Results</h3>
+          <h3 class="watt-on-light--high-emphasis">{{ translations.claims.tableTitle | transloco }}</h3>
           <div class="badge">
             <small>{{ this.claimsTable?.dataSource?.filteredData?.length }}</small>
           </div>
           <vater-spacer />
-          <watt-search label="Search" (search)="search = $event" />
+          <watt-search [label]="translations.claims.searchLabel | transloco" (search)="search = $event" />
         </vater-stack>
       </watt-card-title>
       <eo-claims-table
@@ -91,6 +94,7 @@ export class EoClaimsComponent implements OnInit {
   private claimsService: EoClaimsService = inject(EoClaimsService);
   protected wattDatePipe: WattDatePipe = inject(WattDatePipe);
   protected energyUnitPipe: EnergyUnitPipe = inject(EnergyUnitPipe);
+  protected translations = translations;
 
   protected search = '';
   protected claims = signal<{

@@ -166,9 +166,31 @@ export interface TranslationKeys {
       title: string;
       message: string;
     };
+    searchLabel: string;
+    tableTitle: string;
     claimIdTableHeader: string;
     amountTableHeader: string;
     startDateTableHeader: string;
     endDateTableHeader: string;
+  };
+  certificates: {
+    title: string;
+    noData: {
+      title: string;
+      message: string;
+    };
+    error: {
+      title: string;
+      message: string;
+    };
+    searchLabel: string;
+    tableHeader: string;
+    timeTableHeader: string;
+    gsrnTableHeader: string;
+    amountTableHeader: string;
+    typeTableHeader: string;
+    productionType: string;
+    consumptionType: string;
+    certificateDetailsLink: string;
   };
 }

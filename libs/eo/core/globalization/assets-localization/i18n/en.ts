@@ -194,9 +194,31 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       title: 'Oops! Something went wrong.',
       message: 'Please try reloading the page..',
     },
+    searchLabel: 'Search',
+    tableTitle: 'Results',
     claimIdTableHeader: 'Claim Id',
     amountTableHeader: 'Amount',
     startDateTableHeader: 'Start',
     endDateTableHeader: 'End',
   },
+  certificates: {
+    title: 'Certificates',
+    noData: {
+      title: 'No certificates found',
+      message: 'You do not have any certificates.'
+    },
+    error: {
+      title: 'Oops! Something went wrong.',
+      message: 'Please try reloading the page..'
+    },
+    searchLabel: 'Search',
+    tableHeader: 'Results',
+    timeTableHeader: 'Time',
+    gsrnTableHeader: 'Metering Point',
+    amountTableHeader: 'Amount',
+    typeTableHeader: 'Type',
+    productionType: 'production',
+    consumptionType: 'consumption',
+    certificateDetailsLink: 'View certificate'
+  }
 };

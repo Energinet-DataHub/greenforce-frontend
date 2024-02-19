@@ -23,6 +23,7 @@ import { EoCertificateDetailsComponent } from '@energinet-datahub/eo/certificate
 import { EoCertificatesOverviewComponent } from '@energinet-datahub/eo/certificates/feature-overview';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
+import { translations } from '@energinet-datahub/eo/translations';
 
 @Injectable({ providedIn: 'root' })
 export class CertificateDetailsTitleResolver {
@@ -50,7 +51,7 @@ export class CertificateDetailsTitleResolver {
 export const eoCertificatesRoutes: Routes = [
   {
     path: '',
-    title: 'Certificates',
+    title: translations.certificates.title,
     component: EoCertificatesOverviewComponent,
   },
   {

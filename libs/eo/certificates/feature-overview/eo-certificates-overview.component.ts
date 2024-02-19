@@ -14,10 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+  signal,
+} from '@angular/core';
 import { map } from 'rxjs';
-import { NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -30,11 +37,11 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
+import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     WATT_TABLE,
     WattPaginatorComponent,
     WattEmptyStateComponent,
@@ -43,6 +50,7 @@ import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-a
     VaterSpacerComponent,
     WattSearchComponent,
     WATT_CARD,
+    TranslocoPipe,
   ],
   providers: [WattDatePipe, EnergyUnitPipe],
   standalone: true,
@@ -80,46 +88,52 @@ import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-a
     <watt-card>
       <watt-card-title>
         <vater-stack direction="row" gap="s">
-          <h3 class="watt-on-light--high-emphasis">Results</h3>
+          <h3 class="watt-on-light--high-emphasis">
+            {{ translations.certificates.tableHeader | transloco }}
+          </h3>
           <div class="badge">
             <small>{{ this.dataSource.filteredData.length }}</small>
           </div>
           <vater-spacer />
-          <watt-search label="Search" (search)="search = $event" />
+          <watt-search [label]="translations.certificates.searchLabel | transloco" (search)="search = $event" />
         </vater-stack>
       </watt-card-title>
 
-      <watt-table
-        #table
-        [loading]="loading()"
-        [columns]="columns"
-        [dataSource]="dataSource"
-        sortBy="time"
-        sortDirection="desc"
-      >
-        <ng-container *wattTableCell="columns.action; let element">
-          <a
-            class="link"
-            routerLink="/${eoCertificatesRoutePath}/{{ element.federatedStreamId.streamId }}"
-          >
-            View certificate
-          </a>
-        </ng-container>
-      </watt-table>
+      @if (columns) {
+        <watt-table
+          #table
+          [loading]="loading()"
+          [columns]="columns"
+          [dataSource]="dataSource"
+          sortBy="time"
+          sortDirection="desc"
+        >
+          <ng-container *wattTableCell="columns.action; let element">
+            <a
+              class="link"
+              routerLink="/${eoCertificatesRoutePath}/{{ element.federatedStreamId.streamId }}"
+            >
+              {{ translations.certificates.certificateDetailsLink | transloco }}
+            </a>
+          </ng-container>
+        </watt-table>
+      }
 
-      <watt-empty-state
-        *ngIf="!loading() && dataSource.filteredData.length === 0 && !hasError()"
-        icon="custom-power"
-        title="No certificates found"
-        message="You do not have any certificates."
-      />
+      @if (!loading() && dataSource.filteredData.length === 0 && !hasError()) {
+        <watt-empty-state
+          icon="custom-power"
+          [title]="translations.certificates.noData.title | transloco"
+          [message]="translations.certificates.noData.message | transloco"
+        />
+      }
 
-      <watt-empty-state
-        *ngIf="!loading() && hasError()"
-        icon="custom-power"
-        title="Oops! Something went wrong."
-        message="Please try reloading the page.."
-      />
+      @if (!loading() && hasError()) {
+        <watt-empty-state
+          icon="custom-power"
+          [title]="translations.certificates.error.title | transloco"
+          [message]="translations.certificates.error.message | transloco"
+        />
+      }
 
       <watt-paginator [for]="dataSource" />
     </watt-card>
@@ -129,14 +143,11 @@ export class EoCertificatesOverviewComponent implements OnInit {
   private certificatesService: EoCertificatesService = inject(EoCertificatesService);
   private datePipe: WattDatePipe = inject(WattDatePipe);
   private energyUnitPipe: EnergyUnitPipe = inject(EnergyUnitPipe);
+  private transloco = inject(TranslocoService);
+  private cd = inject(ChangeDetectorRef);
 
-  protected columns: WattTableColumnDef<EoCertificate> = {
-    time: { accessor: (x) => x.time },
-    meteringPoint: { accessor: (x) => x.attributes.assetId },
-    amount: { accessor: (x) => x.amount },
-    certificateType: { accessor: (x) => x.certificateType, header: 'Type' },
-    action: { accessor: (x) => x.attributes.assetId, header: '' },
-  };
+  protected translations = translations;
+  protected columns!: WattTableColumnDef<EoCertificate>;
 
   protected set search(value: string) {
     this.dataSource.filter = value;
@@ -146,8 +157,40 @@ export class EoCertificatesOverviewComponent implements OnInit {
   protected hasError = signal<boolean>(false);
 
   ngOnInit() {
+    this.setColumns();
     this.loadData();
     this.sortData();
+  }
+
+  private setColumns(): void {
+    this.transloco.selectTranslation().subscribe(() => {
+      this.columns = {
+        time: {
+          accessor: (x) => x.time,
+          header: this.transloco.translate(this.translations.certificates.timeTableHeader),
+        },
+        meteringPoint: {
+          accessor: (x) => x.attributes.assetId,
+          header: this.transloco.translate(this.translations.certificates.gsrnTableHeader),
+        },
+        amount: {
+          accessor: (x) => x.amount,
+          header: this.transloco.translate(this.translations.certificates.amountTableHeader),
+        },
+        certificateType: {
+          accessor: (x) => {
+            if(x.certificateType.toLowerCase() === 'production') {
+              return this.transloco.translate(this.translations.certificates.productionType);
+            } else {
+              return this.transloco.translate(this.translations.certificates.consumptionType);
+            }
+          },
+          header: this.transloco.translate(this.translations.certificates.typeTableHeader),
+        },
+        action: { accessor: (x) => x.attributes.assetId, header: '' },
+      };
+      this.cd.detectChanges();
+    });
   }
 
   private loadData() {

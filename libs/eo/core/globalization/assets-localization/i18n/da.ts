@@ -194,9 +194,31 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       title: 'Ups! Noget gik galt.',
       message: 'Prøv venligst at genindlæse siden.',
     },
+    searchLabel: 'Search',
+    tableTitle: 'Results',
     claimIdTableHeader: 'Krav-ID',
     amountTableHeader: 'Mængde',
     startDateTableHeader: 'Start',
     endDateTableHeader: 'Slut',
+  },
+  certificates: {
+    title: "Certifikater",
+    noData: {
+      title: "Ingen certifikater fundet",
+      message: "Du har ikke nogen certifikater."
+    },
+    error: {
+      title: "Ups! Noget gik galt.",
+      message: "Prøv venligst at genindlæse siden."
+    },
+    searchLabel: 'Søg',
+    tableHeader: "Resultater",
+    timeTableHeader: "Tid",
+    gsrnTableHeader: "Målepunkt",
+    amountTableHeader: "Beløb",
+    typeTableHeader: "Type",
+    productionType: "produktion",
+    consumptionType: "forbrug",
+    certificateDetailsLink: "Se certifikat"
   },
 };
