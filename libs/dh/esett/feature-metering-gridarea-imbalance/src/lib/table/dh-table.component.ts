@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
@@ -25,6 +25,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhMeteringGridAreaImbalance } from '../dh-metering-gridarea-imbalance';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'dh-metering-gridarea-imbalance-table',
@@ -65,6 +66,8 @@ export class DhOutgoingMessagesTableComponent {
   @Input() hasError!: boolean;
 
   @Input() tableDataSource!: WattTableDataSource<DhMeteringGridAreaImbalance>;
+
+  @Output() sortChange = new EventEmitter<Sort>();
 
   onRowClick(activeRow: DhMeteringGridAreaImbalance): void {
     this.activeRow = activeRow;
