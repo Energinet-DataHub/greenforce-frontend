@@ -265,6 +265,9 @@
       "@energinet-datahub/eo/globalization/configuration-localization": [
         "libs/eo/core/globalization/configuration-localization/src/index.ts"
       ],
+      "@energinet-datahub/eo/globalization/test-util-i18n": [
+        "libs/eo/core/globalization/test-util-i18n/src/index.ts"
+      ],
       "@energinet-datahub/eo/help/shell": ["libs/eo/help/shell/src/index.ts"],
       "@energinet-datahub/eo/landing-page/shell": [
         "libs/eo/landing-page/shell/src/index.ts"
