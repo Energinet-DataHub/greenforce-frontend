@@ -64,6 +64,7 @@ limitations under the License.
       [tableDataSource]="tableDataSource"
       [isLoading]="isLoading"
       [hasError]="hasError"
+      (sortChange)="sortMetadata$.next($event)"
     />
 
     <watt-paginator

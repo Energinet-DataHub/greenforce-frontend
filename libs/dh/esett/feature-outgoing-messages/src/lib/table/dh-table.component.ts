@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
@@ -27,6 +27,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { DhOutgoingMessage } from '../dh-outgoing-message';
 import { DhOutgoingMessageDrawerComponent } from '../drawer/dh-outgoing-message-drawer.component';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'dh-outgoing-messages-table',
@@ -57,6 +58,7 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
 })
 export class DhOutgoingMessagesTableComponent {
   activeRow: DhOutgoingMessage | undefined = undefined;
+
   @ViewChild(DhOutgoingMessageDrawerComponent)
   drawer: DhOutgoingMessageDrawerComponent | undefined;
 
@@ -73,6 +75,8 @@ export class DhOutgoingMessagesTableComponent {
   @Input() hasError!: boolean;
 
   @Input() tableDataSource!: WattTableDataSource<DhOutgoingMessage>;
+
+  @Output() sortChange = new EventEmitter<Sort>();
 
   onRowClick(activeRow: DhOutgoingMessage): void {
     this.activeRow = activeRow;

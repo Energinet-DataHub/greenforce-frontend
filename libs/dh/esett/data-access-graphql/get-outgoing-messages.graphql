@@ -7,7 +7,9 @@ query getOutgoingMessages(
   $calculationType: ExchangeEventCalculationType
   $documentStatus: DocumentStatus
   $timeSeriesType: TimeSeriesType
-  $documentId: String
+  $documentId: String,
+  $sortProperty: ExchangeEventSortProperty!,
+  $sortDirection: SortDirection!
 ) {
   esettExchangeEvents(
     pageNumber: $pageNumber
@@ -18,7 +20,10 @@ query getOutgoingMessages(
     calculationType: $calculationType
     documentStatus: $documentStatus
     timeSeriesType: $timeSeriesType
-    documentId: $documentId
+    documentId: $documentId,
+    sortProperty: $sortProperty,
+    sortDirection: $sortDirection,
+
   ) {
     items {
       created
