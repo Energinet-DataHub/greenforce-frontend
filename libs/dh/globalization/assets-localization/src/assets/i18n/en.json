@@ -79,6 +79,10 @@
     "success": "Copied to clipboard",
     "error": "Failed to copy"
   },
+  "datepicker": {
+    "clear": "Clear",
+    "select": "OK"
+  },
   "sidebar": {
     "navigation": {
       "messageArchive": "Request/Response messages",
@@ -712,6 +716,8 @@
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
+      "messagesNotSent": "{{number}} messages not sent",
+      "resendMessages": "Resend",
       "drawer": {
         "tabs": {
           "message": "Message",

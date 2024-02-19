@@ -24,7 +24,14 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, inject, signal, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  signal,
+  ViewChild,
+} from '@angular/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
@@ -52,6 +59,7 @@ import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
 import { ActorForm } from './dh-actor-form.model';
 import { concat, distinctUntilChanged, map, merge, of, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   standalone: true,
@@ -61,6 +69,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
+    RxPush,
 
     WATT_CARD,
     WATT_MODAL,
@@ -75,6 +84,7 @@ export class DhActorsCreateActorModalComponent {
   private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
   private _toastService = inject(WattToastService);
   private _apollo = inject(Apollo);
+  private _changeDetection = inject(ChangeDetectorRef);
 
   showCreateNewOrganization = signal(false);
   choosenOrganizationDomain = signal('');
@@ -111,7 +121,7 @@ export class DhActorsCreateActorModalComponent {
       .pipe(takeUntilDestroyed())
       .subscribe((value) => {
         const internalCvrValidator: ValidatorFn = (control) =>
-          (control.value as string).startsWith('ENDK') ? null : { invalidCvrNumber: true };
+          this.isInternalCvr(control.value as string) ? null : { invalidCvrNumber: true };
 
         if (value === 'DK') {
           this.newOrganizationForm.controls.cvrNumber.setValidators([
@@ -128,6 +138,8 @@ export class DhActorsCreateActorModalComponent {
 
         this.newOrganizationForm.controls.cvrNumber.updateValueAndValidity();
       });
+
+    this.newOrganizationForm.controls.country.setValue('DK');
   }
 
   cvrLookup$ = merge(
@@ -139,29 +151,20 @@ export class DhActorsCreateActorModalComponent {
       const country = this.newOrganizationForm.controls.country.value;
       const cvrNumber = this.newOrganizationForm.controls.cvrNumber.value;
 
-      if (country === '' || (country === 'DK' && cvrNumber.length !== 8)) {
+      if (country === '') {
         return of({ isLoading: false, isReadOnly: true });
       }
 
       if (country === 'DK') {
-        const cvrQuery = this._apollo
-          .query({
-            query: GetOrganizationFromCvrDocument,
-            variables: { cvr: cvrNumber },
-          })
-          .pipe(
-            map((cvrResult) => {
-              const foundOrg = cvrResult.data?.searchOrganizationInCVR;
-              if (foundOrg && foundOrg.hasResult) {
-                this.newOrganizationForm.controls.companyName.setValue(foundOrg.name);
-                return { isLoading: false, isReadOnly: true };
-              }
+        if (this.isInternalCvr(cvrNumber)) {
+          return of({ isLoading: false, isReadOnly: false });
+        }
 
-              return { isLoading: false, isReadOnly: false };
-            })
-          );
-
-        return concat(of({ isLoading: true, isReadOnly: true }), cvrQuery);
+        if (cvrNumber.length === 8) {
+          return this.callCvrLookup(cvrNumber);
+        } else {
+          return of({ isLoading: false, isReadOnly: true });
+        }
       }
 
       return of({ isLoading: false, isReadOnly: false });
@@ -172,9 +175,37 @@ export class DhActorsCreateActorModalComponent {
       } else {
         this.newOrganizationForm.controls.companyName.enable();
       }
+
+      this._changeDetection.detectChanges();
     }),
     map((result) => result.isLoading)
   );
+
+  isInternalCvr(cvrNumber: string): boolean {
+    return cvrNumber.startsWith('ENDK');
+  }
+
+  callCvrLookup(cvrNumber: string) {
+    const cvrQuery = this._apollo
+      .query({
+        query: GetOrganizationFromCvrDocument,
+        fetchPolicy: 'network-only',
+        variables: { cvr: cvrNumber },
+      })
+      .pipe(
+        map((cvrResult) => {
+          const foundOrg = cvrResult.data?.searchOrganizationInCVR;
+          if (foundOrg && foundOrg.hasResult) {
+            this.newOrganizationForm.controls.companyName.setValue(foundOrg.name);
+            return { isLoading: false, isReadOnly: true };
+          }
+
+          return { isLoading: false, isReadOnly: false };
+        })
+      );
+
+    return concat(of({ isLoading: true, isReadOnly: true }), cvrQuery);
+  }
 
   getChoosenOrganizationDomain(): string {
     return this.newOrganizationForm.controls.domain.value

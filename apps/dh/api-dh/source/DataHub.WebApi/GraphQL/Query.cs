@@ -216,6 +216,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public async Task<IEnumerable<ReadinessStatusDto>> GetEsettServiceStatusAsync(
             [Service] IESettExchangeClient_V1 client) => await client.StatusAsync();
 
+        public async Task<ExchangeEventStatusReportResponse> GetEsettExchangeStatusReportAsync(
+            [Service] IESettExchangeClient_V1 client) => await client.StatusReportAsync();
+
         public Task<ExchangeEventTrackingResult> GetEsettOutgoingMessageByIdAsync(
             string documentId,
             [Service] IESettExchangeClient_V1 client) =>
@@ -253,7 +256,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             string? gridAreaCode,
             string? documentId,
             [Service] IESettExchangeClient_V1 client) =>
-            client.ImbalanceAsync(new MeteringGridAreaImbalanceSearchFilter
+            client.Search2Async(new MeteringGridAreaImbalanceSearchFilter
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
