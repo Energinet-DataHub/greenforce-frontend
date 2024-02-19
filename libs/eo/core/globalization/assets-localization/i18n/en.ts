@@ -188,11 +188,11 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     title: 'Claims',
     noData: {
       title: 'No claims found',
-      message: 'You do not have any claims.'
+      message: 'You do not have any claims.',
     },
     error: {
       title: 'Oops! Something went wrong.',
-      message: 'Please try reloading the page..'
+      message: 'Please try reloading the page..',
     },
     claimIdTableHeader: 'Claim Id',
     amountTableHeader: 'Amount',

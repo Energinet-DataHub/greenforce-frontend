@@ -53,7 +53,7 @@ import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
-    @if(columns) {
+    @if (columns) {
       <watt-table
         #table
         [loading]="loading"
@@ -138,8 +138,14 @@ export class EoClaimsTableComponent implements OnInit {
   private setColumns(): void {
     this.transloco.selectTranslation().subscribe(() => {
       this.columns = {
-        claimId: { accessor: (x) => x.claimId, header: this.transloco.translate(this.translations.claims.claimIdTableHeader) },
-        amount: { accessor: (x) => x.amount, header: this.transloco.translate(this.translations.claims.amountTableHeader) },
+        claimId: {
+          accessor: (x) => x.claimId,
+          header: this.transloco.translate(this.translations.claims.claimIdTableHeader),
+        },
+        amount: {
+          accessor: (x) => x.amount,
+          header: this.transloco.translate(this.translations.claims.amountTableHeader),
+        },
         start: {
           accessor: (x) => x.start,
           header: this.transloco.translate(this.translations.claims.startDateTableHeader),
