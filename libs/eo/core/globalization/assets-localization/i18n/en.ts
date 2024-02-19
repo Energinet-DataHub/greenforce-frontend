@@ -255,4 +255,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   privacyPolicy: {
     title: 'Privacy Policy',
   },
+  transfers: {
+    title: 'Transfers',
+  }
 };

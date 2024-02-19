@@ -255,4 +255,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   privacyPolicy: {
     title: 'Privatlivspolitik',
   },
+  transfers: {
+    title: 'Overførsler',
+  }
 };

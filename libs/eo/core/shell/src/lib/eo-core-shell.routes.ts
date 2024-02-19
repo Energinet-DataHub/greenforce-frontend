@@ -88,7 +88,7 @@ export const eoShellRoutes: Routes = [
       {
         path: eoTransferRoutePath,
         canActivate: [EoScopeGuard],
-        title: 'Transfers',
+        title: translations.transfers.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/transfers').then((esModule) => esModule.eoTransfersRoutes),
       },

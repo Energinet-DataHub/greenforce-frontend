@@ -227,4 +227,7 @@ export interface TranslationKeys {
   privacyPolicy: {
     title: string;
   };
+  transfers: {
+    title: string;
+  }
 }

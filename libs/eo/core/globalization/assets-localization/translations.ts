@@ -233,4 +233,7 @@ export const translations = {
   privacyPolicy: {
     title: "privacyPolicy.title" as const,
   } as const,
+  transfers: {
+    title: "transfers.title" as const,
+  } as const,
 } as const;
