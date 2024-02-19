@@ -52,7 +52,7 @@ import {
 } from '@energinet-datahub/eo/activity-log/data-access-api';
 
 interface ActivityLogForm {
-  period: FormControl<{start: number, end: number}>;
+  period: FormControl<{ start: number; end: number }>;
   eventTypes: FormControl<activityLogEntityType[]>;
 }
 
