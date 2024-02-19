@@ -71,12 +71,17 @@ import { EoClaimsTableComponent } from './claims-table.component';
     <watt-card>
       <watt-card-title>
         <vater-stack direction="row" gap="s">
-          <h3 class="watt-on-light--high-emphasis">{{ translations.claims.tableTitle | transloco }}</h3>
+          <h3 class="watt-on-light--high-emphasis">
+            {{ translations.claims.tableTitle | transloco }}
+          </h3>
           <div class="badge">
             <small>{{ this.claimsTable?.dataSource?.filteredData?.length }}</small>
           </div>
           <vater-spacer />
-          <watt-search [label]="translations.claims.searchLabel | transloco" (search)="search = $event" />
+          <watt-search
+            [label]="translations.claims.searchLabel | transloco"
+            (search)="search = $event"
+          />
         </vater-stack>
       </watt-card-title>
       <eo-claims-table

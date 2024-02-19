@@ -95,7 +95,10 @@ import { translations } from '@energinet-datahub/eo/translations';
             <small>{{ this.dataSource.filteredData.length }}</small>
           </div>
           <vater-spacer />
-          <watt-search [label]="translations.certificates.searchLabel | transloco" (search)="search = $event" />
+          <watt-search
+            [label]="translations.certificates.searchLabel | transloco"
+            (search)="search = $event"
+          />
         </vater-stack>
       </watt-card-title>
 
@@ -179,7 +182,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
         },
         certificateType: {
           accessor: (x) => {
-            if(x.certificateType.toLowerCase() === 'production') {
+            if (x.certificateType.toLowerCase() === 'production') {
               return this.transloco.translate(this.translations.certificates.productionType);
             } else {
               return this.transloco.translate(this.translations.certificates.consumptionType);

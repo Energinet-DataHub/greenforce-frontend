@@ -202,23 +202,23 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     endDateTableHeader: 'Slut',
   },
   certificates: {
-    title: "Certifikater",
+    title: 'Certifikater',
     noData: {
-      title: "Ingen certifikater fundet",
-      message: "Du har ikke nogen certifikater."
+      title: 'Ingen certifikater fundet',
+      message: 'Du har ikke nogen certifikater.',
     },
     error: {
-      title: "Ups! Noget gik galt.",
-      message: "Prøv venligst at genindlæse siden."
+      title: 'Ups! Noget gik galt.',
+      message: 'Prøv venligst at genindlæse siden.',
     },
     searchLabel: 'Søg',
-    tableHeader: "Resultater",
-    timeTableHeader: "Tid",
-    gsrnTableHeader: "Målepunkt",
-    amountTableHeader: "Beløb",
-    typeTableHeader: "Type",
-    productionType: "produktion",
-    consumptionType: "forbrug",
-    certificateDetailsLink: "Se certifikat"
+    tableHeader: 'Resultater',
+    timeTableHeader: 'Tid',
+    gsrnTableHeader: 'Målepunkt',
+    amountTableHeader: 'Beløb',
+    typeTableHeader: 'Type',
+    productionType: 'produktion',
+    consumptionType: 'forbrug',
+    certificateDetailsLink: 'Se certifikat',
   },
 };
