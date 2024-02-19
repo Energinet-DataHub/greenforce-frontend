@@ -43,7 +43,7 @@ export const dhExchangeSortMetadataMapper = pipe<InType, OutType>(
         sortProperty = ExchangeEventSortProperty.CalculationType;
         break;
       case 'messageType':
-        sortProperty = ExchangeEventSortProperty.CalculationType;
+        sortProperty = ExchangeEventSortProperty.TimeSeriesType;
         break;
       case 'gridArea':
         sortProperty = ExchangeEventSortProperty.GridAreaCode;
