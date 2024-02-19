@@ -30,7 +30,15 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [EnergyUnitPipe, EoStackComponent, NgIf, RouterModule, WATT_CARD, WattDatePipe, TranslocoPipe],
+  imports: [
+    EnergyUnitPipe,
+    EoStackComponent,
+    NgIf,
+    RouterModule,
+    WATT_CARD,
+    WattDatePipe,
+    TranslocoPipe,
+  ],
   standalone: true,
   styles: [
     `
@@ -64,7 +72,9 @@ import { translations } from '@energinet-datahub/eo/translations';
       <eo-stack size="M">
         <watt-card>
           <watt-card-title
-            ><h4><b>{{ translations.certificateDetails.staticDataHeadline | transloco }}</b></h4></watt-card-title
+            ><h4>
+              <b>{{ translations.certificateDetails.staticDataHeadline | transloco }}</b>
+            </h4></watt-card-title
           >
           <eo-stack size="M">
             <div class="grid-table">
@@ -84,7 +94,9 @@ import { translations } from '@energinet-datahub/eo/translations';
         <watt-card>
           <div class="space-between">
             <eo-stack size="M">
-              <h4><b>{{ translations.certificateDetails.technologyHeadline | transloco }}</b></h4>
+              <h4>
+                <b>{{ translations.certificateDetails.technologyHeadline | transloco }}</b>
+              </h4>
               <div class="grid-table">
                 <b>{{ translations.certificateDetails.technologyCodeLabel | transloco }}</b>
                 <div>{{ cert?.attributes?.techCode }}</div>
@@ -100,13 +112,17 @@ import { translations } from '@energinet-datahub/eo/translations';
           </div>
         </watt-card>
         <h4>
-          <a class="link" routerLink="/${eoCertificatesRoutePath}">{{ translations.certificateDetails.backToCertificatesLink | transloco }}</a>
+          <a class="link" routerLink="/${eoCertificatesRoutePath}">{{
+            translations.certificateDetails.backToCertificatesLink | transloco
+          }}</a>
         </h4>
       </eo-stack>
       <eo-stack size="M">
         <watt-card>
           <eo-stack size="M">
-            <h4><b>{{ translations.certificateDetails.biddingZoneHeadline | transloco }}</b></h4>
+            <h4>
+              <b>{{ translations.certificateDetails.biddingZoneHeadline | transloco }}</b>
+            </h4>
             <p>
               <b>{{ cert?.gridArea }}</b>
             </p>

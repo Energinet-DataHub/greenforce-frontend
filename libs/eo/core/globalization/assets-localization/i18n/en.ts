@@ -219,7 +219,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     typeTableHeader: 'Type',
     productionType: 'production',
     consumptionType: 'consumption',
-    certificateDetailsLink: 'View certificate'
+    certificateDetailsLink: 'View certificate',
   },
   certificateDetails: {
     title: 'Certificate Details - {{certificateType}}',
@@ -233,6 +233,6 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     technologyCodeLabel: 'Technology code',
     fuelCodeLabel: 'Fuel code',
     backToCertificatesLink: '<< Back to Certificates',
-    biddingZoneHeadline: 'Bidding Zone'
-  }
+    biddingZoneHeadline: 'Bidding Zone',
+  },
 };
