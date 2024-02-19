@@ -184,4 +184,19 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     otherSource: 'Other',
     contractError: 'Issue encountered. Please try again or reload the page.',
   },
+  claims: {
+    title: 'Claims',
+    noData: {
+      title: 'No claims found',
+      message: 'You do not have any claims.'
+    },
+    error: {
+      title: 'Oops! Something went wrong.',
+      message: 'Please try reloading the page..'
+    },
+    claimIdTableHeader: 'Claim Id',
+    amountTableHeader: 'Amount',
+    startDateTableHeader: 'Start',
+    endDateTableHeader: 'End',
+  },
 };

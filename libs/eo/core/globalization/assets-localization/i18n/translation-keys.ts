@@ -156,4 +156,19 @@ export interface TranslationKeys {
     otherSource: string;
     contractError: string;
   };
+  claims: {
+    title: string;
+    noData: {
+      title: string;
+      message: string;
+    };
+    error: {
+      title: string;
+      message: string;
+    };
+    claimIdTableHeader: string;
+    amountTableHeader: string;
+    startDateTableHeader: string;
+    endDateTableHeader: string;
+  };
 }

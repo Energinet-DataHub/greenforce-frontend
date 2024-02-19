@@ -184,4 +184,19 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     otherSource: 'Andet',
     contractError: 'Der opstod et problem. Prøv venligst igen eller genindlæs siden.',
   },
+  claims: {
+    title: 'Krav',
+    noData: {
+      title: 'Ingen krav fundet',
+      message: 'Du har ikke nogen krav.',
+    },
+    error: {
+      title: 'Ups! Noget gik galt.',
+      message: 'Prøv venligst at genindlæse siden.',
+    },
+    claimIdTableHeader: 'Krav-ID',
+    amountTableHeader: 'Mængde',
+    startDateTableHeader: 'Start',
+    endDateTableHeader: 'Slut',
+  },
 };
