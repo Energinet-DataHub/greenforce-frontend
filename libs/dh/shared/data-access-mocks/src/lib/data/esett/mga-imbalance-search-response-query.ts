@@ -28,7 +28,6 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     receivedDateTime: new Date('2024-01-01T00:00:00.000Z'),
     periodStart: new Date('2021-01-01T00:00:00.000Z'),
     periodEnd: new Date('2021-01-01T00:00:00.000Z'),
-    storageId: '1',
   } as MeteringGridAreaImbalanceSearchResult,
 ];
 
