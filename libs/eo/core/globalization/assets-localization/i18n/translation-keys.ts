@@ -217,7 +217,7 @@ export interface TranslationKeys {
       title: string;
       message: string;
     };
-    eventTypeLabel: string
+    eventTypeLabel: string;
     transferAgreementEventType: string;
     meteringPointEventType: string;
     tableTitle: string;
