@@ -22,6 +22,7 @@ import { WattFieldIntlService } from '@energinet-datahub/watt/field';
 import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
 import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
 import { WattPhoneFieldIntlService } from '@energinet-datahub/watt/phone-field';
+import { WattDatepickerIntlService } from '@energinet-datahub/watt/datepicker';
 
 @Injectable()
 export class DhClipboardIntlService extends WattClipboardIntlService {
@@ -33,6 +34,17 @@ export class DhClipboardIntlService extends WattClipboardIntlService {
     transloco.selectTranslate('clipboard.error').subscribe((value) => (this.error = value));
   }
 }
+
+@Injectable()
+export class DhDatepickerIntlService extends WattDatepickerIntlService {
+  constructor(transloco: TranslocoService) {
+    super();
+
+    transloco.selectTranslate('datepicker.clear').subscribe((value) => (this.clear = value));
+    transloco.selectTranslate('datepicker.select').subscribe((value) => (this.select = value));
+  }
+}
+
 
 @Injectable()
 export class DhDataIntlService extends WattDataIntlService {
@@ -122,5 +134,9 @@ export const dhWattTranslationsProviders = makeEnvironmentProviders([
   {
     provide: WattPhoneFieldIntlService,
     useClass: DhPhoneFieldIntlService,
+  },
+  {
+    provide: WattDatepickerIntlService,
+    useClass: DhDatepickerIntlService,
   },
 ]);
