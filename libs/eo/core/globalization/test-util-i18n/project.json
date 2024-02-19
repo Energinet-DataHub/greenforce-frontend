@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/eo/core/globalization/test-util-i18n"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/eo/core/globalization/test-util-i18n"
+      ],
       "options": {
         "jestConfig": "libs/eo/core/globalization/test-util-i18n/jest.config.ts"
       }

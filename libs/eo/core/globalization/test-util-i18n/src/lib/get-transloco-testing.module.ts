@@ -16,7 +16,6 @@
  */
 import { TranslocoTestingModule, TranslocoTestingOptions } from '@ngneat/transloco';
 
-
 import { eoTranslocoConfig } from '@energinet-datahub/eo/globalization/configuration-localization';
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 
