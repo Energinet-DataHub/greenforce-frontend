@@ -83,5 +83,23 @@ namespace Energinet.DataHub.WebApi.Controllers
                 return NotFound();
             }
         }
+
+        [HttpGet("MgaImbalanceDocument")]
+        [Produces("application/octet-stream")]
+        public async Task<ActionResult<Stream>> GetMgaImbalanceDocumentAsync(string imbalanceId)
+        {
+            try
+            {
+                var fileResponse = await _client
+                    .DocumentAsync(imbalanceId)
+                    .ConfigureAwait(false);
+
+                return File(fileResponse.Stream, "application/octet-stream");
+            }
+            catch (ApiException e) when (e.StatusCode == 404)
+            {
+                return NotFound();
+            }
+        }
     }
 }

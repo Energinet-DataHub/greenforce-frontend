@@ -256,7 +256,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             string? gridAreaCode,
             string? documentId,
             [Service] IESettExchangeClient_V1 client) =>
-            client.ImbalanceAsync(new MeteringGridAreaImbalanceSearchFilter
+            client.Search2Async(new MeteringGridAreaImbalanceSearchFilter
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,

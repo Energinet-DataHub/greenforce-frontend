@@ -226,7 +226,6 @@ type MeteringGridAreaImbalanceSearchResult {
   periodStart: DateTime!
   periodEnd: DateTime!
   imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
-  storageId: String!
 }
 
 type Mutation {
