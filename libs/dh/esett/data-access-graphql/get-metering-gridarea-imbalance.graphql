@@ -21,7 +21,6 @@ query getMeteringGridAreaImbalance(
       receivedDateTime
       periodStart
       periodEnd
-      storageId
     }
     totalCount
   }
