@@ -37,6 +37,9 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
       <watt-badge *ngSwitchCase="'AWAITING_DISPATCH'" [type]="isSevere() ? 'danger' : 'neutral'">
         {{ t(status!) }}
       </watt-badge>
+      <watt-badge *ngSwitchCase="'BIZ_TALK_ACCEPTED'" [type]="isSevere() ? 'danger' : 'neutral'">
+        {{ t(status!) }}
+      </watt-badge>
       <watt-badge *ngSwitchCase="'AWAITING_REPLY'" [type]="isSevere() ? 'danger' : 'neutral'">
         {{ t(status!) }}
       </watt-badge>
@@ -71,6 +74,8 @@ export class DhOutgoingMessageStatusBadgeComponent {
       case 'RECEIVED':
         return secondsPassed > 30; // 30 seconds to convert.
       case 'AWAITING_DISPATCH':
+        return secondsPassed > 60 * 30; // 30 minutes to dispatch.
+      case 'BIZ_TALK_ACCEPTED':
         return secondsPassed > 60 * 30; // 30 minutes to dispatch.
       case 'AWAITING_REPLY':
         return secondsPassed > 60 * 60; // 1 hour to reply.

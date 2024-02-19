@@ -260,7 +260,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             MeteringGridImbalanceSortProperty sortProperty,
             Clients.ESettExchange.v1.SortDirection sortDirection,
             [Service] IESettExchangeClient_V1 client) =>
-            client.ImbalanceAsync(new MeteringGridAreaImbalanceSearchFilter
+            client.Search2Async(new MeteringGridAreaImbalanceSearchFilter
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,

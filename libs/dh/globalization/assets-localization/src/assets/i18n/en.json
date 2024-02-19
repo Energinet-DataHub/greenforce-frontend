@@ -79,6 +79,10 @@
     "success": "Copied to clipboard",
     "error": "Failed to copy"
   },
+  "datepicker": {
+    "clear": "Clear",
+    "select": "OK"
+  },
   "sidebar": {
     "navigation": {
       "messageArchive": "Request/Response messages",
@@ -686,9 +690,10 @@
         "documentStatus": {
           "RECEIVED": "Received",
           "AWAITING_DISPATCH": "Awaiting dispatch",
-          "AWAITING_REPLY": "Awaiting reply",
+          "AWAITING_REPLY": "Awaiting reply (delivered to ECP)",
           "ACCEPTED": "Accepted",
-          "REJECTED": "Rejected"
+          "REJECTED": "Rejected",
+          "BIZ_TALK_ACCEPTED": "Awaiting reply (delivered to BizTalk)"
         }
       },
       "filters": {

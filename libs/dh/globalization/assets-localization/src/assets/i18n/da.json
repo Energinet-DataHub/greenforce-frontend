@@ -79,6 +79,10 @@
     "success": "Kopieret til udklipsholder",
     "error": "Kopiering mislykkedes"
   },
+  "datepicker": {
+    "clear": "Ryd",
+    "select": "Vælg"
+  },
   "sidebar": {
     "navigation": {
       "messageArchive": "Fremsøg forretningsbesked",
@@ -685,9 +689,10 @@
         "documentStatus": {
           "RECEIVED": "Modtaget",
           "AWAITING_DISPATCH": "Afventer afsendelse",
-          "AWAITING_REPLY": "Afventer svar",
+          "AWAITING_REPLY": "Afventer svar (leveret til ECP)",
           "ACCEPTED": "Accepteret",
-          "REJECTED": "Afvist"
+          "REJECTED": "Afvist",
+          "BIZ_TALK_ACCEPTED": "Afventer svar (leveret til BizTalk)"
         }
       },
       "filters": {
