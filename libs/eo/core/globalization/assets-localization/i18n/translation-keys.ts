@@ -207,4 +207,21 @@ export interface TranslationKeys {
     backToCertificatesLink: string;
     biddingZoneHeadline: string;
   };
+  activityLog: {
+    title: string;
+    noData: {
+      title: string;
+      message: string;
+    };
+    error: {
+      title: string;
+      message: string;
+    };
+    eventTypeLabel: string
+    transferAgreementEventType: string;
+    meteringPointEventType: string;
+    tableTitle: string;
+    timeTableHeader: string;
+    eventTableHeader: string;
+  };
 }

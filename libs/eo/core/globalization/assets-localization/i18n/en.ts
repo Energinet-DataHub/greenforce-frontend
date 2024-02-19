@@ -235,4 +235,21 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     backToCertificatesLink: '<< Back to Certificates',
     biddingZoneHeadline: 'Bidding Zone',
   },
+  activityLog: {
+    title: 'Activity Log',
+    noData: {
+      title: 'No activity found',
+      message: 'You have no activity.',
+    },
+    error: {
+      title: 'Oops! Something went wrong.',
+      message: 'Please try reloading the page..',
+    },
+    eventTypeLabel: 'Event Type',
+    transferAgreementEventType: 'Transfer Agreement',
+    meteringPointEventType: 'Metering Point',
+    tableTitle: 'Results',
+    timeTableHeader: 'Timestamp',
+    eventTableHeader: 'Event',
+  },
 };

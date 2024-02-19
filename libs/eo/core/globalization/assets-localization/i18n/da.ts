@@ -235,4 +235,21 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     backToCertificatesLink: '<< Tilbage til certifikater',
     biddingZoneHeadline: 'Budzone',
   },
+  activityLog: {
+    title: "Aktivitetslog",
+    noData: {
+      title: "Ingen aktivitet fundet",
+      message: "Du har ingen aktivitet.",
+    },
+    error: {
+      title: "Ups! Noget gik galt.",
+      message: "Prøv venligst at genindlæse siden.",
+    },
+    eventTypeLabel: 'Begivenhedstype',
+    transferAgreementEventType: "Overførselsaftale",
+    meteringPointEventType: "Målepunkt",
+    tableTitle: "Resultater",
+    timeTableHeader: "Tidsstempel",
+    eventTableHeader: "Begivenhed",
+  }
 };

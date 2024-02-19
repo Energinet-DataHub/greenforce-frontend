@@ -79,7 +79,7 @@ export const eoShellRoutes: Routes = [
       {
         path: eoActivityLogRoutePath,
         canActivate: [EoScopeGuard],
-        title: 'Activity log',
+        title: translations.activityLog.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/activity-log/shell').then(
             (esModule) => esModule.eoActivityLogRoutes
