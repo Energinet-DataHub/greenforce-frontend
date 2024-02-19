@@ -19,7 +19,7 @@ import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
-import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
+import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 
 import { EoDashboardShellComponent } from './eo-dashboard-shell.component';
 
