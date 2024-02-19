@@ -194,9 +194,11 @@ export class DhActorsCreateActorModalComponent {
       })
       .pipe(
         map((cvrResult) => {
-          const foundOrg = cvrResult.data?.searchOrganizationInCVR;
-          if (foundOrg && foundOrg.hasResult) {
-            this.newOrganizationForm.controls.companyName.setValue(foundOrg.name);
+          const foundOrg = cvrResult.data.searchOrganizationInCVR;
+
+          this.newOrganizationForm.controls.companyName.setValue(foundOrg.name);
+
+          if (foundOrg.hasResult) {
             return { isLoading: false, isReadOnly: true };
           }
 
