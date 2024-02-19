@@ -563,6 +563,7 @@ enum DocumentStatus {
   AWAITING_REPLY
   ACCEPTED
   REJECTED
+  BIZ_TALK_ACCEPTED
 }
 
 enum ESettStageComponent {
