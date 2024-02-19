@@ -29,7 +29,6 @@ import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browse
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { PageTitleStrategy } from './title-strategy.service';
-import { TRANSLOCO_TYPED_TRANSLATION_PATH } from '@energinet-datahub/gf/globalization/data-access-localization';
 
 export const eoCoreShellProviders = [
   browserConfigurationProviders,
@@ -39,14 +38,7 @@ export const eoCoreShellProviders = [
   eoAuthorizationInterceptorProvider,
   eoApiVersioningInterceptorProvider,
   WattModalService,
-  {
-    provide: TRANSLOCO_TYPED_TRANSLATION_PATH,
-    useValue: {
-      da: () => import('@energinet-datahub/eo/globalization/assets-localization/i18n/da'),
-      en: () => import('@energinet-datahub/eo/globalization/assets-localization/i18n/en'),
-    },
-  },
-  translocoProviders,
+  ...translocoProviders,
   {
     provide: TitleStrategy,
     useClass: PageTitleStrategy,

@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EnvironmentProviders } from '@angular/core';
 import { provideTransloco, translocoConfig } from '@ngneat/transloco';
 
-import { TranslocoTypedLoader } from '@energinet-datahub/gf/globalization/data-access-localization';
+import { TRANSLOCO_TYPED_TRANSLATION_PATH, TranslocoTypedLoader } from '@energinet-datahub/gf/globalization/data-access-localization';
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
+
 import { environment } from '@energinet-datahub/eo/shared/environments';
 
 export const eoTranslocoConfig = translocoConfig({
@@ -36,8 +36,16 @@ export const eoTranslocoConfig = translocoConfig({
   prodMode: environment.production,
 });
 
-export const translocoProviders: EnvironmentProviders[] = provideTransloco({
-  config: eoTranslocoConfig,
-  loader: TranslocoTypedLoader,
-});
-// import('@energinet-datahub/eo/globalization/assets-localization')
+export const translocoProviders = [
+  provideTransloco({
+    config: eoTranslocoConfig,
+    loader: TranslocoTypedLoader,
+  }),
+  {
+    provide: TRANSLOCO_TYPED_TRANSLATION_PATH,
+    useValue: {
+      da: () => import('@energinet-datahub/eo/globalization/assets-localization/i18n/da'),
+      en: () => import('@energinet-datahub/eo/globalization/assets-localization/i18n/en'),
+    },
+  },
+];
