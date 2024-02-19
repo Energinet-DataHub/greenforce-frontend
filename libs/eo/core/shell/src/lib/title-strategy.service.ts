@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable, inject } from "@angular/core";
-import { Title } from "@angular/platform-browser";
-import { RouterStateSnapshot, TitleStrategy } from "@angular/router";
-import { TranslocoService } from "@ngneat/transloco";
+import { Injectable, inject } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { RouterStateSnapshot, TitleStrategy } from '@angular/router';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Injectable()
 export class PageTitleStrategy extends TitleStrategy {

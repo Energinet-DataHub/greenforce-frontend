@@ -18,11 +18,15 @@ import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Translation, TranslocoLoader } from '@ngneat/transloco';
 import { Observable, from } from 'rxjs';
 
-export const TRANSLOCO_TYPED_TRANSLATION_PATH = new InjectionToken<string>('TRANSLOCO_TYPED_TRANSLATION_PATH');
+export const TRANSLOCO_TYPED_TRANSLATION_PATH = new InjectionToken<string>(
+  'TRANSLOCO_TYPED_TRANSLATION_PATH'
+);
 
 @Injectable()
 export class TranslocoTypedLoader implements TranslocoLoader {
-  constructor(@Inject(TRANSLOCO_TYPED_TRANSLATION_PATH) private path: Record<string, () => Promise<string>>) {}
+  constructor(
+    @Inject(TRANSLOCO_TYPED_TRANSLATION_PATH) private path: Record<string, () => Promise<string>>
+  ) {}
 
   getTranslation(lang: string): Observable<Translation> {
     console.log('TranslocoTypedLoader.getTranslation', lang);

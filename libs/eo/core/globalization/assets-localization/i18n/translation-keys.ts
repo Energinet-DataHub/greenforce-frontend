@@ -33,7 +33,7 @@ export interface TranslationKeys {
     contactEmail: string;
     privacyPolicy: string;
     accessibilityStatement: string;
-  }
+  };
   userInformation: {
     tin: string;
   };

@@ -262,9 +262,6 @@
       "@energinet-datahub/eo/globalization/assets-localization/i18n/en": [
         "libs/eo/core/globalization/assets-localization/i18n/en.ts"
       ],
-      "@energinet-datahub/eo/translations": [
-        "libs/eo/core/globalization/assets-localization/translations.ts"
-      ],
       "@energinet-datahub/eo/globalization/configuration-localization": [
         "libs/eo/core/globalization/configuration-localization/src/index.ts"
       ],
@@ -314,6 +311,9 @@
       ],
       "@energinet-datahub/eo/terms": ["libs/eo/terms/src/index.ts"],
       "@energinet-datahub/eo/transfers": ["libs/eo/transfers/src/index.ts"],
+      "@energinet-datahub/eo/translations": [
+        "libs/eo/core/globalization/assets-localization/translations.ts"
+      ],
       "@energinet-datahub/eo/wallet/data-access-api": [
         "libs/eo/wallet/data-access-api/index.ts"
       ],

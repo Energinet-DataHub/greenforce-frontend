@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Project, InterfaceDeclaration, VariableDeclarationKind, SyntaxKind, TypeLiteralNode, PropertySignature } from 'ts-morph';
+import {
+  Project,
+  InterfaceDeclaration,
+  VariableDeclarationKind,
+  SyntaxKind,
+  TypeLiteralNode,
+  PropertySignature,
+} from 'ts-morph';
 import { format } from 'prettier';
 
 import { GenerateTranslationKeysExecutorSchema } from './schema';
@@ -32,10 +39,12 @@ export default async function runExecutor(options: GenerateTranslationKeysExecut
   outputSourceFile.addVariableStatement({
     declarationKind: VariableDeclarationKind.Const,
     isExported: true,
-    declarations: [{
-      name: 'translations',
-      initializer: writer => writer.write(constObject)
-    }]
+    declarations: [
+      {
+        name: 'translations',
+        initializer: (writer) => writer.write(constObject),
+      },
+    ],
   });
   outputSourceFile.insertText(0, '// !!!!! This file is auto-generated. Do not edit. !!!!! \n');
 

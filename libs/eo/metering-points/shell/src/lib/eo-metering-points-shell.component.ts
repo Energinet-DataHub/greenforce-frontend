@@ -55,13 +55,16 @@ import { EoMeteringPointsTableComponent } from './eo-metering-point-table.compon
       label="{{ translations.meteringPoints.infoBoxTitle | transloco }}"
       size="normal"
       icon="info"
-      [autoScrollIntoView]="false">
+      [autoScrollIntoView]="false"
+    >
       <span [innerHTML]="translations.meteringPoints.infoBoxContent | transloco"></span>
     </watt-validation-message>
 
     <watt-card>
       <watt-card-title>
-        <h3 class="watt-on-light--high-emphasis">{{ translations.meteringPoints.tableTitle | transloco }}</h3>
+        <h3 class="watt-on-light--high-emphasis">
+          {{ translations.meteringPoints.tableTitle | transloco }}
+        </h3>
       </watt-card-title>
       <eo-metering-points-table
         [meteringPoints]="meteringPoints$ | async"
@@ -82,7 +85,7 @@ export class EoMeteringPointsShellComponent implements OnInit {
   protected meteringPoints$ = this.meteringPointStore.meteringPoints$;
   protected contractError$ = this.meteringPointStore.contractError$;
   protected meteringPointError$ = this.meteringPointStore.meteringPointError$;
-  protected translations = translations
+  protected translations = translations;
 
   ngOnInit(): void {
     this.meteringPointStore.loadMeteringPoints();

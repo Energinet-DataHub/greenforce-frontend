@@ -39,13 +39,16 @@ export const eoCoreShellProviders = [
   eoAuthorizationInterceptorProvider,
   eoApiVersioningInterceptorProvider,
   WattModalService,
-  { provide: TRANSLOCO_TYPED_TRANSLATION_PATH, useValue: {
-    da: () => import('@energinet-datahub/eo/globalization/assets-localization/i18n/da'),
-    en: () => import('@energinet-datahub/eo/globalization/assets-localization/i18n/en')
-  }},
+  {
+    provide: TRANSLOCO_TYPED_TRANSLATION_PATH,
+    useValue: {
+      da: () => import('@energinet-datahub/eo/globalization/assets-localization/i18n/da'),
+      en: () => import('@energinet-datahub/eo/globalization/assets-localization/i18n/en'),
+    },
+  },
   translocoProviders,
   {
     provide: TitleStrategy,
-    useClass: PageTitleStrategy
-  }
+    useClass: PageTitleStrategy,
+  },
 ];

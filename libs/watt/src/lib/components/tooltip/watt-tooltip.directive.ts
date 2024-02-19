@@ -14,7 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Directive, ElementRef, inject, Input, OnChanges, SimpleChanges, ViewContainerRef } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewContainerRef,
+} from '@angular/core';
 
 import { WattTooltipComponent } from './watt-tooltip.component';
 

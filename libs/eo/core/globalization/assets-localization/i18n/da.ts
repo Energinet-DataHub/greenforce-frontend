@@ -182,6 +182,6 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     solarSource: 'Sol',
     windSource: 'Vind',
     otherSource: 'Andet',
-    contractError: 'Der opstod et problem. Prøv venligst igen eller genindlæs siden.'
+    contractError: 'Der opstod et problem. Prøv venligst igen eller genindlæs siden.',
   },
 };

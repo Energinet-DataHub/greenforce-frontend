@@ -14,4 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface GenerateTranslationKeysExecutorSchema {path: string;dest: string;} // eslint-disable-line
+export interface GenerateTranslationKeysExecutorSchema {
+  path: string;
+  dest: string;
+} // eslint-disable-line

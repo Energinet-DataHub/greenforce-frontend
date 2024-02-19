@@ -25,7 +25,7 @@ import {
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
-import { translations } from "@energinet-datahub/eo/translations";
+import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoAuthStore, EoFeatureFlagDirective } from '@energinet-datahub/eo/shared/services';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
@@ -95,7 +95,9 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
     <section class="userinfo">
       <p class="watt-label company-name">{{ userInfo()?.cpn }}</p>
-      <p class="watt-label">{{ translations.userInformation.tin | transloco: { tin: userInfo()?.tin } }}</p>
+      <p class="watt-label">
+        {{ translations.userInformation.tin | transloco: { tin: userInfo()?.tin } }}
+      </p>
       <p class="watt-label">{{ userInfo()?.name }}</p>
     </section>
   `,

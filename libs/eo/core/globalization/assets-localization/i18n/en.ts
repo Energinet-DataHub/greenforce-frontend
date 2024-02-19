@@ -182,6 +182,6 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     solarSource: 'Solar',
     windSource: 'Wind',
     otherSource: 'Other',
-    contractError: 'Issue encountered. Please try again or reload the page.'
+    contractError: 'Issue encountered. Please try again or reload the page.',
   },
 };

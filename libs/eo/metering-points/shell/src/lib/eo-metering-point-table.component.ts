@@ -57,7 +57,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
     >
       <p>{{ translations.meteringPoints.onOffTooltipMessage | transloco }}</p>
       <watt-modal-actions>
-        <watt-button (click)="modal.close(false)">{{ translations.meteringPoints.onOffTooltipClose | transloco }}</watt-button>
+        <watt-button (click)="modal.close(false)">{{
+          translations.meteringPoints.onOffTooltipClose | transloco
+        }}</watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
@@ -178,8 +180,14 @@ export class EoMeteringPointsTableComponent implements OnInit {
   dataSource: WattTableDataSource<EoMeteringPoint> = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<EoMeteringPoint> = {
     gsrn: { accessor: 'gsrn', header: this.translated()?.meteringPoints.gsrnTableHeader },
-    address: { accessor: (meteringPoint) => meteringPoint.address.address1, header: this.translated()?.meteringPoints.addressTableHeader },
-    unit: { accessor: (meteringPoint) => meteringPoint.type, header: this.translated()?.meteringPoints.unitTableHeader },
+    address: {
+      accessor: (meteringPoint) => meteringPoint.address.address1,
+      header: this.translated()?.meteringPoints.addressTableHeader,
+    },
+    unit: {
+      accessor: (meteringPoint) => meteringPoint.type,
+      header: this.translated()?.meteringPoints.unitTableHeader,
+    },
     source: {
       accessor: (meteringPoint) => {
         if (meteringPoint.type !== 'Production') return '';
@@ -224,8 +232,9 @@ export class EoMeteringPointsTableComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.columns.gc.header = this.translated()?.[this.translations.meteringPoints.onOffTableHeader];
-      console.log('hey', this.translated()?.[this.translations.meteringPoints.onOffTableHeader] );
+      this.columns.gc.header =
+        this.translated()?.[this.translations.meteringPoints.onOffTableHeader];
+      console.log('hey', this.translated()?.[this.translations.meteringPoints.onOffTableHeader]);
     }, 1000);
   }
 
