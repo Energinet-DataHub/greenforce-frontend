@@ -21,6 +21,11 @@ query getMeteringGridAreaImbalance(
       receivedDateTime
       periodStart
       periodEnd
+      imbalancePerDay {
+        imbalanceDay
+        incomingQuantity
+        outgoingQuantity
+      }
     }
     totalCount
   }

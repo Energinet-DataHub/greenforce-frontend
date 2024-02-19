@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
@@ -25,6 +25,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhMeteringGridAreaImbalance } from '../dh-metering-gridarea-imbalance';
+import { DhMeteringGridAreaImbalanceDrawerComponent } from '../drawer/dh-drawer.component';
 
 @Component({
   selector: 'dh-metering-gridarea-imbalance-table',
@@ -42,6 +43,8 @@ import { DhMeteringGridAreaImbalance } from '../dh-metering-gridarea-imbalance';
     TranslocoDirective,
     TranslocoPipe,
 
+    DhMeteringGridAreaImbalanceDrawerComponent,
+
     WATT_TABLE,
     WattPaginatorComponent,
     WattEmptyStateComponent,
@@ -50,8 +53,11 @@ import { DhMeteringGridAreaImbalance } from '../dh-metering-gridarea-imbalance';
     VaterStackComponent,
   ],
 })
-export class DhOutgoingMessagesTableComponent {
+export class DhMeteringGridAreaImbalanceTableComponent {
   activeRow: DhMeteringGridAreaImbalance | undefined = undefined;
+
+  @ViewChild(DhMeteringGridAreaImbalanceDrawerComponent)
+  drawer!: DhMeteringGridAreaImbalanceDrawerComponent;
 
   columns: WattTableColumnDef<DhMeteringGridAreaImbalance> = {
     documentDateTime: { accessor: 'documentDateTime' },
