@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Apollo, ApolloModule } from 'apollo-angular';
+import { TranslocoDirective, translate } from '@ngneat/transloco';
 
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, signal } from '@angular/core';
+import { Apollo, ApolloModule, MutationResult } from 'apollo-angular';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   FormControl,
   FormGroup,
@@ -24,25 +26,29 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
+import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
+import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { DhSignupMitIdComponent } from '@energinet-datahub/dh/shared/feature-authorization';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective, translate } from '@ngneat/transloco';
-import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
-import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
-import { DhSignupMitIdComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { GetUserProfileDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { filter } from 'rxjs';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  GetUserProfileDocument,
+  UpdateUserProfileDocument,
+  UpdateUserProfileMutation,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 type UserPreferencesForm = FormGroup<{
   email: FormControl<string>;
@@ -56,18 +62,20 @@ type UserPreferencesForm = FormGroup<{
   selector: 'dh-profile-modal',
   standalone: true,
   imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
     ApolloModule,
+
     WATT_MODAL,
     WattTextFieldComponent,
     WattPhoneFieldComponent,
     WattDropdownComponent,
     WattButtonComponent,
-    TranslocoDirective,
     VaterStackComponent,
     VaterFlexComponent,
+
     DhDropdownTranslatorDirective,
     DhSignupMitIdComponent,
-    ReactiveFormsModule,
   ],
   styles: `
 
@@ -99,6 +107,8 @@ export class DhProfileModalComponent {
     notifyOnNetworkStatusChange: true,
     query: GetUserProfileDocument,
   });
+  protected loadingUserProfile = signal<boolean>(false);
+  protected updatingUserProfile = signal<boolean>(false);
 
   @ViewChild(WattModalComponent)
   private _profileModal!: WattModalComponent;
@@ -114,12 +124,13 @@ export class DhProfileModalComponent {
   });
 
   constructor() {
-    this._getUserProfileQuery.valueChanges
-      .pipe(filter((result) => result.data?.userProfile !== undefined))
-      .subscribe((result) => {
-        const { firstName, lastName, phoneNumber } = result.data.userProfile;
-        this.userPreferencesForm.patchValue({ phoneNumber, firstName, lastName });
-      });
+    this._getUserProfileQuery.valueChanges.subscribe((result) => {
+      this.loadingUserProfile.set(result.loading);
+      if (result.data?.userProfile === undefined) return;
+
+      const { firstName, lastName, phoneNumber } = result.data.userProfile;
+      this.userPreferencesForm.patchValue({ phoneNumber, firstName, lastName });
+    });
   }
 
   closeModal(saveSuccess: boolean) {
@@ -127,15 +138,51 @@ export class DhProfileModalComponent {
   }
 
   save() {
-    this._toastService.open({
-      type: 'success',
-      message: translate('shared.profile.success'),
-    });
+    if (this.userPreferencesForm.invalid) {
+      return;
+    }
 
-    const { language } = this.userPreferencesForm.getRawValue();
+    const { language, firstName, lastName, phoneNumber } = this.userPreferencesForm.getRawValue();
 
-    this._languageService.selectedLanguage = language;
-    console.log('save user preferences');
-    // save user preferences
+    this._apollo
+      .mutate<UpdateUserProfileMutation>({
+        useMutationLoading: true,
+        mutation: UpdateUserProfileDocument,
+        variables: {
+          input: {
+            userProfileUpdateDto: {
+              firstName,
+              lastName,
+              phoneNumber,
+            },
+          },
+        },
+      })
+      .subscribe((result) => this.handleUpdateUserProfileResponse(result, language));
+  }
+
+  private handleUpdateUserProfileResponse(
+    response: MutationResult<UpdateUserProfileMutation>,
+    selectedLanguage: string
+  ) {
+    this.updatingUserProfile.set(response.loading);
+
+    if (
+      response.data?.updateUserProfile?.errors &&
+      response.data?.updateUserProfile?.errors.length > 0
+    ) {
+      this._toastService.open({
+        type: 'danger',
+        message: readApiErrorResponse(response.data?.updateUserProfile?.errors),
+      });
+    }
+
+    if (response.data?.updateUserProfile?.saved) {
+      this._toastService.open({ message: translate('shared.profile.success'), type: 'success' });
+      this.closeModal(true);
+      this._getUserProfileQuery.refetch();
+    }
+
+    this._languageService.selectedLanguage = selectedLanguage;
   }
 }

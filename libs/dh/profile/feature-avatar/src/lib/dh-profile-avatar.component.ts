@@ -20,19 +20,18 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { MsalService } from '@azure/msal-angular';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhProfileModalComponent } from '@energinet-datahub/dh/profile/feature-profile-modal';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
 @Component({
   selector: 'dh-profile-avatar',
   standalone: true,
-  imports: [MatMenuModule, WattIconComponent, TranslocoDirective, DhFeatureFlagDirective],
+  imports: [MatMenuModule, WattIconComponent, TranslocoDirective],
   encapsulation: ViewEncapsulation.None,
   template: `<button [matMenuTriggerFor]="menu" class="watt-text-m">{{ name() }}</button>
     <mat-menu #menu="matMenu" xPosition="before" class="dh-profile__menu">
       <ng-container *transloco="let transloco; read: 'shell'">
-        <button (click)="openProfileModal()" mat-menu-item *dhFeatureFlag="'avatar-feature-flag'">
+        <button (click)="openProfileModal()" mat-menu-item>
           <watt-icon name="account" class="watt-icon--small" />
           <span>{{ transloco('profile') }}</span>
         </button>
@@ -60,9 +59,6 @@ export class DhProfileAvatarComponent {
     this._modalService.open({
       component: DhProfileModalComponent,
       data: { email: this.getAccount().username },
-      onClosed: (result) => {
-        console.log('Modal closed with result:', result);
-      },
     });
   }
 

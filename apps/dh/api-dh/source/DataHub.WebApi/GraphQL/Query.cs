@@ -216,6 +216,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public async Task<IEnumerable<ReadinessStatusDto>> GetEsettServiceStatusAsync(
             [Service] IESettExchangeClient_V1 client) => await client.StatusAsync();
 
+        public async Task<ExchangeEventStatusReportResponse> GetEsettExchangeStatusReportAsync(
+            [Service] IESettExchangeClient_V1 client) => await client.StatusReportAsync();
+
         public Task<ExchangeEventTrackingResult> GetEsettOutgoingMessageByIdAsync(
             string documentId,
             [Service] IESettExchangeClient_V1 client) =>
@@ -253,7 +256,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             string? gridAreaCode,
             string? documentId,
             [Service] IESettExchangeClient_V1 client) =>
-            client.ImbalanceAsync(new MeteringGridAreaImbalanceSearchFilter
+            client.Search2Async(new MeteringGridAreaImbalanceSearchFilter
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
@@ -399,14 +402,33 @@ namespace Energinet.DataHub.WebApi.GraphQL
             return await client.UserUserprofileGetAsync().ConfigureAwait(false);
         }
 
-        public async Task<CVROrganizationResult> SearchOrganizationInCVRAsync(string cvr)
+        public async Task<CVROrganizationResult> SearchOrganizationInCVRAsync([Service] IMarketParticipantClient_V1 client, string cvr)
         {
-            if (string.Equals(cvr, "12345674", StringComparison.OrdinalIgnoreCase))
+            try
             {
-                return await Task.FromResult(new CVROrganizationResult() { HasResult = false });
-            }
+                using var cts = new System.Threading.CancellationTokenSource();
+                cts.CancelAfter(15000);
 
-            return await Task.FromResult(new CVROrganizationResult() { Name = "Virksomhedsnavn fra CVR", HasResult = true });
+                var organizationIdentity = await client.OrganizationIdentityAsync(cvr, cts.Token).ConfigureAwait(false);
+
+                return organizationIdentity.OrganizationFound
+                    ? new CVROrganizationResult
+                    {
+                        HasResult = true,
+                        Name = organizationIdentity.OrganizationIdentity!.Name,
+                    }
+                    : new CVROrganizationResult
+                    {
+                        HasResult = false,
+                    };
+            }
+            catch (Exception)
+            {
+                return new CVROrganizationResult
+                {
+                    HasResult = false,
+                };
+            }
         }
 
         private static Task<GetUserOverviewResponse> GetUserOverviewAsync(IMarketParticipantClient_V1 client)

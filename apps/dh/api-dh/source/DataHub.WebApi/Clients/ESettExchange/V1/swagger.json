@@ -321,6 +321,138 @@
         }
       }
     },
+    "/esett/statusReport": {
+      "get": {
+        "tags": [
+          "ESett"
+        ],
+        "operationId": "statusReport",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeEventStatusReportResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeEventStatusReportResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeEventStatusReportResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/esett/resendMessagesWithoutResponse": {
+      "get": {
+        "tags": [
+          "ESett"
+        ],
+        "operationId": "resendMessagesWithoutResponse",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/esett/mga-imbalance/{imbalanceId}/document": {
+      "get": {
+        "tags": [
+          "MeteringGridAreaImbalance"
+        ],
+        "operationId": "document",
+        "parameters": [
+          {
+            "name": "imbalanceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/octet-stream": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/esett/mga-imbalance/search": {
+      "post": {
+        "tags": [
+          "MeteringGridAreaImbalance"
+        ],
+        "operationId": "search2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchFilter"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchFilter"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchFilter"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/status": {
       "get": {
         "tags": [
@@ -560,6 +692,16 @@
           }
         }
       },
+      "ExchangeEventStatusReportResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "waitingForExternalResponse": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "ExchangeEventTrackingResult": {
         "type": "object",
         "additionalProperties": false,
@@ -704,9 +846,6 @@
             "items": {
               "$ref": "#/components/schemas/MeteringGridAreaImbalancePerDayDto"
             }
-          },
-          "storageId": {
-            "type": "string"
           }
         }
       },

@@ -25,6 +25,9 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { Observable } from 'rxjs';
+import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   standalone: true,
@@ -36,7 +39,9 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
     ReactiveFormsModule,
     WattFieldErrorComponent,
     WattTextFieldComponent,
+    WattSpinnerComponent,
     NgIf,
+    RxPush,
     DhDropdownTranslatorDirective,
   ],
   selector: 'dh-new-organization-step',
@@ -49,6 +54,17 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
       h4 {
         margin-top: 0;
         margin-bottom: 0;
+      }
+
+      .row {
+        display: flex;
+      }
+
+      .column {
+        flex: 50%;
+        align-items: center;
+        display: flex;
+        padding: 0 var(--watt-space-m);
       }
 
       watt-dropdown,
@@ -65,26 +81,33 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
       }}</watt-button>
     </vater-stack>
 
-    <vater-stack gap="m" align="flex-start" direction="row">
-      <watt-dropdown
-        translate="marketParticipant.actor.create.counties"
-        dhDropdownTranslator
-        [label]="t('country')"
-        [showResetOption]="false"
-        [options]="countryOptions"
-        [formControl]="newOrganizationForm.controls.country"
-      />
-      <watt-text-field
-        [formControl]="newOrganizationForm.controls.cvrNumber"
-        [label]="t('cvrNumber')"
-      >
-        <watt-field-error
-          *ngIf="newOrganizationForm.controls.cvrNumber.hasError('invalidCvrNumber')"
+    <div class="row">
+      <vater-stack gap="m" align="flex-start" direction="row">
+        <watt-dropdown
+          translate="marketParticipant.actor.create.counties"
+          dhDropdownTranslator
+          [label]="t('country')"
+          [showResetOption]="false"
+          [options]="countryOptions"
+          [formControl]="newOrganizationForm.controls.country"
+        />
+        <watt-text-field
+          [formControl]="newOrganizationForm.controls.cvrNumber"
+          [label]="t('cvrNumber')"
         >
-          {{ t('cvrInvalid') }}
-        </watt-field-error>
-      </watt-text-field>
-    </vater-stack>
+          <watt-field-error
+            *ngIf="newOrganizationForm.controls.cvrNumber.hasError('invalidCvrNumber')"
+          >
+            {{ t('cvrInvalid') }}
+          </watt-field-error>
+        </watt-text-field>
+      </vater-stack>
+
+      <div class="column">
+        <watt-spinner *ngIf="this.isCvrBusy$ | push" [diameter]="22" />
+      </div>
+    </div>
+
     <vater-stack gap="m" align="flex-start">
       <watt-text-field
         [formControl]="newOrganizationForm.controls.companyName"
@@ -104,6 +127,7 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 })
 export class DhNewOrganizationStepComponent {
   @Output() toggleShowCreateNewOrganization = new EventEmitter<void>();
+  @Input({ required: true }) isCvrBusy$!: Observable<boolean>;
   @Input({ required: true }) newOrganizationForm!: FormGroup<{
     country: FormControl<string>;
     cvrNumber: FormControl<string>;

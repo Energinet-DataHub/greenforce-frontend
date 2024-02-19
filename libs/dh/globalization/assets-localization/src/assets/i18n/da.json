@@ -64,7 +64,6 @@
       "save": "Gem ændringer",
       "cancel": "Fortryd",
       "success": "Profilen er blevet opdateret",
-      "error": "Der opstod desværre en fejl, da vi skulle opdatere din profil",
       "languages": {
         "da": "Dansk",
         "en": "Engelsk"
@@ -79,6 +78,10 @@
   "clipboard": {
     "success": "Kopieret til udklipsholder",
     "error": "Kopiering mislykkedes"
+  },
+  "datepicker": {
+    "clear": "Ryd",
+    "select": "Vælg"
   },
   "sidebar": {
     "navigation": {
@@ -712,6 +715,8 @@
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
+      "messagesNotSent": "{{number}} meddelelser blev ikke sendt",
+      "resendMessages": "Send igen",
       "drawer": {
         "tabs": {
           "message": "Meddelelse",

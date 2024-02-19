@@ -85,6 +85,11 @@ type BalanceResponsibleType {
   gridArea: String!
 }
 
+type CVROrganizationResult {
+  name: String!
+  hasResult: Boolean!
+}
+
 "An immutable calculation."
 type Calculation {
   id: UUID!
@@ -138,6 +143,10 @@ type ExchangeEventSearchResult {
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
+}
+
+type ExchangeEventStatusReportResponse {
+  waitingForExternalResponse: Int!
 }
 
 type GetUserProfileResponse {
@@ -217,7 +226,6 @@ type MeteringGridAreaImbalanceSearchResult {
   periodStart: DateTime!
   periodEnd: DateTime!
   imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
-  storageId: String!
 }
 
 type Mutation {
@@ -228,6 +236,7 @@ type Mutation {
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
+  resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
 }
 
 type Organization {
@@ -295,6 +304,7 @@ type Query {
   actors: [Actor!]!
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   esettServiceStatus: [ReadinessStatusDto!]!
+  esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int! pageSize: Int! periodFrom: DateTime periodTo: DateTime gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String): ExchangeEventSearchResponse!
   meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime gridAreaCode: String documentId: String): MeteringGridAreaImbalanceSearchResponse!
@@ -307,11 +317,16 @@ type Query {
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   userProfile: GetUserProfileResponse!
+  searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
 }
 
 type ReadinessStatusDto {
   component: ESettStageComponent!
   isReady: Boolean!
+}
+
+type ResendWaitingEsettExchangeMessagesPayload {
+  boolean: Boolean
 }
 
 type SettlementReport {

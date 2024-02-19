@@ -24,6 +24,7 @@ import {
   eoMeteringPointsRoutePath,
   eoPrivacyPolicyRoutePath,
   eoTransferRoutePath,
+  eoActivityLogRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoLoginComponent } from './eo-login.component';
 import { EoShellComponent } from './eo-shell.component';
@@ -72,6 +73,15 @@ export const eoShellRoutes: Routes = [
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
             (esModule) => esModule.eoMeteringPointsRoutes
+          ),
+      },
+      {
+        path: eoActivityLogRoutePath,
+        canActivate: [EoScopeGuard],
+        title: 'Activity log',
+        loadChildren: () =>
+          import('@energinet-datahub/eo/activity-log/shell').then(
+            (esModule) => esModule.eoActivityLogRoutes
           ),
       },
       {

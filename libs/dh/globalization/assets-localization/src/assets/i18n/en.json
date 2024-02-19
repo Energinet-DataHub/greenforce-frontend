@@ -64,7 +64,6 @@
       "save": "Save changes",
       "cancel": "Cancel",
       "success": "Profile updated successfully",
-      "error": "An error occurred while updating the profile",
       "languages": {
         "da": "Danish",
         "en": "English"
@@ -79,6 +78,10 @@
   "clipboard": {
     "success": "Copied to clipboard",
     "error": "Failed to copy"
+  },
+  "datepicker": {
+    "clear": "Clear",
+    "select": "OK"
   },
   "sidebar": {
     "navigation": {
@@ -713,6 +716,8 @@
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
+      "messagesNotSent": "{{number}} messages not sent",
+      "resendMessages": "Resend",
       "drawer": {
         "tabs": {
           "message": "Message",

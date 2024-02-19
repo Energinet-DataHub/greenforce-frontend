@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { EoMeteringPoint, MeteringPoint, MeteringPointType } from './metering-point';
+export * from './metering-point';
