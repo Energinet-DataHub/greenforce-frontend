@@ -16,7 +16,10 @@
  */
 import { provideTransloco, translocoConfig } from '@ngneat/transloco';
 
-import { TRANSLOCO_TYPED_TRANSLATION_PATH, TranslocoTypedLoader } from '@energinet-datahub/gf/globalization/data-access-localization';
+import {
+  TRANSLOCO_TYPED_TRANSLATION_PATH,
+  TranslocoTypedLoader,
+} from '@energinet-datahub/gf/globalization/data-access-localization';
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 
 import { environment } from '@energinet-datahub/eo/shared/environments';
