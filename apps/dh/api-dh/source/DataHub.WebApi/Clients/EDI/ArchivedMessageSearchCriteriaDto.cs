@@ -20,7 +20,8 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
         string? SenderNumber,
         string? ReceiverNumber,
         string[]? DocumentTypes,
-        string[]? BusinessReasons);
+        string[]? BusinessReasons,
+        bool? IncludeRelatedMessages = false);
 
     internal record CreatedDuringPeriod(string? Start, string? End);
 }
