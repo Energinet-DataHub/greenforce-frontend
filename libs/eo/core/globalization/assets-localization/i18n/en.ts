@@ -245,7 +245,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       title: 'Oops! Something went wrong.',
       message: 'Please try reloading the page..',
     },
-    eventTypeLabel: 'Event Type',
+    eventTypeLabel: 'Event type',
     transferAgreementEventType: 'Transfer Agreement',
     meteringPointEventType: 'Metering Point',
     tableTitle: 'Results',
