@@ -14,5 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhProfileModalComponent } from './lib/dh-profile-modal/dh-profile-modal.component';
-export { DhProfileModalService } from './lib/dh-profile-modal/dh-profile-modal.service';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class DhProfileModalService {
+  private profileUpdateSubject = new Subject<void>();
+
+  public onProfileUpdate$ = this.profileUpdateSubject.asObservable();
+
+  public notifyAboutProfileUpdate(): void {
+    this.profileUpdateSubject.next();
+  }
+}
