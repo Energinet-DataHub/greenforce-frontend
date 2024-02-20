@@ -16,22 +16,25 @@
  */
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnInit,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { translations } from '@energinet-datahub/eo/translations';
 
 import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent, NgIf],
+  imports: [WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent, TranslocoPipe],
   standalone: true,
   selector: 'eo-claims-table',
   styles: [
@@ -50,33 +53,42 @@ import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
-    <watt-table
-      #table
-      [loading]="loading"
-      [columns]="columns"
-      [dataSource]="dataSource"
-      sortBy="start"
-      sortDirection="desc"
-    />
+    @if (columns) {
+      <watt-table
+        #table
+        [loading]="loading"
+        [columns]="columns"
+        [dataSource]="dataSource"
+        sortBy="start"
+        sortDirection="desc"
+      />
+    }
 
-    <watt-empty-state
-      *ngIf="loading === false && dataSource.filteredData.length === 0 && !hasError"
-      icon="custom-power"
-      title="No claims found"
-      message="You do not have any claims."
-    />
+    @if (loading === false && dataSource.filteredData.length === 0 && !hasError) {
+      <watt-empty-state
+        *ngIf="loading === false && dataSource.filteredData.length === 0 && !hasError"
+        icon="custom-power"
+        [title]="translations.claims.noData.title | transloco"
+        [message]="translations.claims.noData.message | transloco"
+      />
+    }
 
-    <watt-empty-state
-      *ngIf="loading === false && hasError"
-      icon="custom-power"
-      title="Oops! Something went wrong."
-      message="Please try reloading the page.."
-    />
+    @if (loading === false && hasError) {
+      <watt-empty-state
+        *ngIf="loading === false && hasError"
+        icon="custom-power"
+        [title]="translations.claims.error.title | transloco"
+        [message]="translations.claims.error.message | transloco"
+      />
+    }
 
     <watt-paginator [for]="dataSource" />
   `,
 })
 export class EoClaimsTableComponent implements OnInit {
+  private cd = inject(ChangeDetectorRef);
+  private transloco = inject(TranslocoService);
+
   @Input() loading = false;
   @Input() hasError = false;
 
@@ -92,20 +104,15 @@ export class EoClaimsTableComponent implements OnInit {
 
   dataSource: WattTableDataSource<Claim> = new WattTableDataSource(undefined);
 
-  protected columns: WattTableColumnDef<Claim> = {
-    claimId: { accessor: (x) => x.claimId, header: 'Claim Id' },
-    amount: { accessor: (x) => x.amount },
-    start: {
-      accessor: (x) => x.start,
-      header: 'Start',
-    },
-    end: {
-      accessor: (x) => x.end,
-      header: 'End',
-    },
-  };
+  protected columns!: WattTableColumnDef<Claim>;
+  protected translations = translations;
 
   ngOnInit(): void {
+    this.sortData();
+    this.setColumns();
+  }
+
+  private sortData(): void {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.dataSource.sortData = (data: any[], sort: any) => {
       const isAsc = sort.direction === 'asc';
@@ -126,6 +133,30 @@ export class EoClaimsTableComponent implements OnInit {
         });
       }
     };
+  }
+
+  private setColumns(): void {
+    this.transloco.selectTranslation().subscribe(() => {
+      this.columns = {
+        claimId: {
+          accessor: (x) => x.claimId,
+          header: this.transloco.translate(this.translations.claims.claimIdTableHeader),
+        },
+        amount: {
+          accessor: (x) => x.amount,
+          header: this.transloco.translate(this.translations.claims.amountTableHeader),
+        },
+        start: {
+          accessor: (x) => x.start,
+          header: this.transloco.translate(this.translations.claims.startDateTableHeader),
+        },
+        end: {
+          accessor: (x) => x.end,
+          header: this.transloco.translate(this.translations.claims.endDateTableHeader),
+        },
+      };
+      this.cd.detectChanges();
+    });
   }
 
   compare(a: number, b: number, isAsc: boolean): number {

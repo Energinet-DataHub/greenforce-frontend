@@ -19,8 +19,9 @@ import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { endOfToday, format } from 'date-fns';
 
+import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
-import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
+import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 
 import { EoActivityLogShellComponent } from './eo-activity-log-shell.component';
 
@@ -112,6 +113,7 @@ describe('EO - Activity Log', () => {
         provideRouter([], withComponentInputBinding()),
         danishLocalProviders,
         danishDatetimeProviders,
+        ...translocoProviders,
       ],
     });
 

@@ -75,7 +75,7 @@ interface EoTransferTableElement extends EoListedTransfer {
         }
       }
 
-      .no-data {
+      .noData {
         text-align: center;
         padding: var(--watt-space-m);
       }

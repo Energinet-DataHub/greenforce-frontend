@@ -4,10 +4,13 @@
   "dependencies": {
     "@nx/devkit": "17.2.8",
     "tslib": "^2.3.0",
-    "@nx/angular": "17.2.8"
+    "@nx/angular": "17.2.8",
+    "ts-morph": "18.0.0",
+    "prettier": "3.1.0"
   },
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
-  "generators": "./generators.json"
+  "generators": "./generators.json",
+  "executors": "./executors.json"
 }
