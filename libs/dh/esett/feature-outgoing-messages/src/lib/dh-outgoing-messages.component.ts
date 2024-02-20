@@ -126,8 +126,8 @@ export class DhOutgoingMessagesComponent implements OnInit {
   hasError = false;
 
   filter$ = new BehaviorSubject<DhOutgoingMessagesFilters>({
-    period: {
-      start: sub(startOfDay(new Date()), { days: 2 }),
+    created: {
+      start: sub(startOfDay(new Date()), { days: 3 }),
       end: endOfDay(new Date()),
     },
   });
@@ -190,8 +190,8 @@ export class DhOutgoingMessagesComponent implements OnInit {
             timeSeriesType: filters.messageTypes,
             gridAreaCode: filters.gridAreas,
             documentStatus: filters.status,
-            periodFrom: filters.period?.start,
-            periodTo: filters.period?.end,
+            periodInterval: filters.period,
+            createdInterval: filters.created,
             documentId: documentIdSearch,
             sortProperty: sortMetadata.sortProperty,
             sortDirection: sortMetadata.sortDirection,

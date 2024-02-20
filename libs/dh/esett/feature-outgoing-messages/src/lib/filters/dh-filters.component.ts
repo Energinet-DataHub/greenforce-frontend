@@ -107,6 +107,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
       gridAreas: dhMakeFormControl(this.initial?.gridAreas),
       status: dhMakeFormControl(this.initial?.status),
       period: dhMakeFormControl(this.initial?.period),
+      created: dhMakeFormControl(this.initial?.created),
     });
 
     this.subscription = this.formGroup.valueChanges
