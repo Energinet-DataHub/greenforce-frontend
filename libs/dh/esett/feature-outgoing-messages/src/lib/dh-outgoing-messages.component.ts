@@ -70,13 +70,8 @@ import { dhExchangeSortMetadataMapper } from './util/dh-sort-metadata-mapper.ope
         flex-direction: row;
       }
 
-      .resend-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        .watt-chip-label {
-          padding: 10px;
-        }
+      .resend-container .watt-chip-label {
+        padding: 10px;
       }
 
       watt-paginator {
