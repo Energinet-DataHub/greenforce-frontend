@@ -14,4 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-profile-modal/dh-profile-modal.component';
+export { DhProfileModalComponent } from './lib/dh-profile-modal/dh-profile-modal.component';
+export { DhProfileModalService } from './lib/dh-profile-modal/dh-profile-modal.service';
