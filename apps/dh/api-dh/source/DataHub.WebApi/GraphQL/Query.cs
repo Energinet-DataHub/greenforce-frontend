@@ -229,6 +229,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             int pageSize,
             DateTimeOffset? periodFrom, // TODO: Consider using Interval?
             DateTimeOffset? periodTo, // TODO: Consider using Interval?
+            Interval? createdInterval, // TODO: Consider using Interval?
             string? gridAreaCode,
             Clients.ESettExchange.v1.CalculationType? calculationType,
             DocumentStatus? documentStatus,
@@ -248,6 +249,10 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 DocumentStatus = documentStatus,
                 TimeSeriesType = timeSeriesType,
                 DocumentId = documentId,
+                CreatedFrom = createdInterval?.Start.ToDateTimeOffset(),
+                CreatedTo = createdInterval?.End.ToDateTimeOffset(),
+                SortDirection = sortDirection,
+                SortProperty = sortProperty,
             });
 
         public Task<MeteringGridAreaImbalanceSearchResponse> GetMeteringGridAreaImbalanceAsync(
@@ -268,6 +273,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 CreatedTo = createdTo,
                 GridAreaCode = gridAreaCode,
                 DocumentId = documentId,
+                SortDirection = sortDirection,
+                SortProperty = sortProperty,
             });
 
         public Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(

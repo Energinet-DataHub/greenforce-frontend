@@ -4,6 +4,7 @@ query getOutgoingMessages(
   $periodFrom: DateTime
   $periodTo: DateTime
   $gridAreaCode: String
+  $createdInterval: DateRange
   $calculationType: ExchangeEventCalculationType
   $documentStatus: DocumentStatus
   $timeSeriesType: TimeSeriesType
@@ -22,7 +23,8 @@ query getOutgoingMessages(
     timeSeriesType: $timeSeriesType
     documentId: $documentId
     sortProperty: $sortProperty
-    sortDirection: $sortDirection
+    sortDirection: $sortDirection,
+    createdInterval: $createdInterval
   ) {
     items {
       created
