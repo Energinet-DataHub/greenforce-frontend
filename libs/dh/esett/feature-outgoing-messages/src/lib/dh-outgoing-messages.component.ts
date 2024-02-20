@@ -50,7 +50,6 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { RxLet } from '@rx-angular/template/let';
 import { Sort } from '@angular/material/sort';
 import { dhExchangeSortMetadataMapper } from './util/dh-sort-metadata-mapper.operator';
-import { DateRange } from '@angular/material/datepicker';
 
 @Component({
   standalone: true,
