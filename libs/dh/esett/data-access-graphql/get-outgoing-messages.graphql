@@ -23,7 +23,7 @@ query getOutgoingMessages(
     timeSeriesType: $timeSeriesType
     documentId: $documentId
     sortProperty: $sortProperty
-    sortDirection: $sortDirection,
+    sortDirection: $sortDirection
     createdInterval: $createdInterval
   ) {
     items {
