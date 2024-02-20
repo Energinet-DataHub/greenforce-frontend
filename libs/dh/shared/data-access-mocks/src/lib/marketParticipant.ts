@@ -238,7 +238,11 @@ function getOrganizationById() {
 }
 
 function getOrganizationFromCvr() {
-  return mockGetOrganizationFromCvrQuery(async () => {
+  return mockGetOrganizationFromCvrQuery(async ({ variables }) => {
+    const noResultCVR = '00000000';
+
+    const { cvr } = variables;
+
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
@@ -246,8 +250,8 @@ function getOrganizationFromCvr() {
         __typename: 'Query',
         searchOrganizationInCVR: {
           __typename: 'CVROrganizationResult',
-          name: 'Test Organization',
-          hasResult: true,
+          name: noResultCVR === cvr ? '' : 'Test Organization',
+          hasResult: noResultCVR !== cvr,
         },
       },
     });

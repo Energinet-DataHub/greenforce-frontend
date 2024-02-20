@@ -24,6 +24,7 @@ limitations under the License.
     sortDirection="desc"
     [activeRow]="activeRow"
     (rowClick)="onRowClick($event)"
+    (sortChange)="sortChange.emit($event)"
   >
     <ng-container
       *wattTableCell="

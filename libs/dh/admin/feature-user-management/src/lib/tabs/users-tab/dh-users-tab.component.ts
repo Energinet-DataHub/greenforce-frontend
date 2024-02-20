@@ -21,7 +21,7 @@ import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { BehaviorSubject, Observable, debounceTime } from 'rxjs';
+import { BehaviorSubject, Observable, debounceTime, delay } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
@@ -47,6 +47,7 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { DhProfileModalService } from '@energinet-datahub/dh/profile/feature-profile-modal';
 
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
 import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.component';
@@ -112,6 +113,7 @@ export class DhUsersTabComponent {
   private store = inject(DhAdminUserManagementDataAccessApiStore);
   private actorStore = inject(DhUserActorsDataAccessApiStore);
   private userRolesStore = inject(DhAdminUserRolesManagementDataAccessApiStore);
+  private profileModalService = inject(DhProfileModalService);
 
   readonly users$ = this.store.users$;
   readonly totalUserCount$ = this.store.totalUserCount$;
@@ -136,6 +138,10 @@ export class DhUsersTabComponent {
     this.userRolesStore.getRoles();
 
     this.onSearchInput();
+
+    this.profileModalService.onProfileUpdate$
+      .pipe(delay(500), takeUntilDestroyed())
+      .subscribe(() => this.store.reloadUsers());
   }
 
   onPageChange(event: PageEvent): void {

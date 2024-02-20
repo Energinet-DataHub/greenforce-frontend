@@ -48,6 +48,8 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { RxLet } from '@rx-angular/template/let';
+import { Sort } from '@angular/material/sort';
+import { dhExchangeSortMetadataMapper } from './util/dh-sort-metadata-mapper.operator';
 
 @Component({
   standalone: true,
@@ -68,13 +70,8 @@ import { RxLet } from '@rx-angular/template/let';
         flex-direction: row;
       }
 
-      .resend-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        .watt-chip-label {
-          padding: 10px;
-        }
+      .resend-container .watt-chip-label {
+        padding: 10px;
       }
 
       watt-paginator {
@@ -113,6 +110,11 @@ export class DhOutgoingMessagesComponent implements OnInit {
   tableDataSource = new WattTableDataSource<DhOutgoingMessage>([]);
   totalCount = 0;
 
+  sortMetadata$ = new BehaviorSubject<Sort>({
+    active: 'received',
+    direction: 'desc',
+  });
+
   private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
     pageIndex: 0,
     pageSize: 100,
@@ -124,8 +126,8 @@ export class DhOutgoingMessagesComponent implements OnInit {
   hasError = false;
 
   filter$ = new BehaviorSubject<DhOutgoingMessagesFilters>({
-    period: {
-      start: sub(startOfDay(new Date()), { days: 2 }),
+    created: {
+      start: sub(startOfDay(new Date()), { days: 3 }),
       end: endOfDay(new Date()),
     },
   });
@@ -159,15 +161,21 @@ export class DhOutgoingMessagesComponent implements OnInit {
     filters: this.filter$,
     pageMetaData: this.pageMetaData$,
     documentIdSearch: this.documentIdSearch$.pipe(debounceTime(250)),
+    sortMetadata: this.sortMetadata$.pipe(dhExchangeSortMetadataMapper),
   }).pipe(
-    map(({ filters, pageMetaData, documentIdSearch }) => {
-      return { filters: documentIdSearch ? {} : filters, pageMetaData, documentIdSearch };
+    map(({ filters, pageMetaData, documentIdSearch, sortMetadata }) => {
+      return {
+        filters: documentIdSearch ? {} : filters,
+        pageMetaData,
+        documentIdSearch,
+        sortMetadata,
+      };
     })
   );
 
   outgoingMessages$ = this.queryVariables$.pipe(
     switchMap(
-      ({ filters, pageMetaData, documentIdSearch }) =>
+      ({ filters, pageMetaData, documentIdSearch, sortMetadata }) =>
         this._apollo.watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
@@ -182,9 +190,11 @@ export class DhOutgoingMessagesComponent implements OnInit {
             timeSeriesType: filters.messageTypes,
             gridAreaCode: filters.gridAreas,
             documentStatus: filters.status,
-            periodFrom: filters.period?.start,
-            periodTo: filters.period?.end,
+            periodInterval: filters.period,
+            createdInterval: filters.created,
             documentId: documentIdSearch,
+            sortProperty: sortMetadata.sortProperty,
+            sortDirection: sortMetadata.sortDirection,
           },
         }).valueChanges
     ),

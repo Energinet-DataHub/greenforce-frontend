@@ -8,7 +8,7 @@
   "sessionExpirationContentPartB": "Af sikkerhedsmæssige årsager vil du blive logget af om",
   "shell": {
     "logout": "Log ud",
-    "profile": "Profile"
+    "profile": "Profil"
   },
   "shared": {
     "error": {
@@ -701,6 +701,7 @@
         "gridArea": "{{ eSett.shared.gridArea }}",
         "status": "{{ eSett.shared.status }}",
         "period": "{{ shared.form.filters.period }}",
+        "created": "{{ eSett.outgoingMessages.columns.created }}",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Besked Id"
       },

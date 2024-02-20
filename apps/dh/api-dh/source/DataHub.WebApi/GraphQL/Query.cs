@@ -227,25 +227,31 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public Task<ExchangeEventSearchResponse> GetEsettExchangeEventsAsync(
             int pageNumber,
             int pageSize,
-            DateTimeOffset? periodFrom, // TODO: Consider using Interval?
-            DateTimeOffset? periodTo, // TODO: Consider using Interval?
+            Interval? periodInterval,
+            Interval? createdInterval,
             string? gridAreaCode,
             Clients.ESettExchange.v1.CalculationType? calculationType,
             DocumentStatus? documentStatus,
             TimeSeriesType? timeSeriesType,
             string? documentId,
+            ExchangeEventSortProperty sortProperty,
+            Clients.ESettExchange.v1.SortDirection sortDirection,
             [Service] IESettExchangeClient_V1 client) =>
             client.SearchAsync(new ExchangeEventSearchFilter
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                PeriodFrom = periodFrom,
-                PeriodTo = periodTo,
+                PeriodFrom = periodInterval?.Start.ToDateTimeOffset(),
+                PeriodTo = periodInterval?.End.ToDateTimeOffset(),
                 GridAreaCode = gridAreaCode,
                 CalculationType = calculationType,
                 DocumentStatus = documentStatus,
                 TimeSeriesType = timeSeriesType,
                 DocumentId = documentId,
+                CreatedFrom = createdInterval?.Start.ToDateTimeOffset(),
+                CreatedTo = createdInterval?.End.ToDateTimeOffset(),
+                SortDirection = sortDirection,
+                SortProperty = sortProperty,
             });
 
         public Task<MeteringGridAreaImbalanceSearchResponse> GetMeteringGridAreaImbalanceAsync(
@@ -255,6 +261,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
             DateTimeOffset? createdTo,
             string? gridAreaCode,
             string? documentId,
+            MeteringGridAreaImbalanceSortProperty sortProperty,
+            Clients.ESettExchange.v1.SortDirection sortDirection,
             [Service] IESettExchangeClient_V1 client) =>
             client.Search2Async(new MeteringGridAreaImbalanceSearchFilter
             {
@@ -264,6 +272,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 CreatedTo = createdTo,
                 GridAreaCode = gridAreaCode,
                 DocumentId = documentId,
+                SortDirection = sortDirection,
+                SortProperty = sortProperty,
             });
 
         public Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(
