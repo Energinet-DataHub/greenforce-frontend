@@ -227,9 +227,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public Task<ExchangeEventSearchResponse> GetEsettExchangeEventsAsync(
             int pageNumber,
             int pageSize,
-            DateTimeOffset? periodFrom, // TODO: Consider using Interval?
-            DateTimeOffset? periodTo, // TODO: Consider using Interval?
-            Interval? createdInterval, // TODO: Consider using Interval?
+            Interval? periodInterval,
+            Interval? createdInterval,
             string? gridAreaCode,
             Clients.ESettExchange.v1.CalculationType? calculationType,
             DocumentStatus? documentStatus,
@@ -242,8 +241,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                PeriodFrom = periodFrom,
-                PeriodTo = periodTo,
+                PeriodFrom = periodInterval?.Start.ToDateTimeOffset(),
+                PeriodTo = periodInterval?.End.ToDateTimeOffset(),
                 GridAreaCode = gridAreaCode,
                 CalculationType = calculationType,
                 DocumentStatus = documentStatus,
