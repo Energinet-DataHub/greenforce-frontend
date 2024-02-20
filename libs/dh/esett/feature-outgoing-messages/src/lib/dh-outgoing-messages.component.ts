@@ -127,7 +127,7 @@ export class DhOutgoingMessagesComponent implements OnInit {
 
   filter$ = new BehaviorSubject<DhOutgoingMessagesFilters>({
     created: {
-      start: sub(startOfDay(new Date()), { days: 2 }),
+      start: sub(startOfDay(new Date()), { days: 3 }),
       end: endOfDay(new Date()),
     },
   });
