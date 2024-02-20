@@ -52,7 +52,7 @@ limitations under the License.
     <ng-container
       *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let imbalance"
     >
-      {{ imbalance.gridAreaCode }}
+      {{ imbalance.gridArea?.code }} - {{ imbalance.gridArea?.name }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let imbalance">

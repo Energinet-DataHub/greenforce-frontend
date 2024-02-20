@@ -747,6 +747,32 @@
         "gridArea": "{{ eSett.shared.gridArea }}",
         "period": "Calculation period"
       },
+      "drawer": {
+        "tabs": {
+          "imbalance": "Imbalance",
+          "message": "Message"
+        },
+        "card": {
+          "titles": {
+            "deficit": "Imbalance Deficit (kWh)",
+            "surplus": "Surplus Imbalance (kWh)"
+          }
+        },
+        "table": {
+          "columns": {
+            "position": "Position",
+            "date": "Date",
+            "time": "Time",
+            "imbalance": "Imbalance"
+          }
+        },
+        "metadata": {
+          "created": "Oprettet",
+          "periode": "Beregnet periode",
+          "received": "Modtaget",
+          "gridArea": "{{ eSett.shared.gridArea }}"
+        }
+      },
       "emptyTitle": "No imbalances found for period",
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",

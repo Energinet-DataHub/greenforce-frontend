@@ -746,6 +746,32 @@
         "gridArea": "{{ eSett.shared.gridArea }}",
         "period": "Beregningsperiode"
       },
+      "drawer": {
+        "tabs": {
+          "imbalance": "Ubalancer",
+          "message": "Besked"
+        },
+        "card": {
+          "titles": {
+            "deficit": "Ubalanceunderskud (kWh)",
+            "surplus": "Ubalanceoverskud (kWh)"
+          }
+        },
+        "table": {
+          "columns": {
+            "position": "Position",
+            "date": "Dato",
+            "time": "Tidspunkt",
+            "imbalance": "Ubalancer"
+          }
+        },
+        "metadata": {
+          "created": "Oprettet",
+          "periode": "Beregnet periode",
+          "received": "Modtaget",
+          "gridArea": "{{ eSett.shared.gridArea }}"
+        }
+      },
       "emptyTitle": "Ingen ubalancer fundet i perioden",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",

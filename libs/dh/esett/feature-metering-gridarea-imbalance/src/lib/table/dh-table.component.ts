@@ -63,7 +63,7 @@ export class DhMeteringGridAreaImbalanceTableComponent {
     documentDateTime: { accessor: 'documentDateTime' },
     receivedDateTime: { accessor: 'receivedDateTime' },
     id: { accessor: 'id' },
-    gridArea: { accessor: 'gridAreaCode' },
+    gridArea: { accessor: 'gridArea' },
     period: { accessor: null },
   };
 
@@ -74,6 +74,7 @@ export class DhMeteringGridAreaImbalanceTableComponent {
 
   onRowClick(activeRow: DhMeteringGridAreaImbalance): void {
     this.activeRow = activeRow;
+    this.drawer.open(activeRow);
   }
 
   onClose(): void {

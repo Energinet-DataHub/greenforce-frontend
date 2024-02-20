@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -18,6 +19,7 @@ import {
   DocumentStatus,
   ExchangeEventCalculationType,
   ExchangeEventSearchResult,
+  PriceAreaCode,
   TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -26,7 +28,14 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
     documentId: '390161908',
-    gridAreaCode: '805',
+    gridArea: {
+      code: '007',
+      name: 'DK1',
+      id: '6c6d12ee',
+      priceAreaCode: PriceAreaCode.Dk1,
+      validFrom: new Date('2020-01-01T00:00:00.000Z'),
+      __typename: 'GridAreaDto',
+    },
     calculationType: ExchangeEventCalculationType.Aggregation,
     documentStatus: DocumentStatus.Accepted,
     timeSeriesType: TimeSeriesType.Consumption,
@@ -35,7 +44,14 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
     documentId: '390161909',
-    gridAreaCode: '806',
+    gridArea: {
+      code: '007',
+      name: 'DK1',
+      id: '6c6d12ee',
+      priceAreaCode: PriceAreaCode.Dk1,
+      validFrom: new Date('2020-01-01T00:00:00.000Z'),
+      __typename: 'GridAreaDto',
+    },
     calculationType: ExchangeEventCalculationType.Aggregation,
     documentStatus: DocumentStatus.Rejected,
     timeSeriesType: TimeSeriesType.Production,
@@ -44,7 +60,14 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
     documentId: '390161910',
-    gridAreaCode: '806',
+    gridArea: {
+      code: '007',
+      name: 'DK1',
+      id: '6c6d12ee',
+      priceAreaCode: PriceAreaCode.Dk1,
+      validFrom: new Date('2020-01-01T00:00:00.000Z'),
+      __typename: 'GridAreaDto',
+    },
     calculationType: ExchangeEventCalculationType.Aggregation,
     documentStatus: DocumentStatus.AwaitingReply,
     timeSeriesType: TimeSeriesType.Production,
@@ -53,7 +76,14 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     __typename: 'ExchangeEventSearchResult',
     created: new Date(),
     documentId: '390161911',
-    gridAreaCode: '806',
+    gridArea: {
+      code: '007',
+      name: 'DK1',
+      id: '6c6d12ee',
+      priceAreaCode: PriceAreaCode.Dk1,
+      validFrom: new Date('2020-01-01T00:00:00.000Z'),
+      __typename: 'GridAreaDto',
+    },
     calculationType: ExchangeEventCalculationType.BalanceFixing,
     documentStatus: DocumentStatus.AwaitingReply,
     timeSeriesType: TimeSeriesType.Production,

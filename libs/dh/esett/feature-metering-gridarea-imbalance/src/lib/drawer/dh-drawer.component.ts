@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, inject, Signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
-import { Observable, switchMap, takeUntil } from 'rxjs';
+import { Observable, Subject, switchMap, takeUntil } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import {
@@ -30,6 +30,14 @@ import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
 import { DhMeteringGridAreaImbalance } from '../dh-metering-gridarea-imbalance';
+import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import {
+  DhDrawerImbalanceTableComponent,
+  ImbalanceType,
+} from './dh-drawer-imbalance-table.component';
 
 @Component({
   selector: 'dh-metering-grid-imbalance-drawer',
@@ -57,19 +65,33 @@ import { DhMeteringGridAreaImbalance } from '../dh-metering-gridarea-imbalance';
     RxPush,
 
     WATT_DRAWER,
+    WATT_TABS,
+    WATT_CARD,
+
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattDatePipe,
     WattCodeComponent,
 
+    VaterFlexComponent,
+
     DhEmDashFallbackPipe,
+    DhDrawerImbalanceTableComponent,
   ],
 })
 export class DhMeteringGridAreaImbalanceDrawerComponent {
-  private readonly esettHttp = inject(EsettExchangeHttp);
+  private readonly _esettHttp = inject(EsettExchangeHttp);
+  private _getDocument$ = new Subject<string>();
+
+  ImbalanceType = ImbalanceType;
 
   meteringGridAreaImbalance: DhMeteringGridAreaImbalance | null = null;
-  xmlMessage$: Observable<string> | null = null;
+  xmlMessage: Signal<string | undefined> = toSignal(
+    this._getDocument$.pipe(
+      switchMap((documentLink) => this.loadDocument(documentLink)),
+      takeUntilDestroyed()
+    )
+  );
 
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
@@ -82,7 +104,7 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
     this.meteringGridAreaImbalance = message;
 
     if (this.meteringGridAreaImbalance !== null && this.meteringGridAreaImbalance.id) {
-      this.xmlMessage$ = this.loadDocument(this.meteringGridAreaImbalance.id);
+      this._getDocument$.next(this.meteringGridAreaImbalance.id);
     }
   }
 
@@ -92,7 +114,7 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
   }
 
   private loadDocument(documentLink: string): Observable<string> {
-    return this.esettHttp.v1EsettExchangeStorageDocumentGet(documentLink).pipe(
+    return this._esettHttp.v1EsettExchangeStorageDocumentGet(documentLink).pipe(
       switchMap((res) => {
         const blobPart = res as unknown as BlobPart;
         const blob = new Blob([blobPart]);
