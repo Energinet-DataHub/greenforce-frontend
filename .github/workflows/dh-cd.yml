@@ -81,6 +81,13 @@ jobs:
     steps:
       - run: echo "${{ toJSON(needs) }}"
 
+      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v13
+        name: Generate Github token
+        id: generate_token
+        with:
+          app_id: ${{ vars.dh3serviceaccount_appid }}
+          private_key: ${{ secrets.dh3serviceaccount_privatekey }}
+
       - name: Find associated pull request
         uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v12
         id: find_pull_request
@@ -88,7 +95,7 @@ jobs:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.internal_github_pat }}
+          token: ${{ steps.generate_token.outputs.token }}
           repository: ${{ vars.environment_repository_path }}
           event-type: ui-deployment-request-domain
           # yamllint disable-line rule:quoted-strings
