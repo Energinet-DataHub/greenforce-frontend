@@ -47,6 +47,7 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { DhProfileModalService } from '@energinet-datahub/dh/profile/feature-profile-modal';
 
 import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
 import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.component';
@@ -112,6 +113,7 @@ export class DhUsersTabComponent {
   private store = inject(DhAdminUserManagementDataAccessApiStore);
   private actorStore = inject(DhUserActorsDataAccessApiStore);
   private userRolesStore = inject(DhAdminUserRolesManagementDataAccessApiStore);
+  private profileModalService = inject(DhProfileModalService);
 
   readonly users$ = this.store.users$;
   readonly totalUserCount$ = this.store.totalUserCount$;
@@ -136,6 +138,10 @@ export class DhUsersTabComponent {
     this.userRolesStore.getRoles();
 
     this.onSearchInput();
+
+    this.profileModalService.onProfileUpdate$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.store.reloadUsers());
   }
 
   onPageChange(event: PageEvent): void {

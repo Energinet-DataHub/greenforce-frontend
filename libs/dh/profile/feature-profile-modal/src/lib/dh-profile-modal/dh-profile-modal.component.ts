@@ -47,6 +47,8 @@ import {
   UpdateUserProfileMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { DhProfileModalService } from './dh-profile-modal.service';
+
 type UserPreferencesForm = FormGroup<{
   email: FormControl<string>;
   phoneNumber: FormControl<string>;
@@ -98,6 +100,8 @@ export class DhProfileModalComponent {
   private readonly _languageService = inject(DhLanguageService);
   private readonly _apollo = inject(Apollo);
   private readonly _modalData = inject(MAT_DIALOG_DATA);
+  private readonly _profileModalService = inject(DhProfileModalService);
+
   private readonly _getUserProfileQuery = this._apollo.watchQuery({
     returnPartialData: true,
     useInitialLoading: true,
@@ -178,6 +182,7 @@ export class DhProfileModalComponent {
       this._toastService.open({ message: translate('shared.profile.success'), type: 'success' });
       this.closeModal(true);
       this._getUserProfileQuery.refetch();
+      this._profileModalService.notifyAboutProfileUpdate();
     }
 
     this._languageService.selectedLanguage = selectedLanguage;
