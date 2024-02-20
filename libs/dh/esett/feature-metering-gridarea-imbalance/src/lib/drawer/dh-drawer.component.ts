@@ -14,9 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
-import { Component, ViewChild, Output, EventEmitter, inject, Signal } from '@angular/core';
+
 import { TranslocoDirective } from '@ngneat/transloco';
+
+import { NgIf } from '@angular/common';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { Component, ViewChild, Output, EventEmitter, inject, Signal } from '@angular/core';
+
 import { RxPush } from '@rx-angular/template/push';
 import { Observable, Subject, switchMap, takeUntil } from 'rxjs';
 
@@ -25,15 +29,15 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
+import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
-import { DhMeteringGridAreaImbalance } from '../dh-metering-gridarea-imbalance';
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+
+import { DhMeteringGridAreaImbalance } from '../dh-metering-gridarea-imbalance';
 import {
   DhDrawerImbalanceTableComponent,
   ImbalanceType,

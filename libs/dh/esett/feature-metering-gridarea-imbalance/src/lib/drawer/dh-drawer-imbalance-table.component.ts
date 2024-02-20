@@ -1,10 +1,3 @@
-import { Component, OnInit, input } from '@angular/core';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { MeteringGridAreaImbalancePerDayDto } from '../dh-metering-gridarea-imbalance';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { TranslocoDirective } from '@ngneat/transloco';
-
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -21,6 +14,16 @@ import { TranslocoDirective } from '@ngneat/transloco';
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { TranslocoDirective } from '@ngneat/transloco';
+
+import { Component, OnInit, input } from '@angular/core';
+
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+
+import { MeteringGridAreaImbalancePerDayDto } from '../dh-metering-gridarea-imbalance';
+
 export enum ImbalanceType {
   surplus = 'surplus',
   deficit = 'deficit',
