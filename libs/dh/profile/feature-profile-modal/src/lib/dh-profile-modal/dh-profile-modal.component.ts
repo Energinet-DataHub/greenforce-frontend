@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { TranslocoDirective, translate } from '@ngneat/transloco';
-
 import { Component, ViewChild, inject, signal } from '@angular/core';
 import { Apollo, ApolloModule, MutationResult } from 'apollo-angular';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -38,12 +37,10 @@ import { DhSignupMitIdComponent } from '@energinet-datahub/dh/shared/feature-aut
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
-
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-
 import {
   GetUserProfileDocument,
   UpdateUserProfileDocument,
