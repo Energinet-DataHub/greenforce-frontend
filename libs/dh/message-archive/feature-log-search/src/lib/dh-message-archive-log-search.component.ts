@@ -186,7 +186,7 @@ export class DhMessageArchiveLogSearchComponent {
       receiverNumber: receiverNumber === '' ? null : receiverNumber,
       documentTypes: documentTypes?.length === 0 ? null : documentTypes,
       businessReasons: businessReasons?.length === 0 ? null : businessReasons,
-      includedRelatedMessage: includeRelated
+      includeRelatedMessages: includeRelated
     });
 
     this.store.searchLogs(this.searchCriteria);
