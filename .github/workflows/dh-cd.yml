@@ -35,7 +35,7 @@ jobs:
   dotnet_update_coverage_report:
     needs: changes
     if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v12
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v13
     with:
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       environment: AzureAuth
@@ -48,7 +48,7 @@ jobs:
   dotnet_promote_prerelease:
     needs: changes
     if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v12
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v13
     with:
       release_name_prefix: ui_dotnet
 
@@ -59,7 +59,7 @@ jobs:
   frontend_promote_prerelease:
     needs: changes
     if: ${{ needs.changes.outputs.dh_frontend == 'true' || needs.changes.outputs.dh_frontend_e2e == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v12
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v13
     with:
       release_name_prefix: ui_frontend
 
@@ -89,7 +89,7 @@ jobs:
           private_key: ${{ secrets.dh3serviceaccount_privatekey }}
 
       - name: Find associated pull request
-        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v12
+        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v13
         id: find_pull_request
 
       - name: Repository Dispatch
@@ -115,7 +115,7 @@ jobs:
     if: |
       always() &&
       contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v12
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v13
     with:
       team_name: TeamFrontend
       subject: "Deployment dispatch failed: UI + BFF"
