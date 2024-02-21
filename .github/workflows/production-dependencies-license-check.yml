@@ -28,7 +28,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.internal_github_pat }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4

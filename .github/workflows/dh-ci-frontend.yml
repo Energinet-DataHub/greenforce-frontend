@@ -95,7 +95,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.internal_github_pat }}
 
       - name: "Merge: Check out source code"
         if: ${{ env.IS_MAIN_BRANCH == 'true' }}
