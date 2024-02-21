@@ -140,7 +140,7 @@ export class DhUsersTabComponent {
     this.onSearchInput();
 
     this.profileModalService.onProfileUpdate$
-      .pipe(delay(500), takeUntilDestroyed())
+      .pipe(delay(1000), takeUntilDestroyed())
       .subscribe(() => this.store.reloadUsers());
   }
 
