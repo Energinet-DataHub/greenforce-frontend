@@ -70,6 +70,11 @@ type MeteringGridAreaImbalancePerDayDtoExtended = MeteringGridAreaImbalancePerDa
       </ng-container>
     </watt-table>
   </vater-flex>`,
+  styles: `
+    watt-table {
+      margin-top: var(--watt-space-m);
+    }
+    `,
   imports: [WATT_TABLE, VaterFlexComponent, WattDatePipe, TranslocoDirective],
 })
 export class DhDrawerImbalanceTableComponent implements OnInit {

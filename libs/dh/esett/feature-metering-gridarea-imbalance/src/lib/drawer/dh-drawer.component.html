@@ -52,25 +52,24 @@ limitations under the License.
         <watt-tabs>
           <watt-tab [label]="t('tabs.imbalance')">
             <vater-flex [fill]="'horizontal'" gap="m">
-              <watt-card>
-                <watt-card-title
-                  ><h4>{{ t("card.titles.deficit") }}</h4>
-                </watt-card-title>
-
+              <watt-expandable-card variant="solid">
+                <watt-expandable-card-title>
+                  <h4>{{ t("card.titles.deficit") }}</h4>
+                </watt-expandable-card-title>
                 <dh-metering-gridarea-imbalance-table
                   [imbalanceType]="ImbalanceType.deficit"
                   [meteringGridAreaImbalancePerDays]="meteringGridAreaImbalance()?.imbalancePerDay"
                 />
-              </watt-card>
-              <watt-card>
-                <watt-card-title>
+              </watt-expandable-card>
+              <watt-expandable-card variant="solid">
+                <watt-expandable-card-title>
                   <h4>{{ t("card.titles.surplus") }}</h4>
-                </watt-card-title>
+                </watt-expandable-card-title>
                 <dh-metering-gridarea-imbalance-table
                   [imbalanceType]="ImbalanceType.surplus"
                   [meteringGridAreaImbalancePerDays]="meteringGridAreaImbalance()?.imbalancePerDay"
                 />
-              </watt-card>
+              </watt-expandable-card>
             </vater-flex>
           </watt-tab>
 
