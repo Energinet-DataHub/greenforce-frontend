@@ -95,7 +95,7 @@ jobs:
         run: yarn nx build ${{ env.app-name }}
 
       - name: Upload web app build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.app-name }}
           path: ./dist/apps/eo/${{ env.app-name }}/browser/
