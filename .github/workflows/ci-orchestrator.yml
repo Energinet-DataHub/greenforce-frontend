@@ -77,7 +77,7 @@ jobs:
   render_c4model_views:
     needs: changes
     if: ${{ needs.changes.outputs.render_c4model_views == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/structurizr-render-diagrams.yml@kerbou/change-signature-for-structurizr-workflow
+    uses: Energinet-DataHub/.github/.github/workflows/structurizr-render-diagrams.yml@v13
     with:
       structurizr_workspace_filename: views
       included_model_filename: model
