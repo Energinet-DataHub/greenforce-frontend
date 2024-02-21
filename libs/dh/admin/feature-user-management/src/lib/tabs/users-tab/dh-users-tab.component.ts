@@ -21,7 +21,7 @@ import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { BehaviorSubject, Observable, debounceTime } from 'rxjs';
+import { BehaviorSubject, Observable, debounceTime, delay } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
@@ -140,7 +140,7 @@ export class DhUsersTabComponent {
     this.onSearchInput();
 
     this.profileModalService.onProfileUpdate$
-      .pipe(takeUntilDestroyed())
+      .pipe(delay(1000), takeUntilDestroyed())
       .subscribe(() => this.store.reloadUsers());
   }
 
