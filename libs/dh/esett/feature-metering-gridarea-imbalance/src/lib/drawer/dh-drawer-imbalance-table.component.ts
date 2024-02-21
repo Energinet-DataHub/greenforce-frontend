@@ -16,7 +16,7 @@
  */
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { Component, OnInit, input } from '@angular/core';
+import { Component, OnInit, computed, input } from '@angular/core';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
@@ -41,7 +41,7 @@ type MeteringGridAreaImbalancePerDayDtoExtended = MeteringGridAreaImbalancePerDa
     fill="vertical"
     scrollable
     *transloco="let t; read: 'eSett.meteringGridAreaImbalance.drawer.table'"
-    ><watt-table [columns]="columns" [dataSource]="tableDataSource">
+    ><watt-table [columns]="columns" [dataSource]="tableDataSource()">
       <ng-container
         *wattTableCell="columns['position']; header: t('columns.position'); let imbalance"
       >
@@ -75,26 +75,31 @@ type MeteringGridAreaImbalancePerDayDtoExtended = MeteringGridAreaImbalancePerDa
 export class DhDrawerImbalanceTableComponent implements OnInit {
   meteringGridAreaImbalancePerDays = input<MeteringGridAreaImbalancePerDayDto[] | undefined>();
   imbalanceType = input<ImbalanceType>();
-  tableDataSource = new WattTableDataSource<MeteringGridAreaImbalancePerDayDtoExtended>([]);
+  tableDataSource = computed(
+    () =>
+      new WattTableDataSource<MeteringGridAreaImbalancePerDayDtoExtended>(
+        (this.meteringGridAreaImbalancePerDays() ?? [])
+          .map((x, index) => ({
+            outgoingQuantity: x.outgoingQuantity ?? 0,
+            incomingQuantity: x.incomingQuantity ?? 0,
+            imbalanceDay: x.imbalanceDay,
+            time: x.imbalanceDay,
+            position: index,
+            __typename: x.__typename,
+          }))
+          .filter(
+            (x) =>
+              (x.outgoingQuantity - x.incomingQuantity > 0 &&
+                this.imbalanceType() === ImbalanceType.surplus) ||
+              (x.outgoingQuantity - x.incomingQuantity < 0 &&
+                this.imbalanceType() === ImbalanceType.deficit)
+          )
+      )
+  );
+
   columns!: WattTableColumnDef<MeteringGridAreaImbalancePerDayDtoExtended>;
 
   ngOnInit(): void {
-    this.tableDataSource.data = (this.meteringGridAreaImbalancePerDays() ?? [])
-      .map((x, index) => ({
-        outgoingQuantity: x.outgoingQuantity ?? 0,
-        incomingQuantity: x.incomingQuantity ?? 0,
-        imbalanceDay: x.imbalanceDay,
-        time: x.imbalanceDay,
-        position: index,
-        __typename: x.__typename,
-      }))
-      .filter(
-        (x) =>
-          (x.outgoingQuantity - x.incomingQuantity > 0 &&
-            this.imbalanceType() === ImbalanceType.surplus) ||
-          (x.outgoingQuantity - x.incomingQuantity < 0 &&
-            this.imbalanceType() === ImbalanceType.deficit)
-      );
     this.columns = {
       position: { accessor: 'position', sort: false },
       imbalanceDay: { accessor: 'imbalanceDay', sort: false },

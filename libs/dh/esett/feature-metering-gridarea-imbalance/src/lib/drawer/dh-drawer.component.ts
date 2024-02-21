@@ -17,9 +17,17 @@
 
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { NgIf } from '@angular/common';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { Component, ViewChild, Output, EventEmitter, inject, Signal } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  Output,
+  EventEmitter,
+  inject,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 
 import { RxPush } from '@rx-angular/template/push';
 import { Observable, Subject, switchMap, takeUntil } from 'rxjs';
@@ -64,7 +72,6 @@ import {
     `,
   ],
   imports: [
-    NgIf,
     TranslocoDirective,
     RxPush,
 
@@ -89,7 +96,7 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
 
   ImbalanceType = ImbalanceType;
 
-  meteringGridAreaImbalance: DhMeteringGridAreaImbalance | null = null;
+  meteringGridAreaImbalance: WritableSignal<DhMeteringGridAreaImbalance | null> = signal(null);
   xmlMessage: Signal<string | undefined> = toSignal(
     this._getDocument$.pipe(
       switchMap((documentLink) => this.loadDocument(documentLink)),
@@ -105,16 +112,16 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
   public open(message: DhMeteringGridAreaImbalance): void {
     this.drawer?.open();
 
-    this.meteringGridAreaImbalance = message;
+    this.meteringGridAreaImbalance.set(message);
 
-    if (this.meteringGridAreaImbalance !== null && this.meteringGridAreaImbalance.id) {
-      this._getDocument$.next(this.meteringGridAreaImbalance.id);
+    if (message !== null && message.id) {
+      this._getDocument$.next(message.id);
     }
   }
 
   onClose(): void {
     this.closed.emit();
-    this.meteringGridAreaImbalance = null;
+    this.meteringGridAreaImbalance.set(null);
   }
 
   private loadDocument(documentLink: string): Observable<string> {

@@ -18,69 +18,71 @@ limitations under the License.
   <watt-drawer #drawer (closed)="onClose()">
     <watt-drawer-heading
       ><h2 class="message-heading">
-        {{ meteringGridAreaImbalance?.gridArea?.code }} •
-        {{ meteringGridAreaImbalance?.gridArea?.name }}
+        {{ meteringGridAreaImbalance()?.gridArea?.code }} •
+        {{ meteringGridAreaImbalance()?.gridArea?.name }}
       </h2>
 
       <watt-description-list [groupsPerRow]="4" variant="flow">
         <watt-description-list-item
           [label]="t('metadata.created')"
-          [value]="meteringGridAreaImbalance?.documentDateTime | wattDate: 'long'"
+          [value]="meteringGridAreaImbalance()?.documentDateTime | wattDate: 'long'"
         />
         <watt-description-list-item
           [label]="t('metadata.received')"
-          [value]="meteringGridAreaImbalance?.receivedDateTime | wattDate: 'long'"
+          [value]="meteringGridAreaImbalance()?.receivedDateTime | wattDate: 'long'"
         />
         <watt-description-list-item
           [label]="t('metadata.periode')"
           value="
-          {{ meteringGridAreaImbalance?.periodStart | wattDate }} - {{
-            meteringGridAreaImbalance?.periodEnd | wattDate
+          {{ meteringGridAreaImbalance()?.periodStart | wattDate }} - {{
+            meteringGridAreaImbalance()?.periodEnd | wattDate
           }}
         "
         />
         <watt-description-list-item
           [label]="t('metadata.gridArea')"
-          value="{{ meteringGridAreaImbalance?.gridArea?.code }} - {{
-            meteringGridAreaImbalance?.gridArea?.name
+          value="{{ meteringGridAreaImbalance()?.gridArea?.code }} - {{
+            meteringGridAreaImbalance()?.gridArea?.name
           }}"
         />
       </watt-description-list>
     </watt-drawer-heading>
-    <watt-drawer-content *ngIf="drawer.isOpen">
-      <watt-tabs>
-        <watt-tab [label]="t('tabs.imbalance')">
-          <vater-flex [fill]="'horizontal'" gap="m">
-            <watt-card>
-              <watt-card-title
-                ><h4>{{ t("card.titles.deficit") }}</h4>
-              </watt-card-title>
+    @if (drawer.isOpen) {
+      <watt-drawer-content>
+        <watt-tabs>
+          <watt-tab [label]="t('tabs.imbalance')">
+            <vater-flex [fill]="'horizontal'" gap="m">
+              <watt-card>
+                <watt-card-title
+                  ><h4>{{ t("card.titles.deficit") }}</h4>
+                </watt-card-title>
 
-              <dh-metering-gridarea-imbalance-table
-                [imbalanceType]="ImbalanceType.deficit"
-                [meteringGridAreaImbalancePerDays]="meteringGridAreaImbalance?.imbalancePerDay"
-              />
-            </watt-card>
-            <watt-card>
-              <watt-card-title>
-                <h4>{{ t("card.titles.surplus") }}</h4>
-              </watt-card-title>
-              <dh-metering-gridarea-imbalance-table
-                [imbalanceType]="ImbalanceType.surplus"
-                [meteringGridAreaImbalancePerDays]="meteringGridAreaImbalance?.imbalancePerDay"
-              />
-            </watt-card>
-          </vater-flex>
-        </watt-tab>
-
-        @if (xmlMessage() !== "") {
-          <watt-tab [label]="t('tabs.message')">
-            <div class="xml-message-container">
-              <watt-code [code]="xmlMessage()" />
-            </div>
+                <dh-metering-gridarea-imbalance-table
+                  [imbalanceType]="ImbalanceType.deficit"
+                  [meteringGridAreaImbalancePerDays]="meteringGridAreaImbalance()?.imbalancePerDay"
+                />
+              </watt-card>
+              <watt-card>
+                <watt-card-title>
+                  <h4>{{ t("card.titles.surplus") }}</h4>
+                </watt-card-title>
+                <dh-metering-gridarea-imbalance-table
+                  [imbalanceType]="ImbalanceType.surplus"
+                  [meteringGridAreaImbalancePerDays]="meteringGridAreaImbalance()?.imbalancePerDay"
+                />
+              </watt-card>
+            </vater-flex>
           </watt-tab>
-        }
-      </watt-tabs>
-    </watt-drawer-content>
+
+          @if (xmlMessage() !== "") {
+            <watt-tab [label]="t('tabs.message')">
+              <div class="xml-message-container">
+                <watt-code [code]="xmlMessage()" />
+              </div>
+            </watt-tab>
+          }
+        </watt-tabs>
+      </watt-drawer-content>
+    }
   </watt-drawer>
 </ng-container>
