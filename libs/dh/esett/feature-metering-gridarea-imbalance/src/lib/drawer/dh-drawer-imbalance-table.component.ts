@@ -16,7 +16,7 @@
  */
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { Component, OnInit, effect, input } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
@@ -24,12 +24,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 
 import { MeteringGridAreaImbalancePerDayDto } from '../dh-metering-gridarea-imbalance';
 
-export enum ImbalanceType {
-  surplus = 'surplus',
-  deficit = 'deficit',
-}
-
-type MeteringGridAreaImbalancePerDayDtoExtended = MeteringGridAreaImbalancePerDayDto & {
+export type MeteringGridAreaImbalancePerDayDtoExtended = MeteringGridAreaImbalancePerDayDto & {
   time: Date;
   position: number;
 };
@@ -41,7 +36,7 @@ type MeteringGridAreaImbalancePerDayDtoExtended = MeteringGridAreaImbalancePerDa
     fill="vertical"
     scrollable
     *transloco="let t; read: 'eSett.meteringGridAreaImbalance.drawer.table'"
-    ><watt-table [columns]="columns" [dataSource]="tableDataSource">
+    ><watt-table [columns]="columns" [dataSource]="getDataSource()">
       <ng-container
         *wattTableCell="columns['position']; header: t('columns.position'); let imbalance"
       >
@@ -72,45 +67,23 @@ type MeteringGridAreaImbalancePerDayDtoExtended = MeteringGridAreaImbalancePerDa
   </vater-flex>`,
   styles: `
     watt-table {
-      margin-top: var(--watt-space-m);
+      margin: var(--watt-space-m) 0;
     }
     `,
   imports: [WATT_TABLE, VaterFlexComponent, WattDatePipe, TranslocoDirective],
 })
 export class DhDrawerImbalanceTableComponent implements OnInit {
-  meteringGridAreaImbalancePerDays = input<MeteringGridAreaImbalancePerDayDto[] | undefined>();
-  imbalanceType = input<ImbalanceType>();
-  tableDataSource = new WattTableDataSource<MeteringGridAreaImbalancePerDayDtoExtended>();
+  surplus = input<WattTableDataSource<MeteringGridAreaImbalancePerDayDtoExtended>>();
+  deficit = input<WattTableDataSource<MeteringGridAreaImbalancePerDayDtoExtended>>();
 
   columns!: WattTableColumnDef<MeteringGridAreaImbalancePerDayDtoExtended>;
-
-  constructor() {
-    effect(() => {
-      this.tableDataSource.data = (this.meteringGridAreaImbalancePerDays() ?? [])
-        .map((x, index) => ({
-          outgoingQuantity: x.outgoingQuantity ?? 0,
-          incomingQuantity: x.incomingQuantity ?? 0,
-          imbalanceDay: x.imbalanceDay,
-          time: x.imbalanceDay,
-          position: index,
-          __typename: x.__typename,
-        }))
-        .filter(
-          (x) =>
-            (x.outgoingQuantity - x.incomingQuantity > 0 &&
-              this.imbalanceType() === ImbalanceType.surplus) ||
-            (x.outgoingQuantity - x.incomingQuantity < 0 &&
-              this.imbalanceType() === ImbalanceType.deficit)
-        );
-    });
-  }
 
   ngOnInit(): void {
     this.columns = {
       position: { accessor: 'position', sort: false },
       imbalanceDay: { accessor: 'imbalanceDay', sort: false },
       time: { accessor: 'time', sort: false },
-      ...(this.imbalanceType() === ImbalanceType.deficit
+      ...(this.deficit !== undefined
         ? {
             incomingQuantity: {
               accessor: 'incomingQuantity',
@@ -118,7 +91,7 @@ export class DhDrawerImbalanceTableComponent implements OnInit {
             },
           }
         : {}),
-      ...(this.imbalanceType() === ImbalanceType.surplus
+      ...(this.surplus !== undefined
         ? {
             outgoingQuantity: {
               accessor: 'outgoingQuantity',
@@ -127,5 +100,9 @@ export class DhDrawerImbalanceTableComponent implements OnInit {
           }
         : {}),
     };
+  }
+
+  getDataSource(): WattTableDataSource<MeteringGridAreaImbalancePerDayDtoExtended> {
+    return this.surplus() !== undefined ? this.surplus()! : this.deficit()!;
   }
 }

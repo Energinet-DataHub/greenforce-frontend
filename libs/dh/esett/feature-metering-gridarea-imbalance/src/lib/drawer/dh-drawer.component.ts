@@ -18,16 +18,7 @@
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import {
-  Component,
-  ViewChild,
-  Output,
-  EventEmitter,
-  inject,
-  Signal,
-  signal,
-  WritableSignal,
-} from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, inject, Signal } from '@angular/core';
 
 import { RxPush } from '@rx-angular/template/push';
 import { Observable, Subject, switchMap, takeUntil } from 'rxjs';
@@ -48,8 +39,9 @@ import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expanda
 import { DhMeteringGridAreaImbalance } from '../dh-metering-gridarea-imbalance';
 import {
   DhDrawerImbalanceTableComponent,
-  ImbalanceType,
+  MeteringGridAreaImbalancePerDayDtoExtended,
 } from './dh-drawer-imbalance-table.component';
+import { WattTableDataSource } from '@energinet-datahub/watt/table';
 
 @Component({
   selector: 'dh-metering-grid-imbalance-drawer',
@@ -94,15 +86,17 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
   private readonly _esettHttp = inject(EsettExchangeHttp);
   private _getDocument$ = new Subject<string>();
 
-  ImbalanceType = ImbalanceType;
+  surplusDataSource = new WattTableDataSource<MeteringGridAreaImbalancePerDayDtoExtended>();
+  deficitDataSource = new WattTableDataSource<MeteringGridAreaImbalancePerDayDtoExtended>();
 
-  meteringGridAreaImbalance: WritableSignal<DhMeteringGridAreaImbalance | null> = signal(null);
   xmlMessage: Signal<string | undefined> = toSignal(
     this._getDocument$.pipe(
       switchMap((documentLink) => this.loadDocument(documentLink)),
       takeUntilDestroyed()
     )
   );
+
+  meteringGridAreaImbalance: DhMeteringGridAreaImbalance | null = null;
 
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
@@ -112,7 +106,22 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
   public open(message: DhMeteringGridAreaImbalance): void {
     this.drawer?.open();
 
-    this.meteringGridAreaImbalance.set(message);
+    this.meteringGridAreaImbalance = message;
+
+    const imbalances = message.imbalancePerDay.map((x, index) => ({
+      outgoingQuantity: x.outgoingQuantity ?? 0,
+      incomingQuantity: x.incomingQuantity ?? 0,
+      imbalanceDay: x.imbalanceDay,
+      time: x.imbalanceDay,
+      position: index,
+      __typename: x.__typename,
+    }));
+
+    const surplus = imbalances.filter((x) => x.outgoingQuantity - x.incomingQuantity > 0);
+    const deficit = imbalances.filter((x) => x.outgoingQuantity - x.incomingQuantity < 0);
+
+    this.surplusDataSource.data = surplus;
+    this.deficitDataSource.data = deficit;
 
     if (message !== null && message.id) {
       this._getDocument$.next(message.id);
@@ -121,7 +130,6 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
 
   onClose(): void {
     this.closed.emit();
-    this.meteringGridAreaImbalance.set(null);
   }
 
   private loadDocument(documentLink: string): Observable<string> {

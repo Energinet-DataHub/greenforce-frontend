@@ -1008,12 +1008,6 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     periodEnd: new Date('2024-02-16T23:00:00.000Z'),
     imbalancePerDay: [
       {
-        imbalanceDay: new Date('2024-02-02T23:00:00.000Z'),
-        incomingQuantity: null,
-        outgoingQuantity: 20992637,
-        __typename: 'MeteringGridAreaImbalancePerDayDto',
-      },
-      {
         imbalanceDay: new Date('2024-02-03T23:00:00.000Z'),
         incomingQuantity: 9592837,
         outgoingQuantity: 7043178,
@@ -1035,48 +1029,6 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
         imbalanceDay: new Date('2024-02-06T23:00:00.000Z'),
         incomingQuantity: 11787696,
         outgoingQuantity: 2035167,
-        __typename: 'MeteringGridAreaImbalancePerDayDto',
-      },
-      {
-        imbalanceDay: new Date('2024-02-07T23:00:00.000Z'),
-        incomingQuantity: 2485143,
-        outgoingQuantity: 3667305,
-        __typename: 'MeteringGridAreaImbalancePerDayDto',
-      },
-      {
-        imbalanceDay: new Date('2024-02-08T23:00:00.000Z'),
-        incomingQuantity: 11109348,
-        outgoingQuantity: 2509938,
-        __typename: 'MeteringGridAreaImbalancePerDayDto',
-      },
-      {
-        imbalanceDay: new Date('2024-02-09T23:00:00.000Z'),
-        incomingQuantity: 74911,
-        outgoingQuantity: 10075708,
-        __typename: 'MeteringGridAreaImbalancePerDayDto',
-      },
-      {
-        imbalanceDay: new Date('2024-02-10T23:00:00.000Z'),
-        incomingQuantity: 2044597,
-        outgoingQuantity: 8670987,
-        __typename: 'MeteringGridAreaImbalancePerDayDto',
-      },
-      {
-        imbalanceDay: new Date('2024-02-12T23:00:00.000Z'),
-        incomingQuantity: 518232,
-        outgoingQuantity: 15521140,
-        __typename: 'MeteringGridAreaImbalancePerDayDto',
-      },
-      {
-        imbalanceDay: new Date('2024-02-13T23:00:00.000Z'),
-        incomingQuantity: null,
-        outgoingQuantity: 5907300,
-        __typename: 'MeteringGridAreaImbalancePerDayDto',
-      },
-      {
-        imbalanceDay: new Date('2024-02-14T23:00:00.000Z'),
-        incomingQuantity: 33785,
-        outgoingQuantity: 12337145,
         __typename: 'MeteringGridAreaImbalancePerDayDto',
       },
     ],

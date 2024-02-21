@@ -18,31 +18,31 @@ limitations under the License.
   <watt-drawer #drawer (closed)="onClose()">
     <watt-drawer-heading
       ><h2 class="message-heading">
-        {{ meteringGridAreaImbalance()?.gridArea?.code }} •
-        {{ meteringGridAreaImbalance()?.gridArea?.name }}
+        {{ meteringGridAreaImbalance?.gridArea?.code }} •
+        {{ meteringGridAreaImbalance?.gridArea?.name }}
       </h2>
 
       <watt-description-list [groupsPerRow]="4" variant="flow">
         <watt-description-list-item
           [label]="t('metadata.created')"
-          [value]="meteringGridAreaImbalance()?.documentDateTime | wattDate: 'long'"
+          [value]="meteringGridAreaImbalance?.documentDateTime | wattDate: 'long'"
         />
         <watt-description-list-item
           [label]="t('metadata.received')"
-          [value]="meteringGridAreaImbalance()?.receivedDateTime | wattDate: 'long'"
+          [value]="meteringGridAreaImbalance?.receivedDateTime | wattDate: 'long'"
         />
         <watt-description-list-item
           [label]="t('metadata.periode')"
           value="
-          {{ meteringGridAreaImbalance()?.periodStart | wattDate }} - {{
-            meteringGridAreaImbalance()?.periodEnd | wattDate
+          {{ meteringGridAreaImbalance?.periodStart | wattDate }} - {{
+            meteringGridAreaImbalance?.periodEnd | wattDate
           }}
         "
         />
         <watt-description-list-item
           [label]="t('metadata.gridArea')"
-          value="{{ meteringGridAreaImbalance()?.gridArea?.code }} - {{
-            meteringGridAreaImbalance()?.gridArea?.name
+          value="{{ meteringGridAreaImbalance?.gridArea?.code }} - {{
+            meteringGridAreaImbalance?.gridArea?.name
           }}"
         />
       </watt-description-list>
@@ -52,24 +52,22 @@ limitations under the License.
         <watt-tabs>
           <watt-tab [label]="t('tabs.imbalance')">
             <vater-flex [fill]="'horizontal'" gap="m">
-              <watt-expandable-card variant="solid">
-                <watt-expandable-card-title>
-                  <h4>{{ t("card.titles.deficit") }}</h4>
-                </watt-expandable-card-title>
-                <dh-metering-gridarea-imbalance-table
-                  [imbalanceType]="ImbalanceType.deficit"
-                  [meteringGridAreaImbalancePerDays]="meteringGridAreaImbalance()?.imbalancePerDay"
-                />
-              </watt-expandable-card>
-              <watt-expandable-card variant="solid">
-                <watt-expandable-card-title>
-                  <h4>{{ t("card.titles.surplus") }}</h4>
-                </watt-expandable-card-title>
-                <dh-metering-gridarea-imbalance-table
-                  [imbalanceType]="ImbalanceType.surplus"
-                  [meteringGridAreaImbalancePerDays]="meteringGridAreaImbalance()?.imbalancePerDay"
-                />
-              </watt-expandable-card>
+              @if (deficitDataSource.data.length > 0) {
+                <watt-expandable-card variant="solid">
+                  <watt-expandable-card-title>
+                    <h4>{{ t("card.titles.deficit") }}</h4>
+                  </watt-expandable-card-title>
+                  <dh-metering-gridarea-imbalance-table [deficit]="deficitDataSource" />
+                </watt-expandable-card>
+              }
+              @if (surplusDataSource.data.length > 0) {
+                <watt-expandable-card variant="solid">
+                  <watt-expandable-card-title>
+                    <h4>{{ t("card.titles.surplus") }}</h4>
+                  </watt-expandable-card-title>
+                  <dh-metering-gridarea-imbalance-table [surplus]="surplusDataSource" />
+                </watt-expandable-card>
+              }
             </vater-flex>
           </watt-tab>
 
