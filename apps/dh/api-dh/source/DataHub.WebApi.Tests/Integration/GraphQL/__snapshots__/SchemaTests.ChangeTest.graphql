@@ -137,8 +137,8 @@ type ExchangeEventSearchResponse {
 }
 
 type ExchangeEventSearchResult {
+  gridArea: GridAreaDto
   documentId: String!
-  gridAreaCode: String!
   created: DateTime!
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
@@ -219,8 +219,8 @@ type MeteringGridAreaImbalanceSearchResponse {
 }
 
 type MeteringGridAreaImbalanceSearchResult {
+  gridArea: GridAreaDto
   id: String!
-  gridAreaCode: String!
   documentDateTime: DateTime!
   receivedDateTime: DateTime!
   periodStart: DateTime!
