@@ -734,11 +734,19 @@
     },
     "meteringGridAreaImbalance": {
       "tabHeading": "MGA Ubalancer",
+      "shared": {
+        "valuesToInclude": {
+          "IMBALANCES": "Ubalancer",
+          "BALANCES": "Ingen Ubalancer",
+          "BOTH": "Begge"
+        }
+      },
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Oprettelsesdato",
         "reset": "{{ shared.form.reset }}",
-        "documentId": "Besked Id"
+        "documentId": "Besked Id",
+        "valuesToInclude": "Pristyper"
       },
       "columns": {
         "documentDateTime": "Oprettet",

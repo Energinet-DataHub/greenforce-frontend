@@ -29,6 +29,14 @@ limitations under the License.
     [placeholder]="translate('gridArea')"
   />
 
+  <watt-dropdown
+    [formControl]="formGroup.controls.valuesToInclude!"
+    [chipMode]="true"
+    [options]="valuestoIncludeOptions$ | push"
+    [showResetOption]="false"
+    [placeholder]="translate('valuesToInclude')"
+  />
+
   <watt-date-range-chip [formControl]="formGroup.controls.period!">{{
     translate("createdPeriod")
   }}</watt-date-range-chip>
