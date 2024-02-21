@@ -82,7 +82,7 @@ watt-table .mat-mdc-table {
 
   .watt-table-clickable-row td {
     cursor: pointer;
-    user-select: none;
+    user-select: text;
   }
 
   .watt-table-highlight-row:hover:not(.watt-table-active-row) td {
