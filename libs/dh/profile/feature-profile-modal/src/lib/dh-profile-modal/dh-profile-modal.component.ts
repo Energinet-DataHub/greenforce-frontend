@@ -166,12 +166,16 @@ export class DhProfileModalComponent {
     response: MutationResult<UpdateUserProfileMutation>,
     selectedLanguage: string
   ) {
-    this.updatingUserProfile.set(response.loading);
+    if (response.loading) {
+      this.updatingUserProfile.set(true);
+    }
 
     if (
       response.data?.updateUserProfile?.errors &&
       response.data?.updateUserProfile?.errors.length > 0
     ) {
+      this.updatingUserProfile.set(false);
+
       this._toastService.open({
         type: 'danger',
         message: readApiErrorResponse(response.data?.updateUserProfile?.errors),
@@ -179,10 +183,14 @@ export class DhProfileModalComponent {
     }
 
     if (response.data?.updateUserProfile?.saved) {
-      this._toastService.open({ message: translate('shared.profile.success'), type: 'success' });
-      this.closeModal(true);
-      this._getUserProfileQuery.refetch();
-      this._profileModalService.notifyAboutProfileUpdate();
+      setTimeout(() => {
+        this.updatingUserProfile.set(false);
+
+        this._toastService.open({ message: translate('shared.profile.success'), type: 'success' });
+        this.closeModal(true);
+        this._getUserProfileQuery.refetch();
+        this._profileModalService.notifyAboutProfileUpdate();
+      }, 2_000);
     }
 
     this._languageService.selectedLanguage = selectedLanguage;
