@@ -33,7 +33,7 @@ import {
 } from '@energinet-datahub/watt/vater';
 
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
+import { DhMeteringGridAreaImbalanceTableComponent } from './table/dh-table.component';
 import { DhMeteringGridAreaImbalance } from './dh-metering-gridarea-imbalance';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhMeteringGridAreaImbalanceFiltersComponent } from './filters/dh-filters.component';
@@ -80,7 +80,7 @@ import { dhMGASortMetadataMapper } from './util/dh-sort-metadata-mapper.operator
     VaterUtilityDirective,
 
     DhMeteringGridAreaImbalanceFiltersComponent,
-    DhOutgoingMessagesTableComponent,
+    DhMeteringGridAreaImbalanceTableComponent,
   ],
 })
 export class DhMeteringGridAreaImbalanceComponent implements OnInit {

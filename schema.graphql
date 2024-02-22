@@ -101,6 +101,15 @@ enum ExchangeEventCalculationType {
   AGGREGATION
 }
 
+type ExchangeEventSearchResult {
+  gridArea: GridAreaDto
+  documentId: String!
+  created: DateTime!
+  calculationType: ExchangeEventCalculationType!
+  timeSeriesType: TimeSeriesType!
+  documentStatus: DocumentStatus!
+}
+
 type GridAreaDto {
   priceAreaCode: PriceAreaCode!
   id: UUID!
@@ -123,6 +132,16 @@ type ImbalancePriceDaily {
   timeStamp: DateTime!
   imbalancePrices: [ImbalancePrice!]!
   importedAt: DateTime
+}
+
+type MeteringGridAreaImbalanceSearchResult {
+  gridArea: GridAreaDto
+  id: String!
+  documentDateTime: DateTime!
+  receivedDateTime: DateTime!
+  periodStart: DateTime!
+  periodEnd: DateTime!
+  imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
 type OrganizationAuditedChangeAuditLogDto {
@@ -321,6 +340,12 @@ enum ImbalancePriceStatus {
   COMPLETE
 }
 
+type MeteringGridAreaImbalancePerDayDto {
+  imbalanceDay: DateTime!
+  incomingQuantity: Float
+  outgoingQuantity: Float
+}
+
 enum OrganizationAuditedChange {
   DOMAIN
   NAME
@@ -376,6 +401,12 @@ type ApiError implements Error {
 
 interface Error {
   message: String!
+}
+
+type ApiErrorDescriptor {
+  message: String!
+  code: String!
+  args: JSON!
 }
 
 enum UserRoleStatus {
@@ -528,18 +559,10 @@ type UserRoleWithPermissionsDto {
   permissions: [PermissionDetailsDto!]!
 }
 
-type ApiErrorDescriptor {
-  message: String!
-  code: String!
-  args: JSON!
-}
-
 type KeyValuePairOfStringAndIEnumerableOfString {
   key: String!
   value: [String!]!
 }
-
-scalar JSON
 
 type PermissionDetailsDto {
   id: Int!
@@ -553,25 +576,6 @@ enum ESettStageComponent {
   CONVERTER
   SENDER
   RECEIVER
-}
-
-type ExchangeEventSearchResult {
-  documentId: String!
-  gridAreaCode: String!
-  created: DateTime!
-  calculationType: ExchangeEventCalculationType!
-  timeSeriesType: TimeSeriesType!
-  documentStatus: DocumentStatus!
-}
-
-type MeteringGridAreaImbalanceSearchResult {
-  id: String!
-  gridAreaCode: String!
-  documentDateTime: DateTime!
-  receivedDateTime: DateTime!
-  periodStart: DateTime!
-  periodEnd: DateTime!
-  imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
 type ImbalancePricePeriod {
@@ -601,6 +605,8 @@ input CreateOrganizationDtoInput {
   domain: String!
 }
 
+scalar JSON
+
 input AddressDtoInput {
   streetName: String
   number: String
@@ -621,12 +627,6 @@ input ActorNumberDtoInput {
 
 input ActorNameDtoInput {
   value: String!
-}
-
-type MeteringGridAreaImbalancePerDayDto {
-  imbalanceDay: DateTime!
-  incomingQuantity: Float
-  outgoingQuantity: Float
 }
 
 input ActorGridAreaDtoInput {
