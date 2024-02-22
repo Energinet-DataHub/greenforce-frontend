@@ -25,7 +25,7 @@ import {
   inject,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 import { Observable, Subscription, debounceTime, map } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { Apollo } from 'apollo-angular';
@@ -35,12 +35,16 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  dhEnumToWattDropdownOptions,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
 import {
   GetGridAreasDocument,
   MeteringGridImbalanceValuesToInclude,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMeteringGridAreaImbalanceFilters } from '../dh-metering-gridarea-imbalance-filters';
 
@@ -79,12 +83,12 @@ type Filters = FormControls<DhMeteringGridAreaImbalanceFilters>;
     WattDateRangeChipComponent,
     WattFormChipDirective,
     WattDropdownComponent,
+    DhDropdownTranslatorDirective,
   ],
 })
 export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit, OnDestroy {
   private apollo = inject(Apollo);
   private subscription: Subscription | null = null;
-  private transloco = inject(TranslocoService);
 
   @Input() initial?: DhMeteringGridAreaImbalanceFilters;
 
@@ -92,7 +96,9 @@ export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit, OnDe
   @Output() formReset = new EventEmitter<void>();
 
   gridAreaOptions$ = this.getGridAreaOptions();
-  valuestoIncludeOptions$ = this.getValuesToIncludeOptions();
+  valuestoIncludeOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
+    MeteringGridImbalanceValuesToInclude
+  );
 
   formGroup!: FormGroup<Filters>;
 
@@ -124,18 +130,5 @@ export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit, OnDe
         }))
       )
     );
-  }
-
-  private getValuesToIncludeOptions(): Observable<WattDropdownOptions> {
-    return this.transloco
-      .selectTranslateObject('eSett.meteringGridAreaImbalance.shared.valuesToInclude')
-      .pipe(
-        map((translationObject) =>
-          Object.values(MeteringGridImbalanceValuesToInclude).map((status) => ({
-            displayValue: translationObject[status],
-            value: status,
-          }))
-        )
-      );
   }
 }

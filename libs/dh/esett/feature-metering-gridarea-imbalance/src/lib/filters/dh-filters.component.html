@@ -30,9 +30,11 @@ limitations under the License.
   />
 
   <watt-dropdown
+    dhDropdownTranslator
+    translate="eSett.meteringGridAreaImbalance.shared.valuesToInclude"
     [formControl]="formGroup.controls.valuesToInclude!"
+    [options]="valuestoIncludeOptions"
     [chipMode]="true"
-    [options]="valuestoIncludeOptions$ | push"
     [showResetOption]="false"
     [placeholder]="translate('valuesToInclude')"
   />
