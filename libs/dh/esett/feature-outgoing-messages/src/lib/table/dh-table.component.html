@@ -47,7 +47,7 @@ limitations under the License.
     </ng-container>
 
     <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
-      {{ message.gridAreaCode }}
+      {{ message.gridArea?.code }} - {{ message.gridArea?.name }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let message">
