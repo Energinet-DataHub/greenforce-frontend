@@ -242,7 +242,8 @@
           "DK": "Denmark",
           "SE": "Sweden",
           "NO": "Norway",
-          "FI": "Finland"
+          "FI": "Finland",
+          "DE": "Germany"
         },
         "glnOrEicNumber": "Market party id",
         "name": "Market Party Name",
