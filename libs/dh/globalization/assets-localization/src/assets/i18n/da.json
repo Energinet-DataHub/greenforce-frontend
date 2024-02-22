@@ -1175,7 +1175,7 @@
           "columns": {
             "firstName": "Fornavn",
             "lastName": "Efternavn",
-            "email": "Email",
+            "email": "E-mail",
             "phone": "Telefonnr.",
             "status": "Status"
           }
