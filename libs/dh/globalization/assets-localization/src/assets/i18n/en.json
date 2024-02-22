@@ -736,11 +736,19 @@
     },
     "meteringGridAreaImbalance": {
       "tabHeading": "MGA Imbalance",
+      "shared": {
+        "valuesToInclude": {
+          "IMBALANCES": "Imbalance",
+          "BALANCES": "No Imbalances",
+          "BOTH": "Both"
+        }
+      },
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Created date",
         "reset": "{{ shared.form.reset }}",
-        "documentId": "Message Id"
+        "documentId": "Message Id",
+        "valuesToInclude": "Pricetypes"
       },
       "columns": {
         "documentDateTime": "Created",

@@ -1403,6 +1403,10 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
         [Newtonsoft.Json.JsonProperty("documentId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? DocumentId { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("meteringGridImbalanceValuesToInclude", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public MeteringGridImbalanceValuesToInclude MeteringGridImbalanceValuesToInclude { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("sortProperty", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public MeteringGridAreaImbalanceSortProperty SortProperty { get; set; } = default!;
@@ -1465,6 +1469,21 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
 
         [System.Runtime.Serialization.EnumMember(Value = @"ReceivedDateTime")]
         ReceivedDateTime = 3,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum MeteringGridImbalanceValuesToInclude
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Imbalances")]
+        Imbalances = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Balances")]
+        Balances = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Both")]
+        Both = 2,
 
     }
 
