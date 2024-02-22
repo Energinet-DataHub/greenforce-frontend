@@ -261,6 +261,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             DateTimeOffset? createdTo,
             string? gridAreaCode,
             string? documentId,
+            MeteringGridImbalanceValuesToInclude valuesToInclude,
             MeteringGridAreaImbalanceSortProperty sortProperty,
             Clients.ESettExchange.v1.SortDirection sortDirection,
             [Service] IESettExchangeClient_V1 client) =>
@@ -274,6 +275,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 DocumentId = documentId,
                 SortDirection = sortDirection,
                 SortProperty = sortProperty,
+                MeteringGridImbalanceValuesToInclude = valuesToInclude,
             });
 
         public Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(

@@ -38,7 +38,10 @@ import { DhMeteringGridAreaImbalance } from './dh-metering-gridarea-imbalance';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhMeteringGridAreaImbalanceFiltersComponent } from './filters/dh-filters.component';
 import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
-import { GetMeteringGridAreaImbalanceDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetMeteringGridAreaImbalanceDocument,
+  MeteringGridImbalanceValuesToInclude,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Sort } from '@angular/material/sort';
 import { dhMGASortMetadataMapper } from './util/dh-sort-metadata-mapper.operator';
@@ -110,6 +113,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
       start: sub(startOfDay(new Date()), { days: 2 }),
       end: endOfDay(new Date()),
     },
+    valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances,
   });
 
   documentIdSearch$ = new BehaviorSubject<string>('');
@@ -122,7 +126,9 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   }).pipe(
     map(({ filters, pageMetaData, documentIdSearch, sortMetadata }) => {
       return {
-        filters: documentIdSearch ? {} : filters,
+        filters: documentIdSearch
+          ? { valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances }
+          : filters,
         pageMetaData,
         documentIdSearch,
         sortMetadata,
@@ -149,6 +155,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
             documentId: documentIdSearch,
             sortProperty: sortMetadata.sortProperty,
             sortDirection: sortMetadata.sortDirection,
+            valuesToInclude: filters.valuesToInclude,
           },
         }).valueChanges
     ),
