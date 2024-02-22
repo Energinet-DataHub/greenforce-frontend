@@ -83,7 +83,7 @@ export class DhDrawerImbalanceTableComponent implements OnInit {
       position: { accessor: 'position', sort: false },
       imbalanceDay: { accessor: 'imbalanceDay', sort: false },
       time: { accessor: 'time', sort: false },
-      ...(this.deficit !== undefined
+      ...(this.surplus() !== undefined
         ? {
             incomingQuantity: {
               accessor: 'incomingQuantity',
@@ -91,7 +91,7 @@ export class DhDrawerImbalanceTableComponent implements OnInit {
             },
           }
         : {}),
-      ...(this.surplus !== undefined
+      ...(this.deficit() !== undefined
         ? {
             outgoingQuantity: {
               accessor: 'outgoingQuantity',

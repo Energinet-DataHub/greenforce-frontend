@@ -117,8 +117,10 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
       __typename: x.__typename,
     }));
 
-    const surplus = imbalances.filter((x) => x.outgoingQuantity - x.incomingQuantity > 0);
-    const deficit = imbalances.filter((x) => x.outgoingQuantity - x.incomingQuantity < 0);
+    //Alle underskud og overskud ud. Hvis positionen for den første værdi der ikke er 0.
+
+    const surplus = imbalances.filter((x) => x.incomingQuantity > 0);
+    const deficit = imbalances.filter((x) => x.outgoingQuantity > 0);
 
     this.surplusDataSource.data = surplus;
     this.deficitDataSource.data = deficit;
