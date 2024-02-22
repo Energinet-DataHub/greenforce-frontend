@@ -10,9 +10,8 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["tools/**/*.ts"]
-      },
-      "outputs": ["{options.outputFile}"]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts"]
+      }
     },
     "test": {
       "executor": "@nx/jest:jest",
