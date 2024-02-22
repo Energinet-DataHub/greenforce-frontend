@@ -408,10 +408,10 @@
               "CONTACT_CATEGORY_ADDED_NO_PREVIOUS": "<b>{{ auditedBy }}</b> oprettede kontaktkategorien <b>{{ currentValue }}</b>",
               "CONTACT_CATEGORY_REMOVED": "<b>{{ auditedBy }}</b> fjernede kontaktkategorien <b>{{ previousValue }}</b>",
               "CONTACT_NAME": "<b>{{ auditedBy }}</b> ændrede navnet på kontakten fra <b>{{ previousValue }}</b> til <b>{{ currentValue }}</b>",
-              "CONTACT_EMAIL": "<b>{{ auditedBy }}</b> ændrede email på kontakten fra <b>{{ previousValue }}</b> til <b>{{ currentValue }}</b>",
+              "CONTACT_EMAIL": "<b>{{ auditedBy }}</b> ændrede e-mail på kontakten fra <b>{{ previousValue }}</b> til <b>{{ currentValue }}</b>",
               "CONTACT_PHONE": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten fra <b>{{ previousValue }}</b> til <b>{{ currentValue }}</b>",
               "CONTACT_NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b>",
-              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede email på kontakten til <b>{{ currentValue }}</b>",
+              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede e-mail på kontakten til <b>{{ currentValue }}</b>",
               "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten til <b>{{ currentValue }}</b>"
             }
           }
@@ -1024,7 +1024,7 @@
         "actor": "Aktør",
         "firstname": "Fornavn",
         "lastname": "Efternavn",
-        "email": "Email",
+        "email": "E-mail",
         "phoneNumber": "Telefonnr.",
         "phoneNumberError": "Telefonnr. format +45 12345678", (kommentar: slettes?)
         "wrongEmailPattern": "Indtast en valid e-mail",
