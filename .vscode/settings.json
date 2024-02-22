@@ -20,5 +20,8 @@
   },
   "prettier.prettierPath": "./node_modules/prettier/index.cjs",
   "eslint.validate": ["json"],
-  "dotnet.defaultSolution": "apps/dh/api-dh/DataHub.WebApi.sln"
+  "dotnet.defaultSolution": "apps/dh/api-dh/DataHub.WebApi.sln",
+
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }
