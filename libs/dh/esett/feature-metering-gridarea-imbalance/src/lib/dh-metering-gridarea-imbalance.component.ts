@@ -38,7 +38,10 @@ import { DhMeteringGridAreaImbalance } from './dh-metering-gridarea-imbalance';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhMeteringGridAreaImbalanceFiltersComponent } from './filters/dh-filters.component';
 import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
-import { GetMeteringGridAreaImbalanceDocument, MeteringGridImbalanceValuesToInclude } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetMeteringGridAreaImbalanceDocument,
+  MeteringGridImbalanceValuesToInclude,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Sort } from '@angular/material/sort';
 import { dhMGASortMetadataMapper } from './util/dh-sort-metadata-mapper.operator';
@@ -123,7 +126,9 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   }).pipe(
     map(({ filters, pageMetaData, documentIdSearch, sortMetadata }) => {
       return {
-        filters: documentIdSearch ? { valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances } : filters,
+        filters: documentIdSearch
+          ? { valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances }
+          : filters,
         pageMetaData,
         documentIdSearch,
         sortMetadata,

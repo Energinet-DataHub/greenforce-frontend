@@ -36,7 +36,10 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { GetGridAreasDocument, MeteringGridImbalanceValuesToInclude } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetGridAreasDocument,
+  MeteringGridImbalanceValuesToInclude,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 import { DhMeteringGridAreaImbalanceFilters } from '../dh-metering-gridarea-imbalance-filters';
