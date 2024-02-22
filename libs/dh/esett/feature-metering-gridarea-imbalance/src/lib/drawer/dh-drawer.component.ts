@@ -135,7 +135,7 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
   }
 
   private loadDocument(documentLink: string): Observable<string> {
-    return this._esettHttp.v1EsettExchangeStorageDocumentGet(documentLink).pipe(
+    return this._esettHttp.v1EsettExchangeMgaImbalanceDocumentGet(documentLink).pipe(
       switchMap((res) => {
         const blobPart = res as unknown as BlobPart;
         const blob = new Blob([blobPart]);
