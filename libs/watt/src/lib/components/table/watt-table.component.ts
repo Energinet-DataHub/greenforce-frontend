@@ -453,7 +453,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _onRowClick(row: T) {
-    if (this.disabled) return;
+    if (this.disabled || window.getSelection()?.toString() !== '') return;
     this.rowClick.emit(row);
   }
 }
