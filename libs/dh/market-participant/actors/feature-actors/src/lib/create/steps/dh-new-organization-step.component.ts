@@ -140,5 +140,6 @@ export class DhNewOrganizationStepComponent {
     { value: 'SE', displayValue: 'SE' },
     { value: 'NO', displayValue: 'NO' },
     { value: 'FI', displayValue: 'FI' },
+    { value: 'DE', displayValue: 'DE' },
   ];
 }
