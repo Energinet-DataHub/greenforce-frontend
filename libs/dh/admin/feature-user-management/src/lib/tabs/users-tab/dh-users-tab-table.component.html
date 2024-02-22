@@ -24,7 +24,6 @@ limitations under the License.
     sortDirection="asc"
     [loading]="isLoading"
     [sortClear]="false"
-
   >
     <ng-container *wattTableCell="columns.firstName; header: t('columns.firstName'); let element">
       {{ element.firstName | dhEmDashFallback }}
