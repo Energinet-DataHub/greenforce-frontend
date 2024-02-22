@@ -242,7 +242,8 @@
           "DK": "Danmark",
           "SE": "Sverige",
           "NO": "Norge",
-          "FI": "Finland"
+          "FI": "Finland",
+          "DE": "Tyskland"
         },
         "glnOrEicNumber": "Aktør ID",
         "name": "Aktørnavn",
