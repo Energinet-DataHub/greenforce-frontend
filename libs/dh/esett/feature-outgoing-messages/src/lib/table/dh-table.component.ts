@@ -67,7 +67,7 @@ export class DhOutgoingMessagesTableComponent {
     id: { accessor: 'documentId' },
     calculationType: { accessor: 'calculationType' },
     messageType: { accessor: 'timeSeriesType' },
-    gridArea: { accessor: 'gridAreaCode' },
+    gridArea: { accessor: 'gridArea' },
     status: { accessor: 'documentStatus' },
   };
 
