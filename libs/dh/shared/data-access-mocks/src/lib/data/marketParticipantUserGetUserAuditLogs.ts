@@ -67,6 +67,8 @@ export const marketParticipantUserGetUserAuditLogs: GetUserAuditLogsQuery = {
       auditedBy: 'Test User',
       timestamp: createdAt,
       change: UserAuditedChange.Status,
+      affectedActorName: null,
+      affectedUserRoleName: null,
     },
     {
       __typename: 'UserAuditedChangeAuditLogDto',
@@ -76,6 +78,8 @@ export const marketParticipantUserGetUserAuditLogs: GetUserAuditLogsQuery = {
       auditedBy: 'Test User',
       timestamp: createdAt,
       change: UserAuditedChange.Status,
+      affectedActorName: null,
+      affectedUserRoleName: null,
     },
     {
       __typename: 'UserAuditedChangeAuditLogDto',
@@ -85,6 +89,8 @@ export const marketParticipantUserGetUserAuditLogs: GetUserAuditLogsQuery = {
       auditedBy: 'Test User',
       timestamp: createdAt,
       change: UserAuditedChange.Status,
+      affectedActorName: null,
+      affectedUserRoleName: null,
     },
     {
       __typename: 'UserAuditedChangeAuditLogDto',
@@ -94,6 +100,8 @@ export const marketParticipantUserGetUserAuditLogs: GetUserAuditLogsQuery = {
       auditedBy: 'Test User',
       timestamp: createdAt,
       change: UserAuditedChange.Status,
+      affectedActorName: null,
+      affectedUserRoleName: null,
     },
   ],
 };
