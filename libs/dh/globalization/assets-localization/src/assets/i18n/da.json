@@ -672,10 +672,10 @@
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
       "status": {
-        "INGESTION": "Status på indlæsning af beskeder.",
-        "CONVERTER": "Status på konvertering til NBS beskeder.",
-        "SENDER": "Status på afsendelse til eSett.",
-        "RECEIVER": "Status på modtagelse fra eSett."
+        "INGESTION": "Status bliver rød hvis beskeder ikke kan hentes fra DataHub 2, fordi der enten ikke er forbindelse eller RSM-beskeden ikke kan læses.",
+        "CONVERTER": "Status bliver rød hvis NBS-beskeder ikke kan dannes, fordi der enten er en fejl i konverteringen eller netområdet i beskeden ikke har en netvirksomhed tilknyttet.",
+        "SENDER": "Status bliver rød hvis beskeder ikke kan sendes til BizTalk, fordi der enten ikke er forbindelse, BizTalk ikke accepterer beskeden eller afsendelsen bliver forsinket mere end 15 minutter.",
+        "RECEIVER": "Status bliver rød hvis beskeder ikke modtages fra BizTalk, fordi der enten ikke er forbindelse, BizTalk/eSett behandler ikke beskeder eller modtagelsen af kvitteringer er mere end en time forsinket. Status bliver også rød hvis der modtages en besked, som ikke kan behandles."
       },
       "shared": {
         "calculationType": {
