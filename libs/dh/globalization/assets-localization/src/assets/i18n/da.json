@@ -5,7 +5,7 @@
   "selectedLanguageIso": "da-dk",
   "sessionExpirationTitle": "Session udløber snart",
   "sessionExpirationContentPartA": "Du har været inaktiv i 2 timer",
-  "sessionExpirationContentPartB": "Af sikkerhedsmæssige årsager vil du blive logget af om",
+  "sessionExpirationContentPartB": "Du blive logget af om",
   "shell": {
     "logout": "Log ud",
     "profile": "Profil"
@@ -157,7 +157,7 @@
       "error_fallback": "Computeren blev bedt om at udføre en handling, men gjorde det ikke. Årsagen var: {{ message }}",
       "bad_argument": {
         "missing_required_value": "Feltet '{{ param }}' kræver en værdi, men denne er ikke blevet angivet.",
-        "invalid_gln": "'{{ value.value }}' er et ugyldigt GLN- eller EIC-nummer.",
+        "invalid_gln": "'{{ value.value }}' er et ugyldigt GLN/EIC",
         "invalid_length": "Indholdet af '{{ param }}' opfylder ikke krav til længden. Teksten skal være mellem {{ min }} og {{ max }} tegn.",
         "invalid_enum": "Værdien '{{ value }}' er ikke tilladt for feltet '{{ param }}'."
       },
@@ -167,13 +167,13 @@
             "reserved": "CVR-nummer {{ identifier }} er i brug"
           },
           "domain": {
-            "reserved": "Domæne er i brug",
-            "invalid": "Ugyldigt domæne"
+            "reserved": "E-maildomæne er i brug",
+            "invalid": "Ugyldigt e-maildomæne"
           }
         },
         "actor": {
           "number": {
-            "reserved": "GLN-nr./EIC-kode er i brug"
+            "reserved": "GLN/EIC er i brug"
           },
           "grid_area": {
             "reserved": "Netområde er tildelt en anden aktør"
@@ -196,11 +196,11 @@
         },
         "user": {
           "authentication": {
-            "invalid_phone": "Det er ikke muligt at bruge dette telefonnr. til 2-faktor godkendelse", (kommentar: kan slettes?)
-            "email_domain_mismatch": "E-mail tilhører ikke organisationsdomænet"
+            "invalid_phone": "Det er ikke muligt at bruge dette telefonnr. til tofaktorgodkendelse", (kommentar: kan slettes?)
+            "email_domain_mismatch": "E-maildomæne tilhører ikke organisationen"
           },
           "invite": {
-            "not_expired": "Brugerens invitation er endnu ikke udløbet og kan derfor ikke fornys" (kommentar: hvor bruges denne?)
+            "not_expired": "Brugerens invitation er ikke udløbet og kan derfor ikke fornys" (kommentar: hvor bruges denne?)
           }
         }
       }
@@ -228,17 +228,17 @@
         },
         "gridArea": "Netområde",
         "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktørnavn",
-        "glnOrEicInvalid": "Ugyldigt GLN-nr./EIC-kode",
+        "glnOrEicInvalid": "Ugyldigt GLN/EIC",
         "wrongEmailPattern": "E-mail skal indeholde @",
         "phoneInvalid": "Telefonnr. format +45 12345678", (kommentar: slettes?)
         "domainInvalid": "Eksempel: datahub.dk", (kommentar: ?)
         "companyName": "Virksomhedsnavn",
-        "domain": "Domæne",
+        "domain": "E-maildomæne",
         "cvrInvalid": "Ugyldigt CVR-nr.",
         "cvrNumber": "CVR-nr.",
         "country": "Land",
         "phoneHint": "Telefonnr. format +45 12345678", (kommentar: slettes?)
-        "glnOrEicHint": "GLN-nr. er 13 cifre og EIC-kode er 16 cifre",
+        "glnOrEicHint": "GLN er 13 cifre, EIC er 16 cifre",
         "counties": {
           "DK": "Danmark",
           "SE": "Sverige",
@@ -366,7 +366,7 @@
             "certificate": {
               "replaceCertificateModal": {
                 "title": "Generer Client Secret og erstat certifikat?",
-                "message": "Client Secret vil erstatte det uploadede certifikat.",
+                "message": "Client Secret vil erstatte det uploadede certifikat",
                 "cancel": "Fortryd"
               }
             },
@@ -463,7 +463,7 @@
             "tabLabel": "Information",
             "businessRegisterIdentifier": "CVR-nr.",
             "name": "Navn",
-            "domain": "Domæne"
+            "domain": "E-maildomæne"
           },
           "actors": {
             "tabLabel": "Aktører"
@@ -478,9 +478,9 @@
         }
       },
       "edit": {
-        "domainLabel": "Domæne",
+        "domainLabel": "E-maildomæne",
         "required": "Udfyld feltet",
-        "invalidDomain": "Ugyldigt domæne",
+        "invalidDomain": "Ugyldigt e-maildomæne",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {
@@ -623,7 +623,7 @@
       "namePlaceholder": "Navn",
       "email": "E-mail",
       "emailPlaceholder": "E-mail",
-      "phone": "Telefon",
+      "phone": "Telefonnr.",
       "phonePlaceholder": "Telefonnr. (valgfri)",
       "ariaLabelCategoryForExistingContact": "kategorifelt for eksisterende kontakt",
       "ariaLabelNameForExistingContact": "navnefelt for eksisterende kontakt",
@@ -804,7 +804,7 @@
     "drawer": {
       "priceAreaLabel": "Prisområde",
       "updatedLabel": "Indlæst",
-      "pricesNote": "Prisen er angivet i DKK/kWh",
+      "pricesNote": "Prisen er angivet i DKK for kWh",
       "download": "Download",
       "downloadStart": "Starter download...",
       "downloadFailed": "Download fejlede"
@@ -1030,7 +1030,7 @@
         "wrongEmailPattern": "Indtast en valid e-mail",
         "userAlreadyAssignedActor": "Bruger er allerede oprettet",
         "noUserRolesError": "Vælg minimum en brugerrolle",
-        "successMessage": "{{ email }} blev inviteret",
+        "successMessage": "Inviation sendt til {{ email }}",
         "next": "Næste",
         "columns": {
           "eicFunction": "Markedsrolle",
@@ -1058,13 +1058,13 @@
           "confirm": "Deaktiver bruger",
           "reject": "Fortryd"
         },
-        "editRole": "Rediger rolle",
+        "editRole": "Rediger brugerrolle",
         "disable": "Deaktiver",
         "reset2fa": "Nulstil tofaktorgodkendelse",
         "reset2faError": "Noget gik galt. Tofaktorgodkendelse blev muligvis ikke nulstillet. Prøv igen.",
         "reset2faSuccess": "Tofaktorgodkendelse nulstillet. Brugeren skal opsætte tofaktorgodkendelse inden for 24 timer.",
         "disablingUserRole": "Deaktiverer brugerrollen",
-        "userroleDisabled": "Brugerrolle deaktiveret.",
+        "userroleDisabled": "Brugerrolle deaktiveret",
         "deactivateWarningTitle": "Deaktiver brugerrolle?",
         "continue": "Deaktiver brugerrolle",
         "cancel": "Fortryd",
@@ -1159,7 +1159,7 @@
           },
           "generalError": {
             "title": "Der opstod en uventet fejl",
-            "message": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl."
+            "message": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl"
           }
         },
         "users": {
@@ -1237,7 +1237,7 @@
           },
           "permissions": {
             "label": "Tildel rettigheder",
-            "required": "Vælg minimum en rettighed.",
+            "required": "Vælg minimum en rettighed",
             "noPermissions": "Ingen rettigheder fundet til den valgte markedsrolle"
           }
         }
@@ -1270,7 +1270,7 @@
           "permissions": {
             "tabLabel": "Rettigheder",
             "title": "Rettigheder",
-            "onEditMessage": "Ved fjern/tilføj af rettigheder til en brugerrolle, kan det tage op til en time, før ændringer træder i kraft. Alternativt kan brugere logge ud og ind, hvis ændringer skal træde i kraft med det samme."
+            "onEditMessage": "Det kan tage op til en time, før ændringer træder i kraft. Alternativt kan brugere logge ud og ind, hvis ændringer skal træde i kraft med det samme."
           },
           "validationErrors": {
             "nameAlreadyExists": "En brugerrolle med dette navn findes allerede",
