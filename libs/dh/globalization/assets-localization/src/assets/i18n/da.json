@@ -191,16 +191,15 @@
           }
         },
         "market_role": {
-          "reserved": "Navn på brugerrolle er taget" (kommentar: Hov, er dette brugerrolle eller aktøren?)
-           
+          "reserved": "Navn på brugerrolle er brugt i denne markedsrolle"
         },
         "user": {
           "authentication": {
-            "invalid_phone": "Det er ikke muligt at bruge dette telefonnr. til tofaktorgodkendelse", (kommentar: kan slettes?)
+            "invalid_phone": "Det er ikke muligt at bruge dette telefonnr. til tofaktorgodkendelse",
             "email_domain_mismatch": "E-maildomæne tilhører ikke organisationen"
           },
           "invite": {
-            "not_expired": "Brugerens invitation er ikke udløbet og kan derfor ikke fornys" (kommentar: hvor bruges denne?)
+            "not_expired": "Brugerens invitation er ikke udløbet og kan derfor ikke fornys"
           }
         }
       }
@@ -230,14 +229,12 @@
         "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktørnavn",
         "glnOrEicInvalid": "Ugyldigt GLN/EIC",
         "wrongEmailPattern": "E-mail skal indeholde @",
-        "phoneInvalid": "Telefonnr. format +45 12345678", (kommentar: slettes?)
-        "domainInvalid": "Eksempel: datahub.dk", (kommentar: ?)
+        "domainInvalid": "Ugyldigt e-maildomæne. Eksempel: datahub.dk",
         "companyName": "Virksomhedsnavn",
         "domain": "E-maildomæne",
         "cvrInvalid": "Ugyldigt CVR-nr.",
         "cvrNumber": "CVR-nr.",
         "country": "Land",
-        "phoneHint": "Telefonnr. format +45 12345678", (kommentar: slettes?)
         "glnOrEicHint": "GLN er 13 cifre, EIC er 16 cifre",
         "counties": {
           "DK": "Danmark",
@@ -257,12 +254,8 @@
         "marketParty": "Aktør",
         "createHeader": "Ny aktør",
         "organization": "Organisation",
-        "useradmin": "Brugeradministrator", (kommentar: fjernes?)
         "masterDataTabHeader": "Stamdata",
-        "meteringPointTypesHeader": "Målepunktstyper", (kommentar: fjernes?)
-        "gridAreasHeader": "Netområder", (kommentar: fjernes?)
-        "marketRolesHeader": "Markedsroller", (kommentar: fjernes?)
-        "contactsHeader": "Kontakter", (kommentar: fjernes?)
+        "contactsHeader": "Kontakter",
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
         "masterData": {
@@ -275,19 +268,7 @@
             "Inactive": "Inaktiv",
             "Passive": "Passiv",
             "Deleted": "Slettet"
-          },
-          "statusChangeTitle": "Ændring af aktørstatus", (kommentar: hvor bruges denne?)
-          "statusChangeWarning": "Ændring af aktørstatus til '{{ status }}' er endelig og vil ikke kunne ændres tilbage til '{{ initialStatus }}'. Vil du fortsætte?" (kommentar: fjernes?)
-        },
-        "contacts": {
-          "invalidConfiguration": "Kontakter er ikke korrekt konfigureret" (kommentar: fjernes?)
-        },
-        "marketRoles": { (kommentar: fjern alle nedenstående?)
-          "marketRole": "Markedsrolle",
-          "gridArea": "Netområde",
-          "meteringPointTypes": "Målepunktstyper",
-          "commentLabel": "Kommentar",
-          "invalidConfiguration": "Markedsroller er ikke korrekt konfigureret"
+          }
         }
       }
     },
@@ -345,7 +326,7 @@
             "removeCertificate": "Fjern certifikat",
             "uploadCertificate": "Upload certifikat",
             "uploadNewCertificate": "Upload nyt certifikat",
-            "invalidFileType": "Vælg en certifikatfil", (kommentar: hvad er en certifikatfil?)
+            "invalidFileType": "Vælg en .cer fil",
             "uploadSuccess": "Certifikat uploadet",
             "uploadError": "Noget gik galt. Certifikatet blev ikke uploadet. Prøv igen",
             "removeSuccess": "Certifikat fjernet",
@@ -387,7 +368,6 @@
             }
           },
           "history": {
-            
             "tabLabel": "Historik",
             "status": {
               "New": "Ny",
@@ -425,7 +405,6 @@
         "departmentPhone": "Telefonnr.",
         "required": "Udfyld feltet",
         "invalidEmail": "Ugyldig e-mail",
-        "phoneInvalid": "Telefonnr. format +45 12345678", (kommentar: Slettes?)
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {
@@ -514,127 +493,19 @@
     },
     "marketRoleDescriptions": {
       "BalanceResponsibleParty": "Er ansvarlig for sine ubalancer, dvs. forskellen mellem den energimængde, der fysisk tilføres eller trækkes ud af systemet, og den endelige nominerede energimængde, inklusive enhver ubalancejustering inden for en given ubalanceafviklingsperiode.",
-      "BillingAgent": "Ansvarlig for at fakturere en anden part (TSO).",
-      "EnergySupplier": "Afregner elektricitet til eller fra et målepunkt.",
-      "GridAccessProvider": "Ansvarlig for håndtering af målepunktpunkter.",
+      "BillingAgent": "Ansvarlig for at fakturere en anden part (TSO)",
+      "EnergySupplier": "Afregner elektricitet til eller fra et målepunkt",
+      "GridAccessProvider": "Ansvarlig for håndtering af målepunktpunkter",
       "ImbalanceSettlementResponsible": "Ansvarlig for afregning af forskellen mellem de aftalte mængder med fysisk levering og de fastsatte mængder af energiprodukter for de balanceansvarlige i et planlægningsområde. Bemærk: Den ansvarlige for ubalanceafvikling kan uddelegere faktureringsansvaret til en mere generisk rolle, såsom en faktureringsagent.",
-      "MeteredDataAdministrator": "Ansvarlig for lagring og distribution af aggregerede data.",
+      "MeteredDataAdministrator": "Ansvarlig for lagring og distribution af aggregerede data",
       "MeteredDataResponsible": "Ansvarlig for etablering og validering af målte data baseret på de indsamlede data modtaget fra måledataindsamleren. Parten er ansvarlig for historikken for målte data for et målepunkt.",
       "MeteringPointAdministrator": "Ansvarlig for at administrere og stille målepunktets karakteristika til rådighed, herunder registrere de parter, der er knyttet til målepunktet. DDZ ift. modtagelse af meddelelser.",
       "MeterOperator": "Bruges til delegering af meddelelser ind/ud af DataHub",
-      "SystemOperator": "Ansvarlig for håndteringen af Energinets priselementer.",
+      "SystemOperator": "Ansvarlig for håndteringen af Energinets priselementer",
       "DanishEnergyAgency": "Adgang til forvaltningsretlige opgaver",
       "DataHubAdministrator": "Drift og support",
       "IndependentAggregator": "Uafhængig aggregator",
       "SerialEnergyTrader": "Seriel elhandler"
-    },
-    "organization": { (kommentar: hvilke af nedenstående bliver stadig brugt?)
-      "topBarTitle": "Organisationer",
-      "organizationsHeader": "Organisationer",
-      "columns": {
-        "organization": "Organisation",
-        "gln": "Aktør ID",
-        "status": "Aktørstatus",
-        "marketRoles": "Markedsroller",
-        "gridAreas": "Netområder",
-        "noActors": "Ingen aktører"
-      },
-      "status": {
-        "New": "Ny",
-        "Active": "Aktiv",
-        "Inactive": "Inaktiv",
-        "Passive": "Passiv",
-        "Deleted": "Slettet"
-      },
-      "editOrganization": "Rediger organisation",
-      "editActor": "Rediger aktør",
-      "createActor": "Opret aktør",
-      "createOrganization": "Opret organisation", (kommentar: Denne bruges vel ikke mere?)
-      "noOrganizations": "Ingen organisationer",
-      "paginator": {
-        "itemsPerPageLabel": "Organisationer pr. side",
-        "of": "af",
-        "first": "Første side",
-        "last": "Sidste side",
-        "next": "Næste side",
-        "previous": "Forrige side"
-      },
-      "create": {
-        "organizationCreateHeader": "Opret organisation",
-        "organizationEditHeader": "Rediger organisation",
-        "masterDataTabHeader": "Stamdata",
-        "cancelLabel": "Annuller",
-        "saveLabel": "Gem",
-        "errorToastLabel": "Fejl", (kommentar: Hvilken fejl er det?)
-        "masterData": {
-          "organizationNameLabel": "Navn",
-          "businessRegistrationIdetifierLabel": "CVR-nr.",
-          "streetNameLabel": "Vejnavn", (kommentar: Denne bruges vel ikke mere?)
-          "streetNumberLabel": "Husnummer", (kommentar: Denne bruges vel ikke mere?)
-          "zipCodeLabel": "Post nr.", (kommentar: Denne bruges vel ikke mere?)
-          "cityLabel": "By", (kommentar: Denne bruges vel ikke mere?)
-          "countryLabel": "Land",
-          "domainLabel": "E-mail domæne",
-          "commentLabel": "Kommentar", (kommentar: Denne bruges vel ikke mere?)
-          "countries": {
-            "at": "Østrig",
-            "be": "Belgien",
-            "bg": "Bulgarien",
-            "hr": "Kroatien",
-            "cy": "Cypern",
-            "cz": "Tjekkiet",
-            "dk": "Danmark",
-            "ee": "Estland",
-            "fi": "Finland",
-            "fr": "Frankrig",
-            "de": "Tyskland",
-            "gr": "Grækenland",
-            "hu": "Ungarn",
-            "ie": "Irland",
-            "it": "Italien",
-            "lv": "Letland",
-            "lt": "Litauen",
-            "lu": "Luxembourg",
-            "mt": "Malta",
-            "nl": "Holland",
-            "no": "Norge",
-            "pl": "Polen",
-            "pt": "Portugal",
-            "ro": "Rumænien",
-            "sk": "Slovakiet",
-            "si": "Slovenien",
-            "es": "Spanien",
-            "se": "Sverige",
-            "gb": "England"
-          },
-          "labelStatus": "Status",
-          "statuses": {
-            "New": "Ny",
-            "Active": "Aktiv",
-            "Blocked": "Blokeret",
-            "Deleted": "Slettet"
-          }
-        }
-      }
-    },
-    "contacts": { (kommentar: hvor meget af dette kan vi fjerne?)
-      "category": "Kategori",
-      "name": "Navn",
-      "namePlaceholder": "Navn",
-      "email": "E-mail",
-      "emailPlaceholder": "E-mail",
-      "phone": "Telefonnr.",
-      "phonePlaceholder": "Telefonnr. (valgfri)",
-      "ariaLabelCategoryForExistingContact": "kategorifelt for eksisterende kontakt",
-      "ariaLabelNameForExistingContact": "navnefelt for eksisterende kontakt",
-      "ariaLabelPhoneForExistingContact": "telefonnummerfelt for eksisterende kontakt",
-      "ariaLabelMailForExistingContact": "mailfelt for eksisterende kontakt",
-      "ariaLabelDeleteForExistingContact": "sletkanp for eksisterende kontakt",
-      "ariaLabelCategoryForNewContact": "kategorifelt for ny kontakt",
-      "ariaLabelNameForNewContact": "navnefelt for ny kontakt",
-      "ariaLabelPhoneForNewContact": "telefonnummerfelt for ny kontakt",
-      "ariaLabelMailForNewContact": "mailfelt for ny kontakt",
-      "ariaLabelDeleteForNewContact": "sletknap for ny kontakt"
     },
     "gridAreas": {
       "topBarTitle": "Netområder",
@@ -1026,7 +897,6 @@
         "lastname": "Efternavn",
         "email": "E-mail",
         "phoneNumber": "Telefonnr.",
-        "phoneNumberError": "Telefonnr. format +45 12345678", (kommentar: slettes?)
         "wrongEmailPattern": "Indtast en valid e-mail",
         "userAlreadyAssignedActor": "Bruger er allerede oprettet",
         "noUserRolesError": "Vælg minimum en brugerrolle",
@@ -1044,11 +914,11 @@
       },
       "download": "Download",
       "drawer": {
-        "edit": "Rediger",
+        "edit": "Rediger bruger",
         "reinvite": "Send invitation igen",
         "reinviteError": "Noget gik galt. Brugeren blev ikke inviteret. Prøv igen",
         "reinviteSuccess": "Bruger inviteret",
-        "deactivate": "Deaktiver bruger",
+        "deactivate": "Deaktiver",
         "deactivateError": "Noget gik galt. Brugeren blev ikke deaktiveret. Prøv igen",
         "deactivateSuccess": "Bruger deaktiveret",
         "deactivateConfirmation": {
@@ -1156,10 +1026,6 @@
               "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>",
               "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b>, da rollen blev deaktiveret"
             }
-          },
-          "generalError": {
-            "title": "Der opstod en uventet fejl",
-            "message": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl"
           }
         },
         "users": {
@@ -1230,7 +1096,7 @@
           "masterData": {
             "label": "Stamdata",
             "eicFunction": "Markedsrolle",
-            "selectEicFunctionStatus": "Vælg markedsrolle", (kommentar: hvad kan fjernes her?)
+            "selectEicFunctionStatus": "Markedsrolle",
             "name": "Navn",
             "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
             "description": "Beskrivelse"
@@ -1255,8 +1121,7 @@
           "firstName": "Fornavn",
           "lastName": "Efternavn",
           "phone": "Telefonnr."
-        },
-        "phoneNumberError": "Telefonnr. format +45 12345678" (kommentar: ?)
+        }
       },
       "editUserRole": {
         "saveSuccess": "Brugerrolle opdateret",

@@ -1,6 +1,4 @@
 {
-
-
   "appName": "DataHub",
   "yes": "Yes",
   "no": "No",
@@ -231,14 +229,12 @@
         "tooltip": "The market participant will get the organisation name if no name is provided",
         "glnOrEicInvalid": "Invalid GLN/EIC",
         "wrongEmailPattern": "E-mail must contain @",
-        "phoneInvalid": "Invalid phone no.",
-        "domainInvalid": "Example: datahub.dk",
+        "domainInvalid": "Invalid e-mail domain. Example: datahub.dk",
         "companyName": "Organisation name",
         "domain": "E-mail domain",
         "cvrInvalid": "Invalid CVR no.",
         "cvrNumber": "CVR no.",
         "country": "Country",
-        "phoneHint": "Phone no. format +45 12345678",
         "glnOrEicHint": "GLN is 13 digits, EIC is 16 digits",
         "counties": {
           "DK": "Denmark",
@@ -258,16 +254,12 @@
         "marketParty": "Market participant",
         "createHeader": "New market participant",
         "organization": "Organisation",
-        "errorToastLabel": "Error",
         "masterDataTabHeader": "Master data",
-        "meteringPointTypesHeader": "Metering point type",
-        "gridAreasHeader": "Grid areas",
-        "marketRolesHeader": "Market roles",
         "contactsHeader": "Contacts",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "masterData": {
-          "labelActorNumber": "Market participant ID",
+          "labelActorNumber": "GLN/EIC",
           "labelStatus": "Status",
           "labelActorName": "Market participant name",
           "statuses": {
@@ -276,19 +268,7 @@
             "Inactive": "Inactive",
             "Passive": "Passive",
             "Deleted": "Deleted"
-          },
-          "statusChangeTitle": "Actor status change",
-          "statusChangeWarning": "Changing actor status to '{{ status }}' is final and it cannot be changed back to '{{ initialStatus }}'. Do you want to continue?"
-        },
-        "contacts": {
-          "invalidConfiguration": "Contacts are not correctly configured"
-        },
-        "marketRoles": {
-          "marketRole": "Market role",
-          "gridArea": "Grid area",
-          "meteringPointTypes": "Metering point types",
-          "commentLabel": "Comment",
-          "invalidConfiguration": "Market roles are not correctly configured"
+          }
         }
       }
     },
@@ -346,7 +326,7 @@
             "removeCertificate": "Remove certificate",
             "uploadCertificate": "Upload certificate",
             "uploadNewCertificate": "Upload new certificate",
-            "invalidFileType": "Select certificate file",
+            "invalidFileType": "Select a .cer file",
             "uploadSuccess": "Certificate uploaded",
             "uploadError": "An error occurred while uploading the certificate. Please try again",
             "removeSuccess": "Certificate removed",
@@ -425,7 +405,6 @@
         "departmentPhone": "Phone no.",
         "required": "Field is required",
         "invalidEmail": "Invalid e-mail",
-        "phoneInvalid": "Phone no. format +45 12345678",
         "cancel": "Cancel",
         "save": "Save changes",
         "updateRequest": {
@@ -508,14 +487,13 @@
       "MeterOperator": "Meter Operator",
       "SystemOperator": "System operator",
       "DanishEnergyAgency": "Energistyrelsen",
-      "DataHubAdministrator": "DataHub systemadministrator",
-      "IndependentAggregator": "Uafhængig aggregator",
-      "SerialEnergyTrader": "Seriel elhandler"
+      "DataHubAdministrator": "DataHub system administrator",
+      "IndependentAggregator": "Independent aggregator",
+      "SerialEnergyTrader": "Serial Energy Trader"
     },
     "marketRoleDescriptions": {
-      "BalanceResponsibleParty": "Is responsible for its imbalances, meaning the difference between the energy volume physically injected to or withdrawn from the system and the final nominated energy volume, including any imbalance adjustment within a given imbalance settlement period.",
+      "BalanceResponsibleParty": "Responsible for its imbalances, meaning the difference between the energy volume physically injected to or withdrawn from the system and the final nominated energy volume, including any imbalance adjustment within a given imbalance settlement period.",
       "BillingAgent": "Responsible for invoicing a concerned party.",
-      "BalancingServiceProvider": "Responsible for invoicing a concerned party.",
       "EnergySupplier": "Supplies electricity to or takes electricity from a Party Connected to the Grid at an Accounting Point. Additional information: An Accounting Point can only have one Energy Supplier. When additional suppliers are needed the Energy Supplier delivers/takes the difference between established (e.g. measured or calculated) production/consumption and the (accumulated) contracts with other suppliers",
       "GridAccessProvider": "Responsible for providing access to the grid through an Accounting Point for energy consumption or production by the Party Connected to the Grid. The Grid Access Provider is also responsible for creating and terminating Accounting Points.",
       "ImbalanceSettlementResponsible": "Responsible for settlement of the difference between the contracted quantities with physical delivery and the established quantities of energy products for the Balance Responsible Parties in a Scheduling Area. Note: The Imbalance Settlement Responsible may delegate the invoicing responsibility to a more generic role such as a Billing Agent.",
@@ -528,115 +506,7 @@
       "DataHubAdministrator": " ",
       "IndependentAggregator": " ",
       "SerialEnergyTrader": " "
-    },
-    "organization": {
-      "topBarTitle": "Organisations",
-      "organizationsHeader": "Organisations",
-      "columns": {
-        "organization": "Organisation",
-        "gln": "Market participant ID",
-        "status": "Status",
-        "marketRoles": "Market roles",
-        "gridAreas": "Grid areas",
-        "noActors": "No actors"
-      },
-      "status": {
-        "New": "New",
-        "Active": "Active",
-        "Inactive": "Inactive",
-        "Passive": "Passive",
-        "Deleted": "Deleted"
-      },
-      "editOrganization": "Edit organisation",
-      "editActor": "Edit market participant",
-      "createActor": "Create market participant",
-      "createOrganization": "Create organisation",
-      "noOrganizations": "No organisations",
-      "paginator": {
-        "itemsPerPageLabel": "Organisations per page",
-        "of": "of",
-        "first": "First page",
-        "last": "Last page",
-        "next": "Next page",
-        "previous": "Previous page"
-      },
-      "create": {
-        "organizationCreateHeader": "Create organisation",
-        "organizationEditHeader": "Edit organisation",
-        "masterDataTabHeader": "Master data",
-        "cancelLabel": "Cancel",
-        "saveLabel": "Save",
-        "errorToastLabel": "Error",
-        "masterData": {
-          "organizationNameLabel": "Name",
-          "businessRegistrationIdetifierLabel": "Business registration identifier",
-          "streetNameLabel": "Street name",
-          "streetNumberLabel": "Building number",
-          "zipCodeLabel": "Zip code",
-          "cityLabel": "City",
-          "countryLabel": "Country",
-          "domainLabel": "Domain",
-          "commentLabel": "Comment",
-          "countries": {
-            "at": "Austria",
-            "be": "Belgium",
-            "bg": "Bulgaria",
-            "hr": "Croatia",
-            "cy": "Cyprus",
-            "cz": "Czech Republic",
-            "dk": "Denmark",
-            "ee": "Estonia",
-            "fi": "Finland",
-            "fr": "France",
-            "de": "Germany",
-            "gr": "Greece",
-            "hu": "Hungary",
-            "ie": "Ireland",
-            "it": "Italy",
-            "lv": "Latvia",
-            "lt": "Lithuania",
-            "lu": "Luxembourg",
-            "mt": "Malta",
-            "nl": "Netherlands",
-            "no": "Norway",
-            "pl": "Poland",
-            "pt": "Portugal",
-            "ro": "Romania",
-            "sk": "Slovakia",
-            "si": "Slovenia",
-            "es": "Spain",
-            "se": "Sweden",
-            "gb": "United Kingdom"
-          },
-          "labelStatus": "Status",
-          "statuses": {
-            "New": "New",
-            "Active": "Active",
-            "Blocked": "Blocked",
-            "Deleted": "Deleted"
-          }
-        }
-      }
-    },
-    "contacts": {
-      "category": "Category",
-      "name": "Name",
-      "namePlaceholder": "Name",
-      "email": "E-mail",
-      "emailPlaceholder": "E-mail",
-      "phone": "Phone no.",
-      "phonePlaceholder": "Phone no. (optional)",
-      "ariaLabelCategoryForExistingContact": "category field for existing contact",
-      "ariaLabelNameForExistingContact": "name field for existing contact",
-      "ariaLabelPhoneForExistingContact": "phone field for existing contact",
-      "ariaLabelMailForExistingContact": "mail field for existing contact",
-      "ariaLabelDeleteForExistingContact": "delete button for existing contact",
-      "ariaLabelCategoryForNewContact": "category field for new contact",
-      "ariaLabelNameForNewContact": "name field for new contact",
-      "ariaLabelPhoneForNewContact": "phone field for new contact",
-      "ariaLabelMailForNewContact": "mail field for new contact",
-      "ariaLabelDeleteForNewContact": "delete button for new contact"
-    },
+    }, 
     "gridAreas": {
       "topBarTitle": "Grid Areas",
       "noGridAreas": "No grid areas found",
@@ -706,7 +576,7 @@
         "period": "{{ shared.form.filters.period }}",
         "created": "{{ eSett.outgoingMessages.columns.created }}",
         "reset": "{{ shared.form.reset }}",
-        "documentId": "Document ID" (kommentar: Message ID?)
+        "documentId": "Document ID"
       },
       "columns": {
         "created": "Created",
@@ -1027,7 +897,6 @@
         "lastname": "Last name",
         "email": "E-mail",
         "phoneNumber": "Phone no.",
-        "phoneNumberError": "Phone no. format +45 12345678",
         "wrongEmailPattern": "Type a valid e-mail",
         "userAlreadyAssignedActor": "User is already assigned",
         "noUserRolesError": "Select at least one user role",
@@ -1045,11 +914,11 @@
       },
       "download": "Download",
       "drawer": {
-        "edit": "Edit",
+        "edit": "Edit user",
         "reinvite": "Resend invitation",
         "reinviteError": "Something went wrong. The user could not be invited. Please try again",
         "reinviteSuccess": "User invited",
-        "deactivate": "Deactivate user",
+        "deactivate": "Deactivate",
         "deactivateError": "Something went wrong. The user could not be deactivated. Please try again",
         "deactivateSuccess": "User deactivated",
         "deactivateConfirmation": {
@@ -1104,10 +973,6 @@
                   "PERMISSION_ADDED": "<b>{{ auditedBy }}</b> added permission <b>{{ affectedPermissionName }}</b>",
                   "PERMISSION_REMOVED": "<b>{{ auditedBy }}</b> removed permission <b>{{ affectedPermissionName }}</b>"
                 }
-              },
-              "generalError": {
-                "title": "An unexpected error occured",
-                "message": "Try again or contact your system administrator if you keep getting this error"
               }
             }
           }
@@ -1161,10 +1026,6 @@
               "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> in market party <b>{{ affectedActorName }}</b>",
               "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> due to the role being deactivated"
             }
-          },
-          "generalError": {
-            "title": "An unexpected error occured",
-            "message": "Try again or contact your system administrator if you keep getting this error"
           }
         },
         "users": {
@@ -1183,13 +1044,6 @@
             "email": "E-mail",
             "phone": "Phone no.",
             "status": "Status"
-          },
-          "errors": {
-            "generalError": {
-              "title": "Oops! There was an error",
-              "message": "Unfortunately, an error occurred while retrieving the necessary information.",
-              "button": "Try again"
-            }
           }
         },
         "roles": {
@@ -1228,13 +1082,6 @@
         },
         "permissions": {
           "tabLabel": "Permissions"
-        },
-        "errors": {
-          "generalError": {
-            "title": "Oops! There was an error",
-            "message": "Unfortunately, an error occurred while retrieving the necessary information.",
-            "button": "Try again"
-          }
         }
       },
       "createrole": {
@@ -1274,9 +1121,8 @@
           "firstName": "First name",
           "lastName": "Last name",
           "phone": "Phone no."
+          }
         },
-        "phoneNumberError": "Phone no. format +45 12345678"
-      },
       "editUserRole": {
         "saveSuccess": "User role updated",
         "saveError": "Something went wrong. The user role could not be updated. Please try again",
