@@ -115,7 +115,7 @@ export class DhActorDrawerComponent {
   });
 
   actor: DhActorExtended | undefined = undefined;
-  hasActorAccess: boolean = false;
+  hasActorAccess = false;
 
   isLoadingAuditLog = false;
   auditLogFailedToLoad = false;
