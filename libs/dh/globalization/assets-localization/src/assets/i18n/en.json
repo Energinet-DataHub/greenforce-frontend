@@ -507,7 +507,7 @@
       "DataHubAdministrator": " ",
       "IndependentAggregator": " ",
       "SerialEnergyTrader": " "
-    }, 
+    },
     "gridAreas": {
       "topBarTitle": "Grid Areas",
       "noGridAreas": "No grid areas found",
@@ -1156,8 +1156,8 @@
           "firstName": "First name",
           "lastName": "Last name",
           "phone": "Phone no."
-          }
-        },
+        }
+      },
       "editUserRole": {
         "saveSuccess": "User role updated",
         "saveError": "Something went wrong. The user role could not be updated. Please try again",
