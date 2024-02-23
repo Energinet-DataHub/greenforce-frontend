@@ -137,8 +137,8 @@ type ExchangeEventSearchResponse {
 }
 
 type ExchangeEventSearchResult {
+  gridArea: GridAreaDto
   documentId: String!
-  gridAreaCode: String!
   created: DateTime!
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
@@ -219,8 +219,8 @@ type MeteringGridAreaImbalanceSearchResponse {
 }
 
 type MeteringGridAreaImbalanceSearchResult {
+  gridArea: GridAreaDto
   id: String!
-  gridAreaCode: String!
   documentDateTime: DateTime!
   receivedDateTime: DateTime!
   periodStart: DateTime!
@@ -307,7 +307,7 @@ type Query {
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection!): ExchangeEventSearchResponse!
-  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime gridAreaCode: String documentId: String sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
+  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   emailExists(emailAddress: String!): Boolean!
@@ -624,6 +624,12 @@ enum MeteringGridAreaImbalanceSortProperty {
   GRID_AREA_CODE
   DOCUMENT_ID
   RECEIVED_DATE_TIME
+}
+
+enum MeteringGridImbalanceValuesToInclude {
+  IMBALANCES
+  BALANCES
+  BOTH
 }
 
 enum MeteringPointType {

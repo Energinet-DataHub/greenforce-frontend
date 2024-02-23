@@ -246,7 +246,7 @@ export class DhOutgoingMessagesComponent implements OnInit {
       `"${message.documentId}"`,
       `"${translate(outgoingMessagesPath + '.shared.calculationType.' + message.calculationType)}"`,
       `"${translate(outgoingMessagesPath + '.shared.messageType.' + message.timeSeriesType)}"`,
-      `"${message.gridAreaCode}"`,
+      `"${message.gridArea?.code} - ${message.gridArea?.name}"`,
       `"${translate(outgoingMessagesPath + '.shared.documentStatus.' + message.documentStatus)}"`,
     ]);
 

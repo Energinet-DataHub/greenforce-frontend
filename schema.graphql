@@ -101,6 +101,15 @@ enum ExchangeEventCalculationType {
   AGGREGATION
 }
 
+type ExchangeEventSearchResult {
+  gridArea: GridAreaDto
+  documentId: String!
+  created: DateTime!
+  calculationType: ExchangeEventCalculationType!
+  timeSeriesType: TimeSeriesType!
+  documentStatus: DocumentStatus!
+}
+
 type GridAreaDto {
   priceAreaCode: PriceAreaCode!
   id: UUID!
@@ -123,6 +132,16 @@ type ImbalancePriceDaily {
   timeStamp: DateTime!
   imbalancePrices: [ImbalancePrice!]!
   importedAt: DateTime
+}
+
+type MeteringGridAreaImbalanceSearchResult {
+  gridArea: GridAreaDto
+  id: String!
+  documentDateTime: DateTime!
+  receivedDateTime: DateTime!
+  periodStart: DateTime!
+  periodEnd: DateTime!
+  imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
 type OrganizationAuditedChangeAuditLogDto {
@@ -220,7 +239,7 @@ type Query {
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodInterval: DateRange, createdInterval: DateRange, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String, sortProperty: ExchangeEventSortProperty!, sortDirection: SortDirection!): ExchangeEventSearchResponse!
-  meteringGridAreaImbalance(pageNumber: Int!, pageSize: Int!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String, sortProperty: MeteringGridAreaImbalanceSortProperty!, sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
+  meteringGridAreaImbalance(pageNumber: Int!, pageSize: Int!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String, valuesToInclude: MeteringGridImbalanceValuesToInclude!, sortProperty: MeteringGridAreaImbalanceSortProperty!, sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   emailExists(emailAddress: String!): Boolean!
@@ -321,6 +340,12 @@ enum ImbalancePriceStatus {
   COMPLETE
 }
 
+type MeteringGridAreaImbalancePerDayDto {
+  imbalanceDay: DateTime!
+  incomingQuantity: Float
+  outgoingQuantity: Float
+}
+
 enum OrganizationAuditedChange {
   DOMAIN
   NAME
@@ -376,6 +401,12 @@ type ApiError implements Error {
 
 interface Error {
   message: String!
+}
+
+type ApiErrorDescriptor {
+  message: String!
+  code: String!
+  args: JSON!
 }
 
 enum UserRoleStatus {
@@ -478,6 +509,12 @@ enum MeteringGridAreaImbalanceSortProperty {
   RECEIVED_DATE_TIME
 }
 
+enum MeteringGridImbalanceValuesToInclude {
+  IMBALANCES
+  BALANCES
+  BOTH
+}
+
 type MeteringGridAreaImbalanceSearchResponse {
   items: [MeteringGridAreaImbalanceSearchResult!]!
   totalCount: Int!
@@ -528,18 +565,10 @@ type UserRoleWithPermissionsDto {
   permissions: [PermissionDetailsDto!]!
 }
 
-type ApiErrorDescriptor {
-  message: String!
-  code: String!
-  args: JSON!
-}
-
 type KeyValuePairOfStringAndIEnumerableOfString {
   key: String!
   value: [String!]!
 }
-
-scalar JSON
 
 type PermissionDetailsDto {
   id: Int!
@@ -553,25 +582,6 @@ enum ESettStageComponent {
   CONVERTER
   SENDER
   RECEIVER
-}
-
-type ExchangeEventSearchResult {
-  documentId: String!
-  gridAreaCode: String!
-  created: DateTime!
-  calculationType: ExchangeEventCalculationType!
-  timeSeriesType: TimeSeriesType!
-  documentStatus: DocumentStatus!
-}
-
-type MeteringGridAreaImbalanceSearchResult {
-  id: String!
-  gridAreaCode: String!
-  documentDateTime: DateTime!
-  receivedDateTime: DateTime!
-  periodStart: DateTime!
-  periodEnd: DateTime!
-  imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
 type ImbalancePricePeriod {
@@ -601,6 +611,8 @@ input CreateOrganizationDtoInput {
   domain: String!
 }
 
+scalar JSON
+
 input AddressDtoInput {
   streetName: String
   number: String
@@ -621,12 +633,6 @@ input ActorNumberDtoInput {
 
 input ActorNameDtoInput {
   value: String!
-}
-
-type MeteringGridAreaImbalancePerDayDto {
-  imbalanceDay: DateTime!
-  incomingQuantity: Float
-  outgoingQuantity: Float
 }
 
 input ActorGridAreaDtoInput {

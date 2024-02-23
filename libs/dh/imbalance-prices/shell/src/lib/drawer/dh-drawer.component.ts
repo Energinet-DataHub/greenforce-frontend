@@ -118,7 +118,10 @@ export class DhImbalancePricesDrawerComponent {
   private readonly httpClient = inject(ImbalancePricesHttp);
   private readonly apollo = inject(Apollo);
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   private readonly year = computed(() => Number(format(this.imbalancePrice()!.name, 'yyyy')));
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   private readonly month = computed(() => Number(format(this.imbalancePrice()!.name, 'M')));
 
   imbalancePrice = input<DhImbalancePrice>();
@@ -160,6 +163,7 @@ export class DhImbalancePricesDrawerComponent {
     });
 
     const fileOptions = {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       name: 'imbalance-prices-' + format(this.imbalancePrice()!.name, 'MMMM-yyyy'),
       type: 'text/csv',
     };
@@ -189,6 +193,7 @@ export class DhImbalancePricesDrawerComponent {
         variables: {
           year: this.year(),
           month: this.month(),
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           areaCode: this.imbalancePrice()!.priceAreaCode,
         },
       })

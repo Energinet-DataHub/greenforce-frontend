@@ -5,7 +5,7 @@
 #
 # The `model.dsl` file must contain the actual model, and is the piece that must
 # be reusable and included in other Structurizr files like `views.dsl` and
-# deployment diagram files.
+# deployment diagram files
 
 workspace extends https://raw.githubusercontent.com/Energinet-DataHub/opengeh-arch-diagrams/main/docs/diagrams/c4-model/dh-base-model.dsl {
 

@@ -223,6 +223,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   private generatePhoneOptions(): void {
     const phoneOptions = maskitoPhoneOptionsGenerator({
       countryIsoCode: this.choosenCountry().countryIsoCode,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       metadata: this._metadata!,
       separator: ' ',
     });

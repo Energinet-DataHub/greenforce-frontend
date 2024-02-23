@@ -240,7 +240,8 @@
           "DK": "Denmark",
           "SE": "Sweden",
           "NO": "Norway",
-          "FI": "Finland"
+          "FI": "Finland",
+          "DE": "Germany"
         },
         "glnOrEicNumber": "GLN/EIC",
         "name": "Market participant name",
@@ -607,11 +608,19 @@
     },
     "meteringGridAreaImbalance": {
       "tabHeading": "MGA Imbalance",
+      "shared": {
+        "valuesToInclude": {
+          "IMBALANCES": "Imbalance",
+          "BALANCES": "No Imbalances",
+          "BOTH": "Both"
+        }
+      },
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Created date",
         "reset": "{{ shared.form.reset }}",
-        "documentId": "Message ID"
+        "documentId": "Message ID",
+        "valuesToInclude": "Pricetypes"
       },
       "columns": {
         "documentDateTime": "Created",
@@ -619,6 +628,32 @@
         "id": "ID",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "period": "Calculation period"
+      },
+      "drawer": {
+        "tabs": {
+          "imbalance": "Imbalance",
+          "message": "Message"
+        },
+        "card": {
+          "titles": {
+            "deficit": "Imbalance Deficit (kWh)",
+            "surplus": "Surplus Imbalance (kWh)"
+          }
+        },
+        "table": {
+          "columns": {
+            "position": "Position",
+            "date": "Date",
+            "time": "Time",
+            "imbalance": "Imbalance"
+          }
+        },
+        "metadata": {
+          "created": "Oprettet",
+          "periode": "Beregnet periode",
+          "received": "Modtaget",
+          "gridArea": "{{ eSett.shared.gridArea }}"
+        }
       },
       "emptyTitle": "No imbalances found for period",
       "emptyMessage": "Try changing the search criteria",

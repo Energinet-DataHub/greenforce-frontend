@@ -772,6 +772,13 @@
             "type": "string",
             "nullable": true
           },
+          "meteringGridImbalanceValuesToInclude": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringGridImbalanceValuesToInclude"
+              }
+            ]
+          },
           "sortProperty": {
             "allOf": [
               {
@@ -845,6 +852,14 @@
           "GridAreaCode",
           "DocumentId",
           "ReceivedDateTime"
+        ]
+      },
+      "MeteringGridImbalanceValuesToInclude": {
+        "type": "string",
+        "enum": [
+          "Imbalances",
+          "Balances",
+          "Both"
         ]
       },
       "ReadinessStatusDto": {
