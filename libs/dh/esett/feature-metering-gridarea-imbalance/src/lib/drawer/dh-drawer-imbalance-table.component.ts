@@ -103,6 +103,7 @@ export class DhDrawerImbalanceTableComponent implements OnInit {
   }
 
   getDataSource(): WattTableDataSource<MeteringGridAreaImbalancePerDayDtoExtended> {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this.surplus() !== undefined ? this.surplus()! : this.deficit()!;
   }
 }
