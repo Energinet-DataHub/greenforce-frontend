@@ -17,7 +17,7 @@ This DataHub repository relies on open source libraries and tools. We recommend 
 | `Cache`                       | <https://github.com/actions/cache>                         | MIT            |
 | `Checkout`                    | <https://github.com/actions/checkout>                      | MIT            |
 | `Github Action for Chromatic` | <https://github.com/chromaui/action>                       | MIT            |
-| `Github Automatic Releases`   | <https://github.com/marvinpinto/action-automatic-releases> | MIT            |
+| `Github Automatic Releases`   | <https://github.com/softprops/action-gh-release>           | MIT            |
 | `License_checker`             | <https://github.com/kt3k/license_checker>                  | Blue Oak Model |
 | `Repository Dispatch`         | <https://github.com/peter-evans/repository-dispatch>       | MIT            |
 | `Setup-node`                  | <https://github.com/actions/setup-node>                    | MIT            |
