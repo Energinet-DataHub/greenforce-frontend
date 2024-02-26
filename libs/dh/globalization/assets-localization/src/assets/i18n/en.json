@@ -281,7 +281,7 @@
         "status": "Status"
       },
       "create": "New market participant",
-      "actors": "Market participants",
+      "actors": "Market Participants",
       "columns": {
         "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
         "name": "{{ marketParticipant.actorsOverview.shared.name }}",
@@ -469,7 +469,7 @@
       }
     },
     "marketRolesOverview": {
-      "marketRoles": "Market roles",
+      "marketRoles": "Market Roles",
       "download": "Download",
       "columns": {
         "name": "Name",
@@ -543,7 +543,7 @@
       }
     },
     "outgoingMessages": {
-      "tabHeading": "Outgoing messages",
+      "tabHeading": "Outgoing Messages",
       "status": {
         "INGESTION": "Ingestion of messages",
         "CONVERTER": "Conversion of messages",
@@ -661,12 +661,12 @@
       "errorMessage": "{{ shared.error.message }}"
     },
     "balanceResponsible": {
-      "tabHeading": "Balance responsible",
+      "tabHeading": "Balance Responsible Relations",
       "shared": {
         "validFrom": "Valid from",
         "validTo": "Valid to",
         "electricitySupplier": "Electricity supplier",
-        "balanceResponsible": "Balance responsible",
+        "balanceResponsible": "Balance Responsible Relations",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "meteringPointType": "Metering point type",
         "received": "Received"
@@ -1085,7 +1085,7 @@
           "tabLabel": "User Roles",
           "roles": "User roles",
           "role": "User role",
-          "rolesHeadline": "User roles",
+          "rolesHeadline": "User Roles",
           "emptyTitle": "No user roles found",
           "emptyMessage": "Try changing the search criteria",
           "filter": {
