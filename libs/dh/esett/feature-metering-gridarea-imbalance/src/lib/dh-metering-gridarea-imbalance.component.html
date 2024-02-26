@@ -27,6 +27,10 @@ limitations under the License.
         [label]="t('filters.documentId')"
         (search)="documentIdSearch$.next($event)"
       />
+
+      <watt-button icon="download" variant="text" (click)="download()" [loading]="isDownloading">{{
+        "shared.download" | transloco
+      }}</watt-button>
     </vater-stack>
 
     <dh-metering-gridarea-imbalance-filters

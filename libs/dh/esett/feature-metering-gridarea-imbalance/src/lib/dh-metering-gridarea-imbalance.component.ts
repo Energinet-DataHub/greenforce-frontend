@@ -16,7 +16,7 @@
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { BehaviorSubject, combineLatest, debounceTime, map, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, map, switchMap, take } from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -39,12 +39,14 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhMeteringGridAreaImbalanceFiltersComponent } from './filters/dh-filters.component';
 import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
 import {
+  DownloadMeteringGridAreaImbalanceDocument,
   GetMeteringGridAreaImbalanceDocument,
   MeteringGridImbalanceValuesToInclude,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Sort } from '@angular/material/sort';
 import { dhMGASortMetadataMapper } from './util/dh-sort-metadata-mapper.operator';
+import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   standalone: true,
@@ -106,6 +108,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   });
 
   isLoading = false;
+  isDownloading = false;
   hasError = false;
 
   filter$ = new BehaviorSubject<DhMeteringGridAreaImbalanceFilters>({
@@ -181,5 +184,49 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
 
   handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
     this.pageMetaData$.next({ pageIndex, pageSize });
+  }
+
+  download() {
+    this.isDownloading = true;
+    this.queryVariables$
+      .pipe(
+        switchMap(
+          ({ filters, documentIdSearch, sortMetadata }) =>
+            this._apollo.watchQuery({
+              returnPartialData: false,
+              useInitialLoading: false,
+              notifyOnNetworkStatusChange: true,
+              fetchPolicy: 'no-cache',
+              query: DownloadMeteringGridAreaImbalanceDocument,
+              variables: {
+                locale: 'da-DK',
+                gridAreaCode: filters.gridArea,
+                periodFrom: filters.period?.start,
+                periodTo: filters.period?.end,
+                documentId: documentIdSearch,
+                sortProperty: sortMetadata.sortProperty,
+                sortDirection: sortMetadata.sortDirection,
+                valuesToInclude: filters.valuesToInclude,
+              },
+            }).valueChanges
+        ),
+        take(1)
+      )
+      .subscribe({
+        next: (result) => {
+          this.isDownloading = result.loading;
+
+          exportToCSVRaw({
+            content: result?.data?.downloadMeteringGridAreaImbalance,
+            fileName: 'eSett-metering-grid-area-imbalance-messages',
+          });
+
+          this.hasError = !!result.errors;
+        },
+        error: () => {
+          this.hasError = true;
+          this.isDownloading = false;
+        },
+      });
   }
 }

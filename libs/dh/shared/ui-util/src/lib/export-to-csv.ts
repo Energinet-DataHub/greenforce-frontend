@@ -21,10 +21,20 @@ type ExportToCSVArgs = {
 };
 
 export const exportToCSV = ({ headers, lines, fileName = 'result' }: ExportToCSVArgs) => {
+  exportToCSVRaw({content: `${headers.join(';')}\n${lines.map((x) => x.join(';')).join('\n')}`, fileName});
+};
+
+export const exportToCSVRaw = ({
+  content,
+  fileName = 'result',
+}: {
+  content: string;
+  fileName: string;
+}) => {
   const a = document.createElement('a');
 
   a.href = URL.createObjectURL(
-    new Blob([`\ufeff${headers.join(';')}\n${lines.map((x) => x.join(';')).join('\n')}`], {
+    new Blob([`\ufeff${content}`], {
       type: 'text/csv;charset=utf-8;',
     })
   );

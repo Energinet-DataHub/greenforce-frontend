@@ -392,6 +392,64 @@
         }
       }
     },
+    "/esett/mga-imbalance/download": {
+      "post": {
+        "tags": [
+          "MeteringGridAreaImbalance"
+        ],
+        "operationId": "download",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceDownloadFilter"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceDownloadFilter"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceDownloadFilter"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/csv": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/status": {
       "get": {
         "tags": [
@@ -717,6 +775,51 @@
             "allOf": [
               {
                 "$ref": "#/components/schemas/DocumentStatus"
+              }
+            ]
+          }
+        }
+      },
+      "MeteringGridAreaImbalanceDownloadFilter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "gridAreaCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdTo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "documentId": {
+            "type": "string",
+            "nullable": true
+          },
+          "meteringGridImbalanceValuesToInclude": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringGridImbalanceValuesToInclude"
+              }
+            ]
+          },
+          "sortProperty": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringGridAreaImbalanceSortProperty"
+              }
+            ]
+          },
+          "sortDirection": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SortDirection"
               }
             ]
           }
