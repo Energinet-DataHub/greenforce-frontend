@@ -37,13 +37,6 @@ watt-dropdown {
     background-color: transparent;
   }
 
-  .mat-mdc-select-arrow {
-    color: var(--watt-dropdown-arrow-color, rgba(0, 0, 0, 0.54));
-    border: none;
-    width: auto;
-    height: auto;
-  }
-
   .mat-input-element {
     @include watt.typography-watt-text-s;
     color: var(--watt-input-color);
@@ -52,6 +45,11 @@ watt-dropdown {
   }
 
   .mat-mdc-select-arrow {
+    color: var(--watt-dropdown-arrow-color, rgba(0, 0, 0, 0.54));
+    border: none;
+    width: auto;
+    height: auto;
+
     &::before {
       width: 0.6em;
       height: 0.6em;
