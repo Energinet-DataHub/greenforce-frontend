@@ -19,9 +19,9 @@ import { TranslationKeys } from './translation-keys';
 
 export const DA_TRANSLATIONS: TranslationKeys = {
   sidebar: {
-    dashboard: 'Dashboard',
+    dashboard: 'Overblik',
     meteringPoints: 'Målepunkter',
-    claims: 'Krav',
+    claims: 'Samstemte Certifikater',
     certificates: 'Certifikater',
     transfers: 'Overførsler',
     activityLog: 'Aktivitetslog',
@@ -73,7 +73,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     cancel: 'Fortryd',
   },
   dashboard: {
-    title: 'Dashboard',
+    title: 'Overblik',
     tabs: {
       producer: 'Produktion',
       consumer: 'Forbrug',
@@ -197,7 +197,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     contractError: 'Der opstod et problem. Prøv venligst igen eller genindlæs siden.',
   },
   claims: {
-    title: 'Krav',
+    title: 'Samstemte Certifikater',
     noData: {
       title: 'Ingen krav fundet',
       message: 'Du har ikke nogen krav.',
@@ -206,9 +206,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       title: 'Ups! Noget gik galt.',
       message: 'Prøv venligst at genindlæse siden.',
     },
-    searchLabel: 'Search',
-    tableTitle: 'Results',
-    claimIdTableHeader: 'Krav-ID',
+    searchLabel: 'Søg',
+    tableTitle: 'Resultater',
+    claimIdTableHeader: 'Samstemt Certifikat-ID',
     amountTableHeader: 'Mængde',
     startDateTableHeader: 'Start',
     endDateTableHeader: 'Slut',
