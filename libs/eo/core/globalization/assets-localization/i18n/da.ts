@@ -418,12 +418,12 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       title: 'Forslag til overførselsaftale',
       message: '{{senderName}} ønsker at indgå en overførselsaftale med dig.',
       acceptButton: 'Acceptér',
-      declineButton: 'Afvis'
+      declineButton: 'Afvis',
     },
     error: {
       title: 'Ugyldigt forslag til overførselsaftale',
       message: `Forslaget til overførselsaftale, du netop klikkede på, er ikke gyldigt <br /> Hvis dette ikke var, hvad du forventede, kontakt venligst afsenderen af linket.`,
       declineButton: 'Ok',
     },
-  }
+  },
 };

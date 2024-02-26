@@ -244,7 +244,7 @@ export interface TranslationKeys {
     automationError: {
       title: string;
       message: string;
-    },
+    };
     creationOfTransferAgreementFailed: string;
     tableTitle: string;
     createNewTransferAgreement: string;
@@ -287,10 +287,10 @@ export interface TranslationKeys {
       updatedTransferAgreementToHaveNoEndDate: string;
       updatedTransferAgreementToHaveEndDate: string;
       deletedTransferAgreement: string;
-    },
+    };
     noData: {
       title: string;
-    },
+    };
     error: {
       title: string;
       message: string;
@@ -321,7 +321,7 @@ export interface TranslationKeys {
       receiverTinGeneralError: string;
       receiverTinEqualsSenderTin: string;
       receiverTinFormatError: string;
-    },
+    };
     timeframe: {
       stepLabel: string;
       title: string;
@@ -333,7 +333,7 @@ export interface TranslationKeys {
         required: string;
         nextHourOrLater: string;
         overlapping: string;
-      },
+      };
       endDate: {
         label: string;
         noEndDateLabel: string;
@@ -342,27 +342,27 @@ export interface TranslationKeys {
         laterThanStartDate: string;
         withEndDateOverlapping: string;
         withoutEndDateOverlapping: string;
-      },
-    },
+      };
+    };
     invitation: {
       stepLabel: string;
       title: {
         success: string;
         error: string;
-      }
+      };
       description: {
         success: string;
         error: string;
-      }
+      };
       link: {
         hint: string;
         error: string;
         copy: string;
         retry: string;
-      },
+      };
       nextLabel: string;
       previousLabel: string;
-    }
+    };
   };
   respondTransferAgreementProposal: {
     title: string;
@@ -374,11 +374,11 @@ export interface TranslationKeys {
       message: string;
       acceptButton: string;
       declineButton: string;
-    },
+    };
     error: {
       title: string;
       message: string;
       declineButton: string;
-    },
+    };
   };
 }

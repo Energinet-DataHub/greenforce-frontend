@@ -165,9 +165,7 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
                 {{ translations.createTransferAgreementProposal.timeframe.title | transloco }}
               </h2>
               <p>
-                {{
-                  translations.createTransferAgreementProposal.timeframe.description | transloco
-                }}
+                {{ translations.createTransferAgreementProposal.timeframe.description | transloco }}
               </p>
 
               <eo-transfers-form-period
@@ -193,8 +191,7 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
               @if (!generateProposalFailed) {
                 <h2>
                   {{
-                    translations.createTransferAgreementProposal.invitation.title.error
-                      | transloco
+                    translations.createTransferAgreementProposal.invitation.title.error | transloco
                   }}
                 </h2>
                 <div
@@ -206,8 +203,7 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
               } @else {
                 <h2>
                   {{
-                    translations.createTransferAgreementProposal.invitation.title.error
-                      | transloco
+                    translations.createTransferAgreementProposal.invitation.title.error | transloco
                   }}
                 </h2>
                 <div
@@ -263,9 +259,12 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
 
         <div style="display: flex; align-items: center;">
           <watt-text-field
-            [label]="translations.createTransferAgreementProposal.recipient.receiverTinLabel | transloco"
+            [label]="
+              translations.createTransferAgreementProposal.recipient.receiverTinLabel | transloco
+            "
             [placeholder]="
-              translations.createTransferAgreementProposal.recipient.receiverTinPlaceholder | transloco
+              translations.createTransferAgreementProposal.recipient.receiverTinPlaceholder
+                | transloco
             "
             type="text"
             [formControl]="form.controls.receiverTin"
@@ -282,7 +281,8 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
             @if (!form.controls.receiverTin.errors && mode === 'create') {
               <watt-field-hint
                 [innerHTML]="
-                  translations.createTransferAgreementProposal.recipient.receiverTinGeneralError | transloco
+                  translations.createTransferAgreementProposal.recipient.receiverTinGeneralError
+                    | transloco
                 "
               />
             }
@@ -299,7 +299,8 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
             @if (form.controls.receiverTin.errors?.['pattern']) {
               <watt-field-error
                 [innerHTML]="
-                  translations.createTransferAgreementProposal.recipient.receiverTinFormatError | transloco
+                  translations.createTransferAgreementProposal.recipient.receiverTinFormatError
+                    | transloco
                 "
               />
             }

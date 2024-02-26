@@ -78,23 +78,34 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
     <watt-drawer #drawer (closed)="onClose()">
       <watt-drawer-topbar>
         @if (isActive) {
-          <watt-badge type="success">{{ translations.transferAgreement.active | transloco }}</watt-badge>
+          <watt-badge type="success">{{
+            translations.transferAgreement.active | transloco
+          }}</watt-badge>
         } @else {
-          <watt-badge type="neutral">{{ translations.transferAgreement.inactive | transloco }}</watt-badge>
+          <watt-badge type="neutral">{{
+            translations.transferAgreement.inactive | transloco
+          }}</watt-badge>
         }
       </watt-drawer-topbar>
 
       <watt-drawer-heading>
-        <h2>{{ transfer?.receiverTin }} - {{ transfer?.receiverName || translations.transferAgreement.unknownReceiver | transloco }}</h2>
+        <h2>
+          {{ transfer?.receiverTin }} -
+          {{ transfer?.receiverName || translations.transferAgreement.unknownReceiver | transloco }}
+        </h2>
         <p class="sub-header">
-          <span class="watt-label">{{ translations.transferAgreement.periodOfAgreementLabel | transloco }}</span>
+          <span class="watt-label">{{
+            translations.transferAgreement.periodOfAgreementLabel | transloco
+          }}</span>
           {{ transfer?.startDate | wattDate: 'long' }}－{{ transfer?.endDate | wattDate: 'long' }}
         </p>
       </watt-drawer-heading>
 
       <watt-drawer-actions>
         @if (isEditable && ownTin() === transfer?.senderTin) {
-          <watt-button variant="secondary" (click)="transfersEditModal.open()">{{ translations.transferAgreement.editTransferAgreement | transloco }}</watt-button>
+          <watt-button variant="secondary" (click)="transfersEditModal.open()">{{
+            translations.transferAgreement.editTransferAgreement | transloco
+          }}</watt-button>
         }
       </watt-drawer-actions>
 
@@ -107,16 +118,22 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
                   <watt-description-list-item
                     [label]="translations.transferAgreement.receiverLabel | transloco"
                     [value]="
-                      transfer?.receiverTin + ' - ' + (transfer?.receiverName || translations.transferAgreement.unknownReceiver | transloco)
+                      transfer?.receiverTin +
+                      ' - ' +
+                      (transfer?.receiverName || translations.transferAgreement.unknownReceiver
+                        | transloco)
                     "
                   />
-                  <watt-description-list-item [label]="translations.transferAgreement.idLabel | transloco" value="{{ transfer?.id }}" />
+                  <watt-description-list-item
+                    [label]="translations.transferAgreement.idLabel | transloco"
+                    value="{{ transfer?.id }}"
+                  />
                 </watt-description-list>
               </watt-card>
             </watt-tab>
             <watt-tab [label]="translations.transferAgreement.historyTab | transloco">
               <watt-card variant="solid">
-                @if(tabs.activeTabIndex === 1) {
+                @if (tabs.activeTabIndex === 1) {
                   <eo-transfers-history [transfer]="transfer" />
                 }
               </watt-card>

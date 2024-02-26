@@ -365,7 +365,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         label: 'START',
         required: 'The start of the period is required',
         nextHourOrLater: 'The start of the period must be at least the next hour from now',
-        overlapping: 'Chosen period overlaps with an existing agreement: {{startDate}} - {{endDate}}',
+        overlapping:
+          'Chosen period overlaps with an existing agreement: {{startDate}} - {{endDate}}',
       },
       endDate: {
         label: 'Stop',
@@ -373,9 +374,11 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         withEndDateLabel: 'End on date',
         minToday: 'The end of the period must be today or later',
         laterThanStartDate: 'The end of the period must be later than the start of the period',
-        withEndDateOverlapping: "Because you haven't chosen an end date, the period overlaps with an existing agreement: {{startDate}} - {{endDate}}",
-        withoutEndDateOverlapping: 'Chosen period overlaps with an existing agreement: {{startDate}} - {{endDate}}',
-      }
+        withEndDateOverlapping:
+          "Because you haven't chosen an end date, the period overlaps with an existing agreement: {{startDate}} - {{endDate}}",
+        withoutEndDateOverlapping:
+          'Chosen period overlaps with an existing agreement: {{startDate}} - {{endDate}}',
+      },
     },
     invitation: {
       stepLabel: 'Invitation',
@@ -414,7 +417,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       title: 'Transfer agreement proposal',
       message: '{{senderName}} wants to make a transfer agreement with you.',
       acceptButton: 'Accept',
-      declineButton: 'Decline'
+      declineButton: 'Decline',
     },
     error: {
       title: 'Invalid transfer agreement proposal',
@@ -424,5 +427,5 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       `,
       declineButton: 'Ok',
     },
-  }
+  },
 };

@@ -44,7 +44,7 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
     WattButtonComponent,
     WattShellComponent,
     TranslocoPipe,
-    EoLanguageSwitcherComponent
+    EoLanguageSwitcherComponent,
   ],
   selector: 'eo-shell',
   styles: [

@@ -139,27 +139,30 @@ export class EoClaimsTableComponent implements OnInit {
   }
 
   private setColumns(): void {
-    this.transloco.selectTranslation().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      this.columns = {
-        claimId: {
-          accessor: (x) => x.claimId,
-          header: this.transloco.translate(this.translations.claims.claimIdTableHeader),
-        },
-        amount: {
-          accessor: (x) => x.amount,
-          header: this.transloco.translate(this.translations.claims.amountTableHeader),
-        },
-        start: {
-          accessor: (x) => x.start,
-          header: this.transloco.translate(this.translations.claims.startDateTableHeader),
-        },
-        end: {
-          accessor: (x) => x.end,
-          header: this.transloco.translate(this.translations.claims.endDateTableHeader),
-        },
-      };
-      this.cd.detectChanges();
-    });
+    this.transloco
+      .selectTranslation()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.columns = {
+          claimId: {
+            accessor: (x) => x.claimId,
+            header: this.transloco.translate(this.translations.claims.claimIdTableHeader),
+          },
+          amount: {
+            accessor: (x) => x.amount,
+            header: this.transloco.translate(this.translations.claims.amountTableHeader),
+          },
+          start: {
+            accessor: (x) => x.start,
+            header: this.transloco.translate(this.translations.claims.startDateTableHeader),
+          },
+          end: {
+            accessor: (x) => x.end,
+            header: this.transloco.translate(this.translations.claims.endDateTableHeader),
+          },
+        };
+        this.cd.detectChanges();
+      });
   }
 
   compare(a: number, b: number, isAsc: boolean): number {

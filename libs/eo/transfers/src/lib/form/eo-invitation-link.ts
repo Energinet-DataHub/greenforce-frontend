@@ -85,8 +85,8 @@ function generateLink(id: string | null): string | null {
         }
 
         <watt-field-error>{{
-            translations.createTransferAgreementProposal.invitation.link.error | transloco
-          }}</watt-field-error>
+          translations.createTransferAgreementProposal.invitation.link.error | transloco
+        }}</watt-field-error>
       </watt-text-field>
 
       @if (!hasError) {
