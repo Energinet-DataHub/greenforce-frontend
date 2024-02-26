@@ -21,7 +21,10 @@ type ExportToCSVArgs = {
 };
 
 export const exportToCSV = ({ headers, lines, fileName = 'result' }: ExportToCSVArgs) => {
-  exportToCSVRaw({content: `${headers.join(';')}\n${lines.map((x) => x.join(';')).join('\n')}`, fileName});
+  exportToCSVRaw({
+    content: `${headers.join(';')}\n${lines.map((x) => x.join(';')).join('\n')}`,
+    fileName,
+  });
 };
 
 export const exportToCSVRaw = ({
