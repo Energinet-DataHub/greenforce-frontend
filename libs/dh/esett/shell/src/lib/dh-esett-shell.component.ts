@@ -21,6 +21,7 @@ import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { DhOutgoingMessagesComponent } from '@energinet-datahub/dh/esett/feature-outgoing-messages';
 import { DhMeteringGridAreaImbalanceComponent } from '@energinet-datahub/dh/esett/feature-metering-gridarea-imbalance';
 import { DhBalanceResponsibleComponent } from '@energinet-datahub/dh/esett/feature-balance-responsible';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   selector: 'dh-esett-shell',
@@ -31,17 +32,26 @@ import { DhBalanceResponsibleComponent } from '@energinet-datahub/dh/esett/featu
     </watt-tab>
 
     <watt-tab [label]="t('meteringGridareaImbalance.tabLabel')">
-      <dh-metering-gridarea-imbalance />
+      @defer (on viewport) {
+        <dh-metering-gridarea-imbalance />
+      } @placeholder {
+        <watt-spinner />
+      }
     </watt-tab>
 
     <watt-tab [label]="t('balanceResponsible.tabLabel')">
-      <dh-balance-responsible />
+      @defer (on viewport) {
+        <dh-balance-responsible />
+      } @placeholder {
+        <watt-spinner />
+      }
     </watt-tab>
   </watt-tabs>`,
   imports: [
     TranslocoDirective,
 
     WATT_TABS,
+    WattSpinnerComponent,
 
     DhOutgoingMessagesComponent,
     DhMeteringGridAreaImbalanceComponent,
