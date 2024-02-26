@@ -73,9 +73,13 @@ limitations under the License.
 
           @if (xmlMessage() !== "") {
             <watt-tab [label]="t('tabs.message')">
-              <div class="xml-message-container">
-                <watt-code [code]="xmlMessage()" />
-              </div>
+              @defer (on viewport) {
+                <div class="xml-message-container">
+                  <watt-code [code]="xmlMessage()" />
+                </div>
+              } @placeholder {
+                <watt-spinner />
+              }
             </watt-tab>
           }
         </watt-tabs>

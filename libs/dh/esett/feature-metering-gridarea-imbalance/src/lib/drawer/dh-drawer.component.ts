@@ -42,6 +42,7 @@ import {
   MeteringGridAreaImbalancePerDayDtoExtended,
 } from './dh-drawer-imbalance-table.component';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   selector: 'dh-metering-grid-imbalance-drawer',
@@ -75,6 +76,7 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
     WattDescriptionListItemComponent,
     WattDatePipe,
     WattCodeComponent,
+    WattSpinnerComponent,
 
     VaterFlexComponent,
 
