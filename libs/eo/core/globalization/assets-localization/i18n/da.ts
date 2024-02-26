@@ -33,7 +33,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     cvr: 'CVR: 3931150441',
     contactHeader: 'Kontakt',
     contactPhone: '+45 70 22 28 10',
-    contactEmail: 'datahub&#64;energinet.dk',
+    contactEmail: 'datahub@energinet.dk',
     privacyPolicy: 'Privatlivspolitik',
     accessibilityStatement: 'Tilgængelighedserklæring',
   },
@@ -59,6 +59,17 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     },
     help: 'Hjælp',
     logout: 'Log ud',
+  },
+  languageSwitcher: {
+    title: 'Sprog',
+    closeLabel: 'Luk sprog konfiguration',
+    languagesLabel: 'Fortrukne sprog',
+    languages: {
+      da: 'Dansk',
+      en: 'Engelsk',
+    },
+    save: 'Gem',
+    cancel: 'Fortryd',
   },
   dashboard: {
     title: 'Dashboard',

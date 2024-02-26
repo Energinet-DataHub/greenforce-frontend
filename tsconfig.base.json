@@ -265,6 +265,9 @@
       "@energinet-datahub/eo/globalization/configuration-localization": [
         "libs/eo/core/globalization/configuration-localization/src/index.ts"
       ],
+      "@energinet-datahub/eo/globalization/feature-language-switcher": [
+        "libs/eo/core/globalization/feature-language-switcher/index.ts"
+      ],
       "@energinet-datahub/eo/globalization/test-util-i18n": [
         "libs/eo/core/globalization/test-util-i18n/src/index.ts"
       ],

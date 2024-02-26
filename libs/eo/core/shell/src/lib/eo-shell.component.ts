@@ -25,6 +25,7 @@ import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
+import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/shared/services';
 import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
@@ -43,6 +44,7 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
     WattButtonComponent,
     WattShellComponent,
     TranslocoPipe,
+    EoLanguageSwitcherComponent
   ],
   selector: 'eo-shell',
   styles: [
@@ -124,6 +126,8 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
           <h2>{{ titleService.getTitle() }}</h2>
 
           <vater-spacer />
+
+          <eo-language-switcher />
           <watt-button variant="text" [routerLink]="['/help']" icon="help">{{
             'topbar.help' | transloco
           }}</watt-button>

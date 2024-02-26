@@ -60,6 +60,17 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     help: 'Help',
     logout: 'Logout',
   },
+  languageSwitcher: {
+    title: 'Language',
+    closeLabel: 'Close language selection',
+    languagesLabel: 'Preferred language',
+    languages: {
+      da: 'Danish',
+      en: 'English',
+    },
+    save: 'Save',
+    cancel: 'Cancel',
+  },
   dashboard: {
     title: 'Dashboard',
     tabs: {

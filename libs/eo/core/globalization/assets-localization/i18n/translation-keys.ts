@@ -56,6 +56,17 @@ export interface TranslationKeys {
     help: string;
     logout: string;
   };
+  languageSwitcher: {
+    title: string;
+    closeLabel: string;
+    languagesLabel: string;
+    languages: {
+      da: string;
+      en: string;
+    };
+    save: string;
+    cancel: string;
+  };
   dashboard: {
     title: string;
     tabs: {

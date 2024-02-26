@@ -42,6 +42,17 @@ export const translations = {
     help: "shared.help" as const,
     logout: "shared.logout" as const,
   } as const,
+  languageSwitcher: {
+    title: "languageSwitcher.title" as const,
+    closeLabel: "languageSwitcher.closeLabel" as const,
+    languagesLabel: "languageSwitcher.languagesLabel" as const,
+    languages: {
+      da: "languageSwitcher.languages.da" as const,
+      en: "languageSwitcher.languages.en" as const,
+    } as const,
+    save: "languageSwitcher.save" as const,
+    cancel: "languageSwitcher.cancel" as const,
+  } as const,
   dashboard: {
     title: "dashboard.title" as const,
     tabs: {
