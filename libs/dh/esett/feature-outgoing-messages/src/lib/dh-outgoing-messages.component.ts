@@ -16,17 +16,7 @@
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import {
-  BehaviorSubject,
-  catchError,
-  combineLatest,
-  debounceTime,
-  map,
-  of,
-  merge,
-  switchMap,
-} from 'rxjs';
-import { endOfDay, startOfDay, sub } from 'date-fns';
+import { BehaviorSubject, catchError, debounceTime, map, of, switchMap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
@@ -53,12 +43,14 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import {
+  DhOutgoingMessagesFilters,
+  DhOutgoingMessagesStore,
+} from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
 
 import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
 import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
 import { DhOutgoingMessage } from './dh-outgoing-message';
-import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
-import { dhExchangeSortMetadataMapper } from './util/dh-sort-metadata-mapper.operator';
 
 @Component({
   standalone: true,
@@ -111,36 +103,22 @@ import { dhExchangeSortMetadataMapper } from './util/dh-sort-metadata-mapper.ope
     DhOutgoingMessagesFiltersComponent,
     DhOutgoingMessagesTableComponent,
   ],
+  providers: [DhOutgoingMessagesStore],
 })
 export class DhOutgoingMessagesComponent implements OnInit {
   private _apollo = inject(Apollo);
   private _destroyRef = inject(DestroyRef);
+  private _store = inject(DhOutgoingMessagesStore);
 
   tableDataSource = new WattTableDataSource<DhOutgoingMessage>([]);
   totalCount = 0;
 
-  sortMetadata$ = new BehaviorSubject<Sort>({
-    active: 'received',
-    direction: 'desc',
-  });
-
-  private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
-    pageIndex: 0,
-    pageSize: 100,
-  });
-
-  pageIndex$ = this.pageMetaData$.pipe(map(({ pageIndex }) => pageIndex));
-  pageSize$ = this.pageMetaData$.pipe(map(({ pageSize }) => pageSize));
+  filters$ = this._store.filters$;
+  pageMetaData$ = this._store.pageMetaData$;
+  documentIdSearch$ = new BehaviorSubject<string>('');
 
   isLoading = false;
   hasError = false;
-
-  filter$ = new BehaviorSubject<DhOutgoingMessagesFilters>({
-    created: {
-      start: sub(startOfDay(new Date()), { days: 3 }),
-      end: endOfDay(new Date()),
-    },
-  });
 
   serviceStatus$ = this._apollo
     .watchQuery({
@@ -165,17 +143,13 @@ export class DhOutgoingMessagesComponent implements OnInit {
       map(({ data }) => data?.esettExchangeStatusReport ?? 0)
     );
 
-  documentIdSearch$ = new BehaviorSubject<string>('');
-
-  private queryVariables$ = this.buildQueryVariables();
-
   /**
    * Represents an observable stream of outgoing messages.
    * Emits the result of a GraphQL query to retrieve outgoing messages based on the provided variables.
    * @type {Observable<QueryResult<GetOutgoingMessagesQuery>>}
    */
-  outgoingMessages$ = this.queryVariables$.pipe(
-    switchMap(({ filters, pageMetaData, documentIdSearch, sortMetadata }) =>
+  outgoingMessages$ = this._store.queryVariables$.pipe(
+    switchMap(({ filters, pageMetaData, documentId, sortMetaData }) =>
       this._apollo
         .watchQuery({
           useInitialLoading: true,
@@ -193,9 +167,9 @@ export class DhOutgoingMessagesComponent implements OnInit {
             documentStatus: filters.status,
             periodInterval: filters.period,
             createdInterval: filters.created,
-            documentId: documentIdSearch,
-            sortProperty: sortMetadata.sortProperty,
-            sortDirection: sortMetadata.sortDirection,
+            documentId,
+            sortProperty: sortMetaData.sortProperty,
+            sortDirection: sortMetaData.sortDirection,
           },
         })
         .valueChanges.pipe(catchError(() => of({ loading: false, data: null, errors: [] })))
@@ -218,52 +192,28 @@ export class DhOutgoingMessagesComponent implements OnInit {
         this.isLoading = false;
       },
     });
-  }
 
-  buildQueryVariables() {
-    const filtersDocumentIdSort$ = combineLatest({
-      filters: this.filter$,
-      documentIdSearch: this.documentIdSearch$.pipe(debounceTime(250)),
-      sortMetadata: this.sortMetadata$.pipe(dhExchangeSortMetadataMapper),
-    });
-
-    const onVariablesChange$ = merge(filtersDocumentIdSort$, this.pageMetaData$);
-
-    return onVariablesChange$.pipe(
-      switchMap(() => filtersDocumentIdSort$),
-      map(({ filters, documentIdSearch, sortMetadata }) => {
-        const pageMetaData = this.pageMetaData$.getValue();
-
-        return {
-          filters: documentIdSearch ? {} : filters,
-          pageMetaData,
-          documentIdSearch,
-          sortMetadata,
-        };
-      })
-    );
+    this._store.documentIdUpdate(this.documentIdSearch$.pipe(debounceTime(250)));
   }
 
   onFiltersEvent(filters: DhOutgoingMessagesFilters): void {
-    this.resetPageMetaData();
-
-    this.filter$.next(filters);
+    this._store.patchState((state) => ({
+      ...state,
+      filters,
+      pageMetaData: { ...state.pageMetaData, pageIndex: 0 },
+    }));
   }
 
-  onSortEvent(sortMetadata: Sort): void {
-    this.resetPageMetaData();
-
-    this.sortMetadata$.next(sortMetadata);
-  }
-
-  onDocumentIdSearchEvent(documentId: string): void {
-    this.resetPageMetaData();
-
-    this.documentIdSearch$.next(documentId);
+  onSortEvent(sortMetaData: Sort): void {
+    this._store.patchState((state) => ({
+      ...state,
+      sortMetaData,
+      pageMetaData: { ...state.pageMetaData, pageIndex: 0 },
+    }));
   }
 
   onPageEvent({ pageIndex, pageSize }: PageEvent): void {
-    this.pageMetaData$.next({ pageIndex, pageSize });
+    this._store.patchState((state) => ({ ...state, pageMetaData: { pageIndex, pageSize } }));
   }
 
   download(): void {
@@ -307,14 +257,5 @@ export class DhOutgoingMessagesComponent implements OnInit {
         })
         .subscribe(() => (this.isLoading = false));
     }
-  }
-
-  private resetPageMetaData(): void {
-    const pageMetaData = this.pageMetaData$.getValue();
-
-    this.pageMetaData$.next({
-      ...pageMetaData,
-      pageIndex: 0,
-    });
   }
 }
