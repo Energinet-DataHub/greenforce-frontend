@@ -16,7 +16,7 @@
  */
 import { Component, OnInit, inject, DestroyRef } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, switchMap, map, combineLatest } from 'rxjs';
+import { BehaviorSubject, switchMap, map, combineLatest, catchError, of } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
@@ -107,9 +107,9 @@ export class DhBalanceResponsibleComponent implements OnInit {
   });
 
   outgoingMessages$ = this.queryVariables$.pipe(
-    switchMap(
-      ({ pageMetadata, sortMetadata }) =>
-        this.apollo.watchQuery({
+    switchMap(({ pageMetadata, sortMetadata }) =>
+      this.apollo
+        .watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
@@ -122,7 +122,8 @@ export class DhBalanceResponsibleComponent implements OnInit {
             sortProperty: sortMetadata.sortProperty,
             sortDirection: sortMetadata.sortDirection,
           },
-        }).valueChanges
+        })
+        .valueChanges.pipe(catchError(() => of({ loading: false, data: null, errors: [] })))
     )
   );
 

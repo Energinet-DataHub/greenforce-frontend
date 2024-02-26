@@ -35,6 +35,10 @@ import { serviceStatusQueryMock } from './data/esett/service-status-query';
 import { statusReportQueryMock } from './data/esett/status-report-query';
 import { resendMessageMutationMock } from './data/esett/resend-messages-mutation';
 
+function getStatus() {
+  return parseInt(new URLSearchParams(location.search).get('statusCode') ?? '200', 10);
+}
+
 export function eSettMocks(apiBase: string) {
   return [
     getOutgoingMessagesQuery(),
@@ -63,7 +67,8 @@ function getResponseDocument(apiBase: string) {
           'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPEFja25vd2xlZGdlbWVudERvY3VtZW50IHhtbG5zPSJ1cm46ZW50c29lLmV1OndnZWRpOmFja25vd2xlZGdlbWVudDphY2tub3dsZWRnZW1lbnRkb2N1bWVudDo2OjAiPgogICAgPERvY3VtZW50SWRlbnRpZmljYXRpb24gdj0iZGQxZTg1YTIwZDkzNDc3MjlkNDU3ODM2MjY4ZGJmZDMiIC8+CiAgICA8RG9jdW1lbnREYXRlVGltZSB2PSIyMDIzLTA5LTA3VDA0OjMzOjMyWiIgLz4KICAgIDxTZW5kZXJJZGVudGlmaWNhdGlvbiB2PSI0NFgtMDAwMDAwMDAwMDRCIiBjb2RpbmdTY2hlbWU9IkEwMSIgLz4KICAgIDxTZW5kZXJSb2xlIHY9IkEwNSIgLz4KICAgIDxSZWNlaXZlcklkZW50aWZpY2F0aW9uIHY9IjU3OTAwMDI2MDY4OTIiIGNvZGluZ1NjaGVtZT0iQTEwIiAvPgogICAgPFJlY2VpdmVyUm9sZSB2PSJBMDkiIC8+CiAgICA8UmVjZWl2aW5nRG9jdW1lbnRJZGVudGlmaWNhdGlvbiB2PSI0MDM4NzQ5MzMiIC8+CiAgICA8UmVjZWl2aW5nRG9jdW1lbnRUeXBlIHY9IkUzMSIgLz4KICAgIDxSZWFzb24+CiAgICAgICAgPFJlYXNvbkNvZGUgdj0iQTAxIiAvPgogICAgPC9SZWFzb24+CjwvQWNrbm93bGVkZ2VtZW50RG9jdW1lbnQ+'
         ),
         (c) => c.charCodeAt(0)
-      )
+      ),
+      { status: getStatus() }
     );
   });
 }
@@ -71,21 +76,30 @@ function getResponseDocument(apiBase: string) {
 function getDispatchDocument(apiBase: string) {
   return http.get(`${apiBase}/v1/EsettExchange/DispatchDocument`, async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.arrayBuffer(Uint8Array.from(atob(base64Document), (c) => c.charCodeAt(0)));
+    return HttpResponse.arrayBuffer(
+      Uint8Array.from(atob(base64Document), (c) => c.charCodeAt(0)),
+      { status: getStatus() }
+    );
   });
 }
 
 function getStorageDocumentLink(apiBase: string) {
   return http.get(`${apiBase}/v1/EsettExchange/StorageDocument`, async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.arrayBuffer(Uint8Array.from(atob(base64Document), (c) => c.charCodeAt(0)));
+    return HttpResponse.arrayBuffer(
+      Uint8Array.from(atob(base64Document), (c) => c.charCodeAt(0)),
+      { status: getStatus() }
+    );
   });
 }
 
 function getMgaImbalanceDocument(apiBase: string) {
   return http.get(`${apiBase}/v1/EsettExchange/MgaImbalanceDocument`, async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.arrayBuffer(Uint8Array.from(atob(base64Document), (c) => c.charCodeAt(0)));
+    return HttpResponse.arrayBuffer(
+      Uint8Array.from(atob(base64Document), (c) => c.charCodeAt(0)),
+      { status: getStatus() }
+    );
   });
 }
 
@@ -103,32 +117,38 @@ function getOutgoingMessageByIdQuery() {
 function getOutgoingMessagesQuery() {
   return mockGetOutgoingMessagesQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        esettExchangeEvents: {
-          __typename: 'ExchangeEventSearchResponse',
-          totalCount: eSettExchangeEvents.length,
-          items: eSettExchangeEvents,
+    return HttpResponse.json(
+      {
+        data: {
+          __typename: 'Query',
+          esettExchangeEvents: {
+            __typename: 'ExchangeEventSearchResponse',
+            totalCount: eSettExchangeEvents.length,
+            items: eSettExchangeEvents,
+          },
         },
       },
-    });
+      { status: getStatus() }
+    );
   });
 }
 
 function getBalanceResponsibleMessagesQuery() {
   return mockGetBalanceResponsibleMessagesQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        balanceResponsible: {
-          __typename: 'BalanceResponsiblePageResult',
-          totalCount: eSettBalanceResponsibleMessages.length,
-          page: eSettBalanceResponsibleMessages,
+    return HttpResponse.json(
+      {
+        data: {
+          __typename: 'Query',
+          balanceResponsible: {
+            __typename: 'BalanceResponsiblePageResult',
+            totalCount: eSettBalanceResponsibleMessages.length,
+            page: eSettBalanceResponsibleMessages,
+          },
         },
       },
-    });
+      { status: getStatus() }
+    );
   });
 }
 
@@ -136,9 +156,12 @@ function getMeteringGridAreaImbalanceQuery() {
   return mockGetMeteringGridAreaImbalanceQuery(async () => {
     await delay(mswConfig.delay);
 
-    return HttpResponse.json({
-      data: mgaImbalanceSearchResponseQueryMock,
-    });
+    return HttpResponse.json(
+      {
+        data: mgaImbalanceSearchResponseQueryMock,
+      },
+      { status: getStatus() }
+    );
   });
 }
 
@@ -146,9 +169,12 @@ function getServiceStatusQuery() {
   return mockGetServiceStatusQuery(async () => {
     await delay(mswConfig.delay);
 
-    return HttpResponse.json({
-      data: serviceStatusQueryMock,
-    });
+    return HttpResponse.json(
+      {
+        data: serviceStatusQueryMock,
+      },
+      { status: getStatus() }
+    );
   });
 }
 
@@ -156,9 +182,12 @@ function getStatusReportQuery() {
   return mockGetStatusReportQuery(async () => {
     await delay(mswConfig.delay);
 
-    return HttpResponse.json({
-      data: statusReportQueryMock,
-    });
+    return HttpResponse.json(
+      {
+        data: statusReportQueryMock,
+      },
+      { status: getStatus() }
+    );
   });
 }
 
@@ -166,8 +195,11 @@ function resendMessageMutation() {
   return mockResendExchangeMessagesMutation(async () => {
     await delay(mswConfig.delay);
 
-    return HttpResponse.json({
-      data: resendMessageMutationMock,
-    });
+    return HttpResponse.json(
+      {
+        data: resendMessageMutationMock,
+      },
+      { status: getStatus() }
+    );
   });
 }
