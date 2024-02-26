@@ -257,5 +257,160 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   },
   transfers: {
     title: 'Transfers',
+    automationError: {
+      title: 'We are currently experiencing an issue handling certificates',
+      message: 'Once we resolve the issue, the outstanding transfers will update automatically.',
+    },
+    creationOfTransferAgreementFailed:
+      'Creating the transfer agreement failed. Try accepting the proposal again or request the organization that sent the invitation to generate a new link.',
+    tableTitle: 'Transfer agreements',
+    createNewTransferAgreement: 'New transfer agreement',
+    transferAgreementStatusFilterLabel: 'Status',
+    activeTransferAgreement: 'Active',
+    inactiveTransferAgreement: 'Inactive',
+    noData: {
+      title: 'No transfer agreements found',
+      message: 'You do not have any transfer agreements.',
+    },
+    error: {
+      title: 'Oops! Something went wrong.',
+      message: 'Please try reloading the page..',
+    },
+    unknownReceiver: 'Unknown company',
+    unknownSender: 'Unknown company',
+    senderTableHeader: 'Sender',
+    receiverTableHeader: 'Receiver',
+    startDateTableHeader: 'Start Date',
+    endDateTableHeader: 'End Date',
+    statusTableHeader: 'Status',
   },
+  transferAgreement: {
+    active: 'Active',
+    inactive: 'Inactive',
+    editTransferAgreement: 'Edit',
+    periodOfAgreementLabel: 'Period of agreement',
+    informationTab: 'Information',
+    historyTab: 'History',
+    receiverLabel: 'Receiver',
+    unknownReceiver: 'Unknown company',
+    idLabel: 'ID',
+  },
+  transferAgreementHistory: {
+    tableTitle: 'Changes',
+    timeTableHeader: 'Time',
+    eventTableHeader: 'Change',
+    events: {
+      createdTransferAgreement: '<strong>{{actor}}</strong> has created the transfer agreement',
+      updatedTransferAgreementToHaveNoEndDate:
+        '<strong>{{actor}}</strong> has updated the transfer agreement to have <strong>no end date</strong>',
+      updatedTransferAgreementToHaveEndDate:
+        '<strong>{{actor}}</strong> has updated the end date to <strong>{{endDate}}</strong>',
+      deletedTransferAgreement: '<strong>{{actor}}</strong> has deleted the transfer agreement',
+    },
+    noData: {
+      title: 'No history was found',
+    },
+    error: {
+      title: 'An unexpected error occured',
+      message: 'Try again or contact your system administrator if you keep getting this error.',
+      retry: 'Try again',
+    },
+  },
+  transferAgreementEdit: {
+    title: 'Edit transfer agreement',
+    closeLabel: 'Cancel editing transfer agreement',
+    cancel: 'Cancel',
+    saveChanges: 'Save',
+    error: {
+      title: 'Oops!',
+      message: 'Something went wrong. Please try again.',
+    },
+  },
+  createTransferAgreementProposal: {
+    title: 'New transfer agreement',
+    closeLabel: 'Cancel creation of new transfer agreement',
+
+    recipient: {
+      stepLabel: 'Recipient',
+      title: 'Who is the agreement for?',
+      description: 'Optional, but recommended for security reasons.',
+      nextLabel: 'Next',
+      unknownRecipient: 'Unknown company',
+      receiverTinLabel: 'Recipient',
+      receiverTinPlaceholder: 'CVR / TIN',
+      receiverTinGeneralError: `Enter new CVR number or choose from previous<br />
+      transfer agreements`,
+      receiverTinEqualsSenderTin: 'The receiver cannot be your own TIN/CVR',
+      receiverTinFormatError: 'An 8-digit TIN/CVR number is required',
+    },
+    timeframe: {
+      stepLabel: 'Timeframe',
+      title: 'What is the duration of agreement?',
+      description: 'Choosing no end date, you can always stop the agreement manually.',
+      nextLabel: 'Next',
+      previousLabel: 'Previous',
+      startDate: {
+        label: 'START',
+        required: 'The start of the period is required',
+        nextHourOrLater: 'The start of the period must be at least the next hour from now',
+        overlapping: 'Chosen period overlaps with an existing agreement: {{startDate}} - {{endDate}}',
+      },
+      endDate: {
+        label: 'Stop',
+        noEndDateLabel: 'No specific end date',
+        withEndDateLabel: 'End on date',
+        minToday: 'The end of the period must be today or later',
+        laterThanStartDate: 'The end of the period must be later than the start of the period',
+        withEndDateOverlapping: "Because you haven't chosen an end date, the period overlaps with an existing agreement: {{startDate}} - {{endDate}}",
+        withoutEndDateOverlapping: 'Chosen period overlaps with an existing agreement: {{startDate}} - {{endDate}}',
+      }
+    },
+    invitation: {
+      stepLabel: 'Invitation',
+      title: {
+        success: 'New link for transfer agreement created!',
+        error: 'Transfer agreeement proposal could not be generated',
+      },
+      description: {
+        success: `
+        <p>What happens now?</p>
+        <ol style="padding-inline-start: revert;">
+          <li>Send the following link to your recipient</li>
+          <li>The agreement becomes final once the recipient accepts the terms</li>
+        </ol>`,
+        error: `
+        <p>Press "Generate" im the form below to try again.</p>
+        <p>If the problem persist, please contact support.</p>
+        `,
+      },
+      link: {
+        hint: 'Link expires in 14 days, usable by one organization or specific company.',
+        error: `Couldn't generate link. Please try again.`,
+        copy: 'Copy link',
+        retry: 'Generate',
+      },
+      nextLabel: 'Copy & close',
+      previousLabel: 'Previous',
+    },
+  },
+  respondTransferAgreementProposal: {
+    title: ' ',
+    loadingMessage: 'Please wait while we load the transfer agreement proposal',
+    closeLabel: 'Close transfer agreement proposal',
+    noEndDate: 'No end date',
+    success: {
+      title: 'Transfer agreement proposal',
+      message: '{{senderName}} wants to make a transfer agreement with you.',
+      acceptButton: 'Accept',
+      declineButton: 'Decline'
+    },
+    error: {
+      title: 'Invalid transfer agreement proposal',
+      message: `
+      The transfer agreement proposal you just clicked is not valid <br />
+      If this is not what you expected, please contact the sender of the link.
+      `,
+      declineButton: 'Ok',
+    },
+  }
 };

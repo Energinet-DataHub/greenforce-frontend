@@ -229,5 +229,144 @@ export interface TranslationKeys {
   };
   transfers: {
     title: string;
+    automationError: {
+      title: string;
+      message: string;
+    },
+    creationOfTransferAgreementFailed: string;
+    tableTitle: string;
+    createNewTransferAgreement: string;
+    transferAgreementStatusFilterLabel: string;
+    activeTransferAgreement: string;
+    inactiveTransferAgreement: string;
+    noData: {
+      title: string;
+      message: string;
+    };
+    error: {
+      title: string;
+      message: string;
+    };
+    unknownReceiver: string;
+    unknownSender: string;
+    senderTableHeader: string;
+    receiverTableHeader: string;
+    startDateTableHeader: string;
+    endDateTableHeader: string;
+    statusTableHeader: string;
+  };
+  transferAgreement: {
+    active: string;
+    inactive: string;
+    editTransferAgreement: string;
+    periodOfAgreementLabel: string;
+    informationTab: string;
+    historyTab: string;
+    receiverLabel: string;
+    unknownReceiver: string;
+    idLabel: string;
+  };
+  transferAgreementHistory: {
+    tableTitle: string;
+    timeTableHeader: string;
+    eventTableHeader: string;
+    events: {
+      createdTransferAgreement: string;
+      updatedTransferAgreementToHaveNoEndDate: string;
+      updatedTransferAgreementToHaveEndDate: string;
+      deletedTransferAgreement: string;
+    },
+    noData: {
+      title: string;
+    },
+    error: {
+      title: string;
+      message: string;
+      retry: string;
+    };
+  };
+  transferAgreementEdit: {
+    title: string;
+    closeLabel: string;
+    cancel: string;
+    saveChanges: string;
+    error: {
+      title: string;
+      message: string;
+    };
+  };
+  createTransferAgreementProposal: {
+    title: string;
+    closeLabel: string;
+    recipient: {
+      stepLabel: string;
+      title: string;
+      description: string;
+      nextLabel: string;
+      unknownRecipient: string;
+      receiverTinLabel: string;
+      receiverTinPlaceholder: string;
+      receiverTinGeneralError: string;
+      receiverTinEqualsSenderTin: string;
+      receiverTinFormatError: string;
+    },
+    timeframe: {
+      stepLabel: string;
+      title: string;
+      description: string;
+      nextLabel: string;
+      previousLabel: string;
+      startDate: {
+        label: string;
+        required: string;
+        nextHourOrLater: string;
+        overlapping: string;
+      },
+      endDate: {
+        label: string;
+        noEndDateLabel: string;
+        withEndDateLabel: string;
+        minToday: string;
+        laterThanStartDate: string;
+        withEndDateOverlapping: string;
+        withoutEndDateOverlapping: string;
+      },
+    },
+    invitation: {
+      stepLabel: string;
+      title: {
+        success: string;
+        error: string;
+      }
+      description: {
+        success: string;
+        error: string;
+      }
+      link: {
+        hint: string;
+        error: string;
+        copy: string;
+        retry: string;
+      },
+      nextLabel: string;
+      previousLabel: string;
+    }
+  };
+  respondTransferAgreementProposal: {
+    title: string;
+    loadingMessage: string;
+    closeLabel: string;
+    noEndDate: string;
+    success: {
+      title: string;
+      message: string;
+      acceptButton: string;
+      declineButton: string;
+    },
+    error: {
+      title: string;
+      message: string;
+      declineButton: string;
+    },
   };
 }

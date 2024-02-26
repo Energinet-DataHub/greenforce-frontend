@@ -257,5 +257,161 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   transfers: {
     title: 'Overførsler',
+    automationError: {
+      title: 'Vi oplever i øjeblikket et problem med at håndtere certifikater',
+      message:
+        'Når vi har løst problemet, vil de udestående overførsler blive opdateret automatisk.',
+    },
+    creationOfTransferAgreementFailed:
+      'Oprettelse af overførselsaftalen mislykkedes. Prøv at acceptere forslaget igen eller anmod organisationen, der sendte invitationen, om at generere et nyt link.',
+    tableTitle: 'Overførselsaftaler',
+    createNewTransferAgreement: 'Ny overførselsaftale',
+    transferAgreementStatusFilterLabel: 'Status',
+    activeTransferAgreement: 'Aktiv',
+    inactiveTransferAgreement: 'Inaktiv',
+    noData: {
+      title: 'Ingen overførselsaftaler fundet',
+      message: 'Du har ikke nogen overførselsaftaler.',
+    },
+    error: {
+      title: 'Ups! Noget gik galt.',
+      message: 'Prøv venligst at genindlæse siden.',
+    },
+    unknownReceiver: 'Ukendt virksomhed',
+    unknownSender: 'Ukendt virksomhed',
+    senderTableHeader: 'Afsender',
+    receiverTableHeader: 'Modtager',
+    startDateTableHeader: 'Startdato',
+    endDateTableHeader: 'Slutdato',
+    statusTableHeader: 'Status',
   },
+  transferAgreement: {
+    active: 'Aktiv',
+    inactive: 'Inaktiv',
+    editTransferAgreement: 'Rediger',
+    periodOfAgreementLabel: 'Aftaleperiode',
+    informationTab: 'Information',
+    historyTab: 'Historik',
+    receiverLabel: 'Modtager',
+    unknownReceiver: 'Ukendt virksomhed',
+    idLabel: 'ID',
+  },
+  transferAgreementHistory: {
+    tableTitle: 'Ændringer',
+    timeTableHeader: 'Tid',
+    eventTableHeader: 'Handling',
+    events: {
+      createdTransferAgreement: '<strong>{{actor}}</strong> har oprettet overførselsaftalen',
+      updatedTransferAgreementToHaveNoEndDate:
+        '<strong>{{actor}}</strong> har opdateret overførselsaftalen til ikke at have <strong>ingen slutdato</strong>',
+      updatedTransferAgreementToHaveEndDate:
+        '<strong>{{actor}}</strong> har opdateret slutdatoen til <strong>{{endDate}}</strong>',
+      deletedTransferAgreement: '<strong>{{actor}}</strong> har slettet overførselsaftalen',
+    },
+    noData: {
+      title: 'Ingen historik blev fundet',
+    },
+    error: {
+      title: 'Ups! Noget gik galt.',
+      message:
+        'Prøv igen eller kontakt din systemadministrator, hvis du fortsat modtager denne fejl.',
+      retry: 'Prøv igen',
+    },
+  },
+  transferAgreementEdit: {
+    title: 'Rediger overførselsaftale',
+    closeLabel: 'Afbryd redigering af overførselsaftale',
+    cancel: 'Annuller',
+    saveChanges: 'Gem',
+    error: {
+      title: 'Ups!',
+      message:
+        'Noget gik galt. Prøv igen eller kontakt din systemadministrator, hvis du fortsat modtager denne fejl.',
+    },
+  },
+  createTransferAgreementProposal: {
+    title: 'Ny overførselsaftale',
+    closeLabel: 'Afbryd oprettelse af ny overførselsaftale',
+
+    recipient: {
+      stepLabel: 'Modtager',
+      title: 'Hvem er aftalen for?',
+      description: 'Valgfrit, men anbefales af sikkerhedsmæssige årsager.',
+      nextLabel: 'Næste',
+      unknownRecipient: 'Ukendt virksomhed',
+      receiverTinLabel: 'Modtager',
+      receiverTinPlaceholder: 'CVR / TIN',
+      receiverTinGeneralError: 'Indtast nyt CVR-nummer eller vælg fra tidligere overførselsaftaler',
+      receiverTinEqualsSenderTin: 'Modtageren kan ikke være dit eget TIN/CVR',
+      receiverTinFormatError: 'Et 8-cifret TIN/CVR-nummer er påkrævet',
+    },
+    timeframe: {
+      stepLabel: 'Tidsramme',
+      title: 'Hvad er varigheden af aftalen?',
+      description: 'Ved at vælge ingen slutdato kan du altid stoppe aftalen manuelt.',
+      nextLabel: 'Næste',
+      previousLabel: 'Forrige',
+      startDate: {
+        label: 'START',
+        required: 'Starten af perioden er påkrævet',
+        nextHourOrLater: 'Starten af perioden skal være mindst en time fra nu',
+        overlapping: 'Valgt periode overlapper med en eksisterende aftale',
+      },
+      endDate: {
+        label: 'STOP',
+        noEndDateLabel: 'Ingen specifik slutdato',
+        withEndDateLabel: 'Slut på dato',
+        minToday: 'Slutningen af perioden skal være i dag eller senere',
+        laterThanStartDate: 'Slutningen af perioden skal være senere end starten af perioden',
+        withEndDateOverlapping:
+          'Fordi du ikke har valgt en slutdato, overlapper perioden med en eksisterende aftale: {{startDate}} - {{endDate}}',
+        withoutEndDateOverlapping:
+          'Den valgte periode overlapper med en eksisterende aftale: {{startDate}} - {{endDate}}',
+      },
+    },
+    invitation: {
+      stepLabel: 'Invitation',
+      title: {
+        success: 'Nyt link til overførselsaftale oprettet!',
+        error: 'Forslag til overførselsaftale kunne ikke genereres',
+      },
+      description: {
+        success: `
+        <p>Hvad sker der nu?</p>
+        <ol style="padding-inline-start: revert;">
+          <li>Send følgende link til din modtager</li>
+          <li>Aftalen bliver endelig, når modtageren accepterer betingelserne</li>
+        </ol>`,
+        error: `
+        <p>Tryk på "Generer" i formularen nedenfor for at prøve igen.</p>
+        <p>Hvis problemet fortsætter, kontakt venligst support.</p>
+        `,
+      },
+      link: {
+        hint: 'Link udløber om 14 dage, og kan kun bruges en enkelt gang.',
+        error: 'Kunne ikke generere link. Prøv igen.',
+        copy: 'Kopiér link',
+        retry: 'Generer',
+      },
+      nextLabel: 'Kopier & luk',
+      previousLabel: 'Forrige',
+    },
+  },
+  respondTransferAgreementProposal: {
+    title: ' ',
+    loadingMessage: 'Vent venligst mens vi indlæser forslaget til overførselsaftale',
+    closeLabel: 'Luk forslaget til overførselsaftale',
+    noEndDate: 'Ingen specifik slutdato',
+    success: {
+      title: 'Forslag til overførselsaftale',
+      message: '{{senderName}} ønsker at indgå en overførselsaftale med dig.',
+      acceptButton: 'Acceptér',
+      declineButton: 'Afvis'
+    },
+    error: {
+      title: 'Ugyldigt forslag til overførselsaftale',
+      message: `Forslaget til overførselsaftale, du netop klikkede på, er ikke gyldigt <br /> Hvis dette ikke var, hvad du forventede, kontakt venligst afsenderen af linket.`,
+      declineButton: 'Ok',
+    },
+  }
 };

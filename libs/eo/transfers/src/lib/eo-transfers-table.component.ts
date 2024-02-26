@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,8 +24,11 @@ import {
   OnChanges,
   SimpleChanges,
   inject,
+  OnInit,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -34,11 +36,12 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { translations } from '@energinet-datahub/eo/translations';
+import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 
 import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.component';
 import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
-import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 
 interface EoTransferTableElement extends EoListedTransfer {
   period?: string;
@@ -59,7 +62,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     EoTransfersDrawerComponent,
     EoTransfersCreateModalComponent,
     WattDatePipe,
-    NgIf,
+    TranslocoPipe,
   ],
   styles: [
     `
@@ -88,7 +91,7 @@ interface EoTransferTableElement extends EoListedTransfer {
   ],
   template: `
     <div class="card-header">
-      <h3>Transfer agreements</h3>
+      <h3>{{ translations.transfers.tableTitle | transloco }}</h3>
       <div class="actions">
         <watt-button
           data-testid="new-agreement-button"
@@ -96,7 +99,7 @@ interface EoTransferTableElement extends EoListedTransfer {
           variant="secondary"
           (click)="transfersModal.open()"
         >
-          New transfer agreement
+          {{ translations.transfers.createNewTransferAgreement | transloco }}
         </watt-button>
       </div>
     </div>
@@ -104,52 +107,65 @@ interface EoTransferTableElement extends EoListedTransfer {
       <form [formGroup]="filterForm">
         <watt-dropdown
           [chipMode]="true"
-          placeholder="Status"
+          [placeholder]="translations.transfers.transferAgreementStatusFilterLabel | transloco"
           formControlName="statusFilter"
           (ngModelChange)="applyFilters()"
           [options]="[
-            { value: 'true', displayValue: 'Active' },
-            { value: 'false', displayValue: 'Inactive' }
+            {
+              value: 'true',
+              displayValue: translations.transfers.activeTransferAgreement | transloco
+            },
+            {
+              value: 'false',
+              displayValue: translations.transfers.inactiveTransferAgreement | transloco
+            }
           ]"
         />
       </form>
     </div>
-    <watt-table
-      #table
-      [loading]="loading"
-      [columns]="columns"
-      [dataSource]="dataSource"
-      sortBy="status"
-      sortDirection="desc"
-      [sortClear]="false"
-      (rowClick)="onRowClick($event)"
-      [activeRow]="activeRow"
-      class="watt-space-stack-s"
-      data-testid="transfers-table"
-    >
-      <ng-container *wattTableCell="table.columns['startDate']; let element">
-        {{ element.startDate | wattDate: 'long' }}
-      </ng-container>
+    @if (columns) {
+      <watt-table
+        #table
+        [loading]="loading"
+        [columns]="columns"
+        [dataSource]="dataSource"
+        sortBy="status"
+        sortDirection="desc"
+        [sortClear]="false"
+        (rowClick)="onRowClick($event)"
+        [activeRow]="activeRow"
+        class="watt-space-stack-s"
+        data-testid="transfers-table"
+      >
+        <ng-container *wattTableCell="table.columns['startDate']; let element">
+          {{ element.startDate | wattDate: 'long' }}
+        </ng-container>
 
-      <ng-container *wattTableCell="table.columns['endDate']; let element">
-        {{ (element.endDate | wattDate: 'long') || ' — ' }}
-      </ng-container>
+        <ng-container *wattTableCell="table.columns['endDate']; let element">
+          {{ (element.endDate | wattDate: 'long') || ' — ' }}
+        </ng-container>
 
-      <!-- Status - Custom column -->
-      <ng-container *wattTableCell="table.columns['status']; let element">
-        <watt-badge
-          *ngIf="utils.isDateActive(element.startDate, element.endDate); else notActive"
-          type="success"
-        >
-          Active
-        </watt-badge>
-      </ng-container>
-    </watt-table>
+        <!-- Status - Custom column -->
+        <ng-container *wattTableCell="table.columns['status']; let element">
+          @if (utils.isDateActive(element.startDate, element.endDate)) {
+            <watt-badge type="success">{{
+              translations.transfers.activeTransferAgreement | transloco
+            }}</watt-badge>
+          } @else {
+            <watt-badge type="neutral">{{
+              translations.transfers.inactiveTransferAgreement | transloco
+            }}</watt-badge>
+          }
+        </ng-container>
+      </watt-table>
+    }
 
     <!-- No Data to show -->
-    <p *ngIf="dataSource.data.length < 1 && hasLoaded" class="watt-space-stack-s no-data">
-      You do not have any transfer agreements to show right now.
-    </p>
+    @if (dataSource.data.length < 1 && hasLoaded) {
+      <p class="watt-space-stack-s no-data">
+        {{ translations.transfers.noData.title | transloco }}
+      </p>
+    }
 
     <watt-paginator
       data-testid="table-paginator"
@@ -157,7 +173,6 @@ interface EoTransferTableElement extends EoListedTransfer {
       [pageSizeOptions]="[10, 25, 50, 100, 250]"
       [for]="dataSource"
     />
-    <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
 
     <eo-transfers-create-modal [transferAgreements]="transfers" />
     <eo-transfers-drawer
@@ -168,7 +183,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     />
   `,
 })
-export class EoTransfersTableComponent implements OnChanges {
+export class EoTransfersTableComponent implements OnInit, OnChanges {
   @Input() transfers: EoListedTransfer[] = [];
   @Input() loading = false;
   @Input() selectedTransfer?: EoListedTransfer;
@@ -178,31 +193,63 @@ export class EoTransfersTableComponent implements OnChanges {
   @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
   @ViewChild(EoTransfersCreateModalComponent) transfersModal!: EoTransfersCreateModalComponent;
 
-  utils = inject(SharedUtilities);
+  protected translations = translations;
+  protected utils = inject(SharedUtilities);
   private fb = inject(FormBuilder);
+  private transloco = inject(TranslocoService);
+  private cd = inject(ChangeDetectorRef);
 
   filterForm = this.fb.group({ statusFilter: '' });
   activeRow?: EoListedTransfer;
   dataSource = new WattTableDataSource<EoTransferTableElement>();
-  columns = {
-    sender: {
-      accessor: (transfer) => {
-        return `${transfer.senderName ?? 'Unknown company'} (${transfer.senderTin})`;
-      },
-    },
-    receiver: {
-      accessor: (transfer) => {
-        return `${transfer.receiverName ?? 'Unknown company'} (${transfer.receiverTin})`;
-      },
-    },
-    startDate: { accessor: 'startDate', header: 'Start Date' },
-    endDate: { accessor: 'endDate', header: 'End Date' },
-    status: {
-      accessor: (transfer) =>
-        transfer.endDate ? this.utils.isDateActive(transfer.startDate, transfer.endDate) : true,
-    },
-  } as WattTableColumnDef<EoTransferTableElement>;
+  columns!: WattTableColumnDef<EoTransferTableElement>;
   hasLoaded = false;
+
+  ngOnInit(): void {
+    this.setColumns();
+  }
+
+  private setColumns() {
+    this.transloco.selectTranslation().subscribe(() => {
+      this.columns = {
+        sender: {
+          accessor: (transfer) => {
+            const unknownSender = this.transloco.translate(
+              this.translations.transfers.unknownSender
+            );
+            return `${transfer.senderName ?? unknownSender} (${transfer.senderTin})`;
+          },
+          header: this.transloco.translate(this.translations.transfers.senderTableHeader),
+        },
+        receiver: {
+          accessor: (transfer) => {
+            const unknownReceiver = this.transloco.translate(
+              this.translations.transfers.unknownReceiver
+            );
+            return `${transfer.receiverName ?? unknownReceiver} (${transfer.receiverTin})`;
+          },
+          header: this.transloco.translate(this.translations.transfers.receiverTableHeader),
+        },
+        startDate: {
+          accessor: 'startDate',
+          header: this.transloco.translate(this.translations.transfers.startDateTableHeader),
+        },
+        endDate: {
+          accessor: 'endDate',
+          header: this.transloco.translate(this.translations.transfers.endDateTableHeader),
+        },
+        status: {
+          accessor: (transfer) => {
+            return transfer.endDate
+              ? this.utils.isDateActive(transfer.startDate, transfer.endDate)
+              : true;
+          },
+          header: this.transloco.translate(this.translations.transfers.statusTableHeader),
+        },
+      };
+      this.cd.detectChanges();
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['transfers']) {

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,6 +24,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -37,6 +37,7 @@ import {
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
+import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.component';
@@ -56,9 +57,9 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
     WattTabsComponent,
     WattTabComponent,
     WattDatePipe,
-    NgIf,
     EoTransfersEditModalComponent,
     EoTransfersHistoryComponent,
+    TranslocoPipe,
   ],
   standalone: true,
   styles: [
@@ -76,48 +77,53 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
   template: `
     <watt-drawer #drawer (closed)="onClose()">
       <watt-drawer-topbar>
-        <watt-badge type="success" *ngIf="isActive; else notActive"> Active </watt-badge>
+        @if (isActive) {
+          <watt-badge type="success">{{ translations.transferAgreement.active | transloco }}</watt-badge>
+        } @else {
+          <watt-badge type="neutral">{{ translations.transferAgreement.inactive | transloco }}</watt-badge>
+        }
       </watt-drawer-topbar>
 
       <watt-drawer-heading>
-        <h2>{{ transfer?.receiverTin }} - {{ transfer?.receiverName || 'Unknown company' }}</h2>
+        <h2>{{ transfer?.receiverTin }} - {{ transfer?.receiverName || translations.transferAgreement.unknownReceiver | transloco }}</h2>
         <p class="sub-header">
-          <span class="watt-label">Period of agreement</span>
+          <span class="watt-label">{{ translations.transferAgreement.periodOfAgreementLabel | transloco }}</span>
           {{ transfer?.startDate | wattDate: 'long' }}－{{ transfer?.endDate | wattDate: 'long' }}
         </p>
       </watt-drawer-heading>
 
       <watt-drawer-actions>
-        <watt-button
-          variant="secondary"
-          *ngIf="isEditable && ownTin() === transfer?.senderTin"
-          (click)="transfersEditModal.open()"
-          >Edit</watt-button
-        >
+        @if (isEditable && ownTin() === transfer?.senderTin) {
+          <watt-button variant="secondary" (click)="transfersEditModal.open()">{{ translations.transferAgreement.editTransferAgreement | transloco }}</watt-button>
+        }
       </watt-drawer-actions>
 
-      <watt-drawer-content *ngIf="drawer.isOpen">
-        <watt-tabs #tabs>
-          <watt-tab label="Information">
-            <watt-card variant="solid">
-              <watt-description-list variant="stack">
-                <watt-description-list-item
-                  label="Receiver"
-                  [value]="
-                    transfer?.receiverTin + ' - ' + (transfer?.receiverName || 'Unknown company')
-                  "
-                />
-                <watt-description-list-item label="ID" value="{{ transfer?.id }}" />
-              </watt-description-list>
-            </watt-card>
-          </watt-tab>
-          <watt-tab label="History">
-            <watt-card variant="solid">
-              <eo-transfers-history *ngIf="tabs.activeTabIndex === 1" [transfer]="transfer" />
-            </watt-card>
-          </watt-tab>
-        </watt-tabs>
-      </watt-drawer-content>
+      @if (drawer.isOpen) {
+        <watt-drawer-content>
+          <watt-tabs #tabs>
+            <watt-tab [label]="translations.transferAgreement.informationTab | transloco">
+              <watt-card variant="solid">
+                <watt-description-list variant="stack">
+                  <watt-description-list-item
+                    [label]="translations.transferAgreement.receiverLabel | transloco"
+                    [value]="
+                      transfer?.receiverTin + ' - ' + (transfer?.receiverName || translations.transferAgreement.unknownReceiver | transloco)
+                    "
+                  />
+                  <watt-description-list-item [label]="translations.transferAgreement.idLabel | transloco" value="{{ transfer?.id }}" />
+                </watt-description-list>
+              </watt-card>
+            </watt-tab>
+            <watt-tab [label]="translations.transferAgreement.historyTab | transloco">
+              <watt-card variant="solid">
+                @if(tabs.activeTabIndex === 1) {
+                  <eo-transfers-history [transfer]="transfer" />
+                }
+              </watt-card>
+            </watt-tab>
+          </watt-tabs>
+        </watt-drawer-content>
+      }
     </watt-drawer>
 
     <eo-transfers-edit-modal
@@ -125,12 +131,12 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
       [transferAgreements]="transferAgreements"
       (save)="saveTransferAgreement.emit($event)"
     />
-    <ng-template #notActive><watt-badge type="neutral">Inactive</watt-badge></ng-template>
   `,
 })
 export class EoTransfersDrawerComponent {
   private utils = inject(SharedUtilities);
   protected authStore = inject(EoAuthStore);
+  protected translations = translations;
 
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
   @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
