@@ -16,7 +16,7 @@
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, combineLatest, debounceTime, map, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, debounceTime, map, of, switchMap } from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -173,10 +173,15 @@ export class DhOutgoingMessagesComponent implements OnInit {
     })
   );
 
+  /**
+   * Represents an observable stream of outgoing messages.
+   * Emits the result of a GraphQL query to retrieve outgoing messages based on the provided variables.
+   * @type {Observable<QueryResult<GetOutgoingMessagesQuery>>}
+   */
   outgoingMessages$ = this.queryVariables$.pipe(
-    switchMap(
-      ({ filters, pageMetaData, documentIdSearch, sortMetadata }) =>
-        this._apollo.watchQuery({
+    switchMap(({ filters, pageMetaData, documentIdSearch, sortMetadata }) =>
+      this._apollo
+        .watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
@@ -196,7 +201,8 @@ export class DhOutgoingMessagesComponent implements OnInit {
             sortProperty: sortMetadata.sortProperty,
             sortDirection: sortMetadata.sortDirection,
           },
-        }).valueChanges
+        })
+        .valueChanges.pipe(catchError(() => of({ loading: false, data: null, errors: [] })))
     ),
     takeUntilDestroyed()
   );
