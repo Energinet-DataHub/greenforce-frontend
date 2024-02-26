@@ -35,6 +35,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
         protected override async Task<IReadOnlyDictionary<string, GridAreaDto>> LoadBatchAsync(
             IReadOnlyList<string> keys,
             CancellationToken cancellationToken) =>
-            (await _client.GridAreaGetAsync()).ToDictionary(x => x.Code);
+                (await _client.GridAreaGetAsync())
+                    .DistinctBy(x => x.Code)
+                    .ToDictionary(x => x.Code);
     }
 }
