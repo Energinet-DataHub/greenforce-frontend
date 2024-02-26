@@ -759,7 +759,7 @@
           "required": "Netområde påkrævet",
           "hint": "{{shared.selectedValues}}"
         },
-        "confirm": "Opret",
+        "confirm": "Opret beregning",
         "cancel": "Fortryd",
         "warning": {
           "title": "Genkør balancefiksering?",
@@ -881,7 +881,7 @@
       "downloadStart": "Starter download...",
       "gridAreasLoadFailed": "kunne ikke hente netområder",
       "noEntries": "Ingen resultater",
-      "results": "Søgeresultater",
+      "results": "Balancefiksering",
       "tabs": {
         "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
         "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}"
@@ -889,7 +889,7 @@
       "table": {
         "title": "Processer",
         "calculationType": "{{shared.calculationType}}",
-        "gridAreaName": "Netvirkesomhed",
+        "gridAreaName": "Netvirksomhed",
         "gridAreaCode": "Netområde",
         "periodStart": "Periode fra",
         "periodEnd": "Periode til",
