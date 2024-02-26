@@ -62,6 +62,7 @@ export const translations = {
     title: "languageSwitcher.title" as const,
     closeLabel: "languageSwitcher.closeLabel" as const,
     languagesLabel: "languageSwitcher.languagesLabel" as const,
+    languagesPlaceholder: "languageSwitcher.languagesPlaceholder" as const,
     languages: {
       da: "languageSwitcher.languages.da" as const,
       en: "languageSwitcher.languages.en" as const,

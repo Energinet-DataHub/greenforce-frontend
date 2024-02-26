@@ -51,17 +51,23 @@ watt-dropdown {
     padding: 0 12px;
   }
 
-  .mat-mdc-select-arrow::before {
-    width: 0.6em;
-    height: 0.6em;
-    bottom: 0.2em;
-    position: relative;
-    display: inline-block;
-    border-style: solid;
-    border-width: 0 0 0.15em 0.15em;
-    transform: rotate(315deg);
+  .mat-mdc-select-arrow {
+    &::before {
+      width: 0.6em;
+      height: 0.6em;
+      bottom: 0.2em;
+      position: relative;
+      display: inline-block;
+      border-style: solid;
+      border-width: 0 0 0.15em 0.15em;
+      transform: rotate(315deg);
+      border-color: var(--watt-color-primary);
+      content: "";
+    }
 
-    content: "";
+    svg {
+      display: none;
+    }
   }
 
   .mat-mdc-select-trigger {
@@ -105,8 +111,9 @@ watt-dropdown {
   // Add 2px because watt-form-field has 1px border on each side
   &:not(.watt-dropdown-panel-chip-mode) {
     min-width: calc(100% + 2px) !important;
-    margin-top: -34px;
+    margin-top: -36px;
     margin-left: -1px;
+    padding-top: var(--watt-space-xs);
   }
 
   .mat-mdc-checkbox.mat-select-search-toggle-all-checkbox {

@@ -74,6 +74,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
           <watt-dropdown
             [label]="translations.languageSwitcher.languagesLabel | transloco"
             [options]="languages"
+            panelWidth="auto"
+            [placeholder]="translations.languageSwitcher.languagesPlaceholder | transloco"
             [showResetOption]="false"
             [formControl]="language"
           />

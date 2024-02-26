@@ -60,6 +60,7 @@ export interface TranslationKeys {
     title: string;
     closeLabel: string;
     languagesLabel: string;
+    languagesPlaceholder: string;
     languages: {
       da: string;
       en: string;

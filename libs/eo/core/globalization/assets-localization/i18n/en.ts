@@ -64,6 +64,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     title: 'Language',
     closeLabel: 'Close language selection',
     languagesLabel: 'Preferred language',
+    languagesPlaceholder: 'Select language',
     languages: {
       da: 'Danish',
       en: 'English',

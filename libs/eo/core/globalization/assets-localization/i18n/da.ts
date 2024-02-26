@@ -64,6 +64,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     title: 'Sprog',
     closeLabel: 'Luk sprog konfiguration',
     languagesLabel: 'Fortrukne sprog',
+    languagesPlaceholder: 'Vælg sprog',
     languages: {
       da: 'Dansk',
       en: 'Engelsk',
