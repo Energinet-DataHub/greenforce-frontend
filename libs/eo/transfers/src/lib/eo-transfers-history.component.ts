@@ -19,6 +19,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   Input,
   OnChanges,
   OnInit,
@@ -42,6 +43,7 @@ import {
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { HttpErrorResponse } from '@angular/common/http';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -200,6 +202,7 @@ export class EoTransfersHistoryComponent implements OnInit, OnChanges {
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
   private transferService = inject(EoTransfersService);
+  private destroyRef = inject(DestroyRef);
 
   protected translations = translations;
   protected dataSource = new WattTableDataSource<EoTransferAgreementsHistory>();
@@ -211,10 +214,13 @@ export class EoTransfersHistoryComponent implements OnInit, OnChanges {
   });
 
   ngOnInit(): void {
-    this.transloco.selectTranslation().subscribe(() => {
-      this.setColumns();
-      this.cd.detectChanges();
-    });
+    this.transloco
+      .selectTranslation()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.setColumns();
+        this.cd.detectChanges();
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

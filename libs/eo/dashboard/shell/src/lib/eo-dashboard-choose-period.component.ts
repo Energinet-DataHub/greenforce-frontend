@@ -142,18 +142,22 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.transloco.selectTranslateObject('periodSelector').subscribe((translations) => {
-      // Set periods
-      Object.keys(translations.periods || {}).forEach((key) => {
-        this.periods.push({ value: key, displayValue: translations.periods[key] });
-      });
+    this.transloco
+      .selectTranslateObject('periodSelector')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((translations) => {
+        // Set periods
+        this.periods = Object.keys(translations.periods || {}).map((key) => ({
+          value: key,
+          displayValue: translations.periods[key],
+        }));
 
-      // Set months
-      this.months = [
-        { value: 'last30days', displayValue: translations['last30Days'] },
-        ...this.generateMonths(),
-      ];
-    });
+        // Set months
+        this.months = [
+          { value: 'last30days', displayValue: translations['last30Days'] },
+          ...this.generateMonths(),
+        ];
+      });
 
     this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
       const period = value.period;

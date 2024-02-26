@@ -18,6 +18,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   OnInit,
   inject,
   signal,
@@ -38,6 +39,7 @@ import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/s
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -148,6 +150,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
   private energyUnitPipe: EnergyUnitPipe = inject(EnergyUnitPipe);
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
 
   protected translations = translations;
   protected columns!: WattTableColumnDef<EoCertificate>;
@@ -166,34 +169,37 @@ export class EoCertificatesOverviewComponent implements OnInit {
   }
 
   private setColumns(): void {
-    this.transloco.selectTranslation().subscribe(() => {
-      this.columns = {
-        time: {
-          accessor: (x) => x.time,
-          header: this.transloco.translate(this.translations.certificates.timeTableHeader),
-        },
-        meteringPoint: {
-          accessor: (x) => x.attributes.assetId,
-          header: this.transloco.translate(this.translations.certificates.gsrnTableHeader),
-        },
-        amount: {
-          accessor: (x) => x.amount,
-          header: this.transloco.translate(this.translations.certificates.amountTableHeader),
-        },
-        certificateType: {
-          accessor: (x) => {
-            if (x.certificateType.toLowerCase() === 'production') {
-              return this.transloco.translate(this.translations.certificates.productionType);
-            } else {
-              return this.transloco.translate(this.translations.certificates.consumptionType);
-            }
+    this.transloco
+      .selectTranslation()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.columns = {
+          time: {
+            accessor: (x) => x.time,
+            header: this.transloco.translate(this.translations.certificates.timeTableHeader),
           },
-          header: this.transloco.translate(this.translations.certificates.typeTableHeader),
-        },
-        action: { accessor: (x) => x.attributes.assetId, header: '' },
-      };
-      this.cd.detectChanges();
-    });
+          meteringPoint: {
+            accessor: (x) => x.attributes.assetId,
+            header: this.transloco.translate(this.translations.certificates.gsrnTableHeader),
+          },
+          amount: {
+            accessor: (x) => x.amount,
+            header: this.transloco.translate(this.translations.certificates.amountTableHeader),
+          },
+          certificateType: {
+            accessor: (x) => {
+              if (x.certificateType.toLowerCase() === 'production') {
+                return this.transloco.translate(this.translations.certificates.productionType);
+              } else {
+                return this.transloco.translate(this.translations.certificates.consumptionType);
+              }
+            },
+            header: this.transloco.translate(this.translations.certificates.typeTableHeader),
+          },
+          action: { accessor: (x) => x.attributes.assetId, header: '' },
+        };
+        this.cd.detectChanges();
+      });
   }
 
   private loadData() {

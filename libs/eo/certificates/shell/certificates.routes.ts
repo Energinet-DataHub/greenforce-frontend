@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { DestroyRef, Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { map, switchMap } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
@@ -25,15 +25,18 @@ import { EoCertificatesOverviewComponent } from '@energinet-datahub/eo/certifica
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
 import { translations } from '@energinet-datahub/eo/translations';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({ providedIn: 'root' })
 export class CertificateDetailsTitleResolver {
   private certificatesService: EoCertificatesService = inject(EoCertificatesService);
   private transloco = inject(TranslocoService);
+  private destroyRef = inject(DestroyRef);
   private translations = translations;
 
   resolve(route: ActivatedRouteSnapshot) {
     return this.transloco.selectTranslation().pipe(
+      takeUntilDestroyed(this.destroyRef),
       switchMap(() => {
         return this.certificatesService.getCertificates();
       }),

@@ -14,7 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation, inject, signal } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+  inject,
+  signal,
+} from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -23,11 +32,18 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 import { translations } from '@energinet-datahub/eo/translations';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
   selector: 'eo-language-switcher',
-  imports: [WattButtonComponent, WATT_MODAL, TranslocoPipe, WattDropdownComponent, ReactiveFormsModule],
+  imports: [
+    WattButtonComponent,
+    WATT_MODAL,
+    TranslocoPipe,
+    WattDropdownComponent,
+    ReactiveFormsModule,
+  ],
   styles: `
     .eo-language-switcher-content {
       watt-dropdown {
@@ -41,7 +57,9 @@ import { translations } from '@energinet-datahub/eo/translations';
   `,
   encapsulation: ViewEncapsulation.None,
   template: `
-    <watt-button variant="text" (click)="onOpen()"> {{ translations.languageSwitcher.title | transloco }}</watt-button>
+    <watt-button variant="text" (click)="onOpen()">
+      {{ translations.languageSwitcher.title | transloco }}</watt-button
+    >
 
     @if (isOpen()) {
       <watt-modal
@@ -86,33 +104,32 @@ export class EoLanguageSwitcherComponent implements OnInit {
 
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    this.transloco.selectTranslation().subscribe(() => {
-      this.isLoading.set(false);
-      this.setLanguages();
-    });
+    this.transloco
+      .selectTranslation()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.isLoading.set(false);
+        this.setLanguages();
+      });
   }
 
   private setLanguages() {
     this.languages = [
       {
         value: 'en',
-        displayValue: this.transloco.translate(
-          this.translations.languageSwitcher.languages.en
-        ),
+        displayValue: this.transloco.translate(this.translations.languageSwitcher.languages.en),
       },
       {
         value: 'da',
-        displayValue: this.transloco.translate(
-          this.translations.languageSwitcher.languages.da
-        ),
+        displayValue: this.transloco.translate(this.translations.languageSwitcher.languages.da),
       },
     ];
 
     this.language.setValue(this.transloco.getActiveLang());
   }
-
 
   onOpen() {
     this.isOpen.set(true);

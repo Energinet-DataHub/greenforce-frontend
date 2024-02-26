@@ -26,6 +26,7 @@ import {
   inject,
   OnInit,
   ChangeDetectorRef,
+  DestroyRef,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
@@ -42,6 +43,7 @@ import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.component';
 import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface EoTransferTableElement extends EoListedTransfer {
   period?: string;
@@ -198,6 +200,7 @@ export class EoTransfersTableComponent implements OnInit, OnChanges {
   private fb = inject(FormBuilder);
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
 
   filterForm = this.fb.group({ statusFilter: '' });
   activeRow?: EoListedTransfer;
@@ -210,45 +213,48 @@ export class EoTransfersTableComponent implements OnInit, OnChanges {
   }
 
   private setColumns() {
-    this.transloco.selectTranslation().subscribe(() => {
-      this.columns = {
-        sender: {
-          accessor: (transfer) => {
-            const unknownSender = this.transloco.translate(
-              this.translations.transfers.unknownSender
-            );
-            return `${transfer.senderName ?? unknownSender} (${transfer.senderTin})`;
+    this.transloco
+      .selectTranslation()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.columns = {
+          sender: {
+            accessor: (transfer) => {
+              const unknownSender = this.transloco.translate(
+                this.translations.transfers.unknownSender
+              );
+              return `${transfer.senderName ?? unknownSender} (${transfer.senderTin})`;
+            },
+            header: this.transloco.translate(this.translations.transfers.senderTableHeader),
           },
-          header: this.transloco.translate(this.translations.transfers.senderTableHeader),
-        },
-        receiver: {
-          accessor: (transfer) => {
-            const unknownReceiver = this.transloco.translate(
-              this.translations.transfers.unknownReceiver
-            );
-            return `${transfer.receiverName ?? unknownReceiver} (${transfer.receiverTin})`;
+          receiver: {
+            accessor: (transfer) => {
+              const unknownReceiver = this.transloco.translate(
+                this.translations.transfers.unknownReceiver
+              );
+              return `${transfer.receiverName ?? unknownReceiver} (${transfer.receiverTin})`;
+            },
+            header: this.transloco.translate(this.translations.transfers.receiverTableHeader),
           },
-          header: this.transloco.translate(this.translations.transfers.receiverTableHeader),
-        },
-        startDate: {
-          accessor: 'startDate',
-          header: this.transloco.translate(this.translations.transfers.startDateTableHeader),
-        },
-        endDate: {
-          accessor: 'endDate',
-          header: this.transloco.translate(this.translations.transfers.endDateTableHeader),
-        },
-        status: {
-          accessor: (transfer) => {
-            return transfer.endDate
-              ? this.utils.isDateActive(transfer.startDate, transfer.endDate)
-              : true;
+          startDate: {
+            accessor: 'startDate',
+            header: this.transloco.translate(this.translations.transfers.startDateTableHeader),
           },
-          header: this.transloco.translate(this.translations.transfers.statusTableHeader),
-        },
-      };
-      this.cd.detectChanges();
-    });
+          endDate: {
+            accessor: 'endDate',
+            header: this.transloco.translate(this.translations.transfers.endDateTableHeader),
+          },
+          status: {
+            accessor: (transfer) => {
+              return transfer.endDate
+                ? this.utils.isDateActive(transfer.startDate, transfer.endDate)
+                : true;
+            },
+            header: this.transloco.translate(this.translations.transfers.statusTableHeader),
+          },
+        };
+        this.cd.detectChanges();
+      });
   }
 
   ngOnChanges(changes: SimpleChanges) {

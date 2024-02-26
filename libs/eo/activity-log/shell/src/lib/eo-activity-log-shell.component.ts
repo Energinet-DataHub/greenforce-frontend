@@ -132,23 +132,26 @@ export class EoActivityLogShellComponent implements OnInit {
   private datePipe: WattDatePipe = inject(WattDatePipe);
 
   ngOnInit(): void {
-    this.transloco.selectTranslation().subscribe(() => {
-      this.setEventTypes();
-      this.setColumns();
-      this.getLogs();
-      this.sortData();
+    this.transloco
+      .selectTranslation()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.setEventTypes();
+        this.setColumns();
+        this.getLogs();
+        this.sortData();
 
-      this.form.valueChanges
-        .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
-        .subscribe(() => {
-          const { period } = this.form.getRawValue();
-          if (period?.start && period?.end) {
-            this.getLogs();
-          }
-        });
+        this.form.valueChanges
+          .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+          .subscribe(() => {
+            const { period } = this.form.getRawValue();
+            if (period?.start && period?.end) {
+              this.getLogs();
+            }
+          });
 
-      this.cd.detectChanges();
-    });
+        this.cd.detectChanges();
+      });
   }
 
   private setEventTypes(): void {

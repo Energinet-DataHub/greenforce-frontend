@@ -20,6 +20,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   EventEmitter,
   Input,
   OnInit,
@@ -43,6 +44,7 @@ import {
 } from '@energinet-datahub/eo/metering-points/domain';
 import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -176,6 +178,7 @@ class GranularCertificateHelperComponent {
 export class EoMeteringPointsTableComponent implements OnInit {
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
   protected translations = translations;
 
   dataSource: WattTableDataSource<EoMeteringPoint> = new WattTableDataSource(undefined);
@@ -196,9 +199,12 @@ export class EoMeteringPointsTableComponent implements OnInit {
   private modalService = inject(WattModalService);
 
   ngOnInit(): void {
-    this.transloco.selectTranslation().subscribe(() => {
-      this.setColumns();
-    });
+    this.transloco
+      .selectTranslation()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.setColumns();
+      });
   }
 
   private setColumns(): void {

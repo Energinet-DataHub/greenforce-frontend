@@ -18,6 +18,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   Input,
   OnInit,
   ViewEncapsulation,
@@ -31,6 +32,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { translations } from '@energinet-datahub/eo/translations';
 
 import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -88,6 +90,7 @@ import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
 export class EoClaimsTableComponent implements OnInit {
   private cd = inject(ChangeDetectorRef);
   private transloco = inject(TranslocoService);
+  private destroyRef = inject(DestroyRef);
 
   @Input() loading = false;
   @Input() hasError = false;
@@ -136,7 +139,7 @@ export class EoClaimsTableComponent implements OnInit {
   }
 
   private setColumns(): void {
-    this.transloco.selectTranslation().subscribe(() => {
+    this.transloco.selectTranslation().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.columns = {
         claimId: {
           accessor: (x) => x.claimId,
