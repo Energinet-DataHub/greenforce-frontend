@@ -38,6 +38,9 @@ limitations under the License.
     >
       {{ organization.businessRegisterIdentifier }}
     </ng-container>
+    <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let organization">
+      {{ organization.name }}
+    </ng-container>
   </watt-table>
 
   <vater-stack
