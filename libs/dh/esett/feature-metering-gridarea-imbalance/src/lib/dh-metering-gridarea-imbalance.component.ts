@@ -16,7 +16,7 @@
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { BehaviorSubject, combineLatest, debounceTime, map, switchMap, take } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, debounceTime, map, of, switchMap, take } from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -140,9 +140,9 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   );
 
   meteringGridAreaImbalance$ = this.queryVariables$.pipe(
-    switchMap(
-      ({ filters, pageMetaData, documentIdSearch, sortMetadata }) =>
-        this._apollo.watchQuery({
+    switchMap(({ filters, pageMetaData, documentIdSearch, sortMetadata }) =>
+      this._apollo
+        .watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
@@ -160,7 +160,8 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
             sortDirection: sortMetadata.sortDirection,
             valuesToInclude: filters.valuesToInclude,
           },
-        }).valueChanges
+        })
+        .valueChanges.pipe(catchError(() => of({ loading: false, data: null, errors: [] })))
     ),
     takeUntilDestroyed()
   );
