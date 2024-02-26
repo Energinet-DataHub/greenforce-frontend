@@ -14,7 +14,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
@@ -45,7 +44,7 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
             return MapResult(searchResultResponseMessages);
         }
 
-        public async Task<string> GetDocumentAsync(string id, CancellationToken cancellationToken)
+        public async Task<string> GetDocumentAsync(Guid id, CancellationToken cancellationToken)
         {
            return await _b2CWebAppClient.ArchivedMessageGetDocumentAsync(id, cancellationToken).ConfigureAwait(false);
         }
@@ -68,6 +67,7 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
                 ReceiverNumber = archivedMessageSearch.ReceiverNumber,
                 DocumentTypes = archivedMessageSearch.DocumentTypes,
                 BusinessReasons = archivedMessageSearch.BusinessReasons,
+                IncludeRelatedMessages = archivedMessageSearch.IncludeRelatedMessages,
             };
 
             return await _b2CWebAppClient.ArchivedMessageSearchAsync(criteria, cancellationToken);

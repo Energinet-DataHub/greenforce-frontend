@@ -33,6 +33,16 @@ namespace Energinet.DataHub.WebApi.GraphQL
             GridAreaByCodeBatchDataLoader dataLoader) =>
             await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
 
+        public async Task<GridAreaDto?> GetGridAreaAsync(
+            [Parent] MeteringGridAreaImbalanceSearchResult result,
+            GridAreaByCodeBatchDataLoader dataLoader) =>
+            await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
+
+        public async Task<GridAreaDto?> GetGridAreaAsync(
+            [Parent] ExchangeEventSearchResult result,
+            GridAreaByCodeBatchDataLoader dataLoader) =>
+            await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
+
         public Task<ActorNameDto?> GetSupplierWithNameAsync(
             [Parent] BalanceResponsibleResult result,
             ActorNameByMarketRoleDataLoader dataLoader) =>

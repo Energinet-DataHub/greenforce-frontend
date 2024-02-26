@@ -16,7 +16,7 @@
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, combineLatest, debounceTime, map, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, debounceTime, map, of, switchMap } from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -70,13 +70,8 @@ import { dhExchangeSortMetadataMapper } from './util/dh-sort-metadata-mapper.ope
         flex-direction: row;
       }
 
-      .resend-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        .watt-chip-label {
-          padding: 10px;
-        }
+      .resend-container .watt-chip-label {
+        padding: 10px;
       }
 
       watt-paginator {
@@ -131,8 +126,8 @@ export class DhOutgoingMessagesComponent implements OnInit {
   hasError = false;
 
   filter$ = new BehaviorSubject<DhOutgoingMessagesFilters>({
-    period: {
-      start: sub(startOfDay(new Date()), { days: 2 }),
+    created: {
+      start: sub(startOfDay(new Date()), { days: 3 }),
       end: endOfDay(new Date()),
     },
   });
@@ -178,10 +173,15 @@ export class DhOutgoingMessagesComponent implements OnInit {
     })
   );
 
+  /**
+   * Represents an observable stream of outgoing messages.
+   * Emits the result of a GraphQL query to retrieve outgoing messages based on the provided variables.
+   * @type {Observable<QueryResult<GetOutgoingMessagesQuery>>}
+   */
   outgoingMessages$ = this.queryVariables$.pipe(
-    switchMap(
-      ({ filters, pageMetaData, documentIdSearch, sortMetadata }) =>
-        this._apollo.watchQuery({
+    switchMap(({ filters, pageMetaData, documentIdSearch, sortMetadata }) =>
+      this._apollo
+        .watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
@@ -195,13 +195,14 @@ export class DhOutgoingMessagesComponent implements OnInit {
             timeSeriesType: filters.messageTypes,
             gridAreaCode: filters.gridAreas,
             documentStatus: filters.status,
-            periodFrom: filters.period?.start,
-            periodTo: filters.period?.end,
+            periodInterval: filters.period,
+            createdInterval: filters.created,
             documentId: documentIdSearch,
             sortProperty: sortMetadata.sortProperty,
             sortDirection: sortMetadata.sortDirection,
           },
-        }).valueChanges
+        })
+        .valueChanges.pipe(catchError(() => of({ loading: false, data: null, errors: [] })))
     ),
     takeUntilDestroyed()
   );
@@ -251,7 +252,7 @@ export class DhOutgoingMessagesComponent implements OnInit {
       `"${message.documentId}"`,
       `"${translate(outgoingMessagesPath + '.shared.calculationType.' + message.calculationType)}"`,
       `"${translate(outgoingMessagesPath + '.shared.messageType.' + message.timeSeriesType)}"`,
-      `"${message.gridAreaCode}"`,
+      `"${message.gridArea?.code} - ${message.gridArea?.name}"`,
       `"${translate(outgoingMessagesPath + '.shared.documentStatus.' + message.documentStatus)}"`,
     ]);
 

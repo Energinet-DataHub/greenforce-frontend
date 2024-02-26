@@ -5,6 +5,7 @@ query getMeteringGridAreaImbalance(
   $periodTo: DateTime
   $gridAreaCode: String
   $documentId: String
+  $valuesToInclude: MeteringGridImbalanceValuesToInclude!
   $sortProperty: MeteringGridAreaImbalanceSortProperty!
   $sortDirection: SortDirection!
 ) {
@@ -17,14 +18,23 @@ query getMeteringGridAreaImbalance(
     documentId: $documentId
     sortProperty: $sortProperty
     sortDirection: $sortDirection
+    valuesToInclude: $valuesToInclude
   ) {
     items {
       id
-      gridAreaCode
+      gridArea {
+        name
+        code
+      }
       documentDateTime
       receivedDateTime
       periodStart
       periodEnd
+      imbalancePerDay {
+        imbalanceDay
+        incomingQuantity
+        outgoingQuantity
+      }
     }
     totalCount
   }

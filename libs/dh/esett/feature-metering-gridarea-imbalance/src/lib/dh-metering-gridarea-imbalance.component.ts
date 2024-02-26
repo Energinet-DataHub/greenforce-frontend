@@ -16,7 +16,7 @@
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { BehaviorSubject, combineLatest, debounceTime, map, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, debounceTime, map, of, switchMap } from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -33,12 +33,15 @@ import {
 } from '@energinet-datahub/watt/vater';
 
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
+import { DhMeteringGridAreaImbalanceTableComponent } from './table/dh-table.component';
 import { DhMeteringGridAreaImbalance } from './dh-metering-gridarea-imbalance';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhMeteringGridAreaImbalanceFiltersComponent } from './filters/dh-filters.component';
 import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
-import { GetMeteringGridAreaImbalanceDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetMeteringGridAreaImbalanceDocument,
+  MeteringGridImbalanceValuesToInclude,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Sort } from '@angular/material/sort';
 import { dhMGASortMetadataMapper } from './util/dh-sort-metadata-mapper.operator';
@@ -80,7 +83,7 @@ import { dhMGASortMetadataMapper } from './util/dh-sort-metadata-mapper.operator
     VaterUtilityDirective,
 
     DhMeteringGridAreaImbalanceFiltersComponent,
-    DhOutgoingMessagesTableComponent,
+    DhMeteringGridAreaImbalanceTableComponent,
   ],
 })
 export class DhMeteringGridAreaImbalanceComponent implements OnInit {
@@ -110,6 +113,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
       start: sub(startOfDay(new Date()), { days: 2 }),
       end: endOfDay(new Date()),
     },
+    valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances,
   });
 
   documentIdSearch$ = new BehaviorSubject<string>('');
@@ -122,7 +126,9 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   }).pipe(
     map(({ filters, pageMetaData, documentIdSearch, sortMetadata }) => {
       return {
-        filters: documentIdSearch ? {} : filters,
+        filters: documentIdSearch
+          ? { valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances }
+          : filters,
         pageMetaData,
         documentIdSearch,
         sortMetadata,
@@ -131,9 +137,9 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   );
 
   meteringGridAreaImbalance$ = this.queryVariables$.pipe(
-    switchMap(
-      ({ filters, pageMetaData, documentIdSearch, sortMetadata }) =>
-        this._apollo.watchQuery({
+    switchMap(({ filters, pageMetaData, documentIdSearch, sortMetadata }) =>
+      this._apollo
+        .watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
@@ -149,8 +155,10 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
             documentId: documentIdSearch,
             sortProperty: sortMetadata.sortProperty,
             sortDirection: sortMetadata.sortDirection,
+            valuesToInclude: filters.valuesToInclude,
           },
-        }).valueChanges
+        })
+        .valueChanges.pipe(catchError(() => of({ loading: false, data: null, errors: [] })))
     ),
     takeUntilDestroyed()
   );

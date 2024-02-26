@@ -260,67 +260,6 @@
         }
       }
     },
-    "/esett/search/imbalance": {
-      "post": {
-        "tags": [
-          "ESett"
-        ],
-        "operationId": "imbalance",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchFilter"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchFilter"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchFilter"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/esett/statusReport": {
       "get": {
         "tags": [
@@ -634,6 +573,16 @@
             "format": "date-time",
             "nullable": true
           },
+          "createdFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdTo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "documentId": {
             "type": "string",
             "nullable": true
@@ -823,6 +772,13 @@
             "type": "string",
             "nullable": true
           },
+          "meteringGridImbalanceValuesToInclude": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringGridImbalanceValuesToInclude"
+              }
+            ]
+          },
           "sortProperty": {
             "allOf": [
               {
@@ -896,6 +852,14 @@
           "GridAreaCode",
           "DocumentId",
           "ReceivedDateTime"
+        ]
+      },
+      "MeteringGridImbalanceValuesToInclude": {
+        "type": "string",
+        "enum": [
+          "Imbalances",
+          "Balances",
+          "Both"
         ]
       },
       "ReadinessStatusDto": {

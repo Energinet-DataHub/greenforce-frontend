@@ -17,7 +17,8 @@
             "in": "query",
             "style": "form",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -293,6 +294,9 @@
             "items": {
               "type": "string"
             }
+          },
+          "includeRelatedMessages": {
+            "type": "boolean"
           }
         }
       }

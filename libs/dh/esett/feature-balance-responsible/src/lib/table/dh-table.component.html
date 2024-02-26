@@ -59,7 +59,7 @@ limitations under the License.
 
     <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
       <ng-container *ngIf="message.gridAreaWithName">
-        {{ message.gridAreaWithName.code }}
+        {{ message.gridAreaWithName.code }} - {{ message.gridAreaWithName.name }}
       </ng-container>
       <watt-badge *ngIf="!message.gridAreaWithName" type="danger">{{
         message.gridArea
