@@ -35,7 +35,7 @@ limitations under the License.
       <watt-search
         #searchComponent
         [label]="t('filters.documentId')"
-        (search)="documentIdSearch$.next($event)"
+        (search)="onDocumentIdSearchEvent($event)"
       />
 
       <watt-button icon="download" variant="text" (click)="download()">{{
@@ -58,7 +58,7 @@ limitations under the License.
 
     <dh-outgoing-messages-filters
       [initial]="filter$.value"
-      (filter)="filter$.next($event)"
+      (filter)="onFiltersEvent($event)"
       (formReset)="searchComponent.clear()"
     />
 
@@ -66,13 +66,14 @@ limitations under the License.
       [tableDataSource]="tableDataSource"
       [isLoading]="isLoading"
       [hasError]="hasError"
-      (sortChange)="sortMetadata$.next($event)"
+      (sortChange)="onSortEvent($event)"
     />
 
     <watt-paginator
       [length]="totalCount"
+      [pageIndex]="pageIndex$ | push"
       [pageSize]="pageSize$ | push"
-      (changed)="handlePageEvent($event)"
+      (changed)="onPageEvent($event)"
     />
   </vater-flex>
 </watt-card>

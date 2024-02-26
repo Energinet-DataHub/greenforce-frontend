@@ -16,11 +16,23 @@
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, catchError, combineLatest, debounceTime, map, of, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  combineLatest,
+  debounceTime,
+  map,
+  of,
+  merge,
+  switchMap,
+} from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
+import { RxLet } from '@rx-angular/template/let';
+import { Sort } from '@angular/material/sort';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -39,16 +51,13 @@ import {
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
 import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
 import { DhOutgoingMessage } from './dh-outgoing-message';
 import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { RxLet } from '@rx-angular/template/let';
-import { Sort } from '@angular/material/sort';
 import { dhExchangeSortMetadataMapper } from './util/dh-sort-metadata-mapper.operator';
 
 @Component({
@@ -120,6 +129,7 @@ export class DhOutgoingMessagesComponent implements OnInit {
     pageSize: 100,
   });
 
+  pageIndex$ = this.pageMetaData$.pipe(map(({ pageIndex }) => pageIndex));
   pageSize$ = this.pageMetaData$.pipe(map(({ pageSize }) => pageSize));
 
   isLoading = false;
@@ -157,21 +167,7 @@ export class DhOutgoingMessagesComponent implements OnInit {
 
   documentIdSearch$ = new BehaviorSubject<string>('');
 
-  private queryVariables$ = combineLatest({
-    filters: this.filter$,
-    pageMetaData: this.pageMetaData$,
-    documentIdSearch: this.documentIdSearch$.pipe(debounceTime(250)),
-    sortMetadata: this.sortMetadata$.pipe(dhExchangeSortMetadataMapper),
-  }).pipe(
-    map(({ filters, pageMetaData, documentIdSearch, sortMetadata }) => {
-      return {
-        filters: documentIdSearch ? {} : filters,
-        pageMetaData,
-        documentIdSearch,
-        sortMetadata,
-      };
-    })
-  );
+  private queryVariables$ = this.buildQueryVariables();
 
   /**
    * Represents an observable stream of outgoing messages.
@@ -224,7 +220,49 @@ export class DhOutgoingMessagesComponent implements OnInit {
     });
   }
 
-  handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
+  buildQueryVariables() {
+    const filtersDocumentIdSort$ = combineLatest({
+      filters: this.filter$,
+      documentIdSearch: this.documentIdSearch$.pipe(debounceTime(250)),
+      sortMetadata: this.sortMetadata$.pipe(dhExchangeSortMetadataMapper),
+    });
+
+    const onVariablesChange$ = merge(filtersDocumentIdSort$, this.pageMetaData$);
+
+    return onVariablesChange$.pipe(
+      switchMap(() => filtersDocumentIdSort$),
+      map(({ filters, documentIdSearch, sortMetadata }) => {
+        const pageMetaData = this.pageMetaData$.getValue();
+
+        return {
+          filters: documentIdSearch ? {} : filters,
+          pageMetaData,
+          documentIdSearch,
+          sortMetadata,
+        };
+      })
+    );
+  }
+
+  onFiltersEvent(filters: DhOutgoingMessagesFilters): void {
+    this.resetPageMetaData();
+
+    this.filter$.next(filters);
+  }
+
+  onSortEvent(sortMetadata: Sort): void {
+    this.resetPageMetaData();
+
+    this.sortMetadata$.next(sortMetadata);
+  }
+
+  onDocumentIdSearchEvent(documentId: string): void {
+    this.resetPageMetaData();
+
+    this.documentIdSearch$.next(documentId);
+  }
+
+  onPageEvent({ pageIndex, pageSize }: PageEvent): void {
     this.pageMetaData$.next({ pageIndex, pageSize });
   }
 
@@ -269,5 +307,14 @@ export class DhOutgoingMessagesComponent implements OnInit {
         })
         .subscribe(() => (this.isLoading = false));
     }
+  }
+
+  private resetPageMetaData(): void {
+    const pageMetaData = this.pageMetaData$.getValue();
+
+    this.pageMetaData$.next({
+      ...pageMetaData,
+      pageIndex: 0,
+    });
   }
 }
