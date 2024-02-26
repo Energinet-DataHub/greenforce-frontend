@@ -6,7 +6,8 @@ It is our intention to acknowledge all third-party product licenses used in this
 
 ## Third-Party Licenses
 
-This DataHub repository relies on open source libraries and tools. We recommend you read their licenses, as their terms may differ from the terms described in our LICENSE.
+This DataHub repository relies on open source libraries and tools.
+We recommend you read their licenses, as their terms may differ from the terms described in our LICENSE.
 
 **You can find the list of dependencies and licenses [here.](PRODUCTION_DEPENDENCIES.md)**
 
