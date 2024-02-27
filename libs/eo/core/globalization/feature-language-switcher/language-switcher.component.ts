@@ -18,6 +18,7 @@ import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
+  HostListener,
   OnInit,
   ViewChild,
   ViewEncapsulation,
@@ -57,9 +58,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   `,
   encapsulation: ViewEncapsulation.None,
   template: `
-    <watt-button variant="text" (click)="onOpen()">
-      {{ translations.languageSwitcher.title | transloco }}</watt-button
-    >
+    <ng-content />
 
     @if (isOpen()) {
       <watt-modal
@@ -96,6 +95,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class EoLanguageSwitcherComponent implements OnInit {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
+  @HostListener('click')
+  onClick() {
+    this.isOpen.set(true);
+    this.cd.detectChanges();
+    this.modal.open();
+  }
+
   protected language = new FormControl();
 
   protected translations = translations;
@@ -131,12 +137,6 @@ export class EoLanguageSwitcherComponent implements OnInit {
     ];
 
     this.language.setValue(this.transloco.getActiveLang());
-  }
-
-  onOpen() {
-    this.isOpen.set(true);
-    this.cd.detectChanges();
-    this.modal.open();
   }
 
   onSave() {

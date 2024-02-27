@@ -25,6 +25,7 @@ import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
+import { translations } from '@energinet-datahub/eo/translations';
 import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/shared/services';
@@ -127,7 +128,11 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
 
           <vater-spacer />
 
-          <eo-language-switcher />
+          <eo-language-switcher>
+            <watt-button variant="text" icon="language">
+              {{ translations.languageSwitcher.title | transloco }}</watt-button
+            >
+          </eo-language-switcher>
           <watt-button variant="text" [routerLink]="['/help']" icon="help">{{
             'topbar.help' | transloco
           }}</watt-button>
@@ -150,6 +155,7 @@ export class EoShellComponent implements OnDestroy {
   private idleTimerService = inject(IdleTimerService);
   private authService = inject(EoAuthService);
 
+  protected translations = translations;
   protected cookiesSet: string | null = null;
 
   constructor() {
