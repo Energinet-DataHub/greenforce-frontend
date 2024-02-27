@@ -93,7 +93,9 @@ export class DhBalanceResponsibleComponent implements OnInit {
     direction: 'desc',
   });
 
-  tableDataSource = new WattTableDataSource<DhBalanceResponsibleMessage>([]);
+  tableDataSource = new WattTableDataSource<DhBalanceResponsibleMessage>([], {
+    disableClientSideSort: true,
+  });
   totalCount = 0;
 
   isLoading = false;

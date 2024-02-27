@@ -110,7 +110,7 @@ export class DhOutgoingMessagesComponent implements OnInit {
   private _destroyRef = inject(DestroyRef);
   private _store = inject(DhOutgoingMessagesStore);
 
-  tableDataSource = new WattTableDataSource<DhOutgoingMessage>([]);
+  tableDataSource = new WattTableDataSource<DhOutgoingMessage>([], { disableClientSideSort: true });
   totalCount = 0;
 
   filters$ = this._store.filters$;
