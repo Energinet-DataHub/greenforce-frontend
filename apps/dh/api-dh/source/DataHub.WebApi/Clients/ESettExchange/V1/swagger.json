@@ -850,15 +850,13 @@
             "type": "string",
             "format": "date-time"
           },
-          "incomingQuantity": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
+          "firstPositionOfImbalance": {
+            "type": "integer",
+            "format": "int32"
           },
-          "outgoingQuantity": {
+          "quantity": {
             "type": "number",
-            "format": "double",
-            "nullable": true
+            "format": "double"
           }
         }
       },
@@ -925,7 +923,13 @@
             "type": "string",
             "format": "date-time"
           },
-          "imbalancePerDay": {
+          "incomingImbalancePerDay": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MeteringGridAreaImbalancePerDayDto"
+            }
+          },
+          "outgoingImbalancePerDay": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/MeteringGridAreaImbalancePerDayDto"
