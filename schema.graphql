@@ -240,6 +240,7 @@ type Query {
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodInterval: DateRange, createdInterval: DateRange, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String, sortProperty: ExchangeEventSortProperty!, sortDirection: SortDirection!): ExchangeEventSearchResponse!
   meteringGridAreaImbalance(pageNumber: Int!, pageSize: Int!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String, valuesToInclude: MeteringGridImbalanceValuesToInclude!, sortProperty: MeteringGridAreaImbalanceSortProperty!, sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
+  downloadMeteringGridAreaImbalance(locale: String!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String, valuesToInclude: MeteringGridImbalanceValuesToInclude!, sortProperty: MeteringGridAreaImbalanceSortProperty!, sortDirection: SortDirection!): String!
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   emailExists(emailAddress: String!): Boolean!
@@ -403,12 +404,6 @@ interface Error {
   message: String!
 }
 
-type ApiErrorDescriptor {
-  message: String!
-  code: String!
-  args: JSON!
-}
-
 enum UserRoleStatus {
   ACTIVE
   INACTIVE
@@ -565,10 +560,18 @@ type UserRoleWithPermissionsDto {
   permissions: [PermissionDetailsDto!]!
 }
 
+type ApiErrorDescriptor {
+  message: String!
+  code: String!
+  args: JSON!
+}
+
 type KeyValuePairOfStringAndIEnumerableOfString {
   key: String!
   value: [String!]!
 }
+
+scalar JSON
 
 type PermissionDetailsDto {
   id: Int!
@@ -610,8 +613,6 @@ input CreateOrganizationDtoInput {
   address: AddressDtoInput!
   domain: String!
 }
-
-scalar JSON
 
 input AddressDtoInput {
   streetName: String

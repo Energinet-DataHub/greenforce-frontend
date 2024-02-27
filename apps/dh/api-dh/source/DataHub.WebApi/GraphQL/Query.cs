@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
@@ -25,6 +26,8 @@ using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate;
 using Microsoft.AspNetCore.Http;
 using NodaTime;
+using FileResponse = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.FileResponse;
+using SortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
 using WholesaleCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
 
 namespace Energinet.DataHub.WebApi.GraphQL
@@ -269,14 +272,46 @@ namespace Energinet.DataHub.WebApi.GraphQL
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                CreatedFrom = createdFrom,
-                CreatedTo = createdTo,
-                GridAreaCode = gridAreaCode,
-                DocumentId = documentId,
-                SortDirection = sortDirection,
-                SortProperty = sortProperty,
-                MeteringGridImbalanceValuesToInclude = valuesToInclude,
+                Filter = new MeteringGridAreaImbalanceFilter
+                {
+                    CreatedFrom = createdFrom,
+                    CreatedTo = createdTo,
+                    GridAreaCode = gridAreaCode,
+                    DocumentId = documentId,
+                    SortDirection = sortDirection,
+                    SortProperty = sortProperty,
+                    MeteringGridImbalanceValuesToInclude = valuesToInclude,
+                },
             });
+
+        public async Task<string> DownloadMeteringGridAreaImbalanceAsync(
+            string locale,
+            DateTimeOffset? createdFrom,
+            DateTimeOffset? createdTo,
+            string? gridAreaCode,
+            string? documentId,
+            MeteringGridImbalanceValuesToInclude valuesToInclude,
+            MeteringGridAreaImbalanceSortProperty sortProperty,
+            SortDirection sortDirection,
+            [Service] IESettExchangeClient_V1 client)
+        {
+            var file = await client.DownloadAsync(locale, new MeteringGridAreaImbalanceDownloadFilter
+            {
+                Filter = new MeteringGridAreaImbalanceFilter
+                {
+                    CreatedFrom = createdFrom,
+                    CreatedTo = createdTo,
+                    GridAreaCode = gridAreaCode,
+                    DocumentId = documentId,
+                    SortDirection = sortDirection,
+                    SortProperty = sortProperty,
+                    MeteringGridImbalanceValuesToInclude = valuesToInclude,
+                },
+            });
+
+            using var streamReader = new StreamReader(file.Stream);
+            return await streamReader.ReadToEndAsync();
+        }
 
         public Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(
             int pageNumber,
