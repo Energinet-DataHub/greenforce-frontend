@@ -58,6 +58,9 @@
         "libs/dh/auth/feature-msal/src/index.ts"
       ],
       "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
+      "@energinet-datahub/dh/esett/data-access-outgoing-messages": [
+        "libs/dh/esett/data-access-outgoing-messages/src/index.ts"
+      ],
       "@energinet-datahub/dh/esett/feature-balance-responsible": [
         "libs/dh/esett/feature-balance-responsible/src/index.ts"
       ],
