@@ -95,7 +95,7 @@ export class EoTransfersService {
 
   getCompanyNames(cvrNumbers: string[]) {
     return this.http
-      .post<{ result: { companyCvr: string; companyName: string }[] }>(`${this.#apiBase}/cvr`, {
+      .post<{ result: { companyCvr: string; companyName: string }[] }>(`${this.#apiBase}/transfer/cvr`, {
         cvrNumbers,
       })
       .pipe(
