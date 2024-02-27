@@ -57,8 +57,8 @@ limitations under the License.
     </ng-container>
 
     <dh-outgoing-messages-filters
-      [initial]="filter$.value"
-      (filter)="filter$.next($event)"
+      [initial]="filters$ | push"
+      (filter)="onFiltersEvent($event)"
       (formReset)="searchComponent.clear()"
     />
 
@@ -66,13 +66,15 @@ limitations under the License.
       [tableDataSource]="tableDataSource"
       [isLoading]="isLoading"
       [hasError]="hasError"
-      (sortChange)="sortMetadata$.next($event)"
+      (sortChange)="onSortEvent($event)"
     />
 
     <watt-paginator
       [length]="totalCount"
-      [pageSize]="pageSize$ | push"
-      (changed)="handlePageEvent($event)"
+      *rxLet="pageMetaData$ as pageMetaData"
+      [pageIndex]="pageMetaData.pageIndex"
+      [pageSize]="pageMetaData.pageSize"
+      (changed)="onPageEvent($event)"
     />
   </vater-flex>
 </watt-card>
