@@ -49,7 +49,7 @@ interface DhOutgoingMessagesState {
 const initialState: DhOutgoingMessagesState = {
   documentId: '',
   sortMetaData: {
-    active: 'received',
+    active: 'created',
     direction: 'desc',
   },
   pageMetaData: {
