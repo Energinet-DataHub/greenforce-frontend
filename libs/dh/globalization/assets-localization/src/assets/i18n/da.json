@@ -636,8 +636,8 @@
         },
         "card": {
           "titles": {
-            "deficit": "Ubalanceunderskud (kWh)",
-            "surplus": "Ubalanceoverskud (kWh)"
+            "deficit": "Ubalanceunderskud",
+            "surplus": "Ubalanceoverskud"
           }
         },
         "table": {

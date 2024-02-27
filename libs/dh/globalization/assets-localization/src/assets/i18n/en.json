@@ -636,8 +636,8 @@
         },
         "card": {
           "titles": {
-            "deficit": "Imbalance Deficit (kWh)",
-            "surplus": "Surplus Imbalance (kWh)"
+            "deficit": "Imbalance Deficit",
+            "surplus": "Surplus Imbalance"
           }
         },
         "table": {
