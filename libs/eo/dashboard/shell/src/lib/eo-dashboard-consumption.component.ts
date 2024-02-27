@@ -37,6 +37,7 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
+
 import {
   EnergyUnitPipe,
   PercentageOfPipe,
@@ -46,8 +47,10 @@ import {
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
 import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
-import { EoLottieComponent } from './eo-lottie.component';
 import { graphLoader } from '@energinet-datahub/eo/shared/assets';
+import { translations } from '@energinet-datahub/eo/translations';
+
+import { EoLottieComponent } from './eo-lottie.component';
 
 interface Totals {
   green: number;
@@ -160,12 +163,12 @@ interface Totals {
   ],
   template: `<watt-card>
     <watt-card-title>
-      <h4>{{ 'consumerChart.title' | transloco }}</h4>
+      <h4>{{ translations.consumerChart.title | transloco }}</h4>
       <watt-icon
         name="info"
         state="default"
         size="s"
-        [wattTooltip]="'consumerChart.title-tooltip' | transloco"
+        [wattTooltip]="translations.consumerChart.titleTooltip | transloco"
         wattTooltipPosition="right"
       />
     </watt-card-title>
@@ -180,11 +183,11 @@ interface Totals {
           <watt-empty-state
             data-testid="error"
             icon="custom-power"
-            [title]="'consumerChart.error.title' | transloco"
-            [message]="'consumerChart.error.message' | transloco"
+            [title]="translations.consumerChart.error.title | transloco"
+            [message]="translations.consumerChart.error.message | transloco"
           >
             <watt-button variant="primary" size="normal" (click)="getData()">{{
-              'consumerChart.error.retry' | transloco
+              translations.consumerChart.error.retry | transloco
             }}</watt-button>
           </watt-empty-state>
         }
@@ -196,7 +199,7 @@ interface Totals {
         @if (totals.consumption > 0 || isLoading) {
           <h5 data-testid="headline">
             {{
-              'consumerChart.headline.default'
+              translations.consumerChart.headline.default
                 | transloco
                   : {
                       greenEnergyInPercentage: totals.green | percentageOf: totals.consumption
@@ -204,7 +207,7 @@ interface Totals {
             }}
           </h5>
           <small>{{
-            'consumerChart.subHeadline'
+            translations.consumerChart.subHeadline
               | transloco
                 : {
                     greenConsumption: totals.green | energyUnit,
@@ -212,10 +215,10 @@ interface Totals {
                   }
           }}</small>
         } @else {
-          <h5 data-testid="no-data">{{ 'consumerChart.headline.noData' | transloco }}</h5>
+          <h5 data-testid="no-data">{{ translations.consumerChart.headline.noData | transloco }}</h5>
           <small
             ><a [routerLink]="'../' + routes.meteringpoints"
-              >{{ 'consumerChart.activateMeteringPointsAction' | transloco
+              >{{ translations.consumerChart.activateMeteringPointsAction | transloco
               }}<watt-icon name="openInNew" size="xs" /></a
           ></small>
         }
@@ -229,7 +232,7 @@ interface Totals {
             <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
             @if (item.label) {
               <span class="legend-label" [attr.data-testid]="item.label + '-legend'">{{
-                'consumerChart.legends.' + item.label
+                legends[item.label]
                   | transloco: { percentage: totals[item.label] | percentageOf: totals.consumption }
               }}</span>
             }
@@ -259,6 +262,7 @@ export class EoDashboardConsumptionComponent implements OnChanges {
 
   private labels = this.generateLabels();
 
+  protected translations = translations;
   protected totals: Totals = {
     green: 0,
     other: 0,
@@ -267,6 +271,7 @@ export class EoDashboardConsumptionComponent implements OnChanges {
 
   protected routes = eoRoutes;
 
+  protected legends: { [key: string]: string } = translations.consumerChart.legends;
   protected lottieAnimation = graphLoader;
   protected isLoading = false;
   protected hasError = false;

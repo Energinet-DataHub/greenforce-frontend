@@ -381,4 +381,8 @@ export interface TranslationKeys {
       declineButton: string;
     };
   };
+  help: {
+    title: string;
+    content: string;
+  }
 }

@@ -45,11 +45,12 @@ import {
   findNearestUnit,
   fromWh,
 } from '@energinet-datahub/eo/shared/utilities';
-import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
-
 import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
-import { EoLottieComponent } from './eo-lottie.component';
+import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
 import { graphLoader } from '@energinet-datahub/eo/shared/assets';
+import { translations } from '@energinet-datahub/eo/translations';
+
+import { EoLottieComponent } from './eo-lottie.component';
 
 interface Totals {
   transferred: number;
@@ -159,12 +160,12 @@ interface Totals {
   ],
   template: `<watt-card>
     <watt-card-title>
-      <h4>{{ 'producerChart.title' | transloco }}</h4>
+      <h4>{{ translations.producerChart.title | transloco }}</h4>
       <watt-icon
         name="info"
         state="default"
         size="s"
-        [wattTooltip]="'producerChart.title-tooltip' | transloco"
+        [wattTooltip]="translations.producerChart.titleTooltip | transloco"
         wattTooltipPosition="right"
       />
     </watt-card-title>
@@ -178,11 +179,11 @@ interface Totals {
           <watt-empty-state
             data-testid="error"
             icon="custom-power"
-            [title]="'producerChart.error.title' | transloco"
-            [message]="'producerChart.error.message' | transloco"
+            [title]="translations.producerChart.error.title | transloco"
+            [message]="translations.producerChart.error.message | transloco"
           >
             <watt-button variant="primary" size="normal" (click)="getData()">{{
-              'producerChart.error.retry' | transloco
+              translations.producerChart.error.retry | transloco
             }}</watt-button>
           </watt-empty-state>
         }
@@ -194,7 +195,7 @@ interface Totals {
         @if (totals.production > 0 || isLoading) {
           <h5 data-testid="headline">
             {{
-              'producerChart.headline.default'
+              translations.producerChart.headline.default
                 | transloco
                   : {
                       transferredInPercentage: totals.transferred | percentageOf: totals.production
@@ -202,7 +203,7 @@ interface Totals {
             }}
           </h5>
           <small>{{
-            'producerChart.subHeadline'
+            translations.producerChart.subHeadline
               | transloco
                 : {
                     totalTransferred: totals.transferred | energyUnit,
@@ -210,10 +211,12 @@ interface Totals {
                   }
           }}</small>
         } @else {
-          <h5 data-testid="no-data">{{ 'producerChart.headline.noData' | transloco }}</h5>
+          <h5 data-testid="no-data">
+            {{ translations.producerChart.headline.noData | transloco }}
+          </h5>
           <small
             ><a [routerLink]="'../' + routes.meteringpoints"
-              >{{ 'producerChart.activateMeteringPointsAction' | transloco }}
+              >{{ translations.producerChart.activateMeteringPointsAction | transloco }}
               <watt-icon name="openInNew" size="xs" /></a
           ></small>
         }
@@ -227,7 +230,7 @@ interface Totals {
             <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
             @if (item.label) {
               <span class="legend-label" [attr.data-testid]="item.label + '-legend'">{{
-                'producerChart.legends.' + item.label
+                legends[item.label]
                   | transloco: { percentage: totals[item.label] | percentageOf: totals.production }
               }}</span>
             }
@@ -257,6 +260,7 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
 
   private labels = this.generateLabels();
 
+  protected translations = translations;
   protected currentTimestamp: string = new Date().toISOString();
   protected currentTimezone: string = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -269,6 +273,7 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
 
   protected routes = eoRoutes;
 
+  protected legends: { [key: string]: string } = translations.producerChart.legends;
   protected lottieAnimation = graphLoader;
   protected isLoading = false;
   protected hasError = false;

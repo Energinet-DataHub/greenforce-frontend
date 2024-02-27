@@ -134,10 +134,10 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
             >
           </eo-language-switcher>
           <watt-button variant="text" [routerLink]="['/help']" icon="help">{{
-            'topbar.help' | transloco
+            translations.topbar.help | transloco
           }}</watt-button>
           <watt-button variant="text" (click)="onLogout()" icon="logout">{{
-            'topbar.logout' | transloco
+            translations.topbar.logout | transloco
           }}</watt-button>
         </vater-stack>
       </ng-container>

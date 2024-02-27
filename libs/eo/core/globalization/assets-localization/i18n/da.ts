@@ -426,4 +426,42 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       declineButton: 'Ok',
     },
   },
+  help: {
+    title: 'Help',
+    content: `
+    <ul>
+      <li><a href="{{faqLink}}">FAQ</a></li>
+      <li>
+        <a href="{{introductionLink}}">Introduktion til Energy Origin</a>
+      </li>
+      <li>
+        <a
+          href="https://ens.dk/en/our-responsibilities/energy-climate-politics"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Energistyrelsen - Energi- og klimapolitik</a
+        >Den danske regerings politikker omkring klima og energi. Hvor du kan læse om den danske energiplan for de næste 10 år.
+      </li>
+      <li>
+        <a
+          href="https://virksomhedsguiden.dk/content/temaer/groen_omstilling/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Virksomhedsguiden.dk - Grøn omstilling</a
+        >Beskriver hvordan virksomheder kan blive mere grønne, med en masse instruktioner og skabeloner.
+      </li>
+      <li>
+        <a href="https://en.energinet.dk/Green-Transition" target="_blank" rel="noopener noreferrer"
+          >Energinet - Green Transition (Engelsk)</a
+        >Energinet leverer data vedrørende overgangen til et grønnere energisystem i Danmark.
+      </li>
+      <li>
+        <a href="https://www.iea.org/countries/denmark" target="_blank" rel="noopener noreferrer"
+          >IEA - Denmark</a
+        >Det Internationale Energiagentur er forpligtet til at forme en sikker og bæredygtig energifremtid
+        for alle og leverer data og sammenligninger om, hvad de forskellige lande foretager sig.
+      </li>
+    </ul>
+    `,
+  },
 };
