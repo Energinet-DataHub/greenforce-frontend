@@ -392,6 +392,64 @@
         }
       }
     },
+    "/esett/mga-imbalance/download": {
+      "post": {
+        "tags": [
+          "MeteringGridAreaImbalance"
+        ],
+        "operationId": "download",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceDownloadFilter"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceDownloadFilter"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceDownloadFilter"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/csv": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/status": {
       "get": {
         "tags": [
@@ -722,38 +780,23 @@
           }
         }
       },
-      "MeteringGridAreaImbalancePerDayDto": {
+      "MeteringGridAreaImbalanceDownloadFilter": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "imbalanceDay": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "incomingQuantity": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "outgoingQuantity": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
+          "filter": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringGridAreaImbalanceFilter"
+              }
+            ]
           }
         }
       },
-      "MeteringGridAreaImbalanceSearchFilter": {
+      "MeteringGridAreaImbalanceFilter": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
           "gridAreaCode": {
             "type": "string",
             "nullable": true
@@ -790,6 +833,51 @@
             "allOf": [
               {
                 "$ref": "#/components/schemas/SortDirection"
+              }
+            ]
+          }
+        }
+      },
+      "MeteringGridAreaImbalancePerDayDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "imbalanceDay": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "firstOccurrenceOfImbalance": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "incomingQuantity": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "outgoingQuantity": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        }
+      },
+      "MeteringGridAreaImbalanceSearchFilter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "filter": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringGridAreaImbalanceFilter"
               }
             ]
           }
