@@ -57,7 +57,7 @@ limitations under the License.
                   <watt-expandable-card-title>
                     <h4>{{ t("card.titles.deficit") }}</h4>
                   </watt-expandable-card-title>
-                  <dh-metering-gridarea-imbalance-table [deficit]="deficitDataSource" />
+                  <dh-metering-gridarea-imbalance-table [data]="deficitDataSource" />
                 </watt-expandable-card>
               }
               @if (surplusDataSource.data.length > 0) {
@@ -65,7 +65,7 @@ limitations under the License.
                   <watt-expandable-card-title>
                     <h4>{{ t("card.titles.surplus") }}</h4>
                   </watt-expandable-card-title>
-                  <dh-metering-gridarea-imbalance-table [surplus]="surplusDataSource" />
+                  <dh-metering-gridarea-imbalance-table [data]="surplusDataSource" />
                 </watt-expandable-card>
               }
             </vater-flex>

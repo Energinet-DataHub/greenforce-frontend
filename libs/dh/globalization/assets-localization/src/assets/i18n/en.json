@@ -642,10 +642,10 @@
         },
         "table": {
           "columns": {
-            "position": "Position",
+            "position": "Position ",
             "date": "Date",
-            "time": "Time",
-            "imbalance": "Imbalance"
+            "time": "Time of first occurrence",
+            "imbalance": "Imbalance (kWh)"
           }
         },
         "metadata": {

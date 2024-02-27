@@ -23,4 +23,4 @@ export type DhMeteringGridAreaImbalance = ResultOf<
 
 export type MeteringGridAreaImbalancePerDayDto = ResultOf<
   typeof GetMeteringGridAreaImbalanceDocument
->['meteringGridAreaImbalance']['items'][0]['imbalancePerDay'][0];
+>['meteringGridAreaImbalance']['items'][0]['incomingImbalancePerDay'][0];

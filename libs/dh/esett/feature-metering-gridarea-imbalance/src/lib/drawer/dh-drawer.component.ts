@@ -109,15 +109,8 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
     this.drawer?.open();
 
     this.meteringGridAreaImbalance = message;
-
-    const imbalances = message.imbalancePerDay;
-
-    // Alle underskud og overskud ud. Hvis positionen for den første værdi der ikke er 0.
-    const surplus = imbalances.filter((x) => (x.incomingQuantity ?? 0) > 0);
-    const deficit = imbalances.filter((x) => (x.outgoingQuantity ?? 0) > 0);
-
-    this.surplusDataSource.data = surplus;
-    this.deficitDataSource.data = deficit;
+    this.surplusDataSource.data = message.incomingImbalancePerDay;
+    this.deficitDataSource.data = message.outgoingImbalancePerDay;
 
     if (message !== null && message.id) {
       this._getDocument$.next(message.id);

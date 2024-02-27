@@ -32,7 +32,7 @@ import { DecimalPipe } from '@angular/common';
     fill="vertical"
     scrollable
     *transloco="let t; read: 'eSett.meteringGridAreaImbalance.drawer.table'"
-    ><watt-table [columns]="columns" [dataSource]="getDataSource()">
+    ><watt-table [columns]="columns" [dataSource]="data()!">
       <ng-container
         *wattTableCell="columns['imbalanceDay']; header: t('columns.date'); let imbalance"
       >
@@ -40,19 +40,15 @@ import { DecimalPipe } from '@angular/common';
       </ng-container>
 
       <ng-container *wattTableCell="columns['time']; header: t('columns.time'); let imbalance">
-        {{ imbalance.firstOccurrenceOfImbalance | wattDate: 'time' }}
+        {{ imbalance.firstOccurrenceOfImbalance | wattDate: 'time' }} ({{
+          t('columns.position') + imbalance.firstPositionOfImbalance
+        }})
       </ng-container>
 
       <ng-container
-        *wattTableCell="columns['incomingQuantity']; header: t('columns.imbalance'); let imbalance"
+        *wattTableCell="columns['quantity']; header: t('columns.imbalance'); let imbalance"
       >
-        {{ imbalance.incomingQuantity | number: '1.3-6' }}
-      </ng-container>
-
-      <ng-container
-        *wattTableCell="columns['outgoingQuantity']; header: t('columns.imbalance'); let imbalance"
-      >
-        {{ imbalance.outgoingQuantity | number: '1.3-6' }}
+        {{ imbalance.quantity | number: '1.3-6' }}
       </ng-container>
     </watt-table>
   </vater-flex>`,
@@ -64,8 +60,7 @@ import { DecimalPipe } from '@angular/common';
   imports: [WATT_TABLE, VaterFlexComponent, DecimalPipe, WattDatePipe, TranslocoDirective],
 })
 export class DhDrawerImbalanceTableComponent implements OnInit {
-  surplus = input<WattTableDataSource<MeteringGridAreaImbalancePerDayDto>>();
-  deficit = input<WattTableDataSource<MeteringGridAreaImbalancePerDayDto>>();
+  data = input<WattTableDataSource<MeteringGridAreaImbalancePerDayDto>>();
 
   columns!: WattTableColumnDef<MeteringGridAreaImbalancePerDayDto>;
 
@@ -73,29 +68,7 @@ export class DhDrawerImbalanceTableComponent implements OnInit {
     this.columns = {
       imbalanceDay: { accessor: 'imbalanceDay', sort: false },
       time: { accessor: 'firstOccurrenceOfImbalance', sort: false },
-      ...(this.surplus() !== undefined
-        ? {
-            incomingQuantity: {
-              accessor: 'incomingQuantity',
-              sort: false,
-              align: 'right',
-            },
-          }
-        : {}),
-      ...(this.deficit() !== undefined
-        ? {
-            outgoingQuantity: {
-              accessor: 'outgoingQuantity',
-              sort: false,
-              align: 'right',
-            },
-          }
-        : {}),
+      quantity: { accessor: 'quantity', sort: false },
     };
-  }
-
-  getDataSource(): WattTableDataSource<MeteringGridAreaImbalancePerDayDto> {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.surplus() !== undefined ? this.surplus()! : this.deficit()!;
   }
 }
