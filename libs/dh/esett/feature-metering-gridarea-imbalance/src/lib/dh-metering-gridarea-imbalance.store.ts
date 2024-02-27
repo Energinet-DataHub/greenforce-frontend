@@ -40,7 +40,7 @@ const initialState: DhMeteringGridAreaImbalanceState = {
   },
   pageMetaData: {
     pageIndex: 0,
-    pageSize: 1,
+    pageSize: 100,
   },
   filters: {
     period: {
