@@ -46,13 +46,13 @@ import { DecimalPipe } from '@angular/common';
       <ng-container
         *wattTableCell="columns['incomingQuantity']; header: t('columns.imbalance'); let imbalance"
       >
-        {{ imbalance.incomingQuantity | number: '1.5-6' }}
+        {{ imbalance.incomingQuantity | number: '1.3-6' }}
       </ng-container>
 
       <ng-container
         *wattTableCell="columns['outgoingQuantity']; header: t('columns.imbalance'); let imbalance"
       >
-        {{ imbalance.outgoingQuantity | number: '1.5-6' }}
+        {{ imbalance.outgoingQuantity | number: '1.3-6' }}
       </ng-container>
     </watt-table>
   </vater-flex>`,
@@ -78,6 +78,7 @@ export class DhDrawerImbalanceTableComponent implements OnInit {
             incomingQuantity: {
               accessor: 'incomingQuantity',
               sort: false,
+              align: 'right',
             },
           }
         : {}),
@@ -86,6 +87,7 @@ export class DhDrawerImbalanceTableComponent implements OnInit {
             outgoingQuantity: {
               accessor: 'outgoingQuantity',
               sort: false,
+              align: 'right',
             },
           }
         : {}),

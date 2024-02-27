@@ -53,7 +53,7 @@ limitations under the License.
           <watt-tab [label]="t('tabs.imbalance')">
             <vater-flex [fill]="'horizontal'" gap="m">
               @if (deficitDataSource.data.length > 0) {
-                <watt-expandable-card variant="solid">
+                <watt-expandable-card variant="solid" [expanded]="true">
                   <watt-expandable-card-title>
                     <h4>{{ t("card.titles.deficit") }}</h4>
                   </watt-expandable-card-title>
@@ -61,7 +61,7 @@ limitations under the License.
                 </watt-expandable-card>
               }
               @if (surplusDataSource.data.length > 0) {
-                <watt-expandable-card variant="solid">
+                <watt-expandable-card variant="solid" [expanded]="true">
                   <watt-expandable-card-title>
                     <h4>{{ t("card.titles.surplus") }}</h4>
                   </watt-expandable-card-title>
