@@ -1461,6 +1461,14 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class MeteringGridAreaImbalanceDownloadFilter
     {
+        [Newtonsoft.Json.JsonProperty("filter", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public MeteringGridAreaImbalanceFilter Filter { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MeteringGridAreaImbalanceFilter
+    {
         [Newtonsoft.Json.JsonProperty("gridAreaCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? GridAreaCode { get; set; } = default!;
 
@@ -1493,6 +1501,9 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
         [Newtonsoft.Json.JsonProperty("imbalanceDay", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset ImbalanceDay { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("firstOccurrenceOfImbalance", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset FirstOccurrenceOfImbalance { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("incomingQuantity", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double? IncomingQuantity { get; set; } = default!;
 
@@ -1510,29 +1521,8 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
         [Newtonsoft.Json.JsonProperty("pageSize", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int PageSize { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("gridAreaCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? GridAreaCode { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("createdFrom", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset? CreatedFrom { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("createdTo", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset? CreatedTo { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("documentId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? DocumentId { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("meteringGridImbalanceValuesToInclude", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public MeteringGridImbalanceValuesToInclude MeteringGridImbalanceValuesToInclude { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("sortProperty", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public MeteringGridAreaImbalanceSortProperty SortProperty { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("sortDirection", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public SortDirection SortDirection { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("filter", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public MeteringGridAreaImbalanceFilter Filter { get; set; } = default!;
 
     }
 

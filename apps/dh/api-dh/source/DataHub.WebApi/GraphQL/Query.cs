@@ -272,13 +272,16 @@ namespace Energinet.DataHub.WebApi.GraphQL
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                CreatedFrom = createdFrom,
-                CreatedTo = createdTo,
-                GridAreaCode = gridAreaCode,
-                DocumentId = documentId,
-                SortDirection = sortDirection,
-                SortProperty = sortProperty,
-                MeteringGridImbalanceValuesToInclude = valuesToInclude,
+                Filter = new MeteringGridAreaImbalanceFilter
+                {
+                    CreatedFrom = createdFrom,
+                    CreatedTo = createdTo,
+                    GridAreaCode = gridAreaCode,
+                    DocumentId = documentId,
+                    SortDirection = sortDirection,
+                    SortProperty = sortProperty,
+                    MeteringGridImbalanceValuesToInclude = valuesToInclude,
+                },
             });
 
         public async Task<string> DownloadMeteringGridAreaImbalanceAsync(
@@ -294,13 +297,16 @@ namespace Energinet.DataHub.WebApi.GraphQL
         {
             var file = await client.DownloadAsync(locale, new MeteringGridAreaImbalanceDownloadFilter
             {
-                CreatedFrom = createdFrom,
-                CreatedTo = createdTo,
-                GridAreaCode = gridAreaCode,
-                DocumentId = documentId,
-                SortDirection = sortDirection,
-                SortProperty = sortProperty,
-                MeteringGridImbalanceValuesToInclude = valuesToInclude,
+                Filter = new MeteringGridAreaImbalanceFilter
+                {
+                    CreatedFrom = createdFrom,
+                    CreatedTo = createdTo,
+                    GridAreaCode = gridAreaCode,
+                    DocumentId = documentId,
+                    SortDirection = sortDirection,
+                    SortProperty = sortProperty,
+                    MeteringGridImbalanceValuesToInclude = valuesToInclude,
+                },
             });
 
             using var streamReader = new StreamReader(file.Stream);
