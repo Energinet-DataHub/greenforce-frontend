@@ -72,23 +72,25 @@ export class EoTransfersService {
   }
 
   getTransfers() {
-    return this.http.get<EoListedTransferResponse>(`${this.#apiBase}/transfer/transfer-agreements`).pipe(
-      map((x) => x.result),
-      switchMap((transfers) => {
-        return this.getCompanyNames(transfers.map((transfer) => transfer.receiverTin)).pipe(
-          map((companyNames) => {
-            return transfers.map((transfer, index) => ({
-              ...transfer,
-              senderName: transfer.senderName ?? '',
-              senderTin: transfer.senderTin ?? '',
-              receiverName: companyNames[index],
-              startDate: transfer.startDate,
-              endDate: transfer.endDate ? transfer.endDate : null,
-            }));
-          })
-        );
-      })
-    );
+    return this.http
+      .get<EoListedTransferResponse>(`${this.#apiBase}/transfer/transfer-agreements`)
+      .pipe(
+        map((x) => x.result),
+        switchMap((transfers) => {
+          return this.getCompanyNames(transfers.map((transfer) => transfer.receiverTin)).pipe(
+            map((companyNames) => {
+              return transfers.map((transfer, index) => ({
+                ...transfer,
+                senderName: transfer.senderName ?? '',
+                senderTin: transfer.senderTin ?? '',
+                receiverName: companyNames[index],
+                startDate: transfer.startDate,
+                endDate: transfer.endDate ? transfer.endDate : null,
+              }));
+            })
+          );
+        })
+      );
   }
 
   getCompanyNames(cvrNumbers: string[]) {
@@ -119,9 +121,12 @@ export class EoTransfersService {
   }
 
   createTransferAgreement(proposalId: string) {
-    return this.http.post<EoTransferAgreementProposal>(`${this.#apiBase}/transfer/transfer-agreements`, {
-      transferAgreementProposalId: proposalId,
-    });
+    return this.http.post<EoTransferAgreementProposal>(
+      `${this.#apiBase}/transfer/transfer-agreements`,
+      {
+        transferAgreementProposalId: proposalId,
+      }
+    );
   }
 
   getAgreementProposal(proposalId: string) {
