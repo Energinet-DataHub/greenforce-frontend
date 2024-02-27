@@ -72,6 +72,7 @@ export class DhMeteringGridAreaImbalanceTableComponent {
   @Input() hasError!: boolean;
 
   @Input() tableDataSource!: WattTableDataSource<DhMeteringGridAreaImbalance>;
+  @Input() sortMetadata!: Sort;
 
   @Output() sortChange = new EventEmitter<Sort>();
 

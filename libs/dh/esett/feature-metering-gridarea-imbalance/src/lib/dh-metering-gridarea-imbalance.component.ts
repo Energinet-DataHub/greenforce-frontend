@@ -16,20 +16,13 @@
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import {
-  BehaviorSubject,
-  catchError,
-  combineLatest,
-  debounceTime,
-  map,
-  of,
-  switchMap,
-  take,
-} from 'rxjs';
-import { endOfDay, startOfDay, sub } from 'date-fns';
+import { BehaviorSubject, catchError, debounceTime, of, switchMap, take } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -40,23 +33,20 @@ import {
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
-
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { DhMeteringGridAreaImbalanceTableComponent } from './table/dh-table.component';
 import { DhMeteringGridAreaImbalance } from './dh-metering-gridarea-imbalance';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { DhMeteringGridAreaImbalanceFiltersComponent } from './filters/dh-filters.component';
-import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
 import {
   DownloadMeteringGridAreaImbalanceDocument,
   GetMeteringGridAreaImbalanceDocument,
-  MeteringGridImbalanceValuesToInclude,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Sort } from '@angular/material/sort';
-import { dhMGASortMetadataMapper } from './util/dh-sort-metadata-mapper.operator';
 import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+
+import { DhMeteringGridAreaImbalanceFiltersComponent } from './filters/dh-filters.component';
+import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
+import { DhMeteringGridAreaImbalanceStore } from './dh-metering-gridarea-imbalance.store';
 
 @Component({
   standalone: true,
@@ -85,6 +75,8 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     TranslocoDirective,
     TranslocoPipe,
     RxPush,
+    RxLet,
+
     WATT_CARD,
     WattPaginatorComponent,
     WattButtonComponent,
@@ -97,64 +89,32 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     DhMeteringGridAreaImbalanceFiltersComponent,
     DhMeteringGridAreaImbalanceTableComponent,
   ],
+  providers: [DhMeteringGridAreaImbalanceStore],
 })
 export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   private _apollo = inject(Apollo);
   private _destroyRef = inject(DestroyRef);
   private _toastService = inject(WattToastService);
   private _transloco = inject(TranslocoService);
+  private _store = inject(DhMeteringGridAreaImbalanceStore);
 
   tableDataSource = new WattTableDataSource<DhMeteringGridAreaImbalance>([], {
     disableClientSideSort: true,
   });
   totalCount = 0;
 
-  private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
-    pageIndex: 0,
-    pageSize: 100,
-  });
+  pageMetaData$ = this._store.pageMetaData$;
+  sortMetaData$ = this._store.sortMetaData$;
+  filters$ = this._store.filters$;
 
-  pageSize$ = this.pageMetaData$.pipe(map(({ pageSize }) => pageSize));
-
-  sortMetadata$ = new BehaviorSubject<Sort>({
-    active: 'received',
-    direction: 'desc',
-  });
+  documentIdSearch$ = new BehaviorSubject<string>('');
 
   isLoading = false;
   isDownloading = false;
   hasError = false;
 
-  filter$ = new BehaviorSubject<DhMeteringGridAreaImbalanceFilters>({
-    period: {
-      start: sub(startOfDay(new Date()), { days: 2 }),
-      end: endOfDay(new Date()),
-    },
-    valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances,
-  });
-
-  documentIdSearch$ = new BehaviorSubject<string>('');
-
-  private queryVariables$ = combineLatest({
-    filters: this.filter$,
-    pageMetaData: this.pageMetaData$,
-    documentIdSearch: this.documentIdSearch$.pipe(debounceTime(750)),
-    sortMetadata: this.sortMetadata$.pipe(dhMGASortMetadataMapper),
-  }).pipe(
-    map(({ filters, pageMetaData, documentIdSearch, sortMetadata }) => {
-      return {
-        filters: documentIdSearch
-          ? { valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances }
-          : filters,
-        pageMetaData,
-        documentIdSearch,
-        sortMetadata,
-      };
-    })
-  );
-
-  meteringGridAreaImbalance$ = this.queryVariables$.pipe(
-    switchMap(({ filters, pageMetaData, documentIdSearch, sortMetadata }) =>
+  meteringGridAreaImbalance$ = this._store.queryVariables$.pipe(
+    switchMap(({ filters, pageMetaData, documentId, sortMetaData }) =>
       this._apollo
         .watchQuery({
           useInitialLoading: true,
@@ -169,9 +129,9 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
             gridAreaCode: filters.gridArea,
             periodFrom: filters.period?.start,
             periodTo: filters.period?.end,
-            documentId: documentIdSearch,
-            sortProperty: sortMetadata.sortProperty,
-            sortDirection: sortMetadata.sortDirection,
+            documentId,
+            sortProperty: sortMetaData.sortProperty,
+            sortDirection: sortMetaData.sortDirection,
             valuesToInclude: filters.valuesToInclude,
           },
         })
@@ -195,17 +155,36 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
         this.isLoading = false;
       },
     });
+
+    this._store.documentIdUpdate(this.documentIdSearch$.pipe(debounceTime(250)));
   }
 
-  handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
-    this.pageMetaData$.next({ pageIndex, pageSize });
+  onFiltersEvent(filters: DhMeteringGridAreaImbalanceFilters): void {
+    this._store.patchState((state) => ({
+      ...state,
+      filters,
+      pageMetaData: { ...state.pageMetaData, pageIndex: 0 },
+    }));
+  }
+
+  onSortEvent(sortMetaData: Sort): void {
+    this._store.patchState((state) => ({
+      ...state,
+      sortMetaData,
+      pageMetaData: { ...state.pageMetaData, pageIndex: 0 },
+    }));
+  }
+
+  onPageEvent({ pageIndex, pageSize }: PageEvent): void {
+    this._store.patchState((state) => ({ ...state, pageMetaData: { pageIndex, pageSize } }));
   }
 
   download() {
     this.isDownloading = true;
-    this.queryVariables$
+
+    this._store.queryVariables$
       .pipe(
-        switchMap(({ filters, documentIdSearch, sortMetadata }) =>
+        switchMap(({ filters, documentId, sortMetaData }) =>
           this._apollo.query({
             returnPartialData: false,
             notifyOnNetworkStatusChange: true,
@@ -216,9 +195,9 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
               gridAreaCode: filters.gridArea,
               periodFrom: filters.period?.start,
               periodTo: filters.period?.end,
-              documentId: documentIdSearch,
-              sortProperty: sortMetadata.sortProperty,
-              sortDirection: sortMetadata.sortDirection,
+              documentId,
+              sortProperty: sortMetaData.sortProperty,
+              sortDirection: sortMetaData.sortDirection,
               valuesToInclude: filters.valuesToInclude,
             },
           })

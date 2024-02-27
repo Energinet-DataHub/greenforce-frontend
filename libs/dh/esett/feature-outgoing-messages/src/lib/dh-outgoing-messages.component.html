@@ -64,6 +64,7 @@ limitations under the License.
 
     <dh-outgoing-messages-table
       [tableDataSource]="tableDataSource"
+      [sortMetadata]="sortMetaData$ | push"
       [isLoading]="isLoading"
       [hasError]="hasError"
       (sortChange)="onSortEvent($event)"

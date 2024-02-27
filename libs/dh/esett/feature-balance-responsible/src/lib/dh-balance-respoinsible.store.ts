@@ -33,7 +33,7 @@ const initialState: DhBalanceResponsibleState = {
   },
   pageMetaData: {
     pageIndex: 0,
-    pageSize: 1,
+    pageSize: 100,
   },
 };
 
