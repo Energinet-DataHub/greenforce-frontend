@@ -384,9 +384,9 @@ export interface TranslationKeys {
   help: {
     title: string;
     content: string;
-  },
+  };
   faq: {
     title: string;
     content: string;
-  },
+  };
 }

@@ -37,7 +37,6 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
-
 import {
   EnergyUnitPipe,
   PercentageOfPipe,
@@ -215,7 +214,9 @@ interface Totals {
                   }
           }}</small>
         } @else {
-          <h5 data-testid="no-data">{{ translations.consumerChart.headline.noData | transloco }}</h5>
+          <h5 data-testid="no-data">
+            {{ translations.consumerChart.headline.noData | transloco }}
+          </h5>
           <small
             ><a [routerLink]="'../' + routes.meteringpoints"
               >{{ translations.consumerChart.activateMeteringPointsAction | transloco
