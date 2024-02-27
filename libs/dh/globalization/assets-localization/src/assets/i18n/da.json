@@ -636,16 +636,16 @@
         },
         "card": {
           "titles": {
-            "deficit": "Ubalanceunderskud (kWh)",
-            "surplus": "Ubalanceoverskud (kWh)"
+            "deficit": "Ubalanceunderskud",
+            "surplus": "Ubalanceoverskud"
           }
         },
         "table": {
           "columns": {
-            "position": "Position",
+            "position": "Position ",
             "date": "Dato",
-            "time": "Tidspunkt",
-            "imbalance": "Ubalancer"
+            "time": "Første ubalancetidspunkt",
+            "imbalance": "Ubalance (kWh)"
           }
         },
         "metadata": {

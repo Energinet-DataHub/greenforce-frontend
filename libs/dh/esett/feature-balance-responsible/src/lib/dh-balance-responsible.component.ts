@@ -90,7 +90,9 @@ export class DhBalanceResponsibleComponent implements OnInit {
   pageMetaData$ = this.store.pageMetaData$;
   sortMetaData$ = this.store.sortMetaData$;
 
-  tableDataSource = new WattTableDataSource<DhBalanceResponsibleMessage>([]);
+  tableDataSource = new WattTableDataSource<DhBalanceResponsibleMessage>([], {
+    disableClientSideSort: true,
+  });
   totalCount = 0;
 
   isLoading = false;

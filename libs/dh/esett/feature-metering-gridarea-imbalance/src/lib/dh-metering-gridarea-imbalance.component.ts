@@ -15,8 +15,17 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { BehaviorSubject, catchError, combineLatest, debounceTime, map, of, switchMap } from 'rxjs';
+import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import {
+  BehaviorSubject,
+  catchError,
+  combineLatest,
+  debounceTime,
+  map,
+  of,
+  switchMap,
+  take,
+} from 'rxjs';
 import { endOfDay, startOfDay, sub } from 'date-fns';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -39,12 +48,15 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhMeteringGridAreaImbalanceFiltersComponent } from './filters/dh-filters.component';
 import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
 import {
+  DownloadMeteringGridAreaImbalanceDocument,
   GetMeteringGridAreaImbalanceDocument,
   MeteringGridImbalanceValuesToInclude,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Sort } from '@angular/material/sort';
 import { dhMGASortMetadataMapper } from './util/dh-sort-metadata-mapper.operator';
+import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   standalone: true,
@@ -89,8 +101,12 @@ import { dhMGASortMetadataMapper } from './util/dh-sort-metadata-mapper.operator
 export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   private _apollo = inject(Apollo);
   private _destroyRef = inject(DestroyRef);
+  private _toastService = inject(WattToastService);
+  private _transloco = inject(TranslocoService);
 
-  tableDataSource = new WattTableDataSource<DhMeteringGridAreaImbalance>([]);
+  tableDataSource = new WattTableDataSource<DhMeteringGridAreaImbalance>([], {
+    disableClientSideSort: true,
+  });
   totalCount = 0;
 
   private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
@@ -106,6 +122,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   });
 
   isLoading = false;
+  isDownloading = false;
   hasError = false;
 
   filter$ = new BehaviorSubject<DhMeteringGridAreaImbalanceFilters>({
@@ -182,5 +199,51 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
 
   handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
     this.pageMetaData$.next({ pageIndex, pageSize });
+  }
+
+  download() {
+    this.isDownloading = true;
+    this.queryVariables$
+      .pipe(
+        switchMap(({ filters, documentIdSearch, sortMetadata }) =>
+          this._apollo.query({
+            returnPartialData: false,
+            notifyOnNetworkStatusChange: true,
+            fetchPolicy: 'no-cache',
+            query: DownloadMeteringGridAreaImbalanceDocument,
+            variables: {
+              locale: 'da-DK',
+              gridAreaCode: filters.gridArea,
+              periodFrom: filters.period?.start,
+              periodTo: filters.period?.end,
+              documentId: documentIdSearch,
+              sortProperty: sortMetadata.sortProperty,
+              sortDirection: sortMetadata.sortDirection,
+              valuesToInclude: filters.valuesToInclude,
+            },
+          })
+        ),
+        take(1)
+      )
+      .subscribe({
+        next: (result) => {
+          this.isDownloading = result.loading;
+
+          exportToCSVRaw({
+            content: result?.data?.downloadMeteringGridAreaImbalance,
+            fileName: 'eSett-metering-grid-area-imbalance-messages',
+          });
+
+          this.hasError = !!result.errors;
+        },
+        error: () => {
+          this.hasError = true;
+          this.isDownloading = false;
+          this._toastService.open({
+            message: this._transloco.translate('eSett.meteringGridAreaImbalance.errorMessage'),
+            type: 'danger',
+          });
+        },
+      });
   }
 }
