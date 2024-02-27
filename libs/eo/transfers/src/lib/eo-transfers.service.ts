@@ -72,7 +72,7 @@ export class EoTransfersService {
   }
 
   getTransfers() {
-    return this.http.get<EoListedTransferResponse>(`${this.#apiBase}/transfer-agreements`).pipe(
+    return this.http.get<EoListedTransferResponse>(`${this.#apiBase}/transfer/transfer-agreements`).pipe(
       map((x) => x.result),
       switchMap((transfers) => {
         return this.getCompanyNames(transfers.map((transfer) => transfer.receiverTin)).pipe(
@@ -110,7 +110,7 @@ export class EoTransfersService {
 
   createAgreementProposal(transfer: EoTransfer) {
     return this.http
-      .post<EoTransferAgreementProposal>(`${this.#apiBase}/transfer-agreement-proposals`, {
+      .post<EoTransferAgreementProposal>(`${this.#apiBase}/transfer/transfer-agreement-proposals`, {
         receiverTin: transfer.receiverTin === '' ? null : transfer.receiverTin,
         startDate: getUnixTime(transfer.startDate),
         endDate: transfer.endDate ? getUnixTime(transfer.endDate) : null,
@@ -119,7 +119,7 @@ export class EoTransfersService {
   }
 
   createTransferAgreement(proposalId: string) {
-    return this.http.post<EoTransferAgreementProposal>(`${this.#apiBase}/transfer-agreements`, {
+    return this.http.post<EoTransferAgreementProposal>(`${this.#apiBase}/transfer/transfer-agreements`, {
       transferAgreementProposalId: proposalId,
     });
   }
@@ -127,7 +127,7 @@ export class EoTransfersService {
   getAgreementProposal(proposalId: string) {
     return this.http
       .get<EoTransferAgreementProposal>(
-        `${this.#apiBase}/transfer-agreement-proposals/${proposalId}`
+        `${this.#apiBase}/transfer/transfer-agreement-proposals/${proposalId}`
       )
       .pipe(
         map((proposal) => ({
@@ -140,7 +140,7 @@ export class EoTransfersService {
 
   updateAgreement(transferId: string, endDate: number | null) {
     return this.http
-      .put<EoListedTransfer>(`${this.#apiBase}/transfer-agreements/${transferId}`, {
+      .put<EoListedTransfer>(`${this.#apiBase}/transfer/transfer-agreements/${transferId}`, {
         endDate: endDate ? getUnixTime(endDate) : null,
       })
       .pipe(
@@ -155,7 +155,7 @@ export class EoTransfersService {
   getHistory(transferAgreementId: string, limit = 10, offset = 0) {
     return this.http
       .get<EoTransferAgreementsHistoryResponse>(
-        `${this.#apiBase}/transfer-agreements/${transferAgreementId}/history?limit=${limit}&offset=${offset}`
+        `${this.#apiBase}/transfer/transfer-agreements/${transferAgreementId}/history?limit=${limit}&offset=${offset}`
       )
       .pipe(
         map((response) => response.items),
