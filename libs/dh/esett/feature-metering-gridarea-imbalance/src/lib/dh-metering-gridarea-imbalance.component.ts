@@ -90,7 +90,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   private _apollo = inject(Apollo);
   private _destroyRef = inject(DestroyRef);
 
-  tableDataSource = new WattTableDataSource<DhMeteringGridAreaImbalance>([]);
+  tableDataSource = new WattTableDataSource<DhMeteringGridAreaImbalance>([],  { disableClientSideSort: true });
   totalCount = 0;
 
   private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
