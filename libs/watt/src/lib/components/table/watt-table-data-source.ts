@@ -26,12 +26,15 @@ export class WattTableDataSource<T> extends DataSource<T> {
   private dataSource = new MatTableDataSource<T>();
   private _paginator: MatPaginator | WattPaginatorComponent<T> | null = null;
 
-  constructor(data?: T[], config: {disableClientSideSort: boolean} = { disableClientSideSort: false}) {
+  constructor(
+    data?: T[],
+    config: { disableClientSideSort: boolean } = { disableClientSideSort: false }
+  ) {
     super();
     if (data) this.dataSource.data = data;
 
     if (config.disableClientSideSort)
-      this.sortData =  (data: T[]): T[] => {
+      this.sortData = (data: T[]): T[] => {
         return data;
       };
   }

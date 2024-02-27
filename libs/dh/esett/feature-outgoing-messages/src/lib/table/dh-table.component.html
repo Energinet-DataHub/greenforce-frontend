@@ -24,7 +24,7 @@ limitations under the License.
     sortDirection="desc"
     [activeRow]="activeRow"
     (rowClick)="onRowClick($event)"
-    (sortChange)="sortChange.emit($event); "
+    (sortChange)="sortChange.emit($event)"
   >
     <ng-container *wattTableCell="columns['created']; header: t('columns.created'); let message">
       {{ message.created | wattDate: "long" }}
