@@ -28,9 +28,6 @@ export const eoTranslocoConfig = translocoConfig({
   availableLangs: [DisplayLanguage.English, DisplayLanguage.Danish],
   defaultLang: DisplayLanguage.English,
   fallbackLang: [DisplayLanguage.English, DisplayLanguage.Danish],
-  flatten: {
-    aot: environment.production,
-  },
   missingHandler: {
     useFallbackTranslation: true,
   },
