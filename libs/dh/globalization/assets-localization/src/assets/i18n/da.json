@@ -610,9 +610,9 @@
       "tabHeading": "MGA ubalancer",
       "shared": {
         "valuesToInclude": {
-          "IMBALANCES": "Ubalancer",
-          "BALANCES": "Ingen Ubalancer",
-          "BOTH": "Begge"
+          "IMBALANCES": "Med ubalancer",
+          "BALANCES": "Uden ubalancer",
+          "BOTH": "Alle"
         }
       },
       "filters": {
@@ -620,7 +620,7 @@
         "createdPeriod": "Oprettelsesdato",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Besked ID",
-        "valuesToInclude": "Pristyper"
+        "valuesToInclude": "MGA ubalancer"
       },
       "columns": {
         "documentDateTime": "Oprettet",
