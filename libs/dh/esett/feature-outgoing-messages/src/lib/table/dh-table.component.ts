@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -41,7 +40,6 @@ import { Sort } from '@angular/material/sort';
     `,
   ],
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
 
