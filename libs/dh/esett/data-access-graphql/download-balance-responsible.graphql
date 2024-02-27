@@ -1,0 +1,11 @@
+query downloadBalanceResponsibles(
+  $locale: String!
+  $sortProperty: BalanceResponsibleSortProperty!
+  $sortDirection: SortDirection!
+) {
+  downloadBalanceResponsibles(
+    locale: $locale
+    sortProperty: $sortProperty
+    sortDirection: $sortDirection
+  )
+}
