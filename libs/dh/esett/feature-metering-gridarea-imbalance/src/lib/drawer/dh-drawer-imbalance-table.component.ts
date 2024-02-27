@@ -68,7 +68,7 @@ export class DhDrawerImbalanceTableComponent implements OnInit {
     this.columns = {
       imbalanceDay: { accessor: 'imbalanceDay', sort: false },
       time: { accessor: 'firstOccurrenceOfImbalance', sort: false },
-      quantity: { accessor: 'quantity', sort: false },
+      quantity: { accessor: 'quantity', sort: false, align: 'right' },
     };
   }
 }
