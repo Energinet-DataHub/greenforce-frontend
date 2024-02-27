@@ -2,7 +2,7 @@
   "apiBase": "https://demo.energioprindelse.dk/api",
   "apiVersions": {
     "certificates": "20230101",
-    "transfer-automation": "20231123",
+    "transfer-automation": "20240103",
     "transfer": "20240103",
     "cvr": "20240103",
     "claim-automation": "20231123",
