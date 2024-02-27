@@ -1504,11 +1504,11 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
         [Newtonsoft.Json.JsonProperty("firstOccurrenceOfImbalance", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset FirstOccurrenceOfImbalance { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("incomingQuantity", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double? IncomingQuantity { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("firstPositionOfImbalance", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int FirstPositionOfImbalance { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("outgoingQuantity", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double? OutgoingQuantity { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("quantity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double Quantity { get; set; } = default!;
 
     }
 
@@ -1558,8 +1558,11 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
         [Newtonsoft.Json.JsonProperty("periodEnd", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset PeriodEnd { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("imbalancePerDay", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<MeteringGridAreaImbalancePerDayDto> ImbalancePerDay { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("incomingImbalancePerDay", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<MeteringGridAreaImbalancePerDayDto> IncomingImbalancePerDay { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("outgoingImbalancePerDay", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<MeteringGridAreaImbalancePerDayDto> OutgoingImbalancePerDay { get; set; } = default!;
 
     }
 

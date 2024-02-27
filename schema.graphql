@@ -141,7 +141,8 @@ type MeteringGridAreaImbalanceSearchResult {
   receivedDateTime: DateTime!
   periodStart: DateTime!
   periodEnd: DateTime!
-  imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
+  incomingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
+  outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
 type OrganizationAuditedChangeAuditLogDto {
@@ -343,8 +344,9 @@ enum ImbalancePriceStatus {
 
 type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!
-  incomingQuantity: Float
-  outgoingQuantity: Float
+  firstOccurrenceOfImbalance: DateTime!
+  firstPositionOfImbalance: Int!
+  quantity: Float!
 }
 
 enum OrganizationAuditedChange {

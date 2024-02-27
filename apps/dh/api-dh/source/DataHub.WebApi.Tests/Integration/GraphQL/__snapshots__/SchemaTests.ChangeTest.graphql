@@ -210,8 +210,8 @@ type KeyValuePairOfStringAndIEnumerableOfString {
 type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!
   firstOccurrenceOfImbalance: DateTime!
-  incomingQuantity: Float
-  outgoingQuantity: Float
+  firstPositionOfImbalance: Int!
+  quantity: Float!
 }
 
 type MeteringGridAreaImbalanceSearchResponse {
@@ -226,7 +226,8 @@ type MeteringGridAreaImbalanceSearchResult {
   receivedDateTime: DateTime!
   periodStart: DateTime!
   periodEnd: DateTime!
-  imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
+  incomingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
+  outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
 type Mutation {

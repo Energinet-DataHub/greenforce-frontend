@@ -636,16 +636,16 @@
         },
         "card": {
           "titles": {
-            "deficit": "Imbalance Deficit (kWh)",
-            "surplus": "Surplus Imbalance (kWh)"
+            "deficit": "Imbalance Deficit",
+            "surplus": "Surplus Imbalance"
           }
         },
         "table": {
           "columns": {
-            "position": "Position",
+            "position": "Position ",
             "date": "Date",
-            "time": "Time",
-            "imbalance": "Imbalance"
+            "time": "Time of first occurrence",
+            "imbalance": "Imbalance (kWh)"
           }
         },
         "metadata": {
