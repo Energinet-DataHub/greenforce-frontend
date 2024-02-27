@@ -427,4 +427,8 @@ export const translations = {
     title: "help.title" as const,
     content: "help.content" as const,
   } as const,
+  faq: {
+    title: "faq.title" as const,
+    content: "faq.content" as const,
+  } as const,
 } as const;

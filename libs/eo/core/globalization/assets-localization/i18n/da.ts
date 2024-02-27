@@ -427,10 +427,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     },
   },
   help: {
-    title: 'Help',
+    title: 'Hjælp',
     content: `
     <ul>
-      <li><a href="{{faqLink}}">FAQ</a></li>
+      <li><a href="{{faqLink}}">Ofte Stillede Spørgsmål</a></li>
       <li>
         <a href="{{introductionLink}}">Introduktion til Energy Origin</a>
       </li>
@@ -462,6 +462,73 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         for alle og leverer data og sammenligninger om, hvad de forskellige lande foretager sig.
       </li>
     </ul>
+    `,
+  },
+  faq: {
+    title: 'Ofte Stillede Spørgsmål',
+    content: `
+    <div class="watt-space-stack-m faq-link">
+    <a href="#what-is-energy-origin">Hvad er Energy Origin?</a>
+  </div>
+  <div class="watt-space-stack-m faq-link">
+    <a href="#who-can-access-the-platform"
+      >Hvem kan få adgang til platformen?</a
+    >
+  </div>
+  <div class="watt-space-stack-m faq-link">
+    <a href="#where-does-the-data-come-from"
+      >Hvor kommer dataene fra?</a
+    >
+  </div>
+  <div class="watt-space-stack-m faq-link">
+    <a href="#how-can-i-influence-the-development">
+      Hvordan kan jeg påvirke udviklingen?
+    </a>
+  </div>
+  <div class="watt-space-stack-m faq-link">
+    <a href="#where-can-i-read-more">Hvor kan jeg læse mere?</a>
+  </div>
+
+  <h3 id="what-is-energy-origin">Hvad er Energy Origin?</h3>
+  <p>
+    Målet med Energy Origin-platformen er at skabe gennemsigtighed om oprindelsen af energi for
+    alle energiforbrugere og at lette et marked for grøn energi. I øjeblikket arbejder vi
+    på data relateret til elforbrug. Efter login vil du snart kunne
+    tilgå din timelige elforbrugsdeklaration og tilsvarende emissioner for 2021.
+  </p>
+
+  <h3 id="who-can-access-the-platform">Hvem kan få adgang til platformen?</h3>
+  <p>
+    I øjeblikket tilbyder platformen kun virksomhedslogin via MitID. Senere vil det være muligt for
+    private personer at logge ind via MitID.
+  </p>
+
+  <h3 id="where-does-the-data-come-from">Hvor kommer dataene fra?</h3>
+  <p>
+    Alle data relateret til målepunkter, forbrug og produktion leveres af Energinet
+    DataHub. Data relateret til energiens oprindelse og tilsvarende emissioner stammer fra Energi
+    Data Service.
+  </p>
+
+  <h3 id="how-can-i-influence-the-development">Hvordan kan jeg påvirke udviklingen?</h3>
+  <p>
+    Du er mere end velkommen til at deltage i vores LinkedIn-brugergruppe, et digitalt forum for
+    brugere, hvor vi poster skitser, spørgsmål og samler ideer og forslag til ny
+    udvikling og forbedringer. Det er uforpligtende, og du kan enten bare følge med uden
+    at involvere dig eller kommentere, når du har tid.
+  </p>
+
+  <h3 id="where-can-i-read-more">Hvor kan jeg læse mere?</h3>
+  <p>
+    Du kan læse mere om historien og intentionen bag Energy Origin på vores hjemmeside:
+    <a
+      href="https://en.energinet.dk/Energy-data/DataHub/Energy-Origin"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Energiens oprindelse | Energinet
+    </a>
+  </p>
     `,
   },
 };
