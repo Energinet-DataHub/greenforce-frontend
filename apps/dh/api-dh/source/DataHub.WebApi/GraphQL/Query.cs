@@ -26,7 +26,6 @@ using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate;
 using Microsoft.AspNetCore.Http;
 using NodaTime;
-using FileResponse = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.FileResponse;
 using SortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
 using WholesaleCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
 
@@ -115,9 +114,47 @@ namespace Energinet.DataHub.WebApi.GraphQL
             [Service] IMarketParticipantClient_V1 client) =>
             client.OrganizationGetAsync();
 
-        public Task<ICollection<GridAreaDto>> GetGridAreasAsync(
-            [Service] IMarketParticipantClient_V1 client) =>
-            client.GridAreaGetAsync();
+        public async Task<ICollection<GridAreaDto>> GetGridAreasAsync(
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            var actors = await client
+                .ActorGetAsync()
+                .ConfigureAwait(false);
+
+            var gridAreas = await client
+                .GridAreaGetAsync()
+                .ConfigureAwait(false);
+
+            var result = new List<GridAreaDto>();
+
+            foreach (var gridArea in gridAreas)
+            {
+                var owner = actors.FirstOrDefault(actor =>
+                    actor.Status == "Active" &&
+                    actor.MarketRoles.Any(mr =>
+                        mr.EicFunction == EicFunction.GridAccessProvider &&
+                        mr.GridAreas.Any(ga => ga.Id == gridArea.Id)));
+
+                if (owner != null)
+                {
+                    result.Add(new GridAreaDto
+                    {
+                        Id = gridArea.Id,
+                        Code = gridArea.Code,
+                        Name = owner.Name.Value,
+                        PriceAreaCode = gridArea.PriceAreaCode,
+                        ValidFrom = gridArea.ValidFrom,
+                        ValidTo = gridArea.ValidTo,
+                    });
+                }
+                else
+                {
+                    result.Add(gridArea);
+                }
+            }
+
+            return result;
+        }
 
         public Task<CalculationDto> GetCalculationByIdAsync(
             Guid id,
