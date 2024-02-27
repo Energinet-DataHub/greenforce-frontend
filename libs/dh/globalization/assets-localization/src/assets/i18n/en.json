@@ -513,8 +513,8 @@
       "noGridAreas": "No grid areas found",
       "error": "An error occurred",
       "columns": {
-        "code": "Grid area number",
-        "actor": "Grid area responsible",
+        "code": "Grid area",
+        "actor": "Grid access provider",
         "organization": "Organisation"
       },
       "priceAreaCodes": {
@@ -911,9 +911,9 @@
         "actor": "Actor",
         "loadingActors": "Loading energy suppliers...",
         "loadingGridAreas": "Loading grid areas...",
-        "actorPlaceholder": "Select energy supplier",
+        "actorPlaceholder": "Energy supplier",
         "calculationTypePlaceholder": "Select {{shared.calculationType}}",
-        "gridAreasPlaceholder": "Select grid area(s)"
+        "gridAreasPlaceholder": "Grid area"
       }
     }
   },
