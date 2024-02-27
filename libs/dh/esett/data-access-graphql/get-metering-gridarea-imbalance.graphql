@@ -32,6 +32,7 @@ query getMeteringGridAreaImbalance(
       periodEnd
       imbalancePerDay {
         imbalanceDay
+        firstOccurrenceOfImbalance
         incomingQuantity
         outgoingQuantity
       }

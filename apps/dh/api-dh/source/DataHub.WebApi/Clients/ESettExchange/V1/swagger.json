@@ -730,6 +730,10 @@
             "type": "string",
             "format": "date-time"
           },
+          "firstOccurrenceOfImbalance": {
+            "type": "string",
+            "format": "date-time"
+          },
           "incomingQuantity": {
             "type": "number",
             "format": "double",

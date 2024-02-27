@@ -1374,6 +1374,9 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
         [Newtonsoft.Json.JsonProperty("imbalanceDay", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset ImbalanceDay { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("firstOccurrenceOfImbalance", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset FirstOccurrenceOfImbalance { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("incomingQuantity", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double? IncomingQuantity { get; set; } = default!;
 

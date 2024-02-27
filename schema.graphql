@@ -342,6 +342,7 @@ enum ImbalancePriceStatus {
 
 type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!
+  firstOccurrenceOfImbalance: DateTime!
   incomingQuantity: Float
   outgoingQuantity: Float
 }
@@ -401,12 +402,6 @@ type ApiError implements Error {
 
 interface Error {
   message: String!
-}
-
-type ApiErrorDescriptor {
-  message: String!
-  code: String!
-  args: JSON!
 }
 
 enum UserRoleStatus {
@@ -565,10 +560,18 @@ type UserRoleWithPermissionsDto {
   permissions: [PermissionDetailsDto!]!
 }
 
+type ApiErrorDescriptor {
+  message: String!
+  code: String!
+  args: JSON!
+}
+
 type KeyValuePairOfStringAndIEnumerableOfString {
   key: String!
   value: [String!]!
 }
+
+scalar JSON
 
 type PermissionDetailsDto {
   id: Int!
@@ -610,8 +613,6 @@ input CreateOrganizationDtoInput {
   address: AddressDtoInput!
   domain: String!
 }
-
-scalar JSON
 
 input AddressDtoInput {
   streetName: String

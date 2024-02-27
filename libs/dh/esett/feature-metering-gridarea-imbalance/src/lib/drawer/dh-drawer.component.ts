@@ -36,11 +36,11 @@ import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
-import { DhMeteringGridAreaImbalance } from '../dh-metering-gridarea-imbalance';
 import {
-  DhDrawerImbalanceTableComponent,
-  MeteringGridAreaImbalancePerDayDtoExtended,
-} from './dh-drawer-imbalance-table.component';
+  DhMeteringGridAreaImbalance,
+  MeteringGridAreaImbalancePerDayDto,
+} from '../dh-metering-gridarea-imbalance';
+import { DhDrawerImbalanceTableComponent } from './dh-drawer-imbalance-table.component';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
@@ -88,8 +88,8 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
   private readonly _esettHttp = inject(EsettExchangeHttp);
   private _getDocument$ = new Subject<string>();
 
-  surplusDataSource = new WattTableDataSource<MeteringGridAreaImbalancePerDayDtoExtended>();
-  deficitDataSource = new WattTableDataSource<MeteringGridAreaImbalancePerDayDtoExtended>();
+  surplusDataSource = new WattTableDataSource<MeteringGridAreaImbalancePerDayDto>();
+  deficitDataSource = new WattTableDataSource<MeteringGridAreaImbalancePerDayDto>();
 
   xmlMessage: Signal<string | undefined> = toSignal(
     this._getDocument$.pipe(
@@ -110,19 +110,11 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
 
     this.meteringGridAreaImbalance = message;
 
-    const imbalances = message.imbalancePerDay.map((x, index) => ({
-      outgoingQuantity: x.outgoingQuantity ?? 0,
-      incomingQuantity: x.incomingQuantity ?? 0,
-      imbalanceDay: x.imbalanceDay,
-      time: x.imbalanceDay,
-      position: index,
-      __typename: x.__typename,
-    }));
+    const imbalances = message.imbalancePerDay;
 
-    //Alle underskud og overskud ud. Hvis positionen for den første værdi der ikke er 0.
-
-    const surplus = imbalances.filter((x) => x.incomingQuantity > 0);
-    const deficit = imbalances.filter((x) => x.outgoingQuantity > 0);
+    // Alle underskud og overskud ud. Hvis positionen for den første værdi der ikke er 0.
+    const surplus = imbalances.filter((x) => (x.incomingQuantity ?? 0) > 0);
+    const deficit = imbalances.filter((x) => (x.outgoingQuantity ?? 0) > 0);
 
     this.surplusDataSource.data = surplus;
     this.deficitDataSource.data = deficit;
