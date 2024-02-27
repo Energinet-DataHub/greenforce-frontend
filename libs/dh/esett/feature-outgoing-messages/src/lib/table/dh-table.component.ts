@@ -75,6 +75,7 @@ export class DhOutgoingMessagesTableComponent {
   @Input() hasError!: boolean;
 
   @Input() tableDataSource!: WattTableDataSource<DhOutgoingMessage>;
+  @Input() sortMetadata!: Sort;
 
   @Output() sortChange = new EventEmitter<Sort>();
 

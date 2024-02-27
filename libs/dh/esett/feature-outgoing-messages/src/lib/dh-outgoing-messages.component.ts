@@ -115,6 +115,8 @@ export class DhOutgoingMessagesComponent implements OnInit {
 
   filters$ = this._store.filters$;
   pageMetaData$ = this._store.pageMetaData$;
+  sortMetaData$ = this._store.sortMetaData$;
+
   documentIdSearch$ = new BehaviorSubject<string>('');
 
   isLoading = false;

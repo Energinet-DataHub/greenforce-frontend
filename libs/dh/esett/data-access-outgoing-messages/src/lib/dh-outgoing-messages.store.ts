@@ -72,6 +72,7 @@ export class DhOutgoingMessagesStore extends ComponentStore<DhOutgoingMessagesSt
   );
 
   readonly pageMetaData$ = this.select(({ pageMetaData }) => pageMetaData);
+  readonly sortMetaData$ = this.select(({ sortMetaData }) => sortMetaData);
   readonly filters$ = this.select(({ filters }) => filters);
 
   readonly queryVariables$ = this.select(
