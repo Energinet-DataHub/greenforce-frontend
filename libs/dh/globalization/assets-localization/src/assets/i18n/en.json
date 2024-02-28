@@ -871,15 +871,12 @@
     },
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
-      "download": "Download",
       "downloadNoBasisData": "Download (no basis data)",
       "selectedRows": {
         "singular": "{{ selectedCount }} selected row",
         "plural": "{{ selectedCount }} selected rows"
       },
       "SelectPeriod": "To download select a period first",
-      "downloadFailed": "Download failed",
-      "downloadStart": "Starting download...",
       "gridAreasLoadFailed": "Could not load grid areas",
       "noEntries": "No results",
       "results": "Search results",
