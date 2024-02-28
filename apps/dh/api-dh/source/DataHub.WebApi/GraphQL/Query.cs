@@ -332,7 +332,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             SortDirection sortDirection,
             [Service] IESettExchangeClient_V1 client)
         {
-            var file = await client.DownloadAsync(locale, new MeteringGridAreaImbalanceDownloadFilter
+            var file = await client.DownloadPOSTAsync(locale, new MeteringGridAreaImbalanceDownloadFilter
             {
                 Filter = new MeteringGridAreaImbalanceFilter
                 {
@@ -361,6 +361,17 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 pageSize,
                 sortProperty,
                 sortDirection);
+
+        public async Task<string> DownloadBalanceResponsiblesAsync(
+            string locale,
+            BalanceResponsibleSortProperty sortProperty,
+            SortDirection sortDirection,
+            [Service] IESettExchangeClient_V1 client)
+        {
+            var file = await client.DownloadGETAsync(locale, sortProperty, sortDirection);
+            using var streamReader = new StreamReader(file.Stream);
+            return await streamReader.ReadToEndAsync();
+        }
 
         public async Task<IEnumerable<ActorDto>> GetActorsByOrganizationIdAsync(
             Guid organizationId,
