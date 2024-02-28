@@ -106,7 +106,7 @@ export class DhActorsCreateActorModalComponent {
 
   newActorForm: ActorForm = this._fb.group({
     glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
-    name: [''],
+    name: ['', [Validators.required]],
     marketrole: new FormControl<EicFunction | null>(null, Validators.required),
     gridArea: [{ value: [] as string[], disabled: true }, Validators.required],
     contact: this._fb.group({
