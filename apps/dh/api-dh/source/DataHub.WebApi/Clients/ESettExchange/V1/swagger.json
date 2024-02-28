@@ -75,6 +75,55 @@
         }
       }
     },
+    "/esett/balance-responsible/download": {
+      "get": {
+        "tags": [
+          "BalanceResponsible"
+        ],
+        "operationId": "downloadGET",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortProperty",
+            "in": "query",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/BalanceResponsibleSortProperty"
+                }
+              ]
+            }
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/SortDirection"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/csv": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/esett/balance-responsible/{documentId}/storageDocument": {
       "get": {
         "tags": [
@@ -397,7 +446,7 @@
         "tags": [
           "MeteringGridAreaImbalance"
         ],
-        "operationId": "download",
+        "operationId": "downloadPOST",
         "parameters": [
           {
             "name": "locale",
