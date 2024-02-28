@@ -309,6 +309,55 @@
         }
       }
     },
+    "/esett/download": {
+      "post": {
+        "tags": [
+          "ESett"
+        ],
+        "operationId": "downloadPOST",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExchangeEventDownloadFilter"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExchangeEventDownloadFilter"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExchangeEventDownloadFilter"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/csv": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/esett/statusReport": {
       "get": {
         "tags": [
@@ -446,7 +495,7 @@
         "tags": [
           "MeteringGridAreaImbalance"
         ],
-        "operationId": "downloadPOST",
+        "operationId": "downloadPOST2",
         "parameters": [
           {
             "name": "locale",
@@ -630,6 +679,84 @@
           "Receiver"
         ]
       },
+      "ExchangeEventDownloadFilter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "filter": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExchangeEventFilter"
+              }
+            ]
+          },
+          "sorting": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExchangeEventSortPropertySorting"
+              }
+            ]
+          }
+        }
+      },
+      "ExchangeEventFilter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "calculationType": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationType"
+              }
+            ]
+          },
+          "timeSeriesType": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TimeSeriesType"
+              }
+            ]
+          },
+          "gridAreaCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "documentStatus": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentStatus"
+              }
+            ]
+          },
+          "periodFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "periodTo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdTo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "documentId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "ExchangeEventSearchFilter": {
         "type": "object",
         "additionalProperties": false,
@@ -773,6 +900,26 @@
           "GridAreaCode",
           "TimeSeriesType"
         ]
+      },
+      "ExchangeEventSortPropertySorting": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sortProperty": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExchangeEventSortProperty"
+              }
+            ]
+          },
+          "direction": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SortDirection"
+              }
+            ]
+          }
+        }
       },
       "ExchangeEventStatusReportResponse": {
         "type": "object",
