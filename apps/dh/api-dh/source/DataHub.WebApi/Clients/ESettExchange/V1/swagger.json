@@ -315,6 +315,15 @@
           "ESett"
         ],
         "operationId": "downloadPOST",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -769,69 +778,17 @@
             "type": "integer",
             "format": "int32"
           },
-          "calculationType": {
-            "nullable": true,
+          "filter": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/CalculationType"
+                "$ref": "#/components/schemas/ExchangeEventFilter"
               }
             ]
           },
-          "timeSeriesType": {
-            "nullable": true,
+          "sorting": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/TimeSeriesType"
-              }
-            ]
-          },
-          "gridAreaCode": {
-            "type": "string",
-            "nullable": true
-          },
-          "documentStatus": {
-            "nullable": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/DocumentStatus"
-              }
-            ]
-          },
-          "periodFrom": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "periodTo": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "createdFrom": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "createdTo": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "documentId": {
-            "type": "string",
-            "nullable": true
-          },
-          "sortProperty": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ExchangeEventSortProperty"
-              }
-            ]
-          },
-          "sortDirection": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/SortDirection"
+                "$ref": "#/components/schemas/ExchangeEventSortPropertySorting"
               }
             ]
           }
