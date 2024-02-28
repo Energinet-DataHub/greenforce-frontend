@@ -8,8 +8,8 @@
     "permissions": [
       {
         "id": 1,
-        "name": "organizations:manage",
-        "description": "Permission to manage organization"
+        "name": "actors:manage",
+        "description": "Permission to manage actors"
       },
       {
         "id": 2,
@@ -32,8 +32,8 @@
     "permissions": [
       {
         "id": 1,
-        "name": "organizations:manage",
-        "description": "Permission to manage organization"
+        "name": "actors:manage",
+        "description": "Permission to manage actors"
       },
       {
         "id": 2,
