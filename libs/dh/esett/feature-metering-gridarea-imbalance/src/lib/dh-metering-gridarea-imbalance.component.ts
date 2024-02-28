@@ -183,6 +183,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
 
     this._store.queryVariables$
       .pipe(
+        take(1),
         switchMap(({ filters, documentId, sortMetaData }) =>
           this._apollo.query({
             returnPartialData: false,
@@ -194,14 +195,13 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
               gridAreaCode: filters.gridArea,
               periodFrom: filters.period?.start,
               periodTo: filters.period?.end,
+              valuesToInclude: filters.valuesToInclude,
               documentId,
               sortProperty: sortMetaData.sortProperty,
               sortDirection: sortMetaData.sortDirection,
-              valuesToInclude: filters.valuesToInclude,
             },
           })
-        ),
-        take(1)
+        )
       )
       .subscribe({
         next: (result) => {

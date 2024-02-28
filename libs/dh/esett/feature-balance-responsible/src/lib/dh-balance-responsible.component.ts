@@ -156,8 +156,10 @@ export class DhBalanceResponsibleComponent implements OnInit {
 
   download() {
     this.isDownloading = true;
+
     this.store.queryVariables$
       .pipe(
+        take(1),
         switchMap(({ sortMetaData }) =>
           this.apollo.query({
             returnPartialData: false,
@@ -170,8 +172,7 @@ export class DhBalanceResponsibleComponent implements OnInit {
               sortDirection: sortMetaData.sortDirection,
             },
           })
-        ),
-        take(1)
+        )
       )
       .subscribe({
         next: (result) => {
