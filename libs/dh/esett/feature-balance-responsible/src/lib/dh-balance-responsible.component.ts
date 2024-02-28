@@ -185,7 +185,7 @@ export class DhBalanceResponsibleComponent implements OnInit {
         error: () => {
           this.isDownloading = false;
           this.toastService.open({
-            message: translate('eSett.outgoingMessages.errorMessage'),
+            message: translate('shared.error.message'),
             type: 'danger',
           });
         },

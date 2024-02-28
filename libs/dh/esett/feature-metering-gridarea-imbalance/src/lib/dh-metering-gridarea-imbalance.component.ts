@@ -215,7 +215,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
         error: () => {
           this.isDownloading = false;
           this._toastService.open({
-            message: translate('eSett.meteringGridAreaImbalance.errorMessage'),
+            message: translate('shared.error.message'),
             type: 'danger',
           });
         },
