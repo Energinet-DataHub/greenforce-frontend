@@ -281,17 +281,23 @@ namespace Energinet.DataHub.WebApi.GraphQL
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                PeriodFrom = periodInterval?.Start.ToDateTimeOffset(),
-                PeriodTo = periodInterval?.End.ToDateTimeOffset(),
-                GridAreaCode = gridAreaCode,
-                CalculationType = calculationType,
-                DocumentStatus = documentStatus,
-                TimeSeriesType = timeSeriesType,
-                DocumentId = documentId,
-                CreatedFrom = createdInterval?.Start.ToDateTimeOffset(),
-                CreatedTo = createdInterval?.End.ToDateTimeOffset(),
-                SortDirection = sortDirection,
-                SortProperty = sortProperty,
+                Filter = new ExchangeEventFilter
+                {
+                    PeriodFrom = periodInterval?.Start.ToDateTimeOffset(),
+                    PeriodTo = periodInterval?.End.ToDateTimeOffset(),
+                    GridAreaCode = gridAreaCode,
+                    CalculationType = calculationType,
+                    DocumentStatus = documentStatus,
+                    TimeSeriesType = timeSeriesType,
+                    DocumentId = documentId,
+                    CreatedFrom = createdInterval?.Start.ToDateTimeOffset(),
+                    CreatedTo = createdInterval?.End.ToDateTimeOffset(),
+                },
+                Sorting = new ExchangeEventSortPropertySorting
+                {
+                    Direction = sortDirection,
+                    SortProperty = sortProperty,
+                },
             });
 
         public async Task<string> DownloadEsettExchangeEventsAsync(
@@ -307,7 +313,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             SortDirection sortDirection,
             [Service] IESettExchangeClient_V1 client)
         {
-            var file = await client.DownloadPOSTAsync(new ExchangeEventDownloadFilter
+            var file = await client.DownloadPOSTAsync(locale, new ExchangeEventDownloadFilter
             {
                 Filter = new ExchangeEventFilter
                 {
