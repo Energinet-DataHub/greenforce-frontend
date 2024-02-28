@@ -155,7 +155,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
   downloadRelationCSV() {
     this.toastService.open({
       type: 'loading',
-      message: translate('admin.userManagement.permissionsTab.downloadStart'),
+      message: translate('shared.download.downloadStart'),
     });
 
     const fileOptions = {
@@ -171,7 +171,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
         error: () => {
           this.toastService.open({
             type: 'danger',
-            message: translate('admin.userManagement.permissionsTab.downloadFailed'),
+            message: translate('shared.download.downloadFailed'),
           });
         },
       });

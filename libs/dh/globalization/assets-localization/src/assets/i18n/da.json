@@ -16,6 +16,12 @@
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "button": "Prøv igen"
     },
+    "download": {
+      "downloadStart": "Starter download...",
+      "download": "Download",
+      "downloadreport": "Download rapport",
+      "downloadFailed": "Download fejlede"
+    },
     "empty": {
       "title": "Ingen resultater fundet",
       "message": "Prøv at ændre dine søgeindstillinger"
@@ -69,8 +75,6 @@
         "en": "Engelsk"
       }
     },
-    "download": "Download",
-    "downloadreport": "Download rapport",
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
     "calculationType": "Beregningstype"
@@ -710,10 +714,7 @@
     "drawer": {
       "priceAreaLabel": "Prisområde",
       "updatedLabel": "Indlæst",
-      "pricesNote": "Prisen er angivet i DKK for kWh",
-      "download": "Download",
-      "downloadStart": "Starter download...",
-      "downloadFailed": "Download fejlede"
+      "pricesNote": "Prisen er angivet i DKK for kWh"
     }
   },
   "wholesale": {
@@ -870,15 +871,12 @@
     },
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
-      "download": "Download",
       "downloadNoBasisData": "Download (uden basisdata)",
       "selectedRows": {
         "singular": "{{ selectedCount }} valgt række",
         "plural": "{{ selectedCount }} valgte rækker"
       },
       "SelectPeriod": "For at downloade skal du vælge en periode først",
-      "downloadFailed": "Download fejlede",
-      "downloadStart": "Starter download...",
       "gridAreasLoadFailed": "kunne ikke hente netområder",
       "noEntries": "Ingen resultater",
       "results": "Balancefiksering",
@@ -1206,9 +1204,7 @@
       "permissionsTab": {
         "headline": "Rettigheder",
         "permissionName": "Navn",
-        "permissionDescription": "Beskrivelse",
-        "downloadStart": "Starter download...",
-        "downloadFailed": "Download fejlede"
+        "permissionDescription": "Beskrivelse"
       },
       "permissionDetail": {
         "edit": "Rediger rettighed",

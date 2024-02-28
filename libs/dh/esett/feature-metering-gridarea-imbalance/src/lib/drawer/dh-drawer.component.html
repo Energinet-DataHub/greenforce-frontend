@@ -73,13 +73,21 @@ limitations under the License.
 
           @if (xmlMessage() !== "") {
             <watt-tab [label]="t('tabs.message')">
-              @defer (on viewport) {
-                <div class="xml-message-container">
-                  <watt-code [code]="xmlMessage()" />
-                </div>
-              } @placeholder {
-                <watt-spinner />
-              }
+              <vater-flex>
+                @defer (on viewport) {
+                  <watt-button
+                    variant="text"
+                    icon="download"
+                    (click)="downloadCSV(meteringGridAreaImbalance!.id)"
+                    >{{ "shared.download.download" | transloco }}</watt-button
+                  >
+                  <div class="xml-message-container">
+                    <watt-code [code]="xmlMessage()" />
+                  </div>
+                } @placeholder {
+                  <watt-spinner />
+                }
+              </vater-flex>
             </watt-tab>
           }
         </watt-tabs>

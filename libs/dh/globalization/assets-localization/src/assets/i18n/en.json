@@ -16,6 +16,12 @@
       "message": "Unfortunately, an error occurred while retrieving the necessary information",
       "button": "Try again"
     },
+    "download": {
+      "downloadStart": "Starting download...",
+      "download": "Download",
+      "downloadreport": "Download report",
+      "downloadFailed": "Download failed"
+    },
     "empty": {
       "title": "No results found",
       "message": "Try changing the search criteria"
@@ -69,8 +75,6 @@
         "en": "English"
       }
     },
-    "download": "Download",
-    "downloadreport": "Download report",
     "search": "Search",
     "selectedValues": "{{count}} selected",
     "calculationType": "Calculation type"
@@ -710,10 +714,7 @@
     "drawer": {
       "priceAreaLabel": "Price area",
       "updatedLabel": "Uploaded",
-      "pricesNote": "Prices are shown in DKK for kWh",
-      "download": "Download",
-      "downloadStart": "Starting download...",
-      "downloadFailed": "Download failed"
+      "pricesNote": "Prices are shown in DKK for kWh"
     }
   },
   "wholesale": {
@@ -1206,9 +1207,7 @@
       "permissionsTab": {
         "headline": "Permissions",
         "permissionName": "Name",
-        "permissionDescription": "Description",
-        "downloadStart": "Starting download...",
-        "downloadFailed": "Download failed"
+        "permissionDescription": "Description"
       },
       "permissionDetail": {
         "edit": "Edit permission",

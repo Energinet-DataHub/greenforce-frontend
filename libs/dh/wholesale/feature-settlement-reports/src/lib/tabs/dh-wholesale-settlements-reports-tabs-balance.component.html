@@ -84,7 +84,7 @@ limitations under the License.
       <ng-container *wattTableCell="columns.download; header: ''; let gridArea">
         <watt-button
           variant="icon"
-          title="{{ t('download') }}"
+          [title]="'shared.download.download' | transloco"
           icon="download"
           [disabled]="!searchForm.valid"
           (click)="downloadClicked([gridArea])"
