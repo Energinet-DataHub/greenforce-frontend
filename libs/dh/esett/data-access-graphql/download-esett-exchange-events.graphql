@@ -1,0 +1,25 @@
+query downloadEsettExchangeEvents(
+  $locale: String!
+  $periodInterval: DateRange
+  $createdInterval: DateRange
+  $gridAreaCode: String
+  $calculationType: ExchangeEventCalculationType
+  $timeSeriesType: TimeSeriesType
+  $documentStatus: DocumentStatus
+  $documentId: String
+  $sortProperty: ExchangeEventSortProperty!
+  $sortDirection: SortDirection!
+) {
+  downloadEsettExchangeEvents(
+    locale: $locale
+    periodInterval: $periodInterval
+    createdInterval: $createdInterval
+    gridAreaCode: $gridAreaCode
+    calculationType: $calculationType
+    timeSeriesType: $timeSeriesType
+    documentStatus: $documentStatus
+    documentId: $documentId
+    sortProperty: $sortProperty
+    sortDirection: $sortDirection
+  )
+}
