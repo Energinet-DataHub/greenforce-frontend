@@ -60,10 +60,7 @@
           "npm run check:dotnet",
           "dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
         ],
-        "parallel": false,
-        "env": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
-        }
+        "parallel": false
       }
     },
     "stop": {
