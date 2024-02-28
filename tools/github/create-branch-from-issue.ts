@@ -38,8 +38,8 @@ type answers = { team: string; type: string; issue: string };
 
 const teams = [
   {
-    team: 'Titans',
-    repo: 'Energinet-DataHub/Titans',
+    team: 'Raccoons',
+    repo: 'Energinet-DataHub/team-raccoons',
   },
   {
     team: 'Mandalorian',
