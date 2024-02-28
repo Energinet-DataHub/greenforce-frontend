@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { BehaviorSubject, catchError, debounceTime, of, switchMap, take } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -95,7 +95,6 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   private _apollo = inject(Apollo);
   private _destroyRef = inject(DestroyRef);
   private _toastService = inject(WattToastService);
-  private _transloco = inject(TranslocoService);
   private _store = inject(DhMeteringGridAreaImbalanceStore);
 
   tableDataSource = new WattTableDataSource<DhMeteringGridAreaImbalance>([], {
@@ -191,7 +190,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
             fetchPolicy: 'no-cache',
             query: DownloadMeteringGridAreaImbalanceDocument,
             variables: {
-              locale: 'da-DK',
+              locale: translate('selectedLanguageIso'),
               gridAreaCode: filters.gridArea,
               periodFrom: filters.period?.start,
               periodTo: filters.period?.end,
@@ -212,14 +211,11 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
             content: result?.data?.downloadMeteringGridAreaImbalance,
             fileName: 'eSett-metering-grid-area-imbalance-messages',
           });
-
-          this.hasError = !!result.errors;
         },
         error: () => {
-          this.hasError = true;
           this.isDownloading = false;
           this._toastService.open({
-            message: this._transloco.translate('eSett.meteringGridAreaImbalance.errorMessage'),
+            message: translate('eSett.meteringGridAreaImbalance.errorMessage'),
             type: 'danger',
           });
         },

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, OnInit, inject, DestroyRef } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { switchMap, catchError, of, take } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
@@ -90,7 +90,6 @@ export class DhBalanceResponsibleComponent implements OnInit {
   private apollo = inject(Apollo);
   private destroyRef = inject(DestroyRef);
   private store = inject(DhBalanceResponsibleStore);
-  private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
 
   pageMetaData$ = this.store.pageMetaData$;
@@ -166,7 +165,7 @@ export class DhBalanceResponsibleComponent implements OnInit {
             fetchPolicy: 'no-cache',
             query: DownloadBalanceResponsiblesDocument,
             variables: {
-              locale: 'da-DK',
+              locale: translate('selectedLanguageIso'),
               sortProperty: sortMetaData.sortProperty,
               sortDirection: sortMetaData.sortDirection,
             },
@@ -182,14 +181,11 @@ export class DhBalanceResponsibleComponent implements OnInit {
             content: result?.data?.downloadBalanceResponsibles,
             fileName: 'eSett-balance-responsible-messages',
           });
-
-          this.hasError = !!result.errors;
         },
         error: () => {
-          this.hasError = true;
           this.isDownloading = false;
           this.toastService.open({
-            message: this.transloco.translate('eSett.outgoingMessages.errorMessage'),
+            message: translate('eSett.outgoingMessages.errorMessage'),
             type: 'danger',
           });
         },
