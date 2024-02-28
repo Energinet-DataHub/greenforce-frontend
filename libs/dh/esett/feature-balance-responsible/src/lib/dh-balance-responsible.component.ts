@@ -39,11 +39,11 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhBalanceResponsibleTableComponent } from './table/dh-table.component';
 import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
 import { DhBalanceResponsibleStore } from './dh-balance-respoinsible.store';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   standalone: true,
