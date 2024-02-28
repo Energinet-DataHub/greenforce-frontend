@@ -22,6 +22,10 @@ import { WHOLESALE_BASE_PATH } from '@energinet-datahub/dh/wholesale/routing';
 import { dhAdminPath } from '@energinet-datahub/dh/admin/routing';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
+import { DhCoreLoginComponent } from './dh-core-login.component';
+import { AuthGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+
+const messageArchivePath = 'message-archive';
 
 export const dhCoreShellRoutes: Routes = [
   {
@@ -30,26 +34,26 @@ export const dhCoreShellRoutes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'message-archive',
+        redirectTo: messageArchivePath,
         pathMatch: 'full',
       },
       {
-        path: 'message-archive',
+        path: messageArchivePath,
         loadChildren: () =>
           import('@energinet-datahub/dh/message-archive/shell').then(
             (esModule) => esModule.dhMessageArchiveShellRoutes
           ),
-        canActivate: [MsalGuard],
+        canActivate: [AuthGuard, MsalGuard],
       },
       {
         path: 'esett',
         loadChildren: () => import('@energinet-datahub/dh/esett/shell'),
-        canActivate: [MsalGuard],
+        canActivate: [AuthGuard, MsalGuard],
       },
       {
         path: 'imbalance-prices',
         loadChildren: () => import('@energinet-datahub/dh/imbalance-prices/shell'),
-        canActivate: [MsalGuard],
+        canActivate: [AuthGuard, MsalGuard],
       },
       {
         path: dhMarketParticipantPath,
@@ -57,7 +61,7 @@ export const dhCoreShellRoutes: Routes = [
           import('@energinet-datahub/dh/market-participant/shell').then(
             (esModule) => esModule.dhMarketParticipantShellRoutes
           ),
-        canActivate: [MsalGuard],
+        canActivate: [AuthGuard, MsalGuard],
       },
       {
         path: WHOLESALE_BASE_PATH,
@@ -65,7 +69,7 @@ export const dhCoreShellRoutes: Routes = [
           import('@energinet-datahub/dh/wholesale/shell').then(
             (esModule) => esModule.dhWholesaleShellRoutes
           ),
-        canActivate: [MsalGuard],
+        canActivate: [AuthGuard, MsalGuard],
       },
       {
         path: dhAdminPath,
@@ -73,8 +77,13 @@ export const dhCoreShellRoutes: Routes = [
           import('@energinet-datahub/dh/admin/shell').then(
             (esModule) => esModule.dhAdminShellRoutes
           ),
-        canActivate: [MsalGuard],
+        canActivate: [AuthGuard, MsalGuard],
       },
     ],
+  },
+  {
+    path: 'login',
+    pathMatch: 'full',
+    component: DhCoreLoginComponent,
   },
 ];

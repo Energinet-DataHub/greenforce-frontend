@@ -63,6 +63,6 @@ export class DhProfileAvatarComponent {
   }
 
   private getAccount() {
-    return this._authService.instance.getAllAccounts()[0];
+    return this._authService.instance.getActiveAccount() ?? { username: '' };
   }
 }

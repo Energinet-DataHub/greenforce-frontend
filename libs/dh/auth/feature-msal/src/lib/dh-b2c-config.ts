@@ -33,6 +33,7 @@ export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientAppl
       authority: config.authority,
       redirectUri: '/',
       postLogoutRedirectUri: '/',
+      navigateToLoginRequestUrl: false,
       knownAuthorities: config.knownAuthorities,
     },
     cache: {
@@ -70,6 +71,14 @@ export function MSALInterceptorConfigFactory(
   return {
     interactionType: InteractionType.Redirect,
     protectedResourceMap,
+    authRequest: (msalService, req, originalAuthRequest) => {
+      const tfp = (originalAuthRequest.account?.idTokenClaims?.tfp ?? '') as string;
+      const midId = config.mitIdInviteFlowUri.endsWith(tfp);
+      return {
+        ...originalAuthRequest,
+        authority: midId ? config.mitIdInviteFlowUri : config.authority,
+      };
+    },
   };
 }
 
