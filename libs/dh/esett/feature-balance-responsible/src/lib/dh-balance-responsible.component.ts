@@ -39,11 +39,11 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhBalanceResponsibleTableComponent } from './table/dh-table.component';
 import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
 import { DhBalanceResponsibleStore } from './dh-balance-respoinsible.store';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   standalone: true,
@@ -156,8 +156,10 @@ export class DhBalanceResponsibleComponent implements OnInit {
 
   download() {
     this.isDownloading = true;
+
     this.store.queryVariables$
       .pipe(
+        take(1),
         switchMap(({ sortMetaData }) =>
           this.apollo.query({
             returnPartialData: false,
@@ -170,22 +172,21 @@ export class DhBalanceResponsibleComponent implements OnInit {
               sortDirection: sortMetaData.sortDirection,
             },
           })
-        ),
-        take(1)
+        )
       )
       .subscribe({
         next: (result) => {
           this.isDownloading = result.loading;
 
           exportToCSVRaw({
-            content: result?.data?.downloadBalanceResponsibles,
+            content: result?.data?.downloadBalanceResponsibles ?? '',
             fileName: 'eSett-balance-responsible-messages',
           });
         },
         error: () => {
           this.isDownloading = false;
           this.toastService.open({
-            message: translate('eSett.outgoingMessages.errorMessage'),
+            message: translate('shared.error.message'),
             type: 'danger',
           });
         },

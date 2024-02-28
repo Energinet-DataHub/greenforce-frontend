@@ -23,6 +23,9 @@ import {
   mockGetMeteringGridAreaImbalanceQuery,
   mockGetStatusReportQuery,
   mockResendExchangeMessagesMutation,
+  mockDownloadEsettExchangeEventsQuery,
+  mockDownloadMeteringGridAreaImbalanceQuery,
+  mockDownloadBalanceResponsiblesQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -52,6 +55,9 @@ export function eSettMocks(apiBase: string) {
     getServiceStatusQuery(),
     getStatusReportQuery(),
     resendMessageMutation(),
+    downloadEsettExchangeEventsQuery(),
+    downloadMeteringGridAreaImbalanceQuery(),
+    downloadBalanceResponsiblesQuery(),
   ];
 }
 
@@ -198,6 +204,54 @@ function resendMessageMutation() {
     return HttpResponse.json(
       {
         data: resendMessageMutationMock,
+      },
+      { status: getStatus() }
+    );
+  });
+}
+
+function downloadEsettExchangeEventsQuery() {
+  return mockDownloadEsettExchangeEventsQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json(
+      {
+        data: {
+          __typename: 'Query',
+          downloadEsettExchangeEvents: 'Test data',
+        },
+      },
+      { status: getStatus() }
+    );
+  });
+}
+
+function downloadMeteringGridAreaImbalanceQuery() {
+  return mockDownloadMeteringGridAreaImbalanceQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json(
+      {
+        data: {
+          __typename: 'Query',
+          downloadMeteringGridAreaImbalance: 'Test data',
+        },
+      },
+      { status: getStatus() }
+    );
+  });
+}
+
+function downloadBalanceResponsiblesQuery() {
+  return mockDownloadBalanceResponsiblesQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json(
+      {
+        data: {
+          __typename: 'Query',
+          downloadBalanceResponsibles: 'Test data',
+        },
       },
       { status: getStatus() }
     );
