@@ -23,6 +23,7 @@ import {
   mockGetMeteringGridAreaImbalanceQuery,
   mockGetStatusReportQuery,
   mockResendExchangeMessagesMutation,
+  mockDownloadEsettExchangeEventsQuery,
   mockDownloadMeteringGridAreaImbalanceQuery,
   mockDownloadBalanceResponsiblesQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -54,6 +55,7 @@ export function eSettMocks(apiBase: string) {
     getServiceStatusQuery(),
     getStatusReportQuery(),
     resendMessageMutation(),
+    downloadEsettExchangeEventsQuery(),
     downloadMeteringGridAreaImbalanceQuery(),
     downloadBalanceResponsiblesQuery(),
   ];
@@ -202,6 +204,22 @@ function resendMessageMutation() {
     return HttpResponse.json(
       {
         data: resendMessageMutationMock,
+      },
+      { status: getStatus() }
+    );
+  });
+}
+
+function downloadEsettExchangeEventsQuery() {
+  return mockDownloadEsettExchangeEventsQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json(
+      {
+        data: {
+          __typename: 'Query',
+          downloadEsettExchangeEvents: 'Test data',
+        },
       },
       { status: getStatus() }
     );
