@@ -295,8 +295,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             });
 
         public async Task<string> DownloadEsettExchangeEventsAsync(
-            int pageNumber,
-            int pageSize,
+            string locale,
             Interval? periodInterval,
             Interval? createdInterval,
             string? gridAreaCode,
@@ -321,6 +320,11 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     DocumentId = documentId,
                     CreatedFrom = createdInterval?.Start.ToDateTimeOffset(),
                     CreatedTo = createdInterval?.End.ToDateTimeOffset(),
+                },
+                Sorting = new ExchangeEventSortPropertySorting
+                {
+                    Direction = sortDirection,
+                    SortProperty = sortProperty,
                 },
             });
 
