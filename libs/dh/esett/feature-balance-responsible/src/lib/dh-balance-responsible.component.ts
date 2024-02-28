@@ -178,7 +178,7 @@ export class DhBalanceResponsibleComponent implements OnInit {
           this.isDownloading = result.loading;
 
           exportToCSVRaw({
-            content: result?.data?.downloadBalanceResponsibles,
+            content: result?.data?.downloadBalanceResponsibles ?? '',
             fileName: 'eSett-balance-responsible-messages',
           });
         },

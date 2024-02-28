@@ -208,7 +208,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
           this.isDownloading = result.loading;
 
           exportToCSVRaw({
-            content: result?.data?.downloadMeteringGridAreaImbalance,
+            content: result?.data?.downloadMeteringGridAreaImbalance ?? '',
             fileName: 'eSett-metering-grid-area-imbalance-messages',
           });
         },
