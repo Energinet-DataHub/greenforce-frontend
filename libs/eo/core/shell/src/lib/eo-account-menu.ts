@@ -15,7 +15,13 @@
  * limitations under the License.
  */
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  inject,
+  signal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';
 
@@ -79,14 +85,22 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
   template: `
     @if (user()?.name; as name) {
       <watt-button [matMenuTriggerFor]="menu" variant="text" (click)="isOpen.set(true)">
-        <span style="color: var(--watt-on-light-high-emphasis); font-size: 14px; line-height: 20px;" class="hide-on-small">
+        <span
+          style="color: var(--watt-on-light-high-emphasis); font-size: 14px; line-height: 20px;"
+          class="hide-on-small"
+        >
           {{ name }}
         </span>
-        <watt-icon name="down" class="menu-icon hide-on-small" [ngClass]="{'isOpen': isOpen()}"/>
+        <watt-icon name="down" class="menu-icon hide-on-small" [ngClass]="{ isOpen: isOpen() }" />
         <watt-icon class="show-on-small-only" name="account" />
       </watt-button>
 
-      <mat-menu #menu="matMenu" xPosition="before" class="account-menu" (closed)="isOpen.set(false)">
+      <mat-menu
+        #menu="matMenu"
+        xPosition="before"
+        class="account-menu"
+        (closed)="isOpen.set(false)"
+      >
         <ng-content />
       </mat-menu>
     }
