@@ -20,7 +20,6 @@ import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
-  OnInit,
   ViewEncapsulation,
   inject,
   signal,
@@ -29,7 +28,7 @@ import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/tra
 
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 import { translations } from '@energinet-datahub/eo/translations';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
