@@ -46,6 +46,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     ReactiveFormsModule,
   ],
   styles: `
+    eo-language-switcher {
+      display: block;
+      width: 100%;
+    }
+
     .eo-language-switcher-content {
       watt-dropdown {
         width: 100%;

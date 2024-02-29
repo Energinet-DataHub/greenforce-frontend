@@ -45,8 +45,13 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
         width: 100%;
       }
 
+      watt-button, .mdc-button {
+        width: 100%;
+      }
+
       button {
         color: var(--watt-on-light-high-emphasis) !important;
+        justify-content: flex-start;
         font-size: 14px;
         font-weight: 400;
         line-height: 20px;
