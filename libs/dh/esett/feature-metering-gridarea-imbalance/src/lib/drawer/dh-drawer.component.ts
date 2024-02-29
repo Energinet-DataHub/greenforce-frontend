@@ -131,8 +131,8 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
     this.closed.emit();
   }
 
-  private loadDocument(documentLink: string): Observable<string> {
-    return this._esettHttp.v1EsettExchangeMgaImbalanceDocumentGet(documentLink).pipe(
+  private loadDocument(meteringGridAreaImbalanceId: string): Observable<string> {
+    return this._esettHttp.v1EsettExchangeMgaImbalanceDocumentGet(meteringGridAreaImbalanceId).pipe(
       switchMap((res) => {
         const blobPart = res as unknown as BlobPart;
         const blob = new Blob([blobPart]);
@@ -142,20 +142,19 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
     );
   }
 
-  downloadCSV(documentLink: string) {
+  downloadCSV(meteringGridAreaImbalanceId: string) {
     this._toastService.open({
       type: 'loading',
       message: translate('shared.downloadStart'),
     });
 
     const fileOptions = {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      name: 'mga-' + this.meteringGridAreaImbalance!.id,
+      name: 'mga-' + meteringGridAreaImbalanceId,
       type: 'text/xml',
     };
 
     this._esettHttp
-      .v1EsettExchangeMgaImbalanceDocumentGet(documentLink)
+      .v1EsettExchangeMgaImbalanceDocumentGet(meteringGridAreaImbalanceId)
       .pipe(switchMap(streamToFile(fileOptions)))
       .subscribe({
         complete: () => this._toastService.dismiss(),
