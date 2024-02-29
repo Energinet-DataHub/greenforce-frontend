@@ -29,7 +29,7 @@ export class EoLanguageService {
 
   init(): void {
     let language = navigator.language.split('-')[0];
-    if(language !== 'da' && language !== 'en') {
+    if (language !== 'da' && language !== 'en') {
       language = 'en';
     }
     this.transloco.setActiveLang(language);
