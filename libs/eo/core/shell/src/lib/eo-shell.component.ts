@@ -30,6 +30,7 @@ import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/shared/services';
 import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
+import { EoAccountMenuComponent } from './eo-account-menu';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,6 +47,7 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
     WattShellComponent,
     TranslocoPipe,
     EoLanguageSwitcherComponent,
+    EoAccountMenuComponent,
   ],
   selector: 'eo-shell',
   styles: [
@@ -123,22 +125,25 @@ import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component'
       </ng-container>
 
       <ng-container watt-shell-toolbar>
-        <vater-stack direction="row" gap="s" style="width: 100%;">
+        <vater-stack direction="row" style="width: 100%;">
           <h2>{{ titleService.getTitle() }}</h2>
 
           <vater-spacer />
 
-          <eo-language-switcher>
-            <watt-button variant="text" icon="language">
-              {{ translations.languageSwitcher.title | transloco }}</watt-button
-            >
-          </eo-language-switcher>
-          <watt-button variant="text" [routerLink]="['/help']" icon="help">{{
-            translations.topbar.help | transloco
-          }}</watt-button>
-          <watt-button variant="text" (click)="onLogout()" icon="logout">{{
-            translations.topbar.logout | transloco
-          }}</watt-button>
+          <eo-account-menu>
+            <eo-language-switcher>
+              <watt-button variant="text" icon="language">
+                {{ translations.languageSwitcher.title | transloco }}</watt-button
+              >
+            </eo-language-switcher>
+            <hr />
+            <watt-button variant="text" (click)="onLogout()" icon="logout">{{
+              translations.topbar.logout | transloco
+            }}</watt-button>
+          </eo-account-menu>
+
+          <watt-button variant="text" [routerLink]="['/help']" icon="help" />
+
         </vater-stack>
       </ng-container>
 
