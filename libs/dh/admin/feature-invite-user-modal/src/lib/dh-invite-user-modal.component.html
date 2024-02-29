@@ -31,21 +31,28 @@ limitations under the License.
   >
     <watt-stepper-step [label]="t('email')" [stepControl]="baseInfo" [nextButtonLabel]="t('next')">
       <form [formGroup]="userInfo" class="userInfoForm">
-        <watt-dropdown
-          *ngIf="(actors$ | push).length > 1"
-          class="actor"
-          [label]="t('actor')"
-          [formControl]="baseInfo.controls.actorId"
-          [options]="(actors$ | push) ?? []"
-          name="actorId"
-        />
+        @if ((actors$ | push).length > 1) {
+          <watt-dropdown
+            class="actor"
+            [label]="t('actor')"
+            [formControl]="baseInfo.controls.actorId"
+            [options]="(actors$ | push) ?? []"
+            name="actorId"
+          />
+        }
+
         <watt-text-field [label]="t('email')" class="email" [formControl]="baseInfo.controls.email">
-          <watt-field-error *ngIf="baseInfo.controls.email.hasError('email')">
-            {{ t("wrongEmailPattern") }}
-          </watt-field-error>
-          <watt-field-error *ngIf="baseInfo.controls.email.hasError('userAlreadyAssignedActor')">
-            {{ t("userAlreadyAssignedActor") }}
-          </watt-field-error>
+          @if (baseInfo.controls.email.hasError("email")) {
+            <watt-field-error>
+              {{ t("wrongEmailPattern") }}
+            </watt-field-error>
+          }
+
+          @if (baseInfo.controls.email.hasError("userAlreadyAssignedActor")) {
+            <watt-field-error>
+              {{ t("userAlreadyAssignedActor") }}
+            </watt-field-error>
+          }
         </watt-text-field>
       </form>
     </watt-stepper-step>
@@ -85,20 +92,22 @@ limitations under the License.
       [previousButtonLabel]="informationStep.enabled ? t('informations') : t('email')"
       [nextButtonLabel]="t('inviteUser')"
     >
-      <div class="info-section" *ngIf="!inOrganizationMailDomain">
-        <watt-icon class="info-icon" name="info" />
-        <span class="info-text">{{ t("unknowEmailInfoMessage") }}</span>
-      </div>
+      @if (!inOrganizationMailDomain) {
+        <div class="info-section">
+          <watt-icon class="info-icon" name="info" />
+          <span class="info-text">{{ t("unknowEmailInfoMessage") }}</span>
+        </div>
+      }
+
       <form [formGroup]="userRoles">
-        <watt-field-error
-          class="user-role-error"
-          *ngIf="
-            userRoles.controls.selectedUserRoles.hasError('required') &&
-            userRoles.controls.selectedUserRoles.touched
-          "
-        >
-          {{ t("noUserRolesError") }}
-        </watt-field-error>
+        @if (
+          userRoles.controls.selectedUserRoles.hasError("required") &&
+          userRoles.controls.selectedUserRoles.touched
+        ) {
+          <watt-field-error class="user-role-error">
+            {{ t("noUserRolesError") }}
+          </watt-field-error>
+        }
         <dh-assignable-user-roles (selectedUserRoles)="onSelectedUserRoles($event)" />
       </form>
     </watt-stepper-step>
