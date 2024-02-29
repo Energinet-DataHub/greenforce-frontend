@@ -241,7 +241,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
 
     this.toastService.open({
       type: 'loading',
-      message: this.transloco.translate('shared.download.downloadStart'),
+      message: this.transloco.translate('shared.downloadStart'),
     });
 
     const { start, end } = this.searchForm.controls.period.value as { start: string; end: string };
@@ -263,7 +263,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
         error: () =>
           this.toastService.open({
             type: 'danger',
-            message: this.transloco.translate('shared.download.downloadFailed'),
+            message: this.transloco.translate('shared.downloadFailed'),
           }),
       });
   }

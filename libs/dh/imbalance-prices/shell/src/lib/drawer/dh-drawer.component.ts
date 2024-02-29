@@ -159,7 +159,7 @@ export class DhImbalancePricesDrawerComponent {
   downloadCSV() {
     this.toastService.open({
       type: 'loading',
-      message: translate('shared.download.downloadStart'),
+      message: translate('shared.downloadStart'),
     });
 
     const fileOptions = {
@@ -176,7 +176,7 @@ export class DhImbalancePricesDrawerComponent {
         error: () => {
           this.toastService.open({
             type: 'danger',
-            message: translate('shared.download.downloadFailed'),
+            message: translate('shared.downloadFailed'),
           });
         },
       });

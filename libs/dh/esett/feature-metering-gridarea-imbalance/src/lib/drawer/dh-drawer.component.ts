@@ -145,7 +145,7 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
   downloadCSV(documentLink: string) {
     this._toastService.open({
       type: 'loading',
-      message: translate('shared.download.downloadStart'),
+      message: translate('shared.downloadStart'),
     });
 
     const fileOptions = {
@@ -162,7 +162,7 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
         error: () => {
           this._toastService.open({
             type: 'danger',
-            message: translate('shared.download.downloadFailed'),
+            message: translate('shared.downloadFailed'),
           });
         },
       });

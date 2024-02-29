@@ -16,12 +16,10 @@
       "message": "Unfortunately, an error occurred while retrieving the necessary information",
       "button": "Try again"
     },
-    "download": {
-      "downloadStart": "Starting download...",
-      "download": "Download",
-      "downloadreport": "Download report",
-      "downloadFailed": "Download failed"
-    },
+    "downloadStart": "Starting download...",
+    "download": "Download",
+    "downloadreport": "Download report",
+    "downloadFailed": "Download failed",
     "empty": {
       "title": "No results found",
       "message": "Try changing the search criteria"

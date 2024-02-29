@@ -16,12 +16,10 @@
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "button": "Prøv igen"
     },
-    "download": {
-      "downloadStart": "Starter download...",
-      "download": "Download",
-      "downloadreport": "Download rapport",
-      "downloadFailed": "Download fejlede"
-    },
+    "downloadStart": "Starter download...",
+    "download": "Download",
+    "downloadreport": "Download rapport",
+    "downloadFailed": "Download fejlede",
     "empty": {
       "title": "Ingen resultater fundet",
       "message": "Prøv at ændre dine søgeindstillinger"
