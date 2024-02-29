@@ -18,7 +18,7 @@ limitations under the License.
   <watt-drawer #drawer (closed)="onClose()">
     <watt-drawer-actions>
       <watt-button
-        *dhPermissionRequired="['organizations:manage']"
+        *dhPermissionRequired="['actors:manage']"
         variant="secondary"
         (click)="isEditModalVisible = true"
         >{{ t("edit") }}</watt-button
@@ -86,10 +86,7 @@ limitations under the License.
             </watt-table>
           </watt-card>
         </watt-tab>
-        <watt-tab
-          [label]="t('tabs.history.tabLabel')"
-          *dhPermissionRequired="['organizations:manage']"
-        >
+        <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
           <vater-stack [fill]="'horizontal'" [align]="'center'">
             <watt-spinner *ngIf="isLoadingAuditLog" />
           </vater-stack>

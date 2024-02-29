@@ -53,19 +53,19 @@ limitations under the License.
           <watt-tab [label]="t('tabs.imbalance')">
             <vater-flex [fill]="'horizontal'" gap="m">
               @if (deficitDataSource.data.length > 0) {
-                <watt-expandable-card variant="solid">
+                <watt-expandable-card variant="solid" [expanded]="true">
                   <watt-expandable-card-title>
                     <h4>{{ t("card.titles.deficit") }}</h4>
                   </watt-expandable-card-title>
-                  <dh-metering-gridarea-imbalance-table [deficit]="deficitDataSource" />
+                  <dh-metering-gridarea-imbalance-table [data]="deficitDataSource" />
                 </watt-expandable-card>
               }
               @if (surplusDataSource.data.length > 0) {
-                <watt-expandable-card variant="solid">
+                <watt-expandable-card variant="solid" [expanded]="true">
                   <watt-expandable-card-title>
                     <h4>{{ t("card.titles.surplus") }}</h4>
                   </watt-expandable-card-title>
-                  <dh-metering-gridarea-imbalance-table [surplus]="surplusDataSource" />
+                  <dh-metering-gridarea-imbalance-table [data]="surplusDataSource" />
                 </watt-expandable-card>
               }
             </vater-flex>
@@ -73,13 +73,21 @@ limitations under the License.
 
           @if (xmlMessage() !== "") {
             <watt-tab [label]="t('tabs.message')">
-              @defer (on viewport) {
-                <div class="xml-message-container">
-                  <watt-code [code]="xmlMessage()" />
-                </div>
-              } @placeholder {
-                <watt-spinner />
-              }
+              <vater-flex>
+                @defer (on viewport) {
+                  <watt-button
+                    variant="text"
+                    icon="download"
+                    (click)="downloadCSV(meteringGridAreaImbalance!.id)"
+                    >{{ "shared.download" | transloco }}</watt-button
+                  >
+                  <div class="xml-message-container">
+                    <watt-code [code]="xmlMessage()" />
+                  </div>
+                } @placeholder {
+                  <watt-spinner />
+                }
+              </vater-flex>
             </watt-tab>
           }
         </watt-tabs>

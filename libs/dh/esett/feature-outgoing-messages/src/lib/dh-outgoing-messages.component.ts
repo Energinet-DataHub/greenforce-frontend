@@ -16,7 +16,7 @@
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, catchError, debounceTime, map, of, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, debounceTime, map, of, switchMap, take } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
@@ -27,6 +27,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import {
+  DownloadEsettExchangeEventsDocument,
   GetOutgoingMessagesDocument,
   GetServiceStatusDocument,
   GetStatusReportDocument,
@@ -34,7 +35,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
@@ -47,6 +48,7 @@ import {
   DhOutgoingMessagesFilters,
   DhOutgoingMessagesStore,
 } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
 import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
@@ -109,15 +111,19 @@ export class DhOutgoingMessagesComponent implements OnInit {
   private _apollo = inject(Apollo);
   private _destroyRef = inject(DestroyRef);
   private _store = inject(DhOutgoingMessagesStore);
+  private _toastService = inject(WattToastService);
 
-  tableDataSource = new WattTableDataSource<DhOutgoingMessage>([]);
+  tableDataSource = new WattTableDataSource<DhOutgoingMessage>([], { disableClientSideSort: true });
   totalCount = 0;
 
   filters$ = this._store.filters$;
   pageMetaData$ = this._store.pageMetaData$;
+  sortMetaData$ = this._store.sortMetaData$;
+
   documentIdSearch$ = new BehaviorSubject<string>('');
 
   isLoading = false;
+  isDownloading = false;
   hasError = false;
 
   serviceStatus$ = this._apollo
@@ -216,35 +222,50 @@ export class DhOutgoingMessagesComponent implements OnInit {
     this._store.patchState((state) => ({ ...state, pageMetaData: { pageIndex, pageSize } }));
   }
 
-  download(): void {
-    if (!this.tableDataSource.sort) {
-      return;
-    }
+  download() {
+    this.isDownloading = true;
 
-    const dataToSort = structuredClone<DhOutgoingMessage[]>(this.tableDataSource.filteredData);
-    const dataSorted = this.tableDataSource.sortData(dataToSort, this.tableDataSource.sort);
+    this._store.queryVariables$
+      .pipe(
+        take(1),
+        switchMap(({ filters, documentId, sortMetaData }) =>
+          this._apollo.query({
+            returnPartialData: false,
+            notifyOnNetworkStatusChange: true,
+            fetchPolicy: 'no-cache',
+            query: DownloadEsettExchangeEventsDocument,
+            variables: {
+              locale: translate('selectedLanguageIso'),
+              periodInterval: filters.period,
+              createdInterval: filters.created,
+              gridAreaCode: filters.gridAreas,
+              calculationType: filters.calculationTypes,
+              timeSeriesType: filters.messageTypes,
+              documentStatus: filters.status,
+              documentId,
+              sortProperty: sortMetaData.sortProperty,
+              sortDirection: sortMetaData.sortDirection,
+            },
+          })
+        )
+      )
+      .subscribe({
+        next: (result) => {
+          this.isDownloading = result.loading;
 
-    const outgoingMessagesPath = 'eSett.outgoingMessages';
-
-    const headers = [
-      `"${translate(outgoingMessagesPath + '.columns.created')}"`,
-      `"${translate(outgoingMessagesPath + '.columns.id')}"`,
-      `"${translate(outgoingMessagesPath + '.columns.calculationType')}"`,
-      `"${translate(outgoingMessagesPath + '.columns.messageType')}"`,
-      `"${translate(outgoingMessagesPath + '.columns.gridArea')}"`,
-      `"${translate(outgoingMessagesPath + '.columns.status')}"`,
-    ];
-
-    const lines = dataSorted.map((message) => [
-      `"${message.created.toISOString()}"`,
-      `"${message.documentId}"`,
-      `"${translate(outgoingMessagesPath + '.shared.calculationType.' + message.calculationType)}"`,
-      `"${translate(outgoingMessagesPath + '.shared.messageType.' + message.timeSeriesType)}"`,
-      `"${message.gridArea?.code} - ${message.gridArea?.name}"`,
-      `"${translate(outgoingMessagesPath + '.shared.documentStatus.' + message.documentStatus)}"`,
-    ]);
-
-    exportToCSV({ headers, lines, fileName: 'eSett-outgoing-messages' });
+          exportToCSVRaw({
+            content: result?.data?.downloadEsettExchangeEvents ?? '',
+            fileName: 'eSett-outgoing-messages',
+          });
+        },
+        error: () => {
+          this.isDownloading = false;
+          this._toastService.open({
+            message: translate('shared.error.message'),
+            type: 'danger',
+          });
+        },
+      });
   }
 
   resend(): void {

@@ -75,6 +75,55 @@
         }
       }
     },
+    "/esett/balance-responsible/download": {
+      "get": {
+        "tags": [
+          "BalanceResponsible"
+        ],
+        "operationId": "downloadGET",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortProperty",
+            "in": "query",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/BalanceResponsibleSortProperty"
+                }
+              ]
+            }
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/SortDirection"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/csv": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/esett/balance-responsible/{documentId}/storageDocument": {
       "get": {
         "tags": [
@@ -260,6 +309,64 @@
         }
       }
     },
+    "/esett/download": {
+      "post": {
+        "tags": [
+          "ESett"
+        ],
+        "operationId": "downloadPOST",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExchangeEventDownloadFilter"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExchangeEventDownloadFilter"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExchangeEventDownloadFilter"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/csv": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/esett/statusReport": {
       "get": {
         "tags": [
@@ -386,6 +493,64 @@
                 "schema": {
                   "$ref": "#/components/schemas/MeteringGridAreaImbalanceSearchResponse"
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/esett/mga-imbalance/download": {
+      "post": {
+        "tags": [
+          "MeteringGridAreaImbalance"
+        ],
+        "operationId": "downloadPOST2",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceDownloadFilter"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceDownloadFilter"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MeteringGridAreaImbalanceDownloadFilter"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/csv": {
+                "schema": {}
               }
             }
           }
@@ -523,18 +688,30 @@
           "Receiver"
         ]
       },
-      "ExchangeEventSearchFilter": {
+      "ExchangeEventDownloadFilter": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
+          "filter": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExchangeEventFilter"
+              }
+            ]
           },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
+          "sorting": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExchangeEventSortPropertySorting"
+              }
+            ]
+          }
+        }
+      },
+      "ExchangeEventFilter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
           "calculationType": {
             "nullable": true,
             "allOf": [
@@ -586,18 +763,32 @@
           "documentId": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "ExchangeEventSearchFilter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
           },
-          "sortProperty": {
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "filter": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ExchangeEventSortProperty"
+                "$ref": "#/components/schemas/ExchangeEventFilter"
               }
             ]
           },
-          "sortDirection": {
+          "sorting": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/SortDirection"
+                "$ref": "#/components/schemas/ExchangeEventSortPropertySorting"
               }
             ]
           }
@@ -667,6 +858,26 @@
           "TimeSeriesType"
         ]
       },
+      "ExchangeEventSortPropertySorting": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sortProperty": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExchangeEventSortProperty"
+              }
+            ]
+          },
+          "direction": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SortDirection"
+              }
+            ]
+          }
+        }
+      },
       "ExchangeEventStatusReportResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -722,38 +933,23 @@
           }
         }
       },
-      "MeteringGridAreaImbalancePerDayDto": {
+      "MeteringGridAreaImbalanceDownloadFilter": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "imbalanceDay": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "incomingQuantity": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "outgoingQuantity": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
+          "filter": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringGridAreaImbalanceFilter"
+              }
+            ]
           }
         }
       },
-      "MeteringGridAreaImbalanceSearchFilter": {
+      "MeteringGridAreaImbalanceFilter": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
           "gridAreaCode": {
             "type": "string",
             "nullable": true
@@ -790,6 +986,49 @@
             "allOf": [
               {
                 "$ref": "#/components/schemas/SortDirection"
+              }
+            ]
+          }
+        }
+      },
+      "MeteringGridAreaImbalancePerDayDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "imbalanceDay": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "firstOccurrenceOfImbalance": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "firstPositionOfImbalance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "MeteringGridAreaImbalanceSearchFilter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "filter": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringGridAreaImbalanceFilter"
               }
             ]
           }
@@ -837,7 +1076,13 @@
             "type": "string",
             "format": "date-time"
           },
-          "imbalancePerDay": {
+          "incomingImbalancePerDay": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MeteringGridAreaImbalancePerDayDto"
+            }
+          },
+          "outgoingImbalancePerDay": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/MeteringGridAreaImbalancePerDayDto"

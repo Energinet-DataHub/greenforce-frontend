@@ -38,7 +38,7 @@ limitations under the License.
         (search)="documentIdSearch$.next($event)"
       />
 
-      <watt-button icon="download" variant="text" (click)="download()">{{
+      <watt-button icon="download" variant="text" [loading]="isDownloading" (click)="download()">{{
         "shared.download" | transloco
       }}</watt-button>
     </vater-stack>
@@ -64,6 +64,7 @@ limitations under the License.
 
     <dh-outgoing-messages-table
       [tableDataSource]="tableDataSource"
+      [sortMetadata]="sortMetaData$ | push"
       [isLoading]="isLoading"
       [hasError]="hasError"
       (sortChange)="onSortEvent($event)"

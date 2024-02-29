@@ -141,7 +141,8 @@ type MeteringGridAreaImbalanceSearchResult {
   receivedDateTime: DateTime!
   periodStart: DateTime!
   periodEnd: DateTime!
-  imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
+  incomingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
+  outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
 type OrganizationAuditedChangeAuditLogDto {
@@ -239,8 +240,11 @@ type Query {
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodInterval: DateRange, createdInterval: DateRange, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String, sortProperty: ExchangeEventSortProperty!, sortDirection: SortDirection!): ExchangeEventSearchResponse!
+  downloadEsettExchangeEvents(locale: String!, periodInterval: DateRange, createdInterval: DateRange, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String, sortProperty: ExchangeEventSortProperty!, sortDirection: SortDirection!): String!
   meteringGridAreaImbalance(pageNumber: Int!, pageSize: Int!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String, valuesToInclude: MeteringGridImbalanceValuesToInclude!, sortProperty: MeteringGridAreaImbalanceSortProperty!, sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
+  downloadMeteringGridAreaImbalance(locale: String!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String, valuesToInclude: MeteringGridImbalanceValuesToInclude!, sortProperty: MeteringGridAreaImbalanceSortProperty!, sortDirection: SortDirection!): String!
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
+  downloadBalanceResponsibles(locale: String!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): String!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   emailExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
@@ -342,8 +346,9 @@ enum ImbalancePriceStatus {
 
 type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!
-  incomingQuantity: Float
-  outgoingQuantity: Float
+  firstOccurrenceOfImbalance: DateTime!
+  firstPositionOfImbalance: Int!
+  quantity: Float!
 }
 
 enum OrganizationAuditedChange {
@@ -401,12 +406,6 @@ type ApiError implements Error {
 
 interface Error {
   message: String!
-}
-
-type ApiErrorDescriptor {
-  message: String!
-  code: String!
-  args: JSON!
 }
 
 enum UserRoleStatus {
@@ -565,10 +564,18 @@ type UserRoleWithPermissionsDto {
   permissions: [PermissionDetailsDto!]!
 }
 
+type ApiErrorDescriptor {
+  message: String!
+  code: String!
+  args: JSON!
+}
+
 type KeyValuePairOfStringAndIEnumerableOfString {
   key: String!
   value: [String!]!
 }
+
+scalar JSON
 
 type PermissionDetailsDto {
   id: Int!
@@ -610,8 +617,6 @@ input CreateOrganizationDtoInput {
   address: AddressDtoInput!
   domain: String!
 }
-
-scalar JSON
 
 input AddressDtoInput {
   streetName: String

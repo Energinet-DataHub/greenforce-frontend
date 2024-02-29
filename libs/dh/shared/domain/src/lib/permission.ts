@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 export const permissions = [
-  'organizations:manage',
   'grid-areas:manage',
   'actors:manage',
   'users:manage',
@@ -28,4 +27,5 @@ export const permissions = [
   'imbalance-prices:manage',
   'actor-master-data:manage',
 ] as const;
+
 export type Permission = (typeof permissions)[number];

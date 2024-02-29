@@ -19,60 +19,64 @@ limitations under the License.
     <watt-drawer-heading>
       <h2 class="message-heading">{{ balanceResponsibleMessage?.supplierWithName?.value }}</h2>
 
-      <watt-description-list *ngIf="balanceResponsibleMessage" [groupsPerRow]="4" variant="flow">
-        <watt-description-list-item
-          [label]="t('electricitySupplier')"
-          [value]="
-            balanceResponsibleMessage.supplierWithName
-              ? balanceResponsibleMessage.supplier +
-                ' - ' +
-                balanceResponsibleMessage.supplierWithName.value
-              : balanceResponsibleMessage.supplier
-          "
-        />
-        <watt-description-list-item
-          [label]="t('balanceResponsible')"
-          [value]="
-            balanceResponsibleMessage.balanceResponsibleWithName
-              ? balanceResponsibleMessage.balanceResponsible +
-                ' - ' +
-                balanceResponsibleMessage.balanceResponsibleWithName.value
-              : balanceResponsibleMessage.balanceResponsible
-          "
-        />
-        <watt-description-list-item
-          [label]="t('gridArea')"
-          [value]="
-            balanceResponsibleMessage.gridAreaWithName
-              ? balanceResponsibleMessage.gridAreaWithName.name +
-                ' - ' +
-                balanceResponsibleMessage.gridAreaWithName.code
-              : balanceResponsibleMessage.gridArea
-          "
-        />
-        <watt-description-list-item
-          [label]="t('meteringPointType')"
-          [value]="balanceResponsibleMessage.meteringPointType"
-        />
-        <watt-description-list-item
-          [label]="t('validFrom')"
-          [value]="balanceResponsibleMessage.validFromDate | wattDate"
-        />
-        <watt-description-list-item
-          [label]="t('validTo')"
-          [value]="balanceResponsibleMessage.validToDate | wattDate | dhEmDashFallback"
-        />
-        <watt-description-list-item
-          [label]="t('received')"
-          [value]="balanceResponsibleMessage.receivedDateTime | wattDate: 'long'"
-        />
-      </watt-description-list>
+      @if (balanceResponsibleMessage) {
+        <watt-description-list [groupsPerRow]="4" variant="flow">
+          <watt-description-list-item
+            [label]="t('electricitySupplier')"
+            [value]="
+              balanceResponsibleMessage.supplierWithName
+                ? balanceResponsibleMessage.supplier +
+                  ' - ' +
+                  balanceResponsibleMessage.supplierWithName.value
+                : balanceResponsibleMessage.supplier
+            "
+          />
+          <watt-description-list-item
+            [label]="t('balanceResponsible')"
+            [value]="
+              balanceResponsibleMessage.balanceResponsibleWithName
+                ? balanceResponsibleMessage.balanceResponsible +
+                  ' - ' +
+                  balanceResponsibleMessage.balanceResponsibleWithName.value
+                : balanceResponsibleMessage.balanceResponsible
+            "
+          />
+          <watt-description-list-item
+            [label]="t('gridArea')"
+            [value]="
+              balanceResponsibleMessage.gridAreaWithName
+                ? balanceResponsibleMessage.gridAreaWithName.name +
+                  ' - ' +
+                  balanceResponsibleMessage.gridAreaWithName.code
+                : balanceResponsibleMessage.gridArea
+            "
+          />
+          <watt-description-list-item
+            [label]="t('meteringPointType')"
+            [value]="balanceResponsibleMessage.meteringPointType"
+          />
+          <watt-description-list-item
+            [label]="t('validFrom')"
+            [value]="balanceResponsibleMessage.validFromDate | wattDate"
+          />
+          <watt-description-list-item
+            [label]="t('validTo')"
+            [value]="balanceResponsibleMessage.validToDate | wattDate | dhEmDashFallback"
+          />
+          <watt-description-list-item
+            [label]="t('received')"
+            [value]="balanceResponsibleMessage.receivedDateTime | wattDate: 'long'"
+          />
+        </watt-description-list>
+      }
     </watt-drawer-heading>
 
-    <watt-drawer-content *ngIf="drawer.isOpen">
-      <div class="xml-message-container">
-        <watt-code [code]="xmlMessage$ | push" />
-      </div>
-    </watt-drawer-content>
+    @if (drawer.isOpen) {
+      <watt-drawer-content>
+        <div class="xml-message-container">
+          <watt-code [code]="xmlMessage$ | push" />
+        </div>
+      </watt-drawer-content>
+    }
   </watt-drawer>
 </ng-container>

@@ -35,7 +35,45 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
         protected override async Task<IReadOnlyDictionary<Guid, GridAreaDto>> LoadBatchAsync(
             IReadOnlyList<Guid> keys,
-            CancellationToken cancellationToken) =>
-            (await _client.GridAreaGetAsync()).ToDictionary(x => x.Id);
+            CancellationToken cancellationToken)
+        {
+            var actors = await _client
+                .ActorGetAsync(cancellationToken)
+                .ConfigureAwait(false);
+
+            var gridAreas = await _client
+                .GridAreaGetAsync(cancellationToken)
+                .ConfigureAwait(false);
+
+            var result = new Dictionary<Guid, GridAreaDto>();
+
+            foreach (var gridArea in gridAreas)
+            {
+                var owner = actors.FirstOrDefault(actor =>
+                    actor.Status == "Active" &&
+                    actor.MarketRoles.Any(mr =>
+                        mr.EicFunction == EicFunction.GridAccessProvider &&
+                        mr.GridAreas.Any(ga => ga.Id == gridArea.Id)));
+
+                if (owner != null)
+                {
+                    result.Add(gridArea.Id, new GridAreaDto
+                    {
+                        Id = gridArea.Id,
+                        Code = gridArea.Code,
+                        Name = owner.Name.Value,
+                        PriceAreaCode = gridArea.PriceAreaCode,
+                        ValidFrom = gridArea.ValidFrom,
+                        ValidTo = gridArea.ValidTo,
+                    });
+                }
+                else
+                {
+                    result.Add(gridArea.Id, gridArea);
+                }
+            }
+
+            return result;
+        }
     }
 }

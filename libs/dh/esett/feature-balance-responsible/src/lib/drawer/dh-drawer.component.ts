@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
@@ -52,7 +51,6 @@ import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
     `,
   ],
   imports: [
-    NgIf,
     TranslocoDirective,
     RxPush,
 

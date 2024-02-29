@@ -209,8 +209,9 @@ type KeyValuePairOfStringAndIEnumerableOfString {
 
 type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!
-  incomingQuantity: Float
-  outgoingQuantity: Float
+  firstOccurrenceOfImbalance: DateTime!
+  firstPositionOfImbalance: Int!
+  quantity: Float!
 }
 
 type MeteringGridAreaImbalanceSearchResponse {
@@ -225,7 +226,8 @@ type MeteringGridAreaImbalanceSearchResult {
   receivedDateTime: DateTime!
   periodStart: DateTime!
   periodEnd: DateTime!
-  imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
+  incomingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
+  outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
 type Mutation {
@@ -307,8 +309,11 @@ type Query {
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection!): ExchangeEventSearchResponse!
+  downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection!): String!
   meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
+  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
+  downloadBalanceResponsibles(locale: String! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): String!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   emailExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!

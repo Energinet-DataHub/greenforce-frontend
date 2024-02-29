@@ -17,39 +17,25 @@
 import { Injectable } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { endOfDay, startOfDay, sub } from 'date-fns';
 import { ComponentStore } from '@ngrx/component-store';
+import { endOfDay, startOfDay, sub } from 'date-fns';
 
-import {
-  DocumentStatus,
-  ExchangeEventCalculationType,
-  InputMaybe,
-  Scalars,
-  TimeSeriesType,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { MeteringGridImbalanceValuesToInclude } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { dhExchangeSortMetadataMapper } from './dh-sort-metadata-mapper.operator';
+import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
+import { dhMGASortMetadataMapper } from './util/dh-sort-metadata-mapper.operator';
 
-type DhOutgoingMessagesFilters = {
-  calculationTypes?: InputMaybe<ExchangeEventCalculationType>;
-  messageTypes?: InputMaybe<TimeSeriesType>;
-  gridAreas?: InputMaybe<string>;
-  status?: InputMaybe<DocumentStatus>;
-  period?: InputMaybe<Scalars['DateRange']['input']>;
-  created?: InputMaybe<Scalars['DateRange']['input']>;
-};
-
-interface DhOutgoingMessagesState {
+interface DhMeteringGridAreaImbalanceState {
   documentId: string;
   sortMetaData: Sort;
   pageMetaData: Pick<PageEvent, 'pageIndex' | 'pageSize'>;
-  filters: DhOutgoingMessagesFilters;
+  filters: DhMeteringGridAreaImbalanceFilters;
 }
 
-const initialState: DhOutgoingMessagesState = {
+const initialState: DhMeteringGridAreaImbalanceState = {
   documentId: '',
   sortMetaData: {
-    active: 'created',
+    active: 'receivedDateTime',
     direction: 'desc',
   },
   pageMetaData: {
@@ -57,18 +43,19 @@ const initialState: DhOutgoingMessagesState = {
     pageSize: 100,
   },
   filters: {
-    created: {
-      start: sub(startOfDay(new Date()), { days: 3 }),
+    period: {
+      start: sub(startOfDay(new Date()), { days: 2 }),
       end: endOfDay(new Date()),
     },
+    valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances,
   },
 };
 
 @Injectable()
-export class DhOutgoingMessagesStore extends ComponentStore<DhOutgoingMessagesState> {
+export class DhMeteringGridAreaImbalanceStore extends ComponentStore<DhMeteringGridAreaImbalanceState> {
   private documentId$ = this.select(({ documentId }) => documentId);
   private sortMetaDataMapped$ = this.select(({ sortMetaData }) => sortMetaData).pipe(
-    dhExchangeSortMetadataMapper
+    dhMGASortMetadataMapper
   );
 
   readonly pageMetaData$ = this.select(({ pageMetaData }) => pageMetaData);
@@ -81,7 +68,9 @@ export class DhOutgoingMessagesStore extends ComponentStore<DhOutgoingMessagesSt
     this.pageMetaData$,
     this.filters$,
     (documentId, sortMetaData, pageMetaData, filters) => ({
-      filters: documentId ? {} : filters,
+      filters: documentId
+        ? { valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances }
+        : filters,
       pageMetaData,
       documentId,
       sortMetaData,
@@ -90,7 +79,7 @@ export class DhOutgoingMessagesStore extends ComponentStore<DhOutgoingMessagesSt
   );
 
   readonly documentIdUpdate = this.updater<string>(
-    (state, documentId): DhOutgoingMessagesState => ({
+    (state, documentId): DhMeteringGridAreaImbalanceState => ({
       ...state,
       documentId,
       pageMetaData: { ...state.pageMetaData, pageIndex: 0 },

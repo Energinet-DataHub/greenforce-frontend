@@ -20,8 +20,8 @@ limitations under the License.
     [columns]="columns"
     [loading]="isLoading"
     [sortClear]="false"
-    sortBy="created"
-    sortDirection="desc"
+    [sortBy]="sortMetadata.active"
+    [sortDirection]="sortMetadata.direction"
     [activeRow]="activeRow"
     (rowClick)="onRowClick($event)"
     (sortChange)="sortChange.emit($event)"
@@ -58,17 +58,15 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  <vater-stack
-    fill="vertical"
-    justify="center"
-    *ngIf="!isLoading && tableDataSource.filteredData.length === 0"
-  >
-    <watt-empty-state
-      [icon]="hasError ? 'custom-power' : 'cancel'"
-      [title]="hasError ? t('errorTitle') : t('emptyTitle')"
-      [message]="hasError ? t('errorMessage') : t('emptyMessage')"
-    />
-  </vater-stack>
+  @if (!isLoading && tableDataSource.filteredData.length === 0) {
+    <vater-stack fill="vertical" justify="center">
+      <watt-empty-state
+        [icon]="hasError ? 'custom-power' : 'cancel'"
+        [title]="hasError ? t('errorTitle') : t('emptyTitle')"
+        [message]="hasError ? t('errorMessage') : t('emptyMessage')"
+      />
+    </vater-stack>
+  }
 </vater-flex>
 
 <dh-outgoing-message-drawer (closed)="onClose()" />
