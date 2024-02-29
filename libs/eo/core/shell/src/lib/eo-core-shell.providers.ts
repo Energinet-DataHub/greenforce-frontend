@@ -18,8 +18,8 @@ import { importProvidersFrom } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TitleStrategy } from '@angular/router';
-import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
 
+import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
 import {
   eoApiVersioningInterceptorProvider,
   eoAuthorizationInterceptorProvider,
@@ -28,6 +28,8 @@ import { danishLocalProviders } from '@energinet-datahub/gf/globalization/config
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { WattModalService } from '@energinet-datahub/watt/modal';
+import { eoLanguageServiceInitializer } from '@energinet-datahub/eo/globalization/feature-language-switcher';
+
 import { PageTitleStrategy } from './title-strategy.service';
 
 export const eoCoreShellProviders = [
@@ -39,6 +41,7 @@ export const eoCoreShellProviders = [
   eoApiVersioningInterceptorProvider,
   WattModalService,
   ...translocoProviders,
+  eoLanguageServiceInitializer,
   {
     provide: TitleStrategy,
     useClass: PageTitleStrategy,

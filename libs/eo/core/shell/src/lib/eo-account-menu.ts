@@ -64,15 +64,15 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
       }
     }
 
-    eo-account-menu .menu-icon {
-      transition: transform 150ms;
-
-      &.isOpen {
-        transform: rotate(180deg);
-      }
-    }
-
     eo-account-menu {
+      .menu-icon {
+        transition: transform 150ms;
+
+        &.isOpen {
+          transform: rotate(180deg);
+        }
+      }
+
       .hide-on-small {
         @include watt.media('<=Small') {
           display: none;
