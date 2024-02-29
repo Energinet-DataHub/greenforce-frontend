@@ -27,7 +27,6 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -66,7 +65,6 @@ import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
   styleUrls: ['./dh-invite-user-modal.component.scss'],
   standalone: true,
   imports: [
-    NgIf,
     WATT_MODAL,
     WattButtonComponent,
     TranslocoModule,
