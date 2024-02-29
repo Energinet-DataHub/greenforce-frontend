@@ -29,6 +29,7 @@ import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browse
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { eoLanguageServiceInitializer } from '@energinet-datahub/eo/globalization/feature-language-switcher';
+import { eoWattTranslationsProviders } from '@energinet-datahub/eo/globalization/configuration-watt-translation';
 
 import { PageTitleStrategy } from './title-strategy.service';
 
@@ -42,6 +43,7 @@ export const eoCoreShellProviders = [
   WattModalService,
   ...translocoProviders,
   eoLanguageServiceInitializer,
+  eoWattTranslationsProviders,
   {
     provide: TitleStrategy,
     useClass: PageTitleStrategy,

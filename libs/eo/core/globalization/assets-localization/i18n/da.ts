@@ -51,6 +51,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         'Prøv igen ved at genindlæse siden eller kontakte din systemadministrator, hvis du fortsat får denne fejl.',
       retry: 'Genindlæs',
     },
+    empty: {
+      title: 'Ingen data fundet',
+      message: 'Der er ingen data at vise.',
+    },
     chart: {
       title: 'Oversigt',
       titleTooltip: 'Kun aktive målepunkter',
@@ -59,6 +63,23 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     },
     help: 'Hjælp',
     logout: 'Log ud',
+    search: 'Søg',
+    paginator: {
+      itemsPerPageLabel: 'Resultater pr. side',
+      of: 'af',
+      first: 'Første side',
+      last: 'Sidste side',
+      next: 'Næste side',
+      previous: 'Forrige side',
+      ariaLabel: 'Vælg side',
+    },
+    fieldValidation: {
+      required: 'Udfyld feltet',
+    },
+    clipboard: {
+      success: 'Kopieret',
+      error: 'Kopiering mislykkedes',
+    },
   },
   languageSwitcher: {
     title: 'Sprog',

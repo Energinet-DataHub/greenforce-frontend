@@ -47,6 +47,10 @@ export interface TranslationKeys {
       message: string;
       retry: string;
     };
+    empty: {
+      title: string;
+      message: string;
+    };
     chart: {
       title: string;
       titleTooltip: string;
@@ -55,6 +59,23 @@ export interface TranslationKeys {
     };
     help: string;
     logout: string;
+    paginator: {
+      itemsPerPageLabel: string;
+      of: string;
+      first: string;
+      last: string;
+      next: string;
+      previous: string;
+      ariaLabel: string;
+    };
+    fieldValidation: {
+      required: string;
+    };
+    search: string;
+    clipboard: {
+      success: string;
+      error: string;
+    }
   };
   languageSwitcher: {
     title: string;

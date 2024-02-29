@@ -51,6 +51,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         'Try again by reloading the page or contacting your system administrator if you keep getting this error.',
       retry: 'Reload',
     },
+    empty: {
+      title: 'No data found',
+      message: 'You do not have any data to display.',
+    },
     chart: {
       title: 'Overview',
       titleTooltip: 'Only active metering points',
@@ -59,6 +63,23 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     },
     help: 'Help',
     logout: 'Logout',
+    search: 'Search',
+    paginator: {
+      itemsPerPageLabel: 'Results per page',
+      of: 'of',
+      first: 'First page',
+      last: 'Last page',
+      next: 'Next page',
+      previous: 'Previous page',
+      ariaLabel: 'Select page',
+    },
+    fieldValidation: {
+      required: 'Field is required',
+    },
+    clipboard: {
+      success: 'Copied',
+      error: 'Failed to copy',
+    },
   },
   languageSwitcher: {
     title: 'Language',
