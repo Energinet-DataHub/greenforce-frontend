@@ -581,7 +581,7 @@
       },
       "columns": {
         "created": "Created",
-        "id": "ID",
+        "id": "{{ eSett.outgoingMessages.filters.documentId }}",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",

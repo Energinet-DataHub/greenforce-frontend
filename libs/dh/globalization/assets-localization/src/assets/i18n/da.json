@@ -581,7 +581,7 @@
       },
       "columns": {
         "created": "Oprettet",
-        "id": "ID",
+        "id": "{{ eSett.outgoingMessages.filters.documentId }}",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
@@ -625,7 +625,7 @@
       "columns": {
         "documentDateTime": "Oprettet",
         "receivedDateTime": "Modtaget",
-        "id": "ID",
+        "id": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "period": "Beregningsperiode"
       },
