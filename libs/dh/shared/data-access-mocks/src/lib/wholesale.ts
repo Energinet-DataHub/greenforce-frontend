@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { delay, http, HttpResponse } from 'msw';
-import parseISO from 'date-fns/parseISO';
+import dayjs from 'dayjs/esm';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
@@ -79,11 +79,11 @@ function createCalculation() {
   });
 }
 
-const periodStart = parseISO('2021-12-01T23:00:00Z');
-const periodEnd = parseISO('2021-12-02T23:00:00Z');
-const executionTimeStart = parseISO('2021-12-01T23:00:00Z');
-const executionTimeEnd = parseISO('2021-12-02T23:00:00Z');
-const validFrom = parseISO('0001-01-01T00:00:00+00:00');
+const periodStart = dayjs('2021-12-01T23:00:00Z').toDate();
+const periodEnd = dayjs('2021-12-02T23:00:00Z').toDate();
+const executionTimeStart = dayjs('2021-12-01T23:00:00Z').toDate();
+const executionTimeEnd = dayjs('2021-12-02T23:00:00Z').toDate();
+const validFrom = dayjs('0001-01-01T00:00:00+00:00').toDate();
 const fakeUserEmail = 'email@example.com';
 
 export const mockedGridAreas: GridAreaDto[] = [
@@ -266,10 +266,10 @@ const mockedCalculations: Calculation[] = [
   },
 ];
 
-const executionTime = parseISO('2023-03-03T07:38:29.3776159+00:00');
+const executionTime = dayjs('2023-03-03T07:38:29.3776159+00:00').toDate();
 const period = {
-  start: parseISO('2020-01-28T23:00:00.000Z'),
-  end: parseISO('2020-01-29T22:59:59.998Z'),
+  start: dayjs('2020-01-28T23:00:00.000Z').toDate(),
+  end: dayjs('2020-01-29T22:59:59.998Z').toDate(),
 };
 
 const mockedSettlementReports: SettlementReport[] = [

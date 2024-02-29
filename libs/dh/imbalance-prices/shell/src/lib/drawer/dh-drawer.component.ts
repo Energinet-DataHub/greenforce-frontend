@@ -27,7 +27,6 @@ import {
 } from '@angular/core';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
-import { format } from 'date-fns';
 import { switchMap } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
@@ -46,6 +45,7 @@ import { DhImbalancePrice, DhImbalancePricesForMonth } from '../dh-imbalance-pri
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
 import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
 import { dhValueChangeAnimationTrigger } from './dh-value-change-animation-trigger';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
   selector: 'dh-imbalance-prices-drawer',
@@ -117,12 +117,27 @@ export class DhImbalancePricesDrawerComponent {
   private readonly toastService = inject(WattToastService);
   private readonly httpClient = inject(ImbalancePricesHttp);
   private readonly apollo = inject(Apollo);
+  private readonly locale = inject(MAT_DATE_LOCALE) as string;
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  private readonly year = computed(() => Number(format(this.imbalancePrice()!.name, 'yyyy')));
+  private readonly year = computed(() => {
+    const imbalancePrice = this.imbalancePrice();
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  private readonly month = computed(() => Number(format(this.imbalancePrice()!.name, 'M')));
+    if (!imbalancePrice) return 0;
+
+    const formatter = new Intl.DateTimeFormat(this.locale, { year: 'numeric' });
+    const formattedDate = formatter.format(imbalancePrice.name);
+    return Number(formattedDate);
+  });
+
+  private readonly month = computed(() => {
+    const imbalancePrice = this.imbalancePrice();
+
+    if (!imbalancePrice) return 0;
+
+    const formatter = new Intl.DateTimeFormat(this.locale, { month: 'numeric' });
+    const formattedDate = formatter.format(imbalancePrice.name);
+    return Number(formattedDate);
+  });
 
   imbalancePrice = input<DhImbalancePrice>();
 
@@ -162,9 +177,12 @@ export class DhImbalancePricesDrawerComponent {
       message: translate('imbalancePrices.drawer.downloadStart'),
     });
 
+    const formatter = new Intl.DateTimeFormat(this.locale, { month: 'long', year: 'numeric' });
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const formattedDate = formatter.format(this.imbalancePrice()!.name);
+
     const fileOptions = {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      name: 'imbalance-prices-' + format(this.imbalancePrice()!.name, 'MMMM-yyyy'),
+      name: 'imbalance-prices-' + formattedDate,
       type: 'text/csv',
     };
 

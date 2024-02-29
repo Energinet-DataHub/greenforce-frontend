@@ -18,7 +18,7 @@ import { Injectable } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { ComponentStore } from '@ngrx/component-store';
-import { endOfDay, startOfDay, sub } from 'date-fns';
+import dayjs from 'dayjs/esm';
 
 import { MeteringGridImbalanceValuesToInclude } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -44,8 +44,8 @@ const initialState: DhMeteringGridAreaImbalanceState = {
   },
   filters: {
     period: {
-      start: sub(startOfDay(new Date()), { days: 2 }),
-      end: endOfDay(new Date()),
+      start: dayjs(new Date()).startOf('day').subtract(2, 'days').toDate(),
+      end: dayjs(new Date()).endOf('day').toDate(),
     },
     valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances,
   },

@@ -19629,6 +19629,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dayjs@npm:^1.11.10":
+  version: 1.11.10
+  resolution: "dayjs@npm:1.11.10"
+  checksum: 4de9af50639d47df87f2e15fa36bb07e0f9ed1e9c52c6caa1482788ee9a384d668f1dbd00c54f82aaab163db07d61d2899384b8254da3a9184fc6deca080e2fe
+  languageName: node
+  linkType: hard
+
 "debounce@npm:^1.2.0":
   version: 1.2.1
   resolution: "debounce@npm:1.2.1"
@@ -20683,6 +20690,7 @@ __metadata:
     cypress: "npm:13.6.2"
     date-fns: "npm:2.29.2"
     date-fns-tz: "npm:2.0.0"
+    dayjs: "npm:^1.11.10"
     eslint: "npm:8.48.0"
     eslint-config-prettier: "npm:9.0.0"
     eslint-plugin-cypress: "npm:2.13.4"

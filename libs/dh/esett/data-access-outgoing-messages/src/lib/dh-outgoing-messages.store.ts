@@ -17,7 +17,7 @@
 import { Injectable } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { endOfDay, startOfDay, sub } from 'date-fns';
+import dayjs from 'dayjs/esm';
 import { ComponentStore } from '@ngrx/component-store';
 
 import {
@@ -58,8 +58,8 @@ const initialState: DhOutgoingMessagesState = {
   },
   filters: {
     created: {
-      start: sub(startOfDay(new Date()), { days: 3 }),
-      end: endOfDay(new Date()),
+      start: dayjs(new Date()).startOf('day').subtract(3, 'days').toDate(),
+      end: dayjs(new Date()).endOf('day').toDate(),
     },
   },
 };

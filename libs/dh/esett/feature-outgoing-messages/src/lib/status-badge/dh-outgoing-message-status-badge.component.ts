@@ -17,7 +17,7 @@
 import { NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { differenceInSeconds } from 'date-fns';
+import dayjs from 'dayjs/esm';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DocumentStatus } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -68,7 +68,7 @@ export class DhOutgoingMessageStatusBadgeComponent {
   isSevere(): boolean {
     if (!this.created) return false;
 
-    const secondsPassed = differenceInSeconds(new Date(), this.created);
+    const secondsPassed = dayjs(new Date()).diff(this.created, 'second');
 
     switch (this.status) {
       case 'RECEIVED':
