@@ -1719,7 +1719,7 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
         public int FirstPositionOfImbalance { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("quantity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Quantity { get; set; } = default!;
+        public decimal Quantity { get; set; } = default!;
 
     }
 
