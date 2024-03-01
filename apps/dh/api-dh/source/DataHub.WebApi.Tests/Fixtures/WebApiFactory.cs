@@ -21,6 +21,10 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
 {
     public class WebApiFactory : WebApplicationFactory<Startup>
     {
+        public WebApiFactory()
+        {
+        }
+
         private readonly List<IServiceMock> _serviceMocks = new();
 
         public void AddServiceMock(IServiceMock serviceMock)
