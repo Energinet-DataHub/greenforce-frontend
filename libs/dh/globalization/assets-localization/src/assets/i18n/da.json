@@ -261,6 +261,7 @@
         "contactsHeader": "Kontakter",
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
+        "createSuccess": "Aktør oprettet",
         "masterData": {
           "labelActorNumber": "GLN/EIC",
           "labelStatus": "Status",
