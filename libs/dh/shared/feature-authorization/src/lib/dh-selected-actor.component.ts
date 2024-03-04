@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 import { Component, inject } from '@angular/core';
-import { NgIf, NgFor } from '@angular/common';
-import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 
@@ -30,10 +28,11 @@ import { DhSelectedActorStore, Actor } from './dh-selected-actor.store';
   styleUrls: ['./dh-selected-actor.component.scss'],
   templateUrl: './dh-selected-actor.component.html',
   standalone: true,
-  imports: [NgIf, NgFor, RxLet, RxPush, WattIconComponent, WattSpinnerComponent, OverlayModule],
+  imports: [RxLet, WattIconComponent, WattSpinnerComponent, OverlayModule],
 })
 export class DhSelectedActorComponent {
   private store = inject(DhSelectedActorStore);
+
   actorGroups$ = this.store.actorGroups$;
   selectedActor$ = this.store.selectedActor$;
   isLoading$ = this.store.isLoading$;

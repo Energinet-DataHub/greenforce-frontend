@@ -281,18 +281,62 @@ namespace Energinet.DataHub.WebApi.GraphQL
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                PeriodFrom = periodInterval?.Start.ToDateTimeOffset(),
-                PeriodTo = periodInterval?.End.ToDateTimeOffset(),
-                GridAreaCode = gridAreaCode,
-                CalculationType = calculationType,
-                DocumentStatus = documentStatus,
-                TimeSeriesType = timeSeriesType,
-                DocumentId = documentId,
-                CreatedFrom = createdInterval?.Start.ToDateTimeOffset(),
-                CreatedTo = createdInterval?.End.ToDateTimeOffset(),
-                SortDirection = sortDirection,
-                SortProperty = sortProperty,
+                Filter = new ExchangeEventFilter
+                {
+                    PeriodFrom = periodInterval?.Start.ToDateTimeOffset(),
+                    PeriodTo = periodInterval?.End.ToDateTimeOffset(),
+                    GridAreaCode = gridAreaCode,
+                    CalculationType = calculationType,
+                    DocumentStatus = documentStatus,
+                    TimeSeriesType = timeSeriesType,
+                    DocumentId = documentId,
+                    CreatedFrom = createdInterval?.Start.ToDateTimeOffset(),
+                    CreatedTo = createdInterval?.End.ToDateTimeOffset(),
+                },
+                Sorting = new ExchangeEventSortPropertySorting
+                {
+                    Direction = sortDirection,
+                    SortProperty = sortProperty,
+                },
             });
+
+        public async Task<string> DownloadEsettExchangeEventsAsync(
+            string locale,
+            Interval? periodInterval,
+            Interval? createdInterval,
+            string? gridAreaCode,
+            Clients.ESettExchange.v1.CalculationType? calculationType,
+            DocumentStatus? documentStatus,
+            TimeSeriesType? timeSeriesType,
+            string? documentId,
+            ExchangeEventSortProperty sortProperty,
+            SortDirection sortDirection,
+            [Service] IESettExchangeClient_V1 client)
+        {
+            var file = await client.DownloadPOSTAsync(locale, new ExchangeEventDownloadFilter
+            {
+                Filter = new ExchangeEventFilter
+                {
+                    PeriodFrom = periodInterval?.Start.ToDateTimeOffset(),
+                    PeriodTo = periodInterval?.End.ToDateTimeOffset(),
+                    GridAreaCode = gridAreaCode,
+                    CalculationType = calculationType,
+                    DocumentStatus = documentStatus,
+                    TimeSeriesType = timeSeriesType,
+                    DocumentId = documentId,
+                    CreatedFrom = createdInterval?.Start.ToDateTimeOffset(),
+                    CreatedTo = createdInterval?.End.ToDateTimeOffset(),
+                },
+                Sorting = new ExchangeEventSortPropertySorting
+                {
+                    Direction = sortDirection,
+                    SortProperty = sortProperty,
+                },
+            });
+
+            using var streamReader = new StreamReader(file.Stream);
+            return await streamReader.ReadToEndAsync();
+        }
 
         public Task<MeteringGridAreaImbalanceSearchResponse> GetMeteringGridAreaImbalanceAsync(
             int pageNumber,
@@ -332,7 +376,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             SortDirection sortDirection,
             [Service] IESettExchangeClient_V1 client)
         {
-            var file = await client.DownloadPOSTAsync(locale, new MeteringGridAreaImbalanceDownloadFilter
+            var file = await client.DownloadPOST2Async(locale, new MeteringGridAreaImbalanceDownloadFilter
             {
                 Filter = new MeteringGridAreaImbalanceFilter
                 {

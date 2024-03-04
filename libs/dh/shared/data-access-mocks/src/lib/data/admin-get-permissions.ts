@@ -31,8 +31,8 @@ export const adminPermissionsMock: GetPermissionsQuery = {
     {
       __typename: 'Permission',
       id: 2,
-      name: 'organizations:manage',
-      description: 'Description for OrganizationManage',
+      name: 'actors:manage',
+      description: 'Description for ActorsManage',
       created: dayjs('2023-03-07T00:00:00+00:00').toDate(),
     },
   ],

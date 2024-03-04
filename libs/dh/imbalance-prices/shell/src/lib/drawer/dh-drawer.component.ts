@@ -174,7 +174,7 @@ export class DhImbalancePricesDrawerComponent {
   downloadCSV() {
     this.toastService.open({
       type: 'loading',
-      message: translate('imbalancePrices.drawer.downloadStart'),
+      message: translate('shared.downloadStart'),
     });
 
     const formatter = new Intl.DateTimeFormat(this.locale, { month: 'long', year: 'numeric' });
@@ -194,7 +194,7 @@ export class DhImbalancePricesDrawerComponent {
         error: () => {
           this.toastService.open({
             type: 'danger',
-            message: translate('imbalancePrices.drawer.downloadFailed'),
+            message: translate('shared.downloadFailed'),
           });
         },
       });

@@ -25,21 +25,27 @@ limitations under the License.
     "
   >
     <mat-accordion multi class="container">
-      <ng-container *ngFor="let actor of userRolesPrActor">
+      @for (actor of userRolesPrActor; track actor) {
         <watt-expandable-card [expanded]="expanded">
-          <watt-badge *ngIf="!selectMode">{{
-            t("assigned.count", { count: (actor.userRoles | filterUserRoles : false).length })
-          }}</watt-badge>
-          <watt-expandable-card-title *ngIf="actor.name"
-            >{{ actor.actorNumber }} – {{ actor.organizationName }} – {{ actor.name }}
-          </watt-expandable-card-title>
-          <watt-expandable-card-title *ngIf="!actor.name"
-            >{{ actor.actorNumber }} – {{ actor.organizationName }}
-          </watt-expandable-card-title>
+          @if (!selectMode) {
+            <watt-badge>{{
+              t("assigned.count", { count: (actor.userRoles | filterUserRoles: false).length })
+            }}</watt-badge>
+          }
+
+          @if (actor.name) {
+            <watt-expandable-card-title
+              >{{ actor.actorNumber }} – {{ actor.organizationName }} – {{ actor.name }}
+            </watt-expandable-card-title>
+          } @else {
+            <watt-expandable-card-title
+              >{{ actor.actorNumber }} – {{ actor.organizationName }}
+            </watt-expandable-card-title>
+          }
 
           <watt-table
-            [dataSource]="actor.userRoles | filterUserRoles : selectMode | userRolesIntoTable"
-            [initialSelection]="actor.userRoles | filterUserRoles : false"
+            [dataSource]="actor.userRoles | filterUserRoles: selectMode | userRolesIntoTable"
+            [initialSelection]="actor.userRoles | filterUserRoles: false"
             [columns]="columns"
             sortBy="marketRole"
             sortDirection="asc"
@@ -72,7 +78,7 @@ limitations under the License.
             </ng-container>
           </watt-table>
         </watt-expandable-card>
-      </ng-container>
+      }
     </mat-accordion>
   </ng-container>
 
@@ -90,12 +96,12 @@ limitations under the License.
 
 <ng-template #userRolesHeadline let-userRolesCount>
   <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles.userRolesHeadline'">
-    <h4 *ngIf="userRolesCount === 1">
-      {{ t("singular", { userRolesCount }) }}
-    </h4>
-
-    <h4 *ngIf="userRolesCount !== 1">
-      {{ t("plural", { userRolesCount }) }}
+    <h4>
+      @if (userRolesCount === 1) {
+        {{ t("singular", { userRolesCount }) }}
+      } @else {
+        {{ t("plural", { userRolesCount }) }}
+      }
     </h4>
   </ng-container>
 </ng-template>
