@@ -17,7 +17,7 @@ limitations under the License.
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ProjectGuid>{32D65373-1631-4219-9152-8C4B2E2E937B}</ProjectGuid>
     <AssemblyName>Energinet.DataHub.WebApi.Tests</AssemblyName>
@@ -33,21 +33,21 @@ limitations under the License.
     <PackageReference Include="CookieCrumble" Version="13.5.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="WireMock.Net" Version="1.5.13" />
-    <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="4.0.2" />
-    <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="4.0.2" />
+    <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="4.6.0" />
+    <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="4.6.0" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="3.0.1" />
-    <PackageReference Include="FluentAssertions" Version="6.8.0" />
+    <PackageReference Include="FluentAssertions" Version="6.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.12" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.4.27">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Moq" Version="4.18.3" />
+    <PackageReference Include="Moq" Version="4.18.4" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

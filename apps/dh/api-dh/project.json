@@ -58,7 +58,7 @@
       "options": {
         "commands": [
           "npm run check:dotnet",
-          "ASPNETCORE_ENVIRONMENT=Development dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
+          "dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
         ],
         "parallel": false
       }

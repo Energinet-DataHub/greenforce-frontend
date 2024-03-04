@@ -52,7 +52,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
             // WholesaleClientV3Mock
             //     .Setup(x => x.GetSettlementReportAsStreamAsync(calculationId, gridAreaCode, CancellationToken.None))
             //     .ReturnsAsync(new FileResponse(0, null, new MemoryStream(), null, null));
-            // await BffClient.GetAsync($"/v1/WholesaleSettlementReport?calculationId={calculationId}&gridAreaCode={gridAreaCode}");
+            //// await BffClient.GetAsync($"/v1/WholesaleSettlementReport?calculationId={calculationId}&gridAreaCode={gridAreaCode}");
 
             WholesaleClientV3Mock
                 .Setup(x => x.GetCalculationAsync(calculationId, default))

@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ProjectGuid>{845192D8-844B-4F74-BB51-AB80617FF6C1}</ProjectGuid>
     <AssemblyName>Energinet.DataHub.WebApi</AssemblyName>
