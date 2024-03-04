@@ -31,11 +31,11 @@ export class WattLocaleService {
 
   setActiveLocale(locale: WattSupportedLocales): void {
     if (locale === 'da') {
-      import('dayjs/esm/locale/da');
+      import('dayjs/locale/da');
     }
 
     if (locale === 'en') {
-      import('dayjs/esm/locale/en');
+      import('dayjs/locale/en');
     }
 
     dayjs.locale(locale);

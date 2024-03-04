@@ -1,6 +1,6 @@
-import dayjs from 'dayjs/esm';
-import utc from 'dayjs/esm/plugin/utc';
-import timezone from 'dayjs/esm/plugin/timezone';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
