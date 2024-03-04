@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, Input, ViewChild } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -39,7 +38,6 @@ import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
     `,
   ],
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
 

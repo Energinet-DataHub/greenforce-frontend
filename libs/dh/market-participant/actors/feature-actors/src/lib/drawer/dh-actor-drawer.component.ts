@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
@@ -75,7 +74,6 @@ import { DhActorAuditLogService } from './dh-actor-audit-log.service';
   ],
   viewProviders: [DhActorAuditLogService],
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
 
