@@ -49,16 +49,11 @@ import { MaskitoOptions } from '@maskito/core';
 import { maskitoDateOptionsGenerator, maskitoDateRangeOptionsGenerator } from '@maskito/kit';
 import { WattSupportedLocales } from '../../../configuration/watt-date-adapter';
 import { WattDateRange } from '../../../utils/date';
+import { dayjs } from '../../../utils/date';
 import { WattButtonComponent } from '../../button';
 import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-placeholder-mask.component';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
-import dayjs from 'dayjs/esm';
-import utc from 'dayjs/esm/plugin/utc';
-import timezone from 'dayjs/esm/plugin/timezone';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 const dateShortFormat = 'DD-MM-YYYY';
 const danishLocaleCode = 'da';

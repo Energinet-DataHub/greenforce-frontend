@@ -19,7 +19,7 @@ import { NgIf } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
-import dayjs from 'dayjs/esm';
+import { dayjs } from '@energinet-datahub/watt/date';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';

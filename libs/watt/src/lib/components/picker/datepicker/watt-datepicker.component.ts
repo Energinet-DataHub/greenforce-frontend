@@ -49,12 +49,7 @@ import { WattDateRange } from '../../../utils/date';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
 
-import dayjs from 'dayjs/esm';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
-
-dayjs.extend(timezone);
-dayjs.extend(utc);
+import { dayjs } from '@energinet-datahub/watt/date';
 
 const dateShortFormat = 'DD-MM-YYYY';
 const danishLocaleCode = 'da';

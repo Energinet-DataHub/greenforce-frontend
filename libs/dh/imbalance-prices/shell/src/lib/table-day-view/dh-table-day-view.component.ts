@@ -16,7 +16,7 @@
  */
 import { Component, input, effect, ChangeDetectionStrategy } from '@angular/core';
 import { DecimalPipe, NgClass } from '@angular/common';
-import dayjs from 'dayjs/esm';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';

@@ -16,7 +16,7 @@
  */
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { WattRange } from '@energinet-datahub/watt/date';
-import dayjs from 'dayjs/esm';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 export const maxOneMonthDateRangeValidator =
   () =>

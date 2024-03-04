@@ -15,16 +15,7 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
-import dayjs from 'dayjs/esm';
-import utc from 'dayjs/esm/plugin/utc';
-import timezone from 'dayjs/esm/plugin/timezone';
-import 'dayjs/esm/locale/da';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
-dayjs.locale('da');
-
+import { dayjs } from '@energinet-datahub/watt/date';
 import { WattRange } from './watt-date-range';
 
 const formatStrings = {

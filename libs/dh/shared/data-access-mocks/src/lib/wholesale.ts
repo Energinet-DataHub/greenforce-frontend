@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { delay, http, HttpResponse } from 'msw';
-import dayjs from 'dayjs/esm';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 

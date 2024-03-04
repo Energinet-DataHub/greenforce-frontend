@@ -32,7 +32,7 @@ import {
   MAT_DATE_RANGE_SELECTION_STRATEGY,
   MatDatepickerModule,
 } from '@angular/material/datepicker';
-import dayjs from 'dayjs/esm';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattDatePipe, WattRange } from '../../../utils/date';

@@ -17,7 +17,7 @@
 import { NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import dayjs from 'dayjs/esm';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DocumentStatus } from '@energinet-datahub/dh/shared/domain/graphql';

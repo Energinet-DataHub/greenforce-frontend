@@ -18,7 +18,7 @@ import {
   PermissionAuditedChange,
   PermissionAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import dayjs from 'dayjs/esm';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 export const adminPermissionAuditLogsMock: PermissionAuditedChangeAuditLogDto[] = [
   {

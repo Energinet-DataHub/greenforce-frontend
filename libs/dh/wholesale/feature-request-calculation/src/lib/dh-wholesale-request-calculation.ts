@@ -16,7 +16,7 @@
  */
 import { Component, DestroyRef, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
-import dayjs from 'dayjs/esm';
+import { dayjs } from '@energinet-datahub/watt/date';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,

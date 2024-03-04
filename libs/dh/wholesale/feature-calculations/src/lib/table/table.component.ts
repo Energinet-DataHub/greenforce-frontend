@@ -42,7 +42,7 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import { BehaviorSubject, filter, switchMap } from 'rxjs';
-import dayjs from 'dayjs/esm';
+import { dayjs } from '@energinet-datahub/watt/date';
 import { Apollo } from 'apollo-angular';
 import {
   GetCalculationsDocument,

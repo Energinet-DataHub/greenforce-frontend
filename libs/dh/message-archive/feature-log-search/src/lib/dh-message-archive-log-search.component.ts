@@ -37,14 +37,9 @@ import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import dayjs from 'dayjs/esm';
-import utc from 'dayjs/esm/plugin/utc';
-import timezone from 'dayjs/esm/plugin/timezone';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-message-archive-log-search-result.component';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 @Component({
   standalone: true,
