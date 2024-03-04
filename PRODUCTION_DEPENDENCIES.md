@@ -8,7 +8,6 @@
 | [@angular/compiler](https://github.com/angular/angular) | 17.1.0 | MIT |
 | [@angular/core](https://github.com/angular/angular) | 17.1.0 | MIT |
 | [@angular/forms](https://github.com/angular/angular) | 17.1.0 | MIT |
-| [@angular/material-date-fns-adapter](https://github.com/angular/components) | 17.1.0 | MIT |
 | [@angular/material](https://github.com/angular/components) | 17.1.0 | MIT |
 | [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.1.0 | MIT |
 | [@angular/platform-browser](https://github.com/angular/angular) | 17.1.0 | MIT |
