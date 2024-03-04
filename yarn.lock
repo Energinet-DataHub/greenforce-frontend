@@ -536,19 +536,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/material-date-fns-adapter@npm:17.1.0":
-  version: 17.1.0
-  resolution: "@angular/material-date-fns-adapter@npm:17.1.0"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/core": ^17.0.0 || ^18.0.0
-    "@angular/material": 17.1.0
-    date-fns: ">2.20.0 <4.0"
-  checksum: 50f07a16be308f22653d5ab5e9c3761759a1f022e8a98b8f77811ee11d390f1b1060b6da5aa922947c80bbb47b857d98e8e28621b8ba5eec3c4d1eb8deaa7051
-  languageName: node
-  linkType: hard
-
 "@angular/material@npm:17.1.0":
   version: 17.1.0
   resolution: "@angular/material@npm:17.1.0"
@@ -20586,7 +20573,6 @@ __metadata:
     "@angular/forms": "npm:17.1.0"
     "@angular/language-service": "npm:17.1.0"
     "@angular/material": "npm:17.1.0"
-    "@angular/material-date-fns-adapter": "npm:17.1.0"
     "@angular/platform-browser": "npm:17.1.0"
     "@angular/platform-browser-dynamic": "npm:17.1.0"
     "@angular/router": "npm:17.1.0"
