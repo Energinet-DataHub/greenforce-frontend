@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -26,26 +25,22 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   standalone: true,
   selector: 'dh-actor-status-badge',
   template: `
-    <ng-container
-      [ngSwitch]="status"
-      *transloco="let t; read: 'marketParticipant.actorsOverview.status'"
-    >
-      <watt-badge *ngSwitchCase="'Active'" type="success">{{ t('Active') }}</watt-badge>
-      <watt-badge *ngSwitchCase="'Inactive'" type="neutral">{{ t('Inactive') }}</watt-badge>
-
-      <ng-container *ngSwitchDefault>{{ status | dhEmDashFallback }}</ng-container>
+    <ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.status'">
+      @switch (status) {
+        @case ('Active') {
+          <watt-badge type="success">{{ t('Active') }}</watt-badge>
+        }
+        @case ('Inactive') {
+          <watt-badge type="neutral">{{ t('Inactive') }}</watt-badge>
+        }
+        @default {
+          {{ status | dhEmDashFallback }}
+        }
+      }
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgSwitch,
-    NgSwitchCase,
-    NgSwitchDefault,
-    TranslocoDirective,
-
-    WattBadgeComponent,
-    DhEmDashFallbackPipe,
-  ],
+  imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe],
 })
 export class DhActorStatusBadgeComponent {
   @Input({ required: true }) status: ActorStatus | null | undefined = null;

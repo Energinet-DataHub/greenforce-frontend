@@ -16,7 +16,6 @@
  */
 import { Component, Injector, Input, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { NgIf } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -59,7 +58,6 @@ type DhClientSecretTableRow = {
   ],
   templateUrl: './dh-client-secret-view.component.html',
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
 

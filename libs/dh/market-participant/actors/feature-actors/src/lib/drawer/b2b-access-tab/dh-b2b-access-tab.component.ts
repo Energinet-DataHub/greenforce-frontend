@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import { Component, Input, OnChanges, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -44,36 +43,32 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
     `,
   ],
   template: `
-    <vater-flex direction="row" justify="center" *ngIf="showSpinner(); else elseCase">
-      <watt-spinner />
-    </vater-flex>
-
-    <ng-template #elseCase>
-      <ng-container *ngIf="doCredentialsExist(); else emptyState">
-        <ng-container *ngIf="doesCertificateExist()">
+    @if (showSpinner()) {
+      <vater-flex direction="row" justify="center">
+        <watt-spinner />
+      </vater-flex>
+    } @else {
+      @if (doCredentialsExist()) {
+        @if (doesCertificateExist()) {
           <dh-certificate-view [actorId]="actorId" />
-        </ng-container>
+        }
 
-        <ng-container *ngIf="doesClientSecretMetadataExist()">
+        @if (doesClientSecretMetadataExist()) {
           <dh-client-secret-view [actorId]="actorId" />
-        </ng-container>
-      </ng-container>
-
-      <ng-template #emptyState>
+        }
+      } @else {
         <vater-stack justify="center" gap="l">
           <watt-icon name="custom-no-results" size="xxl" />
-
           <vater-stack direction="row" justify="center" gap="m">
             <dh-certificate-uploader [actorId]="actorId" />
             <dh-generate-client-secret [actorId]="actorId" />
           </vater-stack>
         </vater-stack>
-      </ng-template>
-    </ng-template>
+      }
+    }
   `,
   viewProviders: [DhMarketPartyB2BAccessStore],
   imports: [
-    NgIf,
     VaterStackComponent,
     VaterFlexComponent,
     WattButtonComponent,
