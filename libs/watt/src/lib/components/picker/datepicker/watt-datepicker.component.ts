@@ -246,13 +246,9 @@ export class WattDatepickerComponent extends WattPickerBase {
     const getInitialValue = (initialValue: string) => {
       let value: Date | string = '';
 
-      console.log({ initialValue });
-
       if (initialValue) {
         value = this.parseDateShortFormat(this.formatDateTimeFromModelToView(initialValue));
       }
-
-      console.log({ value });
 
       return { value };
     };
@@ -412,7 +408,6 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   private parseDateShortFormat(value: string): Date {
-    console.log({ value });
     return dayjs(value, dateShortFormat).toDate();
   }
 
@@ -433,8 +428,6 @@ export class WattDatepickerComponent extends WattPickerBase {
   >(value: string | null | undefined, nativeInput: HTMLInputElement, matDateInput: D): void {
     nativeInput.value = value ? this.formatDateTimeFromModelToView(value) : '';
     matDateInput.value = value ? dayjs(value).utc().toDate() : null;
-
-    console.log('test', this.formatDateTimeFromModelToView(value!), value, nativeInput.value);
   }
 
   /**
@@ -449,10 +442,6 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   private formatDateTimeFromModelToView(value: string): string {
-    console.log(
-      'formatDateTimeFromModelToView, value:',
-      dayjs(value).tz(danishTimeZoneIdentifier).format(dateShortFormat)
-    );
     return dayjs(value).tz(danishTimeZoneIdentifier).format(dateShortFormat);
   }
 
