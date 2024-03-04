@@ -27,7 +27,9 @@ export class EoClipboardIntlService extends WattClipboardIntlService {
   constructor(transloco: TranslocoService) {
     super();
 
-    transloco.selectTranslate('shared.clipboard.success').subscribe((value) => (this.success = value));
+    transloco
+      .selectTranslate('shared.clipboard.success')
+      .subscribe((value) => (this.success = value));
     transloco.selectTranslate('shared.clipboard.error').subscribe((value) => (this.error = value));
   }
 }

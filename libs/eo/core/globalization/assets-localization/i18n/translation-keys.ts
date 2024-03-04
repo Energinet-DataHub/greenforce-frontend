@@ -75,7 +75,7 @@ export interface TranslationKeys {
     clipboard: {
       success: string;
       error: string;
-    }
+    };
   };
   languageSwitcher: {
     title: string;
