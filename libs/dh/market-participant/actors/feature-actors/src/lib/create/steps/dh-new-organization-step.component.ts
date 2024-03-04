@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { Observable } from 'rxjs';
+import { RxPush } from '@rx-angular/template/push';
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -26,8 +27,6 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { Observable } from 'rxjs';
-import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   standalone: true,
@@ -40,7 +39,6 @@ import { RxPush } from '@rx-angular/template/push';
     WattFieldErrorComponent,
     WattTextFieldComponent,
     WattSpinnerComponent,
-    NgIf,
     RxPush,
     DhDropdownTranslatorDirective,
   ],
@@ -95,16 +93,18 @@ import { RxPush } from '@rx-angular/template/push';
           [formControl]="newOrganizationForm.controls.cvrNumber"
           [label]="t('cvrNumber')"
         >
-          <watt-field-error
-            *ngIf="newOrganizationForm.controls.cvrNumber.hasError('invalidCvrNumber')"
-          >
-            {{ t('cvrInvalid') }}
-          </watt-field-error>
+          @if (newOrganizationForm.controls.cvrNumber.hasError('invalidCvrNumber')) {
+            <watt-field-error>
+              {{ t('cvrInvalid') }}
+            </watt-field-error>
+          }
         </watt-text-field>
       </vater-stack>
 
       <div class="column">
-        <watt-spinner *ngIf="this.isCvrBusy$ | push" [diameter]="22" />
+        @if (this.isCvrBusy$ | push) {
+          <watt-spinner [diameter]="22" />
+        }
       </div>
     </div>
 
@@ -118,9 +118,11 @@ import { RxPush } from '@rx-angular/template/push';
         [formControl]="newOrganizationForm.controls.domain"
         [label]="t('domain')"
       >
-        <watt-field-error *ngIf="newOrganizationForm.controls.domain.hasError('pattern')">
-          {{ t('domainInvalid') }}
-        </watt-field-error>
+        @if (newOrganizationForm.controls.domain.hasError('pattern')) {
+          <watt-field-error>
+            {{ t('domainInvalid') }}
+          </watt-field-error>
+        }
       </watt-text-field>
     </vater-stack>
   </ng-container>`,
