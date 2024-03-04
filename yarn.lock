@@ -10678,22 +10678,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rx-angular/cdk@npm:17.0.0":
-  version: 17.0.0
-  resolution: "@rx-angular/cdk@npm:17.0.0"
+"@rx-angular/cdk@npm:17.0.1":
+  version: 17.0.1
+  resolution: "@rx-angular/cdk@npm:17.0.1"
   dependencies:
     ng-morph: "npm:^4.0.3"
     tslib: "npm:^2.4.1"
   peerDependencies:
     "@angular/core": ^17.0.0
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: 8d3ca3b8ef7ba4da2cf9f5962e1d120999a18ce8fd954f4e42d490c3d37031073e61fa8e5502f25a2647ffb88ca150d9c0c1f9612479b7e48214e95d2988a813
+  checksum: 8a050c4e3d87d5dd0e2a26217321b160276c5322ec83bf1cfb0674c6d39caad72ccfeb401ac3cb5cd8493f805cc5a40bc28a2d21f62737f5e56b17332dad3021
   languageName: node
   linkType: hard
 
-"@rx-angular/template@npm:17.0.1":
-  version: 17.0.1
-  resolution: "@rx-angular/template@npm:17.0.1"
+"@rx-angular/template@npm:17.1.0":
+  version: 17.1.0
+  resolution: "@rx-angular/template@npm:17.1.0"
   dependencies:
     ng-morph: "npm:^4.0.3"
     tslib: "npm:^2.4.1"
@@ -10701,7 +10701,7 @@ __metadata:
     "@angular/core": ^17.0.0
     "@rx-angular/cdk": ^17.0.0
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: 1baf2b5b091c578609c14f5a37a5c687360b1588e93164d519717757b62e364cc288ce26ab1a5bb37d3380fb40a4a6663320cc8ef572256706bddaf81df2965d
+  checksum: 764706bf79ecd70e698091419475c91efb31444c4ab0d684f3b87db4a2ef84c638c3c99b27dab3cc6257402481464fcf220f9d99d9748fe2b7274579e42300d6
   languageName: node
   linkType: hard
 
@@ -20624,8 +20624,8 @@ __metadata:
     "@nx/workspace": "npm:17.3.2"
     "@openapitools/openapi-generator-cli": "npm:2.6.0"
     "@popperjs/core": "npm:2.11.7"
-    "@rx-angular/cdk": "npm:17.0.0"
-    "@rx-angular/template": "npm:17.0.1"
+    "@rx-angular/cdk": "npm:17.0.1"
+    "@rx-angular/template": "npm:17.1.0"
     "@schematics/angular": "npm:17.0.0"
     "@storybook/addon-a11y": "npm:7.5.3"
     "@storybook/addon-docs": "npm:7.5.3"
