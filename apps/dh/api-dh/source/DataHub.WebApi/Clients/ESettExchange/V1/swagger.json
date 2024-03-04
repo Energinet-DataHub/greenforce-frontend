@@ -1009,7 +1009,7 @@
           },
           "quantity": {
             "type": "number",
-            "format": "double"
+            "format": "decimal"
           }
         }
       },

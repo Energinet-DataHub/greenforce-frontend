@@ -348,7 +348,7 @@ type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!
   firstOccurrenceOfImbalance: DateTime!
   firstPositionOfImbalance: Int!
-  quantity: Float!
+  quantity: Decimal!
 }
 
 enum OrganizationAuditedChange {
@@ -408,10 +408,8 @@ interface Error {
   message: String!
 }
 
-enum UserRoleStatus {
-  ACTIVE
-  INACTIVE
-}
+"""The built-in `Decimal` scalar type."""
+scalar Decimal
 
 enum ContactCategory {
   DEFAULT
@@ -562,6 +560,11 @@ type UserRoleWithPermissionsDto {
   eicFunction: EicFunction!
   status: UserRoleStatus!
   permissions: [PermissionDetailsDto!]!
+}
+
+enum UserRoleStatus {
+  ACTIVE
+  INACTIVE
 }
 
 type ApiErrorDescriptor {
