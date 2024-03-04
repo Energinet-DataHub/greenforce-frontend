@@ -31,12 +31,14 @@ limitations under the License.
       <watt-button icon="download" variant="text" (click)="download()">{{
         "shared.download" | transloco
       }}</watt-button>
-      <watt-button
-        variant="secondary"
-        *dhPermissionRequired="['actors:manage']"
-        (click)="openCreateNewActorModal()"
-        >{{ t("create") }}</watt-button
-      >
+      <ng-container *dhPermissionRequired="['actors:manage']">
+        <watt-button
+          variant="secondary"
+          *dhPermissionRequired="['actor-master-data:manage']"
+          (click)="openCreateNewActorModal()"
+          >{{ t("create") }}</watt-button
+        >
+      </ng-container>
     </vater-stack>
 
     <dh-actors-filters

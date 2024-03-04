@@ -261,6 +261,7 @@
         "contactsHeader": "Contacts",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
+        "createSuccess": "Market participant created",
         "masterData": {
           "labelActorNumber": "GLN/EIC",
           "labelStatus": "Status",

@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TranslocoDirective } from '@ngneat/transloco';
-
+import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { Apollo, MutationResult } from 'apollo-angular';
 import {
   FormControl,
@@ -32,6 +31,9 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RxPush } from '@rx-angular/template/push';
+import { concat, distinctUntilChanged, map, merge, of, switchMap, tap } from 'rxjs';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
@@ -57,9 +59,6 @@ import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organizatio
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
 import { ActorForm } from './dh-actor-form.model';
-import { concat, distinctUntilChanged, map, merge, of, switchMap, tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   standalone: true,
@@ -312,7 +311,10 @@ export class DhActorsCreateActorModalComponent {
     }
 
     if (response.data?.createMarketParticipant?.success) {
-      this._toastService.open({ type: 'success', message: 'Market participant created' });
+      this._toastService.open({
+        type: 'success',
+        message: translate('marketParticipant.actor.create.createSuccess'),
+      });
 
       this.close(true);
     }
