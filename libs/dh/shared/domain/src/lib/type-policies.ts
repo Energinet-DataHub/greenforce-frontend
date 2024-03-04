@@ -14,18 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import parseISO from 'date-fns/parseISO';
 import { FieldPolicy } from '@apollo/client/cache';
 import { Range } from './range';
-import toDate from 'date-fns/toDate';
+import dayjs from 'dayjs/esm';
 
 /** Parses a date from an unknown type. */
 function parseDate(date: unknown): Date | null | undefined {
   if (date === null || date === undefined) return date;
   if (date instanceof Date) return date;
-  if (typeof date === 'number') return toDate(date);
+  if (typeof date === 'number') return dayjs(date).toDate();
   if (typeof date !== 'string') return new Date(NaN);
-  return parseISO(date);
+  return dayjs(date).toDate();
 }
 
 // Custom type policy for serializing GraphQL dates to JS Date.

@@ -31,7 +31,6 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { ApolloError } from '@apollo/client/errors';
 import { Subscription, switchMap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import { addDays } from 'date-fns';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
@@ -61,6 +60,7 @@ import {
   GridAreaDto,
   PriceAreaCode,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import dayjs from 'dayjs/esm';
 
 export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
 
@@ -245,8 +245,8 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
     });
 
     const { start, end } = this.searchForm.controls.period.value as { start: string; end: string };
-    const startDate = addDays(new Date(start), 1);
-    const endDate = addDays(new Date(end), 1);
+    const startDate = dayjs(start).add(1, 'day').toDate();
+    const endDate = dayjs(end).add(1, 'day').toDate();
 
     this.httpClient
       .v1WholesaleSettlementReportDownloadGet(

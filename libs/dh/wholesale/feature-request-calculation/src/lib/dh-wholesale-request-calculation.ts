@@ -16,6 +16,7 @@
  */
 import { Component, DestroyRef, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
+import dayjs from 'dayjs/esm';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
@@ -26,7 +27,6 @@ import {
 } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { subYears } from 'date-fns';
 import { catchError, of } from 'rxjs';
 
 import {
@@ -120,7 +120,7 @@ export class DhWholesaleRequestCalculationComponent {
   private _selectedEicFunction: SelectedEicFunctionType;
 
   maxDate = new Date();
-  minDate = subYears(new Date(), 3);
+  minDate = dayjs().subtract(3, 'years').toDate();
 
   isLoading = false;
 

@@ -42,9 +42,7 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import { BehaviorSubject, filter, switchMap } from 'rxjs';
-import sub from 'date-fns/sub';
-import startOfDay from 'date-fns/startOfDay';
-import endOfDay from 'date-fns/endOfDay';
+import dayjs from 'dayjs/esm';
 import { Apollo } from 'apollo-angular';
 import {
   GetCalculationsDocument,
@@ -86,8 +84,8 @@ export class DhCalculationsTableComponent implements OnInit {
 
   filter$ = new BehaviorSubject<GetCalculationsQueryVariables>({
     executionTime: {
-      start: sub(startOfDay(new Date()), { days: 10 }),
-      end: endOfDay(new Date()),
+      start: dayjs().startOf('day').subtract(10, 'days').toDate(),
+      end: dayjs().endOf('day').toDate(),
     },
   });
 

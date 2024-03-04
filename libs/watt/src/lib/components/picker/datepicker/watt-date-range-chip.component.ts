@@ -32,7 +32,7 @@ import {
   MAT_DATE_RANGE_SELECTION_STRATEGY,
   MatDatepickerModule,
 } from '@angular/material/datepicker';
-import endOfDay from 'date-fns/endOfDay';
+import dayjs from 'dayjs/esm';
 
 import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattDatePipe, WattRange } from '../../../utils/date';
@@ -61,7 +61,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
       range = this.customSelectionStrategy(date);
     }
 
-    return range.end ? new DateRange(range.start, endOfDay(range.end)) : range;
+    return range.end ? new DateRange(range.start, dayjs(range.end).endOf('day').toDate()) : range;
   }
 
   override createPreview(activeDate: Date | null, currentRange: DateRange<Date>): DateRange<Date> {

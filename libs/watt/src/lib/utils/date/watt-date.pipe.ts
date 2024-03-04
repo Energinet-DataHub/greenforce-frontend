@@ -15,17 +15,25 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
-import { formatInTimeZone } from 'date-fns-tz';
+import dayjs from 'dayjs/esm';
+import utc from 'dayjs/esm/plugin/utc';
+import timezone from 'dayjs/esm/plugin/timezone';
+import 'dayjs/esm/locale/da';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+dayjs.locale('da');
 
 import { WattRange } from './watt-date-range';
 
 const formatStrings = {
-  monthYear: 'MMMM yyyy',
-  short: 'dd-MM-yyyy',
-  long: 'dd-MM-yyyy, HH:mm',
-  longAbbr: 'dd-MMM-yyy HH:mm',
+  monthYear: 'MMMM YYYY',
+  short: 'DD-MM-YYYY',
+  long: 'DD-MM-YYYY, HH:mm',
+  longAbbr: 'DD-MMM-YY HH:mm',
   time: 'HH:mm',
-  longAbbrWithSeconds: 'dd-MMM-yyy HH:mm:ss',
+  longAbbrWithSeconds: 'DD-MMM-YY HH:mm:ss',
 };
 
 @Pipe({
@@ -44,9 +52,9 @@ export class WattDatePipe implements PipeTransform {
     if (!input) return null;
 
     return input instanceof Date || typeof input === 'string'
-      ? formatInTimeZone(input, timeZone, formatStrings[format])
+      ? dayjs(input).tz(timeZone).format(formatStrings[format])
       : typeof input === 'number'
-        ? formatInTimeZone(new Date(input), timeZone, formatStrings[format])
+        ? dayjs(new Date(input)).tz(timeZone).format(formatStrings[format])
         : `${this.transform(input.start, format)} ― ${this.transform(input.end, format)}`;
   }
 }
