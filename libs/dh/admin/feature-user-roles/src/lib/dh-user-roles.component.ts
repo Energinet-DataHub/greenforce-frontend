@@ -23,7 +23,6 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
@@ -59,8 +58,6 @@ import {
   templateUrl: './dh-user-roles.component.html',
   styleUrls: ['./dh-user-roles.component.scss'],
   imports: [
-    NgFor,
-    NgIf,
     RxLet,
     RxPush,
     WattSpinnerComponent,

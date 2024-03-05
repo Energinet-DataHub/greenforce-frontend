@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -60,7 +60,6 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     WattDatepickerComponent,
     WattTimepickerComponent,
     FormsModule,
-    NgIf,
     AsyncPipe,
     RxLet,
     TranslocoModule,

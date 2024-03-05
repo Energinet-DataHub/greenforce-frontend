@@ -14,22 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 
 @Component({
-  imports: [NgSwitch, NgSwitchCase, NgSwitchDefault, TranslocoModule, WattBadgeComponent],
+  imports: [TranslocoModule, WattBadgeComponent],
   standalone: true,
   selector: 'dh-message-archive-status',
-  template: `<ng-container *transloco="let t; read: 'messageArchive.search'"
-    ><container-element [ngSwitch]="message">
-      <watt-badge *ngSwitchCase="'request'" type="info">{{ t('sent') }}</watt-badge>
-      <watt-badge *ngSwitchCase="'response'" type="success">{{ t('received') }}</watt-badge>
-      <watt-badge *ngSwitchDefault type="info">{{ message }}</watt-badge>
-    </container-element>
+  template: `<ng-container *transloco="let t; read: 'messageArchive.search'">
+    @switch (message) {
+      @case ('request') {
+        <watt-badge type="info">{{ t('sent') }}</watt-badge>
+      }
+      @case ('response') {
+        <watt-badge type="success">{{ t('received') }}</watt-badge>
+      }
+      @default {
+        <watt-badge type="info">{{ message }}</watt-badge>
+      }
+    }
   </ng-container>`,
 })
 export class DhMessageArchiveStatusComponent {

@@ -30,21 +30,19 @@ limitations under the License.
         </ng-container>
 
         <ng-container *wattTableCell="columns['value']; let entry">
-          <ng-container *ngIf="entry.valueIsDate; else cellTemplate">
+          @if (entry.valueIsDate) {
             {{ entry.value | wattDate | dhEmDashFallback }}
-          </ng-container>
-
-          <ng-template #cellTemplate>
+          } @else {
             {{ entry.value | dhEmDashFallback }}
-          </ng-template>
+          }
         </ng-container>
 
         <ng-container *wattTableCell="columns['showActionButton']; let entry">
-          <ng-container *ngIf="entry.showActionButton">
+          @if (entry.showActionButton) {
             <watt-button variant="text" icon="close" (click)="removeCertificate()">
               {{ t("removeCertificate") }}
             </watt-button>
-          </ng-container>
+          }
         </ng-container>
       </watt-table>
     </watt-card>

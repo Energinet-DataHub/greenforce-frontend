@@ -47,7 +47,11 @@ function postToken(apiBase: string) {
   return http.post(`${apiBase}/v1/Token`, () => {
     return HttpResponse.json(
       {
-        token: createJWT({ alg: 'HS256' }, { role: permissions }, ''),
+        token: createJWT(
+          { alg: 'HS256' },
+          { role: permissions, azp: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1' },
+          ''
+        ),
       },
       { status: 200 }
     );
