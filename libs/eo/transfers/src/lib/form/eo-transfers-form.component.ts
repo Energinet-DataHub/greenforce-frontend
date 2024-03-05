@@ -191,7 +191,8 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
               @if (!generateProposalFailed) {
                 <h2>
                   {{
-                    translations.createTransferAgreementProposal.invitation.title.success | transloco
+                    translations.createTransferAgreementProposal.invitation.title.success
+                      | transloco
                   }}
                 </h2>
                 <div
