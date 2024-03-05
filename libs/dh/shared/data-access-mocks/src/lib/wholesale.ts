@@ -52,7 +52,7 @@ export function wholesaleMocks(apiBase: string) {
     downloadSettlementReportData(apiBase),
     getSettlementReports(),
     getFilteredActors(),
-    getGridAreas(),
+    getGridAreasQuery(),
     getLatestBalanceFixing(),
     getActorsForSettlementReportQuery(),
     getActorsForRequestCalculationQuery(),
@@ -465,7 +465,7 @@ function getSettlementReports() {
   });
 }
 
-function getGridAreas() {
+function getGridAreasQuery() {
   return mockGetGridAreasQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
