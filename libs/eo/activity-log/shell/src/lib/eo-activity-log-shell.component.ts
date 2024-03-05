@@ -220,10 +220,13 @@ export class EoActivityLogShellComponent implements OnInit {
     this.dataSource.data = data.map((x) => {
       return {
         timestamp: this.datePipe.transform(x.timestamp, 'longAbbrWithSeconds') as string,
-        event: this.transloco.translate(this.translations.activityLog.events[x.entityType][x.actionType], {
-          actor: this.formatActorType(x),
-          entityId: x.entityId,
-        })
+        event: this.transloco.translate(
+          this.translations.activityLog.events[x.entityType][x.actionType],
+          {
+            actor: this.formatActorType(x),
+            entityId: x.entityId,
+          }
+        ),
       };
     });
   }

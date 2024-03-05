@@ -288,33 +288,37 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     eventTableHeader: 'Aktivitet',
     events: {
       MeteringPoint: {
-        Created: "{{actor}} har oprettet et målepunkt med ID {{entityId}}",
-        Accepted: "{{actor}} har accepteret målepunktet med ID {{entityId}}",
-        Declined: "{{actor}} har afvist målepunktet med ID {{entityId}}",
-        Activated: "{{actor}} har aktiveret målepunktet med ID {{entityId}}",
-        Deactivated: "{{actor}} har deaktiveret målepunktet med ID {{entityId}}",
-        EndDateChanged: "{{actor}} har ændret slutdatoen for målepunktet med ID {{entityId}}",
-        Expired: "{{actor}} har ladet målepunktet udløbe med ID {{entityId}}"
+        Created: '{{actor}} har oprettet et målepunkt med ID {{entityId}}',
+        Accepted: '{{actor}} har accepteret målepunktet med ID {{entityId}}',
+        Declined: '{{actor}} har afvist målepunktet med ID {{entityId}}',
+        Activated: '{{actor}} har aktiveret målepunktet med ID {{entityId}}',
+        Deactivated: '{{actor}} har deaktiveret målepunktet med ID {{entityId}}',
+        EndDateChanged: '{{actor}} har ændret slutdatoen for målepunktet med ID {{entityId}}',
+        Expired: '{{actor}} har ladet målepunktet udløbe med ID {{entityId}}',
       },
       TransferAgreementProposal: {
-        Created: "{{actor}} har oprettet et forslag til en overførselsaftale med ID {{entityId}}",
-        Accepted: "{{actor}} har accepteret forslaget til en overførselsaftale med ID {{entityId}}",
-        Declined: "{{actor}} har afvist forslaget til en overførselsaftale med ID {{entityId}}",
-        Activated: "{{actor}} har aktiveret forslaget til en overførselsaftale med ID {{entityId}}",
-        Deactivated: "{{actor}} har deaktiveret forslaget til en overførselsaftale med ID {{entityId}}",
-        EndDateChanged: "{{actor}} har ændret slutdatoen for forslaget til en overførselsaftale med ID {{entityId}}",
-        Expired: "{{actor}} har ladet forslaget til en overførselsaftale udløbe med ID {{entityId}}"
+        Created: '{{actor}} har oprettet et forslag til en overførselsaftale med ID {{entityId}}',
+        Accepted: '{{actor}} har accepteret forslaget til en overførselsaftale med ID {{entityId}}',
+        Declined: '{{actor}} har afvist forslaget til en overførselsaftale med ID {{entityId}}',
+        Activated: '{{actor}} har aktiveret forslaget til en overførselsaftale med ID {{entityId}}',
+        Deactivated:
+          '{{actor}} har deaktiveret forslaget til en overførselsaftale med ID {{entityId}}',
+        EndDateChanged:
+          '{{actor}} har ændret slutdatoen for forslaget til en overførselsaftale med ID {{entityId}}',
+        Expired:
+          '{{actor}} har ladet forslaget til en overførselsaftale udløbe med ID {{entityId}}',
       },
       TransferAgreement: {
-        Created: "{{actor}} har oprettet en overførselsaftale med ID {{entityId}}",
-        Accepted: "{{actor}} har accepteret overførselsaftalen med ID {{entityId}}",
-        Declined: "{{actor}} har afvist overførselsaftalen med ID {{entityId}}",
-        Activated: "{{actor}} har aktiveret overførselsaftalen med ID {{entityId}}",
-        Deactivated: "{{actor}} har deaktiveret overførselsaftalen med ID {{entityId}}",
-        EndDateChanged: "{{actor}} har ændret slutdatoen for overførselsaftalen med ID {{entityId}}",
-        Expired: "{{actor}} har ladet overførselsaftalen udløbe med ID {{entityId}}"
-      }
-    }
+        Created: '{{actor}} har oprettet en overførselsaftale med ID {{entityId}}',
+        Accepted: '{{actor}} har accepteret overførselsaftalen med ID {{entityId}}',
+        Declined: '{{actor}} har afvist overførselsaftalen med ID {{entityId}}',
+        Activated: '{{actor}} har aktiveret overførselsaftalen med ID {{entityId}}',
+        Deactivated: '{{actor}} har deaktiveret overførselsaftalen med ID {{entityId}}',
+        EndDateChanged:
+          '{{actor}} har ændret slutdatoen for overførselsaftalen med ID {{entityId}}',
+        Expired: '{{actor}} har ladet overførselsaftalen udløbe med ID {{entityId}}',
+      },
+    },
   },
   privacyPolicy: {
     title: 'Privatlivspolitik',
