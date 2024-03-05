@@ -47,8 +47,12 @@ export class CertificateDetailsTitleResolver {
         return this.transloco.translate(this.translations.certificateDetails.title, {
           certificateType:
             cert?.certificateType === 'production'
-              ? this.capitalizeFirstLetter(this.transloco.translate(this.translations.certificates.productionType))
-              : this.capitalizeFirstLetter(this.transloco.translate(this.translations.certificates.consumptionType)),
+              ? this.capitalizeFirstLetter(
+                  this.transloco.translate(this.translations.certificates.productionType)
+                )
+              : this.capitalizeFirstLetter(
+                  this.transloco.translate(this.translations.certificates.consumptionType)
+                ),
         });
       })
     );
