@@ -35,4 +35,12 @@ export class WattDateAdapter extends NativeDateAdapter {
       ? dateNames.map((dateName) => dateName.replace(/\./g, ''))
       : dateNames;
   }
+
+  /**
+   * Our week starts on Monday
+   * @returns 1 for Monday, 7 for Sunday
+   */
+  override getFirstDayOfWeek(): number {
+    return 1;
+  }
 }
