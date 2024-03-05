@@ -35,7 +35,6 @@
 | [graphql](https://github.com/graphql/graphql-js) | 16.8.1 | MIT |
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.9.0 | BSD-3-Clause |
 | [include-media](https://github.com/eduardoboucas/include-media) | 2.0.0 | MIT |
-| [inputmask](https://github.com/RobinHerbots/Inputmask) | 5.0.7 | MIT |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 3.1.2 | MIT |
 | [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.10.54 | MIT |
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |
