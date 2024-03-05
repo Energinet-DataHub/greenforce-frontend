@@ -19,7 +19,7 @@
         "parallel": false
       },
       "outputs": [
-        "{projectRoot}/source/DataHub.WebApi/bin/Release/net7.0"
+        "{projectRoot}/source/DataHub.WebApi/bin/Release/net8.0"
       ]
     },
     "build-client": {
@@ -81,7 +81,7 @@
         "parallel": false
       },
       "outputs": [
-        "{projectRoot}/source/DataHub.WebApi/bin/Release/net7.0"
+        "{projectRoot}/source/DataHub.WebApi/bin/Release/net8.0"
       ]
     },
     "test": {
