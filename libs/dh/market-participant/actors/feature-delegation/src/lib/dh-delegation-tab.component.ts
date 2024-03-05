@@ -32,23 +32,20 @@ import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.c
       :host {
         display: block;
       }
-
-      vater-flex {
-        watt-button {
-          margin-left: auto;
-        }
-      }
     `,
   ],
   template: `
     <vater-flex *transloco="let t; read: 'marketParticipant.delegation'">
-      <watt-button (click)="create()" variant="secondary">{{ t('create') }}</watt-button>
       <vater-stack direction="row" justify="center">
         <watt-empty-state
           icon="custom-no-results"
           [title]="t('emptyTitle')"
           [message]="t('emptyMessage')"
-        />
+        >
+          <watt-button (click)="create()" variant="secondary">
+            {{ t('emptyStateCreateBtn') }}
+          </watt-button>
+        </watt-empty-state>
       </vater-stack>
     </vater-flex>
   `,
