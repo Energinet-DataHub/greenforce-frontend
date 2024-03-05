@@ -21,7 +21,7 @@ const danishLocale = 'da';
 
 export class WattDateAdapter extends NativeDateAdapter {
   setActiveLocale(language: WattSupportedLocales): void {
-    this.setLocale(language === danishLocale ? 'da-DK' : 'en-GB');
+    this.setLocale(language === danishLocale ? danishLocale : 'en-GB');
   }
 
   /**
@@ -31,14 +31,14 @@ export class WattDateAdapter extends NativeDateAdapter {
   override getDateNames(): string[] {
     const dateNames = super.getDateNames();
 
-    return this.locale.code === danishLocale
+    return this.locale === danishLocale
       ? dateNames.map((dateName) => dateName.replace(/\./g, ''))
       : dateNames;
   }
 
   /**
    * Our week starts on Monday
-   * @returns 1 for Monday, 7 for Sunday
+   * @returns 0 for Sunday, 1 for Monday, etc.
    */
   override getFirstDayOfWeek(): number {
     return 1;
