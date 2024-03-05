@@ -27,6 +27,7 @@ jobs:
   dotnet_ci_build:
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@v13
     with:
+      dotnet_version: 8.0.200
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       release_name_prefix: ui_dotnet
 
@@ -35,6 +36,7 @@ jobs:
     needs: dotnet_ci_build
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v13
     with:
+      dotnet_version: 8.0.200
       tests_dll_file_path: \apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net7.0\Energinet.DataHub.WebApi.Tests.dll
       download_attempt_limit: 12
       environment: AzureAuth
