@@ -25,7 +25,7 @@ import {
   inject,
   computed,
 } from '@angular/core';
-import { TranslocoDirective, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { switchMap } from 'rxjs';
 
@@ -100,6 +100,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
   ],
   imports: [
     TranslocoDirective,
+    TranslocoPipe,
 
     WATT_DRAWER,
     WattDatePipe,
