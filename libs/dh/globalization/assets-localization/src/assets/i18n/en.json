@@ -583,10 +583,10 @@
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "status": "{{ eSett.shared.status }}",
-        "period": "{{ shared.form.filters.period }}",
+        "period": "Calculation period",
         "created": "{{ eSett.outgoingMessages.columns.created }}",
         "reset": "{{ shared.form.reset }}",
-        "documentId": "Document ID"
+        "documentId": "Message ID"
       },
       "columns": {
         "created": "Created",
@@ -626,7 +626,7 @@
       },
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
-        "createdPeriod": "Created date",
+        "createdPeriod": "Created",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Message ID",
         "valuesToInclude": "Pricetypes"
