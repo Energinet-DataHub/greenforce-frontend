@@ -18,15 +18,19 @@
         ],
         "parallel": false
       },
-      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net7.0"]
+      "outputs": [
+        "{projectRoot}/source/DataHub.WebApi/bin/Release/net7.0"
+      ]
     },
     "build-client": {
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "executor": "nx:run-commands",
       "options": {
         "commands": [
           "yarn check:java",
-          "yarn openapi-generator-cli generate -o libs/dh/shared/domain/src/lib/generated/v1 -i apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net7.0/swagger.json -g typescript-angular -p=fileNaming=kebab-case -p=serviceFileSuffix=-http.service -p=serviceSuffix=Http -p=supportsES6=true -p=taggedUnions=true -p=enumPropertyNaming=original",
+          "yarn openapi-generator-cli generate -o libs/dh/shared/domain/src/lib/generated/v1 -i apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net8.0/swagger.json -g typescript-angular -p=fileNaming=kebab-case -p=serviceFileSuffix=-http.service -p=serviceSuffix=Http -p=supportsES6=true -p=taggedUnions=true -p=enumPropertyNaming=original",
           "rimraf libs/dh/shared/domain/src/lib/generated/v1/.openapi-generator/",
           "rimraf libs/dh/shared/domain/src/lib/generated/v1/.gitignore",
           "rimraf libs/dh/shared/domain/src/lib/generated/v1/git_push.sh",
@@ -34,7 +38,9 @@
         ],
         "parallel": false
       },
-      "outputs": ["{workspaceRoot}/libs/dh/shared/domain/src/lib/generated/v1"]
+      "outputs": [
+        "{workspaceRoot}/libs/dh/shared/domain/src/lib/generated/v1"
+      ]
     },
     "ci-configuration": {
       "executor": "nx:run-commands",
@@ -69,10 +75,14 @@
       },
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"],
+        "commands": [
+          "npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"
+        ],
         "parallel": false
       },
-      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net7.0"]
+      "outputs": [
+        "{projectRoot}/source/DataHub.WebApi/bin/Release/net7.0"
+      ]
     },
     "test": {
       "executor": "nx:run-commands",
@@ -84,5 +94,8 @@
       }
     }
   },
-  "tags": ["product:dh", "type:api"]
+  "tags": [
+    "product:dh",
+    "type:api"
+  ]
 }
