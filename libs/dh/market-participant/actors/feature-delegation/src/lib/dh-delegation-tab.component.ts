@@ -14,11 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+
+import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
 
 @Component({
   selector: 'dh-delegation-tab',
@@ -28,12 +32,17 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
       :host {
         display: block;
       }
+
+      vater-flex {
+        watt-button {
+          margin-left: auto;
+        }
+      }
     `,
   ],
   template: `
-    <ng-container
-      *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.delegation'"
-    >
+    <vater-flex *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.delegation'">
+      <watt-button (click)="create()" variant="secondary">{{ t('create') }}</watt-button>
       <vater-stack direction="row" justify="center">
         <watt-empty-state
           icon="custom-no-results"
@@ -41,8 +50,20 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
           [message]="t('emptyMessage')"
         />
       </vater-stack>
-    </ng-container>
+    </vater-flex>
   `,
-  imports: [TranslocoDirective, VaterStackComponent, WattEmptyStateComponent],
+  imports: [
+    TranslocoDirective,
+    VaterFlexComponent,
+    VaterStackComponent,
+    WattEmptyStateComponent,
+    WattButtonComponent,
+  ],
 })
-export class DhDelegationTabComponent {}
+export class DhDelegationTabComponent {
+  private readonly _modalService = inject(WattModalService);
+
+  create() {
+    this._modalService.open({ component: DhDelegationCreateModalComponent });
+  }
+}

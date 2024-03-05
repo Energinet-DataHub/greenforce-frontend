@@ -104,6 +104,9 @@
       "@energinet-datahub/dh/market-participant/actors/feature-market-roles": [
         "libs/dh/market-participant/actors/feature-market-roles/src/index.ts"
       ],
+      "@energinet-datahub/dh/market-participant/actors/feature-delagation": [
+        "libs/dh/market-participant/actors/feature-delegation/src/index.ts"
+      ],
       "@energinet-datahub/dh/market-participant/actors/feature-organizations": [
         "libs/dh/market-participant/actors/feature-organizations/src/index.ts"
       ],

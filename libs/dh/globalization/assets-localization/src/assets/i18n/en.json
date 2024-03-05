@@ -372,6 +372,7 @@
             }
           },
           "delegation": {
+            "create": "Set up delegation",
             "tabLabel": "Delegation",
             "emptyTitle": "No delegations found",
             "emptyMessage": "Delegate outgoing or incoming messages to a meter operator"
