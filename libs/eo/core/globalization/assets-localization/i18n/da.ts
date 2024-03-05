@@ -486,9 +486,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     title: 'Hjælp',
     content: `
     <ul>
-      <li><a href="{{faqLink}}">Ofte Stillede Spørgsmål</a></li>
+      <li><a class="internal-link" href="{{faqLink}}">Ofte Stillede Spørgsmål</a></li>
       <li>
-        <a href="{{introductionLink}}">Introduktion til Energy Origin</a>
+        <a class="internal-link" href="{{introductionLink}}">Introduktion til Energy Origin</a>
       </li>
       <li>
         <a
@@ -496,7 +496,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           target="_blank"
           rel="noopener noreferrer"
           >Energistyrelsen - Energi- og klimapolitik</a
-        >Den danske regerings politikker omkring klima og energi. Hvor du kan læse om den danske energiplan for de næste 10 år.
+        > Den danske regerings politikker omkring klima og energi. Hvor du kan læse om den danske energiplan for de næste 10 år.
       </li>
       <li>
         <a
@@ -504,17 +504,17 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           target="_blank"
           rel="noopener noreferrer"
           >Virksomhedsguiden.dk - Grøn omstilling</a
-        >Beskriver hvordan virksomheder kan blive mere grønne, med en masse instruktioner og skabeloner.
+        > Beskriver hvordan virksomheder kan blive mere grønne, med en masse instruktioner og skabeloner.
       </li>
       <li>
         <a href="https://en.energinet.dk/Green-Transition" target="_blank" rel="noopener noreferrer"
           >Energinet - Green Transition (Engelsk)</a
-        >Energinet leverer data vedrørende overgangen til et grønnere energisystem i Danmark.
+        > Energinet leverer data vedrørende overgangen til et grønnere energisystem i Danmark.
       </li>
       <li>
         <a href="https://www.iea.org/countries/denmark" target="_blank" rel="noopener noreferrer"
           >IEA - Denmark (Engelsk)</a
-        >Det Internationale Energiagentur er forpligtet til at forme en sikker og bæredygtig energifremtid
+        > Det Internationale Energiagentur er forpligtet til at forme en sikker og bæredygtig energifremtid
         for alle og leverer data og sammenligninger om, hvad de forskellige lande foretager sig.
       </li>
     </ul>

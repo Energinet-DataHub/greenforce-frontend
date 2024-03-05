@@ -491,9 +491,9 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     title: 'Help',
     content: `
     <ul>
-      <li><a href="{{faqLink}}">FAQ</a></li>
+      <li><a class="internal-link" href="{{faqLink}}">FAQ</a></li>
       <li>
-        <a href="{{introductionLink}}">Introduction to Energy Origin (Danish only)</a>
+        <a class="internal-link" href="{{introductionLink}}">Introduction to Energy Origin (Danish)</a>
       </li>
       <li>
         <a
@@ -501,7 +501,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           target="_blank"
           rel="noopener noreferrer"
           >Danish Energy Agency - Energy and Climate Politics</a
-        >The danish goverment policies around clomate and energy. Where you can read about the
+        > The danish goverment policies around clomate and energy. Where you can read about the
         danish energy plan for the next 10 years.
       </li>
       <li>
@@ -509,18 +509,18 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           href="https://virksomhedsguiden.dk/content/temaer/groen_omstilling/"
           target="_blank"
           rel="noopener noreferrer"
-          >Virksomhedsguiden.dk - Green transition (danish)</a
-        >Describe how companies can become more green, with a lot of instructions and templates.
+          >Virksomhedsguiden.dk - Green transition (Danish)</a
+        > Describe how companies can become more green, with a lot of instructions and templates.
       </li>
       <li>
         <a href="https://en.energinet.dk/Green-Transition" target="_blank" rel="noopener noreferrer"
           >Energinet - Green Transition</a
-        >Energinet provide data regarding the transition to a more green energy system in Denmark.
+        > Energinet provide data regarding the transition to a more green energy system in Denmark.
       </li>
       <li>
         <a href="https://www.iea.org/countries/denmark" target="_blank" rel="noopener noreferrer"
           >IEA - Denmark</a
-        >The International Energy Agency, is committed to shaping a secure and sustainable energy
+        > The International Energy Agency, is committed to shaping a secure and sustainable energy
         future for all and provide data and comparison on what they different countries are doing.
       </li>
     </ul>

@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, ViewEncapsulation, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { translations } from '@energinet-datahub/eo/translations';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,10 +29,6 @@ import { translations } from '@energinet-datahub/eo/translations';
   selector: 'eo-help-page',
   styles: [
     `
-      eo-help-page a {
-        display: block;
-      }
-
       eo-help-page li {
         margin-bottom: var(--watt-space-m);
       }
@@ -51,7 +48,28 @@ import { translations } from '@energinet-datahub/eo/translations';
     ></div>
   `,
 })
-export class EoHelpPageComponent {
+export class EoHelpPageComponent implements AfterViewInit {
+  private cd = inject(ChangeDetectorRef);
+  private transloco = inject(TranslocoService);
+  private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
+
   protected routes = eoRoutes;
   protected translations = translations;
+
+  ngAfterViewInit(): void {
+    this.transloco.selectTranslate(this.translations.help.content).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      this.cd.detectChanges();
+
+      const links = document.querySelectorAll('eo-help-page a[class="internal-link"]');
+
+      links.forEach((link) => {
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          this.router.navigate([link.getAttribute('href')]);
+        });
+      });
+    });
+  }
 }
