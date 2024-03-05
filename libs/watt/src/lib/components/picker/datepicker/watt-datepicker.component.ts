@@ -161,7 +161,7 @@ export class WattDatepickerComponent extends WattPickerBase {
     const onInputOnChange$ = onChange$.pipe(
       // `value` can have one of three values:
       // 1. An empty string (usually when no initial value is set or input value is manually deleted)
-      // 2. A `dd-MM-yyyy` format (keep in sync with `dateShortFormat`) (usually when date is manually typed)
+      // 2. A `DD-MM-YYYY` format (keep in sync with `dateShortFormat`) (usually when date is manually typed)
       // 3. Full ISO 8601 format (usually when initial value is set)
       map((value) => {
         const parsedDate = this.parseDateShortFormat(value);
