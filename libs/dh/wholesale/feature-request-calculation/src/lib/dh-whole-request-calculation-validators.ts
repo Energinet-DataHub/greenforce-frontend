@@ -57,7 +57,7 @@ export const startDateCannotBeOlderThan3YearsValidator =
 
     const startDate = dayjs(range.start).toDate();
 
-    if (startDate < dayjs().subtract(3, 'days').toDate()) {
+    if (startDate < dayjs().subtract(3, 'years').toDate()) {
       return { startDateCannotBeOlderThan3Years: true };
     }
 
