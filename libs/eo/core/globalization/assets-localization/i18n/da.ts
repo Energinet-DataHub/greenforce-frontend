@@ -248,7 +248,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     tableHeader: 'Resultater',
     timeTableHeader: 'Tid',
     gsrnTableHeader: 'Målepunkt',
-    amountTableHeader: 'Beløb',
+    amountTableHeader: 'Mængde',
     typeTableHeader: 'Type',
     productionType: 'produktion',
     consumptionType: 'forbrug',

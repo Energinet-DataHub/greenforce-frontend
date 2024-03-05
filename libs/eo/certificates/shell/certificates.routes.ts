@@ -45,7 +45,10 @@ export class CertificateDetailsTitleResolver {
       ),
       map((cert) => {
         return this.transloco.translate(this.translations.certificateDetails.title, {
-          certificateType: this.capitalizeFirstLetter(cert?.certificateType),
+          certificateType:
+            cert?.certificateType === 'production'
+              ? this.capitalizeFirstLetter(this.transloco.translate(this.translations.certificates.productionType))
+              : this.capitalizeFirstLetter(this.transloco.translate(this.translations.certificates.consumptionType)),
         });
       })
     );
