@@ -492,7 +492,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       </li>
       <li>
         <a
-          href="https://ens.dk/en/our-responsibilities/energy-climate-politics"
+          href="https://ens.dk/ansvarsomraader/energi-klimapolitik/eus-klima-energipolitik"
           target="_blank"
           rel="noopener noreferrer"
           >Energistyrelsen - Energi- og klimapolitik</a
@@ -547,10 +547,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
 
   <h3 id="what-is-energy-origin">Hvad er Energy Origin?</h3>
   <p>
-    Målet med Energy Origin-platformen er at skabe gennemsigtighed om oprindelsen af energi for
-    alle energiforbrugere og at lette et marked for grøn energi. I øjeblikket arbejder vi
-    på data relateret til elforbrug. Efter login vil du snart kunne
-    tilgå din timelige elforbrugsdeklaration og tilsvarende emissioner for 2021.
+    Målet med Energy Origin-platformen er at skabe gennemsigtighed om oprindelsen af energi for alle energiforbrugere og at skabe et marked for grøn energi.
+    I øjeblikket arbejder vi på data relateret til elforbrug.
+    Efter login vil du snart kunne tilgå dit elforbrug pr. time og tilsvarende emissioner for 2021.
   </p>
 
   <h3 id="who-can-access-the-platform">Hvem kan få adgang til platformen?</h3>
@@ -559,11 +558,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     private personer at logge ind via MitID.
   </p>
 
-  <h3 id="where-does-the-data-come-from">Hvor kommer dataene fra?</h3>
+  <h3 id="where-does-the-data-come-from">Hvor kommer data fra?</h3>
   <p>
-    Alle data relateret til målepunkter, forbrug og produktion leveres af Energinet
-    DataHub. Data relateret til energiens oprindelse og tilsvarende emissioner stammer fra Energi
-    Data Service.
+    Alle data relateret til målepunkter, forbrug og produktion leveres af Energinet DataHub.
+    Data relateret til energiens oprindelse og tilsva-rende emissioner stammer fra Energi Data Service.
   </p>
 
   <h3 id="how-can-i-influence-the-development">Hvordan kan jeg påvirke udviklingen?</h3>
