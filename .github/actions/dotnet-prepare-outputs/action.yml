@@ -45,7 +45,7 @@ runs:
     - name: Publish Swagger
       shell: bash
       run: |
-        cp "${{ github.workspace }}/apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net7.0/swagger.json" "${{ inputs.output_path }}"
+        cp "${{ github.workspace }}/apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net8.0/swagger.json" "${{ inputs.output_path }}"
 
     - name: Publish Graphql
       shell: bash
