@@ -25,7 +25,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build bff",
-      "program": "${workspaceFolder}/apps/dh/api-dh/source/DataHub.WebApi/bin/Debug/net7.0/Energinet.DataHub.WebApi.dll",
+      "program": "${workspaceFolder}/apps/dh/api-dh/source/DataHub.WebApi/bin/Debug/net8.0/Energinet.DataHub.WebApi.dll",
       "args": [],
       "cwd": "${workspaceFolder}/apps/dh/api-dh/source/DataHub.WebApi",
       "stopAtEntry": false,
@@ -107,7 +107,10 @@
       "type": "node",
       "name": "vscode-jest-tests",
       "request": "launch",
-      "args": ["--runInBand", "--watchAll=false"],
+      "args": [
+        "--runInBand",
+        "--watchAll=false"
+      ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
