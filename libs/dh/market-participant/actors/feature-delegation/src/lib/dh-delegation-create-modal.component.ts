@@ -16,11 +16,14 @@
  */
 import { Component } from '@angular/core';
 import { WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 @Component({
   selector: 'dh-create-delegation',
   standalone: true,
-  template: `<watt-modal> test </watt-modal>`,
+  template: `<watt-modal *transloco="let t; read: 'marketParticipant.delegation'">
+    test
+  </watt-modal>`,
   styles: [
     `
       :host {
@@ -28,6 +31,6 @@ import { WATT_MODAL } from '@energinet-datahub/watt/modal';
       }
     `,
   ],
-  imports: [WATT_MODAL],
+  imports: [WATT_MODAL, TranslocoDirective],
 })
 export class DhDelegationCreateModalComponent {}

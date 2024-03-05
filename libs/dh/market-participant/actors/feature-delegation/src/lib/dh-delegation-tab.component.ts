@@ -41,7 +41,7 @@ import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.c
     `,
   ],
   template: `
-    <vater-flex *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.delegation'">
+    <vater-flex *transloco="let t; read: 'marketParticipant.delegation'">
       <watt-button (click)="create()" variant="secondary">{{ t('create') }}</watt-button>
       <vater-stack direction="row" justify="center">
         <watt-empty-state
