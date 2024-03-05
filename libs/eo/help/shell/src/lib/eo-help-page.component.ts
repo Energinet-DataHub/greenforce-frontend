@@ -14,7 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, ViewEncapsulation, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
@@ -58,18 +66,21 @@ export class EoHelpPageComponent implements AfterViewInit {
   protected translations = translations;
 
   ngAfterViewInit(): void {
-    this.transloco.selectTranslate(this.translations.help.content).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      this.cd.detectChanges();
+    this.transloco
+      .selectTranslate(this.translations.help.content)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.cd.detectChanges();
 
-      const links = document.querySelectorAll('eo-help-page a[class="internal-link"]');
+        const links = document.querySelectorAll('eo-help-page a[class="internal-link"]');
 
-      links.forEach((link) => {
-        link.addEventListener('click', (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          this.router.navigate([link.getAttribute('href')]);
+        links.forEach((link) => {
+          link.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            this.router.navigate([link.getAttribute('href')]);
+          });
         });
       });
-    });
   }
 }
