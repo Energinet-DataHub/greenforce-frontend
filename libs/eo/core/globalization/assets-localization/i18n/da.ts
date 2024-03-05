@@ -23,7 +23,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     meteringPoints: 'Målepunkter',
     claims: 'Samstemte Certifikater',
     certificates: 'Certifikater',
-    transfers: 'Overførsler',
+    transfers: 'Overførselsaftaler',
     activityLog: 'Aktivitetslog',
   },
   footer: {
@@ -278,22 +278,53 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       title: 'Ups! Noget gik galt.',
       message: 'Prøv venligst at genindlæse siden.',
     },
-    eventTypeLabel: 'Begivenhedstype',
+    eventTypeLabel: 'Aktivitetstype',
     transferAgreementEventType: 'Overførselsaftale',
     meteringPointEventType: 'Målepunkt',
     tableTitle: 'Resultater',
     timeTableHeader: 'Tidsstempel',
-    eventTableHeader: 'Begivenhed',
+    actor: '{{orginizationName}} ({{organizationTin}})',
+    systemActor: 'System',
+    eventTableHeader: 'Aktivitet',
+    events: {
+      MeteringPoint: {
+        Created: "{{actor}} har oprettet et målepunkt med ID {{entityId}}",
+        Accepted: "{{actor}} har accepteret målepunktet med ID {{entityId}}",
+        Declined: "{{actor}} har afvist målepunktet med ID {{entityId}}",
+        Activated: "{{actor}} har aktiveret målepunktet med ID {{entityId}}",
+        Deactivated: "{{actor}} har deaktiveret målepunktet med ID {{entityId}}",
+        EndDateChanged: "{{actor}} har ændret slutdatoen for målepunktet med ID {{entityId}}",
+        Expired: "{{actor}} har ladet målepunktet udløbe med ID {{entityId}}"
+      },
+      TransferAgreementProposal: {
+        Created: "{{actor}} har oprettet et forslag til en overførselsaftale med ID {{entityId}}",
+        Accepted: "{{actor}} har accepteret forslaget til en overførselsaftale med ID {{entityId}}",
+        Declined: "{{actor}} har afvist forslaget til en overførselsaftale med ID {{entityId}}",
+        Activated: "{{actor}} har aktiveret forslaget til en overførselsaftale med ID {{entityId}}",
+        Deactivated: "{{actor}} har deaktiveret forslaget til en overførselsaftale med ID {{entityId}}",
+        EndDateChanged: "{{actor}} har ændret slutdatoen for forslaget til en overførselsaftale med ID {{entityId}}",
+        Expired: "{{actor}} har ladet forslaget til en overførselsaftale udløbe med ID {{entityId}}"
+      },
+      TransferAgreement: {
+        Created: "{{actor}} har oprettet en overførselsaftale med ID {{entityId}}",
+        Accepted: "{{actor}} har accepteret overførselsaftalen med ID {{entityId}}",
+        Declined: "{{actor}} har afvist overførselsaftalen med ID {{entityId}}",
+        Activated: "{{actor}} har aktiveret overførselsaftalen med ID {{entityId}}",
+        Deactivated: "{{actor}} har deaktiveret overførselsaftalen med ID {{entityId}}",
+        EndDateChanged: "{{actor}} har ændret slutdatoen for overførselsaftalen med ID {{entityId}}",
+        Expired: "{{actor}} har ladet overførselsaftalen udløbe med ID {{entityId}}"
+      }
+    }
   },
   privacyPolicy: {
     title: 'Privatlivspolitik',
   },
   transfers: {
-    title: 'Overførsler',
+    title: 'Overførselsaftaler',
     automationError: {
       title: 'Vi oplever i øjeblikket et problem med at håndtere certifikater',
       message:
-        'Når vi har løst problemet, vil de udestående overførsler blive opdateret automatisk.',
+        'Når vi har løst problemet, vil de udestående overførselsaftaler blive opdateret automatisk.',
     },
     creationOfTransferAgreementFailed:
       'Oprettelse af overførselsaftalen mislykkedes. Prøv at acceptere forslaget igen eller anmod organisationen, der sendte invitationen, om at generere et nyt link.',
@@ -368,7 +399,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
 
     recipient: {
       stepLabel: 'Modtager',
-      title: 'Hvem er aftalen for?',
+      title: 'Hvem er aftalen til?',
       description: 'Valgfrit, men anbefales af sikkerhedsmæssige årsager.',
       nextLabel: 'Næste',
       unknownRecipient: 'Ukendt virksomhed',
@@ -478,7 +509,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       </li>
       <li>
         <a href="https://www.iea.org/countries/denmark" target="_blank" rel="noopener noreferrer"
-          >IEA - Denmark</a
+          >IEA - Denmark (Engelsk)</a
         >Det Internationale Energiagentur er forpligtet til at forme en sikker og bæredygtig energifremtid
         for alle og leverer data og sammenligninger om, hvad de forskellige lande foretager sig.
       </li>

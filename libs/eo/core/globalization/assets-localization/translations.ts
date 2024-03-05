@@ -251,12 +251,54 @@ export const translations = {
       title: 'activityLog.error.title' as const,
       message: 'activityLog.error.message' as const,
     } as const,
-    eventTypeLabel: 'activityLog.eventTypeLabel' as const,
-    transferAgreementEventType: 'activityLog.transferAgreementEventType' as const,
-    meteringPointEventType: 'activityLog.meteringPointEventType' as const,
-    tableTitle: 'activityLog.tableTitle' as const,
-    timeTableHeader: 'activityLog.timeTableHeader' as const,
-    eventTableHeader: 'activityLog.eventTableHeader' as const,
+    eventTypeLabel: "activityLog.eventTypeLabel" as const,
+    transferAgreementEventType:
+      "activityLog.transferAgreementEventType" as const,
+    meteringPointEventType: "activityLog.meteringPointEventType" as const,
+    tableTitle: "activityLog.tableTitle" as const,
+    timeTableHeader: "activityLog.timeTableHeader" as const,
+    actor: "activityLog.actor" as const,
+    systemActor: "activityLog.systemActor" as const,
+    eventTableHeader: "activityLog.eventTableHeader" as const,
+    events: {
+      MeteringPoint: {
+        Created: "activityLog.events.MeteringPoint.Created" as const,
+        Accepted: "activityLog.events.MeteringPoint.Accepted" as const,
+        Declined: "activityLog.events.MeteringPoint.Declined" as const,
+        Activated: "activityLog.events.MeteringPoint.Activated" as const,
+        Deactivated: "activityLog.events.MeteringPoint.Deactivated" as const,
+        EndDateChanged:
+          "activityLog.events.MeteringPoint.EndDateChanged" as const,
+        Expired: "activityLog.events.MeteringPoint.Expired" as const,
+      } as const,
+      TransferAgreementProposal: {
+        Created:
+          "activityLog.events.TransferAgreementProposal.Created" as const,
+        Accepted:
+          "activityLog.events.TransferAgreementProposal.Accepted" as const,
+        Declined:
+          "activityLog.events.TransferAgreementProposal.Declined" as const,
+        Activated:
+          "activityLog.events.TransferAgreementProposal.Activated" as const,
+        Deactivated:
+          "activityLog.events.TransferAgreementProposal.Deactivated" as const,
+        EndDateChanged:
+          "activityLog.events.TransferAgreementProposal.EndDateChanged" as const,
+        Expired:
+          "activityLog.events.TransferAgreementProposal.Expired" as const,
+      } as const,
+      TransferAgreement: {
+        Created: "activityLog.events.TransferAgreement.Created" as const,
+        Accepted: "activityLog.events.TransferAgreement.Accepted" as const,
+        Declined: "activityLog.events.TransferAgreement.Declined" as const,
+        Activated: "activityLog.events.TransferAgreement.Activated" as const,
+        Deactivated:
+          "activityLog.events.TransferAgreement.Deactivated" as const,
+        EndDateChanged:
+          "activityLog.events.TransferAgreement.EndDateChanged" as const,
+        Expired: "activityLog.events.TransferAgreement.Expired" as const,
+      } as const,
+    } as const,
   } as const,
   privacyPolicy: {
     title: 'privacyPolicy.title' as const,

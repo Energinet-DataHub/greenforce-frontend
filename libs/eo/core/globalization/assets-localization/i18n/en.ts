@@ -283,7 +283,38 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     meteringPointEventType: 'Metering Point',
     tableTitle: 'Results',
     timeTableHeader: 'Timestamp',
+    actor: '{{orginizationName}} ({{organizationTin}})',
+    systemActor: 'System',
     eventTableHeader: 'Event',
+    events: {
+      MeteringPoint: {
+        Created: '{{actor}} has created a metering point with ID {{entityId}}',
+        Accepted: '{{actor}} has accepted the metering point with ID {{entityId}}',
+        Declined: '{{actor}} has declined the metering point with ID {{entityId}}',
+        Activated: '{{actor}} has activated the metering point with ID {{entityId}}',
+        Deactivated: '{{actor}} has deactivated the metering point with ID {{entityId}}',
+        EndDateChanged: '{{actor}} has deactivated or changed the end date of the metering point with ID {{entityId}}',
+        Expired: '{{actor}} has expired the metering point with ID {{entityId}}',
+      },
+      TransferAgreementProposal: {
+        Created: '{{actor}} has created a proposal of a transfer agreement with ID {{entityId}}',
+        Accepted: '{{actor}} has accepted the proposal of a transfer agreement with ID {{entityId}}',
+        Declined: '{{actor}} has declined the proposal of a transfer agreement with ID {{entityId}}',
+        Activated: '{{actor}} has activated the proposal of a transfer agreement with ID {{entityId}}',
+        Deactivated: '{{actor}} has deactivated the proposal of a transfer agreement with ID {{entityId}}',
+        EndDateChanged: '{{actor}} has changed the end date of the proposal of a transfer agreement with ID {{entityId}}',
+        Expired: '{{actor}} has expired the proposal of a transfer agreement with ID {{entityId}}',
+      },
+      TransferAgreement: {
+        Created: '{{actor}} has created a transfer agreement with ID {{entityId}}',
+        Accepted: '{{actor}} has accepted the transfer agreement with ID {{entityId}}',
+        Declined: '{{actor}} has declined the transfer agreement with ID {{entityId}}',
+        Activated: '{{actor}} has activated the transfer agreement with ID {{entityId}}',
+        Deactivated: '{{actor}} has deactivated the transfer agreement with ID {{entityId}}',
+        EndDateChanged: '{{actor}} has changed the end date of the transfer agreement with ID {{entityId}}',
+        Expired: '{{actor}} has expired the transfer agreement with ID {{entityId}}',
+      }
+    }
   },
   privacyPolicy: {
     title: 'Privacy Policy',

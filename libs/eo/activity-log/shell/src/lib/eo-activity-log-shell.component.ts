@@ -220,9 +220,10 @@ export class EoActivityLogShellComponent implements OnInit {
     this.dataSource.data = data.map((x) => {
       return {
         timestamp: this.datePipe.transform(x.timestamp, 'longAbbrWithSeconds') as string,
-        event: `${this.formatActorType(x)} has ${this.formatActionType(
-          x.actionType
-        )} ${this.formatEntityType(x.entityType)} with ID ${x.entityId}`,
+        event: this.transloco.translate(this.translations.activityLog.events[x.entityType][x.actionType], {
+          actor: this.formatActorType(x),
+          entityId: x.entityId,
+        })
       };
     });
   }
@@ -269,40 +270,12 @@ export class EoActivityLogShellComponent implements OnInit {
 
   private formatActorType(logEntry: ActivityLogEntryResponse): string {
     if (logEntry.actorType === 'System') {
-      return 'System';
+      return this.transloco.translate(this.translations.activityLog.systemActor);
     } else {
-      return `${logEntry.organizationName} (${logEntry.organizationTin})`;
-    }
-  }
-
-  private formatActionType(actionType: activityLogActionType): string {
-    if (actionType === 'Created') {
-      return 'created a';
-    } else if (actionType === 'Accepted') {
-      return 'accepted the';
-    } else if (actionType === 'Declined') {
-      return 'declined the';
-    } else if (actionType === 'Activated') {
-      return 'activated the';
-    } else if (actionType === 'Deactivated') {
-      return 'deactivated the';
-    } else if (actionType === 'EndDateChanged') {
-      return 'deactivated or changed the end date of the';
-    } else if (actionType === 'Expired') {
-      return 'expired the';
-    } else {
-      return actionType;
-    }
-  }
-
-  private formatEntityType(entityType: activityLogEntityType): string {
-    switch (entityType) {
-      case 'MeteringPoint':
-        return 'metering point';
-      case 'TransferAgreementProposal':
-        return 'proposal of a transfer agreement';
-      case 'TransferAgreement':
-        return 'transfer agreement';
+      return this.transloco.translate(this.translations.activityLog.actor, {
+        orginizationName: logEntry.organizationName,
+        organizationTin: logEntry.organizationTin,
+      });
     }
   }
 }
