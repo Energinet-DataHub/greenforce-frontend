@@ -14,10 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { OverlayModule } from '@angular/cdk/overlay';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   HostBinding,
   Input,
@@ -26,31 +29,23 @@ import {
   inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { NgIf } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { OverlayModule } from '@angular/cdk/overlay';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, distinctUntilChanged, EMPTY, map } from 'rxjs';
 
+import { Subject } from 'rxjs';
 import { WattButtonComponent } from '../../button';
 import { WattSliderComponent } from '../../slider';
-import { WattInputMaskService, WattMaskedInput } from '../shared/watt-input-mask.service';
-import { WattPickerBase } from '../shared/watt-picker-base';
-import { WattDateRange } from '../../../utils/date';
-import { WattRangeInputService } from '../shared/watt-range-input.service';
-import { WattSliderValue } from '../../slider/watt-slider.component';
-import { WattPickerValue } from '../shared/watt-picker-value';
-import { WattFieldComponent } from '../../field/watt-field.component';
 
-/**
- * Note: `Inputmask` package uses upper case `MM` for "minutes" and
- * lower case `mm` for "months".
- * This is opposite of what most other date libraries do.
- */
-const hoursMinutesFormat = 'HH:MM';
-const hoursMinutesPlaceholder = 'HH:MM';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { maskitoTimeOptionsGenerator } from '@maskito/kit';
+import { WattDateRange } from '../../../utils/date';
+import { WattFieldComponent } from '../../field/watt-field.component';
+import { WattSliderValue } from '../../slider/watt-slider.component';
+import { maskitoTimeRangeOptionsGenerator } from '../shared/maskito-time-range-mask';
+import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-placeholder-mask.component';
+import { WattPickerBase } from '../shared/watt-picker-base';
+import { WattPickerValue } from '../shared/watt-picker-value';
 
 // Constants for working with time intervals
 const minutesInADay = 24 * 60;
@@ -71,15 +66,7 @@ function minutesToTime(value: number): string {
   const minutes = `${value % 60}`;
   return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
 }
-
-/** Curried helper for getting a value at `index` if it is truthy. */
-const getTruthyAt =
-  <type>(index: number) =>
-  (array: type[]) =>
-    array[index] || undefined;
-
 /**
- * @deprecated Use WattTimepickerV2Component instead
  * Usage:
  * `import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';`
  *
@@ -90,36 +77,31 @@ const getTruthyAt =
   selector: 'watt-timepicker',
   templateUrl: './watt-timepicker.component.html',
   styleUrls: ['./watt-timepicker.component.scss'],
-  providers: [
-    WattInputMaskService,
-    WattRangeInputService,
-    { provide: MatFormFieldControl, useExisting: WattTimepickerComponent },
-  ],
+  providers: [{ provide: MatFormFieldControl, useExisting: WattTimepickerComponent }],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgIf,
     MatDatepickerModule,
     WattButtonComponent,
     WattSliderComponent,
     MatInputModule,
     OverlayModule,
+    CommonModule,
     WattFieldComponent,
+    WattPlaceholderMaskComponent,
   ],
 })
 export class WattTimepickerComponent extends WattPickerBase {
-  protected inputMaskService = inject(WattInputMaskService);
-  protected rangeInputService = inject(WattRangeInputService);
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected override changeDetectionRef = inject(ChangeDetectorRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });
-
   @Input() label = '';
   /**
    * Text to display on label for time range slider.
    */
-  @Input() sliderLabel = '';
+  @Input()
+  sliderLabel = '';
 
   /**
    * @ignore
@@ -154,11 +136,23 @@ export class WattTimepickerComponent extends WattPickerBase {
     // Only range input has slider
     return this.range && this.sliderOpen ? this.sliderId : undefined;
   }
-
   /**
    * @ignore
    */
-  protected _placeholder = hoursMinutesPlaceholder;
+  hoursMinutesPlaceholder = 'HH:MM';
+  /**
+   * @ignore
+   */
+  rangeSeparator = ' - ';
+  /**
+   * @ignore
+   */
+  rangePlaceholder =
+    this.hoursMinutesPlaceholder + this.rangeSeparator + this.hoursMinutesPlaceholder;
+  /**
+   * @ignore
+   */
+  protected _placeholder = this.hoursMinutesPlaceholder;
 
   /**
    * Whether the slider is open.
@@ -174,7 +168,7 @@ export class WattTimepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  sliderChange$ = new BehaviorSubject(initialSliderValue);
+  sliderChange$ = new Subject<WattSliderValue>();
 
   /**
    * @ignore
@@ -188,7 +182,7 @@ export class WattTimepickerComponent extends WattPickerBase {
     }
 
     // Retain last slider value if input value is incomplete
-    return this.sliderChange$.value;
+    return initialSliderValue;
   }
 
   /**
@@ -208,6 +202,19 @@ export class WattTimepickerComponent extends WattPickerBase {
     if (!this.focused) this.sliderOpen = false;
   }
 
+  /**
+   * @ignore
+   */
+  inputMask = maskitoTimeOptionsGenerator({ mode: 'HH:MM' });
+  /**
+   * @ignore
+   */
+  rangeInputMask = maskitoTimeRangeOptionsGenerator();
+  /**
+   * @ignore
+   */
+  destroyRef = inject(DestroyRef);
+
   constructor() {
     super(`watt-timepicker-${WattTimepickerComponent.nextId++}`);
   }
@@ -216,61 +223,77 @@ export class WattTimepickerComponent extends WattPickerBase {
    * @ignore
    */
   protected initSingleInput() {
-    const { maskedInput } = this.maskInput(
-      this.input.nativeElement,
-      this.initialValue as string | null
-    );
+    if (this.initialValue) {
+      (this.input.nativeElement as HTMLInputElement).value = this.initialValue as string;
+      this.input.nativeElement.dispatchEvent(new InputEvent('input'));
+    }
+  }
 
-    maskedInput.onChange$.subscribe((value: string) => {
-      this.markParentControlAsTouched();
-      this.changeParentValue(value);
-    });
+  /**
+   * @ignore
+   */
+  inputChanged(value: string) {
+    const time = value.slice(0, this.hoursMinutesPlaceholder.length);
+    if (time.length === 0) {
+      this.control?.setValue(null);
+      return;
+    }
+    if (time.length !== this.hoursMinutesPlaceholder.length) {
+      return;
+    }
+    this.control?.setValue(time);
+  }
+
+  /**
+   * @ignore
+   */
+  rangeInputChanged(value: string) {
+    const start = value.slice(0, this.hoursMinutesPlaceholder.length);
+    if (start.length !== this.hoursMinutesPlaceholder.length) {
+      this.control?.setValue({ start: '', end: '' });
+      return;
+    }
+    if (value.length < this.rangePlaceholder.length) {
+      this.control?.setValue({ start, end: '' });
+      return;
+    }
+    let end = value.slice(this.hoursMinutesPlaceholder.length + this.rangeSeparator.length);
+    if (timeToMinutes(end) > timeToMinutes(start)) {
+      this.control?.setValue({ start, end });
+    } else {
+      end = minutesToTime(timeToMinutes(start) + 1);
+      this.setRangeValueAndNotify(start, end);
+    }
   }
 
   /**
    * @ignore
    */
   protected initRangeInput() {
-    // Setup and subscribe for input changes
-    const startInput = this.maskInput(
-      this.startInput.nativeElement,
-      (this.initialValue as WattDateRange | null)?.start
-    );
-
-    const endInput = this.maskInput(
-      this.endInput.nativeElement,
-      (this.initialValue as WattDateRange | null)?.end
-    );
-
-    this.rangeInputService.init({ startInput, endInput });
-
-    // Silence the compiler since `onInputChanges$` is always assigned in `init`
-    const { onInputChanges$ = EMPTY } = this.rangeInputService;
-    const timeRange$ = onInputChanges$.pipe(takeUntilDestroyed(this._destroyRef));
-
-    // Synchronize the slider value with the input fields. Calling `update`
-    // here automatically triggers an emit on the `timeRange$` observable.
-    this.sliderChange$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((sliderValue) => {
-      startInput.maskedInput.update(minutesToTime(sliderValue.min));
-      endInput.maskedInput.update(minutesToTime(sliderValue.max));
+    if (this.initialValue) {
+      this.setRangeValueAndNotify(
+        (this.initialValue as WattDateRange).start,
+        (this.initialValue as WattDateRange).end
+      );
+    } else {
+      this.control?.setValue({ start: '', end: '' });
+    }
+    this.sliderChange$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((sliderValue) => {
+      const start = minutesToTime(sliderValue.min);
+      const end = minutesToTime(sliderValue.max);
+      if (end > start) {
+        this.setRangeValueAndNotify(start, end);
+      }
     });
+  }
 
-    // Whenever the start input value changes, set (or remove)
-    // the minimum allowed value for the end input value.
-    timeRange$
-      .pipe(map(getTruthyAt(0)), distinctUntilChanged())
-      .subscribe((start) => endInput.maskedInput.setOptions({ min: start }));
-
-    // Whenever the end input value changes, set (or remove)
-    // the maximum allowed value for the start input value.
-    timeRange$
-      .pipe(map(getTruthyAt(1)), distinctUntilChanged())
-      .subscribe((end) => startInput.maskedInput.setOptions({ max: end }));
-
-    timeRange$.subscribe(([start, end]) => {
-      this.markParentControlAsTouched();
-      this.changeParentValue({ start, end });
-    });
+  /**
+   * @ignore
+   */
+  setRangeValueAndNotify(start: string, end: string) {
+    this.control?.setValue({ start, end });
+    (this.input.nativeElement as HTMLInputElement).value = start + this.rangeSeparator + end;
+    this.input.nativeElement.dispatchEvent(new InputEvent('input'));
   }
 
   /**
@@ -300,24 +323,5 @@ export class WattTimepickerComponent extends WattPickerBase {
     if (end) {
       endInput.value = end;
     }
-  }
-
-  /**
-   * @ignore
-   */
-  private maskInput(
-    input: HTMLInputElement,
-    initialValue: string | null = ''
-  ): {
-    element: HTMLInputElement;
-    maskedInput: WattMaskedInput;
-  } {
-    const maskedInput = this.inputMaskService.mask(
-      initialValue,
-      hoursMinutesFormat,
-      this.placeholder,
-      input
-    );
-    return { element: input, maskedInput };
   }
 }

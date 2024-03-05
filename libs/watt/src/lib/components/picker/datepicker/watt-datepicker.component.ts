@@ -14,9 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { NgIf } from '@angular/common';
+import { FormatWidth, getLocaleDateFormat } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   Input,
   LOCALE_ID,
@@ -25,29 +28,31 @@ import {
   inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { FormatWidth, getLocaleDateFormat, NgIf } from '@angular/common';
 import {
+  MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
+  MatCalendarCellClassFunction,
+  MatDateRangeInput,
+  MatDateRangePicker,
   MatDatepickerInput,
+  MatDatepickerModule,
   MatEndDate,
   MatStartDate,
-  MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
-  MatDatepickerModule,
-  MatDateRangePicker,
-  MatCalendarCellClassFunction,
 } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { combineLatest, map, merge, startWith, tap } from 'rxjs';
-import { parse, isValid, parseISO, endOfDay, startOfMonth, endOfMonth } from 'date-fns';
-import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
 import { WattFieldComponent } from '@energinet-datahub/watt/field';
+import { endOfDay, endOfMonth, isValid, parse, parseISO, startOfMonth } from 'date-fns';
+import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 
-import { WattButtonComponent } from '../../button';
-import { WattInputMaskService } from '../shared/watt-input-mask.service';
-import { WattRangeInputService } from '../shared/watt-range-input.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { WattLocaleService } from '@energinet-datahub/watt/locale';
+import { MaskitoDirective } from '@maskito/angular';
+import { MaskitoOptions } from '@maskito/core';
+import { maskitoDateOptionsGenerator, maskitoDateRangeOptionsGenerator } from '@maskito/kit';
+import { WattSupportedLocales } from '../../../configuration/watt-date-adapter';
 import { WattDateRange } from '../../../utils/date';
+import { WattButtonComponent } from '../../button';
+import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-placeholder-mask.component';
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattPickerValue } from '../shared/watt-picker-value';
 
@@ -56,7 +61,6 @@ const danishLocaleCode = 'da';
 export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 /**
- * @deprecated Use WattDatepickerV2Component instead
  * Usage:
  * `import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';`
  *
@@ -68,26 +72,32 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
   templateUrl: './watt-datepicker.component.html',
   styleUrls: ['./watt-datepicker.component.scss'],
   providers: [
-    WattInputMaskService,
-    WattRangeInputService,
     { provide: MatFormFieldControl, useExisting: WattDatepickerComponent },
     MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
   ],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgIf, MatDatepickerModule, MatInputModule, WattButtonComponent, WattFieldComponent],
+  imports: [
+    NgIf,
+    MatDatepickerModule,
+    MatInputModule,
+    WattButtonComponent,
+    WattFieldComponent,
+    MaskitoDirective,
+    WattPlaceholderMaskComponent,
+  ],
 })
 export class WattDatepickerComponent extends WattPickerBase {
-  protected inputMaskService = inject(WattInputMaskService);
-  protected rangeInputService = inject(WattRangeInputService);
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected override changeDetectionRef = inject(ChangeDetectorRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });
-  private locale = inject(LOCALE_ID);
-  private cdr = inject(ChangeDetectorRef);
+  private localeService = inject(WattLocaleService);
+  private locale: WattSupportedLocales = inject(LOCALE_ID) as WattSupportedLocales;
+  private destroyRef = inject(DestroyRef);
 
   @Input() max: Date | null = null;
   @Input() min: Date | null = null;
-  @Input() startAt: Date | null = null;
+  @Input() startAt = new Date();
   @Input() rangeMonthOnlyMode = false;
   @Input() label = '';
 
@@ -100,6 +110,9 @@ export class WattDatepickerComponent extends WattPickerBase {
   @ViewChild(MatDateRangePicker)
   matDateRangePicker!: MatDateRangePicker<Date | null>;
 
+  @ViewChild(MatDateRangeInput)
+  matDateRangeInput!: MatDateRangeInput<Date | null>;
+
   /**
    * @ignore
    */
@@ -111,6 +124,12 @@ export class WattDatepickerComponent extends WattPickerBase {
    */
   @ViewChild(MatEndDate)
   matEndDate!: MatEndDate<Date | null>;
+
+  /**
+   * @ignore
+   */
+  @ViewChild('actualInput')
+  actualInput!: ElementRef;
 
   /**
    * @ignore
@@ -129,72 +148,87 @@ export class WattDatepickerComponent extends WattPickerBase {
    */
   @ViewChild('endDateInput')
   endInput!: ElementRef;
-
   /**
    * @ignore
    */
   protected _placeholder = this.getPlaceholder(this.getInputFormat());
 
-  @Input()
-  dateClass: MatCalendarCellClassFunction<Date> = () => '';
+  @Input() dateClass: MatCalendarCellClassFunction<Date> = () => '';
 
   /**
    * @ignore
    */
+  datePlaceholder = this.getPlaceholderByLocale(this.locale);
+  /**
+   * @ignore
+   */
+  rangeSeparator = ' - ';
+  /**
+   * @ignore
+   */
+  rangePlaceholder = this.datePlaceholder + this.rangeSeparator + this.datePlaceholder;
+  /**
+   * @ignore
+   */
+  inputMask: MaskitoOptions = maskitoDateOptionsGenerator({ mode: 'dd/mm/yyyy', separator: '-' });
+  /**
+   * @ignore
+   */
+  rangeInputMask: MaskitoOptions = maskitoDateRangeOptionsGenerator({
+    mode: 'dd/mm/yyyy',
+    dateSeparator: '-',
+  });
+  /**
+   * @ignore
+   */
+  getPlaceholderByLocale(locale: WattSupportedLocales): string {
+    return locale === 'da' ? 'dd-mm-åååå' : 'dd-mm-yyyy';
+  }
+  getRangePlaceholder(): string {
+    return this.datePlaceholder + this.rangeSeparator + this.datePlaceholder;
+  }
   constructor() {
     super(`watt-datepicker-${WattDatepickerComponent.nextId++}`);
+    this.localeService.onLocaleChange$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((locale) => {
+        this.datePlaceholder = this.getPlaceholderByLocale(locale);
+        this.rangePlaceholder = this.getRangePlaceholder();
+      });
   }
 
-  /**
-   * @ignore
-   */
   protected initSingleInput() {
-    const pickerInputElement = this.input.nativeElement;
-    const { onChange$, inputMask } = this.inputMaskService.mask(
-      this.initialValue as string | null,
-      this.getInputFormat(),
-      this.placeholder,
-      pickerInputElement,
-      (value: string) => this.onBeforePaste(value)
-    );
+    if (this.initialValue) {
+      this.matDatepickerInput.value = this.initialValue;
+      this.datepickerClosed();
+    }
+  }
 
-    const onInputOnChange$ = onChange$.pipe(
-      // `value` can have one of three values:
-      // 1. An empty string (usually when no initial value is set or input value is manually deleted)
-      // 2. A `dd-MM-yyyy` format (keep in sync with `dateShortFormat`) (usually when date is manually typed)
-      // 3. Full ISO 8601 format (usually when initial value is set)
-      map((value) => {
-        const parsedDate = this.parseDateShortFormat(value);
+  inputChanged(value: string) {
+    const dateString = value.slice(0, this.datePlaceholder.length);
+    if (dateString.length === 0) {
+      this.control?.setValue(null);
+      return;
+    }
+    if (dateString.length !== this.datePlaceholder.length) {
+      return;
+    }
+    const date = this.parseDateShortFormat(dateString);
+    this.control?.setValue(this.formatDateFromViewToModel(date));
+  }
 
-        if (isValid(parsedDate)) {
-          this.matDatepickerInput.value = parsedDate;
-          value = this.formatDateFromViewToModel(parsedDate);
-        }
-
-        return value;
-      })
-    );
-
-    const matDatepickerChange$ = this.matDatepickerInput.dateInput.pipe(
-      tap(() => {
-        this.inputMaskService.setInputColor(pickerInputElement, inputMask);
-      }),
-      map(({ value }) => {
-        let formattedDate = '';
-
-        if (value instanceof Date) {
-          formattedDate = this.formatDateFromViewToModel(value);
-        }
-
-        return formattedDate;
-      })
-    );
-
-    merge(onInputOnChange$, matDatepickerChange$)
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((value: string) => {
-        this.changeParentValue(value);
-      });
+  datepickerClosed() {
+    if (this.matDatepickerInput.value) {
+      this.control?.setValue(this.matDatepickerInput.value);
+      (this.actualInput.nativeElement as HTMLInputElement).value =
+        this.formatDateTimeFromModelToView(
+          this.formatDateFromViewToModel(this.matDatepickerInput.value)
+        );
+    } else {
+      (this.actualInput.nativeElement as HTMLInputElement).value = '';
+      this.control?.setValue(null);
+    }
+    this.actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
   }
 
   onMonthSelected(date: Date) {
@@ -209,134 +243,55 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   protected initRangeInput() {
-    const startDateInputElement = this.startInput.nativeElement;
-    const maskedStartDate = this.inputMaskService.mask(
-      (this.initialValue as WattDateRange | null)?.start,
-      this.getInputFormat(),
-      this.placeholder,
-      startDateInputElement,
-      (value: string) => this.onBeforePaste(value)
-    );
+    if (this.initialValue) {
+      this.matStartDate.value = (this.initialValue as WattDateRange).start;
+      this.matEndDate.value = (this.initialValue as WattDateRange).end;
+      this.rangePickerClosed();
+    }
+  }
 
-    const endDateInputElement = this.endInput.nativeElement;
-    const maskedEndDate = this.inputMaskService.mask(
-      (this.initialValue as WattDateRange | null)?.end,
-      this.getInputFormat(),
-      this.placeholder,
-      endDateInputElement,
-      (value: string) => this.onBeforePaste(value)
-    );
+  clearRangePicker() {
+    this.control?.setValue(null);
+    this.actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
+  }
 
-    this.rangeInputService.init({
-      startInput: {
-        element: startDateInputElement,
-        maskedInput: maskedStartDate,
-      },
-      endInput: {
-        element: endDateInputElement,
-        maskedInput: maskedEndDate,
-      },
-    });
+  rangeInputChanged(value: string) {
+    const startDateString = value.slice(0, this.datePlaceholder.length);
+    if (startDateString.length === 0) {
+      this.control?.setValue(null);
+      return;
+    }
+    if (startDateString.length !== this.datePlaceholder.length) {
+      return;
+    }
+    const start = this.parseDateShortFormat(startDateString);
+    const endDateString = value.slice(this.datePlaceholder.length + this.rangeSeparator.length);
+    let end = this.setEndDateToDanishTimeZone(endDateString);
+    if (end !== null) {
+      end = this.setToEndOfDay(end);
+      this.control?.setValue({ start, end });
+    }
+  }
 
-    const getInitialValue = (initialValue: string) => {
-      let value: Date | string = '';
-
-      if (initialValue) {
-        value = this.parseDateShortFormat(this.formatDateTimeFromModelToView(initialValue));
-      }
-
-      return { value };
-    };
-
-    const matStartDateChange$ = this.matStartDate.dateInput.pipe(
-      startWith(getInitialValue((this.initialValue as WattDateRange)?.start)),
-      tap(() => {
-        this.inputMaskService.setInputColor(startDateInputElement, maskedStartDate.inputMask);
-      }),
-      map(({ value }) => {
-        let start = '';
-
-        if (value instanceof Date) {
-          start = this.formatDateFromViewToModel(value);
-        }
-
-        return start;
-      })
-    );
-
-    const matEndDateChange$ = this.matEndDate.dateInput.pipe(
-      startWith(getInitialValue((this.initialValue as WattDateRange)?.end)),
-      tap(() => {
-        this.inputMaskService.setInputColor(endDateInputElement, maskedEndDate.inputMask);
-      }),
-      map(({ value }) => {
-        let end = '';
-
-        if (value instanceof Date) {
-          const endOfDay = this.setToEndOfDay(value);
-
-          end = this.formatDateFromViewToModel(endOfDay);
-        }
-
-        return end;
-      })
-    );
-
-    /*
-     * Initial is used to prevent marking the control as touched on initial values.
-     */
-    let initialDateChange = true;
-
-    // Subscribe for changes from date-range picker
-    combineLatest([matStartDateChange$, matEndDateChange$])
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe(([start, end]) => {
-        if (initialDateChange) {
-          initialDateChange = false;
-          return;
-        }
-        this.markParentControlAsTouched();
-        this.changeParentValue({ start, end });
+  rangePickerClosed() {
+    if (this.matDateRangeInput.value?.start && this.matDateRangeInput.value.end) {
+      (this.actualInput.nativeElement as HTMLInputElement).value =
+        this.formatDateTimeFromModelToView(
+          this.formatDateFromViewToModel(this.matDateRangeInput.value?.start)
+        ) +
+        '-' +
+        this.formatDateTimeFromModelToView(
+          this.formatDateFromViewToModel(this.matDateRangeInput.value.end)
+        );
+      this.control?.setValue({
+        start: this.formatDateFromViewToModel(this.matDateRangeInput.value.start),
+        end: this.formatDateFromViewToModel(this.matDateRangeInput.value.end),
       });
-
-    /*
-     * Initial is used to prevent marking the control as touched on initial values.
-     */
-    let initialInputChange = true;
-
-    // Subscribe for input changes
-    this.rangeInputService.onInputChanges$
-      ?.pipe(takeUntilDestroyed(this._destroyRef))
-      // `start` and `end` can have one of three values:
-      // 1. An empty string (usually when no initial value is set or input value is manually deleted)
-      // 2. A `dd-MM-yyyy` format (keep in sync with `dateShortFormat`) (usually when date is manually typed)
-      // 3. Full ISO 8601 format (usually when initial value is set)
-      .subscribe(([start, end]) => {
-        if (initialInputChange) {
-          initialInputChange = false;
-          return;
-        }
-        const parsedStartDate = this.parseDateShortFormat(start);
-
-        if (isValid(parsedStartDate)) {
-          this.matStartDate.value = parsedStartDate;
-          start = this.formatDateFromViewToModel(parsedStartDate);
-        }
-
-        const maybeEndDateInDanishTimeZone: Date | null = this.setEndDateToDanishTimeZone(end);
-
-        if (maybeEndDateInDanishTimeZone != null) {
-          const endDateEndOfDay = this.setToEndOfDay(maybeEndDateInDanishTimeZone);
-
-          this.matEndDate.value = endDateEndOfDay;
-          end = this.formatDateFromViewToModel(endDateEndOfDay);
-        }
-
-        this.changeParentValue({ start, end });
-
-        // Needed for updating the datepicker in components with `ChangeDetectionStrategy.OnPush`;
-        setTimeout(() => this.cdr.markForCheck());
-      });
+    } else {
+      (this.actualInput.nativeElement as HTMLInputElement).value = '';
+      this.control?.setValue(null);
+    }
+    this.actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
   }
 
   /**
@@ -361,21 +316,6 @@ export class WattDatepickerComponent extends WattPickerBase {
 
     this.setValueToInput(start, startInput, this.matStartDate);
     this.setValueToInput(end, endInput, this.matEndDate);
-  }
-
-  /**
-   * @ignore
-   */
-  private onBeforePaste(pastedValue: string): string {
-    if (this.locale !== danishLocaleCode) return pastedValue;
-
-    // Reverse the pasted value, if starts with "year"
-    if (pastedValue.search(/^\d{4}/g) !== -1) {
-      const sepearators = pastedValue.match(/(\D)/);
-      const seperator = sepearators ? sepearators[0] : '';
-      return pastedValue.split(seperator).reverse().join(seperator);
-    }
-    return pastedValue;
   }
 
   /**
@@ -416,11 +356,11 @@ export class WattDatepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  private setValueToInput<
-    D extends {
-      value: Date | null;
-    },
-  >(value: string | null | undefined, nativeInput: HTMLInputElement, matDateInput: D): void {
+  private setValueToInput<D extends { value: Date | null }>(
+    value: string | null | undefined,
+    nativeInput: HTMLInputElement,
+    matDateInput: D
+  ): void {
     nativeInput.value = value ? this.formatDateTimeFromModelToView(value) : '';
     matDateInput.value = value ? zonedTimeToUtc(value, danishTimeZoneIdentifier) : null;
   }

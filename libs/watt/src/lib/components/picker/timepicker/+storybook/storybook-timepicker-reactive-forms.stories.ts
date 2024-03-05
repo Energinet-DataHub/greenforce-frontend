@@ -23,7 +23,6 @@ import { localizationProviders } from '../../shared/+storybook/storybook-configu
 import { WattRangeValidators } from '../../shared/validators';
 import { WattTimepickerComponent } from '../watt-timepicker.component';
 import { WattFieldErrorComponent } from '../../../field/watt-field-error.component';
-import { WattTimepickerV2Component } from '../watt-timepicker-v2.component';
 
 export default {
   title: 'Components/Timepicker',
@@ -32,34 +31,29 @@ export default {
       providers: [provideAnimations(), localizationProviders],
     }),
     moduleMetadata({
-      imports: [
-        ReactiveFormsModule,
-        WattTimepickerV2Component,
-        WattTimepickerComponent,
-        WattFieldErrorComponent,
-      ],
+      imports: [ReactiveFormsModule, WattTimepickerComponent, WattFieldErrorComponent],
     }),
   ],
   component: WattTimepickerComponent,
 } as Meta;
 
 const template = `
-  <watt-timepicker-v2 label="Single time" [formControl]="exampleFormControlSingle">
+  <watt-timepicker label="Single time" [formControl]="exampleFormControlSingle">
     <watt-field-error *ngIf="exampleFormControlSingle?.errors?.required">
       Time is required
     </watt-field-error>
-  </watt-timepicker-v2>
+  </watt-timepicker>
 
  <p>Value: <code>{{exampleFormControlSingle.value | json}}</code></p>
  <p *ngIf="withValidations">Errors: <code>{{exampleFormControlSingle?.errors | json}}</code></p>
 
  <br />
 
-  <watt-timepicker-v2 label="Time range" sliderLabel="Adjust time range" [formControl]="exampleFormControlRange" [range]="true">
+  <watt-timepicker label="Time range" sliderLabel="Adjust time range" [formControl]="exampleFormControlRange" [range]="true">
     <watt-field-error *ngIf="exampleFormControlRange?.errors?.rangeRequired">
       Time range is required
     </watt-field-error>
-  </watt-timepicker-v2>
+  </watt-timepicker>
 
   <p>Selected range: <code>{{exampleFormControlRange.value | json}}</code></p>
   <p *ngIf="withValidations">Errors: <code>{{exampleFormControlRange?.errors | json}}</code></p>

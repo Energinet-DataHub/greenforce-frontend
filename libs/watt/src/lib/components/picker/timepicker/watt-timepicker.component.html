@@ -25,6 +25,13 @@ limitations under the License.
       [disabled]="disabled"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
+      class="mask-input"
+    />
+    <watt-placeholder-mask
+      [primaryInputElement]="timeInput"
+      [mask]="inputMask"
+      [placeholder]="hoursMinutesPlaceholder"
+      (maskApplied)="inputChanged($event)"
     />
     <ng-content />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
@@ -45,7 +52,6 @@ limitations under the License.
         aria-label="start-time-input"
         matStartDate
         #startTimeInput
-        [placeholder]="placeholder"
         autocomplete="off"
         spellcheck="false"
       />
@@ -53,11 +59,17 @@ limitations under the License.
         aria-label="end-time-input"
         matEndDate
         #endTimeInput
-        [placeholder]="placeholder"
         autocomplete="off"
         spellcheck="false"
       />
     </mat-date-range-input>
+    <input #timeInput class="mask-input" />
+    <watt-placeholder-mask
+      [primaryInputElement]="timeInput"
+      [mask]="rangeInputMask"
+      [placeholder]="rangePlaceholder"
+      (maskApplied)="rangeInputChanged($event)"
+    />
 
     <watt-button
       variant="icon"

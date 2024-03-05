@@ -28,21 +28,29 @@ limitations under the License.
         aria-label="start-date-input"
         matStartDate
         #startDateInput
-        [placeholder]="placeholder"
         [readOnly]="rangeMonthOnlyMode"
         autocomplete="off"
         spellcheck="false"
+        [hidden]="true"
       />
+
       <input
         aria-label="end-date-input"
         matEndDate
         #endDateInput
-        [placeholder]="placeholder"
         [readOnly]="rangeMonthOnlyMode"
         autocomplete="off"
         spellcheck="false"
+        [hidden]="true"
       />
     </mat-date-range-input>
+    <input #actualInput class="mask-input" />
+    <watt-placeholder-mask
+      [primaryInputElement]="actualInput"
+      [mask]="rangeInputMask"
+      [placeholder]="rangePlaceholder"
+      (maskApplied)="rangeInputChanged($event)"
+    />
 
     <watt-button
       variant="icon"
@@ -63,6 +71,7 @@ limitations under the License.
     [startView]="rangeMonthOnlyMode ? 'multi-year' : 'month'"
     [startAt]="startAt"
     (monthSelected)="onMonthSelected($event)"
+    (closed)="rangePickerClosed()"
     #rangeDatepicker
   />
 </ng-container>
@@ -81,6 +90,13 @@ limitations under the License.
       [matDatepicker]="singleDatepicker"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
+    />
+    <input #actualInput class="mask-input" />
+    <watt-placeholder-mask
+      [primaryInputElement]="actualInput"
+      [mask]="inputMask"
+      [placeholder]="datePlaceholder"
+      (maskApplied)="inputChanged($event)"
     />
 
     <watt-button
@@ -102,5 +118,6 @@ limitations under the License.
     panelClass="watt-datepicker-single__panel"
     [dateClass]="dateClass"
     [startAt]="startAt"
+    (closed)="datepickerClosed()"
   />
 </ng-template>
