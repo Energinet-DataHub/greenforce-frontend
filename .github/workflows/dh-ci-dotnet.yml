@@ -31,13 +31,30 @@ jobs:
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       release_name_prefix: ui_dotnet
 
-  # Run all tests in 'Tests.dll'
-  dotnet_ci_test:
+  # Run tests in 'Tests.dll' except TelemetryTests
+  dotnet_ci_test_except_telemetry:
     needs: dotnet_ci_build
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v13
     with:
       dotnet_version: 8.0.200
       tests_dll_file_path: \apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net8.0\Energinet.DataHub.WebApi.Tests.dll
+      tests_filter_expression: DisplayName!~TelemetryTests
+      download_attempt_limit: 12
+      environment: AzureAuth
+      azure_integrationtest_tenant_id: ${{ vars.integration_test_azure_tenant_id }}
+      azure_integrationtest_subscription_id: ${{ vars.integration_test_azure_subscription_id }}
+      azure_integrationtest_spn_id: ${{ vars.integration_test_azure_spn_id_oidc }}
+      azure_keyvault_url: ${{ vars.integration_test_azure_keyvault_url }}
+      azure_b2csecrets_keyvault_url: ${{ vars.integration_test_azure_b2csecrets_keyvault_url }}
+
+  # Run only TelemetryTests in 'Tests.dll'
+  dotnet_ci_test_telemetry:
+    needs: dotnet_ci_build
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v13
+    with:
+      dotnet_version: 8.0.200
+      tests_dll_file_path: \apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net8.0\Energinet.DataHub.WebApi.Tests.dll
+      tests_filter_expression: DisplayName~TelemetryTests
       download_attempt_limit: 12
       environment: AzureAuth
       azure_integrationtest_tenant_id: ${{ vars.integration_test_azure_tenant_id }}
