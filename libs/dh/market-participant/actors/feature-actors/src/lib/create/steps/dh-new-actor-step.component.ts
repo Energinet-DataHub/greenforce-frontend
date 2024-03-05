@@ -20,10 +20,7 @@ import { Component, Input, inject, signal } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import {
-  EicFunction,
-  GetGridAreasForCreateActorDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { EicFunction, GetGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
@@ -147,7 +144,7 @@ export class DhNewActorStepComponent {
     this._apollo
       .query({
         notifyOnNetworkStatusChange: true,
-        query: GetGridAreasForCreateActorDocument,
+        query: GetGridAreasDocument,
       })
       .subscribe((result) => {
         if (result.data?.gridAreas) {
