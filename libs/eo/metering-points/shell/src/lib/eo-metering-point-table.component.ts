@@ -123,7 +123,14 @@ class GranularCertificateHelperComponent {
         </ng-container>
 
         <ng-container *wattTableCell="columns.unit; let meteringPoint">
-          <watt-badge type="neutral">{{ meteringPoint.type }}</watt-badge>
+          @switch (meteringPoint.type) {
+            @case ('Consumption') {
+              <watt-badge type="neutral">{{ translations.meteringPoints.consumptionUnit | transloco }}</watt-badge>
+            }
+            @case ('Production') {
+              <watt-badge type="neutral">{{ translations.meteringPoints.productionUnit | transloco }}</watt-badge>
+            }
+          }
         </ng-container>
 
         <!-- GRANULAR CERTIFICATES Column -->
@@ -208,6 +215,7 @@ export class EoMeteringPointsTableComponent implements OnInit {
   }
 
   private setColumns(): void {
+    console.log('SET COLU')
     this.columns = {
       gsrn: {
         accessor: 'gsrn',

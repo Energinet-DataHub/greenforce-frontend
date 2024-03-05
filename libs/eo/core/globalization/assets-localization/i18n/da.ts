@@ -205,7 +205,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     addressTableHeader: 'Adresse',
     unitTableHeader: 'Enhed',
     sourceTableHeader: 'Kilde',
-    onOffTableHeader: 'Til/Fra',
+    onOffTableHeader: 'Fra/Til',
     onOffTooltipTitle: 'Ikke alle målepunkter kan aktiveres',
     onOffTooltipMessage:
       'Et målepunkt skal have en vind- eller solkilde for at blive berettiget til aktivering.',

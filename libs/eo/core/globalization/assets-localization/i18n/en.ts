@@ -205,7 +205,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     addressTableHeader: 'Address',
     unitTableHeader: 'Unit',
     sourceTableHeader: 'Source',
-    onOffTableHeader: 'On/Off',
+    onOffTableHeader: 'Off/On',
     onOffTooltipTitle: 'Not all metering points can be enabled',
     onOffTooltipMessage:
       'A metering point must have a wind or solar source to become eligible for activation.',
