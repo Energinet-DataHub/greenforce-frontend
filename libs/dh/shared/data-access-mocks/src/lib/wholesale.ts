@@ -44,6 +44,8 @@ import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 import { GetActorsForRequestCalculation } from './data/wholesale-get-actorsForRequestCalculation';
 import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { getGridAreas } from './data/get-grid-areas';
+
 export function wholesaleMocks(apiBase: string) {
   return [
     createCalculation(),
@@ -52,7 +54,7 @@ export function wholesaleMocks(apiBase: string) {
     downloadSettlementReportData(apiBase),
     getSettlementReports(),
     getFilteredActors(),
-    getGridAreas(),
+    getGridAreasQuery(),
     getLatestBalanceFixing(),
     getActorsForSettlementReportQuery(),
     getActorsForRequestCalculationQuery(),
@@ -465,11 +467,11 @@ function getSettlementReports() {
   });
 }
 
-function getGridAreas() {
+function getGridAreasQuery() {
   return mockGetGridAreasQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
-      data: { __typename: 'Query', gridAreas: mockedGridAreas },
+      data: getGridAreas,
     });
   });
 }
