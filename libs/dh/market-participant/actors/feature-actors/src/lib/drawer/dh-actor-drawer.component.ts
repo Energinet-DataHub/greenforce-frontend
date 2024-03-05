@@ -40,11 +40,13 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
+import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delagation';
+
 import { DhActorExtended, dhActorAuditLogEntry } from '../dh-actor';
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
 import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';
-import { DhDelegationTabComponent } from './delegation-tab/dh-delegation-tab.component';
+
 import { DhActorAuditLogService } from './dh-actor-audit-log.service';
 
 @Component({
