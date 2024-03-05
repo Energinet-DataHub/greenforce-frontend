@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf, NgClass, DOCUMENT } from '@angular/common';
+import { NgClass, DOCUMENT } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -60,7 +60,6 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
   templateUrl: './dh-message-archive-drawer.component.html',
   styleUrls: ['./dh-message-archive-drawer.component.scss'],
   imports: [
-    NgIf,
     NgClass,
     WATT_DRAWER,
     TranslocoModule,

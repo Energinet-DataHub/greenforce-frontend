@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
@@ -39,11 +38,13 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhActorExtended, dhActorAuditLogEntry } from '../dh-actor';
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
 import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';
+import { DhDelegationTabComponent } from './delegation-tab/dh-delegation-tab.component';
 import { DhActorAuditLogService } from './dh-actor-audit-log.service';
 
 @Component({
@@ -75,7 +76,6 @@ import { DhActorAuditLogService } from './dh-actor-audit-log.service';
   ],
   viewProviders: [DhActorAuditLogService],
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
 
@@ -91,11 +91,13 @@ import { DhActorAuditLogService } from './dh-actor-audit-log.service';
     WattDatePipe,
     VaterStackComponent,
 
+    DhFeatureFlagDirective,
     DhEmDashFallbackPipe,
     DhPermissionRequiredDirective,
     DhActorsEditActorModalComponent,
     DhActorStatusBadgeComponent,
     DhB2bAccessTabComponent,
+    DhDelegationTabComponent,
   ],
 })
 export class DhActorDrawerComponent {

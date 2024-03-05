@@ -17,7 +17,6 @@
 import { tap } from 'rxjs';
 import { RxLet } from '@rx-angular/template/let';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { NgIf } from '@angular/common';
 import { Component, Input, ViewChild, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -57,7 +56,6 @@ import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
   ],
   imports: [
     RxLet,
-    NgIf,
     ReactiveFormsModule,
     TranslocoDirective,
 

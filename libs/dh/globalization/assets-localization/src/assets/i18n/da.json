@@ -16,6 +16,10 @@
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "button": "Prøv igen"
     },
+    "downloadStart": "Starter download...",
+    "download": "Download",
+    "downloadreport": "Download rapport",
+    "downloadFailed": "Download fejlede",
     "empty": {
       "title": "Ingen resultater fundet",
       "message": "Prøv at ændre dine søgeindstillinger"
@@ -69,8 +73,6 @@
         "en": "Engelsk"
       }
     },
-    "download": "Download",
-    "downloadreport": "Download rapport",
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
     "calculationType": "Beregningstype"
@@ -259,6 +261,7 @@
         "contactsHeader": "Kontakter",
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
+        "createSuccess": "Aktør oprettet",
         "masterData": {
           "labelActorNumber": "GLN/EIC",
           "labelStatus": "Status",
@@ -367,6 +370,11 @@
                 "cancel": "Fortryd"
               }
             }
+          },
+          "delegation": {
+            "tabLabel": "Delegering",
+            "emptyTitle": "Ingen delegering",
+            "emptyMessage": "Deleger udgående eller indgående meddelelser til en måleoperatør"
           },
           "history": {
             "tabLabel": "Historik",
@@ -574,14 +582,14 @@
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "status": "{{ eSett.shared.status }}",
-        "period": "{{ shared.form.filters.period }}",
+        "period": "Beregningsperiode",
         "created": "{{ eSett.outgoingMessages.columns.created }}",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Besked ID"
       },
       "columns": {
         "created": "Oprettet",
-        "id": "ID",
+        "id": "{{ eSett.outgoingMessages.filters.documentId }}",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
@@ -617,7 +625,7 @@
       },
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
-        "createdPeriod": "Oprettelsesdato",
+        "createdPeriod": "Oprettet",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Besked ID",
         "valuesToInclude": "MGA ubalancer"
@@ -625,7 +633,7 @@
       "columns": {
         "documentDateTime": "Oprettet",
         "receivedDateTime": "Modtaget",
-        "id": "ID",
+        "id": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "period": "Beregningsperiode"
       },
@@ -710,10 +718,7 @@
     "drawer": {
       "priceAreaLabel": "Prisområde",
       "updatedLabel": "Indlæst",
-      "pricesNote": "Prisen er angivet i DKK for kWh",
-      "download": "Download",
-      "downloadStart": "Starter download...",
-      "downloadFailed": "Download fejlede"
+      "pricesNote": "Prisen er angivet i DKK for kWh"
     }
   },
   "wholesale": {
@@ -870,15 +875,12 @@
     },
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
-      "download": "Download",
       "downloadNoBasisData": "Download (uden basisdata)",
       "selectedRows": {
         "singular": "{{ selectedCount }} valgt række",
         "plural": "{{ selectedCount }} valgte rækker"
       },
       "SelectPeriod": "For at downloade skal du vælge en periode først",
-      "downloadFailed": "Download fejlede",
-      "downloadStart": "Starter download...",
       "gridAreasLoadFailed": "kunne ikke hente netområder",
       "noEntries": "Ingen resultater",
       "results": "Balancefiksering",
@@ -1206,9 +1208,7 @@
       "permissionsTab": {
         "headline": "Rettigheder",
         "permissionName": "Navn",
-        "permissionDescription": "Beskrivelse",
-        "downloadStart": "Starter download...",
-        "downloadFailed": "Download fejlede"
+        "permissionDescription": "Beskrivelse"
       },
       "permissionDetail": {
         "edit": "Rediger rettighed",
