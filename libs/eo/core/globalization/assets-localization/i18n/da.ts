@@ -332,7 +332,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     },
     creationOfTransferAgreementFailed:
       'Oprettelse af overførselsaftalen mislykkedes. Prøv at acceptere forslaget igen eller anmod organisationen, der sendte invitationen, om at generere et nyt link.',
-    tableTitle: 'Overførselsaftaler',
+    tableTitle: 'Resultater',
     createNewTransferAgreement: 'Ny overførselsaftale',
     transferAgreementStatusFilterLabel: 'Status',
     activeTransferAgreement: 'Aktiv',
