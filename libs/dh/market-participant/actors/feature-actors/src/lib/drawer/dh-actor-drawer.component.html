@@ -91,7 +91,14 @@ limitations under the License.
             </watt-tab>
           }
 
-          <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
+          <watt-tab
+            [label]="t('tabs.delegation.tabLabel')"
+            *dhFeatureFlag="'market-participant-delegation'"
+          >
+            <dh-delegation-tab />
+          </watt-tab>
+
+          <watt-tab [label]="t('tabs.history.tabLabel')">
             <vater-stack [fill]="'horizontal'" [align]="'center'">
               @if (isLoadingAuditLog) {
                 <watt-spinner />

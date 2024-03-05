@@ -371,6 +371,11 @@
               }
             }
           },
+          "delegation": {
+            "tabLabel": "Delegering",
+            "emptyTitle": "Ingen delegering",
+            "emptyMessage": "Deleger udgående eller indgående meddelelser til en måleoperatør"
+          },
           "history": {
             "tabLabel": "Historik",
             "status": {
