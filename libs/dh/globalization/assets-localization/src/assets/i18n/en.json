@@ -371,6 +371,11 @@
               }
             }
           },
+          "delegation": {
+            "tabLabel": "Delegation",
+            "emptyTitle": "No delegations found",
+            "emptyMessage": "Delegate outgoing or incoming messages to a meter operator"
+          },
           "history": {
             "tabLabel": "History",
             "status": {
