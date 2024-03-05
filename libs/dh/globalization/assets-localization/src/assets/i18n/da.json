@@ -371,6 +371,11 @@
               }
             }
           },
+          "delegation": {
+            "tabLabel": "Delegering",
+            "emptyTitle": "Ingen delegering",
+            "emptyMessage": "Deleger udgående eller indgående meddelelser til en måleoperatør"
+          },
           "history": {
             "tabLabel": "Historik",
             "status": {
@@ -577,7 +582,7 @@
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "status": "{{ eSett.shared.status }}",
-        "period": "{{ shared.form.filters.period }}",
+        "period": "Beregningsperiode",
         "created": "{{ eSett.outgoingMessages.columns.created }}",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Besked ID"
@@ -620,7 +625,7 @@
       },
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
-        "createdPeriod": "Oprettelsesdato",
+        "createdPeriod": "Oprettet",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Besked ID",
         "valuesToInclude": "MGA ubalancer"
