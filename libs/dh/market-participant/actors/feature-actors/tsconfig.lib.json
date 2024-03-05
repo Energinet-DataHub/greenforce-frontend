@@ -13,8 +13,5 @@
     "jest.config.ts",
     "src/**/*.test.ts"
   ],
-  "include": [
-    "src/**/*.ts",
-    "../feature-delegation/src/lib/dh-delegation-tab.component.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }
