@@ -13,10 +13,10 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Net.Http;
-using System.Threading;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Azure.Identity;
 using Azure.Monitor.Query;
@@ -24,8 +24,7 @@ using Energinet.DataHub.Core.TestCommon;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using Energinet.DataHub.WebApi.Tests.Integration.Controllers;
-using Energinet.DataHub.WebApi.Tests.TestServices;
-using Microsoft.Extensions.DependencyInjection;
+using FluentAssertions;
 using Moq;
 using Xunit;
 using Xunit.Abstractions;
@@ -34,48 +33,86 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
 {
     public class TelemetryTests : ControllerTestsBase
     {
+        private BffWebApiFixture BffWebApiFixture { get; }
+
+        private LogsQueryClient LogsQueryClient { get; }
+
+        private Guid CalculationId { get; }
+
         public TelemetryTests(
             BffWebApiFixture bffWebApiFixture,
             WebApiFactory factory,
             ITestOutputHelper testOutputHelper)
             : base(bffWebApiFixture, factory, testOutputHelper)
         {
+            BffWebApiFixture = bffWebApiFixture;
+            LogsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
+            CalculationId = Guid.NewGuid();
         }
 
         [Fact]
-        public async Task ControllerRequest_Should_CauseExpectedEventsToBeLogged()
+        public async Task GraphQLRequest_Should_CauseExpectedEventsToBeLogged()
         {
-            var calculationId = Guid.NewGuid();
-
-            // const string gridAreaCode = "123";
-
-            // WholesaleClientV3Mock
-            //     .Setup(x => x.GetSettlementReportAsStreamAsync(calculationId, gridAreaCode, CancellationToken.None))
-            //     .ReturnsAsync(new FileResponse(0, null, new MemoryStream(), null, null));
-            //// await BffClient.GetAsync($"/v1/WholesaleSettlementReport?calculationId={calculationId}&gridAreaCode={gridAreaCode}");
-
             WholesaleClientV3Mock
-                .Setup(x => x.GetCalculationAsync(calculationId, default))
-                .ReturnsAsync(new CalculationDto()
-                {
-                    CalculationId = calculationId,
-                    ExecutionState = CalculationState.Pending,
-                });
+                .Setup(x => x.GetCalculationAsync(CalculationId, default))
+                .ReturnsAsync(new CalculationDto() { CalculationId = CalculationId });
 
-            // POST a graphql query
+            await MakeGraphQLRequest();
+
+            var wasEventsLogged = await Awaiter.TryWaitUntilConditionAsync(
+                () => QueryLogAnalytics(url: $"/graphql?GetCalculationById={CalculationId}"),
+                TimeSpan.FromMinutes(20),
+                TimeSpan.FromSeconds(50));
+
+            wasEventsLogged.Should().BeTrue("Expected events was not logged to Application Insights within time limit.");
+        }
+
+        private async Task MakeGraphQLRequest()
+        {
             var query = $$"""
                 query {
-                  calculationById(id: "{{calculationId}}") {
+                  calculationById(id: "{{CalculationId}}") {
                     id
-                    statusType
                   }
                 }
             """;
 
-            var response = await BffClient.PostAsync("graphql", new StringContent(query));
+            //// BffClient.DefaultRequestHeaders.Add("Accept", "application/json");
 
-            // always pass the test
-            Assert.True(true);
+            var requestBody = new { query };
+            var json = JsonSerializer.Serialize(requestBody);
+            await BffClient.PostAsync(
+                $"/graphql?GetCalculationById={CalculationId}",
+                new StringContent(json, Encoding.UTF8, "application/json"));
+        }
+
+        private async Task<bool> QueryLogAnalytics(string url)
+        {
+            var query = $$"""
+                let OperationId = AppRequests
+                | where Url has "/graphql?GetCalculationById={{CalculationId}}"
+                | project OperationId
+                | take 1;
+                let OperationIdScalar = toscalar(OperationId);
+                let RelevantAppDependencies = AppDependencies
+                | where Name contains "query { calculationById }" and OperationId == OperationIdScalar
+                | project OperationId
+                | take 1;
+                let RelevantAppTraces = AppTraces
+                | where Message contains "Executed endpoint 'Hot Chocolate GraphQL Pipeline'" and OperationId == OperationIdScalar
+                | project OperationId
+                | take 1;
+                union RelevantAppDependencies, RelevantAppTraces
+                | count
+            """;
+
+            var result = await LogsQueryClient.QueryWorkspaceAsync<QueryResult>(BffWebApiFixture.LogAnalyticsWorkspaceId, query, TimeSpan.FromMinutes(20));
+            return result.Value[0].Count == 2;
+        }
+
+        private class QueryResult
+        {
+            public int Count { get; set; }
         }
     }
 }

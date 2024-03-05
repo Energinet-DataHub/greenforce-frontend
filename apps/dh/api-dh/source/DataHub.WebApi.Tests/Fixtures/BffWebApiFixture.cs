@@ -21,11 +21,14 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
 {
     public class BffWebApiFixture : WebApiFixture
     {
+        public BffWebApiFixture()
+        {
+            IntegrationTestConfiguration = new IntegrationTestConfiguration();
+        }
+
         /// <inheritdoc/>
         protected override Task OnInitializeWebApiDependenciesAsync(IConfiguration configuration)
         {
-            var integrationTestConfiguration = new IntegrationTestConfiguration();
-
             Environment.SetEnvironmentVariable("ApiClientSettings__ChargesBaseUrl", "http://localhost:8080/charges");
             Environment.SetEnvironmentVariable("ApiClientSettings__MessageArchiveBaseUrl", "http://localhost:8080/messagearchive");
             Environment.SetEnvironmentVariable("ApiClientSettings__MarketParticipantBaseUrl", "http://localhost:8080/marketparticipant");
@@ -36,9 +39,13 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
             // These values are required Startup.cs configuration, but the actual token validation is mocked.
             Environment.SetEnvironmentVariable("EXTERNAL_OPEN_ID_URL", "http://localhost:8080/");
             Environment.SetEnvironmentVariable("BACKEND_BFF_APP_ID", "00000000-0000-0000-0000-000000000000");
-            Environment.SetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING", integrationTestConfiguration.ApplicationInsightsInstrumentationKey);
+            Environment.SetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING", IntegrationTestConfiguration.ApplicationInsightsConnectionString);
 
             return Task.CompletedTask;
         }
+
+        public string LogAnalyticsWorkspaceId => IntegrationTestConfiguration.LogAnalyticsWorkspaceId;
+
+        private IntegrationTestConfiguration IntegrationTestConfiguration { get; }
     }
 }
