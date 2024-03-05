@@ -16,7 +16,6 @@
  */
 import { Component, DestroyRef, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { dayjs } from '@energinet-datahub/watt/date';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
@@ -49,7 +48,7 @@ import {
 import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattRange } from '@energinet-datahub/watt/date';
+import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import {

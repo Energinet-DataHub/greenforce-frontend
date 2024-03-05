@@ -28,7 +28,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -42,7 +42,6 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import { BehaviorSubject, filter, switchMap } from 'rxjs';
-import { dayjs } from '@energinet-datahub/watt/date';
 import { Apollo } from 'apollo-angular';
 import {
   GetCalculationsDocument,
