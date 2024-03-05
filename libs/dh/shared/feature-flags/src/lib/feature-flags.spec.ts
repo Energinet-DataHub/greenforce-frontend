@@ -21,7 +21,7 @@ const maxAgeOfDays = 62;
 
 const featureFlagCases = Object.keys(dhFeatureFlagsConfig).map((featureFlag) => {
   const created = (dhFeatureFlagsConfig[featureFlag as DhFeatureFlags] as DhFeatureFlag).created;
-  const parsedDate = dayjs(created, 'dd-MM-yyyy');
+  const parsedDate = dayjs(created, 'DD-MM-YYYY');
   const diffInDays = parsedDate.diff(new Date(), 'days');
 
   return [featureFlag, diffInDays];
