@@ -47,7 +47,6 @@ import { translations } from '@energinet-datahub/eo/translations';
 import {
   ActivityLogEntryResponse,
   EoActivityLogService,
-  activityLogActionType,
   activityLogEntityType,
 } from '@energinet-datahub/eo/activity-log/data-access-api';
 
