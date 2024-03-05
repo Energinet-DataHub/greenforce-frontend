@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
+import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-
 @Component({
-  selector: 'dh-delegation-tab',
+  selector: 'dh-create-delegation',
   standalone: true,
+  template: `<watt-modal *transloco="let t; read: 'marketParticipant.delegation'">
+    test
+  </watt-modal>`,
   styles: [
     `
       :host {
@@ -30,19 +31,6 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
       }
     `,
   ],
-  template: `
-    <ng-container
-      *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.delegation'"
-    >
-      <vater-stack direction="row" justify="center">
-        <watt-empty-state
-          icon="custom-no-results"
-          [title]="t('emptyTitle')"
-          [message]="t('emptyMessage')"
-        />
-      </vater-stack>
-    </ng-container>
-  `,
-  imports: [TranslocoDirective, VaterStackComponent, WattEmptyStateComponent],
+  imports: [WATT_MODAL, TranslocoDirective],
 })
-export class DhDelegationTabComponent {}
+export class DhDelegationCreateModalComponent {}
