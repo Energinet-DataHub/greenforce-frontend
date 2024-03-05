@@ -24,6 +24,7 @@ export const getGridAreas: GetGridAreasQuery = {
       code: '001',
       name: 'Grid area 1',
       validFrom: new Date(),
+      validTo: null,
       __typename: 'GridAreaDto',
     },
     {
@@ -31,6 +32,7 @@ export const getGridAreas: GetGridAreasQuery = {
       code: '002',
       name: 'Grid area 2',
       validFrom: new Date(),
+      validTo: null,
       __typename: 'GridAreaDto',
     },
     {
@@ -38,6 +40,7 @@ export const getGridAreas: GetGridAreasQuery = {
       code: '003',
       name: 'Grid area 3',
       validFrom: new Date(),
+      validTo: null,
       __typename: 'GridAreaDto',
     },
   ],
