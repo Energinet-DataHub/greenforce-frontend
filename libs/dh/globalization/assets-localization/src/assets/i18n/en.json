@@ -502,7 +502,8 @@
       "DanishEnergyAgency": "Energistyrelsen",
       "DataHubAdministrator": "DataHub system administrator",
       "IndependentAggregator": "Independent aggregator",
-      "SerialEnergyTrader": "Serial Energy Trader"
+      "SerialEnergyTrader": "Serial Energy Trader",
+      "Delegated": "Delegated"
     },
     "marketRoleDescriptions": {
       "BalanceResponsibleParty": "Responsible for its imbalances, meaning the difference between the energy volume physically injected to or withdrawn from the system and the final nominated energy volume, including any imbalance adjustment within a given imbalance settlement period.",
@@ -518,7 +519,8 @@
       "DanishEnergyAgency": " ",
       "DataHubAdministrator": " ",
       "IndependentAggregator": " ",
-      "SerialEnergyTrader": " "
+      "SerialEnergyTrader": " ",
+      "Delegated": " "
     },
     "gridAreas": {
       "topBarTitle": "Grid Areas",
