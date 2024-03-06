@@ -21,7 +21,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   sidebar: {
     dashboard: 'Overblik',
     meteringPoints: 'Målepunkter',
-    claims: 'Samstemte Certifikater',
+    claims: 'Grønt Forbrug',
     certificates: 'Certifikater',
     transfers: 'Overførselsaftaler',
     activityLog: 'Aktivitetslog',
@@ -218,7 +218,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     contractError: 'Der opstod et problem. Prøv venligst igen eller genindlæs siden.',
   },
   claims: {
-    title: 'Samstemte Certifikater',
+    title: 'Grønt Forbrug',
     noData: {
       title: 'Ingen krav fundet',
       message: 'Du har ikke nogen krav.',
@@ -229,7 +229,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     },
     searchLabel: 'Søg',
     tableTitle: 'Resultater',
-    claimIdTableHeader: 'Samstemt Certifikat-ID',
+    claimIdTableHeader: 'Grønt Forbrug-ID',
     amountTableHeader: 'Mængde',
     startDateTableHeader: 'Start',
     endDateTableHeader: 'Slut',
