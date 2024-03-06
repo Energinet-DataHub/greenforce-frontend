@@ -155,6 +155,12 @@
     }
   },
   "marketParticipant": {
+    "delegation": {
+      "createBtn": "Opsæt delegering",
+      "emptyTitle": "Ingen delegering",
+      "emptyMessage": "Deleger udgående eller indgående meddelelser til en måleoperatør",
+      "emptyStateCreateBtn": "Opsæt delegering for meddelelser"
+    },
     "market_participant": {
       "error_fallback": "Computeren blev bedt om at udføre en handling, men gjorde det ikke. Årsagen var: {{ message }}",
       "bad_argument": {
@@ -372,9 +378,7 @@
             }
           },
           "delegation": {
-            "tabLabel": "Delegering",
-            "emptyTitle": "Ingen delegering",
-            "emptyMessage": "Deleger udgående eller indgående meddelelser til en måleoperatør"
+            "tabLabel": "Delegering"
           },
           "history": {
             "tabLabel": "Historik",

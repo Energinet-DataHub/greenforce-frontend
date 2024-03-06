@@ -155,6 +155,12 @@
     }
   },
   "marketParticipant": {
+    "delegation": {
+      "createBtn": "Set up delegation",
+      "emptyTitle": "No delegations found",
+      "emptyMessage": "Delegate outgoing or incoming messages to a meter operator",
+      "emptyStateCreateBtn": "Set up delegation for messages"
+    },
     "market_participant": {
       "error_fallback": "The computer was asked to perform an action, but it did not. The reason was: {{ message }}",
       "bad_argument": {
@@ -372,9 +378,7 @@
             }
           },
           "delegation": {
-            "tabLabel": "Delegation",
-            "emptyTitle": "No delegations found",
-            "emptyMessage": "Delegate outgoing or incoming messages to a meter operator"
+            "tabLabel": "Delegation"
           },
           "history": {
             "tabLabel": "History",
