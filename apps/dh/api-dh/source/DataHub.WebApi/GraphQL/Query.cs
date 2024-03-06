@@ -570,6 +570,21 @@ namespace Energinet.DataHub.WebApi.GraphQL
             }
         }
 
+        public static Task<GetDelegationsForActorResponse> GetGetDelegationsForActorAsync(
+            Guid actorId,
+            IMarketParticipantClient_V1 client)
+        {
+            return client.ActorDelegationGetAsync(actorId);
+        }
+
+        public static Task<CreateDelegationResponse> CreateDelegationsForActorAsync(
+            Guid actorId,
+            CreateDelegationDto delegationDto,
+            IMarketParticipantClient_V1 client)
+        {
+            return client.ActorDelegationPostAsync(actorId, delegationDto);
+        }
+
         private static Task<GetUserOverviewResponse> GetUserOverviewAsync(IMarketParticipantClient_V1 client)
         {
             return client.UserOverviewUsersSearchAsync(
@@ -582,21 +597,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     UserStatus = new List<UserStatus>(),
                     UserRoleIds = new List<Guid>(),
                 });
-        }
-
-        private static Task<GetDelegationsForActorResponse> GetGetDelegationsForActorAsync(
-            Guid actorId,
-            IMarketParticipantClient_V1 client)
-        {
-            return client.ActorDelegationGetAsync(actorId);
-        }
-
-        private static Task<CreateDelegationResponse> CreateDelegationsForActorAsync(
-            Guid actorId,
-            CreateDelegationDto delegationDto,
-            IMarketParticipantClient_V1 client)
-        {
-            return client.ActorDelegationPostAsync(actorId, delegationDto);
         }
     }
 }
