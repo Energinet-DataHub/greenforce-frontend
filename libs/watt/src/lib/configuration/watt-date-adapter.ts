@@ -14,22 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Inject, Optional } from '@angular/core';
-import { DateFnsAdapter } from '@angular/material-date-fns-adapter';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { da as daLocale, enGB as enGBLocale } from 'date-fns/locale';
+import { NativeDateAdapter } from '@angular/material/core';
 
 export type WattSupportedLocales = 'da' | 'en';
 const danishLocale = 'da';
 
-export class WattDateAdapter extends DateFnsAdapter {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  constructor(@Optional() @Inject(MAT_DATE_LOCALE) matDateLocale: {}) {
-    super(matDateLocale);
-  }
-
+export class WattDateAdapter extends NativeDateAdapter {
   setActiveLocale(language: WattSupportedLocales): void {
-    this.setLocale(language === danishLocale ? daLocale : enGBLocale);
+    this.setLocale(language === danishLocale ? danishLocale : 'en-GB');
   }
 
   /**
@@ -39,8 +31,16 @@ export class WattDateAdapter extends DateFnsAdapter {
   override getDateNames(): string[] {
     const dateNames = super.getDateNames();
 
-    return this.locale.code === danishLocale
+    return this.locale === danishLocale
       ? dateNames.map((dateName) => dateName.replace(/\./g, ''))
       : dateNames;
+  }
+
+  /**
+   * Our week starts on Monday
+   * @returns 0 for Sunday, 1 for Monday, etc.
+   */
+  override getFirstDayOfWeek(): number {
+    return 1;
   }
 }

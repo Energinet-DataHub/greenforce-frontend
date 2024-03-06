@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import parseISO from 'date-fns/parseISO';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 import {
   GetUserRoleAuditLogsQuery,
@@ -31,7 +31,7 @@ export const getUserRoleAuditLogsMock: GetUserRoleAuditLogsQuery = {
       previousValue: null,
       isInitialAssignment: true,
       change: UserRoleAuditedChange.Name,
-      timestamp: parseISO('2023-10-04T01:00:00+00:00'),
+      timestamp: dayjs('2023-10-04T01:00:00+00:00').toDate(),
       affectedPermissionName: null,
     },
     {
@@ -41,7 +41,7 @@ export const getUserRoleAuditLogsMock: GetUserRoleAuditLogsQuery = {
       previousValue: null,
       isInitialAssignment: true,
       change: UserRoleAuditedChange.Description,
-      timestamp: parseISO('2023-10-04T02:00:00+00:00'),
+      timestamp: dayjs('2023-10-04T02:00:00+00:00').toDate(),
       affectedPermissionName: null,
     },
     {
@@ -52,7 +52,7 @@ export const getUserRoleAuditLogsMock: GetUserRoleAuditLogsQuery = {
       previousValue: null,
       isInitialAssignment: true,
       change: UserRoleAuditedChange.PermissionAdded,
-      timestamp: parseISO('2023-10-04T03:00:00+00:00'),
+      timestamp: dayjs('2023-10-04T03:00:00+00:00').toDate(),
     },
     {
       __typename: 'UserRoleAuditedChangeAuditLogDto',
@@ -62,7 +62,7 @@ export const getUserRoleAuditLogsMock: GetUserRoleAuditLogsQuery = {
       previousValue: null,
       isInitialAssignment: true,
       change: UserRoleAuditedChange.PermissionRemoved,
-      timestamp: parseISO('2023-10-04T04:00:00+00:00'),
+      timestamp: dayjs('2023-10-04T04:00:00+00:00').toDate(),
     },
     {
       __typename: 'UserRoleAuditedChangeAuditLogDto',
@@ -72,7 +72,7 @@ export const getUserRoleAuditLogsMock: GetUserRoleAuditLogsQuery = {
       isInitialAssignment: true,
       affectedPermissionName: null,
       change: UserRoleAuditedChange.Status,
-      timestamp: parseISO('2023-10-04T05:00:00+00:00'),
+      timestamp: dayjs('2023-10-04T05:00:00+00:00').toDate(),
     },
   ],
 };
