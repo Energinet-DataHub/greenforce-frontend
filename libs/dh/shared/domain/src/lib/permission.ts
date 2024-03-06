@@ -26,6 +26,8 @@ export const permissions = [
   'actor-credentials:manage',
   'imbalance-prices:manage',
   'actor-master-data:manage',
+  'delegation:manage',
+  'delegation:view',
 ] as const;
 
 export type Permission = (typeof permissions)[number];
