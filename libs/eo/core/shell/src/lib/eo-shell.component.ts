@@ -18,7 +18,6 @@ import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { MatDateFnsModule } from '@angular/material-date-fns-adapter';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
@@ -38,7 +37,6 @@ import { EoAccountMenuComponent } from './eo-account-menu';
   imports: [
     EoFooterComponent,
     EoPrimaryNavigationComponent,
-    MatDateFnsModule,
     NgIf,
     RouterModule,
     VaterSpacerComponent,

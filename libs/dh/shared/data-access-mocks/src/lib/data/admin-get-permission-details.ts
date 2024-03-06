@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import parseISO from 'date-fns/parseISO';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 import {
   EicFunction,
@@ -29,7 +29,7 @@ export const adminPermissionDetailsMock: GetPermissionDetailsQuery = {
     id: 1,
     name: 'organizations:view',
     description: 'Description for OrganizationView',
-    created: parseISO('2023-03-07T00:00:00+00:00'),
+    created: dayjs('2023-03-07T00:00:00+00:00').toDate(),
     assignableTo: [EicFunction.BalanceResponsibleParty, EicFunction.BillingAgent],
     userRoles: [
       {
