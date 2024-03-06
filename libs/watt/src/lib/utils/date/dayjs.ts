@@ -14,22 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
-  MAT_NATIVE_DATE_FORMATS,
-} from '@angular/material/core';
-import { makeEnvironmentProviders } from '@angular/core';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
-import { WattDateAdapter } from './watt-date-adapter';
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
-export const danishDatetimeProviders = makeEnvironmentProviders([
-  { provide: MAT_DATE_LOCALE, useValue: 'da' },
-  {
-    provide: DateAdapter,
-    useClass: WattDateAdapter,
-    deps: [MAT_DATE_LOCALE],
-  },
-  { provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS },
-]);
+export { dayjs };

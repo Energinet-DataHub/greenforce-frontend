@@ -17,12 +17,17 @@
 import { TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { CurrencyPipe, DatePipe, DecimalPipe, PercentPipe } from '@angular/common';
-import { formatInTimeZone } from 'date-fns-tz';
 
 import { spaceToNonBreakingSpace } from './space-to-non-breaking-space';
 import { danishLocaleProvider } from './danish-locale.provider';
 import { danishCurrencyProvider } from './danish-currency.provider';
 import { danishLocaleInitializer } from './danish-locale.initializer';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 describe('Danish locale', () => {
   beforeEach(() => {
@@ -104,8 +109,8 @@ describe('Danish locale', () => {
 
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    const hourAndMinutesInCurrentTimeZone = formatInTimeZone(testDate, timeZone, 'HH.mm');
-    const dayInCurrentTimeZone = formatInTimeZone(testDate, timeZone, 'd');
+    const hourAndMinutesInCurrentTimeZone = dayjs(testDate).tz(timeZone).format('HH.mm');
+    const dayInCurrentTimeZone = dayjs(testDate).tz(timeZone).format('D');
 
     expect(hostElement.textContent).toBe(
       `${dayInCurrentTimeZone}. maj 2020 ${hourAndMinutesInCurrentTimeZone}.00`
