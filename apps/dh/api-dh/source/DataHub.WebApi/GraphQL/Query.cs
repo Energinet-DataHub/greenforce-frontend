@@ -583,5 +583,20 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     UserRoleIds = new List<Guid>(),
                 });
         }
+
+        private static Task<GetDelegationsForActorResponse> GetGetDelegationsForActorAsync(
+            Guid actorId,
+            IMarketParticipantClient_V1 client)
+        {
+            return client.ActorDelegationGetAsync(actorId);
+        }
+
+        private static Task<CreateDelegationResponse> CreateDelegationsForActorAsync(
+            Guid actorId,
+            CreateDelegationDto delegationDto,
+            IMarketParticipantClient_V1 client)
+        {
+            return client.ActorDelegationPostAsync(actorId, delegationDto);
+        }
     }
 }

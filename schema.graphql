@@ -83,6 +83,7 @@ enum EicFunction {
   DataHubAdministrator
   IndependentAggregator
   SerialEnergyTrader
+  Delegated
 }
 
 type EsettOutgoingMessage {
