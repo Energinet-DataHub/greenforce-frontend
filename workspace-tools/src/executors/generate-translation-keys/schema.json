@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "version": 2,
+  "title": "GenerateTranslationKeys executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string",
+      "description": "Path for translation keys interface file",
+      "required": true
+    },
+    "dest": {
+      "type": "string",
+      "description": "destination for the translation keys file",
+      "required": true
+    }
+  },
+  "required": []
+}

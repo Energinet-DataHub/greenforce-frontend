@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -24,12 +23,14 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
+import { translations } from '@energinet-datahub/eo/translations';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoTransfersTableComponent } from './eo-transfers-table.component';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
@@ -47,15 +48,20 @@ import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-prop
     WattCardComponent,
     EoTransfersTableComponent,
     EoPopupMessageComponent,
-    NgIf,
     EoBetaMessageComponent,
     WattIconComponent,
     VaterStackComponent,
     EoTransfersRespondProposalComponent,
+    TranslocoPipe,
   ],
   standalone: true,
   template: `
-    <eo-popup-message *ngIf="transferAgreements().error" />
+    @if (transferAgreements().error) {
+      <eo-popup-message
+        [title]="translations.transfers.error.title | transloco"
+        [message]="translations.transfers.error.message | transloco"
+      />
+    }
 
     <watt-card class="watt-space-stack-m">
       <eo-transfers-table
@@ -67,13 +73,16 @@ import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-prop
       />
     </watt-card>
 
-    <vater-stack *ngIf="showAutomationError() && transferAgreements().data.length > 0">
-      <p style="display: flex; gap: var(--watt-space-xs);">
-        <watt-icon name="warning" fill />We are currently experiencing an issue handling
-        certificates<br />
-      </p>
-      <small>Once we resolve the issue, the outstanding transfers will update automatically.</small>
-    </vater-stack>
+    @if (showAutomationError() && transferAgreements().data.length > 0) {
+      <vater-stack>
+        <p style="display: flex; gap: var(--watt-space-xs);">
+          <watt-icon name="warning" fill />{{
+            translations.transfers.automationError.title | transloco
+          }}
+        </p>
+        <small>{{ translations.transfers.automationError.message | transloco }}</small>
+      </vater-stack>
+    }
 
     <!-- Respond proposal modal -->
     <eo-transfers-repsond-proposal
@@ -89,9 +98,11 @@ export class EoTransfersComponent implements OnInit {
   @ViewChild(EoTransfersRespondProposalComponent, { static: true })
   respondProposal!: EoTransfersRespondProposalComponent;
 
+  private transloco = inject(TranslocoService);
   private transfersService = inject(EoTransfersService);
   private toastService = inject(WattToastService);
 
+  protected translations = translations;
   protected transferAgreements = signal<{
     loading: boolean;
     error: boolean;
@@ -121,7 +132,9 @@ export class EoTransfersComponent implements OnInit {
         this.removeTransfer(proposal.id);
 
         this.toastService.open({
-          message: `Creating the transfer agreement failed. Try accepting the proposal again or request the organization that sent the invitation to generate a new link.`,
+          message: this.transloco.translate(
+            this.translations.transfers.creationOfTransferAgreementFailed
+          ),
           type: 'danger',
           duration: 24 * 60 * 60 * 1000, // 24 hours
         });
