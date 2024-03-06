@@ -492,30 +492,21 @@
             }
           }
         }
-      },
+      }
+    },
+    "/actor/delegation": {
       "post": {
         "tags": [
           "Actor"
         ],
         "operationId": "delegationPOST",
-        "parameters": [
-          {
-            "name": "actorId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CreateDelegationDto"
+                    "$ref": "#/components/schemas/CreateActorDelegationDto"
                   }
                 ]
               }
@@ -524,7 +515,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CreateDelegationDto"
+                    "$ref": "#/components/schemas/CreateActorDelegationDto"
                   }
                 ]
               }
@@ -533,7 +524,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CreateDelegationDto"
+                    "$ref": "#/components/schemas/CreateActorDelegationDto"
                   }
                 ]
               }
@@ -546,17 +537,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateDelegationResponse"
+                  "$ref": "#/components/schemas/CreateActorDelegationResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateDelegationResponse"
+                  "$ref": "#/components/schemas/CreateActorDelegationResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateDelegationResponse"
+                  "$ref": "#/components/schemas/CreateActorDelegationResponse"
                 }
               }
             }
@@ -2937,10 +2928,17 @@
           }
         }
       },
-      "ActorDelegation": {
+      "ActorDelegationDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "id": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorDelegationId"
+              }
+            ]
+          },
           "delegatedBy": {
             "allOf": [
               {
@@ -2976,6 +2974,16 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          }
+        }
+      },
+      "ActorDelegationId": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -3201,40 +3209,14 @@
           }
         }
       },
-      "CreateActorDto": {
+      "CreateActorDelegationDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "organizationId": {
+          "delegatedFrom": {
             "type": "string",
             "format": "uuid"
           },
-          "name": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorNameDto"
-              }
-            ]
-          },
-          "actorNumber": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorNumberDto"
-              }
-            ]
-          },
-          "marketRoles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActorMarketRoleDto"
-            }
-          }
-        }
-      },
-      "CreateDelegationDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
           "delegatedTo": {
             "type": "string",
             "format": "uuid"
@@ -3263,16 +3245,46 @@
           }
         }
       },
-      "CreateDelegationResponse": {
+      "CreateActorDelegationResponse": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "delegation": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ActorDelegation"
+                "$ref": "#/components/schemas/ActorDelegationDto"
               }
             ]
+          }
+        }
+      },
+      "CreateActorDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorNameDto"
+              }
+            ]
+          },
+          "actorNumber": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorNumberDto"
+              }
+            ]
+          },
+          "marketRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActorMarketRoleDto"
+            }
           }
         }
       },
@@ -3424,7 +3436,7 @@
           "delegations": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ActorDelegation"
+              "$ref": "#/components/schemas/ActorDelegationDto"
             }
           }
         }
