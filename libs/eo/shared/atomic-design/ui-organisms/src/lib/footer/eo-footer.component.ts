@@ -16,12 +16,15 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { TranslocoPipe } from '@ngneat/transloco';
+
 import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities';
+import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, TranslocoPipe],
   selector: 'eo-footer',
   styles: [
     `
@@ -72,14 +75,14 @@ import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities
   template: `
     <div class="content">
       <div class="watt-space-stack-l">
-        <p class="powered-by">Powered by</p>
+        <p class="powered-by">{{ translations.footer.poweredBy | transloco }}</p>
         <img src="/assets/energinet-logo.svg" alt="Energinet" class="logo" />
         <p>
           <a
             aria-label="privacypolicy"
             class="watt-text-s watt-space-stack-s"
             routerLink="/${eoPrivacyPolicyRoutePath}"
-            >Privacy Policy</a
+            >{{ translations.footer.privacyPolicy | transloco }}</a
           >
         </p>
         <p>
@@ -90,7 +93,7 @@ import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities
             rel="noopener noreferrer"
             class="watt-text-s"
           >
-            Accessibility Statement
+            {{ translations.footer.accessibilityStatement | transloco }}
           </a>
         </p>
 
@@ -98,27 +101,37 @@ import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities
       </div>
 
       <div class="watt-space-stack-m">
-        <h5 class="watt-space-stack-s">Address</h5>
+        <h5 class="watt-space-stack-s">{{ translations.footer.locationHeader | transloco }}</h5>
         <p>
-          Tonne Kjærsvej 65<br />
-          7000 Fredericia<br />
-          Danmark<br />
-          CVR: 39315041
+          <span [innerHTML]="translations.footer.address | transloco"></span>
+          <br />
+          {{ translations.footer.cvr | transloco }}
         </p>
       </div>
 
       <div>
-        <h5 class="watt-space-stack-s">Contact</h5>
+        <h5 class="watt-space-stack-s">{{ translations.footer.contactHeader | transloco }}</h5>
         <p class="watt-space-stack-s">
-          <a href="tel:+4570222810" aria-label="phone" class="contact-link">+45 70 22 28 10 </a>
+          <a
+            [attr.href]="'tel:' + (translations.footer.contactPhone | transloco)"
+            aria-label="phone"
+            class="contact-link"
+            >{{ translations.footer.contactPhone | transloco }}</a
+          >
         </p>
         <p class="watt-space-stack-s">
-          <a href="mailto:datahub@energinet.dk" aria-label="email" class="contact-link">
-            datahub&#64;energinet.dk
+          <a
+            [attr.href]="'mailto:' + (translations.footer.contactEmail | transloco)"
+            aria-label="email"
+            class="contact-link"
+          >
+            {{ translations.footer.contactEmail | transloco }}
           </a>
         </p>
       </div>
     </div>
   `,
 })
-export class EoFooterComponent {}
+export class EoFooterComponent {
+  protected translations = translations;
+}

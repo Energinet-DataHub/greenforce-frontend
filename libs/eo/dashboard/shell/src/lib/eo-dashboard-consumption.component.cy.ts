@@ -16,7 +16,10 @@
  */
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
+
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
+import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
+
 import { EoDashboardConsumptionComponent } from './eo-dashboard-consumption.component';
 
 describe('EO - Consumption Chart', () => {
@@ -37,7 +40,11 @@ describe('EO - Consumption Chart', () => {
 
   function initComponent() {
     cy.mount(EoDashboardConsumptionComponent, {
-      providers: [provideHttpClient(withInterceptorsFromDi()), provideRouter([])],
+      providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter([]),
+        ...translocoProviders,
+      ],
       componentProperties: {
         period: { timeAggregate: EoTimeAggregate.Day, start: 1698303600, end: 1700222400 },
       },
