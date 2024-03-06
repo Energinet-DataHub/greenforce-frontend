@@ -502,7 +502,8 @@
       "DanishEnergyAgency": "Energistyrelsen",
       "DataHubAdministrator": "DataHub systemadministrator",
       "IndependentAggregator": "Uafhængig aggregator",
-      "SerialEnergyTrader": "Seriel elhandler"
+      "SerialEnergyTrader": "Seriel elhandler",
+      "Delegated": "Delegeret"
     },
     "marketRoleDescriptions": {
       "BalanceResponsibleParty": "Er ansvarlig for sine ubalancer, dvs. forskellen mellem den energimængde, der fysisk tilføres eller trækkes ud af systemet, og den endelige nominerede energimængde, inklusive enhver ubalancejustering inden for en given ubalanceafviklingsperiode.",
@@ -518,7 +519,8 @@
       "DanishEnergyAgency": "Adgang til forvaltningsretlige opgaver",
       "DataHubAdministrator": "Drift og support",
       "IndependentAggregator": "Uafhængig aggregator",
-      "SerialEnergyTrader": "Seriel elhandler"
+      "SerialEnergyTrader": "Seriel elhandler",
+      "Delegated": "Delegering af beskeder"
     },
     "gridAreas": {
       "topBarTitle": "Netområder",
