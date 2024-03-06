@@ -34,7 +34,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
+import { StronglyTypedDialog, WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import {
@@ -65,7 +65,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     </watt-modal>
   `,
 })
-class GranularCertificateHelperComponent {
+class GranularCertificateHelperComponent extends StronglyTypedDialog {
   protected translations = translations;
 }
 
@@ -219,7 +219,6 @@ export class EoMeteringPointsTableComponent implements OnInit {
   }
 
   private setColumns(): void {
-    console.log('SET COLU');
     this.columns = {
       gsrn: {
         accessor: 'gsrn',

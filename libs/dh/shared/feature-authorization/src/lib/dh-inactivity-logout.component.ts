@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { map, take, tap, timer } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WATT_MODAL, WattDialogRef } from '@energinet-datahub/watt/modal';
+import { StronglyTypedDialog, WATT_MODAL } from '@energinet-datahub/watt/modal';
 
 @Component({
   selector: 'dh-inactivity-logout',
@@ -40,8 +40,7 @@ import { WATT_MODAL, WattDialogRef } from '@energinet-datahub/watt/modal';
   standalone: true,
   imports: [RxPush, DatePipe, TranslocoModule, WATT_MODAL],
 })
-export class DhInactivityLogoutComponent {
-  private dialogRef = inject<WattDialogRef<DhInactivityLogoutComponent>>(WattDialogRef);
+export class DhInactivityLogoutComponent extends StronglyTypedDialog {
   private readonly secondsUntilLogOff = 5 * 60;
 
   readonly warningCountdown$ = timer(0, 1000).pipe(

@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_DIALOG_DATA, WATT_MODAL, WattDialogRef } from '@energinet-datahub/watt/modal';
+import { StronglyTypedDialog, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { Observable, filter, tap } from 'rxjs';
 
 @Component({
@@ -28,7 +28,7 @@ import { Observable, filter, tap } from 'rxjs';
   template: `
     <watt-modal #modal title="Automatic logout" size="small">
       <p>You will be logged out in:</p>
-      <span class="watt-headline-1">{{ countdown$ | async | date: 'mm:ss' }}</span>
+      <span class="watt-headline-1">{{ data.countdown$ | async | date: 'mm:ss' }}</span>
       <br />
       <p>We are logging you out for security reasons.</p>
 
@@ -39,12 +39,13 @@ import { Observable, filter, tap } from 'rxjs';
     </watt-modal>
   `,
 })
-export class EoIdleTimerCountdownModalComponent {
-  private dialogRef = inject<WattDialogRef<EoIdleTimerCountdownModalComponent>>(WattDialogRef);
-  data: { countdown$: Observable<number> } = inject(WATT_DIALOG_DATA);
+export class EoIdleTimerCountdownModalComponent extends StronglyTypedDialog<{
+  countdown$: Observable<number>;
+}> {
   protected countdown$!: Observable<number>;
 
   constructor() {
+    super();
     this.countdown$ = this.data.countdown$.pipe(
       takeUntilDestroyed(),
       tap((x: number) => {

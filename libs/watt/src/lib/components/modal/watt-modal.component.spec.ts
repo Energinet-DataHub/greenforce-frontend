@@ -66,7 +66,7 @@ describe(WattModalComponent, () => {
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
     userEvent.click(screen.getByText('No'));
-    await waitFor(() => expect(closed).toBeCalledWith(false));
+    await waitFor(() => expect(closed).toHaveBeenCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
@@ -75,7 +75,7 @@ describe(WattModalComponent, () => {
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
     userEvent.click(screen.getByText('Yes'));
-    await waitFor(() => expect(closed).toBeCalledWith(true));
+    await waitFor(() => expect(closed).toHaveBeenCalledWith(true));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
@@ -84,7 +84,7 @@ describe(WattModalComponent, () => {
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
     userEvent.keyboard('[Escape]');
-    await waitFor(() => expect(closed).toBeCalledWith(false));
+    await waitFor(() => expect(closed).toHaveBeenCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
@@ -95,7 +95,7 @@ describe(WattModalComponent, () => {
     await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
 
     userEvent.click(screen.getByLabelText('Close'));
-    await waitFor(() => expect(closed).toBeCalledWith(false));
+    await waitFor(() => expect(closed).toHaveBeenCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
@@ -111,7 +111,7 @@ describe(WattModalComponent, () => {
     await setup({ closed, disableClose: true });
     userEvent.click(screen.getByRole('button'));
     userEvent.keyboard('[Escape]');
-    await waitFor(() => expect(closed).not.toBeCalled());
+    await waitFor(() => expect(closed).not.toHaveBeenCalled());
     expect(screen.queryByRole('dialog')).toBeInTheDocument();
   });
 

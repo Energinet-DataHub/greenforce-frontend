@@ -26,12 +26,11 @@ import {
   inject,
 } from '@angular/core';
 import { NgClass, NgIf } from '@angular/common';
-import { MatDialogRef } from '@angular/material/dialog';
 
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
 import { WattButtonComponent } from '../button';
 import { WattSpinnerComponent } from '../spinner';
-import { WattModalModule, WattModalService } from './watt-modal.service';
+import { WattModalService } from './watt-modal.service';
 
 export type WattModalSize = 'small' | 'medium' | 'large';
 
@@ -49,18 +48,10 @@ export type WattModalSize = 'small' | 'medium' | 'large';
   styleUrls: ['./watt-modal.component.scss'],
   templateUrl: './watt-modal.component.html',
   standalone: true,
-  imports: [
-    NgClass,
-    NgIf,
-    WattResizeObserverDirective,
-    WattButtonComponent,
-    WattSpinnerComponent,
-    WattModalModule,
-  ],
+  imports: [NgClass, NgIf, WattResizeObserverDirective, WattButtonComponent, WattSpinnerComponent],
 })
 export class WattModalComponent {
   private modalService = inject(WattModalService);
-  protected dialogRef = inject<MatDialogRef<unknown>>(MatDialogRef, { optional: true });
   /** Title to stay fixed to top of modal. */
   @Input() title = '';
 
@@ -114,8 +105,10 @@ export class WattModalComponent {
    * @ignore
    */
   close(result: boolean) {
+    console.log('close', result);
+    this.closed.emit(result);
     this.modalService.close(result); // inline modal
-    this.dialogRef?.close(result); // injected modal
+    //this.dialogRef.close(result); // injected modal
   }
 
   /**
