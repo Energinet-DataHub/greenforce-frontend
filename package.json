@@ -88,7 +88,7 @@
     "chart.js": "4.4.0",
     "date-fns": "2.29.2",
     "date-fns-tz": "2.0.0",
-    "dayjs": "^1.11.10",
+    "dayjs": "1.11.10",
     "graphql": "16.8.1",
     "highlight.js": "^11.9.0",
     "include-media": "2.0.0",
