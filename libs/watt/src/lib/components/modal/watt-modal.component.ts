@@ -105,10 +105,8 @@ export class WattModalComponent {
    * @ignore
    */
   close(result: boolean) {
-    console.log('close', result);
     this.closed.emit(result);
     this.modalService.close(result); // inline modal
-    //this.dialogRef.close(result); // injected modal
   }
 
   /**
