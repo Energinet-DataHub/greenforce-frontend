@@ -229,7 +229,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     },
     searchLabel: 'Søg',
     tableTitle: 'Resultater',
-    claimIdTableHeader: 'Samstemt Certifikat-ID',
+    claimIdTableHeader: 'Grønt Forbrug-ID',
     amountTableHeader: 'Mængde',
     startDateTableHeader: 'Start',
     endDateTableHeader: 'Slut',
