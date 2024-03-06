@@ -14,33 +14,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   selector: 'eo-announcement-bar',
+  encapsulation: ViewEncapsulation.None,
   styles: `
-  :host {
+  :root {
+    --eo-announcement-bar-animation-duration: 1s;
+  }
+
+  eo-announcement-bar {
     align-items: center;
-    color: var(--watt-color-primary-darker-contrast);
-    background: var(--watt-color-primary-darker);
-    display: block;
     display: flex;
-    font-size: 0.75rem;
-    line-height: 1.375rem;
     min-height: 44px;
     padding: var(--watt-space-s);
     text-align: center;
-    animation: highlightAnnouncementBar 0.5s forwards; // Add animation property
+    justify-content: center;
+    animation: highlightAnnouncementBar var(--eo-announcement-bar-animation-duration) forwards;
+  }
+
+  eo-announcement-bar a {
+    animation: animateLinkColor var(--eo-announcement-bar-animation-duration) forwards;
+  }
+
+  eo-announcement-bar p, eo-announcement-bar a {
+    font-size: 0.75rem !important;
+    line-height: 1.375rem !important;
+  }
+
+  @keyframes animateLinkColor {
+    0%, 50% {
+      color: var(--watt-color-primary-darker-contrast);
+    }
+    100% {
+      color: var(--watt-typography-link-color);
+    }
   }
 
   @keyframes highlightAnnouncementBar {
-    0% { background: var(--watt-color-primary-darker); }
-    100% { background: var(--watt-color-primary-ultralight); }
+    0%, 50% {
+      background: var(--watt-color-primary-darker);
+      color: var(--watt-color-primary-darker-contrast);
+    }
+    100% {
+      background: var(--watt-color-primary-ultralight);
+      color: var(--watt-color-primary-ultralight-contrast);
+    }
   }
   `,
-  template: ` <p role="alert">{{ announcement }}</p> `,
+  template: ` <p role="alert" [innerHTML]="announcement"></p> `,
 })
 export class EoAnnouncementBarComponent {
   @Input() announcement!: string;

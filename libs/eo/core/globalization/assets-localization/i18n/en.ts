@@ -18,6 +18,9 @@
 import { TranslationKeys } from './translation-keys';
 
 export const EN_TRANSLATIONS: TranslationKeys = {
+  announcementBar: {
+    message: `Get notified about new releases and sneak peeks: <a href="#newsletter">Sign up for our newsletter ></a>`
+  },
   sidebar: {
     dashboard: 'Dashboard',
     meteringPoints: 'Metering Points',

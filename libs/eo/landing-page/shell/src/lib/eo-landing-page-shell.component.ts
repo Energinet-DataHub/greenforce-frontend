@@ -17,11 +17,15 @@
 import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslocoPipe } from '@ngneat/transloco';
+
 import {
   EoCookieBannerComponent,
   EoPopupMessageComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { translations } from '@energinet-datahub/eo/translations';
+
 import { EoLandingPageAudienceComponent } from './eo-landing-page-audience.component';
 import { EoLandingPageCompanyComponent } from './eo-landing-page-company.component';
 import { EoLandingPageHeaderComponent } from './eo-landing-page-header.component';
@@ -48,6 +52,7 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
     EoPopupMessageComponent,
     EoAnnouncementBarComponent,
     NgIf,
+    TranslocoPipe,
   ],
   selector: 'eo-landing-page-shell',
   styles: [
@@ -85,7 +90,7 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
   ],
   template: `
     <!--<eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getCookieStatus()" />-->
-    <eo-announcement-bar />
+    <eo-announcement-bar [announcement]="translations.announcementBar.message | transloco" />
     <eo-landing-page-header />
 
     <div class="u-positioning-context">
@@ -116,6 +121,9 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
 export class EoLandingPageShellComponent {
   private presenter = inject(EoLandingPagePresenter);
   private router = inject(Router);
+
+  protected translations = translations;
+
   @HostBinding('style.--eo-landing-page-content-max-width')
   get cssPropertyContentMaxWidth(): string {
     return `${this.presenter.contentMaxWidthPixels}px`;
