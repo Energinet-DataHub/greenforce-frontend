@@ -256,7 +256,7 @@ type Query {
   userProfile: GetUserProfileResponse!
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
   getDelegationsForActor(actorId: UUID!): GetDelegationsForActorResponse!
-  createDelegationsForActor(actorId: UUID!, delegationDto: CreateDelegationDtoInput!): CreateDelegationResponse!
+  createDelegationsForActor(actorId: UUID!, delegationDto: CreateActorDelegationDtoInput!): CreateActorDelegationResponse!
 }
 
 type Mutation {
@@ -431,7 +431,8 @@ input UpdatePermissionDtoInput {
   description: String!
 }
 
-input CreateDelegationDtoInput {
+input CreateActorDelegationDtoInput {
+  delegatedFrom: UUID!
   delegatedTo: UUID!
   gridAreas: [String!]!
   messageType: DelegationMessageType!
@@ -439,12 +440,12 @@ input CreateDelegationDtoInput {
   expiresAt: DateTime
 }
 
-type CreateDelegationResponse {
-  delegation: ActorDelegation!
+type CreateActorDelegationResponse {
+  delegation: ActorDelegationDto!
 }
 
 type GetDelegationsForActorResponse {
-  delegations: [ActorDelegation!]!
+  delegations: [ActorDelegationDto!]!
 }
 
 type CVROrganizationResult {
@@ -616,7 +617,8 @@ type ImbalancePricePeriod {
   status: ImbalancePriceStatus!
 }
 
-type ActorDelegation {
+type ActorDelegationDto {
+  id: ActorDelegationId!
   delegatedBy: ActorId!
   delegatedTo: ActorId!
   gridAreas: [GridAreaCode!]!
@@ -683,6 +685,10 @@ type GridAreaCode {
 }
 
 type ActorId {
+  value: UUID!
+}
+
+type ActorDelegationId {
   value: UUID!
 }
 

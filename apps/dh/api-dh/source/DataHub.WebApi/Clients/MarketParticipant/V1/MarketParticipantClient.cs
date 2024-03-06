@@ -125,12 +125,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<CreateDelegationResponse> ActorDelegationPostAsync(System.Guid actorId, CreateDelegationDto? body);
+        System.Threading.Tasks.Task<CreateActorDelegationResponse> ActorDelegationPostAsync(CreateActorDelegationDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<CreateDelegationResponse> ActorDelegationPostAsync(System.Guid actorId, CreateDelegationDto? body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<CreateActorDelegationResponse> ActorDelegationPostAsync(CreateActorDelegationDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -1484,22 +1484,18 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<CreateDelegationResponse> ActorDelegationPostAsync(System.Guid actorId, CreateDelegationDto? body)
+        public virtual System.Threading.Tasks.Task<CreateActorDelegationResponse> ActorDelegationPostAsync(CreateActorDelegationDto? body)
         {
-            return ActorDelegationPostAsync(actorId, body, System.Threading.CancellationToken.None);
+            return ActorDelegationPostAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<CreateDelegationResponse> ActorDelegationPostAsync(System.Guid actorId, CreateDelegationDto? body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<CreateActorDelegationResponse> ActorDelegationPostAsync(CreateActorDelegationDto? body, System.Threading.CancellationToken cancellationToken)
         {
-            if (actorId == null)
-                throw new System.ArgumentNullException("actorId");
-
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/actor/{actorId}/delegation");
-            urlBuilder_.Replace("{actorId}", System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/actor/delegation");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1537,7 +1533,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<CreateDelegationResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<CreateActorDelegationResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -5680,8 +5676,11 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ActorDelegation
+    public partial class ActorDelegationDto
     {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorDelegationId Id { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("delegatedBy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ActorId DelegatedBy { get; set; } = default!;
 
@@ -5700,6 +5699,14 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         [Newtonsoft.Json.JsonProperty("expiresAt", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset? ExpiresAt { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ActorDelegationId
+    {
+        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid Value { get; set; } = default!;
 
     }
 
@@ -5905,25 +5912,11 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class CreateActorDto
+    public partial class CreateActorDelegationDto
     {
-        [Newtonsoft.Json.JsonProperty("organizationId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid OrganizationId { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("delegatedFrom", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid DelegatedFrom { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ActorNameDto Name { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("actorNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ActorNumberDto ActorNumber { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("marketRoles", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ActorMarketRoleDto> MarketRoles { get; set; } = default!;
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class CreateDelegationDto
-    {
         [Newtonsoft.Json.JsonProperty("delegatedTo", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Guid DelegatedTo { get; set; } = default!;
 
@@ -5943,10 +5936,27 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class CreateDelegationResponse
+    public partial class CreateActorDelegationResponse
     {
         [Newtonsoft.Json.JsonProperty("delegation", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ActorDelegation Delegation { get; set; } = default!;
+        public ActorDelegationDto Delegation { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateActorDto
+    {
+        [Newtonsoft.Json.JsonProperty("organizationId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid OrganizationId { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorNameDto Name { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("actorNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorNumberDto ActorNumber { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("marketRoles", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<ActorMarketRoleDto> MarketRoles { get; set; } = default!;
 
     }
 
@@ -6112,7 +6122,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public partial class GetDelegationsForActorResponse
     {
         [Newtonsoft.Json.JsonProperty("delegations", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ActorDelegation> Delegations { get; set; } = default!;
+        public System.Collections.Generic.ICollection<ActorDelegationDto> Delegations { get; set; } = default!;
 
     }
 

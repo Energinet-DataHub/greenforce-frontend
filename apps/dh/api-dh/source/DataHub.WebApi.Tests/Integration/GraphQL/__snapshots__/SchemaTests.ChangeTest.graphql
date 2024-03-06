@@ -35,13 +35,18 @@ type ActorContactDto {
   phone: String
 }
 
-type ActorDelegation {
+type ActorDelegationDto {
+  id: ActorDelegationId!
   delegatedBy: ActorId!
   delegatedTo: ActorId!
   gridAreas: [GridAreaCode!]!
   messageType: DelegationMessageType!
   createdAt: DateTime!
   expiresAt: DateTime
+}
+
+type ActorDelegationId {
+  value: UUID!
 }
 
 type ActorId {
@@ -120,16 +125,16 @@ type Calculation {
   calculationType: CalculationType!
 }
 
+type CreateActorDelegationResponse {
+  delegation: ActorDelegationDto!
+}
+
 type CreateAggregatedMeasureDataRequestPayload {
   boolean: Boolean
 }
 
 type CreateCalculationPayload {
   calculation: Calculation
-}
-
-type CreateDelegationResponse {
-  delegation: ActorDelegation!
 }
 
 type CreateMarketParticipantPayload {
@@ -167,7 +172,7 @@ type ExchangeEventStatusReportResponse {
 }
 
 type GetDelegationsForActorResponse {
-  delegations: [ActorDelegation!]!
+  delegations: [ActorDelegationDto!]!
 }
 
 type GetUserProfileResponse {
@@ -349,7 +354,7 @@ type Query {
   userProfile: GetUserProfileResponse!
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
   getDelegationsForActor(actorId: UUID!): GetDelegationsForActorResponse!
-  createDelegationsForActor(actorId: UUID! delegationDto: CreateDelegationDtoInput!): CreateDelegationResponse!
+  createDelegationsForActor(actorId: UUID! delegationDto: CreateActorDelegationDtoInput!): CreateActorDelegationResponse!
 }
 
 type ReadinessStatusDto {
@@ -464,6 +469,15 @@ input CreateActorContactDtoInput {
   phone: String
 }
 
+input CreateActorDelegationDtoInput {
+  delegatedFrom: UUID!
+  delegatedTo: UUID!
+  gridAreas: [String!]!
+  messageType: DelegationMessageType!
+  createdAt: DateTime!
+  expiresAt: DateTime
+}
+
 input CreateActorDtoInput {
   organizationId: UUID!
   name: ActorNameDtoInput!
@@ -485,14 +499,6 @@ input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
   calculationType: CalculationType!
-}
-
-input CreateDelegationDtoInput {
-  delegatedTo: UUID!
-  gridAreas: [String!]!
-  messageType: DelegationMessageType!
-  createdAt: DateTime!
-  expiresAt: DateTime
 }
 
 input CreateMarketParticipantInput {
