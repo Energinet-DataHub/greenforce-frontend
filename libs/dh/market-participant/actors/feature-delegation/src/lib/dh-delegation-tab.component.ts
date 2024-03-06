@@ -21,6 +21,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
 
@@ -42,7 +43,11 @@ import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.c
           [title]="t('emptyTitle')"
           [message]="t('emptyMessage')"
         >
-          <watt-button (click)="create()" variant="secondary">
+          <watt-button
+            *dhPermissionRequired="['delegation:manage']"
+            (click)="create()"
+            variant="secondary"
+          >
             {{ t('emptyStateCreateBtn') }}
           </watt-button>
         </watt-empty-state>
@@ -51,10 +56,13 @@ import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.c
   `,
   imports: [
     TranslocoDirective,
+
     VaterFlexComponent,
     VaterStackComponent,
     WattEmptyStateComponent,
     WattButtonComponent,
+
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhDelegationTabComponent {
