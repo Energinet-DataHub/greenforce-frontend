@@ -59,7 +59,7 @@ export default async function runExecutor(options: GenerateTranslationKeysExecut
   };
 }
 
-function interfaceToConst(node: InterfaceDeclaration | TypeLiteralNode, path: string = ''): string {
+function interfaceToConst(node: InterfaceDeclaration | TypeLiteralNode, path = ''): string {
   let result = '{\n';
 
   const properties = node.getMembers() as PropertySignature[];
