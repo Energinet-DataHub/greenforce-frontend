@@ -15,12 +15,15 @@
  * limitations under the License.
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  DestroyRef,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   inject,
 } from '@angular/core';
@@ -39,25 +42,32 @@ import {
   MeteringPointType,
   AibTechCode,
 } from '@energinet-datahub/eo/metering-points/domain';
+import { translations } from '@energinet-datahub/eo/translations';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
-  imports: [WATT_MODAL, WattButtonComponent],
+  imports: [WATT_MODAL, WattButtonComponent, TranslocoPipe],
   template: `
     <watt-modal
       #modal
-      title="Not all metering points can be enabled"
+      [title]="translations.meteringPoints.onOffTooltipTitle | transloco"
       closeLabel="Close modal"
       size="small"
     >
-      <p>A metering point must have a wind or solar source to become eligible for activation.</p>
+      <p>{{ translations.meteringPoints.onOffTooltipMessage | transloco }}</p>
       <watt-modal-actions>
-        <watt-button (click)="modal.close(false)">Close</watt-button>
+        <watt-button (click)="modal.close(false)">{{
+          translations.meteringPoints.onOffTooltipClose | transloco
+        }}</watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
 })
-class GranularCertificateHelperComponent {}
+class GranularCertificateHelperComponent {
+  protected translations = translations;
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -70,6 +80,8 @@ class GranularCertificateHelperComponent {}
     WattPaginatorComponent,
     WattEmptyStateComponent,
     MatSlideToggleModule,
+    TranslocoPipe,
+    JsonPipe,
   ],
   providers: [WattModalService],
   standalone: true,
@@ -93,106 +105,95 @@ class GranularCertificateHelperComponent {}
     `,
   ],
   template: `
-    <watt-table [loading]="loading" [columns]="columns" [dataSource]="dataSource">
-      <!-- ADDRESS Column -->
-      <ng-container *wattTableCell="columns.address; let meteringPoint">
-        <ng-container *ngIf="meteringPoint.address?.address1">
-          {{ meteringPoint.address.address1 + ',' }}
+    @if (columns) {
+      <watt-table [loading]="loading" [columns]="columns" [dataSource]="dataSource">
+        <!-- ADDRESS Column -->
+        <ng-container *wattTableCell="columns.address; let meteringPoint">
+          <ng-container *ngIf="meteringPoint.address?.address1">
+            {{ meteringPoint.address.address1 + ',' }}
+          </ng-container>
+          <ng-container *ngIf="meteringPoint.address?.address2">
+            {{ meteringPoint.address.address2 + ',' }}
+          </ng-container>
+          <ng-container *ngIf="meteringPoint.address?.locality">
+            {{ meteringPoint.address.locality + ',' }}
+          </ng-container>
+          {{ meteringPoint?.address?.postalCode }}
+          {{ meteringPoint?.address?.city }}
         </ng-container>
-        <ng-container *ngIf="meteringPoint.address?.address2">
-          {{ meteringPoint.address.address2 + ',' }}
-        </ng-container>
-        <ng-container *ngIf="meteringPoint.address?.locality">
-          {{ meteringPoint.address.locality + ',' }}
-        </ng-container>
-        {{ meteringPoint?.address?.postalCode }}
-        {{ meteringPoint?.address?.city }}
-      </ng-container>
 
-      <ng-container *wattTableCell="columns.unit; let meteringPoint">
-        <watt-badge type="neutral">{{ meteringPoint.type }}</watt-badge>
-      </ng-container>
+        <ng-container *wattTableCell="columns.unit; let meteringPoint">
+          @switch (meteringPoint.type) {
+            @case ('Consumption') {
+              <watt-badge type="neutral">{{
+                translations.meteringPoints.consumptionUnit | transloco
+              }}</watt-badge>
+            }
+            @case ('Production') {
+              <watt-badge type="neutral">{{
+                translations.meteringPoints.productionUnit | transloco
+              }}</watt-badge>
+            }
+          }
+        </ng-container>
 
-      <!-- GRANULAR CERTIFICATES Column -->
-      <ng-container *wattTableCell="columns.gc; let meteringPoint">
-        <div
-          *ngIf="
-            meteringPoint.type === 'Consumption' ||
-            (meteringPoint.type === 'Production' &&
-              (meteringPoint.technology.aibTechCode === techCodes.Wind ||
-                meteringPoint.technology.aibTechCode === techCodes.Solar))
-          "
-          style="display: flex; align-items: center;"
-        >
-          <mat-slide-toggle
-            (change)="
-              toggleContract.emit({
-                checked: $event.checked,
-                gsrn: meteringPoint.gsrn,
-                type: meteringPoint.type
-              })
+        <!-- GRANULAR CERTIFICATES Column -->
+        <ng-container *wattTableCell="columns.gc; let meteringPoint">
+          <div
+            *ngIf="
+              meteringPoint.type === 'Consumption' ||
+              (meteringPoint.type === 'Production' &&
+                (meteringPoint.technology.aibTechCode === techCodes.Wind ||
+                  meteringPoint.technology.aibTechCode === techCodes.Solar))
             "
-            [disabled]="meteringPoint.loadingContract"
-            [checked]="meteringPoint.contract && !meteringPoint.loadingContract"
-          />
-          <watt-spinner
-            [diameter]="24"
-            style="margin-left: var(--watt-space-m);"
-            [style.opacity]="meteringPoint.loadingContract ? 1 : 0"
-          />
-        </div>
-      </ng-container>
-    </watt-table>
+            style="display: flex; align-items: center;"
+          >
+            <mat-slide-toggle
+              (change)="
+                toggleContract.emit({
+                  checked: $event.checked,
+                  gsrn: meteringPoint.gsrn,
+                  type: meteringPoint.type
+                })
+              "
+              [disabled]="meteringPoint.loadingContract"
+              [checked]="meteringPoint.contract && !meteringPoint.loadingContract"
+            />
+            <watt-spinner
+              [diameter]="24"
+              style="margin-left: var(--watt-space-m);"
+              [style.opacity]="meteringPoint.loadingContract ? 1 : 0"
+            />
+          </div>
+        </ng-container>
+      </watt-table>
 
-    <watt-empty-state
-      *ngIf="loading === false && dataSource.data.length === 0 && !hasError"
-      icon="custom-power"
-      title="No metering points found"
-      message="You do not have any metering points."
-    />
+      <watt-empty-state
+        *ngIf="loading === false && dataSource.data.length === 0 && !hasError"
+        icon="custom-power"
+        [title]="translations.meteringPoints.noData.title | transloco"
+        [message]="translations.meteringPoints.noData.message | transloco"
+      />
 
-    <watt-empty-state
-      *ngIf="loading === false && hasError"
-      icon="custom-power"
-      title="Oops! Something went wrong."
-      message="Please try reloading the page.."
-    />
+      <watt-empty-state
+        *ngIf="loading === false && hasError"
+        icon="custom-power"
+        [title]="translations.meteringPoints.error.title | transloco"
+        [message]="translations.meteringPoints.error.message | transloco"
+      />
 
-    <watt-paginator [for]="dataSource" />
+      <watt-paginator [for]="dataSource" />
+    }
   `,
 })
-export class EoMeteringPointsTableComponent {
-  dataSource: WattTableDataSource<EoMeteringPoint> = new WattTableDataSource(undefined);
-  columns: WattTableColumnDef<EoMeteringPoint> = {
-    gsrn: { accessor: 'gsrn', header: 'Metering point' },
-    address: { accessor: (meteringPoint) => meteringPoint.address.address1 },
-    unit: { accessor: (meteringPoint) => meteringPoint.type },
-    source: {
-      accessor: (meteringPoint) => {
-        if (meteringPoint.type !== 'Production') return '';
+export class EoMeteringPointsTableComponent implements OnInit {
+  private transloco = inject(TranslocoService);
+  private cd = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
+  protected translations = translations;
 
-        switch (meteringPoint.technology.aibTechCode) {
-          case AibTechCode.Solar:
-            return 'Solar';
-          case AibTechCode.Wind:
-            return 'Wind';
-          case AibTechCode.Other:
-            return 'Other';
-          default:
-            return '';
-        }
-      },
-    },
-    gc: {
-      accessor: (meteringPoint) => {
-        const itemHasActiveContract = meteringPoint.contract ? 'active' : 'enable';
-        return meteringPoint.type === 'Production' ? itemHasActiveContract : '';
-      },
-      header: 'On/Off',
-      align: 'center',
-      helperAction: () => this.onToggleGranularCertificatesHelperText(),
-    },
-  };
+  dataSource: WattTableDataSource<EoMeteringPoint> = new WattTableDataSource(undefined);
+  columns!: WattTableColumnDef<EoMeteringPoint>;
   techCodes = AibTechCode;
 
   @Input() set meteringPoints(data: EoMeteringPoint[] | null) {
@@ -207,6 +208,61 @@ export class EoMeteringPointsTableComponent {
   }>();
 
   private modalService = inject(WattModalService);
+
+  ngOnInit(): void {
+    this.transloco
+      .selectTranslation()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.setColumns();
+      });
+  }
+
+  private setColumns(): void {
+    console.log('SET COLU');
+    this.columns = {
+      gsrn: {
+        accessor: 'gsrn',
+        header: this.transloco.translate(this.translations.meteringPoints.gsrnTableHeader),
+      },
+      address: {
+        accessor: (meteringPoint) => meteringPoint.address.address1,
+        header: this.transloco.translate(this.translations.meteringPoints.addressTableHeader),
+      },
+      unit: {
+        accessor: (meteringPoint) => meteringPoint.type,
+        header: this.transloco.translate(this.translations.meteringPoints.unitTableHeader),
+      },
+      source: {
+        accessor: (meteringPoint) => {
+          if (meteringPoint.type !== 'Production') return '';
+
+          switch (meteringPoint.technology.aibTechCode) {
+            case AibTechCode.Solar:
+              return this.transloco.translate(this.translations.meteringPoints.solarSource);
+            case AibTechCode.Wind:
+              return this.transloco.translate(this.translations.meteringPoints.windSource);
+            case AibTechCode.Other:
+              return this.transloco.translate(this.translations.meteringPoints.otherSource);
+            default:
+              return '';
+          }
+        },
+        header: this.transloco.translate(this.translations.meteringPoints.sourceTableHeader),
+      },
+      gc: {
+        accessor: (meteringPoint) => {
+          const itemHasActiveContract = meteringPoint.contract ? 'active' : 'enable';
+          return meteringPoint.type === 'Production' ? itemHasActiveContract : '';
+        },
+        header: this.transloco.translate(this.translations.meteringPoints.onOffTableHeader),
+        align: 'center',
+        helperAction: () => this.onToggleGranularCertificatesHelperText(),
+      },
+    };
+
+    this.cd.detectChanges();
+  }
 
   onToggleGranularCertificatesHelperText() {
     this.modalService.open({

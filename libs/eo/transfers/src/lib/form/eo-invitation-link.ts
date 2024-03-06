@@ -24,16 +24,17 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
-import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import { FormControl } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import { translations } from '@energinet-datahub/eo/translations';
 
 function generateLink(id: string | null): string | null {
   return id ? `${window.location.origin}/${eoRoutes.transfer}?respond-proposal=${id}` : null;
@@ -49,7 +50,7 @@ function generateLink(id: string | null): string | null {
     WattCopyToClipboardDirective,
     WattFieldHintComponent,
     WattFieldErrorComponent,
-    NgIf,
+    TranslocoPipe,
   ],
   styles: [
     `
@@ -77,30 +78,39 @@ function generateLink(id: string | null): string | null {
         [value]="link ?? ''"
         #key
       >
-        <watt-field-hint *ngIf="!hasError"
-          >Link expires in 14 days, usable by one organization or specific company.</watt-field-hint
-        >
+        @if (!hasError) {
+          <watt-field-hint>{{
+            translations.createTransferAgreementProposal.invitation.link.hint | transloco
+          }}</watt-field-hint>
+        }
 
-        <watt-field-error>Couldn't generate link. Please try again.</watt-field-error>
+        <watt-field-error>{{
+          translations.createTransferAgreementProposal.invitation.link.error | transloco
+        }}</watt-field-error>
       </watt-text-field>
-      <watt-button
-        #copyButton
-        variant="text"
-        icon="contentCopy"
-        data-testid="copy-invitation-link-button"
-        [wattCopyToClipboard]="key.value"
-        *ngIf="!hasError"
-        >Copy link</watt-button
-      >
 
-      <watt-button
-        (click)="retry.emit()"
-        variant="text"
-        icon="refresh"
-        data-testid="generate-invitation-link-button"
-        *ngIf="hasError"
-        >Generate</watt-button
-      >
+      @if (!hasError) {
+        <watt-button
+          #copyButton
+          variant="text"
+          icon="contentCopy"
+          data-testid="copy-invitation-link-button"
+          [wattCopyToClipboard]="key.value"
+          >{{
+            translations.createTransferAgreementProposal.invitation.link.copy | transloco
+          }}</watt-button
+        >
+      } @else {
+        <watt-button
+          (click)="retry.emit()"
+          variant="text"
+          icon="refresh"
+          data-testid="generate-invitation-link-button"
+          >{{
+            translations.createTransferAgreementProposal.invitation.link.retry | transloco
+          }}</watt-button
+        >
+      }
     </vater-stack>
   `,
 })
@@ -113,6 +123,7 @@ export class EoTransferInvitationLinkComponent implements OnChanges {
 
   @ViewChild('copyButton', { read: ElementRef }) copyButton!: ElementRef<HTMLButtonElement>;
 
+  protected translations = translations;
   protected control: FormControl<string | null> = new FormControl(null);
 
   ngOnChanges(changes: SimpleChanges): void {

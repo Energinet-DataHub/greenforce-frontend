@@ -1,0 +1,22 @@
+{
+  "name": "eo-globalization-configuration-localization",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/core/globalization/configuration-localization/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/eo/core/globalization/configuration-localization"
+      ],
+      "options": {
+        "jestConfig": "libs/eo/core/globalization/configuration-localization/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:eo", "domain:globalization", "type:configuration"]
+}
