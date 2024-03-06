@@ -18,6 +18,7 @@
 import { TranslationKeys } from './translation-keys';
 
 export const DA_TRANSLATIONS: TranslationKeys = {
+  // Announcement bar on landing page
   announcementBar: {
     message: `Få besked om nye udgivelser og sneak peeks: <a href="#newsletter">Tilmeld dig vores nyhedsbrev ></a>`,
   },
