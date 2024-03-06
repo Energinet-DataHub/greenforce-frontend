@@ -5810,6 +5810,9 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [System.Runtime.Serialization.EnumMember(Value = @"SerialEnergyTrader")]
         SerialEnergyTrader = 13,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"Delegated")]
+        Delegated = 14,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
