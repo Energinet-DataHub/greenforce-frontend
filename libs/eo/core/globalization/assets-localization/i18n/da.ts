@@ -19,7 +19,7 @@ import { TranslationKeys } from './translation-keys';
 
 export const DA_TRANSLATIONS: TranslationKeys = {
   announcementBar: {
-    message: `Få besked om nye udgivelser og sneak peeks: <a href="#newsletter">Tilmeld dig vores nyhedsbrev ></a>`
+    message: `Få besked om nye udgivelser og sneak peeks: <a href="#newsletter">Tilmeld dig vores nyhedsbrev ></a>`,
   },
   sidebar: {
     dashboard: 'Overblik',
