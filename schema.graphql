@@ -255,6 +255,8 @@ type Query {
   imbalancePricesForMonth(year: Int!, month: Int!, areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   userProfile: GetUserProfileResponse!
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
+  getDelegationsForActor(actorId: UUID!): GetDelegationsForActorResponse!
+  createDelegationsForActor(actorId: UUID!, delegationDto: CreateDelegationDtoInput!): CreateDelegationResponse!
 }
 
 type Mutation {
@@ -409,35 +411,6 @@ interface Error {
   message: String!
 }
 
-enum UserRoleStatus {
-  ACTIVE
-  INACTIVE
-}
-
-enum ContactCategory {
-  DEFAULT
-  CHARGES
-  CHARGE_LINKS
-  ELECTRICAL_HEATING
-  END_OF_SUPPLY
-  ENERGINET_INQUIRY
-  ERROR_REPORT
-  INCORRECT_MOVE
-  INCORRECT_SWITCH
-  MEASUREMENT_DATA
-  METERING_POINT
-  NET_SETTLEMENT
-  NOTIFICATION
-  RECON
-  REMINDER
-}
-
-input UserProfileUpdateDtoInput {
-  firstName: String!
-  lastName: String!
-  phoneNumber: String!
-}
-
 input CreateMarketParticipantInput {
   organizationId: UUID
   organization: CreateOrganizationDtoInput
@@ -456,6 +429,22 @@ enum MeteringPointType {
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
+}
+
+input CreateDelegationDtoInput {
+  delegatedTo: UUID!
+  gridAreas: [String!]!
+  messageType: DelegationMessageType!
+  createdAt: DateTime!
+  expiresAt: DateTime
+}
+
+type CreateDelegationResponse {
+  delegation: ActorDelegation!
+}
+
+type GetDelegationsForActorResponse {
+  delegations: [ActorDelegation!]!
 }
 
 type CVROrganizationResult {
@@ -565,6 +554,35 @@ type UserRoleWithPermissionsDto {
   permissions: [PermissionDetailsDto!]!
 }
 
+input UserProfileUpdateDtoInput {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+}
+
+enum ContactCategory {
+  DEFAULT
+  CHARGES
+  CHARGE_LINKS
+  ELECTRICAL_HEATING
+  END_OF_SUPPLY
+  ENERGINET_INQUIRY
+  ERROR_REPORT
+  INCORRECT_MOVE
+  INCORRECT_SWITCH
+  MEASUREMENT_DATA
+  METERING_POINT
+  NET_SETTLEMENT
+  NOTIFICATION
+  RECON
+  REMINDER
+}
+
+enum UserRoleStatus {
+  ACTIVE
+  INACTIVE
+}
+
 type ApiErrorDescriptor {
   message: String!
   code: String!
@@ -596,6 +614,25 @@ type ImbalancePricePeriod {
   name: DateTime!
   priceAreaCode: PriceAreaCode!
   status: ImbalancePriceStatus!
+}
+
+type ActorDelegation {
+  delegatedBy: ActorId!
+  delegatedTo: ActorId!
+  gridAreas: [GridAreaCode!]!
+  messageType: DelegationMessageType!
+  createdAt: DateTime!
+  expiresAt: DateTime
+}
+
+enum DelegationMessageType {
+  RSM012_INBOUND
+  RSM014_INBOUND
+  RSM016_INBOUND
+  RSM016_OUTBOUND
+  RSM017_INBOUND
+  RSM017_OUTBOUND
+  RSM019_INBOUND
 }
 
 input CreateActorContactDtoInput {
@@ -639,6 +676,14 @@ input ActorNumberDtoInput {
 
 input ActorNameDtoInput {
   value: String!
+}
+
+type GridAreaCode {
+  value: String!
+}
+
+type ActorId {
+  value: UUID!
 }
 
 input ActorGridAreaDtoInput {

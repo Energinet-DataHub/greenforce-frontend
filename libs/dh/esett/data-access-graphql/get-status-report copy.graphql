@@ -1,4 +1,4 @@
-query GetGetDelegationsForActorAsync {
+query GetStatusReport {
   esettExchangeStatusReport {
     waitingForExternalResponse
   }
