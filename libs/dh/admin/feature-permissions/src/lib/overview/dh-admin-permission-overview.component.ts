@@ -111,6 +111,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
         this.dataSource.data = result.data?.permissions ?? [];
       },
       error: (error) => {
+        this.loading = false;
         this.error = error;
       },
     });
