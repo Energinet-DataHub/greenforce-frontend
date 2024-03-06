@@ -30,6 +30,7 @@ import { EoLandingPageIntroductionComponent } from './eo-landing-page-introducti
 import { EoLandingPageNotificationComponent } from './eo-landing-page-notification.component';
 import { EoLandingPageOriginOfEnergyComponent } from './eo-landing-page-origin-of-energy.component';
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
+import { EoAnnouncementBarComponent } from './announcement-bar.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,6 +46,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
     EoLandingPageOriginOfEnergyComponent,
     EoCookieBannerComponent,
     EoPopupMessageComponent,
+    EoAnnouncementBarComponent,
     NgIf,
   ],
   selector: 'eo-landing-page-shell',
@@ -83,6 +85,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
   ],
   template: `
     <!--<eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getCookieStatus()" />-->
+    <eo-announcement-bar />
     <eo-landing-page-header />
 
     <div class="u-positioning-context">
