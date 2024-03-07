@@ -13,23 +13,20 @@
 // limitations under the License.
 
 using System;
-using System.Threading.Tasks;
 using Energinet.DataHub.Core.FunctionApp.TestCommon.Configuration;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures
 {
-    public class BffWebApiFixture : WebApiFixture
+    public class BjhWebApiFactory : WebApplicationFactory<Startup>
     {
-        public IntegrationTestConfiguration IntegrationTestConfiguration { get; }
+        public Action<IServiceCollection>? ConfigureTestServices { private get; set; }
 
-        public BffWebApiFixture()
-        {
-            IntegrationTestConfiguration = new IntegrationTestConfiguration();
-        }
+        public IntegrationTestConfiguration IntegrationTestConfiguration { get; } = new();
 
-        /// <inheritdoc/>
-        protected override Task OnInitializeWebApiDependenciesAsync(IConfiguration configuration)
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             Environment.SetEnvironmentVariable("ApiClientSettings__ChargesBaseUrl", "http://localhost:8080/charges");
             Environment.SetEnvironmentVariable("ApiClientSettings__MessageArchiveBaseUrl", "http://localhost:8080/messagearchive");
@@ -43,7 +40,7 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
             Environment.SetEnvironmentVariable("BACKEND_BFF_APP_ID", "00000000-0000-0000-0000-000000000000");
             Environment.SetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING", IntegrationTestConfiguration.ApplicationInsightsConnectionString);
 
-            return Task.CompletedTask;
+            builder.ConfigureServices(services => ConfigureTestServices?.Invoke(services));
         }
     }
 }

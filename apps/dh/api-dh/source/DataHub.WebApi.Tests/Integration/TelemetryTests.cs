@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -23,51 +22,46 @@ using Azure.Monitor.Query;
 using Energinet.DataHub.Core.TestCommon;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
-using Energinet.DataHub.WebApi.Tests.Integration.Controllers;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration
 {
-    public class TelemetryTests : ControllerTestsBase
+    public class TelemetryTests(BjhWebApiFactory factory) : BjhWebApiTestBase(factory)
     {
-        private BffWebApiFixture BffWebApiFixture { get; }
+        private LogsQueryClient LogsQueryClient { get; } = new(new DefaultAzureCredential());
 
-        private LogsQueryClient LogsQueryClient { get; }
+        private string LogAnalyticsWorkspaceId => Factory.IntegrationTestConfiguration.LogAnalyticsWorkspaceId;
 
-        private Guid CalculationId { get; }
+        private Guid CalculationId { get; } = Guid.NewGuid();
 
-        public TelemetryTests(
-            BffWebApiFixture bffWebApiFixture,
-            WebApiFactory factory,
-            ITestOutputHelper testOutputHelper)
-            : base(bffWebApiFixture, factory, testOutputHelper)
-        {
-            BffWebApiFixture = bffWebApiFixture;
-            LogsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
-            CalculationId = Guid.NewGuid();
-        }
+        private Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; } = new();
 
         [Fact]
         public async Task GraphQLRequest_Should_CauseExpectedEventsToBeLogged()
         {
-            WholesaleClientV3Mock
-                .Setup(x => x.GetCalculationAsync(CalculationId, default))
-                .ReturnsAsync(new CalculationDto() { CalculationId = CalculationId });
-
-            await MakeGraphQLRequest();
+            await MakeGraphQLRequestAsync();
 
             var wasEventsLogged = await Awaiter.TryWaitUntilConditionAsync(
-                () => QueryLogAnalytics(url: $"/graphql?GetCalculationById={CalculationId}"),
+                QueryLogAnalyticsAsync,
                 TimeSpan.FromMinutes(20),
                 TimeSpan.FromSeconds(50));
 
             wasEventsLogged.Should().BeTrue("Expected events was not logged to Application Insights within time limit.");
         }
 
-        private async Task MakeGraphQLRequest()
+        protected override void ConfigureMocks(IServiceCollection services)
+        {
+            WholesaleClientV3Mock
+                .Setup(x => x.GetCalculationAsync(CalculationId, default))
+                .ReturnsAsync(new CalculationDto() { CalculationId = CalculationId });
+
+            services.AddSingleton(WholesaleClientV3Mock.Object);
+        }
+
+        private async Task MakeGraphQLRequestAsync()
         {
             var query = $$"""
                 query {
@@ -77,16 +71,14 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
                 }
             """;
 
-            //// BffClient.DefaultRequestHeaders.Add("Accept", "application/json");
-
             var requestBody = new { query };
             var json = JsonSerializer.Serialize(requestBody);
-            await BffClient.PostAsync(
+            await Client.PostAsync(
                 $"/graphql?GetCalculationById={CalculationId}",
                 new StringContent(json, Encoding.UTF8, "application/json"));
         }
 
-        private async Task<bool> QueryLogAnalytics(string url)
+        private async Task<bool> QueryLogAnalyticsAsync()
         {
             var query = $$"""
                 let OperationId = AppRequests
@@ -106,7 +98,11 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
                 | count
             """;
 
-            var result = await LogsQueryClient.QueryWorkspaceAsync<QueryResult>(BffWebApiFixture.LogAnalyticsWorkspaceId, query, TimeSpan.FromMinutes(20));
+            var result = await LogsQueryClient.QueryWorkspaceAsync<QueryResult>(
+                LogAnalyticsWorkspaceId,
+                query,
+                TimeSpan.FromMinutes(20));
+
             return result.Value[0].Count == 2;
         }
 
