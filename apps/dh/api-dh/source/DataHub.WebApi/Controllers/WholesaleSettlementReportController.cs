@@ -33,16 +33,6 @@ namespace Energinet.DataHub.WebApi.Controllers
             _client = client;
         }
 
-        [HttpGet]
-        [Produces("application/zip")]
-        public async Task<ActionResult<Stream>> GetAsync(Guid calculationId, string gridAreaCode)
-        {
-            var fileResponse = await _client.GetSettlementReportAsStreamAsync(calculationId, gridAreaCode).ConfigureAwait(false);
-            return File(
-                fileResponse.Stream,
-                MediaTypeNames.Application.Zip);
-        }
-
         [HttpGet("Download")]
         [Produces("application/zip")]
         public async Task<ActionResult<Stream>> DownloadAsync(
