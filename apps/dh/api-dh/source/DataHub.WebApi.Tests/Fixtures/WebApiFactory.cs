@@ -16,14 +16,11 @@ using System;
 using Energinet.DataHub.Core.FunctionApp.TestCommon.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures
 {
     public class WebApiFactory : WebApplicationFactory<Startup>
     {
-        public Action<IServiceCollection>? ConfigureTestServices { private get; set; }
-
         public IntegrationTestConfiguration IntegrationTestConfiguration { get; } = new();
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)

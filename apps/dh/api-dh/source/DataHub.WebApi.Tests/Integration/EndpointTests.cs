@@ -13,13 +13,11 @@
 // limitations under the License.
 
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration
 {

@@ -32,7 +32,6 @@ namespace Energinet.DataHub.WebApi.Tests.TestServices
 
             Services = new ServiceCollection()
                 .AddGraphQLServer()
-                .AddInstrumentation()
                 .AddQueryType<Query>()
                 .AddMutationConventions(applyToAllMutations: true)
                 .AddMutationType<Mutation>()
