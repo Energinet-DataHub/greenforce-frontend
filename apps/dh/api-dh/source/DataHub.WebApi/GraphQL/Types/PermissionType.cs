@@ -23,7 +23,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
         {
             descriptor.Name("Permission");
             descriptor
-               .Field("userRolez")
+               .Field("userRoles")
                .ResolveWith<MarketParticipantResolvers>(c => c.GetAssignedPermissionAsync(default!, default!));
         }
     }
