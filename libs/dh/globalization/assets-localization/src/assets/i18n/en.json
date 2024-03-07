@@ -156,10 +156,21 @@
   },
   "marketParticipant": {
     "delegation": {
-      "createBtn": "Set up delegation",
+      "setUpDelegation": "Set up delegation",
+      "outgoingMessages": "Outgoing messages",
+      "incomingMessages": "Incoming messages",
       "emptyTitle": "No delegations found",
       "emptyMessage": "Delegate outgoing or incoming messages to a meter operator",
-      "emptyStateCreateBtn": "Set up delegation for messages"
+      "emptyStateSetUpDelegation": "Set up delegation for messages",
+      "messageTypes": {
+        "RSM012_INBOUND": "[DK] Fremsend måledata for et målepunkt (RSM-012)",
+        "RSM014_INBOUND": "[DK] Fremsend beregnede tidsserier (RSM-014)",
+        "RSM016_INBOUND": "[DK] Anmod om aggregerede måledata (RSM-016)",
+        "RSM016_OUTBOUND": "[DK] Anmod om aggregerede måledata (RSM-016)",
+        "RSM017_INBOUND": "[DK] Anmod om engrosydelser (RSM-017)",
+        "RSM017_OUTBOUND": "[DK] Anmod om engrosydelser (RSM-017)",
+        "RSM019_INBOUND": "[DK] Fremsend beregnede engrosydelser (RSM-019)"
+      }
     },
     "market_participant": {
       "error_fallback": "The computer was asked to perform an action, but it did not. The reason was: {{ message }}",
