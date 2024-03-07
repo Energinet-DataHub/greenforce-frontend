@@ -95,7 +95,11 @@ limitations under the License.
             [label]="t('tabs.delegation.tabLabel')"
             *dhFeatureFlag="'market-participant-delegation'"
           >
-            <dh-delegation-tab />
+            @defer (on viewport) {
+              <dh-delegation-tab [actorId]="actor?.id" />
+            } @placeholder {
+              <watt-spinner />
+            }
           </watt-tab>
 
           <watt-tab [label]="t('tabs.history.tabLabel')">
