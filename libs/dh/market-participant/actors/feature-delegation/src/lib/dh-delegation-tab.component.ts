@@ -17,6 +17,7 @@
 import { Component, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
+import { StronglyTypedDialog, WattModalService } from '@energinet-datahub/watt/modal';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
