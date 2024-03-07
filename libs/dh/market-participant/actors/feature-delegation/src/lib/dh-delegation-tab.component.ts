@@ -48,30 +48,28 @@ import { dhGroupDelegations } from './util/dh-group-delegations';
         <vater-stack direction="row" justify="center">
           <watt-spinner />
         </vater-stack>
-      } @else {
-        @if (isEmpty()) {
-          <vater-stack direction="row" justify="center">
-            <watt-empty-state
-              icon="custom-no-results"
-              [title]="t('emptyTitle')"
-              [message]="t('emptyMessage')"
+      } @else if (isEmpty()) {
+        <vater-stack direction="row" justify="center">
+          <watt-empty-state
+            icon="custom-no-results"
+            [title]="t('emptyTitle')"
+            [message]="t('emptyMessage')"
+          >
+            <watt-button
+              *dhPermissionRequired="['delegation:manage']"
+              (click)="onSetUpDelegation()"
+              variant="secondary"
             >
-              <watt-button
-                *dhPermissionRequired="['delegation:manage']"
-                (click)="onSetUpDelegation()"
-                variant="secondary"
-              >
-                {{ t('emptyStateSetUpDelegation') }}
-              </watt-button>
-            </watt-empty-state>
-          </vater-stack>
-        } @else {
-          <dh-delegations-overview
-            [outgoing]="delegationsGrouped().outgoing"
-            [incoming]="delegationsGrouped().incoming"
-            (setUpDelegation)="onSetUpDelegation()"
-          />
-        }
+              {{ t('emptyStateSetUpDelegation') }}
+            </watt-button>
+          </watt-empty-state>
+        </vater-stack>
+      } @else {
+        <dh-delegations-overview
+          [outgoing]="delegationsGrouped().outgoing"
+          [incoming]="delegationsGrouped().incoming"
+          (setUpDelegation)="onSetUpDelegation()"
+        />
       }
     </vater-flex>
   `,

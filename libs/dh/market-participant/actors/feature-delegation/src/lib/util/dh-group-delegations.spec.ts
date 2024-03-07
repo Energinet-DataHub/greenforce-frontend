@@ -19,7 +19,7 @@ import { DelegationMessageType } from '@energinet-datahub/dh/shared/domain/graph
 import { DhDelegations } from '../dh-delegations';
 import { dhGroupDelegations } from './dh-group-delegations';
 
-describe(dhGroupDelegations.name, () => {
+describe(dhGroupDelegations, () => {
   it('should group delegations by direction and type', () => {
     const delegations = Object.values(DelegationMessageType).map((messageType) => ({
       messageType: messageType as DelegationMessageType,
