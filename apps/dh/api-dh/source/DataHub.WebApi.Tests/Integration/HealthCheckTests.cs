@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Energinet.DataHub.Core.App.Common.Diagnostics.HealthChecks;
@@ -27,7 +28,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
     public class HealthCheckTests(WebApiFactory factory)
         : WebApiTestBase(factory)
     {
-        private WireMockServer ServerMock { get; } = WireMockServer.Start("8080");
+        private WireMockServer ServerMock { get; } = WireMockServer.Start(8080);
 
         [Fact]
         public async Task When_RequestLivenessStatus_Then_ResponseIsOkAndHealthy()
