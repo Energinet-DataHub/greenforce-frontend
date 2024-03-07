@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WATT_DIALOG_DATA, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { StronglyTypedWattModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { DhCertificateUploaderComponent } from '../certificate/dh-certificate-uploader.component';
@@ -48,12 +48,15 @@ import { DhCertificateUploaderComponent } from '../certificate/dh-certificate-up
           {{ t('cancel') }}
         </watt-button>
 
-        <dh-certificate-uploader [actorId]="actorId" (uploadSuccess)="modal.close(true)" />
+        <dh-certificate-uploader
+          [actorId]="modalData.actorId"
+          (uploadSuccess)="modal.close(true)"
+        />
       </watt-modal-actions>
     </watt-modal>
   `,
   imports: [TranslocoDirective, WATT_MODAL, WattButtonComponent, DhCertificateUploaderComponent],
 })
-export class DhReplaceClientSecretModalComponent {
-  actorId: string = inject(WATT_DIALOG_DATA).actorId;
-}
+export class DhReplaceClientSecretModalComponent extends StronglyTypedWattModal<{
+  actorId: string;
+}> {}

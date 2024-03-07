@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { StronglyTypedWattModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,8 +33,7 @@ import { WATT_MODAL } from '@energinet-datahub/watt/modal';
     </watt-modal>
   `,
 })
-export class EoIdleTimerLoggedOutModalComponent {
-  private dialogRef = inject<MatDialogRef<EoIdleTimerLoggedOutModalComponent>>(MatDialogRef);
+export class EoIdleTimerLoggedOutModalComponent extends StronglyTypedWattModal {
   close(action?: string) {
     this.dialogRef.close(action);
   }
