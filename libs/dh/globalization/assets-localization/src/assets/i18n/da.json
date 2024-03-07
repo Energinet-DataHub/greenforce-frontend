@@ -156,10 +156,12 @@
   },
   "marketParticipant": {
     "delegation": {
-      "createBtn": "Opsæt delegering",
+      "setUpDelegation": "Opsæt delegering",
+      "outgoingMessages": "Udgående meddelelser",
+      "incomingMessages": "Indgående meddelelser",
       "emptyTitle": "Ingen delegering",
       "emptyMessage": "Deleger udgående eller indgående meddelelser til en måleoperatør",
-      "emptyStateCreateBtn": "Opsæt delegering for meddelelser"
+      "emptyStateSetUpDelegation": "Opsæt delegering for meddelelser"
     },
     "market_participant": {
       "error_fallback": "Computeren blev bedt om at udføre en handling, men gjorde det ikke. Årsagen var: {{ message }}",

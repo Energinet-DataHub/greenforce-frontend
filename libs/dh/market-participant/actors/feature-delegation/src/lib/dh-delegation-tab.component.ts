@@ -14,15 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { Apollo } from 'apollo-angular';
 
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
+import { GetDelegationsForActorDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+
+import { DhDelegationsGrouped } from './dh-delegations';
+import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
+import { dhGroupDelegations } from './util/dh-group-delegations';
 
 @Component({
   selector: 'dh-delegation-tab',
@@ -36,31 +43,88 @@ import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.c
   ],
   template: `
     <vater-flex *transloco="let t; read: 'marketParticipant.delegation'">
-      <vater-stack direction="row" justify="center">
-        <watt-empty-state
-          icon="custom-no-results"
-          [title]="t('emptyTitle')"
-          [message]="t('emptyMessage')"
-        >
-          <watt-button (click)="create()" variant="secondary">
-            {{ t('emptyStateCreateBtn') }}
-          </watt-button>
-        </watt-empty-state>
-      </vater-stack>
+      @if (isLoading()) {
+        <vater-stack direction="row" justify="center">
+          <watt-spinner />
+        </vater-stack>
+      } @else {
+        @if (isEmpty()) {
+          <vater-stack direction="row" justify="center">
+            <watt-empty-state
+              icon="custom-no-results"
+              [title]="t('emptyTitle')"
+              [message]="t('emptyMessage')"
+            >
+              <watt-button (click)="onSetUpDelegation()" variant="secondary">
+                {{ t('emptyStateSetUpDelegation') }}
+              </watt-button>
+            </watt-empty-state>
+          </vater-stack>
+        } @else {
+          <dh-delegations-overview
+            [outgoing]="delegationsGrouped().outgoing"
+            [incoming]="delegationsGrouped().incoming"
+            (setUpDelegation)="onSetUpDelegation()"
+          />
+        }
+      }
     </vater-flex>
   `,
   imports: [
     TranslocoDirective,
+
     VaterFlexComponent,
     VaterStackComponent,
     WattEmptyStateComponent,
     WattButtonComponent,
+    WattSpinnerComponent,
+
+    DhDelegationsOverviewComponent,
   ],
 })
 export class DhDelegationTabComponent {
   private readonly _modalService = inject(WattModalService);
+  private readonly _apollo = inject(Apollo);
 
-  create() {
+  actorId = input('');
+  isLoading = signal(false);
+
+  delegationsGrouped = signal<DhDelegationsGrouped>({ outgoing: [], incoming: [] });
+
+  isEmpty = computed(() => {
+    return (
+      this.delegationsGrouped().incoming.length === 0 &&
+      this.delegationsGrouped().outgoing.length === 0
+    );
+  });
+
+  constructor() {
+    effect(() => this.fetchData(this.actorId()), { allowSignalWrites: true });
+  }
+
+  onSetUpDelegation() {
     this._modalService.open({ component: DhDelegationCreateModalComponent });
+  }
+
+  private fetchData(actorId: string) {
+    this.isLoading.set(true);
+
+    this._apollo
+      .query({
+        query: GetDelegationsForActorDocument,
+        variables: { actorId },
+      })
+      .subscribe({
+        next: (result) => {
+          this.isLoading.set(result.loading);
+
+          this.delegationsGrouped.set(
+            dhGroupDelegations(result.data.getDelegationsForActor.delegations)
+          );
+        },
+        error: () => {
+          this.isLoading.set(false);
+        },
+      });
   }
 }
