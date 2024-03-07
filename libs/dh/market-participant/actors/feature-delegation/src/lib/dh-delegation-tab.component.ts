@@ -23,6 +23,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { GetDelegationsForActorDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -55,7 +56,11 @@ import { dhGroupDelegations } from './util/dh-group-delegations';
               [title]="t('emptyTitle')"
               [message]="t('emptyMessage')"
             >
-              <watt-button (click)="onSetUpDelegation()" variant="secondary">
+              <watt-button
+                *dhPermissionRequired="['delegation:manage']"
+                (click)="onSetUpDelegation()"
+                variant="secondary"
+              >
                 {{ t('emptyStateSetUpDelegation') }}
               </watt-button>
             </watt-empty-state>

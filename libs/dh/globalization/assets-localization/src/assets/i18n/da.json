@@ -945,7 +945,7 @@
         "wrongEmailPattern": "Indtast en valid e-mail",
         "userAlreadyAssignedActor": "Bruger er allerede oprettet",
         "noUserRolesError": "Vælg minimum en brugerrolle",
-        "successMessage": "Inviation sendt til {{ email }}",
+        "successMessage": "Invitation sendt til {{ email }}",
         "next": "Næste",
         "columns": {
           "eicFunction": "Markedsrolle",
