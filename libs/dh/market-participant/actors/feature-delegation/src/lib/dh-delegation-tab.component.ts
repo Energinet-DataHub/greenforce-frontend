@@ -57,7 +57,7 @@ import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.c
     WattButtonComponent,
   ],
 })
-export class DhDelegationTabComponent {
+export class DhDelegationTabComponent extends StronglyTypedDialog {
   private readonly _modalService = inject(WattModalService);
 
   create() {
