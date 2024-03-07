@@ -39,8 +39,6 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
             Environment.SetEnvironmentVariable("EXTERNAL_OPEN_ID_URL", "http://localhost:8080/");
             Environment.SetEnvironmentVariable("BACKEND_BFF_APP_ID", "00000000-0000-0000-0000-000000000000");
             Environment.SetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING", IntegrationTestConfiguration.ApplicationInsightsConnectionString);
-
-            builder.ConfigureServices(services => ConfigureTestServices?.Invoke(services));
         }
     }
 }

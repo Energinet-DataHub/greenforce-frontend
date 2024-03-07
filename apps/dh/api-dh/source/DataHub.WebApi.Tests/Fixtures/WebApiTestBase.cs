@@ -14,6 +14,7 @@
 
 using System;
 using System.Net.Http;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -29,9 +30,10 @@ public abstract class WebApiTestBase
     public WebApiTestBase(WebApiFactory factory)
     {
         Factory = factory;
-        factory.ConfigureTestServices = ConfigureMocks;
+        Client = factory
+            .WithWebHostBuilder(builder => builder.ConfigureTestServices(ConfigureMocks))
+            .CreateClient();
 
-        Client = factory.CreateClient();
         Client.DefaultRequestHeaders.Add("Authorization", $"Bearer xxx");
     }
 
