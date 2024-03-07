@@ -26,9 +26,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Energinet.DataHub.WebApi.Tests.ServiceMocks
 {
-    public sealed class JwtAuthenticationServiceMock : IServiceMock
+    public sealed class JwtAuthenticationServiceMock
     {
-        public void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services)
         {
             services
                 .AddAuthentication(options =>

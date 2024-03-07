@@ -13,32 +13,43 @@
 // limitations under the License.
 
 using System;
-using System.Diagnostics;
-using Xunit.Abstractions;
+using System.Net.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Fixtures
+namespace Energinet.DataHub.WebApi.Tests.Fixtures;
+
+public abstract class WebApiTestBase
+    : IClassFixture<WebApiFactory>, IDisposable
 {
-    [DebuggerStepThrough]
-    public abstract class WebApiTestBase<TFixture> : IDisposable
-        where TFixture : WebApiFixture
+    public HttpClient Client { get; set; }
+
+    public WebApiFactory Factory { get; }
+
+    public WebApiTestBase(WebApiFactory factory)
     {
-        protected WebApiTestBase(TFixture fixture, ITestOutputHelper testOutputHelper)
-        {
-            Fixture = fixture;
-            Fixture.SetTestOutputHelper(testOutputHelper);
-        }
+        Factory = factory;
+        factory.ConfigureTestServices = ConfigureMocks;
 
-        protected TFixture Fixture { get; }
+        Client = factory.CreateClient();
+        Client.DefaultRequestHeaders.Add("Authorization", $"Bearer xxx");
+    }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 
-        protected virtual void Dispose(bool disposing)
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
         {
-            Fixture.SetTestOutputHelper(null!);
+            Client.Dispose();
         }
+    }
+
+    protected virtual void ConfigureMocks(IServiceCollection services)
+    {
     }
 }

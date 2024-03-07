@@ -20,21 +20,16 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    public sealed class WholesaleSettlementReportControllerTests : ControllerTestsBase
+    public class WholesaleSettlementReportControllerTests(WebApiFactory factory)
+        : WebApiTestBase(factory)
     {
-        public WholesaleSettlementReportControllerTests(
-            BffWebApiFixture bffWebApiFixture,
-            WebApiFactory factory,
-            ITestOutputHelper testOutputHelper)
-            : base(bffWebApiFixture, factory, testOutputHelper)
-        {
-        }
+        private Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; } = new();
 
         [Fact]
         public async Task CreateAsync_ReturnsOk()
@@ -47,10 +42,15 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .ReturnsAsync(new FileResponse(0, null, new MemoryStream(), null, null));
 
             // act
-            var actual = await BffClient.GetAsync($"/v1/WholesaleSettlementReport?calculationId={calculationId}&gridAreaCode={gridAreaCode}");
+            var actual = await Client.GetAsync($"/v1/WholesaleSettlementReport?calculationId={calculationId}&gridAreaCode={gridAreaCode}");
 
             // assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        protected override void ConfigureMocks(IServiceCollection services)
+        {
+            services.AddSingleton(WholesaleClientV3Mock.Object);
         }
     }
 }

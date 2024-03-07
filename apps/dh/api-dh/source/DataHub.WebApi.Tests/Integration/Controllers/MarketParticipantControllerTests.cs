@@ -25,30 +25,25 @@ using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using Energinet.DataHub.WebApi.Tests.ServiceMocks;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    public sealed class MarketParticipantControllerTests : ControllerTestsBase
+    public class MarketParticipantControllerTests(WebApiFactory factory)
+        : WebApiTestBase(factory)
     {
-        public MarketParticipantControllerTests(
-            BffWebApiFixture bffWebApiFixture,
-            WebApiFactory factory,
-            ITestOutputHelper testOutputHelper)
-            : base(bffWebApiFixture, InstallServiceMock(factory), testOutputHelper)
-        {
-        }
-
         private const string GetFilteredActorsUrl = "v1/MarketParticipant/Organization/GetFilteredActors";
+
+        private Mock<IMarketParticipantClient_V1> MarketParticipantClientMock { get; } = new();
 
         [Theory]
         [InlineAutoMoqData]
         public async Task GetFilteredActors_NotFas_ReturnsSingleActor(OrganizationDto organization, ActorDto actor, Guid actorId)
         {
             // Arrange
-            JwtAuthenticationServiceMock.AddAuthorizationHeader(BffClient, actorId);
+            JwtAuthenticationServiceMock.AddAuthorizationHeader(Client, actorId);
 
             var organizations = new List<OrganizationDto>
             {
@@ -57,7 +52,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
             var actors = new List<ActorDto>
             {
-                new ActorDto()
+                new()
                     {
                         ActorId = actorId,
                         OrganizationId = organization.OrganizationId,
@@ -96,7 +91,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .ReturnsAsync(gridAreas.ToList);
 
             // Act
-            var actual = await BffClient.GetAsync(GetFilteredActorsUrl);
+            var actual = await Client.GetAsync(GetFilteredActorsUrl);
 
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -110,7 +105,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         public async Task GetFilteredActors_IsFas_ReturnsAllActors(OrganizationDto organization, ActorDto actor, Guid actorId)
         {
             // Arrange
-            JwtAuthenticationServiceMock.AddAuthorizationHeader(BffClient, actorId, new Claim("membership", "fas"));
+            JwtAuthenticationServiceMock.AddAuthorizationHeader(Client, actorId, new Claim("membership", "fas"));
 
             var organizations = new List<OrganizationDto>
             {
@@ -119,7 +114,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
             var actors = new List<ActorDto>
             {
-                new ActorDto()
+                new()
                     {
                         ActorId = actorId,
                         OrganizationId = organization.OrganizationId,
@@ -158,7 +153,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .ReturnsAsync(gridAreas.ToList);
 
             // Act
-            var actual = await BffClient.GetAsync(GetFilteredActorsUrl);
+            var actual = await Client.GetAsync(GetFilteredActorsUrl);
 
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -170,10 +165,10 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             actualIds.Should().BeEquivalentTo(expected);
         }
 
-        private static WebApiFactory InstallServiceMock(WebApiFactory webApiFactory)
+        protected override void ConfigureMocks(IServiceCollection services)
         {
-            webApiFactory.AddServiceMock(new JwtAuthenticationServiceMock());
-            return webApiFactory;
+            JwtAuthenticationServiceMock.ConfigureServices(services);
+            services.AddTransient(_ => MarketParticipantClientMock.Object);
         }
     }
 }

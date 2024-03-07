@@ -13,33 +13,34 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
+using Energinet.DataHub.Core.FunctionApp.TestCommon.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures
 {
     public class WebApiFactory : WebApplicationFactory<Startup>
     {
-        private readonly List<IServiceMock> _serviceMocks = new();
+        public Action<IServiceCollection>? ConfigureTestServices { private get; set; }
 
-        public void AddServiceMock(IServiceMock serviceMock)
-        {
-            _serviceMocks.Add(serviceMock);
-        }
+        public IntegrationTestConfiguration IntegrationTestConfiguration { get; } = new();
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
+            Environment.SetEnvironmentVariable("ApiClientSettings__ChargesBaseUrl", "http://localhost:8080/charges");
+            Environment.SetEnvironmentVariable("ApiClientSettings__MessageArchiveBaseUrl", "http://localhost:8080/messagearchive");
+            Environment.SetEnvironmentVariable("ApiClientSettings__MarketParticipantBaseUrl", "http://localhost:8080/marketparticipant");
+            Environment.SetEnvironmentVariable("ApiClientSettings__WholesaleBaseUrl", "http://localhost:8080/wholesale");
+            Environment.SetEnvironmentVariable("ApiClientSettings__ESettExchangeBaseUrl", "http://localhost:8080/esett");
+            Environment.SetEnvironmentVariable("ApiClientSettings__EdiB2CWebApiBaseUrl", "http://localhost:8080/edib2capi");
 
-            // This can be used for changing registrations in the container (e.g. for mocks).
-            builder.ConfigureServices(services =>
-            {
-                _serviceMocks.ForEach(mock => mock.ConfigureServices(services));
-            });
+            // These values are required Startup.cs configuration, but the actual token validation is mocked.
+            Environment.SetEnvironmentVariable("EXTERNAL_OPEN_ID_URL", "http://localhost:8080/");
+            Environment.SetEnvironmentVariable("BACKEND_BFF_APP_ID", "00000000-0000-0000-0000-000000000000");
+            Environment.SetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING", IntegrationTestConfiguration.ApplicationInsightsConnectionString);
+
+            builder.ConfigureServices(services => ConfigureTestServices?.Invoke(services));
         }
     }
 }

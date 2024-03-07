@@ -29,7 +29,7 @@ using Xunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration
 {
-    public class TelemetryTests(BjhWebApiFactory factory) : BjhWebApiTestBase(factory)
+    public class TelemetryTests(WebApiFactory factory) : WebApiTestBase(factory)
     {
         private LogsQueryClient LogsQueryClient { get; } = new(new DefaultAzureCredential());
 
