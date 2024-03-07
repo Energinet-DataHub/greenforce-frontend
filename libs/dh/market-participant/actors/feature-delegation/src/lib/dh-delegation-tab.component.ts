@@ -18,6 +18,8 @@ import { Component, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { StronglyTypedDialog, WattModalService } from '@energinet-datahub/watt/modal';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
