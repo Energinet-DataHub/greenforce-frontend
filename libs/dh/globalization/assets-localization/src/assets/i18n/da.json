@@ -161,7 +161,16 @@
       "incomingMessages": "Indgående meddelelser",
       "emptyTitle": "Ingen delegering",
       "emptyMessage": "Deleger udgående eller indgående meddelelser til en måleoperatør",
-      "emptyStateSetUpDelegation": "Opsæt delegering for meddelelser"
+      "emptyStateSetUpDelegation": "Opsæt delegering for meddelelser",
+      "messageTypes": {
+        "RSM012_INBOUND": "Fremsend måledata for et målepunkt (RSM-012)",
+        "RSM014_INBOUND": "Fremsend beregnede tidsserier (RSM-014)",
+        "RSM016_INBOUND": "Anmod om aggregerede måledata (RSM-016)",
+        "RSM016_OUTBOUND": "Anmod om aggregerede måledata (RSM-016)",
+        "RSM017_INBOUND": "Anmod om engrosydelser (RSM-017)",
+        "RSM017_OUTBOUND": "Anmod om engrosydelser (RSM-017)",
+        "RSM019_INBOUND": "Fremsend beregnede engrosydelser (RSM-019)"
+      }
     },
     "market_participant": {
       "error_fallback": "Computeren blev bedt om at udføre en handling, men gjorde det ikke. Årsagen var: {{ message }}",

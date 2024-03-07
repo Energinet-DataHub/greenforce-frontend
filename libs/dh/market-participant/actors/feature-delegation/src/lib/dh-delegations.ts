@@ -28,8 +28,8 @@ export type DhDelegation = ResultOf<
 export type DhDelegations = DhDelegation[];
 
 export type DhDelegationsByType = {
-  type?: DelegationMessageType;
-  delegations?: DhDelegations;
+  type: DelegationMessageType;
+  delegations: DhDelegations;
 };
 
 export type DhDelegationsByDirection = Record<'outgoing' | 'incoming', DhDelegations>;

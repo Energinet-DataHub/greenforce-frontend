@@ -53,7 +53,9 @@ import { DhDelegationsByType } from '../dh-delegations';
 
           @for (entry of outgoing(); track $index) {
             <watt-expandable-card togglePosition="before" variant="solid">
-              <watt-expandable-card-title>{{ entry.type }}</watt-expandable-card-title>
+              <watt-expandable-card-title>{{
+                t('messageTypes.' + entry.type)
+              }}</watt-expandable-card-title>
             </watt-expandable-card>
           }
         </watt-expandable-card>
@@ -65,7 +67,9 @@ import { DhDelegationsByType } from '../dh-delegations';
 
           @for (entry of incoming(); track $index) {
             <watt-expandable-card togglePosition="before" variant="solid">
-              <watt-expandable-card-title>{{ entry.type }}</watt-expandable-card-title>
+              <watt-expandable-card-title>{{
+                t('messageTypes.' + entry.type)
+              }}</watt-expandable-card-title>
             </watt-expandable-card>
           }
         </watt-expandable-card>
