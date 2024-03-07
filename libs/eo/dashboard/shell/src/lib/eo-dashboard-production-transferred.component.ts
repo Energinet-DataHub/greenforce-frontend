@@ -28,6 +28,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
 import { TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -44,11 +45,12 @@ import {
   findNearestUnit,
   fromWh,
 } from '@energinet-datahub/eo/shared/utilities';
-import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
-
 import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
-import { EoLottieComponent } from './eo-lottie.component';
+import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
 import { graphLoader } from '@energinet-datahub/eo/shared/assets';
+import { translations } from '@energinet-datahub/eo/translations';
+
+import { EoLottieComponent } from './eo-lottie.component';
 
 interface Totals {
   transferred: number;
@@ -74,6 +76,7 @@ interface Totals {
     EoLottieComponent,
     TitleCasePipe,
     WattTooltipDirective,
+    TranslocoPipe,
   ],
   providers: [EnergyUnitPipe],
   selector: 'eo-dashboard-production-transferred',
@@ -157,12 +160,12 @@ interface Totals {
   ],
   template: `<watt-card>
     <watt-card-title>
-      <h4>Overview</h4>
+      <h4>{{ translations.producerChart.title | transloco }}</h4>
       <watt-icon
         name="info"
         state="default"
         size="s"
-        wattTooltip="Only active metering points"
+        [wattTooltip]="translations.producerChart.titleTooltip | transloco"
         wattTooltipPosition="right"
       />
     </watt-card-title>
@@ -176,10 +179,12 @@ interface Totals {
           <watt-empty-state
             data-testid="error"
             icon="custom-power"
-            title="An unexpected error occured"
-            message="Try again or contact your system administrator if you keep getting this error."
+            [title]="translations.producerChart.error.title | transloco"
+            [message]="translations.producerChart.error.message | transloco"
           >
-            <watt-button variant="primary" size="normal" (click)="getData()">Reload</watt-button>
+            <watt-button variant="primary" size="normal" (click)="getData()">{{
+              translations.producerChart.error.retry | transloco
+            }}</watt-button>
           </watt-empty-state>
         }
       </div>
@@ -189,17 +194,30 @@ interface Totals {
       <div>
         @if (totals.production > 0 || isLoading) {
           <h5 data-testid="headline">
-            {{ totals.transferred | percentageOf: totals.production }} transferred
+            {{
+              translations.producerChart.headline.default
+                | transloco
+                  : {
+                      transferredInPercentage: totals.transferred | percentageOf: totals.production
+                    }
+            }}
+          </h5>
+          <small>{{
+            translations.producerChart.subHeadline
+              | transloco
+                : {
+                    totalTransferred: totals.transferred | energyUnit,
+                    totalProduced: totals.production | energyUnit
+                  }
+          }}</small>
+        } @else {
+          <h5 data-testid="no-data">
+            {{ translations.producerChart.headline.noData | transloco }}
           </h5>
           <small
-            >{{ totals.transferred | energyUnit }} of {{ totals.production | energyUnit }} certified
-            green production was transferred</small
-          >
-        } @else {
-          <h5 data-testid="no-data">No data</h5>
-          <small
             ><a [routerLink]="'../' + routes.meteringpoints"
-              >Activate metering points <watt-icon name="openInNew" size="xs" /></a
+              >{{ translations.producerChart.activateMeteringPointsAction | transloco }}
+              <watt-icon name="openInNew" size="xs" /></a
           ></small>
         }
       </div>
@@ -211,11 +229,10 @@ interface Totals {
           <li class="legend-item">
             <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
             @if (item.label) {
-              <span class="legend-label" [attr.data-testid]="item.label + '-legend'"
-                >{{ item.label | titlecase }} ({{
-                  totals[item.label] | percentageOf: totals.production
-                }})</span
-              >
+              <span class="legend-label" [attr.data-testid]="item.label + '-legend'">{{
+                legends[item.label]
+                  | transloco: { percentage: totals[item.label] | percentageOf: totals.production }
+              }}</span>
             }
           </li>
         }
@@ -238,10 +255,12 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
   @Input() period!: eoDashboardPeriod;
 
   private cd = inject(ChangeDetectorRef);
+  private transloco = inject(TranslocoService);
   private aggregateService = inject(EoAggregateService);
 
   private labels = this.generateLabels();
 
+  protected translations = translations;
   protected currentTimestamp: string = new Date().toISOString();
   protected currentTimezone: string = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -254,6 +273,7 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
 
   protected routes = eoRoutes;
 
+  protected legends: { [key: string]: string } = translations.producerChart.legends;
   protected lottieAnimation = graphLoader;
   protected isLoading = false;
   protected hasError = false;
@@ -394,8 +414,10 @@ export class EoDashboardProductionTransferredComponent implements OnChanges {
                 amount = certificates[context.dataIndex];
               }
 
-              const unit = findNearestUnit(amount)[1];
-              return `${fromWh(amount, unit).toFixed(2)} ${unit} ${type}`;
+              return this.transloco.translate('producerChart.tooltips.' + type, {
+                amount: fromWh(amount, unit).toFixed(2),
+                unit: findNearestUnit(amount)[1],
+              });
             },
           },
         },

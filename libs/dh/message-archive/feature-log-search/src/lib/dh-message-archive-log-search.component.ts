@@ -29,18 +29,15 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import {
-  danishTimeZoneIdentifier,
-  WattDatepickerComponent,
-} from '@energinet-datahub/watt/datepicker';
-import { WattDateRange } from '@energinet-datahub/watt/date';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDateRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import { zonedTimeToUtc } from 'date-fns-tz';
+
 import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-message-archive-log-search-result.component';
 
 @Component({
@@ -172,8 +169,12 @@ export class DhMessageArchiveLogSearchComponent {
       includeRelated,
     } = this.searchForm.value;
 
-    const dateTimeFrom = zonedTimeToUtc(dateRange?.start ?? '', danishTimeZoneIdentifier);
-    const dateTimeTo = zonedTimeToUtc(dateRange?.end ?? '', danishTimeZoneIdentifier);
+    const dateTimeFrom = dayjs(dateRange?.start ?? '')
+      .utc()
+      .toDate();
+    const dateTimeTo = dayjs(dateRange?.end ?? '')
+      .utc()
+      .toDate();
 
     this.setRanges(timeRange, dateRange, dateTimeFrom, dateTimeTo);
 

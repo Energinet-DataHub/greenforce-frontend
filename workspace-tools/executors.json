@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "generate-translation-keys": {
+      "implementation": "./src/executors/generate-translation-keys/executor",
+      "schema": "./src/executors/generate-translation-keys/schema.json",
+      "description": "generate-translation-keys executor"
+    }
+  }
+}

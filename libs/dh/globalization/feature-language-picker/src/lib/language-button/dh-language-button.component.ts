@@ -25,7 +25,7 @@ import {
 } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
-import { DisplayLanguage, displayLanguages } from '@energinet-datahub/dh/globalization/domain';
+import { DisplayLanguage, displayLanguages } from '@energinet-datahub/gf/globalization/domain';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

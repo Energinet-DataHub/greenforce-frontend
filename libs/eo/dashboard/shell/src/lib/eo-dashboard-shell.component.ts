@@ -37,6 +37,8 @@ import { EoDashboardConsumptionComponent } from './eo-dashboard-consumption.comp
 import { EoDashboardProductionTransferredComponent } from './eo-dashboard-production-transferred.component';
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
+import { TranslocoPipe } from '@ngneat/transloco';
+import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -81,6 +83,7 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
     WattEmptyStateComponent,
     WattTabsComponent,
     WattTabComponent,
+    TranslocoPipe,
   ],
   selector: 'eo-dashboard-shell',
   template: `
@@ -88,7 +91,10 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
       @if (((productionAndConsumptionMeteringPoints$ | async) || []).length > 0) {
         <watt-tabs variant="secondary">
           @if (((productionMeteringPoints$ | async) || []).length > 0) {
-            <watt-tab label="Production" (changed)="activeTab = 'production'">
+            <watt-tab
+              [label]="translations.dashboard.tabs.producer | transloco"
+              (changed)="activeTab = 'production'"
+            >
               @if (activeTab === 'production') {
                 <eo-dashboard-production-transferred [period]="period()" />
               }
@@ -96,7 +102,10 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
           }
 
           @if (((consumptionMeteringPoints$ | async) || []).length > 0) {
-            <watt-tab label="Consumption" (changed)="activeTab = 'consumption'">
+            <watt-tab
+              [label]="translations.dashboard.tabs.consumer | transloco"
+              (changed)="activeTab = 'consumption'"
+            >
               @if (activeTab === 'consumption') {
                 <eo-dashboard-consumption [period]="period()" />
               }
@@ -114,8 +123,8 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
         <watt-empty-state
           data-testid="no-data"
           icon="custom-power"
-          title="No data to visualize"
-          message="We have no data to visualize because you have no production or consumption metering point(s). "
+          [title]="'dashboard.noData.title' | transloco"
+          [message]="'dashboard.noData.message' | transloco"
         />
       }
 
@@ -123,8 +132,8 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
         <watt-empty-state
           data-testid="error"
           icon="custom-power"
-          title="An unexpected error occured"
-          message="Try again by reloading the page or contacting your system administrator if you keep getting this error."
+          [title]="'dashboard.error.title' | transloco"
+          [message]="'dashboard.error.message' | transloco"
         />
       }
     } @else {
@@ -149,6 +158,7 @@ export class EoDashboardShellComponent implements OnInit {
 
   @ViewChildren(WattTabComponent) tabs!: QueryList<WattTabComponent>;
 
+  protected translations = translations;
   protected activeTab = 'production';
 
   ngOnInit(): void {

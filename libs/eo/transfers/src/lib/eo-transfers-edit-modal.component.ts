@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -29,9 +28,11 @@ import {
   signal,
 } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
 import {
@@ -42,38 +43,46 @@ import {
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers-edit-modal',
-  imports: [RxPush, WATT_MODAL, WattValidationMessageComponent, NgIf, EoTransfersFormComponent],
+  imports: [
+    RxPush,
+    WATT_MODAL,
+    WattValidationMessageComponent,
+    EoTransfersFormComponent,
+    TranslocoPipe,
+  ],
   standalone: true,
   template: `
-    <watt-modal
-      #modal
-      title="Edit transfer agreement"
-      size="small"
-      closeLabel="Close modal"
-      [loading]="editTransferAgreementState().loading"
-      (closed)="onClosed()"
-      *ngIf="opened"
-    >
-      <watt-validation-message
-        *ngIf="editTransferAgreementState().error"
-        label="Oops!"
-        message="Something went wrong. Please try again."
-        icon="danger"
-        type="danger"
-        size="compact"
-      />
-
-      <eo-transfers-form
-        submitButtonText="Save"
-        mode="edit"
-        [transferId]="transfer?.id"
-        [transferAgreements]="transferAgreements"
-        [editableFields]="['endDate']"
-        [initialValues]="initialValues"
-        (submitted)="onSubmit($event)"
-        (canceled)="modal.close(false)"
-      />
-    </watt-modal>
+    @if (opened) {
+      <watt-modal
+        #modal
+        [title]="translations.transferAgreementEdit.title | transloco"
+        size="small"
+        [closeLabel]="translations.transferAgreementEdit.closeLabel | transloco"
+        [loading]="editTransferAgreementState().loading"
+        (closed)="onClosed()"
+      >
+        @if (editTransferAgreementState().error) {
+          <watt-validation-message
+            [label]="translations.transferAgreementEdit.error.title | transloco"
+            [message]="translations.transferAgreementEdit.error.message | transloco"
+            icon="danger"
+            type="danger"
+            size="compact"
+          />
+        }
+        <eo-transfers-form
+          [submitButtonText]="translations.transferAgreementEdit.saveChanges | transloco"
+          [cancelButtonText]="translations.transferAgreementEdit.cancel | transloco"
+          mode="edit"
+          [transferId]="transfer?.id"
+          [transferAgreements]="transferAgreements"
+          [editableFields]="['endDate']"
+          [initialValues]="initialValues"
+          (submitted)="onSubmit($event)"
+          (canceled)="modal.close(false)"
+        />
+      </watt-modal>
+    }
   `,
 })
 export class EoTransfersEditModalComponent implements OnChanges {
@@ -84,6 +93,7 @@ export class EoTransfersEditModalComponent implements OnChanges {
 
   @Output() save = new EventEmitter();
 
+  protected translations = translations;
   protected opened = false;
   protected initialValues!: EoTransfersFormInitialValues;
 
@@ -99,7 +109,6 @@ export class EoTransfersEditModalComponent implements OnChanges {
     if (changes['transfer'] && this.transfer) {
       this.initialValues = {
         receiverTin: this.transfer.receiverTin,
-        base64EncodedWalletDepositEndpoint: '***********************************',
         startDate: this.transfer.startDate,
         endDate: this.transfer.endDate,
       };

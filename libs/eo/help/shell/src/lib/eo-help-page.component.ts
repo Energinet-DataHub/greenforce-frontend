@@ -14,63 +14,73 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
+import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterModule],
+  imports: [RouterModule, TranslocoPipe],
   standalone: true,
   selector: 'eo-help-page',
   styles: [
     `
-      a {
-        display: block;
-      }
-
-      li {
+      eo-help-page li {
         margin-bottom: var(--watt-space-m);
       }
     `,
   ],
+  encapsulation: ViewEncapsulation.None,
   template: `
-    <ul>
-      <li><a routerLink="{{ routes.faq }}">FAQ</a></li>
-      <li>
-        <a routerLink="{{ routes.introduction }}">Introduction to Energy Origin (Danish only)</a>
-      </li>
-      <li>
-        <a
-          href="https://ens.dk/en/our-responsibilities/energy-climate-politics"
-          target="_blank"
-          rel="noopener noreferrer"
-          >Danish Energy Agency - Energy and Climate Politics</a
-        >The danish goverment policies around clomate and energy. Where you can read about the
-        danish energy plan for the next 10 years.
-      </li>
-      <li>
-        <a
-          href="https://virksomhedsguiden.dk/content/temaer/groen_omstilling/"
-          target="_blank"
-          rel="noopener noreferrer"
-          >Virksomhedsguiden.dk - Green transition (danish)</a
-        >Describe how companies can become more green, with a lot of instructions and templates.
-      </li>
-      <li>
-        <a href="https://en.energinet.dk/Green-Transition" target="_blank" rel="noopener noreferrer"
-          >Energinet - Green Transition</a
-        >Energinet provide data regarding the transition to a more green energy system in Denmark.
-      </li>
-      <li>
-        <a href="https://www.iea.org/countries/denmark" target="_blank" rel="noopener noreferrer"
-          >IEA - Denmark</a
-        >The International Energy Agency, is committed to shaping a secure and sustainable energy
-        future for all and provide data and comparison on what they different countries are doing.
-      </li>
-    </ul>
+    <div
+      [innerHTML]="
+        translations.help.content
+          | transloco
+            : {
+                faqLink: routes.help + '/' + routes.faq,
+                introductionLink: routes.help + '/' + routes.introduction
+              }
+      "
+    ></div>
   `,
 })
-export class EoHelpPageComponent {
-  routes = eoRoutes;
+export class EoHelpPageComponent implements AfterViewInit {
+  private cd = inject(ChangeDetectorRef);
+  private transloco = inject(TranslocoService);
+  private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
+
+  protected routes = eoRoutes;
+  protected translations = translations;
+
+  ngAfterViewInit(): void {
+    this.transloco
+      .selectTranslate(this.translations.help.content)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.cd.detectChanges();
+
+        const links = document.querySelectorAll('eo-help-page a[class="internal-link"]');
+
+        links.forEach((link) => {
+          link.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            this.router.navigate([link.getAttribute('href')]);
+          });
+        });
+      });
+  }
 }

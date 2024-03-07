@@ -26,7 +26,6 @@ import {
 } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { subYears } from 'date-fns';
 import { catchError, of } from 'rxjs';
 
 import {
@@ -49,7 +48,7 @@ import {
 import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattRange } from '@energinet-datahub/watt/date';
+import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import {
@@ -120,7 +119,7 @@ export class DhWholesaleRequestCalculationComponent {
   private _selectedEicFunction: SelectedEicFunctionType;
 
   maxDate = new Date();
-  minDate = subYears(new Date(), 3);
+  minDate = dayjs().subtract(3, 'years').toDate();
 
   isLoading = false;
 
