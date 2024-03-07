@@ -82,6 +82,7 @@ import { dhGroupDelegations } from './util/dh-group-delegations';
     WattButtonComponent,
     WattSpinnerComponent,
 
+    DhPermissionRequiredDirective,
     DhDelegationsOverviewComponent,
   ],
 })
