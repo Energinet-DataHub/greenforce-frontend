@@ -23,7 +23,7 @@ import {
   DisplayLanguage,
   displayLanguages,
   toDisplayLanguage,
-} from '@energinet-datahub/dh/globalization/domain';
+} from '@energinet-datahub/gf/globalization/domain';
 import { WattLocaleService } from '@energinet-datahub/watt/locale';
 
 import { DhLanguageButtonComponent } from '../language-button/dh-language-button.component';

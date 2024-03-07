@@ -27,15 +27,8 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import {
-  JsonPipe,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-  NgSwitchDefault,
-  NgTemplateOutlet,
-} from '@angular/common';
 import { Router } from '@angular/router';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -44,6 +37,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.service';
 
@@ -52,19 +46,14 @@ import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.
   standalone: true,
   encapsulation: ViewEncapsulation.None,
   imports: [
-    NgIf,
     WATT_MODAL,
     WattButtonComponent,
     WattCopyToClipboardDirective,
     WattEmptyStateComponent,
     VaterStackComponent,
-    NgSwitch,
-    NgSwitchCase,
-    NgSwitchDefault,
-    NgTemplateOutlet,
     WattIconComponent,
     WattDatePipe,
-    JsonPipe,
+    TranslocoPipe,
   ],
   styles: [
     `
@@ -74,6 +63,10 @@ import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.
         align-items: center;
         justify-content: center;
         gap: var(--watt-space-m);
+
+        p {
+          text-align: center;
+        }
       }
 
       .timeframe {
@@ -91,49 +84,69 @@ import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.
     `,
   ],
   template: `
-    <watt-modal
-      #modal
-      title=""
-      [loading]="isLoading()"
-      loadingMessage="Please wait while we load the transfer agreement proposal"
-      closeLabel="Close modal"
-      (closed)="onClosed()"
-      *ngIf="isOpen()"
-    >
-      <div class="transfer-agreement-proposal">
-        <ng-container *ngIf="!hasError(); else invalidProposal">
-          <watt-icon name="markEmailUnread" size="xxl" style="color: var(--watt-color-primary);" />
-          <h3 class="watt-headline-2">Transfer agreement proposal</h3>
-          <p>{{ proposal()?.senderCompanyName }} wants to make a transfer agreement with you.</p>
+    @if (isOpen()) {
+      <watt-modal
+        #modal
+        [title]="translations.respondTransferAgreementProposal.title | transloco"
+        [loading]="isLoading()"
+        [loadingMessage]="translations.respondTransferAgreementProposal.loadingMessage | transloco"
+        [closeLabel]="translations.respondTransferAgreementProposal.closeLabel | transloco"
+        (closed)="onClosed()"
+      >
+        <div class="transfer-agreement-proposal">
+          @if (!hasError()) {
+            <watt-icon
+              name="markEmailUnread"
+              size="xxl"
+              style="color: var(--watt-color-primary);"
+            />
+            <h3 class="watt-headline-2">
+              {{ translations.respondTransferAgreementProposal.success.title | transloco }}
+            </h3>
+            <p>
+              {{
+                translations.respondTransferAgreementProposal.success.message
+                  | transloco: { senderName: proposal()?.senderCompanyName }
+              }}
+            </p>
 
-          <div class="timeframe">
-            <strong class="watt-headline-4">{{ proposal()?.startDate | wattDate: 'long' }}</strong>
-            <watt-icon name="arrowRightAlt" />
-            <strong class="watt-headline-4">{{
-              (proposal()?.endDate | wattDate: 'long') ?? 'No end date'
-            }}</strong>
-          </div>
-        </ng-container>
+            <div class="timeframe">
+              <strong class="watt-headline-4">{{
+                proposal()?.startDate | wattDate: 'long'
+              }}</strong>
+              <watt-icon name="arrowRightAlt" />
+              <strong class="watt-headline-4">{{
+                (proposal()?.endDate | wattDate: 'long') ??
+                  translations.respondTransferAgreementProposal.noEndDate | transloco
+              }}</strong>
+            </div>
+          } @else {
+            <watt-icon name="feedback" size="xxl" state="danger" />
+            <h3 class="watt-headline-2">
+              {{ translations.respondTransferAgreementProposal.error.title | transloco }}
+            </h3>
+            <p
+              [innerHTML]="translations.respondTransferAgreementProposal.error.message | transloco"
+            ></p>
+          }
+        </div>
 
-        <ng-template #invalidProposal>
-          <watt-icon name="feedback" size="xxl" state="danger" />
-          <h3 class="watt-headline-2">Invalid transfer agreement proposal</h3>
-          <p>The transfer agreement proposal you just clicked is not valid</p>
-          <p>If this is not what you expected, please contact the sender of the link.</p>
-        </ng-template>
-      </div>
-
-      <watt-modal-actions>
-        <ng-container *ngIf="!hasError(); else invalidActions">
-          <watt-button variant="secondary" (click)="onDecline()"> Decline </watt-button>
-          <watt-button variant="primary" (click)="onAccept()">Accept</watt-button>
-        </ng-container>
-
-        <ng-template #invalidActions>
-          <watt-button variant="primary" (click)="onDecline()">Ok</watt-button>
-        </ng-template>
-      </watt-modal-actions>
-    </watt-modal>
+        <watt-modal-actions>
+          @if (!hasError()) {
+            <watt-button variant="secondary" (click)="onDecline()">{{
+              translations.respondTransferAgreementProposal.success.declineButton | transloco
+            }}</watt-button>
+            <watt-button variant="primary" (click)="onAccept()">{{
+              translations.respondTransferAgreementProposal.success.acceptButton | transloco
+            }}</watt-button>
+          } @else {
+            <watt-button variant="primary" (click)="onDecline()">{{
+              translations.respondTransferAgreementProposal.error.declineButton | transloco
+            }}</watt-button>
+          }
+        </watt-modal-actions>
+      </watt-modal>
+    }
   `,
 })
 export class EoTransfersRespondProposalComponent implements OnChanges {
@@ -145,6 +158,7 @@ export class EoTransfersRespondProposalComponent implements OnChanges {
   private router = inject(Router);
   private transfersService = inject(EoTransfersService);
 
+  protected translations = translations;
   protected isOpen = signal<boolean>(false);
   protected isLoading = signal<boolean>(false);
   protected hasError = signal<boolean>(false);

@@ -570,6 +570,21 @@ namespace Energinet.DataHub.WebApi.GraphQL
             }
         }
 
+        public Task<GetDelegationsForActorResponse> GetGetDelegationsForActorAsync(
+            Guid actorId,
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            return client.ActorDelegationGetAsync(actorId);
+        }
+
+        public Task<CreateActorDelegationResponse> CreateDelegationsForActorAsync(
+            Guid actorId,
+            CreateActorDelegationDto delegationDto,
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            return client.ActorDelegationPostAsync(delegationDto);
+        }
+
         private static Task<GetUserOverviewResponse> GetUserOverviewAsync(IMarketParticipantClient_V1 client)
         {
             return client.UserOverviewUsersSearchAsync(

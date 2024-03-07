@@ -25,22 +25,22 @@ import {
   inject,
   computed,
 } from '@angular/core';
-import { TranslocoDirective, translate } from '@ngneat/transloco';
-import { Apollo } from 'apollo-angular';
-import { format } from 'date-fns';
 import { switchMap } from 'rxjs';
+import { Apollo } from 'apollo-angular';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { dayjs } from '@energinet-datahub/watt/date';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
-import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { ImbalancePricesHttp } from '@energinet-datahub/dh/shared/domain';
 import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { ImbalancePricesHttp } from '@energinet-datahub/dh/shared/domain';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
+import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhImbalancePrice, DhImbalancePricesForMonth } from '../dh-imbalance-prices';
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
@@ -100,6 +100,7 @@ import { dhValueChangeAnimationTrigger } from './dh-value-change-animation-trigg
   ],
   imports: [
     TranslocoDirective,
+    TranslocoPipe,
 
     WATT_DRAWER,
     WattDatePipe,
@@ -118,11 +119,17 @@ export class DhImbalancePricesDrawerComponent {
   private readonly httpClient = inject(ImbalancePricesHttp);
   private readonly apollo = inject(Apollo);
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  private readonly year = computed(() => Number(format(this.imbalancePrice()!.name, 'yyyy')));
+  private readonly yearAndMonth = computed(() => {
+    const imbalancePrice = this.imbalancePrice();
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  private readonly month = computed(() => Number(format(this.imbalancePrice()!.name, 'M')));
+    if (!imbalancePrice) {
+      return { year: 0, month: 0 };
+    }
+
+    const date = dayjs(imbalancePrice.name);
+
+    return { year: date.get('year'), month: date.get('month') + 1 };
+  });
 
   imbalancePrice = input<DhImbalancePrice>();
 
@@ -163,13 +170,14 @@ export class DhImbalancePricesDrawerComponent {
     });
 
     const fileOptions = {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      name: 'imbalance-prices-' + format(this.imbalancePrice()!.name, 'MMMM-yyyy'),
+      name: 'imbalance-prices-' + dayjs(this.imbalancePrice()?.name).format('MMMM YYYY'),
       type: 'text/csv',
     };
 
+    const { year, month } = this.yearAndMonth();
+
     this.httpClient
-      .v1ImbalancePricesDownloadImbalanceCSVGet(this.month(), this.year())
+      .v1ImbalancePricesDownloadImbalanceCSVGet(month, year)
       .pipe(switchMap(streamToFile(fileOptions)))
       .subscribe({
         complete: () => this.toastService.dismiss(),
@@ -186,15 +194,20 @@ export class DhImbalancePricesDrawerComponent {
     this.isLoading.set(true);
     this.imbalancePricesForMonth.set([]);
 
+    const imbalancePrice = this.imbalancePrice();
+
+    if (!imbalancePrice) return;
+
+    const { year, month } = this.yearAndMonth();
+
     return this.apollo
       .query({
         notifyOnNetworkStatusChange: true,
         query: GetImbalancePricesMonthOverviewDocument,
         variables: {
-          year: this.year(),
-          month: this.month(),
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          areaCode: this.imbalancePrice()!.priceAreaCode,
+          year,
+          month,
+          areaCode: imbalancePrice.priceAreaCode,
         },
       })
       .subscribe({

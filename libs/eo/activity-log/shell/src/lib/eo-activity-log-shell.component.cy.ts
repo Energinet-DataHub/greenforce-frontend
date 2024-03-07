@@ -19,8 +19,9 @@ import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { endOfToday, format } from 'date-fns';
 
+import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
-import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
+import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 
 import { EoActivityLogShellComponent } from './eo-activity-log-shell.component';
 
@@ -45,7 +46,7 @@ const formattedLogEntries = [
   'ORGANIZATION_NAME (11223344) has accepted the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'ORGANIZATION_NAME (11223344) has created a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'System has activated the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
-  'ORGANIZATION_NAME (11223344) has deactivated or changed the end date of the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has changed the end date of the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'ORGANIZATION_NAME (11223344) has accepted the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'ORGANIZATION_NAME (11223344) has activated the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'System has expired the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
@@ -56,7 +57,7 @@ const formattedLogEntries = [
   'System has expired the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'System has activated the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'ORGANIZATION_NAME (11223344) has activated the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
-  'System has deactivated or changed the end date of the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has changed the end date of the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'System has expired the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'System has accepted the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'System has created a proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
@@ -71,13 +72,13 @@ const formattedLogEntries = [
   'System has deactivated the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'System has activated the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'ORGANIZATION_NAME (11223344) has declined the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
-  'ORGANIZATION_NAME (11223344) has deactivated or changed the end date of the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'ORGANIZATION_NAME (11223344) has changed the end date of the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'ORGANIZATION_NAME (11223344) has activated the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'ORGANIZATION_NAME (11223344) has expired the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'System has declined the metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'System has declined the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'System has accepted the proposal of a transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
-  'System has deactivated or changed the end date of the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
+  'System has changed the end date of the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'ORGANIZATION_NAME (11223344) has created a metering point with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
   'ORGANIZATION_NAME (11223344) has declined the transfer agreement with ID c4f0a4e6-5d9a-40a1-98e1-3ea822a501fd',
 ];
@@ -112,6 +113,7 @@ describe('EO - Activity Log', () => {
         provideRouter([], withComponentInputBinding()),
         danishLocalProviders,
         danishDatetimeProviders,
+        ...translocoProviders,
       ],
     });
 

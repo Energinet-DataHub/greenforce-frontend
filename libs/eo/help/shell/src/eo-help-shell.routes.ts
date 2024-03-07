@@ -15,7 +15,10 @@
  * limitations under the License.
  */
 import { Routes } from '@angular/router';
+
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
+import { translations } from '@energinet-datahub/eo/translations';
+
 import { EoFaqPageComponent } from './lib/eo-faq-page.component';
 import { EoGeographyPageComponent } from './lib/eo-geography-page.component';
 import { EoHelpPageComponent } from './lib/eo-help-page.component';
@@ -23,8 +26,8 @@ import { EoIntroductionPageComponent } from './lib/eo-introduction-page.componen
 import { EoSimultaneityPageComponent } from './lib/eo-simultaneity-page.component';
 
 export const eoHelpRoutes: Routes = [
-  { path: '', component: EoHelpPageComponent, title: 'Help' },
-  { path: eoRoutes.faq, component: EoFaqPageComponent, title: 'FAQ' },
+  { path: '', component: EoHelpPageComponent, title: translations.help.title },
+  { path: eoRoutes.faq, component: EoFaqPageComponent, title: translations.faq.title },
   {
     path: eoRoutes.introduction,
     component: EoIntroductionPageComponent,

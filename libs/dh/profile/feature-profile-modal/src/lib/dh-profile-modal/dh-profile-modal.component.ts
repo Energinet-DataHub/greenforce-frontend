@@ -29,7 +29,7 @@ import {
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
+import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';

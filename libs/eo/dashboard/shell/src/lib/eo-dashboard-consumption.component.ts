@@ -28,6 +28,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
 import { TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -45,8 +46,10 @@ import {
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
 import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
-import { EoLottieComponent } from './eo-lottie.component';
 import { graphLoader } from '@energinet-datahub/eo/shared/assets';
+import { translations } from '@energinet-datahub/eo/translations';
+
+import { EoLottieComponent } from './eo-lottie.component';
 
 interface Totals {
   green: number;
@@ -71,6 +74,7 @@ interface Totals {
     EoLottieComponent,
     TitleCasePipe,
     WattTooltipDirective,
+    TranslocoPipe,
   ],
   providers: [EnergyUnitPipe],
   selector: 'eo-dashboard-consumption',
@@ -158,12 +162,12 @@ interface Totals {
   ],
   template: `<watt-card>
     <watt-card-title>
-      <h4>Overview</h4>
+      <h4>{{ translations.consumerChart.title | transloco }}</h4>
       <watt-icon
         name="info"
         state="default"
         size="s"
-        wattTooltip="Only active metering points"
+        [wattTooltip]="translations.consumerChart.titleTooltip | transloco"
         wattTooltipPosition="right"
       />
     </watt-card-title>
@@ -178,10 +182,12 @@ interface Totals {
           <watt-empty-state
             data-testid="error"
             icon="custom-power"
-            title="An unexpected error occured"
-            message="Try again or contact your system administrator if you keep getting this error."
+            [title]="translations.consumerChart.error.title | transloco"
+            [message]="translations.consumerChart.error.message | transloco"
           >
-            <watt-button variant="primary" size="normal" (click)="getData()">Reload</watt-button>
+            <watt-button variant="primary" size="normal" (click)="getData()">{{
+              translations.consumerChart.error.retry | transloco
+            }}</watt-button>
           </watt-empty-state>
         }
       </div>
@@ -191,17 +197,30 @@ interface Totals {
       <div>
         @if (totals.consumption > 0 || isLoading) {
           <h5 data-testid="headline">
-            {{ totals.green | percentageOf: totals.consumption }} green energy
+            {{
+              translations.consumerChart.headline.default
+                | transloco
+                  : {
+                      greenEnergyInPercentage: totals.green | percentageOf: totals.consumption
+                    }
+            }}
+          </h5>
+          <small>{{
+            translations.consumerChart.subHeadline
+              | transloco
+                : {
+                    greenConsumption: totals.green | energyUnit,
+                    totalComsumption: totals.consumption | energyUnit
+                  }
+          }}</small>
+        } @else {
+          <h5 data-testid="no-data">
+            {{ translations.consumerChart.headline.noData | transloco }}
           </h5>
           <small
-            >{{ totals.green | energyUnit }} of {{ totals.consumption | energyUnit }} is certified
-            green energy</small
-          >
-        } @else {
-          <h5 data-testid="no-data">No data</h5>
-          <small
             ><a [routerLink]="'../' + routes.meteringpoints"
-              >Activate metering points <watt-icon name="openInNew" size="xs" /></a
+              >{{ translations.consumerChart.activateMeteringPointsAction | transloco
+              }}<watt-icon name="openInNew" size="xs" /></a
           ></small>
         }
       </div>
@@ -213,11 +232,10 @@ interface Totals {
           <li class="legend-item">
             <span class="legend-color" [style.background-color]="item.backgroundColor"></span>
             @if (item.label) {
-              <span class="legend-label" [attr.data-testid]="item.label + '-legend'"
-                >{{ item.label | titlecase }} ({{
-                  totals[item.label] | percentageOf: totals.consumption
-                }})</span
-              >
+              <span class="legend-label" [attr.data-testid]="item.label + '-legend'">{{
+                legends[item.label]
+                  | transloco: { percentage: totals[item.label] | percentageOf: totals.consumption }
+              }}</span>
             }
           </li>
         }
@@ -240,10 +258,12 @@ export class EoDashboardConsumptionComponent implements OnChanges {
   @Input() period!: eoDashboardPeriod;
 
   private cd = inject(ChangeDetectorRef);
+  private transloco = inject(TranslocoService);
   private aggregateService: EoAggregateService = inject(EoAggregateService);
 
   private labels = this.generateLabels();
 
+  protected translations = translations;
   protected totals: Totals = {
     green: 0,
     other: 0,
@@ -252,6 +272,7 @@ export class EoDashboardConsumptionComponent implements OnChanges {
 
   protected routes = eoRoutes;
 
+  protected legends: { [key: string]: string } = translations.consumerChart.legends;
   protected lottieAnimation = graphLoader;
   protected isLoading = false;
   protected hasError = false;
@@ -352,8 +373,11 @@ export class EoDashboardConsumptionComponent implements OnChanges {
             tooltip: {
               callbacks: {
                 label: (context) => {
-                  const text = context.dataset.label;
-                  return `${Number(context.parsed.y).toFixed(2)} ${unit} ${text?.toLowerCase()}`;
+                  const type = context.dataset.label?.toLocaleLowerCase();
+                  return this.transloco.translate('consumerChart.tooltips.' + type, {
+                    amount: Number(context.parsed.y).toFixed(2),
+                    unit,
+                  });
                 },
               },
             },

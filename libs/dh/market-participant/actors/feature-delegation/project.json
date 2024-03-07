@@ -1,0 +1,8 @@
+{
+  "name": "dh-market-participant-actors-feature-delegation",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/market-participant/actors/feature-delegation/src",
+  "prefix": "dh",
+  "projectType": "library",
+  "tags": ["product:dh", "domain:market-participant", "type:feature"]
+}

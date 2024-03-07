@@ -18,18 +18,27 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { map, tap } from 'rxjs';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [EnergyUnitPipe, EoStackComponent, NgIf, RouterModule, WATT_CARD, WattDatePipe],
+  imports: [
+    EnergyUnitPipe,
+    EoStackComponent,
+    NgIf,
+    RouterModule,
+    WATT_CARD,
+    WattDatePipe,
+    TranslocoPipe,
+  ],
   standalone: true,
   styles: [
     `
@@ -63,19 +72,21 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-
       <eo-stack size="M">
         <watt-card>
           <watt-card-title
-            ><h4><b>Static Data</b></h4></watt-card-title
+            ><h4>
+              <b>{{ translations.certificateDetails.staticDataHeadline | transloco }}</b>
+            </h4></watt-card-title
           >
           <eo-stack size="M">
             <div class="grid-table">
-              <b>Energy</b>
+              <b>{{ translations.certificateDetails.energyLabel | transloco }}</b>
               <div>{{ cert?.quantity | energyUnit }}</div>
-              <b>Start time</b>
+              <b>{{ translations.certificateDetails.startTimeLabel | transloco }}</b>
               <div>{{ cert?.start | wattDate: 'longAbbr' }}</div>
-              <b>Start time</b>
+              <b>{{ translations.certificateDetails.endTimeLabel | transloco }}</b>
               <div>{{ cert?.end | wattDate: 'longAbbr' }}</div>
-              <b>GSRN</b>
+              <b>{{ translations.certificateDetails.gsrnLabel | transloco }}</b>
               <div>{{ cert?.attributes?.assetId }}</div>
-              <b>Certificate ID</b>
+              <b>{{ translations.certificateDetails.certificateIdLabel | transloco }}</b>
               <div>{{ cert?.federatedStreamId?.streamId }}</div>
             </div>
           </eo-stack>
@@ -83,11 +94,13 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-
         <watt-card>
           <div class="space-between">
             <eo-stack size="M">
-              <h4><b>Technology</b></h4>
+              <h4>
+                <b>{{ translations.certificateDetails.technologyHeadline | transloco }}</b>
+              </h4>
               <div class="grid-table">
-                <b>Technology Code</b>
+                <b>{{ translations.certificateDetails.technologyCodeLabel | transloco }}</b>
                 <div>{{ cert?.attributes?.techCode }}</div>
-                <b>Fuel Code</b>
+                <b>{{ translations.certificateDetails.fuelCodeLabel | transloco }}</b>
                 <div>{{ cert?.attributes?.fuelCode }}</div>
               </div>
             </eo-stack>
@@ -99,13 +112,17 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-
           </div>
         </watt-card>
         <h4>
-          <a class="link" routerLink="/${eoCertificatesRoutePath}"> << Back to Certificates </a>
+          <a class="link" routerLink="/${eoCertificatesRoutePath}">{{
+            translations.certificateDetails.backToCertificatesLink | transloco
+          }}</a>
         </h4>
       </eo-stack>
       <eo-stack size="M">
         <watt-card>
           <eo-stack size="M">
-            <h4><b>Bidding Zone</b></h4>
+            <h4>
+              <b>{{ translations.certificateDetails.biddingZoneHeadline | transloco }}</b>
+            </h4>
             <p>
               <b>{{ cert?.gridArea }}</b>
             </p>
@@ -124,6 +141,8 @@ export class EoCertificateDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private certificatesService: EoCertificatesService = inject(EoCertificatesService);
+
+  protected translations = translations;
 
   certificate = signal<EoCertificate | undefined>(undefined);
 

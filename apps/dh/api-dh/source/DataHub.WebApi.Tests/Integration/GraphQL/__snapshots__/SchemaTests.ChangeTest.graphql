@@ -35,6 +35,24 @@ type ActorContactDto {
   phone: String
 }
 
+type ActorDelegationDto {
+  id: ActorDelegationId!
+  delegatedBy: ActorId!
+  delegatedTo: ActorId!
+  gridAreas: [GridAreaCode!]!
+  messageType: DelegationMessageType!
+  createdAt: DateTime!
+  expiresAt: DateTime
+}
+
+type ActorDelegationId {
+  value: UUID!
+}
+
+type ActorId {
+  value: UUID!
+}
+
 type ActorNameDto {
   value: String!
 }
@@ -107,6 +125,10 @@ type Calculation {
   calculationType: CalculationType!
 }
 
+type CreateActorDelegationResponse {
+  delegation: ActorDelegationDto!
+}
+
 type CreateAggregatedMeasureDataRequestPayload {
   boolean: Boolean
 }
@@ -149,10 +171,18 @@ type ExchangeEventStatusReportResponse {
   waitingForExternalResponse: Int!
 }
 
+type GetDelegationsForActorResponse {
+  delegations: [ActorDelegationDto!]!
+}
+
 type GetUserProfileResponse {
   firstName: String!
   lastName: String!
   phoneNumber: String!
+}
+
+type GridAreaCode {
+  value: String!
 }
 
 type GridAreaDto {
@@ -323,6 +353,8 @@ type Query {
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   userProfile: GetUserProfileResponse!
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
+  getDelegationsForActor(actorId: UUID!): GetDelegationsForActorResponse!
+  createDelegationsForActor(actorId: UUID! delegationDto: CreateActorDelegationDtoInput!): CreateActorDelegationResponse!
 }
 
 type ReadinessStatusDto {
@@ -435,6 +467,15 @@ input CreateActorContactDtoInput {
   category: ContactCategory!
   email: String!
   phone: String
+}
+
+input CreateActorDelegationDtoInput {
+  delegatedFrom: UUID!
+  delegatedTo: UUID!
+  gridAreas: [String!]!
+  messageType: DelegationMessageType!
+  createdAt: DateTime!
+  expiresAt: DateTime
 }
 
 input CreateActorDtoInput {
@@ -562,6 +603,16 @@ enum ContactCategory {
   REMINDER
 }
 
+enum DelegationMessageType {
+  RSM012_INBOUND
+  RSM014_INBOUND
+  RSM016_INBOUND
+  RSM016_OUTBOUND
+  RSM017_INBOUND
+  RSM017_OUTBOUND
+  RSM019_INBOUND
+}
+
 enum DocumentStatus {
   RECEIVED
   AWAITING_DISPATCH
@@ -602,6 +653,7 @@ enum EicFunction {
   DataHubAdministrator
   IndependentAggregator
   SerialEnergyTrader
+  Delegated
 }
 
 enum ExchangeEventCalculationType {
