@@ -56,6 +56,7 @@ export class StorybookColorsOverviewComponent {
       colors: [
         this.getColor('primary', WattColor.primary),
         this.getColor('primary-dark', WattColor.primaryDark),
+        this.getColor('primary-darker', WattColor.primaryDarker),
         this.getColor('primary-light', WattColor.primaryLight),
         this.getColor('primary-ultralight', WattColor.primaryUltralight),
       ],
