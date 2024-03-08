@@ -168,7 +168,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         protected override void ConfigureMocks(IServiceCollection services)
         {
             JwtAuthenticationServiceMock.ConfigureServices(services);
-            services.AddTransient(_ => MarketParticipantClientMock.Object);
+            services.AddSingleton(MarketParticipantClientMock.Object);
         }
     }
 }
