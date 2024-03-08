@@ -27,7 +27,7 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { DhMarketParticipantActorsEditActorDataAccessApiStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 
-import { DhActorExtended } from '../dh-actor';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 
 @Component({
