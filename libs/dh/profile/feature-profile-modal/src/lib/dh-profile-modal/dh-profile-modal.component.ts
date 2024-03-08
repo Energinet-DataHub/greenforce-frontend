@@ -17,7 +17,6 @@
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { Component, ViewChild, inject, signal } from '@angular/core';
 import { Apollo, ApolloModule, MutationResult } from 'apollo-angular';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   FormControl,
   FormGroup,
@@ -31,7 +30,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhSignupMitIdComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -94,12 +93,11 @@ type UserPreferencesForm = FormGroup<{
   `,
   templateUrl: './dh-profile-modal.component.html',
 })
-export class DhProfileModalComponent {
+export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
   private readonly _formBuilder = inject(NonNullableFormBuilder);
   private readonly _toastService = inject(WattToastService);
   private readonly _languageService = inject(DhLanguageService);
   private readonly _apollo = inject(Apollo);
-  private readonly _modalData = inject(MAT_DIALOG_DATA);
   private readonly _profileModalService = inject(DhProfileModalService);
 
   private readonly _getUserProfileQuery = this._apollo.watchQuery({
@@ -117,7 +115,7 @@ export class DhProfileModalComponent {
   languages: WattDropdownOptions = dhEnumToWattDropdownOptions(DisplayLanguage);
 
   userPreferencesForm: UserPreferencesForm = this._formBuilder.group({
-    email: { value: this._modalData.email, disabled: true },
+    email: { value: this.modalData.email, disabled: true },
     phoneNumber: ['', Validators.required],
     language: [this._languageService.selectedLanguage],
     firstName: ['', Validators.required],
@@ -125,6 +123,7 @@ export class DhProfileModalComponent {
   });
 
   constructor() {
+    super();
     this._getUserProfileQuery.valueChanges.subscribe((result) => {
       this.loadingUserProfile.set(result.loading);
       if (result.data?.userProfile === undefined) return;
