@@ -48,7 +48,7 @@ import { DhDelegationsByType } from '../dh-delegations';
       </vater-stack>
 
       @if (outgoing().length > 0) {
-        <watt-expandable-card togglePosition="before" variant="solid">
+        <watt-expandable-card togglePosition="before" variant="solid" [expanded]="true">
           <watt-expandable-card-title>{{ t('outgoingMessages') }}</watt-expandable-card-title>
 
           @for (entry of outgoing(); track $index) {
@@ -62,7 +62,7 @@ import { DhDelegationsByType } from '../dh-delegations';
       }
 
       @if (incoming().length > 0) {
-        <watt-expandable-card togglePosition="before" variant="solid">
+        <watt-expandable-card togglePosition="before" variant="solid" [expanded]="true">
           <watt-expandable-card-title>{{ t('incomingMessages') }}</watt-expandable-card-title>
 
           @for (entry of incoming(); track $index) {
