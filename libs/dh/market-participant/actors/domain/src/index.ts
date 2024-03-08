@@ -14,23 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { TranslocoDirective } from '@ngneat/transloco';
-
-@Component({
-  selector: 'dh-create-delegation',
-  standalone: true,
-  template: `<watt-modal *transloco="let t; read: 'marketParticipant.delegation'">
-    test
-  </watt-modal>`,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  imports: [WATT_MODAL, TranslocoDirective],
-})
-export class DhDelegationCreateModalComponent extends WattTypedModal {}
+export * from './lib/dh-actor';

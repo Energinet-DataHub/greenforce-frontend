@@ -553,6 +553,65 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "delegationPUT",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdateActorDelegationDto"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdateActorDelegationDto"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdateActorDelegationDto"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateActorDelegationResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateActorDelegationResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateActorDelegationResponse"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/actor/{actorId}/contact": {
@@ -3857,6 +3916,32 @@
         "additionalProperties": false,
         "properties": {
           "token": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateActorDelegationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorDelegationId"
+              }
+            ]
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UpdateActorDelegationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "responseMessage": {
             "type": "string"
           }
         }

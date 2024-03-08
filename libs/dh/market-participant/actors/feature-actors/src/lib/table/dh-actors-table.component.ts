@@ -22,7 +22,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { DhActor } from '../dh-actor';
+import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
 
