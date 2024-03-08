@@ -23,7 +23,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
         protected override void Configure(IObjectTypeDescriptor<CalculationDto> descriptor)
         {
             descriptor
-                .Name("CalculationX")
+                .Name("Calculation")
                 .Description("An immutable calculation.");
 
             descriptor
