@@ -61,7 +61,6 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
         __typename: 'ActorDelegationDto',
         messageType: DelegationMessageType.Rsm017Outbound,
         createdAt: dayjs('2024-03-01T00:00:00+00:00').toDate(),
-        expiresAt: dayjs('2024-03-10T00:00:00+00:00').toDate(),
         delegatedTo: {
           __typename: 'ActorId',
           value: '00000000-0000-0000-0000-000000000003',
