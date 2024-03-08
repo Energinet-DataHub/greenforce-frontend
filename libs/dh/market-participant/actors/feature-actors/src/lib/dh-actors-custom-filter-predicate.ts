@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { AllFiltersCombined } from './actors-filters';
-import { DhActor } from './dh-actor';
+import { DhActor } from '../../../domain/src/lib/dh-actor';
 import { dhParseJSON } from './dh-json-util';
 
 /**

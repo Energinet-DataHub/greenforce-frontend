@@ -95,6 +95,9 @@
       "@energinet-datahub/dh/market-participant/actors/feature-actors": [
         "libs/dh/market-participant/actors/feature-actors/src/index.ts"
       ],
+      "@energinet-datahub/dh/market-participant/actors/domain": [
+        "libs/dh/market-participant/actors/domain/src/index.ts"
+      ],
       "@energinet-datahub/dh/market-participant/actors/feature-delagation": [
         "libs/dh/market-participant/actors/feature-delegation/src/index.ts"
       ],
