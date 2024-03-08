@@ -38,11 +38,7 @@ import { concat, distinctUntilChanged, map, merge, of, switchMap, tap } from 'rx
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import {
-  StronglyTypedWattModal,
-  WATT_MODAL,
-  WattModalComponent,
-} from '@energinet-datahub/watt/modal';
+import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import {
   ContactCategory,
   CreateMarketParticipantDocument,
@@ -83,7 +79,7 @@ import { ActorForm } from './dh-actor-form.model';
     DhNewActorStepComponent,
   ],
 })
-export class DhActorsCreateActorModalComponent extends StronglyTypedWattModal {
+export class DhActorsCreateActorModalComponent {
   private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
   private _toastService = inject(WattToastService);
   private _apollo = inject(Apollo);
@@ -120,7 +116,6 @@ export class DhActorsCreateActorModalComponent extends StronglyTypedWattModal {
   });
 
   constructor() {
-    super();
     this.newOrganizationForm.controls.country.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe((value) => {

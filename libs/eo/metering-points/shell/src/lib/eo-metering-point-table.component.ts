@@ -34,11 +34,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import {
-  StronglyTypedWattModal,
-  WATT_MODAL,
-  WattModalService,
-} from '@energinet-datahub/watt/modal';
+import { WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import {
@@ -69,7 +65,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     </watt-modal>
   `,
 })
-class GranularCertificateHelperComponent extends StronglyTypedWattModal {
+class GranularCertificateHelperComponent {
   protected translations = translations;
 }
 

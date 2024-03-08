@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { StronglyTypedWattModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WATT_DIALOG_DATA, WATT_MODAL, WattDialogRef } from '@energinet-datahub/watt/modal';
 import { Observable, filter, tap } from 'rxjs';
 
 @Component({
@@ -39,14 +39,13 @@ import { Observable, filter, tap } from 'rxjs';
     </watt-modal>
   `,
 })
-export class EoIdleTimerCountdownModalComponent extends StronglyTypedWattModal<{
-  countdown$: Observable<number>;
-}> {
+export class EoIdleTimerCountdownModalComponent {
+  private dialogRef = inject<WattDialogRef<EoIdleTimerCountdownModalComponent>>(WattDialogRef);
+  data: { countdown$: Observable<number> } = inject(WATT_DIALOG_DATA);
   protected countdown$!: Observable<number>;
 
   constructor() {
-    super();
-    this.countdown$ = this.modalData.countdown$.pipe(
+    this.countdown$ = this.data.countdown$.pipe(
       takeUntilDestroyed(),
       tap((x: number) => {
         if (x <= 0) {

@@ -15,83 +15,98 @@
  * limitations under the License.
  */
 import { ComponentType } from '@angular/cdk/portal';
-import { EventEmitter, Injectable, Injector, NgModule, TemplateRef, inject } from '@angular/core';
 import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { map, take } from 'rxjs';
+  DestroyRef,
+  EventEmitter,
+  Injectable,
+  Injector,
+  NgModule,
+  TemplateRef,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { Subject, exhaustMap, ignoreElements, map, mergeWith, of, take, tap } from 'rxjs';
 
-export interface WattModalConfig<T> {
+export interface WattModalConfig {
   templateRef?: TemplateRef<unknown>;
-  component?: ComponentType<StronglyTypedWattModal<T>>;
-  data?: T;
+  component?: ComponentType<unknown>;
+  data?: unknown;
   disableClose?: boolean;
   onClosed?: EventEmitter<boolean> | ((result: boolean) => void);
   minHeight?: string;
   injector?: Injector;
 }
 
-export abstract class StronglyTypedWattModal<T = void> {
-  protected modalData: T = inject(MAT_DIALOG_DATA);
-  protected dialogRef: MatDialogRef<StronglyTypedWattModal<T>> = inject(MatDialogRef);
-}
-
 @Injectable()
 export class WattModalService {
   private readonly dialog = inject(MatDialog);
-  private matDialogRef: MatDialogRef<unknown> | undefined;
+  private readonly destroyRef = inject(DestroyRef);
+
+  private config?: WattModalConfig;
+  private openSubject = new Subject<WattModalConfig>();
+  private closeSubject = new Subject<boolean>();
+
+  constructor() {
+    const result$ = this.openSubject.pipe(
+      exhaustMap((config) => {
+        this.config = config;
+
+        const template = config.templateRef ?? config.component;
+        if (!template) return of(false);
+
+        const dialog = this.dialog.open(template, {
+          autoFocus: 'dialog',
+          panelClass: [
+            'watt-modal-panel',
+            ...(config.component ? ['watt-modal-panel--component'] : []),
+          ],
+          disableClose: config.disableClose ?? false,
+          data: config.data,
+          maxWidth: 'none',
+          injector: config.injector,
+        });
+
+        if (config.minHeight) {
+          setTimeout(() => {
+            document
+              ?.getElementById(dialog.id)
+              ?.querySelector('.watt-modal')
+              ?.setAttribute('style', `--watt-modal-min-height: ${config.minHeight}`);
+          });
+        }
+
+        return this.closeSubject.pipe(
+          tap((result) => dialog.close(result)),
+          ignoreElements(),
+          mergeWith(dialog.afterClosed()),
+          map(Boolean), // backdrop click emits `undefined`
+          take(1)
+        );
+      })
+    );
+
+    result$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
+      this.config?.onClosed instanceof EventEmitter
+        ? this.config?.onClosed.emit(result)
+        : this.config?.onClosed?.(result);
+    });
+  }
 
   /**
    * Opens the modal. Subsequent calls are ignored while the modal is opened.
    * @ignore
    */
-  open = <T>(config: WattModalConfig<T>) => {
-    const template = config.templateRef ?? config.component;
-
-    if (!template) return;
-
-    this.matDialogRef = this.dialog.open(template, {
-      autoFocus: 'dialog',
-      panelClass: [
-        'watt-modal-panel',
-        ...(config.component ? ['watt-modal-panel--component'] : []),
-      ],
-      disableClose: config.disableClose ?? false,
-      data: config.data,
-      maxWidth: 'none',
-      injector: config.injector,
-    });
-
-    this.matDialogRef
-      .afterClosed()
-      .pipe(map(Boolean), take(1))
-      .subscribe((result) => {
-        config?.onClosed instanceof EventEmitter
-          ? config?.onClosed.emit(result)
-          : config?.onClosed?.(result);
-      });
-
-    if (config.minHeight) this.setMinHeight(config.minHeight);
-  };
+  open(config: WattModalConfig) {
+    this.openSubject.next(config);
+  }
 
   /**
    * Closes the modal with `true` for acceptance or `false` for rejection.
    * @ignore
    */
   close(result: boolean) {
-    this.matDialogRef?.close(result);
-  }
-
-  private setMinHeight(minHeight: string) {
-    setTimeout(() => {
-      document
-        ?.getElementById(this.matDialogRef?.id ?? '')
-        ?.querySelector('.watt-modal')
-        ?.setAttribute('style', `--watt-modal-min-height: ${minHeight}`);
-    });
+    this.closeSubject.next(result);
   }
 }
 
