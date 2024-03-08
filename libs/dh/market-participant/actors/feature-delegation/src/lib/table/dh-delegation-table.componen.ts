@@ -54,10 +54,10 @@ import { DhDelegation } from '../dh-delegations';
         </ng-container>
 
         <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let entry">
-          {{ entry.createdAt | wattDate: 'time' }}
+          {{ entry.createdAt | wattDate: 'short' }}
 
           @if (entry.expiresAt) {
-            — {{ entry.expiresAt | wattDate: 'time' }}
+            — {{ entry.expiresAt | wattDate: 'short' }}
           }
         </ng-container>
 
