@@ -22,6 +22,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhDelegationsByType } from '../dh-delegations';
+import { DhDelegationTableComponent } from '../table/dh-delegation-table.componen';
 
 @Component({
   selector: 'dh-delegations-overview',
@@ -33,6 +34,8 @@ import { DhDelegationsByType } from '../dh-delegations';
     VaterStackComponent,
     WattButtonComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
+
+    DhDelegationTableComponent,
   ],
   styles: `
     :host {
@@ -56,6 +59,8 @@ import { DhDelegationsByType } from '../dh-delegations';
               <watt-expandable-card-title>{{
                 t('messageTypes.' + entry.type)
               }}</watt-expandable-card-title>
+
+              <dh-delegation-table [data]="entry.delegations" />
             </watt-expandable-card>
           }
         </watt-expandable-card>
@@ -70,6 +75,8 @@ import { DhDelegationsByType } from '../dh-delegations';
               <watt-expandable-card-title>{{
                 t('messageTypes.' + entry.type)
               }}</watt-expandable-card-title>
+
+              <dh-delegation-table [data]="entry.delegations" />
             </watt-expandable-card>
           }
         </watt-expandable-card>
