@@ -20,7 +20,7 @@ import { RxPush } from '@rx-angular/template/push';
 import { map, take, tap, timer } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { StronglyTypedWattModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 
 @Component({
   selector: 'dh-inactivity-logout',
@@ -40,7 +40,7 @@ import { StronglyTypedWattModal, WATT_MODAL } from '@energinet-datahub/watt/moda
   standalone: true,
   imports: [RxPush, DatePipe, TranslocoModule, WATT_MODAL],
 })
-export class DhInactivityLogoutComponent extends StronglyTypedWattModal {
+export class DhInactivityLogoutComponent extends WattTypedModal {
   private readonly secondsUntilLogOff = 5 * 60;
 
   readonly warningCountdown$ = timer(0, 1000).pipe(

@@ -26,7 +26,7 @@ import { map, take } from 'rxjs';
 
 export interface WattModalConfig<T> {
   templateRef?: TemplateRef<unknown>;
-  component?: ComponentType<StronglyTypedWattModal<T>>;
+  component?: ComponentType<WattTypedModal<T>>;
   data?: T;
   disableClose?: boolean;
   onClosed?: EventEmitter<boolean> | ((result: boolean) => void);
@@ -34,9 +34,9 @@ export interface WattModalConfig<T> {
   injector?: Injector;
 }
 
-export abstract class StronglyTypedWattModal<T = void> {
+export abstract class WattTypedModal<T = void> {
   protected modalData: T = inject(MAT_DIALOG_DATA);
-  protected dialogRef: MatDialogRef<StronglyTypedWattModal<T>> = inject(MatDialogRef);
+  protected dialogRef: MatDialogRef<WattTypedModal<T>> = inject(MatDialogRef);
 }
 
 @Injectable()

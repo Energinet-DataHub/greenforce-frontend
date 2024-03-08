@@ -16,7 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { StronglyTypedWattModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,7 +33,7 @@ import { StronglyTypedWattModal, WATT_MODAL } from '@energinet-datahub/watt/moda
     </watt-modal>
   `,
 })
-export class EoIdleTimerLoggedOutModalComponent extends StronglyTypedWattModal {
+export class EoIdleTimerLoggedOutModalComponent extends WattTypedModal {
   close(action?: string) {
     this.dialogRef.close(action);
   }

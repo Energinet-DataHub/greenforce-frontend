@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { StronglyTypedWattModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 @Component({
@@ -33,4 +33,4 @@ import { TranslocoDirective } from '@ngneat/transloco';
   ],
   imports: [WATT_MODAL, TranslocoDirective],
 })
-export class DhDelegationCreateModalComponent extends StronglyTypedWattModal {}
+export class DhDelegationCreateModalComponent extends WattTypedModal {}

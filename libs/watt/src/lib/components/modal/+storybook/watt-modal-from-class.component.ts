@@ -17,7 +17,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { WattButtonComponent } from '../../button/watt-button.component';
 import { WATT_MODAL } from '../watt-modal.component';
-import { StronglyTypedWattModal, WattModalService } from '../watt-modal.service';
+import { WattTypedModal, WattModalService } from '../watt-modal.service';
 import { WattTextFieldComponent } from '../../text-field/watt-text-field.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -36,7 +36,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
     </watt-modal>
   `,
 })
-export class WattModalComponent extends StronglyTypedWattModal<string> implements OnInit {
+export class WattModalComponent extends WattTypedModal<string> implements OnInit {
   title = 'This is a modal opened from a class';
   usernameControl = new FormControl('');
   passwordControl = new FormControl('');

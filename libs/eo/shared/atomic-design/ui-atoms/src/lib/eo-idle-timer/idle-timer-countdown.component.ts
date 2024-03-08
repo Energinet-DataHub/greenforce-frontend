@@ -18,7 +18,7 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { StronglyTypedWattModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { Observable, filter, tap } from 'rxjs';
 
 @Component({
@@ -39,7 +39,7 @@ import { Observable, filter, tap } from 'rxjs';
     </watt-modal>
   `,
 })
-export class EoIdleTimerCountdownModalComponent extends StronglyTypedWattModal<{
+export class EoIdleTimerCountdownModalComponent extends WattTypedModal<{
   countdown$: Observable<number>;
 }> {
   protected countdown$!: Observable<number>;

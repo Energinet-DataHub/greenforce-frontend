@@ -17,7 +17,7 @@
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { StronglyTypedWattModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { DhGenerateClientSecretComponent } from '../client-secret/dh-generate-client-secret.component';
@@ -57,6 +57,6 @@ import { DhGenerateClientSecretComponent } from '../client-secret/dh-generate-cl
   `,
   imports: [TranslocoDirective, WATT_MODAL, WattButtonComponent, DhGenerateClientSecretComponent],
 })
-export class DhReplaceCertificateModalComponent extends StronglyTypedWattModal<{
+export class DhReplaceCertificateModalComponent extends WattTypedModal<{
   actorId: string;
 }> {}

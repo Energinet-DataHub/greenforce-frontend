@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 export { WattModalComponent, WattModalActionsComponent, WATT_MODAL } from './watt-modal.component';
-export { WattModalService, WattModalConfig, StronglyTypedWattModal } from './watt-modal.service';
+export { WattModalService, WattModalConfig, WattTypedModal } from './watt-modal.service';

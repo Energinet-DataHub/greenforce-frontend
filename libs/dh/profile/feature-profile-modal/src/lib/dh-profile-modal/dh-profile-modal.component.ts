@@ -30,11 +30,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import {
-  StronglyTypedWattModal,
-  WATT_MODAL,
-  WattModalComponent,
-} from '@energinet-datahub/watt/modal';
+import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhSignupMitIdComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -97,7 +93,7 @@ type UserPreferencesForm = FormGroup<{
   `,
   templateUrl: './dh-profile-modal.component.html',
 })
-export class DhProfileModalComponent extends StronglyTypedWattModal<{ email: string }> {
+export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
   private readonly _formBuilder = inject(NonNullableFormBuilder);
   private readonly _toastService = inject(WattToastService);
   private readonly _languageService = inject(DhLanguageService);
