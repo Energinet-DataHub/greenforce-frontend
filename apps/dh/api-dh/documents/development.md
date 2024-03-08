@@ -93,18 +93,21 @@ stored snapshot exactly, this test will fail.
 To determine if any changes have occurred in the snapshots, execute the following command:
 
 ```sh
-yarn nx test api-dh
+yarn api:test
 ```
 
-If the tests fail because of snapshot mismatches, you'll see a comparison in the console, and a
-`__MISMATCH__` folder will pop up inside the `__snapshots__` folder, located at
-`apps/dh/api-dh/source/DataHub.WebApi.Tests/Integration/GraphQL`.
+If the tests fail because of snapshot mismatches, you should see a diff in the console, and one or
+more `.received.` files will appear inside the `Snapshots` folder, located at
+`apps/dh/api-dh/source/DataHub.WebApi.Tests/Snapshots`. You can either resolve the differences
+manually or use the following tool:
 
-Take a close look at the changes. If they're intentional, you can simply replace the file(s) in the
-`__snapshots__` folder with the ones in the `__MISMATCH__` folder (they have the same names, so
-dragging and dropping should work). If the changes weren't intentional, fix the problem in the
-server code, and then rerun the test command. The files in `__MISMATCH__` will automatically be
-deleted as soon as their corresponding tests passes.
+```sh
+yarn api:verify
+```
+
+Take a close look at the changes. If they're intentional, accept the changes from the `.received.`
+file. If the changes weren't intentional, reject the changes and fix the problem in the server
+code. Once the differences have been resolved, rerun the test command and the tests should now pass.
 
 ### Evolution over versioning
 
