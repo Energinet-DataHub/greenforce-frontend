@@ -28,7 +28,6 @@ limitations under the License.
     <NoWarn>$(NoWarn);1591</NoWarn>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
-    <MarketingParticipantProjectReference>../../../../../backend/geh-market-participant/source/api-client/Energinet.DataHub.MarketParticipant.Client/source/Energinet.DataHub.MarketParticipant.Client/Energinet.DataHub.MarketParticipant.Client.csproj</MarketingParticipantProjectReference>
   </PropertyGroup>
 
   <PropertyGroup>
