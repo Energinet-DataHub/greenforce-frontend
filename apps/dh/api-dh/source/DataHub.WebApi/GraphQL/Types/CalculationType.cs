@@ -38,7 +38,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
 
             descriptor
                 .Field(f => f.CreatedByUserId)
-                .Name("createdByUserName")
+                .Name("createdByUsername")
                 .ResolveWith<WholesaleResolvers>(c => c.GetCreatedByUserNameAsync(default!, default!));
 
             descriptor
