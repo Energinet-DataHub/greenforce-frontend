@@ -13,19 +13,17 @@
 // limitations under the License.
 
 using System.Threading.Tasks;
-using Energinet.DataHub.WebApi.Tests.Extensions;
-using Energinet.DataHub.WebApi.Tests.TestServices;
-using Xunit;
+using HotChocolate;
+using HotChocolate.Execution;
+using VerifyXunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL
+namespace Energinet.DataHub.WebApi.Tests.Extensions;
+
+public static class SnapshotExtensions
 {
-    public class SchemaTests
-    {
-        [Fact]
-        public async Task ChangeTest()
-        {
-            var schema = await GraphQLTestService.Executor.GetSchemaAsync(default);
-            await schema.MatchSnapshotAsync();
-        }
-    }
+    public static async Task MatchSnapshotAsync(this ISchema value) =>
+        await Verifier.Verify(target: value.ToString(), extension: "graphql");
+
+    public static async Task MatchSnapshotAsync(this IExecutionResult value) =>
+        await Verifier.Verify(target: value.ToJson(), extension: "json");
 }

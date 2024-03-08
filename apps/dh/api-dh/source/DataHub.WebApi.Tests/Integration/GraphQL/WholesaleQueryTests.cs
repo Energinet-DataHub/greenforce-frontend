@@ -14,8 +14,8 @@
 
 using System;
 using System.Threading.Tasks;
-using CookieCrumble;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Moq;
 using Xunit;
@@ -48,7 +48,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL
             var result = await GraphQLTestService
                 .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
 
-            result.MatchSnapshot();
+            await result.MatchSnapshotAsync();
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL
             var result = await GraphQLTestService
                 .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
 
-            result.MatchSnapshot();
+            await result.MatchSnapshotAsync();
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL
             var result = await GraphQLTestService
                 .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
 
-            result.MatchSnapshot();
+            await result.MatchSnapshotAsync();
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL
             var result = await GraphQLTestService
                 .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
 
-            result.MatchSnapshot();
+            await result.MatchSnapshotAsync();
         }
     }
 }

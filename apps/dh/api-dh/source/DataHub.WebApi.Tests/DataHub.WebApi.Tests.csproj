@@ -30,7 +30,6 @@ limitations under the License.
 
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.Query" Version="1.2.0" />
-    <PackageReference Include="CookieCrumble" Version="13.5.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Verify.Xunit" Version="23.3.0" />
     <PackageReference Include="WireMock.Net" Version="1.5.13" />
