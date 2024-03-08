@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { AllFiltersCombined } from './actors-filters';
-import { DhActor } from '../../../domain/src/lib/dh-actor';
+import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { dhParseJSON } from './dh-json-util';
 
 /**
