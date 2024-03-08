@@ -19,7 +19,7 @@ import { TranslationKeys } from './translation-keys';
 
 export const EN_TRANSLATIONS: TranslationKeys = {
   announcementBar: {
-    message: `Get notified about new releases and sneak peeks: <a href="#newsletter">Sign up for our newsletter ></a>`,
+    message: `Do you need an introduction to EnergyOrigin? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
   },
   sidebar: {
     dashboard: 'Dashboard',
