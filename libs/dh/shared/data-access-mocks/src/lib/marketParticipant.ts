@@ -40,6 +40,7 @@ import {
   mockUpdateActorMutation,
   UpdateActorMutation,
   mockGetOrganizationFromCvrQuery,
+  mockGetDelegationsForActorQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -60,6 +61,8 @@ import {
   MarketParticipantActorClientSecretDto,
   MarketParticipantActorCredentialsDto,
 } from '@energinet-datahub/dh/shared/domain';
+
+import { getDelegationsForActorMock } from './data/get-delegations-for-actor';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
@@ -89,6 +92,7 @@ export function marketParticipantMocks(apiBase: string) {
     getGridAreaOverview(),
     createMarketParticipant(),
     getAssociatedActors(),
+    getDelegationsForActor(),
   ];
 }
 
@@ -463,6 +467,16 @@ function getAssociatedActors() {
           actors: email === 'testuser1@test.dk' ? ['00000000-0000-0000-0000-000000000001'] : [],
         },
       },
+    });
+  });
+}
+
+function getDelegationsForActor() {
+  return mockGetDelegationsForActorQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: getDelegationsForActorMock,
     });
   });
 }

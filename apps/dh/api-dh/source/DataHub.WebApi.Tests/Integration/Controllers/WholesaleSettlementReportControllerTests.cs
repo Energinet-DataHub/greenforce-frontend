@@ -13,7 +13,9 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,17 +39,30 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         }
 
         [Fact]
-        public async Task CreateAsync_ReturnsOk()
+        public async Task DownloadAsync_ReturnsOk()
         {
             // arrange
-            var calculationId = Guid.NewGuid();
-            const string gridAreaCode = "123";
+            const CalculationType calculationType = CalculationType.BalanceFixing;
+            var gridAreaCodes = new List<string> { "123" };
+            var gridAreaCodesString = string.Join(",", gridAreaCodes);
+            var headerDictionary = new Dictionary<string, IEnumerable<string>>
+            {
+                { "Content-Disposition", new[] { "attachment; filename=SettlementReport.zip" } },
+            };
+            var fileResponse = new FileResponse(0, headerDictionary, new MemoryStream(), null, null);
 
-            WholesaleClientV3Mock.Setup(x => x.GetSettlementReportAsStreamAsync(calculationId, gridAreaCode, CancellationToken.None))
-                .ReturnsAsync(new FileResponse(0, null, new MemoryStream(), null, null));
+            WholesaleClientV3Mock.Setup(x => x.DownloadAsync(
+                    gridAreaCodes,
+                    calculationType,
+                    It.IsAny<DateTimeOffset>(),
+                    It.IsAny<DateTimeOffset>(),
+                    null,
+                    null,
+                    default))
+                .ReturnsAsync(fileResponse);
 
             // act
-            var actual = await BffClient.GetAsync($"/v1/WholesaleSettlementReport?calculationId={calculationId}&gridAreaCode={gridAreaCode}");
+            var actual = await BffClient.GetAsync($"/v1/WholesaleSettlementReport/download?gridAreaCodes={gridAreaCodesString}&calculationType={calculationType}&periodStart=2021-01-01&periodEnd=2021-01-01");
 
             // assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
