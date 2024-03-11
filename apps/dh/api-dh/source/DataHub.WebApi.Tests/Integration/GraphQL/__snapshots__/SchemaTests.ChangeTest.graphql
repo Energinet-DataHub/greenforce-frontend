@@ -35,22 +35,18 @@ type ActorContactDto {
   phone: String
 }
 
-type ActorDelegationDto {
-  id: ActorDelegationId!
-  delegatedBy: ActorId!
-  delegatedTo: ActorId!
-  gridAreaId: GridAreaId!
-  messageType: DelegationMessageType!
-  startsAt: DateTime!
-  expiresAt: DateTime
-}
-
 type ActorDelegationId {
   value: UUID!
 }
 
-type ActorId {
-  value: UUID!
+type ActorDelegationType {
+  gridArea: GridAreaDto
+  delegatedBy: Actor
+  delegatedTo: Actor
+  id: ActorDelegationId!
+  messageType: DelegationMessageType!
+  startsAt: DateTime!
+  expiresAt: DateTime
 }
 
 type ActorNameDto {
@@ -168,7 +164,7 @@ type ExchangeEventStatusReportResponse {
 }
 
 type GetDelegationsForActorResponse {
-  delegations: [ActorDelegationDto!]!
+  delegations: [ActorDelegationType!]!
 }
 
 type GetUserProfileResponse {
@@ -184,10 +180,6 @@ type GridAreaDto {
   name: String!
   validFrom: DateTime!
   validTo: DateTime
-}
-
-type GridAreaId {
-  value: UUID!
 }
 
 type GridAreaOverviewItemDto {
