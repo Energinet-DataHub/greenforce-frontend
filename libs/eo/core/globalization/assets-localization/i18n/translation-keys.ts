@@ -255,36 +255,66 @@ export interface TranslationKeys {
     meteringPointEventType: string;
     tableTitle: string;
     timeTableHeader: string;
-    actor: string;
     systemActor: string;
     eventTableHeader: string;
     events: {
-      MeteringPoint: {
-        Created: string;
-        Accepted: string;
-        Declined: string;
-        Activated: string;
-        Deactivated: string;
-        EndDateChanged: string;
-        Expired: string;
+      own: {
+        MeteringPoint: {
+          Created: string;
+          Accepted: string;
+          Declined: string;
+          Activated: string;
+          Deactivated: string;
+          EndDateChanged: string;
+          Expired: string;
+        };
+        TransferAgreementProposal: {
+          Created: string;
+          Accepted: string;
+          Declined: string;
+          Activated: string;
+          Deactivated: string;
+          EndDateChanged: string;
+          Expired: string;
+        };
+        TransferAgreement: {
+          Created: string;
+          Accepted: string;
+          Declined: string;
+          Activated: string;
+          Deactivated: string;
+          EndDateChanged: string;
+          Expired: string;
+        };
       };
-      TransferAgreementProposal: {
-        Created: string;
-        Accepted: string;
-        Declined: string;
-        Activated: string;
-        Deactivated: string;
-        EndDateChanged: string;
-        Expired: string;
-      };
-      TransferAgreement: {
-        Created: string;
-        Accepted: string;
-        Declined: string;
-        Activated: string;
-        Deactivated: string;
-        EndDateChanged: string;
-        Expired: string;
+      others: {
+        MeteringPoint: {
+          Created: string;
+          Accepted: string;
+          Declined: string;
+          Activated: string;
+          Deactivated: string;
+          EndDateChanged: string;
+          Expired: string;
+        };
+        TransferAgreementProposal: {
+          Created: string;
+          Accepted: string;
+          Declined: string;
+          Activated: string;
+          Deactivated: string;
+          EndDateChanged: string;
+          Expired: string;
+        };
+        TransferAgreement: {
+          Created: string;
+          Accepted: string;
+          Declined: string;
+          Activated: string;
+          Deactivated: string;
+          EndDateChanged: string;
+          Expired: string;
+        };
       };
     };
   };

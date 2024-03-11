@@ -19,6 +19,7 @@ import { endOfToday, getUnixTime, startOfToday, subDays } from 'date-fns';
 const actorId = 'ACTOR_ID';
 const actorName = 'ACTOR_NAME';
 const organizationName = 'ORGANIZATION_NAME';
+const otherOrganizationName = 'OTHER_ORGANIZATION_NAME';
 const actorTypes = ['System', 'User'];
 const actionTypes = [
   'Created',
@@ -31,25 +32,13 @@ const actionTypes = [
 ];
 
 export type entityType = 'MeteringPoint' | 'TransferAgreementProposal' | 'TransferAgreement';
-export function generateCombinations(entityTypes: entityType[] = []) {
+export function generateCombinations(entityTypes: entityType[] = [], type: 'sender' | 'receiver' = 'sender') {
   const combinations = [];
 
   for (const actorType of actorTypes) {
     for (const entityType of entityTypes) {
       for (const actionType of actionTypes) {
-        const combination = {
-          id: generateUUID(),
-          timestamp: generateTimestamp(),
-          actorId,
-          actorType,
-          actorName,
-          organizationTin: '11223344',
-          organizationName,
-          entityType,
-          actionType,
-          entityId: generateUUID(),
-        };
-
+        const combination = generateCombination(actorType, entityType, actionType, type);
         combinations.push(combination);
       }
     }
@@ -62,6 +51,23 @@ export function generateCombinations(entityTypes: entityType[] = []) {
       timestamp: last30Days().end,
     };
   });
+}
+
+function generateCombination(actorType: string, entityType: string, actionType: string, type: 'sender' | 'receiver') {
+  return {
+    id: generateUUID(),
+    timestamp: generateTimestamp(),
+    actorId,
+    actorType,
+    actorName: type === 'sender' ? actorName : null,
+    organizationTin: '11223344',
+    organizationName,
+    otherOrganizationTin: '44332211',
+    otherOrganizationName,
+    entityType,
+    actionType,
+    entityId: generateUUID(),
+  };
 }
 
 function generateUUID() {
