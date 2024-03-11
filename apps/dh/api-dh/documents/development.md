@@ -109,6 +109,26 @@ Take a close look at the changes. If they're intentional, accept the changes fro
 file. If the changes weren't intentional, reject the changes and fix the problem in the server
 code. Once the differences have been resolved, rerun the test command and the tests should now pass.
 
+#### Telemetry Tests
+
+The telemetry integration tests run separately from the rest of the test since they use an actual
+application insights endpoint, making the tests run slower and require authentication with Azure.
+
+In order to run the telemetry tests locally, you need to first
+[install Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) and then login:
+
+```sh
+az login
+```
+
+When that is done, it should be possible to run the telemetry tests using this command:
+
+```sh
+yarn api:test:telemetry
+```
+
+Keep in mind that these tests usually takes about 3-5 minutes, but may run for as long as 20 minutes.
+
 ### Evolution over versioning
 
 The GraphQL API uses schema evolution instead of the traditional

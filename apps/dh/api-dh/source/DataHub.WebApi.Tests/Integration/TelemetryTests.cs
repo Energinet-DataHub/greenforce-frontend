@@ -13,12 +13,12 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Azure.Identity;
-using Azure.Monitor.Query;
 using Energinet.DataHub.Core.TestCommon;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
@@ -29,13 +29,17 @@ using Xunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration
 {
-    public class TelemetryTests(WebApiFactory factory) : WebApiTestBase(factory)
+    public class TelemetryTests(WebApiFactory factory, TelemetryFixture fixture)
+        : WebApiTestBase(factory), IClassFixture<TelemetryFixture>
     {
-        private LogsQueryClient LogsQueryClient { get; } = new(new DefaultAzureCredential());
+        private TelemetryFixture Fixture { get; } = fixture;
 
-        private string LogAnalyticsWorkspaceId => Factory.IntegrationTestConfiguration.LogAnalyticsWorkspaceId;
-
-        private Guid CalculationId { get; } = Guid.NewGuid();
+        private CalculationDto Calculation { get; } = new()
+        {
+            CalculationId = Guid.NewGuid(),
+            GridAreaCodes = ["123"],
+            CalculationType = CalculationType.BalanceFixing,
+        };
 
         private Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; } = new();
 
@@ -52,11 +56,34 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
             wasEventsLogged.Should().BeTrue("Expected events was not logged to Application Insights within time limit.");
         }
 
+        [Fact]
+        public async Task DownloadRequest_Should_CauseExpectedEventsToBeLogged()
+        {
+            await Client.GetAsync("/v1/WholesaleSettlementReport/download?gridAreaCodes=123&calculationType=BalanceFixing&periodStart=2021-01-01&periodEnd=2021-01-01");
+            Assert.True(true);
+        }
+
         protected override void ConfigureMocks(IServiceCollection services)
         {
+            var headers = new Dictionary<string, IEnumerable<string>>
+                { ["Content-Disposition"] = ["attachment; filename=SettlementReport.zip"] };
+
+            var fileResponse = new FileResponse(0, headers, new MemoryStream(), null, null);
+
             WholesaleClientV3Mock
-                .Setup(x => x.GetCalculationAsync(CalculationId, default))
-                .ReturnsAsync(new CalculationDto() { CalculationId = CalculationId });
+                .Setup(x => x.DownloadAsync(
+                    Calculation.GridAreaCodes,
+                    Calculation.CalculationType,
+                    It.IsAny<DateTimeOffset>(),
+                    It.IsAny<DateTimeOffset>(),
+                    null,
+                    null,
+                    default))
+                .ReturnsAsync(fileResponse);
+
+            WholesaleClientV3Mock
+                .Setup(x => x.GetCalculationAsync(Calculation.CalculationId, default))
+                .ReturnsAsync(Calculation);
 
             services.AddSingleton(WholesaleClientV3Mock.Object);
         }
@@ -65,7 +92,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
         {
             var query = $$"""
                 query {
-                  calculationById(id: "{{CalculationId}}") {
+                  calculationById(id: "{{Calculation.CalculationId}}") {
                     id
                   }
                 }
@@ -74,7 +101,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
             var requestBody = new { query };
             var json = JsonSerializer.Serialize(requestBody);
             await Client.PostAsync(
-                $"/graphql?GetCalculationById={CalculationId}",
+                $"/graphql?GetCalculationById={Calculation.CalculationId}",
                 new StringContent(json, Encoding.UTF8, "application/json"));
         }
 
@@ -82,7 +109,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
         {
             var query = $$"""
                 let OperationId = AppRequests
-                | where Url has "/graphql?GetCalculationById={{CalculationId}}"
+                | where Url has "/graphql?GetCalculationById={{Calculation.CalculationId}}"
                 | project OperationId
                 | take 1;
                 let OperationIdScalar = toscalar(OperationId);
@@ -98,8 +125,8 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
                 | count
             """;
 
-            var result = await LogsQueryClient.QueryWorkspaceAsync<QueryResult>(
-                LogAnalyticsWorkspaceId,
+            var result = await Fixture.LogsQueryClient.QueryWorkspaceAsync<QueryResult>(
+                Fixture.LogAnalyticsWorkspaceId,
                 query,
                 TimeSpan.FromMinutes(20));
 
