@@ -18,6 +18,9 @@
 import { TranslationKeys } from './translation-keys';
 
 export const EN_TRANSLATIONS: TranslationKeys = {
+  announcementBar: {
+    message: `Do you need an introduction to EnergyOrigin? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
+  },
   sidebar: {
     dashboard: 'Dashboard',
     meteringPoints: 'Metering Points',

@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   config: { sort: false },
   documents: 'libs/**/*.graphql',
   generates: {
-    './apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net7.0/schema.graphql': {
+    './apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net8.0/schema.graphql': {
       plugins: ['schema-ast'],
     },
     './dist/apps/dh/api-dh/schema.graphql': {
