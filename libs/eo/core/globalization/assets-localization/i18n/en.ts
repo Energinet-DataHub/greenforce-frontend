@@ -286,43 +286,97 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     meteringPointEventType: 'Metering Point',
     tableTitle: 'Results',
     timeTableHeader: 'Timestamp',
-    actor: '{{orginizationName}} ({{organizationTin}})',
     systemActor: 'System',
     eventTableHeader: 'Event',
     events: {
-      MeteringPoint: {
-        Created: '{{actor}} has created a metering point with ID {{entityId}}',
-        Accepted: '{{actor}} has accepted the metering point with ID {{entityId}}',
-        Declined: '{{actor}} has declined the metering point with ID {{entityId}}',
-        Activated: '{{actor}} has activated the metering point with ID {{entityId}}',
-        Deactivated: '{{actor}} has deactivated the metering point with ID {{entityId}}',
-        EndDateChanged:
-          '{{actor}} has deactivated or changed the end date of the metering point with ID {{entityId}}',
-        Expired: '{{actor}} has expired the metering point with ID {{entityId}}',
+      own: {
+        MeteringPoint: {
+          Created: '{{actorName}} has created a metering point with ID {{entityId}}',
+          Accepted: '{{actorName}} has accepted the metering point with ID {{entityId}}',
+          Declined: '{{actorName}} has declined the metering point with ID {{entityId}}',
+          Activated: '{{actorName}} has activated the metering point with ID {{entityId}}',
+          Deactivated: '{{actorName}} has deactivated the metering point with ID {{entityId}}',
+          EndDateChanged:
+            '{{actorName}} has deactivated or changed the end date of the metering point with ID {{entityId}}',
+          Expired: '{{actorName}} has expired the metering point with ID {{entityId}}',
+        },
+        TransferAgreementProposal: {
+          Created:
+            '{{actorName}} has created a proposal of a transfer agreement with ID {{entityId}}',
+          Accepted:
+            '{{actorName}} has accepted the proposal of a transfer agreement with ID {{entityId}}',
+          Declined:
+            '{{actorName}} has declined the proposal of a transfer agreement with ID {{entityId}}',
+          Activated:
+            '{{actorName}} has activated the proposal of a transfer agreement with ID {{entityId}}',
+          Deactivated:
+            '{{actorName}} has deactivated the proposal of a transfer agreement with ID {{entityId}}',
+          EndDateChanged:
+            '{{actorName}} has changed the end date of the proposal of a transfer agreement with ID {{entityId}}',
+          Expired:
+            '{{actorName}} has expired the proposal of a transfer agreement with ID {{entityId}}',
+        },
+        TransferAgreement: {
+          Created: '{{actorName}} has created a transfer agreement with ID {{entityId}}',
+          Accepted:
+            '{{actorName}} has accepted the transfer agreement from {{otherOrganizationName}} ({{otherOrganizationTin}}) with ID {{entityId}}',
+          Declined: '{{actorName}} has declined the transfer agreement with ID {{entityId}}',
+          Activated: '{{actorName}} has activated the transfer agreement with ID {{entityId}}',
+          Deactivated: '{{actorName}} has deactivated the transfer agreement with ID {{entityId}}',
+          EndDateChanged:
+            '{{actorName}} has changed the end date of the transfer agreement with ID {{entityId}}',
+          Expired: '{{actorName}} has expired the transfer agreement with ID {{entityId}}',
+        },
       },
-      TransferAgreementProposal: {
-        Created: '{{actor}} has created a proposal of a transfer agreement with ID {{entityId}}',
-        Accepted:
-          '{{actor}} has accepted the proposal of a transfer agreement with ID {{entityId}}',
-        Declined:
-          '{{actor}} has declined the proposal of a transfer agreement with ID {{entityId}}',
-        Activated:
-          '{{actor}} has activated the proposal of a transfer agreement with ID {{entityId}}',
-        Deactivated:
-          '{{actor}} has deactivated the proposal of a transfer agreement with ID {{entityId}}',
-        EndDateChanged:
-          '{{actor}} has changed the end date of the proposal of a transfer agreement with ID {{entityId}}',
-        Expired: '{{actor}} has expired the proposal of a transfer agreement with ID {{entityId}}',
-      },
-      TransferAgreement: {
-        Created: '{{actor}} has created a transfer agreement with ID {{entityId}}',
-        Accepted: '{{actor}} has accepted the transfer agreement with ID {{entityId}}',
-        Declined: '{{actor}} has declined the transfer agreement with ID {{entityId}}',
-        Activated: '{{actor}} has activated the transfer agreement with ID {{entityId}}',
-        Deactivated: '{{actor}} has deactivated the transfer agreement with ID {{entityId}}',
-        EndDateChanged:
-          '{{actor}} has changed the end date of the transfer agreement with ID {{entityId}}',
-        Expired: '{{actor}} has expired the transfer agreement with ID {{entityId}}',
+      others: {
+        MeteringPoint: {
+          Created:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has created a metering point with ID {{entityId}}',
+          Accepted:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has accepted the metering point with ID {{entityId}}',
+          Declined:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has declined the metering point with ID {{entityId}}',
+          Activated:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has activated the metering point with ID {{entityId}}',
+          Deactivated:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has deactivated the metering point with ID {{entityId}}',
+          EndDateChanged:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has deactivated or changed the end date of the metering point with ID {{entityId}}',
+          Expired:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has expired the metering point with ID {{entityId}}',
+        },
+        TransferAgreementProposal: {
+          Created:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has created a proposal of a transfer agreement with ID {{entityId}}',
+          Accepted:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has accepted the proposal of a transfer agreement with ID {{entityId}}',
+          Declined:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has declined the proposal of a transfer agreement with ID {{entityId}}',
+          Activated:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has activated the proposal of a transfer agreement with ID {{entityId}}',
+          Deactivated:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has deactivated the proposal of a transfer agreement with ID {{entityId}}',
+          EndDateChanged:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has changed the end date of the proposal of a transfer agreement with ID {{entityId}}',
+          Expired:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has expired the proposal of a transfer agreement with ID {{entityId}}',
+        },
+        TransferAgreement: {
+          Created:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has created a transfer agreement with ID {{entityId}}',
+          Accepted:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has accepted the transfer agreement with ID {{entityId}}',
+          Declined:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has declined the transfer agreement with ID {{entityId}}',
+          Activated:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has activated the transfer agreement with ID {{entityId}}',
+          Deactivated:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has deactivated the transfer agreement with ID {{entityId}}',
+          EndDateChanged:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has changed the end date of the transfer agreement with ID {{entityId}}',
+          Expired:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) has expired the transfer agreement with ID {{entityId}}',
+        },
       },
     },
   },

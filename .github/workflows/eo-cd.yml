@@ -130,7 +130,7 @@ jobs:
             -Dsonar.projectKey=energinet-datahub_energy-origin-frontend
             -Dsonar.organization=energinet-datahub
             -Dsonar.sources=apps/eo/app-eo,libs/eo
-            -Dsonar.exclusions=**/*.spec.ts,jest.config.ts,test-setup.ts,libs/eo/shared/data-access-mocks/src/lib/**/*,libs/eo/core/globalization/assets-localization/i18n/**/*
+            -Dsonar.exclusions=**/*.spec.ts,jest.config.ts,test-setup.ts,libs/eo/shared/data-access-mocks/src/lib/**/*,libs/eo/core/globalization/assets-localization/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.EO_SONAR_TOKEN }}
