@@ -97,7 +97,7 @@ limitations under the License.
               *dhPermissionRequired="['delegation:view']"
             >
               @defer (on viewport) {
-                <dh-delegation-tab [actorId]="actor?.id" />
+                <dh-delegation-tab [actor]="actor!" />
               } @placeholder {
                 <watt-spinner />
               }
