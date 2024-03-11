@@ -15,22 +15,24 @@
  * limitations under the License.
  */
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { Apollo } from 'apollo-angular';
 
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { Apollo } from 'apollo-angular';
+import { TranslocoDirective } from '@ngneat/transloco';
+
 import { WattModalService } from '@energinet-datahub/watt/modal';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { GetDelegationsForActorDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-
 import { DhDelegationsGrouped } from './dh-delegations';
-import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
 import { dhGroupDelegations } from './util/dh-group-delegations';
+import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
+import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
 
 @Component({
   selector: 'dh-delegation-tab',
@@ -90,7 +92,7 @@ export class DhDelegationTabComponent {
   private readonly _modalService = inject(WattModalService);
   private readonly _apollo = inject(Apollo);
 
-  actorId = input('');
+  actor = input.required<DhActorExtended>();
   isLoading = signal(false);
 
   delegationsGrouped = signal<DhDelegationsGrouped>({ outgoing: [], incoming: [] });
@@ -103,11 +105,11 @@ export class DhDelegationTabComponent {
   });
 
   constructor() {
-    effect(() => this.fetchData(this.actorId()), { allowSignalWrites: true });
+    effect(() => this.fetchData(this.actor().id), { allowSignalWrites: true });
   }
 
   onSetUpDelegation() {
-    this._modalService.open({ component: DhDelegationCreateModalComponent });
+    this._modalService.open({ component: DhDelegationCreateModalComponent, data: this.actor() });
   }
 
   private fetchData(actorId: string) {
