@@ -156,9 +156,16 @@
   },
   "marketParticipant": {
     "delegation": {
+      "message": "Meddelelse",
+      "delegations": "Delegeret",
+      "save": "Gem opsætning",
+      "cancel": "Luk",
       "setUpDelegation": "Opsæt delegering",
       "outgoingMessages": "Udgående meddelelser",
       "incomingMessages": "Indgående meddelelser",
+      "modalTitle": "Opsæt delegering for",
+      "gridArea": "Netområde",
+      "start": "Start",
       "emptyTitle": "Ingen delegering",
       "emptyMessage": "Deleger udgående eller indgående meddelelser til en måleoperatør",
       "emptyStateSetUpDelegation": "Opsæt delegering for meddelelser",

@@ -156,9 +156,16 @@
   },
   "marketParticipant": {
     "delegation": {
+      "message": "Message",
+      "delegations": "Delegates",
+      "save": "Save set up",
+      "cancel": "Close",
       "setUpDelegation": "Set up delegation",
       "outgoingMessages": "Outgoing messages",
       "incomingMessages": "Incoming messages",
+      "modalTitle": "Set up delegation for",
+      "gridArea": "Netområde",
+      "start": "Start",
       "emptyTitle": "No delegations found",
       "emptyMessage": "Delegate outgoing or incoming messages to a meter operator",
       "emptyStateSetUpDelegation": "Set up delegation for messages",

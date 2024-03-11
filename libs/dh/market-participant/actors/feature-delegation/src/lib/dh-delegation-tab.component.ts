@@ -31,6 +31,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { DhDelegationsGrouped } from './dh-delegations';
 import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
 import { dhGroupDelegations } from './util/dh-group-delegations';
+import { DhActorExtended } from '../../../domain/src/lib/dh-actor';
 
 @Component({
   selector: 'dh-delegation-tab',
@@ -90,7 +91,7 @@ export class DhDelegationTabComponent {
   private readonly _modalService = inject(WattModalService);
   private readonly _apollo = inject(Apollo);
 
-  actorId = input('');
+  actor = input.required<DhActorExtended>();
   isLoading = signal(false);
 
   delegationsGrouped = signal<DhDelegationsGrouped>({ outgoing: [], incoming: [] });
@@ -103,11 +104,11 @@ export class DhDelegationTabComponent {
   });
 
   constructor() {
-    effect(() => this.fetchData(this.actorId()), { allowSignalWrites: true });
+    effect(() => this.fetchData(this.actor().id), { allowSignalWrites: true });
   }
 
   onSetUpDelegation() {
-    this._modalService.open({ component: DhDelegationCreateModalComponent });
+    this._modalService.open({ component: DhDelegationCreateModalComponent, data: this.actor() });
   }
 
   private fetchData(actorId: string) {
