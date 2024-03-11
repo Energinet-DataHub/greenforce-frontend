@@ -43,6 +43,7 @@ type ActorDelegationType {
   gridArea: GridAreaDto
   delegatedBy: Actor
   delegatedTo: Actor
+  status: ActorDelegationStatus!
   id: ActorDelegationId!
   messageType: DelegationMessageType!
   startsAt: DateTime!
@@ -531,6 +532,13 @@ enum ActorAuditedChange {
   CONTACT_CATEGORY_REMOVED
   CERTIFICATE_CREDENTIALS
   CLIENT_SECRET_CREDENTIALS
+}
+
+enum ActorDelegationStatus {
+  AWAITING
+  ACTIVE
+  EXPIRED
+  CANCELLED
 }
 
 enum ActorStatus {
