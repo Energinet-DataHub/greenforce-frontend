@@ -162,6 +162,14 @@
       "emptyTitle": "No delegations found",
       "emptyMessage": "Delegate outgoing or incoming messages to a meter operator",
       "emptyStateSetUpDelegation": "Set up delegation for messages",
+      "table": {
+        "columns": {
+          "delegatedTo": "Delegated",
+          "gridArea": "Grid area",
+          "period": "Period",
+          "status": "Status"
+        }
+      },
       "messageTypes": {
         "RSM012_INBOUND": "[DK] Fremsend måledata for et målepunkt (RSM-012)",
         "RSM014_INBOUND": "[DK] Fremsend beregnede tidsserier (RSM-014)",
