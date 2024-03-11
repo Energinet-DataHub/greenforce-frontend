@@ -42,7 +42,10 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
 
 import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delagation';
 
-import { DhActorExtended, dhActorAuditLogEntry } from '../dh-actor';
+import {
+  DhActorExtended,
+  dhActorAuditLogEntry,
+} from '@energinet-datahub/dh/market-participant/actors/domain';
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
 import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';

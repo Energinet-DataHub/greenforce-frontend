@@ -16,6 +16,9 @@
  */
 // !!!!! This file is auto-generated. Do not edit. !!!!!
 export const translations = {
+  announcementBar: {
+    message: 'announcementBar.message' as const,
+  } as const,
   sidebar: {
     dashboard: "sidebar.dashboard" as const,
     meteringPoints: "sidebar.meteringPoints" as const,

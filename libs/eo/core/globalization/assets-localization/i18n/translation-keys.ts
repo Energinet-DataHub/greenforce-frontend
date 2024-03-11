@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 export interface TranslationKeys {
+  announcementBar: {
+    message: string;
+  };
   sidebar: {
     dashboard: string;
     meteringPoints: string;
