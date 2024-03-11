@@ -14,6 +14,7 @@ type ActorDelegationType {
   gridArea: GridAreaDto
   delegatedBy: Actor
   delegatedTo: Actor
+  status: ActorDelegationStatus!
   id: ActorDelegationId!
   messageType: DelegationMessageType!
   startsAt: DateTime!
@@ -293,6 +294,13 @@ enum ActorAuditedChange {
 
 """The `DateTime` scalar represents an ISO-8601 compliant date time type."""
 scalar DateTime
+
+enum ActorDelegationStatus {
+  AWAITING
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
 
 type ActorDelegationId {
   value: UUID!

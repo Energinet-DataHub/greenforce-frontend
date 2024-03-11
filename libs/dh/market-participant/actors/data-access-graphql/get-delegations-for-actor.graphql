@@ -12,6 +12,7 @@ query GetDelegationsForActor($actorId: UUID!) {
         id
         code
       }
+      status
     }
   }
 }

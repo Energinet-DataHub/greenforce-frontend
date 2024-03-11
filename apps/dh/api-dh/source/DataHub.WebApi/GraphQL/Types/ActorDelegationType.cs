@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
@@ -35,6 +37,37 @@ namespace Energinet.DataHub.WebApi.GraphQL
             descriptor
                 .Field("delegatedTo")
                 .ResolveWith<MarketParticipantResolvers>(c => c.GetActorDelegatedToAsync(default!, default!));
+
+            descriptor
+                .Field("status")
+                .Resolve((ctx, ct) =>
+                {
+                    var expiresAt = ctx.Parent<ActorDelegationDto>().ExpiresAt;
+                    var startsAt = ctx.Parent<ActorDelegationDto>().StartsAt;
+
+                    if (startsAt > DateTimeOffset.UtcNow)
+                    {
+                        return ActorDelegationStatus.Awaiting;
+                    }
+                    else if (startsAt < DateTimeOffset.UtcNow && (!expiresAt.HasValue || expiresAt?.Date > DateTimeOffset.UtcNow))
+                    {
+                        return ActorDelegationStatus.Active;
+                    }
+                    else if (startsAt < DateTimeOffset.UtcNow.Date && expiresAt.HasValue && expiresAt > DateTimeOffset.UtcNow)
+                    {
+                        return ActorDelegationStatus.Expired;
+                    }
+                    else if (startsAt >= DateTimeOffset.UtcNow && expiresAt.HasValue && expiresAt < startsAt)
+                    {
+                        return ActorDelegationStatus.Cancelled;
+                    }
+                    else if (expiresAt.HasValue && startsAt.Day == expiresAt?.Day && startsAt.Month == expiresAt?.Month && startsAt.Year == expiresAt?.Year)
+                    {
+                        return ActorDelegationStatus.Cancelled;
+                    }
+
+                    return ActorDelegationStatus.Awaiting;
+                });
         }
     }
 }
