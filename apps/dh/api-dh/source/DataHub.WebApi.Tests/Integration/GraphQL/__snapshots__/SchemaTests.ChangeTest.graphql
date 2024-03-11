@@ -39,9 +39,9 @@ type ActorDelegationDto {
   id: ActorDelegationId!
   delegatedBy: ActorId!
   delegatedTo: ActorId!
-  gridAreas: [GridAreaCode!]!
+  gridAreaId: GridAreaId!
   messageType: DelegationMessageType!
-  createdAt: DateTime!
+  startsAt: DateTime!
   expiresAt: DateTime
 }
 
@@ -125,10 +125,6 @@ type Calculation {
   calculationType: CalculationType!
 }
 
-type CreateActorDelegationResponse {
-  delegation: ActorDelegationDto!
-}
-
 type CreateAggregatedMeasureDataRequestPayload {
   boolean: Boolean
 }
@@ -181,10 +177,6 @@ type GetUserProfileResponse {
   phoneNumber: String!
 }
 
-type GridAreaCode {
-  value: String!
-}
-
 type GridAreaDto {
   priceAreaCode: PriceAreaCode!
   id: UUID!
@@ -192,6 +184,10 @@ type GridAreaDto {
   name: String!
   validFrom: DateTime!
   validTo: DateTime
+}
+
+type GridAreaId {
+  value: UUID!
 }
 
 type GridAreaOverviewItemDto {
@@ -354,7 +350,6 @@ type Query {
   userProfile: GetUserProfileResponse!
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
   getDelegationsForActor(actorId: UUID!): GetDelegationsForActorResponse!
-  createDelegationsForActor(actorId: UUID! delegationDto: CreateActorDelegationDtoInput!): CreateActorDelegationResponse!
 }
 
 type ReadinessStatusDto {
@@ -467,15 +462,6 @@ input CreateActorContactDtoInput {
   category: ContactCategory!
   email: String!
   phone: String
-}
-
-input CreateActorDelegationDtoInput {
-  delegatedFrom: UUID!
-  delegatedTo: UUID!
-  gridAreas: [String!]!
-  messageType: DelegationMessageType!
-  createdAt: DateTime!
-  expiresAt: DateTime
 }
 
 input CreateActorDtoInput {

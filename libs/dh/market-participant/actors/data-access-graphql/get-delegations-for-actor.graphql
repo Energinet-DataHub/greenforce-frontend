@@ -2,13 +2,15 @@ query GetDelegationsForActor($actorId: UUID!) {
   getDelegationsForActor(actorId: $actorId) {
     delegations {
       messageType
-      createdAt
+      startsAt
       expiresAt
       delegatedTo {
-        value
+        id
+        name
       }
-      gridAreas {
-        value
+      gridArea {
+        id
+        code
       }
     }
   }

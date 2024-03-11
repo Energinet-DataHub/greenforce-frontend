@@ -577,7 +577,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
             return client.ActorDelegationGetAsync(actorId);
         }
 
-        public Task<CreateActorDelegationResponse> CreateDelegationsForActorAsync(
+        public Task CreateDelegationsForActorAsync(
             Guid actorId,
             CreateActorDelegationDto delegationDto,
             [Service] IMarketParticipantClient_V1 client)

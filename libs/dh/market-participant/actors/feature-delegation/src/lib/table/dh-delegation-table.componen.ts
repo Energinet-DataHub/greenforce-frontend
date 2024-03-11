@@ -42,19 +42,17 @@ import { DhDelegation } from '../dh-delegations';
         <ng-container
           *wattTableCell="columns['delegatedTo']; header: t('columns.delegatedTo'); let entry"
         >
-          {{ entry.delegatedTo.value }}
+          {{ entry.delegatedTo?.name }}
         </ng-container>
 
         <ng-container
-          *wattTableCell="columns['gridAreas']; header: t('columns.gridArea'); let entry"
+          *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let entry"
         >
-          @for (area of entry.gridAreas; track $index) {
-            <span>{{ area.value }}</span>
-          }
+            <span>{{ entry.gridArea?.code }}</span>
         </ng-container>
 
         <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let entry">
-          {{ entry.createdAt | wattDate: 'short' }}
+          {{ entry.startsAt | wattDate: 'short' }}
 
           @if (entry.expiresAt) {
             — {{ entry.expiresAt | wattDate: 'short' }}
@@ -74,7 +72,7 @@ export class DhDelegationTableComponent {
 
   columns: WattTableColumnDef<DhDelegation> = {
     delegatedTo: { accessor: null },
-    gridAreas: { accessor: null },
+    gridArea: { accessor: null },
     period: { accessor: null },
     status: { accessor: null },
   };
