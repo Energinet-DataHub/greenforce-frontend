@@ -21,7 +21,7 @@ import { fireEvent, within } from '@storybook/testing-library';
 
 import { WattFieldErrorComponent, WattFieldHintComponent } from '../../field';
 import { WattDropdownComponent } from '../watt-dropdown.component';
-import { WattDropdownOption } from '../watt-dropdown-option';
+import { WattDropdownGroups, WattDropdownOptions } from '../watt-dropdown-option';
 
 const meta: Meta<WattDropdownComponent> = {
   title: 'Components/Dropdown/Reactive Forms',
@@ -36,13 +36,32 @@ const meta: Meta<WattDropdownComponent> = {
   ],
 };
 
-const dropdownOptions: WattDropdownOption[] = [
+const dropdownOptions: WattDropdownOptions = [
   { value: 'outlaws', displayValue: 'The Outlaws' },
   { value: 'batman', displayValue: 'Batman' },
   { value: 'titans', displayValue: 'Titans' },
   { value: 'volt', displayValue: 'Volt' },
   { value: 'joules', displayValue: 'Joules' },
 ];
+
+const dropdownGroups: WattDropdownGroups = [
+  {
+    name: 'Team group 1',
+    wattDropdownOptions: [
+      { value: 'outlaws', displayValue: 'The Outlaws' },
+      { value: 'batman', displayValue: 'Batman' },
+    ],
+  },
+  {
+    name: 'Team group 2',
+    wattDropdownOptions: [
+      { value: 'titans', displayValue: 'Titans' },
+      { value: 'volt', displayValue: 'Volt' },
+      { value: 'joules', displayValue: 'Joules' },
+    ],
+  },
+];
+
 const placeholder = 'Select a team';
 
 const template = `
@@ -52,6 +71,7 @@ const template = `
     [formControl]="exampleFormControl"
     [placeholder]="placeholder"
     [noOptionsFoundLabel]="noOptionsFoundLabel"
+    [groups]="groups"
     [options]="options">
       <watt-field-error>This field is required</watt-field-error>
       <watt-field-hint>This is a hint</watt-field-hint>
@@ -107,6 +127,14 @@ export const SingleSelect: Story = {
   },
 };
 
+export const SingleGroupSelect: Story = {
+  ...DefaultTemplate,
+  args: {
+    groups: dropdownGroups,
+    placeholder,
+  },
+};
+
 export const SingleSelectChipMode: Story = {
   ...DefaultTemplate,
   args: {
@@ -115,10 +143,27 @@ export const SingleSelectChipMode: Story = {
   },
 };
 
+export const SingleGroupSelectChipMode: Story = {
+  ...DefaultTemplate,
+  args: {
+    ...SingleGroupSelect.args,
+    chipMode: true,
+  },
+};
+
 export const MultiSelect: Story = {
   ...DefaultTemplate,
   args: {
     options: dropdownOptions,
+    placeholder,
+    multiple: true,
+  },
+};
+
+export const MultiGroupSelect: Story = {
+  ...DefaultTemplate,
+  args: {
+    groups: dropdownGroups,
     placeholder,
     multiple: true,
   },

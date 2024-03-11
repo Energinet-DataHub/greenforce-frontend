@@ -38,11 +38,21 @@ import { NgClass, NgFor, NgIf } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { MatSelectModule, MatSelect } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { of, ReplaySubject, distinctUntilChanged, map, take, filter } from 'rxjs';
+import {
+  of,
+  ReplaySubject,
+  distinctUntilChanged,
+  map,
+  take,
+  filter,
+  mergeMap,
+  concatMap,
+  exhaustMap,
+} from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattFieldComponent } from '../field';
-import type { WattDropdownOptions } from './watt-dropdown-option';
+import type { WattDropdownGroups, WattDropdownOptions } from './watt-dropdown-option';
 import type { WattDropdownValue } from './watt-dropdown-value';
 import { WattMenuChipComponent } from '../chip';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
@@ -111,6 +121,13 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
   filteredOptions$ = new ReplaySubject<WattDropdownOptions>(1);
 
   /**
+   * List of gruped options filtered by search keyword
+   *
+   * @ignore
+   */
+  filteredGroupedOptions$ = new ReplaySubject<WattDropdownGroups>(1);
+
+  /**
    * @ignore
    */
   emDash = '—';
@@ -126,6 +143,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
   isToggleAllIndeterminate = false;
 
   _options: WattDropdownOptions = [];
+  _groups: WattDropdownGroups = [];
 
   /**
    * @ignore
@@ -155,6 +173,15 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
 
   @Input() hideSearch = false;
   @Input() panelWidth: null | 'auto' = null;
+
+  @Input()
+  set groups(groups: WattDropdownGroups) {
+    this._groups = groups;
+    this.filteredGroupedOptions$.next(groups);
+  }
+  get groups(): WattDropdownGroups {
+    return this._groups;
+  }
 
   /**
    * Set the mode of the dropdown.
@@ -262,6 +289,17 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
       .pipe(
         take(1),
         map((options) => options.map((option) => option.value))
+      )
+      .subscribe((filteredOptions: string[]) => {
+        const optionsToSelect = toggleAllState ? filteredOptions : [];
+        this.matSelectControl.patchValue(optionsToSelect);
+      });
+
+    this.filteredGroupedOptions$
+      .pipe(
+        take(1),
+        mergeMap((groups) => groups),
+        map((group) => group.wattDropdownOptions.map((option) => option.value))
       )
       .subscribe((filteredOptions: string[]) => {
         const optionsToSelect = toggleAllState ? filteredOptions : [];
@@ -390,51 +428,94 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    * @ignore
    */
   private filterOptions() {
-    if (!this._options) {
-      return;
-    }
-
     // get the search keyword
     let search = (this.filterControl.value as string).trim();
 
-    if (search) {
-      search = search.toLowerCase();
-    } else {
-      return this.filteredOptions$.next(this._options.slice());
+    if (this._options) {
+      if (search) {
+        search = search.toLowerCase();
+      } else {
+        return this.filteredOptions$.next(this._options.slice());
+      }
+
+      // filter the options
+      this.filteredOptions$.next(
+        this._options.filter((option) => option.displayValue.toLowerCase().indexOf(search) > -1)
+      );
     }
 
-    // filter the options
-    this.filteredOptions$.next(
-      this._options.filter((option) => option.displayValue.toLowerCase().indexOf(search) > -1)
-    );
+    if (this._groups) {
+      const filteredGroup = this._groups.map((group) => {
+        return {
+          ...group,
+          wattDropdownOptions: group.wattDropdownOptions.filter((option) =>
+            option.displayValue.toLowerCase().includes(search)
+          ),
+        };
+      });
+
+      this.filteredGroupedOptions$.next(filteredGroup);
+    }
   }
 
   /**
    * @ignore
    */
   private determineToggleAllCheckboxState(): void {
-    this.filteredOptions$
-      .pipe(
-        take(1),
-        filter((options) => options != null && options !== undefined),
-        map((options) => options.map((option) => option.value))
-      )
-      .subscribe((filteredOptions: string[]) => {
-        const selectedOptions = this.matSelectControl.value;
+    if (this._options) {
+      this.filteredOptions$
+        .pipe(
+          take(1),
+          filter((options) => options != null && options !== undefined),
+          map((options) => options.map((option) => option.value))
+        )
+        .subscribe((filteredOptions: string[]) => {
+          console.log('filteredOptions', filteredOptions);
+          const selectedOptions = this.matSelectControl.value;
 
-        if (Array.isArray(selectedOptions)) {
-          const selectedFilteredOptions = filteredOptions.filter((option) =>
-            selectedOptions.includes(option)
-          );
+          if (Array.isArray(selectedOptions)) {
+            const selectedFilteredOptions = filteredOptions.filter((option) =>
+              selectedOptions.includes(option)
+            );
 
-          this.isToggleAllIndeterminate =
-            selectedFilteredOptions.length > 0 &&
-            selectedFilteredOptions.length < filteredOptions.length;
+            this.isToggleAllIndeterminate =
+              selectedFilteredOptions.length > 0 &&
+              selectedFilteredOptions.length < filteredOptions.length;
 
-          this.isToggleAllChecked =
-            selectedFilteredOptions.length > 0 &&
-            selectedFilteredOptions.length === filteredOptions.length;
-        }
-      });
+            this.isToggleAllChecked =
+              selectedFilteredOptions.length > 0 &&
+              selectedFilteredOptions.length === filteredOptions.length;
+          }
+        });
+    }
+
+    if (this._groups) {
+      this.filteredGroupedOptions$
+        .pipe(
+          take(1),
+          mergeMap((groups) => groups),
+          map((group) => group.wattDropdownOptions.map((option) => option.value))
+        )
+        .subscribe((filteredOptions: string[]) => {
+          console.log('filteredGroupedOptions', filteredOptions);
+          const selectedOptions = this.matSelectControl.value;
+
+          console.log(selectedOptions);
+
+          if (Array.isArray(selectedOptions)) {
+            const selectedFilteredOptions = filteredOptions.filter((option) =>
+              selectedOptions.includes(option)
+            );
+
+            this.isToggleAllIndeterminate =
+              selectedFilteredOptions.length > 0 &&
+              selectedFilteredOptions.length < filteredOptions.length;
+
+            this.isToggleAllChecked =
+              selectedFilteredOptions.length > 0 &&
+              selectedFilteredOptions.length === filteredOptions.length;
+          }
+        });
+    }
   }
 }

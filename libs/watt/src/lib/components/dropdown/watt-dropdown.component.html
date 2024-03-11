@@ -64,6 +64,18 @@ limitations under the License.
 
     <mat-option *ngIf="!multiple && showResetOption">{{ emDash }}</mat-option>
 
+    @for (group of filteredGroupedOptions$ | push; track group) {
+      @if (group.wattDropdownOptions.length > 0) {
+        <mat-optgroup [label]="group.name" [disabled]="group.disabled">
+          @for (option of group.wattDropdownOptions; track option) {
+            <mat-option [value]="option.value" [disabled]="option.disabled">
+              {{ option.displayValue }}
+            </mat-option>
+          }
+        </mat-optgroup>
+      }
+    }
+
     <mat-option
       *ngFor="let option of filteredOptions$ | push"
       [value]="option.value"

@@ -41,6 +41,7 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { WattDropdownGroups } from 'libs/watt/src/lib/components/dropdown/watt-dropdown-option';
 
 @Component({
   selector: 'dh-create-delegation',
@@ -60,7 +61,7 @@ import {
           [multiple]="true"
           label="{{ t('message') }}"
           [formControl]="createDelegationForm.controls.messageTypes"
-          [options]="messageTypes"
+          [groups]="messageTypes"
           translate="marketParticipant.delegation.messageTypes"
           dhDropdownTranslator
         />
@@ -126,7 +127,10 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
 
   gridAreaOptions$ = this.getGridAreaOptions();
   delegations$ = this.getDelegations();
-  messageTypes = dhEnumToWattDropdownOptions(DelegationMessageType);
+  messageTypes = [
+    { name: 'Test', wattDropdownOptions: [{ value: '1', displayValue: '1' }] },
+    { name: 'Test1', wattDropdownOptions: [{ value: '2', displayValue: '2' }] },
+  ] as WattDropdownGroups;
 
   closeModal(result: boolean) {}
 
