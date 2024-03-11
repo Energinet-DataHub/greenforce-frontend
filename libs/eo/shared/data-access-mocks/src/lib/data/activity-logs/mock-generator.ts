@@ -32,7 +32,10 @@ const actionTypes = [
 ];
 
 export type entityType = 'MeteringPoint' | 'TransferAgreementProposal' | 'TransferAgreement';
-export function generateCombinations(entityTypes: entityType[] = [], type: 'sender' | 'receiver' = 'sender') {
+export function generateCombinations(
+  entityTypes: entityType[] = [],
+  type: 'sender' | 'receiver' = 'sender'
+) {
   const combinations = [];
 
   for (const actorType of actorTypes) {
@@ -53,7 +56,12 @@ export function generateCombinations(entityTypes: entityType[] = [], type: 'send
   });
 }
 
-function generateCombination(actorType: string, entityType: string, actionType: string, type: 'sender' | 'receiver') {
+function generateCombination(
+  actorType: string,
+  entityType: string,
+  actionType: string,
+  type: 'sender' | 'receiver'
+) {
   return {
     id: generateUUID(),
     timestamp: generateTimestamp(),
