@@ -220,14 +220,26 @@ export class EoActivityLogShellComponent implements OnInit {
       return {
         timestamp: this.datePipe.transform(x.timestamp, 'longAbbrWithSeconds') as string,
         event: this.transloco.translate(
-          this.translations.activityLog.events[x.entityType][x.actionType],
+          this.translations.activityLog.events[x.actorName ? 'own' : 'others'][x.entityType][
+            x.actionType
+          ],
           {
-            actor: this.formatActorType(x),
+            actorName: this.getActorName(x.actorType, x.actorName),
+            organizationTin: x.organizationTin,
+            organizationName: x.organizationName,
+            otherOrganizationTin: x.otherOrganizationTin,
+            otherOrganizationName: x.otherOrganizationName,
             entityId: x.entityId,
           }
         ),
       };
     });
+  }
+
+  private getActorName(userType: 'User' | 'System', actorName: string): string {
+    return userType === 'User'
+      ? actorName
+      : this.transloco.translate(this.translations.activityLog.systemActor);
   }
 
   private sortData() {
@@ -268,16 +280,5 @@ export class EoActivityLogShellComponent implements OnInit {
       start: getUnixTime(subDays(startOfToday(), 30)) * 1000, // 30 days ago at 00:00
       end: getUnixTime(endOfToday()) * 1000, // Today at 23:59:59
     };
-  }
-
-  private formatActorType(logEntry: ActivityLogEntryResponse): string {
-    if (logEntry.actorType === 'System') {
-      return this.transloco.translate(this.translations.activityLog.systemActor);
-    } else {
-      return this.transloco.translate(this.translations.activityLog.actor, {
-        orginizationName: logEntry.organizationName,
-        organizationTin: logEntry.organizationTin,
-      });
-    }
   }
 }
