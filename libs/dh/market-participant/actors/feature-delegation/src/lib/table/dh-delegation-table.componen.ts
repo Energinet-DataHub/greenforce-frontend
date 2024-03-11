@@ -48,7 +48,7 @@ import { DhDelegation } from '../dh-delegations';
         <ng-container
           *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let entry"
         >
-            <span>{{ entry.gridArea?.code }}</span>
+          <span>{{ entry.gridArea?.code }}</span>
         </ng-container>
 
         <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let entry">

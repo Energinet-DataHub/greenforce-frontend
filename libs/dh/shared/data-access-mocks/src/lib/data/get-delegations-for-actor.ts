@@ -33,13 +33,13 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
         delegatedTo: {
           __typename: 'Actor',
           id: '00000000-0000-0000-0000-000000000001',
-          name: "Test actor 1"
+          name: 'Test actor 1',
         },
         gridArea: {
-            __typename: 'GridAreaDto',
-            code: '003',
-            id: '00000000-0000-0000-0000-000000000011',
-          },
+          __typename: 'GridAreaDto',
+          code: '003',
+          id: '00000000-0000-0000-0000-000000000011',
+        },
       },
       {
         __typename: 'ActorDelegationType',
@@ -49,13 +49,13 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
         delegatedTo: {
           __typename: 'Actor',
           id: '00000000-0000-0000-0000-000000000001',
-          name: "Test actor 1"
+          name: 'Test actor 1',
         },
         gridArea: {
-            __typename: 'GridAreaDto',
-            code: '004',
-            id: '00000000-0000-0000-0000-000000000012',
-          },
+          __typename: 'GridAreaDto',
+          code: '004',
+          id: '00000000-0000-0000-0000-000000000012',
+        },
       },
       {
         __typename: 'ActorDelegationType',
@@ -65,13 +65,13 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
         delegatedTo: {
           __typename: 'Actor',
           id: '00000000-0000-0000-0000-000000000003',
-          name: "Test actor 3"
+          name: 'Test actor 3',
         },
         gridArea: {
-            __typename: 'GridAreaDto',
-            code: '116',
-            id:  '00000000-0000-0000-0000-000000000013',
-          },
+          __typename: 'GridAreaDto',
+          code: '116',
+          id: '00000000-0000-0000-0000-000000000013',
+        },
       },
       {
         __typename: 'ActorDelegationType',
@@ -81,13 +81,13 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
         delegatedTo: {
           __typename: 'Actor',
           id: '00000000-0000-0000-0000-000000000004',
-          name: "Test actor 4"
+          name: 'Test actor 4',
         },
         gridArea: {
-            __typename: 'GridAreaDto',
-            code: '117',
-            id:  '00000000-0000-0000-0000-000000000013',
-          },
+          __typename: 'GridAreaDto',
+          code: '117',
+          id: '00000000-0000-0000-0000-000000000013',
+        },
       },
     ],
   },
