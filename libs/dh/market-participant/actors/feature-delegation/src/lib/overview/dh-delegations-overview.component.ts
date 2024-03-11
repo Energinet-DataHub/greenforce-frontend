@@ -22,6 +22,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhDelegationsByType } from '../dh-delegations';
+import { DhDelegationTableComponent } from '../table/dh-delegation-table.componen';
 
 @Component({
   selector: 'dh-delegations-overview',
@@ -33,6 +34,8 @@ import { DhDelegationsByType } from '../dh-delegations';
     VaterStackComponent,
     WattButtonComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
+
+    DhDelegationTableComponent,
   ],
   styles: `
     :host {
@@ -48,7 +51,7 @@ import { DhDelegationsByType } from '../dh-delegations';
       </vater-stack>
 
       @if (outgoing().length > 0) {
-        <watt-expandable-card togglePosition="before" variant="solid">
+        <watt-expandable-card togglePosition="before" variant="solid" [expanded]="true">
           <watt-expandable-card-title>{{ t('outgoingMessages') }}</watt-expandable-card-title>
 
           @for (entry of outgoing(); track $index) {
@@ -56,13 +59,15 @@ import { DhDelegationsByType } from '../dh-delegations';
               <watt-expandable-card-title>{{
                 t('messageTypes.' + entry.type)
               }}</watt-expandable-card-title>
+
+              <dh-delegation-table [data]="entry.delegations" />
             </watt-expandable-card>
           }
         </watt-expandable-card>
       }
 
       @if (incoming().length > 0) {
-        <watt-expandable-card togglePosition="before" variant="solid">
+        <watt-expandable-card togglePosition="before" variant="solid" [expanded]="true">
           <watt-expandable-card-title>{{ t('incomingMessages') }}</watt-expandable-card-title>
 
           @for (entry of incoming(); track $index) {
@@ -70,6 +75,8 @@ import { DhDelegationsByType } from '../dh-delegations';
               <watt-expandable-card-title>{{
                 t('messageTypes.' + entry.type)
               }}</watt-expandable-card-title>
+
+              <dh-delegation-table [data]="entry.delegations" />
             </watt-expandable-card>
           }
         </watt-expandable-card>

@@ -162,6 +162,14 @@
       "emptyTitle": "Ingen delegering",
       "emptyMessage": "Deleger udgående eller indgående meddelelser til en måleoperatør",
       "emptyStateSetUpDelegation": "Opsæt delegering for meddelelser",
+      "table": {
+        "columns": {
+          "delegatedTo": "Delegeret",
+          "gridArea": "Netområde",
+          "period": "Periode",
+          "status": "Status"
+        }
+      },
       "messageTypes": {
         "RSM012_INBOUND": "Fremsend måledata for et målepunkt (RSM-012)",
         "RSM014_INBOUND": "Fremsend beregnede tidsserier (RSM-014)",
