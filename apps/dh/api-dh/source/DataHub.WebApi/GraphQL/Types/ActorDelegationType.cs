@@ -45,7 +45,11 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     var expiresAt = ctx.Parent<ActorDelegationDto>().ExpiresAt;
                     var startsAt = ctx.Parent<ActorDelegationDto>().StartsAt;
 
-                    if (startsAt > DateTimeOffset.UtcNow)
+                    if (expiresAt.HasValue && expiresAt <= startsAt)
+                    {
+                        return ActorDelegationStatus.Cancelled;
+                    }
+                    else if (startsAt > DateTimeOffset.UtcNow)
                     {
                         return ActorDelegationStatus.Awaiting;
                     }
@@ -53,17 +57,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     {
                         return ActorDelegationStatus.Active;
                     }
-                    else if (startsAt < DateTimeOffset.UtcNow.Date && expiresAt.HasValue && expiresAt > DateTimeOffset.UtcNow)
+                    else if (expiresAt.HasValue && expiresAt < DateTimeOffset.UtcNow)
                     {
                         return ActorDelegationStatus.Expired;
-                    }
-                    else if (startsAt >= DateTimeOffset.UtcNow && expiresAt.HasValue && expiresAt < startsAt)
-                    {
-                        return ActorDelegationStatus.Cancelled;
-                    }
-                    else if (expiresAt.HasValue && startsAt.Day == expiresAt?.Day && startsAt.Month == expiresAt?.Month && startsAt.Year == expiresAt?.Year)
-                    {
-                        return ActorDelegationStatus.Cancelled;
                     }
 
                     return ActorDelegationStatus.Awaiting;
