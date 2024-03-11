@@ -35,7 +35,7 @@ jobs:
     needs: dotnet_ci_build
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v13
     with:
-      tests_dll_file_path: \apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net7.0\Energinet.DataHub.WebApi.Tests.dll
+      tests_dll_file_path: \apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net8.0\Energinet.DataHub.WebApi.Tests.dll
       download_attempt_limit: 12
       environment: AzureAuth
       azure_integrationtest_tenant_id: ${{ vars.integration_test_azure_tenant_id }}
