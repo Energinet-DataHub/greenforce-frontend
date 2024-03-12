@@ -18,9 +18,7 @@
         ],
         "parallel": false
       },
-      "outputs": [
-        "{projectRoot}/source/DataHub.WebApi/bin/Release/net8.0"
-      ]
+      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net8.0"]
     },
     "build-client": {
       "dependsOn": [

@@ -10,6 +10,17 @@ type ActorAuditedChangeAuditLogDto {
   previousValue: String
 }
 
+type ActorDelegationType {
+  gridArea: GridAreaDto
+  delegatedBy: Actor
+  delegatedTo: Actor
+  status: ActorDelegationStatus!
+  id: ActorDelegationId!
+  messageType: DelegationMessageType!
+  startsAt: DateTime!
+  expiresAt: DateTime
+}
+
 enum ActorStatus {
   New
   Active
@@ -256,7 +267,6 @@ type Query {
   userProfile: GetUserProfileResponse!
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
   getDelegationsForActor(actorId: UUID!): GetDelegationsForActorResponse!
-  createDelegationsForActor(actorId: UUID!, delegationDto: CreateActorDelegationDtoInput!): CreateActorDelegationResponse!
 }
 
 type Mutation {
@@ -284,6 +294,27 @@ enum ActorAuditedChange {
 
 """The `DateTime` scalar represents an ISO-8601 compliant date time type."""
 scalar DateTime
+
+enum ActorDelegationStatus {
+  AWAITING
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+type ActorDelegationId {
+  value: UUID!
+}
+
+enum DelegationMessageType {
+  RSM012_INBOUND
+  RSM014_INBOUND
+  RSM016_INBOUND
+  RSM016_OUTBOUND
+  RSM017_INBOUND
+  RSM017_OUTBOUND
+  RSM019_INBOUND
+}
 
 scalar UUID
 
@@ -411,6 +442,46 @@ interface Error {
   message: String!
 }
 
+type KeyValuePairOfStringAndIEnumerableOfString {
+  key: String!
+  value: [String!]!
+}
+
+type ApiErrorDescriptor {
+  message: String!
+  code: String!
+  args: JSON!
+}
+
+enum UserRoleStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum ContactCategory {
+  DEFAULT
+  CHARGES
+  CHARGE_LINKS
+  ELECTRICAL_HEATING
+  END_OF_SUPPLY
+  ENERGINET_INQUIRY
+  ERROR_REPORT
+  INCORRECT_MOVE
+  INCORRECT_SWITCH
+  MEASUREMENT_DATA
+  METERING_POINT
+  NET_SETTLEMENT
+  NOTIFICATION
+  RECON
+  REMINDER
+}
+
+input UserProfileUpdateDtoInput {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+}
+
 input CreateMarketParticipantInput {
   organizationId: UUID
   organization: CreateOrganizationDtoInput
@@ -431,21 +502,8 @@ input UpdatePermissionDtoInput {
   description: String!
 }
 
-input CreateActorDelegationDtoInput {
-  delegatedFrom: UUID!
-  delegatedTo: UUID!
-  gridAreas: [String!]!
-  messageType: DelegationMessageType!
-  createdAt: DateTime!
-  expiresAt: DateTime
-}
-
-type CreateActorDelegationResponse {
-  delegation: ActorDelegationDto!
-}
-
 type GetDelegationsForActorResponse {
-  delegations: [ActorDelegationDto!]!
+  delegations: [ActorDelegationType!]!
 }
 
 type CVROrganizationResult {
@@ -555,48 +613,6 @@ type UserRoleWithPermissionsDto {
   permissions: [PermissionDetailsDto!]!
 }
 
-input UserProfileUpdateDtoInput {
-  firstName: String!
-  lastName: String!
-  phoneNumber: String!
-}
-
-enum ContactCategory {
-  DEFAULT
-  CHARGES
-  CHARGE_LINKS
-  ELECTRICAL_HEATING
-  END_OF_SUPPLY
-  ENERGINET_INQUIRY
-  ERROR_REPORT
-  INCORRECT_MOVE
-  INCORRECT_SWITCH
-  MEASUREMENT_DATA
-  METERING_POINT
-  NET_SETTLEMENT
-  NOTIFICATION
-  RECON
-  REMINDER
-}
-
-enum UserRoleStatus {
-  ACTIVE
-  INACTIVE
-}
-
-type ApiErrorDescriptor {
-  message: String!
-  code: String!
-  args: JSON!
-}
-
-type KeyValuePairOfStringAndIEnumerableOfString {
-  key: String!
-  value: [String!]!
-}
-
-scalar JSON
-
 type PermissionDetailsDto {
   id: Int!
   name: String!
@@ -615,26 +631,6 @@ type ImbalancePricePeriod {
   name: DateTime!
   priceAreaCode: PriceAreaCode!
   status: ImbalancePriceStatus!
-}
-
-type ActorDelegationDto {
-  id: ActorDelegationId!
-  delegatedBy: ActorId!
-  delegatedTo: ActorId!
-  gridAreas: [GridAreaCode!]!
-  messageType: DelegationMessageType!
-  createdAt: DateTime!
-  expiresAt: DateTime
-}
-
-enum DelegationMessageType {
-  RSM012_INBOUND
-  RSM014_INBOUND
-  RSM016_INBOUND
-  RSM016_OUTBOUND
-  RSM017_INBOUND
-  RSM017_OUTBOUND
-  RSM019_INBOUND
 }
 
 input CreateActorContactDtoInput {
@@ -658,6 +654,8 @@ input CreateOrganizationDtoInput {
   domain: String!
 }
 
+scalar JSON
+
 input AddressDtoInput {
   streetName: String
   number: String
@@ -678,18 +676,6 @@ input ActorNumberDtoInput {
 
 input ActorNameDtoInput {
   value: String!
-}
-
-type GridAreaCode {
-  value: String!
-}
-
-type ActorId {
-  value: UUID!
-}
-
-type ActorDelegationId {
-  value: UUID!
 }
 
 input ActorGridAreaDtoInput {

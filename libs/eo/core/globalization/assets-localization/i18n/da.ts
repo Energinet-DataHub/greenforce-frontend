@@ -286,40 +286,96 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     meteringPointEventType: 'Målepunkt',
     tableTitle: 'Resultater',
     timeTableHeader: 'Tidsstempel',
-    actor: '{{orginizationName}} ({{organizationTin}})',
     systemActor: 'System',
     eventTableHeader: 'Aktivitet',
     events: {
-      MeteringPoint: {
-        Created: '{{actor}} har oprettet et målepunkt med ID {{entityId}}',
-        Accepted: '{{actor}} har accepteret målepunktet med ID {{entityId}}',
-        Declined: '{{actor}} har afvist målepunktet med ID {{entityId}}',
-        Activated: '{{actor}} har aktiveret målepunktet med ID {{entityId}}',
-        Deactivated: '{{actor}} har deaktiveret målepunktet med ID {{entityId}}',
-        EndDateChanged: '{{actor}} har ændret slutdatoen for målepunktet med ID {{entityId}}',
-        Expired: '{{actor}} har ladet målepunktet udløbe med ID {{entityId}}',
+      own: {
+        MeteringPoint: {
+          Created: '{{actorName}} har oprettet et målepunkt med ID {{entityId}}',
+          Accepted: '{{actorName}} har accepteret målepunktet med ID {{entityId}}',
+          Declined: '{{actorName}} har afvist målepunktet med ID {{entityId}}',
+          Activated: '{{actorName}} har aktiveret målepunktet med ID {{entityId}}',
+          Deactivated: '{{actorName}} har deaktiveret målepunktet med ID {{entityId}}',
+          EndDateChanged: '{{actorName}} har ændret slutdatoen for målepunktet med ID {{entityId}}',
+          Expired: '{{actorName}} har ladet målepunktet udløbe med ID {{entityId}}',
+        },
+        TransferAgreementProposal: {
+          Created:
+            '{{actorName}} har oprettet et forslag til en overførselsaftale med ID {{entityId}}',
+          Accepted:
+            '{{actorName}} har accepteret forslaget til en overførselsaftale med ID {{entityId}}',
+          Declined:
+            '{{actorName}} har afvist forslaget til en overførselsaftale med ID {{entityId}}',
+          Activated:
+            '{{actorName}} har aktiveret forslaget til en overførselsaftale med ID {{entityId}}',
+          Deactivated:
+            '{{actorName}} har deaktiveret forslaget til en overførselsaftale med ID {{entityId}}',
+          EndDateChanged:
+            '{{actorName}} har ændret slutdatoen for forslaget til en overførselsaftale med ID {{entityId}}',
+          Expired:
+            '{{actorName}} har ladet forslaget til en overførselsaftale udløbe med ID {{entityId}}',
+        },
+        TransferAgreement: {
+          Created: '{{actorName}} har oprettet en overførselsaftale med ID {{entityId}}',
+          Accepted:
+            '{{actorName}} har accepteret overførselsaftalen fra {{otherOrganizationName}} ({{otherOrganizationTin}}) med ID {{entityId}}',
+          Declined: '{{actorName}} har afvist overførselsaftalen med ID {{entityId}}',
+          Activated: '{{actorName}} har aktiveret overførselsaftalen med ID {{entityId}}',
+          Deactivated: '{{actorName}} har deaktiveret overførselsaftalen med ID {{entityId}}',
+          EndDateChanged:
+            '{{actorName}} har ændret slutdatoen for overførselsaftalen med ID {{entityId}}',
+          Expired: '{{actorName}} har ladet overførselsaftalen udløbe med ID {{entityId}}',
+        },
       },
-      TransferAgreementProposal: {
-        Created: '{{actor}} har oprettet et forslag til en overførselsaftale med ID {{entityId}}',
-        Accepted: '{{actor}} har accepteret forslaget til en overførselsaftale med ID {{entityId}}',
-        Declined: '{{actor}} har afvist forslaget til en overførselsaftale med ID {{entityId}}',
-        Activated: '{{actor}} har aktiveret forslaget til en overførselsaftale med ID {{entityId}}',
-        Deactivated:
-          '{{actor}} har deaktiveret forslaget til en overførselsaftale med ID {{entityId}}',
-        EndDateChanged:
-          '{{actor}} har ændret slutdatoen for forslaget til en overførselsaftale med ID {{entityId}}',
-        Expired:
-          '{{actor}} har ladet forslaget til en overførselsaftale udløbe med ID {{entityId}}',
-      },
-      TransferAgreement: {
-        Created: '{{actor}} har oprettet en overførselsaftale med ID {{entityId}}',
-        Accepted: '{{actor}} har accepteret overførselsaftalen med ID {{entityId}}',
-        Declined: '{{actor}} har afvist overførselsaftalen med ID {{entityId}}',
-        Activated: '{{actor}} har aktiveret overførselsaftalen med ID {{entityId}}',
-        Deactivated: '{{actor}} har deaktiveret overførselsaftalen med ID {{entityId}}',
-        EndDateChanged:
-          '{{actor}} har ændret slutdatoen for overførselsaftalen med ID {{entityId}}',
-        Expired: '{{actor}} har ladet overførselsaftalen udløbe med ID {{entityId}}',
+      others: {
+        MeteringPoint: {
+          Created:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har oprettet et målepunkt med ID {{entityId}}',
+          Accepted:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har accepteret målepunktet med ID {{entityId}}',
+          Declined:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har afvist målepunktet med ID {{entityId}}',
+          Activated:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har aktiveret målepunktet med ID {{entityId}}',
+          Deactivated:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har deaktiveret målepunktet med ID {{entityId}}',
+          EndDateChanged:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har ændret slutdatoen for målepunktet med ID {{entityId}}',
+          Expired:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har ladet målepunktet udløbe med ID {{entityId}}',
+        },
+        TransferAgreementProposal: {
+          Created:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har oprettet et forslag til en overførselsaftale med ID {{entityId}}',
+          Accepted:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har accepteret forslaget til en overførselsaftale med ID {{entityId}}',
+          Declined:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har afvist forslaget til en overførselsaftale med ID {{entityId}}',
+          Activated:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har aktiveret forslaget til en overførselsaftale med ID {{entityId}}',
+          Deactivated:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har deaktiveret forslaget til en overførselsaftale med ID {{entityId}}',
+          EndDateChanged:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har ændret slutdatoen for forslaget til en overførselsaftale med ID {{entityId}}',
+          Expired:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har ladet forslaget til en overførselsaftale udløbe med ID {{entityId}}',
+        },
+        TransferAgreement: {
+          Created:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har oprettet en overførselsaftale med ID {{entityId}}',
+          Accepted:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har accepteret overførselsaftalen med ID {{entityId}}',
+          Declined:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har afvist overførselsaftalen med ID {{entityId}}',
+          Activated:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har aktiveret overførselsaftalen med ID {{entityId}}',
+          Deactivated:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har deaktiveret overførselsaftalen med ID {{entityId}}',
+          EndDateChanged:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har ændret slutdatoen for overførselsaftalen med ID {{entityId}}',
+          Expired:
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har ladet overførselsaftalen udløbe med ID {{entityId}}',
+        },
       },
     },
   },
@@ -328,11 +384,6 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   transfers: {
     title: 'Overførselsaftaler',
-    automationError: {
-      title: 'Vi oplever i øjeblikket et problem med at håndtere certifikater',
-      message:
-        'Når vi har løst problemet, vil de udestående overførselsaftaler blive opdateret automatisk.',
-    },
     creationOfTransferAgreementFailed:
       'Oprettelse af overførselsaftalen mislykkedes. Prøv at acceptere forslaget igen eller anmod organisationen, der sendte invitationen, om at generere et nyt link.',
     tableTitle: 'Resultater',

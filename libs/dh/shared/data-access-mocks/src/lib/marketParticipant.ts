@@ -41,6 +41,7 @@ import {
   UpdateActorMutation,
   mockGetOrganizationFromCvrQuery,
   mockGetDelegationsForActorQuery,
+  mockGetDelegatesQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -93,6 +94,7 @@ export function marketParticipantMocks(apiBase: string) {
     createMarketParticipant(),
     getAssociatedActors(),
     getDelegationsForActor(),
+    getDelegates(),
   ];
 }
 
@@ -257,6 +259,34 @@ function getOrganizationFromCvr() {
           name: noResultCVR === cvr ? '' : 'Test Organization',
           hasResult: noResultCVR !== cvr,
         },
+      },
+    });
+  });
+}
+
+function getDelegates() {
+  return mockGetDelegatesQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        actorsForEicFunction: [
+          {
+            __typename: 'Actor',
+            id: '00000000-0000-0000-0000-000000000002',
+            name: 'Test Actor 2',
+          },
+          {
+            __typename: 'Actor',
+            id: '00000000-0000-0000-0000-000000000003',
+            name: 'Test Actor 3',
+          },
+          {
+            __typename: 'Actor',
+            id: '00000000-0000-0000-0000-000000000004',
+            name: 'Test Actor 4',
+          },
+        ],
       },
     });
   });

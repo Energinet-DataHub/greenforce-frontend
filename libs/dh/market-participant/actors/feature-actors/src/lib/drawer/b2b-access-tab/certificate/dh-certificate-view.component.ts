@@ -72,7 +72,7 @@ type DhCertificateTableRow = {
     DhCertificateUploaderComponent,
   ],
 })
-export class DhCertificateComponent {
+export class DhCertificateViewComponent {
   private readonly injector = inject(Injector);
   private readonly store = inject(DhMarketPartyB2BAccessStore);
   private readonly toastService = inject(WattToastService);
