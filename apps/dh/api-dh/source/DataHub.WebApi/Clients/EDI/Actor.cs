@@ -14,6 +14,8 @@
 
 using System;
 
+#pragma warning disable SA1402 // File may only contain a single type
+
 namespace Energinet.DataHub.WebApi.Clients.EDI
 {
     public sealed record Actor(Guid ActorId, ActorNumberDto ActorNumber, ActorNameDto Name);

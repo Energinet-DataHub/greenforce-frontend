@@ -42,9 +42,13 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - apps/dh/api-dh/**
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - apps/dh/api-dh/**
   workflow_dispatch: {}
 
 jobs:
