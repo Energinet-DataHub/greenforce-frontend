@@ -182,10 +182,4 @@ export class EoTransfersService {
         )
       );
   }
-
-  transferAutomationHasError(): Observable<boolean> {
-    return this.http
-      .get<{ healthy: boolean }>(`${this.#apiBase}/transfer-automation/status`)
-      .pipe(map((response) => !response.healthy));
-  }
 }

@@ -331,10 +331,6 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   },
   transfers: {
     title: 'Transfers',
-    automationError: {
-      title: 'We are currently experiencing an issue handling certificates',
-      message: 'Once we resolve the issue, the outstanding transfers will update automatically.',
-    },
     creationOfTransferAgreementFailed:
       'Creating the transfer agreement failed. Try accepting the proposal again or request the organization that sent the invitation to generate a new link.',
     tableTitle: 'Transfer agreements',
