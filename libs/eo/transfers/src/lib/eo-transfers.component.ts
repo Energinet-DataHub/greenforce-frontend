@@ -105,6 +105,7 @@ export class EoTransfersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTransfers();
+
     if (this.proposalId) {
       this.respondProposal.open();
     }
