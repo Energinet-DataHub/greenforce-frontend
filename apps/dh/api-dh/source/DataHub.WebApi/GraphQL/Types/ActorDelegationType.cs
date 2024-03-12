@@ -49,10 +49,6 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     {
                         return ActorDelegationStatus.Cancelled;
                     }
-                    else if (startsAt < DateTimeOffset.UtcNow)
-                    {
-                        return ActorDelegationStatus.Awaiting;
-                    }
                     else if (startsAt > DateTimeOffset.UtcNow && (!expiresAt.HasValue || expiresAt?.Date > DateTimeOffset.UtcNow))
                     {
                         return ActorDelegationStatus.Active;
