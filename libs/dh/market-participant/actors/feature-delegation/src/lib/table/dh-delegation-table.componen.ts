@@ -19,9 +19,9 @@ import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
-import { DhDelegation } from '../dh-delegations';
+import { DhDelegation, DhDelegations } from '../dh-delegations';
+import { DhDelegationStatusComponent } from '../status/dh-delegation-status.component';
 
 @Component({
   selector: 'dh-delegation-table',
@@ -60,12 +60,12 @@ import { DhDelegation } from '../dh-delegations';
         </ng-container>
 
         <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
-          {{ null | dhEmDashFallback }}
+          <dh-delegation-status [status]="entry.status" />
         </ng-container>
       </watt-table>
     </ng-container>
   `,
-  imports: [TranslocoDirective, WATT_TABLE, WattDatePipe, DhEmDashFallbackPipe],
+  imports: [TranslocoDirective, WATT_TABLE, WattDatePipe, DhDelegationStatusComponent],
 })
 export class DhDelegationTableComponent {
   tableDataSource = new WattTableDataSource<DhDelegation>([]);
@@ -77,7 +77,7 @@ export class DhDelegationTableComponent {
     status: { accessor: null },
   };
 
-  data = input.required<DhDelegation[]>();
+  data = input.required<DhDelegations>();
 
   constructor() {
     effect(() => {
