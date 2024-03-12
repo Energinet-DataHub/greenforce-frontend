@@ -11,6 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             RegisterGeneratedDataLoader(builder);
 
+            builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.ActorByIdBatchDataLoader>();
             builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.ActorByOrganizationBatchDataLoader>();
             builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.ActorNameByMarketRoleDataLoader>();
             builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.AuditIdentityCacheDataLoader>();
@@ -20,6 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.UserCacheDataLoader>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.DateRangeType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorAuditedChangeAuditLogDtoType>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorDelegationType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorStatusType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.BalanceResponsibleType>();
