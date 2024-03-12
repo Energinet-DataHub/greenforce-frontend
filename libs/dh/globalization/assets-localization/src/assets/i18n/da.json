@@ -185,6 +185,12 @@
         "RSM017_INBOUND": "Anmod om engrosydelser (RSM-017)",
         "RSM017_OUTBOUND": "Anmod om engrosydelser (RSM-017)",
         "RSM019_INBOUND": "Fremsend beregnede engrosydelser (RSM-019)"
+      },
+      "status": {
+        "ACTIVE": "Aktiv",
+        "AWAITING": "Afventer",
+        "EXPIRED": "Stoppet",
+        "CANCELLED": "Annulleret"
       }
     },
     "market_participant": {

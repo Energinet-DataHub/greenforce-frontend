@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {
+  ActorDelegationStatus,
   DelegationMessageType,
   GetDelegationsForActorQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -40,6 +41,7 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
           code: '003',
           id: '00000000-0000-0000-0000-000000000011',
         },
+        status: ActorDelegationStatus.Active,
       },
       {
         __typename: 'ActorDelegationType',
@@ -56,6 +58,7 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
           code: '004',
           id: '00000000-0000-0000-0000-000000000012',
         },
+        status: ActorDelegationStatus.Awaiting,
       },
       {
         __typename: 'ActorDelegationType',
@@ -72,6 +75,7 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
           code: '116',
           id: '00000000-0000-0000-0000-000000000013',
         },
+        status: ActorDelegationStatus.Cancelled,
       },
       {
         __typename: 'ActorDelegationType',
@@ -88,6 +92,7 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
           code: '117',
           id: '00000000-0000-0000-0000-000000000013',
         },
+        status: ActorDelegationStatus.Expired,
       },
     ],
   },
