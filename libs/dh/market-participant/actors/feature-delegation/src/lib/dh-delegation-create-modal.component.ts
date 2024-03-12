@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, signal } from '@angular/core';
-import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { Component, ViewChild, inject, signal } from '@angular/core';
+import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -27,8 +27,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Apollo } from 'apollo-angular';
+import { Apollo, MutationResult } from 'apollo-angular';
 import {
+  CreateDelegationForActorDocument,
+  CreateDelegationForActorMutation,
   DelegationMessageType,
   GetDelegatesDocument,
   GetGridAreasDocument,
@@ -41,6 +43,9 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 @Component({
   selector: 'dh-create-delegation',
@@ -113,7 +118,11 @@ import {
 })
 export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {
   private _apollo: Apollo = inject(Apollo);
+  private _toastService: any = inject(WattToastService);
   private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+
+  @ViewChild(WattModalComponent)
+  modal: WattModalComponent | undefined;
 
   isSaving = signal(false);
 
@@ -128,9 +137,33 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   delegations$ = this.getDelegations();
   messageTypes = dhEnumToWattDropdownOptions(DelegationMessageType);
 
-  closeModal(result: boolean) {}
+  closeModal(result: boolean) {
+    this.modal?.close(result);
+  }
 
   save() {
+    if (this.createDelegationForm.invalid) return;
+
+    const { startDate, gridAreas, messageTypes, delegations } =
+      this.createDelegationForm.getRawValue();
+
+    this._apollo
+      .mutate({
+        mutation: CreateDelegationForActorDocument,
+        variables: {
+          input: {
+            actorId: this.modalData.id,
+            delegationDto: {
+              createdAt: startDate!,
+              delegatedFrom: this.modalData.id,
+              delegatedTo: delegations,
+              gridAreas,
+              messageTypes,
+            },
+          },
+        },
+      })
+      .subscribe((result) => this.handleCreateDelegationResponse(result));
     this.isSaving.set(true);
     console.log(this.createDelegationForm.value);
     console.log('Saving');
@@ -160,5 +193,37 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
         }))
       )
     );
+  }
+
+  private handleCreateDelegationResponse(
+    response: MutationResult<CreateDelegationForActorMutation>
+  ): void {
+    if (response.errors && response.errors.length > 0) {
+      this._toastService.open({
+        type: 'danger',
+        message: parseGraphQLErrorResponse(response.errors),
+      });
+    }
+
+    if (
+      response.data?.createDelegationsForActor?.errors &&
+      response.data?.createDelegationsForActor?.errors.length > 0
+    ) {
+      this._toastService.open({
+        type: 'danger',
+        message: readApiErrorResponse(response.data?.createDelegationsForActor?.errors),
+      });
+    }
+
+    if (response.data?.createDelegationsForActor?.success) {
+      this._toastService.open({
+        type: 'success',
+        message: translate('marketParticipant.actor.create.createSuccess'),
+      });
+
+      this.closeModal(true);
+    }
+
+    this.isSaving.set(false);
   }
 }
