@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {
+  ActorDelegationStatus,
   DelegationMessageType,
   GetDelegationsForActorQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -26,52 +27,72 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
     __typename: 'GetDelegationsForActorResponse',
     delegations: [
       {
-        __typename: 'ActorDelegationDto',
+        __typename: 'ActorDelegationType',
         messageType: DelegationMessageType.Rsm016Outbound,
-        createdAt: dayjs('2024-01-01T00:00:00+00:00').toDate(),
+        startsAt: dayjs('2024-01-01T00:00:00+00:00').toDate(),
         expiresAt: dayjs('2024-02-01T00:00:00+00:00').toDate(),
         delegatedTo: {
-          __typename: 'ActorId',
-          value: '00000000-0000-0000-0000-000000000001',
+          __typename: 'Actor',
+          id: '00000000-0000-0000-0000-000000000001',
+          name: 'Test actor 1',
         },
-        gridAreas: [
-          {
-            __typename: 'GridAreaCode',
-            value: '003',
-          },
-        ],
+        gridArea: {
+          __typename: 'GridAreaDto',
+          code: '003',
+          id: '00000000-0000-0000-0000-000000000011',
+        },
+        status: ActorDelegationStatus.Active,
       },
       {
-        __typename: 'ActorDelegationDto',
+        __typename: 'ActorDelegationType',
+        messageType: DelegationMessageType.Rsm016Outbound,
+        startsAt: dayjs('2024-02-10T00:00:00+00:00').toDate(),
+        expiresAt: null,
+        delegatedTo: {
+          __typename: 'Actor',
+          id: '00000000-0000-0000-0000-000000000001',
+          name: 'Test actor 1',
+        },
+        gridArea: {
+          __typename: 'GridAreaDto',
+          code: '004',
+          id: '00000000-0000-0000-0000-000000000012',
+        },
+        status: ActorDelegationStatus.Awaiting,
+      },
+      {
+        __typename: 'ActorDelegationType',
         messageType: DelegationMessageType.Rsm016Inbound,
-        createdAt: dayjs('2024-02-01T00:00:00+00:00').toDate(),
+        startsAt: dayjs('2024-02-01T00:00:00+00:00').toDate(),
         expiresAt: dayjs('2024-03-01T00:00:00+00:00').toDate(),
         delegatedTo: {
-          __typename: 'ActorId',
-          value: '00000000-0000-0000-0000-000000000002',
+          __typename: 'Actor',
+          id: '00000000-0000-0000-0000-000000000003',
+          name: 'Test actor 3',
         },
-        gridAreas: [
-          {
-            __typename: 'GridAreaCode',
-            value: '116',
-          },
-        ],
+        gridArea: {
+          __typename: 'GridAreaDto',
+          code: '116',
+          id: '00000000-0000-0000-0000-000000000013',
+        },
+        status: ActorDelegationStatus.Cancelled,
       },
       {
-        __typename: 'ActorDelegationDto',
+        __typename: 'ActorDelegationType',
         messageType: DelegationMessageType.Rsm017Outbound,
-        createdAt: dayjs('2024-03-01T00:00:00+00:00').toDate(),
-        expiresAt: dayjs('2024-03-10T00:00:00+00:00').toDate(),
+        startsAt: dayjs('2024-03-01T00:00:00+00:00').toDate(),
+        expiresAt: null,
         delegatedTo: {
-          __typename: 'ActorId',
-          value: '00000000-0000-0000-0000-000000000003',
+          __typename: 'Actor',
+          id: '00000000-0000-0000-0000-000000000004',
+          name: 'Test actor 4',
         },
-        gridAreas: [
-          {
-            __typename: 'GridAreaCode',
-            value: '117',
-          },
-        ],
+        gridArea: {
+          __typename: 'GridAreaDto',
+          code: '117',
+          id: '00000000-0000-0000-0000-000000000013',
+        },
+        status: ActorDelegationStatus.Expired,
       },
     ],
   },

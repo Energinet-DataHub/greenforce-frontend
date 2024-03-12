@@ -35,22 +35,19 @@ type ActorContactDto {
   phone: String
 }
 
-type ActorDelegationDto {
-  id: ActorDelegationId!
-  delegatedBy: ActorId!
-  delegatedTo: ActorId!
-  gridAreas: [GridAreaCode!]!
-  messageType: DelegationMessageType!
-  createdAt: DateTime!
-  expiresAt: DateTime
-}
-
 type ActorDelegationId {
   value: UUID!
 }
 
-type ActorId {
-  value: UUID!
+type ActorDelegationType {
+  gridArea: GridAreaDto
+  delegatedBy: Actor
+  delegatedTo: Actor
+  status: ActorDelegationStatus!
+  id: ActorDelegationId!
+  messageType: DelegationMessageType!
+  startsAt: DateTime!
+  expiresAt: DateTime
 }
 
 type ActorNameDto {
@@ -125,10 +122,6 @@ type Calculation {
   calculationType: CalculationType!
 }
 
-type CreateActorDelegationResponse {
-  delegation: ActorDelegationDto!
-}
-
 type CreateAggregatedMeasureDataRequestPayload {
   boolean: Boolean
 }
@@ -172,17 +165,13 @@ type ExchangeEventStatusReportResponse {
 }
 
 type GetDelegationsForActorResponse {
-  delegations: [ActorDelegationDto!]!
+  delegations: [ActorDelegationType!]!
 }
 
 type GetUserProfileResponse {
   firstName: String!
   lastName: String!
   phoneNumber: String!
-}
-
-type GridAreaCode {
-  value: String!
 }
 
 type GridAreaDto {
@@ -354,7 +343,6 @@ type Query {
   userProfile: GetUserProfileResponse!
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
   getDelegationsForActor(actorId: UUID!): GetDelegationsForActorResponse!
-  createDelegationsForActor(actorId: UUID! delegationDto: CreateActorDelegationDtoInput!): CreateActorDelegationResponse!
 }
 
 type ReadinessStatusDto {
@@ -469,15 +457,6 @@ input CreateActorContactDtoInput {
   phone: String
 }
 
-input CreateActorDelegationDtoInput {
-  delegatedFrom: UUID!
-  delegatedTo: UUID!
-  gridAreas: [String!]!
-  messageType: DelegationMessageType!
-  createdAt: DateTime!
-  expiresAt: DateTime
-}
-
 input CreateActorDtoInput {
   organizationId: UUID!
   name: ActorNameDtoInput!
@@ -553,6 +532,13 @@ enum ActorAuditedChange {
   CONTACT_CATEGORY_REMOVED
   CERTIFICATE_CREDENTIALS
   CLIENT_SECRET_CREDENTIALS
+}
+
+enum ActorDelegationStatus {
+  AWAITING
+  ACTIVE
+  EXPIRED
+  CANCELLED
 }
 
 enum ActorStatus {

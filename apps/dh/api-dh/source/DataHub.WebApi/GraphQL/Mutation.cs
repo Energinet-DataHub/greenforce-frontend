@@ -203,4 +203,12 @@ public class Mutation
         await client.ResendMessagesWithoutResponseAsync();
         return true;
     }
+
+    public Task CreateDelegationsForActorAsync(
+        Guid actorId,
+        CreateActorDelegationDto delegationDto,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        return client.ActorDelegationPostAsync(delegationDto);
+    }
 }

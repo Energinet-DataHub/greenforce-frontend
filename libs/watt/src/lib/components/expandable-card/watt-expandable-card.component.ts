@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -40,7 +40,7 @@ export class WattExpandableCardContentDirective {
  */
 @Component({
   standalone: true,
-  imports: [NgTemplateOutlet, MatExpansionModule],
+  imports: [NgClass, NgTemplateOutlet, MatExpansionModule],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-expandable-card',
   styleUrl: './watt-expandable-card.component.scss',
@@ -52,6 +52,12 @@ export class WattExpandableCardComponent {
    */
   @ContentChild(WattExpandableCardContentDirective)
   _content?: WattExpandableCardContentDirective;
+
+  /**
+   * @ignore
+   */
+  @ContentChild(WattExpandableCardComponent)
+  containsNestedCard?: WattExpandableCardComponent;
 
   /** Whether the card is expanded. */
   @Input() expanded = false;

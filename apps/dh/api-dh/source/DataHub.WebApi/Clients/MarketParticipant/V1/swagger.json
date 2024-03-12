@@ -533,24 +533,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateActorDelegationResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateActorDelegationResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateActorDelegationResponse"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       },
@@ -3012,11 +2995,12 @@
               }
             ]
           },
-          "gridAreas": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GridAreaCode"
-            }
+          "gridAreaId": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GridAreaId"
+              }
+            ]
           },
           "messageType": {
             "allOf": [
@@ -3025,7 +3009,7 @@
               }
             ]
           },
-          "createdAt": {
+          "startsAt": {
             "type": "string",
             "format": "date-time"
           },
@@ -3283,15 +3267,15 @@
           "gridAreas": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
-          "messageType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/DelegationMessageType"
-              }
-            ]
+          "messageTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DelegationMessageType"
+            }
           },
           "createdAt": {
             "type": "string",
@@ -3301,19 +3285,6 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
-          }
-        }
-      },
-      "CreateActorDelegationResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "delegation": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorDelegationDto"
-              }
-            ]
           }
         }
       },
@@ -3601,15 +3572,6 @@
           }
         }
       },
-      "GridAreaCode": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "value": {
-            "type": "string"
-          }
-        }
-      },
       "GridAreaDto": {
         "type": "object",
         "additionalProperties": false,
@@ -3635,6 +3597,16 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          }
+        }
+      },
+      "GridAreaId": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },

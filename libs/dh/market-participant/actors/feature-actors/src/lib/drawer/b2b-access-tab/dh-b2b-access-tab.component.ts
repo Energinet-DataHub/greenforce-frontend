@@ -24,7 +24,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { DhCertificateUploaderComponent } from './certificate/dh-certificate-uploader.component';
-import { DhCertificateComponent } from './certificate/dh-certificate-view.component';
+import { DhCertificateViewComponent } from './certificate/dh-certificate-view.component';
 import { DhGenerateClientSecretComponent } from './client-secret/dh-generate-client-secret.component';
 import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-view.component';
 
@@ -75,7 +75,7 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
     WattSpinnerComponent,
     WattIconComponent,
 
-    DhCertificateComponent,
+    DhCertificateViewComponent,
     DhCertificateUploaderComponent,
     DhGenerateClientSecretComponent,
     DhClientSecretViewComponent,

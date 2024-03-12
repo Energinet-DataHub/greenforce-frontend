@@ -156,12 +156,27 @@
   },
   "marketParticipant": {
     "delegation": {
+      "message": "Message",
+      "delegations": "Delegates",
+      "save": "Save set up",
+      "cancel": "Close",
       "setUpDelegation": "Set up delegation",
       "outgoingMessages": "Outgoing messages",
       "incomingMessages": "Incoming messages",
+      "modalTitle": "Set up delegation for",
+      "gridArea": "Netområde",
+      "start": "Start",
       "emptyTitle": "No delegations found",
       "emptyMessage": "Delegate outgoing or incoming messages to a meter operator",
       "emptyStateSetUpDelegation": "Set up delegation for messages",
+      "table": {
+        "columns": {
+          "delegatedTo": "Delegated",
+          "gridArea": "Grid area",
+          "period": "Period",
+          "status": "Status"
+        }
+      },
       "messageTypes": {
         "RSM012_INBOUND": "[DK] Fremsend måledata for et målepunkt (RSM-012)",
         "RSM014_INBOUND": "[DK] Fremsend beregnede tidsserier (RSM-014)",
@@ -170,6 +185,12 @@
         "RSM017_INBOUND": "[DK] Anmod om engrosydelser (RSM-017)",
         "RSM017_OUTBOUND": "[DK] Anmod om engrosydelser (RSM-017)",
         "RSM019_INBOUND": "[DK] Fremsend beregnede engrosydelser (RSM-019)"
+      },
+      "status": {
+        "ACTIVE": "Active",
+        "AWAITING": "Pending",
+        "EXPIRED": "Stopped",
+        "CANCELLED": "Cancelled"
       }
     },
     "market_participant": {
