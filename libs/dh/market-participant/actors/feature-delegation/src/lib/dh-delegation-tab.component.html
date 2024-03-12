@@ -1,0 +1,46 @@
+<vater-flex *transloco="let t; read: 'marketParticipant.delegation'">
+  @if (isLoading()) {
+    <vater-stack direction="row" justify="center">
+      <watt-spinner />
+    </vater-stack>
+  } @else if (isEmpty()) {
+    <vater-stack direction="row" justify="center">
+      <watt-empty-state
+        icon="custom-no-results"
+        [title]="t('emptyTitle')"
+        [message]="t('emptyMessage')"
+      >
+        <watt-button
+          *dhPermissionRequired="['delegation:manage']"
+          (click)="onSetUpDelegation()"
+          variant="secondary"
+        >
+          {{ t("emptyStateSetUpDelegation") }}
+        </watt-button>
+      </watt-empty-state>
+    </vater-stack>
+  } @else {
+    <vater-stack direction="row" class="watt-space-stack-m">
+      <watt-dropdown
+        dhDropdownTranslator
+        translate="marketParticipant.delegation.status"
+        [options]="statusOptions"
+        [formControl]="statusControl"
+        [multiple]="true"
+        [chipMode]="true"
+        [placeholder]="t('statusPlaceholder')"
+      />
+
+      <vater-spacer />
+
+      <watt-button (click)="onSetUpDelegation()" variant="secondary">
+        {{ t("setUpDelegation") }}
+      </watt-button>
+    </vater-stack>
+
+    <dh-delegations-overview
+      [outgoing]="delegationsGrouped().outgoing"
+      [incoming]="delegationsGrouped().incoming"
+    />
+  }
+</vater-flex>
