@@ -22,7 +22,7 @@ import {
 } from '@angular/forms';
 import { Component, inject, signal } from '@angular/core';
 
-import { Observable, map } from 'rxjs';
+import { Observable, count, map, of, withLatestFrom } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -38,6 +38,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import {
   DelegationMessageType,
+  EicFunction,
   GetDelegatesDocument,
   GetGridAreasDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -84,17 +85,32 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   isSaving = signal(false);
 
   createDelegationForm = this._fb.group({
-    gridAreas: [[], Validators.required],
-    messageTypes: [[], Validators.required],
+    gridAreas: [[''], Validators.required],
+    messageTypes: [[''], Validators.required],
     startDate: new FormControl<Date | null>(null, Validators.required),
-    delegations: [[], Validators.required],
+    delegations: [[''], Validators.required],
   });
 
   gridAreaOptions$ = this.getGridAreaOptions();
   delegations$ = this.getDelegations();
-  messageTypes = dhEnumToWattDropdownOptions(DelegationMessageType);
+  messageTypes = dhEnumToWattDropdownOptions(
+    DelegationMessageType,
+    this.getMessageTypesToExclude()
+  );
 
   closeModal(result: boolean) {}
+
+  constructor() {
+    super();
+    this.gridAreaOptions$
+      .pipe(withLatestFrom(this.gridAreaOptions$.pipe(count())))
+      .subscribe(([gridAreas, count]) => {
+        console.log(gridAreas, count);
+        if (count === 1) {
+          this.createDelegationForm.controls.gridAreas.setValue([gridAreas[0].value]);
+        }
+      });
+  }
 
   save() {
     this.isSaving.set(true);
@@ -103,6 +119,14 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
+    if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
+      return of(
+        this.modalData.gridAreas.map((gridArea) => ({
+          value: gridArea.code,
+          displayValue: gridArea.name,
+        }))
+      );
+    }
     return this._apollo.query({ query: GetGridAreasDocument }).pipe(
       map((result) => result.data?.gridAreas),
       exists(),
@@ -126,5 +150,27 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
         }))
       )
     );
+  }
+
+  private getMessageTypesToExclude(): DelegationMessageType[] {
+    if (this.modalData.marketRole === EicFunction.EnergySupplier) {
+      return [
+        //DelegationMessageType.Rsm018Inbound coming
+        //DelegationMessageType.Rsm012Outbound coming
+      ];
+    }
+
+    if (this.modalData.marketRole === EicFunction.BalanceResponsibleParty) {
+      return [
+        DelegationMessageType.Rsm012Inbound,
+        DelegationMessageType.Rsm017Inbound,
+        DelegationMessageType.Rsm017Outbound,
+        DelegationMessageType.Rsm019Inbound,
+        //DelegationMessageType.Rsm018Inbound coming
+        //DelegationMessageType.Rsm012Outbound coming
+      ];
+    }
+
+    return [];
   }
 }
