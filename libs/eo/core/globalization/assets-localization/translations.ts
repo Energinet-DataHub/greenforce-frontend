@@ -329,10 +329,6 @@ export const translations = {
   } as const,
   transfers: {
     title: 'transfers.title' as const,
-    automationError: {
-      title: 'transfers.automationError.title' as const,
-      message: 'transfers.automationError.message' as const,
-    } as const,
     creationOfTransferAgreementFailed: 'transfers.creationOfTransferAgreementFailed' as const,
     tableTitle: 'transfers.tableTitle' as const,
     createNewTransferAgreement: 'transfers.createNewTransferAgreement' as const,

@@ -73,17 +73,6 @@ import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-prop
       />
     </watt-card>
 
-    @if (showAutomationError() && transferAgreements().data.length > 0) {
-      <vater-stack>
-        <p style="display: flex; gap: var(--watt-space-xs);">
-          <watt-icon name="warning" fill />{{
-            translations.transfers.automationError.title | transloco
-          }}
-        </p>
-        <small>{{ translations.transfers.automationError.message | transloco }}</small>
-      </vater-stack>
-    }
-
     <!-- Respond proposal modal -->
     <eo-transfers-repsond-proposal
       [proposalId]="proposalId"
@@ -113,11 +102,9 @@ export class EoTransfersComponent implements OnInit {
     data: [],
   });
   protected selectedTransfer = signal<EoListedTransfer | undefined>(undefined);
-  protected showAutomationError = signal(false);
 
   ngOnInit(): void {
     this.getTransfers();
-    this.setShowAutomationError();
 
     if (this.proposalId) {
       this.respondProposal.open();
@@ -225,15 +212,6 @@ export class EoTransfersComponent implements OnInit {
           data: [],
         });
       },
-    });
-  }
-
-  private setShowAutomationError() {
-    this.transfersService.transferAutomationHasError().subscribe({
-      next: (x) => {
-        x ? this.showAutomationError.set(true) : this.showAutomationError.set(false);
-      },
-      error: () => this.showAutomationError.set(true),
     });
   }
 }

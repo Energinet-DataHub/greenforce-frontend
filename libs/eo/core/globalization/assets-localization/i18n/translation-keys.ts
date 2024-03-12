@@ -326,10 +326,6 @@ export interface TranslationKeys {
   };
   transfers: {
     title: string;
-    automationError: {
-      title: string;
-      message: string;
-    };
     creationOfTransferAgreementFailed: string;
     tableTitle: string;
     createNewTransferAgreement: string;

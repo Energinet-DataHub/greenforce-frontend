@@ -384,11 +384,6 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   transfers: {
     title: 'Overførselsaftaler',
-    automationError: {
-      title: 'Vi oplever i øjeblikket et problem med at håndtere certifikater',
-      message:
-        'Når vi har løst problemet, vil de udestående overførselsaftaler blive opdateret automatisk.',
-    },
     creationOfTransferAgreementFailed:
       'Oprettelse af overførselsaftalen mislykkedes. Prøv at acceptere forslaget igen eller anmod organisationen, der sendte invitationen, om at generere et nyt link.',
     tableTitle: 'Resultater',

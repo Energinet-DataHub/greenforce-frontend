@@ -20,7 +20,6 @@ import { transferActivityLogResponse } from './data/activity-logs';
 export function transferMocks(apiBase: string) {
   return [
     getTransferAgreements(apiBase),
-    getTransferAutomationStatus(apiBase),
     postTransferAgreementProposals(apiBase),
     getTransferAgreementHistory(apiBase),
     putTransferAgreements(apiBase),
@@ -109,14 +108,6 @@ function getTransferAgreements(apiBase: string) {
 function postTransferAgreementProposals(apiBase: string) {
   return http.post(`${apiBase}/transfer/transfer-agreement-proposals`, () => {
     return HttpResponse.json({ id: '3fa85f64-5717-4562-b3fc-2c963f66afa6' }, { status: 200 });
-  });
-}
-
-function getTransferAutomationStatus(apiBase: string) {
-  return http.get(`${apiBase}/transfer-automation/status`, () => {
-    const data = { healthy: false };
-
-    return HttpResponse.json(data, { status: 200 });
   });
 }
 
