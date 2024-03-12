@@ -1,0 +1,40 @@
+<watt-modal
+  title="{{ t('modalTitle') + ' ' + modalData.name }}"
+  *transloco="let t; read: 'marketParticipant.delegation'"
+>
+  <form id="set-up-delgation-form" [formGroup]="createDelegationForm" (ngSubmit)="save()">
+    <vater-stack fill="horizontal" justify="flex-start">
+      <watt-dropdown
+        label="{{ t('delegations') }}"
+        [formControl]="createDelegationForm.controls.delegations"
+        [options]="delegations$ | push"
+      />
+      <watt-dropdown
+        [multiple]="true"
+        label="{{ t('message') }}"
+        [formControl]="createDelegationForm.controls.messageTypes"
+        [options]="messageTypes"
+        translate="marketParticipant.delegation.messageTypes"
+        dhDropdownTranslator
+      />
+      <watt-dropdown
+        [multiple]="true"
+        label="{{ t('gridArea') }}"
+        [formControl]="createDelegationForm.controls.gridAreas"
+        [options]="gridAreaOptions$ | push"
+      />
+      <watt-datepicker
+        [label]="t('start')"
+        [formControl]="createDelegationForm.controls.startDate"
+      />
+    </vater-stack>
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="closeModal(false)">
+        {{ t("cancel") }}
+      </watt-button>
+      <watt-button type="submit" formId="set-up-delgation-form" [loading]="isSaving()">
+        {{ t("save") }}
+      </watt-button>
+    </watt-modal-actions>
+  </form>
+</watt-modal>
