@@ -16,8 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Security.Claims;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -29,146 +30,158 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
+namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers;
+
+public class MarketParticipantControllerTests(WebApiFactory factory)
+    : WebApiTestBase(factory)
 {
-    public class MarketParticipantControllerTests(WebApiFactory factory)
-        : WebApiTestBase(factory)
+    private const string GetFilteredActorsUrl = "v1/MarketParticipant/Organization/GetFilteredActors";
+
+    private readonly JsonSerializerOptions _jsonSerializerOptions = new()
     {
-        private const string GetFilteredActorsUrl = "v1/MarketParticipant/Organization/GetFilteredActors";
-
-        private Mock<IMarketParticipantClient_V1> MarketParticipantClientMock { get; } = new();
-
-        [Theory]
-        [InlineAutoMoqData]
-        public async Task GetFilteredActors_NotFas_ReturnsSingleActor(OrganizationDto organization, ActorDto actor, Guid actorId)
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        Converters =
         {
-            // Arrange
-            JwtAuthenticationServiceMock.AddAuthorizationHeader(Client, actorId);
+            new JsonStringEnumConverter<EicFunction>(),
+        },
+    };
 
-            var organizations = new List<OrganizationDto>
-            {
-                organization,
-            };
+    private Mock<IMarketParticipantClient_V1> MarketParticipantClientMock { get; } = new();
 
-            var actors = new List<ActorDto>
-            {
-                new()
-                    {
-                        ActorId = actorId,
-                        OrganizationId = organization.OrganizationId,
-                        ActorNumber = actor.ActorNumber,
-                        MarketRoles = actor.MarketRoles,
-                        Name = actor.Name,
-                        Status = actor.Status,
-                    },
-            };
+    [Theory]
+    [InlineAutoMoqData]
+    public async Task GetFilteredActors_NotFas_ReturnsSingleActor(OrganizationDto organization, ActorDto actor, Guid actorId)
+    {
+        // Arrange
+        JwtAuthenticationServiceMock.AddAuthorizationHeader(Client, actorId);
 
-            var gridAreas = actor
-                .MarketRoles
-                .SelectMany(m => m.GridAreas)
-                .Select(g => g.Id)
-                .Distinct()
-                .Select(gid => new GridAreaDto()
-                    {
-                        Id = gid,
-                        Code = "000",
-                        Name = string.Empty,
-                        PriceAreaCode = "Dk1",
-                        ValidFrom = DateTimeOffset.Now,
-                        ValidTo = DateTimeOffset.Now,
-                    });
-
-            MarketParticipantClientMock
-                .Setup(client => client.OrganizationGetAsync())
-                .ReturnsAsync(organizations);
-
-            MarketParticipantClientMock
-                .Setup(client => client.ActorGetAsync())
-                .ReturnsAsync(actors);
-
-            MarketParticipantClientMock
-                .Setup(client => client.GridAreaGetAsync())
-                .ReturnsAsync(gridAreas.ToList);
-
-            // Act
-            var actual = await Client.GetAsync(GetFilteredActorsUrl);
-
-            // Assert
-            actual.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            var result = await actual.Content.ReadAsAsync<IEnumerable<FilteredActorDto>>();
-            result.Should().ContainSingle(returnedActor => returnedActor.ActorId == actorId);
-        }
-
-        [Theory]
-        [InlineAutoMoqData]
-        public async Task GetFilteredActors_IsFas_ReturnsAllActors(OrganizationDto organization, ActorDto actor, Guid actorId)
+        var organizations = new List<OrganizationDto>
         {
-            // Arrange
-            JwtAuthenticationServiceMock.AddAuthorizationHeader(Client, actorId, new Claim("membership", "fas"));
+            organization,
+        };
 
-            var organizations = new List<OrganizationDto>
-            {
-                organization,
-            };
-
-            var actors = new List<ActorDto>
-            {
-                new()
-                    {
-                        ActorId = actorId,
-                        OrganizationId = organization.OrganizationId,
-                        ActorNumber = actor.ActorNumber,
-                        MarketRoles = actor.MarketRoles,
-                        Name = actor.Name,
-                        Status = actor.Status,
-                    },
-            };
-
-            var gridAreas = actor
-                .MarketRoles
-                .SelectMany(m => m.GridAreas)
-                .Select(g => g.Id)
-                .Distinct()
-                .Select(gid => new GridAreaDto()
-                    {
-                        Id = gid,
-                        Code = "000",
-                        Name = string.Empty,
-                        PriceAreaCode = "Dk1",
-                        ValidFrom = DateTimeOffset.Now,
-                        ValidTo = DateTimeOffset.Now,
-                    });
-
-            MarketParticipantClientMock
-                .Setup(client => client.OrganizationGetAsync())
-                .ReturnsAsync(organizations);
-
-            MarketParticipantClientMock
-                .Setup(client => client.ActorGetAsync())
-                .ReturnsAsync(actors);
-
-            MarketParticipantClientMock
-                .Setup(client => client.GridAreaGetAsync())
-                .ReturnsAsync(gridAreas.ToList);
-
-            // Act
-            var actual = await Client.GetAsync(GetFilteredActorsUrl);
-
-            // Assert
-            actual.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            var result = await actual.Content.ReadAsAsync<IEnumerable<FilteredActorDto>>();
-            var expected = actors.Select(x => x.ActorId);
-            var actualIds = result.Select(r => r.ActorId);
-
-            actualIds.Should().BeEquivalentTo(expected);
-        }
-
-        protected override void ConfigureMocks(IServiceCollection services)
+        var actors = new List<ActorDto>
         {
-            JwtAuthenticationServiceMock.ConfigureServices(services);
-            services.AddSingleton(MarketParticipantClientMock.Object);
-        }
+            new()
+            {
+                ActorId = actorId,
+                OrganizationId = organization.OrganizationId,
+                ActorNumber = actor.ActorNumber,
+                MarketRoles = actor.MarketRoles,
+                Name = actor.Name,
+                Status = actor.Status,
+            },
+        };
+
+        var gridAreas = actor
+            .MarketRoles
+            .SelectMany(m => m.GridAreas)
+            .Select(g => g.Id)
+            .Distinct()
+            .Select(gid => new GridAreaDto
+            {
+                Id = gid,
+                Code = "000",
+                Name = string.Empty,
+                PriceAreaCode = "Dk1",
+                ValidFrom = DateTimeOffset.Now,
+                ValidTo = DateTimeOffset.Now,
+            });
+
+        MarketParticipantClientMock
+            .Setup(client => client.OrganizationGetAsync())
+            .ReturnsAsync(organizations);
+
+        MarketParticipantClientMock
+            .Setup(client => client.ActorGetAsync())
+            .ReturnsAsync(actors);
+
+        MarketParticipantClientMock
+            .Setup(client => client.GridAreaGetAsync())
+            .ReturnsAsync(gridAreas.ToList);
+
+        // Act
+        var actual = await Client.GetAsync(GetFilteredActorsUrl);
+
+        // Assert
+        actual.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var json = await actual.Content.ReadAsStreamAsync();
+        var result = JsonSerializer.Deserialize<IEnumerable<FilteredActorDto>>(json, _jsonSerializerOptions);
+
+        result.Should().ContainSingle(returnedActor => returnedActor.ActorId == actorId);
+    }
+
+    [Theory]
+    [InlineAutoMoqData]
+    public async Task GetFilteredActors_IsFas_ReturnsAllActors(OrganizationDto organization, ActorDto actor, Guid actorId)
+    {
+        // Arrange
+        JwtAuthenticationServiceMock.AddAuthorizationHeader(Client, actorId, new Claim("membership", "fas"));
+
+        var organizations = new List<OrganizationDto>
+        {
+            organization,
+        };
+
+        var actors = new List<ActorDto>
+        {
+            new()
+            {
+                ActorId = actorId,
+                OrganizationId = organization.OrganizationId,
+                ActorNumber = actor.ActorNumber,
+                MarketRoles = actor.MarketRoles,
+                Name = actor.Name,
+                Status = actor.Status,
+            },
+        };
+
+        var gridAreas = actor
+            .MarketRoles
+            .SelectMany(m => m.GridAreas)
+            .Select(g => g.Id)
+            .Distinct()
+            .Select(gid => new GridAreaDto
+            {
+                Id = gid,
+                Code = "000",
+                Name = string.Empty,
+                PriceAreaCode = "Dk1",
+                ValidFrom = DateTimeOffset.Now,
+                ValidTo = DateTimeOffset.Now,
+            });
+
+        MarketParticipantClientMock
+            .Setup(client => client.OrganizationGetAsync())
+            .ReturnsAsync(organizations);
+
+        MarketParticipantClientMock
+            .Setup(client => client.ActorGetAsync())
+            .ReturnsAsync(actors);
+
+        MarketParticipantClientMock
+            .Setup(client => client.GridAreaGetAsync())
+            .ReturnsAsync(gridAreas.ToList);
+
+        // Act
+        var actual = await Client.GetAsync(GetFilteredActorsUrl);
+
+        // Assert
+        actual.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var json = await actual.Content.ReadAsStreamAsync();
+        var result = JsonSerializer.Deserialize<IEnumerable<FilteredActorDto>>(json, _jsonSerializerOptions);
+
+        var expected = actors.Select(x => x.ActorId);
+        var actualIds = result!.Select(r => r.ActorId);
+
+        actualIds.Should().BeEquivalentTo(expected);
+    }
+
+    protected override void ConfigureMocks(IServiceCollection services)
+    {
+        JwtAuthenticationServiceMock.ConfigureServices(services);
+        services.AddSingleton(MarketParticipantClientMock.Object);
     }
 }
