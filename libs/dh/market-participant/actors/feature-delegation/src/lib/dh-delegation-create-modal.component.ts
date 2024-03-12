@@ -20,7 +20,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 
 import { Observable, count, map, of, withLatestFrom } from 'rxjs';
 import { Apollo } from 'apollo-angular';
@@ -46,9 +46,34 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 
+/** TODO: Remove when Typescript 5.4 lands with support for groupBy  */
+declare global {
+  interface ObjectConstructor {
+    /**
+     * Groups members of an iterable according to the return value of the passed callback.
+     * @param items An iterable.
+     * @param keySelector A callback which will be invoked for each item in items.
+     */
+    groupBy<K extends PropertyKey, T>(
+      items: Iterable<T>,
+      keySelector: (item: T, index: number) => K
+    ): Partial<Record<K, T[]>>;
+  }
+
+  interface MapConstructor {
+    /**
+     * Groups members of an iterable according to the return value of the passed callback.
+     * @param items An iterable.
+     * @param keySelector A callback which will be invoked for each item in items.
+     */
+    groupBy<K, T>(items: Iterable<T>, keySelector: (item: T, index: number) => K): Map<K, T[]>;
+  }
+}
+
 @Component({
   selector: 'dh-create-delegation',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-delegation-create-modal.component.html',
   styles: [
     `
@@ -85,37 +110,56 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   isSaving = signal(false);
 
   createDelegationForm = this._fb.group({
-    gridAreas: [[''], Validators.required],
-    messageTypes: [[''], Validators.required],
+    gridAreas: new FormControl<string[] | null>(null, Validators.required),
+    messageTypes: new FormControl<string[] | null>(null, Validators.required),
     startDate: new FormControl<Date | null>(null, Validators.required),
-    delegations: [[''], Validators.required],
+    delegations: new FormControl<string[] | null>(null, Validators.required),
   });
 
   gridAreaOptions$ = this.getGridAreaOptions();
   delegations$ = this.getDelegations();
-  messageTypes = dhEnumToWattDropdownOptions(
-    DelegationMessageType,
-    this.getMessageTypesToExclude()
-  );
+  messageTypes = this.getMessageTypes();
 
   closeModal(result: boolean) {}
 
   constructor() {
     super();
-    this.gridAreaOptions$
-      .pipe(withLatestFrom(this.gridAreaOptions$.pipe(count())))
-      .subscribe(([gridAreas, count]) => {
-        console.log(gridAreas, count);
-        if (count === 1) {
-          this.createDelegationForm.controls.gridAreas.setValue([gridAreas[0].value]);
-        }
-      });
+
+    this.gridAreaOptions$.subscribe((gridAreas) => {
+      if (gridAreas.length === 1) {
+        this.createDelegationForm.controls.gridAreas.setValue([gridAreas[0].value]);
+      }
+    });
   }
 
   save() {
     this.isSaving.set(true);
+    setTimeout(() => this.isSaving.set(false), 2000);
     console.log(this.createDelegationForm.value);
     console.log('Saving');
+  }
+
+  private getMessageTypes() {
+    const groupedMessageTypes = [];
+    const messageTypes = dhEnumToWattDropdownOptions(
+      DelegationMessageType,
+      this.getMessageTypesToExclude()
+    );
+    const groupByMessageTypes = Object.groupBy(
+      messageTypes,
+      (messageType) => messageType.value.split('_')[1]
+    );
+
+    for (const [key, value] of Object.entries(groupByMessageTypes)) {
+      groupedMessageTypes.push({ value: key, displayValue: key, disabled: true });
+      if (value === undefined) continue;
+
+      for (const messageType of value) {
+        groupedMessageTypes.push(messageType);
+      }
+    }
+
+    return groupedMessageTypes;
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {

@@ -178,6 +178,8 @@
         }
       },
       "messageTypes": {
+        "INBOUND": "Indgående",
+        "OUTBOUND": "Udgående",
         "RSM012_INBOUND": "Fremsend måledata for et målepunkt (RSM-012)",
         "RSM014_INBOUND": "Fremsend beregnede tidsserier (RSM-014)",
         "RSM016_INBOUND": "Anmod om aggregerede måledata (RSM-016)",

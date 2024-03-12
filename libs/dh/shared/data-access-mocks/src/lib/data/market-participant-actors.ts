@@ -53,11 +53,6 @@ export const marketParticipantActors: Actor[] = [
         code: 'DK1',
         name: 'DK1',
       } as GridAreaDto,
-      {
-        __typename: 'GridAreaDto',
-        code: 'DK2',
-        name: 'DK2',
-      } as GridAreaDto,
     ],
     marketRole: EicFunction.GridAccessProvider,
     status: ActorStatus.Active,
