@@ -34,6 +34,7 @@ import {
   mockGetActorsForSettlementReportQuery,
   mockGetCalculationByIdQuery,
   mockGetCalculationsQuery,
+  mockGetGridAreasQuery,
   mockGetLatestBalanceFixingQuery,
   mockGetSelectedActorQuery,
   mockGetSettlementReportsQuery,
@@ -51,6 +52,7 @@ export function wholesaleMocks(apiBase: string) {
     downloadSettlementReportData(apiBase),
     getSettlementReports(),
     getFilteredActors(),
+    getGridAreasQuery(),
     getLatestBalanceFixing(),
     getActorsForSettlementReportQuery(),
     getActorsForRequestCalculationQuery(),
@@ -459,6 +461,15 @@ function getSettlementReports() {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', settlementReports: mockedSettlementReports },
+    });
+  });
+}
+
+function getGridAreasQuery() {
+  return mockGetGridAreasQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: { __typename: 'Query', gridAreas: mockedGridAreas },
     });
   });
 }
