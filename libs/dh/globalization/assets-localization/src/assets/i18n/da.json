@@ -186,6 +186,7 @@
         "RSM017_OUTBOUND": "Anmod om engrosydelser (RSM-017)",
         "RSM019_INBOUND": "Fremsend beregnede engrosydelser (RSM-019)"
       },
+      "statusPlaceholder": "Status",
       "status": {
         "ACTIVE": "Aktiv",
         "AWAITING": "Afventer",
