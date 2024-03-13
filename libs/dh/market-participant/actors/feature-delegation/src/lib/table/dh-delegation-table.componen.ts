@@ -22,6 +22,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { DhDelegation, DhDelegations } from '../dh-delegations';
 import { DhDelegationStatusComponent } from '../status/dh-delegation-status.component';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   selector: 'dh-delegation-table',
@@ -36,6 +37,7 @@ import { DhDelegationStatusComponent } from '../status/dh-delegation-status.comp
       <watt-table
         [dataSource]="tableDataSource"
         [columns]="columns"
+        [selectable]="true"
         [sortClear]="false"
         [suppressRowHoverHighlight]="true"
       >
@@ -62,10 +64,23 @@ import { DhDelegationStatusComponent } from '../status/dh-delegation-status.comp
         <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
           <dh-delegation-status [status]="entry.status" />
         </ng-container>
+        <ng-container *wattTableToolbar="let selection">
+          {{ selection.length }} {{ t('selectedRows') }}
+          <watt-table-toolbar-spacer />
+          <watt-button (click)="stopSelectedDelegations(selection)" icon="close">
+            {{ t('stopDelegation') }}
+          </watt-button>
+        </ng-container>
       </watt-table>
     </ng-container>
   `,
-  imports: [TranslocoDirective, WATT_TABLE, WattDatePipe, DhDelegationStatusComponent],
+  imports: [
+    TranslocoDirective,
+    WATT_TABLE,
+    WattDatePipe,
+    WattButtonComponent,
+    DhDelegationStatusComponent,
+  ],
 })
 export class DhDelegationTableComponent {
   tableDataSource = new WattTableDataSource<DhDelegation>([]);
@@ -83,5 +98,9 @@ export class DhDelegationTableComponent {
     effect(() => {
       this.tableDataSource.data = this.data();
     });
+  }
+
+  stopSelectedDelegations(selected: DhDelegation[]) {
+    console.log(selected);
   }
 }

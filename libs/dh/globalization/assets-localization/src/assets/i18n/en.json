@@ -170,6 +170,8 @@
       "emptyMessage": "Delegate outgoing or incoming messages to a meter operator",
       "emptyStateSetUpDelegation": "Set up delegation for messages",
       "table": {
+        "selectedRows": "Selected rows",
+        "stopDelegation": "Stop delegation",
         "columns": {
           "delegatedTo": "Delegated",
           "gridArea": "Grid area",
