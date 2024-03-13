@@ -126,7 +126,7 @@ export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit, OnDe
       map((gridAreas) =>
         gridAreas.map((gridArea) => ({
           value: gridArea.code,
-          displayValue: `${gridArea.name} (${gridArea.code})`,
+          displayValue: gridArea.displayName,
         }))
       )
     );
