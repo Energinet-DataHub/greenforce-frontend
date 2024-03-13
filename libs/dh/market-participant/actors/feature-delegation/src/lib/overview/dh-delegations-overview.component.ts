@@ -51,7 +51,7 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
         <watt-expandable-card togglePosition="before" variant="solid" [expanded]="true">
           <watt-expandable-card-title>{{ t('outgoingMessages') }}</watt-expandable-card-title>
 
-          @for (entry of outgoing(); track entry) {
+          @for (entry of outgoing(); track $index) {
             <watt-expandable-card togglePosition="before" variant="solid">
               <watt-expandable-card-title>{{
                 t('messageTypes.' + entry.type)
@@ -67,7 +67,7 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
         <watt-expandable-card togglePosition="before" variant="solid" [expanded]="true">
           <watt-expandable-card-title>{{ t('incomingMessages') }}</watt-expandable-card-title>
 
-          @for (entry of incoming(); track entry) {
+          @for (entry of incoming(); track $index) {
             <watt-expandable-card togglePosition="before" variant="solid">
               <watt-expandable-card-title>{{
                 t('messageTypes.' + entry.type)
