@@ -20,31 +20,41 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, inject, signal } from '@angular/core';
 
-import { Apollo } from 'apollo-angular';
 import { Observable, map, of } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { Apollo, MutationResult } from 'apollo-angular';
+import { TranslocoDirective, translate } from '@ngneat/transloco';
 
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
+
 import {
-  DelegationMessageType,
   EicFunction,
-  GetDelegatesDocument,
   GetGridAreasDocument,
+  GetDelegatesDocument,
+  DelegationMessageType,
+  GetDelegationsForActorDocument,
+  CreateDelegationForActorDocument,
+  CreateDelegationForActorMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
+
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /** TODO: Remove when Typescript 5.4 lands with support for groupBy  */
 declare global {
@@ -105,13 +115,18 @@ declare global {
 })
 export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {
   private _apollo: Apollo = inject(Apollo);
+  private _toastService: any = inject(WattToastService);
   private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
 
+  @ViewChild(WattModalComponent)
+  modal: WattModalComponent | undefined;
+
   isSaving = signal(false);
+  showGridAreaDropdown = signal(true);
 
   createDelegationForm = this._fb.group({
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
-    messageTypes: new FormControl<string[] | null>(null, Validators.required),
+    messageTypes: new FormControl<DelegationMessageType[] | null>(null, Validators.required),
     startDate: new FormControl<Date | null>(null, Validators.required),
     delegations: new FormControl<string[] | null>(null, Validators.required),
   });
@@ -120,23 +135,51 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   delegations$ = this.getDelegations();
   messageTypes = this.getMessageTypes();
 
-  closeModal(result: boolean) {}
+  closeModal(result: boolean) {
+    this.modal?.close(result);
+  }
 
   constructor() {
     super();
 
-    this.gridAreaOptions$.subscribe((gridAreas) => {
+    this.gridAreaOptions$.pipe(takeUntilDestroyed()).subscribe((gridAreas) => {
       if (gridAreas.length === 1) {
+        this.showGridAreaDropdown.set(false);
         this.createDelegationForm.controls.gridAreas.setValue([gridAreas[0].value]);
+      } else {
+        this.showGridAreaDropdown.set(true);
       }
     });
   }
 
   save() {
+    if (this.createDelegationForm.invalid) return;
+
+    const { startDate, gridAreas, messageTypes, delegations } =
+      this.createDelegationForm.getRawValue();
+
+    if (!startDate || !gridAreas || !messageTypes || !delegations) return;
+
     this.isSaving.set(true);
-    setTimeout(() => this.isSaving.set(false), 2000);
-    console.log(this.createDelegationForm.value);
-    console.log('Saving');
+
+    this._apollo
+      .mutate({
+        mutation: CreateDelegationForActorDocument,
+        refetchQueries: [GetDelegationsForActorDocument],
+        variables: {
+          input: {
+            actorId: this.modalData.id,
+            delegationDto: {
+              createdAt: startDate!,
+              delegatedFrom: this.modalData.id,
+              delegatedTo: delegations,
+              gridAreas,
+              messageTypes,
+            },
+          },
+        },
+      })
+      .subscribe((result) => this.handleCreateDelegationResponse(result));
   }
 
   private getMessageTypes() {
@@ -166,8 +209,8 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
       return of(
         this.modalData.gridAreas.map((gridArea) => ({
-          value: gridArea.code,
-          displayValue: gridArea.name,
+          value: gridArea.id,
+          displayValue: `${gridArea.name} (${gridArea.code})`,
         }))
       );
     }
@@ -176,7 +219,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       exists(),
       map((gridAreas) =>
         gridAreas.map((gridArea) => ({
-          value: gridArea.code,
+          value: gridArea.id,
           displayValue: `${gridArea.name} (${gridArea.code})`,
         }))
       )
@@ -194,6 +237,38 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
         }))
       )
     );
+  }
+
+  private handleCreateDelegationResponse(
+    response: MutationResult<CreateDelegationForActorMutation>
+  ): void {
+    if (response.errors && response.errors.length > 0) {
+      this._toastService.open({
+        type: 'danger',
+        message: parseGraphQLErrorResponse(response.errors),
+      });
+    }
+
+    if (
+      response.data?.createDelegationsForActor?.errors &&
+      response.data?.createDelegationsForActor?.errors.length > 0
+    ) {
+      this._toastService.open({
+        type: 'danger',
+        message: readApiErrorResponse(response.data?.createDelegationsForActor?.errors),
+      });
+    }
+
+    if (response.data?.createDelegationsForActor?.success) {
+      this._toastService.open({
+        type: 'success',
+        message: translate('marketParticipant.delegation.createSuccess'),
+      });
+
+      this.closeModal(true);
+    }
+
+    this.isSaving.set(false);
   }
 
   private getMessageTypesToExclude(): DelegationMessageType[] {
