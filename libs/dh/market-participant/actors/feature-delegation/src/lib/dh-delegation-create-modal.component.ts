@@ -143,7 +143,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       map((gridAreas) =>
         gridAreas.map((gridArea) => ({
           value: gridArea.code,
-          displayValue: `${gridArea.name} (${gridArea.code})`,
+          displayValue: gridArea.displayName,
         }))
       )
     );
