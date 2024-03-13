@@ -21,7 +21,9 @@
       "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net8.0"]
     },
     "build-client": {
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "executor": "nx:run-commands",
       "options": {
         "commands": [
@@ -34,7 +36,9 @@
         ],
         "parallel": false
       },
-      "outputs": ["{workspaceRoot}/libs/dh/shared/domain/src/lib/generated/v1"]
+      "outputs": [
+        "{workspaceRoot}/libs/dh/shared/domain/src/lib/generated/v1"
+      ]
     },
     "ci-configuration": {
       "executor": "nx:run-commands",
@@ -69,20 +73,18 @@
       },
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"],
+        "commands": [
+          "npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"
+        ],
         "parallel": false
       },
-      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net8.0"]
-    },
-    "test": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "npm run check:dotnet",
-          "dotnet test apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release"
-        ]
-      }
+      "outputs": [
+        "{projectRoot}/source/DataHub.WebApi/bin/Release/net8.0"
+      ]
     }
   },
-  "tags": ["product:dh", "type:api"]
+  "tags": [
+    "product:dh",
+    "type:api"
+  ]
 }

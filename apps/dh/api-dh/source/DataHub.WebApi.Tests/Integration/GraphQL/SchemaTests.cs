@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using System.Threading.Tasks;
-using CookieCrumble;
+using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Xunit;
 
@@ -22,8 +22,10 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL
     public class SchemaTests
     {
         [Fact]
-        public async Task ChangeTest() =>
-            (await GraphQLTestService.Executor.GetSchemaAsync(default))
-                .MatchSnapshot();
+        public async Task ChangeTest()
+        {
+            var schema = await GraphQLTestService.Executor.GetSchemaAsync(default);
+            await schema.MatchSnapshotAsync();
+        }
     }
 }
