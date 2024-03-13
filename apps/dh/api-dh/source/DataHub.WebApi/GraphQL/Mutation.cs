@@ -204,11 +204,13 @@ public class Mutation
         return true;
     }
 
-    public Task CreateDelegationsForActorAsync(
+    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
+    public async Task<bool> CreateDelegationsForActorAsync(
         Guid actorId,
         CreateActorDelegationDto delegationDto,
         [Service] IMarketParticipantClient_V1 client)
     {
-        return client.ActorDelegationPostAsync(delegationDto);
+        await client.ActorDelegationPostAsync(delegationDto);
+        return true;
     }
 }

@@ -14,10 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-modal
-  title="{{ t('modalTitle') + ' ' + modalData.name }}"
-  *transloco="let t; read: 'marketParticipant.delegation'"
->
+<watt-modal [title]="t('modalTitle')" *transloco="let t; read: 'marketParticipant.delegation'">
   <form id="set-up-delgation-form" [formGroup]="createDelegationForm" (ngSubmit)="save()">
     <vater-stack fill="horizontal" justify="flex-start">
       <watt-dropdown
@@ -33,7 +30,8 @@ limitations under the License.
         translate="marketParticipant.delegation.messageTypes"
         dhDropdownTranslator
       />
-      @if ((gridAreaOptions$ | push)?.length ?? 0 > 1) {
+
+      @if (showGridAreaDropdown()) {
         <watt-dropdown
           [multiple]="true"
           label="{{ t('gridArea') }}"
