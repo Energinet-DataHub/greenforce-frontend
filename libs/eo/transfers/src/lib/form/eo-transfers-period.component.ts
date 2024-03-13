@@ -84,7 +84,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
             margin-right: var(--watt-space-m);
           }
 
-          watt-datepicker label > span {
+          watt-datepicker-v2 label > span {
             display: none;
           }
         }

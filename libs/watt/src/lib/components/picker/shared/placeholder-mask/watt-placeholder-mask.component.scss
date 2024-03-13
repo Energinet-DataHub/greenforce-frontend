@@ -20,7 +20,7 @@ watt-placeholder-mask {
   position: absolute;
   font-family: watt.$typography-monospace-font-family;
   box-sizing: content-box;
-  width: 100%;
+  max-width: 100%;
   line-height: 20px;
   padding: 1px 2px;
   letter-spacing: -0.03em;

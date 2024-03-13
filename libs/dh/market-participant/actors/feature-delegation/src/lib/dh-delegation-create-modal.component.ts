@@ -20,7 +20,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
 import {
   FormControl,
   NonNullableFormBuilder,
@@ -70,7 +70,7 @@ import {
           [formControl]="createDelegationForm.controls.gridAreas"
           [options]="gridAreaOptions$ | push"
         />
-        <watt-datepicker
+        <watt-datepicker-v2
           [label]="t('start')"
           [formControl]="createDelegationForm.controls.startDate"
         />
@@ -89,11 +89,11 @@ import {
     `
       :host {
         display: block;
-        vater-stack > *:not(watt-datepicker) {
+        vater-stack > *:not(watt-datepicker-v2) {
           width: 100%;
         }
 
-        watt-datepicker {
+        watt-datepicker-v2 {
           margin-right: auto;
         }
       }
@@ -108,7 +108,7 @@ import {
     RxPush,
     DhDropdownTranslatorDirective,
     WattButtonComponent,
-    WattDatepickerComponent,
+    WattDatepickerV2Component,
   ],
 })
 export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {
