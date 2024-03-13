@@ -92,5 +92,5 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
       },
       status: ActorDelegationStatus.Expired,
     },
-  ]
+  ],
 };
