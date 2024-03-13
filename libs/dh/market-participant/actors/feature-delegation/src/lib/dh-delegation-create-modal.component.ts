@@ -40,12 +40,13 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
+  EicFunction,
+  GetGridAreasDocument,
+  GetDelegatesDocument,
+  DelegationMessageType,
+  GetDelegationsForActorDocument,
   CreateDelegationForActorDocument,
   CreateDelegationForActorMutation,
-  DelegationMessageType,
-  EicFunction,
-  GetDelegatesDocument,
-  GetGridAreasDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -164,6 +165,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     this._apollo
       .mutate({
         mutation: CreateDelegationForActorDocument,
+        refetchQueries: [GetDelegationsForActorDocument],
         variables: {
           input: {
             actorId: this.modalData.id,
@@ -207,8 +209,8 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
       return of(
         this.modalData.gridAreas.map((gridArea) => ({
-          value: gridArea.code,
-          displayValue: gridArea.name,
+          value: gridArea.id,
+          displayValue: `${gridArea.name} (${gridArea.code})`,
         }))
       );
     }
@@ -217,7 +219,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       exists(),
       map((gridAreas) =>
         gridAreas.map((gridArea) => ({
-          value: gridArea.code,
+          value: gridArea.id,
           displayValue: `${gridArea.name} (${gridArea.code})`,
         }))
       )
