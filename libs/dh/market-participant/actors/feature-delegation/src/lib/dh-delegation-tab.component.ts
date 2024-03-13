@@ -128,7 +128,7 @@ export class DhDelegationTabComponent {
         next: (result) => {
           this.isLoading.set(result.loading);
 
-          this.delegationsRaw.set(result.data.getDelegationsForActor.delegations);
+          this.delegationsRaw.set(result.data.getDelegationsForActor);
 
           this.delegationsGrouped.set(dhGroupDelegations(this.delegationsRaw()));
         },

@@ -23,7 +23,7 @@ import {
 
 export type DhDelegation = ResultOf<
   typeof GetDelegationsForActorDocument
->['getDelegationsForActor']['delegations'][0];
+>['getDelegationsForActor'][0];
 
 export type DhDelegations = DhDelegation[];
 
