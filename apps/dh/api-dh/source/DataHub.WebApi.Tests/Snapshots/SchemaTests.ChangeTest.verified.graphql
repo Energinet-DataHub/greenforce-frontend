@@ -35,21 +35,6 @@ type ActorContactDto {
   phone: String
 }
 
-type ActorDelegationId {
-  value: UUID!
-}
-
-type ActorDelegationType {
-  gridArea: GridAreaDto
-  delegatedBy: Actor
-  delegatedTo: Actor
-  status: ActorDelegationStatus!
-  id: ActorDelegationId!
-  messageType: DelegationMessageType!
-  startsAt: DateTime!
-  expiresAt: DateTime
-}
-
 type ActorNameDto {
   value: String!
 }
@@ -169,10 +154,6 @@ type ExchangeEventStatusReportResponse {
   waitingForExternalResponse: Int!
 }
 
-type GetDelegationsForActorResponse {
-  delegations: [ActorDelegationType!]!
-}
-
 type GetUserProfileResponse {
   firstName: String!
   lastName: String!
@@ -229,6 +210,21 @@ type ImbalancePricesOverview {
 type KeyValuePairOfStringAndIEnumerableOfString {
   key: String!
   value: [String!]!
+}
+
+type MessageDelegationId {
+  value: UUID!
+}
+
+type MessageDelegationType {
+  gridArea: GridAreaDto
+  delegatedBy: Actor
+  delegatedTo: Actor
+  status: ActorDelegationStatus!
+  id: MessageDelegationId!
+  messageType: DelegationMessageType!
+  startsAt: DateTime!
+  expiresAt: DateTime
 }
 
 type MeteringGridAreaImbalancePerDayDto {
@@ -348,7 +344,7 @@ type Query {
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   userProfile: GetUserProfileResponse!
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
-  getDelegationsForActor(actorId: UUID!): GetDelegationsForActorResponse!
+  getDelegationsForActor(actorId: UUID!): [MessageDelegationType!]!
 }
 
 type ReadinessStatusDto {
@@ -465,15 +461,6 @@ input CreateActorContactDtoInput {
   phone: String
 }
 
-input CreateActorDelegationDtoInput {
-  delegatedFrom: UUID!
-  delegatedTo: UUID!
-  gridAreas: [UUID!]!
-  messageTypes: [DelegationMessageType!]!
-  createdAt: DateTime!
-  expiresAt: DateTime
-}
-
 input CreateActorDtoInput {
   organizationId: UUID!
   name: ActorNameDtoInput!
@@ -499,7 +486,7 @@ input CreateCalculationInput {
 
 input CreateDelegationsForActorInput {
   actorId: UUID!
-  delegationDto: CreateActorDelegationDtoInput!
+  delegationDto: CreateMessageDelegationDtoInput!
 }
 
 input CreateMarketParticipantInput {
@@ -507,6 +494,15 @@ input CreateMarketParticipantInput {
   organization: CreateOrganizationDtoInput
   actor: CreateActorDtoInput!
   actorContact: CreateActorContactDtoInput!
+}
+
+input CreateMessageDelegationDtoInput {
+  delegatedFrom: UUID!
+  delegatedTo: UUID!
+  gridAreas: [UUID!]!
+  messageTypes: [DelegationMessageType!]!
+  startsAt: DateTime!
+  stopsAt: DateTime
 }
 
 input CreateOrganizationDtoInput {
@@ -613,11 +609,13 @@ enum ContactCategory {
 
 enum DelegationMessageType {
   RSM012_INBOUND
+  RSM012_OUTBOUND
   RSM014_INBOUND
   RSM016_INBOUND
   RSM016_OUTBOUND
   RSM017_INBOUND
   RSM017_OUTBOUND
+  RSM018_INBOUND
   RSM019_INBOUND
 }
 
