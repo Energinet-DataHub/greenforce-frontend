@@ -14,82 +14,76 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, inject, signal } from '@angular/core';
-import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { TranslocoDirective, translate } from '@ngneat/transloco';
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import {
   FormControl,
   NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Apollo, MutationResult } from 'apollo-angular';
-import {
-  CreateDelegationForActorDocument,
-  CreateDelegationForActorMutation,
-  DelegationMessageType,
-  GetDelegatesDocument,
-  GetGridAreasDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import { Observable, map } from 'rxjs';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { ChangeDetectionStrategy, Component, ViewChild, inject, signal } from '@angular/core';
+
+import { Observable, map, of } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
+import { Apollo, MutationResult } from 'apollo-angular';
+import { TranslocoDirective, translate } from '@ngneat/transloco';
+
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+
+import {
+  CreateDelegationForActorDocument,
+  CreateDelegationForActorMutation,
+  DelegationMessageType,
+  EicFunction,
+  GetDelegatesDocument,
+  GetGridAreasDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
+
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+/** TODO: Remove when Typescript 5.4 lands with support for groupBy  */
+declare global {
+  interface ObjectConstructor {
+    /**
+     * Groups members of an iterable according to the return value of the passed callback.
+     * @param items An iterable.
+     * @param keySelector A callback which will be invoked for each item in items.
+     */
+    groupBy<K extends PropertyKey, T>(
+      items: Iterable<T>,
+      keySelector: (item: T, index: number) => K
+    ): Partial<Record<K, T[]>>;
+  }
+
+  interface MapConstructor {
+    /**
+     * Groups members of an iterable according to the return value of the passed callback.
+     * @param items An iterable.
+     * @param keySelector A callback which will be invoked for each item in items.
+     */
+    groupBy<K, T>(items: Iterable<T>, keySelector: (item: T, index: number) => K): Map<K, T[]>;
+  }
+}
 
 @Component({
   selector: 'dh-create-delegation',
   standalone: true,
-  template: `<watt-modal
-    title="{{ t('modalTitle') + ' ' + modalData.name }}"
-    *transloco="let t; read: 'marketParticipant.delegation'"
-  >
-    <form id="set-up-delgation-form" [formGroup]="createDelegationForm" (ngSubmit)="save()">
-      <vater-stack fill="horizontal" justify="flex-start">
-        <watt-dropdown
-          label="{{ t('delegations') }}"
-          [formControl]="createDelegationForm.controls.delegations"
-          [options]="delegations$ | push"
-        />
-        <watt-dropdown
-          [multiple]="true"
-          label="{{ t('message') }}"
-          [formControl]="createDelegationForm.controls.messageTypes"
-          [options]="messageTypes"
-          translate="marketParticipant.delegation.messageTypes"
-          dhDropdownTranslator
-        />
-        <watt-dropdown
-          [multiple]="true"
-          label="{{ t('gridArea') }}"
-          [formControl]="createDelegationForm.controls.gridAreas"
-          [options]="gridAreaOptions$ | push"
-        />
-        <watt-datepicker
-          [label]="t('start')"
-          [formControl]="createDelegationForm.controls.startDate"
-        />
-      </vater-stack>
-      <watt-modal-actions>
-        <watt-button variant="secondary" (click)="closeModal(false)">
-          {{ t('cancel') }}
-        </watt-button>
-        <watt-button type="submit" formId="set-up-delgation-form" [loading]="isSaving()">
-          {{ t('save') }}
-        </watt-button>
-      </watt-modal-actions>
-    </form>
-  </watt-modal>`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './dh-delegation-create-modal.component.html',
   styles: [
     `
       :host {
@@ -105,15 +99,17 @@ import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/d
     `,
   ],
   imports: [
-    WATT_MODAL,
-    TranslocoDirective,
-    WattDropdownComponent,
-    VaterStackComponent,
-    ReactiveFormsModule,
     RxPush,
-    DhDropdownTranslatorDirective,
+    TranslocoDirective,
+    ReactiveFormsModule,
+
+    WATT_MODAL,
     WattButtonComponent,
+    WattDropdownComponent,
     WattDatepickerComponent,
+
+    VaterStackComponent,
+    DhDropdownTranslatorDirective,
   ],
 })
 export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {
@@ -125,20 +121,34 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   modal: WattModalComponent | undefined;
 
   isSaving = signal(false);
+  showGridAreaDropdown = signal(true);
 
   createDelegationForm = this._fb.group({
-    gridAreas: [[], Validators.required],
-    messageTypes: [[], Validators.required],
+    gridAreas: new FormControl<string[] | null>(null, Validators.required),
+    messageTypes: new FormControl<DelegationMessageType[] | null>(null, Validators.required),
     startDate: new FormControl<Date | null>(null, Validators.required),
-    delegations: [[], Validators.required],
+    delegations: new FormControl<string[] | null>(null, Validators.required),
   });
 
   gridAreaOptions$ = this.getGridAreaOptions();
   delegations$ = this.getDelegations();
-  messageTypes = dhEnumToWattDropdownOptions(DelegationMessageType);
+  messageTypes = this.getMessageTypes();
 
   closeModal(result: boolean) {
     this.modal?.close(result);
+  }
+
+  constructor() {
+    super();
+
+    this.gridAreaOptions$.pipe(takeUntilDestroyed()).subscribe((gridAreas) => {
+      if (gridAreas.length === 1) {
+        this.showGridAreaDropdown.set(false);
+        this.createDelegationForm.controls.gridAreas.setValue([gridAreas[0].value]);
+      } else {
+        this.showGridAreaDropdown.set(true);
+      }
+    });
   }
 
   save() {
@@ -146,6 +156,8 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
 
     const { startDate, gridAreas, messageTypes, delegations } =
       this.createDelegationForm.getRawValue();
+
+    if (!startDate || !gridAreas || !messageTypes || !delegations) return;
 
     this.isSaving.set(true);
 
@@ -168,7 +180,38 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       .subscribe((result) => this.handleCreateDelegationResponse(result));
   }
 
+  private getMessageTypes() {
+    const groupedMessageTypes = [];
+    const messageTypes = dhEnumToWattDropdownOptions(
+      DelegationMessageType,
+      this.getMessageTypesToExclude()
+    );
+    const groupByMessageTypes = Object.groupBy(
+      messageTypes,
+      (messageType) => messageType.value.split('_')[1]
+    );
+
+    for (const [key, value] of Object.entries(groupByMessageTypes)) {
+      groupedMessageTypes.push({ value: key, displayValue: key, disabled: true });
+      if (value === undefined) continue;
+
+      for (const messageType of value) {
+        groupedMessageTypes.push(messageType);
+      }
+    }
+
+    return groupedMessageTypes;
+  }
+
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
+    if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
+      return of(
+        this.modalData.gridAreas.map((gridArea) => ({
+          value: gridArea.code,
+          displayValue: gridArea.name,
+        }))
+      );
+    }
     return this._apollo.query({ query: GetGridAreasDocument }).pipe(
       map((result) => result.data?.gridAreas),
       exists(),
@@ -224,5 +267,27 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     }
 
     this.isSaving.set(false);
+  }
+
+  private getMessageTypesToExclude(): DelegationMessageType[] {
+    if (this.modalData.marketRole === EicFunction.EnergySupplier) {
+      return [
+        //DelegationMessageType.Rsm018Inbound coming
+        //DelegationMessageType.Rsm012Outbound coming
+      ];
+    }
+
+    if (this.modalData.marketRole === EicFunction.BalanceResponsibleParty) {
+      return [
+        DelegationMessageType.Rsm012Inbound,
+        DelegationMessageType.Rsm017Inbound,
+        DelegationMessageType.Rsm017Outbound,
+        DelegationMessageType.Rsm019Inbound,
+        //DelegationMessageType.Rsm018Inbound coming
+        //DelegationMessageType.Rsm012Outbound coming
+      ];
+    }
+
+    return [];
   }
 }

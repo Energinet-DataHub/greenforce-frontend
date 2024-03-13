@@ -72,7 +72,7 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
     <form
       vater-stack
       direction="row"
-      gap="m"
+      gap="s"
       tabindex="-1"
       [formGroup]="_formGroup"
       *transloco="let t; read: 'wholesale.calculations.filters'"
