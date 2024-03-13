@@ -170,7 +170,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
           input: {
             actorId: this.modalData.id,
             delegationDto: {
-              startsAt: startDate!,
+              startsAt: startDate,
               delegatedFrom: this.modalData.id,
               delegatedTo: delegations,
               gridAreas,
