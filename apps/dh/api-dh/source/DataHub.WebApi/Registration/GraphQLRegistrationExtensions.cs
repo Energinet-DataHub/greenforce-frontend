@@ -25,6 +25,7 @@ namespace Energinet.DataHub.WebApi.Registration
         {
             return services
                 .AddGraphQLServer()
+                .AddInstrumentation()
                 .AddAuthorization()
                 .AddQueryType<Query>()
                 .AddMutationConventions(applyToAllMutations: true)

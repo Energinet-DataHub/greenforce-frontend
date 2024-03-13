@@ -16,7 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 
+#pragma warning disable SA1300 // Element should begin with upper-case letter
 namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+#pragma warning restore SA1300 // Element should begin with upper-case letter
 
 public partial class ApiException
 {

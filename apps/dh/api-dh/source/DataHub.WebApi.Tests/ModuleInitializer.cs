@@ -12,18 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Microsoft.Extensions.DependencyInjection;
+using System.Runtime.CompilerServices;
+using VerifyXunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Fixtures
+namespace Energinet.DataHub.WebApi.Tests;
+
+public static class ModuleInitializer
 {
-    /// <summary>
-    /// This can be used for changing registrations in the container (e.g. for mocks).
-    /// </summary>
-    public interface IServiceMock
+    [ModuleInitializer]
+    public static void Initialize()
     {
-        /// <summary>
-        /// Called when services are to be configured.
-        /// </summary>
-        void ConfigureServices(IServiceCollection services);
+        Verifier.UseProjectRelativeDirectory("Snapshots");
     }
 }

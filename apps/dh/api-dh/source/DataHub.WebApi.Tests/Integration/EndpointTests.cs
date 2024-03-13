@@ -13,13 +13,11 @@
 // limitations under the License.
 
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration
 {
@@ -28,22 +26,9 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
     /// </summary>
     public class EndpointTests
     {
-        public class GetOpenApiDocumentation :
-                    WebApiTestBase<BffWebApiFixture>,
-                    IClassFixture<BffWebApiFixture>,
-                    IClassFixture<WebApiFactory>
+        public class GetOpenApiDocumentation(WebApiFactory factory)
+            : WebApiTestBase(factory)
         {
-            private HttpClient Client { get; }
-
-            public GetOpenApiDocumentation(
-                    BffWebApiFixture bffWebApiFixture,
-                    WebApiFactory factory,
-                    ITestOutputHelper testOutputHelper)
-                    : base(bffWebApiFixture, testOutputHelper)
-            {
-                Client = factory.CreateClient();
-            }
-
             [Fact]
             public async Task When_StandardRequest_Then_ResponseIsOKAndContainsJsonAndOpenAPIv3()
             {

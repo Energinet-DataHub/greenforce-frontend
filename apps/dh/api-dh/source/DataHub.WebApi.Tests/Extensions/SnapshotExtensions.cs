@@ -12,19 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Net.Http;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Xunit;
+using System.Threading.Tasks;
+using HotChocolate;
+using HotChocolate.Execution;
+using VerifyXunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Fixtures
+namespace Energinet.DataHub.WebApi.Tests.Extensions;
+
+public static class SnapshotExtensions
 {
-    public abstract class WebHostTestBase : IClassFixture<WebApplicationFactory<Startup>>
-    {
-        protected WebHostTestBase(WebApplicationFactory<Startup> factory)
-        {
-            HttpClient = factory.CreateClient();
-        }
+    public static async Task MatchSnapshotAsync(this ISchema value) =>
+        await Verifier.Verify(target: value.ToString(), extension: "graphql");
 
-        protected HttpClient HttpClient { get; }
-    }
+    public static async Task MatchSnapshotAsync(this IExecutionResult value) =>
+        await Verifier.Verify(target: value.ToJson(), extension: "json");
 }
