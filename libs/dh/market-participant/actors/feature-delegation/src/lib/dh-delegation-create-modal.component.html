@@ -33,7 +33,7 @@ limitations under the License.
         translate="marketParticipant.delegation.messageTypes"
         dhDropdownTranslator
       />
-      @if ((gridAreaOptions$ | push).length > 1) {
+      @if ((gridAreaOptions$ | push)?.length ?? 0 > 1) {
         <watt-dropdown
           [multiple]="true"
           label="{{ t('gridArea') }}"

@@ -22,8 +22,8 @@ import {
 } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 
-import { Observable, count, map, of, withLatestFrom } from 'rxjs';
 import { Apollo } from 'apollo-angular';
+import { Observable, map, of } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
 
