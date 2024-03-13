@@ -157,6 +157,7 @@
   "marketParticipant": {
     "delegation": {
       "message": "Meddelelse",
+      "createSuccess": "Delegering oprettet",
       "delegations": "Delegeret",
       "save": "Gem opsætning",
       "cancel": "Luk",
@@ -164,7 +165,7 @@
       "setUpDelegation": "Opsæt delegering",
       "outgoingMessages": "Udgående meddelelser",
       "incomingMessages": "Indgående meddelelser",
-      "modalTitle": "Opsæt delegering for",
+      "modalTitle": "Opsæt delegering",
       "gridArea": "Netområde",
       "start": "Start",
       "emptyTitle": "Ingen delegering",
