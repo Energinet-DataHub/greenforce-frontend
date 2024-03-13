@@ -168,7 +168,6 @@
     "@testing-library/user-event": "13.5.0",
     "@types/crypto-js": "4.2.1",
     "@types/highlight.js": "10.1.0",
-    "@types/inputmask": "5.0.3",
     "@types/inquirer": "9.0.3",
     "@types/jest": "29.5.12",
     "@types/jest-dev-server": "5.0.0",

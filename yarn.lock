@@ -13600,13 +13600,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/inputmask@npm:5.0.3":
-  version: 5.0.3
-  resolution: "@types/inputmask@npm:5.0.3"
-  checksum: 80546b972e4791faea4e9cd6ae64ac5b9377d2eeb3a2317d520fdcd76064f53eaa7932961e69142df2ab4698f770e0cf0f1361d90109dad0cba11b229a983898
-  languageName: node
-  linkType: hard
-
 "@types/inquirer@npm:9.0.3":
   version: 9.0.3
   resolution: "@types/inquirer@npm:9.0.3"
@@ -20641,7 +20634,6 @@ __metadata:
     "@testing-library/user-event": "npm:13.5.0"
     "@types/crypto-js": "npm:4.2.1"
     "@types/highlight.js": "npm:10.1.0"
-    "@types/inputmask": "npm:5.0.3"
     "@types/inquirer": "npm:9.0.3"
     "@types/jest": "npm:29.5.12"
     "@types/jest-dev-server": "npm:5.0.0"

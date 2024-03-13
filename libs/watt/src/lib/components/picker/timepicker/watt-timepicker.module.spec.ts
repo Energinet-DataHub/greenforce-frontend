@@ -22,13 +22,14 @@ import userEvent from '@testing-library/user-event';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
-import { WattTimepickerComponent } from './';
+import { WattTimepickerV2Component } from './';
 import { WattDateRange } from '../../../utils/date';
 import { danishDatetimeProviders } from '../../../configuration/watt-danish-datetime.providers';
+import { debug } from 'jest-preview';
 
 const backspace = '{backspace}';
 
-describe(WattTimepickerComponent, () => {
+describe(WattTimepickerV2Component, () => {
   async function setup({
     template,
     initialState = null,
@@ -48,7 +49,12 @@ describe(WattTimepickerComponent, () => {
 
     const { fixture } = await render(TestComponent, {
       providers: [danishLocalProviders, danishDatetimeProviders, FormGroupDirective],
-      imports: [WattTimepickerComponent, ReactiveFormsModule, FormsModule, BrowserAnimationsModule],
+      imports: [
+        WattTimepickerV2Component,
+        ReactiveFormsModule,
+        FormsModule,
+        BrowserAnimationsModule,
+      ],
     });
 
     const [startTimeInput, endTimeInput] = screen.queryAllByRole('textbox') as HTMLInputElement[];
@@ -62,11 +68,11 @@ describe(WattTimepickerComponent, () => {
 
   describe('with reactive forms', () => {
     const template = `
-  <watt-timepicker
+  <watt-timepicker-v2
     [formControl]="timeRangeControl"
     [range]="true"
     sliderLabel="Adjust time range"
-  ></watt-timepicker>`;
+  ></watt-timepicker-v2>`;
 
     commonTests(template);
 
@@ -74,6 +80,8 @@ describe(WattTimepickerComponent, () => {
       const { fixture, startTimeInput } = await setup({
         template,
       });
+
+      console.log(startTimeInput.outerHTML);
 
       userEvent.clear(startTimeInput);
       userEvent.type(startTimeInput, '0123');
@@ -267,7 +275,7 @@ describe(WattTimepickerComponent, () => {
 
       const inputs = screen.queryAllByRole('textbox');
 
-      expect(inputs.length).toBe(2);
+      expect(inputs.length).toBe(3);
     });
 
     it('can set an initial state', async () => {
