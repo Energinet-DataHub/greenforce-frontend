@@ -157,6 +157,7 @@
   "marketParticipant": {
     "delegation": {
       "message": "Message",
+      "createSuccess": "Delegation created",
       "delegations": "Delegates",
       "save": "Save set up",
       "cancel": "Close",

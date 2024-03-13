@@ -147,6 +147,8 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     const { startDate, gridAreas, messageTypes, delegations } =
       this.createDelegationForm.getRawValue();
 
+    this.isSaving.set(true);
+
     this._apollo
       .mutate({
         mutation: CreateDelegationForActorDocument,
@@ -164,9 +166,6 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
         },
       })
       .subscribe((result) => this.handleCreateDelegationResponse(result));
-    this.isSaving.set(true);
-    console.log(this.createDelegationForm.value);
-    console.log('Saving');
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
@@ -218,7 +217,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     if (response.data?.createDelegationsForActor?.success) {
       this._toastService.open({
         type: 'success',
-        message: translate('marketParticipant.actor.create.createSuccess'),
+        message: translate('marketParticipant.delegation.createSuccess'),
       });
 
       this.closeModal(true);
