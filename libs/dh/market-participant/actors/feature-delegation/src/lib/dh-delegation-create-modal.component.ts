@@ -14,77 +14,67 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, signal } from '@angular/core';
-import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import {
   FormControl,
   NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+
 import { Apollo } from 'apollo-angular';
-import {
-  DelegationMessageType,
-  GetDelegatesDocument,
-  GetGridAreasDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import { Observable, map } from 'rxjs';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { Observable, map, of } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { TranslocoDirective } from '@ngneat/transloco';
+
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DelegationMessageType,
+  EicFunction,
+  GetDelegatesDocument,
+  GetGridAreasDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
+
+/** TODO: Remove when Typescript 5.4 lands with support for groupBy  */
+declare global {
+  interface ObjectConstructor {
+    /**
+     * Groups members of an iterable according to the return value of the passed callback.
+     * @param items An iterable.
+     * @param keySelector A callback which will be invoked for each item in items.
+     */
+    groupBy<K extends PropertyKey, T>(
+      items: Iterable<T>,
+      keySelector: (item: T, index: number) => K
+    ): Partial<Record<K, T[]>>;
+  }
+
+  interface MapConstructor {
+    /**
+     * Groups members of an iterable according to the return value of the passed callback.
+     * @param items An iterable.
+     * @param keySelector A callback which will be invoked for each item in items.
+     */
+    groupBy<K, T>(items: Iterable<T>, keySelector: (item: T, index: number) => K): Map<K, T[]>;
+  }
+}
 
 @Component({
   selector: 'dh-create-delegation',
   standalone: true,
-  template: `<watt-modal
-    title="{{ t('modalTitle') + ' ' + modalData.name }}"
-    *transloco="let t; read: 'marketParticipant.delegation'"
-  >
-    <form id="set-up-delgation-form" [formGroup]="createDelegationForm" (ngSubmit)="save()">
-      <vater-stack fill="horizontal" justify="flex-start">
-        <watt-dropdown
-          label="{{ t('delegations') }}"
-          [formControl]="createDelegationForm.controls.delegations"
-          [options]="delegations$ | push"
-        />
-        <watt-dropdown
-          [multiple]="true"
-          label="{{ t('message') }}"
-          [formControl]="createDelegationForm.controls.messageTypes"
-          [options]="messageTypes"
-          translate="marketParticipant.delegation.messageTypes"
-          dhDropdownTranslator
-        />
-        <watt-dropdown
-          [multiple]="true"
-          label="{{ t('gridArea') }}"
-          [formControl]="createDelegationForm.controls.gridAreas"
-          [options]="gridAreaOptions$ | push"
-        />
-        <watt-datepicker
-          [label]="t('start')"
-          [formControl]="createDelegationForm.controls.startDate"
-        />
-      </vater-stack>
-      <watt-modal-actions>
-        <watt-button variant="secondary" (click)="closeModal(false)">
-          {{ t('cancel') }}
-        </watt-button>
-        <watt-button type="submit" formId="set-up-delgation-form" [loading]="isSaving()">
-          {{ t('save') }}
-        </watt-button>
-      </watt-modal-actions>
-    </form>
-  </watt-modal>`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './dh-delegation-create-modal.component.html',
   styles: [
     `
       :host {
@@ -100,15 +90,17 @@ import {
     `,
   ],
   imports: [
-    WATT_MODAL,
-    TranslocoDirective,
-    WattDropdownComponent,
-    VaterStackComponent,
-    ReactiveFormsModule,
     RxPush,
-    DhDropdownTranslatorDirective,
+    TranslocoDirective,
+    ReactiveFormsModule,
+
+    WATT_MODAL,
     WattButtonComponent,
+    WattDropdownComponent,
     WattDatepickerComponent,
+
+    VaterStackComponent,
+    DhDropdownTranslatorDirective,
   ],
 })
 export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {
@@ -118,25 +110,67 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   isSaving = signal(false);
 
   createDelegationForm = this._fb.group({
-    gridAreas: [[], Validators.required],
-    messageTypes: [[], Validators.required],
+    gridAreas: new FormControl<string[] | null>(null, Validators.required),
+    messageTypes: new FormControl<string[] | null>(null, Validators.required),
     startDate: new FormControl<Date | null>(null, Validators.required),
-    delegations: [[], Validators.required],
+    delegations: new FormControl<string[] | null>(null, Validators.required),
   });
 
   gridAreaOptions$ = this.getGridAreaOptions();
   delegations$ = this.getDelegations();
-  messageTypes = dhEnumToWattDropdownOptions(DelegationMessageType);
+  messageTypes = this.getMessageTypes();
 
   closeModal(result: boolean) {}
 
+  constructor() {
+    super();
+
+    this.gridAreaOptions$.subscribe((gridAreas) => {
+      if (gridAreas.length === 1) {
+        this.createDelegationForm.controls.gridAreas.setValue([gridAreas[0].value]);
+      }
+    });
+  }
+
   save() {
     this.isSaving.set(true);
+    setTimeout(() => this.isSaving.set(false), 2000);
     console.log(this.createDelegationForm.value);
     console.log('Saving');
   }
 
+  private getMessageTypes() {
+    const groupedMessageTypes = [];
+    const messageTypes = dhEnumToWattDropdownOptions(
+      DelegationMessageType,
+      this.getMessageTypesToExclude()
+    );
+    const groupByMessageTypes = Object.groupBy(
+      messageTypes,
+      (messageType) => messageType.value.split('_')[1]
+    );
+
+    for (const [key, value] of Object.entries(groupByMessageTypes)) {
+      groupedMessageTypes.push({ value: key, displayValue: key, disabled: true });
+      if (value === undefined) continue;
+
+      for (const messageType of value) {
+        groupedMessageTypes.push(messageType);
+      }
+    }
+
+    return groupedMessageTypes;
+  }
+
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
+    if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
+      return of(
+        this.modalData.gridAreas.map((gridArea) => ({
+          value: gridArea.code,
+          displayValue: gridArea.name,
+        }))
+      );
+    }
     return this._apollo.query({ query: GetGridAreasDocument }).pipe(
       map((result) => result.data?.gridAreas),
       exists(),
@@ -160,5 +194,27 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
         }))
       )
     );
+  }
+
+  private getMessageTypesToExclude(): DelegationMessageType[] {
+    if (this.modalData.marketRole === EicFunction.EnergySupplier) {
+      return [
+        //DelegationMessageType.Rsm018Inbound coming
+        //DelegationMessageType.Rsm012Outbound coming
+      ];
+    }
+
+    if (this.modalData.marketRole === EicFunction.BalanceResponsibleParty) {
+      return [
+        DelegationMessageType.Rsm012Inbound,
+        DelegationMessageType.Rsm017Inbound,
+        DelegationMessageType.Rsm017Outbound,
+        DelegationMessageType.Rsm019Inbound,
+        //DelegationMessageType.Rsm018Inbound coming
+        //DelegationMessageType.Rsm012Outbound coming
+      ];
+    }
+
+    return [];
   }
 }
