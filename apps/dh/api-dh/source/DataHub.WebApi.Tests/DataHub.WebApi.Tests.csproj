@@ -29,8 +29,9 @@ limitations under the License.
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CookieCrumble" Version="13.9.0" />
+    <PackageReference Include="Azure.Monitor.Query" Version="1.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Verify.Xunit" Version="23.3.0" />
     <PackageReference Include="WireMock.Net" Version="1.5.49" />
     <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="4.6.1" />
     <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="4.6.1" />
@@ -47,7 +48,7 @@ limitations under the License.
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Moq" Version="4.20.70" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

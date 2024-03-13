@@ -12,60 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Energinet.DataHub.Core.App.Common.Diagnostics.HealthChecks;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration
 {
-    public class HealthCheckTests :
-        WebApiTestBase<BffWebApiFixture>,
-        IClassFixture<BffWebApiFixture>,
-        IClassFixture<WebApiFactory>,
-        IAsyncLifetime
+    public class HealthCheckTests(WebApiFactory factory)
+        : WebApiTestBase(factory)
     {
-        private HttpClient Client { get; }
-
-        private Uri _dependentServiceUri;
-        private WireMockServer _serverMock;
-
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public HealthCheckTests(
-            BffWebApiFixture bffWebApiFixture,
-            WebApiFactory factory,
-            ITestOutputHelper testOutputHelper)
-            : base(bffWebApiFixture, testOutputHelper)
-        {
-            Client = factory.CreateClient();
-        }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
-        public Task InitializeAsync()
-        {
-            var httpLocalhostServer = "http://localhost:8080/";
-            _dependentServiceUri = new Uri(httpLocalhostServer);
-            _serverMock = WireMockServer.Start(_dependentServiceUri.Port);
-
-            return Task.CompletedTask;
-        }
-
-        public Task DisposeAsync()
-        {
-            _serverMock.Stop();
-            _serverMock.Dispose();
-            Client.Dispose();
-            return Task.CompletedTask;
-        }
+        private WireMockServer ServerMock { get; } = WireMockServer.Start(8080);
 
         [Fact]
         public async Task When_RequestLivenessStatus_Then_ResponseIsOkAndHealthy()
@@ -82,7 +44,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
         [Fact]
         public async Task When_RequestReadinessStatus_Then_ResponseIsOkAndHealthy()
         {
-            _serverMock
+            ServerMock
                 .Given(Request.Create().WithPath(new[]
                 {
                     "/charges/monitor/live",
@@ -106,7 +68,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
         [Fact]
         public async Task If_ADependentServiceIsUnavailable_When_RequestReadinessStatus_Then_ResponseIsServiceUnavailableAndUnhealthy()
         {
-            _serverMock
+            ServerMock
                 .Given(Request.Create().WithPath(new[]
                 {
                     "/charges/monitor/live",
@@ -114,7 +76,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
                     "/marketparticipant/monitor/live",
                 }).UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            _serverMock
+            ServerMock
                 .Given(Request.Create().WithPath(new[]
                 {
                     "/wholesale/monitor/live",
@@ -128,6 +90,15 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
 
             var actualContent = await actualResponse.Content.ReadAsStringAsync();
             actualContent.Should().StartWith("{\"status\":\"Unhealthy\"");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ServerMock.Stop();
+                ServerMock.Dispose();
+            }
         }
     }
 }

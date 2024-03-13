@@ -18,7 +18,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
-using Energinet.DataHub.WebApi.Tests.Fixtures;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,9 +25,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Energinet.DataHub.WebApi.Tests.ServiceMocks
 {
-    public sealed class JwtAuthenticationServiceMock : IServiceMock
+    public sealed class JwtAuthenticationServiceMock
     {
-        public void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services)
         {
             services
                 .AddAuthentication(options =>
