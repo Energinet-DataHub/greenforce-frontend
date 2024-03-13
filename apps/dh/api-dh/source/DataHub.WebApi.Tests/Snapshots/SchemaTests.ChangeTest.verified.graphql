@@ -130,6 +130,11 @@ type CreateCalculationPayload {
   calculation: Calculation
 }
 
+type CreateDelegationsForActorPayload {
+  boolean: Boolean
+  errors: [CreateDelegationsForActorError!]
+}
+
 type CreateMarketParticipantPayload {
   boolean: Boolean
   errors: [CreateMarketParticipantError!]
@@ -259,6 +264,7 @@ type Mutation {
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
+  createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
 }
 
 type Organization {
@@ -416,6 +422,8 @@ type UserRoleWithPermissionsDto {
   permissions: [PermissionDetailsDto!]!
 }
 
+union CreateDelegationsForActorError = ApiError
+
 union CreateMarketParticipantError = ApiError
 
 union UpdateActorError = ApiError
@@ -458,6 +466,15 @@ input CreateActorContactDtoInput {
   phone: String
 }
 
+input CreateActorDelegationDtoInput {
+  delegatedFrom: UUID!
+  delegatedTo: UUID!
+  gridAreas: [UUID!]!
+  messageTypes: [DelegationMessageType!]!
+  createdAt: DateTime!
+  expiresAt: DateTime
+}
+
 input CreateActorDtoInput {
   organizationId: UUID!
   name: ActorNameDtoInput!
@@ -479,6 +496,11 @@ input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
   calculationType: CalculationType!
+}
+
+input CreateDelegationsForActorInput {
+  actorId: UUID!
+  delegationDto: CreateActorDelegationDtoInput!
 }
 
 input CreateMarketParticipantInput {

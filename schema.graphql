@@ -279,6 +279,7 @@ type Mutation {
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
+  createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
 }
 
 enum ActorAuditedChange {
@@ -475,6 +476,15 @@ enum ContactCategory {
   NOTIFICATION
   RECON
   REMINDER
+}
+
+input CreateActorDelegationDtoInput {
+  delegatedFrom: UUID!
+  delegatedTo: UUID!
+  gridAreas: [UUID!]!
+  messageTypes: [DelegationMessageType!]!
+  createdAt: DateTime!
+  expiresAt: DateTime
 }
 
 input UserProfileUpdateDtoInput {
@@ -755,4 +765,16 @@ type UpdateUserProfilePayload {
 
 type ResendWaitingEsettExchangeMessagesPayload {
   boolean: Boolean
+}
+
+input CreateDelegationsForActorInput {
+  actorId: UUID!
+  delegationDto: CreateActorDelegationDtoInput!
+}
+
+union CreateDelegationsForActorError = ApiError
+
+type CreateDelegationsForActorPayload {
+  boolean: Boolean
+  errors: [CreateDelegationsForActorError!]
 }

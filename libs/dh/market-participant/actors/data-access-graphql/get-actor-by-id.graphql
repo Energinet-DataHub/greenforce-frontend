@@ -8,6 +8,8 @@ query GetActorById($id: UUID!) {
     gridAreas {
       code
       name
+      displayName
+      id
     }
     organization {
       name

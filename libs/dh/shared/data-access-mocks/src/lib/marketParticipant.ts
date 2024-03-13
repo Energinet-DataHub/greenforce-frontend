@@ -42,6 +42,8 @@ import {
   mockGetOrganizationFromCvrQuery,
   mockGetDelegationsForActorQuery,
   mockGetDelegatesQuery,
+  mockCreateDelegationForActorMutation,
+  CreateDelegationForActorMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -95,6 +97,7 @@ export function marketParticipantMocks(apiBase: string) {
     getAssociatedActors(),
     getDelegationsForActor(),
     getDelegates(),
+    createDelegation(),
   ];
 }
 
@@ -330,6 +333,39 @@ function getActorByOrganizationId() {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', actorsByOrganizationId: actors },
+    });
+  });
+}
+
+function createDelegation() {
+  return mockCreateDelegationForActorMutation(async (request) => {
+    await delay(mswConfig.delay);
+    const mockError = request.variables.input.actorId === marketParticipantActors[0].id;
+
+    const response: CreateDelegationForActorMutation = {
+      __typename: 'Mutation',
+      createDelegationsForActor: {
+        __typename: 'CreateDelegationsForActorPayload',
+        success: !mockError,
+        errors: mockError
+          ? [
+              {
+                __typename: 'ApiError',
+                apiErrors: [
+                  {
+                    __typename: 'ApiErrorDescriptor',
+                    code: 'test',
+                    message: 'mock fail',
+                    args: [],
+                  },
+                ],
+              },
+            ]
+          : [],
+      },
+    };
+    return HttpResponse.json({
+      data: response,
     });
   });
 }
