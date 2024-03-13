@@ -35,7 +35,10 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { dhEnumToWattDropdownOptions } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
 import { dhGroupDelegations } from './util/dh-group-delegations';
@@ -66,6 +69,7 @@ import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.c
     WattDropdownComponent,
 
     DhPermissionRequiredDirective,
+    DhDropdownTranslatorDirective,
     DhDelegationsOverviewComponent,
   ],
 })
