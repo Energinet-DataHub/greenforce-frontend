@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, EventEmitter, Output, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 
 import { DhDelegationsByType } from '../dh-delegations';
 import { DhDelegationTableComponent } from '../table/dh-delegation-table.componen';
@@ -32,8 +33,10 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
     TranslocoDirective,
 
     VaterStackComponent,
+    VaterSpacerComponent,
     WattButtonComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
+    WattDropdownComponent,
 
     DhDelegationTableComponent,
   ],
@@ -44,12 +47,6 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
   `,
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.delegation'">
-      <vater-stack direction="row" justify="flex-end" class="watt-space-stack-m">
-        <watt-button (click)="setUpDelegation.emit()" variant="secondary">
-          {{ t('setUpDelegation') }}
-        </watt-button>
-      </vater-stack>
-
       @if (outgoing().length > 0) {
         <watt-expandable-card togglePosition="before" variant="solid" [expanded]="true">
           <watt-expandable-card-title>{{ t('outgoingMessages') }}</watt-expandable-card-title>
@@ -85,8 +82,6 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
   `,
 })
 export class DhDelegationsOverviewComponent {
-  outgoing = input<DhDelegationsByType[]>([]);
-  incoming = input<DhDelegationsByType[]>([]);
-
-  @Output() setUpDelegation = new EventEmitter<void>();
+  outgoing = input.required<DhDelegationsByType[]>();
+  incoming = input.required<DhDelegationsByType[]>();
 }

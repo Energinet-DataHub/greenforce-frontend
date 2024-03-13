@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
-
+import { Component, computed, effect, inject, input, signal, untracked } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -23,16 +23,27 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+} from '@energinet-datahub/watt/vater';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
-import { GetDelegationsForActorDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ActorDelegationStatus,
+  GetDelegationsForActorDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
 
-import { DhDelegationsGrouped } from './dh-delegations';
-import { dhGroupDelegations } from './util/dh-group-delegations';
-import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
 import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
+import { dhGroupDelegations } from './util/dh-group-delegations';
+import { DhDelegations, DhDelegationsGrouped } from './dh-delegations';
+import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
 
 @Component({
   selector: 'dh-delegation-tab',
@@ -44,47 +55,21 @@ import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overvi
       }
     `,
   ],
-  template: `
-    <vater-flex *transloco="let t; read: 'marketParticipant.delegation'">
-      @if (isLoading()) {
-        <vater-stack direction="row" justify="center">
-          <watt-spinner />
-        </vater-stack>
-      } @else if (isEmpty()) {
-        <vater-stack direction="row" justify="center">
-          <watt-empty-state
-            icon="custom-no-results"
-            [title]="t('emptyTitle')"
-            [message]="t('emptyMessage')"
-          >
-            <watt-button
-              *dhPermissionRequired="['delegation:manage']"
-              (click)="onSetUpDelegation()"
-              variant="secondary"
-            >
-              {{ t('emptyStateSetUpDelegation') }}
-            </watt-button>
-          </watt-empty-state>
-        </vater-stack>
-      } @else {
-        <dh-delegations-overview
-          [outgoing]="delegationsGrouped().outgoing"
-          [incoming]="delegationsGrouped().incoming"
-          (setUpDelegation)="onSetUpDelegation()"
-        />
-      }
-    </vater-flex>
-  `,
+  templateUrl: './dh-delegation-tab.component.html',
   imports: [
     TranslocoDirective,
+    ReactiveFormsModule,
 
     VaterFlexComponent,
     VaterStackComponent,
+    VaterSpacerComponent,
     WattEmptyStateComponent,
     WattButtonComponent,
     WattSpinnerComponent,
+    WattDropdownComponent,
 
     DhPermissionRequiredDirective,
+    DhDropdownTranslatorDirective,
     DhDelegationsOverviewComponent,
   ],
 })
@@ -95,25 +80,44 @@ export class DhDelegationTabComponent {
   actor = input.required<DhActorExtended>();
   isLoading = signal(false);
 
+  delegationsRaw = signal<DhDelegations>([]);
   delegationsGrouped = signal<DhDelegationsGrouped>({ outgoing: [], incoming: [] });
 
-  isEmpty = computed(() => {
-    return (
-      this.delegationsGrouped().incoming.length === 0 &&
-      this.delegationsGrouped().outgoing.length === 0
-    );
-  });
+  isEmpty = computed(() => this.delegationsRaw().length === 0);
+
+  statusControl = new FormControl<ActorDelegationStatus[] | null>(null);
+  statusOptions = dhEnumToWattDropdownOptions(ActorDelegationStatus);
 
   constructor() {
     effect(() => this.fetchData(this.actor().id), { allowSignalWrites: true });
+
+    this.statusControl.valueChanges.subscribe((value) => {
+      this.filterDelegations(value);
+    });
   }
 
   onSetUpDelegation() {
     this._modalService.open({ component: DhDelegationCreateModalComponent, data: this.actor() });
   }
 
+  private filterDelegations(filter: ActorDelegationStatus[] | null) {
+    const delegations = untracked(this.delegationsRaw);
+
+    if (filter === null) {
+      return this.delegationsGrouped.set(dhGroupDelegations(delegations));
+    }
+
+    const delegationsFiltered = delegations.filter((delegation) => {
+      return filter.includes(delegation.status);
+    });
+
+    this.delegationsGrouped.set(dhGroupDelegations(delegationsFiltered));
+  }
+
   private fetchData(actorId: string) {
     this.isLoading.set(true);
+    this.delegationsRaw.set([]);
+    this.statusControl.reset();
 
     this._apollo
       .query({
@@ -124,9 +128,9 @@ export class DhDelegationTabComponent {
         next: (result) => {
           this.isLoading.set(result.loading);
 
-          this.delegationsGrouped.set(
-            dhGroupDelegations(result.data.getDelegationsForActor.delegations)
-          );
+          this.delegationsRaw.set(result.data.getDelegationsForActor.delegations);
+
+          this.delegationsGrouped.set(dhGroupDelegations(this.delegationsRaw()));
         },
         error: () => {
           this.isLoading.set(false);
