@@ -69,7 +69,7 @@ limitations under the License.
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="8.3.2" />
-    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="8.3.2" />
+    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="9.0.0" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
