@@ -32,7 +32,6 @@ import { CommonModule, NgClass } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattModalActionsComponent } from '@energinet-datahub/watt/modal';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -80,7 +79,6 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    WattDatepickerComponent,
     WattModalActionsComponent,
     WattButtonComponent,
     WattTextFieldComponent,
