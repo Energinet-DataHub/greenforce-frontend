@@ -104,6 +104,7 @@ watt-field {
     .watt-field-wrapper {
       @include watt.typography-watt-text-s;
       display: flex;
+      position: relative;
       min-height: 46px;
       width: 100%;
       padding-left: var(--watt-space-s);

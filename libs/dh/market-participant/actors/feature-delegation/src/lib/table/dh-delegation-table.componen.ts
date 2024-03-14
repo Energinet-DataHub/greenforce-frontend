@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -23,6 +23,8 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhDelegation, DhDelegations } from '../dh-delegations';
 import { DhDelegationStatusComponent } from '../status/dh-delegation-status.component';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal.component';
 
 @Component({
   selector: 'dh-delegation-table',
@@ -67,8 +69,12 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
         <ng-container *wattTableToolbar="let selection">
           {{ selection.length }} {{ t('selectedRows') }}
           <watt-table-toolbar-spacer />
-          <watt-button (click)="stopSelectedDelegations(selection)" icon="close">
-            {{ t('stopDelegation') }}
+          <watt-button
+            *transloco="let shared; read: 'marketParticipant.delegation.shared'"
+            (click)="stopSelectedDelegations(selection)"
+            icon="close"
+          >
+            {{ shared('stopDelegation') }}
           </watt-button>
         </ng-container>
       </watt-table>
@@ -83,6 +89,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
   ],
 })
 export class DhDelegationTableComponent {
+  private _modalService = inject(WattModalService);
   tableDataSource = new WattTableDataSource<DhDelegation>([]);
 
   columns: WattTableColumnDef<DhDelegation> = {
@@ -101,6 +108,9 @@ export class DhDelegationTableComponent {
   }
 
   stopSelectedDelegations(selected: DhDelegation[]) {
-    console.log(selected);
+    this._modalService.open({
+      component: DhDelegationStopModalComponent,
+      data: selected,
+    });
   }
 }
