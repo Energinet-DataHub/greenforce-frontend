@@ -584,6 +584,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     messageDelegation.DelegatedBy = delegation.DelegatedBy;
                     messageDelegation.MessageType = delegation.MessageType;
                     messageDelegation.Id = delegation.Id;
+                    messageDelegation.PeriodId = period.Id;
                     messageDelegation.DelegatedTo = period.DelegatedTo;
                     messageDelegation.ExpiresAt = period.ExpiresAt;
                     messageDelegation.StartsAt = period.StartsAt;
