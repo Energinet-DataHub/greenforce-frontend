@@ -14,14 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, inject } from '@angular/core';
-import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { DhDelegation } from '../dh-delegations';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { Component, ViewChild, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+
+import { Apollo, MutationResult } from 'apollo-angular';
+import { TranslocoDirective, translate } from '@ngneat/transloco';
+
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
+
+import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+
+import {
+  GetDelegationsForActorDocument,
+  StopDelegationsDocument,
+  StopDelegationsMutation,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { DhDelegation } from '../dh-delegations';
 
 @Component({
   standalone: true,
@@ -32,12 +46,14 @@ import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
     }
   `,
   imports: [
-    WATT_MODAL,
     TranslocoDirective,
-    WattButtonComponent,
     ReactiveFormsModule,
-    VaterStackComponent,
+
+    WATT_MODAL,
+    WattButtonComponent,
     WattDatepickerV2Component,
+
+    VaterStackComponent,
   ],
   template: `<watt-modal
     [title]="t('stopModalTitle')"
@@ -58,7 +74,12 @@ import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
         <watt-button (click)="closeModal(false)" variant="secondary">
           {{ t('cancel') }}
         </watt-button>
-        <watt-button formId="stop-delegation-form" type="submit" variant="primary">
+        <watt-button
+          [loading]="isSaving()"
+          formId="stop-delegation-form"
+          type="submit"
+          variant="primary"
+        >
           {{ t('shared.stopDelegation') }}
         </watt-button>
       </watt-modal-actions>
@@ -67,6 +88,10 @@ import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
 })
 export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[]> {
   private _fb = inject(NonNullableFormBuilder);
+  private _toastService = inject(WattToastService);
+  private _apollo = inject(Apollo);
+
+  isSaving = signal(false);
 
   @ViewChild(WattModalComponent)
   modal: WattModalComponent | undefined;
@@ -86,8 +111,49 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
 
     if (!stopDate) return;
 
-    console.log('Stopping delegations', this.modalData);
+    this.isSaving.set(true);
 
-    this.closeModal(true);
+    this._apollo
+      .mutate({
+        mutation: StopDelegationsDocument,
+        refetchQueries: [GetDelegationsForActorDocument],
+        variables: {
+          input: {
+            stopMessageDelegationDto: this.modalData.map((delegation) => ({
+              id: { value: delegation.id },
+              periodId: { value: delegation.periodId },
+              stopDate: { value: stopDate },
+            })),
+          },
+        },
+      })
+      .subscribe((response) => this.handleStopDelegationResponse(response));
+  }
+
+  private handleStopDelegationResponse(response: MutationResult<StopDelegationsMutation>): void {
+    if (response.errors && response.errors.length > 0) {
+      this._toastService.open({
+        type: 'danger',
+        message: parseGraphQLErrorResponse(response.errors),
+      });
+    }
+
+    if (response.data?.stopDelegation?.errors && response.data?.stopDelegation?.errors.length > 0) {
+      this._toastService.open({
+        type: 'danger',
+        message: readApiErrorResponse(response.data?.stopDelegation?.errors),
+      });
+    }
+
+    if (response.data?.stopDelegation?.success) {
+      this._toastService.open({
+        type: 'success',
+        message: translate('marketParticipant.delegation.stopDelegationSuccess'),
+      });
+
+      this.closeModal(true);
+    }
+
+    this.isSaving.set(false);
   }
 }
