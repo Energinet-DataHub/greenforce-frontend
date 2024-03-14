@@ -207,7 +207,7 @@ public class Mutation
     [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
     public async Task<bool> CreateDelegationsForActorAsync(
         Guid actorId,
-        CreateActorDelegationDto delegationDto,
+        CreateMessageDelegationDto delegationDto,
         [Service] IMarketParticipantClient_V1 client)
     {
         await client.ActorDelegationPostAsync(delegationDto);
