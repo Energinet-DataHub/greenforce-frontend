@@ -31,7 +31,7 @@ import {
 @Injectable({ providedIn: 'root' })
 export class DhApplicationInsights {
   private angularPlugin!: AngularPlugin;
-  private appInsights!: ApplicationInsights;
+  private appInsights: ApplicationInsights | undefined = undefined;
 
   constructor(
     private router: Router,
@@ -81,7 +81,7 @@ export class DhApplicationInsights {
    * @param name
    */
   trackEvent(name: string): void {
-    this.appInsights.trackEvent({ name });
+    this.appInsights?.trackEvent({ name });
   }
 
   /**
@@ -89,7 +89,7 @@ export class DhApplicationInsights {
    * @param message
    */
   trackTrace(message: string): void {
-    this.appInsights.trackTrace({ message });
+    this.appInsights?.trackTrace({ message });
   }
 
   /**
@@ -97,7 +97,7 @@ export class DhApplicationInsights {
    * @param name
    */
   trackPageView(name: string): void {
-    this.appInsights.trackPageView({ name });
+    this.appInsights?.trackPageView({ name });
   }
 
   /**
@@ -105,13 +105,13 @@ export class DhApplicationInsights {
    * @param exception
    */
   trackException(exception: Error, severityLevel: SeverityLevel): void {
-    this.appInsights.trackException({ exception, severityLevel });
+    this.appInsights?.trackException({ exception, severityLevel });
   }
 
   /**
    * Manually trigger an immediate send of all telemetry still in the buffer.
    */
   flush(): void {
-    this.appInsights.flush(false);
+    this.appInsights?.flush(false);
   }
 }
