@@ -170,6 +170,8 @@
       "start": "Start",
       "emptyTitle": "Ingen delegering",
       "emptyMessage": "Deleger udgående eller indgående meddelelser til en måleoperatør",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}",
       "emptyStateSetUpDelegation": "Opsæt delegering for meddelelser",
       "table": {
         "selectedRows": "rækker valgt",
