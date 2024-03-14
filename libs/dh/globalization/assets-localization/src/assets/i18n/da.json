@@ -187,11 +187,13 @@
         "INBOUND": "Indgående",
         "OUTBOUND": "Udgående",
         "RSM012_INBOUND": "Fremsend måledata for et målepunkt (RSM-012)",
+        "RSM012_OUTBOUND": "Fremsend måledata for et målepunkt (RSM-012)",
         "RSM014_INBOUND": "Fremsend beregnede tidsserier (RSM-014)",
         "RSM016_INBOUND": "Anmod om aggregerede måledata (RSM-016)",
         "RSM016_OUTBOUND": "Anmod om aggregerede måledata (RSM-016)",
         "RSM017_INBOUND": "Anmod om engrosydelser (RSM-017)",
         "RSM017_OUTBOUND": "Anmod om engrosydelser (RSM-017)",
+        "RSM018_INBOUND": "Fremsend hullerlog (RSM-018)",
         "RSM019_INBOUND": "Fremsend beregnede engrosydelser (RSM-019)"
       },
       "statusPlaceholder": "Status",
