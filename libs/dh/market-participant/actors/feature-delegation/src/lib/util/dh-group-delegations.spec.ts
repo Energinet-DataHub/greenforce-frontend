@@ -30,6 +30,10 @@ describe(dhGroupDelegations, () => {
     expect(result).toEqual({
       outgoing: [
         {
+          type: DelegationMessageType.Rsm012Outbound,
+          delegations: [{ messageType: DelegationMessageType.Rsm012Outbound }],
+        },
+        {
           type: DelegationMessageType.Rsm016Outbound,
           delegations: [{ messageType: DelegationMessageType.Rsm016Outbound }],
         },
@@ -54,6 +58,10 @@ describe(dhGroupDelegations, () => {
         {
           type: DelegationMessageType.Rsm017Inbound,
           delegations: [{ messageType: DelegationMessageType.Rsm017Inbound }],
+        },
+        {
+          type: DelegationMessageType.Rsm018Inbound,
+          delegations: [{ messageType: DelegationMessageType.Rsm018Inbound }],
         },
         {
           type: DelegationMessageType.Rsm019Inbound,
