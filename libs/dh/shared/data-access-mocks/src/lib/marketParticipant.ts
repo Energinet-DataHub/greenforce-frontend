@@ -19,8 +19,6 @@ import { http, delay, HttpResponse } from 'msw';
 import {
   Actor,
   GetActorEditableFieldsQuery,
-  ActorStatus,
-  EicFunction,
   Organization,
   mockGetActorByIdQuery,
   mockGetActorEditableFieldsQuery,
@@ -66,6 +64,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 
 import { getDelegationsForActorMock } from './data/get-delegations-for-actor';
+import { actors } from './data/get-actors-by-organizationId';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
@@ -299,40 +298,9 @@ function getActorByOrganizationId() {
   return mockGetActorsByOrganizationIdQuery(async ({ variables }) => {
     const { organizationId } = variables;
 
-    const actors: Actor[] = [
-      {
-        __typename: 'Actor',
-        id: '801011ea-a291-41f7-be19-581abc05a5ac',
-        glnOrEicNumber: '5790000555465',
-        name: 'Inactive balance responsible',
-        gridAreas: [],
-        marketRole: EicFunction.BalanceResponsibleParty,
-        status: ActorStatus.Inactive,
-        organization: {
-          __typename: 'Organization',
-          organizationId: organizationId,
-          name: '',
-        } as Organization,
-      },
-      {
-        __typename: 'Actor',
-        id: '9c3be101-1471-4a1a-8f52-ddb619778f8f',
-        glnOrEicNumber: '5790000555466',
-        name: 'Active energy supplier',
-        gridAreas: [],
-        marketRole: EicFunction.EnergySupplier,
-        status: ActorStatus.Active,
-        organization: {
-          __typename: 'Organization',
-          organizationId: organizationId,
-          name: '',
-        } as Organization,
-      },
-    ];
-
     await delay(mswConfig.delay);
     return HttpResponse.json({
-      data: { __typename: 'Query', actorsByOrganizationId: actors },
+      data: { __typename: 'Query', actorsByOrganizationId: actors(organizationId) },
     });
   });
 }

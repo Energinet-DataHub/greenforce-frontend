@@ -14,23 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DelegationMessageType } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import {
   DhDelegations,
   DhDelegationsByDirection,
   DhDelegationsByType,
   DhDelegationsGrouped,
 } from '../dh-delegations';
-
-const outgoingTypes = [DelegationMessageType.Rsm016Outbound, DelegationMessageType.Rsm017Outbound];
-const incomingTypes = [
-  DelegationMessageType.Rsm012Inbound,
-  DelegationMessageType.Rsm014Inbound,
-  DelegationMessageType.Rsm016Inbound,
-  DelegationMessageType.Rsm017Inbound,
-  DelegationMessageType.Rsm019Inbound,
-];
 
 export function dhGroupDelegations(delegations: DhDelegations): DhDelegationsGrouped {
   const groups = dhGroupByDirection(delegations);
@@ -48,9 +37,9 @@ function dhGroupByDirection(delegations: DhDelegations): DhDelegationsByDirectio
   };
 
   for (const delegation of delegations) {
-    if (outgoingTypes.includes(delegation.messageType)) {
+    if (delegation.messageType.endsWith('_OUTBOUND')) {
       groups.outgoing.push(delegation);
-    } else if (incomingTypes.includes(delegation.messageType)) {
+    } else if (delegation.messageType.endsWith('_INBOUND')) {
       groups.incoming.push(delegation);
     }
   }
