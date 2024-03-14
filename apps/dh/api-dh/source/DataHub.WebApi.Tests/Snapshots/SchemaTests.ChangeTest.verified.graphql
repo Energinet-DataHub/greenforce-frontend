@@ -533,7 +533,7 @@ input MessageDelegationIdInput {
 }
 
 input StopDelegationInput {
-  stopMessageDelegationDto: StopMessageDelegationDtoInput!
+  stopMessageDelegationDto: [StopMessageDelegationDtoInput!]!
 }
 
 input StopMessageDelegationDtoInput {

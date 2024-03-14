@@ -163,6 +163,7 @@
       "createSuccess": "Delegation created",
       "delegations": "Delegates",
       "save": "Save set up",
+      "stopDelegationSuccess": "Delegation stopped",
       "cancel": "Close",
       "stopModalTitle": "Stop delegation?",
       "stopDate": "Stop on date",

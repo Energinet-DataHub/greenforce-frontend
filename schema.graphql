@@ -796,7 +796,7 @@ type CreateDelegationsForActorPayload {
 }
 
 input StopDelegationInput {
-  stopMessageDelegationDto: StopMessageDelegationDtoInput!
+  stopMessageDelegationDto: [StopMessageDelegationDtoInput!]!
 }
 
 union StopDelegationError = ApiError

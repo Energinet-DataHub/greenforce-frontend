@@ -1,5 +1,11 @@
 query GetDelegationsForActor($actorId: UUID!) {
   getDelegationsForActor(actorId: $actorId) {
+    periodId {
+      value
+    }
+    id {
+      value
+    }
     messageType
     delegatedBy {
       id
