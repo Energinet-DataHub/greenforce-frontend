@@ -161,7 +161,7 @@
       "delegations": "Delegeret",
       "save": "Gem opsætning",
       "cancel": "Luk",
-
+      "stopModalTitle": "Stop delegering?",
       "setUpDelegation": "Opsæt delegering",
       "outgoingMessages": "Udgående meddelelser",
       "incomingMessages": "Indgående meddelelser",

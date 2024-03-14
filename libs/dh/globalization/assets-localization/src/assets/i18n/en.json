@@ -161,6 +161,7 @@
       "delegations": "Delegates",
       "save": "Save set up",
       "cancel": "Close",
+      "stopModalTitle": "Stop delegation?",
       "setUpDelegation": "Set up delegation",
       "outgoingMessages": "Outgoing messages",
       "incomingMessages": "Incoming messages",
