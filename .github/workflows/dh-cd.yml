@@ -43,7 +43,6 @@ jobs:
       azure_integrationtest_subscription_id: ${{ vars.integration_test_azure_subscription_id }}
       azure_integrationtest_spn_id: ${{ vars.integration_test_azure_spn_id_oidc }}
       azure_keyvault_url: ${{ vars.integration_test_azure_keyvault_url }}
-      azure_b2csecrets_keyvault_url: ${{ vars.integration_test_azure_b2csecrets_keyvault_url }}
 
   dotnet_promote_prerelease:
     needs: changes
