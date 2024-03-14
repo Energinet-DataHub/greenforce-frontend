@@ -125,6 +125,10 @@ type CreateMarketParticipantPayload {
   errors: [CreateMarketParticipantError!]
 }
 
+type DelegationPeriodId {
+  value: UUID!
+}
+
 type EsettOutgoingMessage {
   gridArea: GridAreaDto
   documentId: String!
@@ -222,6 +226,7 @@ type MessageDelegationType {
   delegatedTo: Actor
   status: ActorDelegationStatus!
   id: MessageDelegationId!
+  periodId: DelegationPeriodId!
   messageType: DelegationMessageType!
   startsAt: DateTime!
   expiresAt: DateTime
@@ -260,6 +265,7 @@ type Mutation {
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
+  stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
 }
 
 type Organization {
@@ -364,6 +370,11 @@ type SettlementReport {
   executionTime: DateTime
 }
 
+type StopDelegationPayload {
+  boolean: Boolean
+  errors: [StopDelegationError!]
+}
+
 type UpdateActorPayload {
   boolean: Boolean
   errors: [UpdateActorError!]
@@ -420,6 +431,8 @@ type UserRoleWithPermissionsDto {
 union CreateDelegationsForActorError = ApiError
 
 union CreateMarketParticipantError = ApiError
+
+union StopDelegationError = ApiError
 
 union UpdateActorError = ApiError
 
@@ -509,6 +522,24 @@ input CreateOrganizationDtoInput {
   businessRegisterIdentifier: String!
   address: AddressDtoInput!
   domain: String!
+}
+
+input DelegationPeriodIdInput {
+  value: UUID!
+}
+
+input MessageDelegationIdInput {
+  value: UUID!
+}
+
+input StopDelegationInput {
+  stopMessageDelegationDto: StopMessageDelegationDtoInput!
+}
+
+input StopMessageDelegationDtoInput {
+  id: MessageDelegationIdInput!
+  periodId: DelegationPeriodIdInput!
+  stopsAt: DateTime
 }
 
 input UpdateActorInput {

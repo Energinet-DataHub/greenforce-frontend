@@ -141,6 +141,7 @@ type MessageDelegationType {
   delegatedTo: Actor
   status: ActorDelegationStatus!
   id: MessageDelegationId!
+  periodId: DelegationPeriodId!
   messageType: DelegationMessageType!
   startsAt: DateTime!
   expiresAt: DateTime
@@ -279,6 +280,7 @@ type Mutation {
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
+  stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
 }
 
 enum ActorAuditedChange {
@@ -366,6 +368,10 @@ enum ActorDelegationStatus {
 }
 
 type MessageDelegationId {
+  value: UUID!
+}
+
+type DelegationPeriodId {
   value: UUID!
 }
 
@@ -477,6 +483,12 @@ enum ContactCategory {
   NOTIFICATION
   RECON
   REMINDER
+}
+
+input StopMessageDelegationDtoInput {
+  id: MessageDelegationIdInput!
+  periodId: DelegationPeriodIdInput!
+  stopsAt: DateTime
 }
 
 input CreateMessageDelegationInput {
@@ -661,6 +673,14 @@ input CreateOrganizationDtoInput {
   domain: String!
 }
 
+input DelegationPeriodIdInput {
+  value: UUID!
+}
+
+input MessageDelegationIdInput {
+  value: UUID!
+}
+
 scalar JSON
 
 input AddressDtoInput {
@@ -773,4 +793,15 @@ union CreateDelegationsForActorError = ApiError
 type CreateDelegationsForActorPayload {
   boolean: Boolean
   errors: [CreateDelegationsForActorError!]
+}
+
+input StopDelegationInput {
+  stopMessageDelegationDto: StopMessageDelegationDtoInput!
+}
+
+union StopDelegationError = ApiError
+
+type StopDelegationPayload {
+  boolean: Boolean
+  errors: [StopDelegationError!]
 }

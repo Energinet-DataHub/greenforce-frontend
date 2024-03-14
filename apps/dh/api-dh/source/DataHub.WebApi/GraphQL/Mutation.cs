@@ -220,4 +220,13 @@ public class Mutation
         });
         return true;
     }
+
+    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
+    public async Task<bool> StopDelegationAsync(
+        StopMessageDelegationDto stopMessageDelegationDto,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        await client.ActorDelegationPutAsync(stopMessageDelegationDto);
+        return true;
+    }
 }
