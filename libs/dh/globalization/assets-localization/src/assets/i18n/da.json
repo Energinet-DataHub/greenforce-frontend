@@ -161,6 +161,7 @@
       "delegations": "Delegeret",
       "save": "Gem opsætning",
       "cancel": "Luk",
+
       "setUpDelegation": "Opsæt delegering",
       "outgoingMessages": "Udgående meddelelser",
       "incomingMessages": "Indgående meddelelser",
@@ -171,6 +172,8 @@
       "emptyMessage": "Deleger udgående eller indgående meddelelser til en måleoperatør",
       "emptyStateSetUpDelegation": "Opsæt delegering for meddelelser",
       "table": {
+        "selectedRows": "rækker valgt",
+        "stopDelegation": "Stop delegering",
         "columns": {
           "delegatedTo": "Delegeret",
           "gridArea": "Netområde",
