@@ -140,8 +140,8 @@ type MessageDelegationType {
   delegatedBy: Actor
   delegatedTo: Actor
   status: ActorDelegationStatus!
-  id: MessageDelegationId!
-  periodId: DelegationPeriodId!
+  id: UUID!
+  periodId: UUID!
   messageType: DelegationMessageType!
   startsAt: DateTime!
   expiresAt: DateTime
@@ -367,14 +367,6 @@ enum ActorDelegationStatus {
   CANCELLED
 }
 
-type MessageDelegationId {
-  value: UUID!
-}
-
-type DelegationPeriodId {
-  value: UUID!
-}
-
 enum DelegationMessageType {
   RSM012_INBOUND
   RSM012_OUTBOUND
@@ -451,11 +443,6 @@ interface Error {
   message: String!
 }
 
-type KeyValuePairOfStringAndIEnumerableOfString {
-  key: String!
-  value: [String!]!
-}
-
 type ApiErrorDescriptor {
   message: String!
   code: String!
@@ -486,13 +473,13 @@ enum ContactCategory {
 }
 
 input StopMessageDelegationDtoInput {
-  id: MessageDelegationIdInput!
-  periodId: DelegationPeriodIdInput!
+  id: UUID!
+  periodId: UUID!
   stopsAt: DateTime
 }
 
-input CreateMessageDelegationInput {
-  delegatedBy: UUID!
+input CreateMessageDelegationDtoInput {
+  delegatedFrom: UUID!
   delegatedTo: UUID!
   gridAreas: [UUID!]!
   messageTypes: [DelegationMessageType!]!
@@ -632,6 +619,11 @@ type UserRoleWithPermissionsDto {
   permissions: [PermissionDetailsDto!]!
 }
 
+type KeyValuePairOfStringAndIEnumerableOfString {
+  key: String!
+  value: [String!]!
+}
+
 type PermissionDetailsDto {
   id: Int!
   name: String!
@@ -671,14 +663,6 @@ input CreateOrganizationDtoInput {
   businessRegisterIdentifier: String!
   address: AddressDtoInput!
   domain: String!
-}
-
-input DelegationPeriodIdInput {
-  value: UUID!
-}
-
-input MessageDelegationIdInput {
-  value: UUID!
 }
 
 scalar JSON
@@ -785,7 +769,7 @@ type ResendWaitingEsettExchangeMessagesPayload {
 
 input CreateDelegationsForActorInput {
   actorId: UUID!
-  delegationDto: CreateMessageDelegationInput!
+  delegationDto: CreateMessageDelegationDtoInput!
 }
 
 union CreateDelegationsForActorError = ApiError
