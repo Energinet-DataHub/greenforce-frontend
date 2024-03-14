@@ -10,17 +10,6 @@ type ActorAuditedChangeAuditLogDto {
   previousValue: String
 }
 
-type ActorDelegationType {
-  gridArea: GridAreaDto
-  delegatedBy: Actor
-  delegatedTo: Actor
-  status: ActorDelegationStatus!
-  id: ActorDelegationId!
-  messageType: DelegationMessageType!
-  startsAt: DateTime!
-  expiresAt: DateTime
-}
-
 enum ActorStatus {
   New
   Active
@@ -146,6 +135,17 @@ type ImbalancePriceDaily {
   importedAt: DateTime
 }
 
+type MessageDelegationType {
+  gridArea: GridAreaDto
+  delegatedBy: Actor
+  delegatedTo: Actor
+  status: ActorDelegationStatus!
+  id: MessageDelegationId!
+  messageType: DelegationMessageType!
+  startsAt: DateTime!
+  expiresAt: DateTime
+}
+
 type MeteringGridAreaImbalanceSearchResult {
   gridArea: GridAreaDto
   id: String!
@@ -266,7 +266,7 @@ type Query {
   imbalancePricesForMonth(year: Int!, month: Int!, areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   userProfile: GetUserProfileResponse!
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
-  getDelegationsForActor(actorId: UUID!): GetDelegationsForActorResponse!
+  getDelegationsForActor(actorId: UUID!): [MessageDelegationType!]!
 }
 
 type Mutation {
@@ -295,27 +295,6 @@ enum ActorAuditedChange {
 
 """The `DateTime` scalar represents an ISO-8601 compliant date time type."""
 scalar DateTime
-
-enum ActorDelegationStatus {
-  AWAITING
-  ACTIVE
-  EXPIRED
-  CANCELLED
-}
-
-type ActorDelegationId {
-  value: UUID!
-}
-
-enum DelegationMessageType {
-  RSM012_INBOUND
-  RSM014_INBOUND
-  RSM016_INBOUND
-  RSM016_OUTBOUND
-  RSM017_INBOUND
-  RSM017_OUTBOUND
-  RSM019_INBOUND
-}
 
 scalar UUID
 
@@ -377,6 +356,29 @@ enum ImbalancePriceStatus {
   NO_DATA
   IN_COMPLETE
   COMPLETE
+}
+
+enum ActorDelegationStatus {
+  AWAITING
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+type MessageDelegationId {
+  value: UUID!
+}
+
+enum DelegationMessageType {
+  RSM012_INBOUND
+  RSM012_OUTBOUND
+  RSM014_INBOUND
+  RSM016_INBOUND
+  RSM016_OUTBOUND
+  RSM017_INBOUND
+  RSM017_OUTBOUND
+  RSM018_INBOUND
+  RSM019_INBOUND
 }
 
 type MeteringGridAreaImbalancePerDayDto {
@@ -477,13 +479,13 @@ enum ContactCategory {
   REMINDER
 }
 
-input CreateActorDelegationDtoInput {
+input CreateMessageDelegationDtoInput {
   delegatedFrom: UUID!
   delegatedTo: UUID!
   gridAreas: [UUID!]!
   messageTypes: [DelegationMessageType!]!
-  createdAt: DateTime!
-  expiresAt: DateTime
+  startsAt: DateTime!
+  stopsAt: DateTime
 }
 
 input UserProfileUpdateDtoInput {
@@ -510,10 +512,6 @@ enum MeteringPointType {
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
-}
-
-type GetDelegationsForActorResponse {
-  delegations: [ActorDelegationType!]!
 }
 
 type CVROrganizationResult {
@@ -768,7 +766,7 @@ type ResendWaitingEsettExchangeMessagesPayload {
 
 input CreateDelegationsForActorInput {
   actorId: UUID!
-  delegationDto: CreateActorDelegationDtoInput!
+  delegationDto: CreateMessageDelegationDtoInput!
 }
 
 union CreateDelegationsForActorError = ApiError
