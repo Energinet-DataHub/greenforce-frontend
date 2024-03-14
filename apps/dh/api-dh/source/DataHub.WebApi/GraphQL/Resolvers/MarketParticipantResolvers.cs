@@ -49,17 +49,17 @@ namespace Energinet.DataHub.WebApi.GraphQL
                         .Select(async gridAreaId => await dataLoader.LoadAsync(gridAreaId)));
 
         public async Task<GridAreaDto?> GetGridAreaAsync(
-            [Parent] ActorDelegationDto result,
+            [Parent] MessageDelegation result,
             GridAreaByIdBatchDataLoader dataLoader) =>
             await dataLoader.LoadAsync(result.GridAreaId.Value).ConfigureAwait(false);
 
         public async Task<ActorDto?> GetActorDelegatedByAsync(
-            [Parent] ActorDelegationDto actor,
+            [Parent] MessageDelegation actor,
             ActorByIdBatchDataLoader dataLoader) =>
             await dataLoader.LoadAsync(actor.DelegatedBy.Value);
 
         public async Task<ActorDto?> GetActorDelegatedToAsync(
-            [Parent] ActorDelegationDto actor,
+            [Parent] MessageDelegation actor,
             ActorByIdBatchDataLoader dataLoader) =>
             await dataLoader.LoadAsync(actor.DelegatedTo.Value);
 
