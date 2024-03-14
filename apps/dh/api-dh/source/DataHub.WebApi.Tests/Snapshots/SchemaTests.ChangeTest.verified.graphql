@@ -432,10 +432,6 @@ input ActorGridAreaDtoInput {
   meteringPointTypes: [String!]!
 }
 
-input ActorIdInput {
-  value: UUID!
-}
-
 input ActorMarketRoleDtoInput {
   eicFunction: EicFunction!
   gridAreas: [ActorGridAreaDtoInput!]!
@@ -490,7 +486,7 @@ input CreateCalculationInput {
 
 input CreateDelegationsForActorInput {
   actorId: UUID!
-  delegationDto: CreateMessageDelegationDtoInput!
+  delegationDto: CreateMessageDelegationInput!
 }
 
 input CreateMarketParticipantInput {
@@ -500,10 +496,10 @@ input CreateMarketParticipantInput {
   actorContact: CreateActorContactDtoInput!
 }
 
-input CreateMessageDelegationDtoInput {
-  delegatedFrom: ActorIdInput!
-  delegatedTo: ActorIdInput!
-  gridAreas: [GridAreaIdInput!]!
+input CreateMessageDelegationInput {
+  delegatedBy: UUID!
+  delegatedTo: UUID!
+  gridAreas: [UUID!]!
   messageTypes: [DelegationMessageType!]!
   startsAt: DateTime!
 }
@@ -513,10 +509,6 @@ input CreateOrganizationDtoInput {
   businessRegisterIdentifier: String!
   address: AddressDtoInput!
   domain: String!
-}
-
-input GridAreaIdInput {
-  value: UUID!
 }
 
 input UpdateActorInput {
