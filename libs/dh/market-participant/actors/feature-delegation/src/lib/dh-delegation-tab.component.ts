@@ -14,7 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, effect, inject, input, signal, untracked } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+  untracked,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -44,6 +53,7 @@ import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overvi
 import { dhGroupDelegations } from './util/dh-group-delegations';
 import { DhDelegations, DhDelegationsGrouped } from './dh-delegations';
 import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-delegation-tab',
@@ -76,6 +86,7 @@ import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.c
 export class DhDelegationTabComponent {
   private readonly _modalService = inject(WattModalService);
   private readonly _apollo = inject(Apollo);
+  private readonly _destroyRef = inject(DestroyRef);
 
   actor = input.required<DhActorExtended>();
   isLoading = signal(false);
@@ -122,10 +133,12 @@ export class DhDelegationTabComponent {
     this.statusControl.reset();
 
     this._apollo
-      .query({
+      .watchQuery({
+        fetchPolicy: 'no-cache',
         query: GetDelegationsForActorDocument,
         variables: { actorId },
       })
+      .valueChanges.pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (result) => {
           this.isLoading.set(result.loading);
