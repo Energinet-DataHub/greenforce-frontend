@@ -20,6 +20,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
     {
         public MessageDelegationId Id { get; set; } = default!;
 
+        public DelegationPeriodId PeriodId { get; set; } = default!;
+
         public ActorId DelegatedBy { get; set; } = default!;
 
         public ActorId DelegatedTo { get; set; } = default!;
