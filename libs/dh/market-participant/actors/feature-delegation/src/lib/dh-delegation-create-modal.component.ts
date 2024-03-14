@@ -128,7 +128,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
     messageTypes: new FormControl<DelegationMessageType[] | null>(null, Validators.required),
     startDate: new FormControl<Date | null>(null, Validators.required),
-    delegations: new FormControl<string[] | null>(null, Validators.required),
+    delegation: new FormControl<string | null>(null, Validators.required),
   });
 
   gridAreaOptions$ = this.getGridAreaOptions();
@@ -155,10 +155,10 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   save() {
     if (this.createDelegationForm.invalid) return;
 
-    const { startDate, gridAreas, messageTypes, delegations } =
+    const { startDate, gridAreas, messageTypes, delegation } =
       this.createDelegationForm.getRawValue();
 
-    if (!startDate || !gridAreas || !messageTypes || !delegations) return;
+    if (!startDate || !gridAreas || !messageTypes || !delegation) return;
 
     this.isSaving.set(true);
 
@@ -171,9 +171,9 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
             actorId: this.modalData.id,
             delegationDto: {
               startsAt: startDate,
-              delegatedFrom: this.modalData.id,
-              delegatedTo: delegations,
-              gridAreas,
+              delegatedBy: this.modalData.id,
+              delegatedTo: delegation,
+              gridAreas: gridAreas,
               messageTypes,
             },
           },

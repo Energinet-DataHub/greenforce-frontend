@@ -486,7 +486,7 @@ input CreateCalculationInput {
 
 input CreateDelegationsForActorInput {
   actorId: UUID!
-  delegationDto: CreateMessageDelegationDtoInput!
+  delegationDto: CreateMessageDelegationInput!
 }
 
 input CreateMarketParticipantInput {
@@ -496,13 +496,12 @@ input CreateMarketParticipantInput {
   actorContact: CreateActorContactDtoInput!
 }
 
-input CreateMessageDelegationDtoInput {
-  delegatedFrom: UUID!
+input CreateMessageDelegationInput {
+  delegatedBy: UUID!
   delegatedTo: UUID!
   gridAreas: [UUID!]!
   messageTypes: [DelegationMessageType!]!
   startsAt: DateTime!
-  stopsAt: DateTime
 }
 
 input CreateOrganizationDtoInput {
