@@ -42,6 +42,8 @@ import {
   mockGetDelegatesQuery,
   mockCreateDelegationForActorMutation,
   CreateDelegationForActorMutation,
+  mockStopDelegationsMutation,
+  StopDelegationsMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -97,6 +99,7 @@ export function marketParticipantMocks(apiBase: string) {
     getDelegationsForActor(),
     getDelegates(),
     createDelegation(),
+    stopDelegation(),
   ];
 }
 
@@ -314,6 +317,40 @@ function createDelegation() {
       __typename: 'Mutation',
       createDelegationsForActor: {
         __typename: 'CreateDelegationsForActorPayload',
+        success: !mockError,
+        errors: mockError
+          ? [
+              {
+                __typename: 'ApiError',
+                apiErrors: [
+                  {
+                    __typename: 'ApiErrorDescriptor',
+                    code: 'test',
+                    message: 'mock fail',
+                    args: [],
+                  },
+                ],
+              },
+            ]
+          : [],
+      },
+    };
+    return HttpResponse.json({
+      data: response,
+    });
+  });
+}
+
+function stopDelegation() {
+  return mockStopDelegationsMutation(async (request) => {
+    const mockError =
+      request.variables.input.stopMessageDelegationDto[0].id.value ===
+      getDelegationsForActorMock.getDelegationsForActor[0].id.value;
+    await delay(mswConfig.delay);
+    const response: StopDelegationsMutation = {
+      __typename: 'Mutation',
+      stopDelegation: {
+        __typename: 'StopDelegationPayload',
         success: !mockError,
         errors: mockError
           ? [

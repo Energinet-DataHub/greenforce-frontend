@@ -19,7 +19,7 @@ limitations under the License.
     <vater-stack fill="horizontal" justify="flex-start">
       <watt-dropdown
         label="{{ t('delegations') }}"
-        [formControl]="createDelegationForm.controls.delegations"
+        [formControl]="createDelegationForm.controls.delegation"
         [options]="delegations$ | push"
       />
       <watt-dropdown

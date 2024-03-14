@@ -163,6 +163,7 @@
       "createSuccess": "Delegering oprettet",
       "delegations": "Delegeret",
       "save": "Gem opsætning",
+      "stopDelegationSuccess": "Delegering stoppet",
       "cancel": "Luk",
       "stopModalTitle": "Stop delegering?",
       "stopDate": "Stop på dato",

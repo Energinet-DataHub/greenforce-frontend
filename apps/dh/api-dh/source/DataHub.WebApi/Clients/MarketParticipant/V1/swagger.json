@@ -3225,18 +3225,23 @@
         "additionalProperties": false,
         "properties": {
           "delegatedFrom": {
-            "type": "string",
-            "format": "uuid"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorId"
+              }
+            ]
           },
           "delegatedTo": {
-            "type": "string",
-            "format": "uuid"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorId"
+              }
+            ]
           },
           "gridAreas": {
             "type": "array",
             "items": {
-              "type": "string",
-              "format": "uuid"
+              "$ref": "#/components/schemas/GridAreaId"
             }
           },
           "messageTypes": {
@@ -3248,11 +3253,6 @@
           "startsAt": {
             "type": "string",
             "format": "date-time"
-          },
-          "stopsAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
           }
         }
       },

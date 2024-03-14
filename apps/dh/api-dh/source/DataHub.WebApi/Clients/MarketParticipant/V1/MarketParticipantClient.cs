@@ -6295,22 +6295,19 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public partial class CreateMessageDelegationDto
     {
         [Newtonsoft.Json.JsonProperty("delegatedFrom", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid DelegatedFrom { get; set; } = default!;
+        public ActorId DelegatedFrom { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("delegatedTo", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid DelegatedTo { get; set; } = default!;
+        public ActorId DelegatedTo { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("gridAreas", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<System.Guid> GridAreas { get; set; } = default!;
+        public System.Collections.Generic.ICollection<GridAreaId> GridAreas { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("messageTypes", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, ItemConverterType = typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public System.Collections.Generic.ICollection<DelegationMessageType> MessageTypes { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("startsAt", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset StartsAt { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("stopsAt", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset? StopsAt { get; set; } = default!;
 
     }
 
