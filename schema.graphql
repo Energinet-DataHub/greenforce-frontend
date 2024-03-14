@@ -479,13 +479,12 @@ enum ContactCategory {
   REMINDER
 }
 
-input CreateMessageDelegationDtoInput {
-  delegatedFrom: UUID!
+input CreateMessageDelegationInput {
+  delegatedBy: UUID!
   delegatedTo: UUID!
   gridAreas: [UUID!]!
   messageTypes: [DelegationMessageType!]!
   startsAt: DateTime!
-  stopsAt: DateTime
 }
 
 input UserProfileUpdateDtoInput {
@@ -766,7 +765,7 @@ type ResendWaitingEsettExchangeMessagesPayload {
 
 input CreateDelegationsForActorInput {
   actorId: UUID!
-  delegationDto: CreateMessageDelegationDtoInput!
+  delegationDto: CreateMessageDelegationInput!
 }
 
 union CreateDelegationsForActorError = ApiError
