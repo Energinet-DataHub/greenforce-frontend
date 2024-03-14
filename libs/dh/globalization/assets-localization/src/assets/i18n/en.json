@@ -156,12 +156,16 @@
   },
   "marketParticipant": {
     "delegation": {
+      "shared": {
+        "stopDelegation": "Stop delegation"
+      },
       "message": "Message",
       "createSuccess": "Delegation created",
       "delegations": "Delegates",
       "save": "Save set up",
       "cancel": "Close",
       "stopModalTitle": "Stop delegation?",
+      "stopDate": "Stop on date",
       "setUpDelegation": "Set up delegation",
       "outgoingMessages": "Outgoing messages",
       "incomingMessages": "Incoming messages",
@@ -175,7 +179,6 @@
       "emptyStateSetUpDelegation": "Set up delegation for messages",
       "table": {
         "selectedRows": "Selected rows",
-        "stopDelegation": "Stop delegation",
         "columns": {
           "delegatedTo": "Delegated",
           "gridArea": "Grid area",

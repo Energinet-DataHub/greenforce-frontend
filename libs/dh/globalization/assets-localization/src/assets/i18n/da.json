@@ -156,12 +156,16 @@
   },
   "marketParticipant": {
     "delegation": {
+      "shared": {
+        "stopDelegation": "Stop delegering"
+      },
       "message": "Meddelelse",
       "createSuccess": "Delegering oprettet",
       "delegations": "Delegeret",
       "save": "Gem opsætning",
       "cancel": "Luk",
       "stopModalTitle": "Stop delegering?",
+      "stopDate": "Stop på dato",
       "setUpDelegation": "Opsæt delegering",
       "outgoingMessages": "Udgående meddelelser",
       "incomingMessages": "Indgående meddelelser",
@@ -175,7 +179,6 @@
       "emptyStateSetUpDelegation": "Opsæt delegering for meddelelser",
       "table": {
         "selectedRows": "rækker valgt",
-        "stopDelegation": "Stop delegering",
         "columns": {
           "delegatedTo": "Delegeret",
           "gridArea": "Netområde",

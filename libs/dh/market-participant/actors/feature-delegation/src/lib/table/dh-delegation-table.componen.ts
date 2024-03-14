@@ -69,8 +69,12 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
         <ng-container *wattTableToolbar="let selection">
           {{ selection.length }} {{ t('selectedRows') }}
           <watt-table-toolbar-spacer />
-          <watt-button (click)="stopSelectedDelegations(selection)" icon="close">
-            {{ t('stopDelegation') }}
+          <watt-button
+            *transloco="let shared; read: 'marketParticipant.delegation.shared'"
+            (click)="stopSelectedDelegations(selection)"
+            icon="close"
+          >
+            {{ shared('stopDelegation') }}
           </watt-button>
         </ng-container>
       </watt-table>
