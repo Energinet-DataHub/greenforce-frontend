@@ -19,8 +19,6 @@ import { http, delay, HttpResponse } from 'msw';
 import {
   Actor,
   GetActorEditableFieldsQuery,
-  ActorStatus,
-  EicFunction,
   Organization,
   mockGetActorByIdQuery,
   mockGetActorEditableFieldsQuery,
@@ -42,6 +40,10 @@ import {
   mockGetOrganizationFromCvrQuery,
   mockGetDelegationsForActorQuery,
   mockGetDelegatesQuery,
+  mockCreateDelegationForActorMutation,
+  CreateDelegationForActorMutation,
+  mockStopDelegationsMutation,
+  StopDelegationsMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -64,6 +66,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 
 import { getDelegationsForActorMock } from './data/get-delegations-for-actor';
+import { actors } from './data/get-actors-by-organizationId';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
@@ -95,6 +98,8 @@ export function marketParticipantMocks(apiBase: string) {
     getAssociatedActors(),
     getDelegationsForActor(),
     getDelegates(),
+    createDelegation(),
+    stopDelegation(),
   ];
 }
 
@@ -296,40 +301,76 @@ function getActorByOrganizationId() {
   return mockGetActorsByOrganizationIdQuery(async ({ variables }) => {
     const { organizationId } = variables;
 
-    const actors: Actor[] = [
-      {
-        __typename: 'Actor',
-        id: '801011ea-a291-41f7-be19-581abc05a5ac',
-        glnOrEicNumber: '5790000555465',
-        name: 'Inactive balance responsible',
-        gridAreas: [],
-        marketRole: EicFunction.BalanceResponsibleParty,
-        status: ActorStatus.Inactive,
-        organization: {
-          __typename: 'Organization',
-          organizationId: organizationId,
-          name: '',
-        } as Organization,
-      },
-      {
-        __typename: 'Actor',
-        id: '9c3be101-1471-4a1a-8f52-ddb619778f8f',
-        glnOrEicNumber: '5790000555466',
-        name: 'Active energy supplier',
-        gridAreas: [],
-        marketRole: EicFunction.EnergySupplier,
-        status: ActorStatus.Active,
-        organization: {
-          __typename: 'Organization',
-          organizationId: organizationId,
-          name: '',
-        } as Organization,
-      },
-    ];
-
     await delay(mswConfig.delay);
     return HttpResponse.json({
-      data: { __typename: 'Query', actorsByOrganizationId: actors },
+      data: { __typename: 'Query', actorsByOrganizationId: actors(organizationId) },
+    });
+  });
+}
+
+function createDelegation() {
+  return mockCreateDelegationForActorMutation(async (request) => {
+    await delay(mswConfig.delay);
+    const mockError = request.variables.input.actorId === marketParticipantActors[0].id;
+
+    const response: CreateDelegationForActorMutation = {
+      __typename: 'Mutation',
+      createDelegationsForActor: {
+        __typename: 'CreateDelegationsForActorPayload',
+        success: !mockError,
+        errors: mockError
+          ? [
+              {
+                __typename: 'ApiError',
+                apiErrors: [
+                  {
+                    __typename: 'ApiErrorDescriptor',
+                    code: 'test',
+                    message: 'mock fail',
+                    args: [],
+                  },
+                ],
+              },
+            ]
+          : [],
+      },
+    };
+    return HttpResponse.json({
+      data: response,
+    });
+  });
+}
+
+function stopDelegation() {
+  return mockStopDelegationsMutation(async (request) => {
+    const mockError =
+      request.variables.input.stopMessageDelegationDto[0].id.value ===
+      getDelegationsForActorMock.getDelegationsForActor[0].id.value;
+    await delay(mswConfig.delay);
+    const response: StopDelegationsMutation = {
+      __typename: 'Mutation',
+      stopDelegation: {
+        __typename: 'StopDelegationPayload',
+        success: !mockError,
+        errors: mockError
+          ? [
+              {
+                __typename: 'ApiError',
+                apiErrors: [
+                  {
+                    __typename: 'ApiErrorDescriptor',
+                    code: 'test',
+                    message: 'mock fail',
+                    args: [],
+                  },
+                ],
+              },
+            ]
+          : [],
+      },
+    };
+    return HttpResponse.json({
+      data: response,
     });
   });
 }

@@ -14,15 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, effect, input } from '@angular/core';
+import { Component, ViewChild, effect, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import {
+  WATT_TABLE,
+  WattTableColumnDef,
+  WattTableComponent,
+  WattTableDataSource,
+} from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhDelegation, DhDelegations } from '../dh-delegations';
 import { DhDelegationStatusComponent } from '../status/dh-delegation-status.component';
-
+import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal.component';
 @Component({
   selector: 'dh-delegation-table',
   standalone: true,
@@ -36,6 +44,7 @@ import { DhDelegationStatusComponent } from '../status/dh-delegation-status.comp
       <watt-table
         [dataSource]="tableDataSource"
         [columns]="columns"
+        [selectable]="true"
         [sortClear]="false"
         [suppressRowHoverHighlight]="true"
       >
@@ -62,13 +71,34 @@ import { DhDelegationStatusComponent } from '../status/dh-delegation-status.comp
         <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
           <dh-delegation-status [status]="entry.status" />
         </ng-container>
+        <ng-container *wattTableToolbar="let selection">
+          {{ selection.length }} {{ t('selectedRows') }}
+          <watt-table-toolbar-spacer />
+          <watt-button
+            *transloco="let shared; read: 'marketParticipant.delegation.shared'"
+            (click)="stopSelectedDelegations(selection)"
+            icon="close"
+          >
+            {{ shared('stopDelegation') }}
+          </watt-button>
+        </ng-container>
       </watt-table>
     </ng-container>
   `,
-  imports: [TranslocoDirective, WATT_TABLE, WattDatePipe, DhDelegationStatusComponent],
+  imports: [
+    TranslocoDirective,
+    WATT_TABLE,
+    WattDatePipe,
+    WattButtonComponent,
+    DhDelegationStatusComponent,
+  ],
 })
 export class DhDelegationTableComponent {
+  private _modalService = inject(WattModalService);
   tableDataSource = new WattTableDataSource<DhDelegation>([]);
+
+  @ViewChild(WattTableComponent)
+  table: WattTableComponent<DhDelegation> | undefined;
 
   columns: WattTableColumnDef<DhDelegation> = {
     delegatedTo: { accessor: null },
@@ -82,6 +112,18 @@ export class DhDelegationTableComponent {
   constructor() {
     effect(() => {
       this.tableDataSource.data = this.data();
+    });
+  }
+
+  stopSelectedDelegations(selected: DhDelegation[]) {
+    this._modalService.open({
+      component: DhDelegationStopModalComponent,
+      data: selected,
+      onClosed: (result) => {
+        if (result) {
+          this.table?.clearSelection();
+        }
+      },
     });
   }
 }

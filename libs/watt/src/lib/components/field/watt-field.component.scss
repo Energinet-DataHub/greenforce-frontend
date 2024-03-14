@@ -68,14 +68,11 @@ watt-field {
 
   &:not(.watt-field--chip) {
     min-height: 100px;
-
-    label .watt-field-wrapper {
-      padding-left: var(--watt-space-s);
-    }
   }
 
   &.watt-field--chip .watt-field-wrapper {
     border: none;
+    padding-left: 0;
   }
 
   .label {
@@ -107,8 +104,10 @@ watt-field {
     .watt-field-wrapper {
       @include watt.typography-watt-text-s;
       display: flex;
+      position: relative;
       min-height: 46px;
       width: 100%;
+      padding-left: var(--watt-space-s);
       border-radius: var(--watt-input-border-radius);
       border: 1px solid var(--watt-border-color);
       overflow: hidden;

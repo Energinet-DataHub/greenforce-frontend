@@ -79,6 +79,7 @@ export class DhDelegationTabComponent {
 
   actor = input.required<DhActorExtended>();
   isLoading = signal(false);
+  isError = signal(false);
 
   delegationsRaw = signal<DhDelegations>([]);
   delegationsGrouped = signal<DhDelegationsGrouped>({ outgoing: [], incoming: [] });
@@ -116,6 +117,7 @@ export class DhDelegationTabComponent {
 
   private fetchData(actorId: string) {
     this.isLoading.set(true);
+    this.isError.set(false);
     this.delegationsRaw.set([]);
     this.statusControl.reset();
 
@@ -128,12 +130,13 @@ export class DhDelegationTabComponent {
         next: (result) => {
           this.isLoading.set(result.loading);
 
-          this.delegationsRaw.set(result.data.getDelegationsForActor.delegations);
+          this.delegationsRaw.set(result.data.getDelegationsForActor);
 
           this.delegationsGrouped.set(dhGroupDelegations(this.delegationsRaw()));
         },
         error: () => {
           this.isLoading.set(false);
+          this.isError.set(true);
         },
       });
   }

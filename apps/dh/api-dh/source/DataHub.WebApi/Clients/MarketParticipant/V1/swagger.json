@@ -506,7 +506,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CreateActorDelegationDto"
+                    "$ref": "#/components/schemas/CreateMessageDelegationDto"
                   }
                 ]
               }
@@ -515,7 +515,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CreateActorDelegationDto"
+                    "$ref": "#/components/schemas/CreateMessageDelegationDto"
                   }
                 ]
               }
@@ -524,7 +524,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CreateActorDelegationDto"
+                    "$ref": "#/components/schemas/CreateMessageDelegationDto"
                   }
                 ]
               }
@@ -548,7 +548,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UpdateActorDelegationDto"
+                    "$ref": "#/components/schemas/StopMessageDelegationDto"
                   }
                 ]
               }
@@ -557,7 +557,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UpdateActorDelegationDto"
+                    "$ref": "#/components/schemas/StopMessageDelegationDto"
                   }
                 ]
               }
@@ -566,7 +566,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UpdateActorDelegationDto"
+                    "$ref": "#/components/schemas/StopMessageDelegationDto"
                   }
                 ]
               }
@@ -575,24 +575,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateActorDelegationResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateActorDelegationResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateActorDelegationResponse"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -2970,66 +2953,6 @@
           }
         }
       },
-      "ActorDelegationDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorDelegationId"
-              }
-            ]
-          },
-          "delegatedBy": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorId"
-              }
-            ]
-          },
-          "delegatedTo": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorId"
-              }
-            ]
-          },
-          "gridAreaId": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/GridAreaId"
-              }
-            ]
-          },
-          "messageType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/DelegationMessageType"
-              }
-            ]
-          },
-          "startsAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "expiresAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          }
-        }
-      },
-      "ActorDelegationId": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "value": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
-      },
       "ActorDto": {
         "type": "object",
         "additionalProperties": false,
@@ -3252,42 +3175,6 @@
           }
         }
       },
-      "CreateActorDelegationDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "delegatedFrom": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "delegatedTo": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "gridAreas": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          "messageTypes": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DelegationMessageType"
-            }
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "expiresAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          }
-        }
-      },
       "CreateActorDto": {
         "type": "object",
         "additionalProperties": false,
@@ -3330,6 +3217,42 @@
           },
           "priceAreaCode": {
             "type": "string"
+          }
+        }
+      },
+      "CreateMessageDelegationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "delegatedFrom": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorId"
+              }
+            ]
+          },
+          "delegatedTo": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorId"
+              }
+            ]
+          },
+          "gridAreas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GridAreaId"
+            }
+          },
+          "messageTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DelegationMessageType"
+            }
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -3391,14 +3314,26 @@
       "DelegationMessageType": {
         "type": "string",
         "enum": [
-          "RSM012Inbound",
-          "RSM014Inbound",
-          "RSM016Inbound",
-          "RSM016Outbound",
-          "RSM017Inbound",
-          "RSM017Outbound",
-          "RSM019Inbound"
+          "Rsm012Inbound",
+          "Rsm012Outbound",
+          "Rsm014Inbound",
+          "Rsm016Inbound",
+          "Rsm016Outbound",
+          "Rsm017Inbound",
+          "Rsm017Outbound",
+          "Rsm018Inbound",
+          "Rsm019Inbound"
         ]
+      },
+      "DelegationPeriodId": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
       },
       "EicFunction": {
         "type": "string",
@@ -3466,7 +3401,7 @@
           "delegations": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ActorDelegationDto"
+              "$ref": "#/components/schemas/MessageDelegationDto"
             }
           }
         }
@@ -3670,6 +3605,85 @@
           }
         }
       },
+      "MessageDelegationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageDelegationId"
+              }
+            ]
+          },
+          "delegatedBy": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorId"
+              }
+            ]
+          },
+          "messageType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DelegationMessageType"
+              }
+            ]
+          },
+          "periods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageDelegationPeriodDto"
+            }
+          }
+        }
+      },
+      "MessageDelegationId": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "MessageDelegationPeriodDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DelegationPeriodId"
+              }
+            ]
+          },
+          "delegatedTo": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorId"
+              }
+            ]
+          },
+          "gridAreaId": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GridAreaId"
+              }
+            ]
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
       "OrganizationAuditedChange": {
         "type": "string",
         "enum": [
@@ -3870,6 +3884,31 @@
           "Desc"
         ]
       },
+      "StopMessageDelegationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageDelegationId"
+              }
+            ]
+          },
+          "periodId": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DelegationPeriodId"
+              }
+            ]
+          },
+          "stopsAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
       "TokenRequest": {
         "type": "object",
         "additionalProperties": false,
@@ -3888,32 +3927,6 @@
         "additionalProperties": false,
         "properties": {
           "token": {
-            "type": "string"
-          }
-        }
-      },
-      "UpdateActorDelegationDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorDelegationId"
-              }
-            ]
-          },
-          "expiresAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "UpdateActorDelegationResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "responseMessage": {
             "type": "string"
           }
         }
