@@ -34,12 +34,7 @@ export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
 export const dhFeatureFlagsConfig = {
   'market-participant-delegation': {
     created: '05-03-2024',
-    disabledEnvironments: [
-      DhAppEnvironment.test_001,
-      DhAppEnvironment.test_002,
-      DhAppEnvironment.preprod,
-      DhAppEnvironment.prod,
-    ],
+    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
 } satisfies FeatureFlagConfig;
 
