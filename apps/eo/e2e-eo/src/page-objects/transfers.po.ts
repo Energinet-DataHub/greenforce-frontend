@@ -59,7 +59,9 @@ export class TransfersPo {
   }
 
   enterDetailsForNewAgreement() {
-    cy.get('input[matinput][aria-label="date-input"]').type(this.testStartDate);
+    cy.get('input[matinput][aria-label="date-input"] + input[class="mask-input"]').type(
+      this.testStartDate
+    );
   }
 
   clickCloseNewAgreementModalButton() {
