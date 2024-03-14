@@ -14,18 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, ViewChild, effect, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import {
+  WATT_TABLE,
+  WattTableColumnDef,
+  WattTableComponent,
+  WattTableDataSource,
+} from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhDelegation, DhDelegations } from '../dh-delegations';
 import { DhDelegationStatusComponent } from '../status/dh-delegation-status.component';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal.component';
-
 @Component({
   selector: 'dh-delegation-table',
   standalone: true,
@@ -92,6 +97,9 @@ export class DhDelegationTableComponent {
   private _modalService = inject(WattModalService);
   tableDataSource = new WattTableDataSource<DhDelegation>([]);
 
+  @ViewChild(WattTableComponent)
+  table: WattTableComponent<DhDelegation> | undefined;
+
   columns: WattTableColumnDef<DhDelegation> = {
     delegatedTo: { accessor: null },
     gridArea: { accessor: null },
@@ -111,6 +119,11 @@ export class DhDelegationTableComponent {
     this._modalService.open({
       component: DhDelegationStopModalComponent,
       data: selected,
+      onClosed: (result) => {
+        if (result) {
+          this.table?.clearSelection();
+        }
+      },
     });
   }
 }

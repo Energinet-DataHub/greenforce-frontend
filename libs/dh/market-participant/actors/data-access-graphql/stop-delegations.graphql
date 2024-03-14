@@ -1,0 +1,14 @@
+mutation stopDelegations($input: StopDelegationInput!) {
+  stopDelegation(input: $input) {
+    success: boolean
+    errors {
+      ... on ApiError {
+        apiErrors {
+          message
+          code
+          args
+        }
+      }
+    }
+  }
+}

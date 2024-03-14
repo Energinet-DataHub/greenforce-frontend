@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -223,10 +224,14 @@ public class Mutation
 
     [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
     public async Task<bool> StopDelegationAsync(
-        StopMessageDelegationDto stopMessageDelegationDto,
+        IEnumerable<StopMessageDelegationDto> stopMessageDelegationDto,
         [Service] IMarketParticipantClient_V1 client)
     {
-        await client.ActorDelegationPutAsync(stopMessageDelegationDto);
+        foreach (var dto in stopMessageDelegationDto)
+        {
+            await client.ActorDelegationPutAsync(dto);
+        }
+
         return true;
     }
 }
