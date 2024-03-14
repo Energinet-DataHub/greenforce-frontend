@@ -19,8 +19,6 @@ import { http, delay, HttpResponse } from 'msw';
 import {
   Actor,
   GetActorEditableFieldsQuery,
-  ActorStatus,
-  EicFunction,
   Organization,
   mockGetActorByIdQuery,
   mockGetActorEditableFieldsQuery,
