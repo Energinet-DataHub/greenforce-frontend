@@ -3006,16 +3006,6 @@
           }
         }
       },
-      "ActorId": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "value": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
-      },
       "ActorMarketRoleDto": {
         "type": "object",
         "additionalProperties": false,
@@ -3225,23 +3215,18 @@
         "additionalProperties": false,
         "properties": {
           "delegatedFrom": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorId"
-              }
-            ]
+            "type": "string",
+            "format": "uuid"
           },
           "delegatedTo": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorId"
-              }
-            ]
+            "type": "string",
+            "format": "uuid"
           },
           "gridAreas": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/GridAreaId"
+              "type": "string",
+              "format": "uuid"
             }
           },
           "messageTypes": {
@@ -3324,16 +3309,6 @@
           "Rsm018Inbound",
           "Rsm019Inbound"
         ]
-      },
-      "DelegationPeriodId": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "value": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
       },
       "EicFunction": {
         "type": "string",
@@ -3535,16 +3510,6 @@
           }
         }
       },
-      "GridAreaId": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "value": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
-      },
       "GridAreaOverviewItemDto": {
         "type": "object",
         "additionalProperties": false,
@@ -3610,18 +3575,12 @@
         "additionalProperties": false,
         "properties": {
           "id": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/MessageDelegationId"
-              }
-            ]
+            "type": "string",
+            "format": "uuid"
           },
           "delegatedBy": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorId"
-              }
-            ]
+            "type": "string",
+            "format": "uuid"
           },
           "messageType": {
             "allOf": [
@@ -3638,40 +3597,21 @@
           }
         }
       },
-      "MessageDelegationId": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "value": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
-      },
       "MessageDelegationPeriodDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "id": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/DelegationPeriodId"
-              }
-            ]
+            "type": "string",
+            "format": "uuid"
           },
           "delegatedTo": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActorId"
-              }
-            ]
+            "type": "string",
+            "format": "uuid"
           },
           "gridAreaId": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/GridAreaId"
-              }
-            ]
+            "type": "string",
+            "format": "uuid"
           },
           "startsAt": {
             "type": "string",
@@ -3889,18 +3829,12 @@
         "additionalProperties": false,
         "properties": {
           "id": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/MessageDelegationId"
-              }
-            ]
+            "type": "string",
+            "format": "uuid"
           },
           "periodId": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/DelegationPeriodId"
-              }
-            ]
+            "type": "string",
+            "format": "uuid"
           },
           "stopsAt": {
             "type": "string",
