@@ -21,6 +21,10 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dayjs } from '@energinet-datahub/watt/date';
 
+import { actors } from './get-actors-by-organizationId';
+
+const [delegatedBy, delegatedTo] = actors('10000000-0000-0000-0000-000000000001');
+
 export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
   __typename: 'Query',
   getDelegationsForActor: [
@@ -29,11 +33,8 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
       messageType: DelegationMessageType.Rsm016Outbound,
       startsAt: dayjs('2024-01-01T00:00:00+00:00').toDate(),
       expiresAt: dayjs('2024-02-01T00:00:00+00:00').toDate(),
-      delegatedTo: {
-        __typename: 'Actor',
-        id: '00000000-0000-0000-0000-000000000001',
-        name: 'Test actor 1',
-      },
+      delegatedBy,
+      delegatedTo,
       gridArea: {
         __typename: 'GridAreaDto',
         code: '003',
@@ -46,11 +47,8 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
       messageType: DelegationMessageType.Rsm016Outbound,
       startsAt: dayjs('2024-02-10T00:00:00+00:00').toDate(),
       expiresAt: null,
-      delegatedTo: {
-        __typename: 'Actor',
-        id: '00000000-0000-0000-0000-000000000001',
-        name: 'Test actor 1',
-      },
+      delegatedBy,
+      delegatedTo,
       gridArea: {
         __typename: 'GridAreaDto',
         code: '004',
@@ -63,11 +61,8 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
       messageType: DelegationMessageType.Rsm016Inbound,
       startsAt: dayjs('2024-02-01T00:00:00+00:00').toDate(),
       expiresAt: dayjs('2024-03-01T00:00:00+00:00').toDate(),
-      delegatedTo: {
-        __typename: 'Actor',
-        id: '00000000-0000-0000-0000-000000000003',
-        name: 'Test actor 3',
-      },
+      delegatedBy,
+      delegatedTo,
       gridArea: {
         __typename: 'GridAreaDto',
         code: '116',
@@ -80,11 +75,8 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
       messageType: DelegationMessageType.Rsm017Outbound,
       startsAt: dayjs('2024-03-01T00:00:00+00:00').toDate(),
       expiresAt: null,
-      delegatedTo: {
-        __typename: 'Actor',
-        id: '00000000-0000-0000-0000-000000000004',
-        name: 'Test actor 4',
-      },
+      delegatedBy,
+      delegatedTo,
       gridArea: {
         __typename: 'GridAreaDto',
         code: '117',
