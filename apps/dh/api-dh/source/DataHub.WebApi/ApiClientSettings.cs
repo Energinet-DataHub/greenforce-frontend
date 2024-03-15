@@ -16,16 +16,16 @@ namespace Energinet.DataHub.WebApi
 {
     public class ApiClientSettings
     {
-        public string MeteringPointBaseUrl { get; set; } = string.Empty;
+        public string MeteringPointBaseUrl { get; set; } = "https://localhost:5001";
 
-        public string MarketParticipantBaseUrl { get; set; } = string.Empty;
+        public string MarketParticipantBaseUrl { get; set; } = "https://localhost:5001";
 
-        public string WholesaleBaseUrl { get; set; } = string.Empty;
+        public string WholesaleBaseUrl { get; set; } = "https://localhost:7133";
 
-        public string ESettExchangeBaseUrl { get; set; } = string.Empty;
+        public string ESettExchangeBaseUrl { get; set; } = "https://localhost:5001";
 
-        public string EdiB2CWebApiBaseUrl { get; set; } = string.Empty;
+        public string EdiB2CWebApiBaseUrl { get; set; } = "https://localhost:5091";
 
-        public string ImbalancePricesBaseUrl { get; set; } = string.Empty;
+        public string ImbalancePricesBaseUrl { get; set; } = "https://localhost:5091";
     }
 }
