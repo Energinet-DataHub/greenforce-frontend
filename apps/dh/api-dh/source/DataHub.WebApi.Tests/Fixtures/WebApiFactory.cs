@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures
 {
-    public class WebApiFactory : WebApplicationFactory<Startup>
+    public class WebApiFactory : WebApplicationFactory<Program>
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
