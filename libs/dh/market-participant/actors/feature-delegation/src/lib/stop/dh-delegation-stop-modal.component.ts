@@ -33,6 +33,7 @@ import {
   GetDelegationsForActorDocument,
   StopDelegationsDocument,
   StopDelegationsMutation,
+  StopMessageDelegationDtoInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhDelegation } from '../dh-delegations';
@@ -119,11 +120,13 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
         refetchQueries: [GetDelegationsForActorDocument],
         variables: {
           input: {
-            stopMessageDelegationDto: this.modalData.map((delegation) => ({
-              id: { value: delegation.id },
-              periodId: { value: delegation.periodId },
-              stopDate: { value: stopDate },
-            })),
+            stopMessageDelegationDto: this.modalData.map((delegation) => {
+              return {
+                id: delegation.id,
+                periodId: delegation.periodId,
+                stopDate: stopDate,
+              } as StopMessageDelegationDtoInput;
+            }),
           },
         },
       })
