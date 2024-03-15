@@ -168,7 +168,7 @@ export class DhWholesaleRequestCalculationComponent {
     this.gridAreaQuery.subscribe({
       next: ({ data: { gridAreas } }) => {
         this.gridAreaOptions = gridAreas.map((gridArea) => ({
-          displayValue: `${gridArea.name} - ${gridArea.name}`,
+          displayValue: gridArea.displayName,
           value: gridArea.code,
         }));
       },

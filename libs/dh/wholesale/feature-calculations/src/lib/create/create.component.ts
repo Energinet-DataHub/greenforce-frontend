@@ -273,14 +273,10 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   }
 
   private mapGridAreasToDropdownOptions(gridAreas: GridArea[]): WattDropdownOption[] {
-    return (
-      gridAreas.map((gridArea) => {
-        return {
-          displayValue: `${gridArea?.name} (${gridArea?.code})`,
-          value: gridArea?.code,
-        };
-      }) || []
-    );
+    return gridAreas.map((gridArea) => ({
+      displayValue: gridArea.displayName,
+      value: gridArea.code,
+    }));
   }
 
   private toggleGridAreasControl() {

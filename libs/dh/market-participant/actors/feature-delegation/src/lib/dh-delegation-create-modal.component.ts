@@ -210,7 +210,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       return of(
         this.modalData.gridAreas.map((gridArea) => ({
           value: gridArea.id,
-          displayValue: `${gridArea.name} (${gridArea.code})`,
+          displayValue: gridArea.displayName,
         }))
       );
     }
@@ -220,7 +220,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       map((gridAreas) =>
         gridAreas.map((gridArea) => ({
           value: gridArea.id,
-          displayValue: `${gridArea.name} (${gridArea.code})`,
+          displayValue: gridArea.displayName,
         }))
       )
     );
