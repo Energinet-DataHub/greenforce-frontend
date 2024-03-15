@@ -33,7 +33,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
 import {
@@ -45,7 +45,6 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
   selector: 'dh-metering-grid-imbalance-drawer',
