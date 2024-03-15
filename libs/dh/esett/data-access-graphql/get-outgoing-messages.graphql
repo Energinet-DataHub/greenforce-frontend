@@ -28,8 +28,7 @@ query getOutgoingMessages(
       created
       documentId
       gridArea {
-        code
-        name
+        displayName
       }
       calculationType
       documentStatus
