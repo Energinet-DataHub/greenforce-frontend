@@ -43,6 +43,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     gridArea: {
       code: '007',
       name: 'DK1',
+      displayName: '007 • DK1',
       id: '6c6d12ee',
       priceAreaCode: PriceAreaCode.Dk1,
       validFrom: new Date('2020-01-01T00:00:00.000Z'),
@@ -139,6 +140,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     gridArea: {
       code: '007',
       name: 'DK1',
+      displayName: '007 • DK1',
       id: '6c6d12ee',
       priceAreaCode: PriceAreaCode.Dk1,
       validFrom: new Date('2020-01-01T00:00:00.000Z'),
@@ -235,6 +237,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     gridArea: {
       code: '007',
       name: 'DK1',
+      displayName: '007 • DK1',
       id: '6c6d12ee',
       priceAreaCode: PriceAreaCode.Dk1,
       validFrom: new Date('2020-01-01T00:00:00.000Z'),
@@ -338,6 +341,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     gridArea: {
       code: '007',
       name: 'DK1',
+      displayName: '007 • DK1',
       id: '6c6d12ee',
       priceAreaCode: PriceAreaCode.Dk1,
       validFrom: new Date('2020-01-01T00:00:00.000Z'),
@@ -441,6 +445,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     gridArea: {
       code: '007',
       name: 'DK1',
+      displayName: '007 • DK1',
       id: '6c6d12ee',
       priceAreaCode: PriceAreaCode.Dk1,
       validFrom: new Date('2020-01-01T00:00:00.000Z'),
@@ -537,6 +542,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     gridArea: {
       code: '007',
       name: 'DK1',
+      displayName: '007 • DK1',
       id: '6c6d12ee',
       priceAreaCode: PriceAreaCode.Dk1,
       validFrom: new Date('2020-01-01T00:00:00.000Z'),
@@ -633,6 +639,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     gridArea: {
       code: '007',
       name: 'DK1',
+      displayName: '007 • DK1',
       id: '6c6d12ee',
       priceAreaCode: PriceAreaCode.Dk1,
       validFrom: new Date('2020-01-01T00:00:00.000Z'),
@@ -736,6 +743,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     gridArea: {
       code: '007',
       name: 'DK1',
+      displayName: '007 • DK1',
       id: '6c6d12ee',
       priceAreaCode: PriceAreaCode.Dk1,
       validFrom: new Date('2020-01-01T00:00:00.000Z'),
@@ -839,6 +847,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     gridArea: {
       code: '007',
       name: 'DK1',
+      displayName: '007 • DK1',
       id: '6c6d12ee',
       priceAreaCode: PriceAreaCode.Dk1,
       validFrom: new Date('2020-01-01T00:00:00.000Z'),
@@ -935,6 +944,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     gridArea: {
       code: '007',
       name: 'DK1',
+      displayName: '007 • DK1',
       id: '6c6d12ee',
       priceAreaCode: PriceAreaCode.Dk1,
       validFrom: new Date('2020-01-01T00:00:00.000Z'),
@@ -1031,6 +1041,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     gridArea: {
       code: '007',
       name: 'DK1',
+      displayName: '007 • DK1',
       id: '6c6d12ee',
       priceAreaCode: PriceAreaCode.Dk1,
       validFrom: new Date('2020-01-01T00:00:00.000Z'),
@@ -1134,6 +1145,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     gridArea: {
       code: '007',
       name: 'DK1',
+      displayName: '007 • DK1',
       id: '6c6d12ee',
       priceAreaCode: PriceAreaCode.Dk1,
       validFrom: new Date('2020-01-01T00:00:00.000Z'),
