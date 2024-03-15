@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnChanges, inject } from '@angular/core';
+import { Component, Input, OnChanges, inject, input } from '@angular/core';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
@@ -92,9 +92,9 @@ export class DhUserAuditLogsComponent implements OnChanges {
     entry: { accessor: null },
   };
 
-  @Input({ required: true }) user: MarketParticipantUserOverviewItemDto | null = null;
+  user = input.required<MarketParticipantUserOverviewItemDto>();
 
   ngOnChanges(): void {
-    this.getUserAuditLogsQuery?.refetch({ id: this.user?.id });
+    this.getUserAuditLogsQuery?.refetch({ id: this.user().id });
   }
 }

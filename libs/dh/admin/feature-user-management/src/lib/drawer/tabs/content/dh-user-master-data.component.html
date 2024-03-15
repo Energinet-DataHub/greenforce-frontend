@@ -19,12 +19,12 @@ limitations under the License.
     <watt-description-list variant="stack">
       <watt-description-list-item
         [label]="t('name')"
-        [value]="user?.firstName + ' ' + user?.lastName"
+        [value]="user().firstName + ' ' + user().lastName"
       />
-      <watt-description-list-item [label]="t('email')" [value]="user?.email" />
+      <watt-description-list-item [label]="t('email')" [value]="user().email" />
       <watt-description-list-item
         [label]="t('phone')"
-        [value]="user?.phoneNumber | dhEmDashFallback"
+        [value]="user().phoneNumber | dhEmDashFallback"
       />
     </watt-description-list>
   </watt-card>
