@@ -41,7 +41,8 @@ import {
   WholesaleSettlementReportHttp,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { Actor, ActorFilter, GridArea, streamToFile } from '@energinet-datahub/dh/wholesale/domain';
+import { Actor, ActorFilter, GridArea } from '@energinet-datahub/dh/wholesale/domain';
+import { streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import {
