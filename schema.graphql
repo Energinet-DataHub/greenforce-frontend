@@ -113,6 +113,7 @@ type ExchangeEventSearchResult {
 
 type GridAreaDto {
   priceAreaCode: PriceAreaCode!
+  displayName: String!
   id: UUID!
   code: String!
   name: String!

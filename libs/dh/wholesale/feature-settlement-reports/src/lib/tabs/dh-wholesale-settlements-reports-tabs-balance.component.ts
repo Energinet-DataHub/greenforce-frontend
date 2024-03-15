@@ -186,6 +186,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
               code: g.code,
               id: g.code,
               name: g.name,
+              displayName: g.displayName,
               priceAreaCode: PriceAreaCode.Dk1,
               validFrom: g.validFrom,
               validtTo: g.validTo,
@@ -204,7 +205,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
         gridAreasClone.sort((a: GridArea, b: GridArea) => Number(a.code) - Number(b.code));
 
         this.gridAreas = gridAreasClone.map((g: GridArea) => ({
-          displayValue: `${g.name} (${g.code})`,
+          displayValue: g.displayName,
           value: g.code,
         }));
 

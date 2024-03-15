@@ -3,6 +3,7 @@ query GetGridAreas {
     id
     code
     name
+    displayName
     validTo
     validFrom
   }
