@@ -125,10 +125,6 @@ type CreateMarketParticipantPayload {
   errors: [CreateMarketParticipantError!]
 }
 
-type DelegationPeriodId {
-  value: UUID!
-}
-
 type EsettOutgoingMessage {
   gridArea: GridAreaDto
   documentId: String!
@@ -216,17 +212,13 @@ type KeyValuePairOfStringAndIEnumerableOfString {
   value: [String!]!
 }
 
-type MessageDelegationId {
-  value: UUID!
-}
-
 type MessageDelegationType {
   gridArea: GridAreaDto
   delegatedBy: Actor
   delegatedTo: Actor
   status: ActorDelegationStatus!
-  id: MessageDelegationId!
-  periodId: DelegationPeriodId!
+  id: UUID!
+  periodId: UUID!
   messageType: DelegationMessageType!
   startsAt: DateTime!
   expiresAt: DateTime
@@ -499,7 +491,7 @@ input CreateCalculationInput {
 
 input CreateDelegationsForActorInput {
   actorId: UUID!
-  delegationDto: CreateMessageDelegationInput!
+  delegationDto: CreateMessageDelegationDtoInput!
 }
 
 input CreateMarketParticipantInput {
@@ -509,8 +501,8 @@ input CreateMarketParticipantInput {
   actorContact: CreateActorContactDtoInput!
 }
 
-input CreateMessageDelegationInput {
-  delegatedBy: UUID!
+input CreateMessageDelegationDtoInput {
+  delegatedFrom: UUID!
   delegatedTo: UUID!
   gridAreas: [UUID!]!
   messageTypes: [DelegationMessageType!]!
@@ -524,21 +516,13 @@ input CreateOrganizationDtoInput {
   domain: String!
 }
 
-input DelegationPeriodIdInput {
-  value: UUID!
-}
-
-input MessageDelegationIdInput {
-  value: UUID!
-}
-
 input StopDelegationInput {
   stopMessageDelegationDto: [StopMessageDelegationDtoInput!]!
 }
 
 input StopMessageDelegationDtoInput {
-  id: MessageDelegationIdInput!
-  periodId: DelegationPeriodIdInput!
+  id: UUID!
+  periodId: UUID!
   stopsAt: DateTime
 }
 
