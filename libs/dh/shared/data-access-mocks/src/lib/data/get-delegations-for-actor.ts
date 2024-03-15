@@ -21,79 +21,76 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dayjs } from '@energinet-datahub/watt/date';
 
+import { actors } from './get-actors-by-organizationId';
+
+const [delegatedBy, delegatedTo] = actors('10000000-0000-0000-0000-000000000001');
+
 export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
   __typename: 'Query',
-  getDelegationsForActor: {
-    __typename: 'GetDelegationsForActorResponse',
-    delegations: [
-      {
-        __typename: 'ActorDelegationType',
-        messageType: DelegationMessageType.Rsm016Outbound,
-        startsAt: dayjs('2024-01-01T00:00:00+00:00').toDate(),
-        expiresAt: dayjs('2024-02-01T00:00:00+00:00').toDate(),
-        delegatedTo: {
-          __typename: 'Actor',
-          id: '00000000-0000-0000-0000-000000000001',
-          name: 'Test actor 1',
-        },
-        gridArea: {
-          __typename: 'GridAreaDto',
-          code: '003',
-          id: '00000000-0000-0000-0000-000000000011',
-        },
-        status: ActorDelegationStatus.Active,
+  getDelegationsForActor: [
+    {
+      __typename: 'MessageDelegationType',
+      id: '00000000-0000-0000-0000-000000000001',
+      periodId: '00000000-0000-0000-0000-000000000002',
+      messageType: DelegationMessageType.Rsm016Outbound,
+      startsAt: dayjs('2024-01-01T00:00:00+00:00').toDate(),
+      expiresAt: dayjs('2024-02-01T00:00:00+00:00').toDate(),
+      delegatedBy,
+      delegatedTo,
+      gridArea: {
+        __typename: 'GridAreaDto',
+        code: '003',
+        id: '00000000-0000-0000-0000-000000000011',
       },
-      {
-        __typename: 'ActorDelegationType',
-        messageType: DelegationMessageType.Rsm016Outbound,
-        startsAt: dayjs('2024-02-10T00:00:00+00:00').toDate(),
-        expiresAt: null,
-        delegatedTo: {
-          __typename: 'Actor',
-          id: '00000000-0000-0000-0000-000000000001',
-          name: 'Test actor 1',
-        },
-        gridArea: {
-          __typename: 'GridAreaDto',
-          code: '004',
-          id: '00000000-0000-0000-0000-000000000012',
-        },
-        status: ActorDelegationStatus.Awaiting,
+      status: ActorDelegationStatus.Active,
+    },
+    {
+      __typename: 'MessageDelegationType',
+      id: '00000000-0000-0000-0000-000000000003',
+      periodId: '00000000-0000-0000-0000-000000000004',
+      messageType: DelegationMessageType.Rsm016Outbound,
+      startsAt: dayjs('2024-02-10T00:00:00+00:00').toDate(),
+      expiresAt: null,
+      delegatedBy,
+      delegatedTo,
+      gridArea: {
+        __typename: 'GridAreaDto',
+        code: '004',
+        id: '00000000-0000-0000-0000-000000000012',
       },
-      {
-        __typename: 'ActorDelegationType',
-        messageType: DelegationMessageType.Rsm016Inbound,
-        startsAt: dayjs('2024-02-01T00:00:00+00:00').toDate(),
-        expiresAt: dayjs('2024-03-01T00:00:00+00:00').toDate(),
-        delegatedTo: {
-          __typename: 'Actor',
-          id: '00000000-0000-0000-0000-000000000003',
-          name: 'Test actor 3',
-        },
-        gridArea: {
-          __typename: 'GridAreaDto',
-          code: '116',
-          id: '00000000-0000-0000-0000-000000000013',
-        },
-        status: ActorDelegationStatus.Cancelled,
+      status: ActorDelegationStatus.Awaiting,
+    },
+    {
+      __typename: 'MessageDelegationType',
+      id: '00000000-0000-0000-0000-000000000005',
+      periodId: '00000000-0000-0000-0000-000000000006',
+      messageType: DelegationMessageType.Rsm016Inbound,
+      startsAt: dayjs('2024-02-01T00:00:00+00:00').toDate(),
+      expiresAt: dayjs('2024-03-01T00:00:00+00:00').toDate(),
+      delegatedBy,
+      delegatedTo,
+      gridArea: {
+        __typename: 'GridAreaDto',
+        code: '116',
+        id: '00000000-0000-0000-0000-000000000013',
       },
-      {
-        __typename: 'ActorDelegationType',
-        messageType: DelegationMessageType.Rsm017Outbound,
-        startsAt: dayjs('2024-03-01T00:00:00+00:00').toDate(),
-        expiresAt: null,
-        delegatedTo: {
-          __typename: 'Actor',
-          id: '00000000-0000-0000-0000-000000000004',
-          name: 'Test actor 4',
-        },
-        gridArea: {
-          __typename: 'GridAreaDto',
-          code: '117',
-          id: '00000000-0000-0000-0000-000000000013',
-        },
-        status: ActorDelegationStatus.Expired,
+      status: ActorDelegationStatus.Cancelled,
+    },
+    {
+      __typename: 'MessageDelegationType',
+      id: '00000000-0000-0000-0000-000000000007',
+      periodId: '00000000-0000-0000-0000-000000000008',
+      messageType: DelegationMessageType.Rsm017Outbound,
+      startsAt: dayjs('2024-03-01T00:00:00+00:00').toDate(),
+      expiresAt: null,
+      delegatedBy,
+      delegatedTo,
+      gridArea: {
+        __typename: 'GridAreaDto',
+        code: '117',
+        id: '00000000-0000-0000-0000-000000000013',
       },
-    ],
-  },
+      status: ActorDelegationStatus.Expired,
+    },
+  ],
 };

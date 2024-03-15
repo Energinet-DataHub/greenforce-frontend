@@ -35,21 +35,6 @@ type ActorContactDto {
   phone: String
 }
 
-type ActorDelegationId {
-  value: UUID!
-}
-
-type ActorDelegationType {
-  gridArea: GridAreaDto
-  delegatedBy: Actor
-  delegatedTo: Actor
-  status: ActorDelegationStatus!
-  id: ActorDelegationId!
-  messageType: DelegationMessageType!
-  startsAt: DateTime!
-  expiresAt: DateTime
-}
-
 type ActorNameDto {
   value: String!
 }
@@ -169,10 +154,6 @@ type ExchangeEventStatusReportResponse {
   waitingForExternalResponse: Int!
 }
 
-type GetDelegationsForActorResponse {
-  delegations: [ActorDelegationType!]!
-}
-
 type GetUserProfileResponse {
   firstName: String!
   lastName: String!
@@ -232,6 +213,18 @@ type KeyValuePairOfStringAndIEnumerableOfString {
   value: [String!]!
 }
 
+type MessageDelegationType {
+  gridArea: GridAreaDto
+  delegatedBy: Actor
+  delegatedTo: Actor
+  status: ActorDelegationStatus!
+  id: UUID!
+  periodId: UUID!
+  messageType: DelegationMessageType!
+  startsAt: DateTime!
+  expiresAt: DateTime
+}
+
 type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!
   firstOccurrenceOfImbalance: DateTime!
@@ -265,6 +258,7 @@ type Mutation {
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
+  stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
 }
 
 type Organization {
@@ -349,7 +343,7 @@ type Query {
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   userProfile: GetUserProfileResponse!
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
-  getDelegationsForActor(actorId: UUID!): GetDelegationsForActorResponse!
+  getDelegationsForActor(actorId: UUID!): [MessageDelegationType!]!
 }
 
 type ReadinessStatusDto {
@@ -367,6 +361,11 @@ type SettlementReport {
   gridArea: GridAreaDto!
   period: DateRange!
   executionTime: DateTime
+}
+
+type StopDelegationPayload {
+  boolean: Boolean
+  errors: [StopDelegationError!]
 }
 
 type UpdateActorPayload {
@@ -426,6 +425,8 @@ union CreateDelegationsForActorError = ApiError
 
 union CreateMarketParticipantError = ApiError
 
+union StopDelegationError = ApiError
+
 union UpdateActorError = ApiError
 
 union UpdateOrganizationError = ApiError
@@ -466,15 +467,6 @@ input CreateActorContactDtoInput {
   phone: String
 }
 
-input CreateActorDelegationDtoInput {
-  delegatedFrom: UUID!
-  delegatedTo: UUID!
-  gridAreas: [UUID!]!
-  messageTypes: [DelegationMessageType!]!
-  createdAt: DateTime!
-  expiresAt: DateTime
-}
-
 input CreateActorDtoInput {
   organizationId: UUID!
   name: ActorNameDtoInput!
@@ -500,7 +492,7 @@ input CreateCalculationInput {
 
 input CreateDelegationsForActorInput {
   actorId: UUID!
-  delegationDto: CreateActorDelegationDtoInput!
+  delegationDto: CreateMessageDelegationDtoInput!
 }
 
 input CreateMarketParticipantInput {
@@ -510,11 +502,29 @@ input CreateMarketParticipantInput {
   actorContact: CreateActorContactDtoInput!
 }
 
+input CreateMessageDelegationDtoInput {
+  delegatedFrom: UUID!
+  delegatedTo: UUID!
+  gridAreas: [UUID!]!
+  messageTypes: [DelegationMessageType!]!
+  startsAt: DateTime!
+}
+
 input CreateOrganizationDtoInput {
   name: String!
   businessRegisterIdentifier: String!
   address: AddressDtoInput!
   domain: String!
+}
+
+input StopDelegationInput {
+  stopMessageDelegationDto: [StopMessageDelegationDtoInput!]!
+}
+
+input StopMessageDelegationDtoInput {
+  id: UUID!
+  periodId: UUID!
+  stopsAt: DateTime
 }
 
 input UpdateActorInput {
@@ -614,11 +624,13 @@ enum ContactCategory {
 
 enum DelegationMessageType {
   RSM012_INBOUND
+  RSM012_OUTBOUND
   RSM014_INBOUND
   RSM016_INBOUND
   RSM016_OUTBOUND
   RSM017_INBOUND
   RSM017_OUTBOUND
+  RSM018_INBOUND
   RSM019_INBOUND
 }
 

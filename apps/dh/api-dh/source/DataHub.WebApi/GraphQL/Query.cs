@@ -570,11 +570,30 @@ namespace Energinet.DataHub.WebApi.GraphQL
             }
         }
 
-        public Task<GetDelegationsForActorResponse> GetGetDelegationsForActorAsync(
+        public async Task<IEnumerable<MessageDelegation>> GetGetDelegationsForActorAsync(
             Guid actorId,
             [Service] IMarketParticipantClient_V1 client)
         {
-            return client.ActorDelegationGetAsync(actorId);
+            var result = new List<MessageDelegation>();
+            var delegationResponse = await client.ActorDelegationGetAsync(actorId);
+            foreach (var delegation in delegationResponse.Delegations)
+            {
+                foreach (var period in delegation.Periods)
+                {
+                    var messageDelegation = new MessageDelegation();
+                    messageDelegation.DelegatedBy = delegation.DelegatedBy;
+                    messageDelegation.MessageType = delegation.MessageType;
+                    messageDelegation.Id = delegation.Id;
+                    messageDelegation.PeriodId = period.Id;
+                    messageDelegation.DelegatedTo = period.DelegatedTo;
+                    messageDelegation.ExpiresAt = period.ExpiresAt;
+                    messageDelegation.StartsAt = period.StartsAt;
+                    messageDelegation.GridAreaId = period.GridAreaId;
+                    result.Add(messageDelegation);
+                }
+            }
+
+            return result;
         }
 
         private static Task<GetUserOverviewResponse> GetUserOverviewAsync(IMarketParticipantClient_V1 client)

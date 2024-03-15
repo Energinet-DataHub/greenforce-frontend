@@ -32,19 +32,6 @@ jobs:
   # CD .NET
   #
 
-  dotnet_update_coverage_report:
-    needs: changes
-    if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v13
-    with:
-      solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
-      environment: AzureAuth
-      azure_integrationtest_tenant_id: ${{ vars.integration_test_azure_tenant_id }}
-      azure_integrationtest_subscription_id: ${{ vars.integration_test_azure_subscription_id }}
-      azure_integrationtest_spn_id: ${{ vars.integration_test_azure_spn_id_oidc }}
-      azure_keyvault_url: ${{ vars.integration_test_azure_keyvault_url }}
-      azure_b2csecrets_keyvault_url: ${{ vars.integration_test_azure_b2csecrets_keyvault_url }}
-
   dotnet_promote_prerelease:
     needs: changes
     if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}

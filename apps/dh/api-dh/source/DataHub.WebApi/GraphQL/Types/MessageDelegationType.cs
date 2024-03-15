@@ -13,17 +13,16 @@
 // limitations under the License.
 
 using System;
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
-    public sealed class ActorDelegationType : ObjectType<ActorDelegationDto>
+    public sealed class MessageDelegationType : ObjectType<MessageDelegation>
     {
-        protected override void Configure(IObjectTypeDescriptor<ActorDelegationDto> descriptor)
+        protected override void Configure(IObjectTypeDescriptor<MessageDelegation> descriptor)
         {
-            descriptor.Name("ActorDelegationType");
+            descriptor.Name("MessageDelegationType");
 
             descriptor.Ignore(f => f.GridAreaId);
             descriptor
@@ -42,14 +41,14 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Field("status")
                 .Resolve((ctx, ct) =>
                 {
-                    var expiresAt = ctx.Parent<ActorDelegationDto>().ExpiresAt;
-                    var startsAt = ctx.Parent<ActorDelegationDto>().StartsAt;
+                    var expiresAt = ctx.Parent<MessageDelegation>().ExpiresAt;
+                    var startsAt = ctx.Parent<MessageDelegation>().StartsAt;
 
                     if (expiresAt.HasValue && expiresAt <= startsAt)
                     {
                         return ActorDelegationStatus.Cancelled;
                     }
-                    else if (startsAt > DateTimeOffset.UtcNow && (!expiresAt.HasValue || expiresAt?.Date > DateTimeOffset.UtcNow))
+                    else if (startsAt < DateTimeOffset.UtcNow && (!expiresAt.HasValue || expiresAt?.Date > DateTimeOffset.UtcNow))
                     {
                         return ActorDelegationStatus.Active;
                     }

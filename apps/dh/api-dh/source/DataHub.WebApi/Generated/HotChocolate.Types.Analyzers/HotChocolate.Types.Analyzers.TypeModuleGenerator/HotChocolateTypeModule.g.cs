@@ -21,7 +21,6 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.AddDataLoader<global::Energinet.DataHub.WebApi.GraphQL.UserCacheDataLoader>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.DateRangeType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorAuditedChangeAuditLogDtoType>();
-            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorDelegationType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorStatusType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ActorType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.BalanceResponsibleType>();
@@ -34,6 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.GridAreaType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ImbalancePrice>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.ImbalancePriceDaily>();
+            builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.MessageDelegationType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.MeteringGridAreaImbalanceSearchResultType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.OrganizationAuditedChangeAuditLogDtoType>();
             builder.AddType<global::Energinet.DataHub.WebApi.GraphQL.OrganizationType>();

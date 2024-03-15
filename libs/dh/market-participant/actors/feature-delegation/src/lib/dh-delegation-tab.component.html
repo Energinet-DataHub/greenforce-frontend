@@ -20,19 +20,21 @@ limitations under the License.
       <watt-spinner />
     </vater-stack>
   } @else if (isEmpty()) {
-    <vater-stack direction="row" justify="center">
+    <vater-stack>
       <watt-empty-state
-        icon="custom-no-results"
-        [title]="t('emptyTitle')"
-        [message]="t('emptyMessage')"
+        [icon]="isError() ? 'custom-power' : 'custom-no-results'"
+        [title]="isError() ? t('errorTitle') : t('emptyTitle')"
+        [message]="isError() ? t('errorMessage') : t('emptyMessage')"
       >
-        <watt-button
-          *dhPermissionRequired="['delegation:manage']"
-          (click)="onSetUpDelegation()"
-          variant="secondary"
-        >
-          {{ t("emptyStateSetUpDelegation") }}
-        </watt-button>
+        @if (isError() === false) {
+          <watt-button
+            *dhPermissionRequired="['delegation:manage']"
+            (click)="onSetUpDelegation()"
+            variant="secondary"
+          >
+            {{ t("emptyStateSetUpDelegation") }}
+          </watt-button>
+        }
       </watt-empty-state>
     </vater-stack>
   } @else {

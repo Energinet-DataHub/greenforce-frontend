@@ -156,11 +156,17 @@
   },
   "marketParticipant": {
     "delegation": {
+      "shared": {
+        "stopDelegation": "Stop delegering"
+      },
       "message": "Meddelelse",
       "createSuccess": "Delegering oprettet",
       "delegations": "Delegeret",
       "save": "Gem opsætning",
+      "stopDelegationSuccess": "Delegering stoppet",
       "cancel": "Luk",
+      "stopModalTitle": "Stop delegering?",
+      "stopDate": "Stop på dato",
       "setUpDelegation": "Opsæt delegering",
       "outgoingMessages": "Udgående meddelelser",
       "incomingMessages": "Indgående meddelelser",
@@ -169,8 +175,11 @@
       "start": "Start",
       "emptyTitle": "Ingen delegering",
       "emptyMessage": "Deleger udgående eller indgående meddelelser til en måleoperatør",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}",
       "emptyStateSetUpDelegation": "Opsæt delegering for meddelelser",
       "table": {
+        "selectedRows": "rækker valgt",
         "columns": {
           "delegatedTo": "Delegeret",
           "gridArea": "Netområde",
@@ -182,11 +191,13 @@
         "INBOUND": "Indgående",
         "OUTBOUND": "Udgående",
         "RSM012_INBOUND": "Fremsend måledata for et målepunkt (RSM-012)",
+        "RSM012_OUTBOUND": "Fremsend måledata for et målepunkt (RSM-012)",
         "RSM014_INBOUND": "Fremsend beregnede tidsserier (RSM-014)",
         "RSM016_INBOUND": "Anmod om aggregerede måledata (RSM-016)",
         "RSM016_OUTBOUND": "Anmod om aggregerede måledata (RSM-016)",
         "RSM017_INBOUND": "Anmod om engrosydelser (RSM-017)",
         "RSM017_OUTBOUND": "Anmod om engrosydelser (RSM-017)",
+        "RSM018_INBOUND": "Fremsend hullerlog (RSM-018)",
         "RSM019_INBOUND": "Fremsend beregnede engrosydelser (RSM-019)"
       },
       "statusPlaceholder": "Status",

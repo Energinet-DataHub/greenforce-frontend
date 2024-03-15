@@ -20,6 +20,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChangeDetectionStrategy, Component, ViewChild, inject, signal } from '@angular/core';
 
 import { Observable, map, of } from 'rxjs';
@@ -54,7 +55,6 @@ import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-acc
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /** TODO: Remove when Typescript 5.4 lands with support for groupBy  */
 declare global {
@@ -128,7 +128,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
     messageTypes: new FormControl<DelegationMessageType[] | null>(null, Validators.required),
     startDate: new FormControl<Date | null>(null, Validators.required),
-    delegations: new FormControl<string[] | null>(null, Validators.required),
+    delegation: new FormControl<string | null>(null, Validators.required),
   });
 
   gridAreaOptions$ = this.getGridAreaOptions();
@@ -155,10 +155,10 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   save() {
     if (this.createDelegationForm.invalid) return;
 
-    const { startDate, gridAreas, messageTypes, delegations } =
+    const { startDate, gridAreas, messageTypes, delegation } =
       this.createDelegationForm.getRawValue();
 
-    if (!startDate || !gridAreas || !messageTypes || !delegations) return;
+    if (!startDate || !gridAreas || !messageTypes || !delegation) return;
 
     this.isSaving.set(true);
 
@@ -170,10 +170,10 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
           input: {
             actorId: this.modalData.id,
             delegationDto: {
-              createdAt: startDate!,
+              startsAt: startDate,
               delegatedFrom: this.modalData.id,
-              delegatedTo: delegations,
-              gridAreas,
+              delegatedTo: delegation,
+              gridAreas: gridAreas,
               messageTypes,
             },
           },
@@ -273,10 +273,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
 
   private getMessageTypesToExclude(): DelegationMessageType[] {
     if (this.modalData.marketRole === EicFunction.EnergySupplier) {
-      return [
-        //DelegationMessageType.Rsm018Inbound coming
-        //DelegationMessageType.Rsm012Outbound coming
-      ];
+      return [DelegationMessageType.Rsm018Inbound, DelegationMessageType.Rsm012Outbound];
     }
 
     if (this.modalData.marketRole === EicFunction.BalanceResponsibleParty) {
@@ -285,8 +282,8 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
         DelegationMessageType.Rsm017Inbound,
         DelegationMessageType.Rsm017Outbound,
         DelegationMessageType.Rsm019Inbound,
-        //DelegationMessageType.Rsm018Inbound coming
-        //DelegationMessageType.Rsm012Outbound coming
+        DelegationMessageType.Rsm018Inbound,
+        DelegationMessageType.Rsm012Outbound,
       ];
     }
 
