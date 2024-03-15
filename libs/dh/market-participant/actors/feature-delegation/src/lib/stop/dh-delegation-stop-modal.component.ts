@@ -124,7 +124,7 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
               return {
                 id: delegation.id,
                 periodId: delegation.periodId,
-                stopDate: stopDate,
+                stopsAt: stopDate,
               } as StopMessageDelegationDtoInput;
             }),
           },
