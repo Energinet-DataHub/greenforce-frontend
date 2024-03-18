@@ -48,7 +48,7 @@ limitations under the License.
       </watt-button>
     </watt-drawer-actions>
 
-    <watt-drawer-content *ngIf="drawer.isOpen">
+    <watt-drawer-content *ngIf="drawer.isOpen && selectedUser">
       <dh-drawer-tabs [user]="selectedUser" />
     </watt-drawer-content>
   </watt-drawer>
