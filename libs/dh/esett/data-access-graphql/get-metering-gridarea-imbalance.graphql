@@ -23,8 +23,7 @@ query getMeteringGridAreaImbalance(
     items {
       id
       gridArea {
-        name
-        code
+        displayName
       }
       documentDateTime
       receivedDateTime
