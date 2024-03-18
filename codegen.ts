@@ -21,6 +21,7 @@ const config: CodegenConfig = {
       config: {
         nonOptionalTypename: true,
         scalars: {
+          UUID: 'string',
           Date: 'Date',
           DateRange: '{ start: Date, end: Date }',
           DateTime: 'Date',

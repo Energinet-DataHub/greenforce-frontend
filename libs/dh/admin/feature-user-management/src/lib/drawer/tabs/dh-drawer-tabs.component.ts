@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
@@ -38,5 +38,5 @@ import { DhUserAuditLogsComponent } from './content/dh-user-audit-logs.component
   ],
 })
 export class DhTabsComponent {
-  @Input() user: MarketParticipantUserOverviewItemDto | null = null;
+  user = input.required<MarketParticipantUserOverviewItemDto>();
 }
