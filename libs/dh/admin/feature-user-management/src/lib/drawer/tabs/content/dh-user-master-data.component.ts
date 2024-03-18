@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
@@ -44,5 +44,5 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   ],
 })
 export class DhUserMasterDataComponent {
-  @Input() user: MarketParticipantUserOverviewItemDto | null = null;
+  user = input.required<MarketParticipantUserOverviewItemDto>();
 }

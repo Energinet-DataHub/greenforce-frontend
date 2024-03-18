@@ -19,7 +19,10 @@ export class SharedPO {
   private topbarActions = '.watt-toolbar button';
 
   // Interaction
-  clickLogoutMenuItem = () => cy.get(this.topbarActions).contains('Log out').click();
+  clickLogoutMenuItem = () => {
+    cy.get('eo-account-menu').click();
+    cy.get('watt-button').contains('Logout').click();
+  };
   clickTransfersMenuItem = () => cy.get(this.navListItem).contains('Transfers').click();
   clickConnectionsMenuItem = () => cy.get(this.navListItem).contains('Connections').click();
 }

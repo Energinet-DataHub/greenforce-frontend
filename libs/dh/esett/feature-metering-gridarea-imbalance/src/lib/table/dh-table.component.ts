@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { Component, EventEmitter, Input, ViewChild, Output } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -25,6 +24,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhMeteringGridAreaImbalance } from '../dh-metering-gridarea-imbalance';
+import { DhMeteringGridAreaImbalanceDrawerComponent } from '../drawer/dh-drawer.component';
 import { Sort } from '@angular/material/sort';
 
 @Component({
@@ -39,9 +39,10 @@ import { Sort } from '@angular/material/sort';
     `,
   ],
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
+
+    DhMeteringGridAreaImbalanceDrawerComponent,
 
     WATT_TABLE,
     WattPaginatorComponent,
@@ -51,14 +52,17 @@ import { Sort } from '@angular/material/sort';
     VaterStackComponent,
   ],
 })
-export class DhOutgoingMessagesTableComponent {
+export class DhMeteringGridAreaImbalanceTableComponent {
   activeRow: DhMeteringGridAreaImbalance | undefined = undefined;
+
+  @ViewChild(DhMeteringGridAreaImbalanceDrawerComponent)
+  drawer!: DhMeteringGridAreaImbalanceDrawerComponent;
 
   columns: WattTableColumnDef<DhMeteringGridAreaImbalance> = {
     documentDateTime: { accessor: 'documentDateTime' },
     receivedDateTime: { accessor: 'receivedDateTime' },
     id: { accessor: 'id' },
-    gridArea: { accessor: 'gridAreaCode' },
+    gridArea: { accessor: 'gridArea' },
     period: { accessor: null },
   };
 
@@ -66,11 +70,13 @@ export class DhOutgoingMessagesTableComponent {
   @Input() hasError!: boolean;
 
   @Input() tableDataSource!: WattTableDataSource<DhMeteringGridAreaImbalance>;
+  @Input() sortMetadata!: Sort;
 
   @Output() sortChange = new EventEmitter<Sort>();
 
   onRowClick(activeRow: DhMeteringGridAreaImbalance): void {
     this.activeRow = activeRow;
+    this.drawer.open(activeRow);
   }
 
   onClose(): void {

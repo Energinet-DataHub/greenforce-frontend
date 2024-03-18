@@ -34,12 +34,11 @@ limitations under the License.
         let message
       "
     >
-      <ng-container *ngIf="message.supplierWithName">
+      @if (message.supplierWithName) {
         {{ message.supplier }} - {{ message.supplierWithName.value }}
-      </ng-container>
-      <watt-badge *ngIf="!message.supplierWithName" type="danger">{{
-        message.supplier
-      }}</watt-badge>
+      } @else {
+        <watt-badge type="danger">{{ message.supplier }}</watt-badge>
+      }
     </ng-container>
 
     <ng-container
@@ -49,21 +48,19 @@ limitations under the License.
         let message
       "
     >
-      <ng-container *ngIf="message.balanceResponsibleWithName">
+      @if (message.balanceResponsibleWithName) {
         {{ message.balanceResponsible }} - {{ message.balanceResponsibleWithName.value }}
-      </ng-container>
-      <watt-badge *ngIf="!message.balanceResponsibleWithName" type="danger">{{
-        message.balanceResponsible
-      }}</watt-badge>
+      } @else {
+        <watt-badge type="danger">{{ message.balanceResponsible }}</watt-badge>
+      }
     </ng-container>
 
     <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
-      <ng-container *ngIf="message.gridAreaWithName">
-        {{ message.gridAreaWithName.code }}
-      </ng-container>
-      <watt-badge *ngIf="!message.gridAreaWithName" type="danger">{{
-        message.gridArea
-      }}</watt-badge>
+      @if (message.gridAreaWithName) {
+        {{ message.gridAreaWithName.code }} - {{ message.gridAreaWithName.name }}
+      } @else {
+        <watt-badge type="danger">{{ message.gridArea }}</watt-badge>
+      }
     </ng-container>
 
     <ng-container
@@ -81,17 +78,15 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  <vater-stack
-    fill="vertical"
-    justify="center"
-    *ngIf="!isLoading && tableDataSource.filteredData.length === 0"
-  >
-    <watt-empty-state
-      [icon]="hasError ? 'custom-power' : 'cancel'"
-      [title]="hasError ? t('errorTitle') : t('emptyTitle')"
-      [message]="hasError ? t('errorMessage') : t('emptyMessage')"
-    />
-  </vater-stack>
+  @if (!isLoading && tableDataSource.filteredData.length === 0) {
+    <vater-stack fill="vertical" justify="center">
+      <watt-empty-state
+        [icon]="hasError ? 'custom-power' : 'cancel'"
+        [title]="hasError ? t('errorTitle') : t('emptyTitle')"
+        [message]="hasError ? t('errorMessage') : t('emptyMessage')"
+      />
+    </vater-stack>
+  }
 </vater-flex>
 
 <dh-balance-responsible-drawer (closed)="onClose()" />

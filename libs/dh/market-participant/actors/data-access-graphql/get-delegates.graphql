@@ -1,0 +1,6 @@
+query getDelegates {
+  actorsForEicFunction(eicFunctions: [Delegated]) {
+    name
+    id
+  }
+}

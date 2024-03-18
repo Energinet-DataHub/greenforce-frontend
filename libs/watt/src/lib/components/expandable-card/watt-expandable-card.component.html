@@ -18,6 +18,7 @@ limitations under the License.
   [togglePosition]="togglePosition"
   [expanded]="expanded"
   class="watt-expandable-card watt-{{ variant }}"
+  [ngClass]="{ 'watt-expandable-card__parent': containsNestedCard }"
 >
   <mat-expansion-panel-header>
     <mat-panel-title>

@@ -15,12 +15,14 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { BehaviorSubject, combineLatest, debounceTime, map, switchMap } from 'rxjs';
-import { endOfDay, startOfDay, sub } from 'date-fns';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { BehaviorSubject, catchError, debounceTime, of, switchMap, take } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
+import { RxLet } from '@rx-angular/template/let';
 import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -31,17 +33,20 @@ import {
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
-
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
+import { DhMeteringGridAreaImbalanceTableComponent } from './table/dh-table.component';
 import { DhMeteringGridAreaImbalance } from './dh-metering-gridarea-imbalance';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import {
+  DownloadMeteringGridAreaImbalanceDocument,
+  GetMeteringGridAreaImbalanceDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+
 import { DhMeteringGridAreaImbalanceFiltersComponent } from './filters/dh-filters.component';
 import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
-import { GetMeteringGridAreaImbalanceDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Sort } from '@angular/material/sort';
-import { dhMGASortMetadataMapper } from './util/dh-sort-metadata-mapper.operator';
+import { DhMeteringGridAreaImbalanceStore } from './dh-metering-gridarea-imbalance.store';
 
 @Component({
   standalone: true,
@@ -70,6 +75,8 @@ import { dhMGASortMetadataMapper } from './util/dh-sort-metadata-mapper.operator
     TranslocoDirective,
     TranslocoPipe,
     RxPush,
+    RxLet,
+
     WATT_CARD,
     WattPaginatorComponent,
     WattButtonComponent,
@@ -80,60 +87,35 @@ import { dhMGASortMetadataMapper } from './util/dh-sort-metadata-mapper.operator
     VaterUtilityDirective,
 
     DhMeteringGridAreaImbalanceFiltersComponent,
-    DhOutgoingMessagesTableComponent,
+    DhMeteringGridAreaImbalanceTableComponent,
   ],
+  providers: [DhMeteringGridAreaImbalanceStore],
 })
 export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   private _apollo = inject(Apollo);
   private _destroyRef = inject(DestroyRef);
+  private _toastService = inject(WattToastService);
+  private _store = inject(DhMeteringGridAreaImbalanceStore);
 
-  tableDataSource = new WattTableDataSource<DhMeteringGridAreaImbalance>([]);
+  tableDataSource = new WattTableDataSource<DhMeteringGridAreaImbalance>([], {
+    disableClientSideSort: true,
+  });
   totalCount = 0;
 
-  private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
-    pageIndex: 0,
-    pageSize: 100,
-  });
-
-  pageSize$ = this.pageMetaData$.pipe(map(({ pageSize }) => pageSize));
-
-  sortMetadata$ = new BehaviorSubject<Sort>({
-    active: 'received',
-    direction: 'desc',
-  });
-
-  isLoading = false;
-  hasError = false;
-
-  filter$ = new BehaviorSubject<DhMeteringGridAreaImbalanceFilters>({
-    period: {
-      start: sub(startOfDay(new Date()), { days: 2 }),
-      end: endOfDay(new Date()),
-    },
-  });
+  pageMetaData$ = this._store.pageMetaData$;
+  sortMetaData$ = this._store.sortMetaData$;
+  filters$ = this._store.filters$;
 
   documentIdSearch$ = new BehaviorSubject<string>('');
 
-  private queryVariables$ = combineLatest({
-    filters: this.filter$,
-    pageMetaData: this.pageMetaData$,
-    documentIdSearch: this.documentIdSearch$.pipe(debounceTime(750)),
-    sortMetadata: this.sortMetadata$.pipe(dhMGASortMetadataMapper),
-  }).pipe(
-    map(({ filters, pageMetaData, documentIdSearch, sortMetadata }) => {
-      return {
-        filters: documentIdSearch ? {} : filters,
-        pageMetaData,
-        documentIdSearch,
-        sortMetadata,
-      };
-    })
-  );
+  isLoading = false;
+  isDownloading = false;
+  hasError = false;
 
-  meteringGridAreaImbalance$ = this.queryVariables$.pipe(
-    switchMap(
-      ({ filters, pageMetaData, documentIdSearch, sortMetadata }) =>
-        this._apollo.watchQuery({
+  meteringGridAreaImbalance$ = this._store.queryVariables$.pipe(
+    switchMap(({ filters, pageMetaData, documentId, sortMetaData }) =>
+      this._apollo
+        .watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
@@ -146,11 +128,13 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
             gridAreaCode: filters.gridArea,
             periodFrom: filters.period?.start,
             periodTo: filters.period?.end,
-            documentId: documentIdSearch,
-            sortProperty: sortMetadata.sortProperty,
-            sortDirection: sortMetadata.sortDirection,
+            documentId,
+            sortProperty: sortMetaData.sortProperty,
+            sortDirection: sortMetaData.sortDirection,
+            valuesToInclude: filters.valuesToInclude,
           },
-        }).valueChanges
+        })
+        .valueChanges.pipe(catchError(() => of({ loading: false, data: null, errors: [] })))
     ),
     takeUntilDestroyed()
   );
@@ -170,9 +154,71 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
         this.isLoading = false;
       },
     });
+
+    this._store.documentIdUpdate(this.documentIdSearch$.pipe(debounceTime(250)));
   }
 
-  handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
-    this.pageMetaData$.next({ pageIndex, pageSize });
+  onFiltersEvent(filters: DhMeteringGridAreaImbalanceFilters): void {
+    this._store.patchState((state) => ({
+      ...state,
+      filters,
+      pageMetaData: { ...state.pageMetaData, pageIndex: 0 },
+    }));
+  }
+
+  onSortEvent(sortMetaData: Sort): void {
+    this._store.patchState((state) => ({
+      ...state,
+      sortMetaData,
+      pageMetaData: { ...state.pageMetaData, pageIndex: 0 },
+    }));
+  }
+
+  onPageEvent({ pageIndex, pageSize }: PageEvent): void {
+    this._store.patchState((state) => ({ ...state, pageMetaData: { pageIndex, pageSize } }));
+  }
+
+  download() {
+    this.isDownloading = true;
+
+    this._store.queryVariables$
+      .pipe(
+        take(1),
+        switchMap(({ filters, documentId, sortMetaData }) =>
+          this._apollo.query({
+            returnPartialData: false,
+            notifyOnNetworkStatusChange: true,
+            fetchPolicy: 'no-cache',
+            query: DownloadMeteringGridAreaImbalanceDocument,
+            variables: {
+              locale: translate('selectedLanguageIso'),
+              gridAreaCode: filters.gridArea,
+              periodFrom: filters.period?.start,
+              periodTo: filters.period?.end,
+              valuesToInclude: filters.valuesToInclude,
+              documentId,
+              sortProperty: sortMetaData.sortProperty,
+              sortDirection: sortMetaData.sortDirection,
+            },
+          })
+        )
+      )
+      .subscribe({
+        next: (result) => {
+          this.isDownloading = result.loading;
+
+          exportToCSVRaw({
+            content: result?.data?.downloadMeteringGridAreaImbalance ?? '',
+            fileName: 'eSett-metering-grid-area-imbalance-messages',
+          });
+        },
+        error: () => {
+          this.isDownloading = false;
+          this._toastService.open({
+            message: translate('shared.error.message'),
+            type: 'danger',
+          });
+        },
+      });
   }
 }

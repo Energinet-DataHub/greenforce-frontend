@@ -35,9 +35,16 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { GetGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  dhEnumToWattDropdownOptions,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
+import {
+  GetGridAreasDocument,
+  MeteringGridImbalanceValuesToInclude,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMeteringGridAreaImbalanceFilters } from '../dh-metering-gridarea-imbalance-filters';
 
@@ -76,6 +83,7 @@ type Filters = FormControls<DhMeteringGridAreaImbalanceFilters>;
     WattDateRangeChipComponent,
     WattFormChipDirective,
     WattDropdownComponent,
+    DhDropdownTranslatorDirective,
   ],
 })
 export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit, OnDestroy {
@@ -88,6 +96,9 @@ export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit, OnDe
   @Output() formReset = new EventEmitter<void>();
 
   gridAreaOptions$ = this.getGridAreaOptions();
+  valuestoIncludeOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
+    MeteringGridImbalanceValuesToInclude
+  );
 
   formGroup!: FormGroup<Filters>;
 
@@ -95,6 +106,7 @@ export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit, OnDe
     this.formGroup = new FormGroup<Filters>({
       gridArea: dhMakeFormControl(this.initial?.gridArea),
       period: dhMakeFormControl(this.initial?.period),
+      valuesToInclude: dhMakeFormControl(this.initial?.valuesToInclude),
     });
 
     this.subscription = this.formGroup.valueChanges
@@ -114,7 +126,7 @@ export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit, OnDe
       map((gridAreas) =>
         gridAreas.map((gridArea) => ({
           value: gridArea.code,
-          displayValue: `${gridArea.name} (${gridArea.code})`,
+          displayValue: gridArea.displayName,
         }))
       )
     );

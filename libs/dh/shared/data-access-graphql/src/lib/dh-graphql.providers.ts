@@ -46,6 +46,9 @@ export const graphQLProviders = makeEnvironmentProviders([
         cache: new InMemoryCache({
           typePolicies: {
             ...scalarTypePolicies,
+            MessageDelegationType: {
+              keyFields: ['id', 'periodId'],
+            },
             Query: {
               fields: {
                 calculationById(_, { args, toReference }) {

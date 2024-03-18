@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, Input, ViewChild } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -23,7 +22,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { DhActor } from '../dh-actor';
+import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
 
@@ -39,7 +38,6 @@ import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
     `,
   ],
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
 

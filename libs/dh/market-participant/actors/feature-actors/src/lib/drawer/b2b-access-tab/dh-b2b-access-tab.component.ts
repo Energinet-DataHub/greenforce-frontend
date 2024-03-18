@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
-import { Component, Input, OnChanges, inject } from '@angular/core';
+import { Component, OnChanges, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
@@ -25,7 +24,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { DhCertificateUploaderComponent } from './certificate/dh-certificate-uploader.component';
-import { DhCertificateComponent } from './certificate/dh-certificate-view.component';
+import { DhCertificateViewComponent } from './certificate/dh-certificate-view.component';
 import { DhGenerateClientSecretComponent } from './client-secret/dh-generate-client-secret.component';
 import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-view.component';
 
@@ -44,43 +43,39 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
     `,
   ],
   template: `
-    <vater-flex direction="row" justify="center" *ngIf="showSpinner(); else elseCase">
-      <watt-spinner />
-    </vater-flex>
+    @if (showSpinner()) {
+      <vater-flex direction="row" justify="center">
+        <watt-spinner />
+      </vater-flex>
+    } @else {
+      @if (doCredentialsExist()) {
+        @if (doesCertificateExist()) {
+          <dh-certificate-view [actorId]="actorId()" />
+        }
 
-    <ng-template #elseCase>
-      <ng-container *ngIf="doCredentialsExist(); else emptyState">
-        <ng-container *ngIf="doesCertificateExist()">
-          <dh-certificate-view [actorId]="actorId" />
-        </ng-container>
-
-        <ng-container *ngIf="doesClientSecretMetadataExist()">
-          <dh-client-secret-view [actorId]="actorId" />
-        </ng-container>
-      </ng-container>
-
-      <ng-template #emptyState>
+        @if (doesClientSecretMetadataExist()) {
+          <dh-client-secret-view [actorId]="actorId()" />
+        }
+      } @else {
         <vater-stack justify="center" gap="l">
           <watt-icon name="custom-no-results" size="xxl" />
-
           <vater-stack direction="row" justify="center" gap="m">
-            <dh-certificate-uploader [actorId]="actorId" />
-            <dh-generate-client-secret [actorId]="actorId" />
+            <dh-certificate-uploader [actorId]="actorId()" />
+            <dh-generate-client-secret [actorId]="actorId()" />
           </vater-stack>
         </vater-stack>
-      </ng-template>
-    </ng-template>
+      }
+    }
   `,
   viewProviders: [DhMarketPartyB2BAccessStore],
   imports: [
-    NgIf,
     VaterStackComponent,
     VaterFlexComponent,
     WattButtonComponent,
     WattSpinnerComponent,
     WattIconComponent,
 
-    DhCertificateComponent,
+    DhCertificateViewComponent,
     DhCertificateUploaderComponent,
     DhGenerateClientSecretComponent,
     DhClientSecretViewComponent,
@@ -95,11 +90,11 @@ export class DhB2bAccessTabComponent implements OnChanges {
 
   showSpinner = toSignal(this.store.showSpinner$);
 
-  @Input({ required: true }) actorId = '';
+  actorId = input.required<string>();
 
   ngOnChanges(): void {
     this.store.resetClientSecret();
 
-    this.store.getCredentials(this.actorId);
+    this.store.getCredentials(this.actorId());
   }
 }

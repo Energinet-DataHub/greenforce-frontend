@@ -26,7 +26,11 @@ import {
   MarketParticipantPermissionsHttp,
   PermissionDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhEmDashFallbackPipe,
+  exportToCSV,
+  streamToFile,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -44,7 +48,6 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
 import { switchMap } from 'rxjs';
-import { streamToFile } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
   selector: 'dh-admin-permission-overview',
@@ -111,6 +114,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
         this.dataSource.data = result.data?.permissions ?? [];
       },
       error: (error) => {
+        this.loading = false;
         this.error = error;
       },
     });
@@ -155,7 +159,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
   downloadRelationCSV() {
     this.toastService.open({
       type: 'loading',
-      message: translate('admin.userManagement.permissionsTab.downloadStart'),
+      message: translate('shared.downloadStart'),
     });
 
     const fileOptions = {
@@ -171,7 +175,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
         error: () => {
           this.toastService.open({
             type: 'danger',
-            message: translate('admin.userManagement.permissionsTab.downloadFailed'),
+            message: translate('shared.downloadFailed'),
           });
         },
       });

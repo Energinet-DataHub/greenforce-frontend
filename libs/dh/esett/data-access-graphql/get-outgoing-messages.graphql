@@ -27,7 +27,9 @@ query getOutgoingMessages(
     items {
       created
       documentId
-      gridAreaCode
+      gridArea {
+        displayName
+      }
       calculationType
       documentStatus
       timeSeriesType

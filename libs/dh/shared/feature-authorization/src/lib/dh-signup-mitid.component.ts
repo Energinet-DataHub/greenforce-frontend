@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, inject, signal } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
@@ -28,7 +27,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
   styleUrls: ['./dh-signup-mitid.component.scss'],
   templateUrl: './dh-signup-mitid.component.html',
   standalone: true,
-  imports: [NgIf, TranslocoDirective, WattSpinnerComponent],
+  imports: [TranslocoDirective, WattSpinnerComponent],
 })
 export class DhSignupMitIdComponent {
   private marketParticipantUserHttp = inject(MarketParticipantUserHttp);

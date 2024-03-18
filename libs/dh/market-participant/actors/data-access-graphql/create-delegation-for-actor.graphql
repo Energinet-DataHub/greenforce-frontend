@@ -1,0 +1,14 @@
+mutation createDelegationForActor($input: CreateDelegationsForActorInput!) {
+  createDelegationsForActor(input: $input) {
+    success: boolean
+    errors {
+      ... on ApiError {
+        apiErrors {
+          message
+          code
+          args
+        }
+      }
+    }
+  }
+}

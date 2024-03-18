@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -201,6 +202,29 @@ public class Mutation
     public async Task<bool> ResendWaitingEsettExchangeMessagesAsync([Service] IESettExchangeClient_V1 client)
     {
         await client.ResendMessagesWithoutResponseAsync();
+        return true;
+    }
+
+    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
+    public async Task<bool> CreateDelegationsForActorAsync(
+        Guid actorId,
+        CreateMessageDelegationDto delegationDto,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        await client.ActorDelegationPostAsync(delegationDto);
+        return true;
+    }
+
+    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
+    public async Task<bool> StopDelegationAsync(
+        IEnumerable<StopMessageDelegationDto> stopMessageDelegationDto,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        foreach (var dto in stopMessageDelegationDto)
+        {
+            await client.ActorDelegationPutAsync(dto);
+        }
+
         return true;
     }
 }

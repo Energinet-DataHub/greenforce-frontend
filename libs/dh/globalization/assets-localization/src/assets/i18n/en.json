@@ -4,8 +4,8 @@
   "no": "No",
   "selectedLanguageIso": "en-gb",
   "sessionExpirationTitle": "Session expires soon",
-  "sessionExpirationContentPartA": "You have been inactive for 2 hours.",
-  "sessionExpirationContentPartB": "You will be signed out for to security reasons in",
+  "sessionExpirationContentPartA": "You have been inactive for 2 hours",
+  "sessionExpirationContentPartB": "You will be signed out in",
   "shell": {
     "logout": "Sign out",
     "profile": "Profile"
@@ -16,6 +16,10 @@
       "message": "Unfortunately, an error occurred while retrieving the necessary information",
       "button": "Try again"
     },
+    "downloadStart": "Starting download...",
+    "download": "Download",
+    "downloadreport": "Download report",
+    "downloadFailed": "Download failed",
     "empty": {
       "title": "No results found",
       "message": "Try changing the search criteria"
@@ -26,7 +30,7 @@
     },
     "fieldValidation": {
       "required": "Field is required",
-      "invalidPhoneNumber": "Invalid phone number"
+      "invalidPhoneNumber": "Invalid phone no."
     },
     "countries": {
       "DK": "Denmark",
@@ -56,27 +60,25 @@
       "general": "General",
       "login": "Login",
       "title": "Profile",
-      "name": "Name",
+      "name": "First name",
       "lastname": "Last name",
-      "email": "Email",
-      "phone": "Phone",
+      "email": "E-mail",
+      "phone": "Phone no.",
       "language": "Language",
       "save": "Save changes",
       "cancel": "Cancel",
-      "success": "Profile updated successfully",
+      "success": "Profile updated",
       "languages": {
         "da": "Danish",
         "en": "English"
       }
     },
-    "download": "Download",
-    "downloadreport": "Download report",
     "search": "Search",
     "selectedValues": "{{count}} selected",
     "calculationType": "Calculation type"
   },
   "clipboard": {
-    "success": "Copied to clipboard",
+    "success": "Copied",
     "error": "Failed to copy"
   },
   "datepicker": {
@@ -88,19 +90,19 @@
       "messageArchive": "Request/Response messages",
       "marketParticipantActors": "Actors",
       "marketParticipantOrganizations": "Organisations",
-      "marketParticipantGridAreas": "Grid areas",
+      "marketParticipantGridAreas": "Grid Areas",
       "eSett": "eSett",
-      "imbalancePrices": "Imbalance prices",
+      "imbalancePrices": "Imbalance Prices",
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
         "overview": "Overview",
         "settlementReports": "Settlement Reports",
-        "requestCalculation": "Request calculation"
+        "requestCalculation": "Request Calculation"
       },
       "admin": {
         "menuGroupLabel": "Settings",
-        "userManagement": "User management"
+        "userManagement": "User Management"
       }
     }
   },
@@ -121,8 +123,8 @@
       "topBarTitle": "Search in request and response messages",
       "documentType": "Document type",
       "senderGln": "Sender",
-      "messageId": "Message Id",
-      "traceId": "Trace Id",
+      "messageId": "Message ID",
+      "traceId": "Trace ID",
       "receiverGln": "Receiver",
       "businessReason": "Business reason",
       "dateFrom": "Date from",
@@ -131,20 +133,20 @@
       "noResultsFound": "No result",
       "progressType": "Business reason",
       "typeOrChoose": "Type or choose",
-      "includeRelatedMessage": "Include related message (when searching Message Id)",
+      "includeRelatedMessage": "Include related message (when searching Message ID)",
       "loadMore": "Load more",
       "rsm": "RSM",
       "sender": "Aktor",
       "timeStamp": "Time",
       "httpData": "Status",
-      "sent": "IN",
-      "received": "OUT",
+      "sent": "In",
+      "received": "Out",
       "download": "Download",
       "show": "Show",
       "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for.",
       "clearSearch": "Clear",
-      "periode": "periode",
-      "time": "time",
+      "periode": "Period",
+      "time": "Time",
       "searchResult": "Search results",
       "startSearchResultView": "Start search",
       "startSearchText": "Your results will appear here",
@@ -153,59 +155,112 @@
     }
   },
   "marketParticipant": {
+    "delegation": {
+      "shared": {
+        "stopDelegation": "Stop delegation"
+      },
+      "message": "Message",
+      "createSuccess": "Delegation created",
+      "delegations": "Delegates",
+      "save": "Save set up",
+      "stopDelegationSuccess": "Delegation stopped",
+      "cancel": "Close",
+      "stopModalTitle": "Stop delegation?",
+      "stopDate": "Stop on date",
+      "setUpDelegation": "Set up delegation",
+      "outgoingMessages": "Outgoing messages",
+      "incomingMessages": "Incoming messages",
+      "modalTitle": "Set up delegation",
+      "gridArea": "Netområde",
+      "start": "Start",
+      "emptyTitle": "No delegations found",
+      "emptyMessage": "Delegate outgoing or incoming messages to a meter operator",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}",
+      "emptyStateSetUpDelegation": "Set up delegation for messages",
+      "table": {
+        "selectedRows": "Selected rows",
+        "columns": {
+          "delegatedTo": "Delegated",
+          "gridArea": "Grid area",
+          "period": "Period",
+          "status": "Status"
+        }
+      },
+      "messageTypes": {
+        "INBOUND": "Incoming",
+        "OUTBOUND": "Outgoing",
+        "RSM012_INBOUND": "[DK] Fremsend måledata for et målepunkt (RSM-012)",
+        "RSM012_OUTBOUND": "[DK] Fremsend måledata for et målepunkt (RSM-012)",
+        "RSM014_INBOUND": "[DK] Fremsend beregnede tidsserier (RSM-014)",
+        "RSM016_INBOUND": "[DK] Anmod om aggregerede måledata (RSM-016)",
+        "RSM016_OUTBOUND": "[DK] Anmod om aggregerede måledata (RSM-016)",
+        "RSM017_INBOUND": "[DK] Anmod om engrosydelser (RSM-017)",
+        "RSM017_OUTBOUND": "[DK] Anmod om engrosydelser (RSM-017)",
+        "RSM018_INBOUND": "[DK] Fremsend hullerlog (RSM-018)",
+        "RSM019_INBOUND": "[DK] Fremsend beregnede engrosydelser (RSM-019)"
+      },
+      "statusPlaceholder": "Status",
+      "status": {
+        "ACTIVE": "Active",
+        "AWAITING": "Pending",
+        "EXPIRED": "Stopped",
+        "CANCELLED": "Cancelled"
+      }
+    },
     "market_participant": {
       "error_fallback": "The computer was asked to perform an action, but it did not. The reason was: {{ message }}",
       "bad_argument": {
         "missing_required_value": "Field '{{ param }}' requires a value, but a value was not provided.",
-        "invalid_gln": "Value '{{ value.value }}' is not a valid GLN or EIC number.",
+        "invalid_gln": "'{{ value.value }}' is an invalid GLN/EIC",
         "invalid_length": "The contents of '{{ param }}' do not meet the length requirements. The text should be between {{ min }} and {{ max }} characters.",
-        "invalid_enum": "Value '{{ value }}' is not valid for field '{{ param }}'."
+        "invalid_enum": "Value '{{ value }}' is not valid for field '{{ param }}'"
       },
       "validation": {
         "organization": {
           "business_register_identifier": {
-            "reserved": "The provided business register identifier {{ identifier }} is already in use."
+            "reserved": "Business register identifier {{ identifier }} is already in use"
           },
           "domain": {
-            "reserved": "The provided organisation domain is already in use.",
-            "invalid": "The provided organisation domain is not a valid domain."
+            "reserved": "E-mail domain is already in use",
+            "invalid": "Invalid e-mail domain"
           }
         },
         "actor": {
           "number": {
-            "reserved": "The provided market participant number is already in use."
+            "reserved": "GLN/EIC is already in use"
           },
           "grid_area": {
-            "reserved": "The chosen grid area is already assigned to another market participant."
+            "reserved": "Grid area is assigned to another market participant"
           },
           "market_role": {
-            "reserved": "The chosen market role cannot be assigned, as it is already in use by another market participant in the organisation.",
-            "forbidden": "The chosen market role cannot be used in this organisation."
+            "reserved": "The organisation already has a market participant with this market role",
+            "forbidden": "The market role is conflicting with another market role in the organisation"
           },
           "credentials": {
-            "invalid": "The provided certificate is invalid.",
-            "expired": "The provided certificate has expired.",
-            "invalid_state": "The market participants B2B access cannot be modified, as the market participant has been deactivated or is still being created.",
-            "still_active": "The market participant cannot be deactivated, as it still has B2B access configured.",
-            "thumbprint_reserved": "The certificate is already in use."
+            "invalid": "Invalid certificate",
+            "expired": "Certificate expired",
+            "invalid_state": "You can not change B2B access, as the market participant is deactivated",
+            "still_active": "Remove B2B access before deactivating the market participant",
+            "thumbprint_reserved": "Certificate is already in use"
           }
         },
         "market_role": {
-          "reserved": "The chosen name for the user role is already in use."
+          "reserved": "Name of user role is taken"
         },
         "user": {
           "authentication": {
-            "invalid_phone": "The provided phone number cannot be used with 2-factor authentication.",
-            "email_domain_mismatch": "The provided email does not belong to the organisation domain."
+            "invalid_phone": "It is not possible to use this phone no. for two-factor authentication",
+            "email_domain_mismatch": "E-mail domain do not belong to the organisation"
           },
           "invite": {
-            "not_expired": "The user's invitation has not yet expired and cannot be renewed."
+            "not_expired": "The user's invitation has not yet expired and cannot be renewed"
           }
         }
       }
     },
     "actors": {
-      "topBarTitle": "Actors",
+      "topBarTitle": "Market Participants",
       "tabs": {
         "actors": {
           "tabLabel": "{{ marketParticipant.actors.topBarTitle }}"
@@ -214,30 +269,28 @@
           "tabLabel": "Organisations"
         },
         "marketRoles": {
-          "tabLabel": "Market roles"
+          "tabLabel": "Market Roles"
         }
       }
     },
     "actor": {
       "create": {
         "steps": {
-          "actor": "Market party",
-          "organization": "Organization",
-          "create": "Create market party"
+          "actor": "Market Participant",
+          "organization": "Organisation",
+          "create": "Create market participant"
         },
         "gridArea": "Grid area",
-        "tooltip": "The market party gets the organization name if you do not specify a value.",
+        "tooltip": "The market participant will get the organisation name if no name is provided",
         "glnOrEicInvalid": "Invalid GLN/EIC",
-        "wrongEmailPattern": "Type a valid email",
-        "phoneInvalid": "Invalid phone number",
-        "domainInvalid": "Invalid domain",
-        "companyName": "Companyname",
-        "domain": "Domain",
-        "cvrInvalid": "Invalid CVR number",
-        "cvrNumber": "CVR-Nr.",
+        "wrongEmailPattern": "E-mail must contain @",
+        "domainInvalid": "Invalid e-mail domain. Example: datahub.dk",
+        "companyName": "Organisation name",
+        "domain": "E-mail domain",
+        "cvrInvalid": "Invalid CVR no.",
+        "cvrNumber": "CVR no.",
         "country": "Country",
-        "phoneHint": "Phone number format +45 12345678",
-        "glnOrEicHint": "GLN is 13 digits and EIC is 16 digits",
+        "glnOrEicHint": "GLN is 13 digits, EIC is 16 digits",
         "counties": {
           "DK": "Denmark",
           "SE": "Sweden",
@@ -245,49 +298,34 @@
           "FI": "Finland",
           "DE": "Germany"
         },
-        "glnOrEicNumber": "Market party id",
-        "name": "Market Party Name",
+        "glnOrEicNumber": "GLN/EIC",
+        "name": "Market participant name",
         "contact": "Contact",
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
         "departmentOrName": "Department/Name",
         "email": "E-mail",
-        "phone": "Phone number",
+        "phone": "Phone no.",
         "chooseOrganization": "Choose organization",
-        "newOrganization": "New organization",
-        "marketParty": "Market party",
-        "createHeader": "New market party",
-        "organization": "Organization",
-        "errorToastLabel": "Error",
+        "newOrganization": "New organisation",
+        "marketParty": "Market participant",
+        "createHeader": "New market participant",
+        "organization": "Organisation",
         "masterDataTabHeader": "Master data",
-        "meteringPointTypesHeader": "Type of metering points",
-        "gridAreasHeader": "Grid areas",
-        "marketRolesHeader": "Market roles",
         "contactsHeader": "Contacts",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
+        "createSuccess": "Market participant created",
         "masterData": {
-          "labelActorNumber": "Market party Id",
+          "labelActorNumber": "GLN/EIC",
           "labelStatus": "Status",
-          "labelActorName": "Actor name",
+          "labelActorName": "Market participant name",
           "statuses": {
             "New": "New",
             "Active": "Active",
             "Inactive": "Inactive",
             "Passive": "Passive",
             "Deleted": "Deleted"
-          },
-          "statusChangeTitle": "Actor status change",
-          "statusChangeWarning": "Changing actor status to '{{ status }}' is final and it cannot be changed back to '{{ initialStatus }}'. Do you want to continue?"
-        },
-        "contacts": {
-          "invalidConfiguration": "Contacts are not correctly configured"
-        },
-        "marketRoles": {
-          "marketRole": "Market role",
-          "gridArea": "Grid area",
-          "meteringPointTypes": "Type of metering points",
-          "commentLabel": "Comment",
-          "invalidConfiguration": "Market roles are not correctly configured"
+          }
         }
       }
     },
@@ -298,8 +336,8 @@
         "marketRole": "Market role",
         "status": "Status"
       },
-      "create": "New actor",
-      "actors": "Market Parties",
+      "create": "New market participant",
+      "actors": "Market Participants",
       "columns": {
         "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
         "name": "{{ marketParticipant.actorsOverview.shared.name }}",
@@ -316,7 +354,7 @@
         "reset": "{{ shared.form.reset }}"
       },
       "drawer": {
-        "edit": "Edit",
+        "edit": "Edit market participant",
         "metadata": {
           "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
           "organization": "Organisation"
@@ -334,31 +372,31 @@
             "gridArea": "Grid area"
           },
           "b2bAccess": {
-            "tabLabel": "B2B access",
+            "tabLabel": "B2B Access",
             "certificateHeadline": "Certificate",
             "clientSecretHeadline": "Client Secret",
             "thumbprint": "Thumbprint",
             "expiryDate": "Expiry date",
             "clientId": "Client ID",
             "clientSecretLabel": "Client Secret",
-            "removeClientSecret": "Remove Client Secret",
+            "removeClientSecret": "Delete Client Secret",
             "removeCertificate": "Remove certificate",
             "uploadCertificate": "Upload certificate",
             "uploadNewCertificate": "Upload new certificate",
-            "invalidFileType": "Please select a certificate file",
-            "uploadSuccess": "Certificate uploaded successfully",
+            "invalidFileType": "Select a .cer file",
+            "uploadSuccess": "Certificate uploaded",
             "uploadError": "An error occurred while uploading the certificate. Please try again",
-            "removeSuccess": "Certificate removed successfully",
+            "removeSuccess": "Certificate removed",
             "removeError": "An error occurred while removing the certificate. Please try again",
             "removeCertificateModal": {
               "title": "Remove certificate?",
-              "message": "There will no longer be B2B access if the certificate is removed. To regain access, a new certificate must be uploaded or a Client Secret generated.",
+              "message": "There will not be B2B access if certificate is removed. Upload a certificate or generate a Client Secret to regain access",
               "cancel": "Cancel",
               "remove": "Remove certificate"
             },
             "generateClientSecret": "Generate Client Secret",
             "generateNewClientSecret": "Generate new Client Secret",
-            "generateSecretSuccess": "Client Secret generated successfully",
+            "generateSecretSuccess": "Client Secret generated",
             "generateSecretError": "An error occurred while generating the Client Secret. Please try again",
             "copy": "Copy",
             "replaceClientSecretWithCertificate": "Replace Client Secret with certificate",
@@ -366,25 +404,28 @@
             "certificate": {
               "replaceCertificateModal": {
                 "title": "Generate Client Secret and replace certificate?",
-                "message": "If a Client Secret is generated, this will replace the existing certificate.",
+                "message": "Client Secret will replace the uploaded certificate",
                 "cancel": "Cancel"
               }
             },
             "clientSecret": {
               "removeSecretModal": {
                 "title": "Delete Client Secret?",
-                "message": "There will no longer be B2B access if the Client Secret is removed. To regain access, a new Client Secret must be generated or a certificate uploaded.",
+                "message": "There will not be B2B access if Client Secret is deleted. Generate a Client Secret or upload a certificate to regain access",
                 "cancel": "Cancel",
                 "confirm": "Delete Client Secret",
-                "removeSuccess": "The Client Secret Certificate was removed successfully",
+                "removeSuccess": "Client Secret deleted",
                 "removeError": "An error occurred while removing the Client Secret. Please try again"
               },
               "replaceSecretModal": {
-                "title": "Replace Client Secret with a certificate?",
-                "message": "If a certificate is uploaded, the Client Secret will be replaced. It's not possible to undo this action.",
+                "title": "Replace Client Secret with certificate?",
+                "message": "If a certificate is uploaded, the Client Secret will be replaced. It is not possible to undo this action.",
                 "cancel": "Cancel"
               }
             }
+          },
+          "delegation": {
+            "tabLabel": "Delegation"
           },
           "history": {
             "tabLabel": "History",
@@ -396,43 +437,42 @@
               "Deleted": "Deleted"
             },
             "changeTypes": {
-              "NAME": "<b>{{ auditedBy }}</b> changed the name of the actor to <b>{{ currentValue }}</b>.",
-              "NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> created the actor <b>{{ currentValue }}</b>.",
-              "STATUS": "<b>{{ auditedBy }}</b> changed the status of the actor to <b>{{ status }}</b>.",
-              "STATUS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> created actor with status <b>{{ status }}</b>.",
-              "CERTIFICATE_CREDENTIALS": "<b>{{ auditedBy }}</b> removed the certificate with thumbprint <b>{{ previousValue }}</b>.",
-              "CERTIFICATE_CREDENTIALS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> added a certificate with thumbprint <b>{{ currentValue }}</b>.",
-              "CLIENT_SECRET_CREDENTIALS": "<b>{{ auditedBy }}</b> removed the client secret with expiration at <b>{{ previousValue }}</b>.",
-              "CLIENT_SECRET_CREDENTIALS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> added a client secret that will expire at <b>{{ currentValue }}</b>.",
-              "CONTACT_CATEGORY_ADDED_NO_PREVIOUS": "<b>{{ auditedBy }}</b> created contact category <b>{{ currentValue }}</b>.",
-              "CONTACT_CATEGORY_REMOVED": "<b>{{ auditedBy }}</b> removed contact category <b>{{ previousValue }}</b>.",
-              "CONTACT_NAME": "<b>{{ auditedBy }}</b> changed the name of the contact from <b>{{ previousValue }}</b> to <b>{{ currentValue }}</b>.",
-              "CONTACT_EMAIL": "<b>{{ auditedBy }}</b> changed the email of the contact from <b>{{ previousValue }}</b> to <b>{{ currentValue }}</b>.",
-              "CONTACT_PHONE": "<b>{{ auditedBy }}</b> changed the phone number of the contact from <b>{{ previousValue }}</b> to <b>{{ currentValue }}</b>.",
-              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the name of the contact to <b>{{ currentValue }}</b>.",
-              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the email of the contact to <b>{{ currentValue }}</b>.",
-              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the phone number of the contact to <b>{{ currentValue }}</b>."
+              "NAME": "<b>{{ auditedBy }}</b> changed the name of the actor to <b>{{ currentValue }}</b>",
+              "NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> created the actor <b>{{ currentValue }}</b>",
+              "STATUS": "<b>{{ auditedBy }}</b> changed the status of the actor to <b>{{ status }}</b>",
+              "STATUS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> created actor with status <b>{{ status }}</b>",
+              "CERTIFICATE_CREDENTIALS": "<b>{{ auditedBy }}</b> removed the certificate with thumbprint <b>{{ previousValue }}</b>",
+              "CERTIFICATE_CREDENTIALS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> added a certificate with thumbprint <b>{{ currentValue }}</b>",
+              "CLIENT_SECRET_CREDENTIALS": "<b>{{ auditedBy }}</b> removed the client secret with expiration at <b>{{ previousValue }}</b>",
+              "CLIENT_SECRET_CREDENTIALS_NO_PREVIOUS": "<b>{{ auditedBy }}</b> added a client secret that will expire at <b>{{ currentValue }}</b>",
+              "CONTACT_CATEGORY_ADDED_NO_PREVIOUS": "<b>{{ auditedBy }}</b> created contact category <b>{{ currentValue }}</b>",
+              "CONTACT_CATEGORY_REMOVED": "<b>{{ auditedBy }}</b> removed contact category <b>{{ previousValue }}</b>",
+              "CONTACT_NAME": "<b>{{ auditedBy }}</b> changed the name of the contact from <b>{{ previousValue }}</b> to <b>{{ currentValue }}</b>",
+              "CONTACT_EMAIL": "<b>{{ auditedBy }}</b> changed the e-mail of the contact from <b>{{ previousValue }}</b> to <b>{{ currentValue }}</b>",
+              "CONTACT_PHONE": "<b>{{ auditedBy }}</b> changed the phone no. of the contact from <b>{{ previousValue }}</b> to <b>{{ currentValue }}</b>",
+              "CONTACT_NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the name of the contact to <b>{{ currentValue }}</b>",
+              "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the e-mail of the contact to <b>{{ currentValue }}</b>",
+              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the phone no. of the contact to <b>{{ currentValue }}</b>"
             }
           }
         }
       },
       "edit": {
-        "name": "Market Party Name",
+        "name": "Market participant name",
         "contactHeader": "Contact",
         "departmentName": "Department/Name",
-        "departmentEmail": "Email",
-        "departmentPhone": "Phone Number",
+        "departmentEmail": "E-mail",
+        "departmentPhone": "Phone no.",
         "required": "Field is required",
-        "invalidEmail": "Invalid email",
-        "phoneInvalid": "Phone number format +45 12345678",
+        "invalidEmail": "Invalid e-mail",
         "cancel": "Cancel",
         "save": "Save changes",
         "updateRequest": {
-          "success": "The market party has been updated successfully.",
-          "error": "Unfortunately, an error occurred while updating the market party."
+          "success": "Changes saved",
+          "error": "Unfortunately, an error occurred while updating the market participant"
         }
       },
-      "emptyTitle": "No market parties found",
+      "emptyTitle": "No market participants found",
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
@@ -440,7 +480,7 @@
     "organizationsOverview": {
       "organizations": "Organisations",
       "shared": {
-        "cvrOrBusinessRegisterId": "CVR/Business ID",
+        "cvrOrBusinessRegisterId": "CVR no./Business ID",
         "name": "Name"
       },
       "columns": {
@@ -462,33 +502,33 @@
             "tabLabel": "Information",
             "businessRegisterIdentifier": "Business ID",
             "name": "Name",
-            "domain": "Domain"
+            "domain": "E-mail domain"
           },
           "actors": {
-            "tabLabel": "Actors"
+            "tabLabel": "Market Participants"
           },
           "history": {
             "tabLabel": "History",
             "changeTypes": {
-              "NAME": "<b>{{ auditedBy }}</b> changed the name to <b>{{ currentValue }}</b>.",
-              "DOMAIN": "<b>{{ auditedBy }}</b> changed the domain to <b>{{ currentValue }}</b>."
+              "NAME": "<b>{{ auditedBy }}</b> changed the name to <b>{{ currentValue }}</b>",
+              "DOMAIN": "<b>{{ auditedBy }}</b> changed the domain to <b>{{ currentValue }}</b>"
             }
           }
         }
       },
       "edit": {
-        "domainLabel": "Domain",
+        "domainLabel": "E-mail domain",
         "required": "Field is required",
-        "invalidDomain": "Invalid domain",
+        "invalidDomain": "Invalid e-mail domain",
         "cancel": "Cancel",
         "save": "Save changes",
         "updateRequest": {
-          "success": "The organisation has been updated successfully."
+          "success": "Changes saved"
         }
       }
     },
     "marketRolesOverview": {
-      "marketRoles": "Market roles",
+      "marketRoles": "Market Roles",
       "download": "Download",
       "columns": {
         "name": "Name",
@@ -507,142 +547,35 @@
       "MeterOperator": "Meter Operator",
       "SystemOperator": "System operator",
       "DanishEnergyAgency": "Energistyrelsen",
-      "DataHubAdministrator": "DataHub systemadministrator",
-      "IndependentAggregator": "Uafhængig aggregator",
-      "SerialEnergyTrader": "Seriel elhandler"
+      "DataHubAdministrator": "DataHub system administrator",
+      "IndependentAggregator": "Independent aggregator",
+      "SerialEnergyTrader": "Serial Energy Trader",
+      "Delegated": "Delegated"
     },
     "marketRoleDescriptions": {
-      "BalanceResponsibleParty": "A Balance Responsible Party is responsible for its imbalances, meaning the difference between the energy volume physically injected to or withdrawn from the system and the final nominated energy volume, including any imbalance adjustment within a given imbalance settlement period.",
-      "BillingAgent": "The party responsible for invoicing a concerned party.",
-      "BalancingServiceProvider": "The party responsible for invoicing a concerned party.",
-      "EnergySupplier": "An Energy Supplier supplies electricity to or takes electricity from a Party Connected to the Grid at an Accounting Point. Additional information: An Accounting Point can only have one Energy Supplier. When additional suppliers are needed the Energy Supplier delivers/takes the difference between established (e.g. measured or calculated) production/consumption and the (accumulated) contracts with other suppliers",
-      "GridAccessProvider": "A party responsible for providing access to the grid through an Accounting Point for energy consumption or production by the Party Connected to the Grid. The Grid Access Provider is also responsible for creating and terminating Accounting Points.",
-      "ImbalanceSettlementResponsible": "A party that is responsible for settlement of the difference between the contracted quantities with physical delivery and the established quantities of energy products for the Balance Responsible Parties in a Scheduling Area. Note: The Imbalance Settlement Responsible may delegate the invoicing responsibility to a more generic role such as a Billing Agent.",
-      "MeteredDataAdministrator": "A party responsible for storing and distributing validated measured data.",
-      "MeteredDataResponsible": "A party responsible for the establishment and validation of measured data based on the collected data received from the Metered Data Collector. The party is responsible for the history of metered data for a Metering Point.",
-      "MeteringPointAdministrator": "A party responsible for administrating and making available the Metering Point characteristics, including registering the parties linked to the Metering Point.",
-      "MeterOperator": "Is used for delegation of messages in and out of DataHub",
+      "BalanceResponsibleParty": "Responsible for its imbalances, meaning the difference between the energy volume physically injected to or withdrawn from the system and the final nominated energy volume, including any imbalance adjustment within a given imbalance settlement period.",
+      "BillingAgent": "Responsible for invoicing a concerned party.",
+      "EnergySupplier": "Supplies electricity to or takes electricity from a Party Connected to the Grid at an Accounting Point. Additional information: An Accounting Point can only have one Energy Supplier. When additional suppliers are needed the Energy Supplier delivers/takes the difference between established (e.g. measured or calculated) production/consumption and the (accumulated) contracts with other suppliers",
+      "GridAccessProvider": "Responsible for providing access to the grid through an Accounting Point for energy consumption or production by the Party Connected to the Grid. The Grid Access Provider is also responsible for creating and terminating Accounting Points.",
+      "ImbalanceSettlementResponsible": "Responsible for settlement of the difference between the contracted quantities with physical delivery and the established quantities of energy products for the Balance Responsible Parties in a Scheduling Area. Note: The Imbalance Settlement Responsible may delegate the invoicing responsibility to a more generic role such as a Billing Agent.",
+      "MeteredDataAdministrator": "Responsible for storing and distributing validated measured data.",
+      "MeteredDataResponsible": "Responsible for the establishment and validation of measured data based on the collected data received from the Metered Data Collector. The party is responsible for the history of metered data for a Metering Point.",
+      "MeteringPointAdministrator": "Responsible for administrating and making available the Metering Point characteristics, including registering the parties linked to the Metering Point.",
+      "MeterOperator": "Used for delegation of messages in and out of DataHub",
       "SystemOperator": " ",
       "DanishEnergyAgency": " ",
       "DataHubAdministrator": " ",
       "IndependentAggregator": " ",
-      "SerialEnergyTrader": " "
-    },
-    "organization": {
-      "topBarTitle": "Organisations",
-      "organizationsHeader": "Organisations",
-      "columns": {
-        "organization": "Organisation",
-        "gln": "Actor Id",
-        "status": "Status",
-        "marketRoles": "Market roles",
-        "gridAreas": "Grid areas",
-        "noActors": "No actors"
-      },
-      "status": {
-        "New": "New",
-        "Active": "Active",
-        "Inactive": "Inactive",
-        "Passive": "Passive",
-        "Deleted": "Deleted"
-      },
-      "editOrganization": "Edit organisation",
-      "editActor": "Edit actor",
-      "createActor": "Create actor",
-      "createOrganization": "Create organisation",
-      "noOrganizations": "No organisations",
-      "paginator": {
-        "itemsPerPageLabel": "Organisations per page",
-        "of": "of",
-        "first": "First page",
-        "last": "Last page",
-        "next": "Next page",
-        "previous": "Previous page"
-      },
-      "create": {
-        "organizationCreateHeader": "Create organisation",
-        "organizationEditHeader": "Edit organisation",
-        "masterDataTabHeader": "Master data",
-        "cancelLabel": "Cancel",
-        "saveLabel": "Save",
-        "errorToastLabel": "Error",
-        "masterData": {
-          "organizationNameLabel": "Name",
-          "businessRegistrationIdetifierLabel": "Business registration identifier",
-          "streetNameLabel": "Street name",
-          "streetNumberLabel": "Building number",
-          "zipCodeLabel": "Zip code",
-          "cityLabel": "City",
-          "countryLabel": "Country",
-          "domainLabel": "Domain",
-          "commentLabel": "Comment",
-          "countries": {
-            "at": "Austria",
-            "be": "Belgium",
-            "bg": "Bulgaria",
-            "hr": "Croatia",
-            "cy": "Cyprus",
-            "cz": "Czech Republic",
-            "dk": "Denmark",
-            "ee": "Estonia",
-            "fi": "Finland",
-            "fr": "France",
-            "de": "Germany",
-            "gr": "Greece",
-            "hu": "Hungary",
-            "ie": "Ireland",
-            "it": "Italy",
-            "lv": "Latvia",
-            "lt": "Lithuania",
-            "lu": "Luxembourg",
-            "mt": "Malta",
-            "nl": "Netherlands",
-            "no": "Norway",
-            "pl": "Poland",
-            "pt": "Portugal",
-            "ro": "Romania",
-            "sk": "Slovakia",
-            "si": "Slovenia",
-            "es": "Spain",
-            "se": "Sweden",
-            "gb": "United Kingdom"
-          },
-          "labelStatus": "Status",
-          "statuses": {
-            "New": "New",
-            "Active": "Active",
-            "Blocked": "Blocked",
-            "Deleted": "Deleted"
-          }
-        }
-      }
-    },
-    "contacts": {
-      "category": "Category",
-      "name": "Name",
-      "namePlaceholder": "Name",
-      "email": "E-mail",
-      "emailPlaceholder": "E-mail",
-      "phone": "Phone",
-      "phonePlaceholder": "Phone (optional)",
-      "ariaLabelCategoryForExistingContact": "category field for existing contact",
-      "ariaLabelNameForExistingContact": "name field for existing contact",
-      "ariaLabelPhoneForExistingContact": "phone field for existing contact",
-      "ariaLabelMailForExistingContact": "mail field for existing contact",
-      "ariaLabelDeleteForExistingContact": "delete button for existing contact",
-      "ariaLabelCategoryForNewContact": "category field for new contact",
-      "ariaLabelNameForNewContact": "name field for new contact",
-      "ariaLabelPhoneForNewContact": "phone field for new contact",
-      "ariaLabelMailForNewContact": "mail field for new contact",
-      "ariaLabelDeleteForNewContact": "delete button for new contact"
+      "SerialEnergyTrader": " ",
+      "Delegated": " "
     },
     "gridAreas": {
-      "topBarTitle": "Grid areas",
+      "topBarTitle": "Grid Areas",
       "noGridAreas": "No grid areas found",
       "error": "An error occurred",
       "columns": {
-        "code": "Grid area number",
-        "actor": "Grid area responsible",
+        "code": "Grid area",
+        "actor": "Grid access provider",
         "organization": "Organisation"
       },
       "priceAreaCodes": {
@@ -652,7 +585,7 @@
     }
   },
   "eSett": {
-    "topBarTitle": "eSett messages",
+    "topBarTitle": "eSett Messages",
     "shared": {
       "calculationType": "Calculation type",
       "messageType": "Message type",
@@ -664,19 +597,19 @@
         "tabLabel": "Outgoing"
       },
       "meteringGridareaImbalance": {
-        "tabLabel": "MGA Imbalance"
+        "tabLabel": "MGA Imbalances"
       },
       "balanceResponsible": {
-        "tabLabel": "Balance responsible"
+        "tabLabel": "Balance Responsible"
       }
     },
     "outgoingMessages": {
-      "tabHeading": "Outgoing messages",
+      "tabHeading": "Outgoing Messages",
       "status": {
-        "INGESTION": "Status for ingestion of messages.",
-        "CONVERTER": "Status for conversion of messages.",
-        "SENDER": "Status for sending messages to eSett.",
-        "RECEIVER": "Status for receiving messages from eSett."
+        "INGESTION": "Ingestion of messages",
+        "CONVERTER": "Conversion of messages",
+        "SENDER": "Sending messages to eSett",
+        "RECEIVER": "Receiving messages from eSett"
       },
       "shared": {
         "calculationType": {
@@ -702,14 +635,14 @@
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "status": "{{ eSett.shared.status }}",
-        "period": "{{ shared.form.filters.period }}",
+        "period": "Calculation period",
         "created": "{{ eSett.outgoingMessages.columns.created }}",
         "reset": "{{ shared.form.reset }}",
-        "documentId": "Document Id"
+        "documentId": "Message ID"
       },
       "columns": {
         "created": "Created",
-        "id": "ID",
+        "id": "{{ eSett.outgoingMessages.filters.documentId }}",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
@@ -736,18 +669,52 @@
     },
     "meteringGridAreaImbalance": {
       "tabHeading": "MGA Imbalance",
+      "shared": {
+        "valuesToInclude": {
+          "IMBALANCES": "Imbalance",
+          "BALANCES": "No Imbalances",
+          "BOTH": "Both"
+        }
+      },
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
-        "createdPeriod": "Created date",
+        "createdPeriod": "Created",
         "reset": "{{ shared.form.reset }}",
-        "documentId": "Message Id"
+        "documentId": "Message ID",
+        "valuesToInclude": "Pricetypes"
       },
       "columns": {
         "documentDateTime": "Created",
         "receivedDateTime": "Received",
-        "id": "Id",
+        "id": "ID",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "period": "Calculation period"
+      },
+      "drawer": {
+        "tabs": {
+          "imbalance": "Imbalance",
+          "message": "Message"
+        },
+        "card": {
+          "titles": {
+            "deficit": "Imbalance Deficit",
+            "surplus": "Surplus Imbalance"
+          }
+        },
+        "table": {
+          "columns": {
+            "position": "Position ",
+            "date": "Date",
+            "time": "Time of first occurrence",
+            "imbalance": "Imbalance (kWh)"
+          }
+        },
+        "metadata": {
+          "created": "Oprettet",
+          "periode": "Beregnet periode",
+          "received": "Modtaget",
+          "gridArea": "{{ eSett.shared.gridArea }}"
+        }
       },
       "emptyTitle": "No imbalances found for period",
       "emptyMessage": "Try changing the search criteria",
@@ -755,14 +722,14 @@
       "errorMessage": "{{ shared.error.message }}"
     },
     "balanceResponsible": {
-      "tabHeading": "Balance responsible",
+      "tabHeading": "Balance Responsible Relations",
       "shared": {
         "validFrom": "Valid from",
         "validTo": "Valid to",
-        "electricitySupplier": "Electricity supplier",
-        "balanceResponsible": "Balance responsible",
+        "electricitySupplier": "Energy supplier",
+        "balanceResponsible": "Balance Responsible Relations",
         "gridArea": "{{ eSett.shared.gridArea }}",
-        "meteringPointType": "Type of metering point",
+        "meteringPointType": "Metering point type",
         "received": "Received"
       },
       "columns": {
@@ -781,7 +748,7 @@
     }
   },
   "imbalancePrices": {
-    "topBarTitle": "Imbalance prices",
+    "topBarTitle": "Imbalance Prices",
     "table": {
       "columns": {
         "period": "Period",
@@ -794,7 +761,7 @@
       "errorMessage": "{{ shared.error.message }}"
     },
     "uploadButton": "Upload file",
-    "uploadSuccess": "Upload successful",
+    "uploadSuccess": "File uploaded",
     "uploadError": "An error occurred while uploading the file. Please try again",
     "status": {
       "IN_COMPLETE": "Missing prices",
@@ -803,11 +770,8 @@
     },
     "drawer": {
       "priceAreaLabel": "Price area",
-      "updatedLabel": "Updated",
-      "pricesNote": "Prices are shown in DKK for kWh",
-      "download": "Download",
-      "downloadStart": "Starting download...",
-      "downloadFailed": "Download failed"
+      "updatedLabel": "Uploaded",
+      "pricesNote": "Prices are shown in DKK for kWh"
     }
   },
   "wholesale": {
@@ -849,7 +813,7 @@
           "invalid": "Invalid period"
         },
         "gridArea": {
-          "label": "Grid Areas",
+          "label": "Grid areas",
           "required": "Grid area is required",
           "hint": "{{shared.selectedValues}}"
         },
@@ -870,7 +834,7 @@
         },
         "toast": {
           "loading": "Starting calculation...",
-          "success": "The calculation has been started.",
+          "success": "The calculation has been started",
           "error": "{{shared.error.title}}"
         }
       },
@@ -938,7 +902,7 @@
       "startDateCannotBeOlderThan3Years": "Start date cannot be older than 3 years",
       "startAndEndDateCannotBeInTheFuture": "Start and end date cannot be in the future",
       "success": "The calculation has been requested",
-      "topBarTitle": "Request calculation",
+      "topBarTitle": "Request Calculation",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Type of metering point",
       "period": "Period",
@@ -964,15 +928,12 @@
     },
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
-      "download": "Download",
       "downloadNoBasisData": "Download (no basis data)",
       "selectedRows": {
         "singular": "{{ selectedCount }} selected row",
         "plural": "{{ selectedCount }} selected rows"
       },
       "SelectPeriod": "To download select a period first",
-      "downloadFailed": "Download failed",
-      "downloadStart": "Starting download...",
       "gridAreasLoadFailed": "Could not load grid areas",
       "noEntries": "No results",
       "results": "Search results",
@@ -1005,9 +966,9 @@
         "actor": "Actor",
         "loadingActors": "Loading energy suppliers...",
         "loadingGridAreas": "Loading grid areas...",
-        "actorPlaceholder": "Select energy supplier",
+        "actorPlaceholder": "Energy supplier",
         "calculationTypePlaceholder": "Select {{shared.calculationType}}",
-        "gridAreasPlaceholder": "Select grid area(s)"
+        "gridAreasPlaceholder": "Grid area"
       }
     }
   },
@@ -1021,16 +982,15 @@
         "inviteUser": "Invite user",
         "name": "Name",
         "userRoles": "User roles",
-        "actor": "Actor",
+        "actor": "Market participant",
         "firstname": "First name",
         "lastname": "Last name",
-        "email": "Email",
-        "phoneNumber": "Phone number",
-        "phoneNumberError": "Phone number format +45 12345678",
-        "wrongEmailPattern": "Type a valid email",
-        "userAlreadyAssignedActor": "User is already assigned.",
-        "noUserRolesError": "At least one user role must be selected.",
-        "successMessage": "{{ email }} has been invited",
+        "email": "E-mail",
+        "phoneNumber": "Phone no.",
+        "wrongEmailPattern": "Type a valid e-mail",
+        "userAlreadyAssignedActor": "User is already assigned",
+        "noUserRolesError": "Select at least one user role",
+        "successMessage": "Inviation sent to {{ email }}",
         "next": "Next",
         "columns": {
           "eicFunction": "Market role",
@@ -1038,19 +998,19 @@
           "description": "Description"
         },
         "serverErrors": {
-          "invalidPhoneNumber": "The provided phone number is formatted properly, but is an invalid phone number."
+          "invalidPhoneNumber": "Invalid phone no."
         },
-        "unknowEmailInfoMessage": "In order to accept the invitation, the user must already have access to DataHub through another organisation."
+        "unknowEmailInfoMessage": "In order to accept the invitation, the user must already have access to DataHub, because the user is not part of your organisation"
       },
       "download": "Download",
       "drawer": {
-        "edit": "Edit",
-        "reinvite": "Send invitation again",
+        "edit": "Edit user",
+        "reinvite": "Resend invitation",
         "reinviteError": "Something went wrong. The user could not be invited. Please try again",
-        "reinviteSuccess": "The user has been invited",
-        "deactivate": "Deactivate user",
+        "reinviteSuccess": "User invited",
+        "deactivate": "Deactivate",
         "deactivateError": "Something went wrong. The user could not be deactivated. Please try again",
-        "deactivateSuccess": "The user has been deactivated",
+        "deactivateSuccess": "User deactivated",
         "deactivateConfirmation": {
           "title": "Deactivate user?",
           "body": "User {{first}} {{last}} ({{email}}) will be deactivated, and sign-in will be blocked.",
@@ -1058,21 +1018,21 @@
           "confirm": "Deactivate user",
           "reject": "Cancel"
         },
-        "editRole": "Edit role",
-        "disable": "Disable",
+        "editRole": "Edit user role",
+        "disable": "Deactivate",
         "reset2fa": "Reset two-factor authentication",
         "reset2faError": "Something went wrong. Two-factor authentication may not have been reset. Please try again",
         "reset2faSuccess": "Two-factor authentication has been reset. The user can re-configure two-factor authentication at next login. The login must be done within 24 hours.",
-        "disablingUserRole": "Disabling user role",
-        "userroleDisabled": "The user role was deactivated",
-        "deactivateWarningTitle": "Disable user role permanently?",
-        "deactivateWarning": "You are about the disable the user role. This will remove the role from all users, and prevent further updates to the role.",
+        "disablingUserRole": "Deactivating user role",
+        "userroleDisabled": "User role deactivated",
+        "deactivateWarningTitle": "Deactivate user role permanently?",
+        "deactivateWarning": "You are about the deactivate the user role. This will remove the role from all users, and prevent further updates to the role.",
         "continue": "Deactivate user role",
         "cancel": "Cancel",
         "roles": {
           "tabs": {
             "masterData": {
-              "tabLabel": "Master data"
+              "tabLabel": "Master Data"
             },
             "permissions": {
               "tabLabel": "Permissions",
@@ -1097,22 +1057,18 @@
                   "Inactive": "Inactive"
                 },
                 "roles": {
-                  "NAME": "<b>{{ auditedBy }}</b> changed user role name to <b>{{ currentValue }}</b>.",
-                  "DESCRIPTION": "<b>{{ auditedBy }}</b> changed description to <b>{{ currentValue }}</b>.",
-                  "STATUS": "<b>{{ auditedBy }}</b> changed status to <b>{{ status }}</b>.",
-                  "PERMISSION_ADDED": "<b>{{ auditedBy }}</b> added permission <b>{{ affectedPermissionName }}</b>.",
-                  "PERMISSION_REMOVED": "<b>{{ auditedBy }}</b> removed permission <b>{{ affectedPermissionName }}</b>."
+                  "NAME": "<b>{{ auditedBy }}</b> changed user role name to <b>{{ currentValue }}</b>",
+                  "DESCRIPTION": "<b>{{ auditedBy }}</b> changed description to <b>{{ currentValue }}</b>",
+                  "STATUS": "<b>{{ auditedBy }}</b> changed status to <b>{{ status }}</b>",
+                  "PERMISSION_ADDED": "<b>{{ auditedBy }}</b> added permission <b>{{ affectedPermissionName }}</b>",
+                  "PERMISSION_REMOVED": "<b>{{ auditedBy }}</b> removed permission <b>{{ affectedPermissionName }}</b>"
                 }
-              },
-              "generalError": {
-                "title": "An unexpected error occured",
-                "message": "Try again or contact your system administrator if you keep getting this error."
               }
             }
           }
         }
       },
-      "topBarTitle": "User management",
+      "topBarTitle": "User Management",
       "userStatus": {
         "Active": "Active",
         "Inactive": "Deactivated",
@@ -1125,10 +1081,10 @@
       },
       "tabs": {
         "masterData": {
-          "tabLabel": "Master data",
+          "tabLabel": "Master Data",
           "name": "Name",
-          "email": "Email",
-          "phone": "Phone",
+          "email": "E-mail",
+          "phone": "Phone no.",
           "description": "Description",
           "marketRole": "Market role"
         },
@@ -1146,24 +1102,20 @@
           "logs": {
             "permissionsDetails": {
               "auditLogType": {
-                "CLAIM": "<b>{{ auditedBy }}</b> added the permission <b>{{ currentValue }}</b> to the system.",
-                "DESCRIPTION": "<b>{{ auditedBy }}</b> changed the description of the permission to <b>{{ currentValue }}</b>."
+                "CLAIM": "<b>{{ auditedBy }}</b> added the permission <b>{{ currentValue }}</b> to the system",
+                "DESCRIPTION": "<b>{{ auditedBy }}</b> changed the description of the permission to <b>{{ currentValue }}</b>"
               }
             },
             "audit": {
-              "FIRST_NAME": "<b>{{ auditedBy }}</b> changed user's first name to <b>{{ currentValue }}</b>.",
-              "LAST_NAME": "<b>{{ auditedBy }}</b> changed user's last name to <b>{{ currentValue }}</b>.",
-              "PHONE_NUMBER": "<b>{{ auditedBy }}</b> changed user's phone number to <b>{{ currentValue }}</b>.",
-              "STATUS": "<b>{{ auditedBy }}</b> changed user's status to <b>{{ currentValue }}</b>.",
-              "INVITED_INTO_ACTOR": "<b>{{ auditedBy }}</b> invited the user into <b>{{ affectedActorName }}</b>.",
-              "USER_ROLE_ASSIGNED": "<b>{{ auditedBy }}</b> added user role <b>{{ affectedUserRoleName }}</b> in market party <b>{{ affectedActorName }}</b>.",
-              "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> in market party <b>{{ affectedActorName }}</b>.",
-              "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> due to the role being deactivated."
+              "FIRST_NAME": "<b>{{ auditedBy }}</b> changed user's first name to <b>{{ currentValue }}</b>",
+              "LAST_NAME": "<b>{{ auditedBy }}</b> changed user's last name to <b>{{ currentValue }}</b>",
+              "PHONE_NUMBER": "<b>{{ auditedBy }}</b> changed user's phone no. to <b>{{ currentValue }}</b>",
+              "STATUS": "<b>{{ auditedBy }}</b> changed user's status to <b>{{ currentValue }}</b>",
+              "INVITED_INTO_ACTOR": "<b>{{ auditedBy }}</b> invited the user into <b>{{ affectedActorName }}</b>",
+              "USER_ROLE_ASSIGNED": "<b>{{ auditedBy }}</b> added user role <b>{{ affectedUserRoleName }}</b> in market party <b>{{ affectedActorName }}</b>",
+              "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> in market party <b>{{ affectedActorName }}</b>",
+              "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> due to the role being deactivated"
             }
-          },
-          "generalError": {
-            "title": "An unexpected error occured",
-            "message": "Try again or contact your system administrator if you keep getting this error."
           }
         },
         "users": {
@@ -1173,29 +1125,22 @@
           "emptyMessage": "Try changing the search criteria",
           "filter": {
             "status": "Status",
-            "marketPartyPlaceholder": "Market party",
+            "marketPartyPlaceholder": "Market participant",
             "userRolePlaceholder": "User role"
           },
           "columns": {
             "firstName": "First name",
             "lastName": "Last name",
-            "email": "Email",
-            "phone": "Phone",
+            "email": "E-mail",
+            "phone": "Phone no.",
             "status": "Status"
-          },
-          "errors": {
-            "generalError": {
-              "title": "Oops! There was an error",
-              "message": "Unfortunately, an error occurred while retrieving the necessary information.",
-              "button": "Try again"
-            }
           }
         },
         "roles": {
-          "tabLabel": "User roles",
+          "tabLabel": "User Roles",
           "roles": "User roles",
           "role": "User role",
-          "rolesHeadline": "User roles",
+          "rolesHeadline": "User Roles",
           "emptyTitle": "No user roles found",
           "emptyMessage": "Try changing the search criteria",
           "filter": {
@@ -1219,7 +1164,7 @@
               "description": "Beskrivelse"
             }
           },
-          "createuserrole": "Create user role",
+          "createuserrole": "New user role",
           "userRolesHeadline": {
             "singular": "{{ userRolesCount }} user role",
             "plural": "{{ userRolesCount }} user roles"
@@ -1227,13 +1172,6 @@
         },
         "permissions": {
           "tabLabel": "Permissions"
-        },
-        "errors": {
-          "generalError": {
-            "title": "Oops! There was an error",
-            "message": "Unfortunately, an error occurred while retrieving the necessary information.",
-            "button": "Try again"
-          }
         }
       },
       "createrole": {
@@ -1242,7 +1180,7 @@
         "createRoleRequest": {
           "start": "Creating user role",
           "error": "Unfortunately, an error occurred while creating the user role.",
-          "success": "User role created."
+          "success": "User role created"
         },
         "steps": {
           "masterData": {
@@ -1250,12 +1188,12 @@
             "eicFunction": "Market role",
             "selectEicFunctionStatus": "Select market role",
             "name": "Name",
-            "nameMaxLengthErrorText": "Name field must be under 250 characters",
+            "nameMaxLengthErrorText": "Name must be under 250 characters",
             "description": "Description"
           },
           "permissions": {
             "label": "Assign permissions",
-            "required": "Select at least one permission.",
+            "required": "Select at least one permission",
             "noPermissions": "No permissions found for the selected market role"
           }
         }
@@ -1263,7 +1201,7 @@
       "editUser": {
         "cancel": "Cancel",
         "save": "Save",
-        "saveSuccess": "The user was updated",
+        "saveSuccess": "User updated",
         "saveError": "Something went wrong. The user could not be updated. Please try again",
         "tab": {
           "masterData": "Information",
@@ -1272,26 +1210,25 @@
         "masterData": {
           "firstName": "First name",
           "lastName": "Last name",
-          "phone": "Phone number"
-        },
-        "phoneNumberError": "Phone number format +45 12345678"
+          "phone": "Phone no."
+        }
       },
       "editUserRole": {
-        "saveSuccess": "The user role was updated",
+        "saveSuccess": "User role updated",
         "saveError": "Something went wrong. The user role could not be updated. Please try again",
         "tab": {
           "masterData": {
-            "tabLabel": "Master data",
+            "tabLabel": "Master Data",
             "nameInputLabel": "Name",
             "descriptionInputLabel": "Description"
           },
           "permissions": {
             "tabLabel": "Permissions",
             "title": "Permissions",
-            "onEditMessage": "When removing/adding rights to a user role, it can take up to an hour for changes to take effect after they have been saved. Alternatively, users can log out and log in if changes are to take effect immediately."
+            "onEditMessage": "It can take up to an hour for changes to take effect. Alternatively, users can log out and log in if changes are to take effect immediately."
           },
           "validationErrors": {
-            "nameAlreadyExists": "The user role already exists",
+            "nameAlreadyExists": "A user role with this name already exists",
             "required": "Field is required",
             "permissionRequired": "Select at least one permission"
           }
@@ -1300,13 +1237,13 @@
         "save": "Save"
       },
       "editPermission": {
-        "saveSuccess": "The permission was updated",
+        "saveSuccess": "Permission updated",
         "saveError": "Something went wrong. The permission could not be updated. Please try again",
         "tab": {
           "masterData": {
-            "tabLabel": "Master data",
+            "tabLabel": "Master Data",
             "descriptionInputLabel": "Description",
-            "descriptionExceedsMaxLength": "Max {{requiredLength}} characters."
+            "descriptionExceedsMaxLength": "Max {{requiredLength}} characters"
           }
         },
         "cancel": "Cancel",
@@ -1324,9 +1261,7 @@
       "permissionsTab": {
         "headline": "Permissions",
         "permissionName": "Name",
-        "permissionDescription": "Description",
-        "downloadStart": "Starter download...",
-        "downloadFailed": "Download fejlede"
+        "permissionDescription": "Description"
       },
       "permissionDetail": {
         "edit": "Edit permission",
@@ -1350,7 +1285,7 @@
           "marketRoles": {
             "rolesPlural": "{{ marketRoleCount }} market roles",
             "rolesSingular": "{{ marketRoleCount }} market role",
-            "tabLabel": "Market roles",
+            "tabLabel": "Market Roles",
             "noEntries": "No market roles found",
             "columns": {
               "name": "Name"

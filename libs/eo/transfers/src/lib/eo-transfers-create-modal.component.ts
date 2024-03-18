@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -25,10 +24,12 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
 import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
@@ -46,39 +47,38 @@ export interface EoTransferAgreementsWithRecipient {
   selector: 'eo-transfers-create-modal',
   imports: [
     EoTransfersFormComponent,
-    NgIf,
     WATT_MODAL,
     WattSpinnerComponent,
     WattValidationMessageComponent,
+    TranslocoPipe,
   ],
   standalone: true,
   template: `
-    <watt-modal
-      #modal
-      title="New transfer agreement"
-      closeLabel="Close modal"
-      (closed)="onClosed()"
-      *ngIf="opened"
-      minHeight="634px"
-    >
-      <!-- We don't use the build-in loading state for the modal, since it wont update properly -->
-      <div
-        class="watt-modal__spinner"
-        style="z-index: 2;"
-        *ngIf="creatingTransferAgreementProposal"
+    @if (opened) {
+      <watt-modal
+        #modal
+        [title]="translations.createTransferAgreementProposal.title | transloco"
+        [closeLabel]="translations.createTransferAgreementProposal.closeLabel | transloco"
+        (closed)="onClosed()"
+        minHeight="634px"
       >
-        <watt-spinner />
-      </div>
+        <!-- We don't use the build-in loading state for the modal, since it wont update properly -->
+        @if (creatingTransferAgreementProposal) {
+          <div class="watt-modal__spinner" style="z-index: 2;">
+            <watt-spinner />
+          </div>
+        }
 
-      <eo-transfers-form
-        [senderTin]="ownTin()"
-        [transferAgreements]="transferAgreements"
-        [generateProposalFailed]="creatingTransferAgreementProposalFailed"
-        [proposalId]="proposalId"
-        (submitted)="createAgreementProposal($event)"
-        (canceled)="modal.close(false)"
-      />
-    </watt-modal>
+        <eo-transfers-form
+          [senderTin]="ownTin()"
+          [transferAgreements]="transferAgreements"
+          [generateProposalFailed]="creatingTransferAgreementProposalFailed"
+          [proposalId]="proposalId"
+          (submitted)="createAgreementProposal($event)"
+          (canceled)="modal.close(false)"
+        />
+      </watt-modal>
+    }
   `,
 })
 export class EoTransfersCreateModalComponent {
@@ -86,6 +86,7 @@ export class EoTransfersCreateModalComponent {
 
   @Input() transferAgreements: EoListedTransfer[] = [];
 
+  protected translations = translations;
   protected recipientTins: string[] = [];
   protected ownTin = signal<string | undefined>(undefined);
 
@@ -120,11 +121,10 @@ export class EoTransfersCreateModalComponent {
   }
 
   createAgreementProposal(transferAgreement: {
-    receiver: { tin: string; base64EncodedWalletDepositEndpoint: string };
+    receiverTin: string;
     period: { startDate: number; endDate: number | null; hasEndDate: boolean };
   }) {
-    const { receiver, period } = transferAgreement;
-    const { tin: receiverTin } = receiver;
+    const { period, receiverTin } = transferAgreement;
     const { startDate, endDate } = period;
 
     if (!startDate) return;

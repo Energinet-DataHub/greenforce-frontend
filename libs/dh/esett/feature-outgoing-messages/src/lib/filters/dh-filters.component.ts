@@ -43,8 +43,7 @@ import {
   TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-
-import { DhOutgoingMessagesFilters } from '../dh-outgoing-messages-filters';
+import { DhOutgoingMessagesFilters } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -151,7 +150,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
       map((gridAreas) =>
         gridAreas.map((gridArea) => ({
           value: gridArea.code,
-          displayValue: `${gridArea.name} (${gridArea.code})`,
+          displayValue: gridArea.displayName,
         }))
       )
     );

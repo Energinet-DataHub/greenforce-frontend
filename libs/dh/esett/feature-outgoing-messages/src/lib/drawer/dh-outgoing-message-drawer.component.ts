@@ -18,10 +18,10 @@ import { Component, ViewChild, Output, EventEmitter, inject, signal } from '@ang
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
-import { Observable, Subscription, switchMap, takeUntil } from 'rxjs';
+import { Observable, Subscription, of, switchMap, takeUntil } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { emDash } from '@energinet-datahub/dh/shared/ui-util';
+import { emDash, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import {
@@ -35,6 +35,9 @@ import {
   GetOutgoingMessageByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhOutgoingMessageDetailed } from '../dh-outgoing-message';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
@@ -60,6 +63,7 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
     TranslocoPipe,
     RxPush,
 
+    VaterStackComponent,
     WATT_DRAWER,
     WATT_TABS,
     WATT_CARD,
@@ -67,13 +71,16 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
     WattDescriptionListItemComponent,
     WattCodeComponent,
     WattDatePipe,
+    WattButtonComponent,
 
     DhOutgoingMessageStatusBadgeComponent,
   ],
 })
 export class DhOutgoingMessageDrawerComponent {
-  private apollo = inject(Apollo);
+  private readonly apollo = inject(Apollo);
   private readonly esettHttp = inject(EsettExchangeHttp);
+  private readonly toastService = inject(WattToastService);
+
   private subscription?: Subscription;
 
   outgoingMessage: DhOutgoingMessageDetailed | undefined = undefined;
@@ -152,8 +159,8 @@ export class DhOutgoingMessageDrawerComponent {
       });
   }
 
-  private loadResponseDocument(documentLink: string): Observable<string> {
-    return this.esettHttp.v1EsettExchangeResponseDocumentGet(documentLink).pipe(
+  private loadResponseDocument(documentId: string): Observable<string> {
+    return this.esettHttp.v1EsettExchangeResponseDocumentGet(documentId).pipe(
       switchMap((res) => {
         const blob = res as unknown as Blob;
         return new Response(blob).text();
@@ -162,13 +169,34 @@ export class DhOutgoingMessageDrawerComponent {
     );
   }
 
-  private loadDispatchDocument(documentLink: string): Observable<string> {
-    return this.esettHttp.v1EsettExchangeDispatchDocumentGet(documentLink).pipe(
+  private loadDispatchDocument(documentId: string): Observable<string> {
+    return this.esettHttp.v1EsettExchangeDispatchDocumentGet(documentId).pipe(
       switchMap((res) => {
         const blob = res as unknown as Blob;
         return new Response(blob).text();
       }),
       takeUntil(this.closed)
     );
+  }
+
+  downloadXML(documentType: 'message' | 'receipt') {
+    const fileName = `eSett-outgoing-${this.outgoingMessage?.documentId}-${documentType}`;
+
+    const fileOptions = {
+      name: fileName,
+      type: 'text/xml',
+    };
+
+    const document$ =
+      documentType === 'message' ? of(this.dispatchDocument()) : of(this.responseDocument());
+
+    document$.pipe(switchMap(streamToFile(fileOptions))).subscribe({
+      error: () => {
+        this.toastService.open({
+          type: 'danger',
+          message: translate('shared.downloadFailed'),
+        });
+      },
+    });
   }
 }

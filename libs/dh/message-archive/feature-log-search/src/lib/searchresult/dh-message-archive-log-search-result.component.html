@@ -18,14 +18,14 @@ limitations under the License.
   <watt-card>
     <watt-card-title>
       <h3>
-        <ng-container *ngIf="searchResult">
+        @if (searchResult) {
           {{ searchResult.length > 0 ? searchResult.length : "" }}
-        </ng-container>
+        }
         {{ t("searchResult") }}
       </h3>
     </watt-card-title>
 
-    <ng-container *ngIf="!hasSearchError && !isInit && searchResult && searchResult.length > 0">
+    @if (!hasSearchError && !isInit && searchResult && searchResult.length > 0) {
       <watt-table
         #table
         description="Search result"
@@ -68,19 +68,17 @@ limitations under the License.
           </div>
         </ng-container>
       </watt-table>
-    </ng-container>
+    }
 
     <!-- Spinner -->
-    <div *ngIf="isSearching" class="overview__spinner spinner-container">
-      <watt-spinner />
-    </div>
+    @if (isSearching) {
+      <div class="overview__spinner spinner-container">
+        <watt-spinner />
+      </div>
+    }
 
     <!-- Empty -->
-    <ng-container
-      *ngIf="
-        !hasSearchError && !isSearching && !isInit && searchResult && searchResult.length === 0
-      "
-    >
+    @if (!hasSearchError && !isSearching && !isInit && searchResult && searchResult.length === 0) {
       <watt-empty-state
         class="no-result-div"
         icon="custom-no-results"
@@ -88,10 +86,10 @@ limitations under the License.
         [title]="t('noResultsFound')"
         [message]="t('noResultsHelperText')"
       />
-    </ng-container>
+    }
 
     <!-- Init -->
-    <ng-container *ngIf="isInit">
+    @if (isInit) {
       <watt-empty-state
         class="no-result-div"
         icon="custom-explore"
@@ -99,17 +97,17 @@ limitations under the License.
         [title]="t('startSearchResultView')"
         [message]="t('startSearchText')"
       />
-    </ng-container>
+    }
 
     <!-- Error -->
-    <ng-container *ngIf="hasSearchError">
+    @if (hasSearchError) {
       <watt-empty-state
         class="loading-error"
         icon="power"
         [title]="'shared.error.title' | transloco"
         [message]="'shared.error.message' | transloco"
       />
-    </ng-container>
+    }
   </watt-card>
 
   <dh-message-archive-drawer [actors]="actors" (closed)="onClosed()" />

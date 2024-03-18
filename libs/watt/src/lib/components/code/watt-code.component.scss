@@ -35,10 +35,7 @@ watt-code {
       font-size: 14px;
       min-height: 100%;
       padding: 1em 1.2em;
-
-      span.hljs-tag span.hljs-attr::before {
-        content: "\a";
-      }
+      text-wrap: balance;
     }
   }
 }

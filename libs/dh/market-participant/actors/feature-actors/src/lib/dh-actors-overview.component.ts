@@ -41,7 +41,7 @@ import { ActorsFilters, AllFiltersCombined } from './actors-filters';
 import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
 import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-actor-modal.component';
 import { DhActorsTableComponent } from './table/dh-actors-table.component';
-import { DhActor } from './dh-actor';
+import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { dhToJSON } from './dh-json-util';
 
 @Component({

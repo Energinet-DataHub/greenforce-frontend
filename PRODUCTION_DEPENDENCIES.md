@@ -8,7 +8,6 @@
 | [@angular/compiler](https://github.com/angular/angular) | 17.1.0 | MIT |
 | [@angular/core](https://github.com/angular/angular) | 17.1.0 | MIT |
 | [@angular/forms](https://github.com/angular/angular) | 17.1.0 | MIT |
-| [@angular/material-date-fns-adapter](https://github.com/angular/components) | 17.1.0 | MIT |
 | [@angular/material](https://github.com/angular/components) | 17.1.0 | MIT |
 | [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.1.0 | MIT |
 | [@angular/platform-browser](https://github.com/angular/angular) | 17.1.0 | MIT |
@@ -25,13 +24,14 @@
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
 | [@ngrx/component-store](https://github.com/ngrx/platform) | 17.0.1 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.7 | MIT |
-| [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 16.0.0 | MIT |
-| [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 16.1.0 | MIT |
+| [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 17.0.1 | MIT |
+| [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.1.0 | MIT |
 | [@vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 5.0.2 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 4.4.0 | MIT |
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
+| [dayjs](https://github.com/iamkun/dayjs) | 1.11.10 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.8.1 | MIT |
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.9.0 | BSD-3-Clause |
 | [include-media](https://github.com/eduardoboucas/include-media) | 2.0.0 | MIT |

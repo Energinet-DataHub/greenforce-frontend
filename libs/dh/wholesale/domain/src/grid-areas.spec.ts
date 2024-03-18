@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { add, sub } from 'date-fns';
+import dayjs from 'dayjs';
 import { GridArea, filterValidGridAreas } from './grid-areas';
 
 describe(filterValidGridAreas.name, () => {
@@ -48,22 +48,16 @@ describe(filterValidGridAreas.name, () => {
     const selectedDateRange = { start: '1970-01-02', end: '1970-01-4' };
     const gridAreas = [
       {
-        validTo: sub(new Date(selectedDateRange.start), {
-          days: 1,
-        }).toISOString(), // INVALID
+        validTo: dayjs(selectedDateRange.start).subtract(1, 'day').toISOString(), // INVALID
       },
       {
         validTo: selectedDateRange.start, // VALID
       },
       {
-        validTo: add(new Date(selectedDateRange.start), {
-          days: 1,
-        }).toISOString(), // VALID
+        validTo: dayjs(selectedDateRange.start).add(1, 'day').toISOString(), // VALID
       },
       {
-        validTo: sub(new Date(selectedDateRange.start), {
-          days: 3,
-        }).toISOString(), // INVALID
+        validTo: dayjs(selectedDateRange.start).subtract(3, 'days').toISOString(), // INVALID
       },
     ]
       // We map the validFrom property since it is required by the filterValidGridAreas function and we don't care about it in this test
