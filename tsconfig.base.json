@@ -374,11 +374,11 @@
         "libs/watt/src/lib/clipboard/index.ts"
       ],
       "@energinet-datahub/watt/code": ["libs/watt/src/lib/code/index.ts"],
-      "@energinet-datahub/watt/configuration": [
-        "libs/watt/src/lib/configuration/index.ts"
-      ],
       "@energinet-datahub/watt/core/breakpoints": [
         "libs/watt/src/lib/core/breakpoints/index.ts"
+      ],
+      "@energinet-datahub/watt/core/datetime": [
+        "libs/watt/src/lib/core/datetime/index.ts"
       ],
       "@energinet-datahub/watt/core/color": [
         "libs/watt/src/lib/core/color/index.ts"

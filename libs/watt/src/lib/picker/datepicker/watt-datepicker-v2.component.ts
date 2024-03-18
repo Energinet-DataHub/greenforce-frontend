@@ -46,7 +46,7 @@ import { MaskitoModule } from '@maskito/angular';
 import { MaskitoOptions } from '@maskito/core';
 
 import { WattFieldComponent } from '@energinet-datahub/watt/field';
-import { WattLocaleService, WattSupportedLocales } from '@energinet-datahub/watt/configuration';
+import { WattLocaleService, WattSupportedLocales } from '@energinet-datahub/watt/core/datetime';
 import { WattDateRange, WattDateUtils } from '@energinet-datahub/watt/utils/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
