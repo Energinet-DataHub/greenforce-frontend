@@ -134,7 +134,6 @@ export class DhDelegationTabComponent {
 
     this._apollo
       .watchQuery({
-        fetchPolicy: 'no-cache',
         query: GetDelegationsForActorDocument,
         variables: { actorId },
       })
