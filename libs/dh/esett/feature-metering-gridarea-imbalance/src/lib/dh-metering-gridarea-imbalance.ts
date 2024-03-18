@@ -20,3 +20,7 @@ import { GetMeteringGridAreaImbalanceDocument } from '@energinet-datahub/dh/shar
 export type DhMeteringGridAreaImbalance = ResultOf<
   typeof GetMeteringGridAreaImbalanceDocument
 >['meteringGridAreaImbalance']['items'][0];
+
+export type MeteringGridAreaImbalancePerDayDto = ResultOf<
+  typeof GetMeteringGridAreaImbalanceDocument
+>['meteringGridAreaImbalance']['items'][0]['incomingImbalancePerDay'][0];

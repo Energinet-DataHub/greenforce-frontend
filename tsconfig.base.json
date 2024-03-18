@@ -1,6 +1,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
@@ -58,6 +60,9 @@
         "libs/dh/auth/feature-msal/src/index.ts"
       ],
       "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
+      "@energinet-datahub/dh/esett/data-access-outgoing-messages": [
+        "libs/dh/esett/data-access-outgoing-messages/src/index.ts"
+      ],
       "@energinet-datahub/dh/esett/feature-balance-responsible": [
         "libs/dh/esett/feature-balance-responsible/src/index.ts"
       ],
@@ -77,12 +82,6 @@
       "@energinet-datahub/dh/globalization/configuration-watt-translation": [
         "libs/dh/globalization/configuration-watt-translation/src/index.ts"
       ],
-      "@energinet-datahub/dh/globalization/data-access-localization": [
-        "libs/dh/globalization/data-access-localization/src/index.ts"
-      ],
-      "@energinet-datahub/dh/globalization/domain": [
-        "libs/dh/globalization/domain/src/index.ts"
-      ],
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/src/index.ts"
       ],
@@ -95,8 +94,14 @@
       "@energinet-datahub/dh/market-participant/actors/data-access-api": [
         "libs/dh/market-participant/actors/data-access-api/src/index.ts"
       ],
+      "@energinet-datahub/dh/market-participant/actors/domain": [
+        "libs/dh/market-participant/actors/domain/src/index.ts"
+      ],
       "@energinet-datahub/dh/market-participant/actors/feature-actors": [
         "libs/dh/market-participant/actors/feature-actors/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/actors/feature-delagation": [
+        "libs/dh/market-participant/actors/feature-delegation/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/actors/feature-market-roles": [
         "libs/dh/market-participant/actors/feature-market-roles/src/index.ts"
@@ -136,6 +141,9 @@
       ],
       "@energinet-datahub/dh/profile/feature-avatar": [
         "libs/dh/profile/feature-avatar/src/index.ts"
+      ],
+      "@energinet-datahub/dh/profile/feature-profile-modal": [
+        "libs/dh/profile/feature-profile-modal/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/assets": [
         "libs/dh/shared/assets/src/index.ts"
@@ -218,6 +226,12 @@
       "@energinet-datahub/dh/wholesale/shell": [
         "libs/dh/wholesale/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/activity-log/data-access-api": [
+        "libs/eo/activity-log/data-access-api/index.ts"
+      ],
+      "@energinet-datahub/eo/activity-log/shell": [
+        "libs/eo/activity-log/shell/src/index.ts"
+      ],
       "@energinet-datahub/eo/auth/routing-security": [
         "libs/eo/auth/routing-security/src/index.ts"
       ],
@@ -252,6 +266,24 @@
       ],
       "@energinet-datahub/eo/dashboard/shell": [
         "libs/eo/dashboard/shell/src/index.ts"
+      ],
+      "@energinet-datahub/eo/globalization/assets-localization/i18n/da": [
+        "libs/eo/core/globalization/assets-localization/i18n/da.ts"
+      ],
+      "@energinet-datahub/eo/globalization/assets-localization/i18n/en": [
+        "libs/eo/core/globalization/assets-localization/i18n/en.ts"
+      ],
+      "@energinet-datahub/eo/globalization/configuration-localization": [
+        "libs/eo/core/globalization/configuration-localization/src/index.ts"
+      ],
+      "@energinet-datahub/eo/globalization/configuration-watt-translation": [
+        "libs/eo/core/globalization/configuration-watt-translation/src/index.ts"
+      ],
+      "@energinet-datahub/eo/globalization/feature-language-switcher": [
+        "libs/eo/core/globalization/feature-language-switcher/index.ts"
+      ],
+      "@energinet-datahub/eo/globalization/test-util-i18n": [
+        "libs/eo/core/globalization/test-util-i18n/src/index.ts"
       ],
       "@energinet-datahub/eo/help/shell": ["libs/eo/help/shell/src/index.ts"],
       "@energinet-datahub/eo/landing-page/shell": [
@@ -299,11 +331,20 @@
       ],
       "@energinet-datahub/eo/terms": ["libs/eo/terms/src/index.ts"],
       "@energinet-datahub/eo/transfers": ["libs/eo/transfers/src/index.ts"],
+      "@energinet-datahub/eo/translations": [
+        "libs/eo/core/globalization/assets-localization/translations.ts"
+      ],
       "@energinet-datahub/eo/wallet/data-access-api": [
         "libs/eo/wallet/data-access-api/index.ts"
       ],
-      "@energinet-datahub/gf/configuration-danish-locale": [
-        "libs/gf/configuration-danish-locale/src/index.ts"
+      "@energinet-datahub/gf/globalization/configuration-danish-locale": [
+        "libs/gf/globalization/configuration-danish-locale/src/index.ts"
+      ],
+      "@energinet-datahub/gf/globalization/data-access-localization": [
+        "libs/gf/globalization/data-access-localization/src/index.ts"
+      ],
+      "@energinet-datahub/gf/globalization/domain": [
+        "libs/gf/globalization/domain/src/index.ts"
       ],
       "@energinet-datahub/gf/test-util": ["libs/gf/test-util/src/index.ts"],
       "@energinet-datahub/gf/test-util-matchers": [
@@ -355,7 +396,7 @@
       "@energinet-datahub/watt/data": [
         "libs/watt/data/index.ts"
       ],
-      "@energinet-datahub/watt/date": ["libs/watt/utils/date/index.ts"],
+      "@energinet-datahub/watt/utils/date": ["libs/watt/utils/date/index.ts"],
       "@energinet-datahub/watt/description-list": [
         "libs/watt/description-list/index.ts"
       ],
@@ -445,9 +486,6 @@
       ],
       "@energinet-datahub/watt/field": [
         "libs/watt/field/index.ts"
-      ],
-      "@energinet-datahub/watt/utils/date": [
-        "libs/watt/utils/date/index.ts"
       ],
       "@energinet-datahub/watt/utils/intersection-observer": [
         "libs/watt/utils/intersection-observer/index.ts"

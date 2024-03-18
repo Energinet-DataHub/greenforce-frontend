@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#pragma warning disable SA1402 // File may only contain a single type
+
 namespace Energinet.DataHub.WebApi.Clients.EDI
 {
     internal record ArchivedMessageSearchCriteriaDto(
@@ -20,7 +22,8 @@ namespace Energinet.DataHub.WebApi.Clients.EDI
         string? SenderNumber,
         string? ReceiverNumber,
         string[]? DocumentTypes,
-        string[]? BusinessReasons);
+        string[]? BusinessReasons,
+        bool? IncludeRelatedMessages = false);
 
     internal record CreatedDuringPeriod(string? Start, string? End);
 }

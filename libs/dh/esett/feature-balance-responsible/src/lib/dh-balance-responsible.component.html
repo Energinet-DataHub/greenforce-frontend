@@ -22,23 +22,25 @@ limitations under the License.
 
       <vater-spacer />
 
-      <watt-button icon="download" variant="text" (click)="download()">{{
+      <watt-button icon="download" variant="text" [loading]="isDownloading" (click)="download()">{{
         "shared.download" | transloco
       }}</watt-button>
     </vater-stack>
 
     <dh-balance-responsible-table
       [tableDataSource]="tableDataSource"
-      [sortMetadata]="sortMetadata$ | push"
+      [sortMetadata]="sortMetaData$ | push"
       [isLoading]="isLoading"
       [hasError]="hasError"
-      (sortChange)="sortMetadata$.next($event)"
+      (sortChange)="onSortEvent($event)"
     />
 
     <watt-paginator
+      *rxLet="pageMetaData$ as pageMetaData"
       [length]="totalCount"
-      [pageSize]="pageSize$ | push"
-      (changed)="handlePageEvent($event)"
+      [pageIndex]="pageMetaData.pageIndex"
+      [pageSize]="pageMetaData.pageSize"
+      (changed)="onPageEvent($event)"
     />
   </vater-flex>
 </watt-card>

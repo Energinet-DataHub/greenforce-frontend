@@ -26,7 +26,6 @@ import {
 } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { subYears } from 'date-fns';
 import { catchError, of } from 'rxjs';
 
 import {
@@ -46,10 +45,10 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerV2Component } from '@energinet-datahub/watt/utils/datepicker';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattRange } from '@energinet-datahub/watt/utils/date';
+import { WattRange, dayjs } from '@energinet-datahub/watt/utils/date';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import {
@@ -90,7 +89,7 @@ type FormType = {
         }
 
         watt-dropdown,
-        watt-datepicker {
+        watt-datepicker-v2 {
           width: 50%;
         }
       }
@@ -106,7 +105,7 @@ type FormType = {
     ReactiveFormsModule,
     FormsModule,
     TranslocoDirective,
-    WattDatepickerComponent,
+    WattDatepickerV2Component,
     WattFieldErrorComponent,
     NgIf,
   ],
@@ -120,7 +119,7 @@ export class DhWholesaleRequestCalculationComponent {
   private _selectedEicFunction: SelectedEicFunctionType;
 
   maxDate = new Date();
-  minDate = subYears(new Date(), 3);
+  minDate = dayjs().subtract(3, 'years').toDate();
 
   isLoading = false;
 
@@ -169,7 +168,7 @@ export class DhWholesaleRequestCalculationComponent {
     this.gridAreaQuery.subscribe({
       next: ({ data: { gridAreas } }) => {
         this.gridAreaOptions = gridAreas.map((gridArea) => ({
-          displayValue: `${gridArea.name} - ${gridArea.name}`,
+          displayValue: gridArea.displayName,
           value: gridArea.code,
         }));
       },

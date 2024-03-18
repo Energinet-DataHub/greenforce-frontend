@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { WattRange } from '@energinet-datahub/watt/utils/date';
-import { differenceInDays, parseISO, subYears } from 'date-fns';
+import { WattRange, dayjs } from '@energinet-datahub/watt/utils/date';
 
 export const maxOneMonthDateRangeValidator =
   () =>
@@ -25,7 +24,7 @@ export const maxOneMonthDateRangeValidator =
 
     if (!range) return null;
 
-    const rangeInDays = differenceInDays(parseISO(range.end), parseISO(range.start));
+    const rangeInDays = dayjs(range.end).diff(range.start, 'days');
     if (rangeInDays > 31) {
       return { maxOneMonthDateRange: true };
     }
@@ -40,8 +39,8 @@ export const startDateCannotBeAfterEndDateValidator =
 
     if (!range) return null;
 
-    const startDate = parseISO(range.start);
-    const endDate = parseISO(range.end);
+    const startDate = dayjs(range.start).toDate();
+    const endDate = dayjs(range.end).toDate();
 
     if (startDate > endDate) {
       return { startDateCannotBeAfterEndDate: true };
@@ -56,9 +55,9 @@ export const startDateCannotBeOlderThan3YearsValidator =
     const range = control.value as WattRange<string>;
     if (!range) return null;
 
-    const startDate = parseISO(range.start);
+    const startDate = dayjs(range.start).toDate();
 
-    if (startDate < subYears(new Date(), 3)) {
+    if (startDate < dayjs().subtract(3, 'years').toDate()) {
       return { startDateCannotBeOlderThan3Years: true };
     }
 
@@ -71,8 +70,8 @@ export const startAndEndDateCannotBeInTheFutureValidator =
     const range = control.value as WattRange<string>;
     if (!range) return null;
 
-    const endDate = parseISO(range.end);
-    const startDate = parseISO(range.start);
+    const endDate = dayjs(range.end).toDate();
+    const startDate = dayjs(range.start).toDate();
     const now = new Date();
 
     if (endDate > now || startDate > now) {

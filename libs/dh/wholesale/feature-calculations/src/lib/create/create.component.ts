@@ -19,7 +19,6 @@ import { NgIf } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
-import parseISO from 'date-fns/parseISO';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
@@ -28,8 +27,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattDatePipe, WattDateRange } from '@energinet-datahub/watt/utils/date';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/utils/datepicker';
+import { WattDatePipe, WattDateRange, dayjs } from '@energinet-datahub/watt/utils/date';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
@@ -201,7 +200,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
         variables: {
           input: {
             gridAreaCodes: gridAreas,
-            period: { start: parseISO(dateRange.start), end: parseISO(dateRange.end) },
+            period: { start: dayjs(dateRange.start).toDate(), end: dayjs(dateRange.end).toDate() },
             calculationType: calculationType,
           },
         },
@@ -274,14 +273,10 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   }
 
   private mapGridAreasToDropdownOptions(gridAreas: GridArea[]): WattDropdownOption[] {
-    return (
-      gridAreas.map((gridArea) => {
-        return {
-          displayValue: `${gridArea?.name} (${gridArea?.code})`,
-          value: gridArea?.code,
-        };
-      }) || []
-    );
+    return gridAreas.map((gridArea) => ({
+      displayValue: gridArea.displayName,
+      value: gridArea.code,
+    }));
   }
 
   private toggleGridAreasControl() {
@@ -319,8 +314,8 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
         fetchPolicy: 'network-only',
         variables: {
           period: {
-            end: parseISO(dateRange.value.end),
-            start: parseISO(dateRange.value.start),
+            end: dayjs(dateRange.value.end).toDate(),
+            start: dayjs(dateRange.value.start).toDate(),
           },
         },
       })

@@ -31,11 +31,11 @@ limitations under the License.
               [label]="t('tab.masterData.nameInputLabel')"
               [formControl]="userRoleEditForm.controls.name"
             >
-              <watt-field-error
-                *ngIf="userRoleEditForm.controls.name?.errors?.['nameAlreadyExists']"
-              >
-                {{ t("tab.validationErrors.nameAlreadyExists") }}
-              </watt-field-error>
+              @if (userRoleEditForm.controls.name.hasError("nameAlreadyExists")) {
+                <watt-field-error>
+                  {{ t("tab.validationErrors.nameAlreadyExists") }}
+                </watt-field-error>
+              }
             </watt-text-field>
 
             <watt-textarea-field
@@ -49,17 +49,16 @@ limitations under the License.
           <div class="tab-permissions">
             <p class="watt-on-light--medium-emphasis">{{ t("tab.permissions.onEditMessage") }}</p>
 
-            <div
-              class="watt-space-stack-m"
-              *ngIf="
-                (form.submitted || userRoleEditForm.dirty) &&
-                userRoleEditForm.controls.permissionIds.errors?.['required']
-              "
-            >
-              <watt-field-error>{{
-                t("tab.validationErrors.permissionRequired")
-              }}</watt-field-error>
-            </div>
+            @if (
+              (form.submitted || userRoleEditForm.dirty) &&
+              userRoleEditForm.controls.permissionIds.hasError("required")
+            ) {
+              <div class="watt-space-stack-m">
+                <watt-field-error>{{
+                  t("tab.validationErrors.permissionRequired")
+                }}</watt-field-error>
+              </div>
+            }
 
             <watt-card variant="solid">
               <watt-card-title>
@@ -72,9 +71,11 @@ limitations under the License.
                 (selectionChanged)="onSelectionChanged($event)"
               />
 
-              <div class="spinner-container" *ngIf="marketRolePermissionsIsLoading$ | push">
-                <watt-spinner />
-              </div>
+              @if (marketRolePermissionsIsLoading$ | push) {
+                <div class="spinner-container">
+                  <watt-spinner />
+                </div>
+              }
             </watt-card>
           </div>
         </watt-tab>

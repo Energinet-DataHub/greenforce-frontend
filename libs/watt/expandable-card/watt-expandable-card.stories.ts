@@ -56,3 +56,29 @@ Overview.args = {
   expanded: false,
   variant: 'elevation',
 };
+
+export const WithNestedCards: StoryFn<WattExpandableCardComponent> = (args) => ({
+  props: args,
+  template: `
+    <watt-expandable-card [expanded]="expanded" [variant]="variant">
+      <watt-expandable-card-title>Parent</watt-expandable-card-title>
+
+      <watt-expandable-card [variant]="variant">
+        <watt-expandable-card-title>Child 1</watt-expandable-card-title>
+
+        <p>Child content 1</p>
+      </watt-expandable-card>
+
+      <watt-expandable-card [variant]="variant">
+        <watt-expandable-card-title>Child 2</watt-expandable-card-title>
+
+        <p>Child content 2</p>
+      </watt-expandable-card>
+    </watt-expandable-card>
+  `,
+});
+
+WithNestedCards.args = {
+  expanded: true,
+  variant: 'solid',
+};

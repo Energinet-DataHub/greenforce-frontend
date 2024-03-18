@@ -38,19 +38,20 @@ limitations under the License.
     >
       {{ organization.businessRegisterIdentifier }}
     </ng-container>
+    <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let organization">
+      {{ organization.name }}
+    </ng-container>
   </watt-table>
 
-  <vater-stack
-    fill="vertical"
-    justify="center"
-    *ngIf="!isLoading && tableDataSource.filteredData.length === 0"
-  >
-    <watt-empty-state
-      [icon]="hasError ? 'custom-power' : 'cancel'"
-      [title]="hasError ? t('errorTitle') : t('emptyTitle')"
-      [message]="hasError ? t('errorMessage') : t('emptyMessage')"
-    />
-  </vater-stack>
+  @if (!isLoading && tableDataSource.filteredData.length === 0) {
+    <vater-stack fill="vertical" justify="center">
+      <watt-empty-state
+        [icon]="hasError ? 'custom-power' : 'cancel'"
+        [title]="hasError ? t('errorTitle') : t('emptyTitle')"
+        [message]="hasError ? t('errorMessage') : t('emptyMessage')"
+      />
+    </vater-stack>
+  }
 </vater-flex>
 
 <dh-organization-drawer (closed)="onClose()" />

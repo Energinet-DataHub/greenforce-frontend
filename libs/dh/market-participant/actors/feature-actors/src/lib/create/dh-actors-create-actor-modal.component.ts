@@ -14,26 +14,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TranslocoDirective } from '@ngneat/transloco';
-
+import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { Apollo, MutationResult } from 'apollo-angular';
 import {
   FormControl,
   NonNullableFormBuilder,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, inject, signal, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  signal,
+  ViewChild,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RxPush } from '@rx-angular/template/push';
+import { concat, distinctUntilChanged, map, merge, of, switchMap, tap } from 'rxjs';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import {
   ContactCategory,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
   EicFunction,
+  GetOrganizationFromCvrDocument,
+  GetOrganizationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   dhCvrValidator,
@@ -56,6 +68,7 @@ import { ActorForm } from './dh-actor-form.model';
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
+    RxPush,
 
     WATT_CARD,
     WATT_MODAL,
@@ -66,10 +79,11 @@ import { ActorForm } from './dh-actor-form.model';
     DhNewActorStepComponent,
   ],
 })
-export class DhActorsCreateActorModalComponent {
+export class DhActorsCreateActorModalComponent extends WattTypedModal {
   private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
   private _toastService = inject(WattToastService);
   private _apollo = inject(Apollo);
+  private _changeDetection = inject(ChangeDetectorRef);
 
   showCreateNewOrganization = signal(false);
   choosenOrganizationDomain = signal('');
@@ -84,8 +98,8 @@ export class DhActorsCreateActorModalComponent {
 
   newOrganizationForm = this._fb.group({
     country: ['', Validators.required],
-    cvrNumber: ['', { validators: [Validators.required, dhCvrValidator()] }],
-    companyName: ['', Validators.required],
+    cvrNumber: ['', { validators: [Validators.required] }],
+    companyName: [{ value: '', disabled: true }, Validators.required],
     domain: ['', [Validators.required, dhDomainValidator]],
   });
 
@@ -100,6 +114,100 @@ export class DhActorsCreateActorModalComponent {
       phone: ['', Validators.required],
     }),
   });
+
+  constructor() {
+    super();
+    this.newOrganizationForm.controls.country.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => {
+        const internalCvrValidator: ValidatorFn = (control) =>
+          this.isInternalCvr(control.value as string) ? null : { invalidCvrNumber: true };
+
+        if (value === 'DK') {
+          this.newOrganizationForm.controls.cvrNumber.setValidators([
+            Validators.required,
+            Validators.maxLength(64),
+            (control) =>
+              dhCvrValidator()(control) && internalCvrValidator(control)
+                ? { invalidCvrNumber: true }
+                : null,
+          ]);
+        } else {
+          this.newOrganizationForm.controls.cvrNumber.setValidators(Validators.required);
+        }
+
+        this.newOrganizationForm.controls.cvrNumber.updateValueAndValidity();
+      });
+
+    this.newOrganizationForm.controls.country.setValue('DK');
+  }
+
+  cvrLookup$ = merge(
+    this.newOrganizationForm.controls.country.valueChanges,
+    this.newOrganizationForm.controls.cvrNumber.valueChanges
+  ).pipe(
+    distinctUntilChanged(),
+    switchMap(() => {
+      const country = this.newOrganizationForm.controls.country.value;
+      const cvrNumber = this.newOrganizationForm.controls.cvrNumber.value;
+
+      if (country === '') {
+        return of({ isLoading: false, isReadOnly: true });
+      }
+
+      if (country === 'DK') {
+        if (this.isInternalCvr(cvrNumber)) {
+          return of({ isLoading: false, isReadOnly: false });
+        }
+
+        if (cvrNumber.length === 8) {
+          return this.callCvrLookup(cvrNumber);
+        } else {
+          return of({ isLoading: false, isReadOnly: true });
+        }
+      }
+
+      return of({ isLoading: false, isReadOnly: false });
+    }),
+    tap((state) => {
+      if (state.isReadOnly) {
+        this.newOrganizationForm.controls.companyName.disable();
+      } else {
+        this.newOrganizationForm.controls.companyName.enable();
+      }
+
+      this._changeDetection.detectChanges();
+    }),
+    map((result) => result.isLoading)
+  );
+
+  isInternalCvr(cvrNumber: string): boolean {
+    return cvrNumber.startsWith('ENDK');
+  }
+
+  callCvrLookup(cvrNumber: string) {
+    const cvrQuery = this._apollo
+      .query({
+        query: GetOrganizationFromCvrDocument,
+        fetchPolicy: 'network-only',
+        variables: { cvr: cvrNumber },
+      })
+      .pipe(
+        map((cvrResult) => {
+          const foundOrg = cvrResult.data.searchOrganizationInCVR;
+
+          this.newOrganizationForm.controls.companyName.setValue(foundOrg.name);
+
+          if (foundOrg.hasResult) {
+            return { isLoading: false, isReadOnly: true };
+          }
+
+          return { isLoading: false, isReadOnly: false };
+        })
+      );
+
+    return concat(of({ isLoading: true, isReadOnly: true }), cvrQuery);
+  }
 
   getChoosenOrganizationDomain(): string {
     return this.newOrganizationForm.controls.domain.value
@@ -178,6 +286,7 @@ export class DhActorsCreateActorModalComponent {
             },
           },
         },
+        refetchQueries: [GetOrganizationsDocument],
       })
       .subscribe((result) => this.handleCreateMarketParticipentResponse(result));
   }
@@ -203,7 +312,10 @@ export class DhActorsCreateActorModalComponent {
     }
 
     if (response.data?.createMarketParticipant?.success) {
-      this._toastService.open({ type: 'success', message: 'Market participant created' });
+      this._toastService.open({
+        type: 'success',
+        message: translate('marketParticipant.actor.create.createSuccess'),
+      });
 
       this.close(true);
     }

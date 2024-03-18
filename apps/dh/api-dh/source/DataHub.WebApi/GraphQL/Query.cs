@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
@@ -25,6 +26,7 @@ using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate;
 using Microsoft.AspNetCore.Http;
 using NodaTime;
+using SortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
 using WholesaleCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
 
 namespace Energinet.DataHub.WebApi.GraphQL
@@ -112,9 +114,47 @@ namespace Energinet.DataHub.WebApi.GraphQL
             [Service] IMarketParticipantClient_V1 client) =>
             client.OrganizationGetAsync();
 
-        public Task<ICollection<GridAreaDto>> GetGridAreasAsync(
-            [Service] IMarketParticipantClient_V1 client) =>
-            client.GridAreaGetAsync();
+        public async Task<ICollection<GridAreaDto>> GetGridAreasAsync(
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            var actors = await client
+                .ActorGetAsync()
+                .ConfigureAwait(false);
+
+            var gridAreas = await client
+                .GridAreaGetAsync()
+                .ConfigureAwait(false);
+
+            var result = new List<GridAreaDto>();
+
+            foreach (var gridArea in gridAreas)
+            {
+                var owner = actors.FirstOrDefault(actor =>
+                    actor.Status == "Active" &&
+                    actor.MarketRoles.Any(mr =>
+                        mr.EicFunction == EicFunction.GridAccessProvider &&
+                        mr.GridAreas.Any(ga => ga.Id == gridArea.Id)));
+
+                if (owner != null)
+                {
+                    result.Add(new GridAreaDto
+                    {
+                        Id = gridArea.Id,
+                        Code = gridArea.Code,
+                        Name = owner.Name.Value,
+                        PriceAreaCode = gridArea.PriceAreaCode,
+                        ValidFrom = gridArea.ValidFrom,
+                        ValidTo = gridArea.ValidTo,
+                    });
+                }
+                else
+                {
+                    result.Add(gridArea);
+                }
+            }
+
+            return result;
+        }
 
         public Task<CalculationDto> GetCalculationByIdAsync(
             Guid id,
@@ -216,6 +256,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public async Task<IEnumerable<ReadinessStatusDto>> GetEsettServiceStatusAsync(
             [Service] IESettExchangeClient_V1 client) => await client.StatusAsync();
 
+        public async Task<ExchangeEventStatusReportResponse> GetEsettExchangeStatusReportAsync(
+            [Service] IESettExchangeClient_V1 client) => await client.StatusReportAsync();
+
         public Task<ExchangeEventTrackingResult> GetEsettOutgoingMessageByIdAsync(
             string documentId,
             [Service] IESettExchangeClient_V1 client) =>
@@ -224,26 +267,76 @@ namespace Energinet.DataHub.WebApi.GraphQL
         public Task<ExchangeEventSearchResponse> GetEsettExchangeEventsAsync(
             int pageNumber,
             int pageSize,
-            DateTimeOffset? periodFrom, // TODO: Consider using Interval?
-            DateTimeOffset? periodTo, // TODO: Consider using Interval?
+            Interval? periodInterval,
+            Interval? createdInterval,
             string? gridAreaCode,
             Clients.ESettExchange.v1.CalculationType? calculationType,
             DocumentStatus? documentStatus,
             TimeSeriesType? timeSeriesType,
             string? documentId,
+            ExchangeEventSortProperty sortProperty,
+            Clients.ESettExchange.v1.SortDirection sortDirection,
             [Service] IESettExchangeClient_V1 client) =>
             client.SearchAsync(new ExchangeEventSearchFilter
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                PeriodFrom = periodFrom,
-                PeriodTo = periodTo,
-                GridAreaCode = gridAreaCode,
-                CalculationType = calculationType,
-                DocumentStatus = documentStatus,
-                TimeSeriesType = timeSeriesType,
-                DocumentId = documentId,
+                Filter = new ExchangeEventFilter
+                {
+                    PeriodFrom = periodInterval?.Start.ToDateTimeOffset(),
+                    PeriodTo = periodInterval?.End.ToDateTimeOffset(),
+                    GridAreaCode = gridAreaCode,
+                    CalculationType = calculationType,
+                    DocumentStatus = documentStatus,
+                    TimeSeriesType = timeSeriesType,
+                    DocumentId = documentId,
+                    CreatedFrom = createdInterval?.Start.ToDateTimeOffset(),
+                    CreatedTo = createdInterval?.End.ToDateTimeOffset(),
+                },
+                Sorting = new ExchangeEventSortPropertySorting
+                {
+                    Direction = sortDirection,
+                    SortProperty = sortProperty,
+                },
             });
+
+        public async Task<string> DownloadEsettExchangeEventsAsync(
+            string locale,
+            Interval? periodInterval,
+            Interval? createdInterval,
+            string? gridAreaCode,
+            Clients.ESettExchange.v1.CalculationType? calculationType,
+            DocumentStatus? documentStatus,
+            TimeSeriesType? timeSeriesType,
+            string? documentId,
+            ExchangeEventSortProperty sortProperty,
+            SortDirection sortDirection,
+            [Service] IESettExchangeClient_V1 client)
+        {
+            var file = await client.DownloadPOSTAsync(locale, new ExchangeEventDownloadFilter
+            {
+                Filter = new ExchangeEventFilter
+                {
+                    PeriodFrom = periodInterval?.Start.ToDateTimeOffset(),
+                    PeriodTo = periodInterval?.End.ToDateTimeOffset(),
+                    GridAreaCode = gridAreaCode,
+                    CalculationType = calculationType,
+                    DocumentStatus = documentStatus,
+                    TimeSeriesType = timeSeriesType,
+                    DocumentId = documentId,
+                    CreatedFrom = createdInterval?.Start.ToDateTimeOffset(),
+                    CreatedTo = createdInterval?.End.ToDateTimeOffset(),
+                },
+                Sorting = new ExchangeEventSortPropertySorting
+                {
+                    Direction = sortDirection,
+                    SortProperty = sortProperty,
+                },
+            });
+
+            using var streamReader = new StreamReader(file.Stream);
+            return await streamReader.ReadToEndAsync();
+        }
 
         public Task<MeteringGridAreaImbalanceSearchResponse> GetMeteringGridAreaImbalanceAsync(
             int pageNumber,
@@ -252,16 +345,54 @@ namespace Energinet.DataHub.WebApi.GraphQL
             DateTimeOffset? createdTo,
             string? gridAreaCode,
             string? documentId,
+            MeteringGridImbalanceValuesToInclude valuesToInclude,
+            MeteringGridAreaImbalanceSortProperty sortProperty,
+            Clients.ESettExchange.v1.SortDirection sortDirection,
             [Service] IESettExchangeClient_V1 client) =>
-            client.ImbalanceAsync(new MeteringGridAreaImbalanceSearchFilter
+            client.Search2Async(new MeteringGridAreaImbalanceSearchFilter
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                CreatedFrom = createdFrom,
-                CreatedTo = createdTo,
-                GridAreaCode = gridAreaCode,
-                DocumentId = documentId,
+                Filter = new MeteringGridAreaImbalanceFilter
+                {
+                    CreatedFrom = createdFrom,
+                    CreatedTo = createdTo,
+                    GridAreaCode = gridAreaCode,
+                    DocumentId = documentId,
+                    SortDirection = sortDirection,
+                    SortProperty = sortProperty,
+                    MeteringGridImbalanceValuesToInclude = valuesToInclude,
+                },
             });
+
+        public async Task<string> DownloadMeteringGridAreaImbalanceAsync(
+            string locale,
+            DateTimeOffset? createdFrom,
+            DateTimeOffset? createdTo,
+            string? gridAreaCode,
+            string? documentId,
+            MeteringGridImbalanceValuesToInclude valuesToInclude,
+            MeteringGridAreaImbalanceSortProperty sortProperty,
+            SortDirection sortDirection,
+            [Service] IESettExchangeClient_V1 client)
+        {
+            var file = await client.DownloadPOST2Async(locale, new MeteringGridAreaImbalanceDownloadFilter
+            {
+                Filter = new MeteringGridAreaImbalanceFilter
+                {
+                    CreatedFrom = createdFrom,
+                    CreatedTo = createdTo,
+                    GridAreaCode = gridAreaCode,
+                    DocumentId = documentId,
+                    SortDirection = sortDirection,
+                    SortProperty = sortProperty,
+                    MeteringGridImbalanceValuesToInclude = valuesToInclude,
+                },
+            });
+
+            using var streamReader = new StreamReader(file.Stream);
+            return await streamReader.ReadToEndAsync();
+        }
 
         public Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(
             int pageNumber,
@@ -274,6 +405,17 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 pageSize,
                 sortProperty,
                 sortDirection);
+
+        public async Task<string> DownloadBalanceResponsiblesAsync(
+            string locale,
+            BalanceResponsibleSortProperty sortProperty,
+            SortDirection sortDirection,
+            [Service] IESettExchangeClient_V1 client)
+        {
+            var file = await client.DownloadGETAsync(locale, sortProperty, sortDirection);
+            using var streamReader = new StreamReader(file.Stream);
+            return await streamReader.ReadToEndAsync();
+        }
 
         public async Task<IEnumerable<ActorDto>> GetActorsByOrganizationIdAsync(
             Guid organizationId,
@@ -392,6 +534,66 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 month,
                 parsedAreaCode)
                 .ConfigureAwait(false);
+        }
+
+        public async Task<GetUserProfileResponse> GetUserProfileAsync([Service] IMarketParticipantClient_V1 client)
+        {
+            return await client.UserUserprofileGetAsync().ConfigureAwait(false);
+        }
+
+        public async Task<CVROrganizationResult> SearchOrganizationInCVRAsync([Service] IMarketParticipantClient_V1 client, string cvr)
+        {
+            try
+            {
+                using var cts = new System.Threading.CancellationTokenSource();
+                cts.CancelAfter(15000);
+
+                var organizationIdentity = await client.OrganizationIdentityAsync(cvr, cts.Token).ConfigureAwait(false);
+
+                return organizationIdentity.OrganizationFound
+                    ? new CVROrganizationResult
+                    {
+                        HasResult = true,
+                        Name = organizationIdentity.OrganizationIdentity!.Name,
+                    }
+                    : new CVROrganizationResult
+                    {
+                        HasResult = false,
+                    };
+            }
+            catch (Exception)
+            {
+                return new CVROrganizationResult
+                {
+                    HasResult = false,
+                };
+            }
+        }
+
+        public async Task<IEnumerable<MessageDelegation>> GetGetDelegationsForActorAsync(
+            Guid actorId,
+            [Service] IMarketParticipantClient_V1 client)
+        {
+            var result = new List<MessageDelegation>();
+            var delegationResponse = await client.ActorDelegationGetAsync(actorId);
+            foreach (var delegation in delegationResponse.Delegations)
+            {
+                foreach (var period in delegation.Periods)
+                {
+                    var messageDelegation = new MessageDelegation();
+                    messageDelegation.DelegatedBy = delegation.DelegatedBy;
+                    messageDelegation.MessageType = delegation.MessageType;
+                    messageDelegation.Id = delegation.Id;
+                    messageDelegation.PeriodId = period.Id;
+                    messageDelegation.DelegatedTo = period.DelegatedTo;
+                    messageDelegation.ExpiresAt = period.ExpiresAt;
+                    messageDelegation.StartsAt = period.StartsAt;
+                    messageDelegation.GridAreaId = period.GridAreaId;
+                    result.Add(messageDelegation);
+                }
+            }
+
+            return result;
         }
 
         private static Task<GetUserOverviewResponse> GetUserOverviewAsync(IMarketParticipantClient_V1 client)

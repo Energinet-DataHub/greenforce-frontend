@@ -17,7 +17,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL } from '../watt-modal.component';
-import { WattModalService } from '../watt-modal.service';
+import { WattTypedModal, WattModalService } from '../watt-modal.service';
 import { WattTextFieldComponent } from '../../text-field/watt-text-field.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -26,6 +26,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   imports: [WATT_MODAL, WattTextFieldComponent, WattButtonComponent, ReactiveFormsModule],
   template: `
     <watt-modal #modal [title]="title" closeLabel="Close modal" [loading]="isLoading">
+      <p>{{ modalData }}</p>
       <watt-text-field [formControl]="usernameControl" label="Username" />
       <watt-text-field [formControl]="passwordControl" label="Password" type="password" />
       <watt-modal-actions>
@@ -35,7 +36,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
     </watt-modal>
   `,
 })
-export class WattModalComponent implements OnInit {
+export class WattModalComponent extends WattTypedModal<string> implements OnInit {
   title = 'This is a modal opened from a class';
   usernameControl = new FormControl('');
   passwordControl = new FormControl('');
@@ -63,6 +64,7 @@ export class WattModalFromClassComponent {
   openModal() {
     this.modalService.open({
       component: WattModalComponent,
+      data: 'This is the data passed to the modal',
       onClosed: (result) => {
         alert(`Modal closed with result: ${result}`);
       },

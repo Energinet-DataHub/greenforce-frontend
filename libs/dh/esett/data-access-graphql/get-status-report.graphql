@@ -1,0 +1,5 @@
+query GetStatusReport {
+  esettExchangeStatusReport {
+    waitingForExternalResponse
+  }
+}

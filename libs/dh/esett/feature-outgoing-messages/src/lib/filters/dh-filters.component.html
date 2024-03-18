@@ -17,7 +17,7 @@ limitations under the License.
 <form
   vater-stack
   direction="row"
-  gap="m"
+  gap="s"
   tabindex="-1"
   [formGroup]="formGroup"
   *transloco="let t; read: 'eSett.outgoingMessages.filters'"
@@ -50,8 +50,12 @@ limitations under the License.
     [placeholder]="t('status')"
   />
 
-  <watt-date-range-chip [formControl]="formGroup.controls.period!">{{
+  <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.period!">{{
     t("period")
+  }}</watt-date-range-chip>
+
+  <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.created!">{{
+    t("created")
   }}</watt-date-range-chip>
 
   <vater-spacer />

@@ -24,9 +24,11 @@ import {
   eoMeteringPointsRoutePath,
   eoPrivacyPolicyRoutePath,
   eoTransferRoutePath,
+  eoActivityLogRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoLoginComponent } from './eo-login.component';
 import { EoShellComponent } from './eo-shell.component';
+import { translations } from '@energinet-datahub/eo/translations';
 
 export const eoShellRoutes: Routes = [
   {
@@ -59,7 +61,7 @@ export const eoShellRoutes: Routes = [
       {
         path: eoDashboardRoutePath,
         canActivate: [EoScopeGuard],
-        title: 'Dashboard',
+        title: translations.dashboard.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/dashboard/shell').then(
             (esModule) => esModule.eoDashboardRoutes
@@ -68,29 +70,38 @@ export const eoShellRoutes: Routes = [
       {
         path: eoMeteringPointsRoutePath,
         canActivate: [EoScopeGuard],
-        title: 'Metering points',
+        title: translations.meteringPoints.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
             (esModule) => esModule.eoMeteringPointsRoutes
           ),
       },
       {
+        path: eoActivityLogRoutePath,
+        canActivate: [EoScopeGuard],
+        title: translations.activityLog.title,
+        loadChildren: () =>
+          import('@energinet-datahub/eo/activity-log/shell').then(
+            (esModule) => esModule.eoActivityLogRoutes
+          ),
+      },
+      {
         path: eoTransferRoutePath,
         canActivate: [EoScopeGuard],
-        title: 'Transfers',
+        title: translations.transfers.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/transfers').then((esModule) => esModule.eoTransfersRoutes),
       },
       {
         path: eoClaimsRoutePath,
         canActivate: [EoScopeGuard],
-        title: 'Claims',
+        title: translations.claims.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),
       },
       {
         path: eoPrivacyPolicyRoutePath,
-        title: 'Privacy Policy',
+        title: translations.privacyPolicy.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/privacy-policy/shell').then(
             (esModule) => esModule.eoPrivacyPolicyRoutes

@@ -16,7 +16,6 @@
  */
 import { Component, Input, effect, inject, Injector } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { NgIf } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -58,7 +57,6 @@ type DhCertificateTableRow = {
   ],
   templateUrl: './dh-certificate-view.component.html',
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
 
@@ -74,7 +72,7 @@ type DhCertificateTableRow = {
     DhCertificateUploaderComponent,
   ],
 })
-export class DhCertificateComponent {
+export class DhCertificateViewComponent {
   private readonly injector = inject(Injector);
   private readonly store = inject(DhMarketPartyB2BAccessStore);
   private readonly toastService = inject(WattToastService);

@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { Observable } from 'rxjs';
+import { RxPush } from '@rx-angular/template/push';
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -25,6 +26,7 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   standalone: true,
@@ -36,7 +38,8 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
     ReactiveFormsModule,
     WattFieldErrorComponent,
     WattTextFieldComponent,
-    NgIf,
+    WattSpinnerComponent,
+    RxPush,
     DhDropdownTranslatorDirective,
   ],
   selector: 'dh-new-organization-step',
@@ -49,6 +52,17 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
       h4 {
         margin-top: 0;
         margin-bottom: 0;
+      }
+
+      .row {
+        display: flex;
+      }
+
+      .column {
+        flex: 50%;
+        align-items: center;
+        display: flex;
+        padding: 0 var(--watt-space-m);
       }
 
       watt-dropdown,
@@ -65,26 +79,35 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
       }}</watt-button>
     </vater-stack>
 
-    <vater-stack gap="m" align="flex-start" direction="row">
-      <watt-dropdown
-        translate="marketParticipant.actor.create.counties"
-        dhDropdownTranslator
-        [label]="t('country')"
-        [showResetOption]="false"
-        [options]="countryOptions"
-        [formControl]="newOrganizationForm.controls.country"
-      />
-      <watt-text-field
-        [formControl]="newOrganizationForm.controls.cvrNumber"
-        [label]="t('cvrNumber')"
-      >
-        <watt-field-error
-          *ngIf="newOrganizationForm.controls.cvrNumber.hasError('invalidCvrNumber')"
+    <div class="row">
+      <vater-stack gap="m" align="flex-start" direction="row">
+        <watt-dropdown
+          translate="marketParticipant.actor.create.counties"
+          dhDropdownTranslator
+          [label]="t('country')"
+          [showResetOption]="false"
+          [options]="countryOptions"
+          [formControl]="newOrganizationForm.controls.country"
+        />
+        <watt-text-field
+          [formControl]="newOrganizationForm.controls.cvrNumber"
+          [label]="t('cvrNumber')"
         >
-          {{ t('cvrInvalid') }}
-        </watt-field-error>
-      </watt-text-field>
-    </vater-stack>
+          @if (newOrganizationForm.controls.cvrNumber.hasError('invalidCvrNumber')) {
+            <watt-field-error>
+              {{ t('cvrInvalid') }}
+            </watt-field-error>
+          }
+        </watt-text-field>
+      </vater-stack>
+
+      <div class="column">
+        @if (this.isCvrBusy$ | push) {
+          <watt-spinner [diameter]="22" />
+        }
+      </div>
+    </div>
+
     <vater-stack gap="m" align="flex-start">
       <watt-text-field
         [formControl]="newOrganizationForm.controls.companyName"
@@ -95,15 +118,18 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
         [formControl]="newOrganizationForm.controls.domain"
         [label]="t('domain')"
       >
-        <watt-field-error *ngIf="newOrganizationForm.controls.domain.hasError('pattern')">
-          {{ t('domainInvalid') }}
-        </watt-field-error>
+        @if (newOrganizationForm.controls.domain.hasError('pattern')) {
+          <watt-field-error>
+            {{ t('domainInvalid') }}
+          </watt-field-error>
+        }
       </watt-text-field>
     </vater-stack>
   </ng-container>`,
 })
 export class DhNewOrganizationStepComponent {
   @Output() toggleShowCreateNewOrganization = new EventEmitter<void>();
+  @Input({ required: true }) isCvrBusy$!: Observable<boolean>;
   @Input({ required: true }) newOrganizationForm!: FormGroup<{
     country: FormControl<string>;
     cvrNumber: FormControl<string>;
@@ -116,5 +142,6 @@ export class DhNewOrganizationStepComponent {
     { value: 'SE', displayValue: 'SE' },
     { value: 'NO', displayValue: 'NO' },
     { value: 'FI', displayValue: 'FI' },
+    { value: 'DE', displayValue: 'DE' },
   ];
 }

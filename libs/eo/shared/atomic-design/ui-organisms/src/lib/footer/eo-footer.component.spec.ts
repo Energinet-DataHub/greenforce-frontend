@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
+
+import { getTranslocoTestingModule } from '@energinet-datahub/eo/globalization/test-util-i18n';
+
 import { EoFooterComponent } from './eo-footer.component';
 
 describe(EoFooterComponent, () => {
@@ -25,7 +28,11 @@ describe(EoFooterComponent, () => {
   const findEmailLink = () => screen.findByRole('link', { name: /email/i });
 
   beforeEach(async () => {
-    await render(EoFooterComponent);
+    await render(EoFooterComponent, {
+      imports: [
+        getTranslocoTestingModule()
+      ]
+    });
   });
 
   it('displays the Energinet logo', async () => {
@@ -50,7 +57,7 @@ describe(EoFooterComponent, () => {
 describe(`${EoFooterComponent.name} - Component API, Content projection`, () => {
   it('Inserts content into ng-content', async () => {
     await render(`<eo-footer><p>test</p></eo-footer>`, {
-      imports: [EoFooterComponent],
+      imports: [EoFooterComponent, getTranslocoTestingModule()],
     });
     expect(await screen.findByText('test')).toBeInTheDocument();
   });

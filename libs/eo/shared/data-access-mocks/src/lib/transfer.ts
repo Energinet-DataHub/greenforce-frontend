@@ -15,21 +15,22 @@
  * limitations under the License.
  */
 import { http, delay, HttpResponse } from 'msw';
+import { transferActivityLogResponse } from './data/activity-logs';
 
 export function transferMocks(apiBase: string) {
   return [
     getTransferAgreements(apiBase),
-    getTransferAutomationStatus(apiBase),
     postTransferAgreementProposals(apiBase),
     getTransferAgreementHistory(apiBase),
     putTransferAgreements(apiBase),
+    postTransferActivityLog(apiBase),
   ];
 }
 
 const senderName = 'Producent A/S';
 
 function getTransferAgreements(apiBase: string) {
-  return http.get(`${apiBase}/transfer-agreements`, async () => {
+  return http.get(`${apiBase}/transfer/transfer-agreements`, async () => {
     const data = {
       result: [
         {
@@ -105,21 +106,13 @@ function getTransferAgreements(apiBase: string) {
 }
 
 function postTransferAgreementProposals(apiBase: string) {
-  return http.post(`${apiBase}/transfer-agreement-proposals`, () => {
+  return http.post(`${apiBase}/transfer/transfer-agreement-proposals`, () => {
     return HttpResponse.json({ id: '3fa85f64-5717-4562-b3fc-2c963f66afa6' }, { status: 200 });
   });
 }
 
-function getTransferAutomationStatus(apiBase: string) {
-  return http.get(`${apiBase}/transfer-automation/status`, () => {
-    const data = { healthy: false };
-
-    return HttpResponse.json(data, { status: 200 });
-  });
-}
-
 function getTransferAgreementHistory(apiBase: string) {
-  return http.get(`${apiBase}/transfer-agreements/:id/history`, async () => {
+  return http.get(`${apiBase}/transfer/transfer-agreements/:id/history`, async () => {
     const data = {
       totalCount: 2,
       items: [
@@ -158,7 +151,7 @@ function getTransferAgreementHistory(apiBase: string) {
 }
 
 function putTransferAgreements(apiBase: string) {
-  return http.put(`${apiBase}/transfer-agreements/:id`, async () => {
+  return http.put(`${apiBase}/transfer/transfer-agreements/:id`, async () => {
     const data = {
       id: '72395d38-50d9-4038-b39c-ef343ee11e93',
       startDate: 1701770400,
@@ -170,5 +163,19 @@ function putTransferAgreements(apiBase: string) {
     await delay(1000);
 
     return HttpResponse.json(data, { status: 200 });
+  });
+}
+
+function postTransferActivityLog(apiBase: string) {
+  return http.post(`${apiBase}/transfer/activity-log`, () => {
+    const state = localStorage.getItem('transfer-activity-log');
+
+    if (state === 'no-log-entries') {
+      return HttpResponse.json({ activityLogEntries: [] });
+    } else if (state === 'activity-log-has-error') {
+      return HttpResponse.error();
+    } else {
+      return HttpResponse.json(transferActivityLogResponse);
+    }
   });
 }

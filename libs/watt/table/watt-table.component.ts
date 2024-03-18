@@ -358,6 +358,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['columns'] || changes['displayedColumns'] || changes['selectable']) {
       const { displayedColumns } = this;
+
       const sizing = Object.keys(this.columns)
         .filter((key) => !displayedColumns || displayedColumns.includes(key))
         .map((key) => this.columns[key].size)
@@ -374,6 +375,11 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
       );
     }
 
+    this.onSelectableChanges(changes);
+  }
+
+  /** @ignore */
+  private onSelectableChanges(changes: SimpleChanges) {
     if (changes['selectable']?.currentValue && !this.isInitialSelectionSet) {
       // Note: The reason for having a flag here is because we want the initial selection
       // to be set only once when `selectable` Input is `true`.
@@ -453,7 +459,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _onRowClick(row: T) {
-    if (this.disabled) return;
+    if (this.disabled || window.getSelection()?.toString() !== '') return;
     this.rowClick.emit(row);
   }
 }

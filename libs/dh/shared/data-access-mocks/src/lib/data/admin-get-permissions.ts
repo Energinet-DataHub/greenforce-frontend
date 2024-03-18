@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import parseISO from 'date-fns/parseISO';
+import { dayjs } from '@energinet-datahub/watt/utils/date';
 
 import { GetPermissionsQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -26,14 +26,14 @@ export const adminPermissionsMock: GetPermissionsQuery = {
       id: 1,
       name: 'organizations:view',
       description: 'Description for OrganizationView',
-      created: parseISO('2023-03-07T00:00:00+00:00'),
+      created: dayjs('2023-03-07T00:00:00+00:00').toDate(),
     },
     {
       __typename: 'Permission',
       id: 2,
-      name: 'organizations:manage',
-      description: 'Description for OrganizationManage',
-      created: parseISO('2023-03-07T00:00:00+00:00'),
+      name: 'actors:manage',
+      description: 'Description for ActorsManage',
+      created: dayjs('2023-03-07T00:00:00+00:00').toDate(),
     },
   ],
 };

@@ -83,6 +83,7 @@ enum EicFunction {
   DataHubAdministrator
   IndependentAggregator
   SerialEnergyTrader
+  Delegated
 }
 
 type EsettOutgoingMessage {
@@ -101,8 +102,18 @@ enum ExchangeEventCalculationType {
   AGGREGATION
 }
 
+type ExchangeEventSearchResult {
+  gridArea: GridAreaDto
+  documentId: String!
+  created: DateTime!
+  calculationType: ExchangeEventCalculationType!
+  timeSeriesType: TimeSeriesType!
+  documentStatus: DocumentStatus!
+}
+
 type GridAreaDto {
   priceAreaCode: PriceAreaCode!
+  displayName: String!
   id: UUID!
   code: String!
   name: String!
@@ -123,6 +134,29 @@ type ImbalancePriceDaily {
   timeStamp: DateTime!
   imbalancePrices: [ImbalancePrice!]!
   importedAt: DateTime
+}
+
+type MessageDelegationType {
+  gridArea: GridAreaDto
+  delegatedBy: Actor
+  delegatedTo: Actor
+  status: ActorDelegationStatus!
+  id: UUID!
+  periodId: UUID!
+  messageType: DelegationMessageType!
+  startsAt: DateTime!
+  expiresAt: DateTime
+}
+
+type MeteringGridAreaImbalanceSearchResult {
+  gridArea: GridAreaDto
+  id: String!
+  documentDateTime: DateTime!
+  receivedDateTime: DateTime!
+  periodStart: DateTime!
+  periodEnd: DateTime!
+  incomingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
+  outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
 type OrganizationAuditedChangeAuditLogDto {
@@ -217,10 +251,14 @@ type Query {
   actors: [Actor!]!
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   esettServiceStatus: [ReadinessStatusDto!]!
+  esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodFrom: DateTime, periodTo: DateTime, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String): ExchangeEventSearchResponse!
-  meteringGridAreaImbalance(pageNumber: Int!, pageSize: Int!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String): MeteringGridAreaImbalanceSearchResponse!
+  esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodInterval: DateRange, createdInterval: DateRange, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String, sortProperty: ExchangeEventSortProperty!, sortDirection: SortDirection!): ExchangeEventSearchResponse!
+  downloadEsettExchangeEvents(locale: String!, periodInterval: DateRange, createdInterval: DateRange, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String, sortProperty: ExchangeEventSortProperty!, sortDirection: SortDirection!): String!
+  meteringGridAreaImbalance(pageNumber: Int!, pageSize: Int!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String, valuesToInclude: MeteringGridImbalanceValuesToInclude!, sortProperty: MeteringGridAreaImbalanceSortProperty!, sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
+  downloadMeteringGridAreaImbalance(locale: String!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String, valuesToInclude: MeteringGridImbalanceValuesToInclude!, sortProperty: MeteringGridAreaImbalanceSortProperty!, sortDirection: SortDirection!): String!
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
+  downloadBalanceResponsibles(locale: String!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): String!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   emailExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
@@ -228,6 +266,9 @@ type Query {
   gridAreaOverview: [GridAreaOverviewItemDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int!, month: Int!, areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
+  userProfile: GetUserProfileResponse!
+  searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
+  getDelegationsForActor(actorId: UUID!): [MessageDelegationType!]!
 }
 
 type Mutation {
@@ -237,6 +278,10 @@ type Mutation {
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
+  updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
+  resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
+  createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
+  stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
 }
 
 enum ActorAuditedChange {
@@ -302,6 +347,7 @@ enum DocumentStatus {
   AWAITING_REPLY
   ACCEPTED
   REJECTED
+  BIZ_TALK_ACCEPTED
 }
 
 enum PriceAreaCode {
@@ -313,6 +359,32 @@ enum ImbalancePriceStatus {
   NO_DATA
   IN_COMPLETE
   COMPLETE
+}
+
+enum ActorDelegationStatus {
+  AWAITING
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+enum DelegationMessageType {
+  RSM012_INBOUND
+  RSM012_OUTBOUND
+  RSM014_INBOUND
+  RSM016_INBOUND
+  RSM016_OUTBOUND
+  RSM017_INBOUND
+  RSM017_OUTBOUND
+  RSM018_INBOUND
+  RSM019_INBOUND
+}
+
+type MeteringGridAreaImbalancePerDayDto {
+  imbalanceDay: DateTime!
+  firstOccurrenceOfImbalance: DateTime!
+  firstPositionOfImbalance: Int!
+  quantity: Float!
 }
 
 enum OrganizationAuditedChange {
@@ -372,11 +444,6 @@ interface Error {
   message: String!
 }
 
-type KeyValuePairOfStringAndIEnumerableOfString {
-  key: String!
-  value: [String!]!
-}
-
 type ApiErrorDescriptor {
   message: String!
   code: String!
@@ -406,6 +473,26 @@ enum ContactCategory {
   REMINDER
 }
 
+input StopMessageDelegationDtoInput {
+  id: UUID!
+  periodId: UUID!
+  stopsAt: DateTime
+}
+
+input CreateMessageDelegationDtoInput {
+  delegatedFrom: UUID!
+  delegatedTo: UUID!
+  gridAreas: [UUID!]!
+  messageTypes: [DelegationMessageType!]!
+  startsAt: DateTime!
+}
+
+input UserProfileUpdateDtoInput {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+}
+
 input CreateMarketParticipantInput {
   organizationId: UUID
   organization: CreateOrganizationDtoInput
@@ -424,6 +511,17 @@ enum MeteringPointType {
 input UpdatePermissionDtoInput {
   id: Int!
   description: String!
+}
+
+type CVROrganizationResult {
+  name: String!
+  hasResult: Boolean!
+}
+
+type GetUserProfileResponse {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
 }
 
 type ImbalancePricesOverview {
@@ -448,11 +546,6 @@ type AssociatedActors {
   actors: [UUID!]!
 }
 
-enum SortDirection {
-  ASCENDING
-  DESCENDING
-}
-
 enum BalanceResponsibleSortProperty {
   VALID_FROM
   VALID_TO
@@ -464,14 +557,45 @@ type BalanceResponsiblePageResult {
   totalCount: Int!
 }
 
+enum MeteringGridAreaImbalanceSortProperty {
+  DOCUMENT_DATE_TIME
+  GRID_AREA_CODE
+  DOCUMENT_ID
+  RECEIVED_DATE_TIME
+}
+
+enum MeteringGridImbalanceValuesToInclude {
+  IMBALANCES
+  BALANCES
+  BOTH
+}
+
 type MeteringGridAreaImbalanceSearchResponse {
   items: [MeteringGridAreaImbalanceSearchResult!]!
   totalCount: Int!
 }
 
+enum SortDirection {
+  ASCENDING
+  DESCENDING
+}
+
+enum ExchangeEventSortProperty {
+  CALCULATION_TYPE
+  CREATED
+  DOCUMENT_ID
+  DOCUMENT_STATUS
+  GRID_AREA_CODE
+  TIME_SERIES_TYPE
+}
+
 type ExchangeEventSearchResponse {
   items: [ExchangeEventSearchResult!]!
   totalCount: Int!
+}
+
+type ExchangeEventStatusReportResponse {
+  waitingForExternalResponse: Int!
 }
 
 type ReadinessStatusDto {
@@ -496,6 +620,11 @@ type UserRoleWithPermissionsDto {
   permissions: [PermissionDetailsDto!]!
 }
 
+type KeyValuePairOfStringAndIEnumerableOfString {
+  key: String!
+  value: [String!]!
+}
+
 type PermissionDetailsDto {
   id: Int!
   name: String!
@@ -508,26 +637,6 @@ enum ESettStageComponent {
   CONVERTER
   SENDER
   RECEIVER
-}
-
-type ExchangeEventSearchResult {
-  documentId: String!
-  gridAreaCode: String!
-  created: DateTime!
-  calculationType: ExchangeEventCalculationType!
-  timeSeriesType: TimeSeriesType!
-  documentStatus: DocumentStatus!
-}
-
-type MeteringGridAreaImbalanceSearchResult {
-  id: String!
-  gridAreaCode: String!
-  documentDateTime: DateTime!
-  receivedDateTime: DateTime!
-  periodStart: DateTime!
-  periodEnd: DateTime!
-  imbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
-  storageId: String!
 }
 
 type ImbalancePricePeriod {
@@ -579,12 +688,6 @@ input ActorNumberDtoInput {
 
 input ActorNameDtoInput {
   value: String!
-}
-
-type MeteringGridAreaImbalancePerDayDto {
-  imbalanceDay: DateTime!
-  incomingQuantity: Float
-  outgoingQuantity: Float
 }
 
 input ActorGridAreaDtoInput {
@@ -648,4 +751,42 @@ union CreateMarketParticipantError = ApiError
 type CreateMarketParticipantPayload {
   boolean: Boolean
   errors: [CreateMarketParticipantError!]
+}
+
+input UpdateUserProfileInput {
+  userProfileUpdateDto: UserProfileUpdateDtoInput!
+}
+
+union UpdateUserProfileError = ApiError
+
+type UpdateUserProfilePayload {
+  boolean: Boolean
+  errors: [UpdateUserProfileError!]
+}
+
+type ResendWaitingEsettExchangeMessagesPayload {
+  boolean: Boolean
+}
+
+input CreateDelegationsForActorInput {
+  actorId: UUID!
+  delegationDto: CreateMessageDelegationDtoInput!
+}
+
+union CreateDelegationsForActorError = ApiError
+
+type CreateDelegationsForActorPayload {
+  boolean: Boolean
+  errors: [CreateDelegationsForActorError!]
+}
+
+input StopDelegationInput {
+  stopMessageDelegationDto: [StopMessageDelegationDtoInput!]!
+}
+
+union StopDelegationError = ApiError
+
+type StopDelegationPayload {
+  boolean: Boolean
+  errors: [StopDelegationError!]
 }

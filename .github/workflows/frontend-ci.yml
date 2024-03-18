@@ -42,9 +42,13 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - apps/dh/api-dh/**
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - apps/dh/api-dh/**
   workflow_dispatch: {}
 
 jobs:
@@ -145,7 +149,7 @@ jobs:
 
       - name: Upload artifact
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-e2e
           path: dist/cypress/apps/
@@ -166,7 +170,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.internal_github_pat }}
 
       # needed for Nx affected command
       - name: Fetch base branch Git history
@@ -210,7 +213,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.internal_github_pat }}
 
       # needed for Nx affected command
       - name: "PR: Fetch base branch Git history"
@@ -330,7 +332,7 @@ jobs:
 
       - name: Upload artifact
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-component-tests
           path: dist/cypress/libs/

@@ -21,6 +21,11 @@
             "output": "assets"
           },
           {
+            "glob": "**/*.json",
+            "input": "libs/eo/core/globalization/assets-localization",
+            "output": "assets"
+          },
+          {
             "input": "libs/watt/core/assets",
             "glob": "**/*",
             "output": "assets/watt"

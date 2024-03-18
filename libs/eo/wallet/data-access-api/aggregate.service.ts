@@ -17,9 +17,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { EMPTY, ReplaySubject, catchError, map, of, shareReplay, tap } from 'rxjs';
-
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 import {
   eachDayOfInterval,
   eachHourOfInterval,
@@ -31,6 +28,11 @@ import {
   isSameHour,
   isSameMonth,
 } from 'date-fns';
+import { da, enGB } from 'date-fns/locale';
+import { TranslocoService } from '@ngneat/transloco';
+
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 
 interface AggregatedResponse {
   result: [
@@ -48,6 +50,7 @@ interface AggregatedResponse {
 export class EoAggregateService {
   #apiEnvironment: EoApiEnvironment = inject(eoApiEnvironmentToken);
   #http: HttpClient = inject(HttpClient);
+  #transloco = inject(TranslocoService);
 
   #apiBase = `${this.#apiEnvironment.apiBase}/v1`.replace('/api', '/wallet-api');
   #timeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
@@ -148,31 +151,33 @@ export class EoAggregateService {
   }
 
   getLabels(timeAggregate: EoTimeAggregate, start: number, end: number) {
+    const locale = this.#transloco.getActiveLang() === 'da' ? da : enGB;
+
     if (timeAggregate === EoTimeAggregate.QuarterHour) {
       return eachMinuteOfInterval(
         { start: fromUnixTime(start), end: fromUnixTime(end) },
         { step: 15 }
       ).map((timestamp) => {
-        return format(timestamp, 'HH:mm');
+        return format(timestamp, 'HH:mm', { locale });
       });
     }
     if (timeAggregate === EoTimeAggregate.Hour) {
       return eachHourOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
         (timestamp) => {
-          return format(timestamp, 'HH:mm');
+          return format(timestamp, 'HH:mm', { locale });
         }
       );
     } else if (timeAggregate === EoTimeAggregate.Month) {
       return eachMonthOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
         (timestamp) => {
-          return format(timestamp, 'MMM');
+          return format(timestamp, 'MMM', { locale });
         }
       );
       // Default to day
     } else {
       return eachDayOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
         (timestamp) => {
-          return format(timestamp, 'dd MMM');
+          return format(timestamp, 'dd MMM', { locale });
         }
       );
     }

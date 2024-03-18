@@ -23,9 +23,11 @@ limitations under the License.
 >
   <form id="editForm" (ngSubmit)="save()">
     <watt-text-field class="domain-field" [label]="t('domainLabel')" [formControl]="domainControl">
-      <watt-field-error *ngIf="domainControl.hasError('pattern')">
-        {{ t("invalidDomain") }}
-      </watt-field-error>
+      @if (domainControl.hasError("pattern")) {
+        <watt-field-error>
+          {{ t("invalidDomain") }}
+        </watt-field-error>
+      }
     </watt-text-field>
   </form>
 

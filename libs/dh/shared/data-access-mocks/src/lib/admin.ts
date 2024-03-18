@@ -19,7 +19,6 @@ import { delay, http, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import {
-  mockGetGridAreasForCreateActorQuery,
   mockGetKnownEmailsQuery,
   mockGetPermissionDetailsQuery,
   mockGetPermissionAuditLogsQuery,
@@ -27,6 +26,7 @@ import {
   mockGetUserRoleAuditLogsQuery,
   mockGetUserRolesByEicfunctionQuery,
   mockGetUserAuditLogsQuery,
+  mockGetGridAreasQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import marketParticipantActorQuerySelectionActors from './data/marketParticipantActorQuerySelectionActors.json';
@@ -42,7 +42,7 @@ import { marketParticipantOrganization } from './data/admin-get-actorOrganizatio
 import { marketParticipantUserSearchUsers } from './data/marketParticipantUserSearchUsers';
 import { getUserRolesByEicfunction } from './data/get-user-roles-by-eicfunction';
 import { marketParticipantOrganizationGetFilteredActors } from './data/marketParticipantOrganizationGetFilteredActors';
-import { getGridAreasForCreateActorMock } from './data/get-grid-areas-for-actor-create';
+import { getGridAreas } from './data/get-grid-areas';
 
 export function adminMocks(apiBase: string) {
   return [
@@ -65,7 +65,7 @@ export function adminMocks(apiBase: string) {
     getMarketParticipantUserRoleGetAssignable(apiBase),
     getActorOrganization(apiBase),
     getKnownEmailsQuery(),
-    getGridAreasForCreateActor(),
+    getGridAreasQuery(),
   ];
 }
 
@@ -221,9 +221,9 @@ function getKnownEmailsQuery() {
   });
 }
 
-function getGridAreasForCreateActor() {
-  return mockGetGridAreasForCreateActorQuery(async () => {
+function getGridAreasQuery() {
+  return mockGetGridAreasQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json({ data: getGridAreasForCreateActorMock });
+    return HttpResponse.json({ data: getGridAreas });
   });
 }

@@ -73,7 +73,7 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/atomic-desi
       </p>
 
       <ul class="text-list">
-        <li>Compiling an <strong>emissions overview</strong> for your annual ECG report</li>
+        <li>Compiling an <strong>emissions overview</strong> for your annual ESG report</li>
         <li>
           Gaining an overview of the <strong>renewables share</strong> of your energy consumption
         </li>

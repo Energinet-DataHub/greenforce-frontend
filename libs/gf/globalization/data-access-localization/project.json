@@ -1,0 +1,22 @@
+{
+  "name": "gf-globalization-data-access-localization",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/gf/globalization/data-access-localization/src",
+  "prefix": "gf",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/gf/globalization/data-access-localization"
+      ],
+      "options": {
+        "jestConfig": "libs/gf/globalization/data-access-localization/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:gf", "domain:globalization", "type:data-access"]
+}

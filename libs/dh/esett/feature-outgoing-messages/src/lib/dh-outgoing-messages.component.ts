@@ -16,36 +16,43 @@
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, combineLatest, debounceTime, map, switchMap } from 'rxjs';
-import { endOfDay, startOfDay, sub } from 'date-fns';
+import { BehaviorSubject, catchError, debounceTime, map, of, switchMap, take } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
+import { RxLet } from '@rx-angular/template/let';
+import { Sort } from '@angular/material/sort';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import {
+  DownloadEsettExchangeEventsDocument,
   GetOutgoingMessagesDocument,
   GetServiceStatusDocument,
+  GetStatusReportDocument,
+  ResendExchangeMessagesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/table';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import {
+  DhOutgoingMessagesFilters,
+  DhOutgoingMessagesStore,
+} from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
 import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
 import { DhOutgoingMessage } from './dh-outgoing-message';
-import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { RxLet } from '@rx-angular/template/let';
 
 @Component({
   standalone: true,
@@ -64,6 +71,10 @@ import { RxLet } from '@rx-angular/template/let';
       .health-icons {
         display: flex;
         flex-direction: row;
+      }
+
+      .resend-container .watt-chip-label {
+        padding: 10px;
       }
 
       watt-paginator {
@@ -94,30 +105,26 @@ import { RxLet } from '@rx-angular/template/let';
     DhOutgoingMessagesFiltersComponent,
     DhOutgoingMessagesTableComponent,
   ],
+  providers: [DhOutgoingMessagesStore],
 })
 export class DhOutgoingMessagesComponent implements OnInit {
   private _apollo = inject(Apollo);
   private _destroyRef = inject(DestroyRef);
+  private _store = inject(DhOutgoingMessagesStore);
+  private _toastService = inject(WattToastService);
 
-  tableDataSource = new WattTableDataSource<DhOutgoingMessage>([]);
+  tableDataSource = new WattTableDataSource<DhOutgoingMessage>([], { disableClientSideSort: true });
   totalCount = 0;
 
-  private pageMetaData$ = new BehaviorSubject<Pick<PageEvent, 'pageIndex' | 'pageSize'>>({
-    pageIndex: 0,
-    pageSize: 100,
-  });
+  filters$ = this._store.filters$;
+  pageMetaData$ = this._store.pageMetaData$;
+  sortMetaData$ = this._store.sortMetaData$;
 
-  pageSize$ = this.pageMetaData$.pipe(map(({ pageSize }) => pageSize));
+  documentIdSearch$ = new BehaviorSubject<string>('');
 
   isLoading = false;
+  isDownloading = false;
   hasError = false;
-
-  filter$ = new BehaviorSubject<DhOutgoingMessagesFilters>({
-    period: {
-      start: sub(startOfDay(new Date()), { days: 2 }),
-      end: endOfDay(new Date()),
-    },
-  });
 
   serviceStatus$ = this._apollo
     .watchQuery({
@@ -131,22 +138,26 @@ export class DhOutgoingMessagesComponent implements OnInit {
       map(({ data }) => data?.esettServiceStatus ?? [])
     );
 
-  documentIdSearch$ = new BehaviorSubject<string>('');
-
-  private queryVariables$ = combineLatest({
-    filters: this.filter$,
-    pageMetaData: this.pageMetaData$,
-    documentIdSearch: this.documentIdSearch$.pipe(debounceTime(250)),
-  }).pipe(
-    map(({ filters, pageMetaData, documentIdSearch }) => {
-      return { filters: documentIdSearch ? {} : filters, pageMetaData, documentIdSearch };
+  statusReport$ = this._apollo
+    .watchQuery({
+      useInitialLoading: true,
+      notifyOnNetworkStatusChange: true,
+      query: GetStatusReportDocument,
     })
-  );
+    .valueChanges.pipe(
+      takeUntilDestroyed(),
+      map(({ data }) => data?.esettExchangeStatusReport ?? 0)
+    );
 
-  outgoingMessages$ = this.queryVariables$.pipe(
-    switchMap(
-      ({ filters, pageMetaData, documentIdSearch }) =>
-        this._apollo.watchQuery({
+  /**
+   * Represents an observable stream of outgoing messages.
+   * Emits the result of a GraphQL query to retrieve outgoing messages based on the provided variables.
+   * @type {Observable<QueryResult<GetOutgoingMessagesQuery>>}
+   */
+  outgoingMessages$ = this._store.queryVariables$.pipe(
+    switchMap(({ filters, pageMetaData, documentId, sortMetaData }) =>
+      this._apollo
+        .watchQuery({
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
@@ -160,11 +171,14 @@ export class DhOutgoingMessagesComponent implements OnInit {
             timeSeriesType: filters.messageTypes,
             gridAreaCode: filters.gridAreas,
             documentStatus: filters.status,
-            periodFrom: filters.period?.start,
-            periodTo: filters.period?.end,
-            documentId: documentIdSearch,
+            periodInterval: filters.period,
+            createdInterval: filters.created,
+            documentId,
+            sortProperty: sortMetaData.sortProperty,
+            sortDirection: sortMetaData.sortDirection,
           },
-        }).valueChanges
+        })
+        .valueChanges.pipe(catchError(() => of({ loading: false, data: null, errors: [] })))
     ),
     takeUntilDestroyed()
   );
@@ -184,40 +198,85 @@ export class DhOutgoingMessagesComponent implements OnInit {
         this.isLoading = false;
       },
     });
+
+    this._store.documentIdUpdate(this.documentIdSearch$.pipe(debounceTime(250)));
   }
 
-  handlePageEvent({ pageIndex, pageSize }: PageEvent): void {
-    this.pageMetaData$.next({ pageIndex, pageSize });
+  onFiltersEvent(filters: DhOutgoingMessagesFilters): void {
+    this._store.patchState((state) => ({
+      ...state,
+      filters,
+      pageMetaData: { ...state.pageMetaData, pageIndex: 0 },
+    }));
   }
 
-  download(): void {
-    if (!this.tableDataSource.sort) {
-      return;
+  onSortEvent(sortMetaData: Sort): void {
+    this._store.patchState((state) => ({
+      ...state,
+      sortMetaData,
+      pageMetaData: { ...state.pageMetaData, pageIndex: 0 },
+    }));
+  }
+
+  onPageEvent({ pageIndex, pageSize }: PageEvent): void {
+    this._store.patchState((state) => ({ ...state, pageMetaData: { pageIndex, pageSize } }));
+  }
+
+  download() {
+    this.isDownloading = true;
+
+    this._store.queryVariables$
+      .pipe(
+        take(1),
+        switchMap(({ filters, documentId, sortMetaData }) =>
+          this._apollo.query({
+            returnPartialData: false,
+            notifyOnNetworkStatusChange: true,
+            fetchPolicy: 'no-cache',
+            query: DownloadEsettExchangeEventsDocument,
+            variables: {
+              locale: translate('selectedLanguageIso'),
+              periodInterval: filters.period,
+              createdInterval: filters.created,
+              gridAreaCode: filters.gridAreas,
+              calculationType: filters.calculationTypes,
+              timeSeriesType: filters.messageTypes,
+              documentStatus: filters.status,
+              documentId,
+              sortProperty: sortMetaData.sortProperty,
+              sortDirection: sortMetaData.sortDirection,
+            },
+          })
+        )
+      )
+      .subscribe({
+        next: (result) => {
+          this.isDownloading = result.loading;
+
+          exportToCSVRaw({
+            content: result?.data?.downloadEsettExchangeEvents ?? '',
+            fileName: 'eSett-outgoing-messages',
+          });
+        },
+        error: () => {
+          this.isDownloading = false;
+          this._toastService.open({
+            message: translate('shared.error.message'),
+            type: 'danger',
+          });
+        },
+      });
+  }
+
+  resend(): void {
+    if (!this.isLoading) {
+      this.isLoading = true;
+      this._apollo
+        .mutate({
+          mutation: ResendExchangeMessagesDocument,
+          refetchQueries: [GetStatusReportDocument],
+        })
+        .subscribe(() => (this.isLoading = false));
     }
-
-    const dataToSort = structuredClone<DhOutgoingMessage[]>(this.tableDataSource.filteredData);
-    const dataSorted = this.tableDataSource.sortData(dataToSort, this.tableDataSource.sort);
-
-    const outgoingMessagesPath = 'eSett.outgoingMessages';
-
-    const headers = [
-      `"${translate(outgoingMessagesPath + '.columns.created')}"`,
-      `"${translate(outgoingMessagesPath + '.columns.id')}"`,
-      `"${translate(outgoingMessagesPath + '.columns.calculationType')}"`,
-      `"${translate(outgoingMessagesPath + '.columns.messageType')}"`,
-      `"${translate(outgoingMessagesPath + '.columns.gridArea')}"`,
-      `"${translate(outgoingMessagesPath + '.columns.status')}"`,
-    ];
-
-    const lines = dataSorted.map((message) => [
-      `"${message.created.toISOString()}"`,
-      `"${message.documentId}"`,
-      `"${translate(outgoingMessagesPath + '.shared.calculationType.' + message.calculationType)}"`,
-      `"${translate(outgoingMessagesPath + '.shared.messageType.' + message.timeSeriesType)}"`,
-      `"${message.gridAreaCode}"`,
-      `"${translate(outgoingMessagesPath + '.shared.documentStatus.' + message.documentStatus)}"`,
-    ]);
-
-    exportToCSV({ headers, lines, fileName: 'eSett-outgoing-messages' });
   }
 }

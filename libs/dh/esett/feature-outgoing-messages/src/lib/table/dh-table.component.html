@@ -20,10 +20,11 @@ limitations under the License.
     [columns]="columns"
     [loading]="isLoading"
     [sortClear]="false"
-    sortBy="created"
-    sortDirection="desc"
+    [sortBy]="sortMetadata.active"
+    [sortDirection]="sortMetadata.direction"
     [activeRow]="activeRow"
     (rowClick)="onRowClick($event)"
+    (sortChange)="sortChange.emit($event)"
   >
     <ng-container *wattTableCell="columns['created']; header: t('columns.created'); let message">
       {{ message.created | wattDate: "long" }}
@@ -46,7 +47,7 @@ limitations under the License.
     </ng-container>
 
     <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
-      {{ message.gridAreaCode }}
+      {{ message.gridArea?.displayName }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let message">
@@ -57,17 +58,15 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  <vater-stack
-    fill="vertical"
-    justify="center"
-    *ngIf="!isLoading && tableDataSource.filteredData.length === 0"
-  >
-    <watt-empty-state
-      [icon]="hasError ? 'custom-power' : 'cancel'"
-      [title]="hasError ? t('errorTitle') : t('emptyTitle')"
-      [message]="hasError ? t('errorMessage') : t('emptyMessage')"
-    />
-  </vater-stack>
+  @if (!isLoading && tableDataSource.filteredData.length === 0) {
+    <vater-stack fill="vertical" justify="center">
+      <watt-empty-state
+        [icon]="hasError ? 'custom-power' : 'cancel'"
+        [title]="hasError ? t('errorTitle') : t('emptyTitle')"
+        [message]="hasError ? t('errorMessage') : t('emptyMessage')"
+      />
+    </vater-stack>
+  }
 </vater-flex>
 
 <dh-outgoing-message-drawer (closed)="onClose()" />

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
@@ -35,7 +35,6 @@ import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-
   standalone: true,
   imports: [
     NgTemplateOutlet,
-    NgIf,
     FormsModule,
     RxLet,
     RxPush,

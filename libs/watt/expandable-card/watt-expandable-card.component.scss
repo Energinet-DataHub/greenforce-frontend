@@ -65,4 +65,17 @@
     border: 1px solid var(--watt-color-neutral-grey-300);
     box-shadow: none;
   }
+
+  // Nested cards
+  &.watt-expandable-card__parent &.watt-solid {
+    border: none;
+  }
+
+  &.watt-expandable-card__parent {
+    > .mat-expansion-panel-content {
+      > .mat-expansion-panel-body {
+        border-top: none;
+      }
+    }
+  }
 }

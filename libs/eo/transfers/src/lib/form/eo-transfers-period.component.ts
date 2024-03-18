@@ -17,16 +17,18 @@
 import { Component, Input, OnInit, inject, ViewEncapsulation, DestroyRef } from '@angular/core';
 import { FormControl, ReactiveFormsModule, FormGroup, FormGroupDirective } from '@angular/forms';
 import { add, isAfter } from 'date-fns';
-import { CommonModule, NgClass, NgIf, NgSwitch } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
+import { TranslocoPipe } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
 import { EoTransferFormPeriod } from './eo-transfers-form.component';
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 
 interface EoTransfersPeriodForm extends EoTransferFormPeriod {
@@ -40,13 +42,12 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
     CommonModule,
     EoTransfersDateTimeComponent,
     NgClass,
-    NgIf,
-    NgSwitch,
     ReactiveFormsModule,
     WattDatePipe,
     WattRadioComponent,
     WattFieldErrorComponent,
     EoTransferErrorsComponent,
+    TranslocoPipe,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -98,6 +99,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
 
       eo-transfers-form-period .asterisk {
         color: var(--watt-color-primary);
+        margin-left: var(--watt-space-s);
       }
 
       eo-transfers-form-period .has-error {
@@ -116,10 +118,13 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
       <fieldset class="start-date" [ngClass]="{ 'has-error': form.controls.startDate.errors }">
         <eo-transfers-datetime
           formControlName="startDate"
-          label="START"
+          [label]="
+            translations.createTransferAgreementProposal.timeframe.startDate.label | transloco
+          "
           [min]="minStartDate"
           [existingTransferAgreements]="existingTransferAgreements"
         />
+
         <eo-transfers-errors
           [showError]="
             (form.controls.startDate.touched || form.controls.startDate.dirty) &&
@@ -127,22 +132,34 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
           "
         >
           <watt-field-error [style.opacity]="form.controls.startDate.errors?.['required'] ? 1 : 0">
-            The start of the period is required
+            {{
+              translations.createTransferAgreementProposal.timeframe.startDate.required | transloco
+            }}
           </watt-field-error>
           <watt-field-error
             [style.opacity]="form.controls.startDate.errors?.['nextHourOrLater'] ? 1 : 0"
           >
-            The start of the period must be at least the next hour from now
+            {{
+              translations.createTransferAgreementProposal.timeframe.startDate.nextHourOrLater
+                | transloco
+            }}
           </watt-field-error>
           <watt-field-error
             [style.opacity]="form.controls.startDate.errors?.['overlapping']?.start ? 1 : 0"
           >
-            <ng-container *ngIf="form.controls.startDate.errors?.['overlapping']?.start; let error">
-              Chosen period overlaps with an existing agreement: <br />{{
-                error.startDate | wattDate: 'long'
+            @if (form.controls.startDate.errors?.['overlapping']?.start; as error) {
+              {{
+                translations.createTransferAgreementProposal.timeframe.startDate.overlapping
+                  | transloco
+                    : {
+                        startDate: error.startDate | wattDate: 'long',
+                        endDate:
+                          (error.endDate | wattDate: 'long') ||
+                            translations.createTransferAgreementProposal.timeframe.endDate
+                              .noEndDateLabel | transloco
+                      }
               }}
-              - {{ (error.endDate | wattDate: 'long') || 'no end of period' }}
-            </ng-container>
+            }
           </watt-field-error>
         </eo-transfers-errors>
       </fieldset>
@@ -152,21 +169,31 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
         class="end-date"
         [ngClass]="{ 'has-error': form.controls.endDate.errors || form.controls.hasEndDate.errors }"
       >
-        <p class="watt-label end-date-label">Stop <span class="asterisk">*</span></p>
+        <p class="watt-label end-date-label">
+          {{ translations.createTransferAgreementProposal.timeframe.endDate.label | transloco
+          }}<span class="asterisk">*</span>
+        </p>
         <div class="radio-buttons-container">
-          <watt-radio group="has_enddate" formControlName="hasEndDate" [value]="false"
-            >No specific end date</watt-radio
-          >
+          <watt-radio group="has_enddate" formControlName="hasEndDate" [value]="false">
+            {{
+              translations.createTransferAgreementProposal.timeframe.endDate.noEndDateLabel
+                | transloco
+            }}
+          </watt-radio>
           <div class="end-by-container">
-            <watt-radio group="has_enddate" formControlName="hasEndDate" [value]="true"
-              >End on date</watt-radio
-            >
-            <eo-transfers-datetime
-              formControlName="endDate"
-              *ngIf="form.value.hasEndDate"
-              [min]="minEndDate"
-              [existingTransferAgreements]="existingTransferAgreements"
-            />
+            <watt-radio group="has_enddate" formControlName="hasEndDate" [value]="true">
+              {{
+                translations.createTransferAgreementProposal.timeframe.endDate.withEndDateLabel
+                  | transloco
+              }}
+            </watt-radio>
+            @if (form.value.hasEndDate) {
+              <eo-transfers-datetime
+                formControlName="endDate"
+                [min]="minEndDate"
+                [existingTransferAgreements]="existingTransferAgreements"
+              />
+            }
 
             <eo-transfers-errors
               [showError]="!!form.controls.endDate.errors || !!form.controls.hasEndDate.errors"
@@ -174,35 +201,56 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
               <watt-field-error
                 [style.opacity]="form.controls.endDate.errors?.['minToday'] ? 1 : 0"
               >
-                The end of the period must be today or later
+                {{
+                  translations.createTransferAgreementProposal.timeframe.endDate.minToday
+                    | transloco
+                }}
               </watt-field-error>
               <watt-field-error
                 [style.opacity]="
                   form.controls.endDate.errors?.['endDateMustBeLaterThanStartDate'] ? 1 : 0
                 "
               >
-                The end of the period must be later than the start of the period
+                {{
+                  translations.createTransferAgreementProposal.timeframe.endDate.laterThanStartDate
+                    | transloco
+                }}
               </watt-field-error>
               <watt-field-error
                 [style.opacity]="form.controls.hasEndDate.errors?.['overlapping']?.end ? 1 : 0"
               >
-                <ng-container
-                  *ngIf="form.controls.hasEndDate.errors?.['overlapping']?.end; let error"
-                >
-                  Because you haven't chosen an end date, the period overlaps with an existing
-                  agreement:
-                  {{ error.startDate | wattDate: 'long' }} -
-                  {{ (error.endDate | wattDate: 'long') || 'no end of period' }}
-                </ng-container>
+                @if (form.controls.hasEndDate.errors?.['overlapping']?.end; as error) {
+                  {{
+                    translations.createTransferAgreementProposal.timeframe.endDate
+                      .withoutEndDateOverlapping
+                      | transloco
+                        : {
+                            startDate: error.startDate | wattDate: 'long',
+                            endDate:
+                              (error.endDate | wattDate: 'long') ||
+                                translations.createTransferAgreementProposal.timeframe.endDate
+                                  .noEndDateLabel | transloco
+                          }
+                  }}
+                }
               </watt-field-error>
               <watt-field-error
                 [style.opacity]="form.controls.endDate.errors?.['overlapping']?.end ? 1 : 0"
               >
-                <ng-container *ngIf="form.controls.endDate.errors?.['overlapping']?.end; let error">
-                  End by overlaps with an existing agreement:<br />
-                  {{ error.startDate | wattDate: 'long' }} -
-                  {{ (error.endDate | wattDate: 'long') || 'no end of period' }}
-                </ng-container>
+                @if (form.controls.endDate.errors?.['overlapping']?.end; as error) {
+                  {{
+                    translations.createTransferAgreementProposal.timeframe.endDate
+                      .withEndDateOverlapping
+                      | transloco
+                        : {
+                            startDate: error.startDate | wattDate: 'long',
+                            endDate:
+                              (error.endDate | wattDate: 'long') ||
+                                translations.createTransferAgreementProposal.timeframe.endDate
+                                  .noEndDateLabel | transloco
+                          }
+                  }}
+                }
               </watt-field-error>
             </eo-transfers-errors>
           </div>
@@ -215,6 +263,7 @@ export class EoTransfersPeriodComponent implements OnInit {
   @Input() formGroupName!: string;
   @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
 
+  protected translations = translations;
   protected form!: FormGroup<EoTransfersPeriodForm>;
   protected minStartDate: Date = new Date();
   protected minEndDate: Date = new Date();

@@ -1,0 +1,14 @@
+mutation UpdateUserProfile($input: UpdateUserProfileInput!) {
+  updateUserProfile(input: $input) {
+    saved: boolean
+    errors {
+      ... on ApiError {
+        apiErrors {
+          message
+          code
+          args
+        }
+      }
+    }
+  }
+}

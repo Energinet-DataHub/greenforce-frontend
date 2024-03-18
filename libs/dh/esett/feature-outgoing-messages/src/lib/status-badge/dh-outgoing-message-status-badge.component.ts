@@ -17,7 +17,7 @@
 import { NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { differenceInSeconds } from 'date-fns';
+import { dayjs } from '@energinet-datahub/watt/utils/date';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DocumentStatus } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -35,6 +35,9 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
         {{ t(status!) }}
       </watt-badge>
       <watt-badge *ngSwitchCase="'AWAITING_DISPATCH'" [type]="isSevere() ? 'danger' : 'neutral'">
+        {{ t(status!) }}
+      </watt-badge>
+      <watt-badge *ngSwitchCase="'BIZ_TALK_ACCEPTED'" [type]="isSevere() ? 'danger' : 'neutral'">
         {{ t(status!) }}
       </watt-badge>
       <watt-badge *ngSwitchCase="'AWAITING_REPLY'" [type]="isSevere() ? 'danger' : 'neutral'">
@@ -65,12 +68,14 @@ export class DhOutgoingMessageStatusBadgeComponent {
   isSevere(): boolean {
     if (!this.created) return false;
 
-    const secondsPassed = differenceInSeconds(new Date(), this.created);
+    const secondsPassed = dayjs(new Date()).diff(this.created, 'second');
 
     switch (this.status) {
       case 'RECEIVED':
         return secondsPassed > 30; // 30 seconds to convert.
       case 'AWAITING_DISPATCH':
+        return secondsPassed > 60 * 30; // 30 minutes to dispatch.
+      case 'BIZ_TALK_ACCEPTED':
         return secondsPassed > 60 * 30; // 30 minutes to dispatch.
       case 'AWAITING_REPLY':
         return secondsPassed > 60 * 60; // 1 hour to reply.

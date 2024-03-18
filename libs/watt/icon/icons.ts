@@ -46,6 +46,7 @@ const materialIcons = {
   help: 'help',
   alternateEmail: 'alternate_email',
   refresh: 'refresh',
+  language: 'language',
   // Navigation
   left: 'navigate_before',
   right: 'navigate_next',

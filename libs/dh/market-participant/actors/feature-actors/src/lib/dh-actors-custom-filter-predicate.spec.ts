@@ -16,7 +16,7 @@
  */
 import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhActor } from './dh-actor';
+import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { AllFiltersCombined } from './actors-filters';
 import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
 import { dhToJSON } from './dh-json-util';

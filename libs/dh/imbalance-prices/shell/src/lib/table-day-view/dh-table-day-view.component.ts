@@ -16,10 +16,9 @@
  */
 import { Component, input, effect, ChangeDetectionStrategy } from '@angular/core';
 import { DecimalPipe, NgClass } from '@angular/common';
-import { add, differenceInMinutes } from 'date-fns';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
+import { WattDatePipe, dayjs } from '@energinet-datahub/watt/utils/date';
 
 import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../dh-imbalance-prices';
 
@@ -90,7 +89,7 @@ export class DhTableDayViewComponent {
     return data.map((day) => ({
       ...day,
       timestampFrom: day.timestamp,
-      timestampTo: add(day.timestamp, { minutes: resolutionInMinutes }),
+      timestampTo: dayjs(day.timestamp).add(resolutionInMinutes, 'minutes').toDate(),
     }));
   }
 
@@ -104,7 +103,7 @@ export class DhTableDayViewComponent {
 
     const [firstEntry, secondEntry] = data;
 
-    return differenceInMinutes(secondEntry.timestamp, firstEntry.timestamp) === _15_min
+    return dayjs(secondEntry.timestamp).diff(dayjs(firstEntry.timestamp), 'minute') === _15_min
       ? _15_min
       : _60_min;
   }

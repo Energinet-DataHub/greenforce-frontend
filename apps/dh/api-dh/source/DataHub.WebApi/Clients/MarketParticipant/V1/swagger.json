@@ -200,6 +200,61 @@
         }
       }
     },
+    "/actor/{actorId}/name": {
+      "put": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "name",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ActorNameDto"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ActorNameDto"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ActorNameDto"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/actor/{actorId}/credentials": {
       "get": {
         "tags": [
@@ -394,6 +449,133 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/actor/{actorId}/delegation": {
+      "get": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "delegationGET",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDelegationsForActorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDelegationsForActorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDelegationsForActorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actor/delegation": {
+      "post": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "delegationPOST",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CreateMessageDelegationDto"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CreateMessageDelegationDto"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CreateMessageDelegationDto"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "delegationPUT",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/StopMessageDelegationDto"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/StopMessageDelegationDto"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/StopMessageDelegationDto"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -1270,6 +1452,46 @@
         }
       }
     },
+    "/Organization/{businessRegisterIdentifier}/identity": {
+      "get": {
+        "tags": [
+          "Organization"
+        ],
+        "operationId": "identity",
+        "parameters": [
+          {
+            "name": "businessRegisterIdentifier",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrganizationIdentityResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrganizationIdentityResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrganizationIdentityResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Permission/{permissionId}": {
       "get": {
         "tags": [
@@ -1763,6 +1985,78 @@
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/UserIdentityUpdateDto"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/user/userprofile": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "userprofileGET",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserProfileResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserProfileResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserProfileResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "userprofilePUT",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UserProfileUpdateDto"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UserProfileUpdateDto"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UserProfileUpdateDto"
                   }
                 ]
               }
@@ -2916,6 +3210,37 @@
           }
         }
       },
+      "CreateMessageDelegationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "delegatedFrom": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "delegatedTo": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "gridAreas": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "messageTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DelegationMessageType"
+            }
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "CreateOrganizationDto": {
         "type": "object",
         "additionalProperties": false,
@@ -2971,6 +3296,20 @@
           }
         }
       },
+      "DelegationMessageType": {
+        "type": "string",
+        "enum": [
+          "Rsm012Inbound",
+          "Rsm012Outbound",
+          "Rsm014Inbound",
+          "Rsm016Inbound",
+          "Rsm016Outbound",
+          "Rsm017Inbound",
+          "Rsm017Outbound",
+          "Rsm018Inbound",
+          "Rsm019Inbound"
+        ]
+      },
       "EicFunction": {
         "type": "string",
         "enum": [
@@ -2987,7 +3326,8 @@
           "DanishEnergyAgency",
           "DataHubAdministrator",
           "IndependentAggregator",
-          "SerialEnergyTrader"
+          "SerialEnergyTrader",
+          "Delegated"
         ]
       },
       "GetActorsAssociatedWithExternalUserIdResponse": {
@@ -3029,6 +3369,35 @@
           }
         }
       },
+      "GetDelegationsForActorResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "delegations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageDelegationDto"
+            }
+          }
+        }
+      },
+      "GetOrganizationIdentityResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organizationFound": {
+            "type": "boolean"
+          },
+          "organizationIdentity": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrganizationIdentityDto"
+              }
+            ]
+          }
+        }
+      },
       "GetUserOverviewResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -3042,6 +3411,21 @@
           "totalUserCount": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "GetUserProfileResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
           }
         }
       },
@@ -3186,6 +3570,60 @@
           }
         }
       },
+      "MessageDelegationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "delegatedBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "messageType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DelegationMessageType"
+              }
+            ]
+          },
+          "periods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageDelegationPeriodDto"
+            }
+          }
+        }
+      },
+      "MessageDelegationPeriodDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "delegatedTo": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "gridAreaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
       "OrganizationAuditedChange": {
         "type": "string",
         "enum": [
@@ -3257,6 +3695,15 @@
                 "$ref": "#/components/schemas/AddressDto"
               }
             ]
+          }
+        }
+      },
+      "OrganizationIdentityDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
           }
         }
       },
@@ -3376,6 +3823,25 @@
           "Asc",
           "Desc"
         ]
+      },
+      "StopMessageDelegationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "periodId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "stopsAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
       },
       "TokenRequest": {
         "type": "object",
@@ -3624,6 +4090,21 @@
           "CreatedDate",
           "Status"
         ]
+      },
+      "UserProfileUpdateDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        }
       },
       "UserRoleAuditedChange": {
         "type": "string",

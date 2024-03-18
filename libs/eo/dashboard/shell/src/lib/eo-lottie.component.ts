@@ -25,8 +25,8 @@ import lottie, { AnimationItem } from 'lottie-web';
 export class EoLottieComponent implements OnInit, OnDestroy {
   @ViewChild('lottieContainer', { static: true }) lottieContainer!: ElementRef;
   @Input() animationData!: unknown;
-  @Input() width: string = '100%';
-  @Input() height: string = '100%';
+  @Input() width = '100%';
+  @Input() height = '100%';
 
   private animationInstance!: AnimationItem;
 

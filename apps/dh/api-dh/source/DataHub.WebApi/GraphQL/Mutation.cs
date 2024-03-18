@@ -13,10 +13,12 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using HotChocolate;
@@ -49,14 +51,7 @@ public class Mutation
         var actor = await client.ActorGetAsync(actorId).ConfigureAwait(false);
         if (!string.Equals(actor.Name.Value, actorName, StringComparison.Ordinal))
         {
-            var changes = new ChangeActorDto()
-            {
-                Status = actor.Status,
-                Name = new ActorNameDto() { Value = actorName },
-                MarketRoles = actor.MarketRoles,
-            };
-
-            await client.ActorPutAsync(actorId, changes).ConfigureAwait(false);
+            await client.ActorNameAsync(actorId, new ActorNameDto { Value = actorName }).ConfigureAwait(false);
         }
 
         var allContacts = await client.ActorContactGetAsync(actorId).ConfigureAwait(false);
@@ -191,6 +186,44 @@ public class Mutation
         await client
             .ActorContactPostAsync(actorId, input.ActorContact)
             .ConfigureAwait(false);
+
+        return true;
+    }
+
+    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
+    public async Task<bool> UpdateUserProfileAsync(
+           UserProfileUpdateDto userProfileUpdateDto,
+           [Service] IMarketParticipantClient_V1 client)
+    {
+        await client.UserUserprofilePutAsync(userProfileUpdateDto).ConfigureAwait(false);
+        return true;
+    }
+
+    public async Task<bool> ResendWaitingEsettExchangeMessagesAsync([Service] IESettExchangeClient_V1 client)
+    {
+        await client.ResendMessagesWithoutResponseAsync();
+        return true;
+    }
+
+    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
+    public async Task<bool> CreateDelegationsForActorAsync(
+        Guid actorId,
+        CreateMessageDelegationDto delegationDto,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        await client.ActorDelegationPostAsync(delegationDto);
+        return true;
+    }
+
+    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
+    public async Task<bool> StopDelegationAsync(
+        IEnumerable<StopMessageDelegationDto> stopMessageDelegationDto,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        foreach (var dto in stopMessageDelegationDto)
+        {
+            await client.ActorDelegationPutAsync(dto);
+        }
 
         return true;
     }

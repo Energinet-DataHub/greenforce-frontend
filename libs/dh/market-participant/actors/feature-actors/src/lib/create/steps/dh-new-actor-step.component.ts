@@ -17,14 +17,10 @@
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { Component, Input, inject, signal } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import {
-  EicFunction,
-  GetGridAreasForCreateActorDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { EicFunction, GetGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
@@ -49,7 +45,6 @@ import { ActorForm } from '../dh-actor-form.model';
     WattDropdownComponent,
     WattPhoneFieldComponent,
     ReactiveFormsModule,
-    NgIf,
     DhDropdownTranslatorDirective,
   ],
   styles: [
@@ -81,9 +76,11 @@ import { ActorForm } from '../dh-actor-form.model';
         [label]="t('glnOrEicNumber')"
       >
         <watt-field-hint>{{ t('glnOrEicHint') }}</watt-field-hint>
-        <watt-field-error *ngIf="newActorForm.controls.glnOrEicNumber.hasError('invalidGlnOrEic')">
-          {{ t('glnOrEicInvalid') }}
-        </watt-field-error>
+        @if (newActorForm.controls.glnOrEicNumber.hasError('invalidGlnOrEic')) {
+          <watt-field-error>
+            {{ t('glnOrEicInvalid') }}
+          </watt-field-error>
+        }
       </watt-text-field>
 
       <watt-text-field
@@ -101,13 +98,14 @@ import { ActorForm } from '../dh-actor-form.model';
         [label]="t('marketRole')"
       />
 
-      <watt-dropdown
-        *ngIf="showGridAreaOptions()"
-        [options]="gridAreaOptions"
-        [multiple]="true"
-        [formControl]="newActorForm.controls.gridArea"
-        [label]="t('gridArea')"
-      />
+      @if (showGridAreaOptions()) {
+        <watt-dropdown
+          [options]="gridAreaOptions"
+          [multiple]="true"
+          [formControl]="newActorForm.controls.gridArea"
+          [label]="t('gridArea')"
+        />
+      }
     </vater-stack>
     <vater-stack fill="horizontal" align="flex-start" direction="column">
       <h4>{{ t('contact') }}</h4>
@@ -119,9 +117,11 @@ import { ActorForm } from '../dh-actor-form.model';
         [formControl]="newActorForm.controls.contact.controls.email"
         [label]="t('email')"
       >
-        <watt-field-error *ngIf="newActorForm.controls.contact.controls.email.hasError('pattern')">
-          {{ t('wrongEmailPattern') }}
-        </watt-field-error>
+        @if (newActorForm.controls.contact.controls.email.hasError('pattern')) {
+          <watt-field-error>
+            {{ t('wrongEmailPattern') }}
+          </watt-field-error>
+        }
       </watt-text-field>
       <watt-phone-field
         [formControl]="newActorForm.controls.contact.controls.phone"
@@ -144,13 +144,13 @@ export class DhNewActorStepComponent {
     this._apollo
       .query({
         notifyOnNetworkStatusChange: true,
-        query: GetGridAreasForCreateActorDocument,
+        query: GetGridAreasDocument,
       })
       .subscribe((result) => {
         if (result.data?.gridAreas) {
           this.gridAreaOptions = result.data.gridAreas.map((gridArea) => ({
             value: gridArea.id,
-            displayValue: gridArea.name,
+            displayValue: gridArea.displayName,
           }));
         }
       });

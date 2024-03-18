@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -29,18 +29,15 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import {
-  danishTimeZoneIdentifier,
-  WattDatepickerComponent,
-} from '@energinet-datahub/watt/datepicker';
-import { WattDateRange } from '@energinet-datahub/watt/utils/date';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/utils/datepicker';
+import { WattDateRange, dayjs } from '@energinet-datahub/watt/utils/date';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import { zonedTimeToUtc } from 'date-fns-tz';
+
 import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-message-archive-log-search-result.component';
 
 @Component({
@@ -60,7 +57,6 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     WattDatepickerComponent,
     WattTimepickerComponent,
     FormsModule,
-    NgIf,
     AsyncPipe,
     RxLet,
     TranslocoModule,
@@ -120,6 +116,7 @@ export class DhMessageArchiveLogSearchComponent {
   searchCriteria: ArchivedMessageSearchCriteria = {
     dateTimeFrom: '',
     dateTimeTo: '',
+    includeRelatedMessages: false,
   };
 
   constructor() {
@@ -169,10 +166,15 @@ export class DhMessageArchiveLogSearchComponent {
       timeRange,
       documentTypes,
       businessReasons,
+      includeRelated,
     } = this.searchForm.value;
 
-    const dateTimeFrom = zonedTimeToUtc(dateRange?.start ?? '', danishTimeZoneIdentifier);
-    const dateTimeTo = zonedTimeToUtc(dateRange?.end ?? '', danishTimeZoneIdentifier);
+    const dateTimeFrom = dayjs(dateRange?.start ?? '')
+      .utc()
+      .toDate();
+    const dateTimeTo = dayjs(dateRange?.end ?? '')
+      .utc()
+      .toDate();
 
     this.setRanges(timeRange, dateRange, dateTimeFrom, dateTimeTo);
 
@@ -184,6 +186,7 @@ export class DhMessageArchiveLogSearchComponent {
       receiverNumber: receiverNumber === '' ? null : receiverNumber,
       documentTypes: documentTypes?.length === 0 ? null : documentTypes,
       businessReasons: businessReasons?.length === 0 ? null : businessReasons,
+      includeRelatedMessages: includeRelated,
     });
 
     this.store.searchLogs(this.searchCriteria);

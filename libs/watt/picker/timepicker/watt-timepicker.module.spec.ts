@@ -21,10 +21,7 @@ import { fireEvent, render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { danishLocalProviders } from '@energinet-datahub/gf/configuration-danish-locale';
-import { WattDateRange } from '@energinet-datahub/watt/utils/date';
-import { danishDatetimeProviders } from '@energinet-datahub/watt/configuration';
-
+import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 import { WattTimepickerComponent } from './';
 
 

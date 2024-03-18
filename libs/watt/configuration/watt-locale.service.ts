@@ -19,6 +19,7 @@ import { DateAdapter } from '@angular/material/core';
 
 import { WattDateAdapter, WattSupportedLocales } from './watt-date-adapter';
 import { Subject } from 'rxjs';
+import { dayjs } from '@energinet-datahub/watt/utils/date';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,15 @@ export class WattLocaleService {
   constructor(private dateAdapter: DateAdapter<unknown>) {}
 
   setActiveLocale(locale: WattSupportedLocales): void {
+    if (locale === 'da') {
+      import('dayjs/locale/da');
+    }
+
+    if (locale === 'en') {
+      import('dayjs/locale/en');
+    }
+
+    dayjs.locale(locale);
     (this.dateAdapter as WattDateAdapter).setActiveLocale(locale);
     this.onLocaleChange$.next(locale);
   }

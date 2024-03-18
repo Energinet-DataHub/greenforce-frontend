@@ -29,7 +29,17 @@ limitations under the License.
     [placeholder]="translate('gridArea')"
   />
 
-  <watt-date-range-chip [formControl]="formGroup.controls.period!">{{
+  <watt-dropdown
+    dhDropdownTranslator
+    translate="eSett.meteringGridAreaImbalance.shared.valuesToInclude"
+    [formControl]="formGroup.controls.valuesToInclude!"
+    [options]="valuestoIncludeOptions"
+    [chipMode]="true"
+    [showResetOption]="false"
+    [placeholder]="translate('valuesToInclude')"
+  />
+
+  <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.period!">{{
     translate("createdPeriod")
   }}</watt-date-range-chip>
 

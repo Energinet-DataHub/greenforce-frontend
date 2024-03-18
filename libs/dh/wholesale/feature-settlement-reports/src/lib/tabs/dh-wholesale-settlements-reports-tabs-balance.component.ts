@@ -31,18 +31,18 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { ApolloError } from '@apollo/client/errors';
 import { Subscription, switchMap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import { addDays } from 'date-fns';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/utils/datepicker';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import {
   WholesaleCalculationType,
   WholesaleSettlementReportHttp,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { Actor, ActorFilter, GridArea, streamToFile } from '@energinet-datahub/dh/wholesale/domain';
+import { Actor, ActorFilter, GridArea } from '@energinet-datahub/dh/wholesale/domain';
+import { streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import {
@@ -61,6 +61,7 @@ import {
   GridAreaDto,
   PriceAreaCode,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { dayjs } from '@energinet-datahub/watt/utils/date';
 
 export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
 
@@ -186,6 +187,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
               code: g.code,
               id: g.code,
               name: g.name,
+              displayName: g.displayName,
               priceAreaCode: PriceAreaCode.Dk1,
               validFrom: g.validFrom,
               validtTo: g.validTo,
@@ -204,7 +206,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
         gridAreasClone.sort((a: GridArea, b: GridArea) => Number(a.code) - Number(b.code));
 
         this.gridAreas = gridAreasClone.map((g: GridArea) => ({
-          displayValue: `${g.name} (${g.code})`,
+          displayValue: g.displayName,
           value: g.code,
         }));
 
@@ -241,12 +243,12 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
 
     this.toastService.open({
       type: 'loading',
-      message: this.transloco.translate('wholesale.settlementReports.downloadStart'),
+      message: this.transloco.translate('shared.downloadStart'),
     });
 
     const { start, end } = this.searchForm.controls.period.value as { start: string; end: string };
-    const startDate = addDays(new Date(start), 1);
-    const endDate = addDays(new Date(end), 1);
+    const startDate = dayjs(start).add(1, 'day').toDate();
+    const endDate = dayjs(end).add(1, 'day').toDate();
 
     this.httpClient
       .v1WholesaleSettlementReportDownloadGet(
@@ -263,7 +265,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
         error: () =>
           this.toastService.open({
             type: 'danger',
-            message: this.transloco.translate('wholesale.settlementReports.downloadFailed'),
+            message: this.transloco.translate('shared.downloadFailed'),
           }),
       });
   }

@@ -28,7 +28,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
+import { WattDatePipe, dayjs } from '@energinet-datahub/watt/utils/date';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -42,9 +42,6 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import { BehaviorSubject, filter, switchMap } from 'rxjs';
-import sub from 'date-fns/sub';
-import startOfDay from 'date-fns/startOfDay';
-import endOfDay from 'date-fns/endOfDay';
 import { Apollo } from 'apollo-angular';
 import {
   GetCalculationsDocument,
@@ -86,8 +83,8 @@ export class DhCalculationsTableComponent implements OnInit {
 
   filter$ = new BehaviorSubject<GetCalculationsQueryVariables>({
     executionTime: {
-      start: sub(startOfDay(new Date()), { days: 10 }),
-      end: endOfDay(new Date()),
+      start: dayjs().startOf('day').subtract(10, 'days').toDate(),
+      end: dayjs().endOf('day').toDate(),
     },
   });
 

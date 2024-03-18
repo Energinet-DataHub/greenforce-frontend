@@ -16,6 +16,7 @@
  */
 import { http, HttpResponse } from 'msw';
 import { certificatesResponse } from './data/certificates';
+import { certificatesActivityLogResponse } from './data/activity-logs';
 
 export function certificatesMocks(apiBase: string) {
   return [
@@ -23,6 +24,7 @@ export function certificatesMocks(apiBase: string) {
     getCertificatesContracts(apiBase),
     postCertificatesContracts(apiBase),
     patchCertificatesContracts(apiBase),
+    postCertificatesActivityLog(apiBase),
   ];
 }
 
@@ -153,5 +155,19 @@ function postCertificatesContracts(apiBase: string) {
 function patchCertificatesContracts(apiBase: string) {
   return http.patch(`${apiBase}/certificates/contracts/:id`, () => {
     return new HttpResponse(null, { status: 200 });
+  });
+}
+
+function postCertificatesActivityLog(apiBase: string) {
+  return http.post(`${apiBase}/certificates/activity-log`, () => {
+    const state = localStorage.getItem('certificates-activity-log');
+
+    if (state === 'no-log-entries') {
+      return HttpResponse.json({ activityLogEntries: [] });
+    } else if (state === 'activity-log-has-error') {
+      return HttpResponse.error();
+    } else {
+      return HttpResponse.json(certificatesActivityLogResponse);
+    }
   });
 }

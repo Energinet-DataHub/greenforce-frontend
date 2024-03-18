@@ -33,7 +33,7 @@ import { Apollo } from 'apollo-angular';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/utils/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import {
@@ -43,8 +43,7 @@ import {
   TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-
-import { DhOutgoingMessagesFilters } from '../dh-outgoing-messages-filters';
+import { DhOutgoingMessagesFilters } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -107,6 +106,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
       gridAreas: dhMakeFormControl(this.initial?.gridAreas),
       status: dhMakeFormControl(this.initial?.status),
       period: dhMakeFormControl(this.initial?.period),
+      created: dhMakeFormControl(this.initial?.created),
     });
 
     this.subscription = this.formGroup.valueChanges
@@ -150,7 +150,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
       map((gridAreas) =>
         gridAreas.map((gridArea) => ({
           value: gridArea.code,
-          displayValue: `${gridArea.name} (${gridArea.code})`,
+          displayValue: gridArea.displayName,
         }))
       )
     );

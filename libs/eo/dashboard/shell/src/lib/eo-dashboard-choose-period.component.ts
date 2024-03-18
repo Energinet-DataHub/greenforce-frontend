@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { JsonPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, DestroyRef, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -25,6 +25,7 @@ import {
   WattDateChipComponent,
   WattDateRangeChipComponent,
 } from '@energinet-datahub/watt/datepicker';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
@@ -41,6 +42,8 @@ import {
   subDays,
 } from 'date-fns';
 
+import { da, enGB } from 'date-fns/locale';
+
 import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 
@@ -53,7 +56,6 @@ import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
     WattDateChipComponent,
     WattDateRangeChipComponent,
     WattFormChipDirective,
-    JsonPipe,
   ],
   selector: 'eo-dashboard-choose-period',
   styles: [
@@ -116,21 +118,14 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
   @Output() periodChanged = new EventEmitter<eoDashboardPeriod>();
 
   private _dateAdapter = inject(DateAdapter);
+  private transloco = inject(TranslocoService);
 
   private destroyRef = inject(DestroyRef);
   private startYear = 2022; // Year of when year and month selection should start
 
-  periods: WattDropdownOption[] = [
-    { value: 'day', displayValue: 'Day' },
-    { value: 'week', displayValue: 'Week' },
-    { value: 'month', displayValue: 'Month' },
-    { value: 'year', displayValue: 'Year' },
-  ];
+  periods: WattDropdownOption[] = [];
 
-  months: WattDropdownOption[] = [
-    { value: 'last30days', displayValue: 'Last 30 days' },
-    ...this.generateMonths(),
-  ];
+  months: WattDropdownOption[] = [];
 
   years: WattDropdownOption[] = this.generateYears();
   private currentYear = new Date().getFullYear();
@@ -147,6 +142,23 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.transloco
+      .selectTranslateObject('periodSelector')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((translations) => {
+        // Set periods
+        this.periods = Object.keys(translations.periods || {}).map((key) => ({
+          value: key,
+          displayValue: translations.periods[key],
+        }));
+
+        // Set months
+        this.months = [
+          { value: 'last30days', displayValue: translations['last30Days'] },
+          ...this.generateMonths(),
+        ];
+      });
+
     this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
       const period = value.period;
 
@@ -188,13 +200,19 @@ export class EoDashboardChoosePeriodComponent implements OnInit {
       startMonth = year === this.startYear ? startMonth : 1;
 
       for (let month = endMonth; month >= startMonth; month--) {
-        const monthValue = month.toString().padStart(2, '0');
-        const monthDisplayValue = format(new Date(year, month - 1), 'MMMM yyyy');
-        months.push({ value: `${monthValue}-${year}`, displayValue: monthDisplayValue });
+        months.push(this.getMonth(year, month));
       }
     }
 
     return months;
+  }
+
+  getMonth(year: number, month: number) {
+    const monthValue = month.toString().padStart(2, '0');
+    const locale = this.transloco.getActiveLang() === 'da' ? da : enGB;
+
+    const monthDisplayValue = format(new Date(year, month - 1), 'MMMM yyyy', { locale });
+    return { value: `${monthValue}-${year}`, displayValue: monthDisplayValue };
   }
 
   private generateYears(): WattDropdownOption[] {

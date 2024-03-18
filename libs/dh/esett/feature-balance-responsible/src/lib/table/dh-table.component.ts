@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Sort } from '@angular/material/sort';
 
@@ -40,7 +39,6 @@ import { DhBalanceResponsibleDrawerComponent } from '../drawer/dh-drawer.compone
     `,
   ],
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
 

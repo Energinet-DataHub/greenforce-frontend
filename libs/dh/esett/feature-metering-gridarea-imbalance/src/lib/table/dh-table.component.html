@@ -20,10 +20,11 @@ limitations under the License.
     [columns]="columns"
     [loading]="isLoading"
     [sortClear]="false"
-    sortBy="receivedDateTime"
-    sortDirection="desc"
+    [sortBy]="sortMetadata.active"
+    [sortDirection]="sortMetadata.direction"
     [activeRow]="activeRow"
     (rowClick)="onRowClick($event)"
+    (sortChange)="sortChange.emit($event)"
   >
     <ng-container
       *wattTableCell="
@@ -32,7 +33,7 @@ limitations under the License.
         let imbalance
       "
     >
-      {{ imbalance.documentDateTime | wattDate : "long" }}
+      {{ imbalance.documentDateTime | wattDate: "long" }}
     </ng-container>
 
     <ng-container
@@ -42,7 +43,7 @@ limitations under the License.
         let imbalance
       "
     >
-      {{ imbalance.receivedDateTime | wattDate : "long" }}
+      {{ imbalance.receivedDateTime | wattDate: "long" }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let imbalance">
@@ -52,24 +53,24 @@ limitations under the License.
     <ng-container
       *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let imbalance"
     >
-      {{ imbalance.gridAreaCode }}
+      {{ imbalance.gridArea?.displayName }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let imbalance">
-      {{ imbalance.periodStart | wattDate : "short" }} -
-      {{ imbalance.periodEnd | wattDate : "short" }}
+      {{ imbalance.periodStart | wattDate: "short" }} -
+      {{ imbalance.periodEnd | wattDate: "short" }}
     </ng-container>
   </watt-table>
 
-  <vater-stack
-    fill="vertical"
-    justify="center"
-    *ngIf="!isLoading && tableDataSource.filteredData.length === 0"
-  >
-    <watt-empty-state
-      [icon]="hasError ? 'custom-power' : 'cancel'"
-      [title]="hasError ? t('errorTitle') : t('emptyTitle')"
-      [message]="hasError ? t('errorMessage') : t('emptyMessage')"
-    />
-  </vater-stack>
+  @if (!isLoading && tableDataSource.filteredData.length === 0) {
+    <vater-stack fill="vertical" justify="center">
+      <watt-empty-state
+        [icon]="hasError ? 'custom-power' : 'cancel'"
+        [title]="hasError ? t('errorTitle') : t('emptyTitle')"
+        [message]="hasError ? t('errorMessage') : t('emptyMessage')"
+      />
+    </vater-stack>
+  }
 </vater-flex>
+
+<dh-metering-grid-imbalance-drawer (closed)="onClose()" />

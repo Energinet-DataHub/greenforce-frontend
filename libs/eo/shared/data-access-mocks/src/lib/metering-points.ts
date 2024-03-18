@@ -21,53 +21,87 @@ export function meteringPointsMocks(apiBase: string) {
 }
 
 function getMeteringPoints(apiBase: string) {
-  return http.get(`${apiBase}/meteringpoints`, () => {
+  return http.get(`${apiBase}/measurements/meteringpoints`, () => {
     const state = localStorage.getItem('metering-points');
     const city = 'Dummy city';
     const productionMeteringPoints = [
       {
-        gsrn: '571313130083531004',
+        gsrn: '571313130083535430',
         gridArea: 'DK1',
-        type: 'production',
+        type: 'Production',
         subMeterType: 'Virtual',
-        assetType: 'Solar',
         address: {
-          address1: 'Dummy street 3',
+          address1: 'Producent Vej 1',
           address2: '',
+          locality: null,
           city,
           postalCode: '9999',
           country: 'DK',
         },
+        technology: {
+          aibTechCode: 'T020000',
+          aibFuelCode: 'F01050100',
+        },
+        canBeUsedForIssuingCertificates: true,
+      },
+      {
+        gsrn: '571313130083531004',
+        gridArea: 'DK1',
+        type: 'Production',
+        subMeterType: 'Virtual',
+        address: {
+          address1: 'Producent Vej 3',
+          address2: '',
+          locality: null,
+          city,
+          postalCode: '9999',
+          country: 'DK',
+        },
+        technology: {
+          aibTechCode: 'T070000',
+          aibFuelCode: 'F00000000',
+        },
+        canBeUsedForIssuingCertificates: false,
       },
     ];
     const consumptionMeteringPoints = [
       {
-        gsrn: '571313171355435420',
+        gsrn: '571313171355435421',
         gridArea: 'DK1',
-        type: 'consumption',
+        type: 'Consumption',
         subMeterType: 'Virtual',
-        assetType: 'Solar',
         address: {
-          address1: 'Dummy street 2',
+          address1: 'Producent Vej 2',
           address2: '1 11A',
+          locality: null,
           city,
           postalCode: '9999',
           country: 'DK',
         },
+        technology: {
+          aibTechCode: 'T010000',
+          aibFuelCode: 'F01040100',
+        },
+        canBeUsedForIssuingCertificates: true,
       },
       {
-        gsrn: '571313171355411111',
+        gsrn: '571313171355435420',
         gridArea: 'DK1',
-        type: 'consumption',
+        type: 'Consumption',
         subMeterType: 'Virtual',
-        assetType: 'Solar',
         address: {
-          address1: 'Dummy street 2',
+          address1: 'Producent Vej 2',
           address2: '1 11A',
+          locality: null,
           city,
           postalCode: '9999',
           country: 'DK',
         },
+        technology: {
+          aibTechCode: 'T010000',
+          aibFuelCode: 'F01040100',
+        },
+        canBeUsedForIssuingCertificates: true,
       },
     ];
 
@@ -85,6 +119,6 @@ function getMeteringPoints(apiBase: string) {
       data = [...consumptionMeteringPoints, ...productionMeteringPoints];
     }
 
-    return HttpResponse.json({ meteringPoints: data }, { status: 200 });
+    return HttpResponse.json({ result: data }, { status: 200 });
   });
 }

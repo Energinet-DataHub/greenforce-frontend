@@ -28,7 +28,6 @@ import { DhLanguagePickerComponent } from '@energinet-datahub/dh/globalization/f
 import {
   DhInactivityDetectionService,
   DhSelectedActorComponent,
-  DhSignupMitIdComponent,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
@@ -49,7 +48,6 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
     DhProfileAvatarComponent,
     WattShellComponent,
     DhSelectedActorComponent,
-    DhSignupMitIdComponent,
   ],
 })
 export class DhCoreShellComponent {

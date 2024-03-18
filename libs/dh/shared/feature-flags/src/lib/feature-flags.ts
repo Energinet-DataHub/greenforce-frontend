@@ -31,13 +31,15 @@ export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
  *   disabledEnvironments: [DhAppEnvironment.prod],
  * },
  */
-
 export const dhFeatureFlagsConfig = {
-  'avatar-feature-flag': {
-    created: '05-02-2024',
-    disabledEnvironments: Object.values(DhAppEnvironment).filter(
-      (x) => x !== DhAppEnvironment.sandbox_002 && x !== DhAppEnvironment.local
-    ),
+  'market-participant-delegation': {
+    created: '05-03-2024',
+    disabledEnvironments: [
+      DhAppEnvironment.preprod,
+      DhAppEnvironment.prod,
+      DhAppEnvironment.test_001,
+      DhAppEnvironment.test_002,
+    ],
   },
 } satisfies FeatureFlagConfig;
 
