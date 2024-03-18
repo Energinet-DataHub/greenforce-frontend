@@ -49,7 +49,11 @@ import { WattFieldComponent } from '@energinet-datahub/watt/field';
 import { WattLocaleService, WattSupportedLocales } from '@energinet-datahub/watt/configuration';
 import { WattDateRange, WattDateUtils } from '@energinet-datahub/watt/utils/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattPlaceholderMaskComponent, WattPickerBase, WattPickerValue } from '@energinet-datahub/watt/picker/shared';
+import {
+  WattPlaceholderMaskComponent,
+  WattPickerBase,
+  WattPickerValue,
+} from '@energinet-datahub/watt/picker/shared';
 
 const dateShortFormat = 'DD-MM-YYYY';
 const danishLocaleCode = 'da';
