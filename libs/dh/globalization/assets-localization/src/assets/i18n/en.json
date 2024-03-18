@@ -164,6 +164,7 @@
       "delegations": "Delegates",
       "save": "Save set up",
       "stopDelegationSuccess": "Delegation stopped",
+      "stopNow": "Stop delgation now",
       "cancel": "Close",
       "stopModalTitle": "Stop delegation?",
       "stopDate": "Stop on date",
