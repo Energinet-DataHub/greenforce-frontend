@@ -23,7 +23,7 @@ import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatepickerV2Component } from '@energinet-datahub/watt/utils/datepicker';
+import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
 
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';

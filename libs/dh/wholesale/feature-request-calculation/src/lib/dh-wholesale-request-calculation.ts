@@ -45,7 +45,7 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { WattDatepickerV2Component } from '@energinet-datahub/watt/utils/datepicker';
+import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange, dayjs } from '@energinet-datahub/watt/utils/date';

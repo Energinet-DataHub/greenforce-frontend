@@ -24,7 +24,7 @@
         "configDir": "libs/watt/.storybook",
         "browserTarget": "watt:build-storybook",
         "compodoc": true,
-        "compodocArgs": ["-e", "json", "-d", "./libs/watt"]
+        "compodocArgs": ["-e", "json", "-d", "./libs/watt/src/lib"]
       },
       "configurations": {
         "ci": {
@@ -39,7 +39,7 @@
       "options": {
         "styles": ["libs/watt/.storybook/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/watt/core/styles"]
+          "includePaths": ["libs/watt/src/lib/core/styles"]
         },
         "outputDir": "dist/designsystem",
         "configDir": "libs/watt/.storybook",

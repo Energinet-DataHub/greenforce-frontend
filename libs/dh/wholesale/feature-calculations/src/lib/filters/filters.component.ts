@@ -31,7 +31,7 @@ import { debounceTime, map } from 'rxjs';
 
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/utils/datepicker';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import {

@@ -22,7 +22,7 @@ import { WattFieldIntlService } from '@energinet-datahub/watt/field';
 import { WattPaginatorIntlService } from '@energinet-datahub/watt/table';
 import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
 import { WattPhoneFieldIntlService } from '@energinet-datahub/watt/phone-field';
-import { WattDatepickerIntlService } from '@energinet-datahub/watt/utils/datepicker';
+import { WattDatepickerIntlService } from '@energinet-datahub/watt/datepicker';
 
 @Injectable()
 export class DhClipboardIntlService extends WattClipboardIntlService {

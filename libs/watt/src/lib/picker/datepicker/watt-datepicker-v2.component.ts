@@ -49,10 +49,7 @@ import { WattFieldComponent } from '@energinet-datahub/watt/field';
 import { WattLocaleService, WattSupportedLocales } from '@energinet-datahub/watt/configuration';
 import { WattDateRange, WattDateUtils } from '@energinet-datahub/watt/utils/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-
-import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-placeholder-mask.component';
-import { WattPickerBase } from '../shared/watt-picker-base';
-import { WattPickerValue } from '../shared/watt-picker-value';
+import { WattPlaceholderMaskComponent, WattPickerBase, WattPickerValue } from '@energinet-datahub/watt/picker/shared';
 
 const dateShortFormat = 'DD-MM-YYYY';
 const danishLocaleCode = 'da';
@@ -60,7 +57,7 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 /**
  * Usage:
- * `import { WattDatepickerComponent } from '@energinet-datahub/watt/utils/datepicker';`
+ * `import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';`
  *
  * IMPORTANT:
  * The styling is calculated based on our monospaced font.

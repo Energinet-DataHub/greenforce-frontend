@@ -33,7 +33,7 @@ import { Apollo } from 'apollo-angular';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/utils/datepicker';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import {
   dhEnumToWattDropdownOptions,

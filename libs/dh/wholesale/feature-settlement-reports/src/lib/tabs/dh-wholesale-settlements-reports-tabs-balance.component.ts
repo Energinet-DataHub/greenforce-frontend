@@ -34,7 +34,7 @@ import { Apollo } from 'apollo-angular';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/utils/datepicker';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import {
   WholesaleCalculationType,

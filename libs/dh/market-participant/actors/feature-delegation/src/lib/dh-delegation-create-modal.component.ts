@@ -31,7 +31,7 @@ import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/utils/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 

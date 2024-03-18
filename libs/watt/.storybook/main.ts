@@ -3,7 +3,7 @@ import type { StorybookConfig } from '@storybook/angular';
 const config: StorybookConfig = {
   staticDirs: [
     {
-      from: '../core/assets',
+      from: '../src/assets',
       to: 'assets/watt',
     },
   ],

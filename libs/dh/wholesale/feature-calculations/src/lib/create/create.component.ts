@@ -27,7 +27,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/utils/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDatePipe, WattDateRange, dayjs } from '@energinet-datahub/watt/utils/date';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
