@@ -37,7 +37,7 @@ import {
   Validator,
   Validators,
 } from '@angular/forms';
-import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
@@ -54,7 +54,7 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
     CommonModule,
     ReactiveFormsModule,
     EoTransfersTimepickerComponent,
-    WattDatepickerV2Component,
+    WattDatepickerComponent,
   ],
   styles: [
     `
@@ -138,7 +138,7 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
   ],
   template: `
     <ng-container [formGroup]="form">
-      <watt-datepicker-v2
+      <watt-datepicker
         [label]="label"
         #endDatePicker
         formControlName="date"
