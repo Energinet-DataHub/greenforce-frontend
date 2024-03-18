@@ -238,9 +238,13 @@ function getOrganizationById() {
   return mockGetOrganizationByIdQuery(async ({ variables }) => {
     const { id } = variables;
 
-    const organizationById = getOrganizationsQueryMock.organizations.find(
-      (a) => a.organizationId === id
-    ) as Organization;
+    const organizationById = {
+      ...getOrganizationsQueryMock.organizations.find((a) => a.organizationId === id),
+      address: {
+        __typename: 'AddressDto',
+        country: 'DK',
+      },
+    } as Organization;
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', organizationById },
