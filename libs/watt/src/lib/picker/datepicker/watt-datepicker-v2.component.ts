@@ -46,7 +46,7 @@ import { MaskitoModule } from '@maskito/angular';
 import { MaskitoOptions } from '@maskito/core';
 
 import { WattFieldComponent } from '@energinet-datahub/watt/field';
-import { WattLocaleService, WattSupportedLocales } from '@energinet-datahub/watt/configuration';
+//import { WattLocaleService, WattSupportedLocales } from '@energinet-datahub/watt/configuration';
 import { WattDateRange, WattDateUtils } from '@energinet-datahub/watt/utils/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
@@ -90,8 +90,8 @@ export class WattDatepickerV2Component extends WattPickerBase {
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected override changeDetectionRef = inject(ChangeDetectorRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });
-  private localeService = inject(WattLocaleService);
-  private locale: WattSupportedLocales = inject(LOCALE_ID) as WattSupportedLocales;
+  //private localeService = inject(WattLocaleService);
+  private locale: string = inject(LOCALE_ID) as string;
   private destroyRef = inject(DestroyRef);
   private dateUtils = inject(WattDateUtils);
 
@@ -181,7 +181,7 @@ export class WattDatepickerV2Component extends WattPickerBase {
   /**
    * @ignore
    */
-  getPlaceholderByLocale(locale: WattSupportedLocales): string {
+  getPlaceholderByLocale(locale: string): string {
     return locale === 'da' ? 'dd-mm-åååå' : 'dd-mm-yyyy';
   }
   getRangePlaceholder(): string {
@@ -189,12 +189,12 @@ export class WattDatepickerV2Component extends WattPickerBase {
   }
   constructor() {
     super(`watt-datepicker-v2-${WattDatepickerV2Component.nextId++}`);
-    this.localeService.onLocaleChange$
+    /*this.localeService.onLocaleChange$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((locale) => {
         this.datePlaceholder = this.getPlaceholderByLocale(locale);
         this.rangePlaceholder = this.getRangePlaceholder();
-      });
+      });*/
   }
 
   protected initSingleInput() {
