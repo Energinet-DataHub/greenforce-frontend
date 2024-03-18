@@ -377,11 +377,11 @@
       "@energinet-datahub/watt/core/breakpoints": [
         "libs/watt/src/lib/core/breakpoints/index.ts"
       ],
-      "@energinet-datahub/watt/core/datetime": [
-        "libs/watt/src/lib/core/datetime/index.ts"
-      ],
       "@energinet-datahub/watt/core/color": [
         "libs/watt/src/lib/core/color/index.ts"
+      ],
+      "@energinet-datahub/watt/core/datetime": [
+        "libs/watt/src/lib/core/datetime/index.ts"
       ],
       "@energinet-datahub/watt/data": ["libs/watt/src/lib/data/index.ts"],
       "@energinet-datahub/watt/datepicker": [
