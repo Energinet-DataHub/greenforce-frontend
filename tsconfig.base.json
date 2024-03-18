@@ -387,6 +387,9 @@
       "@energinet-datahub/watt/datepicker": [
         "libs/watt/src/lib/picker/datepicker/index.ts"
       ],
+      "@energinet-datahub/watt/radio": [
+        "libs/watt/src/lib/radio/index.ts"
+      ],
       "@energinet-datahub/watt/description-list": [
         "libs/watt/src/lib/description-list/index.ts"
       ],
