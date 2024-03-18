@@ -14,8 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, inject, signal } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, ViewChild, ViewEncapsulation, inject, signal } from '@angular/core';
+import {
+  FormControl,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 import { Apollo, MutationResult } from 'apollo-angular';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
@@ -37,12 +42,15 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhDelegation } from '../dh-delegations';
+import { WattRadioComponent } from '@energinet-datahub/watt/radio';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
   selector: 'dh-delegation-stop-modal',
+  encapsulation: ViewEncapsulation.None,
   styles: `
-    :host {
+    dh-delegation-stop-modal {
       display: block;
     }
   `,
@@ -53,6 +61,7 @@ import { DhDelegation } from '../dh-delegations';
     WATT_MODAL,
     WattButtonComponent,
     WattDatepickerV2Component,
+    WattRadioComponent,
 
     VaterStackComponent,
   ],
@@ -65,11 +74,23 @@ import { DhDelegation } from '../dh-delegations';
       [formGroup]="stopDelegationForm"
       (ngSubmit)="stopSelectedDelegations()"
     >
-      <vater-stack align="flex-start">
-        <watt-datepicker-v2
-          [label]="t('stopDate')"
-          [formControl]="stopDelegationForm.controls.stopDate"
-        />
+      <vater-stack align="flex-start" gap="m">
+        <watt-radio
+          group="stopDate"
+          [formControl]="stopDelegationForm.controls.selectedOptions"
+          value="stopNow"
+          >{{ t('stopNow') }}</watt-radio
+        >
+        <vater-stack direction="row" gap="m">
+          <watt-radio
+            group="stopDate"
+            [formControl]="stopDelegationForm.controls.selectedOptions"
+            value="stopOnDate"
+          >
+            {{ t('stopDate') }}
+          </watt-radio>
+          <watt-datepicker-v2 [min]="date" [formControl]="stopDelegationForm.controls.stopDate" />
+        </vater-stack>
       </vater-stack>
       <watt-modal-actions>
         <watt-button (click)="closeModal(false)" variant="secondary">
@@ -92,14 +113,27 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
   private _toastService = inject(WattToastService);
   private _apollo = inject(Apollo);
 
+  date = new Date();
   isSaving = signal(false);
 
   @ViewChild(WattModalComponent)
   modal: WattModalComponent | undefined;
 
   stopDelegationForm = this._fb.group({
-    stopDate: [null, Validators.required],
+    selectedOptions: new FormControl<'stopNow' | 'stopOnDate'>('stopNow', { nonNullable: true }),
+    stopDate: [{ value: null, disabled: true }, Validators.required],
   });
+
+  constructor() {
+    super();
+    this.stopDelegationForm.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      if (value.selectedOptions === 'stopNow') {
+        this.stopDelegationForm.controls.stopDate.disable();
+      } else {
+        this.stopDelegationForm.controls.stopDate.enable();
+      }
+    });
+  }
 
   closeModal(result: boolean) {
     this.modal?.close(result);
@@ -108,9 +142,9 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
   stopSelectedDelegations() {
     if (this.stopDelegationForm.invalid) return;
 
-    const { stopDate } = this.stopDelegationForm.getRawValue();
+    const { stopDate, selectedOptions } = this.stopDelegationForm.getRawValue();
 
-    if (!stopDate) return;
+    if (!stopDate && selectedOptions === 'stopOnDate') return;
 
     this.isSaving.set(true);
 
@@ -124,7 +158,7 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
               return {
                 id: delegation.id,
                 periodId: delegation.periodId,
-                stopsAt: stopDate,
+                stopsAt: selectedOptions === 'stopNow' ? new Date() : stopDate,
               } as StopMessageDelegationDtoInput;
             }),
           },
@@ -153,10 +187,9 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
         type: 'success',
         message: translate('marketParticipant.delegation.stopDelegationSuccess'),
       });
-
-      this.closeModal(true);
     }
 
+    this.closeModal(true);
     this.isSaving.set(false);
   }
 }

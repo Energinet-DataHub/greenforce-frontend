@@ -164,6 +164,7 @@
       "delegations": "Delegeret",
       "save": "Gem opsætning",
       "stopDelegationSuccess": "Delegering stoppet",
+      "stopNow": "Stop delegering nu",
       "cancel": "Luk",
       "stopModalTitle": "Stop delegering?",
       "stopDate": "Stop på dato",
