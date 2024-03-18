@@ -44,7 +44,7 @@ import { DhMessageArchiveDocumentStore } from '@energinet-datahub/dh/message-arc
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattBreakpoint, WattBreakpointsObserver } from '@energinet-datahub/watt/breakpoints';
+import { WattBreakpoint, WattBreakpointsObserver } from '@energinet-datahub/watt/core/breakpoints';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,

@@ -22,7 +22,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter, map, switchMap, first } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WattBreakpoint, WattBreakpointsObserver } from '@energinet-datahub/watt/breakpoints';
+import { WattBreakpoint, WattBreakpointsObserver } from '@energinet-datahub/watt/core/breakpoints';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({

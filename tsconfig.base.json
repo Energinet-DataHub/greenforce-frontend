@@ -325,7 +325,7 @@
       "@energinet-datahub/watt/breadcrumbs": [
         "libs/watt/breadcrumbs/index.ts"
       ],
-      "@energinet-datahub/watt/breakpoints": [
+      "@energinet-datahub/watt/core/breakpoints": [
         "libs/watt/core/breakpoints/index.ts"
       ],
       "@energinet-datahub/watt/button": [
@@ -346,7 +346,7 @@
       "@energinet-datahub/watt/code": [
         "libs/watt/code/index.ts"
       ],
-      "@energinet-datahub/watt/color": [
+      "@energinet-datahub/watt/core/color": [
         "libs/watt/core/color/index.ts"
       ],
       "@energinet-datahub/watt/configuration": [

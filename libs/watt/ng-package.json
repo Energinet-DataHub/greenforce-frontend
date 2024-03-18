@@ -6,7 +6,7 @@
     { "input": "core/breakpoints", "glob": "**/*.scss", "output": "core/breakpoints" },
     { "input": "core/spacing", "glob": "**/*.scss", "output": "core/spacing" },
     { "input": "core/styles/@energinet-datahub/watt", "glob": "**/*.scss", "output": "core/styles/@energinet-datahub/watt" },
-    { "input": "core/typography", "glob": "**/*.scss", "output": "core/typography" },
+    { "input": "core/typography", "glob": "**/*.scss", "output": "core/typography" }
   ],
   "lib": {
     "entryFile": "index.ts"

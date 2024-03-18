@@ -29,7 +29,7 @@ import {
 } from 'rxjs';
 
 import { WattIntersectionObserverService } from '@energinet-datahub/watt/utils/intersection-observer';
-import { WattColor } from '@energinet-datahub/watt/color';
+import { WattColor } from '@energinet-datahub/watt/core/color';
 
 export interface WattMaskedInput {
   inputMask: Inputmask.Instance;
