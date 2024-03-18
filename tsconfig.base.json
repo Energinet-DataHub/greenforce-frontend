@@ -436,11 +436,11 @@
       ],
       "@energinet-datahub/watt/toast": ["libs/watt/src/lib/toast/index.ts"],
       "@energinet-datahub/watt/tooltip": ["libs/watt/src/lib/tooltip/index.ts"],
-      "@energinet-datahub/watt/utils/intersection-observer": [
-        "libs/watt/src/lib/utils/intersection-observer/index.ts"
-      ],
       "@energinet-datahub/watt/utils/date": [
         "libs/watt/src/lib/utils/date/index.ts"
+      ],
+      "@energinet-datahub/watt/utils/intersection-observer": [
+        "libs/watt/src/lib/utils/intersection-observer/index.ts"
       ],
       "@energinet-datahub/watt/utils/lifecycle": [
         "libs/watt/src/lib/utils/lifecycle/index.ts"
