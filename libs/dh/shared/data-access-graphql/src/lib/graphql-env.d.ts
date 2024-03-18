@@ -569,6 +569,9 @@ export type introspection = {
           },
           {
             "name": "SerialEnergyTrader"
+          },
+          {
+            "name": "Delegated"
           }
         ]
       },
@@ -686,6 +689,82 @@ export type introspection = {
       },
       {
         "kind": "OBJECT",
+        "name": "ExchangeEventSearchResult",
+        "fields": [
+          {
+            "name": "gridArea",
+            "type": {
+              "kind": "OBJECT",
+              "name": "GridAreaDto",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "documentId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "created",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "calculationType",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "ExchangeEventCalculationType",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "timeSeriesType",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "TimeSeriesType",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "documentStatus",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "DocumentStatus",
+                "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "GridAreaDto",
         "fields": [
           {
@@ -695,6 +774,18 @@ export type introspection = {
               "ofType": {
                 "kind": "ENUM",
                 "name": "PriceAreaCode",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "displayName",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -859,6 +950,221 @@ export type introspection = {
               "kind": "SCALAR",
               "name": "DateTime",
               "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MessageDelegationType",
+        "fields": [
+          {
+            "name": "gridArea",
+            "type": {
+              "kind": "OBJECT",
+              "name": "GridAreaDto",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "delegatedBy",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Actor",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "delegatedTo",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Actor",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "status",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "ActorDelegationStatus",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "UUID",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "periodId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "UUID",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "messageType",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "DelegationMessageType",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "startsAt",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "expiresAt",
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MeteringGridAreaImbalanceSearchResult",
+        "fields": [
+          {
+            "name": "gridArea",
+            "type": {
+              "kind": "OBJECT",
+              "name": "GridAreaDto",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "documentDateTime",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "receivedDateTime",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "periodStart",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "periodEnd",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "incomingImbalancePerDay",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "MeteringGridAreaImbalancePerDayDto",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "outgoingImbalancePerDay",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "MeteringGridAreaImbalancePerDayDto",
+                    "ofType": null
+                  }
+                }
+              }
             },
             "args": []
           }
@@ -2126,6 +2432,108 @@ export type introspection = {
             ]
           },
           {
+            "name": "downloadEsettExchangeEvents",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "locale",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "periodInterval",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "DateRange",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "createdInterval",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "DateRange",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "gridAreaCode",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "calculationType",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "ExchangeEventCalculationType",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "documentStatus",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "DocumentStatus",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "timeSeriesType",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "TimeSeriesType",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "documentId",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "sortProperty",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "ExchangeEventSortProperty",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "sortDirection",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "SortDirection",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "meteringGridAreaImbalance",
             "type": {
               "kind": "NON_NULL",
@@ -2191,6 +2599,106 @@ export type introspection = {
                 }
               },
               {
+                "name": "valuesToInclude",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "MeteringGridImbalanceValuesToInclude",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "sortProperty",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "MeteringGridAreaImbalanceSortProperty",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "sortDirection",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "SortDirection",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "downloadMeteringGridAreaImbalance",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "locale",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "createdFrom",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "createdTo",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "gridAreaCode",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "documentId",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "valuesToInclude",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "MeteringGridImbalanceValuesToInclude",
+                    "ofType": null
+                  }
+                }
+              },
+              {
                 "name": "sortProperty",
                 "type": {
                   "kind": "NON_NULL",
@@ -2243,6 +2751,52 @@ export type introspection = {
                   "ofType": {
                     "kind": "SCALAR",
                     "name": "Int",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "sortProperty",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "BalanceResponsibleSortProperty",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "sortDirection",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "SortDirection",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "downloadBalanceResponsibles",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "locale",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   }
                 }
@@ -2484,6 +3038,36 @@ export type introspection = {
                 }
               }
             ]
+          },
+          {
+            "name": "getDelegationsForActor",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "MessageDelegationType",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "actorId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "UUID",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
           }
         ],
         "interfaces": []
@@ -2671,6 +3255,54 @@ export type introspection = {
               }
             },
             "args": []
+          },
+          {
+            "name": "createDelegationsForActor",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CreateDelegationsForActorPayload",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "CreateDelegationsForActorInput",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "stopDelegation",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "StopDelegationPayload",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "StopDelegationInput",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
           }
         ],
         "interfaces": []
@@ -2910,6 +3542,112 @@ export type introspection = {
             "name": "COMPLETE"
           }
         ]
+      },
+      {
+        "kind": "ENUM",
+        "name": "ActorDelegationStatus",
+        "enumValues": [
+          {
+            "name": "AWAITING"
+          },
+          {
+            "name": "ACTIVE"
+          },
+          {
+            "name": "EXPIRED"
+          },
+          {
+            "name": "CANCELLED"
+          }
+        ]
+      },
+      {
+        "kind": "ENUM",
+        "name": "DelegationMessageType",
+        "enumValues": [
+          {
+            "name": "RSM012_INBOUND"
+          },
+          {
+            "name": "RSM012_OUTBOUND"
+          },
+          {
+            "name": "RSM014_INBOUND"
+          },
+          {
+            "name": "RSM016_INBOUND"
+          },
+          {
+            "name": "RSM016_OUTBOUND"
+          },
+          {
+            "name": "RSM017_INBOUND"
+          },
+          {
+            "name": "RSM017_OUTBOUND"
+          },
+          {
+            "name": "RSM018_INBOUND"
+          },
+          {
+            "name": "RSM019_INBOUND"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MeteringGridAreaImbalancePerDayDto",
+        "fields": [
+          {
+            "name": "imbalanceDay",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "firstOccurrenceOfImbalance",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "firstPositionOfImbalance",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "quantity",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
       },
       {
         "kind": "ENUM",
@@ -3215,6 +3953,49 @@ export type introspection = {
         ]
       },
       {
+        "kind": "OBJECT",
+        "name": "ApiErrorDescriptor",
+        "fields": [
+          {
+            "name": "message",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "code",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "args",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
         "kind": "ENUM",
         "name": "UserRoleStatus",
         "enumValues": [
@@ -3274,6 +4055,115 @@ export type introspection = {
           },
           {
             "name": "REMINDER"
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "StopMessageDelegationDtoInput",
+        "inputFields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "UUID",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "periodId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "UUID",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "stopsAt",
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "CreateMessageDelegationDtoInput",
+        "inputFields": [
+          {
+            "name": "delegatedFrom",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "UUID",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "delegatedTo",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "UUID",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "gridAreas",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "UUID",
+                    "ofType": null
+                  }
+                }
+              }
+            }
+          },
+          {
+            "name": "messageTypes",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "DelegationMessageType",
+                    "ofType": null
+                  }
+                }
+              }
+            }
+          },
+          {
+            "name": "startsAt",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            }
           }
         ]
       },
@@ -3728,6 +4618,21 @@ export type introspection = {
         ]
       },
       {
+        "kind": "ENUM",
+        "name": "MeteringGridImbalanceValuesToInclude",
+        "enumValues": [
+          {
+            "name": "IMBALANCES"
+          },
+          {
+            "name": "BALANCES"
+          },
+          {
+            "name": "BOTH"
+          }
+        ]
+      },
+      {
         "kind": "OBJECT",
         "name": "MeteringGridAreaImbalanceSearchResponse",
         "fields": [
@@ -4038,49 +4943,6 @@ export type introspection = {
       },
       {
         "kind": "OBJECT",
-        "name": "ApiErrorDescriptor",
-        "fields": [
-          {
-            "name": "message",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "code",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "args",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "JSON",
-                "ofType": null
-              }
-            },
-            "args": []
-          }
-        ],
-        "interfaces": []
-      },
-      {
-        "kind": "OBJECT",
         "name": "KeyValuePairOfStringAndIEnumerableOfString",
         "fields": [
           {
@@ -4115,10 +4977,6 @@ export type introspection = {
           }
         ],
         "interfaces": []
-      },
-      {
-        "kind": "SCALAR",
-        "name": "JSON"
       },
       {
         "kind": "OBJECT",
@@ -4192,182 +5050,6 @@ export type introspection = {
             "name": "RECEIVER"
           }
         ]
-      },
-      {
-        "kind": "OBJECT",
-        "name": "ExchangeEventSearchResult",
-        "fields": [
-          {
-            "name": "documentId",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "gridAreaCode",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "created",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "calculationType",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "ENUM",
-                "name": "ExchangeEventCalculationType",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "timeSeriesType",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "ENUM",
-                "name": "TimeSeriesType",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "documentStatus",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "ENUM",
-                "name": "DocumentStatus",
-                "ofType": null
-              }
-            },
-            "args": []
-          }
-        ],
-        "interfaces": []
-      },
-      {
-        "kind": "OBJECT",
-        "name": "MeteringGridAreaImbalanceSearchResult",
-        "fields": [
-          {
-            "name": "id",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "gridAreaCode",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "documentDateTime",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "receivedDateTime",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "periodStart",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "periodEnd",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "imbalancePerDay",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "MeteringGridAreaImbalancePerDayDto",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "args": []
-          }
-        ],
-        "interfaces": []
       },
       {
         "kind": "OBJECT",
@@ -4566,6 +5248,10 @@ export type introspection = {
         ]
       },
       {
+        "kind": "SCALAR",
+        "name": "JSON"
+      },
+      {
         "kind": "INPUT_OBJECT",
         "name": "AddressDtoInput",
         "inputFields": [
@@ -4689,43 +5375,6 @@ export type introspection = {
             }
           }
         ]
-      },
-      {
-        "kind": "OBJECT",
-        "name": "MeteringGridAreaImbalancePerDayDto",
-        "fields": [
-          {
-            "name": "imbalanceDay",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "incomingQuantity",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "outgoingQuantity",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "args": []
-          }
-        ],
-        "interfaces": []
       },
       {
         "kind": "INPUT_OBJECT",
@@ -5186,6 +5835,139 @@ export type introspection = {
               "kind": "SCALAR",
               "name": "Boolean",
               "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "CreateDelegationsForActorInput",
+        "inputFields": [
+          {
+            "name": "actorId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "UUID",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "delegationDto",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "CreateMessageDelegationDtoInput",
+                "ofType": null
+              }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "CreateDelegationsForActorError",
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "ApiError"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CreateDelegationsForActorPayload",
+        "fields": [
+          {
+            "name": "boolean",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "errors",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "UNION",
+                  "name": "CreateDelegationsForActorError",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "StopDelegationInput",
+        "inputFields": [
+          {
+            "name": "stopMessageDelegationDto",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "StopMessageDelegationDtoInput",
+                    "ofType": null
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "StopDelegationError",
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "ApiError"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "StopDelegationPayload",
+        "fields": [
+          {
+            "name": "boolean",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "errors",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "UNION",
+                  "name": "StopDelegationError",
+                  "ofType": null
+                }
+              }
             },
             "args": []
           }

@@ -24,6 +24,7 @@ import {
   Input,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
+import { gql, VariablesOf } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -49,6 +50,37 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 type wholesaleTableData = WattTableDataSource<Calculation>;
+
+const CalculationsQuery = gql(`
+  query GetCalculations(
+    $executionTime: DateRange
+    $period: DateRange
+    $calculationTypes: [CalculationType!]
+    $gridAreaCodes: [String!]
+    $executionStates: [CalculationState!]
+  ) {
+    calculations(
+      executionTime: $executionTime
+      period: $period
+      calculationTypes: $calculationTypes
+      gridAreaCodes: $gridAreaCodes
+      executionStates: $executionStates
+    ) {
+      id
+      executionState
+      executionTimeEnd
+      executionTimeStart
+      period
+      statusType
+      calculationType
+      createdByUserName
+      gridAreas {
+        code
+        name
+      }
+    }
+  }
+`);
 
 @Component({
   standalone: true,
@@ -81,7 +113,7 @@ export class DhCalculationsTableComponent implements OnInit {
   loading = false;
   error = false;
 
-  filter$ = new BehaviorSubject<GetCalculationsQueryVariables>({
+  filter$ = new BehaviorSubject<VariablesOf<typeof CalculationsQuery>>({
     executionTime: {
       start: dayjs().startOf('day').subtract(10, 'days').toDate(),
       end: dayjs().endOf('day').toDate(),
@@ -97,7 +129,7 @@ export class DhCalculationsTableComponent implements OnInit {
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
-          query: GetCalculationsDocument,
+          query: CalculationsQuery,
           variables: variables,
         }).valueChanges
     ),

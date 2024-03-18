@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "strict": true,
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
@@ -16,6 +17,13 @@
     "baseUrl": ".",
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schema": "./schema.graphql",
+        "tadaOutputLocation": "./libs/dh/shared/data-access-graphql/src/lib/graphql-env.d.ts"
+      }
+    ],
     "paths": {
       "@energinet-datahub/dh-shared-data-access-top-bar": [
         "libs/dh/shared/data-access-top-bar/src/index.ts"

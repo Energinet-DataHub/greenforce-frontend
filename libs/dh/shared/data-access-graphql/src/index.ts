@@ -14,5 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export * from './lib/gql';
 export { graphQLProviders } from './lib/dh-graphql.providers';
 export { parseGraphQLErrorResponse } from './lib/error-handler';
