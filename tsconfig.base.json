@@ -387,9 +387,6 @@
       "@energinet-datahub/watt/datepicker": [
         "libs/watt/src/lib/picker/datepicker/index.ts"
       ],
-      "@energinet-datahub/watt/radio": [
-        "libs/watt/src/lib/radio/index.ts"
-      ],
       "@energinet-datahub/watt/description-list": [
         "libs/watt/src/lib/description-list/index.ts"
       ],
@@ -418,6 +415,7 @@
       "@energinet-datahub/watt/picker/shared": [
         "libs/watt/src/lib/picker/shared/index.ts"
       ],
+      "@energinet-datahub/watt/radio": ["libs/watt/src/lib/radio/index.ts"],
       "@energinet-datahub/watt/resize-observer": [
         "libs/watt/src/lib/utils/resize-observer/index.ts"
       ],
