@@ -431,15 +431,11 @@
       "@energinet-datahub/watt/textarea-field": [
         "libs/watt/src/lib/textarea-field/index.ts"
       ],
-      "@energinet-datahub/watt/toast": [
-        "libs/watt/src/lib/toast/index.ts"
-      ],
-      "@energinet-datahub/watt/tooltip": [
-        "libs/watt/src/lib/tooltip/index.ts"
-      ],
       "@energinet-datahub/watt/timepicker": [
         "libs/watt/src/lib/picker/timepicker/index.ts"
       ],
+      "@energinet-datahub/watt/toast": ["libs/watt/src/lib/toast/index.ts"],
+      "@energinet-datahub/watt/tooltip": ["libs/watt/src/lib/tooltip/index.ts"],
       "@energinet-datahub/watt/utils/intersection-observer": [
         "libs/watt/src/lib/utils/intersection-observer/index.ts"
       ],
