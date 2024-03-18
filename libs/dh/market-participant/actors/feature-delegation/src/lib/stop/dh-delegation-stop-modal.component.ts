@@ -44,6 +44,7 @@ import {
 import { DhDelegation } from '../dh-delegations';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { distinctUntilChanged, distinctUntilKeyChanged } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -126,13 +127,15 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
 
   constructor() {
     super();
-    this.stopDelegationForm.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
-      if (value.selectedOptions === 'stopNow') {
-        this.stopDelegationForm.controls.stopDate.disable();
-      } else {
-        this.stopDelegationForm.controls.stopDate.enable();
-      }
-    });
+    this.stopDelegationForm.valueChanges
+      .pipe(takeUntilDestroyed(), distinctUntilKeyChanged('selectedOptions'))
+      .subscribe((value) => {
+        if (value.selectedOptions === 'stopNow') {
+          this.stopDelegationForm.controls.stopDate.disable();
+        } else {
+          this.stopDelegationForm.controls.stopDate.enable();
+        }
+      });
   }
 
   closeModal(result: boolean) {
