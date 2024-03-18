@@ -20,23 +20,18 @@ namespace Energinet.DataHub.WebApi.Registration
 {
     public static class HealthEndpointRegistrationExtensions
     {
-        public static IServiceCollection SetupHealthEndpoints(this IServiceCollection services, ApiClientSettings apiClientSettingsService)
-        {
+        public static void SetupHealthEndpoints(this IServiceCollection services, ApiClientSettings settings) =>
             services
                 .AddHealthChecks()
                 .AddLiveCheck()
-                .AddServiceHealthCheck("marketParticipant", CreateHealthEndpointUri(apiClientSettingsService.MarketParticipantBaseUrl))
-                .AddServiceHealthCheck("wholesale", CreateHealthEndpointUri(apiClientSettingsService.WholesaleBaseUrl))
-                .AddServiceHealthCheck("eSettExchange", CreateHealthEndpointUri(apiClientSettingsService.ESettExchangeBaseUrl))
-                .AddServiceHealthCheck("ediB2CWebApi", CreateHealthEndpointUri(apiClientSettingsService.EdiB2CWebApiBaseUrl));
-            return services;
-        }
+                .AddServiceHealthCheck("marketParticipant", CreateHealthEndpointUri(settings.MarketParticipantBaseUrl))
+                .AddServiceHealthCheck("wholesale", CreateHealthEndpointUri(settings.WholesaleBaseUrl))
+                .AddServiceHealthCheck("eSettExchange", CreateHealthEndpointUri(settings.ESettExchangeBaseUrl))
+                .AddServiceHealthCheck("ediB2CWebApi", CreateHealthEndpointUri(settings.EdiB2CWebApiBaseUrl));
 
-        private static Uri CreateHealthEndpointUri(string baseUri)
-        {
-            return string.IsNullOrWhiteSpace(baseUri)
-                ? throw new ArgumentException("Invalid baseUri", nameof(baseUri))
+        private static Uri CreateHealthEndpointUri(string baseUri) =>
+            string.IsNullOrWhiteSpace(baseUri)
+                ? new Uri("https://empty")
                 : new Uri(baseUri + "/monitor/live");
-        }
     }
 }
