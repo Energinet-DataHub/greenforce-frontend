@@ -22,6 +22,8 @@ import { danishDatetimeProviders } from '@energinet-datahub/watt/core/datetime';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { importProvidersFrom } from '@angular/core';
 import { ApolloModule } from 'apollo-angular';
+import { within } from '@testing-library/angular';
+
 import { DhCalculationsComponent } from './calculations.component';
 
 async function setup() {
@@ -34,13 +36,14 @@ async function setup() {
 describe(DhCalculationsComponent, () => {
   it('should show filter chips with initial values', async () => {
     await setup();
-    ['Period', 'Calculation type', 'Grid areas', 'Execution time', 'Status']
-      .map((filter) =>
-        screen.getByRole('button', {
+    ['Period', 'Calculation type', 'Grid areas Grid areas', 'Execution time', 'Status']
+      .map((filter) => {
+        const filters = document.querySelector('dh-calculations-filters');
+        return within(filters as HTMLElement).getByRole('button', {
           name: new RegExp(filter),
           pressed: filter === 'Execution time',
         })
-      )
+      })
       .forEach((element) => expect(element).toBeInTheDocument());
   });
 
