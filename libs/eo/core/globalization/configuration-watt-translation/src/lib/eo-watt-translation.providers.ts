@@ -22,7 +22,6 @@ import { WattFieldIntlService } from '@energinet-datahub/watt/field';
 import { WattPaginatorIntlService } from '@energinet-datahub/watt/table';
 import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
 
-
 @Injectable()
 export class EoClipboardIntlService extends WattClipboardIntlService {
   constructor(transloco: TranslocoService) {
