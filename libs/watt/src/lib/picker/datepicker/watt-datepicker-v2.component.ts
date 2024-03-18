@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
-import { FormatWidth, getLocaleDateFormat } from '@angular/common';
+import { FormatWidth, getLocaleDateFormat, NgIf } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
