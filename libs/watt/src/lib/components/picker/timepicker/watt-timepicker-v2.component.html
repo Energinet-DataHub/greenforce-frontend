@@ -25,9 +25,9 @@ limitations under the License.
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
     />
-    <input #actualInput class="mask-input" [disabled]="disabled" />
+    <input #timeInput class="mask-input" [disabled]="disabled" />
     <watt-placeholder-mask
-      [primaryInputElement]="actualInput"
+      [primaryInputElement]="timeInput"
       [mask]="inputMask"
       [placeholder]="hoursMinutesPlaceholder"
       (maskApplied)="inputChanged($event)"
@@ -62,9 +62,9 @@ limitations under the License.
         spellcheck="false"
       />
     </mat-date-range-input>
-    <input #actualInput class="mask-input" [disabled]="disabled" />
+    <input #timeInput class="mask-input" [disabled]="disabled" />
     <watt-placeholder-mask
-      [primaryInputElement]="actualInput"
+      [primaryInputElement]="timeInput"
       [mask]="rangeInputMask"
       [placeholder]="rangePlaceholder"
       (maskApplied)="rangeInputChanged($event)"
