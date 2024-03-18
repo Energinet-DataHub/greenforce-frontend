@@ -53,6 +53,18 @@ import { distinctUntilChanged, distinctUntilKeyChanged } from 'rxjs';
   styles: `
     dh-delegation-stop-modal {
       display: block;
+
+      vater-stack[align="flex-start"] {
+        margin-top: var(--watt-space-m);
+      }
+
+      watt-datepicker-v2 {
+        watt-field {
+          span.label {
+            display: none;
+          }
+        }
+      }
     }
   `,
   imports: [
@@ -82,7 +94,7 @@ import { distinctUntilChanged, distinctUntilKeyChanged } from 'rxjs';
           value="stopNow"
           >{{ t('stopNow') }}</watt-radio
         >
-        <vater-stack direction="row" gap="m">
+        <vater-stack direction="row" align="baseline" gap="m">
           <watt-radio
             group="stopDate"
             [formControl]="stopDelegationForm.controls.selectedOptions"
@@ -93,20 +105,20 @@ import { distinctUntilChanged, distinctUntilKeyChanged } from 'rxjs';
           <watt-datepicker-v2 [min]="date" [formControl]="stopDelegationForm.controls.stopDate" />
         </vater-stack>
       </vater-stack>
-      <watt-modal-actions>
-        <watt-button (click)="closeModal(false)" variant="secondary">
-          {{ t('cancel') }}
-        </watt-button>
-        <watt-button
-          [loading]="isSaving()"
-          formId="stop-delegation-form"
-          type="submit"
-          variant="primary"
-        >
-          {{ t('shared.stopDelegation') }}
-        </watt-button>
-      </watt-modal-actions>
     </form>
+    <watt-modal-actions>
+      <watt-button (click)="closeModal(false)" variant="secondary">
+        {{ t('cancel') }}
+      </watt-button>
+      <watt-button
+        [loading]="isSaving()"
+        formId="stop-delegation-form"
+        type="submit"
+        variant="primary"
+      >
+        {{ t('shared.stopDelegation') }}
+      </watt-button>
+    </watt-modal-actions>
   </watt-modal>`,
 })
 export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[]> {
