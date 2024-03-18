@@ -360,133 +360,66 @@
         "libs/gf/util-browser/src/index.ts"
       ],
       "@energinet-datahub/gf/util-msw": ["libs/gf/msw/util-msw/src/index.ts"],
-      "@energinet-datahub/watt/badge": [
-        "libs/watt/badge/index.ts"
-      ],
-      "@energinet-datahub/watt/breadcrumbs": [
-        "libs/watt/breadcrumbs/index.ts"
+      "@energinet-datahub/watt/badge": ["libs/watt/badge/index.ts"],
+      "@energinet-datahub/watt/breadcrumbs": ["libs/watt/breadcrumbs/index.ts"],
+      "@energinet-datahub/watt/button": ["libs/watt/button/index.ts"],
+      "@energinet-datahub/watt/card": ["libs/watt/card/index.ts"],
+      "@energinet-datahub/watt/checkbox": ["libs/watt/checkbox/index.ts"],
+      "@energinet-datahub/watt/chip": ["libs/watt/chip/index.ts"],
+      "@energinet-datahub/watt/clipboard": ["libs/watt/clipboard/index.ts"],
+      "@energinet-datahub/watt/code": ["libs/watt/code/index.ts"],
+      "@energinet-datahub/watt/configuration": [
+        "libs/watt/configuration/index.ts"
       ],
       "@energinet-datahub/watt/core/breakpoints": [
         "libs/watt/core/breakpoints/index.ts"
       ],
-      "@energinet-datahub/watt/button": [
-        "libs/watt/button/index.ts"
+      "@energinet-datahub/watt/core/color": ["libs/watt/core/color/index.ts"],
+      "@energinet-datahub/watt/data": ["libs/watt/data/index.ts"],
+      "@energinet-datahub/watt/datepicker": [
+        "libs/watt/picker/datepicker/index.ts"
       ],
-      "@energinet-datahub/watt/card": [
-        "libs/watt/card/index.ts"
-      ],
-      "@energinet-datahub/watt/checkbox": [
-        "libs/watt/checkbox/index.ts"
-      ],
-      "@energinet-datahub/watt/chip": [
-        "libs/watt/chip/index.ts"
-      ],
-      "@energinet-datahub/watt/clipboard": [
-        "libs/watt/clipboard/index.ts"
-      ],
-      "@energinet-datahub/watt/code": [
-        "libs/watt/code/index.ts"
-      ],
-      "@energinet-datahub/watt/core/color": [
-        "libs/watt/core/color/index.ts"
-      ],
-      "@energinet-datahub/watt/configuration": [
-        "libs/watt/configuration/index.ts"
-      ],
-      "@energinet-datahub/watt/data": [
-        "libs/watt/data/index.ts"
-      ],
-      "@energinet-datahub/watt/utils/date": ["libs/watt/utils/date/index.ts"],
       "@energinet-datahub/watt/description-list": [
         "libs/watt/description-list/index.ts"
       ],
-      "@energinet-datahub/watt/drawer": [
-        "libs/watt/drawer/index.ts"
-      ],
-      "@energinet-datahub/watt/dropdown": [
-        "libs/watt/dropdown/index.ts"
-      ],
-      "@energinet-datahub/watt/empty-state": [
-        "libs/watt/empty-state/index.ts"
-      ],
+      "@energinet-datahub/watt/drawer": ["libs/watt/drawer/index.ts"],
+      "@energinet-datahub/watt/dropdown": ["libs/watt/dropdown/index.ts"],
+      "@energinet-datahub/watt/empty-state": ["libs/watt/empty-state/index.ts"],
       "@energinet-datahub/watt/expandable-card": [
         "libs/watt/expandable-card/index.ts"
       ],
-      "@energinet-datahub/watt/expansion": [
-        "libs/watt/expansion/index.ts"
-      ],
-      "@energinet-datahub/watt/icon": [
-        "libs/watt/src/lib/icon/index.ts"
-      ],
+      "@energinet-datahub/watt/expansion": ["libs/watt/expansion/index.ts"],
+      "@energinet-datahub/watt/field": ["libs/watt/field/index.ts"],
+      "@energinet-datahub/watt/icon": ["libs/watt/src/lib/icon/index.ts"],
       "@energinet-datahub/watt/intersection-observer": [
         "libs/watt/utils/intersection-observer/index.ts"
       ],
-      "@energinet-datahub/watt/modal": [
-        "libs/watt/modal/index.ts"
+      "@energinet-datahub/watt/modal": ["libs/watt/modal/index.ts"],
+      "@energinet-datahub/watt/phone-field": ["libs/watt/phone-field/index.ts"],
+      "@energinet-datahub/watt/picker/shared": [
+        "libs/watt/picker/shared/index.ts"
       ],
-      "@energinet-datahub/watt/phone-field": [
-        "libs/watt/phone-field/index.ts"
-      ],
-      "@energinet-datahub/watt/radio": [
-        "libs/watt/radio/index.ts"
-      ],
+      "@energinet-datahub/watt/radio": ["libs/watt/radio/index.ts"],
       "@energinet-datahub/watt/resize-observer": [
         "libs/watt/utils/resize-observer/index.ts"
       ],
-      "@energinet-datahub/watt/search": [
-        "libs/watt/search/index.ts"
-      ],
-      "@energinet-datahub/watt/shell": [
-        "libs/watt/shell/index.ts"
-      ],
-      "@energinet-datahub/watt/slider": [
-        "libs/watt/slider/index.ts"
-      ],
-      "@energinet-datahub/watt/spinner": [
-        "libs/watt/spinner/index.ts"
-      ],
-      "@energinet-datahub/watt/stepper": [
-        "libs/watt/stepper/index.ts"
-      ],
-      "@energinet-datahub/watt/table": [
-        "libs/watt/table/index.ts"
-      ],
-      "@energinet-datahub/watt/tabs": [
-        "libs/watt/tabs/index.ts"
-      ],
-      "@energinet-datahub/watt/text-field": [
-        "libs/watt/text-field/index.ts"
-      ],
+      "@energinet-datahub/watt/search": ["libs/watt/search/index.ts"],
+      "@energinet-datahub/watt/shell": ["libs/watt/shell/index.ts"],
+      "@energinet-datahub/watt/slider": ["libs/watt/slider/index.ts"],
+      "@energinet-datahub/watt/spinner": ["libs/watt/spinner/index.ts"],
+      "@energinet-datahub/watt/stepper": ["libs/watt/stepper/index.ts"],
+      "@energinet-datahub/watt/table": ["libs/watt/table/index.ts"],
+      "@energinet-datahub/watt/tabs": ["libs/watt/tabs/index.ts"],
+      "@energinet-datahub/watt/text-field": ["libs/watt/text-field/index.ts"],
       "@energinet-datahub/watt/textarea-field": [
         "libs/watt/textarea-field/index.ts"
-      ],
-      "@energinet-datahub/watt/toast": [
-        "libs/watt/toast/index.ts"
-      ],
-      "@energinet-datahub/watt/tooltip": [
-        "libs/watt/tooltip/index.ts"
-      ],
-      "@energinet-datahub/watt/validation-message": [
-        "libs/watt/validation-message/index.ts"
-      ],
-      "@energinet-datahub/watt/vater": [
-        "libs/watt/vater/index.ts"
-      ],
-      "@energinet-datahub/watt/datepicker": [
-        "libs/watt/picker/datepicker/index.ts"
       ],
       "@energinet-datahub/watt/timepicker": [
         "libs/watt/picker/timepicker/index.ts"
       ],
-      "@energinet-datahub/watt/picker/shared": [
-        "libs/watt/picker/shared/index.ts"
-      ],
-      "@energinet-datahub/watt/validators": [
-        "libs/watt/utils/validators/index.ts"
-      ],
-      "@energinet-datahub/watt/field": [
-        "libs/watt/field/index.ts"
-      ],
+      "@energinet-datahub/watt/toast": ["libs/watt/toast/index.ts"],
+      "@energinet-datahub/watt/tooltip": ["libs/watt/tooltip/index.ts"],
+      "@energinet-datahub/watt/utils/date": ["libs/watt/utils/date/index.ts"],
       "@energinet-datahub/watt/utils/intersection-observer": [
         "libs/watt/utils/intersection-observer/index.ts"
       ],
@@ -499,6 +432,13 @@
       "@energinet-datahub/watt/utils/styles": [
         "libs/watt/utils/styles/index.ts"
       ],
+      "@energinet-datahub/watt/validation-message": [
+        "libs/watt/validation-message/index.ts"
+      ],
+      "@energinet-datahub/watt/validators": [
+        "libs/watt/utils/validators/index.ts"
+      ],
+      "@energinet-datahub/watt/vater": ["libs/watt/vater/index.ts"],
       "rxjs": ["./node_modules/rxjs"],
       "workspace-tools": ["workspace-tools/src/index.ts"]
     }

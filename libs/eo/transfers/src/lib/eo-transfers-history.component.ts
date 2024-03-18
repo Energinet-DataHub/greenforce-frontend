@@ -29,7 +29,12 @@ import {
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource, WattPaginatorComponent } from '@energinet-datahub/watt/table';
+import {
+  WATT_TABLE,
+  WattTableColumnDef,
+  WattTableDataSource,
+  WattPaginatorComponent,
+} from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { translations } from '@energinet-datahub/eo/translations';

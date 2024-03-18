@@ -21,7 +21,7 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 
 import { WATT_STEPPER } from '..';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';;
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTextFieldComponent } from '../../text-field/watt-text-field.component';
 import { WattFieldErrorComponent } from '../../field/watt-field-error.component';
 

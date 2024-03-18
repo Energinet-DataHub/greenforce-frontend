@@ -25,7 +25,7 @@ dayjs.extend(timezone);
 dayjs.extend(customParseFormat);
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 class WattDateUtils {
   startOf(date: Date, unit: OpUnitType): Date {
@@ -45,11 +45,11 @@ class WattDateUtils {
   }
 
   toTimeZone(date: Date | string, timeZone: string): Date | null {
-    if(this.isValid(date)) {
+    if (this.isValid(date)) {
       return dayjs(date).tz(timeZone).toDate();
     } else {
       const maybeShortFormattedDate = this.parse(date, 'DD-MM-YYYY');
-      if(this.isValid(maybeShortFormattedDate)) {
+      if (this.isValid(maybeShortFormattedDate)) {
         return this.toTimeZone(maybeShortFormattedDate, timeZone);
       } else {
         return null;

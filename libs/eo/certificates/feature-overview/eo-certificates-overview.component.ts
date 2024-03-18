@@ -29,7 +29,12 @@ import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource, WattPaginatorComponent } from '@energinet-datahub/watt/table';
+import {
+  WATT_TABLE,
+  WattTableColumnDef,
+  WattTableDataSource,
+  WattPaginatorComponent,
+} from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';

@@ -44,7 +44,7 @@ import {
   WattPlaceholderMaskComponent,
   WattPickerBase,
   WattPickerValue,
-  maskitoTimeRangeOptionsGenerator
+  maskitoTimeRangeOptionsGenerator,
 } from '@energinet-datahub/watt/picker/shared';
 
 // Constants for working with time intervals

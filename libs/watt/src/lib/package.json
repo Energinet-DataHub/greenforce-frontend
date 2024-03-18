@@ -51,10 +51,18 @@
   },
   "typesVersions": {
     "*": {
-      "datepicker": ["./picker/datepicker/index.d.ts"],
-      "timepicker": ["./picker/timepicker/index.d.ts"],
-      "breakpoints": ["./core/breakpoints/index.d.ts"],
-      "color": ["./core/color/index.d.ts"]
+      "datepicker": [
+        "./picker/datepicker/index.d.ts"
+      ],
+      "timepicker": [
+        "./picker/timepicker/index.d.ts"
+      ],
+      "breakpoints": [
+        "./core/breakpoints/index.d.ts"
+      ],
+      "color": [
+        "./core/color/index.d.ts"
+      ]
     }
   },
   "sideEffects": false

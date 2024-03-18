@@ -200,7 +200,7 @@ export class WattDatepickerComponent extends WattPickerBase {
   onMonthSelected(date: Date) {
     if (this.rangeMonthOnlyMode && date) {
       this.matDateRangePicker.select(this.dateUtils.startOf(date, 'month'));
-      this.matDateRangePicker.select(this.dateUtils.endOf(date, 'month'),);
+      this.matDateRangePicker.select(this.dateUtils.endOf(date, 'month'));
       this.matDateRangePicker.close();
     }
   }

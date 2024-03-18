@@ -35,7 +35,7 @@ import {
   WattTableColumnDef,
   WATT_TABLE,
   WattTableComponent,
-  WattPaginatorComponent
+  WattPaginatorComponent,
 } from '@energinet-datahub/watt/table';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';

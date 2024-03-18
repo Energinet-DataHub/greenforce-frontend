@@ -37,11 +37,11 @@
 /// @author Eduardo Boucas
 /// @access public
 ////
-@use 'sass:math';
-@use 'sass:map';
-@use 'sass:list';
-@use 'sass:string';
-@use 'sass:meta';
+@use "sass:math";
+@use "sass:map";
+@use "sass:list";
+@use "sass:string";
+@use "sass:meta";
 
 ///
 /// Creates a list of global breakpoints
@@ -50,9 +50,9 @@
 ///  $breakpoints: ('phone': 320px);
 ///
 $breakpoints: (
-  'phone': 320px,
-  'tablet': 768px,
-  'desktop': 1024px,
+  "phone": 320px,
+  "tablet": 768px,
+  "desktop": 1024px,
 ) !default;
 
 ///
@@ -67,15 +67,15 @@ $breakpoints: (
 ///  );
 ///
 $media-expressions: (
-  'screen': 'screen',
-  'print': 'print',
-  'handheld': 'handheld',
-  'landscape': '(orientation: landscape)',
-  'portrait': '(orientation: portrait)',
-  'retina2x':
-    '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)',
-  'retina3x':
-    '(-webkit-min-device-pixel-ratio: 3), (min-resolution: 350dpi), (min-resolution: 3dppx)',
+  "screen": "screen",
+  "print": "print",
+  "handheld": "handheld",
+  "landscape": "(orientation: landscape)",
+  "portrait": "(orientation: portrait)",
+  "retina2x":
+    "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)",
+  "retina3x":
+    "(-webkit-min-device-pixel-ratio: 3), (min-resolution: 350dpi), (min-resolution: 3dppx)",
 ) !default;
 
 ///
@@ -100,10 +100,10 @@ $media-expressions: (
 ///  @media (min-width: 2.1rem) {}
 ///
 $unit-intervals: (
-  'px': 1,
-  'em': 0.01,
-  'rem': 0.1,
-  '': 0,
+  "px": 1,
+  "em": 0.01,
+  "rem": 0.1,
+  "": 0,
 ) !default;
 
 ///
@@ -154,7 +154,7 @@ $im-media-support: true !default;
 ///
 ///  /* No output */
 ///
-$im-no-media-breakpoint: 'desktop' !default;
+$im-no-media-breakpoint: "desktop" !default;
 
 ///
 /// Selects which media expressions are allowed in an expression for it to be used when media queries
@@ -187,7 +187,7 @@ $im-no-media-breakpoint: 'desktop' !default;
 ///
 ///  /* No output */
 ///
-$im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
+$im-no-media-expressions: ("screen", "portrait", "landscape") !default;
 
 ////
 /// Cross-engine logging engine
@@ -203,7 +203,7 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
 /// @param {String} $message - Message to log
 ///
 @function im-log($message) {
-  @if meta.feature-exists('at-error') {
+  @if meta.feature-exists("at-error") {
     @error $message;
   } @else {
     @warn $message;
@@ -244,7 +244,7 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
   $no-media-breakpoint-value: map.get($breakpoints, $im-no-media-breakpoint);
 
   @if not $no-media-breakpoint-value {
-    @if im-log('`#{$im-no-media-breakpoint}` is not a valid breakpoint.') {
+    @if im-log("`#{$im-no-media-breakpoint}` is not a valid breakpoint.") {
     }
   }
 
@@ -254,8 +254,8 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
       $prefix: get-expression-prefix($operator);
       $value: get-expression-value($condition, $operator);
 
-      @if ($prefix == 'max' and $value <= $no-media-breakpoint-value) or
-        ($prefix == 'min' and $value > $no-media-breakpoint-value)
+      @if ($prefix == "max" and $value <= $no-media-breakpoint-value) or
+        ($prefix == "min" and $value > $no-media-breakpoint-value)
       {
         @return false;
       }
@@ -281,7 +281,7 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
 /// @return {String} - Any of `>=`, `>`, `<=`, `<`, `≥`, `≤`
 ///
 @function get-expression-operator($expression) {
-  @each $operator in ('>=', '>', '<=', '<', '≥', '≤') {
+  @each $operator in (">=", ">", "<=", "<", "≥", "≤") {
     @if string.index($expression, $operator) {
       @return $operator;
     }
@@ -292,7 +292,7 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
   // functions cannot be called anywhere in Sass, we need to hack the call in
   // a dummy variable, such as `$_`. If anybody ever raise a scoping issue with
   // Sass 3.3, change this line in `@if im-log(..) {}` instead.
-  $_: im-log('No operator found in `#{$expression}`.');
+  $_: im-log("No operator found in `#{$expression}`.");
 }
 
 ///
@@ -307,7 +307,7 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
   $operator-index: string.index($expression, $operator);
   $parsed-dimension: string.slice($expression, 0, $operator-index - 1);
   $parsed-dimension: str-trim($parsed-dimension);
-  $dimension: 'width';
+  $dimension: "width";
 
   @if string.length($parsed-dimension) > 0 {
     $dimension: $parsed-dimension;
@@ -324,7 +324,7 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
 /// @return {String} - `min` or `max`
 ///
 @function get-expression-prefix($operator) {
-  @return if(list.index(('<', '<=', '≤'), $operator), 'max', 'min');
+  @return if(list.index(("<", "<=", "≤"), $operator), "max", "min");
 }
 
 ///
@@ -354,12 +354,12 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
     // functions cannot be called anywhere in Sass, we need to hack the call in
     // a dummy variable, such as `$_`. If anybody ever raise a scoping issue with
     // Sass 3.3, change this line in `@if im-log(..) {}` instead.
-    $_: im-log('Unknown unit `#{math.unit($value)}`.');
+    $_: im-log("Unknown unit `#{math.unit($value)}`.");
   }
 
-  @if $operator == '>' {
+  @if $operator == ">" {
     $value: $value + $interval;
-  } @else if $operator == '<' {
+  } @else if $operator == "<" {
     $value: $value - $interval;
   }
 
@@ -385,7 +385,7 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
   $prefix: get-expression-prefix($operator);
   $value: get-expression-value($expression, $operator);
 
-  @return '(#{$prefix}-#{$dimension}: #{$value})';
+  @return "(#{$prefix}-#{$dimension}: #{$value})";
 }
 
 ///
@@ -428,42 +428,45 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
 ///
 
 @function to-number($value) {
-  @if meta.type-of($value) == 'number' {
+  @if meta.type-of($value) == "number" {
     @return $value;
-  } @else if meta.type-of($value) != 'string' {
-    $_: im-log('Value for `to-number` should be a number or a string.');
+  } @else if meta.type-of($value) != "string" {
+    $_: im-log("Value for `to-number` should be a number or a string.");
   }
 
   $first-character: string.slice($value, 1, 1);
   $result: 0;
   $digits: 0;
-  $minus: ($first-character == '-');
+  $minus: ($first-character == "-");
   $numbers: (
-    '0': 0,
-    '1': 1,
-    '2': 2,
-    '3': 3,
-    '4': 4,
-    '5': 5,
-    '6': 6,
-    '7': 7,
-    '8': 8,
-    '9': 9,
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
   );
 
   // Remove +/- sign if present at first character
-  @if ($first-character == '+' or $first-character == '-') {
+  @if ($first-character == "+" or $first-character == "-") {
     $value: string.slice($value, 2);
   }
 
   @for $i from 1 through string.length($value) {
     $character: string.slice($value, $i, $i);
 
-    @if not(list.index(map.keys($numbers), $character) or $character == '.') {
-      @return to-length(if($minus, -$result, $result), string.slice($value, $i));
+    @if not(list.index(map.keys($numbers), $character) or $character == ".") {
+      @return to-length(
+        if($minus, -$result, $result),
+        string.slice($value, $i)
+      );
     }
 
-    @if $character == '.' {
+    @if $character == "." {
       $digits: 1;
     } @else if $digits == 0 {
       $result: $result * 10 + map.get($numbers, $character);
@@ -486,25 +489,25 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
 ///
 @function to-length($value, $unit) {
   $units: (
-    'px': 1px,
-    'cm': 1cm,
-    'mm': 1mm,
-    '%': 1%,
-    'ch': 1ch,
-    'pc': 1pc,
-    'in': 1in,
-    'em': 1em,
-    'rem': 1rem,
-    'pt': 1pt,
-    'ex': 1ex,
-    'vw': 1vw,
-    'vh': 1vh,
-    'vmin': 1vmin,
-    'vmax': 1vmax,
+    "px": 1px,
+    "cm": 1cm,
+    "mm": 1mm,
+    "%": 1%,
+    "ch": 1ch,
+    "pc": 1pc,
+    "in": 1in,
+    "em": 1em,
+    "rem": 1rem,
+    "pt": 1pt,
+    "ex": 1ex,
+    "vw": 1vw,
+    "vh": 1vh,
+    "vmin": 1vmin,
+    "vmax": 1vmax,
   );
 
   @if not list.index(map.keys($units), $unit) {
-    $_: im-log('Invalid unit `#{$unit}`.');
+    $_: im-log("Invalid unit `#{$unit}`.");
   }
 
   @return $value * map.get($units, $unit);
@@ -525,9 +528,9 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
 ///
 
 @function str-trim($string) {
-  @if (str-slice($string, 1, 1) == ' ') {
+  @if (str-slice($string, 1, 1) == " ") {
     @return str-trim(str-slice($string, 2));
-  } @else if (str-slice($string, str-length($string), -1) == ' ') {
+  } @else if (str-slice($string, str-length($string), -1) == " ") {
     @return str-trim(str-slice($string, 1, -2));
   } @else {
     @return $string;
@@ -579,7 +582,10 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
 
   // Update global configuration
   $breakpoints: map.merge($breakpoints, $tweakpoints) !global;
-  $media-expressions: map.merge($media-expressions, $tweak-media-expressions) !global;
+  $media-expressions: map.merge(
+    $media-expressions,
+    $tweak-media-expressions
+  ) !global;
 
   @content;
 
