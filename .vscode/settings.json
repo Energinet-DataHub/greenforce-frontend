@@ -1,4 +1,5 @@
 {
+  "nxConsole.generatorAllowlist": ["workspace-tools:*"],
   "powershell.codeFormatting.avoidSemicolonsAsLineTerminators": true,
   "powershell.codeFormatting.useCorrectCasing": true,
   "powershell.codeFormatting.whitespaceBetweenParameters": true,
