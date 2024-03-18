@@ -50,7 +50,7 @@ limitations under the License.
         />
         <watt-description-list-item
           [label]="t('metadata.gridArea')"
-          value="{{ outgoingMessage?.gridArea?.code }} - {{ outgoingMessage?.gridArea?.name }}"
+          [value]="outgoingMessage?.gridArea?.displayName"
         />
         <watt-description-list-item
           [label]="t('metadata.messageType')"
