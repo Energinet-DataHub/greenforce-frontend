@@ -18,7 +18,7 @@ import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { render, RenderResult } from '@testing-library/angular';
 
-import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/configuration';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';

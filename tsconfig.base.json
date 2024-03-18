@@ -415,7 +415,6 @@
       "@energinet-datahub/watt/picker/shared": [
         "libs/watt/src/lib/picker/shared/index.ts"
       ],
-      "@energinet-datahub/watt/radio": ["libs/watt/radio/index.ts"],
       "@energinet-datahub/watt/resize-observer": [
         "libs/watt/src/lib/utils/resize-observer/index.ts"
       ],
@@ -432,13 +431,14 @@
       "@energinet-datahub/watt/textarea-field": [
         "libs/watt/src/lib/textarea-field/index.ts"
       ],
+      "@energinet-datahub/watt/toast": [
+        "libs/watt/src/lib/toast/index.ts"
+      ],
+      "@energinet-datahub/watt/tooltip": [
+        "libs/watt/src/lib/tooltip/index.ts"
+      ],
       "@energinet-datahub/watt/timepicker": [
         "libs/watt/src/lib/picker/timepicker/index.ts"
-      ],
-      "@energinet-datahub/watt/toast": ["libs/watt/src/lib/toast/index.ts"],
-      "@energinet-datahub/watt/tooltip": ["libs/watt/src/lib/tooltip/index.ts"],
-      "@energinet-datahub/watt/utils/date": [
-        "libs/watt/src/lib/utils/date/index.ts"
       ],
       "@energinet-datahub/watt/utils/intersection-observer": [
         "libs/watt/src/lib/utils/intersection-observer/index.ts"
