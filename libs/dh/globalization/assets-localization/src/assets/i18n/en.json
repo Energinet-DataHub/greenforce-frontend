@@ -502,7 +502,8 @@
             "tabLabel": "Information",
             "businessRegisterIdentifier": "Business ID",
             "name": "Name",
-            "domain": "E-mail domain"
+            "domain": "E-mail domain",
+            "country": "Country"
           },
           "actors": {
             "tabLabel": "Market Participants"

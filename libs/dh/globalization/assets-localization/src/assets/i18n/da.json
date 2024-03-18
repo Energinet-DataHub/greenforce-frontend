@@ -502,7 +502,8 @@
             "tabLabel": "Information",
             "businessRegisterIdentifier": "CVR-nr.",
             "name": "Navn",
-            "domain": "E-maildomæne"
+            "domain": "E-maildomæne",
+            "country": "Land"
           },
           "actors": {
             "tabLabel": "Aktører"
