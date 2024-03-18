@@ -344,8 +344,8 @@ function createDelegation() {
 function stopDelegation() {
   return mockStopDelegationsMutation(async (request) => {
     const mockError =
-      request.variables.input.stopMessageDelegationDto[0].id.value ===
-      getDelegationsForActorMock.getDelegationsForActor[0].id.value;
+      request.variables.input.stopMessageDelegationDto[0].id ===
+      getDelegationsForActorMock.getDelegationsForActor[0].id;
     await delay(mswConfig.delay);
     const response: StopDelegationsMutation = {
       __typename: 'Mutation',

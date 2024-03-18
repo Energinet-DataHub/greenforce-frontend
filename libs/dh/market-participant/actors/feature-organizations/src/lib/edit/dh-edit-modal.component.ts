@@ -97,9 +97,9 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
   }
 
   save(): void {
-    if (this.domainControl.invalid || this.isLoading) {
-      return;
-    }
+    if (this.domainControl.invalid || this.isLoading) return;
+
+    if (!this.organization.organizationId) return;
 
     this.apollo
       .mutate({
