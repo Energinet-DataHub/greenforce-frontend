@@ -32,6 +32,7 @@
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [dayjs](https://github.com/iamkun/dayjs) | 1.11.10 | MIT |
+| [gql.tada](https://github.com/0no-co/gql.tada) | 1.2.1 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.8.1 | MIT |
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.9.0 | BSD-3-Clause |
 | [include-media](https://github.com/eduardoboucas/include-media) | 2.0.0 | MIT |
