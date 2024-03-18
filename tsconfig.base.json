@@ -416,7 +416,7 @@
         "libs/watt/expansion/index.ts"
       ],
       "@energinet-datahub/watt/icon": [
-        "libs/watt/icon/index.ts"
+        "libs/watt/src/lib/icon/index.ts"
       ],
       "@energinet-datahub/watt/intersection-observer": [
         "libs/watt/utils/intersection-observer/index.ts"

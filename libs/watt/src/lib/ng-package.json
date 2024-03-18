@@ -1,6 +1,6 @@
 {
   "$schema": "../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/watt",
+  "dest": "../../../../dist/watt",
   "assets": [
     { "input": "core/assets", "glob": "**/*", "output": "assets" },
     { "input": "core/breakpoints", "glob": "**/*.scss", "output": "core/breakpoints" },

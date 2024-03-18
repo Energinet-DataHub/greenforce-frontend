@@ -57,7 +57,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "project": "libs/watt/ng-package.json"
+        "project": "libs/watt/src/lib/ng-package.json"
       },
       "configurations": {
         "production": {
