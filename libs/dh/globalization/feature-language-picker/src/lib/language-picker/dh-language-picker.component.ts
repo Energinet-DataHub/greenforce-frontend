@@ -24,7 +24,7 @@ import {
   displayLanguages,
   toDisplayLanguage,
 } from '@energinet-datahub/gf/globalization/domain';
-import { WattLocaleService } from '@energinet-datahub/watt/configuration';
+import { WattLocaleService } from '@energinet-datahub/watt/core/datetime';
 
 import { DhLanguageButtonComponent } from '../language-button/dh-language-button.component';
 
