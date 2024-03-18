@@ -256,6 +256,12 @@
           "invite": {
             "not_expired": "The user's invitation has not yet expired and cannot be renewed"
           }
+        },
+        "message_delegation": {
+          "actors_from_or_to_inactive": "Both actors in a delegation needs to be active, for it to be applied",
+          "actor_invalid_market_role": "The actor you are delegating from needs to be in one of these marketroles:'Grid access provider, Balance responsible party, Energy supplier or Billing agent'",
+          "overlap": "There is already an existing delegation that partially or fully covers the period you are trying to make a delegation for",
+          "market_role_forbidden": "The actor you are delegating from is in the {{assigned_market_role}} role, the precludes you from making a delegation to an actor in an organisation that already has an actor in the role: 'conflicting_market_role'"
         }
       }
     },
