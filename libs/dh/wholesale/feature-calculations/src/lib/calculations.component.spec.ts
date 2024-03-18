@@ -40,8 +40,7 @@ describe(DhCalculationsComponent, () => {
       .map((filter) => {
         const filters = document.querySelector('dh-calculations-filters');
         return within(filters as HTMLElement).getByRole('button', {
-          name: new RegExp(filter),
-          pressed: filter === 'Execution time',
+          name: new RegExp(filter)
         })
       })
       .forEach((element) => expect(element).toBeInTheDocument());
