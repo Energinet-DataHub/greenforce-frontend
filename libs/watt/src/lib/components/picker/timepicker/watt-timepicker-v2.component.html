@@ -19,16 +19,15 @@ limitations under the License.
     <input
       matInput
       aria-label="time-input"
-      #timeInput
       autocomplete="off"
       spellcheck="false"
       [disabled]="disabled"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
-      class="mask-input"
     />
+    <input #actualInput class="mask-input" [disabled]="disabled" />
     <watt-placeholder-mask
-      [primaryInputElement]="timeInput"
+      [primaryInputElement]="actualInput"
       [mask]="inputMask"
       [placeholder]="hoursMinutesPlaceholder"
       (maskApplied)="inputChanged($event)"
@@ -63,9 +62,9 @@ limitations under the License.
         spellcheck="false"
       />
     </mat-date-range-input>
-    <input #timeInput class="mask-input" />
+    <input #actualInput class="mask-input" [disabled]="disabled" />
     <watt-placeholder-mask
-      [primaryInputElement]="timeInput"
+      [primaryInputElement]="actualInput"
       [mask]="rangeInputMask"
       [placeholder]="rangePlaceholder"
       (maskApplied)="rangeInputChanged($event)"
