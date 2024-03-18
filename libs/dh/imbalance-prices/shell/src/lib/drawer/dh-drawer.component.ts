@@ -29,8 +29,7 @@ import { switchMap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
-import { dayjs } from '@energinet-datahub/watt/utils/date';
-import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
+import { dayjs, WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
