@@ -18,7 +18,12 @@ import { AfterViewInit, Component, inject } from '@angular/core';
 import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { take } from 'rxjs';
 
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE, WattPaginatorComponent } from '@energinet-datahub/watt/table';
+import {
+  WattTableColumnDef,
+  WattTableDataSource,
+  WATT_TABLE,
+  WattPaginatorComponent,
+} from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
