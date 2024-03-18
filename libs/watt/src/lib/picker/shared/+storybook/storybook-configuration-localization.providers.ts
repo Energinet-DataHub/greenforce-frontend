@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { makeEnvironmentProviders } from '@angular/core';
-import { danishDatetimeProviders } from '../../../configuration';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/core/datetime';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 
