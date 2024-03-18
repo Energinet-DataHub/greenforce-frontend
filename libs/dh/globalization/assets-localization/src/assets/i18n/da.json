@@ -257,6 +257,12 @@
           "invite": {
             "not_expired": "Brugerens invitation er ikke udløbet og kan derfor ikke fornys"
           }
+        },
+        "message_delegation": {
+          "actors_from_or_to_inactive": "Både den aktør der delegeres fra samt den der delegeres til skal være aktive for at kunne oprette en delegering",
+          "actor_invalid_market_role": "Den aktør der delegeres fra skal have en af følgende markedsroller:'Netvirksomhed, Balanceansvarlig, Elleverandør eller Faktureringsagent'",
+          "overlap": "Der eksisterer allerede en delegering som helt eller delvist dækker over den periode som der forsøges at oprettes en delegering for",
+          "market_role_forbidden": "Den aktør du har forsøger at lave en delegering fra har rollen {{assigned_market_role}}, denne tillader ikke at der oprettes en delegering til aktør som er i en organisation hvori der allerede er en aktør med rollen: 'conflicting_market_role'"
         }
       }
     },
