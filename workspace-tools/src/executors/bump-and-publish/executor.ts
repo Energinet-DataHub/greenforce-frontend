@@ -25,6 +25,30 @@ interface Options {
 }
 
 export default async function runExecutor(options: Options, context: ExecutorContext) {
+  const locationOfPackageJson = join(context.root, options.packageJson);
+
+  // Bump the package version
+  bumpPackageVersion(locationOfPackageJson, generatePakacgeVersion());
+
+  // Replace peer-dependency versions with the package.json from the workspace root
+  const updatingPeerDependencies = updatePeerDependencies(locationOfPackageJson, context.root);
+  if(!updatingPeerDependencies.success) {
+    return { success: false };
+  }
+
+  // Write the .npmrc file with the GitHub token
+  authenticate();
+
+  // Publish the package to the GitHub package registry
+  const publising = publish(locationOfPackageJson);
+  if(!publising.success) {
+    return { success: false };
+  }
+
+  return { success: true };
+}
+
+function generatePakacgeVersion(): string {
   let branchName = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
   const gitCommitHash = execSync('git rev-parse --short HEAD').toString().trim();
 
@@ -40,19 +64,23 @@ export default async function runExecutor(options: Options, context: ExecutorCon
     versionSuffix = versionSuffix.substring(0, maxVersionLength - versionPrefixLength);
   }
 
-  const locationOfPackageJson = join(context.root, options.packageJson);
+  return `1.0.0-${versionSuffix}`;
+}
 
+function bumpPackageVersion(locationOfPackageJson: string, version: string) {
   // Change the current working directory to the package.json directory
   process.chdir(join(locationOfPackageJson, '..'));
 
-  // Bump the package version
   console.log(`\n\n⬆️  Bumped package version to: \n\n`);
-  execSync(`npm version "1.0.0-${versionSuffix}" --no-git-tag-version`, { stdio: 'inherit' });
+  execSync(`npm version "${version}" --no-git-tag-version`, { stdio: 'inherit' });
+}
 
-  // Replace peer-dependency versions with the package.json from the workspace root
+function updatePeerDependencies(locationOfPackageJson: string, workspaceRoot: string): { success: boolean } {
   console.log(`\n\n🔧 Updating peer-dependencies in package...\n`);
 
-  const workspacePackageJson = JSON.parse(readFileSync(join(context.root, 'package.json'), 'utf-8'));
+  const workspacePackageJson = JSON.parse(
+    readFileSync(join(workspaceRoot, 'package.json'), 'utf-8')
+  );
   const workspaceDependencies = workspacePackageJson.dependencies;
   const packageJsonContent = JSON.parse(readFileSync(locationOfPackageJson, 'utf-8'));
   const missingWorkspaceDependencies: string[] = [];
@@ -66,7 +94,7 @@ export default async function runExecutor(options: Options, context: ExecutorCon
     }
   });
 
-  if(missingWorkspaceDependencies.length > 0) {
+  if (missingWorkspaceDependencies.length > 0) {
     console.error(
       `\n\n❌ Package.json has a peer dependency, which is not part of the workspace dependencies.\n`
     );
@@ -77,12 +105,16 @@ export default async function runExecutor(options: Options, context: ExecutorCon
   }
 
   fs.writeFileSync(locationOfPackageJson, JSON.stringify(packageJsonContent, null, 2));
+  return { success: true };
+}
 
-  // Write the .npmrc file with the GitHub token
+function authenticate() {
   console.log(`\n\n🔑 Writing .npmrc file...\n\n`);
   const npmrcContent = `//npm.pkg.github.com/:_authToken=${process.env.GITHUB_TOKEN}\nregistry=https://npm.pkg.github.com/Energinet-DataHub\n`;
   fs.writeFileSync('.npmrc', npmrcContent);
+}
 
+function publish(locationOfPackageJson: string): { success: boolean } {
   try {
     execSync('npm publish', { stdio: 'inherit' });
   } catch (error) {
@@ -93,11 +125,13 @@ export default async function runExecutor(options: Options, context: ExecutorCon
   }
 
   // Read the package.json file to get the package name
-  const packageJson = JSON.parse(readFileSync(locationOfPackageJson, 'utf-8'));
-  const packageName = packageJson.name;
-  const packageVersion = packageJson.version;
-
-  console.log(`\n\n📦 Published package: ${packageName}@${packageVersion}\n\n`);
+  const { name, version } = getPackageNameAndVersion(locationOfPackageJson);
+  console.log(`\n\n📦 Published package: ${name}@${version}\n\n`);
 
   return { success: true };
+}
+
+function getPackageNameAndVersion(path: string) {
+  const { name, version } = JSON.parse(readFileSync(path, 'utf-8'));
+  return { name, version };
 }
