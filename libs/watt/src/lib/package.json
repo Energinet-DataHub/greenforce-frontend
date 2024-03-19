@@ -17,18 +17,16 @@
   },
   "homepage": "https://github.com/Energinet-DataHub/greenforce-frontend#readme",
   "peerDependencies": {
-    "@angular/common": "^17.1.0",
-    "@angular/core": "^17.1.0",
-    "@angular/material": "^17.1.0",
-    "date-fns": "2.29.2",
-    "date-fns-tz": "2.0.0",
-    "@angular/material-date-fns-adapter": "^17.1.0",
-    "@maskito/angular": "2.0.0",
-    "@maskito/core": "2.0.0",
-    "@maskito/kit": "2.0.0",
-    "@maskito/phone": "2.0.0",
-    "@popperjs/core": "2.11.7",
-    "inputmask": "5.0.7"
+    "@angular/common": "0.0.0-PLACEHOLDER",
+    "@angular/core": "0.0.0-PLACEHOLDER",
+    "@angular/material": "0.0.0-PLACEHOLDER",
+    "@maskito/angular": "0.0.0-PLACEHOLDER",
+    "@maskito/core": "0.0.0-PLACEHOLDER",
+    "@maskito/kit": "0.0.0-PLACEHOLDER",
+    "@maskito/phone": "0.0.0-PLACEHOLDER",
+    "@popperjs/core": "0.0.0-PLACEHOLDER",
+    "inputmask": "0.0.0-PLACEHOLDER",
+    "dayjs": "0.0.0-PLACEHOLDER"
   },
   "exports": {
     ".": {

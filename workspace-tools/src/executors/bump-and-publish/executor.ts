@@ -49,7 +49,37 @@ export default async function runExecutor(options: Options, context: ExecutorCon
   console.log(`\n\n⬆️  Bumped package version to: \n\n`);
   execSync(`npm version "1.0.0-${versionSuffix}" --no-git-tag-version`, { stdio: 'inherit' });
 
+  // Replace peer-dependency versions with the package.json from the workspace root
+  console.log(`\n\n🔧 Updating peer-dependencies in package...\n`);
+
+  const workspacePackageJson = JSON.parse(readFileSync(join(context.root, 'package.json'), 'utf-8'));
+  const workspaceDependencies = workspacePackageJson.dependencies;
+  const packageJsonContent = JSON.parse(readFileSync(locationOfPackageJson, 'utf-8'));
+  const missingWorkspaceDependencies: string[] = [];
+
+  Object.keys(packageJsonContent.peerDependencies).forEach((dependency: string) => {
+    if (workspaceDependencies[dependency]) {
+      console.log('Updated peer dependency:', dependency, 'to', workspaceDependencies[dependency]);
+      packageJsonContent.peerDependencies[dependency] = workspaceDependencies[dependency];
+    } else {
+      missingWorkspaceDependencies.push(dependency);
+    }
+  });
+
+  if(missingWorkspaceDependencies.length > 0) {
+    console.error(
+      `\n\n❌ Package.json has a peer dependency, which is not part of the workspace dependencies.\n`
+    );
+    missingWorkspaceDependencies.forEach((dependency) => {
+      console.error(`${dependency}: ${packageJsonContent.peerDependencies[dependency]}`);
+    });
+    return { success: false };
+  }
+
+  fs.writeFileSync(locationOfPackageJson, JSON.stringify(packageJsonContent, null, 2));
+
   // Write the .npmrc file with the GitHub token
+  console.log(`\n\n🔑 Writing .npmrc file...\n\n`);
   const npmrcContent = `//npm.pkg.github.com/:_authToken=${process.env.GITHUB_TOKEN}\nregistry=https://npm.pkg.github.com/Energinet-DataHub\n`;
   fs.writeFileSync('.npmrc', npmrcContent);
 
