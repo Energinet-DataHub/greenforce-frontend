@@ -18,6 +18,8 @@ import { ExecutorContext } from '@nx/devkit';
 import { execSync } from 'child_process';
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import fs from 'fs';
+
 
 interface Options {
   packageJson: string;
@@ -47,6 +49,10 @@ export default async function runExecutor(options: Options, context: ExecutorCon
   // Bump the package version
   console.log(`\n\n⬆️  Bumped package version to: \n\n`);
   execSync(`npm version "1.0.0-${versionSuffix}" --no-git-tag-version`, { stdio: 'inherit' });
+
+  // Write the .npmrc file with the GitHub token
+  const npmrcContent = `//npm.pkg.github.com/:_authToken=${process.env.GITHUB_TOKEN}\nregistry=https://npm.pkg.github.com/Energinet-DataHub\n`;
+  fs.writeFileSync('.npmrc', npmrcContent);
 
   try {
     execSync('npm publish', { stdio: 'inherit' });

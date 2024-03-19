@@ -83,10 +83,10 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn nx affected -t build-package bump-and-publish --base=origin/$BASE_BRANCH
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Merge: Build, bump and publish affected packages"
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn nx affected -t build-package bump-and-publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
