@@ -146,7 +146,7 @@ export class DhUserRolesComponent implements OnChanges {
         id: actorId,
         atLeastOneRoleIsAssigned: true,
         userRolesToUpdate: { added: [], removed: [] },
-      } as UpdateUserRolesWithActorId;
+      };
 
       this._updateUserRoles.actors.push(actorChanges);
       return actorChanges;
