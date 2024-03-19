@@ -49,7 +49,7 @@ on:
 jobs:
 
   pack:
-    name: Pack packages
+    name: Publish affected packages
     runs-on: ubuntu-latest
 
     steps:
@@ -79,8 +79,10 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: "Bump and publish packages"
-        run: yarn nx affected -t pack
+      - name: "PR: Pack, bump and publish affected packages"
+        if: ${{ env.is-pull-request == 'true' }}
+        run: yarn nx affected -t pack bump-and-publish --base=origin/$BASE_BRANCH
 
-      - name: "Bump and publish packages"
-        run: yarn nx affected -t bump-and-publish
+      - name: "Merge: Pack, bump and publish affected packages"
+        if: ${{ env.is-pull-request == 'false' }}
+        run: yarn nx affected -t pack bump-and-publish
