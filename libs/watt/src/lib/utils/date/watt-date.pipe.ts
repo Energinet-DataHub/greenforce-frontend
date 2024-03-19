@@ -42,10 +42,16 @@ export class WattDatePipe implements PipeTransform {
   ): string | null {
     if (!input) return null;
 
-    return input instanceof Date || typeof input === 'string'
-      ? dayjs(input).tz(timeZone).format(formatStrings[format])
-      : typeof input === 'number'
-        ? dayjs(new Date(input)).tz(timeZone).format(formatStrings[format])
-        : `${this.transform(input.start, format)} ― ${this.transform(input.end, format)}`;
+    if (input instanceof Date || typeof input === 'string') {
+      return dayjs(input).year() === 10000 // Max Date is the same as null so dont show it
+        ? null
+        : dayjs(input).tz(timeZone).format(formatStrings[format]);
+    } else if (typeof input === 'number') {
+      return dayjs(new Date(input)).tz(timeZone).format(formatStrings[format]);
+    } else if (dayjs(input.start).isSame(dayjs(input.end), 'day')) {
+      return this.transform(input.start, format);
+    } else {
+      return `${this.transform(input.start, format)} ― ${this.transform(input.end, format)}`;
+    }
   }
 }

@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using HotChocolate.Types;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -25,6 +26,16 @@ namespace Energinet.DataHub.WebApi.GraphQL
             descriptor.Name("MeteringGridAreaImbalanceSearchResult");
 
             descriptor.Field(x => x.GridAreaCode).Ignore();
+
+            descriptor.Field(f => f.PeriodStart)
+              .Name("period").
+              Resolve((context, token) =>
+              {
+                  var meteringGridAreaImbalance = context.Parent<MeteringGridAreaImbalanceSearchResult>();
+                  return new Interval(Instant.FromDateTimeOffset(meteringGridAreaImbalance.PeriodStart), Instant.FromDateTimeOffset(meteringGridAreaImbalance.PeriodEnd));
+              });
+
+            descriptor.Field(f => f.PeriodEnd).Ignore();
 
             descriptor
                .Field("gridArea")

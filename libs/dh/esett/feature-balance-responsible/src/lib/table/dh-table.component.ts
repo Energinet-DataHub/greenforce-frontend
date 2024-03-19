@@ -64,8 +64,8 @@ export class DhBalanceResponsibleTableComponent {
     balanceResponsible: { accessor: null },
     gridArea: { accessor: null },
     meteringPointType: { accessor: null },
-    validFrom: { accessor: 'validFromDate' },
-    validTo: { accessor: 'validToDate' },
+    validFrom: { accessor: null },
+    validTo: { accessor: null },
   };
 
   translateHeader = (columnId: string): string => {

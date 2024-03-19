@@ -19,6 +19,17 @@ import {
   GridAreaDto,
   TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import dayjs from 'dayjs';
+
+const validPeriod = {
+  start: dayjs('2020-01-28T23:00:00.000Z').toDate(),
+  end: dayjs('2020-01-29T22:59:59.998Z').toDate(),
+};
+
+const validPeriodWithNull = {
+  start: dayjs('2020-01-28T23:00:00.000Z').toDate(),
+  end: dayjs('9999-12-31T23.59.59.999Z').toDate(),
+};
 
 export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
   {
@@ -34,8 +45,7 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
       name: 'N1 A/S',
     } as GridAreaDto,
     meteringPointType: TimeSeriesType.Production,
-    validFromDate: new Date('2021-02-01T10:00:00.000Z'),
-    validToDate: new Date('2021-05-02T00:00:00.000Z'),
+    validPeriod,
     balanceResponsibleWithName: {
       __typename: 'ActorNameDto',
       value: 'Test Balance Ansvarlig',
@@ -58,8 +68,7 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
       name: 'N2 A/S',
     } as GridAreaDto,
     meteringPointType: TimeSeriesType.Production,
-    validFromDate: new Date('2022-01-01T10:00:00.000Z'),
-    validToDate: null,
+    validPeriod: validPeriodWithNull,
     balanceResponsibleWithName: {
       __typename: 'ActorNameDto',
       value: 'Test Balance Ansvarlig 2',
@@ -78,8 +87,7 @@ export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
     gridArea: '000',
     gridAreaWithName: null,
     meteringPointType: TimeSeriesType.Production,
-    validFromDate: new Date('2022-01-01T10:00:00.000Z'),
-    validToDate: null,
+    validPeriod: validPeriodWithNull,
     balanceResponsibleWithName: null,
     supplierWithName: null,
   },

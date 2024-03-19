@@ -76,6 +76,15 @@ limitations under the License.
     >
       {{ "eSett.outgoingMessages.shared.messageType." + message.meteringPointType | transloco }}
     </ng-container>
+    <ng-container
+      *wattTableCell="columns['validFrom']; header: t('columns.validFrom'); let message"
+    >
+      {{ message.validPeriod.start | wattDate: "short" }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['validTo']; header: t('columns.validTo'); let message">
+      {{ message.validPeriod.end | wattDate: "short" }}
+    </ng-container>
   </watt-table>
 
   @if (!isLoading && tableDataSource.filteredData.length === 0) {
