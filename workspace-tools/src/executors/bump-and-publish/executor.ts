@@ -42,9 +42,7 @@ export default async function runExecutor(options: Options, context: ExecutorCon
   const locationOfPackageJson = join(context.root, options.packageJson);
 
   // Change the current working directory to the package.json directory
-  process.chdir(
-    join(locationOfPackageJson, '..')
-  );
+  process.chdir(join(locationOfPackageJson, '..'));
 
   // Bump the package version
   console.log(`\n\n⬆️  Bumped package version to: \n\n`);
@@ -53,7 +51,9 @@ export default async function runExecutor(options: Options, context: ExecutorCon
   try {
     execSync('npm publish', { stdio: 'inherit' });
   } catch (error) {
-    console.error('\n\n❌ Failed to publish the package. The package version may already exist.\n\n');
+    console.error(
+      '\n\n❌ Failed to publish the package. The package version may already exist.\n\n'
+    );
     return { success: false };
   }
 
