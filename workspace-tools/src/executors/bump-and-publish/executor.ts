@@ -32,7 +32,7 @@ export default async function runExecutor(options: Options, context: ExecutorCon
 
   // Replace peer-dependency versions with the package.json from the workspace root
   const updatingPeerDependencies = updatePeerDependencies(locationOfPackageJson, context.root);
-  if(!updatingPeerDependencies.success) {
+  if (!updatingPeerDependencies.success) {
     return { success: false };
   }
 
@@ -41,7 +41,7 @@ export default async function runExecutor(options: Options, context: ExecutorCon
 
   // Publish the package to the GitHub package registry
   const publising = publish(locationOfPackageJson);
-  if(!publising.success) {
+  if (!publising.success) {
     return { success: false };
   }
 
@@ -75,7 +75,10 @@ function bumpPackageVersion(locationOfPackageJson: string, version: string) {
   execSync(`npm version "${version}" --no-git-tag-version`, { stdio: 'inherit' });
 }
 
-function updatePeerDependencies(locationOfPackageJson: string, workspaceRoot: string): { success: boolean } {
+function updatePeerDependencies(
+  locationOfPackageJson: string,
+  workspaceRoot: string
+): { success: boolean } {
   console.log(`\n\n🔧 Updating peer-dependencies in package...\n`);
 
   const workspacePackageJson = JSON.parse(
