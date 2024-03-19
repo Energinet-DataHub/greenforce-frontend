@@ -38,6 +38,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   CreateCalculationDocument,
   GetGridAreasDocument,
@@ -91,6 +92,8 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   private executionTypeChanged_$ = new Subject<void>();
 
   @ViewChild('modal') modal?: WattModalComponent;
+
+  featureFlagsService = inject(DhFeatureFlagsService);
 
   loading = false;
 
@@ -149,6 +152,12 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     this.executionTypeChanged_$.pipe(startWith('')),
   ]).pipe(
     map(([gridAreas, dateRange]) => filterValidGridAreas(gridAreas, dateRange)),
+    map((gridAreas) =>
+      // HACK: This is a temporary solution to filter out grid areas that has no data
+      this.featureFlagsService.isEnabled('calculations-include-all-grid-areas')
+        ? gridAreas
+        : gridAreas.filter((g) => ['803', '804', '533', '543', '584', '950'].includes(g.code))
+    ),
     map((gridAreas) => {
       this.setMinDate(gridAreas);
       this.validatePeriod(gridAreas);

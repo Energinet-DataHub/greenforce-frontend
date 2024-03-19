@@ -120,6 +120,7 @@ export class DhOrganizationDrawerComponent {
   });
 
   private getActorsByOrganizationIdQuery$ = this.apollo.watchQuery({
+    fetchPolicy: 'cache-and-network',
     errorPolicy: 'all',
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,
