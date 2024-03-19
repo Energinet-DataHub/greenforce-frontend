@@ -20,7 +20,6 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import fs from 'fs';
 
-
 interface Options {
   packageJson: string;
 }
