@@ -74,8 +74,8 @@
       "options": {
         "cwd": ".",
         "commands": [
-          "nx build watt",
-          "cd dist/watt && npm pack --pack-destination ~"
+          "nx build-package watt",
+          "cd dist/watt && npm pack"
         ],
         "parallel": false
       }
