@@ -91,7 +91,7 @@ function updatePeerDependencies(
   Object.keys(packageJsonContent.peerDependencies).forEach((dependency: string) => {
     if (workspaceDependencies[dependency]) {
       console.log('Updated peer dependency:', dependency, 'to', workspaceDependencies[dependency]);
-      packageJsonContent.peerDependencies[dependency] = workspaceDependencies[dependency];
+      packageJsonContent.peerDependencies[dependency] = `^${workspaceDependencies[dependency]}`;
     } else {
       missingWorkspaceDependencies.push(dependency);
     }
