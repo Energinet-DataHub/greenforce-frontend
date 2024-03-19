@@ -25,12 +25,12 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { NgIf } from '@angular/common';
+
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
@@ -48,18 +48,19 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
   selector: 'dh-edit-user-modal',
   standalone: true,
   imports: [
-    NgIf,
-    WATT_MODAL,
-    WattButtonComponent,
+    RxPush,
     TranslocoModule,
+    ReactiveFormsModule,
+
+    WATT_MODAL,
     WattTabComponent,
     WattTabsComponent,
-    RxPush,
-    DhUserRolesComponent,
-    ReactiveFormsModule,
-    WattFieldErrorComponent,
+    WattButtonComponent,
     WattTextFieldComponent,
+    WattFieldErrorComponent,
     WattPhoneFieldComponent,
+
+    DhUserRolesComponent,
   ],
   templateUrl: './dh-edit-user-modal.component.html',
   styles: [
@@ -131,7 +132,11 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   }
 
   save() {
-    if (this.user === null || this.userInfoForm.invalid) {
+    if (
+      this.user === null ||
+      this.userInfoForm.invalid ||
+      this._updateUserRoles?.actors.some((actor) => !actor.atLeastOneRoleIsAssigned)
+    ) {
       return;
     }
 
@@ -154,6 +159,21 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
       this.phoneNumberControl.value,
       this._updateUserRoles ?? undefined
     );
+  }
+
+  closeModal(status: boolean): void {
+    this.userRoles.resetUpdateUserRoles();
+    this.editUserModal.close(status);
+    this.closed.emit();
+  }
+
+  close(): void {
+    this.closeModal(false);
+  }
+
+  onSelectedUserRolesChanged(updateUserRoles: UpdateUserRoles): void {
+    this._updateUserRoles = updateUserRoles;
+    this.userInfoForm.markAsDirty();
   }
 
   private startEditUserRequest(
@@ -205,20 +225,5 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
     this.user.firstName = firstName;
     this.user.lastName = lastName;
     this.user.phoneNumber = phoneNumber;
-  }
-
-  closeModal(status: boolean): void {
-    this.userRoles.resetUpdateUserRoles();
-    this.editUserModal.close(status);
-    this.closed.emit();
-  }
-
-  close(): void {
-    this.closeModal(false);
-  }
-
-  onSelectedUserRolesChanged(updateUserRoles: UpdateUserRoles): void {
-    this._updateUserRoles = updateUserRoles;
-    this.userInfoForm.markAsDirty();
   }
 }

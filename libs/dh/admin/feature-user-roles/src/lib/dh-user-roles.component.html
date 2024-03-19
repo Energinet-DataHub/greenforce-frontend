@@ -26,7 +26,7 @@ limitations under the License.
   >
     <mat-accordion multi class="container">
       @for (actor of userRolesPrActor; track actor) {
-        <watt-expandable-card [expanded]="expanded">
+        <watt-expandable-card variant="solid" [expanded]="expanded">
           @if (!selectMode) {
             <watt-badge>{{
               t("assigned.count", { count: (actor.userRoles | filterUserRoles: false).length })
@@ -41,6 +41,12 @@ limitations under the License.
             <watt-expandable-card-title
               >{{ actor.actorNumber }} – {{ actor.organizationName }}
             </watt-expandable-card-title>
+          }
+
+          @if (!checkIfAtLeastOneRoleIsAssigned(actor.id)) {
+            <watt-field-error>
+              {{ t("atleastOneRole") }}
+            </watt-field-error>
           }
 
           <watt-table

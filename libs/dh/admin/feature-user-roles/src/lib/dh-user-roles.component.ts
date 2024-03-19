@@ -34,6 +34,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import {
   DhAdminUserRolesStore,
   UpdateUserRoles,
+  UpdateUserRolesWithActorId,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -50,6 +51,7 @@ import {
   FilterUserRolesPipe,
   UserRolesIntoTablePipe,
 } from './dh-filter-user-roles-into-table.pipe';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   selector: 'dh-user-roles',
@@ -60,19 +62,22 @@ import {
   imports: [
     RxLet,
     RxPush,
-    WattSpinnerComponent,
-    WattCardComponent,
-    WATT_TABLE,
+    FormsModule,
     TranslocoModule,
     MatDividerModule,
-    WattEmptyStateComponent,
     MatExpansionModule,
+
+    WATT_TABLE,
+    WattCardComponent,
+    WattBadgeComponent,
+    WattSpinnerComponent,
+    WattEmptyStateComponent,
+    WattFieldErrorComponent,
+    WATT_EXPANDABLE_CARD_COMPONENTS,
+
     DhEmDashFallbackPipe,
-    FormsModule,
     FilterUserRolesPipe,
     UserRolesIntoTablePipe,
-    [...WATT_EXPANDABLE_CARD_COMPONENTS],
-    WattBadgeComponent,
   ],
 })
 export class DhUserRolesComponent implements OnChanges {
@@ -108,12 +113,19 @@ export class DhUserRolesComponent implements OnChanges {
     }
   }
 
+  checkIfAtLeastOneRoleIsAssigned(actorId: string): boolean {
+    const actor = this._updateUserRoles.actors.find((actor) => actor.id === actorId);
+    return actor ? actor.atLeastOneRoleIsAssigned : false;
+  }
+
   selectionChanged(
     actorId: string,
     userRoles: MarketParticipantUserRoleViewDto[],
     allAssignable: MarketParticipantUserRoleViewDto[]
   ) {
     const actor = this.getOrAddActor(actorId);
+
+    actor.atLeastOneRoleIsAssigned = userRoles.length > 0;
 
     actor.userRolesToUpdate.added = userRoles
       .filter((userRole) => !userRole.userActorId)
@@ -132,8 +144,9 @@ export class DhUserRolesComponent implements OnChanges {
     if (!actor) {
       const actorChanges = {
         id: actorId,
+        atLeastOneRoleIsAssigned: true,
         userRolesToUpdate: { added: [], removed: [] },
-      };
+      } as UpdateUserRolesWithActorId;
 
       this._updateUserRoles.actors.push(actorChanges);
       return actorChanges;

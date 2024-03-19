@@ -1148,6 +1148,7 @@
           "roles": "User roles",
           "role": "User role",
           "rolesHeadline": "User Roles",
+          "atleastOneRole": "Select at least one user role",
           "emptyTitle": "No user roles found",
           "emptyMessage": "Try changing the search criteria",
           "filter": {
