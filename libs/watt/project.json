@@ -73,10 +73,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": ".",
-        "commands": [
-          "nx build-package watt",
-          "cd dist/watt && npm pack"
-        ],
+        "commands": ["nx build-package watt", "cd dist/watt && npm pack"],
         "parallel": false
       }
     },
