@@ -15,39 +15,60 @@
 # Design System Frontend
 name: Watt CD
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
+  BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+  is-main-branch: ${{ github.ref == 'refs/heads/main' }}
+  is-pull-request: ${{ github.event_name == 'pull_request' }}
+  NODE_OPTIONS: --max_old_space_size=6144
   node-version-file: .nvmrc
   # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
   yarn-version: 4.0.2
+
+  # Nx Cloud
+  NX_BRANCH: ${{ github.event.number }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_RUN_GROUP: ${{ github.run_id }}
 
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - apps/dh/api-dh/**
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - apps/dh/api-dh/**
+  workflow_dispatch: {}
 
 jobs:
-  #
-  # Detect changes to start relevant jobs
-  #
 
-  changes:
-    uses: ./.github/workflows/detect-changes.yml
-
-  #
-  # Frontend
-  #
-
-  chromatic_deployment:
-    name: Deploy to Chromatic
-    needs: changes
-    if: ${{ needs.changes.outputs.watt_frontend == 'true' }}
-    # Operating System
+  pack:
+    name: Pack packages
     runs-on: ubuntu-latest
-    # Job steps
+
     steps:
-      - uses: actions/checkout@v4
+      # needed for Nx affected command
+      - name: "PR: Check out source code with current branch Git history"
+        if: ${{ env.is-pull-request == 'true' }}
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
+      # needed for Nx affected command
+      - name: "PR: Fetch base branch Git history"
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git fetch --no-tags origin $BASE_BRANCH
+
+      - name: "Merge: Check out source code"
+        if: ${{ env.is-pull-request == 'false' }}
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -58,28 +79,8 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      # 👇 Adds Chromatic as a step in the workflow
-      - name: Publish to Chromatic
-        uses: chromaui/action@v1
-        # Chromatic GitHub Action options
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # 👇 Chromatic projectToken, refer to the manage page to obtain it.
-          projecttoken: ${{ secrets.chromatic_project_token }}
-          exitzeroonchanges: true # 👈 Option to prevent the workflow from failing
-          buildscriptname: designsystem:build
+      - name: "Bump and publish packages"
+        run: yarn nx affected -t pack
 
-  #
-  # Send notification to teams channel if deployment dispatch failed
-  #
-
-  dispatch_failed:
-    needs: [chromatic_deployment]
-    if: |
-      always() &&
-      contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v13
-    with:
-      team_name: TeamFrontend
-      subject: "Deployment dispatch failed: Watt + UI"
-    secrets: inherit
+      - name: "Bump and publish packages"
+        run: yarn nx affected -t bump-and-publish
