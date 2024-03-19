@@ -6,6 +6,7 @@
     "type": "git",
     "url": "git+https://github.com/Energinet-DataHub/greenforce-frontend.git"
   },
+  "scripts": {},
   "keywords": [
     "DataHub design system"
   ],
