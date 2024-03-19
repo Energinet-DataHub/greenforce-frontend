@@ -41,6 +41,10 @@ export const dhFeatureFlagsConfig = {
       DhAppEnvironment.test_002,
     ],
   },
+  'calculations-include-all-grid-areas': {
+    created: '18-03-2024',
+    disabledEnvironments: [DhAppEnvironment.test_001],
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
