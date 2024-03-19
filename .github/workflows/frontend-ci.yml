@@ -336,3 +336,37 @@ jobs:
         with:
           name: cypress-component-tests
           path: dist/cypress/libs/
+
+  bumpAndPublish:
+    name: Bump and publish packages
+    runs-on: ubuntu-latest
+
+    steps:
+      # needed for Nx affected command
+      - name: "PR: Check out source code with current branch Git history"
+        if: ${{ env.is-pull-request == 'true' }}
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
+      # needed for Nx affected command
+      - name: "PR: Fetch base branch Git history"
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git fetch --no-tags origin $BASE_BRANCH
+
+      - name: "Merge: Check out source code"
+        if: ${{ env.is-pull-request == 'false' }}
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ${{ env.node-version-file }}
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: "Bump and publish packages"
+        run: yarn nx affected -t bump-and-publish
