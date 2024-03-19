@@ -59,13 +59,13 @@ export class DhBalanceResponsibleTableComponent {
   drawer: DhBalanceResponsibleDrawerComponent | undefined;
 
   columns: WattTableColumnDef<DhBalanceResponsibleMessage> = {
-    validFrom: { accessor: 'validFromDate' },
-    validTo: { accessor: 'validToDate' },
+    received: { accessor: 'receivedDateTime' },
     electricitySupplier: { accessor: null },
     balanceResponsible: { accessor: null },
     gridArea: { accessor: null },
     meteringPointType: { accessor: null },
-    received: { accessor: 'receivedDateTime' },
+    validFrom: { accessor: 'validFromDate' },
+    validTo: { accessor: 'validToDate' },
   };
 
   translateHeader = (columnId: string): string => {
