@@ -53,7 +53,7 @@
         }
       }
     },
-    "build": {
+    "build-package": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
