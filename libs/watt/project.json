@@ -79,6 +79,12 @@
         ],
         "parallel": false
       }
+    },
+    "bump-and-publish": {
+      "executor": "workspace-tools:bump-and-publish",
+      "options": {
+        "packageJson": "/dist/watt/package.json"
+      }
     }
   },
   "tags": ["product:watt"]

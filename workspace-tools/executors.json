@@ -4,6 +4,11 @@
       "implementation": "./src/executors/generate-translation-keys/executor",
       "schema": "./src/executors/generate-translation-keys/schema.json",
       "description": "generate-translation-keys executor"
+    },
+    "bump-and-publish": {
+      "implementation": "./src/executors/bump-and-publish/executor",
+      "schema": "./src/executors/bump-and-publish/schema.json",
+      "description": "Bump versioning of package.json and publish to registry executor."
     }
   }
 }

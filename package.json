@@ -1,6 +1,6 @@
 {
   "name": "energinet-datahub",
-  "version": "0.0.0",
+  "version": "1.0.0-chore-watt-npm-package.1710839337619",
   "license": "MIT",
   "private": true,
   "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file.",
