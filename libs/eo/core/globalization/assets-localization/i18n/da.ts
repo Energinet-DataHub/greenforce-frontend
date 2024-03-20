@@ -296,7 +296,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           Declined: '{{actorName}} har afvist målepunktet med ID {{entityId}}',
           Activated: '{{actorName}} har aktiveret målepunktet med ID {{entityId}}',
           Deactivated: '{{actorName}} har deaktiveret målepunktet med ID {{entityId}}',
-          EndDateChanged: '{{actorName}} har deaktiveret eller ændret slutdatoen for målepunktet med ID {{entityId}}',
+          EndDateChanged:
+            '{{actorName}} har deaktiveret eller ændret slutdatoen for målepunktet med ID {{entityId}}',
           Expired: '{{actorName}} har ladet målepunktet udløbe med ID {{entityId}}',
         },
         TransferAgreementProposal: {
