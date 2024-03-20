@@ -45,8 +45,8 @@ export class WattDatePipe implements PipeTransform {
     if (input instanceof Date || typeof input === 'string') {
       // Treat year 1000 as `null` in the UI
       // Needed because in some cases `input.end` is set to a value that is far into the future
-      // in order to signify that the value is not defined  
-      return dayjs(input).year() === 10000 
+      // in order to signify that the value is not defined
+      return dayjs(input).year() === 10000
         ? null
         : dayjs(input).tz(timeZone).format(formatStrings[format]);
     } else if (typeof input === 'number') {
