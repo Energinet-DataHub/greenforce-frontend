@@ -27,8 +27,7 @@ query getMeteringGridAreaImbalance(
       }
       documentDateTime
       receivedDateTime
-      periodStart
-      periodEnd
+      period
       incomingImbalancePerDay {
         imbalanceDay
         firstOccurrenceOfImbalance
