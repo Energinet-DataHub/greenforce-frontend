@@ -51,7 +51,7 @@ export class WattDatePipe implements PipeTransform {
       // in order to signify that the value is not defined
     } else if (
       dayjs(input.start).isSame(dayjs(input.end), 'day') ||
-      dayjs(input.end).year() === 10000
+      dayjs(input.end).tz(timeZone).year() === 10000
     ) {
       return this.transform(input.start, format);
     } else {
