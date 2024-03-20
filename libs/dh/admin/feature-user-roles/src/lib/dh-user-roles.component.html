@@ -43,7 +43,7 @@ limitations under the License.
             </watt-expandable-card-title>
           }
 
-          @if (!checkIfAtLeastOneRoleIsAssigned(actor.id)) {
+          @if (!checkIfAtLeastOneRoleIsAssigned(actor.id) && selectMode) {
             <watt-field-error>
               {{ t("atleastOneRole") }}
             </watt-field-error>
