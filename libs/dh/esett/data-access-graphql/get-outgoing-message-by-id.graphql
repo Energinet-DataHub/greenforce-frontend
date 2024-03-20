@@ -3,8 +3,7 @@ query GetOutgoingMessageById($documentId: String!) {
     documentId
     calculationType
     created
-    periodFrom
-    periodTo
+    period
     documentStatus
     gridArea {
       displayName

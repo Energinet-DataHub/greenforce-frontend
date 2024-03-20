@@ -21,6 +21,12 @@ import {
   TimeSeriesType,
   PriceAreaCode,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import dayjs from 'dayjs';
+
+const period = {
+  start: dayjs('2020-01-28T23:00:00.000Z').toDate(),
+  end: dayjs('2020-01-29T22:59:59.998Z').toDate(),
+};
 
 export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
   {
@@ -40,8 +46,7 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     documentStatus: DocumentStatus.Accepted,
     timeSeriesType: TimeSeriesType.Consumption,
     created: new Date('2021-01-01T00:10:00.000Z'),
-    periodFrom: new Date('2021-01-01T00:00:00.000Z'),
-    periodTo: new Date('2021-03-01T00:00:00.000Z'),
+    period,
   },
   {
     __typename: 'EsettOutgoingMessage',
@@ -60,8 +65,7 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     documentStatus: DocumentStatus.Rejected,
     timeSeriesType: TimeSeriesType.Consumption,
     created: new Date('2021-02-01T00:10:00.000Z'),
-    periodFrom: new Date('2021-02-01T00:00:00.000Z'),
-    periodTo: new Date('2021-05-01T00:00:00.000Z'),
+    period,
   },
   {
     __typename: 'EsettOutgoingMessage',
@@ -80,8 +84,7 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     documentStatus: DocumentStatus.AwaitingReply,
     timeSeriesType: TimeSeriesType.Consumption,
     created: new Date('2022-01-01T00:10:00.000Z'),
-    periodFrom: new Date('2022-01-01T00:00:00.000Z'),
-    periodTo: new Date('2022-03-01T00:00:00.000Z'),
+    period,
   },
   {
     __typename: 'EsettOutgoingMessage',
@@ -100,7 +103,6 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     documentStatus: DocumentStatus.AwaitingReply,
     timeSeriesType: TimeSeriesType.Consumption,
     created: new Date('2023-01-01T00:10:00.000Z'),
-    periodFrom: new Date('2023-01-01T00:00:00.000Z'),
-    periodTo: new Date('2023-03-01T00:00:00.000Z'),
+    period,
   },
 ];
