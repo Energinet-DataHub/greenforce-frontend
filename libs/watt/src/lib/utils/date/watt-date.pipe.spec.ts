@@ -44,7 +44,7 @@ describe(WattDatePipe, () => {
   });
 
   it('transforms date range in short format', () => {
-    const range = { start: '2019-03-25T22:00:00Z', end: '2019-03-27T21:59:59Z' };
+    const range = { start: '2019-03-25T21:00:00Z', end: '2019-03-27T21:59:59Z' };
     expect(pipe.transform(range)).toBe('25-03-2019 ― 27-03-2019');
   });
 
