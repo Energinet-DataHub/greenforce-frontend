@@ -34,7 +34,6 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import {
   DhAdminUserRolesStore,
   UpdateUserRoles,
-  UpdateUserRolesWithActorId,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -146,7 +145,7 @@ export class DhUserRolesComponent implements OnChanges {
         id: actorId,
         atLeastOneRoleIsAssigned: true,
         userRolesToUpdate: { added: [], removed: [] },
-      } as UpdateUserRolesWithActorId;
+      };
 
       this._updateUserRoles.actors.push(actorChanges);
       return actorChanges;
