@@ -153,7 +153,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     },
     documentDateTime: new Date('2024-02-19T09:03:20.000Z'),
     receivedDateTime: new Date('2024-02-19T09:05:19.415Z'),
-    period,
+    incomingImbalancePerDay: [],
     period: {
       start: new Date('2020-01-30T23:00:00.000Z'),
       end: new Date('2020-02-02T22:59:59.999Z'),
