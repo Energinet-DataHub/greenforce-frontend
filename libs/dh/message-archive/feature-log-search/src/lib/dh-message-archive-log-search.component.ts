@@ -30,7 +30,7 @@ import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattDateRange, dayjs } from '@energinet-datahub/watt/date';
+import { WattDateRange, dayjs } from '@energinet-datahub/watt/utils/date';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';

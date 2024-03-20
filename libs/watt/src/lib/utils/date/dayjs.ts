@@ -14,13 +14,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import dayjs from 'dayjs';
+import dayjs, { OpUnitType } from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { Injectable } from '@angular/core';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(customParseFormat);
 
-export { dayjs };
+@Injectable({
+  providedIn: 'root',
+})
+class WattDateUtils {
+  startOf(date: Date, unit: OpUnitType): Date {
+    return dayjs(date).startOf(unit).toDate();
+  }
+
+  isValid(date: Date | string): boolean {
+    return dayjs(date).isValid();
+  }
+
+  utc(date: Date | string): Date {
+    return dayjs(date).utc().toDate();
+  }
+
+  endOf(date: Date, unit: OpUnitType): Date {
+    return dayjs(date).endOf(unit).toDate();
+  }
+
+  toTimeZone(date: Date | string, timeZone: string): Date | null {
+    if (this.isValid(date)) {
+      return dayjs(date).tz(timeZone).toDate();
+    } else {
+      const maybeShortFormattedDate = this.parse(date, 'DD-MM-YYYY');
+      if (this.isValid(maybeShortFormattedDate)) {
+        return this.toTimeZone(maybeShortFormattedDate, timeZone);
+      } else {
+        return null;
+      }
+    }
+  }
+
+  parse(date: Date | string, format?: string) {
+    return dayjs(date, format).toDate();
+  }
+
+  format(date: string, format: string, timezone: string): string {
+    return dayjs(date).tz(timezone).format(format);
+  }
+}
+
+export { dayjs, WattDateUtils };

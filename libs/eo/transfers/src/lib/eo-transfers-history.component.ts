@@ -29,8 +29,12 @@ import {
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import {
+  WATT_TABLE,
+  WattTableColumnDef,
+  WattTableDataSource,
+  WattPaginatorComponent,
+} from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { translations } from '@energinet-datahub/eo/translations';
@@ -40,7 +44,7 @@ import {
   EoTransferAgreementsHistory,
   EoTransfersService,
 } from './eo-transfers.service';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { HttpErrorResponse } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

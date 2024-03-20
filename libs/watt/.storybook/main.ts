@@ -7,7 +7,7 @@ const config: StorybookConfig = {
       to: 'assets/watt',
     },
   ],
-  stories: ['../src/lib/**/*.mdx', '../src/lib/**/*.stories.@(js|ts)'],
+  stories: ['../**/*.mdx', '../**/*.stories.@(js|ts)'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-a11y',

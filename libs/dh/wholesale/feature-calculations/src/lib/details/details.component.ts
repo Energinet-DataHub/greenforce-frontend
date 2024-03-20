@@ -32,7 +32,7 @@ import { Apollo } from 'apollo-angular';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,

@@ -47,7 +47,7 @@
         "stylePreprocessorOptions": {
           "includePaths": [
             "libs/eo/shared/styles/src/lib",
-            "libs/watt/src/lib/styles"
+            "libs/watt/src/lib/core/styles"
           ]
         },
         "styles": ["libs/eo/shared/styles/src/index.scss"],

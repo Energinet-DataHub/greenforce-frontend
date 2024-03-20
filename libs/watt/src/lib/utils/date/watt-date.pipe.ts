@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from './dayjs';
 import { WattRange } from './watt-date-range';
 
 const formatStrings = {

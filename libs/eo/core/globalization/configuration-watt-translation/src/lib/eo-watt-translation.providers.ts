@@ -19,7 +19,7 @@ import { TranslocoService } from '@ngneat/transloco';
 
 import { WattDataIntlService } from '@energinet-datahub/watt/data';
 import { WattFieldIntlService } from '@energinet-datahub/watt/field';
-import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
+import { WattPaginatorIntlService } from '@energinet-datahub/watt/table';
 import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
 
 @Injectable()

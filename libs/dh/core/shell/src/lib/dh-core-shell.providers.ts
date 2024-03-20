@@ -47,7 +47,7 @@ import {
   environment,
 } from '@energinet-datahub/dh/shared/environments';
 import { dhLanguageServiceInitializer } from '@energinet-datahub/dh/globalization/feature-language-picker';
-import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/core/datetime';
 import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';

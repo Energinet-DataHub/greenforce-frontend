@@ -18,7 +18,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
-import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/core/datetime';
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 
 import { EoDashboardShellComponent } from './eo-dashboard-shell.component';

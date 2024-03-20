@@ -29,7 +29,7 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,

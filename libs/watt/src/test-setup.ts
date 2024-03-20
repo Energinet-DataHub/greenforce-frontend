@@ -17,7 +17,9 @@
 
 import 'jest-preset-angular/setup-jest';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
 addDomMatchers();

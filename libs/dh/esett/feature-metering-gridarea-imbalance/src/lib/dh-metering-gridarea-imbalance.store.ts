@@ -18,7 +18,7 @@ import { Injectable } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { ComponentStore } from '@ngrx/component-store';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet-datahub/watt/utils/date';
 
 import { MeteringGridImbalanceValuesToInclude } from '@energinet-datahub/dh/shared/domain/graphql';
 

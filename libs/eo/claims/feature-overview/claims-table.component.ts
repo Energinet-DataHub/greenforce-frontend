@@ -26,8 +26,12 @@ import {
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
-import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import {
+  WATT_TABLE,
+  WattTableDataSource,
+  WattTableColumnDef,
+  WattPaginatorComponent,
+} from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { translations } from '@energinet-datahub/eo/translations';
 

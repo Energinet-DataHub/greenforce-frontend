@@ -29,7 +29,7 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
