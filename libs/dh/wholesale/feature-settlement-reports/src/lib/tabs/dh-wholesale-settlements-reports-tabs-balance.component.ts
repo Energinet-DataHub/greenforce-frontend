@@ -27,7 +27,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { ApolloError } from '@apollo/client/errors';
 import { Subscription, switchMap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
@@ -83,13 +83,15 @@ export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
     `,
   ],
   imports: [
+    TranslocoDirective,
+    TranslocoPipe,
+    ReactiveFormsModule,
+
     WATT_TABS,
     WATT_TABLE,
-    TranslocoModule,
     WattButtonComponent,
     WattDateRangeChipComponent,
     WattFormChipDirective,
-    ReactiveFormsModule,
     WattDropdownComponent,
     WattDataTableComponent,
     WattDataFiltersComponent,

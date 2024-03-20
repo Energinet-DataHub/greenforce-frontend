@@ -23,7 +23,7 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { FormsModule } from '@angular/forms';
@@ -60,19 +60,22 @@ import {
   imports: [
     RxLet,
     RxPush,
+    TranslocoDirective,
+    TranslocoPipe,
+    MatDividerModule,
+    MatExpansionModule,
+    FormsModule,
+
     WattSpinnerComponent,
     WattCardComponent,
     WATT_TABLE,
-    TranslocoModule,
-    MatDividerModule,
     WattEmptyStateComponent,
-    MatExpansionModule,
+    WATT_EXPANDABLE_CARD_COMPONENTS,
+    WattBadgeComponent,
+
     DhEmDashFallbackPipe,
-    FormsModule,
     FilterUserRolesPipe,
     UserRolesIntoTablePipe,
-    [...WATT_EXPANDABLE_CARD_COMPONENTS],
-    WattBadgeComponent,
   ],
 })
 export class DhUserRolesComponent implements OnChanges {

@@ -16,7 +16,7 @@
  */
 import { NgIf } from '@angular/common';
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { MarketParticipantUserRoleStatus } from '@energinet-datahub/dh/shared/domain';
@@ -29,7 +29,7 @@ import { MarketParticipantUserRoleStatus } from '@energinet-datahub/dh/shared/do
 
     <watt-badge *ngIf="status === 'Inactive'" type="warning">{{ t('inactive') }}</watt-badge>
   </ng-container>`,
-  imports: [NgIf, TranslocoModule, WattBadgeComponent],
+  imports: [NgIf, TranslocoDirective, WattBadgeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhRoleStatusComponent {

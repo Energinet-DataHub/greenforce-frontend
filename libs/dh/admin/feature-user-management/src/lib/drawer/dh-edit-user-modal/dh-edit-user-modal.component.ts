@@ -29,7 +29,7 @@ import { NgIf } from '@angular/common';
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
 
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
@@ -49,17 +49,19 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
   standalone: true,
   imports: [
     NgIf,
+    TranslocoDirective,
+    ReactiveFormsModule,
+    RxPush,
+
     WATT_MODAL,
     WattButtonComponent,
-    TranslocoModule,
     WattTabComponent,
     WattTabsComponent,
-    RxPush,
-    DhUserRolesComponent,
-    ReactiveFormsModule,
     WattFieldErrorComponent,
     WattTextFieldComponent,
     WattPhoneFieldComponent,
+
+    DhUserRolesComponent,
   ],
   templateUrl: './dh-edit-user-modal.component.html',
   styles: [

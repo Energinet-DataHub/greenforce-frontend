@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, input } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
@@ -29,9 +29,11 @@ import { DhUserAuditLogsComponent } from './content/dh-user-audit-logs.component
   standalone: true,
   templateUrl: './dh-drawer-tabs.component.html',
   imports: [
-    TranslocoModule,
+    TranslocoDirective,
+
     WattTabComponent,
     WattTabsComponent,
+
     DhUserMasterDataComponent,
     DhUserRolesComponent,
     DhUserAuditLogsComponent,

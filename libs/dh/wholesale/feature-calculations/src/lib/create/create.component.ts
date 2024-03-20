@@ -19,7 +19,7 @@ import { NgIf } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { combineLatest, first, map, Observable, of, startWith, Subject, tap } from 'rxjs';
@@ -68,7 +68,8 @@ interface FormValues {
     RxLet,
     RxPush,
     ReactiveFormsModule,
-    TranslocoModule,
+    TranslocoDirective,
+
     WATT_MODAL,
     WattButtonComponent,
     WattDatepickerV2Component,

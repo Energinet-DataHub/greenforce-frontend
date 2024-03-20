@@ -16,7 +16,7 @@
  */
 import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -42,7 +42,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
       }
     `,
   ],
-  imports: [TranslocoModule, ReactiveFormsModule, WattDropdownComponent],
+  imports: [TranslocoDirective, ReactiveFormsModule, WattDropdownComponent],
 })
 export class DhUsersTabUserRoleFilterComponent implements OnInit {
   private _destroyRef = inject(DestroyRef);

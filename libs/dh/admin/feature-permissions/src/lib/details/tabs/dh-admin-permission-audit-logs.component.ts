@@ -18,7 +18,7 @@ import { Component, Input, inject, OnChanges } from '@angular/core';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { catchError, map, of, tap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 
@@ -58,7 +58,9 @@ import {
     RxLet,
     RxPush,
     NgTemplateOutlet,
-    TranslocoModule,
+    TranslocoDirective,
+    TranslocoPipe,
+
     WATT_CARD,
     WattSpinnerComponent,
     WattEmptyStateComponent,

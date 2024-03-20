@@ -17,7 +17,7 @@
 import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -30,9 +30,10 @@ import { CalculationGridArea } from '@energinet-datahub/dh/wholesale/domain';
   standalone: true,
   imports: [
     NgIf,
-    WATT_TABLE,
     MatSortModule,
-    TranslocoModule,
+    TranslocoDirective,
+
+    WATT_TABLE,
     WattEmptyStateComponent,
     WattPaginatorComponent,
     WATT_CARD,

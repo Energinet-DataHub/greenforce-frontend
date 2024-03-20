@@ -29,7 +29,7 @@ import {
 } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { Apollo } from 'apollo-angular';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -50,9 +50,8 @@ import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.compo
   standalone: true,
   imports: [
     NgIf,
-    DhCalculationsGridAreasComponent,
-    DhEmDashFallbackPipe,
-    TranslocoModule,
+    TranslocoDirective,
+
     WATT_DRAWER,
     WattBadgeComponent,
     WattDatePipe,
@@ -60,6 +59,9 @@ import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.compo
     WattDescriptionListItemComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
+
+    DhCalculationsGridAreasComponent,
+    DhEmDashFallbackPipe,
   ],
   selector: 'dh-calculations-details',
   templateUrl: './details.component.html',
