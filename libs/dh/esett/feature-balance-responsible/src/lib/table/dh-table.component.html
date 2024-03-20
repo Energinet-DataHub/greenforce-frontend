@@ -83,7 +83,7 @@ limitations under the License.
     </ng-container>
 
     <ng-container *wattTableCell="columns['validTo']; header: t('columns.validTo'); let message">
-      {{ message.validPeriod.end | wattDate: "short" }}
+      {{ message.validPeriod.end | wattDate: "short" | dhEmDashFallback }}
     </ng-container>
   </watt-table>
 

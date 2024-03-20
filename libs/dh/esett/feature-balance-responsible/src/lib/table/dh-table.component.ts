@@ -24,6 +24,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
 import { DhBalanceResponsibleDrawerComponent } from '../drawer/dh-drawer.component';
 
@@ -49,6 +50,7 @@ import { DhBalanceResponsibleDrawerComponent } from '../drawer/dh-drawer.compone
     VaterFlexComponent,
     VaterStackComponent,
 
+    DhEmDashFallbackPipe,
     DhBalanceResponsibleDrawerComponent,
   ],
 })
