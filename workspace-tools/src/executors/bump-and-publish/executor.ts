@@ -56,15 +56,16 @@ function generatePakacgeVersion(): string {
   branchName = branchName.replace(/[^a-zA-Z0-9]/g, '-');
 
   let versionSuffix = branchName === 'main' ? gitCommitHash : `${branchName}.${Date.now()}`;
+  const version = branchName === 'main' ? '1.0.0' : '0.0.0';
 
   // Truncate the version suffix to ensure the version number doesn't exceed the npm limit
-  const maxVersionLength = 256;
-  const versionPrefixLength = '1.0.0-'.length;
+  const maxVersionLength = 255;
+  const versionPrefixLength = version.length;
   if (versionSuffix.length > maxVersionLength - versionPrefixLength) {
     versionSuffix = versionSuffix.substring(0, maxVersionLength - versionPrefixLength);
   }
 
-  return `1.0.0-${versionSuffix}`;
+  return `${version}-${versionSuffix}`;
 }
 
 function bumpPackageVersion(locationOfPackageJson: string, version: string) {
@@ -90,8 +91,10 @@ function updatePeerDependencies(
 
   Object.keys(packageJsonContent.peerDependencies).forEach((dependency: string) => {
     if (workspaceDependencies[dependency]) {
-      console.log('Updated peer dependency:', dependency, 'to ^', workspaceDependencies[dependency]);
-      packageJsonContent.peerDependencies[dependency] = `^${workspaceDependencies[dependency]}`;
+      const version = `^${workspaceDependencies[dependency]}`;
+      packageJsonContent.peerDependencies[dependency] = `${version}`;
+
+      console.log(`Updated peer dependency: ${dependency} to ${version}`);
     } else {
       missingWorkspaceDependencies.push(dependency);
     }
