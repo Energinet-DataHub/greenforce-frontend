@@ -49,6 +49,10 @@ describe(WattDatePipe, () => {
     expect(pipe.transform(range)).toBe('25-03-2019');
   });
 
+  it('transforms date range with start and end dates falling on the same day', () => {
+    const range = { start: '2019-03-25T22:00:00Z', end: '2019-03-25T22:59:59Z' };
+    expect(pipe.transform(range)).toBe('25-03-2019');
+  });
   it('transforms date range in long format', () => {
     const range = { start: '2023-01-01T22:00:00Z', end: '2023-02-01T21:59:59Z' };
     expect(pipe.transform(range, 'long')).toBe('01-01-2023, 23:00 ― 01-02-2023, 22:59');
