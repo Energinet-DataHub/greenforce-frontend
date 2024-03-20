@@ -1,0 +1,22 @@
+query GetDelegationsForActor($actorId: UUID!) {
+  getDelegationsForActor(actorId: $actorId) {
+    periodId
+    id
+    messageType
+    delegatedBy {
+      id
+      name
+    }
+    delegatedTo {
+      id
+      name
+    }
+    startsAt
+    expiresAt
+    gridArea {
+      id
+      code
+    }
+    status
+  }
+}

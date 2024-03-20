@@ -18,4 +18,3 @@ export * from './actor';
 export * from './calculation';
 export * from './grid-areas';
 export * from './settlement-report-process';
-export * from './streamToFile';

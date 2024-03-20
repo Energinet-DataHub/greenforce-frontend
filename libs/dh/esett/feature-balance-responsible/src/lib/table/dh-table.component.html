@@ -27,6 +27,10 @@ limitations under the License.
     (rowClick)="onRowClick($event)"
     (sortChange)="sortChange.emit($event)"
   >
+    <ng-container *wattTableCell="columns['received']; header: t('columns.received'); let message">
+      {{ message.receivedDateTime | wattDate: "long" }}
+    </ng-container>
+
     <ng-container
       *wattTableCell="
         columns['electricitySupplier'];
@@ -34,12 +38,11 @@ limitations under the License.
         let message
       "
     >
-      <ng-container *ngIf="message.supplierWithName">
+      @if (message.supplierWithName) {
         {{ message.supplier }} - {{ message.supplierWithName.value }}
-      </ng-container>
-      <watt-badge *ngIf="!message.supplierWithName" type="danger">{{
-        message.supplier
-      }}</watt-badge>
+      } @else {
+        <watt-badge type="danger">{{ message.supplier }}</watt-badge>
+      }
     </ng-container>
 
     <ng-container
@@ -49,21 +52,19 @@ limitations under the License.
         let message
       "
     >
-      <ng-container *ngIf="message.balanceResponsibleWithName">
+      @if (message.balanceResponsibleWithName) {
         {{ message.balanceResponsible }} - {{ message.balanceResponsibleWithName.value }}
-      </ng-container>
-      <watt-badge *ngIf="!message.balanceResponsibleWithName" type="danger">{{
-        message.balanceResponsible
-      }}</watt-badge>
+      } @else {
+        <watt-badge type="danger">{{ message.balanceResponsible }}</watt-badge>
+      }
     </ng-container>
 
     <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
-      <ng-container *ngIf="message.gridAreaWithName">
+      @if (message.gridAreaWithName) {
         {{ message.gridAreaWithName.code }} - {{ message.gridAreaWithName.name }}
-      </ng-container>
-      <watt-badge *ngIf="!message.gridAreaWithName" type="danger">{{
-        message.gridArea
-      }}</watt-badge>
+      } @else {
+        <watt-badge type="danger">{{ message.gridArea }}</watt-badge>
+      }
     </ng-container>
 
     <ng-container
@@ -75,23 +76,17 @@ limitations under the License.
     >
       {{ "eSett.outgoingMessages.shared.messageType." + message.meteringPointType | transloco }}
     </ng-container>
-
-    <ng-container *wattTableCell="columns['received']; header: t('columns.received'); let message">
-      {{ message.receivedDateTime | wattDate: "long" }}
-    </ng-container>
   </watt-table>
 
-  <vater-stack
-    fill="vertical"
-    justify="center"
-    *ngIf="!isLoading && tableDataSource.filteredData.length === 0"
-  >
-    <watt-empty-state
-      [icon]="hasError ? 'custom-power' : 'cancel'"
-      [title]="hasError ? t('errorTitle') : t('emptyTitle')"
-      [message]="hasError ? t('errorMessage') : t('emptyMessage')"
-    />
-  </vater-stack>
+  @if (!isLoading && tableDataSource.filteredData.length === 0) {
+    <vater-stack fill="vertical" justify="center">
+      <watt-empty-state
+        [icon]="hasError ? 'custom-power' : 'cancel'"
+        [title]="hasError ? t('errorTitle') : t('emptyTitle')"
+        [message]="hasError ? t('errorMessage') : t('emptyMessage')"
+      />
+    </vater-stack>
+  }
 </vater-flex>
 
 <dh-balance-responsible-drawer (closed)="onClose()" />

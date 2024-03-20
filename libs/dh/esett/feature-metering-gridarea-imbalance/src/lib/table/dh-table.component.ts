@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, EventEmitter, Input, ViewChild, Output } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -40,7 +39,6 @@ import { Sort } from '@angular/material/sort';
     `,
   ],
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
 
@@ -72,6 +70,7 @@ export class DhMeteringGridAreaImbalanceTableComponent {
   @Input() hasError!: boolean;
 
   @Input() tableDataSource!: WattTableDataSource<DhMeteringGridAreaImbalance>;
+  @Input() sortMetadata!: Sort;
 
   @Output() sortChange = new EventEmitter<Sort>();
 

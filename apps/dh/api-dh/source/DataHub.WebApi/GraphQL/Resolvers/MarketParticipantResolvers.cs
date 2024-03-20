@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,6 +47,21 @@ namespace Energinet.DataHub.WebApi.GraphQL
                         .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
                         .Distinct()
                         .Select(async gridAreaId => await dataLoader.LoadAsync(gridAreaId)));
+
+        public async Task<GridAreaDto?> GetGridAreaAsync(
+            [Parent] MessageDelegation result,
+            GridAreaByIdBatchDataLoader dataLoader) =>
+            await dataLoader.LoadAsync(result.GridAreaId).ConfigureAwait(false);
+
+        public async Task<ActorDto?> GetActorDelegatedByAsync(
+            [Parent] MessageDelegation actor,
+            ActorByIdBatchDataLoader dataLoader) =>
+            await dataLoader.LoadAsync(actor.DelegatedBy);
+
+        public async Task<ActorDto?> GetActorDelegatedToAsync(
+            [Parent] MessageDelegation actor,
+            ActorByIdBatchDataLoader dataLoader) =>
+            await dataLoader.LoadAsync(actor.DelegatedTo);
 
         public Task<OrganizationDto> GetOrganizationAsync(
             [Parent] ActorDto actor,

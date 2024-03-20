@@ -38,13 +38,11 @@ limitations under the License.
     <ng-container
       *wattTableCell="columns['marketRole']; header: t('columns.marketRole'); let actor"
     >
-      <ng-container *ngIf="actor.marketRole; else marketRoleNotSet">
+      @if (actor.marketRole) {
         {{ "marketParticipant.marketRoles." + actor.marketRole | transloco }}
-      </ng-container>
-
-      <ng-template #marketRoleNotSet>
+      } @else {
         {{ actor.marketRole | dhEmDashFallback }}
-      </ng-template>
+      }
     </ng-container>
 
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let actor">
@@ -52,17 +50,15 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  <vater-stack
-    fill="vertical"
-    justify="center"
-    *ngIf="!isLoading && tableDataSource.filteredData.length === 0"
-  >
-    <watt-empty-state
-      [icon]="hasError ? 'custom-power' : 'cancel'"
-      [title]="hasError ? t('errorTitle') : t('emptyTitle')"
-      [message]="hasError ? t('errorMessage') : t('emptyMessage')"
-    />
-  </vater-stack>
+  @if (!isLoading && tableDataSource.filteredData.length === 0) {
+    <vater-stack fill="vertical" justify="center">
+      <watt-empty-state
+        [icon]="hasError ? 'custom-power' : 'cancel'"
+        [title]="hasError ? t('errorTitle') : t('emptyTitle')"
+        [message]="hasError ? t('errorMessage') : t('emptyMessage')"
+      />
+    </vater-stack>
+  }
 </vater-flex>
 
 <dh-actor-drawer (closed)="onClose()" />

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   DhMarketParticipantGridAreaOverviewComponent,
   GridAreaOverviewRow,
@@ -29,10 +29,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   standalone: true,
   imports: [DhMarketParticipantGridAreaOverviewComponent],
 })
-export class DhGridAreasShellComponent implements OnInit {
+export class DhGridAreasShellComponent {
   private readonly gln = new RegExp('^[0-9]+$');
   private readonly apollo = inject(Apollo);
-  private readonly destroyRef = inject(DestroyRef);
 
   getActorsQuery$ = this.apollo.watchQuery({
     useInitialLoading: true,
@@ -44,21 +43,19 @@ export class DhGridAreasShellComponent implements OnInit {
   hasError = false;
   rows: GridAreaOverviewRow[] = [];
 
-  ngOnInit(): void {
-    this.getActorsQuery$.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((result) => {
-        this.hasError = !!result.error || !!result.errors?.length;
-        this.isLoading = result.loading;
-        this.rows =
-          result.data?.gridAreaOverview?.map((x) => ({
-            id: x.id,
-            code: x.code,
-            actor: x.actorNumber
-              ? `${x.actorName} - ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
-              : '',
-            organization: x.organizationName ?? '',
-          })) ?? [];
-      });
+  constructor() {
+    this.getActorsQuery$.valueChanges.pipe(takeUntilDestroyed()).subscribe((result) => {
+      this.hasError = !!result.error || !!result.errors?.length;
+      this.isLoading = result.loading;
+      this.rows =
+        result.data?.gridAreaOverview?.map((x) => ({
+          id: x.id,
+          code: x.code,
+          actor: x.actorNumber
+            ? `${x.actorName} - ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
+            : '',
+          organization: x.organizationName ?? '',
+        })) ?? [];
+    });
   }
 }

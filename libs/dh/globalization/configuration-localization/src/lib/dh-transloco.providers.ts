@@ -17,8 +17,8 @@
 import { EnvironmentProviders } from '@angular/core';
 import { provideTransloco, translocoConfig } from '@ngneat/transloco';
 
-import { DhTranslocoHttpLoader } from '@energinet-datahub/dh/globalization/data-access-localization';
-import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
+import { TranslocoHttpLoader } from '@energinet-datahub/gf/globalization/data-access-localization';
+import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { environment } from '@energinet-datahub/dh/shared/environments';
 
 export const dhTranslocoConfig = translocoConfig({
@@ -38,5 +38,5 @@ export const dhTranslocoConfig = translocoConfig({
 
 export const translocoProviders: EnvironmentProviders[] = provideTransloco({
   config: dhTranslocoConfig,
-  loader: DhTranslocoHttpLoader,
+  loader: TranslocoHttpLoader,
 });

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Sort } from '@angular/material/sort';
 
@@ -40,7 +39,6 @@ import { DhBalanceResponsibleDrawerComponent } from '../drawer/dh-drawer.compone
     `,
   ],
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
 
@@ -61,13 +59,13 @@ export class DhBalanceResponsibleTableComponent {
   drawer: DhBalanceResponsibleDrawerComponent | undefined;
 
   columns: WattTableColumnDef<DhBalanceResponsibleMessage> = {
-    validFrom: { accessor: 'validFromDate' },
-    validTo: { accessor: 'validToDate' },
+    received: { accessor: 'receivedDateTime' },
     electricitySupplier: { accessor: null },
     balanceResponsible: { accessor: null },
     gridArea: { accessor: null },
     meteringPointType: { accessor: null },
-    received: { accessor: 'receivedDateTime' },
+    validFrom: { accessor: 'validFromDate' },
+    validTo: { accessor: 'validToDate' },
   };
 
   translateHeader = (columnId: string): string => {

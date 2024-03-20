@@ -72,7 +72,7 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
     <form
       vater-stack
       direction="row"
-      gap="m"
+      gap="s"
       tabindex="-1"
       [formGroup]="_formGroup"
       *transloco="let t; read: 'wholesale.calculations.filters'"
@@ -141,7 +141,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
     map((gridAreas) =>
       gridAreas.map((gridArea) => ({
         value: gridArea.code,
-        displayValue: `${gridArea.name} (${gridArea.code})`,
+        displayValue: gridArea.displayName,
       }))
     )
   );

@@ -19,7 +19,6 @@ import { NgIf } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
-import parseISO from 'date-fns/parseISO';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
@@ -29,7 +28,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattDatePipe, WattDateRange } from '@energinet-datahub/watt/date';
+import { WattDatePipe, WattDateRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
@@ -39,6 +38,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   CreateCalculationDocument,
   GetGridAreasDocument,
@@ -92,6 +92,8 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   private executionTypeChanged_$ = new Subject<void>();
 
   @ViewChild('modal') modal?: WattModalComponent;
+
+  featureFlagsService = inject(DhFeatureFlagsService);
 
   loading = false;
 
@@ -150,6 +152,12 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     this.executionTypeChanged_$.pipe(startWith('')),
   ]).pipe(
     map(([gridAreas, dateRange]) => filterValidGridAreas(gridAreas, dateRange)),
+    map((gridAreas) =>
+      // HACK: This is a temporary solution to filter out grid areas that has no data
+      this.featureFlagsService.isEnabled('calculations-include-all-grid-areas')
+        ? gridAreas
+        : gridAreas.filter((g) => ['803', '804', '533', '543', '584', '950'].includes(g.code))
+    ),
     map((gridAreas) => {
       this.setMinDate(gridAreas);
       this.validatePeriod(gridAreas);
@@ -201,7 +209,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
         variables: {
           input: {
             gridAreaCodes: gridAreas,
-            period: { start: parseISO(dateRange.start), end: parseISO(dateRange.end) },
+            period: { start: dayjs(dateRange.start).toDate(), end: dayjs(dateRange.end).toDate() },
             calculationType: calculationType,
           },
         },
@@ -274,14 +282,10 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   }
 
   private mapGridAreasToDropdownOptions(gridAreas: GridArea[]): WattDropdownOption[] {
-    return (
-      gridAreas.map((gridArea) => {
-        return {
-          displayValue: `${gridArea?.name} (${gridArea?.code})`,
-          value: gridArea?.code,
-        };
-      }) || []
-    );
+    return gridAreas.map((gridArea) => ({
+      displayValue: gridArea.displayName,
+      value: gridArea.code,
+    }));
   }
 
   private toggleGridAreasControl() {
@@ -319,8 +323,8 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
         fetchPolicy: 'network-only',
         variables: {
           period: {
-            end: parseISO(dateRange.value.end),
-            start: parseISO(dateRange.value.start),
+            end: dayjs(dateRange.value.end).toDate(),
+            start: dayjs(dateRange.value.start).toDate(),
           },
         },
       })

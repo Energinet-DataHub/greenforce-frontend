@@ -41,10 +41,12 @@ export interface ActivityLogEntryResponse {
   id: string;
   timestamp: number;
   actorId: string;
-  actorType: string;
+  actorType: 'User' | 'System';
   actorName: string;
   organizationTin: string;
   organizationName: string;
+  otherOrganizationTin: string;
+  otherOrganizationName: string;
   entityType: activityLogEntityType;
   actionType: activityLogActionType;
   entityId: string;

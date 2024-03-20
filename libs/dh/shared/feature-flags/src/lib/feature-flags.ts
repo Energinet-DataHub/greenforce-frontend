@@ -31,7 +31,20 @@ export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
  *   disabledEnvironments: [DhAppEnvironment.prod],
  * },
  */
-
-export const dhFeatureFlagsConfig = {} satisfies FeatureFlagConfig;
+export const dhFeatureFlagsConfig = {
+  'market-participant-delegation': {
+    created: '05-03-2024',
+    disabledEnvironments: [
+      DhAppEnvironment.preprod,
+      DhAppEnvironment.prod,
+      DhAppEnvironment.test_001,
+      DhAppEnvironment.test_002,
+    ],
+  },
+  'calculations-include-all-grid-areas': {
+    created: '18-03-2024',
+    disabledEnvironments: [DhAppEnvironment.test_001],
+  },
+} satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;

@@ -16,6 +16,10 @@
       "message": "Unfortunately, an error occurred while retrieving the necessary information",
       "button": "Try again"
     },
+    "downloadStart": "Starting download...",
+    "download": "Download",
+    "downloadreport": "Download report",
+    "downloadFailed": "Download failed",
     "empty": {
       "title": "No results found",
       "message": "Try changing the search criteria"
@@ -69,8 +73,6 @@
         "en": "English"
       }
     },
-    "download": "Download",
-    "downloadreport": "Download report",
     "search": "Search",
     "selectedValues": "{{count}} selected",
     "calculationType": "Calculation type"
@@ -153,6 +155,60 @@
     }
   },
   "marketParticipant": {
+    "delegation": {
+      "shared": {
+        "stopDelegation": "Stop delegation"
+      },
+      "message": "Message",
+      "createSuccess": "Delegation created",
+      "delegations": "Delegates",
+      "save": "Save set up",
+      "stopDelegationSuccess": "Delegation stopped",
+      "stopNow": "Stop delgation now",
+      "cancel": "Close",
+      "stopModalTitle": "Stop delegation?",
+      "stopDate": "Stop on date",
+      "setUpDelegation": "Set up delegation",
+      "outgoingMessages": "Outgoing messages",
+      "incomingMessages": "Incoming messages",
+      "modalTitle": "Set up delegation",
+      "gridArea": "Netområde",
+      "start": "Start",
+      "emptyTitle": "No delegations found",
+      "emptyMessage": "Delegate outgoing or incoming messages to a meter operator",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}",
+      "emptyStateSetUpDelegation": "Set up delegation for messages",
+      "table": {
+        "selectedRows": "Selected rows",
+        "columns": {
+          "delegatedTo": "Delegated",
+          "gridArea": "Grid area",
+          "period": "Period",
+          "status": "Status"
+        }
+      },
+      "messageTypes": {
+        "INBOUND": "Incoming",
+        "OUTBOUND": "Outgoing",
+        "RSM012_INBOUND": "[DK] Fremsend måledata for et målepunkt (RSM-012)",
+        "RSM012_OUTBOUND": "[DK] Fremsend måledata for et målepunkt (RSM-012)",
+        "RSM014_INBOUND": "[DK] Fremsend beregnede tidsserier (RSM-014)",
+        "RSM016_INBOUND": "[DK] Anmod om aggregerede måledata (RSM-016)",
+        "RSM016_OUTBOUND": "[DK] Anmod om aggregerede måledata (RSM-016)",
+        "RSM017_INBOUND": "[DK] Anmod om engrosydelser (RSM-017)",
+        "RSM017_OUTBOUND": "[DK] Anmod om engrosydelser (RSM-017)",
+        "RSM018_INBOUND": "[DK] Fremsend hullerlog (RSM-018)",
+        "RSM019_INBOUND": "[DK] Fremsend beregnede engrosydelser (RSM-019)"
+      },
+      "statusPlaceholder": "Status",
+      "status": {
+        "ACTIVE": "Active",
+        "AWAITING": "Pending",
+        "EXPIRED": "Stopped",
+        "CANCELLED": "Cancelled"
+      }
+    },
     "market_participant": {
       "error_fallback": "The computer was asked to perform an action, but it did not. The reason was: {{ message }}",
       "bad_argument": {
@@ -201,6 +257,12 @@
           "invite": {
             "not_expired": "The user's invitation has not yet expired and cannot be renewed"
           }
+        },
+        "message_delegation": {
+          "actors_from_or_to_inactive": "Both actors in a delegation needs to be active, for it to be applied",
+          "actor_invalid_market_role": "The actor you are delegating from needs to be in one of these marketroles:'Grid access provider, Balance responsible party, Energy supplier or Billing agent'",
+          "overlap": "There is already an existing delegation that partially or fully covers the period you are trying to make a delegation for",
+          "market_role_forbidden": "The actor you are delegating from is in the {{assigned_market_role}} role, the precludes you from making a delegation to an actor in an organisation that already has an actor in the role: 'conflicting_market_role'"
         }
       }
     },
@@ -259,6 +321,7 @@
         "contactsHeader": "Contacts",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
+        "createSuccess": "Market participant created",
         "masterData": {
           "labelActorNumber": "GLN/EIC",
           "labelStatus": "Status",
@@ -281,7 +344,7 @@
         "status": "Status"
       },
       "create": "New market participant",
-      "actors": "Market participants",
+      "actors": "Market Participants",
       "columns": {
         "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
         "name": "{{ marketParticipant.actorsOverview.shared.name }}",
@@ -368,6 +431,9 @@
               }
             }
           },
+          "delegation": {
+            "tabLabel": "Delegation"
+          },
           "history": {
             "tabLabel": "History",
             "status": {
@@ -443,7 +509,8 @@
             "tabLabel": "Information",
             "businessRegisterIdentifier": "Business ID",
             "name": "Name",
-            "domain": "E-mail domain"
+            "domain": "E-mail domain",
+            "country": "Country"
           },
           "actors": {
             "tabLabel": "Market Participants"
@@ -469,7 +536,7 @@
       }
     },
     "marketRolesOverview": {
-      "marketRoles": "Market roles",
+      "marketRoles": "Market Roles",
       "download": "Download",
       "columns": {
         "name": "Name",
@@ -490,7 +557,8 @@
       "DanishEnergyAgency": "Energistyrelsen",
       "DataHubAdministrator": "DataHub system administrator",
       "IndependentAggregator": "Independent aggregator",
-      "SerialEnergyTrader": "Serial Energy Trader"
+      "SerialEnergyTrader": "Serial Energy Trader",
+      "Delegated": "Delegated"
     },
     "marketRoleDescriptions": {
       "BalanceResponsibleParty": "Responsible for its imbalances, meaning the difference between the energy volume physically injected to or withdrawn from the system and the final nominated energy volume, including any imbalance adjustment within a given imbalance settlement period.",
@@ -506,15 +574,16 @@
       "DanishEnergyAgency": " ",
       "DataHubAdministrator": " ",
       "IndependentAggregator": " ",
-      "SerialEnergyTrader": " "
+      "SerialEnergyTrader": " ",
+      "Delegated": " "
     },
     "gridAreas": {
       "topBarTitle": "Grid Areas",
       "noGridAreas": "No grid areas found",
       "error": "An error occurred",
       "columns": {
-        "code": "Grid area number",
-        "actor": "Grid area responsible",
+        "code": "Grid area",
+        "actor": "Grid access provider",
         "organization": "Organisation"
       },
       "priceAreaCodes": {
@@ -543,7 +612,7 @@
       }
     },
     "outgoingMessages": {
-      "tabHeading": "Outgoing messages",
+      "tabHeading": "Outgoing Messages",
       "status": {
         "INGESTION": "Ingestion of messages",
         "CONVERTER": "Conversion of messages",
@@ -574,14 +643,14 @@
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "status": "{{ eSett.shared.status }}",
-        "period": "{{ shared.form.filters.period }}",
+        "period": "Calculation period",
         "created": "{{ eSett.outgoingMessages.columns.created }}",
         "reset": "{{ shared.form.reset }}",
-        "documentId": "Document ID"
+        "documentId": "Message ID"
       },
       "columns": {
         "created": "Created",
-        "id": "ID",
+        "id": "{{ eSett.outgoingMessages.filters.documentId }}",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
@@ -617,7 +686,7 @@
       },
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
-        "createdPeriod": "Created date",
+        "createdPeriod": "Created",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Message ID",
         "valuesToInclude": "Pricetypes"
@@ -636,16 +705,16 @@
         },
         "card": {
           "titles": {
-            "deficit": "Imbalance Deficit (kWh)",
-            "surplus": "Surplus Imbalance (kWh)"
+            "deficit": "Imbalance Deficit",
+            "surplus": "Surplus Imbalance"
           }
         },
         "table": {
           "columns": {
-            "position": "Position",
+            "position": "Position ",
             "date": "Date",
-            "time": "Time",
-            "imbalance": "Imbalance"
+            "time": "Time of first occurrence",
+            "imbalance": "Imbalance (kWh)"
           }
         },
         "metadata": {
@@ -661,12 +730,12 @@
       "errorMessage": "{{ shared.error.message }}"
     },
     "balanceResponsible": {
-      "tabHeading": "Balance responsible",
+      "tabHeading": "Balance Responsible Relations",
       "shared": {
         "validFrom": "Valid from",
         "validTo": "Valid to",
-        "electricitySupplier": "Electricity supplier",
-        "balanceResponsible": "Balance responsible",
+        "electricitySupplier": "Energy supplier",
+        "balanceResponsible": "Balance Responsible Relations",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "meteringPointType": "Metering point type",
         "received": "Received"
@@ -710,10 +779,7 @@
     "drawer": {
       "priceAreaLabel": "Price area",
       "updatedLabel": "Uploaded",
-      "pricesNote": "Prices are shown in DKK for kWh",
-      "download": "Download",
-      "downloadStart": "Starting download...",
-      "downloadFailed": "Download failed"
+      "pricesNote": "Prices are shown in DKK for kWh"
     }
   },
   "wholesale": {
@@ -870,15 +936,12 @@
     },
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
-      "download": "Download",
       "downloadNoBasisData": "Download (no basis data)",
       "selectedRows": {
         "singular": "{{ selectedCount }} selected row",
         "plural": "{{ selectedCount }} selected rows"
       },
       "SelectPeriod": "To download select a period first",
-      "downloadFailed": "Download failed",
-      "downloadStart": "Starting download...",
       "gridAreasLoadFailed": "Could not load grid areas",
       "noEntries": "No results",
       "results": "Search results",
@@ -911,9 +974,9 @@
         "actor": "Actor",
         "loadingActors": "Loading energy suppliers...",
         "loadingGridAreas": "Loading grid areas...",
-        "actorPlaceholder": "Select energy supplier",
+        "actorPlaceholder": "Energy supplier",
         "calculationTypePlaceholder": "Select {{shared.calculationType}}",
-        "gridAreasPlaceholder": "Select grid area(s)"
+        "gridAreasPlaceholder": "Grid area"
       }
     }
   },
@@ -1085,7 +1148,7 @@
           "tabLabel": "User Roles",
           "roles": "User roles",
           "role": "User role",
-          "rolesHeadline": "User roles",
+          "rolesHeadline": "User Roles",
           "emptyTitle": "No user roles found",
           "emptyMessage": "Try changing the search criteria",
           "filter": {
@@ -1206,9 +1269,7 @@
       "permissionsTab": {
         "headline": "Permissions",
         "permissionName": "Name",
-        "permissionDescription": "Description",
-        "downloadStart": "Starting download...",
-        "downloadFailed": "Download failed"
+        "permissionDescription": "Description"
       },
       "permissionDetail": {
         "edit": "Edit permission",

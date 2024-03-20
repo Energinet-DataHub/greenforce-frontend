@@ -33,41 +33,43 @@ limitations under the License.
         (click)="downloadDocument()"
         icon="download"
         [disabled]="!(message && documentContent())"
-        >{{ t("download") }}</watt-button
+        >{{ "shared.download" | transloco }}</watt-button
       >
     </watt-drawer-actions>
 
-    <watt-drawer-content *ngIf="drawer.isOpen">
-      <div class="message-metadata">
-        <watt-description-list>
-          <watt-description-list-item
-            [label]="t('documentType')"
-            [value]="message?.documentType | dhEmDashFallback"
-          />
-          <watt-description-list-item
-            [label]="t('sender')"
-            value="{{ message?.senderGln | actorName: actors | dhEmDashFallback }} ({{
-              message?.senderGln | dhEmDashFallback
-            }})"
-          />
-          <watt-description-list-item
-            [label]="t('receiver')"
-            value="{{ message?.receiverGln | actorName: actors | dhEmDashFallback }} ({{
-              message?.receiverGln | dhEmDashFallback
-            }})"
-          />
-        </watt-description-list>
-      </div>
-
-      <ng-container *rxLet="isLoading$ as isLoading">
-        <div class="message-content" [ngClass]="{ 'message-content--loading': isLoading }">
-          <watt-spinner *ngIf="isLoading; else documentContentTmpl" />
-
-          <ng-template #documentContentTmpl>
-            <watt-code [code]="documentContent()" />
-          </ng-template>
+    @if (drawer.isOpen) {
+      <watt-drawer-content>
+        <div class="message-metadata">
+          <watt-description-list>
+            <watt-description-list-item
+              [label]="t('documentType')"
+              [value]="message?.documentType | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('sender')"
+              value="{{ message?.senderGln | actorName: actors | dhEmDashFallback }} ({{
+                message?.senderGln | dhEmDashFallback
+              }})"
+            />
+            <watt-description-list-item
+              [label]="t('receiver')"
+              value="{{ message?.receiverGln | actorName: actors | dhEmDashFallback }} ({{
+                message?.receiverGln | dhEmDashFallback
+              }})"
+            />
+          </watt-description-list>
         </div>
-      </ng-container>
-    </watt-drawer-content>
+
+        <ng-container *rxLet="isLoading$ as isLoading">
+          <div class="message-content" [ngClass]="{ 'message-content--loading': isLoading }">
+            @if (isLoading) {
+              <watt-spinner />
+            } @else {
+              <watt-code [code]="documentContent()" />
+            }
+          </div>
+        </ng-container>
+      </watt-drawer-content>
+    }
   </watt-drawer>
 </ng-container>

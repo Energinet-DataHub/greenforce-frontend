@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
@@ -82,7 +81,6 @@ type Actor = {
     `,
   ],
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
 
@@ -122,6 +120,7 @@ export class DhOrganizationDrawerComponent {
   });
 
   private getActorsByOrganizationIdQuery$ = this.apollo.watchQuery({
+    fetchPolicy: 'cache-and-network',
     errorPolicy: 'all',
     useInitialLoading: true,
     notifyOnNetworkStatusChange: true,

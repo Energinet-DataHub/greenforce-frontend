@@ -7,6 +7,9 @@ query GetActorById($id: UUID!) {
     status
     gridAreas {
       code
+      name
+      displayName
+      id
     }
     organization {
       name

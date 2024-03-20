@@ -25,7 +25,6 @@ import {
   inject,
   DestroyRef,
 } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { Apollo, MutationResult } from 'apollo-angular';
@@ -60,7 +59,6 @@ import { DhOrganizationDetails } from '../dh-organization';
     `,
   ],
   imports: [
-    NgIf,
     TranslocoDirective,
     FormsModule,
     ReactiveFormsModule,
@@ -99,9 +97,9 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
   }
 
   save(): void {
-    if (this.domainControl.invalid || this.isLoading) {
-      return;
-    }
+    if (this.domainControl.invalid || this.isLoading) return;
+
+    if (!this.organization.organizationId) return;
 
     this.apollo
       .mutate({

@@ -16,3 +16,4 @@
  */
 export { type WattRange, type WattDateRange } from './watt-date-range';
 export { WattDatePipe } from './watt-date.pipe';
+export { dayjs } from './dayjs';

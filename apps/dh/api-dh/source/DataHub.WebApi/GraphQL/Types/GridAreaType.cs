@@ -30,6 +30,16 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Name("priceAreaCode")
                 .Resolve(context =>
                     Enum.Parse<PriceAreaCode>(context.Parent<GridAreaDto>().PriceAreaCode));
+
+            descriptor
+                .Field("displayName")
+                .Type<NonNullType<StringType>>()
+                .Resolve(context => context.Parent<GridAreaDto>() switch
+                {
+                    null => string.Empty,
+                    var gridArea when string.IsNullOrWhiteSpace(gridArea.Name) => gridArea.Code,
+                    var gridArea => $"{gridArea.Code} • {gridArea.Name}",
+                });
         }
     }
 }

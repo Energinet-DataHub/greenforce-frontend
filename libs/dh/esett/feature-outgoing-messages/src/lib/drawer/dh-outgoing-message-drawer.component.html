@@ -50,7 +50,7 @@ limitations under the License.
         />
         <watt-description-list-item
           [label]="t('metadata.gridArea')"
-          value="{{ outgoingMessage?.gridArea?.code }} - {{ outgoingMessage?.gridArea?.name }}"
+          [value]="outgoingMessage?.gridArea?.displayName"
         />
         <watt-description-list-item
           [label]="t('metadata.messageType')"
@@ -63,10 +63,23 @@ limitations under the License.
       <watt-drawer-content>
         <watt-tabs>
           <watt-tab [label]="t('tabs.message')">
+            <vater-stack align="flex-end">
+              <watt-button variant="text" icon="download" (click)="downloadXML('message')">{{
+                "shared.download" | transloco
+              }}</watt-button>
+            </vater-stack>
+
             <watt-code [code]="dispatchDocument()" />
           </watt-tab>
+
           @if (responseDocument()) {
             <watt-tab [label]="t('tabs.receipt')">
+              <vater-stack align="flex-end">
+                <watt-button variant="text" icon="download" (click)="downloadXML('receipt')">{{
+                  "shared.download" | transloco
+                }}</watt-button>
+              </vater-stack>
+
               <watt-code [code]="responseDocument()" />
             </watt-tab>
           }

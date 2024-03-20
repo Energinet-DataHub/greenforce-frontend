@@ -49,9 +49,11 @@ limitations under the License.
           [label]="t('steps.masterData.name')"
           [formControl]="userRoleForm.controls.name"
         >
-          <watt-field-error *ngIf="userRoleForm.controls.name.hasError('maxlength')">
-            {{ t("steps.masterData.nameMaxLengthErrorText") }}
-          </watt-field-error>
+          @if (userRoleForm.controls.name.hasError("maxlength")) {
+            <watt-field-error>
+              {{ t("steps.masterData.nameMaxLengthErrorText") }}
+            </watt-field-error>
+          }
         </watt-text-field>
 
         <!-- Description -->
@@ -68,14 +70,13 @@ limitations under the License.
       [previousButtonLabel]="t('steps.masterData.label')"
       [nextButtonLabel]="t('save')"
     >
-      <watt-field-error
-        class="permissions-error"
-        *ngIf="
-          (isSubmitted || selectedPermissions.touched) && selectedPermissions.hasError('required')
-        "
-      >
-        {{ t("steps.permissions.required") }}
-      </watt-field-error>
+      @if (
+        (isSubmitted || selectedPermissions.touched) && selectedPermissions.hasError("required")
+      ) {
+        <watt-field-error class="permissions-error">
+          {{ t("steps.permissions.required") }}
+        </watt-field-error>
+      }
       <ng-container *rxLet="permissions$ as permissions">
         <dh-permissions-table
           [permissions]="permissions"
@@ -83,13 +84,15 @@ limitations under the License.
         />
 
         <!-- Empty -->
-        <div *ngIf="permissions.length === 0" class="no-permissions-container">
-          <watt-empty-state
-            icon="custom-power"
-            size="small"
-            [title]="t('steps.permissions.noPermissions')"
-          />
-        </div>
+        @if (permissions.length === 0) {
+          <div class="no-permissions-container">
+            <watt-empty-state
+              icon="custom-power"
+              size="small"
+              [title]="t('steps.permissions.noPermissions')"
+            />
+          </div>
+        }
       </ng-container>
     </watt-stepper-step>
   </watt-stepper>
