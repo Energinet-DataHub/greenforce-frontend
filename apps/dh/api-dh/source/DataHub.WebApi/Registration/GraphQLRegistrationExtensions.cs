@@ -30,7 +30,7 @@ namespace Energinet.DataHub.WebApi.Registration
                 .AddQueryType<Query>()
                 .AddMutationConventions(applyToAllMutations: true)
                 .AddMutationType<Mutation>()
-                .AddWebApiTypes()
+                .AddTypes()
                 .BindRuntimeType<Interval, DateRangeType>();
         }
     }
