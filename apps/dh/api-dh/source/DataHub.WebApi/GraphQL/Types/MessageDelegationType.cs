@@ -15,6 +15,7 @@
 using System;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using HotChocolate.Types;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -41,18 +42,17 @@ namespace Energinet.DataHub.WebApi.GraphQL
                 .Field("status")
                 .Resolve((ctx, ct) =>
                 {
-                    var expiresAt = ctx.Parent<MessageDelegation>().ExpiresAt;
-                    var startsAt = ctx.Parent<MessageDelegation>().StartsAt;
+                    var validPeriod = ctx.Parent<MessageDelegation>().ValidPeriod;
 
-                    if (expiresAt.HasValue && expiresAt <= startsAt)
+                    if (validPeriod.HasEnd && validPeriod.End <= validPeriod.Start)
                     {
                         return ActorDelegationStatus.Cancelled;
                     }
-                    else if (startsAt < DateTimeOffset.UtcNow && (!expiresAt.HasValue || expiresAt > DateTimeOffset.UtcNow))
+                    else if (validPeriod.Start < Instant.FromDateTimeOffset(DateTimeOffset.UtcNow) && (!validPeriod.HasEnd || validPeriod.End > Instant.FromDateTimeOffset(DateTimeOffset.UtcNow)))
                     {
                         return ActorDelegationStatus.Active;
                     }
-                    else if (expiresAt.HasValue && expiresAt < DateTimeOffset.UtcNow)
+                    else if (validPeriod.HasEnd && validPeriod.End < Instant.FromDateTimeOffset(DateTimeOffset.UtcNow))
                     {
                         return ActorDelegationStatus.Expired;
                     }

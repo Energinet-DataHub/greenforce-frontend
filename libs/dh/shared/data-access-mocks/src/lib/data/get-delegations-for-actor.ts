@@ -33,8 +33,10 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
       id: '00000000-0000-0000-0000-000000000001',
       periodId: '00000000-0000-0000-0000-000000000002',
       messageType: DelegationMessageType.Rsm016Outbound,
-      startsAt: dayjs('2024-01-01T00:00:00+00:00').toDate(),
-      expiresAt: dayjs('2024-02-01T00:00:00+00:00').toDate(),
+      validPeriod: {
+        start: dayjs('2024-01-01T00:00:00+00:00').toDate(),
+        end: dayjs('2024-02-01T00:00:00+00:00').toDate(),
+      },
       delegatedBy,
       delegatedTo,
       gridArea: {
@@ -49,8 +51,10 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
       id: '00000000-0000-0000-0000-000000000003',
       periodId: '00000000-0000-0000-0000-000000000004',
       messageType: DelegationMessageType.Rsm016Outbound,
-      startsAt: dayjs('2024-02-10T00:00:00+00:00').toDate(),
-      expiresAt: null,
+      validPeriod: {
+        start: dayjs('2024-02-10T00:00:00+00:00').toDate(),
+        end: null,
+      },
       delegatedBy,
       delegatedTo,
       gridArea: {
@@ -65,8 +69,10 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
       id: '00000000-0000-0000-0000-000000000005',
       periodId: '00000000-0000-0000-0000-000000000006',
       messageType: DelegationMessageType.Rsm016Inbound,
-      startsAt: dayjs('2024-02-01T00:00:00+00:00').toDate(),
-      expiresAt: dayjs('2024-03-01T00:00:00+00:00').toDate(),
+      validPeriod: {
+        start: dayjs('2024-02-01T00:00:00+00:00').toDate(),
+        end: dayjs('2024-03-01T00:00:00+00:00').toDate(),
+      },
       delegatedBy,
       delegatedTo,
       gridArea: {
@@ -81,8 +87,10 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
       id: '00000000-0000-0000-0000-000000000007',
       periodId: '00000000-0000-0000-0000-000000000008',
       messageType: DelegationMessageType.Rsm017Outbound,
-      startsAt: dayjs('2024-03-01T00:00:00+00:00').toDate(),
-      expiresAt: null,
+      validPeriod: {
+        start: dayjs('2024-03-01T00:00:00+00:00').toDate(),
+        end: null,
+      },
       delegatedBy,
       delegatedTo,
       gridArea: {

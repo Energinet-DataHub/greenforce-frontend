@@ -25,7 +25,7 @@ const config: CodegenConfig = {
         nonOptionalTypename: true,
         scalars: {
           Date: 'Date',
-          DateRange: '{ start: Date, end: Date }',
+          DateRange: '{ start: Date, end: Date | null }',
           DateTime: 'Date',
         },
         scalarTypePolicies: {

@@ -38,8 +38,8 @@ export const dateTypePolicy: FieldPolicy<Date | null | undefined, unknown> = {
 // This type policy is imported in codegen.ts and used by the
 // @homebound/graphql-typescript-scalar-type-policies plugin.
 export const dateRangeTypePolicy: FieldPolicy<Range<Date | null | undefined>, Range<unknown>> = {
-  merge: (_, incoming) =>
-    incoming === null || incoming === undefined
-      ? incoming
-      : { start: parseDate(incoming.start), end: parseDate(incoming.end) },
+  merge: (_, incoming) => {
+    if (!incoming) return incoming;
+    return { start: parseDate(incoming.start), end: parseDate(incoming.end) };
+  },
 };

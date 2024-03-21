@@ -219,8 +219,7 @@ type MessageDelegationType {
   id: UUID!
   periodId: UUID!
   messageType: DelegationMessageType!
-  startsAt: DateTime!
-  expiresAt: DateTime
+  validPeriod: DateRange!
 }
 
 type MeteringGridAreaImbalancePerDayDto {

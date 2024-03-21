@@ -61,11 +61,7 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
         </ng-container>
 
         <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let entry">
-          {{ entry.startsAt | wattDate: 'short' }}
-
-          @if (entry.expiresAt) {
-            — {{ entry.expiresAt | wattDate: 'short' }}
-          }
+          {{ entry.validPeriod | wattDate: 'short' }}
         </ng-container>
 
         <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">

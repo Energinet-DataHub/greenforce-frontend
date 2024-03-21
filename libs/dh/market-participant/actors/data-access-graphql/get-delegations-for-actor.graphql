@@ -11,8 +11,7 @@ query GetDelegationsForActor($actorId: UUID!) {
       id
       name
     }
-    startsAt
-    expiresAt
+    validPeriod
     gridArea {
       id
       code

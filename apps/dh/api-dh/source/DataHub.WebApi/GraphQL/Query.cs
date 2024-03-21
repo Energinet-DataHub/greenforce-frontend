@@ -576,6 +576,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
         {
             var result = new List<MessageDelegation>();
             var delegationResponse = await client.ActorDelegationGetAsync(actorId);
+
             foreach (var delegation in delegationResponse.Delegations)
             {
                 foreach (var period in delegation.Periods)
@@ -586,8 +587,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                     messageDelegation.Id = delegation.Id;
                     messageDelegation.PeriodId = period.Id;
                     messageDelegation.DelegatedTo = period.DelegatedTo;
-                    messageDelegation.ExpiresAt = period.ExpiresAt;
-                    messageDelegation.StartsAt = period.StartsAt;
+                    messageDelegation.ValidPeriod = new Interval(Instant.FromDateTimeOffset(period.StartsAt), period.ExpiresAt.HasValue ? Instant.FromDateTimeOffset(period.ExpiresAt.Value) : null);
                     messageDelegation.GridAreaId = period.GridAreaId;
                     result.Add(messageDelegation);
                 }

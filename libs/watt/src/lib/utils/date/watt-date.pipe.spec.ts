@@ -27,10 +27,6 @@ describe(WattDatePipe, () => {
     expect(pipe.transform('2021-06-30T22:00:00Z')).toBe('01-07-2021');
   });
 
-  it('transforms "9999-12-31T23:59:59Z" to null', () => {
-    expect(pipe.transform('9999-12-31T23:59:59Z')).toBe(null);
-  });
-
   it('transforms "2015-01-24T03:14:15Z" to "24-01-2015, 04:14"', () => {
     expect(pipe.transform('2015-01-24T03:14:15Z', 'long')).toBe('24-01-2015, 04:14');
   });
@@ -49,7 +45,7 @@ describe(WattDatePipe, () => {
   });
 
   it('transforms date range with end null', () => {
-    const range = { start: '2019-03-25T22:00:00Z', end: '9999-12-31T23:59:59Z' };
+    const range = { start: '2019-03-25T22:00:00Z', end: null };
     expect(pipe.transform(range)).toBe('25-03-2019');
   });
 

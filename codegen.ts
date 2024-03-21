@@ -23,7 +23,7 @@ const config: CodegenConfig = {
         scalars: {
           UUID: 'string',
           Date: 'Date',
-          DateRange: '{ start: Date, end: Date }',
+          DateRange: '{ start: Date, end: Date | null }',
           DateTime: 'Date',
         },
         scalarTypePolicies: {

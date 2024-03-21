@@ -30,7 +30,7 @@ namespace Energinet.DataHub.WebApi.GraphQL
                Resolve((context, token) =>
                {
                    var balanceResponsible = context.Parent<BalanceResponsibleResult>();
-                   return new Interval(Instant.FromDateTimeOffset(balanceResponsible.ValidFromDate), balanceResponsible.ValidToDate.HasValue ? Instant.FromDateTimeOffset(balanceResponsible.ValidToDate.Value) : Instant.MaxValue);
+                   return new Interval(Instant.FromDateTimeOffset(balanceResponsible.ValidFromDate), balanceResponsible.ValidToDate.HasValue ? Instant.FromDateTimeOffset(balanceResponsible.ValidToDate.Value) : null);
                });
 
             descriptor.Field(f => f.ValidToDate).Ignore();

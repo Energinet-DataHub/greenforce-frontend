@@ -271,10 +271,8 @@ export class WattTimepickerV2Component extends WattPickerBase {
    */
   protected initRangeInput() {
     if (this.initialValue) {
-      this.setRangeValueAndNotify(
-        (this.initialValue as WattDateRange).start,
-        (this.initialValue as WattDateRange).end
-      );
+      const { start, end } = this.initialValue as WattDateRange;
+      this.setRangeValueAndNotify(start, end);
     } else {
       this.control?.setValue({ start: '', end: '' });
     }
@@ -290,7 +288,7 @@ export class WattTimepickerV2Component extends WattPickerBase {
   /**
    * @ignore
    */
-  setRangeValueAndNotify(start: string, end: string) {
+  setRangeValueAndNotify(start: string, end: string | null) {
     this.control?.setValue({ start, end });
     (this.input.nativeElement as HTMLInputElement).value = start + this.rangeSeparator + end;
     this.input.nativeElement.dispatchEvent(new InputEvent('input'));
