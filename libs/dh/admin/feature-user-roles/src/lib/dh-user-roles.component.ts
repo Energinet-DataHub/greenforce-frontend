@@ -23,7 +23,7 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { FormsModule } from '@angular/forms';
@@ -61,18 +61,19 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
   imports: [
     RxLet,
     RxPush,
-    FormsModule,
-    TranslocoModule,
+    TranslocoDirective,
+    TranslocoPipe,
     MatDividerModule,
     MatExpansionModule,
+    FormsModule,
 
-    WATT_TABLE,
-    WattCardComponent,
-    WattBadgeComponent,
     WattSpinnerComponent,
+    WattCardComponent,
+    WATT_TABLE,
     WattEmptyStateComponent,
-    WattFieldErrorComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
+    WattBadgeComponent,
+    WattFieldErrorComponent,
 
     DhEmDashFallbackPipe,
     FilterUserRolesPipe,

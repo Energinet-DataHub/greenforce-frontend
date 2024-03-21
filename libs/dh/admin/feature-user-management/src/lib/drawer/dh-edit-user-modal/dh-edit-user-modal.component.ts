@@ -29,8 +29,8 @@ import {
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
@@ -48,16 +48,16 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
   selector: 'dh-edit-user-modal',
   standalone: true,
   imports: [
-    RxPush,
-    TranslocoModule,
+    TranslocoDirective,
     ReactiveFormsModule,
+    RxPush,
 
     WATT_MODAL,
+    WattButtonComponent,
     WattTabComponent,
     WattTabsComponent,
-    WattButtonComponent,
-    WattTextFieldComponent,
     WattFieldErrorComponent,
+    WattTextFieldComponent,
     WattPhoneFieldComponent,
 
     DhUserRolesComponent,
