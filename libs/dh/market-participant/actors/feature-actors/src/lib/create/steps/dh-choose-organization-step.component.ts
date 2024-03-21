@@ -16,6 +16,9 @@
  */
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Apollo } from 'apollo-angular';
+import { TranslocoDirective } from '@ngneat/transloco';
+
 import {
   GetOrganizationByIdDocument,
   GetOrganizationsDocument,
@@ -24,8 +27,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattStepperStepComponent } from '@energinet-datahub/watt/stepper';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { Apollo } from 'apollo-angular';
+import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 @Component({
   standalone: true,
@@ -71,8 +73,9 @@ export class DhChooseOrganizationStepComponent {
   @Input({ required: true }) chooseOrganizationForm!: FormGroup<{
     orgId: FormControl<string | null>;
   }>;
+
   @Output() toggleShowCreateNewOrganization = new EventEmitter<void>();
-  @Output() choosenOrganizationDomain = new EventEmitter<string>();
+  @Output() selectOrganization = new EventEmitter<DhOrganizationDetails>();
 
   private _getOrganizationsQuery$ = this._apollo.query({
     notifyOnNetworkStatusChange: true,
@@ -100,8 +103,8 @@ export class DhChooseOrganizationStepComponent {
         query: GetOrganizationByIdDocument,
       })
       .subscribe((result) => {
-        if (result.data?.organizationById.domain) {
-          this.choosenOrganizationDomain.emit(result.data.organizationById.domain);
+        if (result.data?.organizationById) {
+          this.selectOrganization.emit(result.data.organizationById);
         }
       });
   }

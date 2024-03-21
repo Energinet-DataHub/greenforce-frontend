@@ -21,8 +21,8 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/domain';
 
-import { DhOrganization } from '../dh-organization';
 import { DhOrganizationDrawerComponent } from '../drawer/dh-organization-drawer.component';
 
 @Component({
