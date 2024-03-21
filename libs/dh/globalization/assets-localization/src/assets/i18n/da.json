@@ -1149,6 +1149,7 @@
           "roles": "Brugerroller",
           "role": "Brugerrolle",
           "rolesHeadline": "Brugerroller",
+          "atleastOneRole": "Vælg minimum en brugerrolle",
           "emptyTitle": "Ingen brugerroller fundet",
           "emptyMessage": "Prøv at ændre dine søgeindstillinger",
           "filter": {

@@ -25,7 +25,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { NgIf } from '@angular/common';
+
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -48,7 +48,6 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
   selector: 'dh-edit-user-modal',
   standalone: true,
   imports: [
-    NgIf,
     TranslocoDirective,
     ReactiveFormsModule,
     RxPush,
@@ -133,7 +132,11 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   }
 
   save() {
-    if (this.user === null || this.userInfoForm.invalid) {
+    if (
+      this.user === null ||
+      this.userInfoForm.invalid ||
+      this._updateUserRoles?.actors.some((actor) => !actor.atLeastOneRoleIsAssigned)
+    ) {
       return;
     }
 
@@ -156,6 +159,21 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
       this.phoneNumberControl.value,
       this._updateUserRoles ?? undefined
     );
+  }
+
+  closeModal(status: boolean): void {
+    this.userRoles.resetUpdateUserRoles();
+    this.editUserModal.close(status);
+    this.closed.emit();
+  }
+
+  close(): void {
+    this.closeModal(false);
+  }
+
+  onSelectedUserRolesChanged(updateUserRoles: UpdateUserRoles): void {
+    this._updateUserRoles = updateUserRoles;
+    this.userInfoForm.markAsDirty();
   }
 
   private startEditUserRequest(
@@ -207,20 +225,5 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
     this.user.firstName = firstName;
     this.user.lastName = lastName;
     this.user.phoneNumber = phoneNumber;
-  }
-
-  closeModal(status: boolean): void {
-    this.userRoles.resetUpdateUserRoles();
-    this.editUserModal.close(status);
-    this.closed.emit();
-  }
-
-  close(): void {
-    this.closeModal(false);
-  }
-
-  onSelectedUserRolesChanged(updateUserRoles: UpdateUserRoles): void {
-    this._updateUserRoles = updateUserRoles;
-    this.userInfoForm.markAsDirty();
   }
 }

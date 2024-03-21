@@ -50,6 +50,7 @@ import {
   FilterUserRolesPipe,
   UserRolesIntoTablePipe,
 } from './dh-filter-user-roles-into-table.pipe';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   selector: 'dh-user-roles',
@@ -111,12 +112,19 @@ export class DhUserRolesComponent implements OnChanges {
     }
   }
 
+  checkIfAtLeastOneRoleIsAssigned(actorId: string): boolean {
+    const actor = this._updateUserRoles.actors.find((actor) => actor.id === actorId);
+    return actor ? actor.atLeastOneRoleIsAssigned : false;
+  }
+
   selectionChanged(
     actorId: string,
     userRoles: MarketParticipantUserRoleViewDto[],
     allAssignable: MarketParticipantUserRoleViewDto[]
   ) {
     const actor = this.getOrAddActor(actorId);
+
+    actor.atLeastOneRoleIsAssigned = userRoles.length > 0;
 
     actor.userRolesToUpdate.added = userRoles
       .filter((userRole) => !userRole.userActorId)
@@ -135,6 +143,7 @@ export class DhUserRolesComponent implements OnChanges {
     if (!actor) {
       const actorChanges = {
         id: actorId,
+        atLeastOneRoleIsAssigned: true,
         userRolesToUpdate: { added: [], removed: [] },
       };
 

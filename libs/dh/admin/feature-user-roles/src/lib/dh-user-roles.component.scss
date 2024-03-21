@@ -21,6 +21,12 @@
 
 watt-table {
   box-sizing: border-box;
+  padding: var(--watt-space-m) 0;
+}
+
+watt-field-error {
+  display: block;
+  padding-top: var(--watt-space-m);
 }
 
 watt-empty-state {
