@@ -15,16 +15,15 @@
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class PermissionType : ObjectType<PermissionDto>
 {
-    public class PermissionType : ObjectType<PermissionDto>
+    protected override void Configure(IObjectTypeDescriptor<PermissionDto> descriptor)
     {
-        protected override void Configure(IObjectTypeDescriptor<PermissionDto> descriptor)
-        {
-            descriptor.Name("Permission");
-            descriptor
-               .Field("userRoles")
-               .ResolveWith<MarketParticipantResolvers>(c => c.GetAssignedPermissionAsync(default!, default!));
-        }
+        descriptor.Name("Permission");
+        descriptor
+           .Field("userRoles")
+           .ResolveWith<MarketParticipantResolvers>(c => c.GetAssignedPermissionAsync(default!, default!));
     }
 }

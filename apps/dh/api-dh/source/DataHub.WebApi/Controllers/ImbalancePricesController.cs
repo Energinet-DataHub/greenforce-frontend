@@ -20,62 +20,61 @@ using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Energinet.DataHub.WebApi.Controllers
+namespace Energinet.DataHub.WebApi.Controllers;
+
+[ApiController]
+[Route("v1/[controller]")]
+public sealed class ImbalancePricesController : ControllerBase
 {
-    [ApiController]
-    [Route("v1/[controller]")]
-    public sealed class ImbalancePricesController : ControllerBase
+    private readonly IImbalancePricesClient_V1 _client;
+
+    public ImbalancePricesController(IImbalancePricesClient_V1 client)
     {
-        private readonly IImbalancePricesClient_V1 _client;
+        _client = client;
+    }
 
-        public ImbalancePricesController(IImbalancePricesClient_V1 client)
+    /// <summary>
+    /// Uploads a CSV file with imbalancePrices
+    /// </summary>
+    [HttpPost]
+    [Route("UploadImbalanceCSV")]
+    [RequestSizeLimit(10485760)]
+    public async Task<ActionResult> UploadImbalancePricesAsync(IFormFile csvFile)
+    {
+        try
         {
-            _client = client;
+            await using var openReadStream = csvFile.OpenReadStream();
+            await _client.UploadAsync(new FileParameter(openReadStream));
+            return Ok();
         }
-
-        /// <summary>
-        /// Uploads a CSV file with imbalancePrices
-        /// </summary>
-        [HttpPost]
-        [Route("UploadImbalanceCSV")]
-        [RequestSizeLimit(10485760)]
-        public async Task<ActionResult> UploadImbalancePricesAsync(IFormFile csvFile)
+        catch (ApiException ex)
         {
-            try
-            {
-                await using var openReadStream = csvFile.OpenReadStream();
-                await _client.UploadAsync(new FileParameter(openReadStream));
-                return Ok();
-            }
-            catch (ApiException ex)
-            {
-                return StatusCode(ex.StatusCode, ex.Response);
-            }
+            return StatusCode(ex.StatusCode, ex.Response);
         }
+    }
 
-        /// <summary>
-        /// Download a CSV file with imbalancePrices
-        /// </summary>
-        [HttpGet]
-        [Route("DownloadImbalanceCSV")]
-        [Produces(MediaTypeNames.Text.Plain)]
-        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
-        public async Task<ActionResult> DownloadImbalancePricesAsync(int month, int year)
+    /// <summary>
+    /// Download a CSV file with imbalancePrices
+    /// </summary>
+    [HttpGet]
+    [Route("DownloadImbalanceCSV")]
+    [Produces(MediaTypeNames.Text.Plain)]
+    [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
+    public async Task<ActionResult> DownloadImbalancePricesAsync(int month, int year)
+    {
+        try
         {
-            try
-            {
-                var f = new DateTime(year, month, 1, 0, 0, 0);
-                var t = f.AddMonths(1);
-                var tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
-                var from = TimeZoneInfo.ConvertTime(new DateTimeOffset(f, tz.GetUtcOffset(f)), tz);
-                var to = TimeZoneInfo.ConvertTime(new DateTimeOffset(t, tz.GetUtcOffset(t)), tz);
-                var result = await _client.DownloadAsync(from, to);
-                return File(result.Stream, MediaTypeNames.Text.Plain);
-            }
-            catch (ApiException ex)
-            {
-                return StatusCode(ex.StatusCode, ex.Response);
-            }
+            var f = new DateTime(year, month, 1, 0, 0, 0);
+            var t = f.AddMonths(1);
+            var tz = TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time");
+            var from = TimeZoneInfo.ConvertTime(new DateTimeOffset(f, tz.GetUtcOffset(f)), tz);
+            var to = TimeZoneInfo.ConvertTime(new DateTimeOffset(t, tz.GetUtcOffset(t)), tz);
+            var result = await _client.DownloadAsync(from, to);
+            return File(result.Stream, MediaTypeNames.Text.Plain);
+        }
+        catch (ApiException ex)
+        {
+            return StatusCode(ex.StatusCode, ex.Response);
         }
     }
 }

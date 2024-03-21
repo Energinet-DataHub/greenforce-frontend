@@ -16,30 +16,29 @@ using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using HotChocolate.Types;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class MeteringGridAreaImbalanceSearchResultType : ObjectType<MeteringGridAreaImbalanceSearchResult>
 {
-    public class MeteringGridAreaImbalanceSearchResultType : ObjectType<MeteringGridAreaImbalanceSearchResult>
+    protected override void Configure(
+        IObjectTypeDescriptor<MeteringGridAreaImbalanceSearchResult> descriptor)
     {
-        protected override void Configure(
-            IObjectTypeDescriptor<MeteringGridAreaImbalanceSearchResult> descriptor)
-        {
-            descriptor.Name("MeteringGridAreaImbalanceSearchResult");
+        descriptor.Name("MeteringGridAreaImbalanceSearchResult");
 
-            descriptor.Field(x => x.GridAreaCode).Ignore();
+        descriptor.Field(x => x.GridAreaCode).Ignore();
 
-            descriptor.Field(f => f.PeriodStart)
-              .Name("period").
-              Resolve((context, token) =>
-              {
-                  var meteringGridAreaImbalance = context.Parent<MeteringGridAreaImbalanceSearchResult>();
-                  return new Interval(Instant.FromDateTimeOffset(meteringGridAreaImbalance.PeriodStart), Instant.FromDateTimeOffset(meteringGridAreaImbalance.PeriodEnd));
-              });
+        descriptor.Field(f => f.PeriodStart)
+          .Name("period").
+          Resolve((context, token) =>
+          {
+              var meteringGridAreaImbalance = context.Parent<MeteringGridAreaImbalanceSearchResult>();
+              return new Interval(Instant.FromDateTimeOffset(meteringGridAreaImbalance.PeriodStart), Instant.FromDateTimeOffset(meteringGridAreaImbalance.PeriodEnd));
+          });
 
-            descriptor.Field(f => f.PeriodEnd).Ignore();
+        descriptor.Field(f => f.PeriodEnd).Ignore();
 
-            descriptor
-               .Field("gridArea")
-               .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(MeteringGridAreaImbalanceSearchResult)!, default!));
-        }
+        descriptor
+           .Field("gridArea")
+           .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(MeteringGridAreaImbalanceSearchResult)!, default!));
     }
 }

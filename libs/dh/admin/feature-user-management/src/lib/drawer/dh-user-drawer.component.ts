@@ -23,7 +23,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
@@ -53,15 +53,17 @@ import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
   imports: [
     NgIf,
     RxPush,
-    TranslocoModule,
-    WATT_DRAWER,
+    TranslocoDirective,
     MatMenuModule,
+
+    WATT_DRAWER,
     WattButtonComponent,
+    WATT_MODAL,
+
     DhTabsComponent,
     DhUserStatusComponent,
     DhEditUserModalComponent,
     DhPermissionRequiredDirective,
-    WATT_MODAL,
   ],
 })
 export class DhUserDrawerComponent {

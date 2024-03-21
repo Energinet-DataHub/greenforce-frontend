@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 import { Component, Input } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 
 @Component({
-  imports: [TranslocoModule, WattBadgeComponent],
+  imports: [TranslocoDirective, WattBadgeComponent],
   standalone: true,
   selector: 'dh-message-archive-status',
   template: `<ng-container *transloco="let t; read: 'messageArchive.search'">

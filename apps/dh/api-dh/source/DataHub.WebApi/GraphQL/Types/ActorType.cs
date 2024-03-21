@@ -18,46 +18,45 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class ActorType : ObjectType<ActorDto>
 {
-    public class ActorType : ObjectType<ActorDto>
+    protected override void Configure(IObjectTypeDescriptor<ActorDto> descriptor)
     {
-        protected override void Configure(IObjectTypeDescriptor<ActorDto> descriptor)
-        {
-            descriptor.Name("Actor");
+        descriptor.Name("Actor");
 
-            descriptor.Field(f => f.ActorId).Name("id");
-            descriptor.Field(f => f.Name.Value).Name("name");
+        descriptor.Field(f => f.ActorId).Name("id");
+        descriptor.Field(f => f.Name.Value).Name("name");
 
-            descriptor
-                .Ignore(f => f.ActorNumber)
-                .Field(f => f.ActorNumber.Value)
-                .Name("glnOrEicNumber");
+        descriptor
+            .Ignore(f => f.ActorNumber)
+            .Field(f => f.ActorNumber.Value)
+            .Name("glnOrEicNumber");
 
-            descriptor
-                .Field(f => f.MarketRoles)
-                .Name("marketRole")
-                .Resolve(context =>
-                    context.Parent<ActorDto>().MarketRoles.FirstOrDefault()?.EicFunction);
+        descriptor
+            .Field(f => f.MarketRoles)
+            .Name("marketRole")
+            .Resolve(context =>
+                context.Parent<ActorDto>().MarketRoles.FirstOrDefault()?.EicFunction);
 
-            descriptor
-                .Field(f => f.Status)
-                .Name("status")
-                .Resolve(context =>
-                    Enum.Parse<ActorStatus>(context.Parent<ActorDto>().Status));
+        descriptor
+            .Field(f => f.Status)
+            .Name("status")
+            .Resolve(context =>
+                Enum.Parse<ActorStatus>(context.Parent<ActorDto>().Status));
 
-            descriptor
-                .Field("gridAreas")
-                .ResolveWith<MarketParticipantResolvers>(c => c.GetGridAreasAsync(default!, default!));
+        descriptor
+            .Field("gridAreas")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetGridAreasAsync(default!, default!));
 
-            descriptor
-                .Field("contact")
-                .ResolveWith<MarketParticipantResolvers>(c => c.GetContactAsync(default!, default!));
+        descriptor
+            .Field("contact")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetContactAsync(default!, default!));
 
-            descriptor
-                .Field(f => f.OrganizationId)
-                .Name("organization")
-                .ResolveWith<MarketParticipantResolvers>(c => c.GetOrganizationAsync(default!, default!));
-        }
+        descriptor
+            .Field(f => f.OrganizationId)
+            .Name("organization")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetOrganizationAsync(default!, default!));
     }
 }

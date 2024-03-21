@@ -14,27 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-.container {
-  display: block;
-}
-
-watt-table {
-  box-sizing: border-box;
-  padding: var(--watt-space-m) 0;
-}
-
-watt-field-error {
-  display: block;
-  padding-top: var(--watt-space-m);
-}
-
-watt-empty-state {
-  padding: var(--watt-space-xl);
-}
-
-watt-spinner {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--watt-space-xl);
-}
+export * from './cy-custom-mount';

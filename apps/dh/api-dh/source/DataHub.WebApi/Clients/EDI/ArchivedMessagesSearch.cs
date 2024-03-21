@@ -18,77 +18,76 @@ using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 
-namespace Energinet.DataHub.WebApi.Clients.EDI
+namespace Energinet.DataHub.WebApi.Clients.EDI;
+
+public class ArchivedMessagesSearch
 {
-    public class ArchivedMessagesSearch
+    private readonly IEdiB2CWebAppClient_V1 _b2CWebAppClient;
+
+    public ArchivedMessagesSearch(IEdiB2CWebAppClient_V1 b2CWebAppClient)
     {
-        private readonly IEdiB2CWebAppClient_V1 _b2CWebAppClient;
+        _b2CWebAppClient = b2CWebAppClient;
+    }
 
-        public ArchivedMessagesSearch(IEdiB2CWebAppClient_V1 b2CWebAppClient)
+    public async Task<SearchResult> SearchAsync(
+        ArchivedMessageSearchCriteria archivedMessageSearch,
+        CancellationToken cancellationToken)
+    {
+        var searchResultResponseMessages =
+            await GetSearchResultResponseMessagesAsync(archivedMessageSearch, cancellationToken);
+
+        if (searchResultResponseMessages == null)
         {
-            _b2CWebAppClient = b2CWebAppClient;
+            throw new InvalidOperationException("Could not parse response content from EDI.");
         }
 
-        public async Task<SearchResult> SearchAsync(
-            ArchivedMessageSearchCriteria archivedMessageSearch,
-            CancellationToken cancellationToken)
+        return MapResult(searchResultResponseMessages);
+    }
+
+    public async Task<string> GetDocumentAsync(Guid id, CancellationToken cancellationToken)
+    {
+       return await _b2CWebAppClient.ArchivedMessageGetDocumentAsync(id, cancellationToken).ConfigureAwait(false);
+    }
+
+    private async Task<ICollection<ArchivedMessageResult>?> GetSearchResultResponseMessagesAsync(
+        ArchivedMessageSearchCriteria archivedMessageSearch,
+        CancellationToken cancellationToken)
+    {
+        var period = new MessageCreationPeriod()
         {
-            var searchResultResponseMessages =
-                await GetSearchResultResponseMessagesAsync(archivedMessageSearch, cancellationToken);
+            Start = DateTimeOffset.Parse(archivedMessageSearch.DateTimeFrom),
+            End = DateTimeOffset.Parse(archivedMessageSearch.DateTimeTo),
+        };
 
-            if (searchResultResponseMessages == null)
-            {
-                throw new InvalidOperationException("Could not parse response content from EDI.");
-            }
+        var criteria = new SearchArchivedMessagesCriteria()
+        {
+            CreatedDuringPeriod = period,
+            MessageId = archivedMessageSearch.MessageId,
+            SenderNumber = archivedMessageSearch.SenderNumber,
+            ReceiverNumber = archivedMessageSearch.ReceiverNumber,
+            DocumentTypes = archivedMessageSearch.DocumentTypes,
+            BusinessReasons = archivedMessageSearch.BusinessReasons,
+            IncludeRelatedMessages = archivedMessageSearch.IncludeRelatedMessages,
+        };
 
-            return MapResult(searchResultResponseMessages);
+        return await _b2CWebAppClient.ArchivedMessageSearchAsync(criteria, cancellationToken);
+    }
+
+    private static SearchResult MapResult(ICollection<ArchivedMessageResult> searchResultResponseMessages)
+    {
+        var result = new List<ArchivedMessage>();
+
+        foreach (var archivedMessageDto in searchResultResponseMessages)
+        {
+            result.Add(new ArchivedMessage(
+                archivedMessageDto.Id,
+                archivedMessageDto.MessageId,
+                archivedMessageDto.DocumentType,
+                archivedMessageDto.CreatedAt,
+                archivedMessageDto.SenderNumber,
+                archivedMessageDto.ReceiverNumber));
         }
 
-        public async Task<string> GetDocumentAsync(Guid id, CancellationToken cancellationToken)
-        {
-           return await _b2CWebAppClient.ArchivedMessageGetDocumentAsync(id, cancellationToken).ConfigureAwait(false);
-        }
-
-        private async Task<ICollection<ArchivedMessageResult>?> GetSearchResultResponseMessagesAsync(
-            ArchivedMessageSearchCriteria archivedMessageSearch,
-            CancellationToken cancellationToken)
-        {
-            var period = new MessageCreationPeriod()
-            {
-                Start = DateTimeOffset.Parse(archivedMessageSearch.DateTimeFrom),
-                End = DateTimeOffset.Parse(archivedMessageSearch.DateTimeTo),
-            };
-
-            var criteria = new SearchArchivedMessagesCriteria()
-            {
-                CreatedDuringPeriod = period,
-                MessageId = archivedMessageSearch.MessageId,
-                SenderNumber = archivedMessageSearch.SenderNumber,
-                ReceiverNumber = archivedMessageSearch.ReceiverNumber,
-                DocumentTypes = archivedMessageSearch.DocumentTypes,
-                BusinessReasons = archivedMessageSearch.BusinessReasons,
-                IncludeRelatedMessages = archivedMessageSearch.IncludeRelatedMessages,
-            };
-
-            return await _b2CWebAppClient.ArchivedMessageSearchAsync(criteria, cancellationToken);
-        }
-
-        private static SearchResult MapResult(ICollection<ArchivedMessageResult> searchResultResponseMessages)
-        {
-            var result = new List<ArchivedMessage>();
-
-            foreach (var archivedMessageDto in searchResultResponseMessages)
-            {
-                result.Add(new ArchivedMessage(
-                    archivedMessageDto.Id,
-                    archivedMessageDto.MessageId,
-                    archivedMessageDto.DocumentType,
-                    archivedMessageDto.CreatedAt,
-                    archivedMessageDto.SenderNumber,
-                    archivedMessageDto.ReceiverNumber));
-            }
-
-            return new SearchResult(result);
-        }
+        return new SearchResult(result);
     }
 }

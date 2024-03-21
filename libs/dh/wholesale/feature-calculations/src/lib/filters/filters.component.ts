@@ -26,7 +26,7 @@ import {
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { Apollo } from 'apollo-angular';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { debounceTime, map } from 'rxjs';
 
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
@@ -52,7 +52,8 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
   imports: [
     ReactiveFormsModule,
     RxPush,
-    TranslocoModule,
+    TranslocoDirective,
+
     VaterSpacerComponent,
     VaterStackComponent,
     WattButtonComponent,
