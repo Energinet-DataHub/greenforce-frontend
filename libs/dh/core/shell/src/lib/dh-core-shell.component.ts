@@ -23,7 +23,6 @@ import { ApolloModule } from 'apollo-angular';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
 import { DhProfileAvatarComponent } from '@energinet-datahub/dh/profile/feature-avatar';
-import { DhLanguagePickerComponent } from '@energinet-datahub/dh/globalization/feature-language-picker';
 
 import {
   DhInactivityDetectionService,
@@ -43,7 +42,6 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
     RouterOutlet,
     RxPush,
 
-    DhLanguagePickerComponent,
     DhPrimaryNavigationComponent,
     DhProfileAvatarComponent,
     WattShellComponent,
