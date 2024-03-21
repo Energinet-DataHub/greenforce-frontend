@@ -73,6 +73,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
     WattEmptyStateComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
     WattBadgeComponent,
+    WattFieldErrorComponent,
 
     DhEmDashFallbackPipe,
     FilterUserRolesPipe,
