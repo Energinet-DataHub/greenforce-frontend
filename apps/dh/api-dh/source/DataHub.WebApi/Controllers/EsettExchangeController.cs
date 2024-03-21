@@ -17,89 +17,88 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Energinet.DataHub.WebApi.Controllers
+namespace Energinet.DataHub.WebApi.Controllers;
+
+[ApiController]
+[Route("v1/[controller]")]
+public sealed class EsettExchangeController : ControllerBase
 {
-    [ApiController]
-    [Route("v1/[controller]")]
-    public sealed class EsettExchangeController : ControllerBase
+    private readonly IESettExchangeClient_V1 _client;
+
+    public EsettExchangeController(IESettExchangeClient_V1 client)
     {
-        private readonly IESettExchangeClient_V1 _client;
+        _client = client;
+    }
 
-        public EsettExchangeController(IESettExchangeClient_V1 client)
+    [HttpGet("DispatchDocument")]
+    [Produces("application/octet-stream")]
+    public async Task<ActionResult<Stream>> GetDispatchDocumentAsync(string documentId)
+    {
+        try
         {
-            _client = client;
+            var fileResponse = await _client
+                .DispatchDocumentAsync(documentId)
+                .ConfigureAwait(false);
+
+            return File(fileResponse.Stream, "application/octet-stream");
         }
-
-        [HttpGet("DispatchDocument")]
-        [Produces("application/octet-stream")]
-        public async Task<ActionResult<Stream>> GetDispatchDocumentAsync(string documentId)
+        catch (ApiException e) when (e.StatusCode == 404)
         {
-            try
-            {
-                var fileResponse = await _client
-                    .DispatchDocumentAsync(documentId)
-                    .ConfigureAwait(false);
-
-                return File(fileResponse.Stream, "application/octet-stream");
-            }
-            catch (ApiException e) when (e.StatusCode == 404)
-            {
-                return NotFound();
-            }
+            return NotFound();
         }
+    }
 
-        [HttpGet("ResponseDocument")]
-        [Produces("application/octet-stream")]
-        public async Task<ActionResult<Stream>> ResponseDocumentAsync(string documentId)
+    [HttpGet("ResponseDocument")]
+    [Produces("application/octet-stream")]
+    public async Task<ActionResult<Stream>> ResponseDocumentAsync(string documentId)
+    {
+        try
         {
-            try
-            {
-                var fileResponse = await _client
-                    .ResponseDocumentAsync(documentId)
-                    .ConfigureAwait(false);
+            var fileResponse = await _client
+                .ResponseDocumentAsync(documentId)
+                .ConfigureAwait(false);
 
-                return File(fileResponse.Stream, "application/octet-stream");
-            }
-            catch (ApiException e) when (e.StatusCode == 404)
-            {
-                return NotFound();
-            }
+            return File(fileResponse.Stream, "application/octet-stream");
         }
-
-        [HttpGet("StorageDocument")]
-        [Produces("application/octet-stream")]
-        public async Task<ActionResult<Stream>> StorageDocumentAsync(string documentId)
+        catch (ApiException e) when (e.StatusCode == 404)
         {
-            try
-            {
-                var fileResponse = await _client
-                    .StorageDocumentAsync(documentId)
-                    .ConfigureAwait(false);
-
-                return File(fileResponse.Stream, "application/octet-stream");
-            }
-            catch (ApiException e) when (e.StatusCode == 404)
-            {
-                return NotFound();
-            }
+            return NotFound();
         }
+    }
 
-        [HttpGet("MgaImbalanceDocument")]
-        [Produces("application/octet-stream")]
-        public async Task<ActionResult<Stream>> GetMgaImbalanceDocumentAsync(string imbalanceId)
+    [HttpGet("StorageDocument")]
+    [Produces("application/octet-stream")]
+    public async Task<ActionResult<Stream>> StorageDocumentAsync(string documentId)
+    {
+        try
         {
-            try
-            {
-                var fileResponse = await _client
-                    .DocumentAsync(imbalanceId)
-                    .ConfigureAwait(false);
+            var fileResponse = await _client
+                .StorageDocumentAsync(documentId)
+                .ConfigureAwait(false);
 
-                return File(fileResponse.Stream, "application/octet-stream");
-            }
-            catch (ApiException e) when (e.StatusCode == 404)
-            {
-                return NotFound();
-            }
+            return File(fileResponse.Stream, "application/octet-stream");
+        }
+        catch (ApiException e) when (e.StatusCode == 404)
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpGet("MgaImbalanceDocument")]
+    [Produces("application/octet-stream")]
+    public async Task<ActionResult<Stream>> GetMgaImbalanceDocumentAsync(string imbalanceId)
+    {
+        try
+        {
+            var fileResponse = await _client
+                .DocumentAsync(imbalanceId)
+                .ConfigureAwait(false);
+
+            return File(fileResponse.Stream, "application/octet-stream");
+        }
+        catch (ApiException e) when (e.StatusCode == 404)
+        {
+            return NotFound();
         }
     }
 }

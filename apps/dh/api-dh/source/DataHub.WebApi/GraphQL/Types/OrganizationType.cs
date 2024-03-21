@@ -15,20 +15,19 @@
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL
-{
-    public class OrganizationType : ObjectType<OrganizationDto>
-    {
-        protected override void Configure(IObjectTypeDescriptor<OrganizationDto> descriptor)
-        {
-            descriptor.Name("Organization");
+namespace Energinet.DataHub.WebApi.GraphQL;
 
-            descriptor
-                .Field(f => f.OrganizationId)
-                .Resolve(context => context.Parent<OrganizationDto>().OrganizationId.ToString());
-            descriptor
-                .Field("actors")
-               .ResolveWith<MarketParticipantResolvers>(c => c.GetActorsForOrganizationAsync(default!, default!));
-        }
+public class OrganizationType : ObjectType<OrganizationDto>
+{
+    protected override void Configure(IObjectTypeDescriptor<OrganizationDto> descriptor)
+    {
+        descriptor.Name("Organization");
+
+        descriptor
+            .Field(f => f.OrganizationId)
+            .Resolve(context => context.Parent<OrganizationDto>().OrganizationId.ToString());
+        descriptor
+            .Field("actors")
+           .ResolveWith<MarketParticipantResolvers>(c => c.GetActorsForOrganizationAsync(default!, default!));
     }
 }

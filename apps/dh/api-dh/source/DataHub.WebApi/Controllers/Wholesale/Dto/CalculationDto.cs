@@ -16,7 +16,6 @@ using System;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 
-namespace Energinet.DataHub.WebApi.Controllers.Wholesale.Dto
-{
-    public sealed record CalculationDto(Guid CalculationId, DateTimeOffset PeriodStart, DateTimeOffset PeriodEnd, DateTimeOffset? ExecutionTimeStart, DateTimeOffset? ExecutionTimeEnd, CalculationState ExecutionState, bool IsBasisDataDownloadAvailable, GridAreaDto[] GridAreas);
-}
+namespace Energinet.DataHub.WebApi.Controllers.Wholesale.Dto;
+
+public sealed record CalculationDto(Guid CalculationId, DateTimeOffset PeriodStart, DateTimeOffset PeriodEnd, DateTimeOffset? ExecutionTimeStart, DateTimeOffset? ExecutionTimeEnd, CalculationState ExecutionState, bool IsBasisDataDownloadAvailable, GridAreaDto[] GridAreas);

@@ -16,12 +16,11 @@ using System;
 using System.Collections.Generic;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL
-{
-    public sealed record CreateMessageDelegationInput(
-        Guid DelegatedBy,
-        Guid DelegatedTo,
-        ICollection<Guid> GridAreas,
-        ICollection<DelegationMessageType> MessageTypes,
-        DateTimeOffset StartsAt);
-}
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public sealed record CreateMessageDelegationInput(
+    Guid DelegatedBy,
+    Guid DelegatedTo,
+    ICollection<Guid> GridAreas,
+    ICollection<DelegationMessageType> MessageTypes,
+    DateTimeOffset StartsAt);

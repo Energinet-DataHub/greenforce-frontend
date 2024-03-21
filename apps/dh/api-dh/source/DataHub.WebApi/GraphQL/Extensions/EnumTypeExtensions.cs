@@ -15,30 +15,29 @@
 using System;
 using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public static class EnumTypeExtensions
 {
-    public static class EnumTypeExtensions
+    internal static void AsIsCase<T>(this IEnumTypeDescriptor<T> descriptor)
+        where T : Enum
     {
-        internal static void AsIsCase<T>(this IEnumTypeDescriptor<T> descriptor)
-            where T : Enum
-        {
-            descriptor.BindValuesExplicitly();
+        descriptor.BindValuesExplicitly();
 
-            foreach (T value in typeof(T).GetEnumValues())
-            {
-                descriptor.Value(value).Name(Enum.GetName(typeof(T), value));
-            }
+        foreach (T value in typeof(T).GetEnumValues())
+        {
+            descriptor.Value(value).Name(Enum.GetName(typeof(T), value));
         }
+    }
 
-        internal static void AsLowerCase<T>(this IEnumTypeDescriptor<T> descriptor)
-            where T : Enum
+    internal static void AsLowerCase<T>(this IEnumTypeDescriptor<T> descriptor)
+        where T : Enum
+    {
+        descriptor.BindValuesExplicitly();
+
+        foreach (T value in typeof(T).GetEnumValues())
         {
-            descriptor.BindValuesExplicitly();
-
-            foreach (T value in typeof(T).GetEnumValues())
-            {
-                descriptor.Value(value).Name(Enum.GetName(typeof(T), value)?.ToLower());
-            }
+            descriptor.Value(value).Name(Enum.GetName(typeof(T), value)?.ToLower());
         }
     }
 }

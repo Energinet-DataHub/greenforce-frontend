@@ -17,21 +17,20 @@ using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.Registration
+namespace Energinet.DataHub.WebApi.Registration;
+
+public static class GraphQLRegistrationExtensions
 {
-    public static class GraphQLRegistrationExtensions
+    public static IRequestExecutorBuilder AddGraphQLServices(this IServiceCollection services)
     {
-        public static IRequestExecutorBuilder AddGraphQLServices(this IServiceCollection services)
-        {
-            return services
-                .AddGraphQLServer()
-                .AddInstrumentation()
-                .AddAuthorization()
-                .AddQueryType<Query>()
-                .AddMutationConventions(applyToAllMutations: true)
-                .AddMutationType<Mutation>()
-                .AddTypes()
-                .BindRuntimeType<Interval, DateRangeType>();
-        }
+        return services
+            .AddGraphQLServer()
+            .AddInstrumentation()
+            .AddAuthorization()
+            .AddQueryType<Query>()
+            .AddMutationConventions(applyToAllMutations: true)
+            .AddMutationType<Mutation>()
+            .AddTypes()
+            .BindRuntimeType<Interval, DateRangeType>();
     }
 }

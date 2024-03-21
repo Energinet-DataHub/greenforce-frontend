@@ -18,67 +18,66 @@ using System.Reflection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Energinet.DataHub.WebApi
+namespace Energinet.DataHub.WebApi;
+
+public class RequireNonNullablePropertiesSchemaFilter : ISchemaFilter
 {
-    public class RequireNonNullablePropertiesSchemaFilter : ISchemaFilter
+    /// <summary>
+    /// Add to model.Required all properties where Nullable is false.
+    /// </summary>
+    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
     {
-        /// <summary>
-        /// Add to model.Required all properties where Nullable is false.
-        /// </summary>
-        public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+        if (schema.Properties == null || !schema.Properties.Any())
         {
-            if (schema.Properties == null || !schema.Properties.Any())
-            {
-                return;
-            }
-
-            FixNullableProperties(schema, context);
-
-            var additionalRequiredProps = schema.Properties
-                .Where(x => !x.Value.Nullable && !schema.Required.Contains(x.Key))
-                .Select(x => x.Key);
-
-            foreach (var propKey in additionalRequiredProps)
-            {
-                schema.Required.Add(propKey);
-            }
+            return;
         }
 
-        /// <summary>
-        /// Option "SupportNonNullableReferenceTypes" not working with complex types ({ "type": "object" }),
-        /// so they always have "Nullable = false",
-        /// see method "SchemaGenerator.GenerateSchemaForMember"
-        /// </summary>
-        private static void FixNullableProperties(OpenApiSchema schema, SchemaFilterContext context)
+        FixNullableProperties(schema, context);
+
+        var additionalRequiredProps = schema.Properties
+            .Where(x => !x.Value.Nullable && !schema.Required.Contains(x.Key))
+            .Select(x => x.Key);
+
+        foreach (var propKey in additionalRequiredProps)
         {
-            foreach (var (key, value) in schema.Properties)
+            schema.Required.Add(propKey);
+        }
+    }
+
+    /// <summary>
+    /// Option "SupportNonNullableReferenceTypes" not working with complex types ({ "type": "object" }),
+    /// so they always have "Nullable = false",
+    /// see method "SchemaGenerator.GenerateSchemaForMember"
+    /// </summary>
+    private static void FixNullableProperties(OpenApiSchema schema, SchemaFilterContext context)
+    {
+        foreach (var (key, value) in schema.Properties)
+        {
+            if (value.Reference == null)
             {
-                if (value.Reference == null)
-                {
-                    continue;
-                }
-
-                var field = context.Type
-                    .GetMembers(BindingFlags.Public | BindingFlags.Instance)
-                    .FirstOrDefault(x =>
-                        string.Equals(x.Name, key, StringComparison.InvariantCultureIgnoreCase));
-
-                if (field == null)
-                {
-                    continue;
-                }
-
-                var fieldType = field switch
-                {
-                    FieldInfo fieldInfo => fieldInfo.FieldType,
-                    PropertyInfo propertyInfo => propertyInfo.PropertyType,
-                    _ => throw new NotSupportedException(),
-                };
-
-                value.Nullable = fieldType.IsValueType
-                    ? Nullable.GetUnderlyingType(fieldType) != null
-                    : !field.IsNonNullableReferenceType();
+                continue;
             }
+
+            var field = context.Type
+                .GetMembers(BindingFlags.Public | BindingFlags.Instance)
+                .FirstOrDefault(x =>
+                    string.Equals(x.Name, key, StringComparison.InvariantCultureIgnoreCase));
+
+            if (field == null)
+            {
+                continue;
+            }
+
+            var fieldType = field switch
+            {
+                FieldInfo fieldInfo => fieldInfo.FieldType,
+                PropertyInfo propertyInfo => propertyInfo.PropertyType,
+                _ => throw new NotSupportedException(),
+            };
+
+            value.Nullable = fieldType.IsValueType
+                ? Nullable.GetUnderlyingType(fieldType) != null
+                : !field.IsNonNullableReferenceType();
         }
     }
 }

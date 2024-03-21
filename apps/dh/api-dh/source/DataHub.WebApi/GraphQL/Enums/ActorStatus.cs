@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
+namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
+
+public enum ActorStatus
 {
-    public enum ActorStatus
-    {
-        New,
-        Active,
-        Inactive,
-        Passive,
-    }
+    New,
+    Active,
+    Inactive,
+    Passive,
 }

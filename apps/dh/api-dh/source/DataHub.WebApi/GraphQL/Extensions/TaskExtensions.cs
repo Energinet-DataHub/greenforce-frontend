@@ -16,34 +16,33 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+[SuppressMessage("Usage", "VSTHRD200", Justification = "Name indicates that the task is awaited")]
+[SuppressMessage("Usage", "VSTHRD003", Justification = "The await will not cause deadlocks")]
+public static class TaskExtensions
 {
-    [SuppressMessage("Usage", "VSTHRD200", Justification = "Name indicates that the task is awaited")]
-    [SuppressMessage("Usage", "VSTHRD003", Justification = "The await will not cause deadlocks")]
-    public static class TaskExtensions
+    internal static async Task<T> Then<T>(this Task task, Func<T> then)
     {
-        internal static async Task<T> Then<T>(this Task task, Func<T> then)
-        {
-            await task;
-            return then();
-        }
+        await task;
+        return then();
+    }
 
-        internal static async Task<T> Then<T>(this Task task, Func<Task<T>> then)
-        {
-            await task;
-            return await then();
-        }
+    internal static async Task<T> Then<T>(this Task task, Func<Task<T>> then)
+    {
+        await task;
+        return await then();
+    }
 
-        internal static async Task<TV> Then<T, TV>(this Task<T> task, Func<T, TV> then)
-        {
-            var result = await task;
-            return then(result);
-        }
+    internal static async Task<TV> Then<T, TV>(this Task<T> task, Func<T, TV> then)
+    {
+        var result = await task;
+        return then(result);
+    }
 
-        internal static async Task<TV> Then<T, TV>(this Task<T> task, Func<T, Task<TV>> then)
-        {
-            var result = await task;
-            return await then(result);
-        }
+    internal static async Task<TV> Then<T, TV>(this Task<T> task, Func<T, Task<TV>> then)
+    {
+        var result = await task;
+        return await then(result);
     }
 }

@@ -19,37 +19,36 @@ using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.Clients.EDI
+namespace Energinet.DataHub.WebApi.Clients.EDI;
+
+public class ActorService
 {
-    public class ActorService
+    private readonly IMarketParticipantClient_V1 _marketParticipantClient;
+
+    public ActorService(IMarketParticipantClient_V1 marketParticipantClient)
     {
-        private readonly IMarketParticipantClient_V1 _marketParticipantClient;
+        _marketParticipantClient = marketParticipantClient ??
+                                   throw new ArgumentNullException(nameof(marketParticipantClient));
+    }
 
-        public ActorService(IMarketParticipantClient_V1 marketParticipantClient)
-        {
-            _marketParticipantClient = marketParticipantClient ??
-                                       throw new ArgumentNullException(nameof(marketParticipantClient));
-        }
+    public async Task<IEnumerable<Actor>> GetActorsAsync(CancellationToken cancellationToken)
+    {
+        if (cancellationToken.IsCancellationRequested) return new List<Actor>();
 
-        public async Task<IEnumerable<Actor>> GetActorsAsync(CancellationToken cancellationToken)
-        {
-            if (cancellationToken.IsCancellationRequested) return new List<Actor>();
+        var allActors = await _marketParticipantClient
+            .ActorGetAsync()
+            .ConfigureAwait(false);
 
-            var allActors = await _marketParticipantClient
-                .ActorGetAsync()
-                .ConfigureAwait(false);
+        return MapResult(allActors);
+    }
 
-            return MapResult(allActors);
-        }
-
-        private IEnumerable<Actor> MapResult(IEnumerable<ActorDto> actorDtos)
-        {
-            return actorDtos
-                .Select(actorDto => new Actor(
-                    ActorId: actorDto.ActorId,
-                    ActorNumber: new ActorNumberDto(actorDto.ActorNumber.Value),
-                    Name: new ActorNameDto(actorDto.Name.Value)))
-                .ToList();
-        }
+    private IEnumerable<Actor> MapResult(IEnumerable<ActorDto> actorDtos)
+    {
+        return actorDtos
+            .Select(actorDto => new Actor(
+                ActorId: actorDto.ActorId,
+                ActorNumber: new ActorNumberDto(actorDto.ActorNumber.Value),
+                Name: new ActorNameDto(actorDto.Name.Value)))
+            .ToList();
     }
 }

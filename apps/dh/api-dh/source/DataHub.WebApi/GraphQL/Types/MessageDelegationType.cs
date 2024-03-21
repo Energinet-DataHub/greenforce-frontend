@@ -16,49 +16,48 @@ using System;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public sealed class MessageDelegationType : ObjectType<MessageDelegation>
 {
-    public sealed class MessageDelegationType : ObjectType<MessageDelegation>
+    protected override void Configure(IObjectTypeDescriptor<MessageDelegation> descriptor)
     {
-        protected override void Configure(IObjectTypeDescriptor<MessageDelegation> descriptor)
-        {
-            descriptor.Name("MessageDelegationType");
+        descriptor.Name("MessageDelegationType");
 
-            descriptor.Ignore(f => f.GridAreaId);
-            descriptor
-                .Field("gridArea")
-                .ResolveWith<MarketParticipantResolvers>(c => c.GetGridAreaAsync(default!, default!));
+        descriptor.Ignore(f => f.GridAreaId);
+        descriptor
+            .Field("gridArea")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetGridAreaAsync(default!, default!));
 
-            descriptor
-                .Field("delegatedBy")
-                .ResolveWith<MarketParticipantResolvers>(c => c.GetActorDelegatedByAsync(default!, default!));
+        descriptor
+            .Field("delegatedBy")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetActorDelegatedByAsync(default!, default!));
 
-            descriptor
-                .Field("delegatedTo")
-                .ResolveWith<MarketParticipantResolvers>(c => c.GetActorDelegatedToAsync(default!, default!));
+        descriptor
+            .Field("delegatedTo")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetActorDelegatedToAsync(default!, default!));
 
-            descriptor
-                .Field("status")
-                .Resolve((ctx, ct) =>
+        descriptor
+            .Field("status")
+            .Resolve((ctx, ct) =>
+            {
+                var expiresAt = ctx.Parent<MessageDelegation>().ExpiresAt;
+                var startsAt = ctx.Parent<MessageDelegation>().StartsAt;
+
+                if (expiresAt.HasValue && expiresAt <= startsAt)
                 {
-                    var expiresAt = ctx.Parent<MessageDelegation>().ExpiresAt;
-                    var startsAt = ctx.Parent<MessageDelegation>().StartsAt;
+                    return ActorDelegationStatus.Cancelled;
+                }
+                else if (startsAt < DateTimeOffset.UtcNow && (!expiresAt.HasValue || expiresAt > DateTimeOffset.UtcNow))
+                {
+                    return ActorDelegationStatus.Active;
+                }
+                else if (expiresAt.HasValue && expiresAt < DateTimeOffset.UtcNow)
+                {
+                    return ActorDelegationStatus.Expired;
+                }
 
-                    if (expiresAt.HasValue && expiresAt <= startsAt)
-                    {
-                        return ActorDelegationStatus.Cancelled;
-                    }
-                    else if (startsAt < DateTimeOffset.UtcNow && (!expiresAt.HasValue || expiresAt > DateTimeOffset.UtcNow))
-                    {
-                        return ActorDelegationStatus.Active;
-                    }
-                    else if (expiresAt.HasValue && expiresAt < DateTimeOffset.UtcNow)
-                    {
-                        return ActorDelegationStatus.Expired;
-                    }
-
-                    return ActorDelegationStatus.Awaiting;
-                });
-        }
+                return ActorDelegationStatus.Awaiting;
+            });
     }
 }
