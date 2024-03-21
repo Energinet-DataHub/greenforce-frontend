@@ -16,6 +16,9 @@
  */
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Apollo } from 'apollo-angular';
+import { TranslocoDirective } from '@ngneat/transloco';
+
 import {
   GetOrganizationByIdDocument,
   GetOrganizationsDocument,
@@ -24,8 +27,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattStepperStepComponent } from '@energinet-datahub/watt/stepper';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { Apollo } from 'apollo-angular';
 
 @Component({
   standalone: true,
