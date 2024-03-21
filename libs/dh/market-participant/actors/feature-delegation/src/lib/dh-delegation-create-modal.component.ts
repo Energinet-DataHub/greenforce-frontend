@@ -44,7 +44,7 @@ import {
   EicFunction,
   GetGridAreasDocument,
   GetDelegatesDocument,
-  DelegationMessageType,
+  DelegatedProcess,
   GetDelegationsForActorDocument,
   CreateDelegationForActorDocument,
   CreateDelegationForActorMutation,
@@ -126,14 +126,14 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
 
   createDelegationForm = this._fb.group({
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
-    messageTypes: new FormControl<DelegationMessageType[] | null>(null, Validators.required),
+    delegatedProcesses: new FormControl<DelegatedProcess[] | null>(null, Validators.required),
     startDate: new FormControl<Date | null>(null, Validators.required),
     delegation: new FormControl<string | null>(null, Validators.required),
   });
 
   gridAreaOptions$ = this.getGridAreaOptions();
   delegations$ = this.getDelegations();
-  messageTypes = this.getMessageTypes();
+  messageTypes = this.getDelegatedProcesses();
 
   closeModal(result: boolean) {
     this.modal?.close(result);
@@ -155,10 +155,10 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   save() {
     if (this.createDelegationForm.invalid) return;
 
-    const { startDate, gridAreas, messageTypes, delegation } =
+    const { startDate, gridAreas, delegatedProcesses, delegation } =
       this.createDelegationForm.getRawValue();
 
-    if (!startDate || !gridAreas || !messageTypes || !delegation) return;
+    if (!startDate || !gridAreas || !delegatedProcesses || !delegation) return;
 
     this.isSaving.set(true);
 
@@ -169,12 +169,12 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
         variables: {
           input: {
             actorId: this.modalData.id,
-            delegationDto: {
+            delegations: {
               startsAt: startDate,
               delegatedFrom: this.modalData.id,
               delegatedTo: delegation,
               gridAreas: gridAreas,
-              messageTypes,
+              delegatedProcesses,
             },
           },
         },
@@ -182,27 +182,11 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       .subscribe((result) => this.handleCreateDelegationResponse(result));
   }
 
-  private getMessageTypes() {
-    const groupedMessageTypes = [];
-    const messageTypes = dhEnumToWattDropdownOptions(
-      DelegationMessageType,
-      this.getMessageTypesToExclude()
+  private getDelegatedProcesses() {
+    return dhEnumToWattDropdownOptions(
+      DelegatedProcess,
+      this.getDelegatedProcessesToExclude()
     );
-    const groupByMessageTypes = Object.groupBy(
-      messageTypes,
-      (messageType) => messageType.value.split('_')[1]
-    );
-
-    for (const [key, value] of Object.entries(groupByMessageTypes)) {
-      groupedMessageTypes.push({ value: key, displayValue: key, disabled: true });
-      if (value === undefined) continue;
-
-      for (const messageType of value) {
-        groupedMessageTypes.push(messageType);
-      }
-    }
-
-    return groupedMessageTypes;
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
@@ -271,20 +255,9 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     this.isSaving.set(false);
   }
 
-  private getMessageTypesToExclude(): DelegationMessageType[] {
-    if (this.modalData.marketRole === EicFunction.EnergySupplier) {
-      return [DelegationMessageType.Rsm018Inbound, DelegationMessageType.Rsm012Outbound];
-    }
-
+  private getDelegatedProcessesToExclude(): DelegatedProcess[] {
     if (this.modalData.marketRole === EicFunction.BalanceResponsibleParty) {
-      return [
-        DelegationMessageType.Rsm012Inbound,
-        DelegationMessageType.Rsm017Inbound,
-        DelegationMessageType.Rsm017Outbound,
-        DelegationMessageType.Rsm019Inbound,
-        DelegationMessageType.Rsm018Inbound,
-        DelegationMessageType.Rsm012Outbound,
-      ];
+      return [DelegatedProcess.RequestWholesaleResults];
     }
 
     return [];

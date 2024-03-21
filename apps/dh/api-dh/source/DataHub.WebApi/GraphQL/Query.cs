@@ -570,26 +570,26 @@ public class Query
         }
     }
 
-    public async Task<IEnumerable<MessageDelegation>> GetGetDelegationsForActorAsync(
+    public async Task<IEnumerable<ProcessDelegation>> GetDelegationsForActorAsync(
         Guid actorId,
         [Service] IMarketParticipantClient_V1 client)
     {
-        var result = new List<MessageDelegation>();
+        var result = new List<ProcessDelegation>();
         var delegationResponse = await client.ActorDelegationGetAsync(actorId);
 
         foreach (var delegation in delegationResponse.Delegations)
         {
             foreach (var period in delegation.Periods)
             {
-                var messageDelegation = new MessageDelegation();
-                messageDelegation.DelegatedBy = delegation.DelegatedBy;
-                messageDelegation.MessageType = delegation.MessageType;
-                messageDelegation.Id = delegation.Id;
-                messageDelegation.PeriodId = period.Id;
-                messageDelegation.DelegatedTo = period.DelegatedTo;
-                messageDelegation.ValidPeriod = new Interval(Instant.FromDateTimeOffset(period.StartsAt), period.ExpiresAt.HasValue ? Instant.FromDateTimeOffset(period.ExpiresAt.Value) : null);
-                messageDelegation.GridAreaId = period.GridAreaId;
-                result.Add(messageDelegation);
+                var processDelegation = new ProcessDelegation();
+                processDelegation.DelegatedBy = delegation.DelegatedBy;
+                processDelegation.Process = delegation.Process;
+                processDelegation.Id = delegation.Id;
+                processDelegation.PeriodId = period.Id;
+                processDelegation.DelegatedTo = period.DelegatedTo;
+                processDelegation.ValidPeriod = new Interval(Instant.FromDateTimeOffset(period.StartsAt), period.StopsAt.HasValue ? Instant.FromDateTimeOffset(period.StopsAt.Value) : null);
+                processDelegation.GridAreaId = period.GridAreaId;
+                result.Add(processDelegation);
             }
         }
 

@@ -50,7 +50,6 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
-import { dhGroupDelegations } from './util/dh-group-delegations';
 import { DhDelegations, DhDelegationsGrouped } from './dh-delegations';
 import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -116,7 +115,7 @@ export class DhDelegationTabComponent {
     const delegations = untracked(this.delegationsRaw);
 
     if (filter === null) {
-      return this.delegationsGrouped.set(dhGroupDelegations(delegations));
+      return this.delegationsGrouped.set(delegations);
     }
 
     const delegationsFiltered = delegations.filter((delegation) => {
@@ -142,7 +141,7 @@ export class DhDelegationTabComponent {
         next: (result) => {
           this.isLoading.set(result.loading);
 
-          this.delegationsRaw.set(result.data.getDelegationsForActor);
+          this.delegationsRaw.set(result.data.delegationsForActor);
 
           this.delegationsGrouped.set(dhGroupDelegations(this.delegationsRaw()));
         },
