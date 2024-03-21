@@ -164,6 +164,7 @@
       "delegations": "Delegates",
       "save": "Save set up",
       "stopDelegationSuccess": "Delegation stopped",
+      "stopNow": "Stop delgation now",
       "cancel": "Close",
       "stopModalTitle": "Stop delegation?",
       "stopDate": "Stop on date",
@@ -190,15 +191,15 @@
       "messageTypes": {
         "INBOUND": "Incoming",
         "OUTBOUND": "Outgoing",
-        "RSM012_INBOUND": "[DK] Fremsend måledata for et målepunkt (RSM-012)",
-        "RSM012_OUTBOUND": "[DK] Fremsend måledata for et målepunkt (RSM-012)",
-        "RSM014_INBOUND": "[DK] Fremsend beregnede tidsserier (RSM-014)",
-        "RSM016_INBOUND": "[DK] Anmod om aggregerede måledata (RSM-016)",
-        "RSM016_OUTBOUND": "[DK] Anmod om aggregerede måledata (RSM-016)",
-        "RSM017_INBOUND": "[DK] Anmod om engrosydelser (RSM-017)",
-        "RSM017_OUTBOUND": "[DK] Anmod om engrosydelser (RSM-017)",
-        "RSM018_INBOUND": "[DK] Fremsend hullerlog (RSM-018)",
-        "RSM019_INBOUND": "[DK] Fremsend beregnede engrosydelser (RSM-019)"
+        "RSM012_INBOUND": "Submit metered data for a metering point (RSM-012)",
+        "RSM012_OUTBOUND": "Submit metered data for a metering point (RSM-012)",
+        "RSM014_INBOUND": "Submit calculated time series (RSM-014)",
+        "RSM016_INBOUND": "Aggregated metered data request (RSM-016)",
+        "RSM016_OUTBOUND": "Aggregated metered data request (RSM-016)",
+        "RSM017_INBOUND": "Request wholesale services (RSM-017)",
+        "RSM017_OUTBOUND": "Request wholesale services (RSM-017)",
+        "RSM018_INBOUND": "Submit missing data log (RSM-018)",
+        "RSM019_INBOUND": "Submit settlement basis (RSM-019)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -256,6 +257,12 @@
           "invite": {
             "not_expired": "The user's invitation has not yet expired and cannot be renewed"
           }
+        },
+        "message_delegation": {
+          "actors_from_or_to_inactive": "Both actors in a delegation needs to be active, for it to be applied",
+          "actor_invalid_market_role": "The actor you are delegating from needs to be in one of these marketroles:'Grid access provider, Balance responsible party, Energy supplier or Billing agent'",
+          "overlap": "There is already an existing delegation that partially or fully covers the period you are trying to make a delegation for",
+          "market_role_forbidden": "The actor you are delegating from is in the {{assigned_market_role}} role, the precludes you from making a delegation to an actor in an organisation that already has an actor in the role: 'conflicting_market_role'"
         }
       }
     },
@@ -502,7 +509,8 @@
             "tabLabel": "Information",
             "businessRegisterIdentifier": "Business ID",
             "name": "Name",
-            "domain": "E-mail domain"
+            "domain": "E-mail domain",
+            "country": "Country"
           },
           "actors": {
             "tabLabel": "Market Participants"
@@ -1141,6 +1149,7 @@
           "roles": "User roles",
           "role": "User role",
           "rolesHeadline": "User Roles",
+          "atleastOneRole": "Select at least one user role",
           "emptyTitle": "No user roles found",
           "emptyMessage": "Try changing the search criteria",
           "filter": {

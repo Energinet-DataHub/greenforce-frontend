@@ -57,8 +57,7 @@ limitations under the License.
     </ng-container>
 
     <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let imbalance">
-      {{ imbalance.periodStart | wattDate: "short" }} -
-      {{ imbalance.periodEnd | wattDate: "short" }}
+      {{ imbalance.period | wattDate: "short" | dhEmDashFallback }}
     </ng-container>
   </watt-table>
 

@@ -8,7 +8,6 @@
   },
   "ApiClientSettings": {
     "MeteringPointBaseUrl": "https://localhost:5001",
-    "ChargesBaseUrl": "https://localhost:5001",
     "EdiB2CWebApiBaseUrl": "https://localhost:5091",
     "MarketParticipantBaseUrl": "https://localhost:5001",
     "WholesaleBaseUrl": "https://localhost:7133",

@@ -15,25 +15,32 @@
  * limitations under the License.
  */
 import { Component, ViewChild, Output, EventEmitter, inject, signal } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
-import { Observable, Subscription, switchMap, takeUntil } from 'rxjs';
+import { Observable, Subscription, of, switchMap, takeUntil } from 'rxjs';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { emDash } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { DhEmDashFallbackPipe, emDash, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+
 import {
   DocumentStatus,
   GetOutgoingMessageByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
 
 import { DhOutgoingMessageDetailed } from '../dh-outgoing-message';
@@ -56,24 +63,30 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
     `,
   ],
   imports: [
-    TranslocoDirective,
-    TranslocoPipe,
     RxPush,
+    TranslocoPipe,
+    TranslocoDirective,
 
-    WATT_DRAWER,
+    VaterStackComponent,
+
     WATT_TABS,
     WATT_CARD,
+    WATT_DRAWER,
+    WattDatePipe,
+    WattCodeComponent,
+    WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    WattCodeComponent,
-    WattDatePipe,
 
+    DhEmDashFallbackPipe,
     DhOutgoingMessageStatusBadgeComponent,
   ],
 })
 export class DhOutgoingMessageDrawerComponent {
-  private apollo = inject(Apollo);
+  private readonly apollo = inject(Apollo);
   private readonly esettHttp = inject(EsettExchangeHttp);
+  private readonly toastService = inject(WattToastService);
+
   private subscription?: Subscription;
 
   outgoingMessage: DhOutgoingMessageDetailed | undefined = undefined;
@@ -152,8 +165,8 @@ export class DhOutgoingMessageDrawerComponent {
       });
   }
 
-  private loadResponseDocument(documentLink: string): Observable<string> {
-    return this.esettHttp.v1EsettExchangeResponseDocumentGet(documentLink).pipe(
+  private loadResponseDocument(documentId: string): Observable<string> {
+    return this.esettHttp.v1EsettExchangeResponseDocumentGet(documentId).pipe(
       switchMap((res) => {
         const blob = res as unknown as Blob;
         return new Response(blob).text();
@@ -162,13 +175,34 @@ export class DhOutgoingMessageDrawerComponent {
     );
   }
 
-  private loadDispatchDocument(documentLink: string): Observable<string> {
-    return this.esettHttp.v1EsettExchangeDispatchDocumentGet(documentLink).pipe(
+  private loadDispatchDocument(documentId: string): Observable<string> {
+    return this.esettHttp.v1EsettExchangeDispatchDocumentGet(documentId).pipe(
       switchMap((res) => {
         const blob = res as unknown as Blob;
         return new Response(blob).text();
       }),
       takeUntil(this.closed)
     );
+  }
+
+  downloadXML(documentType: 'message' | 'receipt') {
+    const fileName = `eSett-outgoing-${this.outgoingMessage?.documentId}-${documentType}`;
+
+    const fileOptions = {
+      name: fileName,
+      type: 'text/xml',
+    };
+
+    const document$ =
+      documentType === 'message' ? of(this.dispatchDocument()) : of(this.responseDocument());
+
+    document$.pipe(switchMap(streamToFile(fileOptions))).subscribe({
+      error: () => {
+        this.toastService.open({
+          type: 'danger',
+          message: translate('shared.downloadFailed'),
+        });
+      },
+    });
   }
 }

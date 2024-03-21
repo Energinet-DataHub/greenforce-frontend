@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, input } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import {
@@ -36,10 +36,12 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
     `,
   ],
   imports: [
+    TranslocoDirective,
+
     WattCardComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    TranslocoModule,
+
     DhEmDashFallbackPipe,
   ],
 })

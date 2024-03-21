@@ -63,6 +63,7 @@ limitations under the License.
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.1.0" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.0" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.9.0" />
+    <PackageReference Include="HotChocolate.AspNetCore.CommandLine" Version="13.9.0" />
     <PackageReference Include="HotChocolate.Diagnostics" Version="13.9.0" />
     <PackageReference Include="HotChocolate.Types.Analyzers" Version="13.9.0">
       <PrivateAssets>all</PrivateAssets>

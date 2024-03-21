@@ -27,6 +27,10 @@ limitations under the License.
     (rowClick)="onRowClick($event)"
     (sortChange)="sortChange.emit($event)"
   >
+    <ng-container *wattTableCell="columns['received']; header: t('columns.received'); let message">
+      {{ message.receivedDateTime | wattDate: "long" }}
+    </ng-container>
+
     <ng-container
       *wattTableCell="
         columns['electricitySupplier'];
@@ -72,9 +76,14 @@ limitations under the License.
     >
       {{ "eSett.outgoingMessages.shared.messageType." + message.meteringPointType | transloco }}
     </ng-container>
+    <ng-container
+      *wattTableCell="columns['validFrom']; header: t('columns.validFrom'); let message"
+    >
+      {{ message.validPeriod.start | wattDate: "short" }}
+    </ng-container>
 
-    <ng-container *wattTableCell="columns['received']; header: t('columns.received'); let message">
-      {{ message.receivedDateTime | wattDate: "long" }}
+    <ng-container *wattTableCell="columns['validTo']; header: t('columns.validTo'); let message">
+      {{ message.validPeriod.end | wattDate: "short" | dhEmDashFallback }}
     </ng-container>
   </watt-table>
 

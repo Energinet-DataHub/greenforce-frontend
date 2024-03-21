@@ -238,9 +238,13 @@ function getOrganizationById() {
   return mockGetOrganizationByIdQuery(async ({ variables }) => {
     const { id } = variables;
 
-    const organizationById = getOrganizationsQueryMock.organizations.find(
-      (a) => a.organizationId === id
-    ) as Organization;
+    const organizationById = {
+      ...getOrganizationsQueryMock.organizations.find((a) => a.organizationId === id),
+      address: {
+        __typename: 'AddressDto',
+        country: 'DK',
+      },
+    } as Organization;
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', organizationById },
@@ -325,7 +329,7 @@ function createDelegation() {
                 apiErrors: [
                   {
                     __typename: 'ApiErrorDescriptor',
-                    code: 'test',
+                    code: 'market_participant.validation.message_delegation.actors_from_or_to_inactive',
                     message: 'mock fail',
                     args: [],
                   },
@@ -344,8 +348,8 @@ function createDelegation() {
 function stopDelegation() {
   return mockStopDelegationsMutation(async (request) => {
     const mockError =
-      request.variables.input.stopMessageDelegationDto[0].id ===
-      getDelegationsForActorMock.getDelegationsForActor[0].id;
+      request.variables.input.stopMessageDelegationDto[0].periodId ===
+      getDelegationsForActorMock.getDelegationsForActor[0].periodId;
     await delay(mswConfig.delay);
     const response: StopDelegationsMutation = {
       __typename: 'Mutation',

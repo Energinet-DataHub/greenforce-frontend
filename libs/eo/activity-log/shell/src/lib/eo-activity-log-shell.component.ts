@@ -220,9 +220,9 @@ export class EoActivityLogShellComponent implements OnInit {
       return {
         timestamp: this.datePipe.transform(x.timestamp, 'longAbbrWithSeconds') as string,
         event: this.transloco.translate(
-          this.translations.activityLog.events[x.actorName ? 'own' : 'others'][x.entityType][
-            x.actionType
-          ],
+          this.translations.activityLog.events[
+            x.actorName || x.actorType === 'System' ? 'own' : 'others'
+          ][x.entityType][x.actionType],
           {
             actorName: this.getActorName(x.actorType, x.actorName),
             organizationTin: x.organizationTin,

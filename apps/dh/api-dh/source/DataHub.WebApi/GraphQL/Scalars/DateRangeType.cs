@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using HotChocolate.Language;
 using HotChocolate.Types;
@@ -83,7 +84,8 @@ namespace Energinet.DataHub.WebApi.GraphQL
             };
 
         public override IValueNode ParseResult(object? resultValue) =>
-            resultValue switch {
+            resultValue switch
+            {
                 null => NullValueNode.Default,
                 Interval interval => ParseValue(interval),
                 _ => throw new SerializationException("Value must be an Interval", this),
@@ -135,9 +137,9 @@ namespace Energinet.DataHub.WebApi.GraphQL
             };
 
         private static string FormatStart(Instant start) =>
-            start.ToString(JsDateFormat, null);
+            start.ToString(JsDateFormat, new CultureInfo("en-US"));
 
         private static string FormatEnd(Instant end) =>
-            end.PlusTicks(-1).ToString(JsDateFormat, null);
+            end.PlusTicks(-1).ToString(JsDateFormat, new CultureInfo("en-US"));
     }
 }

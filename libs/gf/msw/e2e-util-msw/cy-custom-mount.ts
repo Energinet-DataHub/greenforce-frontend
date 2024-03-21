@@ -15,26 +15,15 @@
  * limitations under the License.
  */
 
-.container {
-  display: block;
-}
+import { Type } from '@angular/core';
+import { MountConfig, mount } from 'cypress/angular';
 
-watt-table {
-  box-sizing: border-box;
-  padding: var(--watt-space-m) 0;
-}
+declare const window: {
+  serviceWorkerRegistration: Promise<unknown> | undefined;
+} & Window;
 
-watt-field-error {
-  display: block;
-  padding-top: var(--watt-space-m);
-}
-
-watt-empty-state {
-  padding: var(--watt-space-xl);
-}
-
-watt-spinner {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--watt-space-xl);
+export async function mountAfterMSW<T>(component: string | Type<T>, config?: MountConfig<T>) {
+  await window.serviceWorkerRegistration?.then(() => {
+    mount<T>(component, config);
+  });
 }

@@ -27,7 +27,7 @@ import {
 } from '@angular/core';
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { combineLatest, map, tap } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
@@ -77,16 +77,18 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     RxPush,
     RxLet,
     WATT_MODAL,
+    TranslocoDirective,
+    ReactiveFormsModule,
+
     WattButtonComponent,
-    TranslocoModule,
     WattTabComponent,
     WattTabsComponent,
-    ReactiveFormsModule,
     WattSpinnerComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WATT_CARD,
     WattTextAreaFieldComponent,
+
     DhPermissionsTableComponent,
   ],
 })

@@ -17,18 +17,13 @@ using System.Threading.Tasks;
 using Energinet.DataHub.Core.App.Common.Diagnostics.HealthChecks;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
-using WireMock.RequestBuilders;
-using WireMock.ResponseBuilders;
-using WireMock.Server;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration
+namespace Energinet.DataHub.WebApi.Tests.Integration.HealthCheck
 {
-    public class HealthCheckTests(WebApiFactory factory)
-        : WebApiTestBase(factory)
+    public class HealthCheckTests(WebApiFactory factory, HealthCheckFixture fixture)
+        : WebApiTestBase(factory), IClassFixture<HealthCheckFixture>
     {
-        private WireMockServer ServerMock { get; } = WireMockServer.Start(8080);
-
         [Fact]
         public async Task When_RequestLivenessStatus_Then_ResponseIsOkAndHealthy()
         {
@@ -44,18 +39,6 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
         [Fact]
         public async Task When_RequestReadinessStatus_Then_ResponseIsOkAndHealthy()
         {
-            ServerMock
-                .Given(Request.Create().WithPath(new[]
-                {
-                    "/charges/monitor/live",
-                    "/messagearchive/monitor/live",
-                    "/marketparticipant/monitor/live",
-                    "/wholesale/monitor/live",
-                    "/esett/monitor/live",
-                    "/edib2capi/monitor/live",
-                }).UsingGet())
-                .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-
             var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute);
 
             // Assert
@@ -68,20 +51,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
         [Fact]
         public async Task If_ADependentServiceIsUnavailable_When_RequestReadinessStatus_Then_ResponseIsServiceUnavailableAndUnhealthy()
         {
-            ServerMock
-                .Given(Request.Create().WithPath(new[]
-                {
-                    "/charges/monitor/live",
-                    "/messagearchive/monitor/live",
-                    "/marketparticipant/monitor/live",
-                }).UsingGet())
-                .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            ServerMock
-                .Given(Request.Create().WithPath(new[]
-                {
-                    "/wholesale/monitor/live",
-                }).UsingGet())
-                .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.ServiceUnavailable));
+            fixture.SetServiceAsUnavailable();
 
             var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute);
 
@@ -94,11 +64,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                ServerMock.Stop();
-                ServerMock.Dispose();
-            }
+            fixture.Reset();
         }
     }
 }

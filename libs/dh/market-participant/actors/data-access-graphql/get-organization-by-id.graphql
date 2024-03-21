@@ -4,5 +4,8 @@ query GetOrganizationById($id: UUID!) {
     name
     businessRegisterIdentifier
     domain
+    address {
+      country
+    }
   }
 }
