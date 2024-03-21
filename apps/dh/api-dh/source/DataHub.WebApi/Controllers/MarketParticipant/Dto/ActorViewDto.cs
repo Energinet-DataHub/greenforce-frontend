@@ -14,12 +14,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
-{
-    public sealed record ActorViewDto(
-        Guid Id,
-        string OrganizationName,
-        string ActorNumber,
-        string Name,
-        IEnumerable<UserRoleViewDto> UserRoles);
-}
+namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
+
+public sealed record ActorViewDto(
+    Guid Id,
+    string OrganizationName,
+    string ActorNumber,
+    string Name,
+    IEnumerable<UserRoleViewDto> UserRoles);

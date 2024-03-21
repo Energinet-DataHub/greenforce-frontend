@@ -19,36 +19,35 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using GreenDonut;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class ActorNameByMarketRoleDataLoader : BatchDataLoader<(string ActorNumber, EicFunction EicFunction), ActorNameDto?>
 {
-    public class ActorNameByMarketRoleDataLoader : BatchDataLoader<(string ActorNumber, EicFunction EicFunction), ActorNameDto?>
+    private readonly IMarketParticipantClient_V1 _client;
+
+    public ActorNameByMarketRoleDataLoader(
+        IMarketParticipantClient_V1 client,
+        IBatchScheduler batchScheduler,
+        DataLoaderOptions? options = null)
+        : base(batchScheduler, options) =>
+        _client = client;
+
+    protected override async Task<IReadOnlyDictionary<(string ActorNumber, EicFunction EicFunction), ActorNameDto?>>
+        LoadBatchAsync(IReadOnlyList<(string ActorNumber, EicFunction EicFunction)> keys, CancellationToken cancellationToken)
     {
-        private readonly IMarketParticipantClient_V1 _client;
+        var actorNumbers = keys.Select(x => x.ActorNumber).ToHashSet();
 
-        public ActorNameByMarketRoleDataLoader(
-            IMarketParticipantClient_V1 client,
-            IBatchScheduler batchScheduler,
-            DataLoaderOptions? options = null)
-            : base(batchScheduler, options) =>
-            _client = client;
+        var actors = await _client.ActorGetAsync().ConfigureAwait(false);
+        var dictionary = new Dictionary<(string, EicFunction), ActorNameDto?>();
 
-        protected override async Task<IReadOnlyDictionary<(string ActorNumber, EicFunction EicFunction), ActorNameDto?>>
-            LoadBatchAsync(IReadOnlyList<(string ActorNumber, EicFunction EicFunction)> keys, CancellationToken cancellationToken)
+        foreach (var actor in actors.Where(x => actorNumbers.Contains(x.ActorNumber.Value)))
         {
-            var actorNumbers = keys.Select(x => x.ActorNumber).ToHashSet();
-
-            var actors = await _client.ActorGetAsync().ConfigureAwait(false);
-            var dictionary = new Dictionary<(string, EicFunction), ActorNameDto?>();
-
-            foreach (var actor in actors.Where(x => actorNumbers.Contains(x.ActorNumber.Value)))
+            foreach (var marketRole in actor.MarketRoles)
             {
-                foreach (var marketRole in actor.MarketRoles)
-                {
-                    dictionary.TryAdd((actor.ActorNumber.Value, marketRole.EicFunction), actor.Name);
-                }
+                dictionary.TryAdd((actor.ActorNumber.Value, marketRole.EicFunction), actor.Name);
             }
-
-            return dictionary;
         }
+
+        return dictionary;
     }
 }
