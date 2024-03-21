@@ -238,7 +238,7 @@ export class WattDatepickerComponent extends WattPickerBase {
       },
     });
 
-    const getInitialValue = (initialValue: string) => {
+    const getInitialValue = (initialValue: string | null) => {
       let value: Date | string = '';
 
       if (initialValue) {
