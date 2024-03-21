@@ -36,6 +36,12 @@ import {
   MeteringGridAreaImbalanceSearchResult,
   PriceAreaCode,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import dayjs from 'dayjs';
+
+const period = {
+  start: dayjs('2020-01-28T23:00:00.000Z').toDate(),
+  end: dayjs('2020-01-29T22:59:59.998Z').toDate(),
+};
 
 const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
   {
@@ -51,8 +57,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     },
     documentDateTime: new Date('2024-02-19T09:03:20.000Z'),
     receivedDateTime: new Date('2024-02-19T09:05:19.415Z'),
-    periodStart: new Date('2024-02-06T23:00:00.000Z'),
-    periodEnd: new Date('2024-02-18T23:00:00.000Z'),
+    period,
     outgoingImbalancePerDay: [],
     incomingImbalancePerDay: [
       {
@@ -148,9 +153,11 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     },
     documentDateTime: new Date('2024-02-19T09:03:20.000Z'),
     receivedDateTime: new Date('2024-02-19T09:05:19.415Z'),
-    periodStart: new Date('2024-02-06T23:00:00.000Z'),
-    periodEnd: new Date('2024-02-18T23:00:00.000Z'),
     incomingImbalancePerDay: [],
+    period: {
+      start: new Date('2020-01-30T23:00:00.000Z'),
+      end: new Date('2020-02-02T22:59:59.999Z'),
+    },
     outgoingImbalancePerDay: [
       {
         imbalanceDay: new Date('2024-02-06T23:00:00.000Z'),
@@ -245,8 +252,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     },
     documentDateTime: new Date('2024-02-19T06:11:01.000Z'),
     receivedDateTime: new Date('2024-02-19T06:11:15.166Z'),
-    periodStart: new Date('2024-02-04T23:00:00.000Z'),
-    periodEnd: new Date('2024-02-18T23:00:00.000Z'),
+    period,
     outgoingImbalancePerDay: [],
     incomingImbalancePerDay: [
       {
@@ -349,8 +355,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     },
     documentDateTime: new Date('2024-02-19T06:11:01.000Z'),
     receivedDateTime: new Date('2024-02-19T06:11:15.166Z'),
-    periodStart: new Date('2024-02-04T23:00:00.000Z'),
-    periodEnd: new Date('2024-02-18T23:00:00.000Z'),
+    period,
     incomingImbalancePerDay: [],
     outgoingImbalancePerDay: [
       {
@@ -453,8 +458,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     },
     documentDateTime: new Date('2024-02-18T09:04:20.000Z'),
     receivedDateTime: new Date('2024-02-18T09:05:45.274Z'),
-    periodStart: new Date('2024-02-05T23:00:00.000Z'),
-    periodEnd: new Date('2024-02-17T23:00:00.000Z'),
+    period,
     outgoingImbalancePerDay: [],
     incomingImbalancePerDay: [
       {
@@ -550,8 +554,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     },
     documentDateTime: new Date('2024-02-18T09:04:20.000Z'),
     receivedDateTime: new Date('2024-02-18T09:05:45.274Z'),
-    periodStart: new Date('2024-02-05T23:00:00.000Z'),
-    periodEnd: new Date('2024-02-17T23:00:00.000Z'),
+    period,
     incomingImbalancePerDay: [],
     outgoingImbalancePerDay: [
       {
@@ -647,8 +650,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     },
     documentDateTime: new Date('2024-02-18T06:11:56.000Z'),
     receivedDateTime: new Date('2024-02-18T06:12:10.384Z'),
-    periodStart: new Date('2024-02-03T23:00:00.000Z'),
-    periodEnd: new Date('2024-02-17T23:00:00.000Z'),
+    period,
     incomingImbalancePerDay: [],
     outgoingImbalancePerDay: [
       {
@@ -751,8 +753,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     },
     documentDateTime: new Date('2024-02-18T06:11:56.000Z'),
     receivedDateTime: new Date('2024-02-18T06:12:10.384Z'),
-    periodStart: new Date('2024-02-03T23:00:00.000Z'),
-    periodEnd: new Date('2024-02-17T23:00:00.000Z'),
+    period,
     outgoingImbalancePerDay: [],
     incomingImbalancePerDay: [
       {
@@ -855,8 +856,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     },
     documentDateTime: new Date('2024-02-17T09:05:54.000Z'),
     receivedDateTime: new Date('2024-02-17T09:06:59.176Z'),
-    periodStart: new Date('2024-02-04T23:00:00.000Z'),
-    periodEnd: new Date('2024-02-16T23:00:00.000Z'),
+    period,
     outgoingImbalancePerDay: [],
     incomingImbalancePerDay: [
       {
@@ -952,8 +952,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     },
     documentDateTime: new Date('2024-02-17T09:05:54.000Z'),
     receivedDateTime: new Date('2024-02-17T09:06:59.176Z'),
-    periodStart: new Date('2024-02-04T23:00:00.000Z'),
-    periodEnd: new Date('2024-02-16T23:00:00.000Z'),
+    period,
     outgoingImbalancePerDay: [],
     incomingImbalancePerDay: [
       {
@@ -1049,8 +1048,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     },
     documentDateTime: new Date('2024-02-17T06:11:51.000Z'),
     receivedDateTime: new Date('2024-02-17T06:12:06.802Z'),
-    periodStart: new Date('2024-02-02T23:00:00.000Z'),
-    periodEnd: new Date('2024-02-16T23:00:00.000Z'),
+    period,
     incomingImbalancePerDay: [],
     outgoingImbalancePerDay: [
       {
@@ -1153,8 +1151,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
     },
     documentDateTime: new Date('2024-02-17T06:11:51.000Z'),
     receivedDateTime: new Date('2024-02-17T06:12:06.802Z'),
-    periodStart: new Date('2024-02-02T23:00:00.000Z'),
-    periodEnd: new Date('2024-02-16T23:00:00.000Z'),
+    period,
     incomingImbalancePerDay: [],
     outgoingImbalancePerDay: [
       {

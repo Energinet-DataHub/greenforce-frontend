@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using HotChocolate.Types;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL
 {
@@ -23,6 +24,16 @@ namespace Energinet.DataHub.WebApi.GraphQL
             IObjectTypeDescriptor<BalanceResponsibleResult> descriptor)
         {
             descriptor.Name("BalanceResponsibleType");
+
+            descriptor.Field(f => f.ValidFromDate)
+               .Name("validPeriod").
+               Resolve((context, token) =>
+               {
+                   var balanceResponsible = context.Parent<BalanceResponsibleResult>();
+                   return new Interval(Instant.FromDateTimeOffset(balanceResponsible.ValidFromDate), balanceResponsible.ValidToDate.HasValue ? Instant.FromDateTimeOffset(balanceResponsible.ValidToDate.Value) : Instant.MaxValue);
+               });
+
+            descriptor.Field(f => f.ValidToDate).Ignore();
 
             descriptor
                .Field("gridAreaWithName")

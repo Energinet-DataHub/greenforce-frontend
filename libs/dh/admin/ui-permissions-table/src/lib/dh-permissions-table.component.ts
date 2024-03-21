@@ -23,7 +23,7 @@ import {
   OnChanges,
   ViewChild,
 } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import {
   WattTableDataSource,
@@ -46,7 +46,7 @@ import { MarketParticipantPermissionDetailsDto } from '@energinet-datahub/dh/sha
   ],
   // Using `OnPush` causes issues with table's header row translations
   changeDetection: ChangeDetectionStrategy.Default,
-  imports: [TranslocoModule, WATT_TABLE],
+  imports: [TranslocoDirective, WATT_TABLE],
 })
 export class DhPermissionsTableComponent implements OnChanges {
   @Input() permissions: MarketParticipantPermissionDetailsDto[] = [];

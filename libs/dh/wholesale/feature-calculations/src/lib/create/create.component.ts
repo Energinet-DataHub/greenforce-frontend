@@ -19,7 +19,7 @@ import { NgIf } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { combineLatest, first, map, Observable, of, startWith, Subject, tap } from 'rxjs';
@@ -27,8 +27,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattDatePipe, WattDateRange, dayjs } from '@energinet-datahub/watt/date';
+import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
+import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
@@ -39,6 +39,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { Range } from '@energinet-datahub/dh/shared/domain';
 import {
   CreateCalculationDocument,
   GetGridAreasDocument,
@@ -54,7 +55,7 @@ import {
 interface FormValues {
   calculationType: FormControl<CalculationType>;
   gridAreas: FormControl<string[] | null>;
-  dateRange: FormControl<WattDateRange | null>;
+  dateRange: FormControl<Range<string> | null>;
 }
 
 @Component({
@@ -67,10 +68,11 @@ interface FormValues {
     RxLet,
     RxPush,
     ReactiveFormsModule,
-    TranslocoModule,
+    TranslocoDirective,
+
     WATT_MODAL,
     WattButtonComponent,
-    WattDatepickerComponent,
+    WattDatepickerV2Component,
     WattDatePipe,
     WattDropdownComponent,
     WattEmptyStateComponent,

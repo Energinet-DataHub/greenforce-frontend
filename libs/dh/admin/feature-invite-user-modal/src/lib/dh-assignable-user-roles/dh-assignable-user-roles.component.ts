@@ -20,7 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { takeUntil } from 'rxjs';
 
 import { DhAdminAssignableUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';
@@ -38,12 +38,14 @@ import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-
     FormsModule,
     RxLet,
     RxPush,
-    WattSpinnerComponent,
+    TranslocoDirective,
+    TranslocoPipe,
+    MatDividerModule,
+
     WattEmptyStateComponent,
-    TranslocoModule,
+    WattSpinnerComponent,
     WATT_CARD,
     WATT_TABLE,
-    MatDividerModule,
   ],
   styleUrls: ['./dh-assignable-user-roles.component.scss'],
   templateUrl: './dh-assignable-user-roles.component.html',

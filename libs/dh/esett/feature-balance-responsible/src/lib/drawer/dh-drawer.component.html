@@ -57,11 +57,11 @@ limitations under the License.
           />
           <watt-description-list-item
             [label]="t('validFrom')"
-            [value]="balanceResponsibleMessage.validFromDate | wattDate"
+            [value]="balanceResponsibleMessage.validPeriod.start | wattDate"
           />
           <watt-description-list-item
             [label]="t('validTo')"
-            [value]="balanceResponsibleMessage.validToDate | wattDate | dhEmDashFallback"
+            [value]="balanceResponsibleMessage.validPeriod.end | wattDate | dhEmDashFallback"
           />
           <watt-description-list-item
             [label]="t('received')"

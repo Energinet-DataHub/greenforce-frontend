@@ -72,6 +72,7 @@ type BalanceResponsiblePageResult {
 }
 
 type BalanceResponsibleType {
+  validPeriod: DateRange!
   gridAreaWithName: GridAreaDto
   supplierWithName: ActorNameDto
   balanceResponsibleWithName: ActorNameDto
@@ -80,8 +81,6 @@ type BalanceResponsibleType {
   supplier: String!
   balanceResponsible: String!
   meteringPointType: TimeSeriesType!
-  validFromDate: DateTime!
-  validToDate: DateTime
   gridArea: String!
 }
 
@@ -126,13 +125,12 @@ type CreateMarketParticipantPayload {
 }
 
 type EsettOutgoingMessage {
+  period: DateRange!
   gridArea: GridAreaDto
   documentId: String!
   created: DateTime!
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
-  periodFrom: DateTime!
-  periodTo: DateTime!
   documentStatus: DocumentStatus!
 }
 
@@ -238,12 +236,11 @@ type MeteringGridAreaImbalanceSearchResponse {
 }
 
 type MeteringGridAreaImbalanceSearchResult {
+  period: DateRange!
   gridArea: GridAreaDto
   id: String!
   documentDateTime: DateTime!
   receivedDateTime: DateTime!
-  periodStart: DateTime!
-  periodEnd: DateTime!
   incomingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
   outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }

@@ -16,7 +16,6 @@
  */
 /* eslint-disable sonarjs/no-duplicate-string */
 import { TranslationKeys } from './translation-keys';
-
 export const DA_TRANSLATIONS: TranslationKeys = {
   announcementBar: {
     message: `Do you need an introduction to EnergyOrigin? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
@@ -286,7 +285,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     meteringPointEventType: 'Målepunkt',
     tableTitle: 'Resultater',
     timeTableHeader: 'Tidsstempel',
-    systemActor: 'System',
+    systemActor: 'Systemet',
     eventTableHeader: 'Aktivitet',
     events: {
       own: {
@@ -296,7 +295,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           Declined: '{{actorName}} har afvist målepunktet med ID {{entityId}}',
           Activated: '{{actorName}} har aktiveret målepunktet med ID {{entityId}}',
           Deactivated: '{{actorName}} har deaktiveret målepunktet med ID {{entityId}}',
-          EndDateChanged: '{{actorName}} har ændret slutdatoen for målepunktet med ID {{entityId}}',
+          EndDateChanged:
+            '{{actorName}} har deaktiveret eller ændret slutdatoen for målepunktet med ID {{entityId}}',
           Expired: '{{actorName}} har ladet målepunktet udløbe med ID {{entityId}}',
         },
         TransferAgreementProposal: {
@@ -340,7 +340,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           Deactivated:
             '{{otherOrganizationName}} ({{otherOrganizationTin}}) har deaktiveret målepunktet med ID {{entityId}}',
           EndDateChanged:
-            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har ændret slutdatoen for målepunktet med ID {{entityId}}',
+            '{{otherOrganizationName}} ({{otherOrganizationTin}}) har deaktivertet eller ændret slutdatoen for målepunktet med ID {{entityId}}',
           Expired:
             '{{otherOrganizationName}} ({{otherOrganizationTin}}) har ladet målepunktet udløbe med ID {{entityId}}',
         },

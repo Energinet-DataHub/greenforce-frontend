@@ -104,7 +104,7 @@ limitations under the License.
           </div>
 
           <!-- Date range -->
-          <watt-datepicker
+          <watt-datepicker-v2
             [label]="t('create.period.label')"
             formControlName="dateRange"
             [rangeMonthOnlyMode]="monthOnly.includes(formGroup.controls.calculationType.value)"
@@ -120,7 +120,7 @@ limitations under the License.
             >
               {{ t("create.period.invalid") }}
             </watt-field-error>
-          </watt-datepicker>
+          </watt-datepicker-v2>
 
           <!-- Grid areas -->
           <watt-dropdown

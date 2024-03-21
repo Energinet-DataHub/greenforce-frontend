@@ -42,11 +42,7 @@ limitations under the License.
         />
         <watt-description-list-item
           [label]="t('metadata.periode')"
-          value="
-            {{ outgoingMessage?.periodFrom | wattDate }} - {{
-            outgoingMessage?.periodTo | wattDate
-          }}
-          "
+          [value]="outgoingMessage?.period | wattDate: 'short' | dhEmDashFallback"
         />
         <watt-description-list-item
           [label]="t('metadata.gridArea')"

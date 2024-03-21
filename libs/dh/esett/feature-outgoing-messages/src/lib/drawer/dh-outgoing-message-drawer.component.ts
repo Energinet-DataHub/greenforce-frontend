@@ -15,29 +15,33 @@
  * limitations under the License.
  */
 import { Component, ViewChild, Output, EventEmitter, inject, signal } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { Observable, Subscription, of, switchMap, takeUntil } from 'rxjs';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { emDash, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { DhEmDashFallbackPipe, emDash, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+
 import {
   DocumentStatus,
   GetOutgoingMessageByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhOutgoingMessageDetailed } from '../dh-outgoing-message';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
@@ -59,20 +63,22 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
     `,
   ],
   imports: [
-    TranslocoDirective,
-    TranslocoPipe,
     RxPush,
+    TranslocoPipe,
+    TranslocoDirective,
 
     VaterStackComponent,
-    WATT_DRAWER,
+
     WATT_TABS,
     WATT_CARD,
+    WATT_DRAWER,
+    WattDatePipe,
+    WattCodeComponent,
+    WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    WattCodeComponent,
-    WattDatePipe,
-    WattButtonComponent,
 
+    DhEmDashFallbackPipe,
     DhOutgoingMessageStatusBadgeComponent,
   ],
 })
