@@ -28,10 +28,12 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
   standalone: true,
   imports: [MatMenuModule, WattIconComponent, TranslocoDirective],
   encapsulation: ViewEncapsulation.None,
-  template: `<button [matMenuTriggerFor]="menu" class="watt-text-m">{{ name() }}</button>
+  template: `<button data-testid="profileMenu" [matMenuTriggerFor]="menu" class="watt-text-m">
+      {{ name() }}
+    </button>
     <mat-menu #menu="matMenu" xPosition="before" class="dh-profile__menu">
       <ng-container *transloco="let transloco; read: 'shell'">
-        <button (click)="openProfileModal()" mat-menu-item>
+        <button data-testid="openProfile" (click)="openProfileModal()" mat-menu-item>
           <watt-icon name="account" class="watt-icon--small" />
           <span>{{ transloco('profile') }}</span>
         </button>
