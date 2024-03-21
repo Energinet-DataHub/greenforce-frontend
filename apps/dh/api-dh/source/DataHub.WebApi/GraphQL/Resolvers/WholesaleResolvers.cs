@@ -19,21 +19,20 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using HotChocolate;
 
-namespace Energinet.DataHub.WebApi.GraphQL
-{
-    public class WholesaleResolvers
-    {
-        public async Task<string?> GetCreatedByUserNameAsync(
-            [Parent] CalculationDto batch,
-            UserBatchDataLoader dataLoader) =>
-            (await dataLoader.LoadAsync(batch.CreatedByUserId)).Email;
+namespace Energinet.DataHub.WebApi.GraphQL;
 
-        public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
-            [Parent] CalculationDto batch,
-            GridAreaByCodeBatchDataLoader dataLoader)
-        {
-            var gridAreas = await Task.WhenAll(batch.GridAreaCodes.Select(async c => await dataLoader.LoadAsync(c)));
-            return gridAreas.Where(g => g != null);
-        }
+public class WholesaleResolvers
+{
+    public async Task<string?> GetCreatedByUserNameAsync(
+        [Parent] CalculationDto batch,
+        UserBatchDataLoader dataLoader) =>
+        (await dataLoader.LoadAsync(batch.CreatedByUserId)).Email;
+
+    public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
+        [Parent] CalculationDto batch,
+        GridAreaByCodeBatchDataLoader dataLoader)
+    {
+        var gridAreas = await Task.WhenAll(batch.GridAreaCodes.Select(async c => await dataLoader.LoadAsync(c)));
+        return gridAreas.Where(g => g != null);
     }
 }

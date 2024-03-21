@@ -15,12 +15,11 @@
 using System;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
-{
-    public sealed record UserRoleViewDto(
-        Guid Id,
-        EicFunction MarketRole,
-        string Name,
-        string Description,
-        Guid? UserActorId);
-}
+namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
+
+public sealed record UserRoleViewDto(
+    Guid Id,
+    EicFunction MarketRole,
+    string Name,
+    string Description,
+    Guid? UserActorId);

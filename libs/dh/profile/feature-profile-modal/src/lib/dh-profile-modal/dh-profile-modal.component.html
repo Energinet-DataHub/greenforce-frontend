@@ -45,6 +45,7 @@ limitations under the License.
           [label]="t('language')"
           [formControl]="userPreferencesForm.controls.language"
           [options]="languages"
+          data-testid="language-dropdown"
           dhDropdownTranslator
           translate="shared.profile.languages"
           [showResetOption]="false"
@@ -66,6 +67,7 @@ limitations under the License.
       variant="secondary"
       type="submit"
       formId="userPreferencesForm"
+      data-testid="save-button"
       [disabled]="loadingUserProfile() || updatingUserProfile()"
       >{{ t("save") }}</watt-button
     >

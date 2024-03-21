@@ -15,7 +15,6 @@
 using System.Collections.Generic;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
-{
-    public sealed record OrganizationWithActorsDto(OrganizationDto Organization, IEnumerable<ActorDto> Actors);
-}
+namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
+
+public sealed record OrganizationWithActorsDto(OrganizationDto Organization, IEnumerable<ActorDto> Actors);

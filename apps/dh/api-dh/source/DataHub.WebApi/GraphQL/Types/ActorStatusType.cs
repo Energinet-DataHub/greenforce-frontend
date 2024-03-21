@@ -15,13 +15,12 @@
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class ActorStatusType : EnumType<ActorStatus>
 {
-    public class ActorStatusType : EnumType<ActorStatus>
+    protected override void Configure(IEnumTypeDescriptor<ActorStatus> descriptor)
     {
-        protected override void Configure(IEnumTypeDescriptor<ActorStatus> descriptor)
-        {
-            descriptor.AsIsCase();
-        }
+        descriptor.AsIsCase();
     }
 }

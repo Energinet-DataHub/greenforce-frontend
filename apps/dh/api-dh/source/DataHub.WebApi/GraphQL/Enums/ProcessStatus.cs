@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public enum ProcessStatus
 {
-    public enum ProcessStatus
-    {
-        Warning,
-        Success,
-        Danger,
-        Info,
-    }
+    Warning,
+    Success,
+    Danger,
+    Info,
 }

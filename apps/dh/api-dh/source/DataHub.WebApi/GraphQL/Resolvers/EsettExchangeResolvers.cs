@@ -19,49 +19,48 @@ using HotChocolate;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class EsettExchangeResolvers
 {
-    public class EsettExchangeResolvers
-    {
-        public async Task<GridAreaDto?> GetGridAreaAsync(
-            [Parent] BalanceResponsibleResult result,
-            GridAreaByCodeBatchDataLoader dataLoader) =>
-            await dataLoader.LoadAsync(result.GridArea).ConfigureAwait(false);
+    public async Task<GridAreaDto?> GetGridAreaAsync(
+        [Parent] BalanceResponsibleResult result,
+        GridAreaByCodeBatchDataLoader dataLoader) =>
+        await dataLoader.LoadAsync(result.GridArea).ConfigureAwait(false);
 
-        public async Task<GridAreaDto?> GetGridAreaAsync(
-            [Parent] ExchangeEventTrackingResult result,
-            GridAreaByCodeBatchDataLoader dataLoader) =>
-            await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
+    public async Task<GridAreaDto?> GetGridAreaAsync(
+        [Parent] ExchangeEventTrackingResult result,
+        GridAreaByCodeBatchDataLoader dataLoader) =>
+        await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
 
-        public async Task<GridAreaDto?> GetGridAreaAsync(
-            [Parent] MeteringGridAreaImbalanceSearchResult result,
-            GridAreaByCodeBatchDataLoader dataLoader) =>
-            await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
+    public async Task<GridAreaDto?> GetGridAreaAsync(
+        [Parent] MeteringGridAreaImbalanceSearchResult result,
+        GridAreaByCodeBatchDataLoader dataLoader) =>
+        await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
 
-        public async Task<GridAreaDto?> GetGridAreaAsync(
-            [Parent] ExchangeEventSearchResult result,
-            GridAreaByCodeBatchDataLoader dataLoader) =>
-            await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
+    public async Task<GridAreaDto?> GetGridAreaAsync(
+        [Parent] ExchangeEventSearchResult result,
+        GridAreaByCodeBatchDataLoader dataLoader) =>
+        await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
 
-        public Task<ActorNameDto?> GetSupplierWithNameAsync(
-            [Parent] BalanceResponsibleResult result,
-            ActorNameByMarketRoleDataLoader dataLoader) =>
-            dataLoader.LoadAsync((result.Supplier, EicFunction.EnergySupplier));
+    public Task<ActorNameDto?> GetSupplierWithNameAsync(
+        [Parent] BalanceResponsibleResult result,
+        ActorNameByMarketRoleDataLoader dataLoader) =>
+        dataLoader.LoadAsync((result.Supplier, EicFunction.EnergySupplier));
 
-        public Task<ActorNameDto?> GetBalanceResponsibleWithNameAsync(
-            [Parent] BalanceResponsibleResult result,
-            ActorNameByMarketRoleDataLoader dataLoader) =>
-            dataLoader.LoadAsync((result.BalanceResponsible, EicFunction.BalanceResponsibleParty));
+    public Task<ActorNameDto?> GetBalanceResponsibleWithNameAsync(
+        [Parent] BalanceResponsibleResult result,
+        ActorNameByMarketRoleDataLoader dataLoader) =>
+        dataLoader.LoadAsync((result.BalanceResponsible, EicFunction.BalanceResponsibleParty));
 
-        private string? GetDocumentLink(
-            string action,
-            [Parent] ExchangeEventTrackingResult result,
-            [Service] IHttpContextAccessor httpContextAccessor,
-            [Service] LinkGenerator linkGenerator) =>
-            linkGenerator.GetUriByAction(
-                httpContextAccessor.HttpContext!,
-                action,
-                "EsettExchange",
-                new { documentId = result.DocumentId });
-    }
+    private string? GetDocumentLink(
+        string action,
+        [Parent] ExchangeEventTrackingResult result,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] LinkGenerator linkGenerator) =>
+        linkGenerator.GetUriByAction(
+            httpContextAccessor.HttpContext!,
+            action,
+            "EsettExchange",
+            new { documentId = result.DocumentId });
 }

@@ -20,27 +20,26 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using GreenDonut;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class ActorByIdBatchDataLoader : BatchDataLoader<Guid, ActorDto>
 {
-    public class ActorByIdBatchDataLoader : BatchDataLoader<Guid, ActorDto>
-    {
-        private readonly IMarketParticipantClient_V1 _client;
+    private readonly IMarketParticipantClient_V1 _client;
 
-        public ActorByIdBatchDataLoader(
-            IMarketParticipantClient_V1 client,
-            IBatchScheduler batchScheduler,
-            DataLoaderOptions? options = null)
-            : base(batchScheduler, options) =>
-            _client = client;
+    public ActorByIdBatchDataLoader(
+        IMarketParticipantClient_V1 client,
+        IBatchScheduler batchScheduler,
+        DataLoaderOptions? options = null)
+        : base(batchScheduler, options) =>
+        _client = client;
 
-        protected override async Task<IReadOnlyDictionary<Guid, ActorDto>> LoadBatchAsync(
-            IReadOnlyList<Guid> keys,
-            CancellationToken cancellationToken)
-            {
-                return (await _client
-                    .ActorGetAsync(cancellationToken))
-                    .Where(x => keys.Contains<Guid>(x.ActorId))
-                    .ToDictionary(x => x.ActorId);
-            }
-    }
+    protected override async Task<IReadOnlyDictionary<Guid, ActorDto>> LoadBatchAsync(
+        IReadOnlyList<Guid> keys,
+        CancellationToken cancellationToken)
+        {
+            return (await _client
+                .ActorGetAsync(cancellationToken))
+                .Where(x => keys.Contains<Guid>(x.ActorId))
+                .ToDictionary(x => x.ActorId);
+        }
 }

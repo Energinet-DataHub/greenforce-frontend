@@ -15,37 +15,36 @@
 using System;
 using System.Net.Http;
 
-namespace Energinet.DataHub.WebApi
+namespace Energinet.DataHub.WebApi;
+
+/// <summary>
+/// Factory to create an <see cref="T:System.Net.Http.HttpClient" />, which will re-apply the authorization header
+/// from the current HTTP context.
+/// </summary>
+public class AuthorizedHttpClientFactory
 {
-    /// <summary>
-    /// Factory to create an <see cref="T:System.Net.Http.HttpClient" />, which will re-apply the authorization header
-    /// from the current HTTP context.
-    /// </summary>
-    public class AuthorizedHttpClientFactory
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly Func<string> _authorizationHeaderProvider;
+
+    public AuthorizedHttpClientFactory(
+        IHttpClientFactory httpClientFactory,
+        Func<string> authorizationHeaderProvider)
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-        private readonly Func<string> _authorizationHeaderProvider;
+        _httpClientFactory = httpClientFactory;
+        _authorizationHeaderProvider = authorizationHeaderProvider;
+    }
 
-        public AuthorizedHttpClientFactory(
-            IHttpClientFactory httpClientFactory,
-            Func<string> authorizationHeaderProvider)
-        {
-            _httpClientFactory = httpClientFactory;
-            _authorizationHeaderProvider = authorizationHeaderProvider;
-        }
+    public HttpClient CreateClient(Uri baseUrl)
+    {
+        var client = _httpClientFactory.CreateClient();
+        SetAuthorizationHeader(client);
+        client.BaseAddress = baseUrl;
+        return client;
+    }
 
-        public HttpClient CreateClient(Uri baseUrl)
-        {
-            var client = _httpClientFactory.CreateClient();
-            SetAuthorizationHeader(client);
-            client.BaseAddress = baseUrl;
-            return client;
-        }
-
-        private void SetAuthorizationHeader(HttpClient httpClient)
-        {
-            var str = _authorizationHeaderProvider();
-            httpClient.DefaultRequestHeaders.Add("Authorization", str);
-        }
+    private void SetAuthorizationHeader(HttpClient httpClient)
+    {
+        var str = _authorizationHeaderProvider();
+        httpClient.DefaultRequestHeaders.Add("Authorization", str);
     }
 }
