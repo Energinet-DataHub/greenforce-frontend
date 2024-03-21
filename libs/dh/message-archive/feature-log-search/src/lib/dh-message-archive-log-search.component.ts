@@ -17,6 +17,10 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { RxLet } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+
 import {
   DhMessageArchiveActorDataAccessApiStore,
   DhMessageArchiveDataAccessApiStore,
@@ -34,9 +38,6 @@ import { WattDateRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
-import { TranslocoModule } from '@ngneat/transloco';
-import { RxLet } from '@rx-angular/template/let';
-import { RxPush } from '@rx-angular/template/push';
 
 import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-message-archive-log-search-result.component';
 
@@ -52,22 +53,24 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     DhMessageArchiveActorDataAccessApiStore,
   ],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    AsyncPipe,
+    RxLet,
+    RxPush,
+    TranslocoDirective,
+
     WattButtonComponent,
     WattCheckboxComponent,
     WattDatepickerComponent,
     WattTimepickerComponent,
-    FormsModule,
-    AsyncPipe,
-    RxLet,
-    TranslocoModule,
-    DhMessageArchiveLogSearchResultComponent,
     WattBadgeComponent,
     WattDropdownComponent,
     WattSpinnerComponent,
-    ReactiveFormsModule,
-    RxPush,
     WattTextFieldComponent,
     WattFieldErrorComponent,
+
+    DhMessageArchiveLogSearchResultComponent,
   ],
 })
 export class DhMessageArchiveLogSearchComponent {

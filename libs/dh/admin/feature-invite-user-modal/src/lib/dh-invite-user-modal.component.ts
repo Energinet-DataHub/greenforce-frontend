@@ -29,7 +29,7 @@ import {
 } from '@angular/core';
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { distinctUntilChanged, filter, map, of, take } from 'rxjs';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -65,18 +65,20 @@ import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
   styleUrls: ['./dh-invite-user-modal.component.scss'],
   standalone: true,
   imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+    RxPush,
+
     WATT_MODAL,
     WattButtonComponent,
-    TranslocoModule,
     WattIconComponent,
-    ReactiveFormsModule,
     WattDropdownComponent,
-    RxPush,
-    DhAssignableUserRolesComponent,
     WATT_STEPPER,
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WattPhoneFieldComponent,
+
+    DhAssignableUserRolesComponent,
   ],
 })
 export class DhInviteUserModalComponent implements AfterViewInit {

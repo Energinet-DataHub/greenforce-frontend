@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, Input } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
@@ -29,9 +29,11 @@ import {
   standalone: true,
   templateUrl: './dh-role-master-data.component.html',
   imports: [
+    TranslocoDirective,
+    TranslocoPipe,
+
     WattCardComponent,
     WattDescriptionListComponent,
-    TranslocoModule,
     WattDescriptionListItemComponent,
   ],
 })

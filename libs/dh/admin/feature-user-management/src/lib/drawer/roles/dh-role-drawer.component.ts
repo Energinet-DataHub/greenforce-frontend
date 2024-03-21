@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, EventEmitter, inject, Output, ViewChild } from '@angular/core';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { NgIf } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { RxPush } from '@rx-angular/template/push';
@@ -42,18 +42,20 @@ import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
   providers: [provideComponentStore(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore)],
   imports: [
     NgIf,
-    TranslocoModule,
-    WATT_DRAWER,
-    WattButtonComponent,
-    DhRoleStatusComponent,
-    DhDrawerRoleTabsComponent,
+    TranslocoDirective,
     RxPush,
     RxLet,
+
+    WATT_DRAWER,
+    WattButtonComponent,
     WattSpinnerComponent,
+    WATT_MODAL,
+
     DhTabDataGeneralErrorComponent,
     DhEditUserRoleModalComponent,
     DhPermissionRequiredDirective,
-    WATT_MODAL,
+    DhRoleStatusComponent,
+    DhDrawerRoleTabsComponent,
   ],
 })
 export class DhRoleDrawerComponent {

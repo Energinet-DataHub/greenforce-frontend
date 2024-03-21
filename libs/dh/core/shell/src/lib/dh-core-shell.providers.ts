@@ -17,7 +17,6 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { TranslocoModule } from '@ngneat/transloco';
 import {
   MsalInterceptor,
   MsalService,
@@ -105,7 +104,7 @@ const msalProviders = [
 ];
 
 export const dhCoreShellProviders = [
-  importProvidersFrom([MatDialogModule, MatSnackBarModule, DhApiModule.forRoot(), TranslocoModule]),
+  importProvidersFrom([MatDialogModule, MatSnackBarModule, DhApiModule.forRoot()]),
   FormGroupDirective,
   environment.production ? applicationInsightsProviders : [],
   dhWattTranslationsProviders,

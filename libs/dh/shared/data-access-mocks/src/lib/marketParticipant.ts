@@ -329,7 +329,7 @@ function createDelegation() {
                 apiErrors: [
                   {
                     __typename: 'ApiErrorDescriptor',
-                    code: 'test',
+                    code: 'market_participant.validation.message_delegation.actors_from_or_to_inactive',
                     message: 'mock fail',
                     args: [],
                   },

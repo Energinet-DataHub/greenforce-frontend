@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -35,7 +35,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       }}</watt-button>
     </watt-empty-state>
   `,
-  imports: [TranslocoModule, WattButtonComponent, WattEmptyStateComponent],
+  imports: [TranslocoPipe, WattButtonComponent, WattEmptyStateComponent],
 })
 export class DhTabDataGeneralErrorComponent {
   @Output() reload = new EventEmitter<void>();
