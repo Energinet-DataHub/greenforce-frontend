@@ -260,9 +260,9 @@
         },
         "message_delegation": {
           "actors_from_or_to_inactive": "Begge aktører skal være aktive, for at kunne opsætte delegering",
-          "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering'",
+          "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
-          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der en 'conflicting_market_role'"
+          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der en {{conflicting_market_role}}"
         }
       }
     },
