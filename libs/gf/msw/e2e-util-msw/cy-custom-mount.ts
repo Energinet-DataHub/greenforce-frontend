@@ -14,24 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { mocks, handlers, onUnhandledRequest } from './handlers';
-import { setupWorker } from 'msw/browser';
+
+import { Type } from '@angular/core';
+import { MountConfig, mount } from 'cypress/angular';
 
 declare const window: {
-  cypressMockServiceWorkerIntercept: Promise<unknown> | undefined;
   serviceWorkerRegistration: Promise<unknown> | undefined;
 } & Window;
 
-export async function setupServiceWorker(apiBase: string, mocks: mocks) {
-  try {
-    if (window.cypressMockServiceWorkerIntercept) {
-      await window.cypressMockServiceWorkerIntercept;
-    }
-
-    const worker = setupWorker(...handlers(apiBase, mocks));
-    window.serviceWorkerRegistration = worker.start({ onUnhandledRequest });
-    await window.serviceWorkerRegistration;
-  } catch (error) {
-    console.error('setupServiceWorker', error);
-  }
+export async function mountAfterMSW<T>(component: string | Type<T>, config?: MountConfig<T>) {
+  await window.serviceWorkerRegistration?.then(() => {
+    mount<T>(component, config);
+  });
 }
