@@ -14,6 +14,7 @@
 
 using System;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
@@ -31,7 +32,5 @@ public sealed class MessageDelegation
 
     public DelegationMessageType MessageType { get; set; } = default!;
 
-    public System.DateTimeOffset StartsAt { get; set; } = default!;
-
-    public System.DateTimeOffset? ExpiresAt { get; set; } = default!;
+    public Interval ValidPeriod { get; set; } = default!;
 }

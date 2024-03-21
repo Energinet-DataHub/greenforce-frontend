@@ -16,7 +16,7 @@
  */
 export interface WattRange<T> {
   start: T;
-  end: T;
+  end: T | null;
 }
 
 /**
