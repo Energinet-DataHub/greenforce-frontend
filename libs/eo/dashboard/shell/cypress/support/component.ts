@@ -31,7 +31,7 @@
 
 // Import commands.ts using ES2015 syntax:
 import './commands';
-import { mountAfterMSW } from '@energinet-datahub/gf/util-msw';
+import { mountAfterMSW } from '@energinet-datahub/gf/e2e-util-msw';
 
 // add component testing only related command here, such as mount
 declare global {

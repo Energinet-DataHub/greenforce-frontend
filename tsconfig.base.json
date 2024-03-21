@@ -348,6 +348,9 @@
       "@energinet-datahub/gf/test-util-matchers": [
         "libs/gf/test-util-matchers/src/index.ts"
       ],
+      "@energinet-datahub/gf/e2e-util-msw": [
+        "libs/gf/msw/e2e-util-msw/index.ts"
+      ],
       "@energinet-datahub/gf/test-util-msw": [
         "libs/gf/msw/test-util-msw/src/index.ts"
       ],
