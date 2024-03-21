@@ -258,7 +258,7 @@
             "not_expired": "Brugerens invitation er ikke udløbet og kan derfor ikke fornys"
           }
         },
-        "message_delegation": {
+        "process_delegation": {
           "actors_from_or_to_inactive": "Begge aktører skal være aktive, for at kunne opsætte delegering",
           "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
