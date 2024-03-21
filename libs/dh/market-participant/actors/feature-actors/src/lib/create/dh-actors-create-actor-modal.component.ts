@@ -54,6 +54,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-validators';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
@@ -86,7 +87,6 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
   private _changeDetection = inject(ChangeDetectorRef);
 
   showCreateNewOrganization = signal(false);
-  choosenOrganizationDomain = signal('');
   isCompleting = signal(false);
 
   @ViewChild(WattModalComponent)
@@ -105,7 +105,7 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
 
   newActorForm: ActorForm = this._fb.group({
     glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
-    name: [''],
+    name: ['', Validators.required],
     marketrole: new FormControl<EicFunction | null>(null, Validators.required),
     gridArea: [{ value: [] as string[], disabled: true }, Validators.required],
     contact: this._fb.group({
@@ -117,6 +117,7 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
 
   constructor() {
     super();
+
     this.newOrganizationForm.controls.country.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe((value) => {
@@ -140,6 +141,8 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
       });
 
     this.newOrganizationForm.controls.country.setValue('DK');
+
+    this.newOrganizationNameToActorName();
   }
 
   cvrLookup$ = merge(
@@ -209,14 +212,8 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
     return concat(of({ isLoading: true, isReadOnly: true }), cvrQuery);
   }
 
-  getChoosenOrganizationDomain(): string {
-    return this.newOrganizationForm.controls.domain.value
-      ? this.newOrganizationForm.controls.domain.value
-      : this.choosenOrganizationDomain();
-  }
-
-  setChoosenOrganizationDomain(domain: string): void {
-    this.choosenOrganizationDomain.set(domain);
+  onSelectOrganization(organization: DhOrganizationDetails): void {
+    this.newActorForm.controls.name.setValue(organization.name);
   }
 
   toggleShowCreateNewOrganization(): void {
@@ -321,5 +318,13 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
     }
 
     this.isCompleting.set(false);
+  }
+
+  private newOrganizationNameToActorName(): void {
+    this.newOrganizationForm.controls.companyName.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => {
+        this.newActorForm.controls.name.setValue(value);
+      });
   }
 }
