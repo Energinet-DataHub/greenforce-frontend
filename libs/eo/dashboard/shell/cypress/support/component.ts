@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { mount } from 'cypress/angular';
 // ***********************************************************
 // This example support/component.ts is processed and
 // loaded automatically before your test files.
