@@ -16,29 +16,28 @@ using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using HotChocolate.Types;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class EsettExchangeEventType : ObjectType<ExchangeEventTrackingResult>
 {
-    public class EsettExchangeEventType : ObjectType<ExchangeEventTrackingResult>
+    protected override void Configure(
+        IObjectTypeDescriptor<ExchangeEventTrackingResult> descriptor)
     {
-        protected override void Configure(
-            IObjectTypeDescriptor<ExchangeEventTrackingResult> descriptor)
-        {
-            descriptor.Name("EsettOutgoingMessage");
+        descriptor.Name("EsettOutgoingMessage");
 
-            descriptor.Field(f => f.PeriodFrom)
-                .Name("period").
-                Resolve((context, token) =>
-                {
-                    var trackingResult = context.Parent<ExchangeEventTrackingResult>();
-                    return new Interval(Instant.FromDateTimeOffset(trackingResult.PeriodFrom), Instant.FromDateTimeOffset(trackingResult.PeriodTo));
-                });
+        descriptor.Field(f => f.PeriodFrom)
+            .Name("period").
+            Resolve((context, token) =>
+            {
+                var trackingResult = context.Parent<ExchangeEventTrackingResult>();
+                return new Interval(Instant.FromDateTimeOffset(trackingResult.PeriodFrom), Instant.FromDateTimeOffset(trackingResult.PeriodTo));
+            });
 
-            descriptor.Field(f => f.PeriodTo).Ignore();
+        descriptor.Field(f => f.PeriodTo).Ignore();
 
-            descriptor
-               .Field(f => f.GridAreaCode)
-               .Name("gridArea")
-               .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(ExchangeEventTrackingResult)!, default!));
-        }
+        descriptor
+           .Field(f => f.GridAreaCode)
+           .Name("gridArea")
+           .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(ExchangeEventTrackingResult)!, default!));
     }
 }

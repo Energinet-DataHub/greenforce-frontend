@@ -15,15 +15,14 @@
 using Energinet.DataHub.WebApi.Clients.EDI;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Energinet.DataHub.WebApi.Registration
+namespace Energinet.DataHub.WebApi.Registration;
+
+internal static class EDIRegistrationExtensions
 {
-    internal static class EDIRegistrationExtensions
+    internal static IServiceCollection RegisterEDIServices(this IServiceCollection services, string messageArchiveBaseUrl)
     {
-        internal static IServiceCollection RegisterEDIServices(this IServiceCollection services, string messageArchiveBaseUrl)
-        {
-            services.AddScoped<ArchivedMessagesSearch>();
-            services.AddScoped<ActorService>();
-            return services;
-        }
+        services.AddScoped<ArchivedMessagesSearch>();
+        services.AddScoped<ActorService>();
+        return services;
     }
 }

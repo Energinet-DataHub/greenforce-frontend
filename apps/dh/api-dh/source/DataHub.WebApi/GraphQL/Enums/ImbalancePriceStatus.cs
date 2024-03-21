@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Enums
+namespace Energinet.DataHub.WebApi.GraphQL.Enums;
+
+public enum ImbalancePriceStatus
 {
-    public enum ImbalancePriceStatus
-    {
-        NoData,
-        InComplete,
-        Complete,
-    }
+    NoData,
+    InComplete,
+    Complete,
 }

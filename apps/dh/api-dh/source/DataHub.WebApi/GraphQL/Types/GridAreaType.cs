@@ -17,29 +17,28 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class GridAreaType : ObjectType<GridAreaDto>
 {
-    public class GridAreaType : ObjectType<GridAreaDto>
+    protected override void Configure(IObjectTypeDescriptor<GridAreaDto> descriptor)
     {
-        protected override void Configure(IObjectTypeDescriptor<GridAreaDto> descriptor)
-        {
-            descriptor.Name("GridAreaDto");
+        descriptor.Name("GridAreaDto");
 
-            descriptor
-                .Field(f => f.PriceAreaCode)
-                .Name("priceAreaCode")
-                .Resolve(context =>
-                    Enum.Parse<PriceAreaCode>(context.Parent<GridAreaDto>().PriceAreaCode));
+        descriptor
+            .Field(f => f.PriceAreaCode)
+            .Name("priceAreaCode")
+            .Resolve(context =>
+                Enum.Parse<PriceAreaCode>(context.Parent<GridAreaDto>().PriceAreaCode));
 
-            descriptor
-                .Field("displayName")
-                .Type<NonNullType<StringType>>()
-                .Resolve(context => context.Parent<GridAreaDto>() switch
-                {
-                    null => string.Empty,
-                    var gridArea when string.IsNullOrWhiteSpace(gridArea.Name) => gridArea.Code,
-                    var gridArea => $"{gridArea.Code} • {gridArea.Name}",
-                });
-        }
+        descriptor
+            .Field("displayName")
+            .Type<NonNullType<StringType>>()
+            .Resolve(context => context.Parent<GridAreaDto>() switch
+            {
+                null => string.Empty,
+                var gridArea when string.IsNullOrWhiteSpace(gridArea.Name) => gridArea.Code,
+                var gridArea => $"{gridArea.Code} • {gridArea.Name}",
+            });
     }
 }

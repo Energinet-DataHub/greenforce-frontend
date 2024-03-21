@@ -14,7 +14,6 @@
 
 using System.Collections.Generic;
 
-namespace Energinet.DataHub.WebApi.Clients.EDI
-{
-    public sealed record SearchResult(IReadOnlyList<ArchivedMessage> Messages);
-}
+namespace Energinet.DataHub.WebApi.Clients.EDI;
+
+public sealed record SearchResult(IReadOnlyList<ArchivedMessage> Messages);

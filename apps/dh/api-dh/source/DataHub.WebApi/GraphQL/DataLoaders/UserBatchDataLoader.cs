@@ -20,30 +20,29 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using GreenDonut;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class UserBatchDataLoader : BatchDataLoader<Guid, UserOverviewItemDto>
 {
-    public class UserBatchDataLoader : BatchDataLoader<Guid, UserOverviewItemDto>
+    private readonly IMarketParticipantClient_V1 _client;
+
+    public UserBatchDataLoader(
+        IMarketParticipantClient_V1 client,
+        IBatchScheduler batchScheduler,
+        DataLoaderOptions? options = null)
+        : base(batchScheduler, options) =>
+        _client = client;
+
+    protected override async Task<IReadOnlyDictionary<Guid, UserOverviewItemDto>> LoadBatchAsync(IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
     {
-        private readonly IMarketParticipantClient_V1 _client;
-
-        public UserBatchDataLoader(
-            IMarketParticipantClient_V1 client,
-            IBatchScheduler batchScheduler,
-            DataLoaderOptions? options = null)
-            : base(batchScheduler, options) =>
-            _client = client;
-
-        protected override async Task<IReadOnlyDictionary<Guid, UserOverviewItemDto>> LoadBatchAsync(IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
+        var filters = new UserOverviewFilterDto()
         {
-            var filters = new UserOverviewFilterDto()
-            {
-                ActorId = null,
-                SearchText = null,
-                UserRoleIds = (ICollection<Guid>)Array.Empty<Guid>(),
-                UserStatus = (ICollection<UserStatus>)Array.Empty<UserStatus>(),
-            };
-            var result = await _client.UserOverviewUsersSearchAsync(1, int.MaxValue, UserOverviewSortProperty.Email, SortDirection.Asc, filters);
-            return result.Users.ToDictionary(x => x.Id);
-        }
+            ActorId = null,
+            SearchText = null,
+            UserRoleIds = (ICollection<Guid>)Array.Empty<Guid>(),
+            UserStatus = (ICollection<UserStatus>)Array.Empty<UserStatus>(),
+        };
+        var result = await _client.UserOverviewUsersSearchAsync(1, int.MaxValue, UserOverviewSortProperty.Email, SortDirection.Asc, filters);
+        return result.Users.ToDictionary(x => x.Id);
     }
 }
