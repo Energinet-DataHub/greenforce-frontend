@@ -23,7 +23,7 @@ import {
   OnInit,
   Input,
 } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -53,18 +53,20 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
 @Component({
   standalone: true,
   imports: [
-    WATT_TABLE,
-    DhCalculationsFiltersComponent,
-    WattDatePipe,
-    TranslocoModule,
+    TranslocoDirective,
+
     VaterFlexComponent,
     VaterStackComponent,
     VaterUtilityDirective,
+    WATT_TABLE,
+    WattDatePipe,
     WattBadgeComponent,
     WattButtonComponent,
     WattDataTableComponent,
     WattDataFiltersComponent,
     WattEmptyStateComponent,
+
+    DhCalculationsFiltersComponent,
     DhEmDashFallbackPipe,
   ],
   selector: 'dh-calculations-table',

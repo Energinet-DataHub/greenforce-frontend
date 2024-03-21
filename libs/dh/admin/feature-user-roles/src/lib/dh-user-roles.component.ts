@@ -23,7 +23,7 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { FormsModule } from '@angular/forms';
@@ -50,6 +50,7 @@ import {
   FilterUserRolesPipe,
   UserRolesIntoTablePipe,
 } from './dh-filter-user-roles-into-table.pipe';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   selector: 'dh-user-roles',
@@ -60,19 +61,23 @@ import {
   imports: [
     RxLet,
     RxPush,
+    TranslocoDirective,
+    TranslocoPipe,
+    MatDividerModule,
+    MatExpansionModule,
+    FormsModule,
+
     WattSpinnerComponent,
     WattCardComponent,
     WATT_TABLE,
-    TranslocoModule,
-    MatDividerModule,
     WattEmptyStateComponent,
-    MatExpansionModule,
+    WATT_EXPANDABLE_CARD_COMPONENTS,
+    WattBadgeComponent,
+    WattFieldErrorComponent,
+
     DhEmDashFallbackPipe,
-    FormsModule,
     FilterUserRolesPipe,
     UserRolesIntoTablePipe,
-    [...WATT_EXPANDABLE_CARD_COMPONENTS],
-    WattBadgeComponent,
   ],
 })
 export class DhUserRolesComponent implements OnChanges {
@@ -108,12 +113,19 @@ export class DhUserRolesComponent implements OnChanges {
     }
   }
 
+  checkIfAtLeastOneRoleIsAssigned(actorId: string): boolean {
+    const actor = this._updateUserRoles.actors.find((actor) => actor.id === actorId);
+    return actor ? actor.atLeastOneRoleIsAssigned : false;
+  }
+
   selectionChanged(
     actorId: string,
     userRoles: MarketParticipantUserRoleViewDto[],
     allAssignable: MarketParticipantUserRoleViewDto[]
   ) {
     const actor = this.getOrAddActor(actorId);
+
+    actor.atLeastOneRoleIsAssigned = userRoles.length > 0;
 
     actor.userRolesToUpdate.added = userRoles
       .filter((userRole) => !userRole.userActorId)
@@ -132,6 +144,7 @@ export class DhUserRolesComponent implements OnChanges {
     if (!actor) {
       const actorChanges = {
         id: actorId,
+        atLeastOneRoleIsAssigned: true,
         userRolesToUpdate: { added: [], removed: [] },
       };
 

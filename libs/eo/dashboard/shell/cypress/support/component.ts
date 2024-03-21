@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { mount } from 'cypress/angular';
 // ***********************************************************
 // This example support/component.ts is processed and
 // loaded automatically before your test files.
@@ -32,6 +31,7 @@ import { mount } from 'cypress/angular';
 
 // Import commands.ts using ES2015 syntax:
 import './commands';
+import { mountAfterMSW } from '@energinet-datahub/gf/e2e-util-msw';
 
 // add component testing only related command here, such as mount
 declare global {
@@ -39,12 +39,12 @@ declare global {
   namespace Cypress {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface Chainable<Subject> {
-      mount: typeof mount;
+      mount: typeof mountAfterMSW;
     }
   }
 }
 
-Cypress.Commands.add('mount', mount);
+Cypress.Commands.add('mount', mountAfterMSW);
 
 declare const window: {
   cypressMockServiceWorkerIntercept: Promise<unknown> | undefined;

@@ -30,8 +30,9 @@ import {
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { provideComponentStore } from '@ngrx/component-store';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -43,7 +44,6 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
-
 import {
   MarketParticipantCreateUserRoleDto,
   MarketParticipantEicFunction,
@@ -55,7 +55,6 @@ import {
   DhAdminCreateUserRoleManagementDataAccessApiStore,
   DhAdminMarketRolePermissionsStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface UserRoleForm {
   eicFunction: FormControl<MarketParticipantEicFunction>;
@@ -76,19 +75,21 @@ interface UserRoleForm {
     provideComponentStore(DhAdminMarketRolePermissionsStore),
   ],
   imports: [
+    RxPush,
+    RxLet,
+    TranslocoDirective,
+
     WATT_MODAL,
     WattButtonComponent,
-    TranslocoModule,
     WattIconComponent,
     ReactiveFormsModule,
     WattDropdownComponent,
     WattFieldErrorComponent,
     WattTextFieldComponent,
     WattTextAreaFieldComponent,
-    RxPush,
-    RxLet,
     WATT_STEPPER,
     WattEmptyStateComponent,
+
     DhPermissionsTableComponent,
   ],
 })
