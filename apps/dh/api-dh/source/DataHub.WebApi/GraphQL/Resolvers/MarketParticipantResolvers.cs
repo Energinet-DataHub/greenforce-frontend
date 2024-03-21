@@ -19,58 +19,57 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using HotChocolate;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class MarketParticipantResolvers
 {
-    public class MarketParticipantResolvers
+    public Task<ICollection<UserRoleDto>> GetAssignedPermissionAsync(
+        [Parent] PermissionDto permission,
+        [Service] IMarketParticipantClient_V1 client) =>
+        client.UserRolesAssignedtopermissionAsync(permission.Id);
+
+    public async Task<ActorContactDto?> GetContactAsync(
+        [Parent] ActorDto actor,
+        [Service] IMarketParticipantClient_V1 client)
     {
-        public Task<ICollection<UserRoleDto>> GetAssignedPermissionAsync(
-            [Parent] PermissionDto permission,
-            [Service] IMarketParticipantClient_V1 client) =>
-            client.UserRolesAssignedtopermissionAsync(permission.Id);
+        var allContacts = await client
+            .ActorContactGetAsync(actor.ActorId)
+            .ConfigureAwait(false);
 
-        public async Task<ActorContactDto?> GetContactAsync(
-            [Parent] ActorDto actor,
-            [Service] IMarketParticipantClient_V1 client)
-        {
-            var allContacts = await client
-                .ActorContactGetAsync(actor.ActorId)
-                .ConfigureAwait(false);
-
-            return allContacts.SingleOrDefault(c => c.Category == ContactCategory.Default);
-        }
-
-        public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
-            [Parent] ActorDto actor,
-            GridAreaByIdBatchDataLoader dataLoader) =>
-                await Task.WhenAll(
-                    actor.MarketRoles
-                        .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
-                        .Distinct()
-                        .Select(async gridAreaId => await dataLoader.LoadAsync(gridAreaId)));
-
-        public async Task<GridAreaDto?> GetGridAreaAsync(
-            [Parent] MessageDelegation result,
-            GridAreaByIdBatchDataLoader dataLoader) =>
-            await dataLoader.LoadAsync(result.GridAreaId).ConfigureAwait(false);
-
-        public async Task<ActorDto?> GetActorDelegatedByAsync(
-            [Parent] MessageDelegation actor,
-            ActorByIdBatchDataLoader dataLoader) =>
-            await dataLoader.LoadAsync(actor.DelegatedBy);
-
-        public async Task<ActorDto?> GetActorDelegatedToAsync(
-            [Parent] MessageDelegation actor,
-            ActorByIdBatchDataLoader dataLoader) =>
-            await dataLoader.LoadAsync(actor.DelegatedTo);
-
-        public Task<OrganizationDto> GetOrganizationAsync(
-            [Parent] ActorDto actor,
-            [Service] IMarketParticipantClient_V1 client) =>
-            client.OrganizationGetAsync(actor.OrganizationId);
-
-        public async Task<List<ActorDto>?> GetActorsForOrganizationAsync(
-            [Parent] OrganizationDto organization,
-            ActorByOrganizationBatchDataLoader dataLoader) =>
-            await dataLoader.LoadAsync(organization.OrganizationId.ToString());
+        return allContacts.SingleOrDefault(c => c.Category == ContactCategory.Default);
     }
+
+    public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
+        [Parent] ActorDto actor,
+        GridAreaByIdBatchDataLoader dataLoader) =>
+            await Task.WhenAll(
+                actor.MarketRoles
+                    .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
+                    .Distinct()
+                    .Select(async gridAreaId => await dataLoader.LoadAsync(gridAreaId)));
+
+    public async Task<GridAreaDto?> GetGridAreaAsync(
+        [Parent] MessageDelegation result,
+        GridAreaByIdBatchDataLoader dataLoader) =>
+        await dataLoader.LoadAsync(result.GridAreaId).ConfigureAwait(false);
+
+    public async Task<ActorDto?> GetActorDelegatedByAsync(
+        [Parent] MessageDelegation actor,
+        ActorByIdBatchDataLoader dataLoader) =>
+        await dataLoader.LoadAsync(actor.DelegatedBy);
+
+    public async Task<ActorDto?> GetActorDelegatedToAsync(
+        [Parent] MessageDelegation actor,
+        ActorByIdBatchDataLoader dataLoader) =>
+        await dataLoader.LoadAsync(actor.DelegatedTo);
+
+    public Task<OrganizationDto> GetOrganizationAsync(
+        [Parent] ActorDto actor,
+        [Service] IMarketParticipantClient_V1 client) =>
+        client.OrganizationGetAsync(actor.OrganizationId);
+
+    public async Task<List<ActorDto>?> GetActorsForOrganizationAsync(
+        [Parent] OrganizationDto organization,
+        ActorByOrganizationBatchDataLoader dataLoader) =>
+        await dataLoader.LoadAsync(organization.OrganizationId.ToString());
 }

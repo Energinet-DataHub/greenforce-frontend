@@ -16,46 +16,45 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using HotChocolate.Types;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class CalculationType : ObjectType<CalculationDto>
 {
-    public class CalculationType : ObjectType<CalculationDto>
+    protected override void Configure(IObjectTypeDescriptor<CalculationDto> descriptor)
     {
-        protected override void Configure(IObjectTypeDescriptor<CalculationDto> descriptor)
-        {
-            descriptor
-                .Name("Calculation")
-                .Description("An immutable calculation.");
+        descriptor
+            .Name("Calculation")
+            .Description("An immutable calculation.");
 
-            descriptor
-                .Field(x => x.CalculationId)
-                .Name("id");
+        descriptor
+            .Field(x => x.CalculationId)
+            .Name("id");
 
-            descriptor
-                .Ignore(x => x.PeriodStart)
-                .Ignore(x => x.PeriodEnd)
-                .Field(f => new Interval(Instant.FromDateTimeOffset(f.PeriodStart), Instant.FromDateTimeOffset(f.PeriodEnd)))
-                .Name("period");
+        descriptor
+            .Ignore(x => x.PeriodStart)
+            .Ignore(x => x.PeriodEnd)
+            .Field(f => new Interval(Instant.FromDateTimeOffset(f.PeriodStart), Instant.FromDateTimeOffset(f.PeriodEnd)))
+            .Name("period");
 
-            descriptor
-                .Field(f => f.CreatedByUserId)
-                .Name("createdByUserName")
-                .ResolveWith<WholesaleResolvers>(c => c.GetCreatedByUserNameAsync(default!, default!));
+        descriptor
+            .Field(f => f.CreatedByUserId)
+            .Name("createdByUserName")
+            .ResolveWith<WholesaleResolvers>(c => c.GetCreatedByUserNameAsync(default!, default!));
 
-            descriptor
-               .Field(f => f.GridAreaCodes)
-               .Name("gridAreas")
-               .ResolveWith<WholesaleResolvers>(c => c.GetGridAreasAsync(default!, default!));
+        descriptor
+           .Field(f => f.GridAreaCodes)
+           .Name("gridAreas")
+           .ResolveWith<WholesaleResolvers>(c => c.GetGridAreasAsync(default!, default!));
 
-            descriptor
-                .Field("statusType")
-                .Resolve(context => context.Parent<CalculationDto>().ExecutionState switch
-                {
-                    CalculationState.Pending => ProcessStatus.Warning,
-                    CalculationState.Completed => ProcessStatus.Success,
-                    CalculationState.Failed => ProcessStatus.Danger,
-                    CalculationState.Executing => ProcessStatus.Info,
-                    _ => ProcessStatus.Info,
-                });
-        }
+        descriptor
+            .Field("statusType")
+            .Resolve(context => context.Parent<CalculationDto>().ExecutionState switch
+            {
+                CalculationState.Pending => ProcessStatus.Warning,
+                CalculationState.Completed => ProcessStatus.Success,
+                CalculationState.Failed => ProcessStatus.Danger,
+                CalculationState.Executing => ProcessStatus.Info,
+                _ => ProcessStatus.Info,
+            });
     }
 }

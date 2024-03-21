@@ -16,12 +16,11 @@ using System;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL
-{
-    public record SettlementReport(
-        Guid CalculationId,
-        Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType CalculationType,
-        GridAreaDto GridArea,
-        Interval Period,
-        DateTimeOffset? ExecutionTime);
-}
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public record SettlementReport(
+    Guid CalculationId,
+    Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType CalculationType,
+    GridAreaDto GridArea,
+    Interval Period,
+    DateTimeOffset? ExecutionTime);

@@ -14,16 +14,15 @@
 
 #pragma warning disable SA1402 // File may only contain a single type
 
-namespace Energinet.DataHub.WebApi.Clients.EDI
-{
-    internal record ArchivedMessageSearchCriteriaDto(
-        CreatedDuringPeriod CreatedDuringPeriod,
-        string? MessageId,
-        string? SenderNumber,
-        string? ReceiverNumber,
-        string[]? DocumentTypes,
-        string[]? BusinessReasons,
-        bool? IncludeRelatedMessages = false);
+namespace Energinet.DataHub.WebApi.Clients.EDI;
 
-    internal record CreatedDuringPeriod(string? Start, string? End);
-}
+internal record ArchivedMessageSearchCriteriaDto(
+    CreatedDuringPeriod CreatedDuringPeriod,
+    string? MessageId,
+    string? SenderNumber,
+    string? ReceiverNumber,
+    string[]? DocumentTypes,
+    string[]? BusinessReasons,
+    bool? IncludeRelatedMessages = false);
+
+internal record CreatedDuringPeriod(string? Start, string? End);

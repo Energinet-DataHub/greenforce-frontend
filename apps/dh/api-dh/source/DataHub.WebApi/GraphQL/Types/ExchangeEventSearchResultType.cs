@@ -15,20 +15,19 @@
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class ExchangeEventSearchResultType : ObjectType<ExchangeEventSearchResult>
 {
-    public class ExchangeEventSearchResultType : ObjectType<ExchangeEventSearchResult>
+    protected override void Configure(
+        IObjectTypeDescriptor<ExchangeEventSearchResult> descriptor)
     {
-        protected override void Configure(
-            IObjectTypeDescriptor<ExchangeEventSearchResult> descriptor)
-        {
-            descriptor.Name("ExchangeEventSearchResult");
+        descriptor.Name("ExchangeEventSearchResult");
 
-            descriptor.Field(x => x.GridAreaCode).Ignore();
+        descriptor.Field(x => x.GridAreaCode).Ignore();
 
-            descriptor
-               .Field("gridArea")
-               .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(ExchangeEventSearchResult)!, default!));
-        }
+        descriptor
+           .Field("gridArea")
+           .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(ExchangeEventSearchResult)!, default!));
     }
 }

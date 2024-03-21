@@ -15,13 +15,12 @@
 using HotChocolate.Types;
 using ExchangeCalculationTypeExchange = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.CalculationType;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class ExchangeEventCalculationType : EnumType<ExchangeCalculationTypeExchange>
 {
-    public class ExchangeEventCalculationType : EnumType<ExchangeCalculationTypeExchange>
+    protected override void Configure(IEnumTypeDescriptor<ExchangeCalculationTypeExchange> descriptor)
     {
-        protected override void Configure(IEnumTypeDescriptor<ExchangeCalculationTypeExchange> descriptor)
-        {
-            descriptor.Name("ExchangeEventCalculationType");
-        }
+        descriptor.Name("ExchangeEventCalculationType");
     }
 }

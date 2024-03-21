@@ -15,14 +15,13 @@
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
+
+public class EdiB2CProcessType : EnumType<ProcessType>
 {
-    public class EdiB2CProcessType : EnumType<ProcessType>
+    protected override void Configure(IEnumTypeDescriptor<ProcessType> descriptor)
     {
-        protected override void Configure(IEnumTypeDescriptor<ProcessType> descriptor)
-        {
-            descriptor.Name("EdiB2CProcessType");
-            descriptor.AsLowerCase();
-        }
+        descriptor.Name("EdiB2CProcessType");
+        descriptor.AsLowerCase();
     }
 }

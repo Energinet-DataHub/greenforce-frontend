@@ -35,7 +35,7 @@ namespace Energinet.DataHub.WebApi.Tests.TestServices
                 .AddQueryType<Query>()
                 .AddMutationConventions(applyToAllMutations: true)
                 .AddMutationType<Mutation>()
-                .AddWebApiTypes()
+                .AddTypes()
                 .BindRuntimeType<NodaTime.Interval, DateRangeType>()
                 .Services
                 .AddSingleton(WholesaleClientV3Mock.Object)

@@ -12,14 +12,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-
-#pragma warning disable SA1402 // File may only contain a single type
-
-namespace Energinet.DataHub.WebApi.Clients.EDI;
-
-public sealed record Actor(Guid ActorId, ActorNumberDto ActorNumber, ActorNameDto Name);
-
-public sealed record ActorNumberDto(string Value);
-
-public sealed record ActorNameDto(string Value);
+[assembly: HotChocolate.Module("Types")]

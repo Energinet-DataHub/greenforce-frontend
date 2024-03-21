@@ -19,28 +19,27 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using GreenDonut;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class ActorByOrganizationBatchDataLoader : BatchDataLoader<string, List<ActorDto>>
 {
-    public class ActorByOrganizationBatchDataLoader : BatchDataLoader<string, List<ActorDto>>
-    {
-        private readonly IMarketParticipantClient_V1 _client;
+    private readonly IMarketParticipantClient_V1 _client;
 
-        public ActorByOrganizationBatchDataLoader(
-            IMarketParticipantClient_V1 client,
-            IBatchScheduler batchScheduler,
-            DataLoaderOptions? options = null)
-            : base(batchScheduler, options) =>
-            _client = client;
+    public ActorByOrganizationBatchDataLoader(
+        IMarketParticipantClient_V1 client,
+        IBatchScheduler batchScheduler,
+        DataLoaderOptions? options = null)
+        : base(batchScheduler, options) =>
+        _client = client;
 
-        protected override async Task<IReadOnlyDictionary<string, List<ActorDto>>> LoadBatchAsync(
-            IReadOnlyList<string> keys,
-            CancellationToken cancellationToken)
-            {
-                return (await _client
-                    .ActorGetAsync())
-                    .Where(x => keys.Contains<string>(x.OrganizationId.ToString()))
-                    .GroupBy(x => x.OrganizationId)
-                    .ToDictionary(x => x.Key.ToString(), y => y.ToList());
-            }
-    }
+    protected override async Task<IReadOnlyDictionary<string, List<ActorDto>>> LoadBatchAsync(
+        IReadOnlyList<string> keys,
+        CancellationToken cancellationToken)
+        {
+            return (await _client
+                .ActorGetAsync())
+                .Where(x => keys.Contains<string>(x.OrganizationId.ToString()))
+                .GroupBy(x => x.OrganizationId)
+                .ToDictionary(x => x.Key.ToString(), y => y.ToList());
+        }
 }

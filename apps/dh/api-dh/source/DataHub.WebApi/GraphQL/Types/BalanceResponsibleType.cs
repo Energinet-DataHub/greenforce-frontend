@@ -16,36 +16,35 @@ using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using HotChocolate.Types;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class BalanceResponsibleType : ObjectType<BalanceResponsibleResult>
 {
-    public class BalanceResponsibleType : ObjectType<BalanceResponsibleResult>
+    protected override void Configure(
+        IObjectTypeDescriptor<BalanceResponsibleResult> descriptor)
     {
-        protected override void Configure(
-            IObjectTypeDescriptor<BalanceResponsibleResult> descriptor)
-        {
-            descriptor.Name("BalanceResponsibleType");
+        descriptor.Name("BalanceResponsibleType");
 
-            descriptor.Field(f => f.ValidFromDate)
-               .Name("validPeriod").
-               Resolve((context, token) =>
-               {
-                   var balanceResponsible = context.Parent<BalanceResponsibleResult>();
-                   return new Interval(Instant.FromDateTimeOffset(balanceResponsible.ValidFromDate), balanceResponsible.ValidToDate.HasValue ? Instant.FromDateTimeOffset(balanceResponsible.ValidToDate.Value) : null);
-               });
+        descriptor.Field(f => f.ValidFromDate)
+           .Name("validPeriod").
+           Resolve((context, token) =>
+           {
+               var balanceResponsible = context.Parent<BalanceResponsibleResult>();
+               return new Interval(Instant.FromDateTimeOffset(balanceResponsible.ValidFromDate), balanceResponsible.ValidToDate.HasValue ? Instant.FromDateTimeOffset(balanceResponsible.ValidToDate.Value) : null);
+           });
 
-            descriptor.Field(f => f.ValidToDate).Ignore();
+        descriptor.Field(f => f.ValidToDate).Ignore();
 
-            descriptor
-               .Field("gridAreaWithName")
-               .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(BalanceResponsibleResult)!, default!));
+        descriptor
+           .Field("gridAreaWithName")
+           .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(BalanceResponsibleResult)!, default!));
 
-            descriptor
-               .Field("supplierWithName")
-               .ResolveWith<EsettExchangeResolvers>(c => c.GetSupplierWithNameAsync(default!, default!));
+        descriptor
+           .Field("supplierWithName")
+           .ResolveWith<EsettExchangeResolvers>(c => c.GetSupplierWithNameAsync(default!, default!));
 
-            descriptor
-               .Field("balanceResponsibleWithName")
-               .ResolveWith<EsettExchangeResolvers>(c => c.GetBalanceResponsibleWithNameAsync(default!, default!));
-        }
+        descriptor
+           .Field("balanceResponsibleWithName")
+           .ResolveWith<EsettExchangeResolvers>(c => c.GetBalanceResponsibleWithNameAsync(default!, default!));
     }
 }

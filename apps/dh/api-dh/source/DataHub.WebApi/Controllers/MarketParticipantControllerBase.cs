@@ -17,33 +17,32 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Energinet.DataHub.WebApi.Controllers
-{
-    public abstract class MarketParticipantControllerBase : ControllerBase
-    {
-        protected async Task<ActionResult<T>> HandleExceptionAsync<T>(Func<Task<T>> func)
-        {
-            try
-            {
-                return Ok(await func().ConfigureAwait(false));
-            }
-            catch (ApiException ex)
-            {
-                return StatusCode(ex.StatusCode, ex.Response);
-            }
-        }
+namespace Energinet.DataHub.WebApi.Controllers;
 
-        protected async Task<ActionResult> HandleExceptionAsync(Func<Task> func)
+public abstract class MarketParticipantControllerBase : ControllerBase
+{
+    protected async Task<ActionResult<T>> HandleExceptionAsync<T>(Func<Task<T>> func)
+    {
+        try
         {
-            try
-            {
-                await func().ConfigureAwait(false);
-                return Ok();
-            }
-            catch (ApiException ex)
-            {
-                return StatusCode(ex.StatusCode, ex.Response);
-            }
+            return Ok(await func().ConfigureAwait(false));
+        }
+        catch (ApiException ex)
+        {
+            return StatusCode(ex.StatusCode, ex.Response);
+        }
+    }
+
+    protected async Task<ActionResult> HandleExceptionAsync(Func<Task> func)
+    {
+        try
+        {
+            await func().ConfigureAwait(false);
+            return Ok();
+        }
+        catch (ApiException ex)
+        {
+            return StatusCode(ex.StatusCode, ex.Response);
         }
     }
 }
