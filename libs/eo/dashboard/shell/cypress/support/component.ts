@@ -32,6 +32,7 @@ import { mount } from 'cypress/angular';
 
 // Import commands.ts using ES2015 syntax:
 import './commands';
+import { mountAfterMSW } from '@energinet-datahub/gf/util-msw';
 
 // add component testing only related command here, such as mount
 declare global {
@@ -39,12 +40,12 @@ declare global {
   namespace Cypress {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface Chainable<Subject> {
-      mount: typeof mount;
+      mount: typeof mountAfterMSW;
     }
   }
 }
 
-Cypress.Commands.add('mount', mount);
+Cypress.Commands.add('mount', mountAfterMSW);
 
 declare const window: {
   cypressMockServiceWorkerIntercept: Promise<unknown> | undefined;

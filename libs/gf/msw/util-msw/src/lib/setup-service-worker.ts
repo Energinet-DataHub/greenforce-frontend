@@ -19,6 +19,7 @@ import { setupWorker } from 'msw/browser';
 
 declare const window: {
   cypressMockServiceWorkerIntercept: Promise<unknown> | undefined;
+  serviceWorkerRegistration: Promise<unknown> | undefined;
 } & Window;
 
 export async function setupServiceWorker(apiBase: string, mocks: mocks) {
@@ -28,7 +29,8 @@ export async function setupServiceWorker(apiBase: string, mocks: mocks) {
     }
 
     const worker = setupWorker(...handlers(apiBase, mocks));
-    await worker.start({ onUnhandledRequest });
+    window.serviceWorkerRegistration = worker.start({ onUnhandledRequest });
+    await window.serviceWorkerRegistration;
   } catch (error) {
     console.error('setupServiceWorker', error);
   }
