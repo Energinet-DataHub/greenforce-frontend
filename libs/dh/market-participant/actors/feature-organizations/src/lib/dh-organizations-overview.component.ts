@@ -32,9 +32,9 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 import { DhOrganizationsTableComponent } from './table/dh-table.component';
-import { DhOrganization } from './dh-organization';
 
 @Component({
   standalone: true,

@@ -20,42 +20,41 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Energinet.DataHub.WebApi.Controllers
+namespace Energinet.DataHub.WebApi.Controllers;
+
+[ApiController]
+[Route("v1/[controller]")]
+public sealed class WholesaleSettlementReportController : ControllerBase
 {
-    [ApiController]
-    [Route("v1/[controller]")]
-    public sealed class WholesaleSettlementReportController : ControllerBase
+    private readonly IWholesaleClient_V3 _client;
+
+    public WholesaleSettlementReportController(IWholesaleClient_V3 client)
     {
-        private readonly IWholesaleClient_V3 _client;
+        _client = client;
+    }
 
-        public WholesaleSettlementReportController(IWholesaleClient_V3 client)
+    [HttpGet("Download")]
+    [Produces("application/zip")]
+    public async Task<ActionResult<Stream>> DownloadAsync(
+        [FromQuery] string[] gridAreaCodes,
+        [FromQuery] CalculationType calculationType,
+        [FromQuery] DateTimeOffset periodStart,
+        [FromQuery] DateTimeOffset periodEnd,
+        [FromQuery] string? energySupplier,
+        [FromQuery] string? csvLanguage)
+    {
+        var fileResponse = await _client
+            .DownloadAsync(gridAreaCodes, calculationType, periodStart, periodEnd, energySupplier, csvLanguage)
+            .ConfigureAwait(false);
+
+        var fileName = "SettlementReport.zip";
+
+        if (fileResponse.Headers.TryGetValue("Content-Disposition", out var values))
         {
-            _client = client;
+            var contentDisposition = new ContentDisposition(values.First());
+            fileName = contentDisposition.FileName ?? fileName;
         }
 
-        [HttpGet("Download")]
-        [Produces("application/zip")]
-        public async Task<ActionResult<Stream>> DownloadAsync(
-            [FromQuery] string[] gridAreaCodes,
-            [FromQuery] CalculationType calculationType,
-            [FromQuery] DateTimeOffset periodStart,
-            [FromQuery] DateTimeOffset periodEnd,
-            [FromQuery] string? energySupplier,
-            [FromQuery] string? csvLanguage)
-        {
-            var fileResponse = await _client
-                .DownloadAsync(gridAreaCodes, calculationType, periodStart, periodEnd, energySupplier, csvLanguage)
-                .ConfigureAwait(false);
-
-            var fileName = "SettlementReport.zip";
-
-            if (fileResponse.Headers.TryGetValue("Content-Disposition", out var values))
-            {
-                var contentDisposition = new ContentDisposition(values.First());
-                fileName = contentDisposition.FileName ?? fileName;
-            }
-
-            return File(fileResponse.Stream, MediaTypeNames.Application.Zip, fileName);
-        }
+        return File(fileResponse.Stream, MediaTypeNames.Application.Zip, fileName);
     }
 }

@@ -15,11 +15,10 @@
 using System;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL
-{
-    public sealed record CreateMarketParticipantInput(
-        Guid? OrganizationId,
-        CreateOrganizationDto? Organization,
-        CreateActorDto Actor,
-        CreateActorContactDto ActorContact);
-}
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public sealed record CreateMarketParticipantInput(
+    Guid? OrganizationId,
+    CreateOrganizationDto? Organization,
+    CreateActorDto Actor,
+    CreateActorContactDto ActorContact);

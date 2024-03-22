@@ -34,12 +34,7 @@ export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
 export const dhFeatureFlagsConfig = {
   'market-participant-delegation': {
     created: '05-03-2024',
-    disabledEnvironments: [
-      DhAppEnvironment.preprod,
-      DhAppEnvironment.prod,
-      DhAppEnvironment.test_001,
-      DhAppEnvironment.test_002,
-    ],
+    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
   'calculations-include-all-grid-areas': {
     created: '18-03-2024',

@@ -30,7 +30,7 @@ limitations under the License.
       >
         <dh-choose-organization-step
           [chooseOrganizationForm]="chooseOrganizationForm"
-          (choosenOrganizationDomain)="setChoosenOrganizationDomain($event)"
+          (selectOrganization)="onSelectOrganization($event)"
           (toggleShowCreateNewOrganization)="toggleShowCreateNewOrganization()"
         />
       </watt-stepper-step>

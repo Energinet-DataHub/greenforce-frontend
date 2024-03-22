@@ -28,7 +28,7 @@ const validPeriod = {
 
 const validPeriodWithNull = {
   start: dayjs('2020-01-28T23:00:00.000Z').toDate(),
-  end: dayjs('9999-12-31T23:59:59.999Z').toDate(),
+  end: null,
 };
 
 export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
