@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, inject, DestroyRef } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { translate, TranslocoDirective, TranslocoService, TranslocoPipe } from '@ngneat/transloco';
 import { take, BehaviorSubject, debounceTime } from 'rxjs';
@@ -72,7 +71,6 @@ import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.compon
   ],
   providers: [provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore)],
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
     RxPush,

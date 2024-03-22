@@ -15,12 +15,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-card variant="solid" *transloco="let t; read: 'admin.userManagement.tabs.history'">
-  <div *ngIf="isLoading$ | push" class="spinner">
-    <watt-spinner />
-  </div>
+  @if (isLoading$ | push) {
+    <div class="spinner">
+      <watt-spinner />
+    </div>
+  }
 
-  <ng-container *ngIf="!(isLoading$ | push)">
-    <ng-container *ngIf="!(hasFailed$ | push)">
+  @if (!(isLoading$ | push)) {
+    @if (!(hasFailed$ | push)) {
       <watt-card-title>
         <ng-container
           *ngTemplateOutlet="
@@ -50,30 +52,31 @@ limitations under the License.
           </span>
         </ng-container>
       </watt-table>
+      @if (dataSource.data.length === 0) {
+        <h4 class="no-results-text">
+          {{ t("table.noEntries") }}
+        </h4>
+      }
+    }
 
-      <h4 *ngIf="dataSource.data.length === 0" class="no-results-text">
-        {{ t("table.noEntries") }}
-      </h4>
-    </ng-container>
-
-    <ng-container *ngIf="hasFailed$ | push">
+    @if (hasFailed$ | push) {
       <watt-empty-state
         icon="custom-power"
         [title]="'shared.error.title' | transloco"
         [message]="'shared.error.message' | transloco"
       />
-    </ng-container>
-  </ng-container>
+    }
+  }
 </watt-card>
 
 <ng-template #auditLogHeadline let-auditLogCount>
   <ng-container *transloco="let t; read: 'admin.userManagement.tabs.history'">
-    <h4 *ngIf="auditLogCount === 1">
-      {{ t("changesSingular", { auditLogCount: auditLogCount }) }}
-    </h4>
-
-    <h4 *ngIf="auditLogCount !== 1">
-      {{ t("changesPlural", { auditLogCount: auditLogCount }) }}
+    <h4>
+      @if (auditLogCount === 1) {
+        {{ t("changesSingular", { auditLogCount: auditLogCount }) }}
+      } @else {
+        {{ t("changesPlural", { auditLogCount: auditLogCount }) }}
+      }
     </h4>
   </ng-container>
 </ng-template>
