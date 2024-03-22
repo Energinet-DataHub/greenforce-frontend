@@ -49,17 +49,17 @@ public class MarketParticipantResolvers
                     .Select(async gridAreaId => await dataLoader.LoadAsync(gridAreaId)));
 
     public async Task<GridAreaDto?> GetGridAreaAsync(
-        [Parent] MessageDelegation result,
+        [Parent] ProcessDelegation result,
         GridAreaByIdBatchDataLoader dataLoader) =>
         await dataLoader.LoadAsync(result.GridAreaId).ConfigureAwait(false);
 
     public async Task<ActorDto?> GetActorDelegatedByAsync(
-        [Parent] MessageDelegation actor,
+        [Parent] ProcessDelegation actor,
         ActorByIdBatchDataLoader dataLoader) =>
         await dataLoader.LoadAsync(actor.DelegatedBy);
 
     public async Task<ActorDto?> GetActorDelegatedToAsync(
-        [Parent] MessageDelegation actor,
+        [Parent] ProcessDelegation actor,
         ActorByIdBatchDataLoader dataLoader) =>
         await dataLoader.LoadAsync(actor.DelegatedTo);
 

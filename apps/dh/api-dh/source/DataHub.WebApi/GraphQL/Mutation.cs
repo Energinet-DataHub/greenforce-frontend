@@ -208,16 +208,16 @@ public class Mutation
     [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
     public async Task<bool> CreateDelegationsForActorAsync(
         Guid actorId,
-        CreateMessageDelegationDto delegationDto,
+        CreateProcessDelegationsDto delegations,
         [Service] IMarketParticipantClient_V1 client)
     {
-        await client.ActorDelegationPostAsync(delegationDto);
+        await client.ActorDelegationPostAsync(delegations);
         return true;
     }
 
     [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
     public async Task<bool> StopDelegationAsync(
-        IEnumerable<StopMessageDelegationDto> stopMessageDelegationDto,
+        IEnumerable<StopProcessDelegationDto> stopMessageDelegationDto,
         [Service] IMarketParticipantClient_V1 client)
     {
         foreach (var dto in stopMessageDelegationDto)

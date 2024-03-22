@@ -19,9 +19,9 @@ using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
-public sealed class MessageDelegationType : ObjectType<MessageDelegation>
+public sealed class MessageDelegationType : ObjectType<ProcessDelegation>
 {
-    protected override void Configure(IObjectTypeDescriptor<MessageDelegation> descriptor)
+    protected override void Configure(IObjectTypeDescriptor<ProcessDelegation> descriptor)
     {
         descriptor.Name("MessageDelegationType");
 
@@ -42,7 +42,7 @@ public sealed class MessageDelegationType : ObjectType<MessageDelegation>
             .Field("status")
             .Resolve((ctx, ct) =>
             {
-                var validPeriod = ctx.Parent<MessageDelegation>().ValidPeriod;
+                var validPeriod = ctx.Parent<ProcessDelegation>().ValidPeriod;
 
                 if (validPeriod.HasEnd && validPeriod.End <= validPeriod.Start)
                 {
