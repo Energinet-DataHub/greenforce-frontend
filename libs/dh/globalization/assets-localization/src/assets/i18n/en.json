@@ -189,10 +189,10 @@
         }
       },
       "processTypes": {
-        "REQUEST_ENERGY_RESULTS": "[DK] Anmod om aggregerede måledata",
-        "RECEIVE_ENERGY_RESULTS": "[DK] Fremsend beregnede måledata",
-        "REQUEST_WHOLESALE_RESULTS": "[DK] Anmod om engrosydelser",
-        "RECEIVE_WHOLESALE_RESULTS": "[DK] Fremsend beregnede engrosydelser"
+        "RECEIVE_ENERGY_RESULTS": "Submit calculated time series (RSM-14)",
+        "REQUEST_ENERGY_RESULTS": "Aggregated metered data request (RSM-16)",
+        "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-17)",
+        "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-19)"
       },
       "statusPlaceholder": "Status",
       "status": {
