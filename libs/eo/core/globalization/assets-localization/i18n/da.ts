@@ -196,7 +196,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       `,
     pendingRelationStatus: {
       title: 'Afventer svar fra DataHub',
-      message: 'Vi oplever problemer med at hente dine målepunkter.\n Vend venligst tilbage senere.'
+      message:
+        'Vi oplever problemer med at hente dine målepunkter.\n Vend venligst tilbage senere.',
     },
     noData: {
       title: 'Ingen målepunkter fundet',

@@ -105,7 +105,10 @@ function getMeteringPoints(apiBase: string) {
       },
     ];
 
-    let response: {result: unknown[], status: null | 'Created' | 'Pending' } = { result: [], status: null };
+    let response: { result: unknown[]; status: null | 'Created' | 'Pending' } = {
+      result: [],
+      status: null,
+    };
 
     switch (state) {
       case 'no-metering-points':
@@ -120,25 +123,37 @@ function getMeteringPoints(apiBase: string) {
       case 'metering-points-error':
         return HttpResponse.error();
       case 'metering-points-relation-status-created':
-        response = { result: [...consumptionMeteringPoints, ...productionMeteringPoints], status: 'Created' };
+        response = {
+          result: [...consumptionMeteringPoints, ...productionMeteringPoints],
+          status: 'Created',
+        };
         break;
       case 'no-metering-points-relation-status-created':
         response = { result: [], status: 'Created' };
         break;
       case 'metering-points-relation-status-pending':
-        response = { result: [...consumptionMeteringPoints, ...productionMeteringPoints], status: 'Pending' };
+        response = {
+          result: [...consumptionMeteringPoints, ...productionMeteringPoints],
+          status: 'Pending',
+        };
         break;
       case 'no-metering-points-relation-status-pending':
         response = { result: [], status: 'Pending' };
         break;
       case 'metering-points-relation-status-null':
-        response = { result: [...consumptionMeteringPoints, ...productionMeteringPoints], status: null };
+        response = {
+          result: [...consumptionMeteringPoints, ...productionMeteringPoints],
+          status: null,
+        };
         break;
       case 'no-metering-points-relation-status-null':
         response = { result: [], status: null };
         break;
       default:
-        response = { result: [...consumptionMeteringPoints, ...productionMeteringPoints], status: null };
+        response = {
+          result: [...consumptionMeteringPoints, ...productionMeteringPoints],
+          status: null,
+        };
         break;
     }
 

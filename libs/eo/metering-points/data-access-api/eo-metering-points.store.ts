@@ -48,7 +48,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       meteringPoints: [],
       meteringPointError: null,
       contractError: null,
-      relationStatus: null
+      relationStatus: null,
     });
   }
 

@@ -197,7 +197,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     `,
     pendingRelationStatus: {
       title: 'Awaiting response from DataHub',
-      message: 'We are experiencing issues fetching your metering points. Please come back later.'
+      message: 'We are experiencing issues fetching your metering points. Please come back later.',
     },
     noData: {
       title: 'No metering points found',

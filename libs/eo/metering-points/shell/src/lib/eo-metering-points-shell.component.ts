@@ -85,9 +85,12 @@ export class EoMeteringPointsShellComponent implements OnInit {
 
   protected isLoading$ = this.meteringPointStore.loading$;
   protected meteringPoints$ = this.meteringPointStore.meteringPoints$;
-  protected showPendingRelationStatus$: Observable<boolean> = combineLatest([this.meteringPoints$, this.meteringPointStore.relationStatus$]).pipe(
+  protected showPendingRelationStatus$: Observable<boolean> = combineLatest([
+    this.meteringPoints$,
+    this.meteringPointStore.relationStatus$,
+  ]).pipe(
     map(([meteringPoints, status]) => {
-      return status === 'Pending' || !status && meteringPoints.length === 0
+      return status === 'Pending' || (!status && meteringPoints.length === 0);
     })
   );
   protected contractError$ = this.meteringPointStore.contractError$;

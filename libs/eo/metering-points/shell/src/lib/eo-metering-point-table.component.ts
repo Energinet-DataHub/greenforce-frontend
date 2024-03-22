@@ -169,7 +169,7 @@ class GranularCertificateHelperComponent extends WattTypedModal {
       </watt-table>
 
       <!-- Pending relation status -->
-      @if(showPendingRelationStatus && loading === false && !hasError) {
+      @if (showPendingRelationStatus && loading === false && !hasError) {
         <watt-empty-state
           icon="pendingActions"
           [title]="translations.meteringPoints.pendingRelationStatus.title | transloco"
@@ -178,7 +178,9 @@ class GranularCertificateHelperComponent extends WattTypedModal {
       }
 
       <!-- No data -->
-      @if(dataSource.data.length === 0 && loading === false && !hasError && !showPendingRelationStatus) {
+      @if (
+        dataSource.data.length === 0 && loading === false && !hasError && !showPendingRelationStatus
+      ) {
         <watt-empty-state
           icon="custom-power"
           [title]="translations.meteringPoints.noData.title | transloco"
@@ -187,7 +189,7 @@ class GranularCertificateHelperComponent extends WattTypedModal {
       }
 
       <!-- Error -->
-      @if(loading === false && hasError) {
+      @if (loading === false && hasError) {
         <watt-empty-state
           icon="custom-power"
           [title]="translations.meteringPoints.error.title | transloco"
