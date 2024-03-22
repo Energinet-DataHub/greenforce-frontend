@@ -58,23 +58,23 @@ public partial class Query
                 x.MarketRoles.Any(y =>
                     eicFunctions != null && eicFunctions.Contains(y.EicFunction)));
 
-    public async Task<IEnumerable<MessageDelegation>> GetGetDelegationsForActorAsync(
+    public async Task<IEnumerable<ProcessDelegation>> GetDelegationsForActorAsync(
         Guid actorId,
         [Service] IMarketParticipantClient_V1 client) =>
         (await client.ActorDelegationGetAsync(actorId))
             .Delegations
             .SelectMany(x => x.Periods, (delegation, period) =>
-                new MessageDelegation
+                new ProcessDelegation
                 {
                     DelegatedBy = delegation.DelegatedBy,
-                    MessageType = delegation.MessageType,
+                    Process = delegation.Process,
                     Id = delegation.Id,
                     PeriodId = period.Id,
                     DelegatedTo = period.DelegatedTo,
                     GridAreaId = period.GridAreaId,
                     ValidPeriod = new Interval(
                         Instant.FromDateTimeOffset(period.StartsAt),
-                        period.ExpiresAt.HasValue ? Instant.FromDateTimeOffset(period.ExpiresAt.Value) : null),
+                        period.StopsAt.HasValue ? Instant.FromDateTimeOffset(period.StopsAt.Value) : null),
                 });
 
     public async Task<AssociatedActors> GetAssociatedActorsAsync(

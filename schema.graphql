@@ -141,7 +141,7 @@ type MessageDelegationType {
   status: ActorDelegationStatus!
   id: UUID!
   periodId: UUID!
-  messageType: DelegationMessageType!
+  process: DelegatedProcess!
   validPeriod: DateRange!
 }
 
@@ -233,7 +233,7 @@ type Query {
   actors: [Actor!]!
   actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
-  getDelegationsForActor(actorId: UUID!): [MessageDelegationType!]!
+  delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
   associatedActors(email: String!): AssociatedActors!
   calculationById(id: UUID!): Calculation!
   calculations(executionTime: DateRange, executionStates: [CalculationState!], calculationTypes: [CalculationType!], gridAreaCodes: [String!], period: DateRange, first: Int): [Calculation!]!
@@ -289,6 +289,8 @@ enum ActorAuditedChange {
   CONTACT_CATEGORY_REMOVED
   CERTIFICATE_CREDENTIALS
   CLIENT_SECRET_CREDENTIALS
+  DELEGATION_START
+  DELEGATION_STOP
 }
 
 """The `DateTime` scalar represents an ISO-8601 compliant date time type."""
@@ -363,16 +365,11 @@ enum ActorDelegationStatus {
   CANCELLED
 }
 
-enum DelegationMessageType {
-  RSM012_INBOUND
-  RSM012_OUTBOUND
-  RSM014_INBOUND
-  RSM016_INBOUND
-  RSM016_OUTBOUND
-  RSM017_INBOUND
-  RSM017_OUTBOUND
-  RSM018_INBOUND
-  RSM019_INBOUND
+enum DelegatedProcess {
+  REQUEST_ENERGY_RESULTS
+  RECEIVE_ENERGY_RESULTS
+  REQUEST_WHOLESALE_RESULTS
+  RECEIVE_WHOLESALE_RESULTS
 }
 
 type MeteringGridAreaImbalancePerDayDto {
@@ -473,17 +470,17 @@ enum ContactCategory {
   REMINDER
 }
 
-input StopMessageDelegationDtoInput {
+input StopProcessDelegationDtoInput {
   id: UUID!
   periodId: UUID!
   stopsAt: DateTime
 }
 
-input CreateMessageDelegationDtoInput {
+input CreateProcessDelegationsDtoInput {
   delegatedFrom: UUID!
   delegatedTo: UUID!
   gridAreas: [UUID!]!
-  messageTypes: [DelegationMessageType!]!
+  delegatedProcesses: [DelegatedProcess!]!
   startsAt: DateTime!
 }
 
@@ -757,7 +754,7 @@ type ResendWaitingEsettExchangeMessagesPayload {
 
 input CreateDelegationsForActorInput {
   actorId: UUID!
-  delegationDto: CreateMessageDelegationDtoInput!
+  delegations: CreateProcessDelegationsDtoInput!
 }
 
 union CreateDelegationsForActorError = ApiError
@@ -768,7 +765,7 @@ type CreateDelegationsForActorPayload {
 }
 
 input StopDelegationInput {
-  stopMessageDelegationDto: [StopMessageDelegationDtoInput!]!
+  stopMessageDelegationDto: [StopProcessDelegationDtoInput!]!
 }
 
 union StopDelegationError = ApiError

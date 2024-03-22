@@ -50,8 +50,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
-import { dhGroupDelegations } from './util/dh-group-delegations';
-import { DhDelegations, DhDelegationsGrouped } from './dh-delegations';
+import { DhDelegations } from './dh-delegations';
 import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -93,7 +92,7 @@ export class DhDelegationTabComponent {
   isError = signal(false);
 
   delegationsRaw = signal<DhDelegations>([]);
-  delegationsGrouped = signal<DhDelegationsGrouped>({ outgoing: [], incoming: [] });
+  delegations = signal<DhDelegations>([]);
 
   isEmpty = computed(() => this.delegationsRaw().length === 0);
 
@@ -116,14 +115,14 @@ export class DhDelegationTabComponent {
     const delegations = untracked(this.delegationsRaw);
 
     if (filter === null) {
-      return this.delegationsGrouped.set(dhGroupDelegations(delegations));
+      return this.delegations.set(delegations);
     }
 
     const delegationsFiltered = delegations.filter((delegation) => {
       return filter.includes(delegation.status);
     });
 
-    this.delegationsGrouped.set(dhGroupDelegations(delegationsFiltered));
+    this.delegations.set(delegationsFiltered);
   }
 
   private fetchData(actorId: string) {
@@ -142,9 +141,9 @@ export class DhDelegationTabComponent {
         next: (result) => {
           this.isLoading.set(result.loading);
 
-          this.delegationsRaw.set(result.data.getDelegationsForActor);
+          this.delegationsRaw.set(result.data.delegationsForActor);
 
-          this.delegationsGrouped.set(dhGroupDelegations(this.delegationsRaw()));
+          this.delegations.set(this.delegationsRaw());
         },
         error: () => {
           this.isLoading.set(false);
