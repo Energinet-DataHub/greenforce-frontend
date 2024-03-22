@@ -97,10 +97,10 @@ public sealed class DateRangeType : AnyType
 
         if (runtimeValue is Interval interval)
         {
-            resultValue = new Dictionary<string, object>
+            resultValue = new Dictionary<string, object?>
             {
                 { "start", FormatStart(interval.Start) },
-                { "end", FormatEnd(interval.End) },
+                { "end", interval.HasEnd ? FormatEnd(interval.End) : null },
             }.AsReadOnly();
 
             return true;
