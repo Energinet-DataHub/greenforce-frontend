@@ -38,7 +38,7 @@ import {
   GetDelegationsForActorDocument,
   StopDelegationsDocument,
   StopDelegationsMutation,
-  StopMessageDelegationDtoInput,
+  StopProcessDelegationDtoInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhDelegation } from '../dh-delegations';
@@ -174,7 +174,7 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
                 id: delegation.id,
                 periodId: delegation.periodId,
                 stopsAt: selectedOptions === 'stopNow' ? new Date() : stopDate,
-              } as StopMessageDelegationDtoInput;
+              } as StopProcessDelegationDtoInput;
             }),
           },
         },
